@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id$ -->
+
+<project>
+
+  <property file="${int.xfire.dir}/version.properties"/>
+  
+  <!-- ========= -->
+  <!-- Libraries -->
+  <!-- ========= -->
+
+  <target name="thirdparty" depends="thirdparty-get,thirdparty-classpath">
+  </target>
+  
+  <target name="thirdparty-init" depends="prepare">
+    <property name="thirdparty.dir" value="${int.xfire.dir}/thirdparty"/>
+    <checksum file="${int.xfire.dir}/version.properties" fileext=".md5" verifyproperty="checksum.ok"/>
+    <condition property="force.thirdparty.get">
+      <or>
+        <not>
+          <available file="${thirdparty.dir}" type="dir"/>
+        </not>
+        <isfalse value="${checksum.ok}"/>
+      </or>
+    </condition>
+  </target>
+  
+  <!-- 
+    thirdpartry-get
+  -->
+  <target name="thirdparty-get" depends="thirdparty-init" if="force.thirdparty.get" 
+    description="Gets the thirdparty libraries">
+
+    <mkdir dir="${thirdparty.dir}"/>
+    <get src="${jboss.repository}/jboss/jaxr/${jboss-jaxr}/lib/juddi-service.sar" dest="${thirdparty.dir}/juddi-service.sar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-api.jar" dest="${thirdparty.dir}/jaxb-api.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-impl.jar" dest="${thirdparty.dir}/jaxb-impl.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-xjc.jar" dest="${thirdparty.dir}/jaxb-xjc.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/sun-servlet/${sun-servlet}/lib/servlet-api.jar" dest="${thirdparty.dir}/servlet-api.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/xfire/${xfire}/lib/xfire-all.jar" dest="${thirdparty.dir}/xfire-all.jar" usetimestamp="true" verbose="true"/>
+    
+    <checksum file="${int.xfire.dir}/version.properties" fileext=".md5"/>
+  </target>
+  
+  <target name="thirdparty-classpath" depends="thirdparty-init">
+    
+    <!-- The compile classpath for jboss50 integration -->
+    <path id="xfire50.integration.classpath">
+      <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
+      <pathelement location="${jboss50.lib}/dom4j.jar"/>
+      <pathelement location="${jboss50.lib}/jboss-aop-jdk50.jar"/>
+      <pathelement location="${jboss50.lib}/jboss-common-core.jar"/>
+      <pathelement location="${jboss50.lib}/jboss-dependency.jar"/>
+      <pathelement location="${jboss50.lib}/jboss-deployers.jar"/>
+      <pathelement location="${jboss50.lib}/jboss-j2se.jar"/>
+      <pathelement location="${jboss50.lib}/jboss-logging-spi.jar"/>
+      <pathelement location="${jboss50.lib}/jboss-microcontainer.jar"/>
+      <pathelement location="${jboss50.lib}/jboss-system.jar"/>
+      <pathelement location="${jboss50.lib}/jboss-system-jmx.jar"/>
+      <pathelement location="${jboss50.lib}/jboss-vfs.jar"/>
+      <pathelement location="${jboss50.lib}/jboss-xml-binding.jar"/>
+      <pathelement location="${jboss50.server.lib}/jboss.jar"/>
+      <pathelement location="${jboss50.server.lib}/jboss-javaee.jar"/>
+      <pathelement location="${jboss50.server.lib}/jboss-security-spi.jar"/>
+      <pathelement location="${jboss50.server.lib}/jnpserver.jar"/>
+      <pathelement location="${jboss50.server.deployers}/jboss-aop-jboss5.deployer/jboss-aspect-library-jdk50.jar"/>
+      <pathelement location="${jboss50.server.deployers}/ejb3.deployer/jboss-annotations-ejb3.jar"/>
+      <pathelement location="${jboss50.server.deployers}/ejb3.deployer/jboss-ejb3.jar"/>
+      <pathelement location="${jboss50.server.deployers}/ejb3.deployer/jboss-ejb3x.jar"/>
+      <pathelement location="${thirdparty.dir}/jaxb-api.jar"/>
+      <pathelement location="${thirdparty.dir}/jaxb-impl.jar"/>
+      <pathelement location="${thirdparty.dir}/jaxb-xjc.jar"/>
+      <pathelement location="${thirdparty.dir}/servlet-api.jar"/>
+      <pathelement location="${thirdparty.dir}/xfire-all.jar"/>
+    </path>
+    
+  </target>
+
+</project>

@@ -1,0 +1,31 @@
+<project name="jboss/jbossws-xfire50">
+  
+  <component id="jboss/jbossws-xfire50"
+    description="JBossWS an implementation of J2EE Web Services" 
+    version="@repository.id@"
+    licenseType="lgpl">
+    
+    <artifact id="jbosswsri50.jar"/>
+    <artifact id="jbosswsri50.sar"/>
+    <artifact id="jbosswsri50-deployer.zip"/>
+    <artifact id="jbosswsri50-src.zip"/>
+    
+    <import componentref="jboss/jbossxb">
+      <compatible version="@jboss-jbossxb@"/>
+    </import>
+    <import componentref="jboss/microcontainer">
+      <compatible version="@jboss-microcontainer@"/>
+    </import>
+    <import componentref="jboss/jbossws-spi">
+      <compatible version="@jboss-jbossws-spi@"/>
+    </import>
+    <import componentref="sun-jaxws">
+      <compatible version="@sun-jaxws@"/>
+    </import>
+    
+    <export>
+    </export>
+    
+  </component>
+  
+</project>

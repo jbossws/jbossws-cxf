@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id$ -->
+
+<project default="main" basedir="../.." name="JBossWS-SunRI-JBoss50">
+  
+  <import file="${basedir}/build/ant-import/build-setup.xml"/>
+  
+  <import file="${int.xfire.dir}/ant-import/build-deploy.xml"/>
+  <import file="${int.xfire.dir}/ant-import/build-release.xml"/>
+  <import file="${int.xfire.dir}/ant-import/build-testsuite.xml"/>
+  <import file="${int.xfire.dir}/ant-import/build-thirdparty.xml"/>
+  
+  <!-- ================================================================== -->
+  <!-- Setup                                                              -->
+  <!-- ================================================================== -->
+  
+  <property name="xfire.dir" value="${int.xfire.dir}"/>
+  <property name="xfire.src.dir" value="${xfire.dir}/src/main"/>
+  <property name="xfire.etc.dir" value="${xfire.src.dir}/etc"/>
+  <property name="xfire.java.dir" value="${xfire.src.dir}/java"/>
+  <property name="xfire.resources.dir" value="${xfire.src.dir}/resources"/>
+  <property name="xfire.output.dir" value="${xfire.dir}/output"/>
+  <property name="xfire.output.classes.dir" value="${xfire.output.dir}/classes"/>
+  <property name="xfire.output.etc.dir" value="${xfire.output.dir}/etc"/>
+  <property name="xfire.output.lib.dir" value="${xfire.output.dir}/lib"/>
+	
+  <!-- ================================================================== -->
+  <!-- Initialization                                                     -->
+  <!-- ================================================================== -->
+  
+  <target name="init" depends="prepare,thirdparty">
+    <fail message="Not available: ${jboss50.available.file}" unless="jboss50.available"/>
+    <ant antfile="${int.jboss50.dir}/build.xml" target="main" inheritall="false"/>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Compile                                                            -->
+  <!-- ================================================================== -->
+  
+  <!--
+  | Compile everything.
+  |
+  | This target should depend on other compile-* targets for each
+  | different type of compile that needs to be performed, short of
+  | documentation compiles.
+  -->
+  
+  <target name="compile" depends="init,compile-classes,compile-etc" description="Compile all source files."/>
+  
+  <!-- Compile java sources -->
+  <target name="compile-classes" depends="init">
+    <mkdir dir="${xfire.output.classes.dir}"/>
+    <javac srcdir="${xfire.java.dir}" sourcepath="" destdir="${xfire.output.classes.dir}" encoding="utf-8" debug="${javac.debug}" verbose="${javac.verbose}"
+      deprecation="${javac.deprecation}" failonerror="${javac.fail.onerror}">
+      <include name="org/jboss/wsf/stack/xfire/**"/>
+      <classpath refid="xfire50.integration.classpath"/>
+    </javac>
+  </target>
+  
+  <!-- Compile etc files (manifests and such) -->
+  <target name="compile-etc" depends="init">
+    <mkdir dir="${xfire.output.etc.dir}"/>
+    <copy todir="${xfire.output.etc.dir}" filtering="yes">
+      <fileset dir="${xfire.etc.dir}">
+        <include name="component-info.xml"/>
+  	  </fileset>
+      <fileset dir="${build.dir}/etc">
+        <include name="default.mf"/>
+  	  </fileset>
+      <filterset>
+        <filter token="java.vm.version" value="${java.vm.version}"/>
+        <filter token="java.vm.vendor" value="${java.vm.vendor}"/>
+        <filter token="build.id" value="${build.id}"/>
+        <filter token="implementation.version" value="jbossws-xfire-${version.id}"/>
+        <filtersfile file="${build.dir}/version.properties"/>
+        <filtersfile file="${int.xfire.dir}/version.properties"/>
+      </filterset>
+    </copy>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Archives                                                           -->
+  <!-- ================================================================== -->
+  
+  <!--
+  | Build all jar files.
+  -->
+  <target name="jars" depends="compile,jars-jboss50" description="Builds all jar files.">
+  </target>
+  
+  <!--
+  |  Build all jar files.
+  -->
+  <target name="jars-jboss50" depends="compile">
+    
+    <!-- Build jbossws-xfire50.jar -->
+    <mkdir dir="${xfire.output.lib.dir}"/>
+    <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire50.jar" manifest="${xfire.output.etc.dir}/default.mf">
+      <fileset dir="${xfire.output.classes.dir}">
+        <include name="org/jboss/wsf/stack/xfire/**"/>
+      </fileset>
+    </jar>
+    
+    <!-- Build jbossws-context.war -->
+    <war warfile="${xfire.output.lib.dir}/jbossws-context.war" webxml="${xfire.resources.dir}/jbossws-context.war/WEB-INF/web.xml">
+      <fileset dir="${xfire.resources.dir}/jbossws-context.war">
+        <include name="index.html"/>
+        <include name="styles.css"/>
+      </fileset>
+      <webinf dir="${xfire.resources.dir}/jbossws-context.war/WEB-INF">
+        <include name="jboss-web.xml"/>
+      </webinf>
+    </war>
+    
+    <!-- Build jbosswsri.sar -->
+    <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire50.sar" manifest="${xfire.output.etc.dir}/default.mf">
+      <!-- [JBAS-4379] MC beans deployed twice because of jacc service
+      <fileset dir="${xfire.output.lib.dir}">
+      <include name="jbossws-context.war"/>
+      </fileset>
+      -->
+      <fileset dir="${spi.dir}/thirdparty">
+        <include name="jaxrpc-api.jar"/>
+      </fileset>
+      <fileset dir="${thirdparty.dir}">
+        <include name="FastInfoset.jar"/>
+        <include name="http.jar"/>
+        <include name="jaxws-api.jar"/>
+        <include name="jaxws-rt.jar"/>
+        <include name="jaxws-tools.jar"/>
+        <include name="jsr173_api.jar"/>
+        <include name="jsr181-api.jar"/>
+        <include name="jsr250-api.jar"/>
+        <include name="resolver.jar"/>
+        <include name="saaj-api.jar"/>
+        <include name="saaj-impl.jar"/>
+        <include name="sjsxp.jar"/>
+        <include name="stax-ex.jar"/>
+        <include name="streambuffer.jar"/>
+      </fileset>
+      <metainf dir="${xfire.resources.dir}/jbossws-jboss50.sar/META-INF">
+        <include name="jbossws-beans.xml"/>
+      </metainf>
+    </jar>
+    
+    <!-- Build jbosswsri-deployer -->
+    <zip zipfile="${xfire.output.lib.dir}/jbossws-xfire50-deployer.zip">
+      <fileset dir="${int.jboss50.dir}/output/lib">
+        <include name="jbossws-jboss50.jar"/>
+      </fileset>
+      <fileset dir="${xfire.output.lib.dir}">
+        <include name="jbossws-xfire50.jar"/>
+      </fileset>
+      <fileset dir="${xfire.resources.dir}/jbossws-jboss50.deployer">
+        <include name="META-INF/jbossws-deployer-beans.xml"/>
+      </fileset>
+    </zip>
+    
+    <!-- Build jbosswsri50-src.zip -->
+    <zip zipfile="${xfire.output.lib.dir}/jbossws-xfire50-src.zip" >
+      <fileset dir="${xfire.java.dir}"/>
+    </zip>
+    
+   </target>
+  
+  <!-- ================================================================== -->
+  <!-- Miscellaneous                                                       -->
+  <!-- ================================================================== -->
+  
+  <target name="clean" depends="prepare" description="Cleans up most generated files.">
+    <delete dir="${xfire.output.dir}"/>
+  </target>
+  
+  <target name="clobber" depends="clean" description="Cleans up all generated files.">
+    <delete dir="${int.xfire.dir}/output-tests"/>
+    <delete dir="${int.xfire.dir}/thirdparty"/>
+  </target>
+  
+  <target name="main" description="Executes the default target (most)." depends="most"/>
+  
+  <target name="most" description="Builds almost everything." depends="jars"/>
+  
+  <target name="all" description="Create a distribution zip file" depends="most,tests-main">
+  </target>
+  
+</project>

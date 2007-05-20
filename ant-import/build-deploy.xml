@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id$ -->
+
+<project>
+
+  <!-- ================================================================== -->
+  <!-- Deployment  JBoss50                                                -->
+  <!-- ================================================================== -->
+  
+  <!-- Deploy jbossws/xfire to jboss50 -->
+  <target name="deploy-jboss50" depends="jars-jboss50,undeploy-jboss50" description="Deploy jbossws/xfire to jboss50">
+
+    <ant antfile="${int.jbws.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
+    
+    <copy todir="${jboss50.home}/client" overwrite="true">
+      <fileset dir="${thirdparty.dir}">
+        <include name="jaxb-api.jar"/>
+        <include name="jaxb-impl.jar"/>
+        <include name="jaxb-xjc.jar"/>
+      </fileset>
+    </copy>
+    <copy todir="${jboss50.home}/lib" overwrite="true">
+      <fileset dir="${thirdparty.dir}">
+        <include name="jaxb-api.jar"/>
+        <include name="jaxb-impl.jar"/>
+      </fileset>
+    </copy>
+    <copy todir="${jboss50.home}/server/${jboss.server.instance}/lib" overwrite="true">
+      <fileset dir="${spi.dir}/output/lib">
+        <include name="jbossws-spi.jar"/>
+      </fileset>
+    </copy>
+    <mkdir dir="${jboss50.home}/server/${jboss.server.instance}/deployers/jbossws.deployer"/>
+    <unzip dest="${jboss50.home}/server/${jboss.server.instance}/deployers/jbossws.deployer" src="${xfire.output.lib.dir}/jbossws-xfire50-deployer.zip"/>
+    <mkdir dir="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+    <unjar dest="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar" src="${xfire.output.lib.dir}/jbossws-xfire50.sar"/>
+    <copy tofile="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-context.war" file="${xfire.output.lib.dir}/jbossws-context.war" overwrite="true"/>
+  </target>
+    
+  <!-- Remove jbossws/xfire from jboss50 -->
+  <target name="undeploy-jboss50" depends="prepare" description="Remove jbossws/xfire from jboss50">
+    <delete dir="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+  </target>
+  
+</project>
