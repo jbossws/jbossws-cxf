@@ -21,6 +21,7 @@
   <target name="deploy-jboss50" depends="jars-jboss50,undeploy-jboss50" description="Deploy jbossws/xfire to jboss50">
 
     <ant antfile="${int.jbws.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
+    <ant antfile="${int.sunri.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
     
     <copy todir="${jboss50.home}/client" overwrite="true">
       <fileset dir="${thirdparty.dir}">
