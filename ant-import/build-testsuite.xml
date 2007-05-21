@@ -10,28 +10,15 @@
 
 <project>
   
-  <property name="tests.dir" value="${int.xfire.dir}/src/test"/>
-  <property name="tests.output.dir" value="${int.xfire.dir}/output-tests"/>
-  
-  <import file="${build.dir}/ant-import/build-testsuite.xml"/>
-  
-  <!--
-    Run tests against jboss50
-  -->  
-  <target name="tests-jboss50" depends="tests-prepare-jboss50,tests"/>
-  <target name="tests-prepare-jboss50">
-    <property name="jboss.home" value="${jboss50.home}"/>
-    <property name="excludesfile" value="${int.xfire.dir}/src/test/resources/excludes-jboss50.txt"/>
-  </target>
-  
-  <!--
-    Run tests against jboss42
-  -->  
-  <target name="tests-jboss42" depends="tests-prepare-jboss42,tests"/>
-  <target name="tests-prepare-jboss42">
-    <property name="jboss.home" value="${jboss42.home}"/>
-    <property name="excludesfile" value="${int.xfire.dir}/src/test/resources/excludes-jboss42.txt"/>
-  </target>
+  <import file="${testsuite.dir}/ant-import/build-testsuite.xml"/>
+
+  <!-- Define excludesfile -->
+  <condition property="excludesfile" value="${int.xfire.dir}/src/test/resources/excludes-jboss50.txt">
+    <equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
+  </condition>
+  <condition property="excludesfile" value="${int.xfire.dir}/src/test/resources/excludes-jboss42.txt">
+    <equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
+  </condition>
   
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
@@ -88,10 +75,15 @@
     <!-- The combined compile classpath -->
     <path id="javac.classpath">
       <path refid="xfire.classpath"/>
-      <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
+      <pathelement location="${jboss.client}/activation.jar"/>
+      <pathelement location="${jboss.client}/jaxb-api.jar"/>
+      <pathelement location="${jboss.client}/jaxb-impl.jar"/>
+      <pathelement location="${jboss.client}/jboss-annotations-ejb3.jar"/>
       <pathelement location="${jboss.client}/jboss-common-core.jar"/>
+      <pathelement location="${jboss.client}/jboss-ejb3-client.jar"/>
       <pathelement location="${jboss.client}/jboss-logging-spi.jar"/>
       <pathelement location="${jboss.server.lib}/jboss-javaee.jar"/>
+      <pathelement location="${jboss.server.lib}/jbosssx.jar"/>
     </path>
 
     <!-- The test client classpath -->
@@ -108,34 +100,4 @@
     
   </target>
 
-  <!-- ================================================================== -->
-  <!-- Compiling                                                          -->
-  <!-- ================================================================== -->
-
-  <target name="tests-compile" depends="tests-init" description="Compile sources">
-    <mkdir dir="${tests.output.dir}/classes"/>
-    <javac destdir="${tests.output.dir}/classes" debug="${javac.debug}" encoding="utf-8" verbose="${javac.verbose}" deprecation="${javac.deprecation}"
-      failonerror="${javac.fail.onerror}" excludesfile="${excludesfile}">
-      <src path="${testsuite.dir}/src/java"/>
-      <src path="${tests.java.dir}"/>
-      <classpath refid="javac.classpath"/>
-    </javac>
-  </target>
-  
-  <!-- ================================================================== -->
-  <!-- Building                                                           -->
-  <!-- ================================================================== -->
-  
-  <!-- Copy resources -->
-  <target name="tests-copy-resources" depends="tests-init" description="Copy the deployment resources.">
-    <copy-test-resources srcdir="${testsuite.dir}/src"/>
-    <copy-test-resources srcdir="${int.xfire.dir}/src/test"/>
-  </target>
-  
-  <target name="tests-jars" depends="tests-compile,tests-copy-resources" description="Build the deployments.">
-    <ant antfile="${testsuite.dir}/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws" inheritall="true"/>
-  </target>
-  
-  <target name="tests-main" depends="tests-jars" description="Build the deployments."/>
-  
 </project>
