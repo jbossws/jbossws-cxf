@@ -50,7 +50,7 @@ import org.jboss.wsf.spi.utils.ObjectNameFactory;
  * @author Thomas.Diesler@jboss.org
  * @since 21-Apr-2007
  */
-public class XFireConfigurableServletJBWS extends XFireConfigurableServlet
+public class XFireConfigurableServletExt extends XFireConfigurableServlet
 {
    public static final String PARAM_XFIRE_SERVICES_URL = "jbossws.xfire.services.url";
 
@@ -99,7 +99,7 @@ public class XFireConfigurableServletJBWS extends XFireConfigurableServlet
 
    public XFireServletController createController() throws ServletException
    {
-      return new XFireServletControllerJBWS(xfire, getServletContext());
+      return new XFireServletControllerExt(xfire, getServletContext());
    }
 
    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException

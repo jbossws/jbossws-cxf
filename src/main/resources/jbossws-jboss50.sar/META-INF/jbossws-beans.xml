@@ -159,7 +159,7 @@
   <bean name="WSSecurityRolesHandlerEJB21" class="org.jboss.wsf.container.jboss50.SecurityRolesHandlerEJB21"/>
   <bean name="WSSecurityRolesHandlerEJB3" class="org.jboss.wsf.container.jboss50.SecurityRolesHandlerEJB3"/>
   <bean name="WSWebAppDesciptorModifier" class="org.jboss.wsf.stack.xfire.WebAppDesciptorModifierImpl">
-    <property name="servletClass">org.jboss.wsf.stack.xfire.XFireConfigurableServletJBWS</property>
+    <property name="servletClass">org.jboss.wsf.stack.xfire.XFireConfigurableServletExt</property>
   </bean>
   <bean name="WSWebXMLRewriter" class="org.jboss.wsf.spi.deployment.WebXMLRewriter">
     <property name="desciptorModifier"><inject bean="WSWebAppDesciptorModifier"/></property>

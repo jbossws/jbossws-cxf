@@ -64,7 +64,7 @@ public class ModifyWebMetaDataDeployer extends AbstractDeployer
          // Add the path to sun-jaxws.xml
          ParamValue ctxParam = new ParamValue();
          ctxParam.setType(ParamType.CONTEXT_PARAM);
-         ctxParam.setName(XFireConfigurableServletJBWS.PARAM_XFIRE_SERVICES_URL);
+         ctxParam.setName(XFireConfigurableServletExt.PARAM_XFIRE_SERVICES_URL);
          ctxParam.setValue(ddbeans.createFileURL().toExternalForm());
          webMetaData.addContextParam(ctxParam);
 

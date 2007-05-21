@@ -64,7 +64,7 @@ public class WebAppDesciptorModifierImpl implements WebAppDesciptorModifier
          throw new IllegalStateException("Cannot obtain sun-jaxws meta data");
 
       Element contextParam = root.addElement("context-param");
-      contextParam.addElement("param-name").addText(XFireConfigurableServletJBWS.PARAM_XFIRE_SERVICES_URL);
+      contextParam.addElement("param-name").addText(XFireConfigurableServletExt.PARAM_XFIRE_SERVICES_URL);
       contextParam.addElement("param-value").addText(ddbeans.createFileURL().toExternalForm());
 
       for (Iterator it = root.elementIterator("servlet"); it.hasNext();)
