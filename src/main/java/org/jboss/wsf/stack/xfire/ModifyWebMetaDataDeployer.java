@@ -29,7 +29,7 @@ import org.jboss.metadata.web.Servlet;
 import org.jboss.metadata.web.ParamValue.ParamType;
 import org.jboss.wsf.spi.deployment.AbstractDeployer;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.stack.xfire.metadata.sunjaxws.DDBeans;
+import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
 
 /**
  * A deployer that modifies the web.xml meta data 

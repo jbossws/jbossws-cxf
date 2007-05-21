@@ -28,7 +28,7 @@ import org.dom4j.Element;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.WebAppDesciptorModifier;
-import org.jboss.wsf.stack.xfire.metadata.sunjaxws.DDBeans;
+import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
 
 /**
  * Modifies web.xml for jbossws

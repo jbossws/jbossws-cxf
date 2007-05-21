@@ -41,6 +41,22 @@
     Init the various classpaths
   -->
   <target name="tests-init" depends="tests-prepare,thirdparty">
+    
+    <!-- 
+      Cannot use XFire client
+      [JBWS-1654] - ServiceDelegate requires non portable method getPortClassMap
+    -->
+
+    <path id="jbossws.classpath">
+      <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
+      <pathelement location="${core.dir}/output/lib/jboss-jaxrpc.jar"/>
+      <pathelement location="${core.dir}/output/lib/jboss-jaxws.jar"/>
+      <pathelement location="${core.dir}/output/lib/jboss-saaj.jar"/>
+      <pathelement location="${core.dir}/output/lib/jbossws-core.jar"/>
+      <pathelement location="${core.dir}/output/lib/jbossws-client.jar"/>
+      <pathelement location="${core.dir}/thirdparty/jboss-xml-binding.jar"/>
+      <pathelement location="${core.dir}/thirdparty/wsdl4j.jar"/>
+    </path>
 
     <path id="sunri.classpath">
       <pathelement location="${int.sunri.dir}/thirdparty/FastInfoset.jar"/>
@@ -59,9 +75,6 @@
       <pathelement location="${int.sunri.dir}/thirdparty/streambuffer.jar"/>
     </path>
     
-    <!-- 
-      [JBWS-1654] - ServiceDelegate requires non portable method getPortClassMap
-    -->
     <path id="xfire.classpath">
       <pathelement location="${thirdparty.dir}/jaxws-api.jar"/>
       <pathelement location="${thirdparty.dir}/jdom.jar"/>
@@ -74,7 +87,7 @@
 
     <!-- The combined compile classpath -->
     <path id="javac.classpath">
-      <path refid="sunri.classpath"/>
+      <path refid="xfire.classpath"/>
       <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
       <pathelement location="${jboss.client}/jboss-common-core.jar"/>
       <pathelement location="${jboss.client}/jboss-logging-spi.jar"/>

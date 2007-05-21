@@ -149,7 +149,11 @@
     <property name="webXMLRewriter"><inject bean="WSWebXMLRewriter"/></property>
     <property name="mainDeployer"><inject bean="MainDeployer"/></property>
   </bean>
-  <bean name="WSXFireServicesDeployer" class="org.jboss.wsf.stack.xfire.XFireServicesDeployer"/>
+  <bean name="WSXFireServicesDeployer" class="org.jboss.wsf.stack.xfire.XFireServicesDeployer">
+    <property name="serviceFactory">org.codehaus.xfire.jaxws.JAXWSServiceFactory</property>
+    <property name="invokerEJB3">org.jboss.wsf.stack.xfire.InvokerEJB3</property>
+    <property name="invokerJSE">org.jboss.wsf.stack.xfire.InvokerJSE</property>
+  </bean>
   
   <!-- Deployer helper beans -->  
   <bean name="WSSecurityRolesHandlerEJB21" class="org.jboss.wsf.container.jboss50.SecurityRolesHandlerEJB21"/>

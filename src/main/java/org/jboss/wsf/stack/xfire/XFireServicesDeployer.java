@@ -26,8 +26,9 @@ package org.jboss.wsf.stack.xfire;
 import org.jboss.wsf.spi.deployment.AbstractDeployer;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.stack.xfire.metadata.sunjaxws.DDBeans;
-import org.jboss.wsf.stack.xfire.metadata.sunjaxws.DDService;
+import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
+import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
+import org.jboss.wsf.stack.xfire.metadata.services.DDService;
 
 /**
  * A deployer that generates xfire services.xml 
@@ -37,9 +38,32 @@ import org.jboss.wsf.stack.xfire.metadata.sunjaxws.DDService;
  */
 public class XFireServicesDeployer extends AbstractDeployer
 {
+   private String serviceFactory;
+   private String invokerEJB3;
+   private String invokerJSE;
+
+   public void setServiceFactory(String serviceFactory)
+   {
+      this.serviceFactory = serviceFactory;
+   }
+
+   public void setInvokerEJB3(String invokerEJB3)
+   {
+      this.invokerEJB3 = invokerEJB3;
+   }
+
+   public void setInvokerJSE(String invokerJSE)
+   {
+      this.invokerJSE = invokerJSE;
+   }
+
    @Override
    public void create(Deployment dep)
    {
+      DeploymentType depType = dep.getType();
+      if (depType != DeploymentType.JAXWS_EJB3 && depType != DeploymentType.JAXWS_JSE)
+         throw new IllegalStateException("Unsupported deployment type: " + depType);
+      
       DDBeans dd = new DDBeans();
       for (Endpoint ep : dep.getService().getEndpoints())
       {
@@ -47,6 +71,14 @@ public class XFireServicesDeployer extends AbstractDeployer
          String targetBean = ep.getTargetBean();
 
          DDService ddser = new DDService(epName, targetBean);
+         ddser.setServiceFactory(serviceFactory);
+         
+         if (depType == DeploymentType.JAXWS_EJB3 && invokerEJB3 != null)
+            ddser.setInvoker(invokerEJB3);
+         
+         if (depType == DeploymentType.JAXWS_JSE && invokerJSE != null)
+            ddser.setInvoker(invokerJSE);
+
          log.info("Add " + ddser);
          dd.addService(ddser);
       }

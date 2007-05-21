@@ -23,49 +23,31 @@ package org.jboss.wsf.stack.xfire;
 
 //$Id$
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.xfire.XFire;
 import org.codehaus.xfire.transport.http.XFireServletController;
-import org.jboss.logging.Logger;
-import org.jboss.util.NotImplementedException;
 import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.invocation.InvocationContext;
-import org.jboss.wsf.spi.invocation.RequestHandler;
+import org.jboss.wsf.spi.deployment.EndpointAssociation;
 
 /**
- * A request handler
+ * An extension to the XFire servlet controller
  * 
  * @author Thomas.Diesler@jboss.org
- * @since 21-May-2007
+ * @since 21-Apr-2007
  */
-public class RequestHandlerImpl implements RequestHandler
+public class XFireServletControllerJBWS extends XFireServletController
 {
-   // provide logging
-   private static final Logger log = Logger.getLogger(RequestHandlerImpl.class);
-
-   public void handleHttpRequest(Endpoint ep, HttpServletRequest req, HttpServletResponse res, ServletContext context) throws ServletException, IOException
+   public XFireServletControllerJBWS(XFire xfire, ServletContext servletContext)
    {
-      XFireServletController controller = ep.getAttachment(XFireServletController.class);
-      if (controller == null)
-         throw new IllegalStateException("Cannot obtain XFire servlet controller");
-
-      controller.doService(req, res);
+      super(xfire, servletContext);
    }
-
-   public void handleRequest(Endpoint endpoint, InputStream inStream, OutputStream outStream, InvocationContext context)
+   
+   protected String getService(HttpServletRequest request)
    {
-      throw new NotImplementedException();
-   }
-
-   public void handleWSDLRequest(Endpoint endpoint, OutputStream outStream, InvocationContext context)
-   {
-      throw new NotImplementedException();
+      Endpoint ep = EndpointAssociation.getEndpoint();
+      String serviceName = ep.getShortName();
+      return serviceName;
    }
 }

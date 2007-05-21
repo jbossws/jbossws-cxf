@@ -10,5 +10,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/integration-spi"/>
 	<classpathentry kind="lib" path="/integration-spi/thirdparty/dom4j.jar"/>
 	<classpathentry kind="lib" path="thirdparty/xfire-all.jar" sourcepath="thirdparty/xfire-distribution-sources.jar"/>
+	<classpathentry kind="lib" path="thirdparty/jaxws-api.jar"/>
+	<classpathentry kind="lib" path="thirdparty/xfire-jsr181-api.jar"/>
 	<classpathentry kind="output" path="output-eclipse"/>
 </classpath>

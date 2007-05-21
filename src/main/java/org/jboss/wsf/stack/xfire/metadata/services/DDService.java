@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.xfire.metadata.sunjaxws;
+package org.jboss.wsf.stack.xfire.metadata.services;
 
 //$Id$
 
@@ -104,14 +104,28 @@ public class DDService
    public void writeTo(Writer writer) throws IOException
    {
       writer.write("<service>");
-      writer.write(" <name>" + name + "</name>");
-      writer.write(" <serviceClass>" + serviceClass + "</serviceClass>");
+      writer.write("<name>" + name + "</name>");
+      writer.write("<serviceClass>" + serviceClass + "</serviceClass>");
       if (implementationClass != null)
-         writer.write(" <implementationClass>" + implementationClass + "</implementationClass>");
+         writer.write("<implementationClass>" + implementationClass + "</implementationClass>");
       if (serviceFactory != null)
-         writer.write(" <serviceFactory>" + serviceFactory + "</serviceFactory>");
+         writer.write("<serviceFactory>" + serviceFactory + "</serviceFactory>");
       if (invoker != null)
-         writer.write(" <invoker>" + invoker + "</invoker>");
+         writer.write("<invoker>" + invoker + "</invoker>");
       writer.write("</service>");
+   }
+   
+   public String toString()
+   {
+      StringBuilder str = new StringBuilder("Service");
+      str.append("\n name=" + name);
+      str.append("\n serviceClass=" + serviceClass);
+      if (implementationClass != null)
+         str.append("\n implementationClass=" + implementationClass);
+      if (serviceFactory != null)
+         str.append("\n serviceFactory=" + serviceFactory);
+      if (invoker != null)
+         str.append("\n invoker=" + invoker);
+      return str.toString();
    }
 }

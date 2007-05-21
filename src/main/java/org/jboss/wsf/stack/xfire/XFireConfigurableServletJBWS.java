@@ -23,13 +23,26 @@ package org.jboss.wsf.stack.xfire;
 
 //$Id$
 
+import java.io.IOException;
 import java.net.URL;
 
+import javax.management.ObjectName;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.WebServiceException;
 
 import org.codehaus.xfire.XFire;
 import org.codehaus.xfire.transport.http.XFireConfigurableServlet;
+import org.codehaus.xfire.transport.http.XFireServletController;
+import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.EndpointAssociation;
+import org.jboss.wsf.spi.invocation.RequestHandler;
+import org.jboss.wsf.spi.management.EndpointRegistry;
+import org.jboss.wsf.spi.management.EndpointRegistryFactory;
+import org.jboss.wsf.spi.utils.ObjectNameFactory;
 
 /**
  * An extension to the XFire servlet
@@ -42,6 +55,20 @@ public class XFireConfigurableServletJBWS extends XFireConfigurableServlet
    public static final String PARAM_XFIRE_SERVICES_URL = "jbossws.xfire.services.url";
 
    private final static String CONFIG_FILE = "/WEB-INF/classes/META-INF/xfire/services.xml";
+
+   protected Endpoint endpoint;
+   protected EndpointRegistry epRegistry;
+
+   public void init(ServletConfig servletConfig) throws ServletException
+   {
+      super.init(servletConfig);
+
+      // Init the Endpoint
+      epRegistry = EndpointRegistryFactory.getEndpointRegistry();
+      String contextPath = servletConfig.getServletContext().getContextPath();
+      initServiceEndpoint(contextPath);
+      endpoint.addAttachment(XFireServletController.class, controller);
+   }
 
    public XFire createXFire() throws ServletException
    {
@@ -68,5 +95,51 @@ public class XFireConfigurableServletJBWS extends XFireConfigurableServlet
       }
 
       return xfire;
+   }
+
+   public XFireServletController createController() throws ServletException
+   {
+      return new XFireServletControllerJBWS(xfire, getServletContext());
+   }
+
+   public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
+   {
+      try
+      {
+         EndpointAssociation.setEndpoint(endpoint);
+         RequestHandler requestHandler = (RequestHandler)endpoint.getRequestHandler();
+         requestHandler.handleHttpRequest(endpoint, req, res, getServletContext());
+      }
+      finally
+      {
+         EndpointAssociation.removeEndpoint();
+      }
+   }
+
+   /** Initialize the service endpoint
+    */
+   protected void initServiceEndpoint(String contextPath)
+   {
+      if (contextPath.startsWith("/"))
+         contextPath = contextPath.substring(1);
+
+      String servletName = getServletName();
+      for (ObjectName sepId : epRegistry.getEndpoints())
+      {
+         String propContext = sepId.getKeyProperty(Endpoint.SEPID_PROPERTY_CONTEXT);
+         String propEndpoint = sepId.getKeyProperty(Endpoint.SEPID_PROPERTY_ENDPOINT);
+         if (servletName.equals(propEndpoint) && contextPath.equals(propContext))
+         {
+            endpoint = epRegistry.getEndpoint(sepId);
+            break;
+         }
+      }
+
+      if (endpoint == null)
+      {
+         ObjectName oname = ObjectNameFactory.create(Endpoint.SEPID_DOMAIN + ":" + Endpoint.SEPID_PROPERTY_CONTEXT + "=" + contextPath + ","
+               + Endpoint.SEPID_PROPERTY_ENDPOINT + "=" + servletName);
+         throw new WebServiceException("Cannot obtain endpoint for: " + oname);
+      }
    }
 }
