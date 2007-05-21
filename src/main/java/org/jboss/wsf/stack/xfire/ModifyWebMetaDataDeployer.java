@@ -23,35 +23,23 @@ package org.jboss.wsf.stack.xfire;
 
 //$Id$
 
-import org.jboss.metadata.Listener;
 import org.jboss.metadata.WebMetaData;
 import org.jboss.metadata.web.ParamValue;
 import org.jboss.metadata.web.Servlet;
 import org.jboss.metadata.web.ParamValue.ParamType;
 import org.jboss.wsf.spi.deployment.AbstractDeployer;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.stack.xfire.metadata.sunjaxws.DDEndpoints;
+import org.jboss.wsf.stack.xfire.metadata.sunjaxws.DDBeans;
 
 /**
  * A deployer that modifies the web.xml meta data 
  *
  * @author Thomas.Diesler@jboss.org
- * @since 25-Apr-2007
+ * @since 21-Mai-2007
  */
 public class ModifyWebMetaDataDeployer extends AbstractDeployer
 {
-   private String listenerClass;
    private String servletClass;
-
-   public String getListenerClass()
-   {
-      return listenerClass;
-   }
-
-   public void setListenerClass(String listenerClass)
-   {
-      this.listenerClass = listenerClass;
-   }
 
    public String getServletClass()
    {
@@ -69,19 +57,15 @@ public class ModifyWebMetaDataDeployer extends AbstractDeployer
       WebMetaData webMetaData = dep.getContext().getAttachment(WebMetaData.class);
       if (webMetaData != null)
       {
-         Listener listener = new Listener();
-         listener.setListenerClass(listenerClass);
-         webMetaData.addListener(listener);
-
-         DDEndpoints ddSunJaxws = dep.getContext().getAttachment(DDEndpoints.class);
-         if (ddSunJaxws == null)
-            throw new IllegalStateException("Cannot obtain sun-jaxws meta data");
+         DDBeans ddbeans = dep.getContext().getAttachment(DDBeans.class);
+         if (ddbeans == null)
+            throw new IllegalStateException("Cannot obtain services.xml meta data");
 
          // Add the path to sun-jaxws.xml
          ParamValue ctxParam = new ParamValue();
          ctxParam.setType(ParamType.CONTEXT_PARAM);
-         ctxParam.setName(WSServletContextListenerJBWS.PARAM_SUN_JAXWS_URL);
-         ctxParam.setValue(ddSunJaxws.createFileURL().toExternalForm());
+         ctxParam.setName(XFireConfigurableServletJBWS.PARAM_XFIRE_SERVICES_URL);
+         ctxParam.setValue(ddbeans.createFileURL().toExternalForm());
          webMetaData.addContextParam(ctxParam);
 
          for (Servlet servlet : webMetaData.getServlets())
@@ -106,10 +90,10 @@ public class ModifyWebMetaDataDeployer extends AbstractDeployer
    @Override
    public void destroy(Deployment dep)
    {
-      DDEndpoints ddSunJaxws = dep.getContext().getAttachment(DDEndpoints.class);
-      if (ddSunJaxws != null)
+      DDBeans ddbeans = dep.getContext().getAttachment(DDBeans.class);
+      if (ddbeans != null)
       {
-         ddSunJaxws.destroyFileURL();
+         ddbeans.destroyFileURL();
       }
    }
 

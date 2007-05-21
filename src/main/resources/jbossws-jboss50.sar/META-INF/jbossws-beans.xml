@@ -91,7 +91,7 @@
         <inject bean="WSUnifiedDeploymentInfoDeployer"/>
         <inject bean="WSContextRootDeployer"/>
         <inject bean="WSURLPatternDeployer"/>
-        <inject bean="WSSunJaxwsDeployer"/>
+        <inject bean="WSXFireServicesDeployer"/>
         <inject bean="WSModifyWebMetaDataDeployer"/>
       </list>
     </property>
@@ -102,7 +102,7 @@
         <inject bean="WSUnifiedDeploymentInfoDeployer"/>
         <inject bean="WSContextRootDeployer"/>
         <inject bean="WSURLPatternDeployer"/>
-        <inject bean="WSSunJaxwsDeployer"/>
+        <inject bean="WSXFireServicesDeployer"/>
         <inject bean="WSWebAppGeneratorDeployer"/>
         <inject bean="WSWebAppDeployerDeployer"/>
       </list>
@@ -138,10 +138,8 @@
   <bean name="WSEndpointNameDeployer" class="org.jboss.wsf.spi.deployment.EndpointNameDeployer"/>
   <bean name="WSEndpointRegistryDeployer" class="org.jboss.wsf.spi.deployment.EndpointRegistryDeployer"/>
   <bean name="WSModifyWebMetaDataDeployer" class="org.jboss.wsf.stack.xfire.ModifyWebMetaDataDeployer">
-    <property name="listenerClass"><inject bean="WSWebAppDesciptorModifier" property="listenerClass"/></property>
     <property name="servletClass"><inject bean="WSWebAppDesciptorModifier" property="servletClass"/></property>
   </bean>
-  <bean name="WSSunJaxwsDeployer" class="org.jboss.wsf.stack.xfire.SunJaxwsDeployer"/>
   <bean name="WSUnifiedDeploymentInfoDeployer" class="org.jboss.wsf.container.jboss50.UnifiedDeploymentInfoDeployer"/>
   <bean name="WSURLPatternDeployer" class="org.jboss.wsf.spi.deployment.URLPatternDeployer"/>
   <bean name="WSWebAppGeneratorDeployer" class="org.jboss.wsf.spi.deployment.WebAppGeneratorDeployer">
@@ -151,13 +149,13 @@
     <property name="webXMLRewriter"><inject bean="WSWebXMLRewriter"/></property>
     <property name="mainDeployer"><inject bean="MainDeployer"/></property>
   </bean>
+  <bean name="WSXFireServicesDeployer" class="org.jboss.wsf.stack.xfire.XFireServicesDeployer"/>
   
   <!-- Deployer helper beans -->  
   <bean name="WSSecurityRolesHandlerEJB21" class="org.jboss.wsf.container.jboss50.SecurityRolesHandlerEJB21"/>
   <bean name="WSSecurityRolesHandlerEJB3" class="org.jboss.wsf.container.jboss50.SecurityRolesHandlerEJB3"/>
   <bean name="WSWebAppDesciptorModifier" class="org.jboss.wsf.stack.xfire.WebAppDesciptorModifierImpl">
-    <property name="listenerClass">org.jboss.wsf.stack.xfire.WSServletContextListenerJBWS</property>
-    <property name="servletClass">org.jboss.wsf.stack.xfire.WSEndpointServletJBWS</property>
+    <property name="servletClass">org.jboss.wsf.stack.xfire.XFireConfigurableServletJBWS</property>
   </bean>
   <bean name="WSWebXMLRewriter" class="org.jboss.wsf.spi.deployment.WebXMLRewriter">
     <property name="desciptorModifier"><inject bean="WSWebAppDesciptorModifier"/></property>

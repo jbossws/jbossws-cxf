@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.stack.xfire.metadata.sunjaxws;
 
+//$Id$
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,39 +39,39 @@ import org.jboss.wsf.spi.management.ServerConfigFactory;
 //$Id$
 
 /**
- * Metadata model for sun-jaxws.xml 
+ * Metadata model for xfire services.xml 
  *
  * @author Thomas.Diesler@jboss.org
- * @since 10-May-2007
+ * @since 21-May-2007
  */
-public class DDEndpoints
+public class DDBeans
 {
-   private List<DDEndpoint> endpoints = new ArrayList<DDEndpoint>();
+   private List<DDService> services = new ArrayList<DDService>();
    private File tmpFile;
 
-   public List<DDEndpoint> getEndpoints()
+   public List<DDService> getServices()
    {
-      return endpoints;
+      return services;
    }
 
-   public void addEndpoint(DDEndpoint ep)
+   public void addService(DDService service)
    {
-      endpoints.add(ep);
+      services.add(service);
    }
 
-   public URL createFileURL() 
+   public URL createFileURL()
    {
       destroyFileURL();
-      
+
       ServerConfig serverConfig = ServerConfigFactory.getInstance().getServerConfig();
       File tmpDir = serverConfig.getServerTempDir();
       try
       {
-         tmpFile = File.createTempFile("jbossws-sun-jaxws", ".xml", tmpDir);
+         tmpFile = File.createTempFile("jbossws-xfire-services", ".xml", tmpDir);
          Writer writer = new OutputStreamWriter(new FileOutputStream(tmpFile));
          writeTo(writer);
          writer.close();
-         
+
          return tmpFile.toURL();
       }
       catch (IOException ex)
@@ -89,12 +91,12 @@ public class DDEndpoints
 
    public void writeTo(Writer writer) throws IOException
    {
-      writer.write("<endpoints xmlns='http://java.sun.com/xml/ns/jax-ws/ri/runtime' version='2.0'>");
-      for (DDEndpoint ep : endpoints)
+      writer.write("<beans xmlns='http://xfire.codehaus.org/config/1.0'>");
+      for (DDService service : services)
       {
-         ep.writeTo(writer);
+         service.writeTo(writer);
       }
-      writer.write("</endpoints>");
+      writer.write("</beans>");
    }
 
 }

@@ -21,45 +21,52 @@
  */
 package org.jboss.wsf.stack.xfire;
 
-// $Id$
+//$Id$
 
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Set;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
-import com.sun.xml.ws.transport.http.ResourceLoader;
+import org.codehaus.xfire.XFire;
+import org.codehaus.xfire.transport.http.XFireConfigurableServlet;
 
 /**
- * {@link ResourceLoader} backed by {@link ServletContext}.
- *
- * TDI: A copy of the original that is public 
- *
- * @author WS Development Team
+ * An extension to the XFire servlet
+ * 
  * @author Thomas.Diesler@jboss.org
+ * @since 21-Apr-2007
  */
-public class ServletResourceLoader implements ResourceLoader
+public class XFireConfigurableServletJBWS extends XFireConfigurableServlet
 {
-   private final ServletContext context;
+   public static final String PARAM_XFIRE_SERVICES_URL = "jbossws.xfire.services.url";
 
-   public ServletResourceLoader(ServletContext context)
-   {
-      this.context = context;
-   }
+   private final static String CONFIG_FILE = "/WEB-INF/classes/META-INF/xfire/services.xml";
 
-   public URL getResource(String path) throws MalformedURLException
+   public XFire createXFire() throws ServletException
    {
-      return context.getResource(path);
-   }
+      XFire xfire;
+      try
+      {
+         // #1 Load services.xml from default location
+         ServletContext context = getServletContext();
+         URL servicesURL = context.getResource(CONFIG_FILE);
 
-   public URL getCatalogFile() throws MalformedURLException
-   {
-      return getResource("/WEB-INF/jax-ws-catalog.xml");
-   }
+         // #1 Load services.xml from init parameter
+         if (servicesURL == null)
+         {
+            String paramValue = context.getInitParameter(PARAM_XFIRE_SERVICES_URL);
+            if (paramValue != null)
+               servicesURL = new URL(paramValue);
+         }
 
-   public Set<String> getResourcePaths(String path)
-   {
-      return context.getResourcePaths(path);
+         xfire = loadConfig(servicesURL.getFile());
+      }
+      catch (Exception e)
+      {
+         throw new ServletException(e);
+      }
+
+      return xfire;
    }
 }

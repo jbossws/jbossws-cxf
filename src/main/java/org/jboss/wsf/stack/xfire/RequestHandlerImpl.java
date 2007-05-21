@@ -31,7 +31,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.WebServiceException;
 
 import org.jboss.logging.Logger;
 import org.jboss.util.NotImplementedException;
@@ -39,14 +38,11 @@ import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 
-import com.sun.xml.ws.transport.http.servlet.WSServlet;
-import com.sun.xml.ws.transport.http.servlet.WSServletDelegate;
-
 /**
  * A request handler
  * 
  * @author Thomas.Diesler@jboss.org
- * @since 25-Apr-2007
+ * @since 21-Mai-2007
  */
 public class RequestHandlerImpl implements RequestHandler
 {
@@ -55,31 +51,7 @@ public class RequestHandlerImpl implements RequestHandler
 
    public void handleHttpRequest(Endpoint endpoint, HttpServletRequest req, HttpServletResponse res, ServletContext context) throws ServletException, IOException
    {
-      WSServletDelegate delegate = (WSServletDelegate)context.getAttribute(WSServlet.JAXWS_RI_RUNTIME_INFO);
-      if (delegate == null)
-         throw new IllegalStateException("Cannot obtain servlet delegate");
-      
-      String method = req.getMethod();
-      if (method.equals("POST"))
-      {
-         delegate.doPost(req, res, context);
-      }
-      else if (method.equals("GET"))
-      {
-         delegate.doGet(req, res, context);
-      }
-      else if (method.equals("PUT"))
-      {
-         delegate.doPut(req, res, context);
-      }
-      else if (method.equals("DELETE"))
-      {
-         delegate.doDelete(req, res, context);
-      }
-      else
-      {
-         throw new WebServiceException("Unsupported method: " + method);
-      }
+      throw new NotImplementedException();
    }
 
    public void handleRequest(Endpoint endpoint, InputStream inStream, OutputStream outStream, InvocationContext context)

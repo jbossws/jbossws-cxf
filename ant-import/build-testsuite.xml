@@ -42,26 +42,39 @@
   -->
   <target name="tests-init" depends="tests-prepare,thirdparty">
 
+    <path id="sunri.classpath">
+      <pathelement location="${int.sunri.dir}/thirdparty/FastInfoset.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/http.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/jaxws-api.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/jaxws-rt.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/jaxws-tools.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/jsr173_api.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/jsr181-api.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/jsr250-api.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/resolver.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/saaj-api.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/saaj-impl.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/sjsxp.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/stax-ex.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/streambuffer.jar"/>
+    </path>
+    
+    <!-- 
+      [JBWS-1654] - ServiceDelegate requires non portable method getPortClassMap
+    -->
     <path id="xfire.classpath">
-      <pathelement location="${thirdparty.dir}/FastInfoset.jar"/>
-      <pathelement location="${thirdparty.dir}/http.jar"/>
       <pathelement location="${thirdparty.dir}/jaxws-api.jar"/>
-      <pathelement location="${thirdparty.dir}/jaxws-rt.jar"/>
-      <pathelement location="${thirdparty.dir}/jaxws-tools.jar"/>
-      <pathelement location="${thirdparty.dir}/jsr173_api.jar"/>
-      <pathelement location="${thirdparty.dir}/jsr181-api.jar"/>
-      <pathelement location="${thirdparty.dir}/jsr250-api.jar"/>
-      <pathelement location="${thirdparty.dir}/resolver.jar"/>
+      <pathelement location="${thirdparty.dir}/jdom.jar"/>
       <pathelement location="${thirdparty.dir}/saaj-api.jar"/>
       <pathelement location="${thirdparty.dir}/saaj-impl.jar"/>
-      <pathelement location="${thirdparty.dir}/sjsxp.jar"/>
-      <pathelement location="${thirdparty.dir}/stax-ex.jar"/>
-      <pathelement location="${thirdparty.dir}/streambuffer.jar"/>
+      <pathelement location="${thirdparty.dir}/wsdl4j.jar"/>
+      <pathelement location="${thirdparty.dir}/xfire-all.jar"/>
+      <pathelement location="${thirdparty.dir}/xfire-jsr181-api.jar"/>
     </path>
 
     <!-- The combined compile classpath -->
     <path id="javac.classpath">
-      <path refid="xfire.classpath"/>
+      <path refid="sunri.classpath"/>
       <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
       <pathelement location="${jboss.client}/jboss-common-core.jar"/>
       <pathelement location="${jboss.client}/jboss-logging-spi.jar"/>
@@ -70,7 +83,7 @@
 
     <!-- The test client classpath -->
     <path id="tests.client.classpath">
-      <path refid="xfire.classpath"/>
+      <path refid="sunri.classpath"/>
       <pathelement location="${jboss.client}/activation.jar"/>
       <pathelement location="${jboss.client}/jaxb-api.jar"/>
       <pathelement location="${jboss.client}/jaxb-impl.jar"/>

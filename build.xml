@@ -133,27 +133,23 @@
         <include name="jaxrpc-api.jar"/>
       </fileset>
       <fileset dir="${thirdparty.dir}">
-        <include name="FastInfoset.jar"/>
-        <include name="http.jar"/>
         <include name="jaxws-api.jar"/>
-        <include name="jaxws-rt.jar"/>
-        <include name="jaxws-tools.jar"/>
-        <include name="jsr173_api.jar"/>
-        <include name="jsr181-api.jar"/>
-        <include name="jsr250-api.jar"/>
-        <include name="resolver.jar"/>
+        <include name="jdom.jar"/>
+        <include name="wsdl4j.jar"/>
         <include name="saaj-api.jar"/>
         <include name="saaj-impl.jar"/>
-        <include name="sjsxp.jar"/>
-        <include name="stax-ex.jar"/>
-        <include name="streambuffer.jar"/>
+        <include name="spring.jar"/>
+        <include name="xbean.jar"/>
+        <include name="xbean-spring.jar"/>
+        <include name="xfire-all.jar"/>
+        <include name="xfire-jsr181-api.jar"/>
       </fileset>
       <metainf dir="${xfire.resources.dir}/jbossws-jboss50.sar/META-INF">
         <include name="jbossws-beans.xml"/>
       </metainf>
     </jar>
     
-    <!-- Build jbosswsri-deployer -->
+    <!-- Build jbossws-xfire50-deployer -->
     <zip zipfile="${xfire.output.lib.dir}/jbossws-xfire50-deployer.zip">
       <fileset dir="${int.jboss50.dir}/output/lib">
         <include name="jbossws-jboss50.jar"/>
@@ -166,7 +162,7 @@
       </fileset>
     </zip>
     
-    <!-- Build jbosswsri50-src.zip -->
+    <!-- Build jbossws-xfire50-src.zip -->
     <zip zipfile="${xfire.output.lib.dir}/jbossws-xfire50-src.zip" >
       <fileset dir="${xfire.java.dir}"/>
     </zip>

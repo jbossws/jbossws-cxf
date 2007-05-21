@@ -28,31 +28,20 @@ import org.dom4j.Element;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.WebAppDesciptorModifier;
-import org.jboss.wsf.stack.xfire.metadata.sunjaxws.DDEndpoints;
+import org.jboss.wsf.stack.xfire.metadata.sunjaxws.DDBeans;
 
 /**
  * Modifies web.xml for jbossws
  *
  * @author Thomas.Diesler@jboss.org
- * @since 19-May-2006
+ * @since 21-May-2006
  */
 public class WebAppDesciptorModifierImpl implements WebAppDesciptorModifier
 {
    // logging support
    private static Logger log = Logger.getLogger(WebAppDesciptorModifierImpl.class);
 
-   private String listenerClass;
    private String servletClass;
-
-   public String getListenerClass()
-   {
-      return listenerClass;
-   }
-
-   public void setListenerClass(String listenerClass)
-   {
-      this.listenerClass = listenerClass;
-   }
 
    public String getServletClass()
    {
@@ -70,15 +59,13 @@ public class WebAppDesciptorModifierImpl implements WebAppDesciptorModifier
 
       Element root = webXml.getRootElement();
 
-      DDEndpoints ddSunJaxws = dep.getContext().getAttachment(DDEndpoints.class);
-      if (ddSunJaxws == null)
+      DDBeans ddbeans = dep.getContext().getAttachment(DDBeans.class);
+      if (ddbeans == null)
          throw new IllegalStateException("Cannot obtain sun-jaxws meta data");
-      
+
       Element contextParam = root.addElement("context-param");
-      contextParam.addElement("param-name").addText(WSServletContextListenerJBWS.PARAM_SUN_JAXWS_URL);
-      contextParam.addElement("param-value").addText(ddSunJaxws.createFileURL().toExternalForm());
-      
-      root.addElement("listener").addElement("listener-class").addText(listenerClass);
+      contextParam.addElement("param-name").addText(XFireConfigurableServletJBWS.PARAM_XFIRE_SERVICES_URL);
+      contextParam.addElement("param-value").addText(ddbeans.createFileURL().toExternalForm());
 
       for (Iterator it = root.elementIterator("servlet"); it.hasNext();)
       {

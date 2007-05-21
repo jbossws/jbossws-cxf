@@ -19,56 +19,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.xfire.metadata.sunjaxws;
-
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
+package org.jboss.wsf.stack.xfire;
 
 //$Id$
 
+import org.jboss.wsf.spi.deployment.AbstractDeployer;
+import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.stack.xfire.metadata.sunjaxws.DDBeans;
+import org.jboss.wsf.stack.xfire.metadata.sunjaxws.DDService;
+
 /**
- * Metadata model for sun-jaxws.xml 
+ * A deployer that generates xfire services.xml 
  *
  * @author Thomas.Diesler@jboss.org
  * @since 10-May-2007
  */
-public class DDHandlerChain
+public class XFireServicesDeployer extends AbstractDeployer
 {
-   // Name of the endpoint
-   private String name;
-
-   private List<DDHandler> handlers = new ArrayList<DDHandler>();
-
-   public DDHandlerChain(String name)
+   @Override
+   public void create(Deployment dep)
    {
-      this.name = name;
-   }
-
-   public String getName()
-   {
-      return name;
-   }
-
-   public List<DDHandler> getEndpoints()
-   {
-      return handlers;
-   }
-
-   public void addEndpoint(DDHandler handler)
-   {
-      handlers.add(handler);
-   }
-
-   public void writeTo(Writer writer) throws IOException
-   {
-      writer.write("<handler-chain>");
-      writer.write("<handler-chain-name>" + name + "</handler-chain-name>");
-      for (DDHandler handler : handlers)
+      DDBeans dd = new DDBeans();
+      for (Endpoint ep : dep.getService().getEndpoints())
       {
-         handler.writeTo(writer);
+         String epName = ep.getShortName();
+         String targetBean = ep.getTargetBean();
+
+         DDService ddser = new DDService(epName, targetBean);
+         log.info("Add " + ddser);
+         dd.addService(ddser);
       }
-      writer.write("</handler-chain>");
+      dep.getContext().addAttachment(DDBeans.class, dd);
    }
 }

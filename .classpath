@@ -3,24 +3,12 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jboss-5.0.x"/>
-	<classpathentry kind="lib" path="thirdparty/jaxws-api.jar"/>
-	<classpathentry kind="lib" path="thirdparty/jsr181-api.jar"/>
-	<classpathentry kind="lib" path="thirdparty/FastInfoset.jar"/>
-	<classpathentry kind="lib" path="thirdparty/http.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jaxb-api.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jaxb-impl.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jaxb-xjc.jar"/>
-	<classpathentry kind="lib" path="thirdparty/jaxws-rt.jar" sourcepath="thirdparty/jaxws-ri-src.jar"/>
-	<classpathentry kind="lib" path="thirdparty/jaxws-tools.jar"/>
-	<classpathentry kind="lib" path="thirdparty/jsr173_api.jar"/>
-	<classpathentry kind="lib" path="thirdparty/jsr250-api.jar"/>
-	<classpathentry kind="lib" path="thirdparty/saaj-api.jar"/>
-	<classpathentry kind="lib" path="thirdparty/saaj-impl.jar"/>
-	<classpathentry kind="lib" path="thirdparty/sjsxp.jar"/>
-	<classpathentry kind="lib" path="thirdparty/stax-ex.jar"/>
-	<classpathentry kind="lib" path="thirdparty/streambuffer.jar"/>
 	<classpathentry kind="lib" path="thirdparty/servlet-api.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/integration-spi"/>
 	<classpathentry kind="lib" path="/integration-spi/thirdparty/dom4j.jar"/>
+	<classpathentry kind="lib" path="thirdparty/xfire-all.jar" sourcepath="thirdparty/xfire-distribution-sources.jar"/>
 	<classpathentry kind="output" path="output-eclipse"/>
 </classpath>
