@@ -27,6 +27,7 @@ import org.jboss.wsf.spi.deployment.AbstractDeployer;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
+import org.jboss.wsf.stack.xfire.metadata.services.DDBean;
 import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
 import org.jboss.wsf.stack.xfire.metadata.services.DDService;
 
@@ -74,10 +75,18 @@ public class XFireServicesDeployer extends AbstractDeployer
          ddser.setServiceFactory(serviceFactory);
          
          if (depType == DeploymentType.JAXWS_EJB3 && invokerEJB3 != null)
-            ddser.setInvoker(invokerEJB3);
+         {
+            String beanName = "InvokerBeanEJB3";
+            dd.addBean(new DDBean(beanName, invokerEJB3));
+            ddser.setInvoker("#" + beanName);
+         }
          
          if (depType == DeploymentType.JAXWS_JSE && invokerJSE != null)
-            ddser.setInvoker(invokerJSE);
+         {
+            String beanName = "InvokerBeanJSE";
+            dd.addBean(new DDBean(beanName, invokerJSE));
+            ddser.setInvoker("#" + beanName);
+         }
 
          log.info("Add " + ddser);
          dd.addService(ddser);

@@ -46,7 +46,11 @@ import org.jboss.wsf.spi.management.ServerConfigFactory;
  */
 public class DDBeans
 {
+   // The Required services.
    private List<DDService> services = new ArrayList<DDService>();
+   // Optional additional beans.
+   private List<DDBean> beans = new ArrayList<DDBean>();
+   // The derived temp file
    private File tmpFile;
 
    public List<DDService> getServices()
@@ -57,6 +61,16 @@ public class DDBeans
    public void addService(DDService service)
    {
       services.add(service);
+   }
+
+   public List<DDBean> getBeans()
+   {
+      return beans;
+   }
+
+   public void addBean(DDBean bean)
+   {
+      beans.add(bean);
    }
 
    public URL createFileURL()
@@ -95,6 +109,10 @@ public class DDBeans
       for (DDService service : services)
       {
          service.writeTo(writer);
+      }
+      for (DDBean bean : beans)
+      {
+         bean.writeTo(writer);
       }
       writer.write("</beans>");
    }
