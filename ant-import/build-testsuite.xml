@@ -33,9 +33,9 @@
       Cannot use XFire client
       [JBWS-1654] - ServiceDelegate requires non portable method getPortClassMap
     -->
+    <ant antfile="${int.sunri.dir}/build.xml" target="thirdparty" inheritall="false"/>
 
     <path id="jbossws.classpath">
-      <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
       <pathelement location="${core.dir}/output/lib/jboss-jaxrpc.jar"/>
       <pathelement location="${core.dir}/output/lib/jboss-jaxws.jar"/>
       <pathelement location="${core.dir}/output/lib/jboss-saaj.jar"/>
@@ -75,6 +75,7 @@
     <!-- The combined compile classpath -->
     <path id="javac.classpath">
       <path refid="xfire.classpath"/>
+      <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
       <pathelement location="${jboss.client}/activation.jar"/>
       <pathelement location="${jboss.client}/jaxb-api.jar"/>
       <pathelement location="${jboss.client}/jaxb-impl.jar"/>
