@@ -31,7 +31,7 @@ import org.codehaus.xfire.fault.XFireFault;
 import org.codehaus.xfire.service.invoker.Invoker;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.EndpointAssociation;
-import org.jboss.wsf.spi.invocation.EndpointInvocation;
+import org.jboss.wsf.spi.invocation.Invocation;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 
 /**
@@ -47,7 +47,7 @@ public class InvokerJSE implements Invoker
       Endpoint ep = EndpointAssociation.getEndpoint();
       InvocationHandler invHandler = ep.getInvocationHandler();
 
-      EndpointInvocation inv = invHandler.createInvocation();
+      Invocation inv = invHandler.createInvocation();
       inv.getInvocationContext().addAttachment(MessageContext.class, context);
       inv.setJavaMethod(m);
       inv.setArgs(params);
