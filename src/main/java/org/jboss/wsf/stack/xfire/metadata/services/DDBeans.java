@@ -33,8 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.wsf.spi.deployment.WSDeploymentException;
-import org.jboss.wsf.spi.management.ServerConfig;
-import org.jboss.wsf.spi.management.ServerConfigFactory;
+import org.jboss.wsf.spi.utils.IOUtils;
 
 //$Id$
 
@@ -77,10 +76,9 @@ public class DDBeans
    {
       destroyFileURL();
 
-      ServerConfig serverConfig = ServerConfigFactory.getInstance().getServerConfig();
-      File tmpDir = serverConfig.getServerTempDir();
       try
       {
+         File tmpDir = IOUtils.createTempDirectory();
          tmpFile = File.createTempFile("jbossws-xfire-services", ".xml", tmpDir);
          Writer writer = new OutputStreamWriter(new FileOutputStream(tmpFile));
          writeTo(writer);

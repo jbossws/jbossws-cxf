@@ -93,4 +93,15 @@ public class XFireServicesDeployer extends AbstractDeployer
       }
       dep.getContext().addAttachment(DDBeans.class, dd);
    }
+
+
+   @Override
+   public void destroy(Deployment dep)
+   {
+      DDBeans dd = dep.getContext().getAttachment(DDBeans.class);
+      if (dd != null)
+      {
+         dd.destroyFileURL();
+      }
+   }
 }
