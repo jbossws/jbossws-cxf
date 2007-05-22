@@ -94,9 +94,9 @@
       <pathelement location="${jboss.client}/jaxb-api.jar"/>
       <pathelement location="${jboss.client}/jaxb-impl.jar"/>
       <pathelement location="${jboss.client}/mail.jar"/>
-      <pathelement location="${jboss.server.lib}/jbosssx.jar"/>
       <pathelement location="${jboss.client}/log4j.jar"/>
       <pathelement location="${jboss.client}/jbossall-client.jar"/>
+      <pathelement location="${jboss.server.lib}/jbosssx.jar"/>
     </path>
     
   </target>
