@@ -143,7 +143,7 @@
   <bean name="WSUnifiedDeploymentInfoDeployer" class="org.jboss.wsf.container.jboss50.UnifiedDeploymentInfoDeployer"/>
   <bean name="WSURLPatternDeployer" class="org.jboss.wsf.spi.deployment.URLPatternDeployer"/>
   <bean name="WSWebAppGeneratorDeployer" class="org.jboss.wsf.spi.deployment.WebAppGeneratorDeployer">
-    <property name="securityRolesHandlerEJB3"><inject bean="WSSecurityRolesHandlerEJB3"/></property>
+    <property name="securityHandlerEJB3"><inject bean="WSSecurityHandlerEJB3"/></property>
   </bean>
   <bean name="WSWebAppDeployerDeployer" class="org.jboss.wsf.container.jboss50.WebAppDeployerDeployer">
     <property name="webXMLRewriter"><inject bean="WSWebXMLRewriter"/></property>
@@ -156,8 +156,8 @@
   </bean>
   
   <!-- Deployer helper beans -->  
-  <bean name="WSSecurityRolesHandlerEJB21" class="org.jboss.wsf.container.jboss50.SecurityRolesHandlerEJB21"/>
-  <bean name="WSSecurityRolesHandlerEJB3" class="org.jboss.wsf.container.jboss50.SecurityRolesHandlerEJB3"/>
+  <bean name="WSSecurityHandlerEJB21" class="org.jboss.wsf.container.jboss50.SecurityHandlerEJB21"/>
+  <bean name="WSSecurityHandlerEJB3" class="org.jboss.wsf.container.jboss50.SecurityHandlerEJB3"/>
   <bean name="WSWebAppDesciptorModifier" class="org.jboss.wsf.stack.xfire.WebAppDesciptorModifierImpl">
     <property name="servletClass">org.jboss.wsf.stack.xfire.XFireConfigurableServletExt</property>
   </bean>
