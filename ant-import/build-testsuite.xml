@@ -24,7 +24,7 @@
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
   
-  <target name="tests-init" depends="jars,tests-prepare">
+  <target name="tests-init" depends="jars,tests-classpath">
 
     <!-- 
       Cannot use XFire client
