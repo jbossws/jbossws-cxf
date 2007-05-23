@@ -24,7 +24,7 @@
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
   
-  <target name="tests-init" depends="jars,tests-classpath">
+  <target name="tests-init" depends="tests-classpath">
 
     <!-- 
       Cannot use XFire client
@@ -47,6 +47,7 @@
       <pathelement location="${int.sunri.dir}/thirdparty/sjsxp.jar"/>
       <pathelement location="${int.sunri.dir}/thirdparty/stax-ex.jar"/>
       <pathelement location="${int.sunri.dir}/thirdparty/streambuffer.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/wstx.jar"/>
     </path>
     
     <path id="xfire.classpath">
