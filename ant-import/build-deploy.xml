@@ -29,6 +29,9 @@
         <include name="jaxb-impl.jar"/>
         <include name="jaxb-xjc.jar"/>
       </fileset>
+      <fileset dir="${int.jboss50.dir}/output/lib">
+        <include name="jbossws-jboss50.jar"/>
+      </fileset>
     </copy>
     <copy todir="${jboss50.home}/lib" overwrite="true">
       <fileset dir="${thirdparty.dir}">
