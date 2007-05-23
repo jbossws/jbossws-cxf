@@ -73,7 +73,7 @@
   <!-- Compiling                                                          -->
   <!-- ================================================================== -->
 
-  <target name="tests-compile" depends="tests-classpath" description="Compile sources">
+  <target name="tests-compile" depends="tests-init" description="Compile sources">
     <macro-compile-classes srcdir="${tests.java.dir}"/>
   </target>
 
