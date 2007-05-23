@@ -23,27 +23,14 @@
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
+  
+  <target name="tests-init" depends="jars,tests-prepare">
 
-  <!--
-    Init the various classpaths
-  -->
-  <target name="tests-init" depends="tests-prepare,thirdparty">
-    
     <!-- 
       Cannot use XFire client
       [JBWS-1654] - ServiceDelegate requires non portable method getPortClassMap
     -->
     <ant antfile="${int.sunri.dir}/build.xml" target="thirdparty" inheritall="false"/>
-
-    <path id="jbossws.classpath">
-      <pathelement location="${core.dir}/output/lib/jboss-jaxrpc.jar"/>
-      <pathelement location="${core.dir}/output/lib/jboss-jaxws.jar"/>
-      <pathelement location="${core.dir}/output/lib/jboss-saaj.jar"/>
-      <pathelement location="${core.dir}/output/lib/jbossws-core.jar"/>
-      <pathelement location="${core.dir}/output/lib/jbossws-client.jar"/>
-      <pathelement location="${core.dir}/thirdparty/jboss-xml-binding.jar"/>
-      <pathelement location="${core.dir}/thirdparty/wsdl4j.jar"/>
-    </path>
 
     <path id="sunri.classpath">
       <pathelement location="${int.sunri.dir}/thirdparty/FastInfoset.jar"/>
@@ -71,34 +58,22 @@
       <pathelement location="${thirdparty.dir}/xfire-all.jar"/>
       <pathelement location="${thirdparty.dir}/xfire-jsr181-api.jar"/>
     </path>
-
-    <!-- The combined compile classpath -->
-    <path id="javac.classpath">
-      <path refid="xfire.classpath"/>
-      <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
-      <pathelement location="${jboss.client}/activation.jar"/>
-      <pathelement location="${jboss.client}/jaxb-api.jar"/>
-      <pathelement location="${jboss.client}/jaxb-impl.jar"/>
-      <pathelement location="${jboss.client}/jboss-annotations-ejb3.jar"/>
-      <pathelement location="${jboss.client}/jboss-common-core.jar"/>
-      <pathelement location="${jboss.client}/jboss-ejb3-client.jar"/>
-      <pathelement location="${jboss.client}/jboss-logging-spi.jar"/>
-      <pathelement location="${jboss.server.lib}/jboss-javaee.jar"/>
-      <pathelement location="${jboss.server.lib}/jbosssx.jar"/>
-    </path>
-
-    <!-- The test client classpath -->
-    <path id="tests.client.classpath">
+    
+    <path id="ws.stack.classpath">
       <path refid="sunri.classpath"/>
-      <pathelement location="${jboss.client}/activation.jar"/>
-      <pathelement location="${jboss.client}/jaxb-api.jar"/>
-      <pathelement location="${jboss.client}/jaxb-impl.jar"/>
-      <pathelement location="${jboss.client}/mail.jar"/>
-      <pathelement location="${jboss.client}/log4j.jar"/>
-      <pathelement location="${jboss.client}/jbossall-client.jar"/>
-      <pathelement location="${jboss.server.lib}/jbosssx.jar"/>
     </path>
     
+    <path id="tests.extra.classpath">
+    </path>
+    
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Compiling                                                          -->
+  <!-- ================================================================== -->
+
+  <target name="tests-compile" depends="tests-classpath" description="Compile sources">
+    <macro-compile-classes srcdir="${tests.java.dir}"/>
   </target>
 
 </project>
