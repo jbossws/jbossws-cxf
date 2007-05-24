@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id$ -->
+
+<project>
+
+  <!-- ================================================================== -->
+  <!-- Binary distribution JBossWS/XFire                                  -->
+  <!-- ================================================================== -->
+  
+  <target name="binary-dist" depends="jars" description="Build the binary distribution">
+    
+    <property name="bindist.dir" value="${xfire.output.dir}/jbossws-xfire-${version.id}"/>
+    <property name="bindist.build.dir" value="${bindist.dir}/build"/>
+    <property name="bindist.lib.dir" value="${bindist.dir}/lib"/>
+    <property name="bindist.docs.dir" value="${bindist.dir}/docs"/>
+    <property name="bindist.tests.dir" value="${bindist.dir}/tests"/>
+
+    <delete dir="${bindist.dir}"/>
+    <mkdir dir="${bindist.build.dir}"/>
+    <mkdir dir="${bindist.lib.dir}/thirdparty/client"/>
+    <mkdir dir="${bindist.docs.dir}"/>
+    <mkdir dir="${bindist.tests.dir}"/>
+    
+    <!-- root -->
+    <copy tofile="${bindist.dir}/ant.properties" file="${build.dir}/etc/bindist.properties"/>
+    <copy tofile="${bindist.dir}/build.xml" file="${xfire.etc.dir}/bindist-build.xml"/>
+    <copy todir="${bindist.dir}" file="${xfire.dir}/version.properties"/>
+      
+    <!-- build -->
+    <copy todir="${bindist.build.dir}">
+      <fileset dir="${build.dir}">
+        <include name="version.properties"/>
+      </fileset>
+      <fileset dir="${build.dir}/ant-import">
+        <include name="build-testsuite.xml"/>
+      </fileset>
+      <fileset dir="${int.native.dir}/ant-import">
+        <include name="macros-deploy-native.xml"/>
+      </fileset>
+      <fileset dir="${int.xfire.dir}/ant-import">
+        <include name="macros-deploy-xfire.xml"/>
+      </fileset>
+      <fileset dir="${testsuite.dir}/ant-import">
+        <include name="build-jars-jaxws.xml"/>
+      </fileset>
+    </copy>
+    
+    <!-- docs -->
+    <copy todir="${bindist.docs.dir}">
+      <fileset dir="${build.dir}/etc">
+        <include name="JBossORG-EULA.txt"/>
+      </fileset>
+    </copy>
+      
+    <!-- lib -->
+    <copy todir="${bindist.lib.dir}" overwrite="true">
+      <fileset dir="${spi.dir}/output/lib">
+        <include name="jbossws-spi.jar"/>
+      </fileset>
+      <fileset dir="${int.jboss42.dir}/output/lib">
+        <include name="jbossws-jboss42.jar"/>
+      </fileset>
+      <fileset dir="${int.jboss50.dir}/output/lib">
+        <include name="jbossws-jboss50.jar"/>
+      </fileset>
+      <fileset dir="${int.xfire.dir}/output/lib">
+        <include name="jbossws-context.war"/>
+        <include name="jbossws-xfire42.sar"/>
+        <include name="jbossws-xfire50.sar"/>
+        <include name="jbossws-xfire50-deployer.zip"/>
+      </fileset>
+    </copy>
+    <copy todir="${bindist.lib.dir}/thirdparty" overwrite="true">
+      <fileset dir="${int.xfire.dir}/thirdparty"/>
+    </copy>
+    <copy todir="${bindist.lib.dir}/thirdparty/client" overwrite="true">
+      <fileset dir="${int.sunri.dir}/thirdparty"/>
+    </copy>
+    
+    <!-- tests -->
+    <copy todir="${bindist.tests.dir}" overwrite="true">
+      <fileset dir="${testsuite.dir}/src"/>
+      <fileset dir="${int.xfire.dir}/src/test"/>
+    </copy>
+    
+    <zip destfile="${xfire.output.dir}/jbossws-xfire-${version.id}.zip">
+      <fileset dir="${xfire.output.dir}" includes="jbossws-xfire-${version.id}/**"/>
+    </zip>
+  </target>
+  
+</project>

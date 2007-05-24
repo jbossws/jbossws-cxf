@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id$ -->
+
+<project>
+
+  <!-- ================================================================== -->
+  <!-- Deployment  JBoss50                                                -->
+  <!-- ================================================================== -->
+  
+  <macrodef name="macro-deploy-xfire50">
+      <attribute name="spilibs"/>
+      <attribute name="jbosslibs"/>
+      <attribute name="stacklibs"/>
+      <attribute name="thirdpartylibs"/>
+    <sequential>
+      <fail message="Not available: ${jboss50.available.file}" unless="jboss50.available"/>
+      <copy todir="${jboss50.home}/client" overwrite="true">
+        <fileset dir="@{thirdpartylibs}">
+          <include name="jaxb-api.jar"/>
+          <include name="jaxb-impl.jar"/>
+          <include name="jaxb-xjc.jar"/>
+        </fileset>
+        <fileset dir="@{spilibs}">
+          <include name="jbossws-spi.jar"/>
+        </fileset>
+        <fileset dir="@{jbosslibs}">
+          <include name="jbossws-jboss50.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="${jboss50.home}/lib" overwrite="true">
+        <fileset dir="@{thirdpartylibs}">
+          <include name="jaxb-api.jar"/>
+          <include name="jaxb-impl.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="${jboss50.home}/server/${jboss.server.instance}/lib" overwrite="true">
+        <fileset dir="@{spilibs}">
+          <include name="jbossws-spi.jar"/>
+        </fileset>
+        <fileset dir="@{jbosslibs}">
+          <include name="jbossws-jboss50.jar"/>
+        </fileset>
+      </copy>
+      <mkdir dir="${jboss50.home}/server/${jboss.server.instance}/deployers/jbossws.deployer"/>
+      <unzip dest="${jboss50.home}/server/${jboss.server.instance}/deployers/jbossws.deployer" src="@{stacklibs}/jbossws-xfire50-deployer.zip"/>
+      <mkdir dir="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+      <unjar dest="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar" src="@{stacklibs}/jbossws-xfire50.sar"/>
+      <copy tofile="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-context.war" file="@{stacklibs}/jbossws-context.war" overwrite="true"/>
+    </sequential>
+  </macrodef>
+    
+  <!-- Remove jbossws/xfire from jboss50 -->
+  <macrodef name="macro-undeploy-xfire">
+    <sequential>
+      <delete dir="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+    </sequential>
+  </macrodef>
+  
+</project>

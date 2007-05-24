@@ -16,6 +16,7 @@
   <import file="${basedir}/build/ant-import/build-setup.xml"/>
   
   <import file="${int.xfire.dir}/ant-import/build-deploy.xml"/>
+  <import file="${int.xfire.dir}/ant-import/build-distro.xml"/>
   <import file="${int.xfire.dir}/ant-import/build-release.xml"/>
   <import file="${int.xfire.dir}/ant-import/build-testsuite.xml"/>
   <import file="${int.xfire.dir}/ant-import/build-thirdparty.xml"/>
@@ -144,7 +145,7 @@
         <include name="xfire-all.jar"/>
         <include name="xfire-jsr181-api.jar"/>
       </fileset>
-      <metainf dir="${xfire.resources.dir}/jbossws-jboss50.sar/META-INF">
+      <metainf dir="${xfire.resources.dir}/jbossws-xfire50.sar/META-INF">
         <include name="jbossws-beans.xml"/>
       </metainf>
     </jar>
@@ -157,7 +158,7 @@
       <fileset dir="${xfire.output.lib.dir}">
         <include name="jbossws-xfire50.jar"/>
       </fileset>
-      <fileset dir="${xfire.resources.dir}/jbossws-jboss50.deployer">
+      <fileset dir="${xfire.resources.dir}/jbossws-xfire50.deployer">
         <include name="META-INF/jbossws-deployer-beans.xml"/>
       </fileset>
     </zip>
