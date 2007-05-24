@@ -40,8 +40,8 @@
   <!-- ================================================================== -->
   
   <target name="init" depends="prepare,thirdparty">
-    <fail message="Not available: ${jboss50.available.file}" unless="jboss50.available"/>
-    <ant antfile="${int.jboss50.dir}/build.xml" target="main" inheritall="false"/>
+    <ant antfile="${int.jboss50.dir}/build.xml" target="jars" inheritall="false"/>
+    <ant antfile="${int.jboss42.dir}/build.xml" target="jars" inheritall="false"/>
   </target>
   
   <!-- ================================================================== -->
