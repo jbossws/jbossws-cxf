@@ -60,7 +60,7 @@
   </macrodef>
     
   <!-- Remove jbossws/xfire from jboss50 -->
-  <macrodef name="macro-undeploy-xfire">
+  <macrodef name="macro-undeploy-xfire50">
     <sequential>
       <delete dir="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
     </sequential>

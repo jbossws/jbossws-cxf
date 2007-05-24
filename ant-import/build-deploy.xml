@@ -13,6 +13,8 @@
 
 <project>
 
+  <import file="${int.xfire.dir}/ant-import/macros-deploy-xfire.xml"/>
+  
   <!-- ================================================================== -->
   <!-- Deployment  JBoss50                                                -->
   <!-- ================================================================== -->
@@ -21,12 +23,16 @@
   <target name="deploy-jboss50" depends="jars-jboss50,undeploy-jboss50" description="Deploy jbossws/xfire to jboss50">
     <ant antfile="${int.native.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
     <ant antfile="${int.sunri.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
-    
+    <macro-deploy-xfire50 
+      spilibs="${spi.dir}/output/lib" 
+      jbosslibs="${int.jboss50.dir}/output/lib" 
+      stacklibs="${int.xfire.dir}/output/lib" 
+      thirdpartylibs="${int.xfire.dir}/thirdparty"/>
   </target>
     
   <!-- Remove jbossws/xfire from jboss50 -->
   <target name="undeploy-jboss50" depends="prepare" description="Remove jbossws/xfire from jboss50">
-    <delete dir="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+    <macro-undeploy-xfire50/>
   </target>
   
 </project>
