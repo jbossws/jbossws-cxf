@@ -51,6 +51,9 @@
       <fileset dir="${int.native.dir}/ant-import">
         <include name="macros-deploy-native.xml"/>
       </fileset>
+      <fileset dir="${int.sunri.dir}/ant-import">
+        <include name="macros-deploy-sunri.xml"/>
+      </fileset>
       <fileset dir="${int.xfire.dir}/ant-import">
         <include name="macros-deploy-xfire.xml"/>
       </fileset>

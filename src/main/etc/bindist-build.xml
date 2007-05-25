@@ -51,6 +51,7 @@
   
   <import file="${basedir}/build/build-testsuite.xml"/>
   <import file="${basedir}/build/macros-deploy-native.xml"/>
+  <import file="${basedir}/build/macros-deploy-sunri.xml"/>
   <import file="${basedir}/build/macros-deploy-xfire.xml"/>
   
   <!-- ================================================================== -->
@@ -151,6 +152,7 @@
   <!-- Deploy jbossws/xfire to jboss50 -->
   <target name="deploy-jboss50" depends="prepare" description="Deploy jbossws/xfire to jboss50">
     <macro-undeploy-native50/>
+    <macro-undeploy-sunri50/>
     <macro-deploy-xfire50 
       spilibs="${lib.dir}" 
       jbosslibs="${lib.dir}" 
@@ -161,6 +163,22 @@
   <!-- Remove jbossws/xfire from jboss50 -->
   <target name="undeploy-jboss50" depends="prepare" description="Remove jbossws/xfire from jboss50">
     <macro-undeploy-xfire50/>
+  </target>
+  
+  <!-- Deploy jbossws/xfire to jboss42 -->
+  <target name="deploy-jboss42" depends="prepare" description="Deploy jbossws/xfire to jboss42">
+    <macro-undeploy-native42/>
+    <macro-undeploy-sunri42/>
+    <macro-deploy-xfire42 
+      spilibs="${lib.dir}" 
+      jbosslibs="${lib.dir}" 
+      stacklibs="${lib.dir}" 
+      thirdpartylibs="${lib.dir}/thirdparty"/>
+  </target>
+    
+  <!-- Remove jbossws/xfire from jboss42 -->
+  <target name="undeploy-jboss42" depends="prepare" description="Remove jbossws/xfire from jboss42">
+    <macro-undeploy-xfire42/>
   </target>
   
   <!-- ================================================================== -->
