@@ -38,18 +38,6 @@ import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
  */
 public class ModifyWebMetaDataDeployer extends org.jboss.wsf.container.jboss50.ModifyWebMetaDataDeployer
 {
-   private String servletClass;
-
-   public String getServletClass()
-   {
-      return servletClass;
-   }
-
-   public void setServletClass(String servletClass)
-   {
-      this.servletClass = servletClass;
-   }
-
    @Override
    public void create(Deployment dep)
    {
