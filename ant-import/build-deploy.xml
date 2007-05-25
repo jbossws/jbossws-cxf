@@ -21,6 +21,7 @@
   
   <!-- Deploy jbossws/xfire to jboss50 -->
   <target name="deploy-jboss50" depends="jars-jboss50,undeploy-jboss50" description="Deploy jbossws/xfire to jboss50">
+    <ant antfile="${int.jboss50.dir}/build.xml" target="jars" inheritall="false"/>
     <ant antfile="${int.native.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
     <ant antfile="${int.sunri.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
     <macro-deploy-xfire50 
