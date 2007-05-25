@@ -198,6 +198,7 @@
         <include name="saaj-impl.jar"/>
         <include name="spring.jar"/>
         <include name="stax-api.jar"/>
+        <include name="wstx.jar"/>
         <include name="xbean.jar"/>
         <include name="xbean-spring.jar"/>
         <include name="xfire-all.jar"/>
