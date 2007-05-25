@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="thirdparty/jaxws-api.jar"/>
 	<classpathentry kind="lib" path="thirdparty/xfire-jsr181-api.jar"/>
 	<classpathentry kind="lib" path="/integration-spi/thirdparty/jboss-common-core.jar"/>
+	<classpathentry kind="lib" path="thirdparty/spring.jar"/>
 	<classpathentry kind="output" path="output-eclipse"/>
 </classpath>

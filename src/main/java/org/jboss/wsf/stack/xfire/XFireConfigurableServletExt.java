@@ -35,14 +35,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceException;
 
 import org.codehaus.xfire.XFire;
+import org.codehaus.xfire.XFireException;
+import org.codehaus.xfire.spring.XFireConfigLoader;
 import org.codehaus.xfire.transport.http.XFireConfigurableServlet;
 import org.codehaus.xfire.transport.http.XFireServletController;
+import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
 import org.jboss.wsf.spi.utils.ObjectNameFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.GenericWebApplicationContext;
 
 /**
  * An extension to the XFire servlet
@@ -56,6 +62,8 @@ public class XFireConfigurableServletExt extends XFireConfigurableServlet
 
    private final static String CONFIG_FILE = "/WEB-INF/classes/META-INF/xfire/services.xml";
 
+   private static Logger log = Logger.getLogger(XFireConfigurableServletExt.class);
+   
    protected Endpoint endpoint;
    protected EndpointRegistry epRegistry;
 
@@ -66,7 +74,7 @@ public class XFireConfigurableServletExt extends XFireConfigurableServlet
       // Init the Endpoint
       epRegistry = EndpointRegistryFactory.getEndpointRegistry();
       String contextPath = servletConfig.getServletContext().getContextPath();
-      initServiceEndpoint(contextPath);
+      endpoint = initServiceEndpoint(contextPath);
       endpoint.addAttachment(XFireServletController.class, controller);
    }
 
@@ -97,6 +105,34 @@ public class XFireConfigurableServletExt extends XFireConfigurableServlet
       return xfire;
    }
 
+   public XFire loadConfig(String configPath) throws XFireException
+   {
+       XFireConfigLoader loader = new XFireConfigLoader();
+       //loader.setBasedir(getWebappBase());
+       //log.debug("Loading configuration files relative to " + loader.getBasedir().getAbsolutePath());
+
+       ServletContext servletCtx = getServletContext();
+       ApplicationContext parent = (ApplicationContext) servletCtx.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+
+       if (parent == null)
+       {
+           GenericWebApplicationContext webCtx = new GenericWebApplicationContextX();
+           webCtx.setServletContext(getServletContext());
+           webCtx.refresh();
+           parent = webCtx;
+       }
+       
+       ApplicationContext newCtx = loader.loadContext(configPath, parent);
+       if(servletCtx.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE) == null)
+       {
+            servletCtx.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, newCtx);
+       }
+
+       XFire xfire = (XFire) newCtx.getBean("xfire");
+       xfire.setProperty(XFire.XFIRE_HOME, getWebappBase().getAbsolutePath());
+       return xfire;
+   }
+   
    public XFireServletController createController() throws ServletException
    {
       return new XFireServletControllerExt(xfire, getServletContext());
@@ -118,11 +154,12 @@ public class XFireConfigurableServletExt extends XFireConfigurableServlet
 
    /** Initialize the service endpoint
     */
-   protected void initServiceEndpoint(String contextPath)
+   protected Endpoint initServiceEndpoint(String contextPath)
    {
       if (contextPath.startsWith("/"))
          contextPath = contextPath.substring(1);
 
+      Endpoint endpoint = null;
       String servletName = getServletName();
       for (ObjectName sepId : epRegistry.getEndpoints())
       {
@@ -141,5 +178,7 @@ public class XFireConfigurableServletExt extends XFireConfigurableServlet
                + Endpoint.SEPID_PROPERTY_ENDPOINT + "=" + servletName);
          throw new WebServiceException("Cannot obtain endpoint for: " + oname);
       }
+      
+      return endpoint;
    }
 }

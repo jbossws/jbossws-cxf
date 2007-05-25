@@ -14,9 +14,10 @@
 <project>
 
   <!-- ================================================================== -->
-  <!-- Deployment  JBoss50                                                -->
+  <!-- Deployment                                                         -->
   <!-- ================================================================== -->
   
+  <!-- Deploy to jboss50 -->
   <macrodef name="macro-deploy-xfire50">
       <attribute name="spilibs"/>
       <attribute name="jbosslibs"/>
@@ -59,7 +60,7 @@
     </sequential>
   </macrodef>
     
-  <!-- Remove jbossws/xfire from jboss50 -->
+  <!-- Undeploy from jboss50 -->
   <macrodef name="macro-undeploy-xfire50">
     <sequential>
       <delete>
@@ -73,6 +74,62 @@
         </fileset>
       </delete>
       <delete dir="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+    </sequential>
+  </macrodef>
+  
+  <macrodef name="macro-deploy-xfire42">
+      <attribute name="spilibs"/>
+      <attribute name="jbosslibs"/>
+      <attribute name="stacklibs"/>
+      <attribute name="thirdpartylibs"/>
+    <sequential>
+      <fail message="Not available: ${jboss42.available.file}" unless="jboss42.available"/>
+      <copy todir="${jboss42.home}/client" overwrite="true">
+        <fileset dir="@{thirdpartylibs}">
+          <include name="jaxb-api.jar"/>
+          <include name="jaxb-impl.jar"/>
+          <include name="jaxb-xjc.jar"/>
+        </fileset>
+        <fileset dir="@{spilibs}">
+          <include name="jbossws-spi.jar"/>
+        </fileset>
+        <fileset dir="@{jbosslibs}">
+          <include name="jbossws-jboss42.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="${jboss42.home}/lib" overwrite="true">
+        <fileset dir="@{thirdpartylibs}">
+          <include name="jaxb-api.jar"/>
+          <include name="jaxb-impl.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="${jboss42.home}/server/${jboss.server.instance}/lib" overwrite="true">
+        <fileset dir="@{spilibs}">
+          <include name="jbossws-spi.jar"/>
+        </fileset>
+        <fileset dir="@{jbosslibs}">
+          <include name="jbossws-jboss42.jar"/>
+        </fileset>
+      </copy>
+      <mkdir dir="${jboss42.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+      <unjar dest="${jboss42.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar" src="@{stacklibs}/jbossws-xfire42.sar"/>
+    </sequential>
+  </macrodef>
+    
+  <!-- Remove jbossws/xfire from jboss42 -->
+  <macrodef name="macro-undeploy-xfire42">
+    <sequential>
+      <delete>
+        <fileset dir="${jboss42.home}/client">
+          <include name="jbossws-spi.jar"/>
+          <include name="jbossws-jboss42.jar"/>
+        </fileset>
+        <fileset dir="${jboss42.home}/server/${jboss.server.instance}/lib">
+          <include name="jbossws-spi.jar"/>
+          <include name="jbossws-jboss42.jar"/>
+        </fileset>
+      </delete>
+      <delete dir="${jboss42.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
     </sequential>
   </macrodef>
   
