@@ -62,6 +62,16 @@
   <!-- Remove jbossws/xfire from jboss50 -->
   <macrodef name="macro-undeploy-xfire50">
     <sequential>
+      <delete>
+        <fileset dir="${jboss50.home}/client">
+          <include name="jbossws-spi.jar"/>
+          <include name="jbossws-jboss50.jar"/>
+        </fileset>
+        <fileset dir="${jboss50.home}/server/${jboss.server.instance}/lib">
+          <include name="jbossws-spi.jar"/>
+          <include name="jbossws-jboss50.jar"/>
+        </fileset>
+      </delete>
       <delete dir="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
     </sequential>
   </macrodef>

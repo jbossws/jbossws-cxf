@@ -24,6 +24,7 @@
     <ant antfile="${int.jboss50.dir}/build.xml" target="jars" inheritall="false"/>
     <ant antfile="${int.native.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
     <ant antfile="${int.sunri.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
+    <macro-undeploy-xfire50/>
     <macro-deploy-xfire50 
       spilibs="${spi.dir}/output/lib" 
       jbosslibs="${int.jboss50.dir}/output/lib" 
