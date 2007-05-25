@@ -68,33 +68,22 @@
   <target name="thirdparty-classpath" depends="thirdparty-init">
     
     <!-- The compile classpath for jboss50 integration -->
-    <path id="xfire50.integration.classpath">
+    <path id="xfire.integration.classpath">
       <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
-      <pathelement location="${jboss50.lib}/dom4j.jar"/>
-      <pathelement location="${jboss50.lib}/jboss-aop-jdk50.jar"/>
-      <pathelement location="${jboss50.lib}/jboss-common-core.jar"/>
-      <pathelement location="${jboss50.lib}/jboss-dependency.jar"/>
-      <pathelement location="${jboss50.lib}/jboss-deployers.jar"/>
-      <pathelement location="${jboss50.lib}/jboss-j2se.jar"/>
-      <pathelement location="${jboss50.lib}/jboss-logging-spi.jar"/>
-      <pathelement location="${jboss50.lib}/jboss-microcontainer.jar"/>
-      <pathelement location="${jboss50.lib}/jboss-system.jar"/>
-      <pathelement location="${jboss50.lib}/jboss-system-jmx.jar"/>
-      <pathelement location="${jboss50.lib}/jboss-vfs.jar"/>
-      <pathelement location="${jboss50.lib}/jboss-xml-binding.jar"/>
-      <pathelement location="${jboss50.server.lib}/jboss.jar"/>
-      <pathelement location="${jboss50.server.lib}/jboss-javaee.jar"/>
-      <pathelement location="${jboss50.server.lib}/jboss-security-spi.jar"/>
-      <pathelement location="${jboss50.server.lib}/jnpserver.jar"/>
-      <pathelement location="${jboss50.server.deployers}/jboss-aop-jboss5.deployer/jboss-aspect-library-jdk50.jar"/>
-      <pathelement location="${jboss50.server.deployers}/ejb3.deployer/jboss-annotations-ejb3.jar"/>
-      <pathelement location="${jboss50.server.deployers}/ejb3.deployer/jboss-ejb3.jar"/>
-      <pathelement location="${jboss50.server.deployers}/ejb3.deployer/jboss-ejb3x.jar"/>
+      <pathelement location="${spi.dir}/thirdparty/dom4j.jar"/>
+      <pathelement location="${spi.dir}/thirdparty/jboss-common-core.jar"/>
+      <pathelement location="${spi.dir}/thirdparty/jboss-logging-spi.jar"/>
       <pathelement location="${thirdparty.dir}/jaxws-api.jar"/>
       <pathelement location="${thirdparty.dir}/servlet-api.jar"/>
       <pathelement location="${thirdparty.dir}/spring.jar"/>
       <pathelement location="${thirdparty.dir}/xfire-all.jar"/>
       <pathelement location="${thirdparty.dir}/xfire-jsr181-api.jar"/>
+    </path>
+    
+    <path id="xfire50.integration.classpath">
+      <path refid="xfire.integration.classpath"/>
+      <pathelement location="${int.jboss50.dir}/output/lib/jbossws-jboss50.jar"/>
+      <pathelement location="${jboss50.server.lib}/jboss.jar"/>
     </path>
     
   </target>

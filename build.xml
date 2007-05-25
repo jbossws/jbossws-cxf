@@ -58,11 +58,21 @@
   <target name="compile" depends="init,compile-classes,compile-etc" description="Compile all source files."/>
   
   <!-- Compile java sources -->
-  <target name="compile-classes" depends="init">
+  <target name="compile-classes" depends="compile-classes-xfire,compile-classes-xfire50"/>
+  <target name="compile-classes-xfire" depends="init">
     <mkdir dir="${xfire.output.classes.dir}"/>
     <javac srcdir="${xfire.java.dir}" sourcepath="" destdir="${xfire.output.classes.dir}" encoding="utf-8" debug="${javac.debug}" verbose="${javac.verbose}"
       deprecation="${javac.deprecation}" failonerror="${javac.fail.onerror}">
       <include name="org/jboss/wsf/stack/xfire/**"/>
+      <classpath refid="xfire.integration.classpath"/>
+    </javac>
+  </target>
+  <target name="compile-classes-xfire50" depends="init" if="jboss50.home">
+    <ant antfile="${int.jboss50.dir}/build.xml" target="jars" inheritall="false"/>
+    <mkdir dir="${xfire.output.classes.dir}"/>
+    <javac srcdir="${xfire.java.dir}" sourcepath="" destdir="${xfire.output.classes.dir}" encoding="utf-8" debug="${javac.debug}" verbose="${javac.verbose}"
+      deprecation="${javac.deprecation}" failonerror="${javac.fail.onerror}">
+      <include name="org/jboss/wsf/stack/xfire50/**"/>
       <classpath refid="xfire50.integration.classpath"/>
     </javac>
   </target>
@@ -95,7 +105,7 @@
   <!--
   | Build all jar files.
   -->
-  <target name="jars" depends="compile,jars-jboss50,jars-jboss42" description="Builds all jar files.">
+  <target name="jars" depends="compile,jars-jboss42,jars-jboss50" description="Builds all jar files.">
   </target>
   
   <target name="jars-common" depends="compile">
@@ -104,6 +114,7 @@
     <mkdir dir="${xfire.output.lib.dir}"/>
     <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire.jar" manifest="${xfire.output.etc.dir}/default.mf">
       <fileset dir="${xfire.output.classes.dir}">
+        <include name="org/jboss/wsf/stack/xfire50/**"/>
         <include name="org/jboss/wsf/stack/xfire/**"/>
       </fileset>
     </jar>

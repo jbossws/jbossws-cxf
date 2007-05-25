@@ -19,16 +19,15 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.xfire;
+package org.jboss.wsf.stack.xfire50;
 
 //$Id$
 
 import org.jboss.metadata.WebMetaData;
 import org.jboss.metadata.web.ParamValue;
-import org.jboss.metadata.web.Servlet;
 import org.jboss.metadata.web.ParamValue.ParamType;
-import org.jboss.wsf.spi.deployment.AbstractDeployer;
 import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.stack.xfire.XFireConfigurableServletExt;
 import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
 
 /**
@@ -37,7 +36,7 @@ import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
  * @author Thomas.Diesler@jboss.org
  * @since 21-Mai-2007
  */
-public class ModifyWebMetaDataDeployer extends AbstractDeployer
+public class ModifyWebMetaDataDeployer extends org.jboss.wsf.container.jboss50.ModifyWebMetaDataDeployer
 {
    private String servletClass;
 
@@ -54,6 +53,8 @@ public class ModifyWebMetaDataDeployer extends AbstractDeployer
    @Override
    public void create(Deployment dep)
    {
+      super.create(dep);
+      
       WebMetaData webMetaData = dep.getContext().getAttachment(WebMetaData.class);
       if (webMetaData != null)
       {
@@ -67,55 +68,18 @@ public class ModifyWebMetaDataDeployer extends AbstractDeployer
          ctxParam.setName(XFireConfigurableServletExt.PARAM_XFIRE_SERVICES_URL);
          ctxParam.setValue(ddbeans.createFileURL().toExternalForm());
          webMetaData.addContextParam(ctxParam);
-
-         for (Servlet servlet : webMetaData.getServlets())
-         {
-            String orgServletClass = servlet.getServletClass();
-
-            // JSP
-            if (orgServletClass == null || orgServletClass.length() == 0)
-            {
-               log.debug("Innore servlet class: " + orgServletClass);
-               continue;
-            }
-
-            if (!isJavaxServlet(orgServletClass, dep.getClassLoader()))
-            {
-               servlet.setServletClass(servletClass);
-            }
-         }
       }
    }
 
    @Override
    public void destroy(Deployment dep)
    {
+      super.destroy(dep);
+      
       DDBeans ddbeans = dep.getContext().getAttachment(DDBeans.class);
       if (ddbeans != null)
       {
          ddbeans.destroyFileURL();
       }
-   }
-
-   private boolean isJavaxServlet(String orgServletClass, ClassLoader loader)
-   {
-      boolean isServlet = false;
-      if (loader != null)
-      {
-         try
-         {
-            Class servletClass = loader.loadClass(orgServletClass);
-            isServlet = javax.servlet.Servlet.class.isAssignableFrom(servletClass);
-            if (isServlet == true)
-            {
-               log.info("Ignore servlet: " + orgServletClass);
-            }
-         }
-         catch (ClassNotFoundException e)
-         {
-            log.warn("Cannot load servlet class: " + orgServletClass);
-         }
-      }
-      return isServlet;
    }
 }

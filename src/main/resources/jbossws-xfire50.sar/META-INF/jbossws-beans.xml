@@ -137,7 +137,7 @@
   <bean name="WSEndpointLifecycleDeployer" class="org.jboss.wsf.spi.deployment.EndpointLifecycleDeployer"/>
   <bean name="WSEndpointNameDeployer" class="org.jboss.wsf.spi.deployment.EndpointNameDeployer"/>
   <bean name="WSEndpointRegistryDeployer" class="org.jboss.wsf.spi.deployment.EndpointRegistryDeployer"/>
-  <bean name="WSModifyWebMetaDataDeployer" class="org.jboss.wsf.stack.xfire.ModifyWebMetaDataDeployer">
+  <bean name="WSModifyWebMetaDataDeployer" class="org.jboss.wsf.stack.xfire50.ModifyWebMetaDataDeployer">
     <property name="servletClass"><inject bean="WSWebAppDesciptorModifier" property="servletClass"/></property>
   </bean>
   <bean name="WSUnifiedDeploymentInfoDeployer" class="org.jboss.wsf.container.jboss50.UnifiedDeploymentInfoDeployer"/>
