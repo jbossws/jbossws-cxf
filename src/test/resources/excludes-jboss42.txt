@@ -1,2 +1,27 @@
+#
+# $Id$
+#
 
-# Nothing to exclude
+org/jboss/test/ws/jaxws/samples/asynchronous/**
+org/jboss/test/ws/jaxws/samples/context/**
+# org/jboss/test/ws/jaxws/samples/eardeployment/**
+org/jboss/test/ws/jaxws/samples/exception/**
+org/jboss/test/ws/jaxws/samples/handlerchain/**
+org/jboss/test/ws/jaxws/samples/httpbinding/**
+org/jboss/test/ws/jaxws/samples/jaxr/**
+org/jboss/test/ws/jaxws/samples/jsr181ejb/**
+org/jboss/test/ws/jaxws/samples/jsr181pojo/**
+org/jboss/test/ws/jaxws/samples/logicalhandler/**
+org/jboss/test/ws/jaxws/samples/oneway/**
+org/jboss/test/ws/jaxws/samples/provider/**
+org/jboss/test/ws/jaxws/samples/retail/**
+org/jboss/test/ws/jaxws/samples/soapbinding/**
+org/jboss/test/ws/jaxws/samples/webmethod/**
+org/jboss/test/ws/jaxws/samples/webparam/**
+org/jboss/test/ws/jaxws/samples/webresult/**
+org/jboss/test/ws/jaxws/samples/webservice/**
+org/jboss/test/ws/jaxws/samples/webserviceref/**
+org/jboss/test/ws/jaxws/samples/wsaddressing/**
+org/jboss/test/ws/jaxws/samples/wseventing/**
+org/jboss/test/ws/jaxws/samples/wssecurity/**
+org/jboss/test/ws/jaxws/samples/xop/**

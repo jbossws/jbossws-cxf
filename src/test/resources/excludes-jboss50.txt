@@ -1,3 +1,6 @@
+#
+# $Id$
+#
 
 org/jboss/test/ws/jaxws/samples/asynchronous/**
 org/jboss/test/ws/jaxws/samples/context/**

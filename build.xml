@@ -96,17 +96,14 @@
   <!--
   | Build all jar files.
   -->
-  <target name="jars" depends="compile,jars-jboss50" description="Builds all jar files.">
+  <target name="jars" depends="compile,jars-jboss50,jars-jboss42" description="Builds all jar files.">
   </target>
   
-  <!--
-  |  Build all jar files.
-  -->
-  <target name="jars-jboss50" depends="compile">
+  <target name="jars-common" depends="compile">
     
-    <!-- Build jbossws-xfire50.jar -->
+    <!-- Build jbossws-xfire.jar -->
     <mkdir dir="${xfire.output.lib.dir}"/>
-    <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire50.jar" manifest="${xfire.output.etc.dir}/default.mf">
+    <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire.jar" manifest="${xfire.output.etc.dir}/default.mf">
       <fileset dir="${xfire.output.classes.dir}">
         <include name="org/jboss/wsf/stack/xfire/**"/>
       </fileset>
@@ -122,6 +119,14 @@
         <include name="jboss-web.xml"/>
       </webinf>
     </war>
+    
+    <!-- Build jbossws-xfire-src.zip -->
+    <zip zipfile="${xfire.output.lib.dir}/jbossws-xfire-src.zip" >
+      <fileset dir="${xfire.java.dir}"/>
+    </zip>
+  </target>
+  
+  <target name="jars-jboss50" depends="jars-common" if="jboss50.home">
     
     <!-- Build jbosswsri.sar -->
     <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire50.sar" manifest="${xfire.output.etc.dir}/default.mf">
@@ -162,13 +167,14 @@
         <include name="META-INF/jbossws-deployer-beans.xml"/>
       </fileset>
     </zip>
-    
-    <!-- Build jbossws-xfire50-src.zip -->
-    <zip zipfile="${xfire.output.lib.dir}/jbossws-xfire50-src.zip" >
-      <fileset dir="${xfire.java.dir}"/>
-    </zip>
-    
    </target>
+  
+  <target name="jars-jboss42" depends="jars-common" if="jboss42.home">
+    
+    <!-- Build jbossws-xfire42.sar -->
+    <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire42.sar" manifest="${xfire.output.etc.dir}/default.mf">
+    </jar>
+  </target>
   
   <!-- ================================================================== -->
   <!-- Miscellaneous                                                       -->
