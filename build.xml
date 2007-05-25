@@ -162,7 +162,7 @@
         <include name="jbossws-jboss50.jar"/>
       </fileset>
       <fileset dir="${xfire.output.lib.dir}">
-        <include name="jbossws-xfire50.jar"/>
+        <include name="jbossws-xfire.jar"/>
       </fileset>
       <fileset dir="${xfire.resources.dir}/jbossws-xfire50.deployer">
         <include name="META-INF/jbossws-deployer-beans.xml"/>
