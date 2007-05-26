@@ -13,6 +13,10 @@
   <property name="tests.output.dir" value="${int.xfire.dir}/output-tests"/>
   <import file="${testsuite.dir}/ant-import/build-testsuite.xml"/>
   
+  <property name="tests.dir" value="${testsuite.dir}/src"/>
+  <property name="tests.java.dir" value="${tests.dir}/java"/>
+  <property name="tests.resources.dir" value="${tests.dir}/resources"/>
+  
   <!-- Define excludesfile -->
   <condition property="excludesfile" value="${int.xfire.dir}/src/test/resources/excludes-jboss50.txt">
     <equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
