@@ -10,11 +10,9 @@
 
 <project>
   
-  <property name="tests.dir" value="${testsuite.dir}/src"/>
   <property name="tests.output.dir" value="${int.xfire.dir}/output-tests"/>
-  
   <import file="${testsuite.dir}/ant-import/build-testsuite.xml"/>
-
+  
   <!-- Define excludesfile -->
   <condition property="excludesfile" value="${int.xfire.dir}/src/test/resources/excludes-jboss50.txt">
     <equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
@@ -22,7 +20,7 @@
   <condition property="excludesfile" value="${int.xfire.dir}/src/test/resources/excludes-jboss42.txt">
     <equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
   </condition>
-  
+
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
@@ -77,7 +75,7 @@
   <!-- ================================================================== -->
 
   <target name="tests-compile" depends="tests-init" description="Compile sources">
-    <macro-compile-classes srcdir="${tests.java.dir}"/>
+    <macro-compile-classes srcdir="${tests.java.dir}" excludesfile="${excludesfile}"/>
   </target>
 
 </project>

@@ -127,7 +127,7 @@
   <!-- ================================================================== -->
   
   <target name="tests-compile" depends="tests-init" description="Compile sources">
-    <macro-compile-classes srcdir="${tests.dir}/java"/>
+    <macro-compile-classes srcdir="${tests.dir}/java" excludesfile="${excludesfile}"/>
   </target>
   
   <!-- ================================================================== -->
