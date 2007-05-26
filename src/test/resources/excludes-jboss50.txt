@@ -4,13 +4,10 @@
 
 org/jboss/test/ws/jaxws/samples/asynchronous/**
 org/jboss/test/ws/jaxws/samples/context/**
-# org/jboss/test/ws/jaxws/samples/eardeployment/**
 org/jboss/test/ws/jaxws/samples/exception/**
 org/jboss/test/ws/jaxws/samples/handlerchain/**
 org/jboss/test/ws/jaxws/samples/httpbinding/**
 org/jboss/test/ws/jaxws/samples/jaxr/**
-org/jboss/test/ws/jaxws/samples/jsr181ejb/**
-org/jboss/test/ws/jaxws/samples/jsr181pojo/**
 org/jboss/test/ws/jaxws/samples/logicalhandler/**
 org/jboss/test/ws/jaxws/samples/oneway/**
 org/jboss/test/ws/jaxws/samples/provider/**
