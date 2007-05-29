@@ -239,9 +239,8 @@
   
   <target name="main" description="Executes the default target (most)." depends="most"/>
   
-  <target name="most" description="Builds almost everything." depends="jars"/>
+  <target name="most" description="Builds almost everything." depends="jars,tests-main"/>
   
-  <target name="all" description="Create a distribution zip file" depends="most,tests-main">
-  </target>
+  <target name="all" description="Create a distribution zip file" depends="most,binary-dist"/>
   
 </project>
