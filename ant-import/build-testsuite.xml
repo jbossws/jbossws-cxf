@@ -70,6 +70,7 @@
     </path>
     
     <path id="tests.extra.classpath">
+      <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
     </path>
     
   </target>
