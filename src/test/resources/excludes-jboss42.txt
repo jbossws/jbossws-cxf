@@ -13,6 +13,7 @@ org/jboss/test/ws/jaxws/samples/oneway/**
 org/jboss/test/ws/jaxws/samples/provider/**
 org/jboss/test/ws/jaxws/samples/retail/**
 org/jboss/test/ws/jaxws/samples/soapbinding/**
+org/jboss/test/ws/jaxws/samples/swaref/**
 org/jboss/test/ws/jaxws/samples/webmethod/**
 org/jboss/test/ws/jaxws/samples/webparam/**
 org/jboss/test/ws/jaxws/samples/webresult/**
