@@ -15,8 +15,8 @@
   
   <import file="${basedir}/build/ant-import/build-setup.xml"/>
   
+  <import file="${int.xfire.dir}/ant-import/build-bin-dist.xml"/>
   <import file="${int.xfire.dir}/ant-import/build-deploy.xml"/>
-  <import file="${int.xfire.dir}/ant-import/build-distro.xml"/>
   <import file="${int.xfire.dir}/ant-import/build-release.xml"/>
   <import file="${int.xfire.dir}/ant-import/build-testsuite.xml"/>
   <import file="${int.xfire.dir}/ant-import/build-thirdparty.xml"/>
@@ -241,6 +241,6 @@
   
   <target name="most" description="Builds almost everything." depends="jars,tests-main"/>
   
-  <target name="all" description="Create a distribution zip file" depends="most,binary-dist"/>
+  <target name="all" description="Create a distribution zip file" depends="most,build-bin-dist"/>
   
 </project>

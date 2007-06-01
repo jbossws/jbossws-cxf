@@ -21,7 +21,7 @@
 	<property name="bin.dir" value="${basedir}/bin"/>
 	<property name="docs.dir" value="${basedir}/docs"/>
 	<property name="lib.dir" value="${basedir}/lib"/>
-	<property name="thirdparty.dir" value="${basedir}/lib/thirdparty"/>
+	<property name="thirdparty.dir" value="${basedir}/lib"/>
 	<property name="tests.dir" value="${basedir}/tests"/>
 	<property name="tests.output.dir" value="${tests.dir}/output"/>
 
@@ -161,16 +161,18 @@
 				jbosslibs="${lib.dir}"
 				stacklibs="${lib.dir}"
 				thirdpartylibs="${lib.dir}"/>
+    
 		<macro-deploy-spi
 				spilibs="${lib.dir}"
 				spiscripts="${bin.dir}"
-				thirdpartylibs="${lib.dir}"/>
+				thirdpartylibs="${lib.dir}"
+        jbosshome="${jboss50.home}"/>
 	</target>
 
 	<!-- Remove jbossws/xfire from jboss50 -->
 	<target name="undeploy-jboss50" depends="prepare" description="Remove jbossws/xfire from jboss50">
 		<macro-undeploy-xfire50/>
-		<macro-undeploy-spi/>
+		<macro-undeploy-spi jbosshome="${jboss50.home}"/>
 	</target>
 
 	<!-- Deploy jbossws/xfire to jboss42 -->
@@ -182,16 +184,18 @@
 				jbosslibs="${lib.dir}"
 				stacklibs="${lib.dir}"
 				thirdpartylibs="${lib.dir}"/>
+    
 		<macro-deploy-spi
 				spilibs="${lib.dir}"
 				spiscripts="${bin.dir}"
-				thirdpartylibs="${lib.dir}"/>
+				thirdpartylibs="${lib.dir}"
+        jbosshome="${jboss42.home}"/>
 	</target>
 
 	<!-- Remove jbossws/xfire from jboss42 -->
 	<target name="undeploy-jboss42" depends="prepare" description="Remove jbossws/xfire from jboss42">
 		<macro-undeploy-xfire42/>
-		<macro-undeploy-spi/>
+		<macro-undeploy-spi jbosshome="${jboss42.home}"/>
 	</target>
 
 	<!-- ================================================================== -->
