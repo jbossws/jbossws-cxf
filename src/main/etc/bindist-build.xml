@@ -12,188 +12,200 @@
 <!-- $Id$ -->
 
 <project default="main" basedir="." name="JBossWS/XFire">
-  
-  <!-- ================================================================== -->
-  <!-- Setup                                                              -->
-  <!-- ================================================================== -->
-  
-  <property name="build.dir" value="${basedir}/build"/>
-  <property name="docs.dir" value="${basedir}/docs"/>
-  <property name="lib.dir" value="${basedir}/lib"/>
-  <property name="thirdparty.dir" value="${basedir}/lib/thirdparty"/>
-  <property name="tests.dir" value="${basedir}/tests"/>
-  <property name="tests.output.dir" value="${tests.dir}/output"/>
-  
-  <property file="${basedir}/ant.properties"/>
-  <property file="${basedir}/version.properties"/>
-  <property file="${build.dir}/version.properties"/>
-  
-  <property name="jboss50.lib" value="${jboss50.home}/lib"/>
-  <property name="jboss50.client" value="${jboss50.home}/client"/>
-  <property name="jboss50.server" value="${jboss50.home}/server/${jboss.server.instance}"/>
-  <property name="jboss50.server.lib" value="${jboss50.server}/lib"/>
-  <property name="jboss50.server.deploy" value="${jboss50.server}/deploy"/>
-  <property name="jboss50.server.deployers" value="${jboss50.server}/deployers"/>
-  
-  <property name="jboss42.lib" value="${jboss42.home}/lib"/>
-  <property name="jboss42.client" value="${jboss42.home}/client"/>
-  <property name="jboss42.server" value="${jboss42.home}/server/${jboss.server.instance}"/>
-  <property name="jboss42.server.lib" value="${jboss42.server}/lib"/>
-  <property name="jboss42.server.deploy" value="${jboss42.server}/deploy"/>
 
-  <property name="jbossws.integration.${jbossws.integration.target}" value="true"/>
- 
-  <property name="jboss50.available.file" value="${jboss50.client}/jboss-ejb3-client.jar"/>
-  <property name="jboss42.available.file" value="${jboss42.client}/jboss-client.jar"/>
-  
-  <available property="jboss50.available" file="${jboss50.available.file}"/>
-  <available property="jboss42.available" file="${jboss42.available.file}"/>
-  
-  <import file="${basedir}/build/build-testsuite.xml"/>
-  <import file="${basedir}/build/macros-deploy-native.xml"/>
-  <import file="${basedir}/build/macros-deploy-sunri.xml"/>
-  <import file="${basedir}/build/macros-deploy-xfire.xml"/>
-  
-  <!-- ================================================================== -->
-  <!-- Initialization                                                     -->
-  <!-- ================================================================== -->
-  
-  <target name="prepare">
-    
-    <!-- Define jboss.home -->
-    <condition property="jboss.home" value="${jboss50.home}">
-      <equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
-    </condition>
-    <condition property="jboss.home" value="${jboss42.home}">
-      <equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
-    </condition>
-    
-    <!-- Define excludesfile -->
-    <condition property="excludesfile" value="${tests.dir}/resources/excludes-jboss50.txt">
-      <equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
-    </condition>
-    <condition property="excludesfile" value="${tests.dir}/resources/excludes-jboss42.txt">
-      <equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
-    </condition>
-    
-  </target>
-  
-  <target name="tests-init" depends="prepare,tests-classpath">
+	<!-- ================================================================== -->
+	<!-- Setup                                                              -->
+	<!-- ================================================================== -->
 
-    <!-- 
-      Cannot use XFire client
-      [JBWS-1654] - ServiceDelegate requires non portable method getPortClassMap
-    -->
-    
-    <path id="sunri.classpath">
-      <pathelement location="${thirdparty.dir}/client/FastInfoset.jar"/>
-      <pathelement location="${thirdparty.dir}/client/http.jar"/>
-      <pathelement location="${thirdparty.dir}/client/jaxws-api.jar"/>
-      <pathelement location="${thirdparty.dir}/client/jaxws-rt.jar"/>
-      <pathelement location="${thirdparty.dir}/client/jaxws-tools.jar"/>
-      <pathelement location="${thirdparty.dir}/client/jsr173_api.jar"/>
-      <pathelement location="${thirdparty.dir}/client/jsr181-api.jar"/>
-      <pathelement location="${thirdparty.dir}/client/jsr250-api.jar"/>
-      <pathelement location="${thirdparty.dir}/client/resolver.jar"/>
-      <pathelement location="${thirdparty.dir}/client/saaj-api.jar"/>
-      <pathelement location="${thirdparty.dir}/client/saaj-impl.jar"/>
-      <pathelement location="${thirdparty.dir}/client/sjsxp.jar"/>
-      <pathelement location="${thirdparty.dir}/client/stax-ex.jar"/>
-      <pathelement location="${thirdparty.dir}/client/streambuffer.jar"/>
-      <pathelement location="${thirdparty.dir}/client/wstx.jar"/>
-    </path>
-    
-    <path id="xfire.classpath">
-      <pathelement location="${thirdparty.dir}/jaxws-api.jar"/>
-      <pathelement location="${thirdparty.dir}/jdom.jar"/>
-      <pathelement location="${thirdparty.dir}/saaj-api.jar"/>
-      <pathelement location="${thirdparty.dir}/saaj-impl.jar"/>
-      <pathelement location="${thirdparty.dir}/wsdl4j.jar"/>
-      <pathelement location="${thirdparty.dir}/xfire-all.jar"/>
-      <pathelement location="${thirdparty.dir}/xfire-jsr181-api.jar"/>
-    </path>
-    
-    <path id="ws.stack.classpath">
-      <path refid="sunri.classpath"/>
-    </path>
-    
-    <path id="tests.extra.classpath">
-      <pathelement location="${lib.dir}/jbossws-spi.jar"/>
-    </path>
-    
-  </target>
-  
-  <!-- ================================================================== -->
-  <!-- Compile                                                            -->
-  <!-- ================================================================== -->
-  
-  <target name="tests-compile" depends="tests-init" description="Compile sources">
-    <macro-compile-classes srcdir="${tests.dir}/java" excludesfile="${excludesfile}"/>
-  </target>
-  
-  <!-- ================================================================== -->
-  <!-- Building                                                           -->
-  <!-- ================================================================== -->
-  
-  <!-- Copy resources -->
-  <target name="tests-copy-resources" depends="tests-init">
-    <macro-copy-resources srcdir="${tests.dir}"/>
-  </target>
-  
-  <target name="tests-jars" depends="tests-compile,tests-copy-resources">
-    <ant antfile="${build.dir}/build-jars-jaxws.xml" target="build-jars-jaxws" inheritall="true"/>
-  </target>
-  
-  <target name="tests-main" depends="tests-jars" description="Build the test deployments."/>
-  
-  <!-- ================================================================== -->
-  <!-- Deployment                                                         -->
-  <!-- ================================================================== -->
-  
-  <!-- Deploy jbossws/xfire to jboss50 -->
-  <target name="deploy-jboss50" depends="prepare" description="Deploy jbossws/xfire to jboss50">
-    <macro-undeploy-native50/>
-    <macro-undeploy-sunri50/>
-    <macro-deploy-xfire50 
-      spilibs="${lib.dir}" 
-      jbosslibs="${lib.dir}" 
-      stacklibs="${lib.dir}" 
-      thirdpartylibs="${lib.dir}/thirdparty"/>
-  </target>
-    
-  <!-- Remove jbossws/xfire from jboss50 -->
-  <target name="undeploy-jboss50" depends="prepare" description="Remove jbossws/xfire from jboss50">
-    <macro-undeploy-xfire50/>
-  </target>
-  
-  <!-- Deploy jbossws/xfire to jboss42 -->
-  <target name="deploy-jboss42" depends="prepare" description="Deploy jbossws/xfire to jboss42">
-    <macro-undeploy-native42/>
-    <macro-undeploy-sunri42/>
-    <macro-deploy-xfire42 
-      spilibs="${lib.dir}" 
-      jbosslibs="${lib.dir}" 
-      stacklibs="${lib.dir}" 
-      thirdpartylibs="${lib.dir}/thirdparty"/>
-  </target>
-    
-  <!-- Remove jbossws/xfire from jboss42 -->
-  <target name="undeploy-jboss42" depends="prepare" description="Remove jbossws/xfire from jboss42">
-    <macro-undeploy-xfire42/>
-  </target>
-  
-  <!-- ================================================================== -->
-  <!-- Miscellaneous                                                       -->
-  <!-- ================================================================== -->
-  
-  <target name="clean" depends="prepare" description="Cleans up most generated files.">
-  </target>
-  
-  <target name="clobber" depends="clean" description="Cleans up all generated files.">
-  </target>
-  
-  <target name="main" depends="most" description="Executes the default target (most)."/>
-  
-  <target name="most" depends="tests-main" description="Builds almost everything."/>
-  
+	<property name="build.dir" value="${basedir}/build"/>
+	<property name="bin.dir" value="${basedir}/bin"/>
+	<property name="docs.dir" value="${basedir}/docs"/>
+	<property name="lib.dir" value="${basedir}/lib"/>
+	<property name="thirdparty.dir" value="${basedir}/lib/thirdparty"/>
+	<property name="tests.dir" value="${basedir}/tests"/>
+	<property name="tests.output.dir" value="${tests.dir}/output"/>
+
+	<property file="${basedir}/ant.properties"/>
+	<property file="${basedir}/version.properties"/>
+	<property file="${build.dir}/version.properties"/>
+
+	<property name="jboss50.lib" value="${jboss50.home}/lib"/>
+	<property name="jboss50.client" value="${jboss50.home}/client"/>
+	<property name="jboss50.server" value="${jboss50.home}/server/${jboss.server.instance}"/>
+	<property name="jboss50.server.lib" value="${jboss50.server}/lib"/>
+	<property name="jboss50.server.deploy" value="${jboss50.server}/deploy"/>
+	<property name="jboss50.server.deployers" value="${jboss50.server}/deployers"/>
+
+	<property name="jboss42.lib" value="${jboss42.home}/lib"/>
+	<property name="jboss42.client" value="${jboss42.home}/client"/>
+	<property name="jboss42.server" value="${jboss42.home}/server/${jboss.server.instance}"/>
+	<property name="jboss42.server.lib" value="${jboss42.server}/lib"/>
+	<property name="jboss42.server.deploy" value="${jboss42.server}/deploy"/>
+
+	<property name="jbossws.integration.${jbossws.integration.target}" value="true"/>
+
+	<property name="jboss50.available.file" value="${jboss50.client}/jboss-ejb3-client.jar"/>
+	<property name="jboss42.available.file" value="${jboss42.client}/jboss-client.jar"/>
+
+	<available property="jboss50.available" file="${jboss50.available.file}"/>
+	<available property="jboss42.available" file="${jboss42.available.file}"/>
+
+	<import file="${basedir}/build/build-testsuite.xml"/>
+	<import file="${basedir}/build/macros-deploy-spi.xml"/>
+	<import file="${basedir}/build/macros-deploy-native.xml"/>
+	<import file="${basedir}/build/macros-deploy-sunri.xml"/>
+	<import file="${basedir}/build/macros-deploy-xfire.xml"/>
+
+	<!-- ================================================================== -->
+	<!-- Initialization                                                     -->
+	<!-- ================================================================== -->
+
+	<target name="prepare">
+
+		<!-- Define jboss.home -->
+		<condition property="jboss.home" value="${jboss50.home}">
+			<equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
+		</condition>
+		<condition property="jboss.home" value="${jboss42.home}">
+			<equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
+		</condition>
+
+		<!-- Define excludesfile -->
+		<condition property="excludesfile" value="${tests.dir}/resources/excludes-jboss50.txt">
+			<equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
+		</condition>
+		<condition property="excludesfile" value="${tests.dir}/resources/excludes-jboss42.txt">
+			<equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
+		</condition>
+
+	</target>
+
+	<target name="tests-init" depends="prepare,tests-classpath">
+
+		<!--
+				Cannot use XFire client
+				[JBWS-1654] - ServiceDelegate requires non portable method getPortClassMap
+			 -->
+
+		<path id="sunri.classpath">
+			<pathelement location="${thirdparty.dir}/client/FastInfoset.jar"/>
+			<pathelement location="${thirdparty.dir}/client/http.jar"/>
+			<pathelement location="${thirdparty.dir}/client/jaxws-api.jar"/>
+			<pathelement location="${thirdparty.dir}/client/jaxws-rt.jar"/>
+			<pathelement location="${thirdparty.dir}/client/jaxws-tools.jar"/>
+			<pathelement location="${thirdparty.dir}/client/jsr173_api.jar"/>
+			<pathelement location="${thirdparty.dir}/client/jsr181-api.jar"/>
+			<pathelement location="${thirdparty.dir}/client/jsr250-api.jar"/>
+			<pathelement location="${thirdparty.dir}/client/resolver.jar"/>
+			<pathelement location="${thirdparty.dir}/client/saaj-api.jar"/>
+			<pathelement location="${thirdparty.dir}/client/saaj-impl.jar"/>
+			<pathelement location="${thirdparty.dir}/client/sjsxp.jar"/>
+			<pathelement location="${thirdparty.dir}/client/stax-ex.jar"/>
+			<pathelement location="${thirdparty.dir}/client/streambuffer.jar"/>
+			<pathelement location="${thirdparty.dir}/client/wstx.jar"/>
+		</path>
+
+		<path id="xfire.classpath">
+			<pathelement location="${thirdparty.dir}/jaxws-api.jar"/>
+			<pathelement location="${thirdparty.dir}/jdom.jar"/>
+			<pathelement location="${thirdparty.dir}/saaj-api.jar"/>
+			<pathelement location="${thirdparty.dir}/saaj-impl.jar"/>
+			<pathelement location="${thirdparty.dir}/wsdl4j.jar"/>
+			<pathelement location="${thirdparty.dir}/xfire-all.jar"/>
+			<pathelement location="${thirdparty.dir}/xfire-jsr181-api.jar"/>
+		</path>
+
+		<path id="ws.stack.classpath">
+			<path refid="sunri.classpath"/>
+		</path>
+
+		<path id="tests.extra.classpath">
+			<pathelement location="${lib.dir}/jbossws-spi.jar"/>
+		</path>
+
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- Compile                                                            -->
+	<!-- ================================================================== -->
+
+	<target name="tests-compile" depends="tests-init" description="Compile sources">
+		<macro-compile-classes srcdir="${tests.dir}/java" excludesfile="${excludesfile}"/>
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- Building                                                           -->
+	<!-- ================================================================== -->
+
+	<!-- Copy resources -->
+	<target name="tests-copy-resources" depends="tests-init">
+		<macro-copy-resources srcdir="${tests.dir}"/>
+	</target>
+
+	<target name="tests-jars" depends="tests-compile,tests-copy-resources">
+		<ant antfile="${build.dir}/build-jars-jaxws.xml" target="build-jars-jaxws" inheritall="true"/>
+	</target>
+
+	<target name="tests-main" depends="tests-jars" description="Build the test deployments."/>
+
+	<!-- ================================================================== -->
+	<!-- Deployment                                                         -->
+	<!-- ================================================================== -->
+
+	<!-- Deploy jbossws/xfire to jboss50 -->
+	<target name="deploy-jboss50" depends="prepare" description="Deploy jbossws/xfire to jboss50">
+		<macro-undeploy-native50/>
+		<macro-undeploy-sunri50/>
+		<macro-deploy-xfire50
+				spilibs="${lib.dir}"
+				jbosslibs="${lib.dir}"
+				stacklibs="${lib.dir}"
+				thirdpartylibs="${lib.dir}"/>
+		<macro-deploy-spi
+				spilibs="${lib.dir}"
+				spiscripts="${bin.dir}"
+				thirdpartylibs="${lib.dir}"/>
+	</target>
+
+	<!-- Remove jbossws/xfire from jboss50 -->
+	<target name="undeploy-jboss50" depends="prepare" description="Remove jbossws/xfire from jboss50">
+		<macro-undeploy-xfire50/>
+		<macro-undeploy-spi/>
+	</target>
+
+	<!-- Deploy jbossws/xfire to jboss42 -->
+	<target name="deploy-jboss42" depends="prepare" description="Deploy jbossws/xfire to jboss42">
+		<macro-undeploy-native42/>
+		<macro-undeploy-sunri42/>
+		<macro-deploy-xfire42
+				spilibs="${lib.dir}"
+				jbosslibs="${lib.dir}"
+				stacklibs="${lib.dir}"
+				thirdpartylibs="${lib.dir}"/>
+		<macro-deploy-spi
+				spilibs="${lib.dir}"
+				spiscripts="${bin.dir}"
+				thirdpartylibs="${lib.dir}"/>
+	</target>
+
+	<!-- Remove jbossws/xfire from jboss42 -->
+	<target name="undeploy-jboss42" depends="prepare" description="Remove jbossws/xfire from jboss42">
+		<macro-undeploy-xfire42/>
+		<macro-undeploy-spi/>
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- Miscellaneous                                                       -->
+	<!-- ================================================================== -->
+
+	<target name="clean" depends="prepare" description="Cleans up most generated files.">
+	</target>
+
+	<target name="clobber" depends="clean" description="Cleans up all generated files.">
+	</target>
+
+	<target name="main" depends="most" description="Executes the default target (most)."/>
+
+	<target name="most" depends="tests-main" description="Builds almost everything."/>
+
 </project>
