@@ -26,16 +26,16 @@
     <sequential>
       <fail message="Not available: ${jboss50.available.file}" unless="jboss50.available"/>
       <copy todir="${jboss50.home}/client" overwrite="true">
-        <fileset dir="@{thirdpartylibs}">
-          <include name="jaxb-api.jar"/>
-          <include name="jaxb-impl.jar"/>
-          <include name="jaxb-xjc.jar"/>
-        </fileset>
         <fileset dir="@{spilibs}">
           <include name="jbossws-spi.jar"/>
         </fileset>
         <fileset dir="@{jbosslibs}">
           <include name="jbossws-jboss50.jar"/>
+        </fileset>
+        <fileset dir="@{thirdpartylibs}">
+          <include name="jaxb-api.jar"/>
+          <include name="jaxb-impl.jar"/>
+          <include name="jaxb-xjc.jar"/>
         </fileset>
       </copy>
       <copy todir="${jboss50.home}/lib" overwrite="true">
@@ -85,16 +85,16 @@
     <sequential>
       <fail message="Not available: ${jboss42.available.file}" unless="jboss42.available"/>
       <copy todir="${jboss42.home}/client" overwrite="true">
-        <fileset dir="@{thirdpartylibs}">
-          <include name="jaxb-api.jar"/>
-          <include name="jaxb-impl.jar"/>
-          <include name="jaxb-xjc.jar"/>
-        </fileset>
         <fileset dir="@{spilibs}">
           <include name="jbossws-spi.jar"/>
         </fileset>
         <fileset dir="@{jbosslibs}">
           <include name="jbossws-jboss42.jar"/>
+        </fileset>
+        <fileset dir="@{thirdpartylibs}">
+          <include name="jaxb-api.jar"/>
+          <include name="jaxb-impl.jar"/>
+          <include name="jaxb-xjc.jar"/>
         </fileset>
       </copy>
       <copy todir="${jboss42.home}/lib" overwrite="true">
