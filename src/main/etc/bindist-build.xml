@@ -85,8 +85,7 @@
 		<!--
 				Cannot use XFire client
 				[JBWS-1654] - ServiceDelegate requires non portable method getPortClassMap
-			 -->
-
+	  -->
 		<path id="sunri.classpath">
 			<pathelement location="${thirdparty.dir}/client/FastInfoset.jar"/>
 			<pathelement location="${thirdparty.dir}/client/http.jar"/>

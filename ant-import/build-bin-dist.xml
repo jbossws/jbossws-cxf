@@ -33,7 +33,7 @@
 		<delete dir="${bindist.dir}"/>
 		<mkdir dir="${bindist.build.dir}"/>
 		<mkdir dir="${bindist.bin.dir}"/>
-		<mkdir dir="${bindist.lib.dir}/thirdparty/client"/>
+		<mkdir dir="${bindist.lib.dir}/client"/>
 		<mkdir dir="${bindist.docs.dir}"/>
 		<mkdir dir="${bindist.tests.dir}"/>
 
@@ -106,9 +106,14 @@
 				<include name="jbossws-xfire50.sar"/>
 				<include name="jbossws-xfire50-deployer.zip"/>
 			</fileset>
-
-			<!-- TODO: Verify this doesnt clash -->
 			<fileset dir="${int.xfire.dir}/thirdparty"/>
+		</copy>
+    
+		<!--
+				Cannot use XFire client
+				[JBWS-1654] - ServiceDelegate requires non portable method getPortClassMap
+	  -->
+		<copy todir="${bindist.lib.dir}/client" overwrite="true">
 			<fileset dir="${int.sunri.dir}/thirdparty"/>
 		</copy>
 
