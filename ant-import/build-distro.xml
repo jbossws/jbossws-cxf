@@ -38,7 +38,11 @@
 		<mkdir dir="${bindist.tests.dir}"/>
 
 		<!-- root -->
-		<copy tofile="${bindist.dir}/ant.properties" file="${build.dir}/dist/ant.properties.example"/>
+		<copy tofile="${bindist.dir}/ant.properties" file="${build.dir}/dist/ant.properties.example">
+      <filterset>
+        <filtersfile file="${build.dir}/ant.properties"/>
+      </filterset>
+    </copy>
 		<copy tofile="${bindist.dir}/build.xml" file="${xfire.etc.dir}/bindist-build.xml"/>
 		<copy todir="${bindist.dir}" file="${xfire.dir}/version.properties"/>
 
