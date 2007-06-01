@@ -45,9 +45,6 @@
         </fileset>
       </copy>
       <copy todir="${jboss50.home}/server/${jboss.server.instance}/lib" overwrite="true">
-        <fileset dir="@{spilibs}">
-          <include name="jbossws-spi.jar"/>
-        </fileset>
         <fileset dir="@{jbosslibs}">
           <include name="jbossws-jboss50.jar"/>
         </fileset>
@@ -72,7 +69,6 @@
           <include name="jbossws-jboss50.jar"/>
         </fileset>
         <fileset dir="${jboss50.home}/server/${jboss.server.instance}/lib">
-          <include name="jbossws-spi.jar"/>
           <include name="jbossws-jboss50.jar"/>
         </fileset>
       </delete>
@@ -109,9 +105,6 @@
         </fileset>
       </copy>
       <copy todir="${jboss42.home}/server/${jboss.server.instance}/lib" overwrite="true">
-        <fileset dir="@{spilibs}">
-          <include name="jbossws-spi.jar"/>
-        </fileset>
         <fileset dir="@{jbosslibs}">
           <include name="jbossws-jboss42.jar"/>
         </fileset>
@@ -133,7 +126,6 @@
           <include name="jbossws-jboss42.jar"/>
         </fileset>
         <fileset dir="${jboss42.home}/server/${jboss.server.instance}/lib">
-          <include name="jbossws-spi.jar"/>
           <include name="jbossws-jboss42.jar"/>
         </fileset>
       </delete>
