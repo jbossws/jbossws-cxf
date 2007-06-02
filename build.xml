@@ -40,7 +40,7 @@
   <!-- ================================================================== -->
   
   <target name="init" depends="prepare,thirdparty">
-    <ant antfile="${spi.dir}/build.xml" target="main" inheritall="false"/>
+    <ant antfile="${spi.dir}/build.xml" target="jars" inheritall="false"/>
   </target>
   
   <!-- ================================================================== -->
@@ -233,7 +233,6 @@
   </target>
   
   <target name="clobber" depends="clean" description="Cleans up all generated files.">
-    <delete dir="${int.xfire.dir}/output-tests"/>
     <delete dir="${int.xfire.dir}/thirdparty"/>
   </target>
   

@@ -10,7 +10,7 @@
 
 <project>
   
-  <property name="tests.output.dir" value="${int.xfire.dir}/output-tests"/>
+  <property name="tests.output.dir" value="${int.xfire.dir}/output/tests"/>
   <import file="${testsuite.dir}/ant-import/build-testsuite.xml"/>
   
   <property name="tests.dir" value="${testsuite.dir}/src"/>

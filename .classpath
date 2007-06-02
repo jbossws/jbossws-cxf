@@ -17,5 +17,5 @@
 	<classpathentry kind="lib" path="thirdparty/xbean-spring.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/integration-jboss50"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jboss-5.0.x"/>
-	<classpathentry kind="output" path="output-eclipse"/>
+	<classpathentry kind="output" path="output/eclipse"/>
 </classpath>
