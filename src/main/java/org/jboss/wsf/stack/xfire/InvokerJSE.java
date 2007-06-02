@@ -48,6 +48,7 @@ public class InvokerJSE implements Invoker
       InvocationHandler invHandler = ep.getInvocationHandler();
 
       Invocation inv = invHandler.createInvocation();
+      //inv.getInvocationContext().addAttachment(WebServiceContext.class, new WebServiceContextJSE(context));
       inv.getInvocationContext().addAttachment(MessageContext.class, context);
       inv.setJavaMethod(m);
       inv.setArgs(params);
