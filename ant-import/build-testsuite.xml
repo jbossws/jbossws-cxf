@@ -18,7 +18,7 @@
   <property name="tests.resources.dir" value="${tests.dir}/resources"/>
   
   <!-- Define excludesfile -->
-  <property name="excludesfile" value="${int.sunri.dir}/src/test/resources/test-excludes.txt"/>
+  <property name="excludesfile" value="${int.xfire.dir}/src/test/resources/test-excludes.txt"/>
 
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
