@@ -129,7 +129,9 @@
   <bean name="WSModifyWebMetaDataDeployer" class="org.jboss.wsf.container.jboss42.ModifyWebMetaDataDeployer">
     <property name="webXMLRewriter"><inject bean="WSWebXMLRewriter"/></property>
   </bean>
-  <bean name="WSUnifiedDeploymentInfoDeployer" class="org.jboss.wsf.container.jboss42.UnifiedDeploymentInfoDeployer"/>
+  <bean name="WSUnifiedDeploymentInfoDeployer" class="org.jboss.wsf.container.jboss42.UnifiedDeploymentInfoDeployer">
+    <property name="deploymentInfoAdapter"><inject bean="WSDeploymentInfoAdapter"/></property>
+  </bean>
   <bean name="WSURLPatternDeployer" class="org.jboss.wsf.spi.deployment.URLPatternDeployer"/>
   <bean name="WSWebAppGeneratorDeployer" class="org.jboss.wsf.spi.deployment.WebAppGeneratorDeployer">
     <property name="securityHandlerEJB3"><inject bean="WSSecurityHandlerEJB3"/></property>
@@ -144,11 +146,19 @@
   </bean>
   
   <!-- Deployer helper beans -->  
+  <bean name="WSApplicationMetaDataAdapterEJB21" class="org.jboss.wsf.container.jboss42.ApplicationMetaDataAdapterEJB21"/>
+  <bean name="WSApplicationMetaDataAdapterEJB3" class="org.jboss.wsf.container.jboss42.ApplicationMetaDataAdapterEJB3"/>
+  <bean name="WSDeploymentInfoAdapter" class="org.jboss.wsf.container.jboss42.DeploymentInfoAdapter">
+    <property name="applicationMetaDataAdapterEJB21"><inject bean="WSApplicationMetaDataAdapterEJB21"/></property>
+    <property name="applicationMetaDataAdapterEJB3"><inject bean="WSApplicationMetaDataAdapterEJB3"/></property>
+    <property name="webMetaDataAdapter"><inject bean="WSWebMetaDataAdapter"/></property>
+  </bean>
   <bean name="WSSecurityHandlerEJB21" class="org.jboss.wsf.container.jboss42.SecurityHandlerEJB21"/>
   <bean name="WSSecurityHandlerEJB3" class="org.jboss.wsf.container.jboss42.SecurityHandlerEJB3"/>
   <bean name="WSWebAppDesciptorModifier" class="org.jboss.wsf.stack.xfire.WebAppDesciptorModifierImpl">
     <property name="servletClass">org.jboss.wsf.stack.xfire.XFireConfigurableServletExt</property>
   </bean>
+  <bean name="WSWebMetaDataAdapter" class="org.jboss.wsf.container.jboss42.WebMetaDataAdapter"/>
   <bean name="WSWebXMLRewriter" class="org.jboss.wsf.spi.deployment.WebXMLRewriter">
     <property name="desciptorModifier"><inject bean="WSWebAppDesciptorModifier"/></property>
   </bean>
