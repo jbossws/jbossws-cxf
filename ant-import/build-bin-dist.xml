@@ -43,7 +43,7 @@
         <filtersfile file="${build.dir}/ant.properties"/>
       </filterset>
     </copy>
-		<copy tofile="${bindist.dir}/build.xml" file="${xfire.etc.dir}/bindist-build.xml"/>
+		<copy tofile="${bindist.dir}/build.xml" file="${xfire.etc.dir}/bin-dist-build.xml"/>
 		<copy todir="${bindist.dir}" file="${xfire.dir}/version.properties"/>
 
 		<!-- build -->

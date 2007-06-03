@@ -71,12 +71,7 @@
 		</condition>
 
 		<!-- Define excludesfile -->
-		<condition property="excludesfile" value="${tests.dir}/resources/excludes-jboss50.txt">
-			<equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
-		</condition>
-		<condition property="excludesfile" value="${tests.dir}/resources/excludes-jboss42.txt">
-			<equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
-		</condition>
+    <property name="excludesfile" value="${tests.dir}/resources/test-excludes.txt"/>
 
 	</target>
 

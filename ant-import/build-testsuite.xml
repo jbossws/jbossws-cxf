@@ -18,12 +18,7 @@
   <property name="tests.resources.dir" value="${tests.dir}/resources"/>
   
   <!-- Define excludesfile -->
-  <condition property="excludesfile" value="${int.xfire.dir}/src/test/resources/excludes-jboss50.txt">
-    <equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
-  </condition>
-  <condition property="excludesfile" value="${int.xfire.dir}/src/test/resources/excludes-jboss42.txt">
-    <equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
-  </condition>
+  <property name="excludesfile" value="${int.sunri.dir}/src/test/resources/test-excludes.txt"/>
 
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
