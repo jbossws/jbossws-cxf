@@ -44,6 +44,7 @@
       </filterset>
     </copy>
 		<copy tofile="${bindist.dir}/build.xml" file="${xfire.etc.dir}/bin-dist-build.xml"/>
+		<copy tofile="${bindist.build.dir}/build-deploy.xml" file="${xfire.etc.dir}/bin-dist-deploy.xml"/>
 		<copy todir="${bindist.dir}" file="${xfire.dir}/version.properties"/>
 
 		<!-- build -->
