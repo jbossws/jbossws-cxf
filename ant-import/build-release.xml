@@ -17,6 +17,20 @@
   <target name="release" depends="jars" 
     description="Release to jboss.local.repository">
 
+    <!-- jboss/jbossws-xfire50 -->
+    <property name="jboss.repository.dir" value="${jboss.local.repository}/jboss"/>
+    <mkdir dir="${jboss.repository.dir}/jbossws-xfire50/${repository.id}/lib"/>
+    <copy todir="${jboss.repository.dir}/jbossws-xfire50/${repository.id}/lib" overwrite="true">
+      <fileset dir="${int.xfire.dir}/output/lib">
+        <include name="jbossws-xfire50.sar"/>
+        <include name="jbossws-xfire50-deployer.zip"/>
+      </fileset>
+    </copy>
+    <copy tofile="${jboss.repository.dir}/jbossws-xfire50/${repository.id}/component-info.xml" file="${xfire.etc.dir}/component-info50.xml" filtering="true" overwrite="true">
+      <filterset>
+        <filtersfile file="${build.dir}/version.properties"/>
+      </filterset>
+    </copy>
    
   </target>
 
