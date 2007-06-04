@@ -31,6 +31,7 @@
   <property name="xfire.java.dir" value="${xfire.src.dir}/java"/>
   <property name="xfire.resources.dir" value="${xfire.src.dir}/resources"/>
   <property name="xfire.output.dir" value="${xfire.dir}/output"/>
+  <property name="xfire.output.apidocs.dir" value="${xfire.output.dir}/apidocs"/>
   <property name="xfire.output.classes.dir" value="${xfire.output.dir}/classes"/>
   <property name="xfire.output.etc.dir" value="${xfire.output.dir}/etc"/>
   <property name="xfire.output.lib.dir" value="${xfire.output.dir}/lib"/>
@@ -223,7 +224,24 @@
       </metainf>
     </jar>
   </target>
-  
+
+	<!-- Generate the JavaDoc -->
+   <target name="javadoc" depends="init" description="Generate the Javadoc">
+
+		<mkdir dir="${xfire.output.apidocs.dir}"/>
+      <javadoc destdir="${xfire.output.apidocs.dir}" author="true" version="true" use="true" windowtitle="JBossWS API">
+         <classpath>
+				<path refid="xfire.integration.classpath"/>
+				<path refid="xfire50.integration.classpath"/>
+			</classpath>
+         <packageset dir="${xfire.java.dir}" defaultexcludes="yes">
+            <include name="org/jboss/wsf/**"/>
+         </packageset>
+         <doctitle><![CDATA[<h1>JBoss Web Service Framework - Stack integration XFire</h1>]]></doctitle>
+         <tag name="todo" scope="all" description="To do:"/>
+		</javadoc>
+   </target>
+
   <!-- ================================================================== -->
   <!-- Miscellaneous                                                       -->
   <!-- ================================================================== -->
