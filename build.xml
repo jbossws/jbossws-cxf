@@ -229,7 +229,13 @@
    <target name="javadoc" depends="init" description="Generate the Javadoc">
 
 		<mkdir dir="${xfire.output.apidocs.dir}"/>
-      <javadoc destdir="${xfire.output.apidocs.dir}" author="true" version="true" use="true" windowtitle="JBossWS API ${version.id} ">
+
+		<!-- expand the xfire sources -->
+		<mkdir dir="${xfire.output.dir}/thirdparty-sources"/>
+		<unzip src="${thirdparty.dir}/xfire-distribution-sources.jar" dest="${xfire.output.dir}/thirdparty-sources"/>
+
+
+		<javadoc destdir="${xfire.output.apidocs.dir}" author="true" version="true" use="true" windowtitle="JBossWS API ${version.id} ">
          <classpath>
 				<pathelement path="${xfire.integration.classpath}"/>
 				<pathelement path="${xfire50.integration.classpath}"/>				
@@ -240,6 +246,9 @@
          <packageset dir="${xfire.java.dir}" defaultexcludes="yes">
             <include name="org/jboss/wsf/**"/>
          </packageset>
+			<packageset dir="${xfire.output.dir}/thirdparty-sources" defaultexcludes="yes">
+				<include name="org/codehaus/**"/>
+			</packageset>
 			<packageset dir="${spi.dir}/src/main/java">
 				<include name="org/jboss/wsf/**"/>
 				<include name="org/jboss/ws/**"/>
