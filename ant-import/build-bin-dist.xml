@@ -29,6 +29,7 @@
 		<property name="bindist.lib.dir" value="${bindist.dir}/lib"/>
 		<property name="bindist.docs.dir" value="${bindist.dir}/docs"/>
 		<property name="bindist.tests.dir" value="${bindist.dir}/tests"/>
+		<property name="bindist.tools.dir" value="${bindist.dir}/tools"/>
 
 		<delete dir="${bindist.dir}"/>
 		<mkdir dir="${bindist.build.dir}"/>
@@ -36,6 +37,7 @@
 		<mkdir dir="${bindist.lib.dir}/client"/>
 		<mkdir dir="${bindist.docs.dir}"/>
 		<mkdir dir="${bindist.tests.dir}"/>
+		<mkdir dir="${bindist.tools.dir}"/>
 
 		<!-- root -->
 		<copy tofile="${bindist.dir}/ant.properties" file="${build.dir}/dist/ant.properties.example">
@@ -128,6 +130,18 @@
 			<fileset dir="${int.xfire.dir}/src/test"/>
 		</copy>
 
+		<!-- build tools -->
+		<copy todir="${bindist.tools.dir}" overwrite="true">
+			<fileset dir="${build.dir}/tools/ant"/>
+		</copy>
+		<copy todir="${bindist.dir}" overwrite="true">
+			<fileset dir="${build.dir}">
+				<include name="build.bat"/>
+				<include name="build.sh"/>
+			</fileset>
+		</copy>
+		<chmod file="${bindist.dir}/build.sh" perm="+x"/>
+		
 		<zip destfile="${xfire.output.dir}/jbossws-xfire-${version.id}.zip">
 			<fileset dir="${xfire.output.dir}" includes="jbossws-xfire-${version.id}/**"/>
 		</zip>
