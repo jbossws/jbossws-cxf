@@ -26,12 +26,11 @@
 				jbosslibs="${lib.dir}"
 				stacklibs="${lib.dir}"
 				thirdpartylibs="${lib.dir}"/>
-    
+
 		<macro-deploy-spi
 				spilibs="${lib.dir}"
-				spiscripts="${bin.dir}"
 				thirdpartylibs="${lib.dir}"
-        jbosshome="${jboss50.home}"/>
+				jbosshome="${jboss50.home}"/>
 	</target>
 
 	<!-- Remove jbossws/xfire from jboss50 -->
@@ -49,12 +48,11 @@
 				jbosslibs="${lib.dir}"
 				stacklibs="${lib.dir}"
 				thirdpartylibs="${lib.dir}"/>
-    
+
 		<macro-deploy-spi
 				spilibs="${lib.dir}"
-				spiscripts="${bin.dir}"
 				thirdpartylibs="${lib.dir}"
-        jbosshome="${jboss42.home}"/>
+				jbosshome="${jboss42.home}"/>
 	</target>
 
 	<!-- Remove jbossws/xfire from jboss42 -->
