@@ -75,7 +75,7 @@
 		</copy>
 
 		<copy todir="${bindist.bin.dir}">
-			<fileset dir="${spi.dir}/etc">
+			<fileset dir="${spi.dir}/src/main/etc">
 				<include name="*.sh"/>
 				<include name="*.bat"/>
 			</fileset>
