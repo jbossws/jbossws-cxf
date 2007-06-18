@@ -31,8 +31,7 @@
       thirdpartylibs="${int.xfire.dir}/thirdparty"/>
 
 		<macro-deploy-spi
-				spilibs="${spi.dir}/output/lib"
-				spiscripts="${spi.dir}/etc"
+				spilibs="${spi.dir}/output/lib"				
 				thirdpartylibs="${spi.dir}/thirdparty"
 				jbosshome="${jboss50.home}"/>
   </target>
@@ -54,8 +53,7 @@
       thirdpartylibs="${int.xfire.dir}/thirdparty"/>
     
 		<macro-deploy-spi
-				spilibs="${spi.dir}/output/lib"
-				spiscripts="${spi.dir}/etc"
+				spilibs="${spi.dir}/output/lib"				
 				thirdpartylibs="${spi.dir}/thirdparty"
 				jbosshome="${jboss42.home}"/>
   </target>
