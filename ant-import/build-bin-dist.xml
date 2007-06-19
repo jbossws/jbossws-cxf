@@ -97,6 +97,7 @@
 		<copy todir="${bindist.lib.dir}" overwrite="true">
 			<fileset dir="${spi.dir}/output/lib">
 				<include name="jbossws-spi.jar"/>
+				<include name="jbossws-spi-scripts.zip"/>
 			</fileset>
 			<fileset dir="${spi.dir}/thirdparty">
 				<include name="getopt.jar"/>
