@@ -101,6 +101,7 @@
 			</fileset>
 			<fileset dir="${spi.dir}/thirdparty">
 				<include name="getopt.jar"/>
+				<include name="wsdl4j.jar"/>
 			</fileset>
 			<fileset dir="${int.jboss42.dir}/output/lib">
 				<include name="jbossws-jboss42.jar"/>
