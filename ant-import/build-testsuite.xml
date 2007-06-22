@@ -48,6 +48,7 @@
       <pathelement location="${int.sunri.dir}/thirdparty/stax-ex.jar"/>
       <pathelement location="${int.sunri.dir}/thirdparty/streambuffer.jar"/>
       <pathelement location="${int.sunri.dir}/thirdparty/wstx.jar"/>
+      <pathelement location="${int.sunri.dir}/thirdparty/wsdl4j.jar"/>
     </path>
     
     <path id="xfire.classpath">

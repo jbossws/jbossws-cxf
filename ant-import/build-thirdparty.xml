@@ -61,6 +61,7 @@
     <get src="${jboss.repository}/xfire/${xfire}/lib/xfire-all.jar" dest="${thirdparty.dir}/xfire-all.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/xfire/${xfire}/lib/xfire-distribution-sources.jar" dest="${thirdparty.dir}/xfire-distribution-sources.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/xfire/${xfire}/lib/xfire-jsr181-api.jar" dest="${thirdparty.dir}/xfire-jsr181-api.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j.jar" dest="${thirdparty.dir}/wsdl4j.jar" usetimestamp="true" verbose="true"/>
     
     <checksum file="${int.xfire.dir}/version.properties" fileext=".md5"/>
   </target>

@@ -122,6 +122,7 @@
         <entry><key>JAXWS_EJB3</key><value>org.jboss.wsf.container.jboss42.InvocationHandlerEJB3</value></entry>
       </map>
     </property>
+    <property name="invocationExceptionHandler">org.jboss.wsf.spi.invocation.UnwrapInvocationExceptionHandler</property>
   </bean>
   <bean name="WSEndpointLifecycleDeployer" class="org.jboss.wsf.spi.deployment.EndpointLifecycleDeployer"/>
   <bean name="WSEndpointNameDeployer" class="org.jboss.wsf.spi.deployment.EndpointNameDeployer"/>
