@@ -3,7 +3,7 @@
 <deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd" xmlns="urn:jboss:bean-deployer">
   
   <!-- An abstraction of server configuration aspects. -->  
-  <bean name="WSServerConfig" class="org.jboss.wsf.container.jboss42.ManagedServerConfig">
+  <bean name="WSServerConfig" class="org.jboss.wsf.spi.management.BasicServerConfig">
     <!--
         The WSDL, that is a required deployment artifact for an endpoint, has a <soap:address>
         element which points to the location of the endpoint. JBoss supports rewriting of that SOAP address.
