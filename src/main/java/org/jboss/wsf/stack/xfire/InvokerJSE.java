@@ -32,6 +32,7 @@ import org.codehaus.xfire.service.invoker.Invoker;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.Invocation;
+import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 
 /**
@@ -48,16 +49,17 @@ public class InvokerJSE implements Invoker
       InvocationHandler invHandler = ep.getInvocationHandler();
 
       Invocation inv = invHandler.createInvocation();
+      InvocationContext invContext = inv.getInvocationContext();
       //inv.getInvocationContext().addAttachment(WebServiceContext.class, new WebServiceContextJSE(context));
-      inv.getInvocationContext().addAttachment(MessageContext.class, context);
+      invContext.addAttachment(MessageContext.class, context);
       inv.setJavaMethod(m);
       inv.setArgs(params);
 
       Object retObj = null;
       try
       {
-         Object targetBean = getTargetBean(ep);
-         invHandler.invoke(ep, targetBean, inv);
+         invContext.setTargetBean(getTargetBean(ep));
+         invHandler.invoke(ep, inv);
          retObj = inv.getReturnValue();
       }
       catch (Exception ex)

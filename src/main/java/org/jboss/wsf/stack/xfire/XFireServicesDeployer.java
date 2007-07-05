@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.xfire;
 
 //$Id$
 
+import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.AbstractDeployer;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -39,6 +40,9 @@ import org.jboss.wsf.stack.xfire.metadata.services.DDService;
  */
 public class XFireServicesDeployer extends AbstractDeployer
 {
+   // provide logging
+   private static final Logger log = Logger.getLogger(XFireServicesDeployer.class);
+   
    private String serviceFactory;
    private String invokerEJB3;
    private String invokerJSE;
@@ -69,7 +73,7 @@ public class XFireServicesDeployer extends AbstractDeployer
       for (Endpoint ep : dep.getService().getEndpoints())
       {
          String epName = ep.getShortName();
-         String targetBean = ep.getTargetBean();
+         String targetBean = ep.getTargetBeanName();
 
          DDService ddser = new DDService(epName, targetBean);
          ddser.setServiceFactory(serviceFactory);

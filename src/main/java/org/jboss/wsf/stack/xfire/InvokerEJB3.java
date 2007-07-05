@@ -55,7 +55,7 @@ public class InvokerEJB3 implements Invoker
       Object retObj = null;
       try
       {
-         invHandler.invoke(ep, null, inv);
+         invHandler.invoke(ep, inv);
          retObj = inv.getReturnValue();
       }
       catch (Exception ex)
