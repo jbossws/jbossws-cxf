@@ -21,10 +21,10 @@
  */
 package org.jboss.wsf.stack.xfire;
 
-//$Id$
+//$Id: XFireServicesDeployer.java 3802 2007-07-05 16:44:32Z thomas.diesler@jboss.com $
 
 import org.jboss.logging.Logger;
-import org.jboss.wsf.spi.deployment.AbstractDeployer;
+import org.jboss.wsf.spi.deployment.DeploymentAspect;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
@@ -38,10 +38,10 @@ import org.jboss.wsf.stack.xfire.metadata.services.DDService;
  * @author Thomas.Diesler@jboss.org
  * @since 10-May-2007
  */
-public class XFireServicesDeployer extends AbstractDeployer
+public class XFireServicesDeploymentAspect extends DeploymentAspect
 {
    // provide logging
-   private static final Logger log = Logger.getLogger(XFireServicesDeployer.class);
+   private static final Logger log = Logger.getLogger(XFireServicesDeploymentAspect.class);
    
    private String serviceFactory;
    private String invokerEJB3;

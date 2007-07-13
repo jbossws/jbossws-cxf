@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.xfire50;
 
-//$Id$
+//$Id: ModifyWebMetaDataDeployer.java 3259 2007-05-25 16:12:14Z thomas.diesler@jboss.com $
 
 import org.jboss.metadata.WebMetaData;
 import org.jboss.metadata.web.ParamValue;
@@ -36,7 +36,7 @@ import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
  * @author Thomas.Diesler@jboss.org
  * @since 21-Mai-2007
  */
-public class ModifyWebMetaDataDeployer extends org.jboss.wsf.container.jboss50.ModifyWebMetaDataDeployer
+public class ModifyWebMetaDataDeploymentAspect extends org.jboss.wsf.container.jboss50.ModifyWebMetaDataDeploymentAspect
 {
    @Override
    public void create(Deployment dep)
