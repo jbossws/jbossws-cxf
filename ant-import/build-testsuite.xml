@@ -62,11 +62,11 @@
     </path>
     
     <path id="ws.stack.classpath">
+      <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
       <path refid="sunri.classpath"/>
     </path>
     
     <path id="tests.extra.classpath">
-      <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
     </path>
     
   </target>
