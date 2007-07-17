@@ -132,7 +132,7 @@
     <ant antfile="${int.jboss50.dir}/build.xml" target="jars" inheritall="false"/>
     
     <!-- Concat jbossws-beans.xml -->
-    <concat destfile="${sunri.output.lib.dir}/jbossws-xfire50/jbossws-beans.xml">
+    <concat destfile="${xfire.output.lib.dir}/jbossws-xfire50/jbossws-beans.xml">
       <header trimleading="yes">
         &lt;deployment xmlns="urn:jboss:bean-deployer:2.0"&gt;
       </header>
@@ -240,16 +240,15 @@
 
 
 		<javadoc destdir="${xfire.output.apidocs.dir}" author="true" version="true" use="true" windowtitle="JBossWS API ${version.id} ">
-         <classpath>
-				<pathelement path="${xfire.integration.classpath}"/>
-				<pathelement path="${xfire50.integration.classpath}"/>				
+      <classpath>
+			  <pathelement path="${xfire.integration.classpath}"/>
 				<fileset dir="${spi.dir}/thirdparty">
 					<include name="**/*.jar"/>
 				</fileset>
 			</classpath>
-         <packageset dir="${xfire.java.dir}" defaultexcludes="yes">
-            <include name="org/jboss/wsf/**"/>
-         </packageset>
+      <packageset dir="${xfire.java.dir}" defaultexcludes="yes">
+        <include name="org/jboss/wsf/**"/>
+      </packageset>
 			<packageset dir="${xfire.output.dir}/thirdparty-sources" defaultexcludes="yes">
 				<include name="org/codehaus/**"/>
 			</packageset>
@@ -266,9 +265,7 @@
 			<group title="Stack integration" packages="org.jboss.wsf.stack*"/>
 			<group title="SPI" packages="org.jboss.wsf.spi*, org.jboss.ws.integration*"/>
 			<group title="Container integration" packages="org.jboss.wsf.container*"/>
-
-
-         <tag name="todo" scope="all" description="To do:"/>
+      <tag name="todo" scope="all" description="To do:"/>
 		</javadoc>
    </target>
 
