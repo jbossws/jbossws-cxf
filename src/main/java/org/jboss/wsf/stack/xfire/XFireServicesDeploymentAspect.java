@@ -23,10 +23,14 @@ package org.jboss.wsf.stack.xfire;
 
 //$Id: XFireServicesDeployer.java 3802 2007-07-05 16:44:32Z thomas.diesler@jboss.com $
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jboss.logging.Logger;
-import org.jboss.wsf.spi.deployment.DeploymentAspect;
 import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.deployment.DeploymentAspect;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.WebAppDesciptorModifier;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.stack.xfire.metadata.services.DDBean;
 import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
@@ -96,6 +100,15 @@ public class XFireServicesDeploymentAspect extends DeploymentAspect
          dd.addService(ddser);
       }
       dep.getContext().addAttachment(DDBeans.class, dd);
+      
+      String propKey = WebAppDesciptorModifier.CONTEXT_PARAMETER_MAP;
+      Map<String, String> contextParams = (Map<String, String>)dep.getContext().getProperty(propKey);
+      if (contextParams == null)
+      {
+         contextParams = new HashMap<String, String>();
+         dep.getContext().setProperty(propKey, contextParams);
+      }
+      contextParams.put(XFireConfigurableServletExt.PARAM_XFIRE_SERVICES_URL, dd.createFileURL().toExternalForm());
    }
 
 

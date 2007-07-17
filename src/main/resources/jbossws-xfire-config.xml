@@ -1,0 +1,76 @@
+  
+  <!-- An abstraction of server configuration aspects. -->  
+  <bean name="WSServerConfig" class="org.jboss.wsf.spi.management.BasicServerConfig">
+    <!--
+        The WSDL, that is a required deployment artifact for an endpoint, has a <soap:address>
+        element which points to the location of the endpoint. JBoss supports rewriting of that SOAP address.
+      
+        If the content of <soap:address> is a valid URL, JBossWS will not rewrite it unless 'modifySOAPAddress' is true.
+        If the content of <soap:address> is not a valid URL, JBossWS will rewrite it using the attribute values given below.
+        
+        If 'webServiceHost' is not set, JBossWS uses requesters protocol host and port when rewriting the <soap:address>.
+    -->
+    <property name="webServiceHost">${jboss.bind.address}</property>
+    <property name="modifySOAPAddress">true</property>
+    
+    <!-- 
+      Set these properties to explicitly define the ports that will be used for rewriting the SOAP address.
+      Otherwise the ports will be identified by querying the list of installed connectors. 
+      If multiple connectors are found the port of the first connector is used.
+      <property name="webServiceSecurePort">8443</property>
+      <property name="webServicePort">8080</property>
+    -->
+  </bean>
+
+  <!-- The registry for web service endpoints -->
+  <!-- The registry for web service endpoints -->
+  <bean name="WSEndpointRegistry" class="org.jboss.wsf.stack.xfire.ManagedEndpointRegistry"/>
+  
+  <!-- 
+    The stack specific deployment aspects
+  --> 
+  <bean name="WSXFireContextPropertiesDeploymentAspect" class="org.jboss.wsf.spi.deployment.ContextPropertiesDeploymentAspect">
+    <property name="provides">ContextProperties</property>
+    <property name="contextProperties">
+      <map keyClass="java.lang.String" valueClass="java.lang.String">
+        <entry><key>ServletClass</key><value>org.jboss.wsf.stack.xfire.XFireConfigurableServletExt</value></entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean name="WSXFireEndpointHandlerDeploymentAspect" class="org.jboss.wsf.spi.deployment.EndpointHandlerDeploymentAspect">
+    <property name="requires">ContainerEndpointHandler</property>
+    <property name="provides">StackEndpointHandler</property>
+    <property name="requestHandler">org.jboss.wsf.stack.xfire.RequestHandlerImpl</property>
+    <property name="lifecycleHandler">org.jboss.wsf.stack.xfire.LifecycleHandlerImpl</property>
+  </bean>
+
+  <bean name="WSXFireServicesDeploymentAspect" class="org.jboss.wsf.stack.xfire.XFireServicesDeploymentAspect">
+    <property name="provides">StackDescriptor</property>
+    <property name="serviceFactory">org.codehaus.xfire.jaxws.JAXWSServiceFactory</property>
+    <property name="invokerEJB3">org.jboss.wsf.stack.xfire.InvokerEJB3</property>
+    <property name="invokerJSE">org.jboss.wsf.stack.xfire.InvokerJSE</property>
+  </bean>
+
+  <!-- Deployment aspect installers -->  
+  <bean name="WSMetroDeploymentAspectInstallerJSE" class="org.jboss.wsf.spi.deployment.DeploymentAspectInstaller">
+    <property name="manager"><inject bean="WSDeploymentAspectManagerJSE"/></property>
+    <property name="aspects">
+      <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">
+        <inject bean="WSXFireContextPropertiesDeploymentAspect"/>
+        <inject bean="WSXFireEndpointHandlerDeploymentAspect"/>
+        <inject bean="WSXFireServicesDeploymentAspect"/>
+      </set>
+    </property>
+  </bean>
+  <bean name="WSMetroDeploymentAspectInstallerEJB" class="org.jboss.wsf.spi.deployment.DeploymentAspectInstaller">
+    <property name="manager"><inject bean="WSDeploymentAspectManagerEJB"/></property>
+    <property name="aspects">
+      <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">
+        <inject bean="WSXFireContextPropertiesDeploymentAspect"/>
+        <inject bean="WSXFireEndpointHandlerDeploymentAspect"/>
+        <inject bean="WSXFireServicesDeploymentAspect"/>
+      </set>
+    </property>
+  </bean>
+    

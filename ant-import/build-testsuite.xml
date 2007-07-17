@@ -18,6 +18,9 @@
   <property name="tests.resources.dir" value="${tests.dir}/resources"/>
   
   <!-- Define excludesfile -->
+  <condition property="excludesfile" value="${int.xfire.dir}/src/test/resources/test-excludes-${jbossws.integration.target}.txt">
+    <available file="${int.xfire.dir}/src/test/resources/test-excludes-${jbossws.integration.target}.txt"/>
+  </condition>
   <property name="excludesfile" value="${int.xfire.dir}/src/test/resources/test-excludes.txt"/>
 
   <!-- ================================================================== -->

@@ -36,6 +36,7 @@ org/jboss/test/ws/jaxws/samples/logicalhandler/**
 
 # [JBWS-1684] Fix @WebServiceRef with XFire
 org/jboss/test/ws/jaxws/samples/retail/**
+org/jboss/test/ws/jaxws/samples/serviceref/**
 org/jboss/test/ws/jaxws/samples/webserviceref/**
 
 # [JBWS-1689] Add support for SwaRef

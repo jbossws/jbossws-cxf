@@ -85,7 +85,7 @@ public class WebAppDesciptorModifierImpl implements WebAppDesciptorModifier
          Class orgServletClass = null;
          try
          {
-            ClassLoader loader = dep.getClassLoader();
+            ClassLoader loader = dep.getInitialClassLoader();
             orgServletClass = loader.loadClass(orgServletClassName);
          }
          catch (ClassNotFoundException ex)

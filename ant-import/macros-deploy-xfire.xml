@@ -50,7 +50,7 @@
         </fileset>
       </copy>
       <mkdir dir="${jboss50.home}/server/${jboss.server.instance}/deployers/jbossws.deployer"/>
-      <unzip dest="${jboss50.home}/server/${jboss.server.instance}/deployers/jbossws.deployer" src="@{stacklibs}/jbossws-xfire50-deployer.zip"/>
+      <unzip dest="${jboss50.home}/server/${jboss.server.instance}/deployers/jbossws.deployer" src="@{jbosslibs}/jbossws-jboss50-deployer.zip"/>
       <mkdir dir="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
       <unjar dest="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar" src="@{stacklibs}/jbossws-xfire50.sar"/>
       <copy tofile="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-context.war" file="@{stacklibs}/jbossws-context.war" overwrite="true"/>

@@ -59,22 +59,13 @@
   <target name="compile" depends="init,compile-classes,compile-etc" description="Compile all source files."/>
   
   <!-- Compile java sources -->
-  <target name="compile-classes" depends="compile-classes-xfire,compile-classes-xfire50"/>
+  <target name="compile-classes" depends="compile-classes-xfire"/>
   <target name="compile-classes-xfire" depends="init">
     <mkdir dir="${xfire.output.classes.dir}"/>
     <javac srcdir="${xfire.java.dir}" sourcepath="" destdir="${xfire.output.classes.dir}" encoding="utf-8" debug="${javac.debug}" verbose="${javac.verbose}"
       deprecation="${javac.deprecation}" failonerror="${javac.fail.onerror}">
       <include name="org/jboss/wsf/stack/xfire/**"/>
       <classpath refid="xfire.integration.classpath"/>
-    </javac>
-  </target>
-  <target name="compile-classes-xfire50" depends="init" if="jboss50.home">
-    <ant antfile="${int.jboss50.dir}/build.xml" target="jars" inheritall="false"/>
-    <mkdir dir="${xfire.output.classes.dir}"/>
-    <javac srcdir="${xfire.java.dir}" sourcepath="" destdir="${xfire.output.classes.dir}" encoding="utf-8" debug="${javac.debug}" verbose="${javac.verbose}"
-      deprecation="${javac.deprecation}" failonerror="${javac.fail.onerror}">
-      <include name="org/jboss/wsf/stack/xfire50/**"/>
-      <classpath refid="xfire50.integration.classpath"/>
     </javac>
   </target>
   
@@ -115,7 +106,6 @@
     <mkdir dir="${xfire.output.lib.dir}"/>
     <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire.jar" manifest="${xfire.output.etc.dir}/default.mf">
       <fileset dir="${xfire.output.classes.dir}">
-        <include name="org/jboss/wsf/stack/xfire50/**"/>
         <include name="org/jboss/wsf/stack/xfire/**"/>
       </fileset>
     </jar>
@@ -141,6 +131,17 @@
     
     <ant antfile="${int.jboss50.dir}/build.xml" target="jars" inheritall="false"/>
     
+    <!-- Concat jbossws-beans.xml -->
+    <concat destfile="${sunri.output.lib.dir}/jbossws-xfire50/jbossws-beans.xml">
+      <header trimleading="yes">
+        &lt;deployment xmlns="urn:jboss:bean-deployer:2.0"&gt;
+      </header>
+      <fileset file="${xfire.resources.dir}/jbossws-xfire-config.xml"/>
+      <footer trimleading="yes">
+        &lt;/deployment&gt;
+      </footer>
+    </concat>
+    
     <!-- Build jbosswsri.sar -->
     <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire50.sar" manifest="${xfire.output.etc.dir}/default.mf">
       <!-- [JBAS-4379] MC beans deployed twice because of jacc service
@@ -163,28 +164,31 @@
         <include name="xfire-all.jar"/>
         <include name="xfire-jsr181-api.jar"/>
       </fileset>
-      <metainf dir="${xfire.resources.dir}/jbossws-xfire50.sar/META-INF">
+      <fileset dir="${xfire.output.lib.dir}">
+        <include name="jbossws-xfire.jar"/>
+      </fileset>
+      <metainf dir="${xfire.output.lib.dir}/jbossws-xfire50">
         <include name="jbossws-beans.xml"/>
       </metainf>
     </jar>
     
-    <!-- Build jbossws-xfire50-deployer -->
-    <zip zipfile="${xfire.output.lib.dir}/jbossws-xfire50-deployer.zip">
-      <fileset dir="${int.jboss50.dir}/output/lib">
-        <include name="jbossws-jboss50.jar"/>
-      </fileset>
-      <fileset dir="${xfire.output.lib.dir}">
-        <include name="jbossws-xfire.jar"/>
-      </fileset>
-      <fileset dir="${xfire.resources.dir}/jbossws-xfire50.deployer">
-        <include name="META-INF/jbossws-deployer-beans.xml"/>
-      </fileset>
-    </zip>
    </target>
   
   <target name="jars-jboss42" depends="jars-common" if="jboss42.home">
     
     <ant antfile="${int.jboss42.dir}/build.xml" target="jars" inheritall="false"/>
+    
+    <!-- Concat jboss-beans.xml -->
+    <concat destfile="${xfire.output.lib.dir}/jbossws-xfire42/jbossws.beans/META-INF/jboss-beans.xml">
+      <header trimleading="yes">
+        &lt;deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd" xmlns="urn:jboss:bean-deployer"&gt;
+      </header>
+      <fileset file="${xfire.resources.dir}/jbossws-xfire-config.xml"/>
+      <fileset file="${int.jboss42.dir}/src/main/resources/jbossws-jboss42-config.xml"/>
+      <footer trimleading="yes">
+        &lt;/deployment&gt;
+      </footer>
+    </concat>
     
     <!-- Build jbossws-xfire42.sar -->
     <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire42.sar" manifest="${xfire.output.etc.dir}/default.mf">
@@ -216,10 +220,10 @@
         <include name="xfire-all.jar"/>
         <include name="xfire-jsr181-api.jar"/>
       </fileset>
-      <fileset dir="${xfire.resources.dir}/jbossws-xfire42.sar">
+      <fileset dir="${xfire.output.lib.dir}/jbossws-xfire42">
         <include name="jbossws.beans/**"/>
       </fileset>
-      <metainf dir="${xfire.resources.dir}/jbossws-xfire42.sar/META-INF">
+      <metainf dir="${int.jboss42.dir}/src/main/resources/jbossws-jboss42.sar/META-INF">
         <include name="jboss-service.xml"/>
       </metainf>
     </jar>
