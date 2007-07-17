@@ -39,6 +39,9 @@ org/jboss/test/ws/jaxws/samples/retail/**
 org/jboss/test/ws/jaxws/samples/serviceref/**
 org/jboss/test/ws/jaxws/samples/webserviceref/**
 
+# ServiceRef Handling not yet implemented
+org/jboss/test/ws/jaxws/samples/serviceref/**
+
 # [JBWS-1689] Add support for SwaRef
 org/jboss/test/ws/jaxws/samples/swaref/**
 
