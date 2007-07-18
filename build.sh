@@ -172,12 +172,8 @@ main() {
     # export some stuff for ant
     export ANT ANT_HOME ANT_OPTS   
     
-    # execute in debug mode, or simply execute
-    if [ "x$ANT_DEBUG" != "x" ]; then
-	/bin/sh -x $ANT $ANT_OPTIONS "$@"
-    else
-	exec $ANT $ANT_OPTIONS "$@"
-    fi
+    # run ant
+	$ANT $ANT_OPTIONS "$@"
 }
 
 ##
