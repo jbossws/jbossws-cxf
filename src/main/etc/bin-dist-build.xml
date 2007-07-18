@@ -72,7 +72,7 @@
 		</condition>
 
 		<!-- Define excludesfile -->
-    <property name="excludesfile" value="${tests.dir}/resources/test-excludes.txt"/>
+    <property name="excludesfile" value="${tests.dir}/resources/test-excludes-${jbossws.integration.target}.txt"/>
 
 	</target>
 
