@@ -105,7 +105,6 @@
 			<pathelement location="${thirdparty.dir}/jdom.jar"/>
 			<pathelement location="${thirdparty.dir}/saaj-api.jar"/>
 			<pathelement location="${thirdparty.dir}/saaj-impl.jar"/>
-			<pathelement location="${thirdparty.dir}/wsdl4j.jar"/>
 			<pathelement location="${thirdparty.dir}/xfire-all.jar"/>
 			<pathelement location="${thirdparty.dir}/xfire-jsr181-api.jar"/>
 		</path>
@@ -116,6 +115,7 @@
 
 		<path id="tests.extra.classpath">
 			<pathelement location="${lib.dir}/jbossws-spi.jar"/>
+			<pathelement location="${thirdparty.dir}/wsdl4j.jar"/>
 		</path>
 
 	</target>
