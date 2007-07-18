@@ -1,0 +1,50 @@
+#
+# $Id: test-excludes.txt 3915 2007-07-17 16:16:05Z heiko.braun@jboss.com $
+#
+
+################################################################### 
+# Exclude JBossWS-Native stuff
+#
+org/jboss/test/ws/jaxws/samples/wsaddressing/**
+org/jboss/test/ws/jaxws/samples/wseventing/**
+org/jboss/test/ws/jaxws/samples/wssecurity/**
+#
+###################################################################
+
+# [JBWS-1682] XFire does not generate proper service name
+org/jboss/test/ws/jaxws/samples/asynchronous/**
+org/jboss/test/ws/jaxws/samples/exception/**
+org/jboss/test/ws/jaxws/samples/handlerchain/**
+org/jboss/test/ws/jaxws/samples/oneway/**
+org/jboss/test/ws/jaxws/samples/soapbinding/**
+org/jboss/test/ws/jaxws/samples/webmethod/**
+org/jboss/test/ws/jaxws/samples/webservice/**
+org/jboss/test/ws/jaxws/samples/xop/**
+
+# [JBWS-1685] Add support for WebServiceContext propagation
+org/jboss/test/ws/jaxws/samples/context/**
+
+# [JBWS-1686] Add support for @Provider
+org/jboss/test/ws/jaxws/samples/httpbinding/**
+org/jboss/test/ws/jaxws/samples/provider/**
+
+# [JBWS-1683] Fix JAXR samples for XFire
+org/jboss/test/ws/jaxws/samples/jaxr/**
+
+# [JBWS-1687] Add support for @HandlerChain
+org/jboss/test/ws/jaxws/samples/logicalhandler/**
+
+# [JBWS-1684] Fix @WebServiceRef with XFire
+org/jboss/test/ws/jaxws/samples/retail/**
+org/jboss/test/ws/jaxws/samples/serviceref/**
+org/jboss/test/ws/jaxws/samples/webserviceref/**
+
+# ServiceRef Handling not yet implemented
+org/jboss/test/ws/jaxws/samples/serviceref/**
+
+# [JBWS-1689] Add support for SwaRef
+org/jboss/test/ws/jaxws/samples/swaref/**
+
+# [JBWS-1688] Fix @WebParam, @WebResult handling
+org/jboss/test/ws/jaxws/samples/webparam/**
+org/jboss/test/ws/jaxws/samples/webresult/**
