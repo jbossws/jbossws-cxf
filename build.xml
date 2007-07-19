@@ -153,16 +153,15 @@
         <include name="jaxrpc-api.jar"/>
       </fileset>
       <fileset dir="${thirdparty.dir}">
+        <include name="cxf-incubator.jar"/>
         <include name="jaxws-api.jar"/>
         <include name="jdom.jar"/>
         <include name="wsdl4j.jar"/>
         <include name="saaj-api.jar"/>
         <include name="saaj-impl.jar"/>
-        <include name="spring.jar"/>
+        <include name="spring-bean.jar"/>
+        <include name="spring-core.jar"/>
         <include name="xbean.jar"/>
-        <include name="xbean-spring.jar"/>
-        <include name="xfire-all.jar"/>
-        <include name="xfire-jsr181-api.jar"/>
       </fileset>
       <fileset dir="${xfire.output.lib.dir}">
         <include name="jbossws-xfire.jar"/>
@@ -205,20 +204,24 @@
         <include name="jbossws-xfire.jar"/>
       </fileset>
       <fileset dir="${thirdparty.dir}">
+        <include name="cxf-incubator.jar"/>
+        <include name="geronimo-ws-metadata.jar"/>
         <include name="jaxb-api.jar"/>
         <include name="jaxb-impl.jar"/>
         <include name="jaxws-api.jar"/>
         <include name="jdom.jar"/>
+        <include name="neethi.jar"/>
         <include name="wsdl4j.jar"/>
+        <include name="resolver.jar"/>
         <include name="saaj-api.jar"/>
         <include name="saaj-impl.jar"/>
-        <include name="spring.jar"/>
+        <include name="spring-beans.jar"/>
+        <include name="spring-context.jar"/>
+        <include name="spring-core.jar"/>
         <include name="stax-api.jar"/>
         <include name="wstx.jar"/>
         <include name="xbean.jar"/>
-        <include name="xbean-spring.jar"/>
-        <include name="xfire-all.jar"/>
-        <include name="xfire-jsr181-api.jar"/>
+        <include name="XmlSchema.jar"/>
       </fileset>
       <fileset dir="${xfire.output.lib.dir}/jbossws-xfire42">
         <include name="jbossws.beans/**"/>

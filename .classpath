@@ -8,14 +8,16 @@
 	<classpathentry kind="lib" path="thirdparty/servlet-api.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/integration-spi"/>
 	<classpathentry kind="lib" path="/integration-spi/thirdparty/dom4j.jar"/>
-	<classpathentry kind="lib" path="thirdparty/xfire-all.jar" sourcepath="thirdparty/xfire-distribution-sources.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jaxws-api.jar"/>
-	<classpathentry kind="lib" path="thirdparty/xfire-jsr181-api.jar"/>
 	<classpathentry kind="lib" path="/integration-spi/thirdparty/jboss-common-core.jar"/>
-	<classpathentry kind="lib" path="thirdparty/spring.jar"/>
-	<classpathentry kind="lib" path="thirdparty/xbean.jar"/>
-	<classpathentry kind="lib" path="thirdparty/xbean-spring.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/integration-jboss50"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jboss-5.0.x"/>
+	<classpathentry kind="lib" path="thirdparty/cxf-incubator.jar" sourcepath="/home/tdiesler/Download/java/apache/cxf/apache-cxf-2.0-incubator-src.zip"/>
+	<classpathentry kind="lib" path="thirdparty/geronimo-ws-metadata.jar"/>
+	<classpathentry kind="lib" path="thirdparty/saaj-api.jar"/>
+	<classpathentry kind="lib" path="thirdparty/spring-context.jar"/>
+	<classpathentry kind="lib" path="thirdparty/spring-beans.jar"/>
+	<classpathentry kind="lib" path="thirdparty/spring-core.jar"/>
+	<classpathentry kind="lib" path="thirdparty/spring-web.jar"/>
 	<classpathentry kind="output" path="output/eclipse"/>
 </classpath>

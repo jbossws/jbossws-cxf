@@ -34,27 +34,21 @@ import org.jboss.wsf.spi.deployment.WebAppDesciptorModifier;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.stack.xfire.metadata.services.DDBean;
 import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
-import org.jboss.wsf.stack.xfire.metadata.services.DDService;
+import org.jboss.wsf.stack.xfire.metadata.services.DDEndpoint;
 
 /**
- * A deployer that generates xfire services.xml 
+ * A deployer that generates cxf.xml 
  *
  * @author Thomas.Diesler@jboss.org
  * @since 10-May-2007
  */
-public class XFireServicesDeploymentAspect extends DeploymentAspect
+public class DescriptorDeploymentAspect extends DeploymentAspect
 {
    // provide logging
-   private static final Logger log = Logger.getLogger(XFireServicesDeploymentAspect.class);
-   
-   private String serviceFactory;
+   private static final Logger log = Logger.getLogger(DescriptorDeploymentAspect.class);
+
    private String invokerEJB3;
    private String invokerJSE;
-
-   public void setServiceFactory(String serviceFactory)
-   {
-      this.serviceFactory = serviceFactory;
-   }
 
    public void setInvokerEJB3(String invokerEJB3)
    {
@@ -72,35 +66,40 @@ public class XFireServicesDeploymentAspect extends DeploymentAspect
       DeploymentType depType = dep.getType();
       if (depType != DeploymentType.JAXWS_EJB3 && depType != DeploymentType.JAXWS_JSE)
          throw new IllegalStateException("Unsupported deployment type: " + depType);
-      
+
       DDBeans dd = new DDBeans();
       for (Endpoint ep : dep.getService().getEndpoints())
       {
-         String epName = ep.getShortName();
-         String targetBean = ep.getTargetBeanName();
+         String id = ep.getShortName();
+         String address = ep.getAddress();
+         String implementor = ep.getTargetBeanName();
 
-         DDService ddser = new DDService(epName, targetBean);
-         ddser.setServiceFactory(serviceFactory);
-         
+         DDEndpoint ddep = new DDEndpoint(id, address, implementor);
+
          if (depType == DeploymentType.JAXWS_EJB3 && invokerEJB3 != null)
-         {
-            String beanName = "InvokerBeanEJB3";
-            dd.addBean(new DDBean(beanName, invokerEJB3));
-            ddser.setInvoker("#" + beanName);
-         }
-         
-         if (depType == DeploymentType.JAXWS_JSE && invokerJSE != null)
-         {
-            String beanName = "InvokerBeanJSE";
-            dd.addBean(new DDBean(beanName, invokerJSE));
-            ddser.setInvoker("#" + beanName);
-         }
+            ddep.setInvoker("InvokerBeanEJB3");
 
-         log.info("Add " + ddser);
-         dd.addService(ddser);
+         if (depType == DeploymentType.JAXWS_JSE && invokerJSE != null)
+            ddep.setInvoker("InvokerBeanJSE");
+
+         log.info("Add " + ddep);
+         dd.addEndpoint(ddep);
       }
-      dep.getContext().addAttachment(DDBeans.class, dd);
       
+      if (depType == DeploymentType.JAXWS_EJB3 && invokerEJB3 != null)
+      {
+         DDBean bean = new DDBean("InvokerBeanEJB3", invokerEJB3);
+         dd.addBean(bean);
+      }
+
+      if (depType == DeploymentType.JAXWS_JSE && invokerJSE != null)
+      {
+         DDBean bean = new DDBean("InvokerBeanJSE", invokerJSE);
+         dd.addBean(bean);
+      }
+
+      dep.getContext().addAttachment(DDBeans.class, dd);
+
       String propKey = WebAppDesciptorModifier.CONTEXT_PARAMETER_MAP;
       Map<String, String> contextParams = (Map<String, String>)dep.getContext().getProperty(propKey);
       if (contextParams == null)
@@ -108,9 +107,8 @@ public class XFireServicesDeploymentAspect extends DeploymentAspect
          contextParams = new HashMap<String, String>();
          dep.getContext().setProperty(propKey, contextParams);
       }
-      contextParams.put(XFireConfigurableServletExt.PARAM_XFIRE_SERVICES_URL, dd.createFileURL().toExternalForm());
+      contextParams.put(CXFServletExt.PARAM_CXF_BEANS_URL, dd.createFileURL().toExternalForm());
    }
-
 
    @Override
    public void destroy(Deployment dep)

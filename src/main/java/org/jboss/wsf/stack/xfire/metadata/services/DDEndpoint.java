@@ -32,31 +32,42 @@ import java.io.Writer;
  * @author Thomas.Diesler@jboss.org
  * @since 21-May-2007
  */
-public class DDBean
+public class DDEndpoint
 {
-   private String beanName;
-   private String beanClass;
+   private String id;
+   private String address;
+   private String implementor;
+   private String invoker;
 
-   public DDBean(String beanName, String beanClass)
+   public DDEndpoint(String id, String address, String implementor)
    {
-      this.beanName = beanName;
-      this.beanClass = beanClass;
+      this.id = id;
+      this.address = address;
+      this.implementor = implementor;
    }
 
+   public void setInvoker(String invoker)
+   {
+      this.invoker = invoker;
+   }
+   
    public void writeTo(Writer writer) throws IOException
    {
-      writer.write("<bean");
-      if (beanName != null)
-         writer.write(" name='" + beanName + "'");
-      writer.write(" class='" + beanClass + "'");
-      writer.write("></bean>");
+      writer.write("<jaxws:endpoint id='" + id + "' address='"+ address +"' implementor='" + implementor + "'>");
+      writer.write("<jaxws:properties>");
+      if (invoker != null)
+         writer.write("<entry key='serviceFactory.invoker' value-ref='" + invoker + "'/>");
+      writer.write("</jaxws:properties>");
+      writer.write("</jaxws:endpoint>");
    }
 
    public String toString()
    {
-      StringBuilder str = new StringBuilder("Bean");
-      str.append("\n name=" + beanName);
-      str.append("\n class=" + beanClass);
+      StringBuilder str = new StringBuilder("Service");
+      str.append("\n id=" + id);
+      str.append("\n address=" + address);
+      str.append("\n invoker=" + invoker);
+      str.append("\n implementor=" + implementor);
       return str.toString();
    }
 }

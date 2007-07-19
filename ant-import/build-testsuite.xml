@@ -25,45 +25,21 @@
   <!-- ================================================================== -->
   
   <target name="tests-init" depends="tests-classpath">
-
-    <!-- 
-      Cannot use XFire client
-      [JBWS-1654] - ServiceDelegate requires non portable method getPortClassMap
-    -->
-    <ant antfile="${int.sunri.dir}/build.xml" target="thirdparty" inheritall="false"/>
-
-    <path id="sunri.classpath">
-      <pathelement location="${int.sunri.dir}/thirdparty/FastInfoset.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/http.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/jaxws-api.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/jaxws-rt.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/jaxws-tools.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/jsr173_api.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/jsr181-api.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/jsr250-api.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/resolver.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/saaj-api.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/saaj-impl.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/sjsxp.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/stax-ex.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/streambuffer.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/wstx.jar"/>
-      <pathelement location="${int.sunri.dir}/thirdparty/wsdl4j.jar"/>
-    </path>
-    
-    <path id="xfire.classpath">
-      <pathelement location="${thirdparty.dir}/jaxws-api.jar"/>
-      <pathelement location="${thirdparty.dir}/jdom.jar"/>
-      <pathelement location="${thirdparty.dir}/saaj-api.jar"/>
-      <pathelement location="${thirdparty.dir}/saaj-impl.jar"/>
-      <pathelement location="${thirdparty.dir}/wsdl4j.jar"/>
-      <pathelement location="${thirdparty.dir}/xfire-all.jar"/>
-      <pathelement location="${thirdparty.dir}/xfire-jsr181-api.jar"/>
-    </path>
     
     <path id="ws.stack.classpath">
       <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
-      <path refid="sunri.classpath"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/cxf-incubator.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/geronimo-javamail.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/geronimo-ws-metadata.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/jaxws-api.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/jdom.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/neethi.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/resolver.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/saaj-api.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/saaj-impl.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/wsdl4j.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/wstx.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/XmlSchema.jar"/>
     </path>
     
     <path id="tests.extra.classpath">

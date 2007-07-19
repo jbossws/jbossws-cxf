@@ -32,7 +32,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.xfire.transport.http.XFireServletController;
+import org.apache.cxf.transport.servlet.ServletController;
 import org.jboss.logging.Logger;
 import org.jboss.util.NotImplementedException;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -52,11 +52,11 @@ public class RequestHandlerImpl implements RequestHandler
 
    public void handleHttpRequest(Endpoint ep, HttpServletRequest req, HttpServletResponse res, ServletContext context) throws ServletException, IOException
    {
-      XFireServletController controller = ep.getAttachment(XFireServletController.class);
+      ServletController controller = ep.getAttachment(ServletController.class);
       if (controller == null)
-         throw new IllegalStateException("Cannot obtain XFire servlet controller");
+         throw new IllegalStateException("Cannot obtain servlet controller");
 
-      controller.doService(req, res);
+      controller.invoke(req, res);
    }
 
    public void handleRequest(Endpoint endpoint, InputStream inStream, OutputStream outStream, InvocationContext context)

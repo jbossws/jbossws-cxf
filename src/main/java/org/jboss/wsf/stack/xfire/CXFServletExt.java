@@ -24,21 +24,20 @@ package org.jboss.wsf.stack.xfire;
 //$Id$
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import javax.management.ObjectName;
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceException;
 
-import org.codehaus.xfire.XFire;
-import org.codehaus.xfire.XFireException;
-import org.codehaus.xfire.spring.XFireConfigLoader;
-import org.codehaus.xfire.transport.http.XFireConfigurableServlet;
-import org.codehaus.xfire.transport.http.XFireServletController;
+import org.apache.cxf.transport.DestinationFactory;
+import org.apache.cxf.transport.servlet.CXFServlet;
+import org.apache.cxf.transport.servlet.ServletController;
+import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.EndpointAssociation;
@@ -46,26 +45,26 @@ import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
 import org.jboss.wsf.spi.utils.ObjectNameFactory;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.core.io.InputStreamResource;
 
 /**
- * An extension to the XFire servlet
+ * An extension to the CXF servlet
  * 
  * @author Thomas.Diesler@jboss.org
  * @since 21-Apr-2007
  */
-public class XFireConfigurableServletExt extends XFireConfigurableServlet
+public class CXFServletExt extends CXFServlet
 {
-   public static final String PARAM_XFIRE_SERVICES_URL = "jbossws.xfire.services.url";
+   public static final String PARAM_CXF_BEANS_URL = "jbossws.cxf.beans.url";
 
-   private final static String CONFIG_FILE = "/WEB-INF/classes/META-INF/xfire/services.xml";
+   private static Logger log = Logger.getLogger(CXFServletExt.class);
 
-   private static Logger log = Logger.getLogger(XFireConfigurableServletExt.class);
-   
    protected Endpoint endpoint;
    protected EndpointRegistry epRegistry;
+   protected GenericApplicationContext childCtx;
 
    public void init(ServletConfig servletConfig) throws ServletException
    {
@@ -75,67 +74,38 @@ public class XFireConfigurableServletExt extends XFireConfigurableServlet
       epRegistry = EndpointRegistryFactory.getEndpointRegistry();
       String contextPath = servletConfig.getServletContext().getContextPath();
       endpoint = initServiceEndpoint(contextPath);
-      endpoint.addAttachment(XFireServletController.class, controller);
+      endpoint.addAttachment(ServletController.class, getController());
    }
 
-   public XFire createXFire() throws ServletException
+   public ServletController createServletController()
    {
-      XFire xfire;
+      ServletTransportFactory stf = (ServletTransportFactory)createServletTransportFactory();
+      return new ServletControllerExt(stf, this);
+   }
+
+   protected void loadAdditionalConfig(ApplicationContext ctx, ServletConfig servletConfig) throws ServletException
+   {
+      String location = servletConfig.getServletContext().getInitParameter(PARAM_CXF_BEANS_URL);
+
+      InputStream is;
       try
       {
-         // #1 Load services.xml from default location
-         ServletContext context = getServletContext();
-         URL servicesURL = context.getResource(CONFIG_FILE);
-
-         // #1 Load services.xml from init parameter
-         if (servicesURL == null)
-         {
-            String paramValue = context.getInitParameter(PARAM_XFIRE_SERVICES_URL);
-            if (paramValue != null)
-               servicesURL = new URL(paramValue);
-         }
-
-         xfire = loadConfig(servicesURL.getFile());
+         is = new URL(location).openStream();
       }
-      catch (Exception e)
+      catch (IOException e)
       {
          throw new ServletException(e);
       }
 
-      return xfire;
-   }
+      if (is != null)
+      {
+         childCtx = new GenericApplicationContext(ctx);
+         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(childCtx);
+         reader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_XSD);
+         reader.loadBeanDefinitions(new InputStreamResource(is, location));
 
-   public XFire loadConfig(String configPath) throws XFireException
-   {
-       XFireConfigLoader loader = new XFireConfigLoader();
-       //loader.setBasedir(getWebappBase());
-       //log.debug("Loading configuration files relative to " + loader.getBasedir().getAbsolutePath());
-
-       ServletContext servletCtx = getServletContext();
-       ApplicationContext parent = (ApplicationContext) servletCtx.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-
-       if (parent == null)
-       {
-           GenericWebApplicationContext webCtx = new GenericWebApplicationContextX();
-           webCtx.setServletContext(getServletContext());
-           webCtx.refresh();
-           parent = webCtx;
-       }
-       
-       ApplicationContext newCtx = loader.loadContext(configPath, parent);
-       if(servletCtx.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE) == null)
-       {
-            servletCtx.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, newCtx);
-       }
-
-       XFire xfire = (XFire) newCtx.getBean("xfire");
-       xfire.setProperty(XFire.XFIRE_HOME, getWebappBase().getAbsolutePath());
-       return xfire;
-   }
-   
-   public XFireServletController createController() throws ServletException
-   {
-      return new XFireServletControllerExt(xfire, getServletContext());
+         childCtx.refresh();
+      }
    }
 
    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
@@ -150,6 +120,12 @@ public class XFireConfigurableServletExt extends XFireConfigurableServlet
       {
          EndpointAssociation.removeEndpoint();
       }
+   }
+
+   public void destroy()
+   {
+      if (childCtx != null)
+         childCtx.destroy();
    }
 
    /** Initialize the service endpoint
@@ -178,7 +154,7 @@ public class XFireConfigurableServletExt extends XFireConfigurableServlet
                + Endpoint.SEPID_PROPERTY_ENDPOINT + "=" + servletName);
          throw new WebServiceException("Cannot obtain endpoint for: " + oname);
       }
-      
+
       return endpoint;
    }
 }

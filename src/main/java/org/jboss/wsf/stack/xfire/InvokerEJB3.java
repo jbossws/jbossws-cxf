@@ -23,16 +23,8 @@ package org.jboss.wsf.stack.xfire;
 
 //$Id$
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import org.codehaus.xfire.MessageContext;
-import org.codehaus.xfire.fault.XFireFault;
-import org.codehaus.xfire.service.invoker.Invoker;
-import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.deployment.EndpointAssociation;
-import org.jboss.wsf.spi.invocation.Invocation;
-import org.jboss.wsf.spi.invocation.InvocationHandler;
+import org.apache.cxf.message.Exchange;
+import org.apache.cxf.service.invoker.Invoker;
 
 /**
  * An XFire invoker for EJB3
@@ -42,35 +34,43 @@ import org.jboss.wsf.spi.invocation.InvocationHandler;
  */
 public class InvokerEJB3 implements Invoker
 {
-   public Object invoke(Method m, Object[] params, MessageContext context) throws XFireFault
+   public Object invoke(Exchange arg0, Object arg1)
    {
-      Endpoint ep = EndpointAssociation.getEndpoint();
-      InvocationHandler invHandler = ep.getInvocationHandler();
-
-      Invocation inv = invHandler.createInvocation();
-      inv.getInvocationContext().addAttachment(MessageContext.class, context);
-      inv.setJavaMethod(m);
-      inv.setArgs(params);
-
-      Object retObj = null;
-      try
-      {
-         invHandler.invoke(ep, inv);
-         retObj = inv.getReturnValue();
-      }
-      catch (Exception ex)
-      {
-         handleException(ex);
-      }
-
-      return retObj;
+      // TODO Auto-generated method stub
+      return null;
    }
+   
+   /*
+    public Object invoke(Method m, Object[] params, MessageContext context) 
+    {
+    Endpoint ep = EndpointAssociation.getEndpoint();
+    InvocationHandler invHandler = ep.getInvocationHandler();
 
-   private void handleException(Exception ex) throws XFireFault
-   {
-      if (ex instanceof InvocationTargetException)
-         throw XFireFault.createFault(((InvocationTargetException)ex).getTargetException());
+    Invocation inv = invHandler.createInvocation();
+    inv.getInvocationContext().addAttachment(MessageContext.class, context);
+    inv.setJavaMethod(m);
+    inv.setArgs(params);
 
-      throw XFireFault.createFault(ex);
-   }
+    Object retObj = null;
+    try
+    {
+    invHandler.invoke(ep, inv);
+    retObj = inv.getReturnValue();
+    }
+    catch (Exception ex)
+    {
+    handleException(ex);
+    }
+
+    return retObj;
+    }
+
+    private void handleException(Exception ex) throws XFireFault
+    {
+    if (ex instanceof InvocationTargetException)
+    throw XFireFault.createFault(((InvocationTargetException)ex).getTargetException());
+
+    throw XFireFault.createFault(ex);
+    }
+    */
 }

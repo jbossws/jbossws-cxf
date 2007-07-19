@@ -38,7 +38,7 @@ import org.jboss.wsf.spi.utils.IOUtils;
 //$Id$
 
 /**
- * Metadata model for xfire services.xml 
+ * Metadata model for cxf.xml 
  *
  * @author Thomas.Diesler@jboss.org
  * @since 21-May-2007
@@ -46,20 +46,20 @@ import org.jboss.wsf.spi.utils.IOUtils;
 public class DDBeans
 {
    // The Required services.
-   private List<DDService> services = new ArrayList<DDService>();
+   private List<DDEndpoint> endpoints = new ArrayList<DDEndpoint>();
    // Optional additional beans.
    private List<DDBean> beans = new ArrayList<DDBean>();
    // The derived temp file
    private File tmpFile;
 
-   public List<DDService> getServices()
+   public List<DDEndpoint> getEndpoints()
    {
-      return services;
+      return endpoints;
    }
 
-   public void addService(DDService service)
+   public void addEndpoint(DDEndpoint service)
    {
-      services.add(service);
+      endpoints.add(service);
    }
 
    public List<DDBean> getBeans()
@@ -79,7 +79,7 @@ public class DDBeans
       try
       {
          File tmpDir = IOUtils.createTempDirectory();
-         tmpFile = File.createTempFile("jbossws-xfire-services", ".xml", tmpDir);
+         tmpFile = File.createTempFile("jbossws-cxf", ".xml", tmpDir);
          Writer writer = new OutputStreamWriter(new FileOutputStream(tmpFile));
          writeTo(writer);
          writer.close();
@@ -103,10 +103,19 @@ public class DDBeans
 
    public void writeTo(Writer writer) throws IOException
    {
-      writer.write("<beans xmlns='http://xfire.codehaus.org/config/1.0'>");
-      for (DDService service : services)
+      writer.write("<beans " +
+            "xmlns='http://www.springframework.org/schema/beans' " +
+            "xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' " +
+            "xmlns:beans='http://www.springframework.org/schema/beans' " +
+            "xmlns:jaxws='http://cxf.apache.org/jaxws' " +
+            "xsi:schemaLocation='http://www.springframework.org/schema/beans " +
+            "http://www.springframework.org/schema/beans/spring-beans.xsd " +
+            "http://cxf.apache.org/jaxws " +
+            "http://cxf.apache.org/schemas/jaxws.xsd'>");
+      
+      for (DDEndpoint endpoint : endpoints)
       {
-         service.writeTo(writer);
+         endpoint.writeTo(writer);
       }
       for (DDBean bean : beans)
       {

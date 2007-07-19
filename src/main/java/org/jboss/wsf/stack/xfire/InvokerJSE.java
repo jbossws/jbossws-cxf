@@ -25,10 +25,14 @@ package org.jboss.wsf.stack.xfire;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 
-import org.codehaus.xfire.MessageContext;
-import org.codehaus.xfire.fault.XFireFault;
-import org.codehaus.xfire.service.invoker.Invoker;
+import org.apache.cxf.frontend.MethodDispatcher;
+import org.apache.cxf.helpers.CastUtils;
+import org.apache.cxf.message.Exchange;
+import org.apache.cxf.service.Service;
+import org.apache.cxf.service.invoker.Invoker;
+import org.apache.cxf.service.model.BindingOperationInfo;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.Invocation;
@@ -36,22 +40,29 @@ import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 
 /**
- * An XFire invoker for JSE
+ * An CXF invoker for JSE
  * 
  * @author Thomas.Diesler@jboss.org
  * @since 21-May-2007
  */
 public class InvokerJSE implements Invoker
 {
-   public Object invoke(Method m, Object[] params, MessageContext context) throws XFireFault
+   public Object invoke(Exchange exchange, Object o)
    {
+      BindingOperationInfo bop = exchange.get(BindingOperationInfo.class);
+      MethodDispatcher md = (MethodDispatcher)exchange.get(Service.class).get(MethodDispatcher.class.getName());
+      Method m = md.getMethod(bop);
+
+      List<Object> paramList = CastUtils.cast((List<?>)o);
+      Object[] params = paramList.toArray();
+
       Endpoint ep = EndpointAssociation.getEndpoint();
       InvocationHandler invHandler = ep.getInvocationHandler();
 
       Invocation inv = invHandler.createInvocation();
       InvocationContext invContext = inv.getInvocationContext();
       //inv.getInvocationContext().addAttachment(WebServiceContext.class, new WebServiceContextJSE(context));
-      invContext.addAttachment(MessageContext.class, context);
+      //invContext.addAttachment(MessageContext.class, context);
       inv.setJavaMethod(m);
       inv.setArgs(params);
 
@@ -76,11 +87,13 @@ public class InvokerJSE implements Invoker
       return beanClass.newInstance();
    }
 
-   private void handleException(Exception ex) throws XFireFault
+   private void handleException(Exception ex) 
    {
+      Throwable th = ex;
       if (ex instanceof InvocationTargetException)
-         throw XFireFault.createFault(((InvocationTargetException)ex).getTargetException());
+         th = ((InvocationTargetException)ex).getTargetException();
 
-      throw XFireFault.createFault(ex);
+      throw new RuntimeException(th);
    }
+
 }
