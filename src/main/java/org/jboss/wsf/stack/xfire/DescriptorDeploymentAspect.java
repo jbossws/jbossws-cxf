@@ -76,23 +76,29 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
 
          DDEndpoint ddep = new DDEndpoint(id, address, implementor);
 
-         if (depType == DeploymentType.JAXWS_EJB3 && invokerEJB3 != null)
-            ddep.setInvoker("InvokerBeanEJB3");
+         if (depType == DeploymentType.JAXWS_EJB3)
+         {
+            ddep.setServiceFactory(ServiceFactoryBeanEJB3.class.getName());
+            ddep.setInvoker(invokerEJB3);
+         }
 
-         if (depType == DeploymentType.JAXWS_JSE && invokerJSE != null)
-            ddep.setInvoker("InvokerBeanJSE");
+         if (depType == DeploymentType.JAXWS_JSE)
+         {
+            ddep.setServiceFactory(ServiceFactoryBeanJSE.class.getName());
+            ddep.setInvoker(invokerJSE);
+         }
 
          log.info("Add " + ddep);
          dd.addEndpoint(ddep);
       }
-      
-      if (depType == DeploymentType.JAXWS_EJB3 && invokerEJB3 != null)
+
+      if (depType == DeploymentType.JAXWS_EJB3)
       {
          DDBean bean = new DDBean("InvokerBeanEJB3", invokerEJB3);
          dd.addBean(bean);
       }
 
-      if (depType == DeploymentType.JAXWS_JSE && invokerJSE != null)
+      if (depType == DeploymentType.JAXWS_JSE)
       {
          DDBean bean = new DDBean("InvokerBeanJSE", invokerJSE);
          dd.addBean(bean);

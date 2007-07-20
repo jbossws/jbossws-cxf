@@ -38,6 +38,7 @@ public class DDEndpoint
    private String address;
    private String implementor;
    private String invoker;
+   private String serviceFactory;
 
    public DDEndpoint(String id, String address, String implementor)
    {
@@ -51,13 +52,27 @@ public class DDEndpoint
       this.invoker = invoker;
    }
    
+   public void setServiceFactory(String serviceFactory)
+   {
+      this.serviceFactory = serviceFactory;
+   }
+
    public void writeTo(Writer writer) throws IOException
    {
       writer.write("<jaxws:endpoint id='" + id + "' address='"+ address +"' implementor='" + implementor + "'>");
+      //writer.write("<jaxws:implementor><bean class='" + implementor + "'/></jaxws:implementor>");
+      
+      // [JBWS-1746] Add support for configurable invoker in cxf.xml
+      /*
       writer.write("<jaxws:properties>");
       if (invoker != null)
          writer.write("<entry key='serviceFactory.invoker' value-ref='" + invoker + "'/>");
       writer.write("</jaxws:properties>");
+      */
+      
+      //if (serviceFactory != null)
+      //   writer.write("<jaxws:serviceFactory><bean class='" + serviceFactory + "'/></jaxws:serviceFactory>");
+      
       writer.write("</jaxws:endpoint>");
    }
 
@@ -66,7 +81,8 @@ public class DDEndpoint
       StringBuilder str = new StringBuilder("Service");
       str.append("\n id=" + id);
       str.append("\n address=" + address);
-      str.append("\n invoker=" + invoker);
+      // str.append("\n invoker=" + invoker);
+      str.append("\n serviceFactory=" + serviceFactory);
       str.append("\n implementor=" + implementor);
       return str.toString();
    }
