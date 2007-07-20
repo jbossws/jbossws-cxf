@@ -32,8 +32,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jboss.wsf.spi.deployment.WSDeploymentException;
-import org.jboss.wsf.spi.utils.IOUtils;
+import org.jboss.wsf.spi.deployment.WSFDeploymentException;
+import org.jboss.wsf.common.IOUtils;
 
 //$Id$
 
@@ -88,7 +88,7 @@ public class DDBeans
       }
       catch (IOException ex)
       {
-         throw new WSDeploymentException(ex);
+         throw new WSFDeploymentException(ex);
       }
    }
 

@@ -1,6 +1,6 @@
   
   <!-- An abstraction of server configuration aspects. -->  
-  <bean name="WSServerConfig" class="org.jboss.wsf.spi.management.BasicServerConfig">
+  <bean name="WSServerConfig" class="org.jboss.wsf.framework.management.BasicServerConfig">
     <!--
         The WSDL, that is a required deployment artifact for an endpoint, has a <soap:address>
         element which points to the location of the endpoint. JBoss supports rewriting of that SOAP address.
@@ -29,7 +29,7 @@
   <!-- 
     The stack specific deployment aspects
   --> 
-  <bean name="WSCXFContextPropertiesDeploymentAspect" class="org.jboss.wsf.spi.deployment.ContextPropertiesDeploymentAspect">
+  <bean name="WSCXFContextPropertiesDeploymentAspect" class="org.jboss.wsf.framework.deployment.ContextPropertiesDeploymentAspect">
     <property name="provides">ContextProperties</property>
     <property name="contextProperties">
       <map keyClass="java.lang.String" valueClass="java.lang.String">
@@ -38,7 +38,7 @@
     </property>
   </bean>
 
-  <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.spi.deployment.EndpointHandlerDeploymentAspect">
+  <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
     <property name="requires">ContainerEndpointHandler</property>
     <property name="provides">StackEndpointHandler</property>
     <property name="requestHandler">org.jboss.wsf.stack.xfire.RequestHandlerImpl</property>
@@ -53,7 +53,7 @@
   </bean>
 
   <!-- Deployment aspect installers -->  
-  <bean name="WSCXFDeploymentAspectInstallerJSE" class="org.jboss.wsf.spi.deployment.DeploymentAspectInstaller">
+  <bean name="WSCXFDeploymentAspectInstallerJSE" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
     <property name="manager"><inject bean="WSDeploymentAspectManagerJSE"/></property>
     <property name="aspects">
       <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">
@@ -63,7 +63,7 @@
       </set>
     </property>
   </bean>
-  <bean name="WSCXFDeploymentAspectInstallerEJB" class="org.jboss.wsf.spi.deployment.DeploymentAspectInstaller">
+  <bean name="WSCXFDeploymentAspectInstallerEJB" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
     <property name="manager"><inject bean="WSDeploymentAspectManagerEJB"/></property>
     <property name="aspects">
       <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">

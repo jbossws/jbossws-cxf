@@ -26,6 +26,14 @@ package org.jboss.wsf.stack.xfire;
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.service.invoker.Invoker;
 
+import org.codehaus.xfire.MessageContext;
+import org.codehaus.xfire.fault.XFireFault;
+import org.codehaus.xfire.service.invoker.Invoker;
+import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.framework.invocation.EndpointAssociation;
+import org.jboss.wsf.spi.invocation.Invocation;
+import org.jboss.wsf.spi.invocation.InvocationHandler;
+
 /**
  * An XFire invoker for EJB3
  * 

@@ -29,7 +29,7 @@ import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 
 import org.jboss.logging.Logger;
-import org.jboss.wsf.spi.management.BasicEndpointRegistry;
+import org.jboss.wsf.framework.management.BasicEndpointRegistry;
 
 /**
  * A Service Endpoint Registry

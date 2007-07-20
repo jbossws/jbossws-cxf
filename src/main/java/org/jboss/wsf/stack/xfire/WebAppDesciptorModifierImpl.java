@@ -29,9 +29,10 @@ import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.WebAppDesciptorModifier;
 import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
+import org.jboss.wsf.spi.deployment.RewriteResults;
 
 /**
- * Modifies web.xml for jbossws
+ * Modifies web.xml for xfire
  *
  * @author Thomas.Diesler@jboss.org
  * @since 21-May-2006

@@ -23,7 +23,7 @@ package org.jboss.wsf.stack.xfire;
 
 //$Id$
 
-import org.jboss.wsf.spi.deployment.BasicLifecycleHandler;
+import org.jboss.wsf.framework.deployment.BasicLifecycleHandler;
 import org.jboss.wsf.spi.deployment.Endpoint;
 
 /**
