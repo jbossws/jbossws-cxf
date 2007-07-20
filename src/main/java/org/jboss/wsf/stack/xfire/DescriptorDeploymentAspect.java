@@ -78,13 +78,13 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
 
          if (depType == DeploymentType.JAXWS_EJB3)
          {
-            ddep.setServiceFactory(ServiceFactoryBeanEJB3.class.getName());
+            //ddep.setServiceFactory(ServiceFactoryBeanEJB3.class.getName());
             ddep.setInvoker(invokerEJB3);
          }
 
          if (depType == DeploymentType.JAXWS_JSE)
          {
-            ddep.setServiceFactory(ServiceFactoryBeanJSE.class.getName());
+            //ddep.setServiceFactory(ServiceFactoryBeanJSE.class.getName());
             ddep.setInvoker(invokerJSE);
          }
 
