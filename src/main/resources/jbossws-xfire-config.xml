@@ -40,9 +40,7 @@
 
   <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
     <property name="requires">ContainerEndpointHandler</property>
-    <property name="provides">StackEndpointHandler</property>
-    <property name="requestHandler">org.jboss.wsf.stack.xfire.RequestHandlerImpl</property>
-    <property name="lifecycleHandler">org.jboss.wsf.stack.xfire.LifecycleHandlerImpl</property>
+    <property name="provides">StackEndpointHandler</property>        
   </bean>
 
   <bean name="WSCXFDescriptorDeploymentAspect" class="org.jboss.wsf.stack.xfire.DescriptorDeploymentAspect">

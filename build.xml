@@ -108,6 +108,7 @@
       <fileset dir="${xfire.output.classes.dir}">
         <include name="org/jboss/wsf/stack/xfire/**"/>
       </fileset>
+      <metainf dir="${xfire.resources.dir}/jbossws-xfire.jar/META-INF"/>
     </jar>
     
     <!-- Build jbossws-context.war -->
