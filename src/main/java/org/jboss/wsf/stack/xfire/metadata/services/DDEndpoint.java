@@ -59,7 +59,10 @@ public class DDEndpoint
 
    public void writeTo(Writer writer) throws IOException
    {
-      writer.write("<jaxws:endpoint id='" + id + "' address='"+ address +"' implementor='" + implementor + "'>");
+      writer.write("<jaxws:endpoint id='" + id + "'");
+      writer.write(" address='" + address + "'");
+      writer.write(" implementor='" + implementor + "'");
+      writer.write(">");
       //writer.write("<jaxws:implementor><bean class='" + implementor + "'/></jaxws:implementor>");
       
       // [JBWS-1746] Add support for configurable invoker in cxf.xml
@@ -81,8 +84,6 @@ public class DDEndpoint
       StringBuilder str = new StringBuilder("Service");
       str.append("\n id=" + id);
       str.append("\n address=" + address);
-      // str.append("\n invoker=" + invoker);
-      str.append("\n serviceFactory=" + serviceFactory);
       str.append("\n implementor=" + implementor);
       return str.toString();
    }

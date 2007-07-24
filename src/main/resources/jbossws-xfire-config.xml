@@ -23,7 +23,6 @@
   </bean>
 
   <!-- The registry for web service endpoints -->
-  <!-- The registry for web service endpoints -->
   <bean name="WSEndpointRegistry" class="org.jboss.wsf.stack.xfire.ManagedEndpointRegistry"/>
   
   <!-- 

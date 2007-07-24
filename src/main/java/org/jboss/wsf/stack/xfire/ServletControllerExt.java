@@ -25,6 +25,9 @@ package org.jboss.wsf.stack.xfire;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -64,20 +67,46 @@ public class ServletControllerExt extends ServletController
    {
       try
       {
-         // JBossWS always uses the request URI
-         EndpointInfo ei = new EndpointInfo();
-         String address = req.getRequestURI();
-
-         ei.setAddress(address);
-         ServletDestination dest = (ServletDestination)transport.getDestinationForPath(ei.getAddress());
+         // Find destination based on request URI
+         String requestURI = req.getRequestURI();
+         ServletDestination dest = null;
+         Collection<ServletDestination> destinations = transport.getDestinations();
+         for (ServletDestination aux : destinations)
+         {
+            EndpointInfo ei = aux.getEndpointInfo();
+            String address = ei.getAddress();
+            
+            // Fix invalid leading slash
+            if (address.startsWith("/http://"))
+            {
+               address = address.substring(1);
+               ei.setAddress(address);
+            }
+            
+            String path = address;
+            try
+            {
+               path = new URL(address).getPath();
+            }
+            catch (MalformedURLException ex)
+            {
+               // ignore
+            }
+            
+            if (requestURI.startsWith(path))
+            {
+               dest = aux;
+               break;
+            }
+         }
          if (dest == null)
-            throw new ServletException("Cannot obtain destination for: " + address);
+            throw new ServletException("Cannot obtain destination for: " + requestURI);
 
-         ei = dest.getEndpointInfo();
+         EndpointInfo ei = dest.getEndpointInfo();
          Bus bus = cxfServlet.getBus();
          if (null != req.getQueryString() && req.getQueryString().length() > 0 && bus.getExtension(QueryHandlerRegistry.class) != null)
          {
-            String ctxUri = address; //req.getPathInfo();
+            String ctxUri = requestURI; //req.getPathInfo();
             String baseUri = req.getRequestURL().toString() + "?" + req.getQueryString();
 
             for (QueryHandler qh : bus.getExtension(QueryHandlerRegistry.class).getHandlers())
