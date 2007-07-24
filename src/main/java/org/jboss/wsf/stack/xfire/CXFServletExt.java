@@ -40,7 +40,7 @@ import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.common.ObjectNameFactory;
-import org.jboss.wsf.framework.invocation.EndpointAssociation;
+import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;

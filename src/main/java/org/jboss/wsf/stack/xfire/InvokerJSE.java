@@ -34,7 +34,7 @@ import org.apache.cxf.service.Service;
 import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.framework.invocation.EndpointAssociation;
+import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.Invocation;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
