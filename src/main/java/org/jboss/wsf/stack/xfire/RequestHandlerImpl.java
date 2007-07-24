@@ -50,6 +50,10 @@ public class RequestHandlerImpl implements RequestHandler
    // provide logging
    private static final Logger log = Logger.getLogger(RequestHandlerImpl.class);
 
+   RequestHandlerImpl()
+   {
+   }
+
    public void handleHttpRequest(Endpoint ep, HttpServletRequest req, HttpServletResponse res, ServletContext context) throws ServletException, IOException
    {
       ServletController controller = ep.getAttachment(ServletController.class);
