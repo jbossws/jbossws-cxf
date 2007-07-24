@@ -23,7 +23,7 @@ package org.jboss.wsf.stack.xfire;
 
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
 import org.jboss.wsf.spi.management.EndpointRegistry;
-import org.jboss.wsf.framework.KernelAwareSPIFactory;
+import org.jboss.wsf.common.KernelAwareSPIFactory;
 
 /**
  * An EndpointRegistryFactory implementation that retrieves
