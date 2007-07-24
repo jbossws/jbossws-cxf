@@ -51,6 +51,6 @@ org/jboss/test/ws/jaxws/samples/webmethod/**
 # [JBWS-1759] Investigate CXF samples webservice
 org/jboss/test/ws/jaxws/samples/webservice/**
 
-# [JBWS-1759] Investigate CXF samples xop
+# [JBWS-1760] Investigate CXF samples xop
 org/jboss/test/ws/jaxws/samples/xop/**
 
