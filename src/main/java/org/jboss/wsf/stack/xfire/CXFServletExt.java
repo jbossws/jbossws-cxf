@@ -45,6 +45,8 @@ import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
+import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.wsf.spi.SPIProvider;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
@@ -71,7 +73,8 @@ public class CXFServletExt extends CXFServlet
       super.init(servletConfig);
 
       // Init the Endpoint
-      epRegistry = EndpointRegistryFactory.getEndpointRegistry();
+      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
+      epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).createEndpointRegistry();
       String contextPath = servletConfig.getServletContext().getContextPath();
       endpoint = initServiceEndpoint(contextPath);
       endpoint.addAttachment(ServletController.class, getController());

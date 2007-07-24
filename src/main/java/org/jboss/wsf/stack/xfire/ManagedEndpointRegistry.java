@@ -29,7 +29,7 @@ import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 
 import org.jboss.logging.Logger;
-import org.jboss.wsf.framework.management.BasicEndpointRegistry;
+import org.jboss.wsf.spi.management.DefaultEndpointRegistry;
 
 /**
  * A Service Endpoint Registry
@@ -37,7 +37,7 @@ import org.jboss.wsf.framework.management.BasicEndpointRegistry;
  * @author Thomas.Diesler@jboss.org
  * @since 04-May-2007
  */
-public class ManagedEndpointRegistry extends BasicEndpointRegistry implements ManagedEndpointRegistryMBean
+public class ManagedEndpointRegistry extends DefaultEndpointRegistry implements ManagedEndpointRegistryMBean
 {
    // provide logging
    private static final Logger log = Logger.getLogger(ManagedEndpointRegistry.class);
