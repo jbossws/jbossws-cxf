@@ -11,7 +11,7 @@
 
 <!-- $Id$ -->
 
-<project default="main" basedir="../.." name="JBossWS-SunRI-JBoss50">
+<project default="main" basedir="../.." name="JBossWS-CXF">
   
   <import file="${basedir}/build/ant-import/build-setup.xml"/>
   
@@ -42,6 +42,7 @@
   
   <target name="init" depends="prepare,thirdparty">
     <ant antfile="${spi.dir}/build.xml" target="jars" inheritall="false"/>
+		<mkdir dir="${xfire.output.apidocs.dir}"/>
   </target>
   
   <!-- ================================================================== -->
@@ -243,9 +244,7 @@
   </target>
 
 	<!-- Generate the JavaDoc -->
-  <target name="javadoc" depends="init" description="Generate the Javadoc" if="javadoc">
-
-		<mkdir dir="${xfire.output.apidocs.dir}"/>
+  <target name="javadoc" depends="init" description="Generate the Javadoc" unless="nojavadoc">
 
 		<!-- expand the xfire sources -->
 		<mkdir dir="${xfire.output.dir}/thirdparty-sources"/>
