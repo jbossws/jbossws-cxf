@@ -21,7 +21,6 @@
 
 		<ant antfile="${int.jboss50.dir}/build.xml" target="jars" inheritall="false"/>
 		<ant antfile="${int.jboss42.dir}/build.xml" target="jars" inheritall="false"/>
-		<ant antfile="${int.sunri.dir}/build.xml" target="thirdparty" inheritall="false"/>
 
 		<property name="bindist.dir" value="${xfire.output.dir}/jbossws-xfire-${version.id}"/>
 		<property name="bindist.bin.dir" value="${bindist.dir}/bin"/>
@@ -34,7 +33,7 @@
 		<delete dir="${bindist.dir}"/>
 		<mkdir dir="${bindist.build.dir}"/>
 		<mkdir dir="${bindist.bin.dir}"/>
-		<mkdir dir="${bindist.lib.dir}/client"/>
+		<mkdir dir="${bindist.lib.dir}"/>
 		<mkdir dir="${bindist.docs.dir}"/>
 		<mkdir dir="${bindist.tests.dir}"/>
 		<mkdir dir="${bindist.tools.dir}"/>
@@ -82,10 +81,11 @@
 		</copy>
 		<chmod dir="${bindist.bin.dir}" perm="+x" includes="**/*.sh"/>
 
-		<!-- docs -->
+		<!-- docs
 		<zip destfile="${bindist.docs.dir}/apidocs-${version.id}.zip">
 			<fileset dir="${xfire.output.dir}/apidocs"/>
 		</zip>
+    -->
 
 		<copy todir="${bindist.docs.dir}">
 			<fileset dir="${build.dir}/etc">
@@ -118,14 +118,6 @@
 			<fileset dir="${int.xfire.dir}/thirdparty"/>
 		</copy>
     
-		<!--
-				Cannot use XFire client
-				[JBWS-1654] - ServiceDelegate requires non portable method getPortClassMap
-	  -->
-		<copy todir="${bindist.lib.dir}/client" overwrite="true">
-			<fileset dir="${int.sunri.dir}/thirdparty"/>
-		</copy>
-
 		<!-- tests -->
 		<copy todir="${bindist.tests.dir}" overwrite="true">
 			<fileset dir="${testsuite.dir}/src"/>

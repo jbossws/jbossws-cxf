@@ -78,44 +78,23 @@
 
 	<target name="tests-init" depends="prepare,tests-classpath">
 
-		<!--
-				Cannot use XFire client
-				[JBWS-1654] - ServiceDelegate requires non portable method getPortClassMap
-	  -->
-		<path id="sunri.classpath">
-			<pathelement location="${thirdparty.dir}/client/FastInfoset.jar"/>
-			<pathelement location="${thirdparty.dir}/client/http.jar"/>
-			<pathelement location="${thirdparty.dir}/client/jaxws-api.jar"/>
-			<pathelement location="${thirdparty.dir}/client/jaxws-rt.jar"/>
-			<pathelement location="${thirdparty.dir}/client/jaxws-tools.jar"/>
-			<pathelement location="${thirdparty.dir}/client/jsr173_api.jar"/>
-			<pathelement location="${thirdparty.dir}/client/jsr181-api.jar"/>
-			<pathelement location="${thirdparty.dir}/client/jsr250-api.jar"/>
-			<pathelement location="${thirdparty.dir}/client/resolver.jar"/>
-			<pathelement location="${thirdparty.dir}/client/saaj-api.jar"/>
-			<pathelement location="${thirdparty.dir}/client/saaj-impl.jar"/>
-			<pathelement location="${thirdparty.dir}/client/sjsxp.jar"/>
-			<pathelement location="${thirdparty.dir}/client/stax-ex.jar"/>
-			<pathelement location="${thirdparty.dir}/client/streambuffer.jar"/>
-			<pathelement location="${thirdparty.dir}/client/wstx.jar"/>
-		</path>
-
-		<path id="xfire.classpath">
-			<pathelement location="${thirdparty.dir}/jaxws-api.jar"/>
-			<pathelement location="${thirdparty.dir}/jdom.jar"/>
-			<pathelement location="${thirdparty.dir}/saaj-api.jar"/>
-			<pathelement location="${thirdparty.dir}/saaj-impl.jar"/>
-			<pathelement location="${thirdparty.dir}/xfire-all.jar"/>
-			<pathelement location="${thirdparty.dir}/xfire-jsr181-api.jar"/>
-		</path>
-
 		<path id="ws.stack.classpath">
-			<path refid="sunri.classpath"/>
+			<pathelement location="${lib.dir}/jbossws-spi.jar"/>
+      <pathelement location="${lib.dir}/cxf-incubator.jar"/>
+      <pathelement location="${lib.dir}/geronimo-javamail.jar"/>
+      <pathelement location="${lib.dir}/geronimo-ws-metadata.jar"/>
+      <pathelement location="${lib.dir}/jaxws-api.jar"/>
+      <pathelement location="${lib.dir}/jdom.jar"/>
+      <pathelement location="${lib.dir}/neethi.jar"/>
+      <pathelement location="${lib.dir}/resolver.jar"/>
+      <pathelement location="${lib.dir}/saaj-api.jar"/>
+      <pathelement location="${lib.dir}/saaj-impl.jar"/>
+      <pathelement location="${lib.dir}/wsdl4j.jar"/>
+      <pathelement location="${lib.dir}/wstx.jar"/>
+      <pathelement location="${lib.dir}/XmlSchema.jar"/>
 		</path>
 
 		<path id="tests.extra.classpath">
-			<pathelement location="${lib.dir}/jbossws-spi.jar"/>
-			<pathelement location="${thirdparty.dir}/wsdl4j.jar"/>
 		</path>
 
 	</target>
