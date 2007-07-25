@@ -63,7 +63,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
    @Override
    public void create(Deployment dep)
    {
-      DeploymentType depType = dep.getDeploymentType();
+      DeploymentType depType = dep.getType();
       if (depType != DeploymentType.JAXWS_EJB3 && depType != DeploymentType.JAXWS_JSE)
          throw new IllegalStateException("Unsupported deployment type: " + depType);
 
