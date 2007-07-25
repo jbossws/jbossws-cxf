@@ -94,7 +94,7 @@ public class EndpointServlet extends HttpServlet
 
       // Set the runtime classloader for JSE endpoints, this should be the tomcat classloader
       Deployment dep = endpoint.getService().getDeployment();
-      if (dep.getType() == Deployment.DeploymentType.JAXRPC_JSE || dep.getType() == Deployment.DeploymentType.JAXWS_JSE)
+      if (dep.getDeploymentType() == Deployment.DeploymentType.JAXRPC_JSE || dep.getDeploymentType() == Deployment.DeploymentType.JAXWS_JSE)
       {
          ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
          dep.setRuntimeClassLoader(classLoader);
