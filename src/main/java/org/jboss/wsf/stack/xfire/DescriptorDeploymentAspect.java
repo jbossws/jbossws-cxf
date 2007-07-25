@@ -30,7 +30,7 @@ import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.DeploymentAspect;
 import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.deployment.WebAppDesciptorModifier;
+import org.jboss.wsf.framework.deployment.WebAppDesciptorModifier;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.stack.xfire.metadata.services.DDBean;
 import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;

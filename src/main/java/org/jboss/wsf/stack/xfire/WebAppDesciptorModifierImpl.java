@@ -27,9 +27,9 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.WebAppDesciptorModifier;
+import org.jboss.wsf.framework.deployment.WebAppDesciptorModifier;
 import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
-import org.jboss.wsf.spi.deployment.RewriteResults;
+import org.jboss.wsf.framework.deployment.RewriteResults;
 
 /**
  * Modifies web.xml for xfire
