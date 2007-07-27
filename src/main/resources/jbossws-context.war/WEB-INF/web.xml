@@ -14,24 +14,14 @@
 
   <servlet>
     <servlet-name>ContextServlet</servlet-name>
-    <servlet-class>org.jboss.ws.core.server.ContextServlet</servlet-class>
+    <servlet-class>org.jboss.wsf.framework.management.ContextServlet</servlet-class>
   </servlet>
 
-  <servlet>
-    <servlet-name>PortComponentLinkServlet</servlet-name>
-    <servlet-class>org.jboss.ws.core.server.PortComponentLinkServlet</servlet-class>
-  </servlet>
-  
   <!-- now the mappings -->
   
   <servlet-mapping>
     <servlet-name>ContextServlet</servlet-name>
     <url-pattern>/services/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>PortComponentLinkServlet</servlet-name>
-    <url-pattern>/pclink</url-pattern>
   </servlet-mapping>
 
   <!-- 
