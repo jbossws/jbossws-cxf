@@ -29,6 +29,7 @@ import java.net.URL;
 
 import javax.management.ObjectName;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -75,9 +76,12 @@ public class CXFServletExt extends CXFServlet
       // Init the Endpoint
       SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
       epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).createEndpointRegistry();
-      String contextPath = servletConfig.getServletContext().getContextPath();
+      
+      ServletContext context = servletConfig.getServletContext();
+      String contextPath = context.getContextPath();
       endpoint = initServiceEndpoint(contextPath);
-      endpoint.addAttachment(ServletController.class, getController());
+      
+      context.setAttribute(ServletController.class.getName(), getController());
    }
 
    public ServletController createServletController()

@@ -56,7 +56,7 @@ public class RequestHandlerImpl implements RequestHandler
 
    public void handleHttpRequest(Endpoint ep, HttpServletRequest req, HttpServletResponse res, ServletContext context) throws ServletException, IOException
    {
-      ServletController controller = ep.getAttachment(ServletController.class);
+      ServletController controller = (ServletController)context.getAttribute(ServletController.class.getName());
       if (controller == null)
          throw new IllegalStateException("Cannot obtain servlet controller");
 
