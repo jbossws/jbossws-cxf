@@ -60,7 +60,7 @@ public class WebAppDesciptorModifierImpl implements WebAppDesciptorModifier
 
       Element root = webXml.getRootElement();
 
-      DDBeans ddbeans = dep.getContext().getAttachment(DDBeans.class);
+      DDBeans ddbeans = dep.getAttachment(DDBeans.class);
       if (ddbeans == null)
          throw new IllegalStateException("Cannot obtain sun-jaxws meta data");
 

@@ -104,14 +104,14 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
          dd.addBean(bean);
       }
 
-      dep.getContext().addAttachment(DDBeans.class, dd);
+      dep.addAttachment(DDBeans.class, dd);
 
       String propKey = WebAppDesciptorModifier.CONTEXT_PARAMETER_MAP;
-      Map<String, String> contextParams = (Map<String, String>)dep.getContext().getProperty(propKey);
+      Map<String, String> contextParams = (Map<String, String>)dep.getProperty(propKey);
       if (contextParams == null)
       {
          contextParams = new HashMap<String, String>();
-         dep.getContext().setProperty(propKey, contextParams);
+         dep.setProperty(propKey, contextParams);
       }
       contextParams.put(CXFServletExt.PARAM_CXF_BEANS_URL, dd.createFileURL().toExternalForm());
    }
@@ -119,7 +119,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
    @Override
    public void destroy(Deployment dep)
    {
-      DDBeans dd = dep.getContext().getAttachment(DDBeans.class);
+      DDBeans dd = dep.getAttachment(DDBeans.class);
       if (dd != null)
       {
          dd.destroyFileURL();
