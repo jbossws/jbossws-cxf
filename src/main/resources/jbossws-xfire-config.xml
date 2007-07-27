@@ -32,7 +32,7 @@
     <property name="provides">ContextProperties</property>
     <property name="contextProperties">
       <map keyClass="java.lang.String" valueClass="java.lang.String">
-        <entry><key>ServletClass</key><value>org.jboss.wsf.stack.xfire.CXFServletExt</value></entry>
+        <entry><key>org.jboss.ws.webapp.ServletClass</key><value>org.jboss.wsf.stack.xfire.CXFServletExt</value></entry>
       </map>
     </property>
   </bean>

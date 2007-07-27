@@ -23,18 +23,17 @@ package org.jboss.wsf.stack.xfire;
 
 //$Id: XFireServicesDeployer.java 3802 2007-07-05 16:44:32Z thomas.diesler@jboss.com $
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.spi.deployment.DeploymentAspect;
 import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.framework.deployment.WebAppDesciptorModifier;
-import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.stack.xfire.metadata.services.DDBean;
 import org.jboss.wsf.stack.xfire.metadata.services.DDBeans;
 import org.jboss.wsf.stack.xfire.metadata.services.DDEndpoint;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A deployer that generates cxf.xml 
@@ -106,7 +105,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
 
       dep.addAttachment(DDBeans.class, dd);
 
-      String propKey = WebAppDesciptorModifier.CONTEXT_PARAMETER_MAP;
+      String propKey = "org.jboss.ws.webapp.ContextParameterMap";
       Map<String, String> contextParams = (Map<String, String>)dep.getProperty(propKey);
       if (contextParams == null)
       {
