@@ -75,7 +75,7 @@ public class CXFServletExt extends CXFServlet
 
       // Init the Endpoint
       SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).createEndpointRegistry();
+      epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).getEndpointRegistry();
       
       ServletContext context = servletConfig.getServletContext();
       String contextPath = context.getContextPath();

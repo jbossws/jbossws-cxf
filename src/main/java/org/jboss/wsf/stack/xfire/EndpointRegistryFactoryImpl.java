@@ -36,7 +36,7 @@ import org.jboss.wsf.common.KernelAwareSPIFactory;
  */
 public class EndpointRegistryFactoryImpl extends EndpointRegistryFactory
 {
-   public EndpointRegistry createEndpointRegistry()
+   public EndpointRegistry getEndpointRegistry()
    {
       return new KernelAwareSPIFactory().getKernelProvidedSPI(
         EndpointRegistry.BEAN_NAME, EndpointRegistry.class

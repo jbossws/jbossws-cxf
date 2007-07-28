@@ -53,7 +53,7 @@ public class EndpointServlet extends HttpServlet
    {
       super.init(servletConfig);
       SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).createEndpointRegistry();
+      epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).getEndpointRegistry();
    }
 
    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
