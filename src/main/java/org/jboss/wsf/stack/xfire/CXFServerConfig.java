@@ -21,27 +21,21 @@
  */
 package org.jboss.wsf.stack.xfire;
 
-// $Id$
-
-import java.util.ArrayList;
-
-import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
+//$Id: DefaultServerConfig.java 4023 2007-07-28 07:14:06Z thomas.diesler@jboss.com $
 
 import org.jboss.logging.Logger;
-import org.jboss.wsf.spi.management.DefaultEndpointRegistry;
+import org.jboss.wsf.framework.management.DefaultServerConfig;
 
 /**
- * A Service Endpoint Registry
+ * Basic implementation of a ServerConfig 
  *
  * @author Thomas.Diesler@jboss.org
- * @since 04-May-2007
+ * @since 08-May-2006
  */
-public class ManagedEndpointRegistry extends DefaultEndpointRegistry implements ManagedEndpointRegistryMBean
+public class CXFServerConfig extends DefaultServerConfig implements CXFServerConfigMBean
 {
-   // provide logging
-   private static final Logger log = Logger.getLogger(ManagedEndpointRegistry.class);
-
+   private static final Logger log = Logger.getLogger(CXFServerConfig.class);
+   
    public String getImplementationTitle()
    {
       return getClass().getPackage().getImplementationTitle();
@@ -51,36 +45,11 @@ public class ManagedEndpointRegistry extends DefaultEndpointRegistry implements 
    {
       return getClass().getPackage().getImplementationVersion();
    }
-
+   
    public void create() throws Exception
    {
       log.info(getImplementationTitle());
       log.info(getImplementationVersion());
-      MBeanServer server = getMBeanServer();
-      if (server != null)
-      {
-         server.registerMBean(this, OBJECT_NAME);
-      }
-   }
-
-   public void destroy() throws Exception
-   {
-      log.debug("Destroy service endpoint manager");
-      MBeanServer server = getMBeanServer();
-      if (server != null)
-      {
-         server.unregisterMBean(OBJECT_NAME);
-      }
-   }
-
-   private MBeanServer getMBeanServer()
-   {
-      MBeanServer server = null;
-      ArrayList servers = MBeanServerFactory.findMBeanServer(null);
-      if (servers.size() > 0)
-      {
-         server = (MBeanServer)servers.get(0);
-      }
-      return server;
+      super.create();
    }
 }

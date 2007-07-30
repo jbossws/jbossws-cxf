@@ -21,13 +21,17 @@
  */
 package org.jboss.wsf.stack.xfire;
 
-import org.jboss.wsf.spi.management.EndpointRegistry;
+//$Id: DefaultServerConfig.java 4023 2007-07-28 07:14:06Z thomas.diesler@jboss.com $
+
+import org.jboss.wsf.framework.management.DefaultServerConfigMBean;
 
 /**
- * MBean interface.
- * @since 15-April-2004
+ * Basic implementation of a ServerConfig 
+ *
+ * @author Thomas.Diesler@jboss.org
+ * @since 08-May-2006
  */
-public interface ManagedEndpointRegistryMBean extends EndpointRegistry
+public interface CXFServerConfigMBean extends DefaultServerConfigMBean
 {
    String getImplementationTitle();
 
