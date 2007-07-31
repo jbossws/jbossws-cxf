@@ -54,3 +54,6 @@ org/jboss/test/ws/jaxws/samples/webservice/**
 # [JBWS-1760] Investigate CXF samples xop
 org/jboss/test/ws/jaxws/samples/xop/**
 
+# [JBWS-1774] Provide a tools implementation for CXF (WSContractProvider and WSContractConsumer)
+org/jboss/test/ws/jaxws/tools/**
+
