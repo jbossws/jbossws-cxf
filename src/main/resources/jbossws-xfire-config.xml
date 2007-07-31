@@ -56,6 +56,7 @@
   <!-- Deployment aspect installers -->  
   <bean name="WSCXFDeploymentAspectInstallerJSE" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
     <property name="manager"><inject bean="WSDeploymentAspectManagerJSE"/></property>
+    <property name="sortAspectsOnCreate">true</property>
     <property name="aspects">
       <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">
         <inject bean="WSCXFContextPropertiesDeploymentAspect"/>
@@ -63,9 +64,11 @@
         <inject bean="WSCXFDescriptorDeploymentAspect"/>
       </set>
     </property>
+    <depends>WSDeploymentAspectInstallerJSE</depends>
   </bean>
   <bean name="WSCXFDeploymentAspectInstallerEJB" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
     <property name="manager"><inject bean="WSDeploymentAspectManagerEJB"/></property>
+    <property name="sortAspectsOnCreate">true</property>
     <property name="aspects">
       <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">
         <inject bean="WSCXFContextPropertiesDeploymentAspect"/>
@@ -73,5 +76,6 @@
         <inject bean="WSCXFDescriptorDeploymentAspect"/>
       </set>
     </property>
+    <depends>WSDeploymentAspectInstallerEJB</depends>
   </bean>
     
