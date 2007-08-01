@@ -146,11 +146,11 @@
     
     <!-- Build jbosswsri.sar -->
     <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire50.sar" manifest="${xfire.output.etc.dir}/default.mf">
-      <!-- [JBAS-4379] MC beans deployed twice because of jacc service
+
       <fileset dir="${xfire.output.lib.dir}">
-      <include name="jbossws-context.war"/>
+        <include name="jbossws-context.war"/>
       </fileset>
-      -->
+
       <fileset dir="${spi.dir}/thirdparty">
         <include name="jaxrpc-api.jar"/>
       </fileset>
