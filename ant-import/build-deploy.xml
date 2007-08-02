@@ -47,7 +47,6 @@
     <ant antfile="${int.sunri.dir}/build.xml" target="undeploy-jboss42" inheritall="false"/>
     <macro-deploy-xfire42 
       wsflibs="${framework.dir}/output/lib" 
-      jbosslibs="${int.jboss42.dir}/output/lib" 
       stacklibs="${int.xfire.dir}/output/lib" 
       thirdpartylibs="${int.xfire.dir}/thirdparty"/>
     

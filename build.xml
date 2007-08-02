@@ -184,8 +184,6 @@
   
   <target name="jars-jboss42" depends="jars-common" if="jboss42.home">
     
-    <ant antfile="${int.jboss42.dir}/build.xml" target="jars" inheritall="false"/>
-    
     <!-- Concat jboss-beans.xml -->
     <concat destfile="${xfire.output.lib.dir}/jbossws-xfire42/jbossws.beans/META-INF/jboss-beans.xml">
       <header trimleading="yes">
@@ -206,13 +204,11 @@
       <fileset dir="${framework.dir}/thirdparty">
         <include name="jaxrpc-api.jar"/>
       </fileset>
-      <fileset dir="${int.jboss42.dir}/output/lib">
-        <include name="jbossws-jboss42.jar"/>
-      </fileset>
       <fileset dir="${xfire.output.lib.dir}">
         <include name="jbossws-xfire.jar"/>
       </fileset>
       <fileset dir="${thirdparty.dir}">
+        <include name="jbossws-jboss42.jar"/>
         <include name="cxf-incubator.jar"/>
         <include name="geronimo-ws-metadata.jar"/>
         <include name="jaxb-api.jar"/>
@@ -265,9 +261,6 @@
 			<packageset dir="${framework.dir}/src/main/java">
 				<include name="org/jboss/wsf/**"/>
 				<include name="org/jboss/ws/**"/>
-			</packageset>
-			<packageset dir="${int.jboss50.dir}/src/main/java">
-				<include name="org/jboss/wsf/**"/>
 			</packageset>
 			<doctitle><![CDATA[<h1>JBoss Web Service Framework  ${version.id} - Stack integration XFire</h1>]]></doctitle>
 			<tag name="todo" scope="all" description="To do:"/>

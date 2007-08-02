@@ -60,6 +60,7 @@
     <get src="${jboss.repository}/jboss/jaxr/${jboss-jaxr}/lib/juddi-service.sar" dest="${thirdparty.dir}/juddi-service.sar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common.jar" dest="${thirdparty.dir}/jbossws-common.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi.jar" dest="${thirdparty.dir}/jbossws-spi.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-jboss42/${jbossws-jboss42}/lib/jbossws-jboss42.jar" dest="${thirdparty.dir}/jbossws-jboss42.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-jboss50/${jbossws-jboss50}/lib/jbossws-jboss50.jar" dest="${thirdparty.dir}/jbossws-jboss50.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-jboss50/${jbossws-jboss50}/lib/jbossws-jboss50-deployer.zip" dest="${thirdparty.dir}/jbossws-jboss50-deployer.zip" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/stax-api/${stax-api}/lib/stax-api.jar" dest="${thirdparty.dir}/stax-api.jar" usetimestamp="true" verbose="true"/>
