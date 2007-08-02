@@ -97,7 +97,6 @@
   
   <macrodef name="macro-deploy-xfire42">
       <attribute name="wsflibs"/>
-      <attribute name="jbosslibs"/>
       <attribute name="stacklibs"/>
       <attribute name="thirdpartylibs"/>
     <sequential>
@@ -108,10 +107,8 @@
         <fileset dir="@{wsflibs}">
           <include name="jbossws-framework.jar"/>
         </fileset>
-        <fileset dir="@{jbosslibs}">
-          <include name="jbossws-jboss42.jar"/>
-        </fileset>
         <fileset dir="@{thirdpartylibs}">
+          <include name="jbossws-jboss42.jar"/>
           <include name="jbossws-spi.jar"/>
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
@@ -130,7 +127,7 @@
 			
 			<!--SERVER JARS -->
       <copy todir="${jboss42.home}/server/${jboss.server.instance}/lib" overwrite="true">
-        <fileset dir="@{jbosslibs}">
+        <fileset dir="@{thirdpartylibs}">
           <include name="jbossws-jboss42.jar"/>
         </fileset>
       </copy>

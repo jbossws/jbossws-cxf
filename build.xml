@@ -184,13 +184,15 @@
   
   <target name="jars-jboss42" depends="jars-common" if="jboss42.home">
     
+    <unzip dest="${xfire.output.dir}/resources" src="${thirdparty.dir}/jbossws-jboss42-resources.zip"/>
+    
     <!-- Concat jboss-beans.xml -->
     <concat destfile="${xfire.output.lib.dir}/jbossws-xfire42/jbossws.beans/META-INF/jboss-beans.xml">
       <header trimleading="yes">
         &lt;deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd" xmlns="urn:jboss:bean-deployer"&gt;
       </header>
       <fileset file="${xfire.resources.dir}/jbossws-xfire-config.xml"/>
-      <fileset file="${int.jboss42.dir}/src/main/resources/jbossws-jboss42-config.xml"/>
+      <fileset file="${xfire.output.dir}/resources/jbossws-jboss42-config.xml"/>
       <footer trimleading="yes">
         &lt;/deployment&gt;
       </footer>
@@ -231,7 +233,7 @@
       <fileset dir="${xfire.output.lib.dir}/jbossws-xfire42">
         <include name="jbossws.beans/**"/>
       </fileset>
-      <metainf dir="${int.jboss42.dir}/src/main/resources/jbossws-jboss42.sar/META-INF">
+      <metainf dir="${xfire.output.dir}/resources/jbossws-jboss42.sar/META-INF">
         <include name="jboss-service.xml"/>
       </metainf>
     </jar>
