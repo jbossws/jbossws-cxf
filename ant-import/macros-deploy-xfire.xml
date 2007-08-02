@@ -19,7 +19,7 @@
   
   <!-- Deploy to jboss50 -->
   <macrodef name="macro-deploy-xfire50">
-      <attribute name="spilibs"/>
+      <attribute name="wsflibs"/>
       <attribute name="jbosslibs"/>
       <attribute name="stacklibs"/>
       <attribute name="thirdpartylibs"/>
@@ -28,7 +28,7 @@
 
 			<!-- CLIENT JARS -->
       <copy todir="${jboss50.home}/client" overwrite="true">
-        <fileset dir="@{spilibs}">
+        <fileset dir="@{wsflibs}">
           <include name="jbossws-framework.jar"/>
         </fileset>
         <fileset dir="@{jbosslibs}">
@@ -102,7 +102,7 @@
   </macrodef>
   
   <macrodef name="macro-deploy-xfire42">
-      <attribute name="spilibs"/>
+      <attribute name="wsflibs"/>
       <attribute name="jbosslibs"/>
       <attribute name="stacklibs"/>
       <attribute name="thirdpartylibs"/>
@@ -111,7 +111,7 @@
 
 			<!-- CLIENT JARS -->
       <copy todir="${jboss42.home}/client" overwrite="true">
-        <fileset dir="@{spilibs}">
+        <fileset dir="@{wsflibs}">
           <include name="jbossws-framework.jar"/>
         </fileset>
         <fileset dir="@{jbosslibs}">
