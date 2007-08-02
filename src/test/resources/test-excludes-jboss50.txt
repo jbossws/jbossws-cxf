@@ -55,5 +55,5 @@ org/jboss/test/ws/jaxws/samples/webservice/**
 org/jboss/test/ws/jaxws/samples/xop/**
 
 # [JBWS-1774] Provide a tools implementation for CXF (WSContractProvider and WSContractConsumer)
-org/jboss/test/ws/jaxws/tools/**
+org/jboss/test/ws/jaxws/smoke/tools/**
 
