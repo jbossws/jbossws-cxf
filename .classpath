@@ -7,7 +7,6 @@
 	<classpathentry kind="lib" path="thirdparty/jaxb-xjc.jar"/>
 	<classpathentry kind="lib" path="thirdparty/servlet-api.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jaxws-api.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/integration-jboss50"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jboss-5.0.x"/>
 	<classpathentry kind="lib" path="thirdparty/cxf-incubator.jar" sourcepath="/home/tdiesler/Download/java/apache/cxf/apache-cxf-2.0-incubator-src.zip"/>
 	<classpathentry kind="lib" path="thirdparty/geronimo-ws-metadata.jar"/>

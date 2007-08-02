@@ -131,8 +131,6 @@
   
   <target name="jars-jboss50" depends="jars-common" if="jboss50.home">
     
-    <ant antfile="${int.jboss50.dir}/build.xml" target="jars" inheritall="false"/>
-    
     <!-- Concat jbossws-beans.xml -->
     <concat destfile="${xfire.output.lib.dir}/jbossws-xfire50/jbossws-beans.xml">
       <header trimleading="yes">
