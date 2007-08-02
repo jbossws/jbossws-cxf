@@ -58,6 +58,7 @@
     <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j.jar" dest="${thirdparty.dir}/wsdl4j.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j-src.jar" dest="${thirdparty.dir}/wsdl4j-src.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jaxr/${jboss-jaxr}/lib/juddi-service.sar" dest="${thirdparty.dir}/juddi-service.sar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common.jar" dest="${thirdparty.dir}/jbossws-common.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi.jar" dest="${thirdparty.dir}/jbossws-spi.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/stax-api/${stax-api}/lib/stax-api.jar" dest="${thirdparty.dir}/stax-api.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-api.jar" dest="${thirdparty.dir}/jaxb-api.jar" usetimestamp="true" verbose="true"/>
@@ -80,6 +81,7 @@
       <pathelement location="${thirdparty.dir}/geronimo-ws-metadata.jar"/>
       <pathelement location="${thirdparty.dir}/jaxb-api.jar"/>
       <pathelement location="${thirdparty.dir}/jaxws-api.jar"/>
+      <pathelement location="${thirdparty.dir}/jbossws-common.jar"/>
       <pathelement location="${thirdparty.dir}/jbossws-spi.jar"/>
       <pathelement location="${thirdparty.dir}/saaj-api.jar"/>
       <pathelement location="${thirdparty.dir}/saaj-impl.jar"/>
