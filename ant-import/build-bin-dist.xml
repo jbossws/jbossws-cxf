@@ -62,7 +62,7 @@
 			<fileset dir="${int.sunri.dir}/ant-import">
 				<include name="macros-deploy-sunri.xml"/>
 			</fileset>
-			<fileset dir="${spi.dir}/ant-import">
+			<fileset dir="${framework.dir}/ant-import">
 				<include name="macros-deploy-spi.xml"/>
 			</fileset>
 			<fileset dir="${int.xfire.dir}/ant-import">
@@ -74,7 +74,7 @@
 		</copy>
 
 		<copy todir="${bindist.bin.dir}">
-			<fileset dir="${spi.dir}/src/main/etc">
+			<fileset dir="${framework.dir}/src/main/etc">
 				<include name="*.sh"/>
 				<include name="*.bat"/>
 			</fileset>
@@ -95,11 +95,12 @@
 
 		<!-- lib -->
 		<copy todir="${bindist.lib.dir}" overwrite="true">
-			<fileset dir="${spi.dir}/output/lib">
-				<include name="jbossws-spi.jar"/>
-				<include name="jbossws-spi-scripts.zip"/>
+			<fileset dir="${framework.dir}/output/lib">
+				<include name="jbossws-framework.jar"/>
+				<include name="jbossws-framework-scripts.zip"/>
 			</fileset>
-			<fileset dir="${spi.dir}/thirdparty">
+			<fileset dir="${framework.dir}/thirdparty">
+				<include name="jbossws-spi.jar"/>
 				<include name="getopt.jar"/>
 				<include name="wsdl4j.jar"/>
 			</fileset>

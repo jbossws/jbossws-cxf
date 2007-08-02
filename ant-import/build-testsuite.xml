@@ -27,7 +27,8 @@
   <target name="tests-init" depends="tests-classpath">
     
     <path id="ws.stack.classpath">
-      <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
+      <pathelement location="${framework.dir}/output/lib/jbossws-framework.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/jbossws-spi.jar"/>
       <pathelement location="${int.xfire.dir}/thirdparty/cxf-incubator.jar"/>
       <pathelement location="${int.xfire.dir}/thirdparty/geronimo-javamail.jar"/>
       <pathelement location="${int.xfire.dir}/thirdparty/geronimo-ws-metadata.jar"/>

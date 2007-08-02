@@ -29,12 +29,13 @@
 			<!-- CLIENT JARS -->
       <copy todir="${jboss50.home}/client" overwrite="true">
         <fileset dir="@{spilibs}">
-          <include name="jbossws-spi.jar"/>
+          <include name="jbossws-framework.jar"/>
         </fileset>
         <fileset dir="@{jbosslibs}">
           <include name="jbossws-jboss50.jar"/>
         </fileset>
         <fileset dir="@{thirdpartylibs}">
+          <include name="jbossws-spi.jar"/>
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
           <include name="jaxb-xjc.jar"/>
@@ -77,6 +78,7 @@
 
   			<!-- CLIENT JARS -->
         <fileset dir="${jboss50.home}/client">
+          <include name="jbossws-framework.jar"/>
           <include name="jbossws-spi.jar"/>
           <include name="jbossws-jboss50.jar"/>
         </fileset>
@@ -110,12 +112,13 @@
 			<!-- CLIENT JARS -->
       <copy todir="${jboss42.home}/client" overwrite="true">
         <fileset dir="@{spilibs}">
-          <include name="jbossws-spi.jar"/>
+          <include name="jbossws-framework.jar"/>
         </fileset>
         <fileset dir="@{jbosslibs}">
           <include name="jbossws-jboss42.jar"/>
         </fileset>
         <fileset dir="@{thirdpartylibs}">
+          <include name="jbossws-spi.jar"/>
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
           <include name="jaxb-xjc.jar"/>

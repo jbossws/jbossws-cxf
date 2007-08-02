@@ -14,7 +14,7 @@
 <project>
 
   <import file="${int.xfire.dir}/ant-import/macros-deploy-xfire.xml"/>
-	<import file="${spi.dir}/ant-import/macros-deploy-spi.xml"/>
+	<import file="${framework.dir}/ant-import/macros-deploy-wsf.xml"/>
   
   <!-- ================================================================== -->
   <!-- Deployment                                                         -->
@@ -25,21 +25,21 @@
     <ant antfile="${int.native.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
     <ant antfile="${int.sunri.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
     <macro-deploy-xfire50 
-      spilibs="${spi.dir}/output/lib" 
+      wsflibs="${framework.dir}/output/lib" 
       jbosslibs="${int.jboss50.dir}/output/lib" 
       stacklibs="${int.xfire.dir}/output/lib" 
       thirdpartylibs="${int.xfire.dir}/thirdparty"/>
 
-		<macro-deploy-spi
-				spilibs="${spi.dir}/output/lib"				
-				thirdpartylibs="${spi.dir}/thirdparty"
+		<macro-deploy-wsf
+				wsflibs="${framework.dir}/output/lib"				
+				thirdpartylibs="${framework.dir}/thirdparty"
 				jbosshome="${jboss50.home}"/>
   </target>
     
   <!-- Remove from jboss50 -->
   <target name="undeploy-jboss50" depends="prepare" description="Remove jbossws/xfire from jboss50">
     <macro-undeploy-xfire50/>
-		<macro-undeploy-spi jbosshome="${jboss50.home}"/>
+		<macro-undeploy-wsf jbosshome="${jboss50.home}"/>
   </target>
   
   <!-- Deploy to jboss42 -->
@@ -47,21 +47,21 @@
     <ant antfile="${int.native.dir}/build.xml" target="undeploy-jboss42" inheritall="false"/>
     <ant antfile="${int.sunri.dir}/build.xml" target="undeploy-jboss42" inheritall="false"/>
     <macro-deploy-xfire42 
-      spilibs="${spi.dir}/output/lib" 
+      wsflibs="${framework.dir}/output/lib" 
       jbosslibs="${int.jboss42.dir}/output/lib" 
       stacklibs="${int.xfire.dir}/output/lib" 
       thirdpartylibs="${int.xfire.dir}/thirdparty"/>
     
-		<macro-deploy-spi
-				spilibs="${spi.dir}/output/lib"				
-				thirdpartylibs="${spi.dir}/thirdparty"
+		<macro-deploy-wsf
+				wsflibs="${framework.dir}/output/lib"				
+				thirdpartylibs="${framework.dir}/thirdparty"
 				jbosshome="${jboss42.home}"/>
   </target>
     
   <!-- Remove from jboss42 -->
   <target name="undeploy-jboss42" depends="prepare" description="Remove jbossws/xfire from jboss42">
     <macro-undeploy-xfire42/>
-		<macro-undeploy-spi jbosshome="${jboss42.home}"/>
+		<macro-undeploy-wsf jbosshome="${jboss42.home}"/>
   </target>
   
 </project>

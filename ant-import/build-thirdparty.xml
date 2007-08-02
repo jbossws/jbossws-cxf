@@ -58,6 +58,7 @@
     <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j.jar" dest="${thirdparty.dir}/wsdl4j.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j-src.jar" dest="${thirdparty.dir}/wsdl4j-src.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jaxr/${jboss-jaxr}/lib/juddi-service.sar" dest="${thirdparty.dir}/juddi-service.sar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi.jar" dest="${thirdparty.dir}/jbossws-spi.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/stax-api/${stax-api}/lib/stax-api.jar" dest="${thirdparty.dir}/stax-api.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-api.jar" dest="${thirdparty.dir}/jaxb-api.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-impl.jar" dest="${thirdparty.dir}/jaxb-impl.jar" usetimestamp="true" verbose="true"/>
@@ -71,14 +72,15 @@
   <target name="thirdparty-classpath" depends="thirdparty-init">
     
     <path id="xfire.integration.classpath">
-      <pathelement location="${spi.dir}/output/lib/jbossws-spi.jar"/>
-      <pathelement location="${spi.dir}/thirdparty/dom4j.jar"/>
-      <pathelement location="${spi.dir}/thirdparty/jboss-common-core.jar"/>
-      <pathelement location="${spi.dir}/thirdparty/jboss-logging-spi.jar"/>
+      <pathelement location="${framework.dir}/output/lib/jbossws-framework.jar"/>
+      <pathelement location="${framework.dir}/thirdparty/dom4j.jar"/>
+      <pathelement location="${framework.dir}/thirdparty/jboss-common-core.jar"/>
+      <pathelement location="${framework.dir}/thirdparty/jboss-logging-spi.jar"/>
       <pathelement location="${thirdparty.dir}/cxf-incubator.jar"/>
       <pathelement location="${thirdparty.dir}/geronimo-ws-metadata.jar"/>
       <pathelement location="${thirdparty.dir}/jaxb-api.jar"/>
       <pathelement location="${thirdparty.dir}/jaxws-api.jar"/>
+      <pathelement location="${thirdparty.dir}/jbossws-spi.jar"/>
       <pathelement location="${thirdparty.dir}/saaj-api.jar"/>
       <pathelement location="${thirdparty.dir}/saaj-impl.jar"/>
       <pathelement location="${thirdparty.dir}/servlet-api.jar"/>
