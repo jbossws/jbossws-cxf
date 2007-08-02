@@ -20,5 +20,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/integration-framework"/>
 	<classpathentry kind="lib" path="/integration-framework/thirdparty/dom4j.jar"/>
 	<classpathentry kind="lib" path="/integration-framework/thirdparty/jboss-common-core.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry kind="output" path="output/eclipse"/>
 </classpath>
