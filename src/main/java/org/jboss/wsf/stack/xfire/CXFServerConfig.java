@@ -24,7 +24,7 @@ package org.jboss.wsf.stack.xfire;
 //$Id: DefaultServerConfig.java 4023 2007-07-28 07:14:06Z thomas.diesler@jboss.com $
 
 import org.jboss.logging.Logger;
-import org.jboss.wsf.framework.management.DefaultServerConfig;
+import org.jboss.wsf.common.management.DefaultServerConfig;
 
 /**
  * Basic implementation of a ServerConfig 

@@ -23,7 +23,7 @@ package org.jboss.wsf.stack.xfire;
 
 //$Id: DefaultServerConfig.java 4023 2007-07-28 07:14:06Z thomas.diesler@jboss.com $
 
-import org.jboss.wsf.framework.management.DefaultServerConfigMBean;
+import org.jboss.wsf.common.management.DefaultServerConfigMBean;
 
 /**
  * Basic implementation of a ServerConfig 
