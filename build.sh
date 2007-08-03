@@ -24,14 +24,7 @@ ANT_HOME=""
 #USE_JDK6=true
 
 # the default search path for ant
-ANT_SEARCH_PATH="\
-    tools
-    tools/ant \
-    tools/apache/ant \
-    ant \
-    ../build/tools/ant \
-    ../../build/tools/ant \
-    ../../../build/tools/ant "
+ANT_SEARCH_PATH="tools/ant"
 
 # the default build file name
 ANT_BUILD_FILE="build.xml"
@@ -99,7 +92,7 @@ search() {
 #
 main() {
     # if there is a build config file. then source it
-    maybe_source "$DIRNAME/build.conf" "../build/build.conf" "../../build/build.conf" "../../../build/build.conf"
+    maybe_source "$DIRNAME/build.conf"
 
     # Increase the maximum file descriptors if we can
     if [ $cygwin = "false" ]; then

@@ -40,7 +40,7 @@ REM - "for" loops have been unrolled for compatibility
 REM   with some WIN32 systems.
 REM ******************************************************
 
-set NAMES=build\tools;build\tools\ant;build\tools\apache\ant
+set NAMES=tools\ant
 set SUBFOLDERS=..;..\..;..\..\..;..\..\..\..
 
 REM ******************************************************
