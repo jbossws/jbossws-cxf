@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id: macros-deploy-spi.xml 3620 2007-06-18 20:39:56Z heiko.braun@jboss.com $ -->
+
+<project>
+
+	<macrodef name="macro-deploy-framework">
+		<attribute name="thirdpartylibs"/>
+		<attribute name="jbosshome"/>
+		<sequential>
+      
+      <!-- BIN SCRIPTS -->
+      <unzip dest="@{jbosshome}/bin" src="@{thirdpartylibs}/jbossws-framework-scripts.zip"/>
+			<chmod dir="@{jbosshome}/bin" perm="+x" includes="*.sh"/>
+      
+      <!-- CLIENT JARS-->
+			<copy todir="@{jbosshome}/client">
+				<fileset dir="@{thirdpartylibs}">
+					<include name="jbossws-common.jar"/>
+					<include name="jbossws-framework.jar"/>
+					<include name="jbossws-spi.jar"/>
+				</fileset>
+			</copy>
+      
+      <!-- SERVER JARS-->
+			<copy todir="@{jbosshome}/server/${jboss.server.instance}/lib">
+				<fileset dir="@{thirdpartylibs}">
+					<include name="jbossws-common.jar"/>
+					<include name="jbossws-framework.jar"/>
+					<include name="jbossws-spi.jar"/>
+				</fileset>
+			</copy>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="macro-undeploy-framework">
+		<attribute name="jbosshome"/>
+		<sequential>
+			<delete>
+        <!-- BIN SCRIPTS -->
+				<fileset dir="@{jbosshome}/bin">
+					<include name="wsconsume.*"/>
+					<include name="wsprovide.*"/>
+				</fileset>
+        
+        <!-- CLIENT JARS-->
+				<fileset dir="@{jbosshome}/client">
+					<include name="jbossws-common.jar"/>
+					<include name="jbossws-framework.jar"/>
+					<include name="jbossws-spi.jar"/>
+				</fileset>
+        
+        <!-- SERVER JARS-->
+				<fileset dir="@{jbosshome}/server/${jboss.server.instance}/lib">
+					<include name="jbossws-common.jar"/>
+					<include name="jbossws-framework.jar"/>
+					<include name="jbossws-spi.jar"/>
+				</fileset>
+			</delete>
+		</sequential>
+	</macrodef>
+
+</project>

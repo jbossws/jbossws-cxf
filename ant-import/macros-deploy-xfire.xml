@@ -19,7 +19,6 @@
   
   <!-- Deploy to jboss50 -->
   <macrodef name="macro-deploy-xfire50">
-      <attribute name="wsflibs"/>
       <attribute name="stacklibs"/>
       <attribute name="thirdpartylibs"/>
     <sequential>
@@ -27,9 +26,6 @@
 
 			<!-- CLIENT JARS -->
       <copy todir="${jboss50.home}/client" overwrite="true">
-        <fileset dir="@{wsflibs}">
-          <include name="jbossws-framework.jar"/>
-        </fileset>
         <fileset dir="@{thirdpartylibs}">
           <include name="jbossws-jboss50.jar"/>
           <include name="jaxb-api.jar"/>
@@ -96,7 +92,6 @@
   </macrodef>
   
   <macrodef name="macro-deploy-xfire42">
-      <attribute name="wsflibs"/>
       <attribute name="stacklibs"/>
       <attribute name="thirdpartylibs"/>
     <sequential>
@@ -104,12 +99,8 @@
 
 			<!-- CLIENT JARS -->
       <copy todir="${jboss42.home}/client" overwrite="true">
-        <fileset dir="@{wsflibs}">
-          <include name="jbossws-framework.jar"/>
-        </fileset>
         <fileset dir="@{thirdpartylibs}">
           <include name="jbossws-jboss42.jar"/>
-          <include name="jbossws-spi.jar"/>
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
           <include name="jaxb-xjc.jar"/>

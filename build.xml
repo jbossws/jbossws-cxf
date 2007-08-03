@@ -41,7 +41,6 @@
   <!-- ================================================================== -->
   
   <target name="init" depends="prepare,thirdparty">
-    <ant antfile="${framework.dir}/build.xml" target="jars" inheritall="false"/>
 		<mkdir dir="${xfire.output.apidocs.dir}"/>
   </target>
   
@@ -149,14 +148,12 @@
         <include name="jbossws-context.war"/>
       </fileset>
 
-      <fileset dir="${framework.dir}/thirdparty">
-        <include name="jaxrpc-api.jar"/>
-      </fileset>
       <fileset dir="${thirdparty.dir}">
         <include name="cxf-incubator.jar"/>
         <include name="geronimo-ws-metadata.jar"/>
         <include name="jaxb-api.jar"/>
         <include name="jaxb-impl.jar"/>
+        <include name="jaxrpc-api.jar"/>
         <include name="jaxws-api.jar"/>
         <include name="jdom.jar"/>
         <include name="neethi.jar"/>
@@ -203,9 +200,6 @@
       <fileset dir="${xfire.output.lib.dir}">
         <include name="jbossws-context.war"/>
       </fileset>
-      <fileset dir="${framework.dir}/thirdparty">
-        <include name="jaxrpc-api.jar"/>
-      </fileset>
       <fileset dir="${xfire.output.lib.dir}">
         <include name="jbossws-xfire.jar"/>
       </fileset>
@@ -215,6 +209,7 @@
         <include name="geronimo-ws-metadata.jar"/>
         <include name="jaxb-api.jar"/>
         <include name="jaxb-impl.jar"/>
+        <include name="jaxrpc-api.jar"/>
         <include name="jaxws-api.jar"/>
         <include name="jdom.jar"/>
         <include name="neethi.jar"/>
@@ -250,19 +245,12 @@
 		<javadoc destdir="${xfire.output.apidocs.dir}" author="true" version="true" use="true" windowtitle="JBossWS API ${version.id} ">
       <classpath>
 			  <pathelement path="${xfire.integration.classpath}"/>
-				<fileset dir="${framework.dir}/thirdparty">
-					<include name="**/*.jar"/>
-				</fileset>
 			</classpath>
       <packageset dir="${xfire.java.dir}" defaultexcludes="yes">
         <include name="org/jboss/wsf/**"/>
       </packageset>
 			<packageset dir="${xfire.output.dir}/thirdparty-sources" defaultexcludes="yes">
 				<include name="org/codehaus/**"/>
-			</packageset>
-			<packageset dir="${framework.dir}/src/main/java">
-				<include name="org/jboss/wsf/**"/>
-				<include name="org/jboss/ws/**"/>
 			</packageset>
 			<doctitle><![CDATA[<h1>JBoss Web Service Framework  ${version.id} - Stack integration XFire</h1>]]></doctitle>
 			<tag name="todo" scope="all" description="To do:"/>

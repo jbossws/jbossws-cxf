@@ -42,6 +42,15 @@
     description="Gets the thirdparty libraries">
 
     <mkdir dir="${thirdparty.dir}"/>
+    <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common.jar" dest="${thirdparty.dir}/jbossws-common.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework.jar" dest="${thirdparty.dir}/jbossws-framework.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework-scripts.zip" dest="${thirdparty.dir}/jbossws-framework-scripts.zip" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi.jar" dest="${thirdparty.dir}/jbossws-spi.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-jboss42/${jbossws-jboss42}/lib/jbossws-jboss42.jar" dest="${thirdparty.dir}/jbossws-jboss42.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-jboss42/${jbossws-jboss42}/lib/jbossws-jboss42-resources.zip" dest="${thirdparty.dir}/jbossws-jboss42-resources.zip" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-jboss50/${jbossws-jboss50}/lib/jbossws-jboss50.jar" dest="${thirdparty.dir}/jbossws-jboss50.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-jboss50/${jbossws-jboss50}/lib/jbossws-jboss50-deployer.zip" dest="${thirdparty.dir}/jbossws-jboss50-deployer.zip" usetimestamp="true" verbose="true"/>
+    
     <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/cxf-incubator.jar" dest="${thirdparty.dir}/cxf-incubator.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/geronimo-javamail.jar" dest="${thirdparty.dir}/geronimo-javamail.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/geronimo-ws-metadata.jar" dest="${thirdparty.dir}/geronimo-ws-metadata.jar" usetimestamp="true" verbose="true"/>
@@ -57,13 +66,11 @@
     <get src="${jboss.repository}/apache-xml-commons/${apache-xml-commons}/lib/resolver.jar" dest="${thirdparty.dir}/resolver.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j.jar" dest="${thirdparty.dir}/wsdl4j.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j-src.jar" dest="${thirdparty.dir}/wsdl4j-src.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/common-core/${jboss-common-core}/lib/jboss-common-core.jar" dest="${thirdparty.dir}/jboss-common-core.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/common-core/${jboss-common-core}/lib/jboss-common-core-sources.jar" dest="${thirdparty.dir}/jboss-common-core-sources.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/common-logging-spi/${jboss-common-logging-spi}/lib/jboss-logging-spi.jar" dest="${thirdparty.dir}/jboss-logging-spi.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jaxr/${jboss-jaxr}/lib/juddi-service.sar" dest="${thirdparty.dir}/juddi-service.sar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common.jar" dest="${thirdparty.dir}/jbossws-common.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi.jar" dest="${thirdparty.dir}/jbossws-spi.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-jboss42/${jbossws-jboss42}/lib/jbossws-jboss42.jar" dest="${thirdparty.dir}/jbossws-jboss42.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-jboss42/${jbossws-jboss42}/lib/jbossws-jboss42-resources.zip" dest="${thirdparty.dir}/jbossws-jboss42-resources.zip" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-jboss50/${jbossws-jboss50}/lib/jbossws-jboss50.jar" dest="${thirdparty.dir}/jbossws-jboss50.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-jboss50/${jbossws-jboss50}/lib/jbossws-jboss50-deployer.zip" dest="${thirdparty.dir}/jbossws-jboss50-deployer.zip" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jboss-javaee/${jboss-javaee}/lib/jboss-javaee.jar" dest="${thirdparty.dir}/jboss-javaee.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/stax-api/${stax-api}/lib/stax-api.jar" dest="${thirdparty.dir}/stax-api.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-api.jar" dest="${thirdparty.dir}/jaxb-api.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-impl.jar" dest="${thirdparty.dir}/jaxb-impl.jar" usetimestamp="true" verbose="true"/>
@@ -77,16 +84,17 @@
   <target name="thirdparty-classpath" depends="thirdparty-init">
     
     <path id="xfire.integration.classpath">
-      <pathelement location="${framework.dir}/output/lib/jbossws-framework.jar"/>
-      <pathelement location="${framework.dir}/thirdparty/dom4j.jar"/>
-      <pathelement location="${framework.dir}/thirdparty/jboss-common-core.jar"/>
-      <pathelement location="${framework.dir}/thirdparty/jboss-logging-spi.jar"/>
+      <pathelement location="${thirdparty.dir}/jbossws-common.jar"/>
+      <pathelement location="${thirdparty.dir}/jbossws-framework.jar"/>
+      <pathelement location="${thirdparty.dir}/jbossws-spi.jar"/>
+      
       <pathelement location="${thirdparty.dir}/cxf-incubator.jar"/>
+      <pathelement location="${thirdparty.dir}/dom4j.jar"/>
       <pathelement location="${thirdparty.dir}/geronimo-ws-metadata.jar"/>
       <pathelement location="${thirdparty.dir}/jaxb-api.jar"/>
       <pathelement location="${thirdparty.dir}/jaxws-api.jar"/>
-      <pathelement location="${thirdparty.dir}/jbossws-common.jar"/>
-      <pathelement location="${thirdparty.dir}/jbossws-spi.jar"/>
+      <pathelement location="${thirdparty.dir}/jboss-common-core.jar"/>
+      <pathelement location="${thirdparty.dir}/jboss-logging-spi.jar"/>
       <pathelement location="${thirdparty.dir}/saaj-api.jar"/>
       <pathelement location="${thirdparty.dir}/saaj-impl.jar"/>
       <pathelement location="${thirdparty.dir}/servlet-api.jar"/>

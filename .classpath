@@ -16,7 +16,6 @@
 	<classpathentry kind="lib" path="thirdparty/spring-core.jar"/>
 	<classpathentry kind="lib" path="thirdparty/spring-web.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/spi"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/integration-framework"/>
 	<classpathentry kind="lib" path="/integration-framework/thirdparty/dom4j.jar"/>
 	<classpathentry kind="lib" path="/integration-framework/thirdparty/jboss-common-core.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>

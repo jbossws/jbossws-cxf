@@ -13,8 +13,8 @@
 
 <project>
 
+	<import file="${int.xfire.dir}/ant-import/macros-deploy-framework.xml"/>
   <import file="${int.xfire.dir}/ant-import/macros-deploy-xfire.xml"/>
-	<import file="${framework.dir}/ant-import/macros-deploy-wsf.xml"/>
   
   <!-- ================================================================== -->
   <!-- Deployment                                                         -->
@@ -25,20 +25,18 @@
     <ant antfile="${core.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
     <ant antfile="${int.sunri.dir}/build.xml" target="undeploy-jboss50" inheritall="false"/>
     <macro-deploy-xfire50 
-      wsflibs="${framework.dir}/output/lib" 
       stacklibs="${int.xfire.dir}/output/lib" 
       thirdpartylibs="${int.xfire.dir}/thirdparty"/>
 
-		<macro-deploy-wsf
-				wsflibs="${framework.dir}/output/lib"				
-				thirdpartylibs="${framework.dir}/thirdparty"
+		<macro-deploy-framework
+				thirdpartylibs="${int.xfire.dir}/thirdparty"
 				jbosshome="${jboss50.home}"/>
   </target>
     
   <!-- Remove from jboss50 -->
   <target name="undeploy-jboss50" depends="prepare" description="Remove jbossws/xfire from jboss50">
     <macro-undeploy-xfire50/>
-		<macro-undeploy-wsf jbosshome="${jboss50.home}"/>
+		<macro-undeploy-framework jbosshome="${jboss50.home}"/>
   </target>
   
   <!-- Deploy to jboss42 -->
@@ -46,20 +44,18 @@
     <ant antfile="${core.dir}/build.xml" target="undeploy-jboss42" inheritall="false"/>
     <ant antfile="${int.sunri.dir}/build.xml" target="undeploy-jboss42" inheritall="false"/>
     <macro-deploy-xfire42 
-      wsflibs="${framework.dir}/output/lib" 
       stacklibs="${int.xfire.dir}/output/lib" 
       thirdpartylibs="${int.xfire.dir}/thirdparty"/>
     
-		<macro-deploy-wsf
-				wsflibs="${framework.dir}/output/lib"				
-				thirdpartylibs="${framework.dir}/thirdparty"
+		<macro-deploy-framework
+				thirdpartylibs="${int.xfire.dir}/thirdparty"
 				jbosshome="${jboss42.home}"/>
   </target>
     
   <!-- Remove from jboss42 -->
   <target name="undeploy-jboss42" depends="prepare" description="Remove jbossws/xfire from jboss42">
     <macro-undeploy-xfire42/>
-		<macro-undeploy-wsf jbosshome="${jboss42.home}"/>
+		<macro-undeploy-framework jbosshome="${jboss42.home}"/>
   </target>
   
 </project>
