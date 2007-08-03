@@ -84,8 +84,8 @@
   <target name="thirdparty-classpath" depends="thirdparty-init">
     
     <path id="xfire.integration.classpath">
+        <!-- A stack MUST NOT have a compile time dependency on jbossws-framework.jar -->
       <pathelement location="${thirdparty.dir}/jbossws-common.jar"/>
-      <pathelement location="${thirdparty.dir}/jbossws-framework.jar"/>
       <pathelement location="${thirdparty.dir}/jbossws-spi.jar"/>
       
       <pathelement location="${thirdparty.dir}/cxf-incubator.jar"/>

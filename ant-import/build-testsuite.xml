@@ -28,7 +28,6 @@
     
     <path id="ws.stack.classpath">
       <pathelement location="${int.xfire.dir}/thirdparty/jbossws-common.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/jbossws-framework.jar"/>
       <pathelement location="${int.xfire.dir}/thirdparty/jbossws-spi.jar"/>
       <pathelement location="${int.xfire.dir}/thirdparty/cxf-incubator.jar"/>
       <pathelement location="${int.xfire.dir}/thirdparty/geronimo-javamail.jar"/>

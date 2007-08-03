@@ -79,7 +79,6 @@
 	<target name="tests-init" depends="prepare,tests-classpath">
 
 		<path id="ws.stack.classpath">
-			<pathelement location="${lib.dir}/jbossws-framework.jar"/>
 			<pathelement location="${lib.dir}/jbossws-spi.jar"/>
       <pathelement location="${lib.dir}/cxf-incubator.jar"/>
       <pathelement location="${lib.dir}/geronimo-javamail.jar"/>
