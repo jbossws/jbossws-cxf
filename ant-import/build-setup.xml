@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id: build-setup.xml 4147 2007-08-03 10:08:11Z thomas.diesler@jboss.com $ -->
+
+<project>
+  
+  <!-- ================================================================== -->
+  <!-- Setup                                                              -->
+  <!-- ================================================================== -->
+  
+  <!-- Check if ant.properties is available -->
+  <available property="ant.properties.available" file="${basedir}/ant.properties"/>
+  <fail message="Cannot find ant.properties. Did you copy/edit ant.properties.example?" unless="ant.properties.available"/>
+  
+  <property file="${basedir}/ant.properties"/>
+  <property file="${basedir}/version.properties"/>
+  
+  <property name="jboss50.lib" value="${jboss50.home}/lib"/>
+  <property name="jboss50.client" value="${jboss50.home}/client"/>
+  <property name="jboss50.server" value="${jboss50.home}/server/${jboss.server.instance}"/>
+  <property name="jboss50.server.lib" value="${jboss50.server}/lib"/>
+  <property name="jboss50.server.deploy" value="${jboss50.server}/deploy"/>
+  <property name="jboss50.server.deployers" value="${jboss50.server}/deployers"/>
+  
+  <property name="jboss42.lib" value="${jboss42.home}/lib"/>
+  <property name="jboss42.client" value="${jboss42.home}/client"/>
+  <property name="jboss42.server" value="${jboss42.home}/server/${jboss.server.instance}"/>
+  <property name="jboss42.server.lib" value="${jboss42.server}/lib"/>
+  <property name="jboss42.server.deploy" value="${jboss42.server}/deploy"/>
+
+  <property name="jboss40.lib" value="${jboss40.home}/lib"/>
+  <property name="jboss40.client" value="${jboss40.home}/client"/>
+  <property name="jboss40.server" value="${jboss40.home}/server/${jboss.server.instance}"/>
+  <property name="jboss40.server.lib" value="${jboss40.server}/lib"/>
+  <property name="jboss40.server.deploy" value="${jboss40.server}/deploy"/>
+
+  <property name="jbossws.integration.${jbossws.integration.target}" value="true"/>
+  <property name="jboss.server.instance.${jboss.server.instance}" value="true"/>
+ 
+  <property name="jboss50.available.file" value="${jboss50.client}/jboss-ejb3-client.jar"/>
+  <property name="jboss42.available.file" value="${jboss42.client}/jboss-client.jar"/>
+  <property name="jboss40.available.file" value="${jboss40.client}/jboss-client.jar"/>
+  
+  <available property="jboss50.available" file="${jboss50.available.file}"/>
+  <available property="jboss42.available" file="${jboss42.available.file}"/>
+  <available property="jboss40.available" file="${jboss40.available.file}"/>
+  <available property="jboss40.ejb3.available" file="${jboss40.client}/jboss-ejb3-client.jar"/>
+  
+  <available property="jbossws.portal.content.available" file="${jbossws.portal.content}" type="dir"/>
+  
+  <!-- JDK Detection -->
+  <available classname="java.lang.Enum" property="HAVE_JDK_1.5"/>
+  <available classname="java.io.Console" property="HAVE_JDK_1.6"/>
+  
+  <fail message="JDK1.5 or above is required" unless="HAVE_JDK_1.5"/>
+  
+  <!-- ================================================================== -->
+  <!-- Initialization                                                     -->
+  <!-- ================================================================== -->
+  
+  <target name="prepare">
+    <tstamp>
+      <format property="build.id" pattern="yyyyMMddHHmm"/>
+    </tstamp>
+  </target>
+  
+</project>

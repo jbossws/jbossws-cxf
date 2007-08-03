@@ -1,0 +1,36 @@
+#
+# A sample ant properties file
+#
+# $Id: ant.properties.example 3995 2007-07-26 08:52:45Z thomas.diesler@jboss.com $
+
+# Optional JBoss Home
+#jboss50.home=/home/tdiesler/svn/jbossas/trunk/build/output/jboss-5.0.0.Beta3
+#jboss42.home=/home/tdiesler/svn/jbossas/tags/JBoss_4_2_1_GA/build/output/jboss-4.2.1.GA
+#jboss40.home=/home/tdiesler/svn/jbossas/tags/JBoss_4_0_5_GA/build/output/jboss-4.0.5.GA-ejb3
+
+# The JBoss server under test. This can be [jboss50|jboss42]
+jbossws.integration.target=jboss50
+
+# The JBoss settings
+jboss.server.instance=default
+jboss.bind.address=localhost
+
+# JBoss JMX invoker authentication
+#jmx.authentication.username=admin
+#jmx.authentication.password=admin
+
+# JBoss Repository
+#jboss.repository=file:/home/tdiesler/svn/jboss.local.repository
+jboss.repository=http://repository.jboss.org
+
+# Force thirdparty HTTP get
+#force.thirdparty.get=true
+
+# JDK settings
+#jdk6.home=/usr/java/jdk1.6
+
+# Java Compiler options
+javac.debug=yes
+javac.deprecation=no
+javac.fail.onerror=yes
+javac.verbose=no

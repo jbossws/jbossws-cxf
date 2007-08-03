@@ -12,7 +12,7 @@
   
   <property name="tests.output.dir" value="${int.xfire.dir}/output/tests"/>
   
-  <import file="${build.dir}/ant-import/build-testsuite.xml"/>
+  <import file="${int.xfire.dir}/src/test-framework/ant-import/build-testsuite.xml"/>
   
   <!-- Define excludesfile -->
   <property name="excludesfile" value="${int.xfire.dir}/src/test/resources/test-excludes-${jbossws.integration.target}.txt"/>
@@ -67,7 +67,7 @@
   </target>
   
   <target name="tests-jars" depends="tests-compile,tests-copy-resources" description="Build the deployments.">
-		<ant antfile="${int.xfire.dir}/src/test-framework/etc/build-jars-jaxws.xml" target="build-jars-jaxws"/>
+		<ant antfile="${int.xfire.dir}/src/test-framework/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws"/>
   </target>
   
   <target name="tests-main" depends="tests-jars" description="Build the deployments."/>

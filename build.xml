@@ -11,15 +11,16 @@
 
 <!-- $Id$ -->
 
-<project default="main" basedir="../.." name="JBossWS-CXF">
+<project default="main" basedir="." name="JBossWS-CXF">
   
-  <import file="${basedir}/build/ant-import/build-setup.xml"/>
+  <property name="int.xfire.dir" value="${basedir}"/>
   
-  <import file="${int.xfire.dir}/ant-import/build-bin-dist.xml"/>
-  <import file="${int.xfire.dir}/ant-import/build-deploy.xml"/>
-  <import file="${int.xfire.dir}/ant-import/build-release.xml"/>
-  <import file="${int.xfire.dir}/ant-import/build-testsuite.xml"/>
-  <import file="${int.xfire.dir}/ant-import/build-thirdparty.xml"/>
+  <import file="${basedir}/ant-import/build-setup.xml"/>
+  <import file="${basedir}/ant-import/build-bin-dist.xml"/>
+  <import file="${basedir}/ant-import/build-deploy.xml"/>
+  <import file="${basedir}/ant-import/build-release.xml"/>
+  <import file="${basedir}/ant-import/build-testsuite.xml"/>
+  <import file="${basedir}/ant-import/build-thirdparty.xml"/>
   
   <!-- ================================================================== -->
   <!-- Setup                                                              -->
@@ -75,8 +76,6 @@
     <copy todir="${xfire.output.etc.dir}" filtering="yes">
       <fileset dir="${xfire.etc.dir}">
         <include name="component-info.xml"/>
-  	  </fileset>
-      <fileset dir="${build.dir}/etc">
         <include name="default.mf"/>
   	  </fileset>
       <filterset>
@@ -84,7 +83,6 @@
         <filter token="java.vm.vendor" value="${java.vm.vendor}"/>
         <filter token="build.id" value="${build.id}"/>
         <filter token="implementation.version" value="jbossws-xfire-${version.id}"/>
-        <filtersfile file="${build.dir}/version.properties"/>
         <filtersfile file="${int.xfire.dir}/version.properties"/>
       </filterset>
     </copy>
