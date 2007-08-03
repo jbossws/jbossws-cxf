@@ -19,7 +19,7 @@
   <!-- Libraries -->
   <!-- ========= -->
 
-  <target name="thirdparty" depends="thirdparty-get,thirdparty-classpath">
+  <target name="thirdparty" depends="thirdparty-classpath">
   </target>
   
   <target name="thirdparty-init" depends="prepare">
