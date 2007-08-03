@@ -11,11 +11,8 @@
 <project>
   
   <property name="tests.output.dir" value="${int.xfire.dir}/output/tests"/>
-  <import file="${testsuite.dir}/ant-import/build-testsuite.xml"/>
   
-  <property name="tests.dir" value="${testsuite.dir}/src"/>
-  <property name="tests.java.dir" value="${tests.dir}/java"/>
-  <property name="tests.resources.dir" value="${tests.dir}/resources"/>
+  <import file="${build.dir}/ant-import/build-testsuite.xml"/>
   
   <!-- Define excludesfile -->
   <property name="excludesfile" value="${int.xfire.dir}/src/test/resources/test-excludes-${jbossws.integration.target}.txt"/>
@@ -55,7 +52,24 @@
   <!-- ================================================================== -->
 
   <target name="tests-compile" depends="tests-init" description="Compile sources">
-    <macro-compile-classes srcdir="${tests.java.dir}" excludesfile="${excludesfile}"/>
+		<macro-compile-classes srcdir="${int.xfire.dir}/src/test-framework/java" excludesfile="${excludesfile}"/>
+		<macro-compile-classes srcdir="${int.xfire.dir}/src/test/java" excludesfile="${excludesfile}"/>
   </target>
 
+  <!-- ================================================================== -->
+  <!-- Building                                                           -->
+  <!-- ================================================================== -->
+  
+  <!-- Copy resources -->
+  <target name="tests-copy-resources" depends="tests-init" description="Copy the deployment resources.">
+		<macro-copy-resources srcdir="${int.xfire.dir}/src/test-framework"/>
+		<macro-copy-resources srcdir="${int.xfire.dir}/src/test"/>
+  </target>
+  
+  <target name="tests-jars" depends="tests-compile,tests-copy-resources" description="Build the deployments.">
+		<ant antfile="${int.xfire.dir}/src/test-framework/etc/build-jars-jaxws.xml" target="build-jars-jaxws"/>
+  </target>
+  
+  <target name="tests-main" depends="tests-jars" description="Build the deployments."/>
+  
 </project>
