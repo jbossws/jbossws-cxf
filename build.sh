@@ -20,9 +20,6 @@ ROOT="/"
 # Ignore user's ANT_HOME if it is set
 ANT_HOME=""
 
-# Uncomment when using JDK 6
-#USE_JDK6=true
-
 # the default search path for ant
 ANT_SEARCH_PATH="tools/ant"
 
@@ -148,12 +145,8 @@ main() {
     # Set the max memory to 256m
     ANT_OPTS=-Xmx256m
 
-	 if [ "x$USE_JDK6" = "xtrue" ]; then
-    	ANT_OPTS="$ANT_OPTS -Djava.endorsed.dirs=$ANT_HOME/endorsed"
-    	echo "--------------------------------------"
-    	echo "Endorsed Directory: $ANT_HOME/endorsed"
-    	echo "--------------------------------------"
-    fi
+	# Endorse JAXB, JAXWS API 
+  	ANT_OPTS="$ANT_OPTS -Djava.endorsed.dirs=$ANT_HOME/endorsed"
 
     # setup some build properties
     ANT_OPTS="$ANT_OPTS -Dbuild.script=$0"

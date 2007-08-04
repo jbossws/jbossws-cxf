@@ -7,8 +7,6 @@ REM
 REM  Users should be sure to execute this file rather than 'ant' to ensure
 REM  the correct version is being used with the correct configuration.
 REM
-REM  NOTE: Uncomment the USE_JDK6 property when using JDK 1.6
-REM
 REM  ======================================================================
 REM
 REM $Id: build.bat 61858 2007-03-29 17:19:26Z dimitris@jboss.org $
@@ -28,12 +26,6 @@ set CLASSPATH=
 set ANT_HOME=
 
 set ANT_OPTS=-Xmx256m -Dbuild.script=build.bat
-
-REM ******************************************************
-REM JDK 6 Settings
-REM Uncomment when using JDK 6
-REM ******************************************************
-REM set USE_JDK6=true
 
 REM
 REM - "for" loops have been unrolled for compatibility
