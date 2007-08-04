@@ -234,7 +234,7 @@
   </target>
 
 	<!-- Generate the JavaDoc -->
-  <target name="javadoc" depends="init" description="Generate the Javadoc" unless="nojavadoc">
+  <target name="javadoc" depends="init" description="Generate the Javadoc" if="javadoc">
 
 		<!-- expand the xfire sources -->
 		<mkdir dir="${xfire.output.dir}/thirdparty-sources"/>
