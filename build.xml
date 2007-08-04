@@ -29,6 +29,7 @@
   <property name="xfire.dir" value="${int.xfire.dir}"/>
   <property name="xfire.src.dir" value="${xfire.dir}/src/main"/>
   <property name="xfire.etc.dir" value="${xfire.src.dir}/etc"/>
+  <property name="xfire.distro.dir" value="${xfire.src.dir}/distro"/>
   <property name="xfire.java.dir" value="${xfire.src.dir}/java"/>
   <property name="xfire.resources.dir" value="${xfire.src.dir}/resources"/>
   <property name="xfire.output.dir" value="${xfire.dir}/output"/>

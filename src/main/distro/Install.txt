@@ -1,0 +1,35 @@
+
+@implementation.title@
+@implementation.url@
+
+Version: jbossws-@version.id@
+
+Installation instructions
+=========================
+
+This distribution ships with JBoss binaries for JDK1.4 and JDK1.5.
+Please make sure your chose the right distribution that fits your target JDK.
+
+In order to install JBossWS the following steps are necessary:
+
+1.) Copy ant.properties.examples to ant.properties
+2.) Modify the target container location in ant.properties
+3.) Execute one of the following
+
+	ant deploy-jboss50
+	ant deploy-jboss42
+	ant deploy-jboss40
+	ant deploy-jboss40-jdk14
+	ant deploy-tomcat
+
+Please consult the wiki for detailed up to date install instructions
+http://labs.jboss.com/portal/jbossws/
+
+After the jbossws.sar is deployed you should be able to access JBossWS under
+http://localhost:8080/jbossws
+
+If you have any questions, please post to the userforum:
+http://www.jboss.org/index.html?module=bb&op=viewforum&f=200
+
+Enjoy,
+The JBossWS Team

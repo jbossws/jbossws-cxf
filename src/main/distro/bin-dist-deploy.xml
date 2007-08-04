@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id: bin-dist-deploy.xml 3576 2007-06-14 09:23:52Z thomas.diesler@jboss.com $ -->
+
+<project>
+
+	<!-- ================================================================== -->
+	<!-- Deployment                                                         -->
+	<!-- ================================================================== -->
+
+	<!-- Deploy jbossws/xfire to jboss50 -->
+	<target name="deploy-jboss50" depends="undeploy-jboss50,deploy-jboss50-endorsed" description="Deploy jbossws/xfire to jboss50">		
+		<macro-deploy-xfire50
+				stacklibs="${lib.dir}"
+				thirdpartylibs="${lib.dir}"/>
+		<macro-deploy-framework
+				thirdpartylibs="${lib.dir}"
+        jbosshome="${jboss50.home}"/>
+	</target>
+	<target name="deploy-jboss50-endorsed" depends="prepare" if="HAVE_JDK_1.6">
+		<macro-deploy-endorsed
+				jbosshome="${jboss50.home}"
+				thirdpartylibs="${lib.dir}"/>
+	</target>
+
+	<!-- Remove jbossws/xfire from jboss50 -->
+	<target name="undeploy-jboss50" depends="prepare" description="Remove jbossws/xfire from jboss50">
+		<macro-undeploy-xfire50/>
+		<macro-undeploy-framework jbosshome="${jboss50.home}"/>
+	</target>
+
+	<!-- Deploy jbossws/xfire to jboss42 -->
+	<target name="deploy-jboss42" depends="undeploy-jboss42,deploy-jboss42-endorsed" description="Deploy jbossws/xfire to jboss42">
+		<macro-deploy-xfire42
+				stacklibs="${lib.dir}"
+				thirdpartylibs="${lib.dir}"/>
+		<macro-deploy-framework
+				thirdpartylibs="${lib.dir}"
+        jbosshome="${jboss42.home}"/>
+	</target>
+	<target name="deploy-jboss42-endorsed" depends="prepare" if="HAVE_JDK_1.6">
+		<macro-deploy-endorsed
+				jbosshome="${jboss42.home}"
+				thirdpartylibs="${lib.dir}"/>
+	</target>
+
+	<!-- Remove jbossws/xfire from jboss42 -->
+	<target name="undeploy-jboss42" depends="prepare,undeploy-jboss42-endorsed" description="Remove jbossws/xfire from jboss42">
+		<macro-undeploy-xfire42/>
+		<macro-undeploy-framework jbosshome="${jboss42.home}"/>
+	</target>
+	<target name="undeploy-jboss42-endorsed" depends="prepare" if="HAVE_JDK_1.6">		
+		<macro-undeploy-endorsed jbosshome="${jboss42.home}"/>
+	</target>
+
+</project>
