@@ -43,6 +43,7 @@
     
     <path id="tests.extra.classpath">
 			<pathelement location="${int.xfire.dir}/thirdparty/jbossws-framework.jar"/>
+			<pathelement location="${int.xfire.dir}/thirdparty/jaxws-tools.jar"/>
     </path>
     
   </target>
