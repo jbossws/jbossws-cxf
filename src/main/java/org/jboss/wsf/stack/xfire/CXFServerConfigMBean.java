@@ -23,7 +23,7 @@ package org.jboss.wsf.stack.xfire;
 
 //$Id: DefaultServerConfig.java 4023 2007-07-28 07:14:06Z thomas.diesler@jboss.com $
 
-import org.jboss.wsf.common.management.DefaultServerConfigMBean;
+import org.jboss.wsf.common.management.AbstractServerConfigMBean;
 
 /**
  * Basic implementation of a ServerConfig 
@@ -31,7 +31,7 @@ import org.jboss.wsf.common.management.DefaultServerConfigMBean;
  * @author Thomas.Diesler@jboss.org
  * @since 08-May-2006
  */
-public interface CXFServerConfigMBean extends DefaultServerConfigMBean
+public interface CXFServerConfigMBean extends AbstractServerConfigMBean
 {
    String getImplementationTitle();
 

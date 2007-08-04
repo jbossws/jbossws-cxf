@@ -3,6 +3,9 @@
 #
 # $Id: ant.properties.example 3995 2007-07-26 08:52:45Z thomas.diesler@jboss.com $
 
+# JDK settings
+#java.home.jdk16=/usr/java/jdk1.6
+
 # Optional JBoss Home
 #jboss50.home=/home/tdiesler/svn/jbossas/trunk/build/output/jboss-5.0.0.Beta3
 #jboss42.home=/home/tdiesler/svn/jbossas/tags/JBoss_4_2_1_GA/build/output/jboss-4.2.1.GA

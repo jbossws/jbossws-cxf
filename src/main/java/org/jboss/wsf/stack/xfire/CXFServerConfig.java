@@ -24,7 +24,7 @@ package org.jboss.wsf.stack.xfire;
 //$Id: DefaultServerConfig.java 4023 2007-07-28 07:14:06Z thomas.diesler@jboss.com $
 
 import org.jboss.logging.Logger;
-import org.jboss.wsf.common.management.DefaultServerConfig;
+import org.jboss.wsf.common.management.AbstractServerConfig;
 
 /**
  * Basic implementation of a ServerConfig 
@@ -32,7 +32,7 @@ import org.jboss.wsf.common.management.DefaultServerConfig;
  * @author Thomas.Diesler@jboss.org
  * @since 08-May-2006
  */
-public class CXFServerConfig extends DefaultServerConfig implements CXFServerConfigMBean
+public class CXFServerConfig extends AbstractServerConfig implements CXFServerConfigMBean
 {
    private static final Logger log = Logger.getLogger(CXFServerConfig.class);
    
