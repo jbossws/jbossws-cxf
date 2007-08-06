@@ -26,6 +26,10 @@ jboss.bind.address=localhost
 #jboss.repository=file:/home/tdiesler/svn/jboss.local.repository
 jboss.repository=http://repository.jboss.org
 
+# JBossWS Release
+jbossws.portal.content=/home/tdiesler/svn/jbossws/portal-content
+jboss.local.repository=/home/tdiesler/svn/jboss.local.repository
+
 # Force thirdparty HTTP get
 #force.thirdparty.get=true
 
