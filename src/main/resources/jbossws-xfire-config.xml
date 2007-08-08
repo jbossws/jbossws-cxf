@@ -41,16 +41,16 @@
     </property>
   </bean>
 
-  <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
-    <property name="requires">ContainerEndpointHandler</property>
-    <property name="provides">StackEndpointHandler</property>        
-  </bean>
-
   <bean name="WSCXFDescriptorDeploymentAspect" class="org.jboss.wsf.stack.xfire.DescriptorDeploymentAspect">
     <property name="requires">EndpointAddress</property>
     <property name="provides">StackDescriptor</property>
     <property name="invokerEJB3">org.jboss.wsf.stack.xfire.InvokerEJB3</property>
     <property name="invokerJSE">org.jboss.wsf.stack.xfire.InvokerJSE</property>
+  </bean>
+
+  <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
+    <property name="requires">ContainerEndpointHandler</property>
+    <property name="provides">StackEndpointHandler</property>        
   </bean>
 
   <!-- Deployment aspect installers -->  
