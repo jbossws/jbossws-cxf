@@ -54,18 +54,32 @@
   </bean>
 
   <!-- Deployment aspect installers -->  
+
+  <!-- Phase 2 -->
   <bean name="WSCXFDeploymentAspectInstallerPreJSE" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
     <property name="manager"><inject bean="WSDeploymentAspectManagerPreJSE"/></property>
     <property name="sortAspectsOnCreate">true</property>
     <property name="aspects">
       <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">
         <inject bean="WSCXFContextPropertiesDeploymentAspect"/>
-        <inject bean="WSCXFEndpointHandlerDeploymentAspect"/>
         <inject bean="WSCXFDescriptorDeploymentAspect"/>
       </set>
     </property>
     <depends>WSDeploymentAspectInstallerPreJSE</depends>
   </bean>
+
+  <!-- Phase 2 -->
+  <bean name="WSCXFDeploymentAspectInstallerPostJSE" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
+    <property name="manager"><inject bean="WSDeploymentAspectManagerPostJSE"/></property>
+    <property name="sortAspectsOnCreate">true</property>
+    <property name="aspects">
+      <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">        
+        <inject bean="WSCXFEndpointHandlerDeploymentAspect"/>
+      </set>
+    </property>
+    <depends>WSDeploymentAspectInstallerPostJSE</depends>
+  </bean>
+
   <bean name="WSCXFDeploymentAspectInstallerEJB" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
     <property name="manager"><inject bean="WSDeploymentAspectManagerEJB"/></property>
     <property name="sortAspectsOnCreate">true</property>
