@@ -74,7 +74,7 @@
   <!-- Compile etc files (manifests and such) -->
   <target name="compile-etc" depends="init">
     <mkdir dir="${xfire.output.etc.dir}"/>
-    <copy todir="${xfire.output.etc.dir}" filtering="yes">
+    <copy todir="${xfire.output.etc.dir}" filtering="yes" overwrite="true">
       <fileset dir="${xfire.etc.dir}">
         <include name="component-info.xml"/>
         <include name="default.mf"/>
