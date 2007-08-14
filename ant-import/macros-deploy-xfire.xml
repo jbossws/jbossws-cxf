@@ -106,7 +106,6 @@
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
           <include name="jaxb-xjc.jar"/>
-          <include name="resolver.jar"/>
         </fileset>
       </copy>
       
@@ -142,7 +141,6 @@
         <fileset dir="${jboss42.home}/client">
           <include name="jbossws-spi.jar"/>
           <include name="jbossws-jboss42.jar"/>
-          <include name="resolver.jar"/>
         </fileset>
         
   			<!--SERVER JARS -->
