@@ -26,19 +26,21 @@
     <path id="ws.stack.classpath">
       <pathelement location="${int.xfire.dir}/thirdparty/jbossws-common.jar"/>
       <pathelement location="${int.xfire.dir}/thirdparty/jbossws-spi.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/cxf-incubator.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/geronimo-javamail.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/geronimo-ws-metadata.jar"/>
+      
+      <pathelement location="${int.xfire.dir}/thirdparty/cxf-${cxf.version}.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/jaxws-api-${cxf.jaxws.api}.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/jdom-${cxf.jdom}.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/neethi-${cxf.neethi}.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/saaj-api-${cxf.saaj}.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/saaj-impl-${cxf.saaj}.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/xml-resolver-${cxf.xml.resolver}.jar"/>
+      <pathelement location="${int.xfire.dir}/thirdparty/XmlSchema-${cxf.xmlschema}.jar"/>
+      
       <pathelement location="${int.xfire.dir}/thirdparty/jaxb-api.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/jaxws-api.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/jdom.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/neethi.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/resolver.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/saaj-api.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/saaj-impl.jar"/>
       <pathelement location="${int.xfire.dir}/thirdparty/wsdl4j.jar"/>
       <pathelement location="${int.xfire.dir}/thirdparty/wstx.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/XmlSchema.jar"/>
     </path>
     
     <path id="tests.extra.classpath">

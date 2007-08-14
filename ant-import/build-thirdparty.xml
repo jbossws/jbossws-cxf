@@ -23,6 +23,10 @@
   </target>
   
   <target name="thirdparty-init" depends="prepare">
+    
+    <property name="apache.cxf.dir" value="${xfire.dir}/apache-cxf"/>
+    <available property="apache.cxf.available" file="${apache.cxf.dir}"/>
+    
     <property name="thirdparty.dir" value="${int.xfire.dir}/thirdparty"/>
     <checksum file="${int.xfire.dir}/version.properties" fileext=".md5" verifyproperty="checksum.ok"/>
     <condition property="force.thirdparty.get">
@@ -51,18 +55,6 @@
     <get src="${jboss.repository}/jboss/jbossws-jboss50/${jbossws-jboss50}/lib/jbossws-jboss50.jar" dest="${thirdparty.dir}/jbossws-jboss50.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-jboss50/${jbossws-jboss50}/lib/jbossws-jboss50-deployer.zip" dest="${thirdparty.dir}/jbossws-jboss50-deployer.zip" usetimestamp="true" verbose="true"/>
     
-    <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/cxf-incubator.jar" dest="${thirdparty.dir}/cxf-incubator.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/geronimo-javamail.jar" dest="${thirdparty.dir}/geronimo-javamail.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/geronimo-ws-metadata.jar" dest="${thirdparty.dir}/geronimo-ws-metadata.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/jaxws-api.jar" dest="${thirdparty.dir}/jaxws-api.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/neethi.jar" dest="${thirdparty.dir}/neethi.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/saaj-api.jar" dest="${thirdparty.dir}/saaj-api.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/saaj-impl.jar" dest="${thirdparty.dir}/saaj-impl.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/spring-beans.jar" dest="${thirdparty.dir}/spring-beans.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/spring-context.jar" dest="${thirdparty.dir}/spring-context.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/spring-core.jar" dest="${thirdparty.dir}/spring-core.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/spring-web.jar" dest="${thirdparty.dir}/spring-web.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/apache-cxf/${apache-cxf}/lib/XmlSchema.jar" dest="${thirdparty.dir}/XmlSchema.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/apache-xml-commons/${apache-xml-commons}/lib/resolver.jar" dest="${thirdparty.dir}/resolver.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j.jar" dest="${thirdparty.dir}/wsdl4j.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j-src.jar" dest="${thirdparty.dir}/wsdl4j-src.jar" usetimestamp="true" verbose="true"/>
@@ -78,31 +70,99 @@
     <get src="${jboss.repository}/sun-servlet/${sun-servlet}/lib/servlet-api.jar" dest="${thirdparty.dir}/servlet-api.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/woodstox/${woodstox}/lib/wstx.jar" dest="${thirdparty.dir}/wstx.jar" usetimestamp="true" verbose="true"/>
     
+    <antcall target="cxf-copy-jars"/>
+    
     <checksum file="${int.xfire.dir}/version.properties" fileext=".md5"/>
   </target>
   
   <target name="thirdparty-classpath" depends="thirdparty-get">
-    
     <path id="xfire.integration.classpath">
         <!-- A stack MUST NOT have a compile time dependency on jbossws-framework.jar -->
       <pathelement location="${thirdparty.dir}/jbossws-common.jar"/>
       <pathelement location="${thirdparty.dir}/jbossws-spi.jar"/>
       
-      <pathelement location="${thirdparty.dir}/cxf-incubator.jar"/>
-      <pathelement location="${thirdparty.dir}/dom4j.jar"/>
-      <pathelement location="${thirdparty.dir}/geronimo-ws-metadata.jar"/>
+      <pathelement location="${thirdparty.dir}/cxf-${cxf.version}.jar"/>
+      <pathelement location="${thirdparty.dir}/jaxws-api-${cxf.jaxws.api}.jar"/>
+      <pathelement location="${thirdparty.dir}/spring-beans-${cxf.spring}.jar"/>
+      <pathelement location="${thirdparty.dir}/spring-context-${cxf.spring}.jar"/>
+      <pathelement location="${thirdparty.dir}/spring-core-${cxf.spring}.jar"/>
+      
       <pathelement location="${thirdparty.dir}/jaxb-api.jar"/>
-      <pathelement location="${thirdparty.dir}/jaxws-api.jar"/>
       <pathelement location="${thirdparty.dir}/jboss-common-core.jar"/>
+      <pathelement location="${thirdparty.dir}/jboss-javaee.jar"/>
       <pathelement location="${thirdparty.dir}/jboss-logging-spi.jar"/>
-      <pathelement location="${thirdparty.dir}/saaj-api.jar"/>
-      <pathelement location="${thirdparty.dir}/saaj-impl.jar"/>
       <pathelement location="${thirdparty.dir}/servlet-api.jar"/>
-      <pathelement location="${thirdparty.dir}/spring-beans.jar"/>
-      <pathelement location="${thirdparty.dir}/spring-context.jar"/>
-      <pathelement location="${thirdparty.dir}/spring-core.jar"/>
     </path>
-    
   </target>
 
+  <!-- Build CXF from source -->
+  <target name="cxf-build" depends="cxf-copy-jars" description="Build Apache CXF from source">
+  </target>
+  
+  <!-- SVN checkout the Apache CXF sources -->
+  <target name="cxf-checkout" depends="thirdparty-init" unless="apache.cxf.available">
+    <exec dir="${xfire.dir}" executable="svn" failonerror="true">
+      <arg value="checkout"/>
+      <arg value="-r${cxf.svn.rev}"/>
+      <arg value="${cxf.svn.url}"/>
+      <arg value="apache-cxf"/>
+    </exec>
+  </target>
+  
+  <!-- SVN update the Apache CXF sources -->
+  <target name="cxf-update" depends="thirdparty-init" if="apache.cxf.available">
+    <exec dir="${apache.cxf.dir}" executable="svn" failonerror="true">
+      <arg value="update"/>
+      <arg value="-r${cxf.svn.rev}"/>
+    </exec>
+  </target>
+
+  <!-- SVN get commit revision -->
+  <target name="cxf-commit-revision" depends="cxf-update,cxf-checkout">
+    <exec dir="${apache.cxf.dir}" executable="svn" failonerror="true" output="${apache.cxf.dir}/svn-info.xml">
+      <arg line="info"/>
+      <arg line="--xml"/>
+    </exec>
+    <xmlproperty file="${apache.cxf.dir}/svn-info.xml"/>
+    <property name="cxf.commit.revision" value="${info.entry.commit(revision)}"/>
+    <available property="cxf.build.available" file="${apache.cxf.dir}/build-${cxf.commit.revision}.rev"/>
+  </target>
+  
+  <!-- Build using maven -->
+  <target name="cxf-maven-build" depends="cxf-commit-revision" unless="cxf.build.available">
+    <exec dir="${apache.cxf.dir}" executable="mvn" failonerror="true">
+      <arg value="-Pfastinstall"/>
+    </exec>
+    <exec dir="${apache.cxf.dir}/distribution" executable="mvn" failonerror="true">
+      <arg value="install"/>
+    </exec>
+    <exec dir="${apache.cxf.dir}" executable="svn" failonerror="true" output="${apache.cxf.dir}/svn-info.xml">
+      <arg line="info"/>
+      <arg line="--xml"/>
+    </exec>
+    <touch file="${apache.cxf.dir}/build-${cxf.commit.revision}.rev"/>
+  </target>
+  
+  <!-- Copy the cxf jars -->
+  <target name="cxf-copy-jars" depends="cxf-maven-build">
+    <copy todir="${thirdparty.dir}">
+      <fileset dir="${apache.cxf.dir}/distribution/target/apache-cxf-${cxf.version}.dir/apache-cxf-${cxf.version}/lib">
+        <include name="cxf-${cxf.version}.jar"/>
+        <include name="geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
+        <include name="geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
+        <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
+        <include name="jdom-${cxf.jdom}.jar"/>
+        <include name="neethi-${cxf.neethi}.jar"/>
+        <include name="saaj-api-${cxf.saaj}.jar"/>
+        <include name="saaj-impl-${cxf.saaj}.jar"/>
+        <include name="spring-beans-${cxf.spring}.jar"/>
+        <include name="spring-context-${cxf.spring}.jar"/>
+        <include name="spring-core-${cxf.spring}.jar"/>
+        <include name="xbean-${cxf.xbean}.jar"/>
+        <include name="xml-resolver-${cxf.xml.resolver}.jar"/>
+        <include name="XmlSchema-${cxf.xmlschema}.jar"/>
+      </fileset>
+    </copy>
+  </target>
+  
 </project>

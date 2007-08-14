@@ -46,8 +46,8 @@
       <copy todir="${jboss50.home}/server/${jboss.server.instance}/lib" overwrite="true">
 				<fileset dir="@{thirdpartylibs}">
           <include name="jbossws-jboss50.jar"/>
-					<include name="jaxws-api.jar"/>
-					<include name="saaj-api.jar"/>
+          <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
+          <include name="saaj-api-${cxf.saaj}.jar"/>
 				</fileset>
       </copy>
       
@@ -82,6 +82,8 @@
   			<!--SERVER JARS -->
         <fileset dir="${jboss50.home}/server/${jboss.server.instance}/lib">
           <include name="jbossws-jboss50.jar"/>
+          <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
+          <include name="saaj-api-${cxf.saaj}.jar"/>
         </fileset>
       </delete>
       
