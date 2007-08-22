@@ -45,14 +45,11 @@
 			<!--SERVER JARS -->
       <copy todir="${jboss50.home}/server/${jboss.server.instance}/lib" overwrite="true">
 				<fileset dir="@{thirdpartylibs}">
-          <include name="jbossws-jboss50.jar"/>
           <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
           <include name="saaj-api-${cxf.saaj}.jar"/>
 				</fileset>
       </copy>
       
-      <mkdir dir="${jboss50.home}/server/${jboss.server.instance}/deployers/jbossws.deployer"/>
-      <unzip dest="${jboss50.home}/server/${jboss.server.instance}/deployers/jbossws.deployer" src="@{thirdpartylibs}/jbossws-jboss50-deployer.zip"/>
       <mkdir dir="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
       <unjar dest="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar" src="@{stacklibs}/jbossws-xfire50.sar"/>      
 			<!-- Deploy juddi-service.sar -->
