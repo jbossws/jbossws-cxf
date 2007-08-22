@@ -131,6 +131,7 @@
   <!-- Build using maven -->
   <target name="cxf-maven-build" depends="cxf-commit-revision" unless="cxf.build.available">
     <exec dir="${apache.cxf.dir}" executable="mvn" failonerror="true">
+      <arg value="clean"/>
       <arg value="install"/>
       <arg value="-Pfastinstall,everything"/>
     </exec>
