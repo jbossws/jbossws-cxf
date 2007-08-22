@@ -131,10 +131,8 @@
   <!-- Build using maven -->
   <target name="cxf-maven-build" depends="cxf-commit-revision" unless="cxf.build.available">
     <exec dir="${apache.cxf.dir}" executable="mvn" failonerror="true">
-      <arg value="-Pfastinstall"/>
-    </exec>
-    <exec dir="${apache.cxf.dir}/distribution" executable="mvn" failonerror="true">
       <arg value="install"/>
+      <arg value="-Pfastinstall,everything"/>
     </exec>
     <exec dir="${apache.cxf.dir}" executable="svn" failonerror="true" output="${apache.cxf.dir}/svn-info.xml">
       <arg line="info"/>
