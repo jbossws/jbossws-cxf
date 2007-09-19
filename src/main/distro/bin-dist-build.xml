@@ -12,140 +12,140 @@
 <!-- $Id: bin-dist-build.xml 4081 2007-08-02 09:23:17Z thomas.diesler@jboss.com $ -->
 
 <project default="main" basedir="." name="JBossWS-xfire">
-
-	<!-- ================================================================== -->
-	<!-- Setup                                                              -->
-	<!-- ================================================================== -->
-
-	<property name="build.dir" value="${basedir}/build"/>
-	<property name="bin.dir" value="${basedir}/bin"/>
-	<property name="docs.dir" value="${basedir}/docs"/>
-	<property name="lib.dir" value="${basedir}/lib"/>
-	<property name="thirdparty.dir" value="${basedir}/lib"/>
-	<property name="tests.dir" value="${basedir}/tests"/>
-	<property name="tests.output.dir" value="${basedir}/output"/>
-
-	<property file="${basedir}/ant.properties"/>
-	<property file="${basedir}/version.properties"/>
-
-	<property name="jboss50.lib" value="${jboss50.home}/lib"/>
-	<property name="jboss50.client" value="${jboss50.home}/client"/>
-	<property name="jboss50.server" value="${jboss50.home}/server/${jboss.server.instance}"/>
-	<property name="jboss50.server.lib" value="${jboss50.server}/lib"/>
-	<property name="jboss50.server.deploy" value="${jboss50.server}/deploy"/>
-	<property name="jboss50.server.deployers" value="${jboss50.server}/deployers"/>
-
-	<property name="jboss42.lib" value="${jboss42.home}/lib"/>
-	<property name="jboss42.client" value="${jboss42.home}/client"/>
-	<property name="jboss42.server" value="${jboss42.home}/server/${jboss.server.instance}"/>
-	<property name="jboss42.server.lib" value="${jboss42.server}/lib"/>
-	<property name="jboss42.server.deploy" value="${jboss42.server}/deploy"/>
-
-	<property name="jbossws.integration.${jbossws.integration.target}" value="true"/>
-
-	<property name="jboss50.available.file" value="${jboss50.client}/jboss-ejb3-client.jar"/>
-	<property name="jboss42.available.file" value="${jboss42.client}/jboss-client.jar"/>
-
-	<available property="jboss50.available" file="${jboss50.available.file}"/>
-	<available property="jboss42.available" file="${jboss42.available.file}"/>
+  
+  <!-- ================================================================== -->
+  <!-- Setup                                                              -->
+  <!-- ================================================================== -->
+  
+  <property name="build.dir" value="${basedir}/build"/>
+  <property name="bin.dir" value="${basedir}/bin"/>
+  <property name="docs.dir" value="${basedir}/docs"/>
+  <property name="lib.dir" value="${basedir}/lib"/>
+  <property name="thirdparty.dir" value="${basedir}/lib"/>
+  <property name="tests.dir" value="${basedir}/tests"/>
+  <property name="tests.output.dir" value="${basedir}/output"/>
+  
+  <property file="${basedir}/ant.properties"/>
+  <property file="${basedir}/version.properties"/>
+  
+  <property name="jboss50.lib" value="${jboss50.home}/lib"/>
+  <property name="jboss50.client" value="${jboss50.home}/client"/>
+  <property name="jboss50.server" value="${jboss50.home}/server/${jboss.server.instance}"/>
+  <property name="jboss50.server.lib" value="${jboss50.server}/lib"/>
+  <property name="jboss50.server.deploy" value="${jboss50.server}/deploy"/>
+  <property name="jboss50.server.deployers" value="${jboss50.server}/deployers"/>
+  
+  <property name="jboss42.lib" value="${jboss42.home}/lib"/>
+  <property name="jboss42.client" value="${jboss42.home}/client"/>
+  <property name="jboss42.server" value="${jboss42.home}/server/${jboss.server.instance}"/>
+  <property name="jboss42.server.lib" value="${jboss42.server}/lib"/>
+  <property name="jboss42.server.deploy" value="${jboss42.server}/deploy"/>
+  
+  <property name="jbossws.integration.${jbossws.integration.target}" value="true"/>
+  
+  <property name="jboss50.available.file" value="${jboss50.client}/jboss-ejb3-client.jar"/>
+  <property name="jboss42.available.file" value="${jboss42.client}/jboss-client.jar"/>
+  
+  <available property="jboss50.available" file="${jboss50.available.file}"/>
+  <available property="jboss42.available" file="${jboss42.available.file}"/>
   
   <!-- JDK Detection -->
   <available classname="java.lang.Enum" property="HAVE_JDK_1.5"/>
   <available classname="java.io.Console" property="HAVE_JDK_1.6"/>
   
   <fail message="JDK1.5 or above is required" unless="HAVE_JDK_1.5"/>
-
-	<import file="${basedir}/build/build-deploy.xml"/>
-	<import file="${basedir}/build/macros-deploy-framework.xml"/>
-	<import file="${basedir}/build/macros-deploy-xfire.xml"/>
-	<import file="${basedir}/tests/ant-import/build-testsuite.xml"/>
-
-	<!-- ================================================================== -->
-	<!-- Initialization                                                     -->
-	<!-- ================================================================== -->
-
-	<target name="prepare">
-
-		<!-- Define jboss.home -->
-		<condition property="jboss.home" value="${jboss50.home}">
-			<equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
-		</condition>
-		<condition property="jboss.home" value="${jboss42.home}">
-			<equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
-		</condition>
-
-		<!-- Define excludesfile -->
+  
+  <import file="${basedir}/build/build-deploy.xml"/>
+  <import file="${basedir}/build/macros-deploy-framework.xml"/>
+  <import file="${basedir}/build/macros-deploy-xfire.xml"/>
+  <import file="${basedir}/tests/ant-import/build-testsuite.xml"/>
+  
+  <!-- ================================================================== -->
+  <!-- Initialization                                                     -->
+  <!-- ================================================================== -->
+  
+  <target name="prepare">
+    
+    <!-- Define jboss.home -->
+    <condition property="jboss.home" value="${jboss50.home}">
+      <equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
+    </condition>
+    <condition property="jboss.home" value="${jboss42.home}">
+      <equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
+    </condition>
+    
+    <!-- Define excludesfile -->
     <property name="excludesfile" value="${tests.dir}/resources/test-excludes-${jbossws.integration.target}.txt"/>
-
-	</target>
-
-	<target name="tests-init" depends="prepare,tests-classpath">
-
-		<path id="ws.stack.classpath">
+    
+  </target>
+  
+  <target name="tests-init" depends="prepare,tests-classpath">
+    
+    <path id="ws.stack.classpath">
       <pathelement location="${lib.dir}/jbossws-common.jar"/>
       <pathelement location="${lib.dir}/jbossws-spi.jar"/>
-      <pathelement location="${lib.dir}/cxf-incubator.jar"/>
-      <pathelement location="${lib.dir}/geronimo-javamail.jar"/>
-      <pathelement location="${lib.dir}/geronimo-ws-metadata.jar"/>
+      <pathelement location="${lib.dir}/cxf-${cxf.version}.jar"/>
+      <pathelement location="${lib.dir}/geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
+      <pathelement location="${lib.dir}/geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
+      <pathelement location="${lib.dir}/jaxws-api-${cxf.jaxws.api}.jar"/>
+      <pathelement location="${lib.dir}/jdom-${cxf.jdom}.jar"/>
+      <pathelement location="${lib.dir}/neethi-${cxf.neethi}.jar"/>
+      <pathelement location="${lib.dir}/saaj-api-${cxf.saaj}.jar"/>
+      <pathelement location="${lib.dir}/saaj-impl-${cxf.saaj}.jar"/>
+      <pathelement location="${lib.dir}/xml-resolver-${cxf.xml.resolver}.jar"/>
+      <pathelement location="${lib.dir}/XmlSchema-${cxf.xmlschema}.jar"/>
       <pathelement location="${lib.dir}/jaxb-api.jar"/>
-      <pathelement location="${lib.dir}/jaxws-api.jar"/>
-      <pathelement location="${lib.dir}/jdom.jar"/>
-      <pathelement location="${lib.dir}/neethi.jar"/>
-      <pathelement location="${lib.dir}/resolver.jar"/>
-      <pathelement location="${lib.dir}/saaj-api.jar"/>
-      <pathelement location="${lib.dir}/saaj-impl.jar"/>
       <pathelement location="${lib.dir}/wsdl4j.jar"/>
       <pathelement location="${lib.dir}/wstx.jar"/>
-      <pathelement location="${lib.dir}/XmlSchema.jar"/>
-		</path>
-
-		<path id="tests.extra.classpath">
-			<pathelement location="${thirdparty.dir}/jbossws-framework.jar"/>
-			<pathelement location="${thirdparty.dir}/jaxws-tools.jar"/>
-		</path>
-
-	</target>
-
-	<!-- ================================================================== -->
-	<!-- Compile                                                            -->
-	<!-- ================================================================== -->
-
-	<target name="tests-compile" depends="tests-init" description="Compile sources">
-		<macro-compile-classes srcdir="${tests.dir}/java" excludesfile="${excludesfile}"/>
-	</target>
-
-	<!-- ================================================================== -->
-	<!-- Building                                                           -->
-	<!-- ================================================================== -->
-
-	<!-- Copy resources -->
-	<target name="tests-copy-resources" depends="tests-init">
-		<macro-copy-resources srcdir="${tests.dir}"/>
-	</target>
-
-	<target name="tests-jars" depends="tests-compile,tests-copy-resources">
-		<ant antfile="${tests.dir}/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws" inheritall="true"/>
-	</target>
-
-	<target name="tests-main" depends="tests-jars" description="Build the test deployments."/>
-
-  <!-- dummy jar targets -->
-	<target name="jars-jboss50" depends="prepare"/>
-	<target name="jars-jboss42" depends="prepare"/>
+    </path>
+    
+    <path id="tests.extra.classpath">
+      <pathelement location="${thirdparty.dir}/jbossws-framework.jar"/>
+      <pathelement location="${thirdparty.dir}/jaxws-tools.jar"/>
+    </path>
+    
+  </target>
   
-	<!-- ================================================================== -->
-	<!-- Miscellaneous                                                       -->
-	<!-- ================================================================== -->
-
-	<target name="clean" depends="prepare" description="Cleans up most generated files.">
-		<delete dir="${tests.output.dir}"/>
-	</target>
-
-	<target name="clobber" depends="clean" description="Cleans up all generated files.">
-	</target>
-
-	<target name="main" depends="most" description="Executes the default target (most)."/>
-
-	<target name="most" depends="tests-main" description="Builds almost everything."/>
-
+  <!-- ================================================================== -->
+  <!-- Compile                                                            -->
+  <!-- ================================================================== -->
+  
+  <target name="tests-compile" depends="tests-init" description="Compile sources">
+    <macro-compile-classes srcdir="${tests.dir}/java" excludesfile="${excludesfile}"/>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Building                                                           -->
+  <!-- ================================================================== -->
+  
+  <!-- Copy resources -->
+  <target name="tests-copy-resources" depends="tests-init">
+    <macro-copy-resources srcdir="${tests.dir}"/>
+  </target>
+  
+  <target name="tests-jars" depends="tests-compile,tests-copy-resources">
+    <ant antfile="${tests.dir}/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws" inheritall="true"/>
+  </target>
+  
+  <target name="tests-main" depends="tests-jars" description="Build the test deployments."/>
+  
+  <!-- dummy jar targets -->
+  <target name="jars-jboss50" depends="prepare"/>
+  <target name="jars-jboss42" depends="prepare"/>
+  
+  <!-- ================================================================== -->
+  <!-- Miscellaneous                                                       -->
+  <!-- ================================================================== -->
+  
+  <target name="clean" depends="prepare" description="Cleans up most generated files.">
+    <delete dir="${tests.output.dir}"/>
+  </target>
+  
+  <target name="clobber" depends="clean" description="Cleans up all generated files.">
+  </target>
+  
+  <target name="main" depends="most" description="Executes the default target (most)."/>
+  
+  <target name="most" depends="tests-main" description="Builds almost everything."/>
+  
 </project>

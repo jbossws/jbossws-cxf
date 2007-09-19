@@ -100,25 +100,23 @@
 				<include name="jbossws-xfire50.sar"/>
 			</fileset>
 			<fileset dir="${thirdparty.dir}">
-				<include name="jbossws-jboss50.jar"/>
-				<include name="jbossws-jboss50-deployer.zip"/>
 				<include name="jbossws-jboss42.jar"/>
 				<include name="juddi-service.sar"/>
-        <include name="cxf-incubator.jar"/>
-        <include name="geronimo-javamail.jar"/>
-        <include name="geronimo-ws-metadata.jar"/>
+        <include name="cxf-${cxf.version}.jar"/>
+        <include name="geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
+        <include name="geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
+        <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
+        <include name="jdom-${cxf.jdom}.jar"/>
+        <include name="neethi-${cxf.neethi}.jar"/>
+        <include name="saaj-api-${cxf.saaj}.jar"/>
+        <include name="saaj-impl-${cxf.saaj}.jar"/>
+        <include name="xml-resolver-${cxf.xml.resolver}.jar"/>
+        <include name="XmlSchema-${cxf.xmlschema}.jar"/>
 				<include name="jaxb-api.jar"/>
 				<include name="jaxb-impl.jar"/>
 				<include name="jaxb-xjc.jar"/>
-        <include name="jaxws-api.jar"/>
-        <include name="jdom.jar"/>
-        <include name="neethi.jar"/>
-        <include name="resolver.jar"/>
-        <include name="saaj-api.jar"/>
-        <include name="saaj-impl.jar"/>
-        <include name="wsdl4j.jar"/>
-        <include name="wstx.jar"/>
-        <include name="XmlSchema.jar"/>
+				<include name="wsdl4j.jar"/>
+				<include name="wstx.jar"/>
 			</fileset>
 		</copy>
 

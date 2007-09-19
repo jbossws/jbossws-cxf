@@ -11,9 +11,6 @@
     <import componentref="jboss/microcontainer">
       <compatible version="@jboss-microcontainer@"/>
     </import>
-    <import componentref="jboss/jbossws-jboss50">
-      <compatible version="@repository.id@"/>
-    </import>
     <import componentref="jboss/jbossws-spi">
       <compatible version="@repository.id@"/>
     </import>
