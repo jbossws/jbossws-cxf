@@ -42,7 +42,7 @@
   <!-- 
     thirdpartry-get
   -->
-  <target name="thirdparty-get" depends="thirdparty-init" if="force.thirdparty.get" 
+  <target name="thirdparty-get" depends="thirdparty-init, cxf-copy-jars" if="force.thirdparty.get" 
     description="Gets the thirdparty libraries">
 
     <mkdir dir="${thirdparty.dir}"/>
@@ -67,8 +67,6 @@
     <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-xjc.jar" dest="${thirdparty.dir}/jaxb-xjc.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/sun-servlet/${sun-servlet}/lib/servlet-api.jar" dest="${thirdparty.dir}/servlet-api.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/woodstox/${woodstox}/lib/wstx.jar" dest="${thirdparty.dir}/wstx.jar" usetimestamp="true" verbose="true"/>
-    
-    <antcall target="cxf-copy-jars"/>
     
     <checksum file="${int.xfire.dir}/version.properties" fileext=".md5"/>
   </target>
@@ -142,6 +140,7 @@
   
   <!-- Copy the cxf jars -->
   <target name="cxf-copy-jars" depends="cxf-maven-build">
+    <mkdir dir="${thirdparty.dir}"/>
     <copy todir="${thirdparty.dir}">
       <fileset dir="${apache.cxf.dir}/distribution/target/apache-cxf-${cxf.version}.dir/apache-cxf-${cxf.version}/lib">
         <include name="cxf-${cxf.version}.jar"/>
