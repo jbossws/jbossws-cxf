@@ -141,8 +141,41 @@
   <!-- Copy the cxf jars -->
   <target name="cxf-copy-jars" depends="cxf-maven-build">
     <mkdir dir="${thirdparty.dir}"/>
+    
+    <property name="cxf.distribution.lib" value="${apache.cxf.dir}/distribution/target/apache-cxf-${cxf.version}.dir/apache-cxf-${cxf.version}/lib"/>
+    
+    <available property="cxf.available" filepath="${cxf.distribution.lib}" file="cxf-${cxf.version}.jar"/>
+    <available property="geronimo-javamail.available" filepath="${cxf.distribution.lib}" file="geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
+    <available property="geronimo-ws-metadata.available" filepath="${cxf.distribution.lib}" file="geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
+    <available property="jaxws-api.available" filepath="${cxf.distribution.lib}" file="jaxws-api-${cxf.jaxws.api}.jar"/>
+    <available property="jdom.available" filepath="${cxf.distribution.lib}" file="jdom-${cxf.jdom}.jar"/>
+    <available property="neethi.available" filepath="${cxf.distribution.lib}" file="neethi-${cxf.neethi}.jar"/>
+    <available property="saaj-api.available" filepath="${cxf.distribution.lib}" file="saaj-api-${cxf.saaj}.jar"/>
+    <available property="saaj-impl.available" filepath="${cxf.distribution.lib}" file="saaj-impl-${cxf.saaj}.jar"/>
+    <available property="spring-beans.available" filepath="${cxf.distribution.lib}" file="spring-beans-${cxf.spring}.jar"/>
+    <available property="spring-context.available" filepath="${cxf.distribution.lib}" file="spring-context-${cxf.spring}.jar"/>
+    <available property="spring-core.available" filepath="${cxf.distribution.lib}" file="spring-core-${cxf.spring}.jar"/>
+    <available property="xbean.available" filepath="${cxf.distribution.lib}" file="xbean-${cxf.xbean}.jar"/>
+    <available property="xml-resolver.available" filepath="${cxf.distribution.lib}" file="xml-resolver-${cxf.xml.resolver}.jar"/>
+    <available property="XmlSchema.available" filepath="${cxf.distribution.lib}" file="XmlSchema-${cxf.xmlschema}.jar"/>
+    
+    <fail message="cxf-${cxf.version}.jar not available" unless="cxf.available"/>
+    <fail message="geronimo-javamail_${cxf.geronimo.javamail}.jar not available" unless="geronimo-javamail.available"/>
+    <fail message="geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar not available" unless="geronimo-ws-metadata.available"/>
+    <fail message="jaxws-api-${cxf.jaxws.api}.jar not available" unless="jaxws-api.available"/>
+    <fail message="jdom-${cxf.jdom}.jar not available" unless="jdom.available"/>
+    <fail message="neethi-${cxf.neethi}.jar not available" unless="neethi.available"/>
+    <fail message="saaj-api-${cxf.saaj}.jar not available" unless="saaj-api.available"/>
+    <fail message="saaj-impl-${cxf.saaj}.jar not available" unless="saaj-impl.available"/>
+    <fail message="spring-beans-${cxf.spring}.jar not available" unless="spring-beans.available"/>
+    <fail message="spring-context-${cxf.spring}.jar not available" unless="spring-context.available"/>
+    <fail message="spring-core-${cxf.spring}.jar not available" unless="spring-core.available"/>
+    <fail message="xbean-${cxf.xbean}.jar not available" unless="xbean.available"/>
+    <fail message="xml-resolver-${cxf.xml.resolver}.jar not available" unless="xml-resolver.available"/>
+    <fail message="XmlSchema-${cxf.xmlschema}.jar not available" unless="XmlSchema.available"/>
+    
     <copy todir="${thirdparty.dir}">
-      <fileset dir="${apache.cxf.dir}/distribution/target/apache-cxf-${cxf.version}.dir/apache-cxf-${cxf.version}/lib">
+      <fileset dir="${cxf.distribution.lib}">
         <include name="cxf-${cxf.version}.jar"/>
         <include name="geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
         <include name="geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
