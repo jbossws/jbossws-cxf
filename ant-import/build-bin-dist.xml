@@ -100,7 +100,6 @@
 				<include name="jbossws-xfire50.sar"/>
 			</fileset>
 			<fileset dir="${thirdparty.dir}">
-				<include name="jbossws-jboss42.jar"/>
 				<include name="juddi-service.sar"/>
         <include name="cxf-${cxf.version}.jar"/>
         <include name="geronimo-javamail_${cxf.geronimo.javamail}.jar"/>

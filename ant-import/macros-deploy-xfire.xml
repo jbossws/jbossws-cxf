@@ -94,7 +94,6 @@
 			<!-- CLIENT JARS -->
       <copy todir="${jboss42.home}/client" overwrite="true">
         <fileset dir="@{thirdpartylibs}">
-          <include name="jbossws-jboss42.jar"/>
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
           <include name="jaxb-xjc.jar"/>
@@ -110,12 +109,6 @@
       </copy>
 			
 			<!--SERVER JARS -->
-      <copy todir="${jboss42.home}/server/${jboss.server.instance}/lib" overwrite="true">
-        <fileset dir="@{thirdpartylibs}">
-          <include name="jbossws-jboss42.jar"/>
-        </fileset>
-      </copy>
-      
       <mkdir dir="${jboss42.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
       <unjar dest="${jboss42.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar" src="@{stacklibs}/jbossws-xfire42.sar"/>
 			<mkdir dir="${jboss42.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
@@ -127,16 +120,9 @@
   <macrodef name="macro-undeploy-xfire42">
     <sequential>
       <delete>
-
   			<!-- CLIENT JARS -->
         <fileset dir="${jboss42.home}/client">
           <include name="jbossws-spi.jar"/>
-          <include name="jbossws-jboss42.jar"/>
-        </fileset>
-        
-  			<!--SERVER JARS -->
-        <fileset dir="${jboss42.home}/server/${jboss.server.instance}/lib">
-          <include name="jbossws-jboss42.jar"/>
         </fileset>
       </delete>
       
