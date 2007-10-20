@@ -18,14 +18,14 @@
   <!-- ================================================================== -->
   
   <!-- Deploy to jboss50 -->
-  <macrodef name="macro-deploy-xfire50">
+  <macrodef name="macro-deploy-xfire500">
       <attribute name="stacklibs"/>
       <attribute name="thirdpartylibs"/>
     <sequential>
-      <fail message="Not available: ${jboss50.available.file}" unless="jboss50.available"/>
+      <fail message="Not available: ${jboss500.available.file}" unless="jboss500.available"/>
 
 			<!-- CLIENT JARS -->
-      <copy todir="${jboss50.home}/client" overwrite="true">
+      <copy todir="${jboss500.home}/client" overwrite="true">
         <fileset dir="@{thirdpartylibs}">
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
@@ -34,7 +34,7 @@
       </copy>
       
 			<!-- BOOTSTRAP JARS -->
-			<copy todir="${jboss50.home}/lib" overwrite="true">
+			<copy todir="${jboss500.home}/lib" overwrite="true">
 				<fileset dir="@{thirdpartylibs}">
 					<include name="jaxb-api.jar"/>
 					<include name="jaxb-impl.jar"/>
@@ -42,57 +42,57 @@
 			</copy>
 			
 			<!--SERVER JARS -->
-      <copy todir="${jboss50.home}/server/${jboss.server.instance}/lib" overwrite="true">
+      <copy todir="${jboss500.home}/server/${jboss.server.instance}/lib" overwrite="true">
 				<fileset dir="@{thirdpartylibs}">
           <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
           <include name="saaj-api-${cxf.saaj}.jar"/>
 				</fileset>
       </copy>
       
-      <mkdir dir="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
-      <unjar dest="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar" src="@{stacklibs}/jbossws-xfire50.sar"/>      
-			<mkdir dir="${jboss50.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
-			<unzip dest="${jboss50.home}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
+      <mkdir dir="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+      <unjar dest="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar" src="@{stacklibs}/jbossws-xfire50.sar"/>      
+			<mkdir dir="${jboss500.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
+			<unzip dest="${jboss500.home}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
     </sequential>
   </macrodef>
     
   <!-- Undeploy from jboss50 -->
-  <macrodef name="macro-undeploy-xfire50">
+  <macrodef name="macro-undeploy-xfire500">
     <sequential>
       <delete>
 
   			<!-- CLIENT JARS -->
-        <fileset dir="${jboss50.home}/client">
+        <fileset dir="${jboss500.home}/client">
           <include name="jbossws-framework.jar"/>
           <include name="jbossws-spi.jar"/>
         </fileset>
         
         <!-- BOOTSTRAP JARS -->
-        <fileset dir="${jboss50.home}/lib">
+        <fileset dir="${jboss500.home}/lib">
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
         </fileset>
 			
   			<!--SERVER JARS -->
-        <fileset dir="${jboss50.home}/server/${jboss.server.instance}/lib">
+        <fileset dir="${jboss500.home}/server/${jboss.server.instance}/lib">
           <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
           <include name="saaj-api-${cxf.saaj}.jar"/>
         </fileset>
       </delete>
       
-      <delete dir="${jboss50.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
-			<delete dir="${jboss50.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
+      <delete dir="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+			<delete dir="${jboss500.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
     </sequential>
   </macrodef>
   
-  <macrodef name="macro-deploy-xfire42">
+  <macrodef name="macro-deploy-xfire422">
       <attribute name="stacklibs"/>
       <attribute name="thirdpartylibs"/>
     <sequential>
-      <fail message="Not available: ${jboss42.available.file}" unless="jboss42.available"/>
+      <fail message="Not available: ${jboss422.available.file}" unless="jboss422.available"/>
 
 			<!-- CLIENT JARS -->
-      <copy todir="${jboss42.home}/client" overwrite="true">
+      <copy todir="${jboss422.home}/client" overwrite="true">
         <fileset dir="@{thirdpartylibs}">
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
@@ -101,7 +101,7 @@
       </copy>
       
 			<!-- BOOTSTRAP JARS -->
-      <copy todir="${jboss42.home}/lib" overwrite="true">
+      <copy todir="${jboss422.home}/lib" overwrite="true">
         <fileset dir="@{thirdpartylibs}">
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
@@ -109,25 +109,25 @@
       </copy>
 			
 			<!--SERVER JARS -->
-      <mkdir dir="${jboss42.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
-      <unjar dest="${jboss42.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar" src="@{stacklibs}/jbossws-xfire42.sar"/>
-			<mkdir dir="${jboss42.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
-			<unzip dest="${jboss42.home}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
+      <mkdir dir="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+      <unjar dest="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar" src="@{stacklibs}/jbossws-xfire42.sar"/>
+			<mkdir dir="${jboss422.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
+			<unzip dest="${jboss422.home}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
     </sequential>
   </macrodef>
     
   <!-- Remove jbossws/xfire from jboss42 -->
-  <macrodef name="macro-undeploy-xfire42">
+  <macrodef name="macro-undeploy-xfire422">
     <sequential>
       <delete>
   			<!-- CLIENT JARS -->
-        <fileset dir="${jboss42.home}/client">
+        <fileset dir="${jboss422.home}/client">
           <include name="jbossws-spi.jar"/>
         </fileset>
       </delete>
       
-      <delete dir="${jboss42.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
-			<delete dir="${jboss42.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
+      <delete dir="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+			<delete dir="${jboss422.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
     </sequential>
   </macrodef>
   

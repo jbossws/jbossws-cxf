@@ -29,26 +29,26 @@
 	<property file="${basedir}/version.properties"/>
 	<property file="${build.dir}/version.properties"/>
 
-	<property name="jboss50.lib" value="${jboss50.home}/lib"/>
-	<property name="jboss50.client" value="${jboss50.home}/client"/>
-	<property name="jboss50.server" value="${jboss50.home}/server/${jboss.server.instance}"/>
-	<property name="jboss50.server.lib" value="${jboss50.server}/lib"/>
-	<property name="jboss50.server.deploy" value="${jboss50.server}/deploy"/>
-	<property name="jboss50.server.deployers" value="${jboss50.server}/deployers"/>
+	<property name="jboss500.lib" value="${jboss500.home}/lib"/>
+	<property name="jboss500.client" value="${jboss500.home}/client"/>
+	<property name="jboss500.server" value="${jboss500.home}/server/${jboss.server.instance}"/>
+	<property name="jboss500.server.lib" value="${jboss500.server}/lib"/>
+	<property name="jboss500.server.deploy" value="${jboss500.server}/deploy"/>
+	<property name="jboss500.server.deployers" value="${jboss500.server}/deployers"/>
 
-	<property name="jboss42.lib" value="${jboss42.home}/lib"/>
-	<property name="jboss42.client" value="${jboss42.home}/client"/>
-	<property name="jboss42.server" value="${jboss42.home}/server/${jboss.server.instance}"/>
-	<property name="jboss42.server.lib" value="${jboss42.server}/lib"/>
-	<property name="jboss42.server.deploy" value="${jboss42.server}/deploy"/>
+	<property name="jboss422.lib" value="${jboss422.home}/lib"/>
+	<property name="jboss422.client" value="${jboss422.home}/client"/>
+	<property name="jboss422.server" value="${jboss422.home}/server/${jboss.server.instance}"/>
+	<property name="jboss422.server.lib" value="${jboss422.server}/lib"/>
+	<property name="jboss422.server.deploy" value="${jboss422.server}/deploy"/>
 
 	<property name="jbossws.integration.${jbossws.integration.target}" value="true"/>
 
-	<property name="jboss50.available.file" value="${jboss50.client}/jboss-ejb3-client.jar"/>
-	<property name="jboss42.available.file" value="${jboss42.client}/jboss-client.jar"/>
+	<property name="jboss500.available.file" value="${jboss500.client}/jboss-ejb3-client.jar"/>
+	<property name="jboss422.available.file" value="${jboss422.client}/jboss-client.jar"/>
 
-	<available property="jboss50.available" file="${jboss50.available.file}"/>
-	<available property="jboss42.available" file="${jboss42.available.file}"/>
+	<available property="jboss500.available" file="${jboss500.available.file}"/>
+	<available property="jboss422.available" file="${jboss422.available.file}"/>
 
 	<import file="${basedir}/build/build-deploy.xml"/>
 	<import file="${basedir}/build/build-testsuite.xml"/>
@@ -64,10 +64,10 @@
 	<target name="prepare">
 
 		<!-- Define jboss.home -->
-		<condition property="jboss.home" value="${jboss50.home}">
+		<condition property="jboss.home" value="${jboss500.home}">
 			<equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
 		</condition>
-		<condition property="jboss.home" value="${jboss42.home}">
+		<condition property="jboss.home" value="${jboss422.home}">
 			<equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
 		</condition>
 

@@ -21,37 +21,37 @@
   <!-- ================================================================== -->
   
   <!-- Deploy to jboss50 -->
-  <target name="deploy-jboss50" depends="jars-jboss50,undeploy-jboss50" description="Deploy jbossws/xfire to jboss50">
-    <macro-deploy-xfire50 
+  <target name="deploy-jboss500" depends="jars-jboss50,undeploy-jboss500" description="Deploy jbossws/xfire to jboss50">
+    <macro-deploy-xfire500 
       stacklibs="${int.xfire.dir}/output/lib" 
       thirdpartylibs="${int.xfire.dir}/thirdparty"/>
 
 		<macro-deploy-framework
 				thirdpartylibs="${int.xfire.dir}/thirdparty"
-				jbosshome="${jboss50.home}"/>
+				jbosshome="${jboss500.home}"/>
   </target>
     
   <!-- Remove from jboss50 -->
-  <target name="undeploy-jboss50" depends="prepare" description="Remove jbossws/xfire from jboss50">
-    <macro-undeploy-xfire50/>
-		<macro-undeploy-framework jbosshome="${jboss50.home}"/>
+  <target name="undeploy-jboss500" depends="prepare" description="Remove jbossws/xfire from jboss50">
+    <macro-undeploy-xfire500/>
+		<macro-undeploy-framework jbosshome="${jboss500.home}"/>
   </target>
   
   <!-- Deploy to jboss42 -->
-  <target name="deploy-jboss42" depends="jars-jboss42,undeploy-jboss42" description="Deploy jbossws/xfire to jboss42">
-    <macro-deploy-xfire42 
+  <target name="deploy-jboss422" depends="jars-jboss42,undeploy-jboss422" description="Deploy jbossws/xfire to jboss42">
+    <macro-deploy-xfire422 
       stacklibs="${int.xfire.dir}/output/lib" 
       thirdpartylibs="${int.xfire.dir}/thirdparty"/>
     
 		<macro-deploy-framework
 				thirdpartylibs="${int.xfire.dir}/thirdparty"
-				jbosshome="${jboss42.home}"/>
+				jbosshome="${jboss422.home}"/>
   </target>
     
   <!-- Remove from jboss42 -->
-  <target name="undeploy-jboss42" depends="prepare" description="Remove jbossws/xfire from jboss42">
-    <macro-undeploy-xfire42/>
-		<macro-undeploy-framework jbosshome="${jboss42.home}"/>
+  <target name="undeploy-jboss422" depends="prepare" description="Remove jbossws/xfire from jboss42">
+    <macro-undeploy-xfire422/>
+		<macro-undeploy-framework jbosshome="${jboss422.home}"/>
   </target>
   
 </project>

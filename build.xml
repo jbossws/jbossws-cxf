@@ -127,7 +127,7 @@
     </zip>
   </target>
   
-  <target name="jars-jboss50" depends="jars-common" if="jboss50.home">
+  <target name="jars-jboss50" depends="jars-common" if="jboss500.home">
     
     <!-- Concat jbossws-beans.xml -->
     <concat destfile="${xfire.output.lib.dir}/jbossws-xfire50/jbossws-beans.xml">
@@ -179,7 +179,7 @@
     
    </target>
   
-  <target name="jars-jboss42" depends="jars-common" if="jboss42.home">
+  <target name="jars-jboss42" depends="jars-common" if="jboss422.home">
     
     <unzip dest="${xfire.output.dir}/resources" src="${thirdparty.dir}/jbossws-jboss42-resources.zip"/>
     

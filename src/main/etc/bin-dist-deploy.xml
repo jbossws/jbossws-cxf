@@ -18,10 +18,10 @@
 	<!-- ================================================================== -->
 
 	<!-- Deploy jbossws/xfire to jboss50 -->
-	<target name="deploy-jboss50" depends="undeploy-jboss50" description="Deploy jbossws/xfire to jboss50">
+	<target name="deploy-jboss500" depends="undeploy-jboss500" description="Deploy jbossws/xfire to jboss50">
 		<macro-undeploy-native50/>
 		<macro-undeploy-sunri50/>
-		<macro-deploy-xfire50
+		<macro-deploy-xfire500
 				spilibs="${lib.dir}"
 				jbosslibs="${lib.dir}"
 				stacklibs="${lib.dir}"
@@ -30,20 +30,20 @@
 		<macro-deploy-spi
 				spilibs="${lib.dir}"
 				thirdpartylibs="${lib.dir}"
-				jbosshome="${jboss50.home}"/>
+				jbosshome="${jboss500.home}"/>
 	</target>
 
 	<!-- Remove jbossws/xfire from jboss50 -->
-	<target name="undeploy-jboss50" depends="prepare" description="Remove jbossws/xfire from jboss50">
-		<macro-undeploy-xfire50/>
-		<macro-undeploy-spi jbosshome="${jboss50.home}"/>
+	<target name="undeploy-jboss500" depends="prepare" description="Remove jbossws/xfire from jboss50">
+		<macro-undeploy-xfire500/>
+		<macro-undeploy-spi jbosshome="${jboss500.home}"/>
 	</target>
 
 	<!-- Deploy jbossws/xfire to jboss42 -->
-	<target name="deploy-jboss42" depends="undeploy-jboss42" description="Deploy jbossws/xfire to jboss42">
+	<target name="deploy-jboss422" depends="undeploy-jboss422" description="Deploy jbossws/xfire to jboss42">
 		<macro-undeploy-native42/>
 		<macro-undeploy-sunri42/>
-		<macro-deploy-xfire42
+		<macro-deploy-xfire422
 				spilibs="${lib.dir}"
 				jbosslibs="${lib.dir}"
 				stacklibs="${lib.dir}"
@@ -52,13 +52,13 @@
 		<macro-deploy-spi
 				spilibs="${lib.dir}"
 				thirdpartylibs="${lib.dir}"
-				jbosshome="${jboss42.home}"/>
+				jbosshome="${jboss422.home}"/>
 	</target>
 
 	<!-- Remove jbossws/xfire from jboss42 -->
-	<target name="undeploy-jboss42" depends="prepare" description="Remove jbossws/xfire from jboss42">
-		<macro-undeploy-xfire42/>
-		<macro-undeploy-spi jbosshome="${jboss42.home}"/>
+	<target name="undeploy-jboss422" depends="prepare" description="Remove jbossws/xfire from jboss42">
+		<macro-undeploy-xfire422/>
+		<macro-undeploy-spi jbosshome="${jboss422.home}"/>
 	</target>
 
 </project>
