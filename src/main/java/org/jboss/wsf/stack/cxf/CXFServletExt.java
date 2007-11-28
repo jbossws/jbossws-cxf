@@ -35,19 +35,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceException;
 
-import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.common.ObjectNameFactory;
-import org.jboss.wsf.spi.invocation.EndpointAssociation;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
-import org.jboss.wsf.spi.SPIProviderResolver;
-import org.jboss.wsf.spi.SPIProvider;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
@@ -69,6 +68,7 @@ public class CXFServletExt extends CXFServlet
    protected EndpointRegistry epRegistry;
    protected GenericApplicationContext childCtx;
 
+   @Override
    public void init(ServletConfig servletConfig) throws ServletException
    {
       super.init(servletConfig);
@@ -76,21 +76,33 @@ public class CXFServletExt extends CXFServlet
       // Init the Endpoint
       SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
       epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).getEndpointRegistry();
-      
+
       ServletContext context = servletConfig.getServletContext();
       String contextPath = context.getContextPath();
       endpoint = initServiceEndpoint(contextPath);
-      
+
       context.setAttribute(ServletController.class.getName(), getController());
    }
 
-   public ServletController createServletController()
+   @Override
+   public ServletController createServletController(ServletConfig servletConfig)
    {
       ServletTransportFactory stf = (ServletTransportFactory)createServletTransportFactory();
       return new ServletControllerExt(stf, this);
    }
 
-   protected void loadAdditionalConfig(ApplicationContext ctx, ServletConfig servletConfig) throws ServletException
+   @Override
+   public void loadBus(ServletConfig servletConfig) throws ServletException
+   {
+      super.loadBus(servletConfig);
+
+      ServletContext svCtx = getServletContext();
+      ApplicationContext appCtx = (ApplicationContext)svCtx.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT");
+
+      loadAdditionalConfigExt(appCtx, servletConfig);
+   }
+
+   private void loadAdditionalConfigExt(ApplicationContext ctx, ServletConfig servletConfig) throws ServletException
    {
       String location = servletConfig.getServletContext().getInitParameter(PARAM_CXF_BEANS_URL);
 
@@ -115,6 +127,7 @@ public class CXFServletExt extends CXFServlet
       }
    }
 
+   @Override
    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
    {
       try
@@ -129,15 +142,18 @@ public class CXFServletExt extends CXFServlet
       }
    }
 
+   @Override
    public void destroy()
    {
       if (childCtx != null)
          childCtx.destroy();
+
+      super.destroy();
    }
 
    /** Initialize the service endpoint
     */
-   protected Endpoint initServiceEndpoint(String contextPath)
+   private Endpoint initServiceEndpoint(String contextPath)
    {
       if (contextPath.startsWith("/"))
          contextPath = contextPath.substring(1);
