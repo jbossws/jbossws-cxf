@@ -49,6 +49,13 @@
   <available property="jboss500.available" file="${jboss500.available.file}"/>
   <available property="jboss422.available" file="${jboss422.available.file}"/>
   
+  <condition property="jbossws.integration.jboss42" value="true">
+    <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
+  </condition>
+  <condition property="jbossws.integration.jboss50" value="true">
+    <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
+  </condition>
+  
   <!-- JDK Detection -->
   <available classname="java.lang.Enum" property="HAVE_JDK_1.5"/>
   <available classname="java.io.Console" property="HAVE_JDK_1.6"/>
