@@ -13,7 +13,7 @@
 
 <project>
 
-  <property file="${int.xfire.dir}/version.properties"/>
+  <property file="${int.cxf.dir}/version.properties"/>
   
   <!-- ========= -->
   <!-- Libraries -->
@@ -24,11 +24,11 @@
   
   <target name="thirdparty-init" depends="prepare">
     
-    <property name="apache.cxf.dir" value="${xfire.dir}/apache-cxf"/>
+    <property name="apache.cxf.dir" value="${cxf.dir}/apache-cxf"/>
     <available property="apache.cxf.available" file="${apache.cxf.dir}"/>
     
-    <property name="thirdparty.dir" value="${int.xfire.dir}/thirdparty"/>
-    <checksum file="${int.xfire.dir}/version.properties" fileext=".md5" verifyproperty="checksum.ok"/>
+    <property name="thirdparty.dir" value="${int.cxf.dir}/thirdparty"/>
+    <checksum file="${int.cxf.dir}/version.properties" fileext=".md5" verifyproperty="checksum.ok"/>
     <condition property="force.thirdparty.get">
       <or>
         <not>
@@ -67,11 +67,11 @@
     <get src="${jboss.repository}/sun-servlet/${sun-servlet}/lib/servlet-api.jar" dest="${thirdparty.dir}/servlet-api.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/woodstox/${woodstox}/lib/wstx.jar" dest="${thirdparty.dir}/wstx.jar" usetimestamp="true" verbose="true"/>
     
-    <checksum file="${int.xfire.dir}/version.properties" fileext=".md5"/>
+    <checksum file="${int.cxf.dir}/version.properties" fileext=".md5"/>
   </target>
   
   <target name="thirdparty-classpath" depends="thirdparty-get">
-    <path id="xfire.integration.classpath">
+    <path id="cxf.integration.classpath">
         <!-- A stack MUST NOT have a compile time dependency on jbossws-framework.jar -->
       <pathelement location="${thirdparty.dir}/jbossws-common.jar"/>
       <pathelement location="${thirdparty.dir}/jbossws-spi.jar"/>
@@ -96,7 +96,7 @@
   
   <!-- SVN checkout the Apache CXF sources -->
   <target name="cxf-checkout" depends="thirdparty-init" unless="apache.cxf.available">
-    <exec dir="${xfire.dir}" executable="svn" failonerror="true">
+    <exec dir="${cxf.dir}" executable="svn" failonerror="true">
       <arg value="checkout"/>
       <arg value="-r${cxf.svn.rev}"/>
       <arg value="${cxf.svn.url}"/>

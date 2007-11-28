@@ -11,7 +11,7 @@
 
 <!-- $Id$ -->
 
-<project default="main" basedir="." name="JBossWS-XFire">
+<project default="main" basedir="." name="JBossWS-CXF">
 
 	<!-- ================================================================== -->
 	<!-- Setup                                                              -->
@@ -55,7 +55,7 @@
 	<import file="${basedir}/build/macros-deploy-spi.xml"/>
 	<import file="${basedir}/build/macros-deploy-native.xml"/>
 	<import file="${basedir}/build/macros-deploy-sunri.xml"/>
-	<import file="${basedir}/build/macros-deploy-xfire.xml"/>
+	<import file="${basedir}/build/macros-deploy-cxf.xml"/>
 
 	<!-- ================================================================== -->
 	<!-- Initialization                                                     -->

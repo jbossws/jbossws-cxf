@@ -10,12 +10,12 @@
 
 <project>
   
-  <property name="tests.output.dir" value="${int.xfire.dir}/output/tests"/>
+  <property name="tests.output.dir" value="${int.cxf.dir}/output/tests"/>
   
-  <import file="${int.xfire.dir}/src/test-framework/ant-import/build-testsuite.xml"/>
+  <import file="${int.cxf.dir}/src/test-framework/ant-import/build-testsuite.xml"/>
   
   <!-- Define excludesfile -->
-  <property name="excludesfile" value="${int.xfire.dir}/src/test/resources/test-excludes-${jbossws.integration.target}.txt"/>
+  <property name="excludesfile" value="${int.cxf.dir}/src/test/resources/test-excludes-${jbossws.integration.target}.txt"/>
 
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
@@ -24,28 +24,28 @@
   <target name="tests-init" depends="tests-classpath">
     
     <path id="ws.stack.classpath">
-      <pathelement location="${int.xfire.dir}/thirdparty/jbossws-common.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/jbossws-spi.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/jbossws-common.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/jbossws-spi.jar"/>
       
-      <pathelement location="${int.xfire.dir}/thirdparty/cxf-${cxf.version}.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/jaxws-api-${cxf.jaxws.api}.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/jdom-${cxf.jdom}.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/neethi-${cxf.neethi}.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/saaj-api-${cxf.saaj}.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/saaj-impl-${cxf.saaj}.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/xml-resolver-${cxf.xml.resolver}.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/XmlSchema-${cxf.xmlschema}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/cxf-${cxf.version}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/jaxws-api-${cxf.jaxws.api}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/jdom-${cxf.jdom}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/neethi-${cxf.neethi}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/saaj-api-${cxf.saaj}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/saaj-impl-${cxf.saaj}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/xml-resolver-${cxf.xml.resolver}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/XmlSchema-${cxf.xmlschema}.jar"/>
       
-      <pathelement location="${int.xfire.dir}/thirdparty/jaxb-api.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/wsdl4j.jar"/>
-      <pathelement location="${int.xfire.dir}/thirdparty/wstx.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/jaxb-api.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/wsdl4j.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/wstx.jar"/>
     </path>
     
     <path id="tests.extra.classpath">
-			<pathelement location="${int.xfire.dir}/thirdparty/jbossws-framework.jar"/>
-			<pathelement location="${int.xfire.dir}/thirdparty/jaxws-tools.jar"/>
+			<pathelement location="${int.cxf.dir}/thirdparty/jbossws-framework.jar"/>
+			<pathelement location="${int.cxf.dir}/thirdparty/jaxws-tools.jar"/>
     </path>
     
   </target>
@@ -55,8 +55,8 @@
   <!-- ================================================================== -->
 
   <target name="tests-compile" depends="tests-init" description="Compile sources">
-		<macro-compile-classes srcdir="${int.xfire.dir}/src/test-framework/java" excludesfile="${excludesfile}"/>
-		<macro-compile-classes srcdir="${int.xfire.dir}/src/test/java" excludesfile="${excludesfile}"/>
+		<macro-compile-classes srcdir="${int.cxf.dir}/src/test-framework/java" excludesfile="${excludesfile}"/>
+		<macro-compile-classes srcdir="${int.cxf.dir}/src/test/java" excludesfile="${excludesfile}"/>
   </target>
 
   <!-- ================================================================== -->
@@ -65,12 +65,12 @@
   
   <!-- Copy resources -->
   <target name="tests-copy-resources" depends="tests-init" description="Copy the deployment resources.">
-		<macro-copy-resources srcdir="${int.xfire.dir}/src/test-framework"/>
-		<macro-copy-resources srcdir="${int.xfire.dir}/src/test"/>
+		<macro-copy-resources srcdir="${int.cxf.dir}/src/test-framework"/>
+		<macro-copy-resources srcdir="${int.cxf.dir}/src/test"/>
   </target>
   
   <target name="tests-jars" depends="tests-compile,tests-copy-resources" description="Build the deployments.">
-		<ant antfile="${int.xfire.dir}/src/test-framework/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws"/>
+		<ant antfile="${int.cxf.dir}/src/test-framework/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws"/>
   </target>
   
   <target name="tests-main" depends="tests-jars" description="Build the deployments."/>

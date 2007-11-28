@@ -11,7 +11,7 @@
 
 <!-- $Id: bin-dist-build.xml 4081 2007-08-02 09:23:17Z thomas.diesler@jboss.com $ -->
 
-<project default="main" basedir="." name="JBossWS-xfire">
+<project default="main" basedir="." name="JBossWS-cxf">
   
   <!-- ================================================================== -->
   <!-- Setup                                                              -->
@@ -57,7 +57,7 @@
   
   <import file="${basedir}/build/build-deploy.xml"/>
   <import file="${basedir}/build/macros-deploy-framework.xml"/>
-  <import file="${basedir}/build/macros-deploy-xfire.xml"/>
+  <import file="${basedir}/build/macros-deploy-cxf.xml"/>
   <import file="${basedir}/tests/ant-import/build-testsuite.xml"/>
   
   <!-- ================================================================== -->

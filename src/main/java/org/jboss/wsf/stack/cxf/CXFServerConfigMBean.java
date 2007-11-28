@@ -19,12 +19,11 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.xfire;
+package org.jboss.wsf.stack.cxf;
 
 //$Id: DefaultServerConfig.java 4023 2007-07-28 07:14:06Z thomas.diesler@jboss.com $
 
-import org.jboss.logging.Logger;
-import org.jboss.wsf.common.management.AbstractServerConfig;
+import org.jboss.wsf.common.management.AbstractServerConfigMBean;
 
 /**
  * Basic implementation of a ServerConfig 
@@ -32,24 +31,9 @@ import org.jboss.wsf.common.management.AbstractServerConfig;
  * @author Thomas.Diesler@jboss.org
  * @since 08-May-2006
  */
-public class CXFServerConfig extends AbstractServerConfig implements CXFServerConfigMBean
+public interface CXFServerConfigMBean extends AbstractServerConfigMBean
 {
-   private static final Logger log = Logger.getLogger(CXFServerConfig.class);
-   
-   public String getImplementationTitle()
-   {
-      return getClass().getPackage().getImplementationTitle();
-   }
+   String getImplementationTitle();
 
-   public String getImplementationVersion()
-   {
-      return getClass().getPackage().getImplementationVersion();
-   }
-   
-   public void create() throws Exception
-   {
-      log.info(getImplementationTitle());
-      log.info(getImplementationVersion());
-      super.create();
-   }
+   String getImplementationVersion();
 }

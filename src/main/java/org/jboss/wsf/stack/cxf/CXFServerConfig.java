@@ -19,44 +19,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.xfire.metadata.services;
+package org.jboss.wsf.stack.cxf;
 
-//$Id$
+//$Id: DefaultServerConfig.java 4023 2007-07-28 07:14:06Z thomas.diesler@jboss.com $
 
-import java.io.IOException;
-import java.io.Writer;
+import org.jboss.logging.Logger;
+import org.jboss.wsf.common.management.AbstractServerConfig;
 
 /**
- * Metadata model for cxf.xml 
+ * Basic implementation of a ServerConfig 
  *
  * @author Thomas.Diesler@jboss.org
- * @since 21-May-2007
+ * @since 08-May-2006
  */
-public class DDBean
+public class CXFServerConfig extends AbstractServerConfig implements CXFServerConfigMBean
 {
-   private String beanName;
-   private String beanClass;
-
-   public DDBean(String beanName, String beanClass)
+   private static final Logger log = Logger.getLogger(CXFServerConfig.class);
+   
+   public String getImplementationTitle()
    {
-      this.beanName = beanName;
-      this.beanClass = beanClass;
+      return getClass().getPackage().getImplementationTitle();
    }
 
-   public void writeTo(Writer writer) throws IOException
+   public String getImplementationVersion()
    {
-      writer.write("<bean");
-      if (beanName != null)
-         writer.write(" name='" + beanName + "'");
-      writer.write(" class='" + beanClass + "'");
-      writer.write("></bean>");
+      return getClass().getPackage().getImplementationVersion();
    }
-
-   public String toString()
+   
+   public void create() throws Exception
    {
-      StringBuilder str = new StringBuilder("Bean");
-      str.append("\n name=" + beanName);
-      str.append("\n class=" + beanClass);
-      return str.toString();
+      log.info(getImplementationTitle());
+      log.info(getImplementationVersion());
+      super.create();
    }
 }

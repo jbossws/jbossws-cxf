@@ -19,21 +19,27 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.xfire;
+package org.jboss.wsf.stack.cxf;
 
-//$Id: DefaultServerConfig.java 4023 2007-07-28 07:14:06Z thomas.diesler@jboss.com $
-
-import org.jboss.wsf.common.management.AbstractServerConfigMBean;
+import org.jboss.wsf.spi.management.EndpointRegistryFactory;
+import org.jboss.wsf.spi.management.EndpointRegistry;
+import org.jboss.wsf.common.KernelAwareSPIFactory;
 
 /**
- * Basic implementation of a ServerConfig 
+ * An EndpointRegistryFactory implementation that retrieves
+ * the registry from MC kernel.
  *
- * @author Thomas.Diesler@jboss.org
- * @since 08-May-2006
+ * @see EndpointRegistry.BEAN_NAME
+ * 
+ * @author Heiko.Braun@jboss.com
+ *         Created: Jul 23, 2007
  */
-public interface CXFServerConfigMBean extends AbstractServerConfigMBean
+public class EndpointRegistryFactoryImpl extends EndpointRegistryFactory
 {
-   String getImplementationTitle();
-
-   String getImplementationVersion();
+   public EndpointRegistry getEndpointRegistry()
+   {
+      return new KernelAwareSPIFactory().getKernelProvidedSPI(
+        EndpointRegistry.BEAN_NAME, EndpointRegistry.class
+      );
+   }
 }

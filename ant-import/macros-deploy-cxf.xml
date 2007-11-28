@@ -18,7 +18,7 @@
   <!-- ================================================================== -->
   
   <!-- Deploy to jboss50 -->
-  <macrodef name="macro-deploy-xfire500">
+  <macrodef name="macro-deploy-cxf500">
       <attribute name="stacklibs"/>
       <attribute name="thirdpartylibs"/>
     <sequential>
@@ -49,15 +49,15 @@
 				</fileset>
       </copy>
       
-      <mkdir dir="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
-      <unjar dest="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar" src="@{stacklibs}/jbossws-xfire50.sar"/>      
+      <mkdir dir="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
+      <unjar dest="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf50.sar"/>      
 			<mkdir dir="${jboss500.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
 			<unzip dest="${jboss500.home}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
     </sequential>
   </macrodef>
     
   <!-- Undeploy from jboss50 -->
-  <macrodef name="macro-undeploy-xfire500">
+  <macrodef name="macro-undeploy-cxf500">
     <sequential>
       <delete>
 
@@ -80,12 +80,12 @@
         </fileset>
       </delete>
       
-      <delete dir="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+      <delete dir="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
 			<delete dir="${jboss500.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
     </sequential>
   </macrodef>
   
-  <macrodef name="macro-deploy-xfire422">
+  <macrodef name="macro-deploy-cxf422">
       <attribute name="stacklibs"/>
       <attribute name="thirdpartylibs"/>
     <sequential>
@@ -109,15 +109,15 @@
       </copy>
 			
 			<!--SERVER JARS -->
-      <mkdir dir="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
-      <unjar dest="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar" src="@{stacklibs}/jbossws-xfire42.sar"/>
+      <mkdir dir="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
+      <unjar dest="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf42.sar"/>
 			<mkdir dir="${jboss422.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
 			<unzip dest="${jboss422.home}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
     </sequential>
   </macrodef>
     
-  <!-- Remove jbossws/xfire from jboss42 -->
-  <macrodef name="macro-undeploy-xfire422">
+  <!-- Remove jbossws/cxf from jboss42 -->
+  <macrodef name="macro-undeploy-cxf422">
     <sequential>
       <delete>
   			<!-- CLIENT JARS -->
@@ -126,7 +126,7 @@
         </fileset>
       </delete>
       
-      <delete dir="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws-xfire.sar"/>
+      <delete dir="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
 			<delete dir="${jboss422.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
     </sequential>
   </macrodef>

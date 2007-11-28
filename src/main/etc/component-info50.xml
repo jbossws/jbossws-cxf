@@ -1,12 +1,12 @@
-<project name="jboss/jbossws-xfire50">
+<project name="jboss/jbossws-cxf50">
   
-  <component id="jboss/jbossws-xfire50"
+  <component id="jboss/jbossws-cxf50"
     description="JBossWS an implementation of J2EE Web Services" 
     version="@repository.id@"
     licenseType="lgpl">
     
-    <artifact id="jbossws-xfire50.sar"/>
-    <artifact id="jbossws-xfire50-deployer.zip"/>
+    <artifact id="jbossws-cxf50.sar"/>
+    <artifact id="jbossws-cxf50-deployer.zip"/>
     
     <import componentref="jboss/microcontainer">
       <compatible version="@jboss-microcontainer@"/>

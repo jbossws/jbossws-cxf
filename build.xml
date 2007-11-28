@@ -13,7 +13,7 @@
 
 <project default="main" basedir="." name="JBossWS-CXF">
   
-  <property name="int.xfire.dir" value="${basedir}"/>
+  <property name="int.cxf.dir" value="${basedir}"/>
   
   <import file="${basedir}/ant-import/build-setup.xml"/>
   <import file="${basedir}/ant-import/build-bin-dist.xml"/>
@@ -26,24 +26,24 @@
   <!-- Setup                                                              -->
   <!-- ================================================================== -->
   
-  <property name="xfire.dir" value="${int.xfire.dir}"/>
-  <property name="xfire.src.dir" value="${xfire.dir}/src/main"/>
-  <property name="xfire.etc.dir" value="${xfire.src.dir}/etc"/>
-  <property name="xfire.distro.dir" value="${xfire.src.dir}/distro"/>
-  <property name="xfire.java.dir" value="${xfire.src.dir}/java"/>
-  <property name="xfire.resources.dir" value="${xfire.src.dir}/resources"/>
-  <property name="xfire.output.dir" value="${xfire.dir}/output"/>
-  <property name="xfire.output.apidocs.dir" value="${xfire.output.dir}/apidocs"/>
-  <property name="xfire.output.classes.dir" value="${xfire.output.dir}/classes"/>
-  <property name="xfire.output.etc.dir" value="${xfire.output.dir}/etc"/>
-  <property name="xfire.output.lib.dir" value="${xfire.output.dir}/lib"/>
+  <property name="cxf.dir" value="${int.cxf.dir}"/>
+  <property name="cxf.src.dir" value="${cxf.dir}/src/main"/>
+  <property name="cxf.etc.dir" value="${cxf.src.dir}/etc"/>
+  <property name="cxf.distro.dir" value="${cxf.src.dir}/distro"/>
+  <property name="cxf.java.dir" value="${cxf.src.dir}/java"/>
+  <property name="cxf.resources.dir" value="${cxf.src.dir}/resources"/>
+  <property name="cxf.output.dir" value="${cxf.dir}/output"/>
+  <property name="cxf.output.apidocs.dir" value="${cxf.output.dir}/apidocs"/>
+  <property name="cxf.output.classes.dir" value="${cxf.output.dir}/classes"/>
+  <property name="cxf.output.etc.dir" value="${cxf.output.dir}/etc"/>
+  <property name="cxf.output.lib.dir" value="${cxf.output.dir}/lib"/>
 	
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
   
   <target name="init" depends="prepare,thirdparty">
-		<mkdir dir="${xfire.output.apidocs.dir}"/>
+		<mkdir dir="${cxf.output.apidocs.dir}"/>
   </target>
   
   <!-- ================================================================== -->
@@ -61,21 +61,21 @@
   <target name="compile" depends="init,compile-classes,compile-etc" description="Compile all source files."/>
   
   <!-- Compile java sources -->
-  <target name="compile-classes" depends="compile-classes-xfire"/>
-  <target name="compile-classes-xfire" depends="init">
-    <mkdir dir="${xfire.output.classes.dir}"/>
-    <javac srcdir="${xfire.java.dir}" sourcepath="" destdir="${xfire.output.classes.dir}" encoding="utf-8" debug="${javac.debug}" verbose="${javac.verbose}"
+  <target name="compile-classes" depends="compile-classes-cxf"/>
+  <target name="compile-classes-cxf" depends="init">
+    <mkdir dir="${cxf.output.classes.dir}"/>
+    <javac srcdir="${cxf.java.dir}" sourcepath="" destdir="${cxf.output.classes.dir}" encoding="utf-8" debug="${javac.debug}" verbose="${javac.verbose}"
       deprecation="${javac.deprecation}" failonerror="${javac.fail.onerror}">
-      <include name="org/jboss/wsf/stack/xfire/**"/>
-      <classpath refid="xfire.integration.classpath"/>
+      <include name="org/jboss/wsf/stack/cxf/**"/>
+      <classpath refid="cxf.integration.classpath"/>
     </javac>
   </target>
   
   <!-- Compile etc files (manifests and such) -->
   <target name="compile-etc" depends="init">
-    <mkdir dir="${xfire.output.etc.dir}"/>
-    <copy todir="${xfire.output.etc.dir}" filtering="yes" overwrite="true">
-      <fileset dir="${xfire.etc.dir}">
+    <mkdir dir="${cxf.output.etc.dir}"/>
+    <copy todir="${cxf.output.etc.dir}" filtering="yes" overwrite="true">
+      <fileset dir="${cxf.etc.dir}">
         <include name="component-info.xml"/>
         <include name="default.mf"/>
   	  </fileset>
@@ -83,8 +83,8 @@
         <filter token="java.vm.version" value="${java.vm.version}"/>
         <filter token="java.vm.vendor" value="${java.vm.vendor}"/>
         <filter token="build.id" value="${build.id}"/>
-        <filter token="implementation.version" value="jbossws-xfire-${version.id}"/>
-        <filtersfile file="${int.xfire.dir}/version.properties"/>
+        <filter token="implementation.version" value="jbossws-cxf-${version.id}"/>
+        <filtersfile file="${int.cxf.dir}/version.properties"/>
       </filterset>
     </copy>
   </target>
@@ -101,49 +101,49 @@
   
   <target name="jars-common" depends="compile">
     
-    <!-- Build jbossws-xfire.jar -->
-    <mkdir dir="${xfire.output.lib.dir}"/>
-    <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire.jar" manifest="${xfire.output.etc.dir}/default.mf">
-      <fileset dir="${xfire.output.classes.dir}">
-        <include name="org/jboss/wsf/stack/xfire/**"/>
+    <!-- Build jbossws-cxf.jar -->
+    <mkdir dir="${cxf.output.lib.dir}"/>
+    <jar jarfile="${cxf.output.lib.dir}/jbossws-cxf.jar" manifest="${cxf.output.etc.dir}/default.mf">
+      <fileset dir="${cxf.output.classes.dir}">
+        <include name="org/jboss/wsf/stack/cxf/**"/>
       </fileset>
-      <metainf dir="${xfire.resources.dir}/jbossws-xfire.jar/META-INF"/>
+      <metainf dir="${cxf.resources.dir}/jbossws-cxf.jar/META-INF"/>
     </jar>
     
     <!-- Build jbossws-context.war -->
-    <war warfile="${xfire.output.lib.dir}/jbossws-context.war" webxml="${xfire.resources.dir}/jbossws-context.war/WEB-INF/web.xml">
-      <fileset dir="${xfire.resources.dir}/jbossws-context.war">
+    <war warfile="${cxf.output.lib.dir}/jbossws-context.war" webxml="${cxf.resources.dir}/jbossws-context.war/WEB-INF/web.xml">
+      <fileset dir="${cxf.resources.dir}/jbossws-context.war">
         <include name="index.html"/>
         <include name="styles.css"/>
       </fileset>
-      <webinf dir="${xfire.resources.dir}/jbossws-context.war/WEB-INF">
+      <webinf dir="${cxf.resources.dir}/jbossws-context.war/WEB-INF">
         <include name="jboss-web.xml"/>
       </webinf>
     </war>
     
-    <!-- Build jbossws-xfire-src.zip -->
-    <zip zipfile="${xfire.output.lib.dir}/jbossws-xfire-src.zip" >
-      <fileset dir="${xfire.java.dir}"/>
+    <!-- Build jbossws-cxf-src.zip -->
+    <zip zipfile="${cxf.output.lib.dir}/jbossws-cxf-src.zip" >
+      <fileset dir="${cxf.java.dir}"/>
     </zip>
   </target>
   
   <target name="jars-jboss50" depends="jars-common" if="jboss500.home">
     
     <!-- Concat jbossws-beans.xml -->
-    <concat destfile="${xfire.output.lib.dir}/jbossws-xfire50/jbossws-beans.xml">
+    <concat destfile="${cxf.output.lib.dir}/jbossws-cxf50/jbossws-beans.xml">
       <header trimleading="yes">
         &lt;deployment xmlns="urn:jboss:bean-deployer:2.0"&gt;
       </header>
-      <fileset file="${xfire.resources.dir}/jbossws-xfire-config.xml"/>
+      <fileset file="${cxf.resources.dir}/jbossws-cxf-config.xml"/>
       <footer trimleading="yes">
         &lt;/deployment&gt;
       </footer>
     </concat>
     
     <!-- Build jbosswsri.sar -->
-    <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire50.sar" manifest="${xfire.output.etc.dir}/default.mf">
+    <jar jarfile="${cxf.output.lib.dir}/jbossws-cxf50.sar" manifest="${cxf.output.etc.dir}/default.mf">
 
-      <fileset dir="${xfire.output.lib.dir}">
+      <fileset dir="${cxf.output.lib.dir}">
         <include name="jbossws-context.war"/>
       </fileset>
 
@@ -169,10 +169,10 @@
         <include name="wsdl4j.jar"/>
         <include name="wstx.jar"/>
       </fileset>
-      <fileset dir="${xfire.output.lib.dir}">
-        <include name="jbossws-xfire.jar"/>
+      <fileset dir="${cxf.output.lib.dir}">
+        <include name="jbossws-cxf.jar"/>
       </fileset>
-      <metainf dir="${xfire.output.lib.dir}/jbossws-xfire50">
+      <metainf dir="${cxf.output.lib.dir}/jbossws-cxf50">
         <include name="jbossws-beans.xml"/>
       </metainf>
     </jar>
@@ -181,27 +181,27 @@
   
   <target name="jars-jboss42" depends="jars-common" if="jboss422.home">
     
-    <unzip dest="${xfire.output.dir}/resources" src="${thirdparty.dir}/jbossws-jboss42-resources.zip"/>
+    <unzip dest="${cxf.output.dir}/resources" src="${thirdparty.dir}/jbossws-jboss42-resources.zip"/>
     
     <!-- Concat jboss-beans.xml -->
-    <concat destfile="${xfire.output.lib.dir}/jbossws-xfire42/jbossws.beans/META-INF/jboss-beans.xml">
+    <concat destfile="${cxf.output.lib.dir}/jbossws-cxf42/jbossws.beans/META-INF/jboss-beans.xml">
       <header trimleading="yes">
         &lt;deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd" xmlns="urn:jboss:bean-deployer"&gt;
       </header>
-      <fileset file="${xfire.resources.dir}/jbossws-xfire-config.xml"/>
-      <fileset file="${xfire.output.dir}/resources/jbossws-jboss42-config.xml"/>
+      <fileset file="${cxf.resources.dir}/jbossws-cxf-config.xml"/>
+      <fileset file="${cxf.output.dir}/resources/jbossws-jboss42-config.xml"/>
       <footer trimleading="yes">
         &lt;/deployment&gt;
       </footer>
     </concat>
     
-    <!-- Build jbossws-xfire42.sar -->
-    <jar jarfile="${xfire.output.lib.dir}/jbossws-xfire42.sar" manifest="${xfire.output.etc.dir}/default.mf">
-      <fileset dir="${xfire.output.lib.dir}">
+    <!-- Build jbossws-cxf42.sar -->
+    <jar jarfile="${cxf.output.lib.dir}/jbossws-cxf42.sar" manifest="${cxf.output.etc.dir}/default.mf">
+      <fileset dir="${cxf.output.lib.dir}">
         <include name="jbossws-context.war"/>
       </fileset>
-      <fileset dir="${xfire.output.lib.dir}">
-        <include name="jbossws-xfire.jar"/>
+      <fileset dir="${cxf.output.lib.dir}">
+        <include name="jbossws-cxf.jar"/>
       </fileset>
       <fileset dir="${thirdparty.dir}">
         <include name="cxf-${cxf.version}.jar"/>
@@ -225,10 +225,10 @@
         <include name="wsdl4j.jar"/>
         <include name="wstx.jar"/>
       </fileset>
-      <fileset dir="${xfire.output.lib.dir}/jbossws-xfire42">
+      <fileset dir="${cxf.output.lib.dir}/jbossws-cxf42">
         <include name="jbossws.beans/**"/>
       </fileset>
-      <metainf dir="${xfire.output.dir}/resources/jbossws-jboss42.sar/META-INF">
+      <metainf dir="${cxf.output.dir}/resources/jbossws-jboss42.sar/META-INF">
         <include name="jboss-service.xml"/>
       </metainf>
     </jar>
@@ -237,22 +237,22 @@
 	<!-- Generate the JavaDoc -->
   <target name="javadoc" depends="init" description="Generate the Javadoc" if="javadoc">
 
-		<!-- expand the xfire sources -->
-		<mkdir dir="${xfire.output.dir}/thirdparty-sources"/>
-		<unzip src="${thirdparty.dir}/xfire-distribution-sources.jar" dest="${xfire.output.dir}/thirdparty-sources"/>
+		<!-- expand the cxf sources -->
+		<mkdir dir="${cxf.output.dir}/thirdparty-sources"/>
+		<unzip src="${thirdparty.dir}/cxf-distribution-sources.jar" dest="${cxf.output.dir}/thirdparty-sources"/>
 
 
-		<javadoc destdir="${xfire.output.apidocs.dir}" author="true" version="true" use="true" windowtitle="JBossWS API ${version.id} ">
+		<javadoc destdir="${cxf.output.apidocs.dir}" author="true" version="true" use="true" windowtitle="JBossWS API ${version.id} ">
       <classpath>
-			  <pathelement path="${xfire.integration.classpath}"/>
+			  <pathelement path="${cxf.integration.classpath}"/>
 			</classpath>
-      <packageset dir="${xfire.java.dir}" defaultexcludes="yes">
+      <packageset dir="${cxf.java.dir}" defaultexcludes="yes">
         <include name="org/jboss/wsf/**"/>
       </packageset>
-			<packageset dir="${xfire.output.dir}/thirdparty-sources" defaultexcludes="yes">
+			<packageset dir="${cxf.output.dir}/thirdparty-sources" defaultexcludes="yes">
 				<include name="org/codehaus/**"/>
 			</packageset>
-			<doctitle><![CDATA[<h1>JBoss Web Service Framework  ${version.id} - Stack integration XFire</h1>]]></doctitle>
+			<doctitle><![CDATA[<h1>JBoss Web Service Framework  ${version.id} - Stack integration CXF</h1>]]></doctitle>
 			<tag name="todo" scope="all" description="To do:"/>
 			<!--group title="Native SOAP stack" packages="org.jboss.ws,org.jboss.ws.core*, org.jboss.ws.metadata*, org.jboss.ws.extensions*, org.jboss.ws.tools*, org.jboss.ws.annotation*, org.jboss.ws.jaxrpc*, org.jboss.ws.soap*"/-->
 			<group title="Stack integration" packages="org.jboss.wsf.stack*"/>
@@ -267,11 +267,11 @@
   <!-- ================================================================== -->
   
   <target name="clean" depends="prepare" description="Cleans up most generated files.">
-    <delete dir="${xfire.output.dir}"/>
+    <delete dir="${cxf.output.dir}"/>
   </target>
   
   <target name="clobber" depends="clean" description="Cleans up all generated files.">
-    <delete dir="${int.xfire.dir}/thirdparty"/>
+    <delete dir="${int.cxf.dir}/thirdparty"/>
   </target>
   
   <target name="main" description="Executes the default target (most)." depends="most"/>

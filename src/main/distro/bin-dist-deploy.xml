@@ -17,9 +17,9 @@
 	<!-- Deployment                                                         -->
 	<!-- ================================================================== -->
 
-	<!-- Deploy jbossws/xfire to jboss50 -->
-	<target name="deploy-jboss500" depends="undeploy-jboss500,deploy-jboss500-endorsed" description="Deploy jbossws/xfire to jboss50">		
-		<macro-deploy-xfire500
+	<!-- Deploy jbossws/cxf to jboss50 -->
+	<target name="deploy-jboss500" depends="undeploy-jboss500,deploy-jboss500-endorsed" description="Deploy jbossws/cxf to jboss50">		
+		<macro-deploy-cxf500
 				stacklibs="${lib.dir}"
 				thirdpartylibs="${lib.dir}"/>
 		<macro-deploy-framework
@@ -32,15 +32,15 @@
 				thirdpartylibs="${lib.dir}"/>
 	</target>
 
-	<!-- Remove jbossws/xfire from jboss50 -->
-	<target name="undeploy-jboss500" depends="prepare" description="Remove jbossws/xfire from jboss50">
-		<macro-undeploy-xfire500/>
+	<!-- Remove jbossws/cxf from jboss50 -->
+	<target name="undeploy-jboss500" depends="prepare" description="Remove jbossws/cxf from jboss50">
+		<macro-undeploy-cxf500/>
 		<macro-undeploy-framework jbosshome="${jboss500.home}"/>
 	</target>
 
-	<!-- Deploy jbossws/xfire to jboss42 -->
-	<target name="deploy-jboss422" depends="undeploy-jboss422,deploy-jboss422-endorsed" description="Deploy jbossws/xfire to jboss42">
-		<macro-deploy-xfire422
+	<!-- Deploy jbossws/cxf to jboss42 -->
+	<target name="deploy-jboss422" depends="undeploy-jboss422,deploy-jboss422-endorsed" description="Deploy jbossws/cxf to jboss42">
+		<macro-deploy-cxf422
 				stacklibs="${lib.dir}"
 				thirdpartylibs="${lib.dir}"/>
 		<macro-deploy-framework
@@ -53,9 +53,9 @@
 				thirdpartylibs="${lib.dir}"/>
 	</target>
 
-	<!-- Remove jbossws/xfire from jboss42 -->
-	<target name="undeploy-jboss422" depends="prepare,undeploy-jboss422-endorsed" description="Remove jbossws/xfire from jboss42">
-		<macro-undeploy-xfire422/>
+	<!-- Remove jbossws/cxf from jboss42 -->
+	<target name="undeploy-jboss422" depends="prepare,undeploy-jboss422-endorsed" description="Remove jbossws/cxf from jboss42">
+		<macro-undeploy-cxf422/>
 		<macro-undeploy-framework jbosshome="${jboss422.home}"/>
 	</target>
 	<target name="undeploy-jboss422-endorsed" depends="prepare" if="HAVE_JDK_1.6">		

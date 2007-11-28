@@ -19,27 +19,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.xfire;
+package org.jboss.wsf.stack.cxf;
 
-import org.jboss.wsf.spi.management.EndpointRegistryFactory;
-import org.jboss.wsf.spi.management.EndpointRegistry;
-import org.jboss.wsf.common.KernelAwareSPIFactory;
+import org.jboss.wsf.spi.invocation.RequestHandlerFactory;
+import org.jboss.wsf.spi.invocation.RequestHandler;
 
 /**
- * An EndpointRegistryFactory implementation that retrieves
- * the registry from MC kernel.
- *
- * @see EndpointRegistry.BEAN_NAME
- * 
  * @author Heiko.Braun@jboss.com
- *         Created: Jul 23, 2007
+ *         Created: Jul 24, 2007
  */
-public class EndpointRegistryFactoryImpl extends EndpointRegistryFactory
+public class RequestHandlerFactoryImpl extends RequestHandlerFactory
 {
-   public EndpointRegistry getEndpointRegistry()
+   public RequestHandler newRequestHandler()
    {
-      return new KernelAwareSPIFactory().getKernelProvidedSPI(
-        EndpointRegistry.BEAN_NAME, EndpointRegistry.class
-      );
+      return new RequestHandlerImpl();  
    }
 }

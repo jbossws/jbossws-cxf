@@ -1,6 +1,6 @@
   
   <!-- An abstraction of server configuration aspects. -->  
-  <bean name="WSServerConfig" class="org.jboss.wsf.stack.xfire.CXFServerConfig">
+  <bean name="WSServerConfig" class="org.jboss.wsf.stack.cxf.CXFServerConfig">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
     
     <!--
@@ -36,16 +36,16 @@
     <property name="provides">ContextProperties</property>
     <property name="contextProperties">
       <map keyClass="java.lang.String" valueClass="java.lang.String">
-        <entry><key>org.jboss.ws.webapp.ServletClass</key><value>org.jboss.wsf.stack.xfire.CXFServletExt</value></entry>
+        <entry><key>org.jboss.ws.webapp.ServletClass</key><value>org.jboss.wsf.stack.cxf.CXFServletExt</value></entry>
       </map>
     </property>
   </bean>
 
-  <bean name="WSCXFDescriptorDeploymentAspect" class="org.jboss.wsf.stack.xfire.DescriptorDeploymentAspect">
+  <bean name="WSCXFDescriptorDeploymentAspect" class="org.jboss.wsf.stack.cxf.DescriptorDeploymentAspect">
     <property name="requires">EndpointAddress</property>
     <property name="provides">StackDescriptor</property>
-    <property name="invokerEJB3">org.jboss.wsf.stack.xfire.InvokerEJB3</property>
-    <property name="invokerJSE">org.jboss.wsf.stack.xfire.InvokerJSE</property>
+    <property name="invokerEJB3">org.jboss.wsf.stack.cxf.InvokerEJB3</property>
+    <property name="invokerJSE">org.jboss.wsf.stack.cxf.InvokerJSE</property>
   </bean>
 
   <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">

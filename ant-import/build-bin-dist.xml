@@ -19,7 +19,7 @@
 
 	<target name="build-bin-dist" depends="jars, javadoc" description="Build the binary distribution">
 
-		<property name="bindist.dir" value="${xfire.output.dir}/jbossws-cxf-${version.id}"/>
+		<property name="bindist.dir" value="${cxf.output.dir}/jbossws-cxf-${version.id}"/>
 		<property name="bindist.build.dir" value="${bindist.dir}/build"/>
 		<property name="bindist.bin.dir" value="${bindist.dir}/bin"/>
 		<property name="bindist.lib.dir" value="${bindist.dir}/lib"/>
@@ -35,27 +35,27 @@
 		<mkdir dir="${bindist.tools.dir}"/>
 
 		<!-- root -->
-		<copy tofile="${bindist.dir}/ant.properties" file="${xfire.distro.dir}/ant.properties.example">
+		<copy tofile="${bindist.dir}/ant.properties" file="${cxf.distro.dir}/ant.properties.example">
       <filterset>
-        <filtersfile file="${xfire.dir}/ant.properties"/>
+        <filtersfile file="${cxf.dir}/ant.properties"/>
       </filterset>
     </copy>
-		<copy tofile="${bindist.dir}/version.properties" file="${xfire.dir}/version.properties"/>
-		<copy tofile="${bindist.dir}/build.xml" file="${xfire.distro.dir}/bin-dist-build.xml"/>
-		<copy tofile="${bindist.build.dir}/build-deploy.xml" file="${xfire.distro.dir}/bin-dist-deploy.xml"/>
+		<copy tofile="${bindist.dir}/version.properties" file="${cxf.dir}/version.properties"/>
+		<copy tofile="${bindist.dir}/build.xml" file="${cxf.distro.dir}/bin-dist-build.xml"/>
+		<copy tofile="${bindist.build.dir}/build-deploy.xml" file="${cxf.distro.dir}/bin-dist-deploy.xml"/>
 
 		<!-- build -->
 		<copy todir="${bindist.build.dir}">
-			<fileset dir="${xfire.dir}/ant-import">
+			<fileset dir="${cxf.dir}/ant-import">
 				<include name="macros-deploy-framework.xml"/>
-				<include name="macros-deploy-xfire.xml"/>
+				<include name="macros-deploy-cxf.xml"/>
 			</fileset>
 		</copy>
 
 		<unzip dest="${bindist.bin.dir}" src="${thirdparty.dir}/jbossws-framework-scripts.zip"/>
 
 		<copy todir="${bindist.bin.dir}">
-			<fileset dir="${xfire.dir}/src/main/etc">
+			<fileset dir="${cxf.dir}/src/main/etc">
 				<include name="*.sh"/>
 				<include name="*.bat"/>
 			</fileset>
@@ -65,22 +65,22 @@
 
 		<!-- docs -->
 		<copy todir="${bindist.docs.dir}" >
-			<fileset dir="${xfire.output.dir}">
+			<fileset dir="${cxf.output.dir}">
         <include name="apidocs/**"/>
       </fileset>
 		</copy>
 		<copy todir="${bindist.docs.dir}" filtering="yes">
-			<fileset dir="${xfire.distro.dir}">
+			<fileset dir="${cxf.distro.dir}">
         <include name="Install.txt"/>
         <include name="ReleaseNotes.txt"/>
       </fileset>
       <filterset>
-        <filtersfile file="${xfire.dir}/version.properties"/>
+        <filtersfile file="${cxf.dir}/version.properties"/>
       </filterset>
 		</copy>
 
 		<copy todir="${bindist.docs.dir}">
-			<fileset dir="${xfire.etc.dir}">
+			<fileset dir="${cxf.etc.dir}">
 				<include name="JBossORG-EULA.txt"/>
 			</fileset>
 		</copy>
@@ -93,11 +93,11 @@
 				<include name="jbossws-framework-scripts.zip"/>
 				<include name="jbossws-spi.jar"/>
 			</fileset>
-			<fileset dir="${xfire.dir}/output/lib">
+			<fileset dir="${cxf.dir}/output/lib">
 				<include name="jbossws-context.war"/>
-				<include name="jbossws-xfire.jar"/>
-				<include name="jbossws-xfire42.sar"/>
-				<include name="jbossws-xfire50.sar"/>
+				<include name="jbossws-cxf.jar"/>
+				<include name="jbossws-cxf42.sar"/>
+				<include name="jbossws-cxf50.sar"/>
 			</fileset>
 			<fileset dir="${thirdparty.dir}">
 				<include name="juddi-service.sar"/>
@@ -121,26 +121,26 @@
 
 		<!-- tests -->
 		<copy todir="${bindist.tests.dir}" overwrite="true">
-			<fileset dir="${xfire.dir}/src/test-framework"/>
-			<fileset dir="${xfire.dir}/src/test">
+			<fileset dir="${cxf.dir}/src/test-framework"/>
+			<fileset dir="${cxf.dir}/src/test">
 				<include name="resources/test-excludes-*.txt"/>
 			</fileset>
 		</copy>
 
 		<!-- build tools -->
 		<copy todir="${bindist.tools.dir}" overwrite="true">
-			<fileset dir="${xfire.dir}/tools/ant"/>			
+			<fileset dir="${cxf.dir}/tools/ant"/>			
 		</copy>
 		<copy todir="${bindist.dir}" overwrite="true">
-			<fileset dir="${xfire.dir}">
+			<fileset dir="${cxf.dir}">
 				<include name="build.bat"/>
 				<include name="build.sh"/>
 			</fileset>
 		</copy>
 		<chmod file="${bindist.dir}/build.sh" perm="+x"/>		
 
-		<zip destfile="${xfire.output.dir}/jbossws-cxf-${version.id}.zip">
-			<fileset dir="${xfire.output.dir}" includes="jbossws-cxf-${version.id}/**"/>
+		<zip destfile="${cxf.output.dir}/jbossws-cxf-${version.id}.zip">
+			<fileset dir="${cxf.output.dir}" includes="jbossws-cxf-${version.id}/**"/>
 		</zip>
 	</target>
 

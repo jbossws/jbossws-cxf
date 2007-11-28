@@ -19,19 +19,44 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.xfire;
+package org.jboss.wsf.stack.cxf.metadata.services;
 
-import org.jboss.wsf.spi.invocation.RequestHandlerFactory;
-import org.jboss.wsf.spi.invocation.RequestHandler;
+//$Id$
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
- * @author Heiko.Braun@jboss.com
- *         Created: Jul 24, 2007
+ * Metadata model for cxf.xml 
+ *
+ * @author Thomas.Diesler@jboss.org
+ * @since 21-May-2007
  */
-public class RequestHandlerFactoryImpl extends RequestHandlerFactory
+public class DDBean
 {
-   public RequestHandler newRequestHandler()
+   private String beanName;
+   private String beanClass;
+
+   public DDBean(String beanName, String beanClass)
    {
-      return new RequestHandlerImpl();  
+      this.beanName = beanName;
+      this.beanClass = beanClass;
+   }
+
+   public void writeTo(Writer writer) throws IOException
+   {
+      writer.write("<bean");
+      if (beanName != null)
+         writer.write(" name='" + beanName + "'");
+      writer.write(" class='" + beanClass + "'");
+      writer.write("></bean>");
+   }
+
+   public String toString()
+   {
+      StringBuilder str = new StringBuilder("Bean");
+      str.append("\n name=" + beanName);
+      str.append("\n class=" + beanClass);
+      return str.toString();
    }
 }
