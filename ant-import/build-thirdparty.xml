@@ -117,6 +117,7 @@
   
   <target name="cxf-checkout" depends="cxf-checkout-required" if="cxf.checkout.required">
     <delete dir="${apache.cxf.dir}"/>
+    <echo message="svn checkout -r${cxf.svn.rev} ${cxf.svn.url}"/>
     <exec dir="${cxf.dir}" executable="svn" failonerror="true">
       <arg value="checkout"/>
       <arg value="-r${cxf.svn.rev}"/>
@@ -140,6 +141,7 @@
   </target>
   
   <target name="cxf-update" depends="cxf-update-required" if="cxf.update.required">
+    <echo message="svn update -r${cxf.svn.rev} ${cxf.svn.url}"/>
     <exec dir="${apache.cxf.dir}" executable="svn" failonerror="true">
       <arg value="update"/>
       <arg value="-r${cxf.svn.rev}"/>
