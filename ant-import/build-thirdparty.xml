@@ -95,7 +95,28 @@
   </target>
   
   <!-- SVN checkout the Apache CXF sources -->
-  <target name="cxf-checkout" depends="thirdparty-init" unless="apache.cxf.available">
+  <target name="cxf-checkout-dir" depends="thirdparty-init" unless="apache.cxf.available">
+    <property name="cxf.checkout.required" value="true"/>
+    <echo message="cxf.checkout.required=${cxf.checkout.required}"/>
+  </target>
+  
+  <target name="cxf-checkout-required" depends="cxf-checkout-dir" if="apache.cxf.available">
+    <exec dir="${apache.cxf.dir}" executable="svn" failonerror="true" output="${apache.cxf.dir}/svn-info.xml">
+      <arg line="info"/>
+      <arg line="--xml"/>
+    </exec>
+    <xmlproperty file="${apache.cxf.dir}/svn-info.xml"/>
+    <property name="cxf.entry.url" value="${info.entry.url}"/>
+    <condition property="cxf.checkout.required">
+      <not>
+        <equals arg1="${cxf.entry.url}" arg2="${cxf.svn.url}"/>
+      </not>
+    </condition>
+    <echo message="cxf.checkout.required=${cxf.checkout.required}"/>
+  </target>
+  
+  <target name="cxf-checkout" depends="cxf-checkout-required" if="cxf.checkout.required">
+    <delete dir="${apache.cxf.dir}"/>
     <exec dir="${cxf.dir}" executable="svn" failonerror="true">
       <arg value="checkout"/>
       <arg value="-r${cxf.svn.rev}"/>
@@ -105,7 +126,20 @@
   </target>
   
   <!-- SVN update the Apache CXF sources -->
-  <target name="cxf-update" depends="thirdparty-init" if="apache.cxf.available">
+  <target name="cxf-update-required" depends="thirdparty-init" if="apache.cxf.available">
+    <exec dir="${apache.cxf.dir}" executable="svn" failonerror="true" output="${apache.cxf.dir}/svn-info.xml">
+      <arg line="info"/>
+      <arg line="--xml"/>
+    </exec>
+    <xmlproperty file="${apache.cxf.dir}/svn-info.xml"/>
+    <property name="cxf.entry.url" value="${info.entry.url}"/>
+    <condition property="cxf.update.required">
+      <equals arg1="${cxf.entry.url}" arg2="${cxf.svn.url}"/>
+    </condition>
+    <echo message="cxf.update.required=${cxf.update.required}"/>
+  </target>
+  
+  <target name="cxf-update" depends="cxf-update-required" if="cxf.update.required">
     <exec dir="${apache.cxf.dir}" executable="svn" failonerror="true">
       <arg value="update"/>
       <arg value="-r${cxf.svn.rev}"/>
@@ -113,18 +147,18 @@
   </target>
 
   <!-- SVN get commit revision -->
-  <target name="cxf-commit-revision" depends="cxf-update,cxf-checkout">
+  <target name="cxf-svn-info" depends="cxf-update,cxf-checkout">
     <exec dir="${apache.cxf.dir}" executable="svn" failonerror="true" output="${apache.cxf.dir}/svn-info.xml">
       <arg line="info"/>
       <arg line="--xml"/>
     </exec>
     <xmlproperty file="${apache.cxf.dir}/svn-info.xml"/>
-    <property name="cxf.commit.revision" value="${info.entry.commit(revision)}"/>
-    <available property="cxf.build.available" file="${apache.cxf.dir}/build-${cxf.commit.revision}.rev"/>
+    <property name="cxf.entry.commit.revision" value="${info.entry.commit(revision)}"/>
+    <available property="cxf.build.available" file="${apache.cxf.dir}/build-${cxf.entry.commit.revision}.rev"/>
   </target>
   
   <!-- Build using maven -->
-  <target name="cxf-maven-build" depends="cxf-commit-revision" unless="cxf.build.available">
+  <target name="cxf-maven-build" depends="cxf-svn-info" unless="cxf.build.available">
     <exec dir="${apache.cxf.dir}" executable="mvn" failonerror="true">
       <arg value="clean"/>
       <arg value="install"/>
@@ -134,7 +168,7 @@
       <arg line="info"/>
       <arg line="--xml"/>
     </exec>
-    <touch file="${apache.cxf.dir}/build-${cxf.commit.revision}.rev"/>
+    <touch file="${apache.cxf.dir}/build-${cxf.entry.commit.revision}.rev"/>
   </target>
   
   <!-- Copy the cxf jars -->
