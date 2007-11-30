@@ -140,7 +140,7 @@
     <echo message="cxf.update.required=${cxf.update.required}"/>
   </target>
   
-  <target name="cxf-update" depends="cxf-update-required" if="cxf.update.required">
+  <target name="cxf-update" depends="cxf-update-required" if="cxf.update.required" unless="cxf.checkout.required">
     <echo message="svn update -r${cxf.svn.rev} ${cxf.svn.url}"/>
     <exec dir="${apache.cxf.dir}" executable="svn" failonerror="true">
       <arg value="update"/>
@@ -149,7 +149,7 @@
   </target>
 
   <!-- SVN get commit revision -->
-  <target name="cxf-svn-info" depends="cxf-update,cxf-checkout">
+  <target name="cxf-svn-info" depends="cxf-checkout,cxf-update">
     <exec dir="${apache.cxf.dir}" executable="svn" failonerror="true" output="${apache.cxf.dir}/svn-info.xml">
       <arg line="info"/>
       <arg line="--xml"/>
