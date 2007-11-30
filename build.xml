@@ -121,6 +121,14 @@
       </webinf>
     </war>
     
+    <!-- Update cxf-${cxf.version}.jar -->
+    <copy file="${thirdparty.dir}/cxf-${cxf.version}.jar" todir="${cxf.output.lib.dir}" overwrite="true"/>
+    <jar destfile="${cxf.output.lib.dir}/cxf-${cxf.version}.jar" update="true">
+      <fileset dir="${cxf.resources.dir}/cxf-incubator.jar">
+        <include name="META-INF/cxf/cxf.extension"/>
+      </fileset>
+    </jar>
+    
     <!-- Build jbossws-cxf-src.zip -->
     <zip zipfile="${cxf.output.lib.dir}/jbossws-cxf-src.zip" >
       <fileset dir="${cxf.java.dir}"/>
@@ -140,15 +148,14 @@
       </footer>
     </concat>
     
-    <!-- Build jbosswsri.sar -->
+    <!-- Build jbossws-cxf50.sar -->
     <jar jarfile="${cxf.output.lib.dir}/jbossws-cxf50.sar" manifest="${cxf.output.etc.dir}/default.mf">
-
       <fileset dir="${cxf.output.lib.dir}">
-        <include name="jbossws-context.war"/>
-      </fileset>
-
-      <fileset dir="${thirdparty.dir}">
         <include name="cxf-${cxf.version}.jar"/>
+        <include name="jbossws-context.war"/>
+        <include name="jbossws-cxf.jar"/>
+      </fileset>
+      <fileset dir="${thirdparty.dir}">
         <include name="geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
         <include name="geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
         <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
@@ -162,19 +169,16 @@
         <include name="xbean-${cxf.xbean}.jar"/>
         <include name="xml-resolver-${cxf.xml.resolver}.jar"/>
         <include name="XmlSchema-${cxf.xmlschema}.jar"/>
-        
         <include name="jaxb-api.jar"/>
         <include name="jaxb-impl.jar"/>
         <include name="stax-api.jar"/>
         <include name="wsdl4j.jar"/>
         <include name="wstx.jar"/>
       </fileset>
-      <fileset dir="${cxf.output.lib.dir}">
-        <include name="jbossws-cxf.jar"/>
-      </fileset>
       <metainf dir="${cxf.output.lib.dir}/jbossws-cxf50">
         <include name="jbossws-beans.xml"/>
       </metainf>
+      <metainf dir="${cxf.resources.dir}/jbossws-cxf.sar/META-INF"/>
     </jar>
     
    </target>
@@ -198,9 +202,8 @@
     <!-- Build jbossws-cxf42.sar -->
     <jar jarfile="${cxf.output.lib.dir}/jbossws-cxf42.sar" manifest="${cxf.output.etc.dir}/default.mf">
       <fileset dir="${cxf.output.lib.dir}">
+        <include name="cxf-${cxf.version}.jar"/>
         <include name="jbossws-context.war"/>
-      </fileset>
-      <fileset dir="${cxf.output.lib.dir}">
         <include name="jbossws-cxf.jar"/>
       </fileset>
       <fileset dir="${thirdparty.dir}">
@@ -218,7 +221,6 @@
         <include name="xbean-${cxf.xbean}.jar"/>
         <include name="xml-resolver-${cxf.xml.resolver}.jar"/>
         <include name="XmlSchema-${cxf.xmlschema}.jar"/>
-        
         <include name="jaxb-api.jar"/>
         <include name="jaxb-impl.jar"/>
         <include name="stax-api.jar"/>
@@ -231,6 +233,7 @@
       <metainf dir="${cxf.output.dir}/resources/jbossws-jboss42.sar/META-INF">
         <include name="jboss-service.xml"/>
       </metainf>
+      <metainf dir="${cxf.resources.dir}/jbossws-cxf.sar/META-INF"/>
     </jar>
   </target>
 

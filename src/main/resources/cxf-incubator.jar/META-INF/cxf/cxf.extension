@@ -1,0 +1,14 @@
+META-INF/cxf/cxf-extension-jaxws.xml
+META-INF/cxf/cxf-extension-rm.xml
+META-INF/cxf/cxf-extension-addr.xml
+META-INF/cxf/cxf-extension-http-jetty.xml
+META-INF/cxf/cxf-extension-object-binding.xml
+META-INF/cxf/cxf-extension-http.xml
+META-INF/cxf/cxf-extension-http-binding.xml
+META-INF/cxf/cxf-extension-xml.xml
+META-INF/cxf/cxf-extension-policy.xml
+META-INF/cxf/cxf-extension-jms.xml
+META-INF/cxf/cxf-extension-local.xml
+META-INF/cxf/cxf-extension-management.xml
+META-INF/cxf/cxf-extension-soap.xml
+META-INF/cxf/cxf-extension-jbossws.xml
