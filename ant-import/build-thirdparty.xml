@@ -47,9 +47,12 @@
 
     <mkdir dir="${thirdparty.dir}"/>
     <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common.jar" dest="${thirdparty.dir}/jbossws-common.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common-src.zip" dest="${thirdparty.dir}/jbossws-common-src.zip" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework.jar" dest="${thirdparty.dir}/jbossws-framework.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework-src.zip" dest="${thirdparty.dir}/jbossws-framework-src.zip" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework-scripts.zip" dest="${thirdparty.dir}/jbossws-framework-scripts.zip" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi.jar" dest="${thirdparty.dir}/jbossws-spi.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi-src.zip" dest="${thirdparty.dir}/jbossws-spi-src.zip" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-jboss42/${jbossws-jboss42}/lib/jbossws-jboss42-resources.zip" dest="${thirdparty.dir}/jbossws-jboss42-resources.zip" usetimestamp="true" verbose="true"/>
     
     <get src="${jboss.repository}/apache-xml-commons/${apache-xml-commons}/lib/resolver.jar" dest="${thirdparty.dir}/resolver.jar" usetimestamp="true" verbose="true"/>
