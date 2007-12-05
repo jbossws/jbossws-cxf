@@ -40,16 +40,7 @@ org/jboss/test/ws/jaxws/samples/provider/**
 # [CXF-1253] CXF does not respect @HandlerChain on client SEI
 org/jboss/test/ws/jaxws/samples/logicalhandler/**
 
-# [JBWS-1757] Investigate CXF samples soapbinding
-org/jboss/test/ws/jaxws/samples/soapbinding/**
-
-# [JBWS-1758] Investigate CXF samples webmethod
-org/jboss/test/ws/jaxws/samples/webmethod/**
-
-# [JBWS-1759] Investigate CXF samples webservice
-org/jboss/test/ws/jaxws/samples/webservice/**
-
-# [JBWS-1760] Investigate CXF samples xop
-org/jboss/test/ws/jaxws/samples/xop/**
+# [CXF-1261] Handler does not see XOP message properly
+org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 
 
