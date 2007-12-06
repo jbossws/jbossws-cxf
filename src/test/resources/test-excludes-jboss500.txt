@@ -11,11 +11,6 @@ org/jboss/test/ws/jaxws/samples/wssecurity/**
 #
 ###################################################################
 
-# [CXF-817] Add support for configurable invoker in cxf.xml
-org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
-org/jboss/test/ws/jaxws/samples/webservice/WebServiceEJB3TestCase.*
-org/jboss/test/ws/jaxws/samples/swaref/**
-
 # [JBWS-1683] Fix JAXR samples for CXF
 org/jboss/test/ws/jaxws/samples/jaxr/**
 

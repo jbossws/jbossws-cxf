@@ -23,8 +23,10 @@ package org.jboss.wsf.stack.cxf;
 
 //$Id$
 
-import org.apache.cxf.message.Exchange;
-import org.apache.cxf.service.invoker.Invoker;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
+
+import org.jboss.wsf.spi.invocation.WebServiceContextEJB;
 
 /**
  * An XFire invoker for EJB3
@@ -32,45 +34,10 @@ import org.apache.cxf.service.invoker.Invoker;
  * @author Thomas.Diesler@jboss.org
  * @since 21-May-2007
  */
-public class InvokerEJB3 implements Invoker
+public class InvokerEJB3 extends AbstractInvoker
 {
-   public Object invoke(Exchange arg0, Object arg1)
+   protected WebServiceContext getWebServiceContext(MessageContext msgCtx)
    {
-      // TODO Auto-generated method stub
-      return null;
+      return new WebServiceContextEJB(msgCtx);
    }
-
-   /*
-    public Object invoke(Method m, Object[] params, MessageContext context) 
-    {
-    Endpoint ep = EndpointAssociation.getEndpoint();
-    InvocationHandler invHandler = ep.getInvocationHandler();
-
-    Invocation inv = invHandler.createInvocation();
-    inv.getInvocationContext().addAttachment(MessageContext.class, context);
-    inv.setJavaMethod(m);
-    inv.setArgs(params);
-
-    Object retObj = null;
-    try
-    {
-    invHandler.invoke(ep, inv);
-    retObj = inv.getReturnValue();
-    }
-    catch (Exception ex)
-    {
-    handleException(ex);
-    }
-
-    return retObj;
-    }
-
-    private void handleException(Exception ex) throws XFireFault
-    {
-    if (ex instanceof InvocationTargetException)
-    throw XFireFault.createFault(((InvocationTargetException)ex).getTargetException());
-
-    throw XFireFault.createFault(ex);
-    }
-    */
 }

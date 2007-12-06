@@ -171,6 +171,7 @@
         <include name="XmlSchema-${cxf.xmlschema}.jar"/>
         <include name="jaxb-api.jar"/>
         <include name="jaxb-impl.jar"/>
+        <include name="jaxrpc-api.jar"/>
         <include name="stax-api.jar"/>
         <include name="wsdl4j.jar"/>
         <include name="wstx.jar"/>
@@ -223,6 +224,7 @@
         <include name="XmlSchema-${cxf.xmlschema}.jar"/>
         <include name="jaxb-api.jar"/>
         <include name="jaxb-impl.jar"/>
+        <include name="jaxrpc-api.jar"/>
         <include name="stax-api.jar"/>
         <include name="wsdl4j.jar"/>
         <include name="wstx.jar"/>
