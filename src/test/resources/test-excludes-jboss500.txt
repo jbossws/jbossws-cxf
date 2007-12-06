@@ -14,11 +14,6 @@ org/jboss/test/ws/jaxws/samples/wssecurity/**
 # [JBWS-1683] Fix JAXR samples for CXF
 org/jboss/test/ws/jaxws/samples/jaxr/**
 
-# [JBWS-1756] Fix @WebServiceRef with CXF
-org/jboss/test/ws/jaxws/samples/retail/**
-org/jboss/test/ws/jaxws/samples/serviceref/**
-org/jboss/test/ws/jaxws/samples/webserviceref/**
-
 # [JBWS-1774] Provide a tools implementation for CXF (WSContractProvider and WSContractConsumer)
 org/jboss/test/ws/jaxws/smoke/tools/**
 
@@ -35,7 +30,7 @@ org/jboss/test/ws/jaxws/samples/provider/**
 # [CXF-1253] CXF does not respect @HandlerChain on client SEI
 org/jboss/test/ws/jaxws/samples/logicalhandler/**
 
-# [CXF-1261] Handler does not see XOP message properly
+# Won't Fix: [CXF-1261] Handler does not see XOP message properly
 org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 
 

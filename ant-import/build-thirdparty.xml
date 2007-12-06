@@ -81,6 +81,7 @@
       <pathelement location="${thirdparty.dir}/jbossws-spi.jar"/>
       
       <pathelement location="${thirdparty.dir}/cxf-${cxf.version}.jar"/>
+      <pathelement location="${thirdparty.dir}/geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
       <pathelement location="${thirdparty.dir}/jaxws-api-${cxf.jaxws.api}.jar"/>
       <pathelement location="${thirdparty.dir}/spring-beans-${cxf.spring}.jar"/>
       <pathelement location="${thirdparty.dir}/spring-context-${cxf.spring}.jar"/>
