@@ -25,11 +25,21 @@ package org.jboss.wsf.stack.cxf;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.handler.MessageContext.Scope;
 
 import org.apache.cxf.frontend.MethodDispatcher;
 import org.apache.cxf.helpers.CastUtils;
+import org.apache.cxf.jaxws.context.WebServiceContextImpl;
+import org.apache.cxf.jaxws.context.WrappedMessageContext;
+import org.apache.cxf.jaxws.support.ContextPropertiesMapping;
 import org.apache.cxf.message.Exchange;
+import org.apache.cxf.message.MessageContentsList;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.service.model.BindingOperationInfo;
@@ -38,6 +48,7 @@ import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.Invocation;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
+import org.jboss.wsf.spi.invocation.WebServiceContextJSE;
 
 /**
  * An CXF invoker for JSE
@@ -49,6 +60,28 @@ public class InvokerJSE implements Invoker
 {
    public Object invoke(Exchange exchange, Object o)
    {
+      // set up the webservice request context 
+      MessageContext msgCtx = ContextPropertiesMapping.createWebServiceContext(exchange);
+
+      Map<String, Scope> scopes = CastUtils.cast((Map<?, ?>)msgCtx.get(WrappedMessageContext.SCOPES));
+      Map<String, Object> handlerScopedStuff = new HashMap<String, Object>();
+      if (scopes != null)
+      {
+         for (Map.Entry<String, Scope> scope : scopes.entrySet())
+         {
+            if (scope.getValue() == Scope.HANDLER)
+            {
+               handlerScopedStuff.put(scope.getKey(), msgCtx.get(scope.getKey()));
+            }
+         }
+         for (String key : handlerScopedStuff.keySet())
+         {
+            msgCtx.remove(key);
+         }
+      }
+
+      WebServiceContextImpl.setMessageContext(msgCtx);
+
       BindingOperationInfo bop = exchange.get(BindingOperationInfo.class);
       MethodDispatcher md = (MethodDispatcher)exchange.get(Service.class).get(MethodDispatcher.class.getName());
       Method m = md.getMethod(bop);
@@ -61,8 +94,8 @@ public class InvokerJSE implements Invoker
 
       Invocation inv = invHandler.createInvocation();
       InvocationContext invContext = inv.getInvocationContext();
-      //inv.getInvocationContext().addAttachment(WebServiceContext.class, new WebServiceContextJSE(context));
-      //invContext.addAttachment(MessageContext.class, context);
+      inv.getInvocationContext().addAttachment(WebServiceContext.class, new WebServiceContextJSE(msgCtx));
+      invContext.addAttachment(MessageContext.class, msgCtx);
       inv.setJavaMethod(m);
       inv.setArgs(params);
 
@@ -78,7 +111,18 @@ public class InvokerJSE implements Invoker
          handleException(ex);
       }
 
-      return retObj;
+      for (Map.Entry<String, Object> key : handlerScopedStuff.entrySet())
+      {
+         msgCtx.put(key.getKey(), key.getValue());
+         msgCtx.setScope(key.getKey(), Scope.HANDLER);
+      }
+
+      //update the webservice response context
+      ContextPropertiesMapping.updateWebServiceContext(exchange, msgCtx);
+      //clear the WebServiceContextImpl's ThreadLocal variable
+      WebServiceContextImpl.clear();
+
+      return new MessageContentsList(retObj);
    }
 
    private Object getTargetBean(Endpoint ep) throws InstantiationException, IllegalAccessException
@@ -87,7 +131,7 @@ public class InvokerJSE implements Invoker
       return beanClass.newInstance();
    }
 
-   private void handleException(Exception ex) 
+   private void handleException(Exception ex)
    {
       Throwable th = ex;
       if (ex instanceof InvocationTargetException)

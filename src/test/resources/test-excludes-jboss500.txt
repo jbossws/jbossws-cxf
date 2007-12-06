@@ -11,7 +11,7 @@ org/jboss/test/ws/jaxws/samples/wssecurity/**
 #
 ###################################################################
 
-# [JBWS-1746] Add support for configurable invoker in cxf.xml
+# [CXF-817] Add support for configurable invoker in cxf.xml
 org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
 org/jboss/test/ws/jaxws/samples/webservice/WebServiceEJB3TestCase.*
 org/jboss/test/ws/jaxws/samples/swaref/**

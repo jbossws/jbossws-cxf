@@ -23,17 +23,16 @@ package org.jboss.wsf.stack.cxf;
 
 //$Id: XFireServicesDeployer.java 3802 2007-07-05 16:44:32Z thomas.diesler@jboss.com $
 
-import org.jboss.logging.Logger;
-import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
-import org.jboss.wsf.spi.deployment.DeploymentAspect;
-import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.stack.cxf.metadata.services.DDBean;
-import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
-import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.jboss.logging.Logger;
+import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.deployment.DeploymentAspect;
+import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
+import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
+import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
 /**
  * A deployer that generates cxf.xml 
@@ -77,30 +76,16 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
 
          if (depType == DeploymentType.JAXWS_EJB3)
          {
-            //ddep.setServiceFactory(ServiceFactoryBeanEJB3.class.getName());
             ddep.setInvoker(invokerEJB3);
          }
 
          if (depType == DeploymentType.JAXWS_JSE)
          {
-            //ddep.setServiceFactory(ServiceFactoryBeanJSE.class.getName());
             ddep.setInvoker(invokerJSE);
          }
 
          log.info("Add " + ddep);
          dd.addEndpoint(ddep);
-      }
-
-      if (depType == DeploymentType.JAXWS_EJB3)
-      {
-         DDBean bean = new DDBean("InvokerBeanEJB3", invokerEJB3);
-         dd.addBean(bean);
-      }
-
-      if (depType == DeploymentType.JAXWS_JSE)
-      {
-         DDBean bean = new DDBean("InvokerBeanJSE", invokerJSE);
-         dd.addBean(bean);
       }
 
       dep.addAttachment(DDBeans.class, dd);
