@@ -20,6 +20,9 @@ org/jboss/test/ws/jaxws/smoke/tools/**
 # [EJBTHREE-1150] WebServiceContext injection requires mapped-name
 org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
 
+# [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored
+org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
+
 # [CXF-1244] Application Exception not initialized properly
 org/jboss/test/ws/jaxws/samples/exception/**
 
