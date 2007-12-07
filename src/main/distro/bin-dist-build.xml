@@ -11,7 +11,7 @@
 
 <!-- $Id: bin-dist-build.xml 4081 2007-08-02 09:23:17Z thomas.diesler@jboss.com $ -->
 
-<project default="main" basedir="." name="JBossWS-cxf">
+<project default="main" basedir="." name="JBossWS-CXF">
   
   <!-- ================================================================== -->
   <!-- Setup                                                              -->
@@ -21,7 +21,6 @@
   <property name="bin.dir" value="${basedir}/bin"/>
   <property name="docs.dir" value="${basedir}/docs"/>
   <property name="lib.dir" value="${basedir}/lib"/>
-  <property name="thirdparty.dir" value="${basedir}/lib"/>
   <property name="tests.dir" value="${basedir}/tests"/>
   <property name="tests.output.dir" value="${basedir}/output"/>
   
