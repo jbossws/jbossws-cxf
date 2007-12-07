@@ -110,6 +110,12 @@
       <metainf dir="${cxf.resources.dir}/jbossws-cxf.jar/META-INF"/>
     </jar>
     
+    <jar jarfile="${cxf.output.lib.dir}/jbossws-cxf-client.jar" manifest="${cxf.output.etc.dir}/default.mf">
+      <fileset dir="${cxf.output.classes.dir}">
+        <include name="org/jboss/wsf/stack/cxf/client/**"/>
+      </fileset>
+    </jar>
+    
     <!-- Build jbossws-context.war -->
     <war warfile="${cxf.output.lib.dir}/jbossws-context.war" webxml="${cxf.resources.dir}/jbossws-context.war/WEB-INF/web.xml">
       <fileset dir="${cxf.resources.dir}/jbossws-context.war">

@@ -44,6 +44,7 @@
     </path>
     
     <path id="tests.extra.classpath">
+			<pathelement location="${int.cxf.dir}/output/lib/jbossws-cxf-client.jar"/>
 			<pathelement location="${int.cxf.dir}/thirdparty/jbossws-framework.jar"/>
 			<pathelement location="${int.cxf.dir}/thirdparty/jaxws-tools.jar"/>
     </path>

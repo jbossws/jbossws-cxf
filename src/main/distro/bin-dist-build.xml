@@ -107,8 +107,9 @@
     </path>
     
     <path id="tests.extra.classpath">
-      <pathelement location="${thirdparty.dir}/jbossws-framework.jar"/>
-      <pathelement location="${thirdparty.dir}/jaxws-tools.jar"/>
+      <pathelement location="${lib.dir}/jbossws-cxf-client.jar"/>
+      <pathelement location="${lib.dir}/jbossws-framework.jar"/>
+      <pathelement location="${lib.dir}/jaxws-tools.jar"/>
     </path>
     
   </target>
