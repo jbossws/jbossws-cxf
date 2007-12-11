@@ -11,49 +11,30 @@ org/jboss/test/ws/jaxws/samples/wssecurity/**
 #
 ###################################################################
 
-# [JBWS-1746] Add support for configurable invoker in cxf.xml
-org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
-org/jboss/test/ws/jaxws/samples/webservice/WebServiceEJB3TestCase.*
-org/jboss/test/ws/jaxws/samples/swaref/**
-
-# [JBWS-1750] Investigate CXF exception handling
-org/jboss/test/ws/jaxws/samples/exception/**
-
-# [JBWS-1751] Investigate CXF samples handlerchain
-org/jboss/test/ws/jaxws/samples/handlerchain/**
-
-# [JBWS-1752] Investigate CXF samples httpbinding
-org/jboss/test/ws/jaxws/samples/httpbinding/**
-
-# [JBWS-1683] Fix JAXR samples for XFire
+# [JBWS-1683] Fix JAXR samples for CXF
 org/jboss/test/ws/jaxws/samples/jaxr/**
-
-# [JBWS-1753] Investigate CXF samples logicalhandler
-org/jboss/test/ws/jaxws/samples/logicalhandler/**
-
-# [JBWS-1754] Investigate CXF samples oneway
-org/jboss/test/ws/jaxws/samples/oneway/**
-
-# [JBWS-1755] Investigate CXF samples provider
-org/jboss/test/ws/jaxws/samples/provider/**
-
-# [JBWS-1756] Fix @WebServiceRef with CXF
-org/jboss/test/ws/jaxws/samples/retail/**
-org/jboss/test/ws/jaxws/samples/serviceref/**
-org/jboss/test/ws/jaxws/samples/webserviceref/**
-
-# [JBWS-1757] Investigate CXF samples soapbinding
-org/jboss/test/ws/jaxws/samples/soapbinding/**
-
-# [JBWS-1758] Investigate CXF samples webmethod
-org/jboss/test/ws/jaxws/samples/webmethod/**
-
-# [JBWS-1759] Investigate CXF samples webservice
-org/jboss/test/ws/jaxws/samples/webservice/**
-
-# [JBWS-1760] Investigate CXF samples xop
-org/jboss/test/ws/jaxws/samples/xop/**
 
 # [JBWS-1774] Provide a tools implementation for CXF (WSContractProvider and WSContractConsumer)
 org/jboss/test/ws/jaxws/smoke/tools/**
 
+# [EJBTHREE-1150] WebServiceContext injection requires mapped-name
+org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
+
+# [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored
+org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
+
+# [CXF-1244] Application Exception not initialized properly
+org/jboss/test/ws/jaxws/samples/exception/**
+
+# [CXF-1250] SOAPMessage.getSOAPHeader returns null
+org/jboss/test/ws/jaxws/samples/handlerchain/**
+
+# [CXF-1252] Provider PAYLOAD endpoint expects SOAP Envelope
+org/jboss/test/ws/jaxws/samples/httpbinding/**
+org/jboss/test/ws/jaxws/samples/provider/**
+
+# [CXF-1253] CXF does not respect @HandlerChain on client SEI
+org/jboss/test/ws/jaxws/samples/logicalhandler/**
+
+# Won't Fix: [CXF-1261] Handler does not see XOP message properly
+org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
