@@ -11,8 +11,8 @@ org/jboss/test/ws/jaxws/samples/wssecurity/**
 #
 ###################################################################
 
-# Exclude EJB3 ClientLauncher tests
-org/jboss/test/ws/jaxws/samples/webserviceref/WebServiceRefClientTestCase.*
+# EJB3/Injection excludes
+org/jboss/test/ws/jaxws/samples/webserviceref/**
 
 # [JBWS-1683] Fix JAXR samples for CXF
 org/jboss/test/ws/jaxws/samples/jaxr/**
