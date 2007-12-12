@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ============================================================ -->
+<!--  JBoss, the OpenSource J2EE webOS                            -->
+<!--  Distributable under LGPL license.                           -->
+<!--  See terms of license at http://www.gnu.org.                 -->
+<!-- ============================================================ -->
+
+<!-- $Id$ -->
+
+<project>
+
+  <description>JBossWS test archive builder</description>
+
+  <!-- ================================================================== -->
+  <!-- Building                                                           -->
+  <!-- ================================================================== -->
+
+  <target name="build-testsuite-jars" description="Build the deployments.">
+
+    <mkdir dir="${tests.output.dir}/libs"/>
+
+    <!-- jaxws-cxf-reliable -->
+    <war warfile="${tests.output.dir}/libs/jaxws-cxf-reliable.war" webxml="${tests.output.dir}/resources/jaxws/cxf/reliable/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/reliable/RMEndpointImpl.class"/>
+      </classes>
+      <!--classes dir="${tests.output.dir}/resources/jaxws/cxf/reliable">
+        <include name="cxf.xml"/>
+      </classes-->
+      <webinf dir="${tests.output.dir}/resources/jaxws/cxf/reliable/WEB-INF">
+        <include name="jbossws-cxf.xml"/>
+      </webinf>
+    </war>
+
+    <!-- Please add alphabetically -->
+
+  </target>
+
+</project>

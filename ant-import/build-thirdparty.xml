@@ -188,6 +188,8 @@
     <available property="geronimo-javamail.available" filepath="${cxf.distribution.lib}" file="geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
     <available property="geronimo-ws-metadata.available" filepath="${cxf.distribution.lib}" file="geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
     <available property="jaxws-api.available" filepath="${cxf.distribution.lib}" file="jaxws-api-${cxf.jaxws.api}.jar"/>
+    <available property="jetty.available" filepath="${cxf.distribution.lib}" file="jetty-${cxf.jetty}.jar"/>
+    <available property="jetty-util.available" filepath="${cxf.distribution.lib}" file="jetty-util-${cxf.jetty}.jar"/>
     <available property="jdom.available" filepath="${cxf.distribution.lib}" file="jdom-${cxf.jdom}.jar"/>
     <available property="neethi.available" filepath="${cxf.distribution.lib}" file="neethi-${cxf.neethi}.jar"/>
     <available property="saaj-api.available" filepath="${cxf.distribution.lib}" file="saaj-api-${cxf.saaj}.jar"/>
@@ -203,6 +205,8 @@
     <fail message="geronimo-javamail_${cxf.geronimo.javamail}.jar not available" unless="geronimo-javamail.available"/>
     <fail message="geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar not available" unless="geronimo-ws-metadata.available"/>
     <fail message="jaxws-api-${cxf.jaxws.api}.jar not available" unless="jaxws-api.available"/>
+    <fail message="jetty-${cxf.jetty}.jar not available" unless="jetty.available"/>
+    <fail message="jetty-util-${cxf.jetty}.jar not available" unless="jetty-util.available"/>
     <fail message="jdom-${cxf.jdom}.jar not available" unless="jdom.available"/>
     <fail message="neethi-${cxf.neethi}.jar not available" unless="neethi.available"/>
     <fail message="saaj-api-${cxf.saaj}.jar not available" unless="saaj-api.available"/>
@@ -220,6 +224,8 @@
         <include name="geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
         <include name="geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
         <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
+        <include name="jetty-${cxf.jetty}.jar"/>
+        <include name="jetty-util-${cxf.jetty}.jar"/>
         <include name="jdom-${cxf.jdom}.jar"/>
         <include name="neethi-${cxf.neethi}.jar"/>
         <include name="saaj-api-${cxf.saaj}.jar"/>

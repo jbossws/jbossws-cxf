@@ -105,19 +105,18 @@ public class CXFServletExt extends CXFServlet
    private void loadAdditionalConfigExt(ApplicationContext ctx, ServletConfig servletConfig) throws ServletException
    {
       String location = servletConfig.getServletContext().getInitParameter(PARAM_CXF_BEANS_URL);
+      if (location != null)
+      {
+         InputStream is;
+         try
+         {
+            is = new URL(location).openStream();
+         }
+         catch (IOException e)
+         {
+            throw new ServletException(e);
+         }
 
-      InputStream is;
-      try
-      {
-         is = new URL(location).openStream();
-      }
-      catch (IOException e)
-      {
-         throw new ServletException(e);
-      }
-
-      if (is != null)
-      {
          childCtx = new GenericApplicationContext(ctx);
          XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(childCtx);
          reader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_XSD);

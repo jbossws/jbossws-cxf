@@ -23,10 +23,13 @@ package org.jboss.wsf.stack.cxf;
 
 //$Id: XFireServicesDeployer.java 3802 2007-07-05 16:44:32Z thomas.diesler@jboss.com $
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.logging.Logger;
+import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.DeploymentAspect;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -61,43 +64,79 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
    @Override
    public void create(Deployment dep)
    {
-      DeploymentType depType = dep.getType();
-      if (depType != DeploymentType.JAXWS_EJB3 && depType != DeploymentType.JAXWS_JSE)
-         throw new IllegalStateException("Unsupported deployment type: " + depType);
-
-      DDBeans dd = new DDBeans();
-      for (Endpoint ep : dep.getService().getEndpoints())
+      // Look for cxf.xml descriptor
+      ClassLoader initCL = dep.getInitialClassLoader();
+      URL cxfURL = initCL.getResource("cxf.xml");
+      if (cxfURL != null)
       {
-         String id = ep.getShortName();
-         String address = ep.getAddress();
-         String implementor = ep.getTargetBeanName();
-
-         DDEndpoint ddep = new DDEndpoint(id, address, implementor);
-
+         log.info("CXF configuration found: " + cxfURL);
+      }
+      else
+      {
+         // Look for jbossws-cxf.xml descriptor
+         DeploymentType depType = dep.getType();
+         
+         String metadir;
          if (depType == DeploymentType.JAXWS_EJB3)
+            metadir = "META-INF";
+         else if (depType == DeploymentType.JAXWS_JSE)
+            metadir = "WEB-INF";
+         else
+            throw new IllegalStateException("Unsupported deployment type: " + depType);
+
+         try
          {
-            ddep.setInvoker(invokerEJB3);
+            ArchiveDeployment archdep = (ArchiveDeployment)dep;
+            cxfURL = archdep.getMetaDataFileURL(metadir + "/jbossws-cxf.xml");
+            log.info("JBossWS-CXF configuration found: " + cxfURL);
+         }
+         catch (IOException ex)
+         {
+            // ignore, jbossws-cxf.xml not found
+         }
+         
+         // Generate the jbossws-cxf.xml descriptor
+         if (cxfURL == null)
+         {
+            DDBeans dd = new DDBeans();
+            for (Endpoint ep : dep.getService().getEndpoints())
+            {
+               String id = ep.getShortName();
+               String address = ep.getAddress();
+               String implementor = ep.getTargetBeanName();
+
+               DDEndpoint ddep = new DDEndpoint(id, address, implementor);
+
+               if (depType == DeploymentType.JAXWS_EJB3)
+               {
+                  ddep.setInvoker(invokerEJB3);
+               }
+
+               if (depType == DeploymentType.JAXWS_JSE)
+               {
+                  ddep.setInvoker(invokerJSE);
+               }
+
+               log.info("Add " + ddep);
+               dd.addEndpoint(ddep);
+            }
+            
+            cxfURL = dd.createFileURL();
+            log.info("JBossWS-CXF configuration generated: " + cxfURL);
+            
+            dep.addAttachment(DDBeans.class, dd);
          }
 
-         if (depType == DeploymentType.JAXWS_JSE)
+         String propKey = "org.jboss.ws.webapp.ContextParameterMap";
+         Map<String, String> contextParams = (Map<String, String>)dep.getProperty(propKey);
+         if (contextParams == null)
          {
-            ddep.setInvoker(invokerJSE);
+            contextParams = new HashMap<String, String>();
+            dep.setProperty(propKey, contextParams);
          }
-
-         log.info("Add " + ddep);
-         dd.addEndpoint(ddep);
+         
+         contextParams.put(CXFServletExt.PARAM_CXF_BEANS_URL, cxfURL.toExternalForm());
       }
-
-      dep.addAttachment(DDBeans.class, dd);
-
-      String propKey = "org.jboss.ws.webapp.ContextParameterMap";
-      Map<String, String> contextParams = (Map<String, String>)dep.getProperty(propKey);
-      if (contextParams == null)
-      {
-         contextParams = new HashMap<String, String>();
-         dep.setProperty(propKey, contextParams);
-      }
-      contextParams.put(CXFServletExt.PARAM_CXF_BEANS_URL, dd.createFileURL().toExternalForm());
    }
 
    @Override
