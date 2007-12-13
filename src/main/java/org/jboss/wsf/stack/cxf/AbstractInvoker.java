@@ -85,8 +85,16 @@ public abstract class AbstractInvoker implements Invoker
       MethodDispatcher md = (MethodDispatcher)exchange.get(Service.class).get(MethodDispatcher.class.getName());
       Method m = md.getMethod(bop);
 
-      List<Object> paramList = CastUtils.cast((List<?>)o);
-      Object[] params = paramList.toArray();
+      Object[] params;
+      if (o instanceof List<?>)
+      {
+         List<Object> paramList = CastUtils.cast((List<?>)o);
+         params = paramList.toArray();
+      }
+      else
+      {
+         params = new Object[]{o};
+      }
 
       Endpoint ep = EndpointAssociation.getEndpoint();
       InvocationHandler invHandler = ep.getInvocationHandler();

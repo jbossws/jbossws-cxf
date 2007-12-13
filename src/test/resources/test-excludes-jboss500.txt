@@ -31,7 +31,8 @@ org/jboss/test/ws/jaxws/samples/handlerchain/**
 
 # [CXF-1252] Provider PAYLOAD endpoint expects SOAP Envelope
 org/jboss/test/ws/jaxws/samples/httpbinding/**
-org/jboss/test/ws/jaxws/samples/provider/**
+org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase.*
+org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
 
 # [CXF-1253] CXF does not respect @HandlerChain on client SEI
 org/jboss/test/ws/jaxws/samples/logicalhandler/**
