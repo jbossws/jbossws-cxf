@@ -40,19 +40,30 @@
   <property name="jboss422.server.lib" value="${jboss422.server}/lib"/>
   <property name="jboss422.server.deploy" value="${jboss422.server}/deploy"/>
   
+  <property name="jboss423.lib" value="${jboss423.home}/lib"/>
+  <property name="jboss423.client" value="${jboss423.home}/client"/>
+  <property name="jboss423.server" value="${jboss423.home}/server/${jboss.server.instance}"/>
+  <property name="jboss423.server.lib" value="${jboss423.server}/lib"/>
+  <property name="jboss423.server.deploy" value="${jboss423.server}/deploy"/>
+  
   <property name="jbossws.integration.${jbossws.integration.target}" value="true"/>
   
   <property name="jboss500.available.file" value="${jboss500.client}/jboss-ejb3-client.jar"/>
   <property name="jboss422.available.file" value="${jboss422.client}/jboss-client.jar"/>
+  <property name="jboss423.available.file" value="${jboss423.client}/jboss-client.jar"/>
   
   <available property="jboss500.available" file="${jboss500.available.file}"/>
   <available property="jboss422.available" file="${jboss422.available.file}"/>
+  <available property="jboss423.available" file="${jboss423.available.file}"/>
   
+  <condition property="jbossws.integration.jboss50" value="true">
+    <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
+  </condition>
   <condition property="jbossws.integration.jboss42" value="true">
     <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
   </condition>
-  <condition property="jbossws.integration.jboss50" value="true">
-    <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
+  <condition property="jbossws.integration.jboss42" value="true">
+    <equals arg1="${jbossws.integration.target}" arg2="jboss423"/>
   </condition>
   
   <!-- JDK Detection -->
@@ -77,6 +88,9 @@
       <equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
     </condition>
     <condition property="jboss.home" value="${jboss422.home}">
+      <equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
+    </condition>
+    <condition property="jboss.home" value="${jboss423.home}">
       <equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
     </condition>
     
