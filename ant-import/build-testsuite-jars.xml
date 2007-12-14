@@ -25,12 +25,12 @@
       <classes dir="${tests.output.dir}/classes">
         <include name="org/jboss/test/ws/jaxws/cxf/reliable/RMEndpointImpl.class"/>
       </classes>
-      <!--classes dir="${tests.output.dir}/resources/jaxws/cxf/reliable">
+      <classes dir="${tests.output.dir}/resources/jaxws/cxf/reliable">
         <include name="cxf.xml"/>
-      </classes-->
-      <webinf dir="${tests.output.dir}/resources/jaxws/cxf/reliable/WEB-INF">
+      </classes>
+      <!--webinf dir="${tests.output.dir}/resources/jaxws/cxf/reliable/WEB-INF">
         <include name="jbossws-cxf.xml"/>
-      </webinf>
+      </webinf-->
     </war>
 
     <!-- Please add alphabetically -->
