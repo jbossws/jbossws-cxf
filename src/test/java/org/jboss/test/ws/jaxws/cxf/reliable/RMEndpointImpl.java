@@ -27,12 +27,6 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-/**
- * Test the CXF WS-ReliableMessaging
- *
- * @author Thomas.Diesler@jboss.org
- * @since 12-Dec-2007
- */
 @WebService(name = "RMEndpoint", targetNamespace = "http://org.jboss.ws.jaxws.cxf/reliable", serviceName = "RMService")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public class RMEndpointImpl

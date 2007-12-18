@@ -19,43 +19,41 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.cxf.descriptor;
+package org.jboss.test.ws.jaxws.cxf.logging;
 
-import java.net.URL;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-
-import junit.framework.Test;
-
+import org.jboss.wsf.common.log.JBossLogHandler;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
- * Test the CXF WS-descriptorMessaging
+ * Test redirection of JDK logging on the client side 
  *
  * @author Thomas.Diesler@jboss.org
- * @since 12-Dec-2007
+ * @since 18-Dec-2007
  */
-public class DescriptorCXFJSETestCase extends JBossWSTest
+public class JDKLoggingTestCase extends JBossWSTest
 {
-   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-descriptor/TestService";
-   private String targetNS = "http://org.jboss.ws.jaxws.cxf/descriptor";
-
-   public static Test suite()
+   public void testLogging() throws Exception
    {
-      return new JBossWSTestSetup(DescriptorCXFJSETestCase.class, "jaxws-cxf-descriptor.war");
+      Logger log = Logger.getLogger(JDKLoggingTestCase.class.getName());
+      assertHandlers(log);
+
+      log = Logger.getLogger(JDKLoggingTestCase.class.getName());
+      assertHandlers(log);
+
+      log.info("test message");
    }
 
-   public void testLegalAccess() throws Exception
+   private void assertHandlers(Logger log)
    {
-      URL wsdlURL = new URL(endpointURL + "?wsdl");
-      QName serviceName = new QName(targetNS, "DescriptorService");
-
-      Service service = Service.create(wsdlURL, serviceName);
-      DescriptorEndpoint port = (DescriptorEndpoint)service.getPort(DescriptorEndpoint.class);
-
-      Object retObj = port.echo("Hello");
-      assertEquals("Hello", retObj);
+      int found = 0;
+      for (Handler handler : log.getHandlers())
+      {
+         if (handler instanceof JBossLogHandler)
+            found++;
+      }
+      assertEquals("Expected one jboss handler", 1, found);
    }
 }

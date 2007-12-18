@@ -26,12 +26,6 @@ package org.jboss.test.ws.jaxws.cxf.descriptor;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-/**
- * Test the CXF WS-descriptorMessaging
- *
- * @author Thomas.Diesler@jboss.org
- * @since 12-Dec-2007
- */
 @WebService(name = "DescriptorEndpoint", targetNamespace = "http://org.jboss.ws.jaxws.cxf/descriptor", serviceName = "DescriptorService")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface DescriptorEndpoint
