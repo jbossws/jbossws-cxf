@@ -127,11 +127,11 @@
       </webinf>
     </war>
     
-    <!-- Update cxf-${cxf.version}.jar -->
+    <!-- Remove config files from cxf-${cxf.version}.jar -->
     <unjar src="${thirdparty.dir}/cxf-${cxf.version}.jar" dest="${cxf.output.lib.dir}/cxf-${cxf.version}"/>
     <jar destfile="${cxf.output.lib.dir}/cxf-${cxf.version}.jar">
       <fileset dir="${cxf.output.lib.dir}/cxf-${cxf.version}">
-        <exclude name="META-INF/cxf/**"/>
+        <exclude name="META-INF/**"/>
       </fileset>
     </jar>
     
@@ -165,8 +165,6 @@
         <include name="geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
         <include name="geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
         <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
-        <include name="jetty-${cxf.jetty}.jar"/>
-        <include name="jetty-util-${cxf.jetty}.jar"/>
         <include name="jdom-${cxf.jdom}.jar"/>
         <include name="neethi-${cxf.neethi}.jar"/>
         <include name="saaj-api-${cxf.saaj}.jar"/>
@@ -216,12 +214,9 @@
         <include name="jbossws-cxf.jar"/>
       </fileset>
       <fileset dir="${thirdparty.dir}">
-        <include name="cxf-${cxf.version}.jar"/>
         <include name="geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
         <include name="geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
         <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
-        <include name="jetty-${cxf.jetty}.jar"/>
-        <include name="jetty-util-${cxf.jetty}.jar"/>
         <include name="jdom-${cxf.jdom}.jar"/>
         <include name="neethi-${cxf.neethi}.jar"/>
         <include name="saaj-api-${cxf.saaj}.jar"/>

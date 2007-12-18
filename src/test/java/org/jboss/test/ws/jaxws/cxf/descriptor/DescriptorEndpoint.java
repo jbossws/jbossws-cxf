@@ -19,43 +19,22 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.cxf.reliable;
+package org.jboss.test.ws.jaxws.cxf.descriptor;
 
-import java.net.URL;
+// $Id$
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-
-import junit.framework.Test;
-
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 
 /**
- * Test the CXF WS-ReliableMessaging
+ * Test the CXF WS-descriptorMessaging
  *
  * @author Thomas.Diesler@jboss.org
  * @since 12-Dec-2007
  */
-public class RMTestCase extends JBossWSTest
+@WebService(name = "DescriptorEndpoint", targetNamespace = "http://org.jboss.ws.jaxws.cxf/descriptor", serviceName = "DescriptorService")
+@SOAPBinding(style = SOAPBinding.Style.RPC)
+public interface DescriptorEndpoint
 {
-   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-reliable/TestService";
-   private String targetNS = "http://org.jboss.ws.jaxws.cxf/reliable";
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(RMTestCase.class, "jaxws-cxf-reliable.war");
-   }
-
-   public void testLegalAccess() throws Exception
-   {
-      URL wsdlURL = new URL(endpointURL + "?wsdl");
-      QName serviceName = new QName(targetNS, "RMService");
-
-      Service service = Service.create(wsdlURL, serviceName);
-      RMEndpoint port = (RMEndpoint)service.getPort(RMEndpoint.class);
-
-      Object retObj = port.echo("Hello");
-      assertEquals("Hello", retObj);
-   }
+   String echo(String input);
 }

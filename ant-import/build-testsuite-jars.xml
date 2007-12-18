@@ -20,17 +20,24 @@
 
     <mkdir dir="${tests.output.dir}/libs"/>
 
+    <!-- jaxws-cxf-descriptor -->
+    <war warfile="${tests.output.dir}/libs/jaxws-cxf-descriptor.war" webxml="${tests.output.dir}/resources/jaxws/cxf/descriptor/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/descriptor/DescriptorEndpointImpl.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/resources/jaxws/cxf/descriptor/WEB-INF">
+        <include name="jbossws-cxf.xml"/>
+      </webinf>
+    </war>
+
     <!-- jaxws-cxf-reliable -->
     <war warfile="${tests.output.dir}/libs/jaxws-cxf-reliable.war" webxml="${tests.output.dir}/resources/jaxws/cxf/reliable/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/classes">
         <include name="org/jboss/test/ws/jaxws/cxf/reliable/RMEndpointImpl.class"/>
       </classes>
-      <classes dir="${tests.output.dir}/resources/jaxws/cxf/reliable">
-        <include name="cxf.xml"/>
-      </classes>
-      <!--webinf dir="${tests.output.dir}/resources/jaxws/cxf/reliable/WEB-INF">
+      <webinf dir="${tests.output.dir}/resources/jaxws/cxf/reliable/WEB-INF">
         <include name="jbossws-cxf.xml"/>
-      </webinf-->
+      </webinf>
     </war>
 
     <!-- Please add alphabetically -->
