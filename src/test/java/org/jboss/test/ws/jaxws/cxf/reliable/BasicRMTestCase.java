@@ -71,6 +71,8 @@ public class BasicRMTestCase extends JBossWSTest
       Service service = Service.create(wsdlURL, serviceName);
       RMEndpoint port = (RMEndpoint)service.getPort(RMEndpoint.class);
 
+      System.out.println("FIXME: [CXF-1320] Configure WS-RM client from WSDL only");
+      
       Object retObj = port.echo("Hello");
       assertEquals("Hello", retObj);
    }
