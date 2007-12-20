@@ -54,7 +54,7 @@ public class BasicDocTestCase extends JBossWSTest
       return new JBossWSTestSetup(BasicDocTestCase.class, "jaxws-cxf-wsrm-basic-doc.war");
    }
 
-   public void _testWSDLAccess() throws Exception
+   public void testWSDLAccess() throws Exception
    {
       URL wsdlURL = new URL(endpointURL + "?wsdl");
       Element wsdl = DOMUtils.parse(wsdlURL.openStream());
@@ -65,7 +65,7 @@ public class BasicDocTestCase extends JBossWSTest
 
    public void _testStandardClient() throws Exception
    {
-      URL wsdlURL = new File("resources/jaxws/cxf/wsrm/wsrm-basic-doc.wsdl").toURL();
+      URL wsdlURL = new File("resources/jaxws/cxf/wsrm/basic-doc/wsrm-basic-doc.wsdl").toURL();
       QName serviceName = new QName(targetNS, "RMService");
 
       Service service = Service.create(wsdlURL, serviceName);
@@ -84,7 +84,7 @@ public class BasicDocTestCase extends JBossWSTest
       Bus bus = bf.createBus(cxfConfig);
       BusFactory.setDefaultBus(bus);
 
-      URL wsdlURL = new File("resources/jaxws/cxf/wsrm/wsrm-basic-doc.wsdl").toURL();
+      URL wsdlURL = new File("resources/jaxws/cxf/wsrm/basic-doc/wsrm-basic-doc.wsdl").toURL();
       QName serviceName = new QName(targetNS, "RMService");
 
       Service service = Service.create(wsdlURL, serviceName);

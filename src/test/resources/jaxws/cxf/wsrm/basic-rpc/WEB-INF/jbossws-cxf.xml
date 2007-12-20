@@ -14,7 +14,7 @@
     </wsrmp:RMAssertion>
   </wsp:Policy>
   
-  <jaxws:endpoint id='TestService' address='http://@jboss.bind.address@:8080/jaxws-cxf-reliable' implementor='org.jboss.test.ws.jaxws.cxf.reliable.RMEndpointImpl'>
+  <jaxws:endpoint id='TestService' address='http://@jboss.bind.address@:8080/jaxws-cxf-wsrm-basic-rpc' implementor='org.jboss.test.ws.jaxws.cxf.wsrm.BasicRPCEndpointImpl'>
     <jaxws:invoker>
       <bean class='org.jboss.wsf.stack.cxf.InvokerJSE'/>
     </jaxws:invoker>

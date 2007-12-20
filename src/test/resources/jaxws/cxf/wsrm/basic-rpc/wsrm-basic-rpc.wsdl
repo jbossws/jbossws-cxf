@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://schemas.xmlsoap.org/wsdl/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-  xmlns:tns="http://org.jboss.ws.jaxws.cxf/reliable" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="RMService"
-  targetNamespace="http://org.jboss.ws.jaxws.cxf/reliable">
+  xmlns:tns="http://org.jboss.ws.jaxws.cxf/wsrm" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="RMService"
+  targetNamespace="http://org.jboss.ws.jaxws.cxf/wsrm">
   
   <wsp:Policy wsu:Id="RM" xmlns:wsp="http://www.w3.org/2006/07/ws-policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
     <wsam:Addressing xmlns:wsam="http://www.w3.org/2007/02/addressing/metadata">
@@ -33,16 +33,16 @@
     <wsdl:operation name="echo">
       <soap:operation soapAction="" style="rpc"/>
       <wsdl:input name="echo">
-        <soap:body namespace="http://org.jboss.ws.jaxws.cxf/reliable" use="literal"/>
+        <soap:body namespace="http://org.jboss.ws.jaxws.cxf/wsrm" use="literal"/>
       </wsdl:input>
       <wsdl:output name="echoResponse">
-        <soap:body namespace="http://org.jboss.ws.jaxws.cxf/reliable" use="literal"/>
+        <soap:body namespace="http://org.jboss.ws.jaxws.cxf/wsrm" use="literal"/>
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="RMService">
     <wsdl:port binding="tns:RMServiceSoapBinding" name="RMEndpointPort">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-cxf-reliable"/>
+      <soap:address location="http://@jboss.bind.address@:8080/jaxws-cxf-wsrm-basic-rpc"/>
       <wsp:PolicyReference URI="#RM" xmlns:wsp="http://www.w3.org/2006/07/ws-policy"/>
     </wsdl:port>
   </wsdl:service>

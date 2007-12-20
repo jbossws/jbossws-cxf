@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.cxf.reliable;
+package org.jboss.test.ws.jaxws.cxf.wsrm;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -33,9 +33,9 @@ import javax.jws.soap.SOAPBinding;
  * Generated source version: 2.0
  * 
  */
-@WebService(name = "RMEndpoint", targetNamespace = "http://org.jboss.ws.jaxws.cxf/reliable")
+@WebService(name = "RMEndpoint", targetNamespace = "http://org.jboss.ws.jaxws.cxf/wsrm")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-public interface RMEndpoint
+public interface BasicRPCEndpoint
 {
    @WebMethod
    @WebResult(partName = "return")

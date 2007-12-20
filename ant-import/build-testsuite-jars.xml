@@ -30,23 +30,24 @@
       </webinf>
     </war>
 
-    <!-- jaxws-cxf-reliable -->
-    <war warfile="${tests.output.dir}/libs/jaxws-cxf-reliable.war" webxml="${tests.output.dir}/resources/jaxws/cxf/reliable/WEB-INF/web.xml">
-      <classes dir="${tests.output.dir}/classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/reliable/RMEndpointImpl.class"/>
-      </classes>
-      <webinf dir="${tests.output.dir}/resources/jaxws/cxf/reliable/WEB-INF">
-        <include name="jbossws-cxf.xml"/>
-      </webinf>
-    </war>
-
     <!-- jaxws-cxf-wsrm-basic-doc -->
-    <war warfile="${tests.output.dir}/libs/jaxws-cxf-wsrm-basic-doc.war" webxml="${tests.output.dir}/resources/jaxws/cxf/wsrm/WEB-INF/web.xml">
+    <war warfile="${tests.output.dir}/libs/jaxws-cxf-wsrm-basic-doc.war" webxml="${tests.output.dir}/resources/jaxws/cxf/wsrm/basic-doc/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/classes">
         <include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocEndpointImpl.class"/>
         <include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocEndpoint.class"/>
       </classes>
-      <webinf dir="${tests.output.dir}/resources/jaxws/cxf/wsrm/WEB-INF">
+      <webinf dir="${tests.output.dir}/resources/jaxws/cxf/wsrm/basic-doc/WEB-INF">
+        <include name="jbossws-cxf.xml"/>
+      </webinf>
+    </war>
+
+    <!-- jaxws-cxf-wsrm-basic-rpc -->
+    <war warfile="${tests.output.dir}/libs/jaxws-cxf-wsrm-basic-rpc.war" webxml="${tests.output.dir}/resources/jaxws/cxf/wsrm/basic-rpc/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCEndpointImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCEndpoint.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/resources/jaxws/cxf/wsrm/basic-rpc/WEB-INF">
         <include name="jbossws-cxf.xml"/>
       </webinf>
     </war>
