@@ -2,15 +2,6 @@
 # $Id: test-excludes.txt 3915 2007-07-17 16:16:05Z heiko.braun@jboss.com $
 #
 
-################################################################### 
-# Exclude JBossWS-Native stuff
-#
-org/jboss/test/ws/jaxws/samples/wsaddressing/**
-org/jboss/test/ws/jaxws/samples/wseventing/**
-org/jboss/test/ws/jaxws/samples/wssecurity/**
-#
-###################################################################
-
 # [JBWS-1683] Fix JAXR samples for CXF
 org/jboss/test/ws/jaxws/samples/jaxr/**
 

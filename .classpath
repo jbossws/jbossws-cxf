@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry excluding="org/jboss/test/ws/jaxws/smoke/tools/" kind="src" path="src/test-framework/java"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="thirdparty/jaxb-api.jar"/>
@@ -15,7 +14,6 @@
 	<classpathentry kind="lib" path="thirdparty/jboss-common-core-sources.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jboss-javaee.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jboss-logging-spi.jar"/>
-	<classpathentry kind="lib" path="thirdparty/jbossws-common.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jbossws-framework.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jbossws-spi.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jdom-1.0.jar"/>
@@ -37,5 +35,6 @@
 	<classpathentry kind="lib" path="thirdparty/jaxws-api-2.0.jar"/>
 	<classpathentry kind="lib" path="tools/ant/lib/junit.jar"/>
 	<classpathentry kind="lib" path="thirdparty/activation.jar"/>
+	<classpathentry kind="lib" path="thirdparty/jbossws-common.jar"/>
 	<classpathentry kind="output" path="output/eclipse"/>
 </classpath>

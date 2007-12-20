@@ -37,6 +37,7 @@
         <isfalse value="${checksum.ok}"/>
       </or>
     </condition>
+    <echo message="force.thirdparty.get=${force.thirdparty.get}"/>
   </target>
   
   <!-- 

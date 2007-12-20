@@ -61,7 +61,7 @@
   </category>
 
   <category name="org.apache.cxf">
-    <priority value="DEBUG"/>
+    <priority value="TRACE"/>
   </category>
   
   <!-- Apache security is verbose --> 

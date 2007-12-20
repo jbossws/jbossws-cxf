@@ -35,6 +35,9 @@
       <pathelement location="${int.cxf.dir}/thirdparty/neethi-${cxf.neethi}.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/saaj-api-${cxf.saaj}.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/saaj-impl-${cxf.saaj}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/spring-beans-${cxf.spring}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/spring-context-${cxf.spring}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/spring-core-${cxf.spring}.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/xml-resolver-${cxf.xml.resolver}.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/XmlSchema-${cxf.xmlschema}.jar"/>
       

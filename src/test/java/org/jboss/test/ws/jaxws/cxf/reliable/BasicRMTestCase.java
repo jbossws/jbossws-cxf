@@ -25,10 +25,14 @@ import java.io.File;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
+import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
@@ -49,18 +53,17 @@ public class BasicRMTestCase extends JBossWSTest
    {
       return new JBossWSTestSetup(BasicRMTestCase.class, "jaxws-cxf-reliable.war");
    }
-   
-   public void testWSDLAccess() throws Exception
+
+   public void _testWSDLAccess() throws Exception
    {
       URL wsdlURL = new URL(endpointURL + "?wsdl");
       Element wsdl = DOMUtils.parse(wsdlURL.openStream());
       assertNotNull(wsdl);
-      
+
       System.out.println("FIXME: [CXF-1310] Generated WSDL for an WS-RM endpoint does not contain RM policies");
    }
-   
 
-   public void testBasicRMAccess() throws Exception
+   public void _testStandardAPIClient() throws Exception
    {
       URL wsdlURL = new File("resources/jaxws/cxf/reliable/reliable.wsdl").toURL();
       QName serviceName = new QName(targetNS, "RMService");
@@ -68,6 +71,27 @@ public class BasicRMTestCase extends JBossWSTest
       Service service = Service.create(wsdlURL, serviceName);
       RMEndpoint port = (RMEndpoint)service.getPort(RMEndpoint.class);
 
+      Object retObj = port.echo("Hello");
+      assertEquals("Hello", retObj);
+   }
+
+   public void testSpringClient() throws Exception
+   {
+      SpringBusFactory bf = new SpringBusFactory();
+      URL cxfConfig = new File("resources/jaxws/cxf/reliable/cxf-client.xml").toURL();
+      Bus bus = bf.createBus(cxfConfig);
+      BusFactory.setDefaultBus(bus);
+
+      URL wsdlURL = new File("resources/jaxws/cxf/reliable/reliable.wsdl").toURL();
+      QName serviceName = new QName(targetNS, "RMService");
+
+      Service service = Service.create(wsdlURL, serviceName);
+      RMEndpoint port = (RMEndpoint)service.getPort(RMEndpoint.class);
+
+      // Enable addressing
+      BindingProvider bp = (BindingProvider)port;
+      bp.getRequestContext().put("org.apache.cxf.ws.addressing.using", Boolean.TRUE);
+      
       Object retObj = port.echo("Hello");
       assertEquals("Hello", retObj);
    }

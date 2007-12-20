@@ -2,15 +2,6 @@
 # $Id$
 #
 
-################################################################### 
-# Exclude JBossWS-Native stuff
-#
-org/jboss/test/ws/jaxws/samples/wsaddressing/**
-org/jboss/test/ws/jaxws/samples/wseventing/**
-org/jboss/test/ws/jaxws/samples/wssecurity/**
-#
-###################################################################
-
 # EJB3/Injection excludes
 org/jboss/test/ws/jaxws/samples/webserviceref/**
 
