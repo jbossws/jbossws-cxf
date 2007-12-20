@@ -40,6 +40,17 @@
       </webinf>
     </war>
 
+    <!-- jaxws-cxf-wsrm-basic-doc -->
+    <war warfile="${tests.output.dir}/libs/jaxws-cxf-wsrm-basic-doc.war" webxml="${tests.output.dir}/resources/jaxws/cxf/wsrm/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocEndpointImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocEndpoint.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/resources/jaxws/cxf/wsrm/WEB-INF">
+        <include name="jbossws-cxf.xml"/>
+      </webinf>
+    </war>
+
     <!-- Please add alphabetically -->
 
   </target>
