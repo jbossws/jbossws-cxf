@@ -14,8 +14,8 @@
 	<classpathentry kind="lib" path="thirdparty/jboss-common-core-sources.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jboss-javaee.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jboss-logging-spi.jar"/>
-	<classpathentry kind="lib" path="thirdparty/jbossws-framework.jar"/>
-	<classpathentry kind="lib" path="thirdparty/jbossws-spi.jar"/>
+	<classpathentry kind="lib" path="thirdparty/jbossws-framework.jar" sourcepath="thirdparty/jbossws-framework-src.zip"/>
+	<classpathentry kind="lib" path="thirdparty/jbossws-spi.jar" sourcepath="thirdparty/jbossws-spi-src.zip"/>
 	<classpathentry kind="lib" path="thirdparty/jdom-1.0.jar"/>
 	<classpathentry kind="lib" path="thirdparty/neethi-2.0.2.jar"/>
 	<classpathentry kind="lib" path="thirdparty/resolver.jar"/>
@@ -35,6 +35,6 @@
 	<classpathentry kind="lib" path="thirdparty/jaxws-api-2.0.jar"/>
 	<classpathentry kind="lib" path="tools/ant/lib/junit.jar"/>
 	<classpathentry kind="lib" path="thirdparty/activation.jar"/>
-	<classpathentry kind="lib" path="thirdparty/jbossws-common.jar"/>
+	<classpathentry kind="lib" path="thirdparty/jbossws-common.jar" sourcepath="thirdparty/jbossws-common-src.zip"/>
 	<classpathentry kind="output" path="output/eclipse"/>
 </classpath>
