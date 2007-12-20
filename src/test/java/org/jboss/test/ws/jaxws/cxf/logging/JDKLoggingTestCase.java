@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.cxf.logging;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
-import org.jboss.wsf.common.log.JBossLogHandler;
+import org.jboss.wsf.common.logging.JDKLogHandler;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
@@ -51,7 +51,7 @@ public class JDKLoggingTestCase extends JBossWSTest
       int found = 0;
       for (Handler handler : log.getHandlers())
       {
-         if (handler instanceof JBossLogHandler)
+         if (handler instanceof JDKLogHandler)
             found++;
       }
       assertEquals("Expected one jboss handler", 1, found);

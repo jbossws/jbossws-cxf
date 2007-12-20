@@ -15,17 +15,14 @@
   </wsp:Policy>
   
   <jaxws:endpoint id='TestService' address='http://@jboss.bind.address@:8080/jaxws-cxf-reliable' implementor='org.jboss.test.ws.jaxws.cxf.reliable.RMEndpointImpl'>
-    
     <jaxws:invoker>
       <bean class='org.jboss.wsf.stack.cxf.InvokerJSE'/>
     </jaxws:invoker>
-    
     <jaxws:features>
       <p:policies namespace="http://www.w3.org/2006/07/ws-policy">
         <wsp:PolicyReference URI="#RM" xmlns:wsp="http://www.w3.org/2006/07/ws-policy"/>
       </p:policies>
     </jaxws:features>
-    
   </jaxws:endpoint>
   
 </beans>
