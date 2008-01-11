@@ -178,9 +178,7 @@
         <include name="jaxb-api.jar"/>
         <include name="jaxb-impl.jar"/>
         <include name="jaxrpc-api.jar"/>
-        <include name="stax-api.jar"/>
         <include name="wsdl4j.jar"/>
-        <include name="wstx.jar"/>
       </fileset>
       <metainf dir="${cxf.output.lib.dir}/jbossws-cxf50">
         <include name="jbossws-beans.xml"/>
