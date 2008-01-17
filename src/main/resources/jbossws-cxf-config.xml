@@ -38,6 +38,14 @@
     </property>
   </bean>
 
+  <!-- Installed Record Processors-->
+  <bean name="WSMemoryBufferRecorder" class="org.jboss.wsf.framework.management.recording.MemoryBufferRecorder">
+    <property name="recording">false</property>
+  </bean>
+  <bean name="WSLogRecorder" class="org.jboss.wsf.framework.management.recording.LogRecorder">
+    <property name="recording">false</property>
+  </bean>
+
   <!-- 
     The stack specific deployment aspects
   --> 
@@ -65,7 +73,13 @@
   <bean name="WSCXFEndpointRecordProcessorDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointRecordProcessorDeploymentAspect">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
     <property name="requires">RegisteredEndpoint</property>
-    <property name="provides">EndpointRecordProcessors</property>             
+    <property name="provides">EndpointRecordProcessors</property>
+    <property name="processors">
+      <list class="java.util.ArrayList" elementClass="org.jboss.wsf.spi.management.recording.RecordProcessor">
+        <inject bean="WSMemoryBufferRecorder"/>
+        <inject bean="WSLogRecorder"/>
+      </list>
+    </property>
   </bean>
 
   <!-- Deployment aspect installers -->  
