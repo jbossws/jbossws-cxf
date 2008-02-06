@@ -15,6 +15,8 @@
 
   <import file="${int.cxf.dir}/ant-import/macros-deploy-framework.xml" optional="true"/>
   <import file="${int.cxf.dir}/ant-import/macros-deploy-cxf.xml" optional="true"/>
+  <import file="${int.cxf.dir}/ant-import/macros-deploy-sunri.xml" optional="true"/>
+  <import file="${int.cxf.dir}/ant-import/macros-deploy-native.xml" optional="true"/>
 
   <!-- ================================================================== -->
   <!-- Deployment JBoss422                                                -->
@@ -32,6 +34,9 @@
     
   <target name="undeploy-jboss422" depends="prepare" description="Remove jbossws/cxf from jboss422">
     <macro-undeploy-cxf422/>
+    <macro-undeploy-sunri422/>
+    <macro-undeploy-native422/>
+    <macro-undeploy-endorsed jbosshome="${jboss422.home}"/>
     <macro-undeploy-framework jbosshome="${jboss422.home}"/>
   </target>
   
@@ -51,6 +56,9 @@
 
   <target name="undeploy-jboss423" depends="prepare" description="Remove jbossws/cxf from jboss423">
     <macro-undeploy-cxf423/>
+    <macro-undeploy-sunri423/>
+    <macro-undeploy-native423/>
+    <macro-undeploy-endorsed jbosshome="${jboss423.home}"/>
     <macro-undeploy-framework jbosshome="${jboss423.home}"/>
   </target>
 
@@ -70,6 +78,9 @@
 
   <target name="undeploy-jboss500" depends="prepare" description="Remove jbossws/cxf from jboss500">
     <macro-undeploy-cxf500/>
+    <macro-undeploy-sunri500/>
+    <macro-undeploy-native500/>
+    <macro-undeploy-endorsed jbosshome="${jboss500.home}"/>
     <macro-undeploy-framework jbosshome="${jboss500.home}"/>
   </target>
 
