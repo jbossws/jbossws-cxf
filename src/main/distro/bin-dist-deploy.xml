@@ -14,7 +14,51 @@
 <project>
   
   <!-- ================================================================== -->
-  <!-- Deployment                                                         -->
+  <!-- Deployment JBoss422                                                -->
+  <!-- ================================================================== -->
+
+  <!-- Deploy jbossws/cxf to jboss422 -->
+  <target name="deploy-jboss422" depends="undeploy-jboss422,deploy-jboss422-endorsed" description="Deploy jbossws/cxf to jboss422">
+    <macro-deploy-cxf422 stacklibs="${lib.dir}" thirdpartylibs="${lib.dir}"/>
+    <macro-deploy-framework thirdpartylibs="${lib.dir}" jbosshome="${jboss422.home}"/>
+  </target>
+  <target name="deploy-jboss422-endorsed" depends="prepare" if="HAVE_JDK_1.6">
+    <macro-deploy-endorsed jbosshome="${jboss422.home}" thirdpartylibs="${lib.dir}"/>
+  </target>
+  
+  <!-- Remove jbossws/cxf from jboss422 -->
+  <target name="undeploy-jboss422" depends="prepare" description="Remove jbossws/cxf from jboss422">
+    <macro-undeploy-cxf422/>
+    <macro-undeploy-sunri422/>
+    <macro-undeploy-native422/>
+    <macro-undeploy-endorsed jbosshome="${jboss422.home}"/>
+    <macro-undeploy-framework jbosshome="${jboss422.home}"/>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Deployment JBoss423                                                -->
+  <!-- ================================================================== -->
+  
+  <!-- Deploy jbossws/cxf to jboss423 -->
+  <target name="deploy-jboss423" depends="undeploy-jboss423,deploy-jboss423-endorsed" description="Deploy jbossws/cxf to jboss423">
+    <macro-deploy-cxf423 stacklibs="${lib.dir}" thirdpartylibs="${lib.dir}"/>
+    <macro-deploy-framework thirdpartylibs="${lib.dir}" jbosshome="${jboss423.home}"/>
+  </target>
+  <target name="deploy-jboss423-endorsed" depends="prepare" if="HAVE_JDK_1.6">
+    <macro-deploy-endorsed jbosshome="${jboss423.home}" thirdpartylibs="${lib.dir}"/>
+  </target>
+  
+  <!-- Remove jbossws/cxf from jboss423 -->
+  <target name="undeploy-jboss423" depends="prepare" description="Remove jbossws/cxf from jboss423">
+    <macro-undeploy-cxf423/>
+    <macro-undeploy-sunri423/>
+    <macro-undeploy-native423/>
+    <macro-undeploy-endorsed jbosshome="${jboss423.home}"/>
+    <macro-undeploy-framework jbosshome="${jboss423.home}"/>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Deployment JBoss500                                                -->
   <!-- ================================================================== -->
   
   <!-- Deploy jbossws/cxf to jboss500 -->
@@ -29,43 +73,10 @@
   <!-- Remove jbossws/cxf from jboss500 -->
   <target name="undeploy-jboss500" depends="prepare" description="Remove jbossws/cxf from jboss500">
     <macro-undeploy-cxf500/>
+    <macro-undeploy-sunri500/>
+    <macro-undeploy-native500/>
+    <macro-undeploy-endorsed jbosshome="${jboss500.home}"/>
     <macro-undeploy-framework jbosshome="${jboss500.home}"/>
-  </target>
-  
-  <!-- Deploy jbossws/cxf to jboss422 -->
-  <target name="deploy-jboss422" depends="undeploy-jboss422,deploy-jboss422-endorsed" description="Deploy jbossws/cxf to jboss422">
-    <macro-deploy-cxf422 stacklibs="${lib.dir}" thirdpartylibs="${lib.dir}"/>
-    <macro-deploy-framework thirdpartylibs="${lib.dir}" jbosshome="${jboss422.home}"/>
-  </target>
-  <target name="deploy-jboss422-endorsed" depends="prepare" if="HAVE_JDK_1.6">
-    <macro-deploy-endorsed jbosshome="${jboss422.home}" thirdpartylibs="${lib.dir}"/>
-  </target>
-  
-  <!-- Remove jbossws/cxf from jboss422 -->
-  <target name="undeploy-jboss422" depends="prepare,undeploy-jboss422-endorsed" description="Remove jbossws/cxf from jboss422">
-    <macro-undeploy-cxf422/>
-    <macro-undeploy-framework jbosshome="${jboss422.home}"/>
-  </target>
-  <target name="undeploy-jboss422-endorsed" depends="prepare" if="HAVE_JDK_1.6">
-    <macro-undeploy-endorsed jbosshome="${jboss422.home}"/>
-  </target>
-  
-  <!-- Deploy jbossws/cxf to jboss423 -->
-  <target name="deploy-jboss423" depends="undeploy-jboss423,deploy-jboss423-endorsed" description="Deploy jbossws/cxf to jboss423">
-    <macro-deploy-cxf423 stacklibs="${lib.dir}" thirdpartylibs="${lib.dir}"/>
-    <macro-deploy-framework thirdpartylibs="${lib.dir}" jbosshome="${jboss423.home}"/>
-  </target>
-  <target name="deploy-jboss423-endorsed" depends="prepare" if="HAVE_JDK_1.6">
-    <macro-deploy-endorsed jbosshome="${jboss423.home}" thirdpartylibs="${lib.dir}"/>
-  </target>
-  
-  <!-- Remove jbossws/cxf from jboss423 -->
-  <target name="undeploy-jboss423" depends="prepare,undeploy-jboss423-endorsed" description="Remove jbossws/cxf from jboss423">
-    <macro-undeploy-cxf423/>
-    <macro-undeploy-framework jbosshome="${jboss423.home}"/>
-  </target>
-  <target name="undeploy-jboss423-endorsed" depends="prepare" if="HAVE_JDK_1.6">
-    <macro-undeploy-endorsed jbosshome="${jboss423.home}"/>
   </target>
   
 </project>
