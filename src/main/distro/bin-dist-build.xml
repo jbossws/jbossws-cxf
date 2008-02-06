@@ -73,8 +73,10 @@
   <fail message="JDK1.5 or above is required" unless="HAVE_JDK_1.5"/>
   
   <import file="${basedir}/build/build-deploy.xml"/>
-  <import file="${basedir}/build/macros-deploy-framework.xml"/>
   <import file="${basedir}/build/macros-deploy-cxf.xml"/>
+  <import file="${basedir}/build/macros-deploy-sunri.xml"/>
+  <import file="${basedir}/build/macros-deploy-native.xml"/>
+  <import file="${basedir}/build/macros-deploy-framework.xml"/>
   <import file="${basedir}/tests/ant-import/build-testsuite.xml"/>
   
   <!-- ================================================================== -->

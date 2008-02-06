@@ -53,9 +53,10 @@
 	<import file="${basedir}/build/build-deploy.xml"/>
 	<import file="${basedir}/build/build-testsuite.xml"/>
 	<import file="${basedir}/build/macros-deploy-spi.xml"/>
-	<import file="${basedir}/build/macros-deploy-native.xml"/>
-	<import file="${basedir}/build/macros-deploy-sunri.xml"/>
 	<import file="${basedir}/build/macros-deploy-cxf.xml"/>
+	<import file="${basedir}/build/macros-deploy-sunri.xml"/>
+	<import file="${basedir}/build/macros-deploy-native.xml"/>
+	<import file="${basedir}/build/macros-deploy-framework.xml"/>
 
 	<!-- ================================================================== -->
 	<!-- Initialization                                                     -->
