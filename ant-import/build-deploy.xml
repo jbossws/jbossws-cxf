@@ -13,8 +13,8 @@
 
 <project>
 
-  <import file="${int.cxf.dir}/ant-import/macros-deploy-framework.xml"/>
-  <import file="${int.cxf.dir}/ant-import/macros-deploy-cxf.xml"/>
+  <import file="${int.cxf.dir}/ant-import/macros-deploy-framework.xml" optional="true"/>
+  <import file="${int.cxf.dir}/ant-import/macros-deploy-cxf.xml" optional="true"/>
 
   <!-- ================================================================== -->
   <!-- Deployment JBoss422                                                -->
