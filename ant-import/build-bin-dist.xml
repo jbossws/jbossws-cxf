@@ -19,7 +19,10 @@
 
 	<target name="build-bin-dist" depends="jars, javadoc" description="Build the binary distribution">
 
-		<property name="bindist.dir" value="${cxf.output.dir}/jbossws-cxf-${version.id}"/>
+      <!-- FIXME: the framework version has to be included somehow. Maybe from jbossws-framework.jar ? -->
+      <property name="dist.name" value="${specification.version}-cxf-${version.id}"/>
+
+      <property name="bindist.dir" value="${cxf.output.dir}/jbossws-cxf-dist"/>
 		<property name="bindist.build.dir" value="${bindist.dir}/build"/>
 		<property name="bindist.bin.dir" value="${bindist.dir}/bin"/>
 		<property name="bindist.lib.dir" value="${bindist.dir}/lib"/>
@@ -142,8 +145,8 @@
 		</copy>
 		<chmod file="${bindist.dir}/build.sh" perm="+x"/>		
 
-		<zip destfile="${cxf.output.dir}/jbossws-cxf-${version.id}.zip">
-			<fileset dir="${cxf.output.dir}" includes="jbossws-cxf-${version.id}/**"/>
+		<zip destfile="${cxf.output.dir}/${dist.name}.zip">
+			<fileset dir="${cxf.output.dir}" includes="jbossws-cxf-dist/**"/>
 		</zip>
 	</target>
 
