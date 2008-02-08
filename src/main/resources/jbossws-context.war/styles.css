@@ -18,7 +18,7 @@
    padding-left:15px;
    padding-top:5px;
    padding-bottom:5px;
-   background-color: #aaaadd;
+   background-color: #3b4f66;
    max-width: 900px;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .metrics
-{	 
+{
    font-size: 6pt;
    background-color: #dddddd;
    width: 100%;
@@ -41,7 +41,7 @@
    font-size: 8pt;
    font-weight: 600;
    text-align: center;
-   background-color: #aaaadd;
+   background-color: #3b4f66;
 }
 
 /* table row list view */
@@ -171,7 +171,7 @@ input, textarea, select, option {
 
 a {
    font-family: Verdana, sans-serif;
-   color: #0000dd;
+   color: #3b4f66;
    text-decoration: none;
 }
 
