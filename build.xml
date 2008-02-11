@@ -211,7 +211,7 @@
     <jar jarfile="${cxf.output.lib.dir}/jbossws-cxf42.sar" manifest="${cxf.output.etc.dir}/default.mf">
       <fileset dir="${cxf.output.lib.dir}">
         <include name="cxf-${cxf.version}.jar"/>
-        <include name="jbossws-context.war"/>
+        <include name="jbossws-context.war/**"/>
         <include name="jbossws-cxf.jar"/>
       </fileset>
       <fileset dir="${thirdparty.dir}">
