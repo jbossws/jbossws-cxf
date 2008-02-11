@@ -99,7 +99,7 @@
 				<include name="jbossws-spi.jar"/>
 			</fileset>
 			<fileset dir="${cxf.dir}/output/lib">
-				<include name="jbossws-context.war"/>
+				<include name="jbossws-context.war/**"/>
 				<include name="jbossws-cxf.jar"/>
 				<include name="jbossws-cxf-client.jar"/>
 				<include name="jbossws-cxf42.sar"/>
