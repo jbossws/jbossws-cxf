@@ -2,25 +2,31 @@
 @implementation.title@
 @implementation.url@
 
-Version: jbossws-@version.id@
+Version: @specification.version@-cxf-@version.id@
 
 Installation instructions
 =========================
 
-This distribution ships with JBoss binaries for JDK1.4 and JDK1.5.
-Please make sure your chose the right distribution that fits your target JDK.
-
 In order to install JBossWS the following steps are necessary:
 
-1.) Copy ant.properties.examples to ant.properties
-2.) Modify the target container location in ant.properties
-3.) Execute one of the following
+1.) Modify the target container location in ant.properties
+2.) Make sure to uninstall any deployed stack
 
-	ant deploy-jboss50
-	ant deploy-jboss42
-	ant deploy-jboss40
-	ant deploy-jboss40-jdk14
-	ant deploy-tomcat
+	ant undeploy-<jboss.version>
+
+	I.e. 'ant undeploy-jboss422'
+
+3.) Install JBossWS-CXF into the target container
+
+   ant deploy-<jboss-version>
+
+   I.e. 'ant deploy-jboss422'
+
+4.) Execute the samples to verify your installation
+
+   'ant tests'
+
+   You should see no errors.
 
 Please consult the wiki for detailed up to date install instructions
 http://labs.jboss.com/portal/jbossws/
@@ -29,7 +35,7 @@ After the jbossws.sar is deployed you should be able to access JBossWS under
 http://localhost:8080/jbossws
 
 If you have any questions, please post to the userforum:
-http://www.jboss.org/index.html?module=bb&op=viewforum&f=200
+http://www.jboss.org/index.html?module=bb&op=viewforum&f=276
 
 Enjoy,
 The JBossWS Team
