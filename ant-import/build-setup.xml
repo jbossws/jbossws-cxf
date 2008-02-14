@@ -43,15 +43,24 @@
   <property name="jboss500.server.deploy" value="${jboss500.server}/deploy"/>
   <property name="jboss500.server.deployers" value="${jboss500.server}/deployers"/>
   
+  <property name="jboss501.lib" value="${jboss501.home}/lib"/>
+  <property name="jboss501.client" value="${jboss501.home}/client"/>
+  <property name="jboss501.server" value="${jboss501.home}/server/${jboss.server.instance}"/>
+  <property name="jboss501.server.lib" value="${jboss501.server}/lib"/>
+  <property name="jboss501.server.deploy" value="${jboss501.server}/deploy"/>
+  <property name="jboss501.server.deployers" value="${jboss501.server}/deployers"/>
+  
   <property name="jboss.server.instance.${jboss.server.instance}" value="true"/>
  
   <property name="jboss422.available.file" value="${jboss422.client}/jboss-client.jar"/>
   <property name="jboss423.available.file" value="${jboss423.client}/jboss-client.jar"/>
   <property name="jboss500.available.file" value="${jboss500.client}/jboss-ejb3-client.jar"/>
+  <property name="jboss501.available.file" value="${jboss501.client}/jboss-ejb3-client.jar"/>
   
   <available property="jboss422.available" file="${jboss422.available.file}"/>
   <available property="jboss423.available" file="${jboss423.available.file}"/>
   <available property="jboss500.available" file="${jboss500.available.file}"/>
+  <available property="jboss501.available" file="${jboss501.available.file}"/>
   
   <condition property="jbossws.integration.jboss42" value="true">
     <or>
@@ -60,7 +69,10 @@
     </or>
   </condition>
   <condition property="jbossws.integration.jboss50" value="true">
-    <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
+    <or>
+    	<equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
+	    <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
+    </or>
   </condition>
   
   <available property="jbossws.portal.content.available" file="${jbossws.portal.content}" type="dir"/>

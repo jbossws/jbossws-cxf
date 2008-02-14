@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id$ -->
+
+<project default="main" basedir="." name="JBossWS-CXF">
+
+	<!-- ================================================================== -->
+	<!-- Setup                                                              -->
+	<!-- ================================================================== -->
+
+	<property name="build.dir" value="${basedir}/build"/>
+	<property name="bin.dir" value="${basedir}/bin"/>
+	<property name="docs.dir" value="${basedir}/docs"/>
+	<property name="lib.dir" value="${basedir}/lib"/>
+	<property name="thirdparty.dir" value="${basedir}/lib"/>
+	<property name="tests.dir" value="${basedir}/tests"/>
+	<property name="tests.output.dir" value="${tests.dir}/output"/>
+
+	<property file="${basedir}/ant.properties"/>
+	<property file="${basedir}/version.properties"/>
+	<property file="${build.dir}/version.properties"/>
+
+	<property name="jboss500.lib" value="${jboss500.home}/lib"/>
+	<property name="jboss500.client" value="${jboss500.home}/client"/>
+	<property name="jboss500.server" value="${jboss500.home}/server/${jboss.server.instance}"/>
+	<property name="jboss500.server.lib" value="${jboss500.server}/lib"/>
+	<property name="jboss500.server.deploy" value="${jboss500.server}/deploy"/>
+	<property name="jboss500.server.deployers" value="${jboss500.server}/deployers"/>
+
+	<property name="jboss422.lib" value="${jboss422.home}/lib"/>
+	<property name="jboss422.client" value="${jboss422.home}/client"/>
+	<property name="jboss422.server" value="${jboss422.home}/server/${jboss.server.instance}"/>
+	<property name="jboss422.server.lib" value="${jboss422.server}/lib"/>
+	<property name="jboss422.server.deploy" value="${jboss422.server}/deploy"/>
+
+	<property name="jbossws.integration.${jbossws.integration.target}" value="true"/>
+
+	<property name="jboss500.available.file" value="${jboss500.client}/jboss-ejb3-client.jar"/>
+	<property name="jboss422.available.file" value="${jboss422.client}/jboss-client.jar"/>
+
+	<available property="jboss500.available" file="${jboss500.available.file}"/>
+	<available property="jboss422.available" file="${jboss422.available.file}"/>
+
+	<import file="${basedir}/build/build-deploy.xml"/>
+	<import file="${basedir}/build/build-testsuite.xml"/>
+	<import file="${basedir}/build/macros-deploy-spi.xml"/>
+	<import file="${basedir}/build/macros-deploy-native.xml"/>
+	<import file="${basedir}/build/macros-deploy-sunri.xml"/>
+	<import file="${basedir}/build/macros-deploy-cxf.xml"/>
+
+	<!-- ================================================================== -->
+	<!-- Initialization                                                     -->
+	<!-- ================================================================== -->
+
+	<target name="prepare">
+
+		<!-- Define jboss.home -->
+		<condition property="jboss.home" value="${jboss500.home}">
+			<equals arg1="${jbossws.integration.target}" arg2="jboss50"/>
+		</condition>
+		<condition property="jboss.home" value="${jboss422.home}">
+			<equals arg1="${jbossws.integration.target}" arg2="jboss42"/>
+		</condition>
+
+		<!-- Define excludesfile -->
+    <property name="excludesfile" value="${tests.dir}/resources/test-excludes-${jbossws.integration.target}.txt"/>
+
+	</target>
+
+	<target name="tests-init" depends="prepare,tests-classpath">
+
+		<path id="ws.stack.classpath">
+			<pathelement location="${lib.dir}/jbossws-spi.jar"/>
+      <pathelement location="${lib.dir}/cxf-incubator.jar"/>
+      <pathelement location="${lib.dir}/geronimo-javamail.jar"/>
+      <pathelement location="${lib.dir}/geronimo-ws-metadata.jar"/>
+      <pathelement location="${lib.dir}/jaxws-api.jar"/>
+      <pathelement location="${lib.dir}/jdom.jar"/>
+      <pathelement location="${lib.dir}/neethi.jar"/>
+      <pathelement location="${lib.dir}/resolver.jar"/>
+      <pathelement location="${lib.dir}/saaj-api.jar"/>
+      <pathelement location="${lib.dir}/saaj-impl.jar"/>
+      <pathelement location="${lib.dir}/wsdl4j.jar"/>
+      <pathelement location="${lib.dir}/wstx.jar"/>
+      <pathelement location="${lib.dir}/XmlSchema.jar"/>
+		</path>
+
+		<path id="tests.extra.classpath">
+		</path>
+
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- Compile                                                            -->
+	<!-- ================================================================== -->
+
+	<target name="tests-compile" depends="tests-init" description="Compile sources">
+		<macro-compile-classes srcdir="${tests.dir}/java" excludesfile="${excludesfile}"/>
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- Building                                                           -->
+	<!-- ================================================================== -->
+
+	<!-- Copy resources -->
+	<target name="tests-copy-resources" depends="tests-init">
+		<macro-copy-resources srcdir="${tests.dir}"/>
+	</target>
+
+	<target name="tests-jars" depends="tests-compile,tests-copy-resources">
+		<ant antfile="${build.dir}/build-jars-jaxws.xml" target="build-jars-jaxws" inheritall="true"/>
+	</target>
+
+	<target name="tests-main" depends="tests-jars" description="Build the test deployments."/>
+
+	<!-- ================================================================== -->
+	<!-- Miscellaneous                                                       -->
+	<!-- ================================================================== -->
+
+	<target name="clean" depends="prepare" description="Cleans up most generated files.">
+	</target>
+
+	<target name="clobber" depends="clean" description="Cleans up all generated files.">
+	</target>
+
+	<target name="main" depends="most" description="Executes the default target (most)."/>
+
+	<target name="most" depends="tests-main" description="Builds almost everything."/>
+
+</project>

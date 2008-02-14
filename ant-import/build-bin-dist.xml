@@ -50,10 +50,8 @@
 		<!-- build -->
 		<copy todir="${bindist.build.dir}">
 			<fileset dir="${cxf.dir}/ant-import">
-				<include name="macros-deploy-cxf.xml"/>
-				<include name="macros-deploy-sunri.xml"/>
-				<include name="macros-deploy-native.xml"/>
 				<include name="macros-deploy-framework.xml"/>
+				<include name="macros-deploy-cxf.xml"/>
 			</fileset>
 		</copy>
 

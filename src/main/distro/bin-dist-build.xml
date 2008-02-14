@@ -27,13 +27,6 @@
   <property file="${basedir}/ant.properties"/>
   <property file="${basedir}/version.properties"/>
   
-  <property name="jboss500.lib" value="${jboss500.home}/lib"/>
-  <property name="jboss500.client" value="${jboss500.home}/client"/>
-  <property name="jboss500.server" value="${jboss500.home}/server/${jboss.server.instance}"/>
-  <property name="jboss500.server.lib" value="${jboss500.server}/lib"/>
-  <property name="jboss500.server.deploy" value="${jboss500.server}/deploy"/>
-  <property name="jboss500.server.deployers" value="${jboss500.server}/deployers"/>
-  
   <property name="jboss422.lib" value="${jboss422.home}/lib"/>
   <property name="jboss422.client" value="${jboss422.home}/client"/>
   <property name="jboss422.server" value="${jboss422.home}/server/${jboss.server.instance}"/>
@@ -46,24 +39,43 @@
   <property name="jboss423.server.lib" value="${jboss423.server}/lib"/>
   <property name="jboss423.server.deploy" value="${jboss423.server}/deploy"/>
   
+  <property name="jboss500.lib" value="${jboss500.home}/lib"/>
+  <property name="jboss500.client" value="${jboss500.home}/client"/>
+  <property name="jboss500.server" value="${jboss500.home}/server/${jboss.server.instance}"/>
+  <property name="jboss500.server.lib" value="${jboss500.server}/lib"/>
+  <property name="jboss500.server.deploy" value="${jboss500.server}/deploy"/>
+  <property name="jboss500.server.deployers" value="${jboss500.server}/deployers"/>
+  
+  <property name="jboss501.lib" value="${jboss501.home}/lib"/>
+  <property name="jboss501.client" value="${jboss501.home}/client"/>
+  <property name="jboss501.server" value="${jboss501.home}/server/${jboss.server.instance}"/>
+  <property name="jboss501.server.lib" value="${jboss501.server}/lib"/>
+  <property name="jboss501.server.deploy" value="${jboss501.server}/deploy"/>
+  <property name="jboss501.server.deployers" value="${jboss501.server}/deployers"/>
+  
   <property name="jbossws.integration.${jbossws.integration.target}" value="true"/>
   
-  <property name="jboss500.available.file" value="${jboss500.client}/jboss-ejb3-client.jar"/>
   <property name="jboss422.available.file" value="${jboss422.client}/jboss-client.jar"/>
   <property name="jboss423.available.file" value="${jboss423.client}/jboss-client.jar"/>
+  <property name="jboss500.available.file" value="${jboss500.client}/jboss-ejb3-client.jar"/>
+  <property name="jboss501.available.file" value="${jboss501.client}/jboss-ejb3-client.jar"/>
   
-  <available property="jboss500.available" file="${jboss500.available.file}"/>
   <available property="jboss422.available" file="${jboss422.available.file}"/>
   <available property="jboss423.available" file="${jboss423.available.file}"/>
+  <available property="jboss500.available" file="${jboss500.available.file}"/>
+  <available property="jboss501.available" file="${jboss501.available.file}"/>
   
+  <condition property="jbossws.integration.jboss42" value="true">
+    <or>
+	    <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
+      <equals arg1="${jbossws.integration.target}" arg2="jboss423"/>
+    </or>
+  </condition>
   <condition property="jbossws.integration.jboss50" value="true">
-    <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
-  </condition>
-  <condition property="jbossws.integration.jboss42" value="true">
-    <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
-  </condition>
-  <condition property="jbossws.integration.jboss42" value="true">
-    <equals arg1="${jbossws.integration.target}" arg2="jboss423"/>
+    <or>
+	    <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
+  	  <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
+    </or>
   </condition>
   
   <!-- JDK Detection -->
@@ -73,10 +85,8 @@
   <fail message="JDK1.5 or above is required" unless="HAVE_JDK_1.5"/>
   
   <import file="${basedir}/build/build-deploy.xml"/>
-  <import file="${basedir}/build/macros-deploy-cxf.xml"/>
-  <import file="${basedir}/build/macros-deploy-sunri.xml"/>
-  <import file="${basedir}/build/macros-deploy-native.xml"/>
   <import file="${basedir}/build/macros-deploy-framework.xml"/>
+  <import file="${basedir}/build/macros-deploy-cxf.xml"/>
   <import file="${basedir}/tests/ant-import/build-testsuite.xml"/>
   
   <!-- ================================================================== -->
