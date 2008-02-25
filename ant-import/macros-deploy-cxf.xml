@@ -46,8 +46,8 @@
       </copy>
       
       <!--SERVER JARS -->
-      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
-      <unjar dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf42.sar"/>
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws.sar"/>
+      <unjar dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws.sar" src="@{stacklibs}/jbossws-cxf42.sar"/>
       <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
       <unzip dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
       
@@ -110,8 +110,8 @@
       </copy>
       
       <!--SERVER JARS -->
-      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
-      <unjar dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf42.sar"/>
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws.sar"/>
+      <unjar dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws.sar" src="@{stacklibs}/jbossws-cxf42.sar"/>
       <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
       <unzip dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
       
@@ -182,8 +182,8 @@
         </fileset>
       </copy>
       
-      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
-      <unjar dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf50.sar"/>
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws.sar"/>
+      <unjar dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws.sar" src="@{stacklibs}/jbossws-cxf50.sar"/>
       <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
       <unzip dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
       
@@ -254,8 +254,8 @@
         </fileset>
       </copy>
       
-      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
-      <unjar dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf50.sar"/>
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws.sar"/>
+      <unjar dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws.sar" src="@{stacklibs}/jbossws-cxf50.sar"/>
       <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
       <unzip dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
       
