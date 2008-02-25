@@ -12,20 +12,23 @@
 <!-- $Id$ -->
 
 <project>
-
+  
   <!-- ================================================================== -->
   <!-- Deployment JBoss-4.2.2                                             -->
   <!-- ================================================================== -->
   
   <!-- Deploy jbossws/cxf to jboss422 -->
   <macrodef name="macro-deploy-cxf422">
-      <attribute name="stacklibs"/>
-      <attribute name="thirdpartylibs"/>
+    <attribute name="stacklibs"/>
+    <attribute name="thirdpartylibs"/>
     <sequential>
       <fail message="Not available: ${jboss422.available.file}" unless="jboss422.available"/>
-
-			<!-- CLIENT JARS -->
-      <copy todir="${jboss422.home}/client" overwrite="true">
+      
+      <delete dir="${cxf.output.deploy.dir}"/>
+      
+      <!-- CLIENT JARS -->
+      <mkdir dir="${cxf.output.deploy.dir}/client"/>
+      <copy todir="${cxf.output.deploy.dir}/client" overwrite="true">
         <fileset dir="@{thirdpartylibs}">
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
@@ -33,34 +36,44 @@
         </fileset>
       </copy>
       
-			<!-- BOOTSTRAP JARS -->
-      <copy todir="${jboss422.home}/lib" overwrite="true">
+      <!-- BOOTSTRAP JARS -->
+      <mkdir dir="${cxf.output.deploy.dir}/lib"/>
+      <copy todir="${cxf.output.deploy.dir}/lib" overwrite="true">
         <fileset dir="@{thirdpartylibs}">
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
         </fileset>
       </copy>
-			
-			<!--SERVER JARS -->
-      <mkdir dir="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
-      <unjar dest="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf42.sar"/>
-			<mkdir dir="${jboss422.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
-			<unzip dest="${jboss422.home}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
+      
+      <!--SERVER JARS -->
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
+      <unjar dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf42.sar"/>
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
+      <unzip dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
+      
+      <fileset id="jbossws.deploy.files" dir="${cxf.output.deploy.dir}" excludes="jbossws.deploy.files.txt"/>
+      <copy todir="${jboss422.home}" overwrite="true">
+        <fileset refid="jbossws.deploy.files"/>
+      </copy>
+      
+      <property name="jbossws.deploy.files" refid="jbossws.deploy.files"/>
+      <echo file="${cxf.output.deploy.dir}/jbossws.deploy.files.txt" message="${jbossws.deploy.files}"/>
+      <replace file="${cxf.output.deploy.dir}/jbossws.deploy.files.txt" token=";" value=" "/>
+      <copy todir="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws.sar" file="${cxf.output.deploy.dir}/jbossws.deploy.files.txt" overwrite="true"/>
+        
     </sequential>
   </macrodef>
-    
+  
   <!-- Undeploy jbossws/cxf from jboss422 -->
   <macrodef name="macro-undeploy-cxf422">
     <sequential>
+      
+      <loadfile property="jbossws.undeploy.files" srcfile="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws.sar/jbossws.deploy.files.txt" failonerror="false"/>
+      <property name="jbossws.undeploy.files" value="nothing.to.undeploy"/>
       <delete>
-  			<!-- CLIENT JARS -->
-        <fileset dir="${jboss422.home}/client">
-          <include name="jbossws-spi.jar"/>
-        </fileset>
+        <fileset dir="${jboss422.home}" includes="${jbossws.undeploy.files}"/>
       </delete>
       
-      <delete dir="${jboss422.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
-			<delete dir="${jboss422.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
     </sequential>
   </macrodef>
   
@@ -70,13 +83,16 @@
   
   <!-- Deploy jbossws/cxf to jboss423 -->
   <macrodef name="macro-deploy-cxf423">
-      <attribute name="stacklibs"/>
-      <attribute name="thirdpartylibs"/>
+    <attribute name="stacklibs"/>
+    <attribute name="thirdpartylibs"/>
     <sequential>
       <fail message="Not available: ${jboss423.available.file}" unless="jboss423.available"/>
-
-			<!-- CLIENT JARS -->
-      <copy todir="${jboss423.home}/client" overwrite="true">
+      
+      <delete dir="${cxf.output.deploy.dir}"/>
+      
+      <!-- CLIENT JARS -->
+      <mkdir dir="${cxf.output.deploy.dir}/client"/>
+      <copy todir="${cxf.output.deploy.dir}/client" overwrite="true">
         <fileset dir="@{thirdpartylibs}">
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
@@ -84,34 +100,44 @@
         </fileset>
       </copy>
       
-			<!-- BOOTSTRAP JARS -->
-      <copy todir="${jboss423.home}/lib" overwrite="true">
+      <!-- BOOTSTRAP JARS -->
+      <mkdir dir="${cxf.output.deploy.dir}/lib"/>
+      <copy todir="${cxf.output.deploy.dir}/lib" overwrite="true">
         <fileset dir="@{thirdpartylibs}">
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
         </fileset>
       </copy>
-			
-			<!--SERVER JARS -->
-      <mkdir dir="${jboss423.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
-      <unjar dest="${jboss423.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf42.sar"/>
-			<mkdir dir="${jboss423.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
-			<unzip dest="${jboss423.home}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
+      
+      <!--SERVER JARS -->
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
+      <unjar dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf42.sar"/>
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
+      <unzip dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
+      
+      <fileset id="jbossws.deploy.files" dir="${cxf.output.deploy.dir}" excludes="jbossws.deploy.files.txt"/>
+      <copy todir="${jboss423.home}" overwrite="true">
+        <fileset refid="jbossws.deploy.files"/>
+      </copy>
+      
+      <property name="jbossws.deploy.files" refid="jbossws.deploy.files"/>
+      <echo file="${cxf.output.deploy.dir}/jbossws.deploy.files.txt" message="${jbossws.deploy.files}"/>
+      <replace file="${cxf.output.deploy.dir}/jbossws.deploy.files.txt" token=";" value=" "/>
+      <copy todir="${jboss423.home}/server/${jboss.server.instance}/deploy/jbossws.sar" file="${cxf.output.deploy.dir}/jbossws.deploy.files.txt" overwrite="true"/>
+        
     </sequential>
   </macrodef>
-    
+  
   <!-- Undeploy jbossws/cxf from jboss423 -->
   <macrodef name="macro-undeploy-cxf423">
     <sequential>
+      
+      <loadfile property="jbossws.undeploy.files" srcfile="${jboss423.home}/server/${jboss.server.instance}/deploy/jbossws.sar/jbossws.deploy.files.txt" failonerror="false"/>
+      <property name="jbossws.undeploy.files" value="nothing.to.undeploy"/>
       <delete>
-  			<!-- CLIENT JARS -->
-        <fileset dir="${jboss423.home}/client">
-          <include name="jbossws-spi.jar"/>
-        </fileset>
+        <fileset dir="${jboss423.home}" includes="${jbossws.undeploy.files}"/>
       </delete>
       
-      <delete dir="${jboss423.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
-			<delete dir="${jboss423.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
     </sequential>
   </macrodef>
   
@@ -121,13 +147,16 @@
   
   <!-- Deploy jbossws/cxf to jboss500 -->
   <macrodef name="macro-deploy-cxf500">
-      <attribute name="stacklibs"/>
-      <attribute name="thirdpartylibs"/>
+    <attribute name="stacklibs"/>
+    <attribute name="thirdpartylibs"/>
     <sequential>
       <fail message="Not available: ${jboss500.available.file}" unless="jboss500.available"/>
-
-			<!-- CLIENT JARS -->
-      <copy todir="${jboss500.home}/client" overwrite="true">
+      
+      <delete dir="${cxf.output.deploy.dir}"/>
+      
+      <!-- CLIENT JARS -->
+      <mkdir dir="${cxf.output.deploy.dir}/client"/>
+      <copy todir="${cxf.output.deploy.dir}/client" overwrite="true">
         <fileset dir="@{thirdpartylibs}">
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
@@ -135,55 +164,52 @@
         </fileset>
       </copy>
       
-			<!-- BOOTSTRAP JARS -->
-			<copy todir="${jboss500.home}/lib" overwrite="true">
-				<fileset dir="@{thirdpartylibs}">
-					<include name="jaxb-api.jar"/>
-					<include name="jaxb-impl.jar"/>
-				</fileset>
-			</copy>
-			
-			<!--SERVER JARS -->
-      <copy todir="${jboss500.home}/server/${jboss.server.instance}/lib" overwrite="true">
-				<fileset dir="@{thirdpartylibs}">
-          <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
-          <include name="saaj-api-${cxf.saaj}.jar"/>
-				</fileset>
-      </copy>
-      
-      <mkdir dir="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
-      <unjar dest="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf50.sar"/>      
-			<mkdir dir="${jboss500.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
-			<unzip dest="${jboss500.home}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
-    </sequential>
-  </macrodef>
-    
-  <!-- Undeploy jbossws/cxf from jboss500 -->
-  <macrodef name="macro-undeploy-cxf500">
-    <sequential>
-      <delete>
-
-  			<!-- CLIENT JARS -->
-        <fileset dir="${jboss500.home}/client">
-          <include name="jbossws-framework.jar"/>
-          <include name="jbossws-spi.jar"/>
-        </fileset>
-        
-        <!-- BOOTSTRAP JARS -->
-        <fileset dir="${jboss500.home}/lib">
+      <!-- BOOTSTRAP JARS -->
+      <mkdir dir="${cxf.output.deploy.dir}/lib"/>
+      <copy todir="${cxf.output.deploy.dir}/lib" overwrite="true">
+        <fileset dir="@{thirdpartylibs}">
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
         </fileset>
-			
-  			<!--SERVER JARS -->
-        <fileset dir="${jboss500.home}/server/${jboss.server.instance}/lib">
+      </copy>
+      
+      <!--SERVER JARS -->
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/lib"/>
+      <copy todir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/lib" overwrite="true">
+        <fileset dir="@{thirdpartylibs}">
           <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
           <include name="saaj-api-${cxf.saaj}.jar"/>
         </fileset>
+      </copy>
+      
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
+      <unjar dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf50.sar"/>
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
+      <unzip dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
+      
+      <fileset id="jbossws.deploy.files" dir="${cxf.output.deploy.dir}" excludes="jbossws.deploy.files.txt"/>
+      <copy todir="${jboss500.home}" overwrite="true">
+        <fileset refid="jbossws.deploy.files"/>
+      </copy>
+      
+      <property name="jbossws.deploy.files" refid="jbossws.deploy.files"/>
+      <echo file="${cxf.output.deploy.dir}/jbossws.deploy.files.txt" message="${jbossws.deploy.files}"/>
+      <replace file="${cxf.output.deploy.dir}/jbossws.deploy.files.txt" token=";" value=" "/>
+      <copy todir="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws.sar" file="${cxf.output.deploy.dir}/jbossws.deploy.files.txt" overwrite="true"/>
+        
+    </sequential>
+  </macrodef>
+  
+  <!-- Undeploy jbossws/cxf from jboss500 -->
+  <macrodef name="macro-undeploy-cxf500">
+    <sequential>
+      
+      <loadfile property="jbossws.undeploy.files" srcfile="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws.sar/jbossws.deploy.files.txt" failonerror="false"/>
+      <property name="jbossws.undeploy.files" value="nothing.to.undeploy"/>
+      <delete>
+        <fileset dir="${jboss500.home}" includes="${jbossws.undeploy.files}"/>
       </delete>
       
-      <delete dir="${jboss500.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
-			<delete dir="${jboss500.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
     </sequential>
   </macrodef>
   
@@ -193,13 +219,16 @@
   
   <!-- Deploy jbossws/cxf to jboss501 -->
   <macrodef name="macro-deploy-cxf501">
-      <attribute name="stacklibs"/>
-      <attribute name="thirdpartylibs"/>
+    <attribute name="stacklibs"/>
+    <attribute name="thirdpartylibs"/>
     <sequential>
       <fail message="Not available: ${jboss501.available.file}" unless="jboss501.available"/>
-
-			<!-- CLIENT JARS -->
-      <copy todir="${jboss501.home}/client" overwrite="true">
+      
+      <delete dir="${cxf.output.deploy.dir}"/>
+      
+      <!-- CLIENT JARS -->
+      <mkdir dir="${cxf.output.deploy.dir}/client"/>
+      <copy todir="${cxf.output.deploy.dir}/client" overwrite="true">
         <fileset dir="@{thirdpartylibs}">
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
@@ -207,55 +236,52 @@
         </fileset>
       </copy>
       
-			<!-- BOOTSTRAP JARS -->
-			<copy todir="${jboss501.home}/lib" overwrite="true">
-				<fileset dir="@{thirdpartylibs}">
-					<include name="jaxb-api.jar"/>
-					<include name="jaxb-impl.jar"/>
-				</fileset>
-			</copy>
-			
-			<!--SERVER JARS -->
-      <copy todir="${jboss501.home}/server/${jboss.server.instance}/lib" overwrite="true">
-				<fileset dir="@{thirdpartylibs}">
-          <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
-          <include name="saaj-api-${cxf.saaj}.jar"/>
-				</fileset>
-      </copy>
-      
-      <mkdir dir="${jboss501.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
-      <unjar dest="${jboss501.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf50.sar"/>      
-			<mkdir dir="${jboss501.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
-			<unzip dest="${jboss501.home}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
-    </sequential>
-  </macrodef>
-    
-  <!-- Undeploy jbossws/cxf from jboss501 -->
-  <macrodef name="macro-undeploy-cxf501">
-    <sequential>
-      <delete>
-
-  			<!-- CLIENT JARS -->
-        <fileset dir="${jboss501.home}/client">
-          <include name="jbossws-framework.jar"/>
-          <include name="jbossws-spi.jar"/>
-        </fileset>
-        
-        <!-- BOOTSTRAP JARS -->
-        <fileset dir="${jboss501.home}/lib">
+      <!-- BOOTSTRAP JARS -->
+      <mkdir dir="${cxf.output.deploy.dir}/lib"/>
+      <copy todir="${cxf.output.deploy.dir}/lib" overwrite="true">
+        <fileset dir="@{thirdpartylibs}">
           <include name="jaxb-api.jar"/>
           <include name="jaxb-impl.jar"/>
         </fileset>
-			
-  			<!--SERVER JARS -->
-        <fileset dir="${jboss501.home}/server/${jboss.server.instance}/lib">
+      </copy>
+      
+      <!--SERVER JARS -->
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/lib"/>
+      <copy todir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/lib" overwrite="true">
+        <fileset dir="@{thirdpartylibs}">
           <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
           <include name="saaj-api-${cxf.saaj}.jar"/>
         </fileset>
+      </copy>
+      
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
+      <unjar dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar" src="@{stacklibs}/jbossws-cxf50.sar"/>
+      <mkdir dir="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
+      <unzip dest="${cxf.output.deploy.dir}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
+      
+      <fileset id="jbossws.deploy.files" dir="${cxf.output.deploy.dir}" excludes="jbossws.deploy.files.txt"/>
+      <copy todir="${jboss501.home}" overwrite="true">
+        <fileset refid="jbossws.deploy.files"/>
+      </copy>
+      
+      <property name="jbossws.deploy.files" refid="jbossws.deploy.files"/>
+      <echo file="${cxf.output.deploy.dir}/jbossws.deploy.files.txt" message="${jbossws.deploy.files}"/>
+      <replace file="${cxf.output.deploy.dir}/jbossws.deploy.files.txt" token=";" value=" "/>
+      <copy todir="${jboss501.home}/server/${jboss.server.instance}/deploy/jbossws.sar" file="${cxf.output.deploy.dir}/jbossws.deploy.files.txt" overwrite="true"/>
+        
+    </sequential>
+  </macrodef>
+  
+  <!-- Undeploy jbossws/cxf from jboss501 -->
+  <macrodef name="macro-undeploy-cxf501">
+    <sequential>
+      
+      <loadfile property="jbossws.undeploy.files" srcfile="${jboss501.home}/server/${jboss.server.instance}/deploy/jbossws.sar/jbossws.deploy.files.txt" failonerror="false"/>
+      <property name="jbossws.undeploy.files" value="nothing.to.undeploy"/>
+      <delete>
+        <fileset dir="${jboss501.home}" includes="${jbossws.undeploy.files}"/>
       </delete>
       
-      <delete dir="${jboss501.home}/server/${jboss.server.instance}/deploy/jbossws-cxf.sar"/>
-			<delete dir="${jboss501.home}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>
     </sequential>
   </macrodef>
   

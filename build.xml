@@ -35,6 +35,7 @@
   <property name="cxf.output.dir" value="${cxf.dir}/output"/>
   <property name="cxf.output.apidocs.dir" value="${cxf.output.dir}/apidocs"/>
   <property name="cxf.output.classes.dir" value="${cxf.output.dir}/classes"/>
+  <property name="cxf.output.deploy.dir" value="${cxf.output.dir}/deploy"/>
   <property name="cxf.output.etc.dir" value="${cxf.output.dir}/etc"/>
   <property name="cxf.output.lib.dir" value="${cxf.output.dir}/lib"/>
 	
