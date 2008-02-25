@@ -84,7 +84,7 @@
         <filter token="java.vm.version" value="${java.vm.version}"/>
         <filter token="java.vm.vendor" value="${java.vm.vendor}"/>
         <filter token="build.id" value="${build.id}"/>
-        <filter token="implementation.version" value="${specification.version}-cxf-${version.id}"/>
+        <filter token="implementation.version" value="jbossws-${version.id}"/>
         <filtersfile file="${int.cxf.dir}/version.properties"/>
       </filterset>
     </copy>
@@ -126,7 +126,7 @@
         </fileset>
         <filterset>
            <filter token="build.id" value="${build.id}"/>
-           <filter token="implementation.version" value="${specification.version}-cxf-${version.id}"/>
+           <filter token="implementation.version" value="jbossws-${version.id}"/>
            <filtersfile file="${cxf.dir}/version.properties"/>
         </filterset>
      </copy>
