@@ -15,12 +15,14 @@
 
   <import file="${int.cxf.dir}/ant-import/macros-deploy-cxf.xml"/>
 
+	<property name="deploy.dir" value="${int.cxf.dir}/output/deploy"/>
+	<property name="jbossws.default.undeploy.files" value="${int.cxf.dir}/ant-import/jbossws.default.undeploy.files"/>
+  
   <!-- ================================================================== -->
   <!-- Deployment  JBoss422                                               -->
   <!-- ================================================================== -->
 
   <target name="deploy-jboss422" depends="jars-jboss42,undeploy-jboss422" description="Deploy jbossws/cxf to jboss42">
-    <macro-deploy-framework thirdpartylibs="${int.cxf.dir}/thirdparty"/>
     <macro-deploy-cxf422 stacklibs="${int.cxf.dir}/output/lib" thirdpartylibs="${int.cxf.dir}/thirdparty"/>
   </target>
 
@@ -33,7 +35,6 @@
   <!-- ================================================================== -->
 
   <target name="deploy-jboss423" depends="jars-jboss42,undeploy-jboss423" description="Deploy jbossws/cxf to jboss42">
-    <macro-deploy-framework thirdpartylibs="${int.cxf.dir}/thirdparty"/>
     <macro-deploy-cxf423 stacklibs="${int.cxf.dir}/output/lib" thirdpartylibs="${int.cxf.dir}/thirdparty"/>
   </target>
 
@@ -46,7 +47,6 @@
   <!-- ================================================================== -->
 
   <target name="deploy-jboss500" depends="jars-jboss50,undeploy-jboss500" description="Deploy jbossws/cxf to jboss50">
-    <macro-deploy-framework thirdpartylibs="${int.cxf.dir}/thirdparty"/>
     <macro-deploy-cxf500 stacklibs="${int.cxf.dir}/output/lib" thirdpartylibs="${int.cxf.dir}/thirdparty"/>
   </target>
 
@@ -59,7 +59,6 @@
   <!-- ================================================================== -->
 
   <target name="deploy-jboss501" depends="jars-jboss50,undeploy-jboss501" description="Deploy jbossws/cxf to jboss50">
-    <macro-deploy-framework thirdpartylibs="${int.cxf.dir}/thirdparty"/>
     <macro-deploy-cxf501 stacklibs="${int.cxf.dir}/output/lib" thirdpartylibs="${int.cxf.dir}/thirdparty"/>
   </target>
 
