@@ -13,91 +13,58 @@
 
 <project>
 
-	<import file="${int.cxf.dir}/ant-import/macros-deploy-framework.xml"/>
   <import file="${int.cxf.dir}/ant-import/macros-deploy-cxf.xml"/>
-  
+
   <!-- ================================================================== -->
-  <!-- Deployment JBoss-4.2.2                                             -->
+  <!-- Deployment  JBoss422                                               -->
   <!-- ================================================================== -->
-  
-  <!-- Deploy to jboss422 -->
-  <target name="deploy-jboss422" depends="jars-jboss42,undeploy-jboss422" description="Deploy jbossws/cxf to jboss422">
-    <macro-deploy-cxf422 
-      stacklibs="${int.cxf.dir}/output/lib" 
-      thirdpartylibs="${int.cxf.dir}/thirdparty"/>
-    
-		<macro-deploy-framework
-				thirdpartylibs="${int.cxf.dir}/thirdparty"
-				jbosshome="${jboss422.home}"/>
+
+  <target name="deploy-jboss422" depends="jars-jboss42,undeploy-jboss422" description="Deploy jbossws/cxf to jboss42">
+    <macro-deploy-framework thirdpartylibs="${int.cxf.dir}/thirdparty"/>
+    <macro-deploy-cxf422 stacklibs="${int.cxf.dir}/output/lib" thirdpartylibs="${int.cxf.dir}/thirdparty"/>
   </target>
-    
-  <!-- Remove from jboss422 -->
-  <target name="undeploy-jboss422" depends="prepare" description="Remove jbossws/cxf from jboss422">
+
+  <target name="undeploy-jboss422" depends="prepare" description="Remove jbossws/cxf from jboss42">
     <macro-undeploy-cxf422/>
-		<macro-undeploy-framework jbosshome="${jboss422.home}"/>
   </target>
-  
+
   <!-- ================================================================== -->
-  <!-- Deployment JBoss-4.2.3                                             -->
+  <!-- Deployment  JBoss423                                               -->
   <!-- ================================================================== -->
-  
-  <!-- Deploy to jboss423 -->
-  <target name="deploy-jboss423" depends="jars-jboss42,undeploy-jboss423" description="Deploy jbossws/cxf to jboss423">
-    <macro-deploy-cxf423 
-      stacklibs="${int.cxf.dir}/output/lib" 
-      thirdpartylibs="${int.cxf.dir}/thirdparty"/>
-    
-		<macro-deploy-framework
-				thirdpartylibs="${int.cxf.dir}/thirdparty"
-				jbosshome="${jboss423.home}"/>
+
+  <target name="deploy-jboss423" depends="jars-jboss42,undeploy-jboss423" description="Deploy jbossws/cxf to jboss42">
+    <macro-deploy-framework thirdpartylibs="${int.cxf.dir}/thirdparty"/>
+    <macro-deploy-cxf423 stacklibs="${int.cxf.dir}/output/lib" thirdpartylibs="${int.cxf.dir}/thirdparty"/>
   </target>
-    
-  <!-- Remove from jboss423 -->
-  <target name="undeploy-jboss423" depends="prepare" description="Remove jbossws/cxf from jboss423">
+
+  <target name="undeploy-jboss423" depends="prepare" description="Remove jbossws/cxf from jboss42">
     <macro-undeploy-cxf423/>
-		<macro-undeploy-framework jbosshome="${jboss423.home}"/>
   </target>
-  
-  <!-- ================================================================== -->
-  <!-- Deployment JBoss-5.0.0                                             -->
-  <!-- ================================================================== -->
-  
-  <!-- Deploy to jboss500 -->
-  <target name="deploy-jboss500" depends="jars-jboss50,undeploy-jboss500" description="Deploy jbossws/cxf to jboss500">
-    <macro-deploy-cxf500 
-      stacklibs="${int.cxf.dir}/output/lib" 
-      thirdpartylibs="${int.cxf.dir}/thirdparty"/>
 
-		<macro-deploy-framework
-				thirdpartylibs="${int.cxf.dir}/thirdparty"
-				jbosshome="${jboss500.home}"/>
+  <!-- ================================================================== -->
+  <!-- Deployment  JBoss500                                               -->
+  <!-- ================================================================== -->
+
+  <target name="deploy-jboss500" depends="jars-jboss50,undeploy-jboss500" description="Deploy jbossws/cxf to jboss50">
+    <macro-deploy-framework thirdpartylibs="${int.cxf.dir}/thirdparty"/>
+    <macro-deploy-cxf500 stacklibs="${int.cxf.dir}/output/lib" thirdpartylibs="${int.cxf.dir}/thirdparty"/>
   </target>
-    
-  <!-- Remove from jboss500 -->
-  <target name="undeploy-jboss500" depends="prepare" description="Remove jbossws/cxf from jboss500">
+
+  <target name="undeploy-jboss500" depends="prepare" description="Remove jbossws/cxf from jboss50">
     <macro-undeploy-cxf500/>
-		<macro-undeploy-framework jbosshome="${jboss500.home}"/>
   </target>
-  
-  <!-- ================================================================== -->
-  <!-- Deployment JBoss-5.0.1                                             -->
-  <!-- ================================================================== -->
-  
-  <!-- Deploy to jboss501 -->
-  <target name="deploy-jboss501" depends="jars-jboss50,undeploy-jboss501" description="Deploy jbossws/cxf to jboss501">
-    <macro-deploy-cxf501 
-      stacklibs="${int.cxf.dir}/output/lib" 
-      thirdpartylibs="${int.cxf.dir}/thirdparty"/>
 
-		<macro-deploy-framework
-				thirdpartylibs="${int.cxf.dir}/thirdparty"
-				jbosshome="${jboss501.home}"/>
+  <!-- ================================================================== -->
+  <!-- Deployment  JBoss501                                               -->
+  <!-- ================================================================== -->
+
+  <target name="deploy-jboss501" depends="jars-jboss50,undeploy-jboss501" description="Deploy jbossws/cxf to jboss50">
+    <macro-deploy-framework thirdpartylibs="${int.cxf.dir}/thirdparty"/>
+    <macro-deploy-cxf501 stacklibs="${int.cxf.dir}/output/lib" thirdpartylibs="${int.cxf.dir}/thirdparty"/>
   </target>
-    
-  <!-- Remove from jboss501 -->
-  <target name="undeploy-jboss501" depends="prepare" description="Remove jbossws/cxf from jboss501">
+
+  <target name="undeploy-jboss501" depends="prepare" description="Remove jbossws/cxf from jboss50">
     <macro-undeploy-cxf501/>
-		<macro-undeploy-framework jbosshome="${jboss501.home}"/>
   </target>
-  
+
 </project>
