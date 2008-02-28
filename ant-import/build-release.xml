@@ -13,25 +13,104 @@
 
 <project>
 
-  <!-- Release to jboss.local.repository -->
-  <target name="release" depends="jars" 
+  <target name="release" depends="release-to-repository,release-to-portal" description="Release JBossWS/CXF">
+    <echo message="*********************************************"/>
+    <echo message="* Released: jbossws-${version.id}"/>
+    <echo message="*"/>
+    <echo message="* Almost there, please do these steps manually"/>
+    <echo message="*"/>
+    <echo message="*  - Create SVN tag: jbossws-${version.id}"/>
+    <echo message="*  - Release the jbossws-${version.id} version in JIRA"/>
+    <echo message="*  - Update portal-content/project.xml"/>
+    <echo message="*  - Update portal-content/counter.xml"/>
+    <echo message="*  - Update news in portal-content/freezone/projectDescription.html"/>
+    <echo message="*  - Verify release notes and install instructions"/>
+    <echo message="*  - Publish the interop endpoints"/>
+    <echo message="*  - Commit the portal-content"/>
+    <echo message="*  - Commit the repository jars"/>
+    <echo message="*  - Write a sticky post on the user forum"/>
+    <echo message="*  - Post a message to jbossws-announce@lists.jboss.org"/>
+    <echo message="*  - Post a message to thecore@jboss.org"/>
+    <echo message="*"/>
+    <echo message="*********************************************"/>
+  </target>
+  
+  <target name="release-to-repository" depends="jars,check-svn-externals,warn-svn-externals" 
     description="Release to jboss.local.repository">
 
-    <!-- jboss/jbossws-cxf50 -->
-    <property name="jboss.repository.dir" value="${jboss.local.repository}/jboss"/>
-    <mkdir dir="${jboss.repository.dir}/jbossws-cxf50/${repository.id}/lib"/>
-    <copy todir="${jboss.repository.dir}/jbossws-cxf50/${repository.id}/lib" overwrite="true">
-      <fileset dir="${int.cxf.dir}/output/lib">
-        <include name="jbossws-cxf50.sar"/>
-        <include name="jbossws-cxf50-deployer.zip"/>
-      </fileset>
-    </copy>
-    <copy tofile="${jboss.repository.dir}/jbossws-cxf50/${repository.id}/component-info.xml" file="${cxf.etc.dir}/component-info50.xml" filtering="true" overwrite="true">
-      <filterset>
-        <filtersfile file="${build.dir}/version.properties"/>
-      </filterset>
-    </copy>
-   
+    <echo>No need to release jbossws-cxf to the repository</echo>
+
   </target>
 
+  <target name="check-svn-externals" depends="init">
+    <exec dir="${basedir}/src/test-framework" executable="svn" failonerror="true" output="${basedir}/output/svn-info.xml">
+      <arg line="info"/>
+      <arg line="--xml"/>
+    </exec>
+    <xmlproperty file="${basedir}/output/svn-info.xml"/>
+    <condition property="framework.externals.ok">
+      <or>
+        <contains string="${info.entry.url}" substring="jbossws/framework/tags"/>
+        <equals arg1="${repository.id}" arg2="snapshot"/>
+      </or>
+    </condition>
+  </target>
+  <target name="warn-svn-externals" depends="init" unless="framework.externals.ok">
+    <echo>
+      ***********************************************
+      *  External link to framework is not tagged!  *
+      *  Run: svn pe svn:externals src              *
+      ***********************************************
+    </echo>
+  </target>
+
+  <!-- Release to portal content -->
+  <target name="release-to-portal" depends="check-portal-content,build-src-dist,build-bin-dist" 
+    description="Release to portal-content" if="jbossws.portal.content.available">
+    
+    <property name="portal.freezone" value="${jbossws.portal.content}/freezone"/>
+    <property name="portal.userguide" value="${portal.freezone}/user-guide"/>
+    <property name="portal.downloads" value="${jbossws.portal.content}/downloads"/>
+    
+    <!-- Copy downloads -->
+    <copy todir="${portal.downloads}" overwrite="true">
+      <fileset dir="${basedir}/output">
+        <include name="jbossws-${version.id}-src.zip"/>
+        <include name="jbossws-${version.id}.zip"/>
+      </fileset>
+    </copy>
+    
+    <!-- Copy Release Notes -->
+    <copy tofile="${portal.downloads}/ReleaseNotes-${version.id}.txt" file="${bindist.docs.dir}/ReleaseNotes.txt" overwrite="true"/>
+    <copy tofile="${portal.downloads}/Install-${version.id}.txt" file="${bindist.docs.dir}/Install.txt" overwrite="true"/>
+  </target>
+  
+  <target name="check-portal-content" depends="prepare" unless="jbossws.portal.content.available">
+    <echo message="*********************************************"/>
+    <echo message="* Not available: ${jbossws.portal.content}"/>
+    <echo message="*********************************************"/>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Build source distributions                                                -->
+  <!-- ================================================================== -->
+
+  <target name="build-src-dist" description="Build the source distribution">
+    <property name="build.src.dist" value="${basedir}/output/src-dist"/>
+    <delete dir="${build.src.dist}/jbossws-${version.id}-src"/>
+    <mkdir dir="${build.src.dist}/jbossws-${version.id}-src"/>
+    <copy todir="${build.src.dist}/jbossws-${version.id}-src">
+      <fileset dir="${basedir}">
+        <exclude name="**/*.md5"/>
+        <exclude name="**/output*/**"/>
+        <exclude name="**/thirdparty/**"/>
+        <exclude name="mergeinfo.txt"/>
+        <exclude name="ant.properties"/>
+        <exclude name="apache-cxf/**"/>
+      </fileset>
+    </copy>
+    <zip destfile="${basedir}/output/jbossws-${version.id}-src.zip" basedir="${build.src.dist}"
+      includes="jbossws-${version.id}-src/**"/>
+  </target>
+  
 </project>
