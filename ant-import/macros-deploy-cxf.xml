@@ -31,6 +31,9 @@
   </patternset>
   
   <patternset id="server.lib.patternset">
+    <include name="jbossws-common.jar"/>
+    <include name="jbossws-framework.jar"/>
+    <include name="jbossws-spi.jar"/>
     <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
     <include name="saaj-api-${cxf.saaj}.jar"/>
   </patternset>
