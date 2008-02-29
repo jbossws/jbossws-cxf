@@ -54,8 +54,8 @@
  
   <property name="jboss422.available.file" value="${jboss422.client}/jboss-client.jar"/>
   <property name="jboss423.available.file" value="${jboss423.client}/jboss-client.jar"/>
-  <property name="jboss500.available.file" value="${jboss500.client}/jboss-ejb3-client.jar"/>
-  <property name="jboss501.available.file" value="${jboss501.client}/jboss-ejb3-client.jar"/>
+  <property name="jboss500.available.file" value="${jboss500.client}/jboss-client.jar"/>
+  <property name="jboss501.available.file" value="${jboss501.client}/jboss-client.jar"/>
   
   <available property="jboss422.available" file="${jboss422.available.file}"/>
   <available property="jboss423.available" file="${jboss423.available.file}"/>
