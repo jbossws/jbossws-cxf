@@ -18,6 +18,9 @@
   Exceptions must be defined in the individual deploy macros.
   -->
   <patternset id="client.patternset">
+    <include name="jbossws-common.jar"/>
+    <include name="jbossws-framework.jar"/>
+    <include name="jbossws-spi.jar"/>
     <include name="jaxb-api.jar"/>
     <include name="jaxb-impl.jar"/>
     <include name="jaxb-xjc.jar"/>
