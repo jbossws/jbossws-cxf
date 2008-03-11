@@ -86,17 +86,17 @@
       <unzip dest="@{jbosshome}/server/${jboss.server.instance}/deploy/juddi-service.sar" src="@{thirdpartylibs}/juddi-service.sar"/>
       
       <!-- Deploy the jars -->
-      <fileset id="jbossws.deploy.files" dir="${deploy.dir}" excludes="jbossws.deployed.files"/>
+      <fileset id="jbossws.deploy.files" dir="${deploy.dir}" excludes="jbossws-deploy.conf"/>
       <copy todir="@{jbosshome}" overwrite="true">
         <fileset refid="jbossws.deploy.files"/>
       </copy>
       <chmod dir="@{jbosshome}/bin" perm="+x" includes="*.sh"/>
       
-      <!-- Write jbossws.deployed.files -->
+      <!-- Write jbossws-deploy.conf -->
       <property name="jbossws.deploy.files" refid="jbossws.deploy.files"/>
-      <echo file="${deploy.dir}/jbossws.deployed.files" message="${jbossws.deploy.files}"/>
-      <replace file="${deploy.dir}/jbossws.deployed.files" token=";" value=" "/>
-      <copy todir="@{jbosshome}/server/${jboss.server.instance}/deploy/jbossws.sar" file="${deploy.dir}/jbossws.deployed.files" overwrite="true"/>
+      <echo file="${deploy.dir}/jbossws-deploy.conf" message="${jbossws.deploy.files}"/>
+      <replace file="${deploy.dir}/jbossws-deploy.conf" token=";" value=" "/>
+      <copy todir="@{jbosshome}/server/${jboss.server.instance}/deploy/jbossws.sar" file="${deploy.dir}/jbossws-deploy.conf" overwrite="true"/>
       
     </sequential>
   </macrodef>
@@ -111,7 +111,7 @@
       
       <delete dir="${deploy.dir}"/>
       
-      <loadfile property="jbossws.undeploy.files" srcfile="@{jbosshome}/server/${jboss.server.instance}/deploy/jbossws.sar/jbossws.deployed.files" failonerror="false"/>
+      <loadfile property="jbossws.undeploy.files" srcfile="@{jbosshome}/server/${jboss.server.instance}/deploy/jbossws.sar/jbossws-deploy.conf" failonerror="false"/>
       <loadfile property="jbossws.undeploy.files" srcfile="${jbossws.default.undeploy.files}" failonerror="false"/>
       <delete dir="@{jbosshome}/server/${jboss.server.instance}/deploy/jbossws.sar"/>
       <delete dir="@{jbosshome}/server/${jboss.server.instance}/deploy/juddi-service.sar"/>

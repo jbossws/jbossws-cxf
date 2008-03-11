@@ -16,7 +16,7 @@
   <import file="${int.cxf.dir}/ant-import/macros-deploy-cxf.xml"/>
 
 	<property name="deploy.dir" value="${int.cxf.dir}/output/deploy"/>
-	<property name="jbossws.default.undeploy.files" value="${int.cxf.dir}/ant-import/jbossws.default.undeploy.files"/>
+	<property name="jbossws.default.undeploy.files" value="${int.cxf.dir}/ant-import/jbossws-default-deploy.conf"/>
   
   <!-- ================================================================== -->
   <!-- Deployment  JBoss422                                               -->
