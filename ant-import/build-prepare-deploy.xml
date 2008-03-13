@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id$ -->
+
+<project>
+  
+  <!-- ================================================================== -->
+  <!-- Prepare Deployment Source                                          -->
+  <!-- ================================================================== -->
+
+  <target name="prepare-deploy" depends="jars">
+    
+    <delete dir="${deploy.artifacts.dir}"/>
+    
+    <unzip dest="${deploy.artifacts.dir}/bin" src="${thirdparty.dir}/jbossws-framework-scripts.zip"/>
+    <copy todir="${deploy.artifacts.dir}/lib">
+      <fileset dir="${thirdparty.dir}">
+        <patternset refid="jbossws.client.patternset"/>
+        <patternset refid="jbossws.lib.patternset"/>
+        <patternset refid="jbossws.lib.endorsed.patternset"/>
+        <patternset refid="jbossws.server.lib.patternset"/>
+        <patternset refid="jbossws.service.lib.patternset"/>
+        <include name="juddi-service.sar"/>
+      </fileset>
+      <fileset dir="${cxf.output.lib.dir}">
+        <patternset refid="jbossws.client.patternset"/>
+        <patternset refid="jbossws.lib.patternset"/>
+        <patternset refid="jbossws.lib.endorsed.patternset"/>
+        <patternset refid="jbossws.server.lib.patternset"/>
+        <patternset refid="jbossws.service.lib.patternset"/>
+      </fileset>
+    </copy>
+    <copy todir="${deploy.artifacts.dir}/resources">
+      <fileset dir="${cxf.output.resources.dir}">
+        <include name="jbossws-cxf42-beans.xml"/>
+        <include name="jbossws-cxf50-beans.xml"/>
+        <include name="jbossws-jboss42.sar/**"/>
+        <include name="jbossws-cxf.sar/**"/>
+      </fileset>
+    </copy>
+  </target>
+  
+</project>

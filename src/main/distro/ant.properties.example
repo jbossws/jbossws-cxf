@@ -4,11 +4,12 @@
 # $Id: ant.properties.example 3137 2007-05-18 13:41:57Z thomas.diesler@jboss.com $
 
 # Optional JBoss Home
-jboss500.home=@jboss500.home@
 jboss422.home=@jboss422.home@
 jboss423.home=@jboss423.home@
+jboss500.home=@jboss500.home@
+jboss501.home=@jboss501.home@
 
-# The JBoss server under test. This can be [jboss422|jboss423|jboss500]
+# The JBoss server under test. This can be [jboss422|jboss423|jboss500|jboss501]
 jbossws.integration.target=jboss422
 
 # The JBoss settings

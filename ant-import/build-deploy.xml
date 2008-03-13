@@ -12,58 +12,123 @@
 <!-- $Id$ -->
 
 <project>
-
-  <import file="${int.cxf.dir}/ant-import/macros-deploy-cxf.xml"/>
-
-	<property name="deploy.dir" value="${int.cxf.dir}/output/deploy"/>
-	<property name="jbossws.default.undeploy.files" value="${int.cxf.dir}/ant-import/jbossws-default-deploy.conf"/>
   
   <!-- ================================================================== -->
-  <!-- Deployment  JBoss422                                               -->
+  <!-- Prepare Deployment Structure JBoss-4.2.x                           -->
+  <!-- ================================================================== -->
+  
+  <target name="deploy-structure-jboss42" depends="prepare-deploy">
+    <delete dir="${deploy.structure.jboss42}"/>
+    <antcall target="deploy-jbossws-cxf42" inheritall="false">
+      <param name="installserver" value="${deploy.structure.jboss42}/server/${jboss.server.instance}"/>
+      <param name="resourcesdir" value="${deploy.artifacts.dir}/resources/jbossws-jboss42.sar"/>
+      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
+    </antcall>
+    <macro-create-deploy-conf deploystructure="${deploy.structure.jboss42}"/>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Deployment JBoss422                                                -->
   <!-- ================================================================== -->
 
-  <target name="deploy-jboss422" depends="jars-jboss42,undeploy-jboss422" description="Deploy jbossws/cxf to jboss42">
-    <macro-deploy-cxf422 stacklibs="${int.cxf.dir}/output/lib" thirdpartylibs="${int.cxf.dir}/thirdparty"/>
+  <target name="deploy-jboss422" depends="undeploy-jboss422,deploy-structure-jboss42" description="Deploy jbossws to jboss422">
+    <fail message="Not available: ${jboss422.available.file}" unless="jboss422.available"/>
+    <copy todir="${jboss422.home}" overwrite="true">
+      <fileset dir="${deploy.structure.jboss42}"/>
+    </copy>
+    <unzip dest="${jboss422.server.deploy}/juddi-service.sar" src="${deploy.artifacts.dir}/lib/juddi-service.sar"/>
+    <chmod dir="${jboss422.home}/bin" perm="+x" includes="*.sh"/>
   </target>
-
-  <target name="undeploy-jboss422" depends="prepare" description="Remove jbossws/cxf from jboss42">
-    <macro-undeploy-cxf422/>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Deployment  JBoss423                                               -->
-  <!-- ================================================================== -->
-
-  <target name="deploy-jboss423" depends="jars-jboss42,undeploy-jboss423" description="Deploy jbossws/cxf to jboss42">
-    <macro-deploy-cxf423 stacklibs="${int.cxf.dir}/output/lib" thirdpartylibs="${int.cxf.dir}/thirdparty"/>
-  </target>
-
-  <target name="undeploy-jboss423" depends="prepare" description="Remove jbossws/cxf from jboss42">
-    <macro-undeploy-cxf423/>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Deployment  JBoss500                                               -->
-  <!-- ================================================================== -->
-
-  <target name="deploy-jboss500" depends="jars-jboss50,undeploy-jboss500" description="Deploy jbossws/cxf to jboss50">
-    <macro-deploy-cxf500 stacklibs="${int.cxf.dir}/output/lib" thirdpartylibs="${int.cxf.dir}/thirdparty"/>
-  </target>
-
-  <target name="undeploy-jboss500" depends="prepare" description="Remove jbossws/cxf from jboss50">
-    <macro-undeploy-cxf500/>
+  
+  <target name="undeploy-jboss422" depends="prepare" description="Remove jbossws from jboss422">
+    <fail message="Not available: ${jboss422.available.file}" unless="jboss422.available"/>
+    <macro-undeploy-jbossws targetdir="${jboss422.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
+    <delete dir="${jboss422.server.deploy}/juddi-service.sar"/>
   </target>
 
   <!-- ================================================================== -->
-  <!-- Deployment  JBoss501                                               -->
+  <!-- Deployment JBoss423                                                -->
   <!-- ================================================================== -->
 
-  <target name="deploy-jboss501" depends="jars-jboss50,undeploy-jboss501" description="Deploy jbossws/cxf to jboss50">
-    <macro-deploy-cxf501 stacklibs="${int.cxf.dir}/output/lib" thirdpartylibs="${int.cxf.dir}/thirdparty"/>
+  <target name="deploy-jboss423" depends="undeploy-jboss423,deploy-structure-jboss42" description="Deploy jbossws to jboss423">
+    <fail message="Not available: ${jboss423.available.file}" unless="jboss423.available"/>
+    <copy todir="${jboss423.home}" overwrite="true">
+      <fileset dir="${deploy.structure.jboss42}"/>
+    </copy>
+    <unzip dest="${jboss423.server.deploy}/juddi-service.sar" src="${deploy.artifacts.dir}/lib/juddi-service.sar"/>
+    <chmod dir="${jboss423.home}/bin" perm="+x" includes="*.sh"/>
   </target>
-
-  <target name="undeploy-jboss501" depends="prepare" description="Remove jbossws/cxf from jboss50">
-    <macro-undeploy-cxf501/>
+  
+  <target name="undeploy-jboss423" depends="prepare" description="Remove jbossws from jboss423">
+    <fail message="Not available: ${jboss423.available.file}" unless="jboss423.available"/>
+    <macro-undeploy-jbossws targetdir="${jboss423.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
+    <delete dir="${jboss423.server.deploy}/juddi-service.sar"/>
   </target>
+  
+  <!-- ================================================================== -->
+  <!-- Prepare Deployment Structure JBoss-5.0.x                           -->
+  <!-- ================================================================== -->
+  
+  <target name="deploy-structure-jboss50" depends="prepare-deploy">
+    <delete dir="${deploy.structure.jboss50}"/>
+    <antcall target="deploy-jbossws-cxf50" inheritall="false">
+      <param name="installserver" value="${deploy.structure.jboss50}/server/${jboss.server.instance}"/>
+      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
+    </antcall>
+    <macro-create-deploy-conf deploystructure="${deploy.structure.jboss50}"/>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Deployment JBoss500                                                -->
+  <!-- ================================================================== -->
 
+  <target name="deploy-jboss500" depends="undeploy-jboss500,deploy-structure-jboss50" description="Deploy jbossws to jboss500">
+    <fail message="Not available: ${jboss500.available.file}" unless="jboss500.available"/>
+    <copy todir="${jboss500.home}" overwrite="true">
+      <fileset dir="${deploy.structure.jboss50}"/>
+    </copy>
+    <unzip dest="${jboss500.server.deploy}/juddi-service.sar" src="${deploy.artifacts.dir}/lib/juddi-service.sar"/>
+    <chmod dir="${jboss500.home}/bin" perm="+x" includes="*.sh"/>
+  </target>
+  
+  <target name="undeploy-jboss500" depends="prepare" description="Remove jbossws from jboss500">
+    <fail message="Not available: ${jboss500.available.file}" unless="jboss500.available"/>
+    <macro-undeploy-jbossws targetdir="${jboss500.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
+    <delete dir="${jboss500.server.deploy}/juddi-service.sar"/>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Deployment JBoss501                                                -->
+  <!-- ================================================================== -->
+
+  <target name="deploy-jboss501" depends="undeploy-jboss501,deploy-structure-jboss50" description="Deploy jbossws to jboss501">
+    <fail message="Not available: ${jboss501.available.file}" unless="jboss501.available"/>
+    <copy todir="${jboss501.home}" overwrite="true">
+      <fileset dir="${deploy.structure.jboss50}"/>
+    </copy>
+    <unzip dest="${jboss501.server.deploy}/juddi-service.sar" src="${deploy.artifacts.dir}/lib/juddi-service.sar"/>
+    <chmod dir="${jboss501.home}/bin" perm="+x" includes="*.sh"/>
+  </target>
+  
+  <target name="undeploy-jboss501" depends="prepare" description="Remove jbossws from jboss501">
+    <fail message="Not available: ${jboss501.available.file}" unless="jboss501.available"/>
+    <macro-undeploy-jbossws targetdir="${jboss501.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
+    <delete dir="${jboss501.server.deploy}/juddi-service.sar"/>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Create jbossws-deploy.conf                                         -->
+  <!-- ================================================================== -->
+  
+  <macrodef name="macro-create-deploy-conf">
+    <attribute name="deploystructure"/>
+    <sequential>
+      <fileset id="jbossws.deploy.fileset" dir="@{deploystructure}" excludes="**/jbossws.sar/**"/>
+      <property name="jbossws.deploy.fileset" refid="jbossws.deploy.fileset"/>
+      <property name="jbossws.sar.dir" value="@{deploystructure}/server/${jboss.server.instance}/deploy/jbossws.sar"/>
+      <echo file="${jbossws.sar.dir}/jbossws-deploy.conf" message="${jbossws.deploy.fileset}"/>
+      <replace file="${jbossws.sar.dir}/jbossws-deploy.conf" token=";" value=" "/>
+    </sequential>
+  </macrodef>
+  
 </project>

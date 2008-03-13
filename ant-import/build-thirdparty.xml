@@ -134,7 +134,7 @@
   </target>
   
   <!-- SVN update the Apache CXF sources -->
-  <target name="cxf-update-required" depends="thirdparty-init" if="apache.cxf.available">
+  <target name="cxf-update-required" depends="thirdparty-init" if="apache.cxf.available" unless="skip-cxf-update">
     <exec dir="${apache.cxf.dir}" executable="svn" failonerror="true" output="${apache.cxf.dir}/svn-info.xml">
       <arg line="info"/>
       <arg line="--xml"/>

@@ -17,10 +17,12 @@
   
   <import file="${basedir}/ant-import/build-setup.xml"/>
   <import file="${basedir}/ant-import/build-bin-dist.xml"/>
+  <import file="${basedir}/ant-import/build-prepare-deploy.xml"/>
   <import file="${basedir}/ant-import/build-deploy.xml"/>
   <import file="${basedir}/ant-import/build-release.xml"/>
   <import file="${basedir}/ant-import/build-testsuite.xml"/>
   <import file="${basedir}/ant-import/build-thirdparty.xml"/>
+  <import file="${basedir}/ant-import/jbossws-deploy-macros.xml"/>
   
   <!-- ================================================================== -->
   <!-- Setup                                                              -->
@@ -38,6 +40,12 @@
   <property name="cxf.output.deploy.dir" value="${cxf.output.dir}/deploy"/>
   <property name="cxf.output.etc.dir" value="${cxf.output.dir}/etc"/>
   <property name="cxf.output.lib.dir" value="${cxf.output.dir}/lib"/>
+  <property name="cxf.output.resources.dir" value="${cxf.output.dir}/resources"/>
+  
+  <property name="deploy.artifacts.dir" value="${cxf.output.deploy.dir}-artifacts"/>
+  <property name="deploy.structure.jboss42" value="${cxf.output.deploy.dir}-jboss42"/>
+  <property name="deploy.structure.jboss50" value="${cxf.output.deploy.dir}-jboss50"/>
+	<property name="jbossws.default.deploy.conf" value="${cxf.dir}/ant-import/jbossws-default-deploy.conf"/>
 	
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
@@ -59,7 +67,7 @@
   | documentation compiles.
   -->
   
-  <target name="compile" depends="init,compile-classes,compile-etc" description="Compile all source files."/>
+  <target name="compile" depends="init,compile-classes,compile-etc,compile-resources" description="Compile all source files."/>
   
   <!-- Compile java sources -->
   <target name="compile-classes" depends="compile-classes-cxf"/>
@@ -90,6 +98,42 @@
     </copy>
   </target>
   
+  <!-- Compile resource files -->
+  <target name="compile-resources" depends="init">
+    
+    <!-- Concat jbossws-cxf50-beans.xml -->
+    <mkdir dir="${cxf.output.resources.dir}"/>
+    <concat destfile="${cxf.output.resources.dir}/jbossws-cxf50-beans.xml">
+      <header trimleading="yes">
+        &lt;deployment xmlns="urn:jboss:bean-deployer:2.0"&gt;
+      </header>
+      <fileset file="${cxf.resources.dir}/jbossws-cxf-config.xml"/>
+      <footer trimleading="yes">
+        &lt;/deployment&gt;
+      </footer>
+    </concat>
+    
+    <!-- Concat jboss-beans.xml -->
+    <unzip dest="${cxf.output.dir}/resources" src="${thirdparty.dir}/jbossws-jboss42-resources.zip"/>
+    <concat destfile="${cxf.output.resources.dir}/jbossws-cxf42-beans.xml">
+      <header trimleading="yes">
+        &lt;deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd" xmlns="urn:jboss:bean-deployer"&gt;
+      </header>
+      <fileset file="${cxf.resources.dir}/jbossws-cxf-config.xml"/>
+      <fileset file="${cxf.output.resources.dir}/jbossws-jboss42-config.xml"/>
+      <footer trimleading="yes">
+        &lt;/deployment&gt;
+      </footer>
+    </concat>
+    
+    <copy todir="${cxf.output.resources.dir}">
+      <fileset dir="${cxf.resources.dir}">
+        <include name="jbossws-cxf.jar/**"/>
+        <include name="jbossws-cxf.sar/**"/>
+      </fileset>
+    </copy>
+  </target>
+
   <!-- ================================================================== -->
   <!-- Archives                                                           -->
   <!-- ================================================================== -->
@@ -97,10 +141,7 @@
   <!--
   | Build all jar files.
   -->
-  <target name="jars" depends="compile,jars-jboss42,jars-jboss50" description="Builds all jar files.">
-  </target>
-  
-  <target name="jars-common" depends="compile">
+  <target name="jars" depends="compile" description="Builds all jar files.">
     
     <!-- Build jbossws-cxf.jar -->
     <mkdir dir="${cxf.output.lib.dir}"/>
@@ -145,7 +186,7 @@
     </zip>
   </target>
   
-  <target name="jars-jboss50" depends="jars-common">
+  <target name="jars-jboss50" depends="jars">
     
     <!-- Concat jbossws-beans.xml -->
     <concat destfile="${cxf.output.lib.dir}/jbossws-cxf50/jbossws-beans.xml">
@@ -192,7 +233,7 @@
     
    </target>
   
-  <target name="jars-jboss42" depends="jars-common">
+  <target name="jars-jboss42" depends="jars">
     
     <unzip dest="${cxf.output.dir}/resources" src="${thirdparty.dir}/jbossws-jboss42-resources.zip"/>
     

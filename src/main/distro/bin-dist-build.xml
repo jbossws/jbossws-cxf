@@ -18,14 +18,15 @@
   <!-- ================================================================== -->
   
   <property name="build.dir" value="${basedir}/build"/>
-  <property name="bin.dir" value="${basedir}/bin"/>
-	<property name="deploy.dir" value="${basedir}/output/deploy"/>
   <property name="docs.dir" value="${basedir}/docs"/>
-  <property name="lib.dir" value="${basedir}/lib"/>
+  <property name="thirdparty.dir" value="${basedir}/deploy/lib"/>
   <property name="tests.dir" value="${basedir}/tests"/>
   <property name="tests.output.dir" value="${basedir}/output"/>
   
-	<property name="jbossws.default.undeploy.files" value="${build.dir}/jbossws.default.undeploy.files"/>
+  <property name="deploy.artifacts.dir" value="${basedir}/deploy"/>
+  <property name="deploy.structure.jboss42" value="${basedir}/output/deploy-jboss42"/>
+  <property name="deploy.structure.jboss50" value="${basedir}/output/deploy-jboss50"/>
+  <property name="jbossws.default.deploy.conf" value="${build.dir}/jbossws-default-deploy.conf"/>
   
   <property file="${basedir}/ant.properties"/>
   <property file="${basedir}/version.properties"/>
@@ -70,14 +71,14 @@
   
   <condition property="jbossws.integration.jboss42" value="true">
     <or>
-	    <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
+      <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
       <equals arg1="${jbossws.integration.target}" arg2="jboss423"/>
     </or>
   </condition>
   <condition property="jbossws.integration.jboss50" value="true">
     <or>
-	    <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
-  	  <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
+      <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
+      <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
     </or>
   </condition>
   
@@ -88,7 +89,7 @@
   <fail message="JDK1.5 or above is required" unless="HAVE_JDK_1.5"/>
   
   <import file="${basedir}/build/build-deploy.xml"/>
-  <import file="${basedir}/build/macros-deploy-cxf.xml"/>
+  <import file="${basedir}/build/jbossws-deploy-macros.xml"/>
   <import file="${basedir}/tests/ant-import/build-testsuite.xml"/>
   
   <!-- ================================================================== -->
@@ -164,9 +165,8 @@
   
   <target name="tests-main" depends="tests-jars" description="Build the test deployments."/>
   
-  <!-- dummy jar targets -->
-  <target name="jars-jboss50" depends="prepare"/>
-  <target name="jars-jboss42" depends="prepare"/>
+  <!-- dummy targets -->
+  <target name="prepare-deploy" depends="prepare"/>
   
   <!-- ================================================================== -->
   <!-- Miscellaneous                                                       -->

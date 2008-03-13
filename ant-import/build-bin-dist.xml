@@ -17,19 +17,18 @@
 	<!-- Binary distribution                                                -->
 	<!-- ================================================================== -->
 
-	<target name="build-bin-dist" depends="jars, javadoc" description="Build the binary distribution">
+	<target name="build-bin-dist" depends="jars,javadoc,prepare-deploy" description="Build the binary distribution">
 
     <property name="bindist.dir" value="${cxf.output.dir}/jbossws-cxf-dist"/>
 		<property name="bindist.build.dir" value="${bindist.dir}/build"/>
-		<property name="bindist.bin.dir" value="${bindist.dir}/bin"/>
-		<property name="bindist.lib.dir" value="${bindist.dir}/lib"/>
+		<property name="bindist.deploy.dir" value="${bindist.dir}/deploy"/>
 		<property name="bindist.docs.dir" value="${bindist.dir}/docs"/>
 		<property name="bindist.tests.dir" value="${bindist.dir}/tests"/>
 		<property name="bindist.tools.dir" value="${bindist.dir}/tools"/>
 
 		<delete dir="${bindist.dir}"/>
 		<mkdir dir="${bindist.build.dir}"/>
-		<mkdir dir="${bindist.bin.dir}"/>		
+		<mkdir dir="${bindist.deploy.dir}"/>		
 		<mkdir dir="${bindist.docs.dir}"/>
 		<mkdir dir="${bindist.tests.dir}"/>
 		<mkdir dir="${bindist.tools.dir}"/>
@@ -42,26 +41,20 @@
     </copy>
 		<copy tofile="${bindist.dir}/version.properties" file="${cxf.dir}/version.properties"/>
 		<copy tofile="${bindist.dir}/build.xml" file="${cxf.distro.dir}/bin-dist-build.xml"/>
-		<copy tofile="${bindist.build.dir}/build-deploy.xml" file="${cxf.distro.dir}/bin-dist-deploy.xml"/>
 
 		<!-- build -->
 		<copy todir="${bindist.build.dir}">
 			<fileset dir="${cxf.dir}/ant-import">
-				<include name="jbossws.default.undeploy.files"/>
-				<include name="macros-deploy-cxf.xml"/>
+        <include name="build-deploy.xml"/>
+        <include name="jbossws-deploy-macros.xml"/>
+        <include name="jbossws-default-deploy.conf"/>
 			</fileset>
 		</copy>
 
-		<unzip dest="${bindist.bin.dir}" src="${thirdparty.dir}/jbossws-framework-scripts.zip"/>
-
-		<copy todir="${bindist.bin.dir}">
-			<fileset dir="${cxf.dir}/src/main/etc">
-				<include name="*.sh"/>
-				<include name="*.bat"/>
-			</fileset>
-		</copy>
-
-		<chmod dir="${bindist.bin.dir}" perm="+x" includes="**/*.sh"/>
+    <!-- deploy -->
+    <copy todir="${bindist.deploy.dir}">
+      <fileset dir="${deploy.artifacts.dir}"/>
+    </copy>
 
 		<!-- docs -->
 		<copy todir="${bindist.docs.dir}" >
@@ -82,41 +75,6 @@
 		<copy todir="${bindist.docs.dir}">
 			<fileset dir="${cxf.etc.dir}">
 				<include name="JBossORG-EULA.txt"/>
-			</fileset>
-		</copy>
-
-		<!-- lib -->
-		<copy todir="${bindist.lib.dir}" overwrite="true">
-			<fileset dir="${thirdparty.dir}">
-				<include name="jbossws-common.jar"/>
-				<include name="jbossws-framework.jar"/>
-				<include name="jbossws-framework-scripts.zip"/>
-				<include name="jbossws-spi.jar"/>
-			</fileset>
-			<fileset dir="${cxf.dir}/output/lib">
-				<include name="jbossws-context.war/**"/>
-				<include name="jbossws-cxf.jar"/>
-				<include name="jbossws-cxf-client.jar"/>
-				<include name="jbossws-cxf42.sar"/>
-				<include name="jbossws-cxf50.sar"/>
-			</fileset>
-			<fileset dir="${thirdparty.dir}">
-				<include name="juddi-service.sar"/>
-        <include name="cxf-${cxf.version}.jar"/>
-        <include name="geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
-        <include name="geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
-        <include name="jaxws-api-${cxf.jaxws.api}.jar"/>
-        <include name="jdom-${cxf.jdom}.jar"/>
-        <include name="neethi-${cxf.neethi}.jar"/>
-        <include name="saaj-api-${cxf.saaj}.jar"/>
-        <include name="saaj-impl-${cxf.saaj}.jar"/>
-        <include name="xml-resolver-${cxf.xml.resolver}.jar"/>
-        <include name="XmlSchema-${cxf.xmlschema}.jar"/>
-				<include name="jaxb-api.jar"/>
-				<include name="jaxb-impl.jar"/>
-				<include name="jaxb-xjc.jar"/>
-				<include name="wsdl4j.jar"/>
-				<include name="wstx.jar"/>
 			</fileset>
 		</copy>
 
