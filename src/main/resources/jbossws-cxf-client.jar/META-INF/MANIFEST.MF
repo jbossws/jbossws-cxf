@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: tdiesler
+Build-Jdk: 1.5.0_12
+Implementation-Title: Apache CXF Runtime JAX-WS Frontend
+Implementation-Vendor: The Apache Software Foundation
+Implementation-Vendor-Id: org.apache
+Implementation-Version: 2.0.3-incubator
+Specification-Title: Apache CXF Runtime JAX-WS Frontend
+Specification-Vendor: The Apache Software Foundation
+Specification-Version: 2.0.3-incubator
+
