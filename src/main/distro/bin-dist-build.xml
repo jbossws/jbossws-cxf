@@ -117,27 +117,27 @@
   <target name="tests-init" depends="prepare,tests-classpath">
     
     <path id="ws.stack.classpath">
-      <pathelement location="${lib.dir}/jbossws-common.jar"/>
-      <pathelement location="${lib.dir}/jbossws-spi.jar"/>
-      <pathelement location="${lib.dir}/cxf-${cxf.version}.jar"/>
-      <pathelement location="${lib.dir}/geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
-      <pathelement location="${lib.dir}/geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
-      <pathelement location="${lib.dir}/jaxws-api-${cxf.jaxws.api}.jar"/>
-      <pathelement location="${lib.dir}/jdom-${cxf.jdom}.jar"/>
-      <pathelement location="${lib.dir}/neethi-${cxf.neethi}.jar"/>
-      <pathelement location="${lib.dir}/saaj-api-${cxf.saaj}.jar"/>
-      <pathelement location="${lib.dir}/saaj-impl-${cxf.saaj}.jar"/>
-      <pathelement location="${lib.dir}/xml-resolver-${cxf.xml.resolver}.jar"/>
-      <pathelement location="${lib.dir}/XmlSchema-${cxf.xmlschema}.jar"/>
-      <pathelement location="${lib.dir}/jaxb-api.jar"/>
-      <pathelement location="${lib.dir}/wsdl4j.jar"/>
-      <pathelement location="${lib.dir}/wstx.jar"/>
+      <pathelement location="${thirdparty.dir}/jbossws-common.jar"/>
+      <pathelement location="${thirdparty.dir}/jbossws-spi.jar"/>
+      <pathelement location="${thirdparty.dir}/cxf-${cxf.version}.jar"/>
+      <pathelement location="${thirdparty.dir}/geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
+      <pathelement location="${thirdparty.dir}/geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
+      <pathelement location="${thirdparty.dir}/jaxws-api-${cxf.jaxws.api}.jar"/>
+      <pathelement location="${thirdparty.dir}/jdom-${cxf.jdom}.jar"/>
+      <pathelement location="${thirdparty.dir}/neethi-${cxf.neethi}.jar"/>
+      <pathelement location="${thirdparty.dir}/saaj-api-${cxf.saaj}.jar"/>
+      <pathelement location="${thirdparty.dir}/saaj-impl-${cxf.saaj}.jar"/>
+      <pathelement location="${thirdparty.dir}/xml-resolver-${cxf.xml.resolver}.jar"/>
+      <pathelement location="${thirdparty.dir}/XmlSchema-${cxf.xmlschema}.jar"/>
+      <pathelement location="${thirdparty.dir}/jaxb-api.jar"/>
+      <pathelement location="${thirdparty.dir}/wsdl4j.jar"/>
+      <pathelement location="${thirdparty.dir}/wstx.jar"/>
     </path>
     
     <path id="tests.extra.classpath">
-      <pathelement location="${lib.dir}/jbossws-cxf-client.jar"/>
-      <pathelement location="${lib.dir}/jbossws-framework.jar"/>
-      <pathelement location="${lib.dir}/jaxws-tools.jar"/>
+      <pathelement location="${thirdparty.dir}/jbossws-cxf-client.jar"/>
+      <pathelement location="${thirdparty.dir}/jbossws-framework.jar"/>
+      <pathelement location="${thirdparty.dir}/jaxws-tools.jar"/>
     </path>
     
   </target>
