@@ -83,6 +83,7 @@
       <fileset dir="${cxf.dir}/src/test-framework"/>
       <fileset dir="${cxf.dir}/src/test">
         <include name="resources/test-excludes-*.txt"/>
+        <include name="etc/log4j.xml"/>
       </fileset>
     </copy>
     
