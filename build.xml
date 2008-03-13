@@ -128,7 +128,6 @@
     
     <copy todir="${cxf.output.resources.dir}">
       <fileset dir="${cxf.resources.dir}">
-        <include name="jbossws-cxf.jar/**"/>
         <include name="jbossws-cxf.sar/**"/>
       </fileset>
     </copy>
@@ -156,6 +155,7 @@
       <fileset dir="${cxf.output.classes.dir}">
         <include name="org/jboss/wsf/stack/cxf/client/**"/>
       </fileset>
+      <metainf dir="${cxf.resources.dir}/jbossws-cxf-client.jar/META-INF"/>
     </jar>
     
      <!-- Build jbossws-context.war -->
@@ -174,7 +174,7 @@
     
     <!-- Remove config files from cxf-${cxf.version}.jar -->
     <unjar src="${thirdparty.dir}/cxf-${cxf.version}.jar" dest="${cxf.output.lib.dir}/cxf-${cxf.version}"/>
-    <jar destfile="${cxf.output.lib.dir}/cxf-${cxf.version}.jar">
+    <jar destfile="${cxf.output.lib.dir}/cxf-${cxf.version}.jar" manifest="${cxf.output.lib.dir}/cxf-${cxf.version}/META-INF/MANIFEST.MF">
       <fileset dir="${cxf.output.lib.dir}/cxf-${cxf.version}">
         <exclude name="META-INF/**"/>
       </fileset>

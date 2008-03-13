@@ -26,10 +26,9 @@
     <path id="ws.stack.classpath">
       <pathelement location="${int.cxf.dir}/thirdparty/jbossws-common.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/jbossws-spi.jar"/>
-      
-      <pathelement location="${int.cxf.dir}/thirdparty/cxf-${cxf.version}.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/jaxb-api.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/jaxws-api-${cxf.jaxws.api}.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/jdom-${cxf.jdom}.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/neethi-${cxf.neethi}.jar"/>
@@ -38,15 +37,14 @@
       <pathelement location="${int.cxf.dir}/thirdparty/spring-beans-${cxf.spring}.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/spring-context-${cxf.spring}.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/spring-core-${cxf.spring}.jar"/>
-      <pathelement location="${int.cxf.dir}/thirdparty/xml-resolver-${cxf.xml.resolver}.jar"/>
-      <pathelement location="${int.cxf.dir}/thirdparty/XmlSchema-${cxf.xmlschema}.jar"/>
-      
-      <pathelement location="${int.cxf.dir}/thirdparty/jaxb-api.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/wsdl4j.jar"/>
       <pathelement location="${int.cxf.dir}/thirdparty/wstx.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/xml-resolver-${cxf.xml.resolver}.jar"/>
+      <pathelement location="${int.cxf.dir}/thirdparty/XmlSchema-${cxf.xmlschema}.jar"/>
     </path>
     
     <path id="tests.extra.classpath">
+      <pathelement location="${int.cxf.dir}/output/lib/cxf-${cxf.version}.jar"/>
 			<pathelement location="${int.cxf.dir}/output/lib/jbossws-cxf-client.jar"/>
 			<pathelement location="${int.cxf.dir}/thirdparty/jbossws-framework.jar"/>
 			<pathelement location="${int.cxf.dir}/thirdparty/jaxws-tools.jar"/>

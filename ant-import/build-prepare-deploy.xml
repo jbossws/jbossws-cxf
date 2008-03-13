@@ -29,6 +29,7 @@
         <patternset refid="jbossws.lib.endorsed.patternset"/>
         <patternset refid="jbossws.server.lib.patternset"/>
         <patternset refid="jbossws.service.lib.patternset"/>
+        <exclude name="cxf-${cxf.version}.jar"/>
         <include name="juddi-service.sar"/>
       </fileset>
       <fileset dir="${cxf.output.lib.dir}">

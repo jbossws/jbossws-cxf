@@ -27,6 +27,7 @@
   
   <patternset id="jbossws.client.patternset">
     <include name="**/jbossws-common.jar"/>
+    <include name="**/jbossws-cxf-client.jar"/>
     <include name="**/jbossws-framework.jar"/>
     <include name="**/jbossws-spi.jar"/>
     <include name="**/jaxb-api.jar"/>
@@ -62,10 +63,10 @@
   
   <patternset id="jbossws.service.lib.patternset">
     <include name="**/cxf-${cxf.version}.jar"/>
-    <include name="**/jbossws-cxf.jar"/>
     <include name="**/geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
     <include name="**/geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
     <include name="**/jaxws-api-${cxf.jaxws.api}.jar"/>
+    <include name="**/jbossws-cxf.jar"/>
     <include name="**/jdom-${cxf.jdom}.jar"/>
     <include name="**/neethi-${cxf.neethi}.jar"/>
     <include name="**/saaj-api-${cxf.saaj}.jar"/>
