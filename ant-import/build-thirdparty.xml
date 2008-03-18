@@ -54,6 +54,7 @@
     <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework-scripts.zip" dest="${thirdparty.dir}/jbossws-framework-scripts.zip" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi.jar" dest="${thirdparty.dir}/jbossws-spi.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi-src.zip" dest="${thirdparty.dir}/jbossws-spi-src.zip" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-jboss42/${jbossws-jboss42}/lib/jbossws-jboss42-resources.zip" dest="${thirdparty.dir}/jbossws-jboss42-resources.zip" usetimestamp="true" verbose="true"/>
     
     <get src="${jboss.repository}/apache-xml-commons/${apache-xml-commons}/lib/resolver.jar" dest="${thirdparty.dir}/resolver.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j.jar" dest="${thirdparty.dir}/wsdl4j.jar" usetimestamp="true" verbose="true"/>
