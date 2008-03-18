@@ -114,13 +114,12 @@
     </concat>
     
     <!-- Concat jboss-beans.xml -->
-    <unzip dest="${cxf.output.dir}/resources" src="${thirdparty.dir}/jbossws-jboss42-resources.zip"/>
     <concat destfile="${cxf.output.resources.dir}/jbossws-cxf42-beans.xml">
       <header trimleading="yes">
         &lt;deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd" xmlns="urn:jboss:bean-deployer"&gt;
       </header>
       <fileset file="${cxf.resources.dir}/jbossws-cxf-config.xml"/>
-      <fileset file="${cxf.output.resources.dir}/jbossws-jboss42-config.xml"/>
+      <fileset file="${cxf.resources.dir}/jbossws-jboss42-config.xml"/>
       <footer trimleading="yes">
         &lt;/deployment&gt;
       </footer>
