@@ -24,6 +24,11 @@
     -->
   </bean>
 
+  <!-- The registry for web service endpoints -->
+  <bean name="WSEndpointRegistry" class="org.jboss.wsf.framework.management.ManagedEndpointRegistry">
+    <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
+  </bean>
+  
   <!-- Logging redirector -->
   <bean name="JDKLogRedirector" class="org.jboss.wsf.common.logging.JDKLogRedirector">
     <property name="namespaces">
