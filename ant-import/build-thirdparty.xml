@@ -47,31 +47,31 @@
     description="Gets the thirdparty libraries">
 
     <mkdir dir="${thirdparty.dir}"/>
-    <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common.jar" dest="${thirdparty.dir}/jbossws-common.jar" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common-src.zip" dest="${thirdparty.dir}/jbossws-common-src.zip" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework.jar" dest="${thirdparty.dir}/jbossws-framework.jar" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework-src.zip" dest="${thirdparty.dir}/jbossws-framework-src.zip" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework-scripts.zip" dest="${thirdparty.dir}/jbossws-framework-scripts.zip" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi.jar" dest="${thirdparty.dir}/jbossws-spi.jar" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi-src.zip" dest="${thirdparty.dir}/jbossws-spi-src.zip" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-jboss42/${jbossws-jboss42}/lib/jbossws-jboss42-resources.zip" dest="${thirdparty.dir}/jbossws-jboss42-resources.zip" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common.jar" dest="${thirdparty.dir}/jbossws-common.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common-src.zip" dest="${thirdparty.dir}/jbossws-common-src.zip" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework.jar" dest="${thirdparty.dir}/jbossws-framework.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework-src.zip" dest="${thirdparty.dir}/jbossws-framework-src.zip" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework-scripts.zip" dest="${thirdparty.dir}/jbossws-framework-scripts.zip" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi.jar" dest="${thirdparty.dir}/jbossws-spi.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-spi/${jbossws-spi}/lib/jbossws-spi-src.zip" dest="${thirdparty.dir}/jbossws-spi-src.zip" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-jboss42/${jbossws-jboss42}/lib/jbossws-jboss42-resources.zip" dest="${thirdparty.dir}/jbossws-jboss42-resources.zip" usetimestamp="true" verbose="true"/>
     
-    <get src="${jboss.repository}/apache-xml-commons/${apache-xml-commons}/lib/resolver.jar" dest="${thirdparty.dir}/resolver.jar" verbose="true"/>
-    <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j.jar" dest="${thirdparty.dir}/wsdl4j.jar" verbose="true"/>
-    <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j-src.jar" dest="${thirdparty.dir}/wsdl4j-src.jar" verbose="true"/>
-    <get src="${jboss.repository}/jboss/common-core/${jboss-common-core}/lib/jboss-common-core.jar" dest="${thirdparty.dir}/jboss-common-core.jar" verbose="true"/>
-    <get src="${jboss.repository}/jboss/common-core/${jboss-common-core}/lib/jboss-common-core-sources.jar" dest="${thirdparty.dir}/jboss-common-core-sources.jar" verbose="true"/>
-    <get src="${jboss.repository}/jboss/common-logging-spi/${jboss-common-logging-spi}/lib/jboss-logging-spi.jar" dest="${thirdparty.dir}/jboss-logging-spi.jar" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jaxr/${jboss-jaxr}/lib/juddi-service.sar" dest="${thirdparty.dir}/juddi-service.sar" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jboss-javaee/${jboss-javaee}/lib/jboss-javaee.jar" dest="${thirdparty.dir}/jboss-javaee.jar" verbose="true"/>
-    <get src="${jboss.repository}/stax-api/${stax-api}/lib/stax-api.jar" dest="${thirdparty.dir}/stax-api.jar" verbose="true"/>
-    <get src="${jboss.repository}/sun-jaf/${sun-jaf}/lib/activation.jar" dest="${thirdparty.dir}/activation.jar" verbose="true"/>
-    <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-api.jar" dest="${thirdparty.dir}/jaxb-api.jar" verbose="true"/>
-    <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-impl.jar" dest="${thirdparty.dir}/jaxb-impl.jar" verbose="true"/>
-    <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-xjc.jar" dest="${thirdparty.dir}/jaxb-xjc.jar" verbose="true"/>
-    <get src="${jboss.repository}/sun-jaxrpc/${sun-jaxrpc}/lib/jaxrpc-api.jar" dest="${thirdparty.dir}/jaxrpc-api.jar" verbose="true"/>
-    <get src="${jboss.repository}/sun-servlet/${sun-servlet}/lib/servlet-api.jar" dest="${thirdparty.dir}/servlet-api.jar" verbose="true"/>
-    <get src="${jboss.repository}/woodstox/${woodstox}/lib/wstx.jar" dest="${thirdparty.dir}/wstx.jar" verbose="true"/>
+    <get src="${jboss.repository}/apache-xml-commons/${apache-xml-commons}/lib/resolver.jar" dest="${thirdparty.dir}/resolver.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j.jar" dest="${thirdparty.dir}/wsdl4j.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/ibm-wsdl4j/${ibm-wsdl4j}/lib/wsdl4j-src.jar" dest="${thirdparty.dir}/wsdl4j-src.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/common-core/${jboss-common-core}/lib/jboss-common-core.jar" dest="${thirdparty.dir}/jboss-common-core.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/common-core/${jboss-common-core}/lib/jboss-common-core-sources.jar" dest="${thirdparty.dir}/jboss-common-core-sources.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/common-logging-spi/${jboss-common-logging-spi}/lib/jboss-logging-spi.jar" dest="${thirdparty.dir}/jboss-logging-spi.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jaxr/${jboss-jaxr}/lib/juddi-service.sar" dest="${thirdparty.dir}/juddi-service.sar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jboss-javaee/${jboss-javaee}/lib/jboss-javaee.jar" dest="${thirdparty.dir}/jboss-javaee.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/stax-api/${stax-api}/lib/stax-api.jar" dest="${thirdparty.dir}/stax-api.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/sun-jaf/${sun-jaf}/lib/activation.jar" dest="${thirdparty.dir}/activation.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-api.jar" dest="${thirdparty.dir}/jaxb-api.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-impl.jar" dest="${thirdparty.dir}/jaxb-impl.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/sun-jaxb/${sun-jaxb}/lib/jaxb-xjc.jar" dest="${thirdparty.dir}/jaxb-xjc.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/sun-jaxrpc/${sun-jaxrpc}/lib/jaxrpc-api.jar" dest="${thirdparty.dir}/jaxrpc-api.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/sun-servlet/${sun-servlet}/lib/servlet-api.jar" dest="${thirdparty.dir}/servlet-api.jar" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/woodstox/${woodstox}/lib/wstx.jar" dest="${thirdparty.dir}/wstx.jar" usetimestamp="true" verbose="true"/>
     
     <checksum file="${int.cxf.dir}/version.properties" fileext=".md5"/>
   </target>
