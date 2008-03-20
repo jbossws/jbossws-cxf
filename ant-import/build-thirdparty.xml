@@ -27,8 +27,10 @@
     <property name="apache.cxf.dir" value="${cxf.dir}/apache-cxf"/>
     <available property="apache.cxf.available" file="${apache.cxf.dir}"/>
     
-    <property name="thirdparty.dir" value="${int.cxf.dir}/thirdparty"/>
     <checksum file="${int.cxf.dir}/version.properties" fileext=".md5" verifyproperty="checksum.ok"/>
+    <property name="checksum.ok.${checksum.ok}" value="true"/>
+    
+    <property name="thirdparty.dir" value="${int.cxf.dir}/thirdparty"/>
     <condition property="force.thirdparty.get">
       <or>
         <not>
@@ -37,13 +39,17 @@
         <isfalse value="${checksum.ok}"/>
       </or>
     </condition>
-    <echo message="force.thirdparty.get=${force.thirdparty.get}"/>
+    <echo message="checksum.ok=${checksum.ok}"/>
+  </target>
+  
+  <target name="thirdparty-delete" depends="thirdparty-init" unless="checksum.ok.true">
+    <delete dir="${thirdparty.dir}"/>
   </target>
   
   <!-- 
     thirdpartry-get
   -->
-  <target name="thirdparty-get" depends="thirdparty-init, cxf-copy-jars" if="force.thirdparty.get" 
+  <target name="thirdparty-get" depends="thirdparty-delete,cxf-copy-jars" if="force.thirdparty.get" 
     description="Gets the thirdparty libraries">
 
     <mkdir dir="${thirdparty.dir}"/>
