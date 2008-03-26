@@ -8,9 +8,6 @@ org/jboss/test/ws/jaxws/samples/jaxr/**
 # [JBWS-1774] Provide a tools implementation for CXF (WSContractProvider and WSContractConsumer)
 org/jboss/test/ws/jaxws/smoke/tools/**
 
-# [EJBTHREE-1150] WebServiceContext injection requires mapped-name
-org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
-
 # [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored
 org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
 
@@ -23,7 +20,7 @@ org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase.*
 org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
 
 # [CXF-1253] CXF does not respect @HandlerChain on client SEI
-org/jboss/test/ws/jaxws/samples/logicalhandler/**
+org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*
 
 # Won't Fix: [CXF-1261] Handler does not see XOP message properly
 org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
