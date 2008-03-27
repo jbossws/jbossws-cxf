@@ -11,3 +11,6 @@
 #
 #  $Id$
 
+richard.opalka@jboss.com 27-Mar-2008
+svn merge -r 6107:6108 https://svn.jboss.org/repos/jbossws/stack/cxf/branches/jbossws-3.0.1-cxf-1.0.1.GA
+
