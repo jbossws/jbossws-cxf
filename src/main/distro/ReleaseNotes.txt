@@ -2,7 +2,7 @@
 @implementation.title@
 @implementation.url@
 
-Version: @specification.version@-cxf-@version.id@
+Version: jbossws-@version.id@
 
 Release Notes
 =============
@@ -22,22 +22,26 @@ http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.p
 For issues that are scheduled for future versions see the road map.
 http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.project:roadmap-panel
 
-What's new in @specification.version@-cxf-@version.id@
+What's new in jbossws-@version.id@
 ----------------------------------
 
-Bug
+Feature Request
 
-    * [JBWS-1754] - Investigate CXF samples oneway
-    * [JBWS-1756] - Fix @WebServiceRef with CXF
+    * [JBWS-1865] - Unify SOAP message trace
 
 Task
 
-    * [JBWS-1677] - Redirect CXF message logging to jboss log
-    * [JBWS-1742] - Update to cxf-2.0.3-incubator
-    * [JBWS-1952] - Release jbossws-cxf-1.0.0 binary
+    * [JBWS-1982] - Simplify deploy/undeploy cycles for different stacks
+    * [JBWS-1995] - Fix cxf build issues
+    * [JBWS-2056] - Update to apache-cxf-2.0.4-incubator
 
 Errata
 
-   * [CXF-1257] Cannot create proxy for namespaced doc/wrapped
-   * [CXF-1258] soap:Fault response does not cause SOAPFaultException
-   * [JBWS-1655] - Add support for endpoint address rewriting
+    * [CXF-1253]  - CXF does not respect @HandlerChain on client SEI
+    * [CXF-1257]  - Cannot create proxy for namespaced doc/wrapped
+    * [CXF-1258]  - soap:Fault response does not cause SOAPFaultException
+    * [CXF-1310]  - Generated WSDL for an WS-RM endpoint does not contain RM policies
+    * [JBWS-1655] - Add support for endpoint address rewriting
+    * [JBWS-1683] - Fix JAXR samples for CXF
+    * [JBWS-1774] - Provide tools implementation for CXF (WSContractProvider and WSContractConsumer)
+
