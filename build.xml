@@ -52,7 +52,6 @@
   <!-- ================================================================== -->
   
   <target name="init" depends="prepare,thirdparty">
-		<mkdir dir="${cxf.output.apidocs.dir}"/>
   </target>
   
   <!-- ================================================================== -->
@@ -194,6 +193,7 @@
 		<unzip src="${thirdparty.dir}/cxf-distribution-sources.jar" dest="${cxf.output.dir}/thirdparty-sources"/>
 
 
+		<mkdir dir="${cxf.output.apidocs.dir}"/>
 		<javadoc destdir="${cxf.output.apidocs.dir}" author="true" version="true" use="true" windowtitle="JBossWS API ${version.id} ">
       <classpath>
 			  <pathelement path="${cxf.integration.classpath}"/>
