@@ -37,11 +37,11 @@ Task
 
 Errata
 
-    * [CXF-1253]  - CXF does not respect @HandlerChain on client SEI
-    * [CXF-1257]  - Cannot create proxy for namespaced doc/wrapped
-    * [CXF-1258]  - soap:Fault response does not cause SOAPFaultException
-    * [CXF-1310]  - Generated WSDL for an WS-RM endpoint does not contain RM policies
-    * [JBWS-1655] - Add support for endpoint address rewriting
-    * [JBWS-1683] - Fix JAXR samples for CXF
-    * [JBWS-1774] - Provide tools implementation for CXF (WSContractProvider and WSContractConsumer)
+    FIXME: [CXF-1253]  - CXF does not respect @HandlerChain on client SEI
+    FIXME: [CXF-1257]  - Cannot create proxy for namespaced doc/wrapped
+    FIXME: [CXF-1258]  - soap:Fault response does not cause SOAPFaultException
+    FIXME: [CXF-1310]  - Generated WSDL for an WS-RM endpoint does not contain RM policies
+    FIXME: [JBWS-1655] - Add support for endpoint address rewriting
+    FIXME: [JBWS-1683] - Fix JAXR samples for CXF
+    FIXME: [JBWS-1774] - Provide tools implementation for CXF (WSContractProvider and WSContractConsumer)
 
