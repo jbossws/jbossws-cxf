@@ -45,3 +45,5 @@ Errata
     FIXME: [JBWS-1683] - Fix JAXR samples for CXF
     FIXME: [JBWS-1774] - Provide tools implementation for CXF (WSContractProvider and WSContractConsumer)
 
+Enjoy,
+The JBossWS Team
