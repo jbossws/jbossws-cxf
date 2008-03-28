@@ -89,7 +89,7 @@
     
     <!-- build tools -->
     <copy todir="${bindist.tools.dir}" overwrite="true">
-      <fileset dir="${cxf.dir}/tools/ant"/>
+      <fileset dir="${cxf.dir}/tools"/>
     </copy>
     <copy todir="${bindist.dir}" overwrite="true">
       <fileset dir="${cxf.dir}">
