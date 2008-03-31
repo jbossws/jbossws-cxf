@@ -23,7 +23,7 @@
     <echo message="*  - Release the jbossws-${version.id} version in JIRA"/>
     <echo message="*  - Update portal-content/project.xml"/>
     <echo message="*  - Update portal-content/counter.xml"/>
-    <echo message="*  - Update news in portal-content/freezone/projectDescription.html"/>
+    <echo message="*  - Update news in portal-content/freezone/index.html"/>
     <echo message="*  - Verify release notes and install instructions"/>
     <echo message="*  - Publish the interop endpoints"/>
     <echo message="*  - Commit the portal-content"/>
