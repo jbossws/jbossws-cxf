@@ -47,3 +47,25 @@ Errata
 
 Enjoy,
 The JBossWS Team
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+jbossws-3.0-cxf-1.0.0.GA
+--------------------------
+
+Bug
+
+    * [JBWS-1754] - Investigate CXF samples oneway
+    * [JBWS-1756] - Fix @WebServiceRef with CXF
+
+Task
+
+    * [JBWS-1677] - Redirect CXF message logging to jboss log
+    * [JBWS-1742] - Update to cxf-2.0.3-incubator
+    * [JBWS-1952] - Release jbossws-cxf-1.0.0 binary
+
+Errata
+
+    FIXME: [CXF-1257] Cannot create proxy for namespaced doc/wrapped
+    FIXME: [CXF-1258] soap:Fault response does not cause SOAPFaultException
+    FIXME: [JBWS-1655] - Add support for endpoint address rewriting
