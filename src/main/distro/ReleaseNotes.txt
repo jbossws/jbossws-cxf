@@ -22,8 +22,48 @@ http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.p
 For issues that are scheduled for future versions see the road map.
 http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.project:roadmap-panel
 
-What's new in @specification.version@-cxf-@version.id@
+What's new in jbossws-@version.id@
 ----------------------------------
+
+Bug
+
+Feature Request
+
+Task
+
+Errata
+
+
+Enjoy,
+The JBossWS Team
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+jbossws-3.0.1-cxf-1.0.1.GA
+--------------------------
+
+Feature Request
+
+    * [JBWS-1865] - Unify SOAP message trace
+
+Task
+
+    * [JBWS-1982] - Simplify deploy/undeploy cycles for different stacks
+    * [JBWS-1995] - Fix cxf build issues
+    * [JBWS-2056] - Update to apache-cxf-2.0.4-incubator
+
+Errata
+
+    FIXME: [CXF-1253]  - CXF does not respect @HandlerChain on client SEI
+    FIXME: [CXF-1257]  - Cannot create proxy for namespaced doc/wrapped
+    FIXME: [CXF-1258]  - soap:Fault response does not cause SOAPFaultException
+    FIXME: [CXF-1310]  - Generated WSDL for an WS-RM endpoint does not contain RM policies
+    FIXME: [JBWS-1655] - Add support for endpoint address rewriting
+    FIXME: [JBWS-1683] - Fix JAXR samples for CXF
+    FIXME: [JBWS-1774] - Provide tools implementation for CXF (WSContractProvider and WSContractConsumer)
+
+jbossws-3.0-cxf-1.0.0.GA
+------------------------
 
 Bug
 
@@ -38,6 +78,6 @@ Task
 
 Errata
 
-   * [CXF-1257] Cannot create proxy for namespaced doc/wrapped
-   * [CXF-1258] soap:Fault response does not cause SOAPFaultException
-   * [JBWS-1655] - Add support for endpoint address rewriting
+    FIXME: [CXF-1257] Cannot create proxy for namespaced doc/wrapped
+    FIXME: [CXF-1258] soap:Fault response does not cause SOAPFaultException
+    FIXME: [JBWS-1655] - Add support for endpoint address rewriting

@@ -2,25 +2,19 @@
 @implementation.title@
 @implementation.url@
 
-Version: @specification.version@-cxf-@version.id@
+Version: jbossws-@version.id@
 
 Installation instructions
 =========================
 
 In order to install JBossWS the following steps are necessary:
 
-1.) Modify the target container location in ant.properties
-2.) Make sure to uninstall any deployed stack
+1.) Copy ant.properties.examples to ant.properties
+2.) Modify the target container location in ant.properties
+3.) Execute one of the following
 
-	ant undeploy-<jboss.version>
-
-	I.e. 'ant undeploy-jboss422'
-
-3.) Install JBossWS-CXF into the target container
-
-   ant deploy-<jboss-version>
-
-   I.e. 'ant deploy-jboss422'
+	ant deploy-jboss42x
+	ant deploy-jboss50x
 
 4.) Execute the samples to verify your installation
 
