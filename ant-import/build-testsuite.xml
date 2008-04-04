@@ -52,11 +52,27 @@
     
   </target>
   
+	<!-- ================================================================== -->
+	<!-- Generating sources                                                 -->
+	<!-- ================================================================== -->
+
+	<target name="wsconsume" depends="tests-init" unless="noconsume" description="Consume JAX-WS contracts">
+
+		<!-- Define the JAX-WS wsconsume task - ->
+		<taskdef name="wsconsume" classname="org.jboss.wsf.spi.tools.ant.WSConsumeTask">			
+      <classpath refid="tests.client.classpath"/>
+    </taskdef>
+    
+		<wsconsume wsdl="${tests.framework.resources.dir}/jaxws/complex/META-INF/wsdl/RegistrationService.wsdl" package="org.jboss.test.ws.jaxws.complex" sourcedestdir="${tests.output.dir}/wsconsume/java" keep="true" verbose="false"/>
+		<wsconsume wsdl="${tests.framework.resources.dir}/jaxws/holder/META-INF/wsdl/HolderService.wsdl" package="org.jboss.test.ws.jaxws.holder" sourcedestdir="${tests.output.dir}/wsconsume/java" keep="true" verbose="false"/>
+    -->
+	</target>
+
   <!-- ================================================================== -->
   <!-- Compiling                                                          -->
   <!-- ================================================================== -->
 
-  <target name="tests-compile" depends="tests-init" description="Compile sources">
+  <target name="tests-compile" depends="wsconsume" description="Compile sources">
 		<macro-compile-classes srcdir="${int.cxf.dir}/src/test-framework/java" excludesfile="${excludesfile}"/>
 		<macro-compile-classes srcdir="${int.cxf.dir}/src/test/java" excludesfile="${excludesfile}"/>
   </target>
