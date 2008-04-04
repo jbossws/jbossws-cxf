@@ -20,7 +20,6 @@
   <import file="${basedir}/ant-import/build-prepare-deploy.xml"/>
   <import file="${basedir}/ant-import/build-deploy.xml"/>
   <import file="${basedir}/ant-import/build-release.xml"/>
-  <import file="${basedir}/ant-import/build-testsuite.xml"/>
   <import file="${basedir}/ant-import/build-thirdparty.xml"/>
   <import file="${basedir}/ant-import/jbossws-deploy-macros.xml"/>
   
@@ -47,6 +46,8 @@
   <property name="deploy.structure.jboss50" value="${cxf.output.deploy.dir}-jboss50"/>
 	<property name="jbossws.default.deploy.conf" value="${cxf.dir}/ant-import/jbossws-default-deploy.conf"/>
 	
+  <import file="${basedir}/ant-import-tests/build-testsuite.xml"/>
+  
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
