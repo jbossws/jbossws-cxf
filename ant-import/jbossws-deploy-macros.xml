@@ -26,18 +26,29 @@
   </patternset>
   
   <patternset id="jbossws.client.patternset">
-    <include name="**/jbossws-common.jar"/>
-    <include name="**/jbossws-cxf-client.jar"/>
-    <include name="**/jbossws-framework.jar"/>
-    <include name="**/jbossws-spi.jar"/>
+    <include name="**/cxf-${cxf.version}.jar"/>
+    <include name="**/geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
+    <include name="**/geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
     <include name="**/jaxb-api.jar"/>
     <include name="**/jaxb-impl.jar"/>
     <include name="**/jaxb-xjc.jar"/>
     <include name="**/jaxws-api-${cxf.jaxws.api}.jar"/>
+    <include name="**/jbossws-common.jar"/>
+    <include name="**/jbossws-cxf-client.jar"/>
+    <include name="**/jbossws-framework.jar"/>
+    <include name="**/jbossws-spi.jar"/>
+    <include name="**/jdom-${cxf.jdom}.jar"/>
+    <include name="**/neethi-${cxf.neethi}.jar"/>
     <include name="**/saaj-api-${cxf.saaj}.jar"/>
+    <include name="**/saaj-impl-${cxf.saaj}.jar"/>
+    <include name="**/spring-beans-${cxf.spring}.jar"/>
+    <include name="**/spring-context-${cxf.spring}.jar"/>
+    <include name="**/spring-core-${cxf.spring}.jar"/>
     <include name="**/stax-api.jar"/>
     <include name="**/wsdl4j.jar"/>
     <include name="**/wstx.jar"/>
+    <include name="**/xml-resolver-${cxf.xml.resolver}.jar"/>
+    <include name="**/XmlSchema-${cxf.xmlschema}.jar"/>
   </patternset>
   
   <patternset id="jbossws.lib.patternset">
@@ -65,6 +76,9 @@
     <include name="**/cxf-${cxf.version}.jar"/>
     <include name="**/geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
     <include name="**/geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
+    <include name="**/jaxb-api.jar"/>
+    <include name="**/jaxb-impl.jar"/>
+    <include name="**/jaxrpc-api.jar"/>
     <include name="**/jaxws-api-${cxf.jaxws.api}.jar"/>
     <include name="**/jbossws-cxf.jar"/>
     <include name="**/jdom-${cxf.jdom}.jar"/>
@@ -74,15 +88,12 @@
     <include name="**/spring-beans-${cxf.spring}.jar"/>
     <include name="**/spring-context-${cxf.spring}.jar"/>
     <include name="**/spring-core-${cxf.spring}.jar"/>
-    <include name="**/xbean-${cxf.xbean}.jar"/>
-    <include name="**/xml-resolver-${cxf.xml.resolver}.jar"/>
-    <include name="**/XmlSchema-${cxf.xmlschema}.jar"/>
-    <include name="**/jaxb-api.jar"/>
-    <include name="**/jaxb-impl.jar"/>
-    <include name="**/jaxrpc-api.jar"/>
     <include name="**/stax-api.jar"/>
     <include name="**/wsdl4j.jar"/>
     <include name="**/wstx.jar"/>
+    <include name="**/xbean-${cxf.xbean}.jar"/>
+    <include name="**/xml-resolver-${cxf.xml.resolver}.jar"/>
+    <include name="**/XmlSchema-${cxf.xmlschema}.jar"/>
   </patternset>
   
   <!-- ================================================================== -->
