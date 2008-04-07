@@ -2,6 +2,13 @@
 # $Id: test-excludes.txt 3915 2007-07-17 16:16:05Z heiko.braun@jboss.com $
 #
 
+# Won't Fix: [CXF-1261] Handler does not see XOP message properly
+org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
+
+# [JBAS-5055] Failed to load users/passwords/role files
+org/jboss/test/ws/jaxws/webserviceref/StubPropertyTestCase.*
+org/jboss/test/ws/jaxws/jbws1840/**
+
 # [JBWS-1774] Provide tools implementation for CXF
 org/jboss/test/ws/jaxws/complex/**
 org/jboss/test/ws/jaxws/holder/**
@@ -42,7 +49,7 @@ org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
 # [CXF-1253] CXF does not respect @HandlerChain on client SEI
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*
 
-# Won't Fix: [CXF-1261] Handler does not see XOP message properly
-org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
-
+# [JBWS-2107] Resolve dependency on @SecurityDomain
+org/jboss/test/ws/jaxws/webserviceref/Secure**
+org/jboss/test/ws/jaxws/jbws1840/**
 

@@ -2,6 +2,9 @@
 # $Id$
 #
 
+# Won't Fix: [CXF-1261] Handler does not see XOP message properly
+org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
+
 # [JBWS-1774] Provide tools implementation for CXF
 org/jboss/test/ws/jaxws/complex/**
 org/jboss/test/ws/jaxws/holder/**
@@ -46,10 +49,11 @@ org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
 # [CXF-1253] CXF does not respect @HandlerChain on client SEI
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*
 
-# Won't Fix: [CXF-1261] Handler does not see XOP message properly
-org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
-
 # TODO: Fix classpath to ClientLauncher
 org/jboss/test/ws/jaxws/samples/webserviceref/**
 org/jboss/test/ws/jaxws/webserviceref/**
+
+# [JBWS-2107] Resolve dependency on @SecurityDomain
+org/jboss/test/ws/jaxws/webserviceref/Secure**
+org/jboss/test/ws/jaxws/jbws1840/**
 
