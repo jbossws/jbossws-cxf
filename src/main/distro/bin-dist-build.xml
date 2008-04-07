@@ -132,7 +132,7 @@
       <pathelement location="${thirdparty.dir}/spring-context-${cxf.spring}.jar"/>
       <pathelement location="${thirdparty.dir}/spring-core-${cxf.spring}.jar"/>
       <pathelement location="${thirdparty.dir}/wsdl4j.jar"/>
-      <pathelement location="${thirdparty.dir}/wstx.jar"/>
+      <pathelement location="${thirdparty.dir}/wstx-${cxf.wstx}.jar"/>
       <pathelement location="${thirdparty.dir}/xml-resolver-${cxf.xml.resolver}.jar"/>
       <pathelement location="${thirdparty.dir}/XmlSchema-${cxf.xmlschema}.jar"/>
     </path>

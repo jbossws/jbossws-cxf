@@ -54,13 +54,11 @@
   <patternset id="jbossws.lib.patternset">
     <include name="**/jaxb-api.jar"/>
     <include name="**/jaxb-impl.jar"/>
+    <include name="**/stax-api.jar"/>
+    <include name="**/wstx.jar"/>
   </patternset>
   
   <patternset id="jbossws.lib.endorsed.patternset">
-    <include name="**/jboss-jaxrpc.jar"/>
-    <include name="**/jboss-jaxws.jar"/>
-    <include name="**/jboss-jaxws-ext.jar"/>
-    <include name="**/jboss-saaj.jar"/>
     <include name="**/jaxb-api.jar"/>
   </patternset>
   
@@ -88,9 +86,7 @@
     <include name="**/spring-beans-${cxf.spring}.jar"/>
     <include name="**/spring-context-${cxf.spring}.jar"/>
     <include name="**/spring-core-${cxf.spring}.jar"/>
-    <include name="**/stax-api.jar"/>
     <include name="**/wsdl4j.jar"/>
-    <include name="**/wstx.jar"/>
     <include name="**/xbean-${cxf.xbean}.jar"/>
     <include name="**/xml-resolver-${cxf.xml.resolver}.jar"/>
     <include name="**/XmlSchema-${cxf.xmlschema}.jar"/>

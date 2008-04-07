@@ -9,8 +9,6 @@
 	<classpathentry kind="lib" path="thirdparty/jaxb-xjc.jar"/>
 	<classpathentry kind="lib" path="thirdparty/servlet-api.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jboss-5.0.x"/>
-	<classpathentry kind="lib" path="thirdparty/geronimo-javamail_1.4_spec-1.0-M1.jar"/>
-	<classpathentry kind="lib" path="thirdparty/geronimo-ws-metadata_2.0_spec-1.1.1.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jboss-common-core.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jboss-common-core-sources.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jboss-javaee.jar"/>
@@ -22,13 +20,8 @@
 	<classpathentry kind="lib" path="thirdparty/resolver.jar"/>
 	<classpathentry kind="lib" path="thirdparty/saaj-api-1.3.jar" sourcepath="apache-cxf"/>
 	<classpathentry kind="lib" path="thirdparty/saaj-impl-1.3.jar"/>
-	<classpathentry kind="lib" path="thirdparty/spring-beans-2.0.6.jar"/>
-	<classpathentry kind="lib" path="thirdparty/spring-context-2.0.6.jar"/>
-	<classpathentry kind="lib" path="thirdparty/spring-core-2.0.6.jar"/>
-	<classpathentry kind="lib" path="thirdparty/stax-api.jar"/>
 	<classpathentry kind="lib" path="thirdparty/wsdl4j.jar"/>
 	<classpathentry kind="lib" path="thirdparty/wsdl4j-src.jar"/>
-	<classpathentry kind="lib" path="thirdparty/wstx.jar"/>
 	<classpathentry kind="lib" path="thirdparty/xbean-2.2.0.jar"/>
 	<classpathentry kind="lib" path="thirdparty/xml-resolver-1.2.jar"/>
 	<classpathentry kind="lib" path="thirdparty/XmlSchema-1.3.2.jar"/>
@@ -36,6 +29,13 @@
 	<classpathentry kind="lib" path="tools/ant/lib/junit.jar"/>
 	<classpathentry kind="lib" path="thirdparty/activation.jar"/>
 	<classpathentry kind="lib" path="thirdparty/jbossws-common.jar" sourcepath="thirdparty/jbossws-common-src.zip"/>
-	<classpathentry kind="lib" path="thirdparty/cxf-2.0.4-incubator.jar" sourcepath="apache-cxf"/>
+	<classpathentry kind="lib" path="thirdparty/geronimo-javamail_1.4_spec-1.2.jar"/>
+	<classpathentry kind="lib" path="thirdparty/geronimo-stax-api_1.0_spec-1.0.1.jar"/>
+	<classpathentry kind="lib" path="thirdparty/geronimo-ws-metadata_2.0_spec-1.1.2.jar"/>
+	<classpathentry kind="lib" path="thirdparty/spring-beans-2.0.8.jar"/>
+	<classpathentry kind="lib" path="thirdparty/spring-context-2.0.8.jar"/>
+	<classpathentry kind="lib" path="thirdparty/spring-core-2.0.8.jar"/>
+	<classpathentry kind="lib" path="thirdparty/wstx-asl-3.2.4.jar"/>
+	<classpathentry kind="lib" path="thirdparty/cxf-2.0.5-incubator.jar"/>
 	<classpathentry kind="output" path="output/eclipse"/>
 </classpath>
