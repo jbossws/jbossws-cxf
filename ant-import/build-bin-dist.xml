@@ -80,7 +80,14 @@
     
     <!-- tests -->
     <copy todir="${bindist.tests.dir}" overwrite="true">
-      <fileset dir="${cxf.dir}/src/test-framework"/>
+      <fileset dir="${cxf.dir}/src/test-framework">
+        <include name="ant-import/**"/>
+        <include name="etc/**"/>
+        <include name="java/**/jaxws/samples/**"/>
+        <include name="java/**/jaxws/smoke/**"/>
+        <include name="resources/jaxws/samples/**"/>
+        <include name="resources/jaxws/smoke/**"/>
+      </fileset>
       <fileset dir="${cxf.dir}/src/test">
         <include name="resources/test-excludes-*.txt"/>
         <include name="etc/log4j.xml"/>
