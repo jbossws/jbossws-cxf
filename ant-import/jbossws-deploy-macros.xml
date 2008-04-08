@@ -74,8 +74,6 @@
     <include name="**/cxf-${cxf.version}.jar"/>
     <include name="**/geronimo-javamail_${cxf.geronimo.javamail}.jar"/>
     <include name="**/geronimo-ws-metadata_${cxf.geronimo.ws.metadata}.jar"/>
-    <include name="**/jaxb-api.jar"/>
-    <include name="**/jaxb-impl.jar"/>
     <include name="**/jaxrpc-api.jar"/>
     <include name="**/jaxws-api-${cxf.jaxws.api}.jar"/>
     <include name="**/jbossws-cxf.jar"/>
@@ -193,6 +191,8 @@
           <include name="**/jbossws-deploy.conf"/>
           <include name="**/jaxb-api.jar"/>
           <include name="**/jaxb-impl.jar"/>
+          <include name="**/stax-api.jar"/>
+          <include name="**/wstx.jar"/>
         </fileset>
       </copy>
       <unzip dest="@{targetdir}/jbossws-context.war">
