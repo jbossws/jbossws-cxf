@@ -88,8 +88,9 @@
   </target>
   
   <target name="tests-jars" depends="tests-compile,tests-copy-resources" description="Build the deployments.">
-		<ant antfile="${int.cxf.dir}/src/test-framework/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws"/>
 		<ant antfile="${int.cxf.dir}/ant-import-tests/build-jars-jaxws.xml" target="build-testsuite-jars"/>
+		<ant antfile="${int.cxf.dir}/src/test-framework/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws"/>
+    <ant antfile="${int.cxf.dir}/src/test-framework/ant-import/build-samples-jaxws.xml" target="build-samples-jaxws"/>
   </target>
   
   <target name="tests-main" depends="tests-jars" description="Build the deployments."/>

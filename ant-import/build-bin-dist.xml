@@ -81,7 +81,8 @@
     <!-- tests -->
     <copy todir="${bindist.tests.dir}" overwrite="true">
       <fileset dir="${cxf.dir}/src/test-framework">
-        <include name="ant-import/**"/>
+        <include name="ant-import/build-testsuite.xml"/>
+        <include name="ant-import/build-samples-jaxws.xml"/>
         <include name="etc/**"/>
         <include name="java/**/jaxws/samples/**"/>
         <include name="java/**/jaxws/smoke/**"/>
