@@ -2,6 +2,9 @@
 # $Id: test-excludes.txt 3915 2007-07-17 16:16:05Z heiko.braun@jboss.com $
 #
 
+# Won't Fix: [CXF-1261] Handler does not see XOP message properly
+org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
+
 # EJB3/Injection excludes
 org/jboss/test/ws/jaxws/samples/webserviceref/**
 org/jboss/test/ws/jaxws/webserviceref/**
@@ -27,5 +30,30 @@ org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
 # [CXF-1253] CXF does not respect @HandlerChain on client SEI
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*
 
-# Won't Fix: [CXF-1261] Handler does not see XOP message properly
-org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
+# [CXF-1510] Cannot handle anonymous bare requests
+org/jboss/test/ws/jaxws/anonymous/**
+
+# [CXF-1511] WrappedMessageContext does not implement SOAPMessageContext
+org/jboss/test/ws/jaxws/binding/**
+
+# [JBWS-2112] Cannot use CXF with endpoint API
+org/jboss/test/ws/jaxws/endpoint/**
+
+# [CXF-1513] NPE in JaxWsServiceConfiguration
+org/jboss/test/ws/jaxws/handlerscope/**
+
+# [CXF-1514] Generated WSDL does not take 'transport-guarantee' in web.xml into account
+org/jboss/test/ws/jaxws/jbws1190/**
+
+# [JBWS-2114] Soap attachments are dropped on server response when added in ejb3 jaxws handler
+org/jboss/test/ws/jaxws/jbws1283/**
+
+# [CXF-1515] Bad Enumeration value 'extension restriction'
+org/jboss/test/ws/jaxws/jbws1505/**
+
+# [JBWS-2115] EJB client vehicle not sufficiently isolated
+org/jboss/test/ws/jaxws/jbws1581/**
+
+
+
+

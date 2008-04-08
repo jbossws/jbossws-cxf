@@ -208,13 +208,13 @@ public class ServiceRefBinderJAXWS implements ServiceRefBinder
    }
 
    /**
-    * Create a Sun-RI specific service referenceable.
+    * Create a Apache-CXF specific service referenceable.
     * Most of the setup is done in {@link org.jboss.wsf.framework.serviceref.ServiceRefBinderJAXWS}
     *
     * @param serviceImplClass
     * @param targetClassName
     * @param serviceRef
-    * @return a Sun-RI specific service referenceable.
+    * @return a Apache-CXF specific service referenceable.
     */
    protected Referenceable buildServiceReferenceable(String serviceImplClass, String targetClassName, UnifiedServiceRefMetaData serviceRef)
    {

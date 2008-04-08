@@ -185,7 +185,7 @@ public class ServiceObjectFactory implements ObjectFactory
 
    private void configureService(Service service, UnifiedServiceRefMetaData serviceRef)
    {
-      log.warn("Service configuration not available in Sun-RI");
+      log.warn("Service configuration not available in Apache-CXF");
    }
 
    private UnifiedServiceRefMetaData unmarshallServiceRef(Reference ref) throws ClassNotFoundException, NamingException
@@ -204,10 +204,11 @@ public class ServiceObjectFactory implements ObjectFactory
          throw new NamingException("Cannot unmarshall service ref meta data, cause: " + e.toString());
       }
 
-      // Verify it. There is some know coinstraints
-      if(null == sref.getServiceQName())
+      /* Verify it. There is some know coinstraints
+      if(sref.getServiceQName() == null)
          throw new IllegalArgumentException("ServiceQName may not be null. " +
            "Specify a service QName in the <service-ref> declaration, or thorugh the @WebServiceClient annotation.");
+      */
 
       return sref;
    }
