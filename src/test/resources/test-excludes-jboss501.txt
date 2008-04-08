@@ -9,22 +9,6 @@ org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 org/jboss/test/ws/jaxws/complex/**
 org/jboss/test/ws/jaxws/holder/**
 
-# [JBWS-2105] Remove dependency on native wsdl model
-org/jboss/test/ws/jaxws/binding/**
-org/jboss/test/ws/jaxws/endpoint/**
-org/jboss/test/ws/jaxws/jbws1190/**
-org/jboss/test/ws/jaxws/jbws1505/**
-org/jboss/test/ws/jaxws/jbws1529/**
-org/jboss/test/ws/jaxws/jbws1581/**
-org/jboss/test/ws/jaxws/jbws1665/**
-org/jboss/test/ws/jaxws/jbws1809/**
-org/jboss/test/ws/jaxws/jbws1904/**
-org/jboss/test/ws/jaxws/jbws1909/**
-org/jboss/test/ws/jaxws/jbws1969/**
-org/jboss/test/ws/jaxws/jbws860/**
-org/jboss/test/ws/jaxws/jbws944/**
-org/jboss/test/ws/jaxws/webfault/**
-
 # [JBWS-1683] Fix JAXR samples for CXF
 org/jboss/test/ws/jaxws/samples/jaxr/**
 
