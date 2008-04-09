@@ -35,10 +35,8 @@ org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*
 
 # TODO: Fix classpath to ClientLauncher
 org/jboss/test/ws/jaxws/samples/webserviceref/**
-org/jboss/test/ws/jaxws/webserviceref/**
 
 # [JBWS-2107] Resolve dependency on @SecurityDomain
-org/jboss/test/ws/jaxws/webserviceref/Secure**
 org/jboss/test/ws/jaxws/jbws1840/**
 
 # [CXF-1510] Cannot handle anonymous bare requests
@@ -100,3 +98,7 @@ org/jboss/test/ws/jaxws/webfault/**
 
 # [CXF-1522] NPE in ServiceUtils
 org/jboss/test/ws/jaxws/jbws1566/**
+
+# [JBAS-5359] mapped-name is required for context of deployment
+org/jboss/test/ws/console/**
+org/jboss/test/ws/jaxws/jbws1611/**
