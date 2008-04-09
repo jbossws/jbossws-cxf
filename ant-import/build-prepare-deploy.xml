@@ -38,6 +38,7 @@
         <patternset refid="jbossws.lib.endorsed.patternset"/>
         <patternset refid="jbossws.server.lib.patternset"/>
         <patternset refid="jbossws.service.lib.patternset"/>
+        <include name="jbossws-context.war"/>
       </fileset>
     </copy>
     <copy todir="${deploy.artifacts.dir}/resources">

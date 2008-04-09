@@ -159,19 +159,26 @@
       <metainf dir="${cxf.resources.dir}/jbossws-cxf-client.jar/META-INF"/>
     </jar>
     
-     <!-- Build jbossws-context.war -->
-     <copy todir="${cxf.output.lib.dir}/jbossws-context.war" filtering="true">
-        <fileset dir="${cxf.resources.dir}/jbossws-context.war">
-           <include name="index.html"/>
-           <include name="styles.css"/>
-           <include name="WEB-INF/**"/>
-        </fileset>
-        <filterset>
-           <filter token="build.id" value="${build.id}"/>
-           <filter token="implementation.version" value="jbossws-${version.id}"/>
-           <filtersfile file="${cxf.dir}/version.properties"/>
-        </filterset>
-     </copy>
+    <!-- Build jbossws-context.war -->
+    <copy todir="${cxf.output.resources.dir}/jbossws-context.war" overwrite="true" filtering="true">
+      <fileset dir="${cxf.resources.dir}/jbossws-context.war"/>
+      <filterset>
+        <filter token="build.id" value="${build.id}"/>
+        <filter token="implementation.version" value="jbossws-${version.id}"/>
+        <filtersfile file="${cxf.dir}/version.properties"/>
+      </filterset>
+    </copy>
+    <war warfile="${cxf.output.lib.dir}/jbossws-context.war"
+      webxml="${cxf.output.resources.dir}/jbossws-context.war/WEB-INF/web.xml"
+      manifest="${cxf.output.etc.dir}/default.mf">
+      <fileset dir="${cxf.output.resources.dir}/jbossws-context.war">
+        <include name="index.html"/>
+        <include name="styles.css"/>
+      </fileset>
+      <webinf dir="${cxf.output.resources.dir}/jbossws-context.war/WEB-INF">
+        <include name="jboss-web.xml"/>
+      </webinf>
+    </war>
     
     <!-- Remove config files from cxf-${cxf.version}.jar -->
     <unjar src="${thirdparty.dir}/cxf-${cxf.version}.jar" dest="${cxf.output.lib.dir}/cxf-${cxf.version}"/>
