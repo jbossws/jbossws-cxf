@@ -34,6 +34,9 @@ jboss.local.repository=/home/tdiesler/svn/jboss.local.repository
 # JDK settings
 #java.home.jdk16=/usr/java/jdk1.6
 
+# Endpoint servlet used by test descriptors
+endpoint.servlet=org.jboss.wsf.stack.cxf.CXFServletExt
+
 # Java Compiler options
 javac.debug=yes
 javac.deprecation=no
