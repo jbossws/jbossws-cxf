@@ -95,3 +95,6 @@ org/jboss/test/ws/jaxws/jbws1566/**
 
 # [JBWS-2120] @WebWservice does not work with class isolation
 org/jboss/test/ws/jaxws/jbws1556/**
+
+# [JBWS-2097] Unlock WS-ReliableMessaging in all stacks
+org/jboss/test/ws/jaxws/wsrm/**
