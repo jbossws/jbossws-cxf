@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ============================================================ -->
+<!--  JBoss, the OpenSource J2EE webOS                            -->
+<!--  Distributable under LGPL license.                           -->
+<!--  See terms of license at http://www.gnu.org.                 -->
+<!-- ============================================================ -->
+
+<!-- $Id$ -->
+
+<project>
+  
+  <!-- ================================================================== -->
+  <!-- Building                                                           -->
+  <!-- ================================================================== -->
+  
+  <target name="build-samples-jaxws" description="Build the jaxws samples deployments">
+    
+    <mkdir dir="${tests.output.dir}/libs"/>
+  	
+    <!-- jaxws-samples-wsrm -->
+    <war
+       warfile="${tests.output.dir}/libs/jaxws-samples-wsrm.war"
+       webxml="${tests.output.dir}/resources/jaxws/samples/wsrm/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsrm/service/**"/>
+       </classes>
+       <zipfileset
+          dir="${tests.output.dir}/resources/jaxws/samples/wsrm/WEB-INF/wsdl" 
+          prefix="WEB-INF/wsdl"/>
+    </war>
+
+    <!-- Please add alphabetically -->
+    
+  </target>
+  
+</project>
