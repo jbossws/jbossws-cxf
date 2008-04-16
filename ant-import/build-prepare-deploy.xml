@@ -31,6 +31,9 @@
         <patternset refid="jbossws.service.lib.patternset"/>
         <exclude name="cxf-${cxf.version}.jar"/>
         <include name="juddi-service.sar"/>
+        <include name="jbossws-jboss42.jar"/>
+        <include name="jbossws-jboss50.jar"/>
+        <include name="jbossws-jboss50-container.jar"/>
       </fileset>
       <fileset dir="${cxf.output.lib.dir}">
         <patternset refid="jbossws.client.patternset"/>
@@ -47,6 +50,7 @@
         <include name="jbossws-cxf50-beans.xml"/>
         <include name="jbossws-jboss42.sar/**"/>
         <include name="jbossws-cxf.sar/**"/>
+        <include name="jbossws-deployer-beans.xml"/>
       </fileset>
     </copy>
   </target>

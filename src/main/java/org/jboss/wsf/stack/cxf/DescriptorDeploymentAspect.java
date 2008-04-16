@@ -34,6 +34,7 @@ import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.DeploymentAspect;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
+import org.jboss.wsf.spi.WSFRuntime;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
@@ -61,8 +62,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
       this.invokerJSE = invokerJSE;
    }
 
-   @Override
-   public void create(Deployment dep)
+   public void create(Deployment dep, WSFRuntime runtime)
    {
       // Look for cxf.xml descriptor
       ClassLoader initCL = dep.getInitialClassLoader();
@@ -139,8 +139,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
       }
    }
 
-   @Override
-   public void destroy(Deployment dep)
+   public void destroy(Deployment dep, WSFRuntime runtime)
    {
       DDBeans dd = dep.getAttachment(DDBeans.class);
       if (dd != null)

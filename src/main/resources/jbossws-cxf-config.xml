@@ -23,11 +23,6 @@
       <property name="webServicePort">8080</property>
     -->
   </bean>
-
-  <!-- The registry for web service endpoints -->
-  <bean name="WSEndpointRegistry" class="org.jboss.wsf.framework.management.ManagedEndpointRegistry">
-    <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
-  </bean>
   
   <!-- Logging redirector -->
   <bean name="JDKLogRedirector" class="org.jboss.wsf.common.logging.JDKLogRedirector">
@@ -45,6 +40,8 @@
   <bean name="WSLogRecorder" class="org.jboss.wsf.framework.management.recording.LogRecorder">
     <property name="recording">false</property>
   </bean>
+
+  <bean name="StackRequestHandlerFactory" class="org.jboss.wsf.stack.cxf.RequestHandlerFactoryImpl"/>
 
   <!-- 
     The stack specific deployment aspects
@@ -85,29 +82,19 @@
   <!-- Deployment aspect installers -->  
 
   <!-- Phase 2 -->
-  <bean name="WSCXFDeploymentAspectInstallerPreJSE" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
-    <property name="manager"><inject bean="WSDeploymentAspectManagerPreJSE"/></property>
+  <bean name="WSCXFDeploymentAspectInstallerJSE" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
+    <property name="manager"><inject bean="WSDeploymentAspectManagerJSE"/></property>
     <property name="sortAspectsOnCreate">true</property>
     <property name="aspects">
       <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">
         <inject bean="WSCXFContextPropertiesDeploymentAspect"/>
         <inject bean="WSCXFDescriptorDeploymentAspect"/>
-      </set>
-    </property>
-    <depends>WSDeploymentAspectInstallerPreJSE</depends>
-  </bean>
-
-  <!-- Phase 2 -->
-  <bean name="WSCXFDeploymentAspectInstallerPostJSE" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
-    <property name="manager"><inject bean="WSDeploymentAspectManagerPostJSE"/></property>
-    <property name="sortAspectsOnCreate">true</property>
-    <property name="aspects">
-      <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">        
+        <!-- phase 2 -->
         <inject bean="WSCXFEndpointHandlerDeploymentAspect"/>
         <inject bean="WSCXFEndpointRecordProcessorDeploymentAspect"/>
       </set>
     </property>
-    <depends>WSDeploymentAspectInstallerPostJSE</depends>
+    <depends>WSDeploymentAspectInstallerJSE</depends>
   </bean>
 
   <bean name="WSCXFDeploymentAspectInstallerEJB" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">

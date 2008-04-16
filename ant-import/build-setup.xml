@@ -61,8 +61,28 @@
   <available property="jboss423.available" file="${jboss423.available.file}"/>
   <available property="jboss500.available" file="${jboss500.available.file}"/>
   <available property="jboss501.available" file="${jboss501.available.file}"/>
-  
-  <condition property="jbossws.integration.jboss42" value="true">
+
+   <condition property="jbossws.integration.jboss421" value="true">
+      <equals arg1="${jbossws.integration.target}" arg2="jboss421"/>
+   </condition>
+
+   <condition property="jbossws.integration.jboss422" value="true">
+      <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
+   </condition>
+
+   <condition property="jbossws.integration.jboss423" value="true">
+      <equals arg1="${jbossws.integration.target}" arg2="jboss423"/>
+   </condition>
+
+   <condition property="jbossws.integration.jboss500" value="true">
+      <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
+   </condition>
+
+   <condition property="jbossws.integration.jboss501" value="true">
+      <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
+   </condition>
+
+   <condition property="jbossws.integration.jboss42" value="true">
     <or>
       <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
       <equals arg1="${jbossws.integration.target}" arg2="jboss423"/>

@@ -100,33 +100,40 @@
   </target>
   
   <!-- Compile resource files -->
-  <target name="compile-resources" depends="init">
+   <target name="compile42-resources" if="jbossws.integration.jboss42">
+      <mkdir dir="${cxf.output.resources.dir}"/>
+      <unzip dest="${cxf.output.dir}/resources" src="${thirdparty.dir}/jbossws-jboss42-resources.zip"/>
+      <concat destfile="${cxf.output.resources.dir}/jbossws-cxf42-beans.xml">
+        <header trimleading="yes">
+          &lt;deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd" xmlns="urn:jboss:bean-deployer"&gt;
+        </header>
+        <fileset file="${cxf.resources.dir}/jbossws-cxf-config.xml"/>
+        <fileset file="${cxf.output.resources.dir}/jbossws-jboss42-config.xml"/>
+        <footer trimleading="yes">
+          &lt;/deployment&gt;
+        </footer>
+      </concat>
+
+   </target>
+   <target name="compile50-resources" if="jbossws.integration.jboss50">
+      <mkdir dir="${cxf.output.resources.dir}"/>
+      <unzip src="${thirdparty.dir}/jbossws-jboss50-deployer-resources.zip"  dest="${cxf.output.resources.dir}"/>
+
+      <concat destfile="${cxf.output.resources.dir}/jbossws-cxf50-beans.xml">
+         <header trimleading="yes">
+            &lt;deployment xmlns="urn:jboss:bean-deployer:2.0"&gt;
+         </header>
+         <fileset file="${cxf.resources.dir}/jbossws-cxf-config.xml"/>
+         <footer trimleading="yes">
+            &lt;/deployment&gt;
+         </footer>
+      </concat>
+
+   </target>
+
+   <target name="compile-resources" depends="init, compile42-resources, compile50-resources">
     
-    <!-- Concat jbossws-cxf50-beans.xml -->
     <mkdir dir="${cxf.output.resources.dir}"/>
-    <concat destfile="${cxf.output.resources.dir}/jbossws-cxf50-beans.xml">
-      <header trimleading="yes">
-        &lt;deployment xmlns="urn:jboss:bean-deployer:2.0"&gt;
-      </header>
-      <fileset file="${cxf.resources.dir}/jbossws-cxf-config.xml"/>
-      <footer trimleading="yes">
-        &lt;/deployment&gt;
-      </footer>
-    </concat>
-    
-    <!-- Concat jboss-beans.xml -->
-    <unzip dest="${cxf.output.dir}/resources" src="${thirdparty.dir}/jbossws-jboss42-resources.zip"/>
-    <concat destfile="${cxf.output.resources.dir}/jbossws-cxf42-beans.xml">
-      <header trimleading="yes">
-        &lt;deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd" xmlns="urn:jboss:bean-deployer"&gt;
-      </header>
-      <fileset file="${cxf.resources.dir}/jbossws-cxf-config.xml"/>
-      <fileset file="${cxf.output.resources.dir}/jbossws-jboss42-config.xml"/>
-      <footer trimleading="yes">
-        &lt;/deployment&gt;
-      </footer>
-    </concat>
-    
     <copy todir="${cxf.output.resources.dir}">
       <fileset dir="${cxf.resources.dir}">
         <include name="jbossws-cxf.sar/**"/>
