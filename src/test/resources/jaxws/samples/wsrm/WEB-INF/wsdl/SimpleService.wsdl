@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="SimpleService" targetNamespace="http://www.jboss.org/jbossws/ws-extensions/wsrm" xmlns:tns="http://www.jboss.org/jbossws/ws-extensions/wsrm" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions name="SimpleService" targetNamespace="http://www.jboss.org/jbossws/ws-extensions/wsrm" xmlns:tns="http://www.jboss.org/jbossws/ws-extensions/wsrm" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+
+  <wsp:UsingPolicy/>
+  <wsp:Policy wsu:Id="wsrm10policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <wswa:UsingAddressing xmlns:wswa="http://www.w3.org/2006/05/addressing/wsdl"/>
+    <wsrmp:RMAssertion xmlns:wsrmp="http://schemas.xmlsoap.org/ws/2005/02/rm/policy"/>
+  </wsp:Policy>
+  
   <wsdl:types>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.jboss.org/jbossws/ws-extensions/wsrm" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.jboss.org/jbossws/ws-extensions/wsrm">
 <xsd:element name="ping" type="tns:ping"/>
@@ -45,6 +52,7 @@
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="SimpleServiceSoapBinding" type="tns:SimpleService">
+    <wsp:PolicyReference URI="#wsrm10policy"/>
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="ping">
       <soap:operation soapAction="" style="document"/>
