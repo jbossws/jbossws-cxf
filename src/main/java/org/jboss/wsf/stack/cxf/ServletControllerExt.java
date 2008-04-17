@@ -53,88 +53,110 @@ public class ServletControllerExt extends ServletController
 {
    private static Logger log = Logger.getLogger(ServletControllerExt.class);
 
-   private ServletTransportFactory transport;
+   private ServletTransportFactory cxfTransport;
    private CXFServlet cxfServlet;
 
-   public ServletControllerExt(ServletTransportFactory transport, CXFServlet servlet)
+   public ServletControllerExt(ServletTransportFactory cxfTransport, CXFServlet cxfServlet)
    {
-      super(transport, servlet);
-      this.transport = transport;
-      this.cxfServlet = servlet;
+      super(cxfTransport, cxfServlet);
+      this.cxfTransport = cxfTransport;
+      this.cxfServlet = cxfServlet;
+   }
+   
+   /**
+    * Finds destination based on request URI
+    * @param requestURI to be recognized
+    * @return destination associated with the request URI
+    * @throws ServletException when destination wasn't found
+    */
+   private ServletDestination findDestination(HttpServletRequest req) throws ServletException
+   {
+      // Find destination based on request URI
+      String requestURI = req.getRequestURI();
+      Collection<ServletDestination> destinations = cxfTransport.getDestinations();
+      for (ServletDestination destination : destinations)
+      {
+         EndpointInfo endpointInfo = destination.getEndpointInfo();
+         String address = endpointInfo.getAddress();
+         
+         // Fix invalid leading slash
+         if (address.startsWith("/http://"))
+         {
+            address = address.substring(1);
+            endpointInfo.setAddress(address);
+         }
+         
+         String path = address;
+         try
+         {
+            path = new URL(address).getPath();
+         }
+         catch (MalformedURLException ex)
+         {
+            // ignore
+         }
+         
+         if (requestURI.startsWith(path))
+         {
+            return destination;
+         }
+      }
+
+      throw new ServletException("Cannot obtain destination for: " + requestURI);
+   }
+   
+   /**
+    * When request includes query it tries to lookup the query handler and tries to handle the request message
+    * @param req request
+    * @param res response
+    * @param dest destination
+    * @return true if there was a query handler that successfully handled the request, false otherwise
+    * @throws ServletException if some problem occurs
+    */
+   private boolean handleQuery(HttpServletRequest req, HttpServletResponse res, ServletDestination dest)
+   throws ServletException
+   {
+      Bus bus = cxfServlet.getBus();
+      boolean hasQuery = (null != req.getQueryString()) && (req.getQueryString().length() > 0);
+      boolean queryHandlerRegistryExists = bus.getExtension(QueryHandlerRegistry.class) != null;
+      
+      if (hasQuery && queryHandlerRegistryExists)
+      {
+         String ctxUri = req.getRequestURI();
+         String baseUri = req.getRequestURL().toString() + "?" + req.getQueryString();
+         EndpointInfo endpointInfo = dest.getEndpointInfo();
+
+         for (QueryHandler queryHandler : bus.getExtension(QueryHandlerRegistry.class).getHandlers())
+         {
+            if (queryHandler.isRecognizedQuery(baseUri, ctxUri, endpointInfo))
+            {
+               res.setContentType(queryHandler.getResponseContentType(baseUri, ctxUri));
+               try
+               {
+                  OutputStream out = res.getOutputStream();
+                  queryHandler.writeResponse(baseUri, ctxUri, endpointInfo, out);
+                  out.flush();
+                  return true;
+               }
+               catch (Exception e)
+               {
+                  throw new ServletException(e);
+               }
+            }
+         }
+      }
+         
+      return false;
    }
 
    public void invoke(HttpServletRequest req, HttpServletResponse res) throws ServletException
    {
-      try
+      ServletDestination dest = findDestination(req);
+      boolean requestHandled = handleQuery(req, res, dest); 
+      
+      if (false == requestHandled)
       {
-         // Find destination based on request URI
-         String requestURI = req.getRequestURI();
-         ServletDestination dest = null;
-         Collection<ServletDestination> destinations = transport.getDestinations();
-         for (ServletDestination aux : destinations)
-         {
-            EndpointInfo ei = aux.getEndpointInfo();
-            String address = ei.getAddress();
-            
-            // Fix invalid leading slash
-            if (address.startsWith("/http://"))
-            {
-               address = address.substring(1);
-               ei.setAddress(address);
-            }
-            
-            String path = address;
-            try
-            {
-               path = new URL(address).getPath();
-            }
-            catch (MalformedURLException ex)
-            {
-               // ignore
-            }
-            
-            if (requestURI.startsWith(path))
-            {
-               dest = aux;
-               break;
-            }
-         }
-         if (dest == null)
-            throw new ServletException("Cannot obtain destination for: " + requestURI);
-
-         EndpointInfo ei = dest.getEndpointInfo();
-         Bus bus = cxfServlet.getBus();
-         if (null != req.getQueryString() && req.getQueryString().length() > 0 && bus.getExtension(QueryHandlerRegistry.class) != null)
-         {
-            String ctxUri = requestURI; //req.getPathInfo();
-            String baseUri = req.getRequestURL().toString() + "?" + req.getQueryString();
-
-            for (QueryHandler qh : bus.getExtension(QueryHandlerRegistry.class).getHandlers())
-            {
-               if (qh.isRecognizedQuery(baseUri, ctxUri, ei))
-               {
-
-                  res.setContentType(qh.getResponseContentType(baseUri, ctxUri));
-                  OutputStream out = res.getOutputStream();
-                  try
-                  {
-                     qh.writeResponse(baseUri, ctxUri, ei, out);
-                     out.flush();
-                     return;
-                  }
-                  catch (Exception e)
-                  {
-                     throw new ServletException(e);
-                  }
-               }
-            }
-         }
-
          invokeDestination(req, res, dest);
-      }
-      catch (IOException e)
-      {
-         throw new ServletException(e);
       }
    }
 }
