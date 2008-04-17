@@ -9,6 +9,9 @@ org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 org/jboss/test/ws/jaxws/samples/webserviceref/**
 org/jboss/test/ws/jaxws/webserviceref/**
 
+# [JBWS-1178] Multiple virtual host and soap:address problem
+org/jboss/test/ws/jaxws/jbws1178/**
+
 # [JBWS-1774] Provide tools implementation for CXF
 org/jboss/test/ws/jaxws/complex/**
 org/jboss/test/ws/jaxws/holder/**
