@@ -23,7 +23,6 @@ package org.jboss.wsf.stack.cxf;
 
 //$Id$
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;

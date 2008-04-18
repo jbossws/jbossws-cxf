@@ -39,7 +39,7 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
 /**
- * A deployer that locates or generates cxf.xml 
+ * A deployer that locates or generates CXF configuration file 
  *
  * @author Thomas.Diesler@jboss.org
  * @since 10-May-2007
@@ -65,16 +65,12 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
    @Override
    public void create(Deployment dep, WSFRuntime runtime)
    {
-      URL cxfURL = getCXFConfigFromClassLoader(dep);
+      URL cxfURL = getCXFConfigFromDeployment(dep);
       if (cxfURL == null)
       {
-         cxfURL = getCXFConfigFromDeployment(dep);
-         if (cxfURL == null)
-         {
-            cxfURL = generateCXFConfigFromDeployment(dep);
-         }
-         putCXFConfigToDeployment(dep, cxfURL);
+         cxfURL = generateCXFConfigFromDeployment(dep);
       }
+      putCXFConfigToDeployment(dep, cxfURL);
    }
 
    @Override
@@ -85,22 +81,6 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
       {
          dd.destroyFileURL();
       }
-   }
-   
-   /**
-    * Looks for <b>cxf.xml</b> in classloader 
-    * @param dep deployment which initial classloader will be used
-    * @return <b>cxf.xml URL</b> or <b>null</b> if not found
-    */
-   private static URL getCXFConfigFromClassLoader(Deployment dep)
-   {
-      ClassLoader initCL = dep.getInitialClassLoader();
-      URL cxfURL = initCL.getResource("cxf.xml");
-      if (cxfURL != null)
-      {
-         log.info("CXF configuration found: " + cxfURL);
-      }
-      return cxfURL;
    }
    
    /**
