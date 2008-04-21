@@ -77,7 +77,7 @@
 
     <mkdir dir="${thirdparty.dir}"/>
     <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common.jar" dest="${thirdparty.dir}/jbossws-common.jar" usetimestamp="true" verbose="true"/>
-    <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common-src.zip" dest="${thirdparty.dir}/jbossws-common-src.zip" usetimestamp="true" verbose="true"/>
+    <get src="${jboss.repository}/jboss/jbossws-common/${jbossws-common}/lib/jbossws-common-src.jar" dest="${thirdparty.dir}/jbossws-common-src.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework.jar" dest="${thirdparty.dir}/jbossws-framework.jar" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework-src.jar" dest="${thirdparty.dir}/jbossws-framework-src.zip" usetimestamp="true" verbose="true"/>
     <get src="${jboss.repository}/jboss/jbossws-framework/${jbossws-framework}/lib/jbossws-framework-scripts.zip" dest="${thirdparty.dir}/jbossws-framework-scripts.zip" usetimestamp="true" verbose="true"/>
