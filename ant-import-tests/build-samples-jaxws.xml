@@ -16,20 +16,20 @@
   
   <target name="build-samples-jaxws" description="Build the jaxws samples deployments">
     
-    <mkdir dir="${tests.output.dir}/libs"/>
+    <mkdir dir="${tests.output.dir}/test-libs"/>
   	
     <!-- jaxws-samples-wsrm -->
     <war
-       warfile="${tests.output.dir}/libs/jaxws-samples-wsrm.war"
-       webxml="${tests.output.dir}/resources/jaxws/samples/wsrm/WEB-INF/web.xml">
-       <classes dir="${tests.output.dir}/classes">
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsrm.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsrm/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/wsrm/service/**"/>
        </classes>
-       <webinf dir="${tests.output.dir}/resources/jaxws/samples/wsrm/WEB-INF">
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsrm/WEB-INF">
           <include name="jbossws-cxf.xml"/>
        </webinf>
        <zipfileset
-          dir="${tests.output.dir}/resources/jaxws/samples/wsrm/WEB-INF/wsdl" 
+          dir="${tests.output.dir}/test-resources/jaxws/samples/wsrm/WEB-INF/wsdl" 
           prefix="WEB-INF/wsdl"/>
     </war>
 
