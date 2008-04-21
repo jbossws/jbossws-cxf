@@ -1,0 +1,18 @@
+<beans
+  xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:cxf="http://cxf.apache.org/core"
+  xmlns:wsa="http://cxf.apache.org/ws/addressing"
+  xsi:schemaLocation="
+    http://cxf.apache.org/core
+    http://cxf.apache.org/schemas/core.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+ 
+  <cxf:bus>
+    <cxf:features>
+      <wsa:addressing/>
+    </cxf:features>
+  </cxf:bus>
+    
+</beans>

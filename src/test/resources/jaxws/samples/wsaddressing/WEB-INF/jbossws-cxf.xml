@@ -1,0 +1,23 @@
+<beans
+  xmlns='http://www.springframework.org/schema/beans'
+  xmlns:jaxws='http://cxf.apache.org/jaxws'
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xmlns:wsa="http://cxf.apache.org/ws/addressing"
+  xsi:schemaLocation='
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+  '>
+  
+  <jaxws:endpoint
+    id='ServiceImpl'
+    address='http://@jboss.bind.address@:8080/jaxws-samples-wsaddressing'
+    implementor='org.jboss.test.ws.jaxws.samples.wsaddressing.ServiceImpl'>
+    <jaxws:invoker>
+      <bean class='org.jboss.wsf.stack.cxf.InvokerJSE'/>
+    </jaxws:invoker>
+    <jaxws:features>
+      <wsa:addressing usingAddressingAdvisory="false" allowDuplicates="false"/>
+    </jaxws:features>
+  </jaxws:endpoint>
+  
+</beans>
