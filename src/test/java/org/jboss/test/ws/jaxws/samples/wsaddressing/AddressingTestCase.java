@@ -55,7 +55,7 @@ public final class AddressingTestCase extends JBossWSTest
       super.setUp();
 
       SpringBusFactory busFactory = new SpringBusFactory();
-      URL cxfConfig = new File("resources/jaxws/samples/wsaddressing/cxf-client-config.xml").toURL();
+      URL cxfConfig = new File("test-resources/jaxws/samples/wsaddressing/cxf-client-config.xml").toURL();
       bus = busFactory.createBus(cxfConfig);
       busFactory.setDefaultBus(bus);
 
