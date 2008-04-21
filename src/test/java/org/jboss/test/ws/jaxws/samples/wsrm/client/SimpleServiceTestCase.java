@@ -27,7 +27,6 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import junit.framework.Test;
 import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
 import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
