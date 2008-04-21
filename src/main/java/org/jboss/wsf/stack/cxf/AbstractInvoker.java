@@ -93,7 +93,14 @@ public abstract class AbstractInvoker implements Invoker
       }
       else
       {
-         params = new Object[]{o};
+         if (m.getParameterTypes().length != 0)
+         {
+            params = new Object[]{o};
+         }
+         else 
+         {
+            params = new Object[] {};
+         }
       }
 
       Endpoint ep = EndpointAssociation.getEndpoint();
