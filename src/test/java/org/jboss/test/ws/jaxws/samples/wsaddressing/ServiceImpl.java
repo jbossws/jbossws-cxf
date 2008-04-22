@@ -21,21 +21,18 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsaddressing;
 
-import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 @WebService
 (
-   name = "AddressingServiceName",
    portName = "AddressingServicePort",
    serviceName = "AddressingService",
-   wsdlLocation = "WEB-INF/wsdl/Service.wsdl",
+   wsdlLocation = "WEB-INF/wsdl/AddressingService.wsdl",
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wsaddressing",
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsaddressing.ServiceIface"
 )
 public class ServiceImpl implements ServiceIface
 {
-   @WebMethod
    public String sayHello()
    {
       return "Hello World!";
