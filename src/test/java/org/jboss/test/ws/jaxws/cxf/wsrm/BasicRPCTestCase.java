@@ -21,7 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.cxf.wsrm;
 
-import java.io.File;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -65,14 +64,14 @@ public class BasicRPCTestCase extends JBossWSTest
 
    public void _testStandardClient() throws Exception
    {
-      URL wsdlURL = new File("resources/jaxws/cxf/wsrm/basic-rpc/wsrm-basic-rpc.wsdl").toURL();
+      URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-rpc/wsrm-basic-rpc.wsdl");
       QName serviceName = new QName(targetNS, "RMService");
 
       Service service = Service.create(wsdlURL, serviceName);
       BasicRPCEndpoint port = (BasicRPCEndpoint)service.getPort(BasicRPCEndpoint.class);
 
       System.out.println("FIXME: [CXF-1320] Configure WS-RM client from WSDL only");
-      
+
       Object retObj = port.echo("Hello");
       assertEquals("Hello", retObj);
    }
@@ -80,11 +79,11 @@ public class BasicRPCTestCase extends JBossWSTest
    public void testSpringClient() throws Exception
    {
       SpringBusFactory bf = new SpringBusFactory();
-      URL cxfConfig = new File("resources/jaxws/cxf/wsrm/wsrm-client-config.xml").toURL();
+      URL cxfConfig = getResourceURL("jaxws/cxf/wsrm/wsrm-client-config.xml");
       Bus bus = bf.createBus(cxfConfig);
       BusFactory.setDefaultBus(bus);
 
-      URL wsdlURL = new File("resources/jaxws/cxf/wsrm/basic-rpc/wsrm-basic-rpc.wsdl").toURL();
+      URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-rpc/wsrm-basic-rpc.wsdl");
       QName serviceName = new QName(targetNS, "RMService");
 
       Service service = Service.create(wsdlURL, serviceName);
@@ -93,7 +92,7 @@ public class BasicRPCTestCase extends JBossWSTest
       // Enable addressing
       BindingProvider bp = (BindingProvider)port;
       bp.getRequestContext().put("org.apache.cxf.ws.addressing.using", Boolean.TRUE);
-      
+
       Object retObj = port.echo("Hello");
       assertEquals("Hello", retObj);
    }

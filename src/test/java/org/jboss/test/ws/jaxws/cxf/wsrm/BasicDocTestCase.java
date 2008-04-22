@@ -21,7 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.cxf.wsrm;
 
-import java.io.File;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -65,7 +64,7 @@ public class BasicDocTestCase extends JBossWSTest
 
    public void _testStandardClient() throws Exception
    {
-      URL wsdlURL = new File("resources/jaxws/cxf/wsrm/basic-doc/wsrm-basic-doc.wsdl").toURL();
+      URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-doc/wsrm-basic-doc.wsdl");
       QName serviceName = new QName(targetNS, "RMService");
 
       Service service = Service.create(wsdlURL, serviceName);
@@ -80,11 +79,11 @@ public class BasicDocTestCase extends JBossWSTest
    public void testSpringClient() throws Exception
    {
       SpringBusFactory bf = new SpringBusFactory();
-      URL cxfConfig = new File("resources/jaxws/cxf/wsrm/wsrm-client-config.xml").toURL();
+      URL cxfConfig = getResourceURL("jaxws/cxf/wsrm/wsrm-client-config.xml");
       Bus bus = bf.createBus(cxfConfig);
       BusFactory.setDefaultBus(bus);
 
-      URL wsdlURL = new File("resources/jaxws/cxf/wsrm/basic-doc/wsrm-basic-doc.wsdl").toURL();
+      URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-doc/wsrm-basic-doc.wsdl");
       QName serviceName = new QName(targetNS, "RMService");
 
       Service service = Service.create(wsdlURL, serviceName);
