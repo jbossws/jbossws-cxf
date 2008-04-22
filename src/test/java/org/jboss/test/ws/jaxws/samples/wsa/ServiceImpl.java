@@ -19,17 +19,22 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsaddressing;
+package org.jboss.test.ws.jaxws.samples.wsa;
 
-import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 @WebService
 (
-   targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wsaddressing"
+   portName = "AddressingServicePort",
+   serviceName = "AddressingService",
+   wsdlLocation = "WEB-INF/wsdl/AddressingService.wsdl",
+   targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wsaddressing",
+   endpointInterface = "org.jboss.test.ws.jaxws.samples.wsa.ServiceIface"
 )
-public interface ServiceIface
+public class ServiceImpl implements ServiceIface
 {
-   @WebMethod
-   String sayHello();
+   public String sayHello()
+   {
+      return "Hello World!";
+   }
 }

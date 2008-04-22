@@ -1,5 +1,5 @@
 
-package org.jboss.test.ws.jaxws.samples.wsaddressing.jaxws;
+package org.jboss.test.ws.jaxws.samples.wsa.jaxws;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

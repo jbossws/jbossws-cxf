@@ -10,8 +10,8 @@
   
   <jaxws:endpoint
     id='ServiceImpl'
-    address='http://@jboss.bind.address@:8080/jaxws-samples-wsaddressing'
-    implementor='org.jboss.test.ws.jaxws.samples.wsaddressing.ServiceImpl'>
+    address='http://@jboss.bind.address@:8080/jaxws-samples-wsa'
+    implementor='org.jboss.test.ws.jaxws.samples.wsa.ServiceImpl'>
     <jaxws:invoker>
       <bean class='org.jboss.wsf.stack.cxf.InvokerJSE'/>
     </jaxws:invoker>

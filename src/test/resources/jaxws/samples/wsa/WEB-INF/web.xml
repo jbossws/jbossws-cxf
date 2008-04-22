@@ -6,7 +6,7 @@
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
    <servlet>
       <servlet-name>AddressingService</servlet-name>
-      <servlet-class>org.jboss.test.ws.jaxws.samples.wsaddressing.ServiceImpl</servlet-class>
+      <servlet-class>org.jboss.test.ws.jaxws.samples.wsa.ServiceImpl</servlet-class>
    </servlet>
    <servlet-mapping>
       <servlet-name>AddressingService</servlet-name>

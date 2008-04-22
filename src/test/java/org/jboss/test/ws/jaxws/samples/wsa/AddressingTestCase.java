@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsaddressing;
+package org.jboss.test.ws.jaxws.samples.wsa;
 
 import java.io.File;
 import java.net.URL;
@@ -38,13 +38,13 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public final class AddressingTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsaddressing/AddressingService";
+   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsa/AddressingService";
    private ServiceIface proxy;
    private Bus bus;
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(AddressingTestCase.class, "jaxws-samples-wsaddressing.war");
+      return new JBossWSTestSetup(AddressingTestCase.class, "jaxws-samples-wsa.war");
    }
 
    @Override
@@ -53,7 +53,7 @@ public final class AddressingTestCase extends JBossWSTest
       super.setUp();
 
       SpringBusFactory busFactory = new SpringBusFactory();
-      URL cxfConfig = new File("test-resources/jaxws/samples/wsaddressing/cxf-client-config.xml").toURL();
+      URL cxfConfig = new File("test-resources/jaxws/samples/wsa/cxf-client-config.xml").toURL();
       bus = busFactory.createBus(cxfConfig);
       busFactory.setDefaultBus(bus);
 
