@@ -4,7 +4,7 @@
   
   <name>JBoss Web Services - Stack CXF</name>
   <groupId>org.jboss.ws</groupId>
-  <artifactId>trunk</artifactId>
+  <artifactId>jbossws-cxf</artifactId>
   <packaging>pom</packaging>
   
   <version>3.0.2-SNAPSHOT</version>
