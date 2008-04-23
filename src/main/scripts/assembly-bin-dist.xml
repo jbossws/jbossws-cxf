@@ -1,0 +1,75 @@
+<assembly xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.1.0-SNAPSHOT.xsd">
+  
+  <id>binary-distribution</id>
+  <formats>
+    <format>dir</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  
+  <fileSets>
+    <!-- root -->
+    <fileSet>
+      <directory>src/main/distro</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>build.xml</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>src/main/distro</directory>
+      <outputDirectory>/</outputDirectory>
+      <filtered>true</filtered>
+      <includes>
+        <include>ant.properties</include>
+      </includes>
+    </fileSet>
+    <!-- build -->
+    <fileSet>
+      <directory>src/main/distro</directory>
+      <outputDirectory>build</outputDirectory>
+      <filtered>true</filtered>
+      <includes>
+        <include>build-deploy.xml</include>
+        <include>build-setup.xml</include>
+        <include>jbossws-default-deploy.conf</include>
+        <include>jbossws-deploy-macros.xml</include>
+      </includes>
+    </fileSet>
+    <!-- docs -->
+    <fileSet>
+      <directory>src/main/distro</directory>
+      <outputDirectory>docs</outputDirectory>
+      <filtered>true</filtered>
+      <includes>
+        <include>Install.txt</include>
+        <include>ReleaseNotes.txt</include>
+        <include>JBossORG-EULA.txt</include>
+      </includes>
+    </fileSet>
+    <!-- deploy -->
+    <fileSet>
+      <directory>target/deploy-artifacts</directory>
+      <outputDirectory>deploy</outputDirectory>
+    </fileSet>
+    <!-- tests -->
+    <fileSet>
+      <directory>modules/testsuite/framework-tests/src/test</directory>
+      <outputDirectory>tests</outputDirectory>
+      <includes>
+        <include>ant-import/**</include>
+        <include>etc/**</include>
+        <include>java/org/jboss/test/ws/jaxws/samples/**</include>
+        <include>resources/jaxws/samples/**</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>modules/testsuite/cxf-tests/src/test/resources</directory>
+      <outputDirectory>tests/resources</outputDirectory>
+      <includes>
+        <include>test-excludes-*.txt</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+  
+</assembly>

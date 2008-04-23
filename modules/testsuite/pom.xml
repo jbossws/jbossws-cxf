@@ -1,0 +1,222 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <name>JBoss Web Services - Stack CXF Testsuite</name>
+  <artifactId>jbossws-cxf-testsuite</artifactId>
+  <packaging>pom</packaging>
+  
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jboss.ws</groupId>
+    <artifactId>jbossws-cxf</artifactId>
+    <version>3.0.2-SNAPSHOT</version>
+  </parent>
+  
+  <!-- Properties -->
+  <properties>
+    <jboss.bind.address>localhost</jboss.bind.address>
+    <surefire.jdpw.args>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</surefire.jdpw.args>
+    <surefire.jvm.args>-Djava.security.manager -Djava.security.policy=src/test/etc/tst.policy</surefire.jvm.args>
+  </properties>
+  
+  <!-- Modules -->
+  <modules>
+    <module>cxf-tests</module>
+    <module>framework-tests</module>
+  </modules>
+  
+  <!-- Dependencies -->
+  <dependencies>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-framework</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-framework</artifactId>
+      <classifier>testsuite</classifier>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-spi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.ejb</groupId>
+      <artifactId>ejb-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.jws</groupId>
+      <artifactId>jsr181-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-cxf-client</artifactId>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+  <!-- Build -->
+  <build>
+    <testResources>
+      <!-- copy etc files -->
+      <testResource>
+        <directory>src/test/etc</directory>
+      </testResource>
+      <!-- copy handler definitions -->
+      <testResource>
+        <targetPath>../test-classes</targetPath>
+        <directory>src/test/java</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+      </testResource>
+      <!-- copy non binary files -->
+      <testResource>
+        <targetPath>../test-resources</targetPath>
+        <directory>src/test/resources</directory>
+        <includes>
+          <include>**/*.wsdl</include>
+          <include>**/*.xml</include>
+        </includes>
+        <filtering>true</filtering>
+      </testResource>
+      <!-- copy binary files -->
+      <testResource>
+        <targetPath>../test-resources</targetPath>
+        <directory>src/test/resources</directory>
+        <excludes>
+          <exclude>**/*.wsdl</exclude>
+          <exclude>**/*.xml</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>${surefire.jvm.args}</argLine>
+          <!--argLine>${surefire.jdpw.args}</argLine-->
+          <systemProperties>
+            <property>
+              <name>java.naming.provider.url</name>
+              <value>jnp://${jboss.bind.address}:1099</value>
+            </property>
+            <property>
+              <name>java.util.logging.manager</name>
+              <value>org.jboss.wsf.common.logging.JDKLogManager</value>
+            </property>
+            <property>
+              <name>jboss.home</name>
+              <value>${jboss.home}</value>
+            </property>
+            <property>
+              <name>jbossws.integration.target</name>
+              <value>${jbossws.integration.target}</value>
+            </property>
+            <property>
+              <name>build.testlog</name>
+              <value>${project.build.directory}/test-log</value>
+            </property>
+            <property>
+              <name>test.archive.directory</name>
+              <value>${project.build.directory}/test-libs</value>
+            </property>
+            <property>
+              <name>test.resources.directory</name>
+              <value>${project.build.directory}/test-resources</value>
+            </property>
+          </systemProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <profiles>
+    <!--
+    mvn -Denv=jboss422 test
+    -->
+    <profile>
+      <id>jboss422-cxf-testsuite-profile</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>jboss422</value>
+        </property>
+      </activation>
+      <properties>
+        <jboss.version>4.2.2.GA</jboss.version>
+        <jbossws.integration.target>jboss422</jbossws.integration.target>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.client</groupId>
+          <artifactId>jbossall-client</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss42</artifactId>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>-Djava.endorsed.dirs=${jboss422.home}/lib/endorsed</argLine>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!--
+    No test environment specified
+    -->
+    <profile>
+      <id>no-env-profile</id>
+      <activation>
+        <property>
+          <name>!env</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>validate</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <tasks>
+                    <echo message="************************************"/>
+                    <echo message="* No test environment specified    *"/>
+                    <echo message="* Run: mvn -Denv=jboss??? test     *"/>
+                    <echo message="************************************"/>
+                    <fail/>
+                  </tasks>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  
+</project>

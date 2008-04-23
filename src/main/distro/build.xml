@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id: bin-dist-build.xml 4081 2007-08-02 09:23:17Z thomas.diesler@jboss.com $ -->
+
+<project default="main" basedir="." name="JBossWS-CXF">
+  
+  <!-- Load ant.properties -->
+  <available property="ant.properties.available" file="${basedir}/ant.properties"/>
+  <fail message="Cannot find ant.properties. Did you copy/edit ant.properties.example?" unless="ant.properties.available"/>
+  <property file="${basedir}/ant.properties"/>
+  
+  <!-- ================================================================== -->
+  <!-- Setup                                                              -->
+  <!-- ================================================================== -->
+  
+  <property name="build.dir" value="${basedir}/build"/>
+  <property name="docs.dir" value="${basedir}/docs"/>
+  <property name="thirdparty.dir" value="${basedir}/deploy/lib"/>
+  <property name="tests.dir" value="${basedir}/tests"/>
+  <property name="tests.output.dir" value="${basedir}/output"/>
+  
+  <property name="deploy.artifacts.dir" value="${basedir}/deploy"/>
+  <property name="deploy.structure.jboss42" value="${basedir}/output/deploy-jboss422"/>
+  <property name="deploy.structure.jboss50" value="${basedir}/output/deploy-jboss500"/>
+  <property name="jbossws.default.deploy.conf" value="${build.dir}/jbossws-default-deploy.conf"/>
+  
+  <import file="${build.dir}/build-setup.xml"/>
+  <import file="${build.dir}/build-deploy.xml"/>
+  <import file="${build.dir}/jbossws-deploy-macros.xml"/>
+  <import file="${tests.dir}/ant-import/build-testsuite.xml"/>
+  
+  <!-- Define excludesfile -->
+  <property name="excludesfile" value="${tests.dir}/resources/test-excludes-${jbossws.integration.target}.txt"/>
+  
+  <!-- ================================================================== -->
+  <!-- Initialization                                                     -->
+  <!-- ================================================================== -->
+  
+  <target name="tests-init" depends="prepare,tests-classpath">
+    
+    <path id="ws.stack.classpath">
+      <fileset dir="${thirdparty.dir}"/>
+    </path>
+    
+    <path id="tests.extra.classpath">
+    </path>
+    
+    <property name="jbossws.test.log" value="${tests.output.dir}"/>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Compile                                                            -->
+  <!-- ================================================================== -->
+  
+  <target name="tests-compile" depends="tests-init" description="Compile sources">
+    <macro-compile-classes srcdir="${tests.dir}/java" excludesfile="${excludesfile}"/>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Building                                                           -->
+  <!-- ================================================================== -->
+  
+  <!-- Copy resources -->
+  <target name="tests-copy-resources" depends="tests-init">
+    <macro-copy-resources srcdir="${tests.dir}"/>
+  </target>
+  
+  <target name="tests-jars" depends="tests-compile,tests-copy-resources">
+    <ant antfile="${tests.dir}/ant-import/build-samples-jaxws.xml" target="build-samples-jaxws" inheritall="true"/>
+  </target>
+  
+  <target name="tests-main" depends="tests-jars" description="Build the test deployments."/>
+  
+  <!-- dummy targets -->
+  <target name="prepare-deploy" depends="prepare"/>
+  
+  <!-- ================================================================== -->
+  <!-- Miscellaneous                                                       -->
+  <!-- ================================================================== -->
+  
+  <target name="clean" depends="prepare" description="Cleans up most generated files.">
+    <delete dir="${tests.output.dir}"/>
+  </target>
+  
+  <target name="clobber" depends="clean" description="Cleans up all generated files.">
+  </target>
+  
+  <target name="main" depends="most" description="Executes the default target (most)."/>
+  
+  <target name="most" depends="tests-main" description="Builds almost everything."/>
+  
+</project>

@@ -14,31 +14,7 @@ jbossws.integration.target=jboss422
 
 # The JBoss settings
 jboss.server.instance=default
-jboss.bind.address=localhost
-
-# JBoss JMX invoker authentication
-#jmx.authentication.username=admin
-#jmx.authentication.password=admin
-
-# JBoss Repository
-#jboss.repository=file:/home/tdiesler/svn/jboss.local.repository
-jboss.repository=http://repository.jboss.org
 
 # JBossWS Release
 jbossws.portal.content=/home/tdiesler/svn/jbossws/portal-content
 jboss.local.repository=/home/tdiesler/svn/jboss.local.repository
-
-# Force thirdparty HTTP get
-#force.thirdparty.get=true
-
-# JDK settings
-#java.home.jdk16=/usr/java/jdk1.6
-
-# Endpoint servlet used by test descriptors
-endpoint.servlet=org.jboss.wsf.stack.cxf.CXFServletExt
-
-# Java Compiler options
-javac.debug=yes
-javac.deprecation=no
-javac.fail.onerror=yes
-javac.verbose=no

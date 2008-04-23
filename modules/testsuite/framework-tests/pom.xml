@@ -1,0 +1,192 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <name>JBoss Web Services - Stack CXF Framework Tests</name>
+  <artifactId>jbossws-cxf-framework-tests</artifactId>
+  <packaging>jar</packaging>
+  
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jboss.ws</groupId>
+    <artifactId>jbossws-cxf-testsuite</artifactId>
+    <version>3.0.2-SNAPSHOT</version>
+  </parent>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>src/test</directory>
+              <includes>
+                <include>ant-import/**</include>
+                <include>java/**</include>
+                <include>resources/**</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.jboss.ws</groupId>
+                  <artifactId>jbossws-framework</artifactId>
+                  <classifier>testsuite</classifier>
+                  <type>zip</type>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>src/test</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>test-compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="tests.output.dir" value="${project.build.directory}"/>
+                <ant antfile="src/test/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws"/>
+                <ant antfile="src/test/ant-import/build-samples-jaxws.xml" target="build-samples-jaxws"/>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <profiles>
+    <!--
+      mvn -Denv=jboss422 test
+    -->
+    <profile>
+      <id>jboss422-cxf-tests-profile</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>jboss422</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <testExcludes>
+                <!--  Won't Fix: [CXF-1261] Handler does not see XOP message properly -->
+                <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
+                
+                <!--  EJB3/Injection excludes -->
+                <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/webserviceref/**</exclude>
+                
+                <!--  [JBWS-1178] Multiple virtual host and soap:address problem -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1178/**</exclude>
+                
+                <!--  [JBWS-1774] Provide tools implementation for CXF -->
+                <exclude>org/jboss/test/ws/jaxws/complex/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/holder/**</exclude>
+                
+                <!--  [JBWS-1683] Fix JAXR samples for CXF -->
+                <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
+                
+                <!--  [JBWS-1774] Provide a tools implementation for CXF (WSContractProvider and WSContractConsumer) -->
+                <exclude>org/jboss/test/ws/jaxws/smoke/tools/**</exclude>
+                
+                <!--  [CXF-1244] Application Exception not initialized properly -->
+                <exclude>org/jboss/test/ws/jaxws/samples/exception/**</exclude>
+                
+                <!--  [CXF-1252] Provider PAYLOAD endpoint expects SOAP Envelope -->
+                <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase.*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*</exclude>
+                
+                <!--  [CXF-1253] CXF does not respect @HandlerChain on client SEI -->
+                <exclude>org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*</exclude>
+                
+                <!--  [CXF-1510] Cannot handle anonymous bare requests -->
+                <exclude>org/jboss/test/ws/jaxws/anonymous/**</exclude>
+                
+                <!--  [CXF-1511] WrappedMessageContext does not implement SOAPMessageContext -->
+                <exclude>org/jboss/test/ws/jaxws/binding/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/namespace/**</exclude>
+                
+                <!--  [JBWS-2112] Cannot use CXF with endpoint API -->
+                <exclude>org/jboss/test/ws/jaxws/endpoint/**</exclude>
+                
+                <!--  [CXF-1513] NPE in JaxWsServiceConfiguration -->
+                <exclude>org/jboss/test/ws/jaxws/handlerscope/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws1694/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
+                
+                <!--  [CXF-1514] Generated WSDL does not take 'transport-guarantee' in web.xml into account -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1190/**</exclude>
+                
+                <!--  [JBWS-2114] IllegalArgumentException: Wrong target. class  -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws1822/**</exclude>
+                
+                <!--  [CXF-1515] Bad Enumeration value 'extension restriction' -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1505/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws1845/**</exclude>
+                
+                <!--  [JBWS-2115] EJB client vehicle not sufficiently isolated -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1581/**</exclude>
+                
+                <!--  [CXF-1516] Type inheritance with document/literal/wrapped -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1702/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws1733/**</exclude>
+                
+                <!--  [JBWS-2117] web.xml modified to web.xml.org - Subsequent runs fail -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1762/**</exclude>
+                
+                <!--  [CXF-1517] HTTP bindings for Provider -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1807/**</exclude>
+                
+                <!--  [JBWS-2118] context-root in jboss.xml is ignored -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
+                
+                <!--  [CXF-1518] Missing fault detail in messages from SLSB Provider -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1815/**</exclude>
+                
+                <!--  [JBWS-2119] WebServiceRef injection from DD doesn't work -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1841/**</exclude>
+                
+                <!--  [CXF-1519] Explicitly set the namespace of a WebFault -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
+                
+                <!--  [CXF-1520] MTOM chunked encoding transfer -->
+                <exclude>org/jboss/test/ws/jaxws/jbws2000/**</exclude>
+                
+                <!--  [CXF-1521] Exception handling with @WebFault annotation -->
+                <exclude>org/jboss/test/ws/jaxws/webfault/**</exclude>
+                
+                <!--  [CXF-1522] NPE in ServiceUtils -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1566/**</exclude>
+              </testExcludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  
+</project>

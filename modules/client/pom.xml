@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <name>JBoss Web Services - Stack CXF Runtime Client</name>
+  <artifactId>jbossws-cxf-client</artifactId>
+  <packaging>jar</packaging>
+  
+  <parent>
+    <groupId>org.jboss.ws</groupId>
+    <artifactId>jbossws-cxf</artifactId>
+    <version>3.0.2-SNAPSHOT</version>
+  </parent>
+  
+  <!-- Dependencies -->
+  <dependencies>
+    
+    <!-- jbossws dependencies -->
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-framework</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-spi</artifactId>
+    </dependency>
+    
+    <!-- CXF dependencies -->
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-bindings-soap</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxws</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-transports-http</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-transports-http-jetty</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-transports-jms</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-ws-rm</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-ws-policy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>stax</groupId>
+      <artifactId>stax-api</artifactId>
+    </dependency>
+    
+    <!--
+    useStrictFiltering requires dependency in all included modules
+    http://jira.codehaus.org/browse/MASSEMBLY-317
+    -->
+    <dependency>
+      <groupId>javax.xml</groupId>
+      <artifactId>jaxrpc-api</artifactId>
+    </dependency>
+    
+    <!-- jboss provided -->
+    <dependency>
+      <groupId>jboss.common</groupId>
+      <artifactId>jboss-common</artifactId>
+    </dependency>
+  </dependencies>
+  
+  <!-- Profiles -->
+  <profiles>
+    <profile>
+      <id>jboss422-client-profile</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>jboss422</value>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss42</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+  
+</project>

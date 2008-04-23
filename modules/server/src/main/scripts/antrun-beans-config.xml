@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id$ -->
+
+<project default="main">
+  
+  <property name="project.resources.directory" value="${basedir}/src/main/resources"/>
+  <property name="project.build.directory" value="${basedir}/target"/>
+  <property name="project.build.resources.directory" value="${project.build.directory}/resources"/>
+  
+  <property name="thirdparty.dir" value="${project.build.directory}/thirdparty"/>
+  
+  <!-- ================================================================== -->
+  <!-- Initialization                                                     -->
+  <!-- ================================================================== -->
+  
+  <target name="init">
+  </target>
+  
+  <!-- Compile resource files -->
+  <target name="main" depends="init">
+    
+    <!-- concat jbossws-cxf50-beans.xml -->
+    <echo message="Concat jbossws-cxf50-beans.xml"/>
+    <concat destfile="${project.build.resources.directory}/jbossws-beans50/META-INF/jboss-beans.xml">
+      <header trimleading="yes">
+        &lt;deployment xmlns="urn:jboss:bean-deployer:2.0"&gt; </header>
+      <fileset file="${project.resources.directory}/jbossws-cxf-config.xml"/>
+      <footer trimleading="yes">
+        &lt;/deployment&gt; </footer>
+    </concat>
+    
+    <!-- Concat jbossws-cxf42-beans.xml -->
+    <echo message="Concat jbossws-cxf42-beans.xml"/>
+    <concat destfile="${project.build.resources.directory}/jbossws-beans42/META-INF/jboss-beans.xml">
+      <header trimleading="yes">
+        &lt;deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
+        xmlns="urn:jboss:bean-deployer"&gt; </header>
+      <fileset file="${project.resources.directory}/jbossws-cxf-config.xml"/>
+      <fileset file="${project.build.resources.directory}/jbossws-jboss42-config.xml"/>
+      <footer trimleading="yes">
+        &lt;/deployment&gt; </footer>
+    </concat>
+    
+  </target>
+  
+</project>

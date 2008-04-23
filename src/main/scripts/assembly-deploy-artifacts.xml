@@ -1,0 +1,98 @@
+<assembly xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.1.0-SNAPSHOT.xsd">
+  
+  <id>deploy-artifacts</id>
+  <formats>
+    <format>dir</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  
+  <!-- bin -->
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>bin</outputDirectory>
+      <useStrictFiltering>true</useStrictFiltering>
+      <unpack>true</unpack>
+      <includes>
+        <include>*:jbossws-framework:zip:scripts</include>
+      </includes>
+    </dependencySet>
+  </dependencySets>
+  
+  <!-- lib -->
+  <moduleSets>
+    <moduleSet>
+      <includes>
+        <include>org.jboss.ws:jbossws-cxf-client</include>
+        <include>org.jboss.ws:jbossws-cxf-server</include>
+      </includes>
+      <binaries>
+        <outputDirectory>lib</outputDirectory>
+        <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
+        <unpack>false</unpack>
+        <dependencySets>
+          <dependencySet>
+            <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
+            <useStrictFiltering>true</useStrictFiltering>
+            <includes>
+              <include>*:cxf-*</include>
+              <include>*:geronimo-javamail*</include>
+              <include>*:geronimo-ws-metadata*</include>
+              <include>*:jaxb-api:jar</include>
+              <include>*:jaxb-impl:jar</include>
+              <include>*:jaxb-xjc:jar</include>
+              <include>*:jaxrpc-api:jar</include>
+              <include>*:jaxws-api:jar</include>
+              <include>*:jbossws-common:jar</include>
+              <include>*:jbossws-framework:jar</include>
+              <include>*:jbossws-spi:jar</include>
+              <include>*:jbossws-jboss42:jar</include>
+              <include>*:neethi:jar</include>
+              <include>*:saaj-api:jar</include>
+              <include>*:saaj-impl:jar</include>
+              <include>*:spring-beans:jar</include>
+              <include>*:spring-context:jar</include>
+              <include>*:spring-core:jar</include>
+              <include>*:stax-api:jar</include>
+              <include>*:wsdl4j:jar</include>
+              <include>*:xml-resolver:jar</include>
+              <include>*:XmlSchema:jar</include>
+            </includes>
+          </dependencySet>
+          <dependencySet>
+            <outputFileNameMapping>wstx.jar</outputFileNameMapping>
+            <useStrictFiltering>true</useStrictFiltering>
+            <includes>
+              <include>*:wstx-asl:jar</include>
+            </includes>
+          </dependencySet>
+        </dependencySets>
+      </binaries>
+    </moduleSet>
+    <moduleSet>
+      <includes>
+        <include>org.jboss.ws:jbossws-cxf-management</include>
+      </includes>
+      <binaries>
+        <outputDirectory>lib</outputDirectory>
+        <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
+        <includeDependencies>false</includeDependencies>
+        <unpack>false</unpack>
+      </binaries>
+    </moduleSet>
+  </moduleSets>
+  
+  <!-- resources -->
+  <fileSets>
+    <fileSet>
+      <directory>modules/server/target/resources</directory>
+      <outputDirectory>resources</outputDirectory>
+      <includes>
+        <include>jbossws-beans42/**</include>
+        <include>jbossws-cxf.sar/**</include>
+        <include>jbossws-jboss42.sar/**</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+  
+</assembly>

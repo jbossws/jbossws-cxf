@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <name>JBoss Web Services - Stack CXF Specific Tests</name>
+  <artifactId>jbossws-cxf-specific-tests</artifactId>
+  <packaging>jar</packaging>
+  
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jboss.ws</groupId>
+    <artifactId>jbossws-cxf-testsuite</artifactId>
+    <version>3.0.2-SNAPSHOT</version>
+  </parent>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>test-compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="tests.output.dir" value="${project.build.directory}"/>
+                <ant antfile="src/scripts/cxf-jars-jaxws.xml" target="build-jars-jaxws"/>
+                <ant antfile="src/scripts/cxf-samples-jaxws.xml" target="build-samples-jaxws"/>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <profiles>
+    <!--
+      mvn -Denv=jboss422 test
+    -->
+    <profile>
+      <id>jboss422-cxf-tests-profile</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>jboss422</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <testExcludes>
+                <!-- [JBWS-2097] Unlock WS-ReliableMessaging in all stacks -->
+                <exclude>org/jboss/test/ws/jaxws/samples/wsrm/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/**</exclude>
+              </testExcludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  
+</project>
