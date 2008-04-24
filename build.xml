@@ -66,7 +66,16 @@
   <!-- Distribution                                                       -->
   <!-- ================================================================== -->
   
-  <target name="build-bin-dist" depends="prepare" description="Build the binary distribution">
+  <target name="prepare-deploy" depends="prepare">
+    
+    <delete dir="${deploy.artifacts.dir}"/>
+    <exec dir="${basedir}" executable="mvn" failonerror="true">
+      <arg value="package"/>
+      <arg value="assembly:directory"/>
+    </exec>
+  </target>
+  
+  <target name="build-bin-dist" depends="prepare-deploy" description="Build the binary distribution">
     
     <echo message="*************************************"/>
     <echo message="* mvn -P bindist assembly:directory *"/>
@@ -82,16 +91,6 @@
   <!-- ================================================================== -->
   <!-- Miscellaneous                                                       -->
   <!-- ================================================================== -->
-  
-  <target name="prepare-deploy" depends="init">
-    
-    <delete dir="${deploy.artifacts.dir}"/>
-    <exec dir="${basedir}" executable="mvn" failonerror="true">
-      <arg value="-P${jbossws.integration.target}"/>
-      <arg value="package"/>
-      <arg value="assembly:directory"/>
-    </exec>
-  </target>
   
   <target name="clean" depends="prepare" description="Cleans up most generated files.">
     

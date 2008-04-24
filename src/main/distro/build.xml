@@ -11,12 +11,7 @@
 
 <!-- $Id: bin-dist-build.xml 4081 2007-08-02 09:23:17Z thomas.diesler@jboss.com $ -->
 
-<project default="main" basedir="." name="JBossWS-CXF">
-  
-  <!-- Load ant.properties -->
-  <available property="ant.properties.available" file="${basedir}/ant.properties"/>
-  <fail message="Cannot find ant.properties. Did you copy/edit ant.properties.example?" unless="ant.properties.available"/>
-  <property file="${basedir}/ant.properties"/>
+<project basedir="." name="JBossWS-CXF">
   
   <!-- ================================================================== -->
   <!-- Setup                                                              -->
@@ -43,7 +38,29 @@
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
   
-  <target name="tests-init" depends="prepare,tests-classpath">
+  <target name="init" depends="prepare">
+          
+    <echo message="jbossid=${jbossws.integration.target}"/>
+    
+    <fail message="jbossws.integration.target not set" unless="jbossws.integration.target"/>
+    
+    <condition property="jbossws.integration.jboss42" value="true">
+      <or>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss423"/>
+      </or>
+    </condition>
+    <condition property="jbossws.integration.jboss50" value="true">
+      <or>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
+      </or>
+    </condition>
+    
+    <property name="deploy.structure" value="${stack.output.dir}/deploy-${jbossws.integration.target}"/>
+  </target>
+  
+  <target name="tests-init" depends="init,tests-classpath">
     
     <path id="ws.stack.classpath">
       <fileset dir="${thirdparty.dir}"/>
@@ -79,7 +96,7 @@
   <target name="tests-main" depends="tests-jars" description="Build the test deployments."/>
   
   <!-- dummy targets -->
-  <target name="prepare-deploy" depends="prepare"/>
+  <target name="prepare-deploy" depends="init"/>
   
   <!-- ================================================================== -->
   <!-- Miscellaneous                                                       -->
@@ -88,12 +105,5 @@
   <target name="clean" depends="prepare" description="Cleans up most generated files.">
     <delete dir="${tests.output.dir}"/>
   </target>
-  
-  <target name="clobber" depends="clean" description="Cleans up all generated files.">
-  </target>
-  
-  <target name="main" depends="most" description="Executes the default target (most)."/>
-  
-  <target name="most" depends="tests-main" description="Builds almost everything."/>
   
 </project>
