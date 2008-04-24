@@ -38,6 +38,11 @@
   
   <!-- Profiles -->
   <profiles>
+    
+    <!-- 
+    Name:  jboss422
+    Descr: JBoss-4.2.2 specific options  
+    -->
     <profile>
       <id>jboss422</id>
       <activation>
@@ -48,9 +53,27 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
               <testExcludes>
-                <!-- [JBWS-2097] Unlock WS-ReliableMessaging in all stacks -->
-                <exclude>org/jboss/test/ws/jaxws/samples/wsrm/**</exclude>
-                <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/**</exclude>
+              </testExcludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!-- 
+    Name:  jboss423
+    Descr: JBoss-4.2.3 specific options  
+    -->
+    <profile>
+      <id>jboss423</id>
+      <activation>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <testExcludes>
               </testExcludes>
             </configuration>
           </plugin>

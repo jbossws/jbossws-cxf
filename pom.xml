@@ -414,6 +414,42 @@
     </profile>
     
     <!-- 
+    Name:  jboss423
+    Descr: JBoss-4.2.2 specific options  
+    -->
+    <profile>
+      <id>jboss423</id>
+      <properties>
+        <jbossws.integration.target>jboss423</jbossws.integration.target>
+        <jboss.home>${jboss423.home}</jboss.home>
+      </properties>
+    </profile>
+    
+    <!-- 
+    Name:  jboss500
+    Descr: JBoss-5.0.0 specific options  
+    -->
+    <profile>
+      <id>jboss500</id>
+      <properties>
+        <jbossws.integration.target>jboss500</jbossws.integration.target>
+        <jboss.home>${jboss500.home}</jboss.home>
+      </properties>
+    </profile>
+    
+    <!-- 
+    Name:  jboss501
+    Descr: JBoss-5.0.0 specific options  
+    -->
+    <profile>
+      <id>jboss501</id>
+      <properties>
+        <jbossws.integration.target>jboss501</jbossws.integration.target>
+        <jboss.home>${jboss501.home}</jboss.home>
+      </properties>
+    </profile>
+    
+    <!-- 
     Name:  testsuite
     Descr: Executes the testsuite  
     -->

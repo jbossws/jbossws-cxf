@@ -178,7 +178,6 @@
       </build>
     </profile>
     
-    
     <!-- 
     Name:  jboss423
     Descr: JBoss-4.2.3 specific options  
@@ -186,7 +185,7 @@
     <profile>
       <id>jboss423</id>
       <properties>
-        <jboss.version>4.2.3.GA</jboss.version>
+        <jboss.version>4.2.3-SNAPSHOT</jboss.version>
         <jbossws.integration.target>jboss423</jbossws.integration.target>
       </properties>
       <dependencies>
@@ -206,6 +205,72 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <argLine>-Djava.endorsed.dirs=${jboss423.home}/lib/endorsed</argLine>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!-- 
+    Name:  jboss500
+    Descr: JBoss-5.0.0 specific options  
+    -->
+    <profile>
+      <id>jboss500</id>
+      <properties>
+        <jboss.version>5.0.0.Beta4</jboss.version>
+        <jbossws.integration.target>jboss500</jbossws.integration.target>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.client</groupId>
+          <artifactId>jbossall-client</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss500</artifactId>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>-Djava.endorsed.dirs=${jboss500.home}/lib/endorsed</argLine>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!-- 
+    Name:  jboss501
+    Descr: JBoss-5.0.1 specific options  
+    -->
+    <profile>
+      <id>jboss501</id>
+      <properties>
+        <jboss.version>5.0.1-SNAPSHOT</jboss.version>
+        <jbossws.integration.target>jboss501</jbossws.integration.target>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.client</groupId>
+          <artifactId>jbossall-client</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss501</artifactId>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>-Djava.endorsed.dirs=${jboss501.home}/lib/endorsed</argLine>
             </configuration>
           </plugin>
         </plugins>
