@@ -15,7 +15,6 @@
   
   <!-- Properties -->
   <properties>
-    <jboss.bind.address>localhost</jboss.bind.address>
     <surefire.jdpw.args>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</surefire.jdpw.args>
     <surefire.jvm.args>-Djava.security.manager -Djava.security.policy=src/test/etc/tst.policy</surefire.jvm.args>
   </properties>
@@ -145,6 +144,11 @@
   
   <!-- Profiles -->
   <profiles>
+    
+    <!-- 
+    Name:  jboss422
+    Descr: JBoss-4.2.2 specific options  
+    -->
     <profile>
       <id>jboss422</id>
       <properties>
@@ -172,6 +176,25 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+    
+    <!-- 
+    Name:  no-jboss-bind-address
+    Descr: Set the default jboss.bind.address
+    
+    command line cannot overwrite pom properties
+    http://jira.codehaus.org/browse/MNG-3546   
+    -->
+    <profile>
+      <id>no-jboss-bind-address</id>
+      <activation>
+        <property>
+          <name>!jboss.bind.address</name>
+        </property>
+      </activation>
+      <properties>
+        <jboss.bind.address>localhost</jboss.bind.address>
+      </properties>
     </profile>
   </profiles>
   
