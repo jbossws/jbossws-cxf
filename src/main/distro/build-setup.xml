@@ -63,24 +63,6 @@
   <!-- ================================================================== -->
   
   <target name="prepare">
-    
-    <fail message="jbossws.integration.target not set" unless="jbossws.integration.target"/>
-    
-    <condition property="jbossws.integration.jboss42" value="true">
-      <or>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss423"/>
-      </or>
-    </condition>
-    <condition property="jbossws.integration.jboss50" value="true">
-      <or>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
-      </or>
-    </condition>
-    
-    <property name="deploy.structure" value="${stack.output.dir}/deploy-${jbossws.integration.target}"/>
-    
     <tstamp>
       <format property="build.id" pattern="yyyyMMddHHmm"/>
     </tstamp>

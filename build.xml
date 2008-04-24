@@ -39,8 +39,27 @@
   
   <target name="init" depends="prepare">
     <xmlproperty file="${stack.dir}/pom.xml"/>
-    <property name="version.id" value="${project.version}"/>      
+    <property name="version.id" value="${project.version}"/>
+          
     <echo message="version.id=${version.id}"/>
+    <echo message="jbossid=${jbossws.integration.target}"/>
+    
+    <fail message="jbossws.integration.target not set" unless="jbossws.integration.target"/>
+    
+    <condition property="jbossws.integration.jboss42" value="true">
+      <or>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss423"/>
+      </or>
+    </condition>
+    <condition property="jbossws.integration.jboss50" value="true">
+      <or>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
+      </or>
+    </condition>
+    
+    <property name="deploy.structure" value="${stack.output.dir}/deploy-${jbossws.integration.target}"/>
   </target>
   
   <!-- ================================================================== -->
@@ -49,13 +68,13 @@
   
   <target name="build-bin-dist" depends="prepare" description="Build the binary distribution">
     
-    <echo message="**********************************************"/>
-    <echo message="* mvn -P bindist,${jbossws.integration.target} assembly:directory *"/>
-    <echo message="**********************************************"/>
+    <echo message="*************************************"/>
+    <echo message="* mvn -P bindist assembly:directory *"/>
+    <echo message="*************************************"/>
     
     <delete dir="${stack.output.dir}/jbossws-cxf-dist"/>
     <exec dir="${basedir}" executable="mvn" failonerror="true">
-      <arg value="-P bindist,${jbossws.integration.target}"/>
+      <arg value="-P bindist"/>
       <arg value="assembly:directory"/>
     </exec>
   </target>
@@ -64,7 +83,7 @@
   <!-- Miscellaneous                                                       -->
   <!-- ================================================================== -->
   
-  <target name="prepare-deploy" depends="prepare">
+  <target name="prepare-deploy" depends="init">
     
     <delete dir="${deploy.artifacts.dir}"/>
     <exec dir="${basedir}" executable="mvn" failonerror="true">
@@ -74,7 +93,7 @@
     </exec>
   </target>
   
-  <target name="clean" description="Cleans up most generated files.">
+  <target name="clean" depends="prepare" description="Cleans up most generated files.">
     
     <echo message="*************************************"/>
     <echo message="* mvn clean                         *"/>
