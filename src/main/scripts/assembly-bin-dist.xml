@@ -53,10 +53,11 @@
     </fileSet>
     <!-- test excludes -->
     <fileSet>
-      <directory>modules/testsuite/cxf-tests/src/test/resources</directory>
-      <outputDirectory>tests/resources</outputDirectory>
+      <directory>modules/testsuite/cxf-tests/src/test</directory>
+      <outputDirectory>tests</outputDirectory>
       <includes>
-        <include>test-excludes-*.txt</include>
+        <include>etc/**</include>
+        <include>resources/test-excludes-*.txt</include>
       </includes>
     </fileSet>
   </fileSets>
@@ -73,7 +74,6 @@
       <unpackOptions>
         <includes>
           <include>ant-import/**</include>
-          <include>etc/**</include>
           <include>java/org/jboss/test/ws/jaxws/samples/**</include>
           <include>resources/jaxws/samples/**</include>
         </includes>
