@@ -71,6 +71,14 @@
       <includes>
         <include>*:jbossws-framework:zip:testsuite</include>
       </includes>
+      <unpackOptions>
+        <includes>
+          <include>ant-import/**</include>
+          <include>etc/**</include>
+          <include>java/org/jboss/test/ws/jaxws/samples/**</include>
+          <include>resources/jaxws/samples/**</include>
+        </includes>
+      </unpackOptions>
     </dependencySet>
   </dependencySets>
   
