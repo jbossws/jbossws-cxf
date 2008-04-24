@@ -28,7 +28,6 @@
     <fileSet>
       <directory>src/main/distro</directory>
       <outputDirectory>build</outputDirectory>
-      <filtered>true</filtered>
       <includes>
         <include>build-deploy.xml</include>
         <include>build-setup.xml</include>

@@ -19,9 +19,10 @@
   
   <property name="build.dir" value="${basedir}/build"/>
   <property name="docs.dir" value="${basedir}/docs"/>
+  <property name="output.dir" value="${basedir}/output"/>
   <property name="thirdparty.dir" value="${basedir}/deploy/lib"/>
   <property name="tests.dir" value="${basedir}/tests"/>
-  <property name="tests.output.dir" value="${basedir}/output"/>
+  <property name="tests.output.dir" value="${output.dir}"/>
   
   <property name="deploy.artifacts.dir" value="${basedir}/deploy"/>
   <property name="jbossws.default.deploy.conf" value="${build.dir}/jbossws-default-deploy.conf"/>
@@ -57,7 +58,7 @@
       </or>
     </condition>
     
-    <property name="deploy.structure" value="${stack.output.dir}/deploy-${jbossws.integration.target}"/>
+    <property name="deploy.structure" value="${output.dir}/deploy-${jbossws.integration.target}"/>
   </target>
   
   <target name="tests-init" depends="init,tests-classpath">
