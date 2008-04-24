@@ -20,7 +20,6 @@
   <!-- Check if ant.properties is available -->
   <available property="ant.properties.available" file="${basedir}/ant.properties"/>
   <fail message="Cannot find ant.properties. Did you copy/edit ant.properties.example?" unless="ant.properties.available"/>
-  
   <property file="${basedir}/ant.properties"/>
   
   <property name="jboss422.lib" value="${jboss422.home}/lib"/>
@@ -59,24 +58,29 @@
   <available property="jboss500.available" file="${jboss500.available.file}"/>
   <available property="jboss501.available" file="${jboss501.available.file}"/>
   
-  <condition property="jbossws.integration.jboss42" value="true">
-    <or>
-      <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
-      <equals arg1="${jbossws.integration.target}" arg2="jboss423"/>
-    </or>
-  </condition>
-  <condition property="jbossws.integration.jboss50" value="true">
-    <or>
-      <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
-      <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
-    </or>
-  </condition>
-  
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
   
   <target name="prepare">
+    
+    <fail message="jbossws.integration.target not set" unless="jbossws.integration.target"/>
+    
+    <condition property="jbossws.integration.jboss42" value="true">
+      <or>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss423"/>
+      </or>
+    </condition>
+    <condition property="jbossws.integration.jboss50" value="true">
+      <or>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
+      </or>
+    </condition>
+    
+    <property name="deploy.structure" value="${stack.output.dir}/deploy-${jbossws.integration.target}"/>
+    
     <tstamp>
       <format property="build.id" pattern="yyyyMMddHHmm"/>
     </tstamp>

@@ -13,11 +13,6 @@
 
 <project basedir="." name="JBossWS-CXF">
   
-  <!-- Load ant.properties -->
-  <available property="ant.properties.available" file="${basedir}/ant.properties"/>
-  <fail message="Cannot find ant.properties. Did you copy/edit ant.properties.example?" unless="ant.properties.available"/>
-  <property file="${basedir}/ant.properties"/>
-  
   <!-- ================================================================== -->
   <!-- Setup                                                              -->
   <!-- ================================================================== -->
@@ -31,8 +26,6 @@
   <property name="stack.server.dir" value="${stack.modules.dir}/server"/>
   
   <property name="deploy.artifacts.dir" value="${stack.output.dir}/deploy-artifacts"/>
-  <property name="deploy.structure.jboss42" value="${stack.output.dir}/deploy-jboss422"/>
-  <property name="deploy.structure.jboss50" value="${stack.output.dir}/deploy-jboss500"/>
   
   <import file="${stack.distro.dir}/build-setup.xml"/>
   <import file="${stack.distro.dir}/build-deploy.xml"/>
@@ -81,7 +74,7 @@
     </exec>
   </target>
   
-  <target name="clean" depends="prepare" description="Cleans up most generated files.">
+  <target name="clean" description="Cleans up most generated files.">
     
     <echo message="*************************************"/>
     <echo message="* mvn clean                         *"/>

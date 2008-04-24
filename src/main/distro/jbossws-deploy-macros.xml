@@ -179,12 +179,13 @@
   <macrodef name="macro-deploy-jbossws-server-lib">
     <attribute name="thirdpartydir"/>
     <attribute name="targetdir"/>
+    <attribute name="jbossid"/>
     <sequential>
       <mkdir dir="@{targetdir}"/>
       <copy todir="@{targetdir}" flatten="true" overwrite="true">
         <fileset dir="@{thirdpartydir}">
           <patternset refid="jbossws.server.lib.patternset"/>
-          <include name="**/jbossws-jboss42.jar"/>
+          <include name="**/jbossws-@{jbossid}.jar"/>
         </fileset>
       </copy>
     </sequential>
@@ -197,6 +198,7 @@
   <macrodef name="macro-deploy-jbossws-cxf42-sar">
     <attribute name="artifactsdir"/>
     <attribute name="targetdir"/>
+    <attribute name="jbossid"/>
     <sequential>
       <mkdir dir="@{targetdir}"/>
       <copy todir="@{targetdir}" flatten="true">
@@ -214,7 +216,7 @@
         </fileset>
       </unzip>
       <copy todir="@{targetdir}/jbossws.beans">
-        <fileset dir="@{artifactsdir}/resources/jbossws-beans42">
+        <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}/jbossws.beans">
           <include name="META-INF/**"/>
         </fileset>
       </copy>
@@ -222,7 +224,7 @@
         <fileset dir="@{artifactsdir}/resources/jbossws-cxf.sar/META-INF"/>
       </copy>
       <copy todir="@{targetdir}/META-INF">
-        <fileset dir="@{artifactsdir}/resources/jbossws-jboss42.sar/META-INF"/>
+        <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}/jbossws-jboss42.sar/META-INF"/>
       </copy>
     </sequential>
   </macrodef>
@@ -266,16 +268,16 @@
     <macro-deploy-jbossws-bin targetdir="${installserver}/../../bin" artifactsdir="${artifactsdir}"/>
     <macro-deploy-jbossws-lib42 targetdir="${installserver}/../../lib" thirdpartydir="${artifactsdir}/lib"/>
     <macro-deploy-jbossws-client targetdir="${installserver}/../../client" thirdpartydir="${artifactsdir}/lib"/>
-    <macro-deploy-jbossws-server-lib targetdir="${installserver}/lib" thirdpartydir="${artifactsdir}/lib"/>
-    <macro-deploy-jbossws-cxf42-sar targetdir="${installserver}/deploy/jbossws.sar" artifactsdir="${artifactsdir}"/>
+    <macro-deploy-jbossws-server-lib targetdir="${installserver}/lib" thirdpartydir="${artifactsdir}/lib" jbossid="${jbossid}"/>
+    <macro-deploy-jbossws-cxf42-sar targetdir="${installserver}/deploy/jbossws.sar" artifactsdir="${artifactsdir}" jbossid="${jbossid}"/>
   </target>
   
   <target name="deploy-jbossws-cxf50" depends="deploy-jbossws-endorsed">
     <macro-deploy-jbossws-bin targetdir="${installserver}/../../bin" thirdpartydir="${thirdpartydir}"/>
     <macro-deploy-jbossws-lib50 targetdir="${installserver}/../../lib" thirdpartydir="${thirdpartydir}"/>
     <macro-deploy-jbossws-client targetdir="${installserver}/../../client" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-server-lib targetdir="${installserver}/lib" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-cxf50-sar targetdir="${installserver}/deploy/jbossws.sar" thirdpartydir="${thirdpartydir}"/>
+    <macro-deploy-jbossws-server-lib targetdir="${installserver}/lib" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
+    <macro-deploy-jbossws-cxf50-sar targetdir="${installserver}/deploy/jbossws.sar" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
   </target>
   
   <target name="deploy-jbossws-endorsed" if="HAVE_JDK_1.6">

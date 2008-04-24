@@ -118,7 +118,8 @@
     <jbossws.common.version>3.0.0-SNAPSHOT</jbossws.common.version>
     <jbossws.framework.version>${version}</jbossws.framework.version>
     <jbossws.spi.version>3.0.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.jboss42.version>4.2.2-SNAPSHOT</jbossws.jboss42.version>
+    <jbossws.jboss422.version>3.0.0-SNAPSHOT</jbossws.jboss422.version>
+    <jbossws.jboss423.version>3.0.0-SNAPSHOT</jbossws.jboss423.version>
     <jboss.common.version>1.2.1.GA</jboss.common.version>
     <jaxb.api.version>2.1</jaxb.api.version>
     <jaxb.impl.version>2.1.6</jaxb.impl.version>
@@ -164,13 +165,25 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss42</artifactId>
-        <version>${jbossws.jboss42.version}</version>
+        <artifactId>jbossws-jboss422</artifactId>
+        <version>${jbossws.jboss422.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss42</artifactId>
-        <version>${jbossws.jboss42.version}</version>
+        <artifactId>jbossws-jboss422</artifactId>
+        <version>${jbossws.jboss422.version}</version>
+        <classifier>resources</classifier>
+        <type>zip</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss423</artifactId>
+        <version>${jbossws.jboss423.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss423</artifactId>
+        <version>${jbossws.jboss423.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
@@ -294,7 +307,23 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss42</artifactId>
+      <artifactId>jbossws-jboss422</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss422</artifactId>
+      <classifier>resources</classifier>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss423</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss423</artifactId>
+      <classifier>resources</classifier>
+      <type>zip</type>
     </dependency>
   </dependencies>
   

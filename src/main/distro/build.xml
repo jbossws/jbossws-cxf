@@ -29,8 +29,6 @@
   <property name="tests.output.dir" value="${basedir}/output"/>
   
   <property name="deploy.artifacts.dir" value="${basedir}/deploy"/>
-  <property name="deploy.structure.jboss42" value="${basedir}/output/deploy-jboss422"/>
-  <property name="deploy.structure.jboss50" value="${basedir}/output/deploy-jboss500"/>
   <property name="jbossws.default.deploy.conf" value="${build.dir}/jbossws-default-deploy.conf"/>
   
   <import file="${build.dir}/build-setup.xml"/>

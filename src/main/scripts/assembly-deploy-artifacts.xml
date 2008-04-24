@@ -26,7 +26,8 @@
       <useStrictFiltering>true</useStrictFiltering>
       <unpack>false</unpack>
       <includes>
-        <include>*:jbossws-jboss42:jar</include>
+        <include>*:jbossws-jboss422:jar:*</include>
+        <include>*:jbossws-jboss423:jar:*</include>
       </includes>
     </dependencySet>
   </dependencySets>
@@ -99,9 +100,7 @@
       <directory>modules/server/target/resources</directory>
       <outputDirectory>resources</outputDirectory>
       <includes>
-        <include>jbossws-beans42/**</include>
-        <include>jbossws-cxf.sar/**</include>
-        <include>jbossws-jboss42.sar/**</include>
+        <include>jbossws-*/**</include>
       </includes>
     </fileSet>
   </fileSets>

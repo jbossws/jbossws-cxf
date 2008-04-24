@@ -9,9 +9,6 @@
 #jboss500.home=/home/tdiesler/svn/jbossas/tags/JBoss_5_0_0_Beta4/build/output/jboss-5.0.0.Beta4
 #jboss501.home=/home/tdiesler/svn/jbossas/trunk/build/output/jboss-5.0.0.CR1
 
-# The JBoss server under test. This can be [jboss422|jboss423|jboss500|jboss501]
-jbossws.integration.target=jboss422
-
 # The JBoss settings
 jboss.server.instance=default
 
