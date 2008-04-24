@@ -52,17 +52,7 @@
       <directory>target/deploy-artifacts</directory>
       <outputDirectory>deploy</outputDirectory>
     </fileSet>
-    <!-- tests -->
-    <fileSet>
-      <directory>modules/testsuite/framework-tests/src/test</directory>
-      <outputDirectory>tests</outputDirectory>
-      <includes>
-        <include>ant-import/**</include>
-        <include>etc/**</include>
-        <include>java/org/jboss/test/ws/jaxws/samples/**</include>
-        <include>resources/jaxws/samples/**</include>
-      </includes>
-    </fileSet>
+    <!-- test excludes -->
     <fileSet>
       <directory>modules/testsuite/cxf-tests/src/test/resources</directory>
       <outputDirectory>tests/resources</outputDirectory>
@@ -71,5 +61,17 @@
       </includes>
     </fileSet>
   </fileSets>
+  
+  <!-- framework tests -->
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>tests</outputDirectory>
+      <useStrictFiltering>true</useStrictFiltering>
+      <unpack>true</unpack>
+      <includes>
+        <include>*:jbossws-framework:zip:testsuite</include>
+      </includes>
+    </dependencySet>
+  </dependencySets>
   
 </assembly>
