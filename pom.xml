@@ -1,3 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id$ -->
+
+<!--
+  The JBossWS project is organised like this
+  
+                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+                       +~~~~+
+  Target Container:       |     AS-5.0      |  |     AS-4.2      |                       |    | 
+                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+                       |    |
+                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+                       |    |
+  Container Integration:  | jbossws-jboss50 |  | jbossws-jboss42 |                       |    |
+                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+                       |    |
+                          +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+  |    |
+  WS Framework:           |      jbossws-spi, jbossws-framework, jbossws-common       |  |    |
+                          +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+  |    |
+                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  |    |
+  WS Stack Integration:   | jbossws-native  |  |  jbossws-metro  |  |   jbossws-cxf   |  |    |
+                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  |    |
+                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  |    |
+  WS Stack:               |   jbossws-core  |  |   Sun Metro     |  |   Apache CXF    |  |    |
+                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  |    |
+  WS-* Extensions:        +~+ +~+              +~+ +~+              +~+ +~+              |    |
+                          | | | |              | | | |              | | | |              |    |
+                          | | | |              | | | |              | | | |              |    |
+                          | | | |              | | | |              | | | |              |    |
+                          | | | |              | | | |              | | | |              |    |
+                          | | | |              | | | |              | | | |              |    |
+                          +~+ +~+              +~+ +~+              +~+ +~+              +~~~~+
+                                                                                     JAXWS Testsuite  
+   
+  
+  Typically you would build, deploy, test one of the WS stacks against one of the supported target containers.
+  Here we explain first the manual procedure. Further down you find instruction on how to do this using our
+  automated Hudson QA environment.
+  
+  Working with JBossWS-Native
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
+  To run the general JAXWS samples against our native WS stack on JBoss-5.0 you would run the sequence below. 
+  This is also the required sequence before any SVN commit. If one of the tests fails, please complain loudly.
+  
+             cd  stack/native/trunk
+             ant deploy-jboss500
+             ant tests-smoke
+
+  To run the collection of provider sample tests, you would run 
+  
+             ant -Dtest=jaxws/samples/provider test
+    
+  To run a single specific test, you would run
+  
+             ant -Dtest=org.jboss.test.ws.jaxws.samples.provider.ProviderPayloadTestCase one-test
+
+  This can be done in debug mode as well
+  
+             ant -Ddebug=true -Dtest=org.jboss.test.ws.jaxws.samples.provider.ProviderPayloadTestCase one-test
+
+  Working with the Hudson QA environment
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
+  The Hudson QA environment helps you to test any supported stack against any supported target container.
+  To setup Hudson on your local box, you would run
+  
+             cd  framework/trunk
+             ant hudson-setup
+             ant hudson-start
+  
+  When you hit http://localhost:8180/hudson you should be able to 
+  
+             1. login
+             2. build a target container
+             3. run a testsuite against the target container
+  
+  Publicly, Hudson is available at http://jbws.dyndns.org:8180/hudson/
+  
+  Have fun + good luck
+  The JBossWS Team
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -204,6 +292,10 @@
       <classifier>scripts</classifier>
       <type>zip</type>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss42</artifactId>
+    </dependency>
   </dependencies>
   
   <!-- Plugins -->
@@ -221,10 +313,9 @@
             <configuration>
               <tasks>
                 <echo/>
+                <echo message="profile=${jbossws.integration.target}"/>
                 <echo message="jboss.home=${jboss.home}"/>
                 <echo/>
-                <available property="jboss.available" file="${jboss.home}/client/jboss-client.jar"/>
-                <fail message="Invalid integration target: ${jboss.home}" unless="jboss.available"/>
               </tasks>
             </configuration>
           </execution>
@@ -259,17 +350,6 @@
   <!-- Profiles -->
   <profiles>
     <!-- 
-    Name:  testsuite
-    Descr: Executes the testsuite  
-    -->
-    <profile>
-      <id>testsuite</id>
-      <modules>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-    
-    <!-- 
     Name:  bindist
     Descr: Build the binary distribution  
     -->
@@ -293,22 +373,28 @@
     </profile>
     
     <!-- 
-    Name:  jboss422-user-profile
+    Name:  jboss422
     Descr: JBoss-4.2.2 specific options  
     -->
     <profile>
-      <id>jboss422-user-profile</id>
-      <activation>
-        <property>
-          <name>env</name>
-          <value>jboss422</value>
-        </property>
-      </activation>
+      <id>jboss422</id>
       <properties>
         <jbossws.integration.target>jboss422</jbossws.integration.target>
         <jboss.home>${jboss422.home}</jboss.home>
       </properties>
     </profile>
+    
+    <!-- 
+    Name:  testsuite
+    Descr: Executes the testsuite  
+    -->
+    <profile>
+      <id>testsuite</id>
+      <modules>
+        <module>modules/testsuite</module>
+      </modules>
+    </profile>
+    
   </profiles>
   
   <!-- Repositories -->

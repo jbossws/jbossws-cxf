@@ -22,30 +22,30 @@
   <!-- Setup                                                              -->
   <!-- ================================================================== -->
 
-  <property name="cxf.dir" value="${basedir}"/>
-  <property name="cxf.distro.dir" value="${cxf.dir}/src/main/distro"/>
-  <property name="cxf.output.dir" value="${cxf.dir}/target"/>
-  <property name="cxf.modules.dir" value="${cxf.dir}/modules"/>
-  <property name="cxf.management.dir" value="${cxf.modules.dir}/management"/>
-  <property name="cxf.client.dir" value="${cxf.modules.dir}/client"/>
-  <property name="cxf.server.dir" value="${cxf.modules.dir}/server"/>
+  <property name="stack.dir" value="${basedir}"/>
+  <property name="stack.distro.dir" value="${stack.dir}/src/main/distro"/>
+  <property name="stack.output.dir" value="${stack.dir}/target"/>
+  <property name="stack.modules.dir" value="${stack.dir}/modules"/>
+  <property name="stack.management.dir" value="${stack.modules.dir}/management"/>
+  <property name="stack.client.dir" value="${stack.modules.dir}/client"/>
+  <property name="stack.server.dir" value="${stack.modules.dir}/server"/>
   
-  <property name="deploy.artifacts.dir" value="${cxf.output.dir}/deploy-artifacts"/>
-  <property name="deploy.structure.jboss42" value="${cxf.output.dir}/deploy-jboss422"/>
-  <property name="deploy.structure.jboss50" value="${cxf.output.dir}/deploy-jboss500"/>
+  <property name="deploy.artifacts.dir" value="${stack.output.dir}/deploy-artifacts"/>
+  <property name="deploy.structure.jboss42" value="${stack.output.dir}/deploy-jboss422"/>
+  <property name="deploy.structure.jboss50" value="${stack.output.dir}/deploy-jboss500"/>
   
-  <import file="${cxf.distro.dir}/build-setup.xml"/>
-  <import file="${cxf.distro.dir}/build-deploy.xml"/>
-  <import file="${cxf.distro.dir}/jbossws-deploy-macros.xml"/>
+  <import file="${stack.distro.dir}/build-setup.xml"/>
+  <import file="${stack.distro.dir}/build-deploy.xml"/>
+  <import file="${stack.distro.dir}/jbossws-deploy-macros.xml"/>
   
-  <property name="jbossws.default.deploy.conf" value="${cxf.distro.dir}/jbossws-default-deploy.conf"/>
+  <property name="jbossws.default.deploy.conf" value="${stack.distro.dir}/jbossws-default-deploy.conf"/>
   
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
   
   <target name="init" depends="prepare">
-    <xmlproperty file="${cxf.dir}/pom.xml"/>
+    <xmlproperty file="${stack.dir}/pom.xml"/>
     <property name="version.id" value="${project.version}"/>      
     <echo message="version.id=${version.id}"/>
   </target>
@@ -56,13 +56,13 @@
   
   <target name="build-bin-dist" depends="prepare" description="Build the binary distribution">
     
-    <echo message="*************************************"/>
-    <echo message="* mvn -P bindist assembly:directory *"/>
-    <echo message="*************************************"/>
+    <echo message="**********************************************"/>
+    <echo message="* mvn -P bindist,${jbossws.integration.target} assembly:directory *"/>
+    <echo message="**********************************************"/>
     
-    <delete dir="${cxf.output.dir}/jbossws-cxf-dist"/>
+    <delete dir="${stack.output.dir}/jbossws-cxf-dist"/>
     <exec dir="${basedir}" executable="mvn" failonerror="true">
-      <arg value="-P bindist"/>
+      <arg value="-P bindist,${jbossws.integration.target}"/>
       <arg value="assembly:directory"/>
     </exec>
   </target>
@@ -73,13 +73,9 @@
   
   <target name="prepare-deploy" depends="prepare">
     
-    <echo message="*************************************************"/>
-    <echo message="* mvn -Denv=${jbossws.integration.target} package assembly:directory *"/>
-    <echo message="*************************************************"/>
-    
     <delete dir="${deploy.artifacts.dir}"/>
     <exec dir="${basedir}" executable="mvn" failonerror="true">
-      <arg value="-Denv=${jbossws.integration.target}"/>
+      <arg value="-P${jbossws.integration.target}"/>
       <arg value="package"/>
       <arg value="assembly:directory"/>
     </exec>

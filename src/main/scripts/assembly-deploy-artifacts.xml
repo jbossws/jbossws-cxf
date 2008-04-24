@@ -7,14 +7,25 @@
   </formats>
   <includeBaseDirectory>false</includeBaseDirectory>
   
-  <!-- bin -->
   <dependencySets>
+    
+    <!-- bin -->
     <dependencySet>
       <outputDirectory>bin</outputDirectory>
       <useStrictFiltering>true</useStrictFiltering>
       <unpack>true</unpack>
       <includes>
         <include>*:jbossws-framework:zip:scripts</include>
+      </includes>
+    </dependencySet>
+    
+    <!-- lib -->
+    <dependencySet>
+      <outputDirectory>lib</outputDirectory>
+      <useStrictFiltering>true</useStrictFiltering>
+      <unpack>false</unpack>
+      <includes>
+        <include>*:jbossws-jboss42:jar</include>
       </includes>
     </dependencySet>
   </dependencySets>
@@ -46,7 +57,6 @@
               <include>*:jbossws-common:jar</include>
               <include>*:jbossws-framework:jar</include>
               <include>*:jbossws-spi:jar</include>
-              <include>*:jbossws-jboss42:jar</include>
               <include>*:neethi:jar</include>
               <include>*:saaj-api:jar</include>
               <include>*:saaj-impl:jar</include>

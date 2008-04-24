@@ -73,18 +73,10 @@
     </plugins>
   </build>
   
+  <!-- Profiles -->
   <profiles>
-    <!--
-      mvn -Denv=jboss422 test
-    -->
     <profile>
-      <id>jboss422-cxf-tests-profile</id>
-      <activation>
-        <property>
-          <name>env</name>
-          <value>jboss422</value>
-        </property>
-      </activation>
+      <id>jboss422</id>
       <build>
         <plugins>
           <plugin>

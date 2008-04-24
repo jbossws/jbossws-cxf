@@ -143,18 +143,10 @@
     </plugins>
   </build>
   
+  <!-- Profiles -->
   <profiles>
-    <!--
-    mvn -Denv=jboss422 test
-    -->
     <profile>
-      <id>jboss422-cxf-testsuite-profile</id>
-      <activation>
-        <property>
-          <name>env</name>
-          <value>jboss422</value>
-        </property>
-      </activation>
+      <id>jboss422</id>
       <properties>
         <jboss.version>4.2.2.GA</jboss.version>
         <jbossws.integration.target>jboss422</jbossws.integration.target>
@@ -177,42 +169,6 @@
             <configuration>
               <argLine>-Djava.endorsed.dirs=${jboss422.home}/lib/endorsed</argLine>
             </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <!--
-    No test environment specified
-    -->
-    <profile>
-      <id>no-env-profile</id>
-      <activation>
-        <property>
-          <name>!env</name>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <executions>
-              <execution>
-                <phase>validate</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <configuration>
-                  <tasks>
-                    <echo message="************************************"/>
-                    <echo message="* No test environment specified    *"/>
-                    <echo message="* Run: mvn -Denv=jboss??? test     *"/>
-                    <echo message="************************************"/>
-                    <fail/>
-                  </tasks>
-                </configuration>
-              </execution>
-            </executions>
           </plugin>
         </plugins>
       </build>
