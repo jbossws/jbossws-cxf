@@ -13,6 +13,7 @@
     <version>3.0.2-SNAPSHOT</version>
   </parent>
   
+  <!-- Plugins -->
   <build>
     <plugins>
       <plugin>
@@ -66,6 +67,48 @@
     -->
     <profile>
       <id>jboss423</id>
+      <activation>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <testExcludes>
+              </testExcludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!-- 
+    Name:  jboss500
+    Descr: JBoss-5.0.0 specific options  
+    -->
+    <profile>
+      <id>jboss500</id>
+      <activation>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <testExcludes>
+              </testExcludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!-- 
+    Name:  jboss501
+    Descr: JBoss-5.0.1 specific options  
+    -->
+    <profile>
+      <id>jboss501</id>
       <activation>
       </activation>
       <build>

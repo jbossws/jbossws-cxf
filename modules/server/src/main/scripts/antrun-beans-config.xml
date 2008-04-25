@@ -53,15 +53,25 @@
         &lt;/deployment&gt; </footer>
     </concat>
     
-    <!-- Concat jbossws-jboss500-beans/META-INF/jboss-beans.xml - ->
-    <echo message="Concat jbossws-jboss500-beans/META-INF/jboss-beans.xml"/>
-    <concat destfile="${project.build.resources.directory}/jbossws-jboss500-beans/META-INF/jboss-beans.xml">
+    <!-- Concat jbossws-jboss500/jbossws.beans -->
+    <echo message="Concat jbossws-jboss500/jbossws.beans"/>
+    <concat destfile="${project.build.resources.directory}/jbossws-jboss500/jbossws.beans/META-INF/jboss-beans.xml">
       <header trimleading="yes">
         &lt;deployment xmlns="urn:jboss:bean-deployer:2.0"&gt; </header>
       <fileset file="${project.resources.directory}/jbossws-cxf-config.xml"/>
       <footer trimleading="yes">
         &lt;/deployment&gt; </footer>
-    </concat-->
+    </concat>
+    
+    <!-- Concat jbossws-jboss501/jbossws.beans -->
+    <echo message="Concat jbossws-jboss501/jbossws.beans"/>
+    <concat destfile="${project.build.resources.directory}/jbossws-jboss501/jbossws.beans/META-INF/jboss-beans.xml">
+      <header trimleading="yes">
+        &lt;deployment xmlns="urn:jboss:bean-deployer:2.0"&gt; </header>
+      <fileset file="${project.resources.directory}/jbossws-cxf-config.xml"/>
+      <footer trimleading="yes">
+        &lt;/deployment&gt; </footer>
+    </concat>
     
   </target>
   

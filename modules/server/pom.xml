@@ -155,6 +155,22 @@
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss423</outputDirectory>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.ws</groupId>
+                  <artifactId>jbossws-jboss500</artifactId>
+                  <version>${jbossws.jboss500.version}</version>
+                  <classifier>resources</classifier>
+                  <type>zip</type>
+                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss500</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.ws</groupId>
+                  <artifactId>jbossws-jboss501</artifactId>
+                  <version>${jbossws.jboss501.version}</version>
+                  <classifier>resources</classifier>
+                  <type>zip</type>
+                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss501</outputDirectory>
+                </artifactItem>
               </artifactItems>
             </configuration>
           </execution>

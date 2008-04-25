@@ -251,7 +251,7 @@
     <profile>
       <id>jboss501</id>
       <properties>
-        <jboss.version>5.0.1-SNAPSHOT</jboss.version>
+        <jboss.version>5.0.0-SNAPSHOT</jboss.version>
         <jbossws.integration.target>jboss501</jbossws.integration.target>
       </properties>
       <dependencies>

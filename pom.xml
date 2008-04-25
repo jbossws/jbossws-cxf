@@ -43,27 +43,14 @@
   Here we explain first the manual procedure. Further down you find instruction on how to do this using our
   automated Hudson QA environment.
   
-  Working with JBossWS-Native
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Working with JBossWS
+  ~~~~~~~~~~~~~~~~~~~~
   
-  To run the general JAXWS samples against our native WS stack on JBoss-5.0 you would run the sequence below. 
+  To run the general JAXWS samples against our web service stack on JBoss-5.0 you would run the sequence below. 
   This is also the required sequence before any SVN commit. If one of the tests fails, please complain loudly.
   
-             cd  stack/native/trunk
              ant deploy-jboss500
-             ant tests-smoke
-
-  To run the collection of provider sample tests, you would run 
-  
-             ant -Dtest=jaxws/samples/provider test
-    
-  To run a single specific test, you would run
-  
-             ant -Dtest=org.jboss.test.ws.jaxws.samples.provider.ProviderPayloadTestCase one-test
-
-  This can be done in debug mode as well
-  
-             ant -Ddebug=true -Dtest=org.jboss.test.ws.jaxws.samples.provider.ProviderPayloadTestCase one-test
+             mvn -Ptestsuite,jboss500 test
 
   Working with the Hudson QA environment
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,7 +58,7 @@
   The Hudson QA environment helps you to test any supported stack against any supported target container.
   To setup Hudson on your local box, you would run
   
-             cd  framework/trunk
+             cd  framework/trunk/hudson
              ant hudson-setup
              ant hudson-start
   
@@ -116,10 +103,12 @@
     <cxf.version>2.0.5-incubator</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <jbossws.common.version>3.0.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.framework.version>${version}</jbossws.framework.version>
+    <jbossws.framework.version>3.0.2-SNAPSHOT</jbossws.framework.version>
     <jbossws.spi.version>3.0.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.jboss422.version>3.0.0-SNAPSHOT</jbossws.jboss422.version>
     <jbossws.jboss423.version>3.0.0-SNAPSHOT</jbossws.jboss423.version>
+    <jbossws.jboss500.version>3.0.0-SNAPSHOT</jbossws.jboss500.version>
+    <jbossws.jboss501.version>3.0.0-SNAPSHOT</jbossws.jboss501.version>
     <jboss.common.version>1.2.1.GA</jboss.common.version>
     <jaxb.api.version>2.1</jaxb.api.version>
     <jaxb.impl.version>2.1.6</jaxb.impl.version>
@@ -184,6 +173,42 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss423</artifactId>
         <version>${jbossws.jboss423.version}</version>
+        <classifier>resources</classifier>
+        <type>zip</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss500</artifactId>
+        <version>${jbossws.jboss500.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss500</artifactId>
+        <version>${jbossws.jboss500.version}</version>
+        <classifier>container</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss500</artifactId>
+        <version>${jbossws.jboss500.version}</version>
+        <classifier>resources</classifier>
+        <type>zip</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss501</artifactId>
+        <version>${jbossws.jboss501.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss501</artifactId>
+        <version>${jbossws.jboss501.version}</version>
+        <classifier>container</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss501</artifactId>
+        <version>${jbossws.jboss501.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
@@ -303,32 +328,74 @@
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-framework</artifactId>
       <classifier>scripts</classifier>
+      <scope>provided</scope>
       <type>zip</type>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-framework</artifactId>
       <classifier>testsuite</classifier>
+      <scope>provided</scope>
       <type>zip</type>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss422</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss422</artifactId>
       <classifier>resources</classifier>
+      <scope>provided</scope>
       <type>zip</type>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss423</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss423</artifactId>
       <classifier>resources</classifier>
+      <scope>provided</scope>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss500</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss500</artifactId>
+      <classifier>container</classifier>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss500</artifactId>
+      <classifier>resources</classifier>
+      <scope>provided</scope>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss501</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss501</artifactId>
+      <classifier>container</classifier>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss501</artifactId>
+      <classifier>resources</classifier>
+      <scope>provided</scope>
       <type>zip</type>
     </dependency>
   </dependencies>

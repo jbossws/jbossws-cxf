@@ -102,6 +102,7 @@
   <target name="undeploy-jboss500" depends="target-jboss500,init" description="Remove jbossws from jboss500">
     <fail message="Not available: ${jboss500.available.file}" unless="jboss500.available"/>
     <macro-undeploy-jbossws targetdir="${jboss500.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
+    <macro-undeploy-deployer targetdir="${jboss500.server.deploy}/jbossws.sar"/>
   </target>
   
   <!-- ================================================================== -->
@@ -123,6 +124,7 @@
   <target name="undeploy-jboss501" depends="target-jboss501,init" description="Remove jbossws from jboss501">
     <fail message="Not available: ${jboss501.available.file}" unless="jboss501.available"/>
     <macro-undeploy-jbossws targetdir="${jboss501.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
+    <macro-undeploy-deployer targetdir="${jboss501.server.deploy}/jbossws.sar"/>
   </target>
   
   <!-- ================================================================== -->
