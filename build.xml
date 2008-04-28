@@ -43,10 +43,10 @@
     <property name="version.id" value="${project.version}"/>
           
     <echo message="version.id=${version.id}"/>
-    <echo message="deploy.target=${jbossws.deploy.target}"/>
+    <echo message="integration.target=${jbossws.integration.target}"/>
     
-    <fail message="jbossws.deploy.target not set" unless="jbossws.deploy.target"/>
-    <property name="deploy.structure" value="${stack.output.dir}/deploy-${jbossws.deploy.target}"/>
+    <fail message="jbossws.integration.target not set" unless="jbossws.integration.target"/>
+    <property name="deploy.structure" value="${stack.output.dir}/deploy-${jbossws.integration.target}"/>
   </target>
   
   <!-- ================================================================== -->
