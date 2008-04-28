@@ -67,6 +67,7 @@
     <dependencySet>
       <outputDirectory>tests</outputDirectory>
       <useStrictFiltering>true</useStrictFiltering>
+      <scope>provided</scope>
       <unpack>true</unpack>
       <includes>
         <include>*:jbossws-framework:zip:testsuite</include>

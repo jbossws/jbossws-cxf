@@ -32,6 +32,7 @@
   <import file="${stack.distro.dir}/jbossws-deploy-macros.xml"/>
   
   <property name="jbossws.default.deploy.conf" value="${stack.distro.dir}/jbossws-default-deploy.conf"/>
+  <property name="target.properties.file" value="${basedir}/target.properties"/>
   
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
@@ -42,24 +43,10 @@
     <property name="version.id" value="${project.version}"/>
           
     <echo message="version.id=${version.id}"/>
-    <echo message="jbossid=${jbossws.integration.target}"/>
+    <echo message="deploy.target=${jbossws.deploy.target}"/>
     
-    <fail message="jbossws.integration.target not set" unless="jbossws.integration.target"/>
-    
-    <condition property="jbossws.integration.jboss42" value="true">
-      <or>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss422"/>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss423"/>
-      </or>
-    </condition>
-    <condition property="jbossws.integration.jboss50" value="true">
-      <or>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
-      </or>
-    </condition>
-    
-    <property name="deploy.structure" value="${stack.output.dir}/deploy-${jbossws.integration.target}"/>
+    <fail message="jbossws.deploy.target not set" unless="jbossws.deploy.target"/>
+    <property name="deploy.structure" value="${stack.output.dir}/deploy-${jbossws.deploy.target}"/>
   </target>
   
   <!-- ================================================================== -->

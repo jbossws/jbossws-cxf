@@ -63,6 +63,10 @@
   <!-- ================================================================== -->
   
   <target name="prepare">
+    
+    <!-- Load jbossws.integration.target properties -->
+    <property file="${target.properties.file}"/>
+    
     <tstamp>
       <format property="build.id" pattern="yyyyMMddHHmm"/>
     </tstamp>
