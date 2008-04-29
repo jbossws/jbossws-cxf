@@ -116,3 +116,6 @@ org/jboss/test/ws/jaxws/samples/eardeployment/**
 org/jboss/test/ws/jaxws/samples/swaref/**
 org/jboss/test/ws/jaxws/samples/webserviceref/**
 org/jboss/test/ws/jaxws/samples/webservice/**
+
+# [JBWS-2029] Make the project generator available for all stacks
+org/jboss/test/ws/projectGenerator/**

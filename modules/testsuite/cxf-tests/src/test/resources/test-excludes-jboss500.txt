@@ -101,3 +101,6 @@ org/jboss/test/ws/jaxws/jbws1556/**
 
 # [JBWS-2097] Unlock WS-ReliableMessaging in all stacks
 org/jboss/test/ws/jaxws/wsrm/**
+
+# [JBWS-2029] Make the project generator available for all stacks
+org/jboss/test/ws/projectGenerator/**
