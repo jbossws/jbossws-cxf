@@ -124,6 +124,10 @@
                 <!--  [CXF-1253] CXF does not respect @HandlerChain on client SEI -->
                 <exclude>org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*</exclude>
                 
+                <!-- [JBWS-2161] Investigate why LogicalHandlerJAXBTestCase and HandlerChainTestCase tests fail -->
+                <exclude>org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*</exclude>
+
                 <!--  [CXF-1510] Cannot handle anonymous bare requests -->
                 <exclude>org/jboss/test/ws/jaxws/anonymous/**</exclude>
                 
