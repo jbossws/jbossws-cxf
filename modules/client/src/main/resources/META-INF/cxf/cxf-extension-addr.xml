@@ -22,11 +22,13 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <bean class="org.apache.cxf.ws.addressing.policy.AddressingAssertionBuilder">
+    <bean class="org.apache.cxf.ws.addressing.policy.AddressingAssertionBuilder"
+	  id="org.apache.cxf.ws.addressing.policy.AddressingAssertionBuilder">
         <constructor-arg ref="cxf"/>
     </bean>
 
-    <bean class="org.apache.cxf.ws.addressing.policy.AddressingPolicyInterceptorProvider"/>
+    <bean class="org.apache.cxf.ws.addressing.policy.AddressingPolicyInterceptorProvider"
+	  id="org.apache.cxf.ws.addressing.policy.AddressingPolicyInterceptorProvider"/>
  
     <bean id="org.apache.cxf.ws.addressing.policy.UsingAddressingAssertionBuilder"
         class="org.apache.cxf.ws.policy.builder.primitive.PrimitiveAssertionBuilder">

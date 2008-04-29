@@ -24,7 +24,8 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <bean class="org.apache.cxf.binding.soap.SoapBindingFactory" lazy-init="true">
+    <bean id="org.apache.cxf.binding.soap.SoapBindingFactory"
+	  class="org.apache.cxf.binding.soap.SoapBindingFactory" lazy-init="true">
         <property name="activationNamespaces">
             <set>
                 <value>http://schemas.xmlsoap.org/soap/</value>
@@ -37,7 +38,9 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <property name="bus" ref="cxf"/>
     </bean>
     
-    <bean class="org.apache.cxf.binding.soap.SoapTransportFactory" lazy-init="true">
+    <bean class="org.apache.cxf.binding.soap.SoapTransportFactory"
+	  id="org.apache.cxf.binding.soap.SoapTransportFactory"
+	  lazy-init="true">
         <property name="transportIds">
             <list>
                 <value>http://schemas.xmlsoap.org/soap/</value>
@@ -53,7 +56,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 		<property name="customEditors">
 			<map>
 				<entry key="org.apache.cxf.binding.soap.SoapVersion">
-					<bean class="org.apache.cxf.binding.soap.SoapVersionPropertyEditor"/>
+					<bean class="org.apache.cxf.binding.soap.SoapVersionEditor"/>
 				</entry>
 			</map>
 		</property>

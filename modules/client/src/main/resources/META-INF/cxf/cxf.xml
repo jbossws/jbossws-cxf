@@ -24,17 +24,17 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="cxf" class="org.apache.cxf.bus.CXFBusImpl"/>
-    <bean class="org.apache.cxf.bus.spring.Jsr250BeanPostProcessor" id="org.apache.cxf.bus.spring.Jsr250BeanPostProcessor"/>    
-    <bean class="org.apache.cxf.bus.spring.BusExtensionPostProcessor" id="org.apache.cxf.bus.spring.BusExtensionPostProcessor"/>
+    <bean id="org.apache.cxf.bus.spring.Jsr250BeanPostProcessor" class="org.apache.cxf.bus.spring.Jsr250BeanPostProcessor"/>    
+    <bean id="org.apache.cxf.bus.spring.BusExtensionPostProcessor" class="org.apache.cxf.bus.spring.BusExtensionPostProcessor"/>
     
     <bean id="org.apache.cxf.resource.ResourceManager" class="org.apache.cxf.bus.resource.ResourceManagerImpl">
-       <constructor-arg>
+       <property name="resolvers">
             <list>
                 <bean class="org.apache.cxf.resource.ClasspathResolver"/>
                 <bean class="org.apache.cxf.resource.ClassLoaderResolver"/>
                 <bean class="org.apache.cxf.bus.spring.BusApplicationContextResourceResolver"/>
             </list>
-       </constructor-arg>
+       </property>
        <property name="bus" ref="cxf"/>
     </bean>
     <bean id="org.apache.cxf.configuration.Configurer" 
@@ -42,32 +42,32 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>    
         
     <bean id="org.apache.cxf.binding.BindingFactoryManager" class="org.apache.cxf.binding.BindingFactoryManagerImpl">
-        <constructor-arg>
+        <property name="mapProvider">
             <bean class="org.apache.cxf.configuration.spring.SpringBeanMap">
               <property name="type" value="org.apache.cxf.binding.BindingFactory"/>
               <property name="idsProperty" value="activationNamespaces"/>
             </bean>
-        </constructor-arg>
+        </property>
         <property name="bus" ref="cxf"/>
     </bean>
     
     <bean id="org.apache.cxf.transport.DestinationFactoryManager" class="org.apache.cxf.transport.DestinationFactoryManagerImpl">
-        <constructor-arg>
+        <property name="mapProvider">
             <bean class="org.apache.cxf.configuration.spring.SpringBeanMap">
               <property name="type" value="org.apache.cxf.transport.DestinationFactory"/>
               <property name="idsProperty" value="transportIds"/>
             </bean>
-        </constructor-arg>
+        </property>
         <property name="bus" ref="cxf"/>
     </bean>
     
     <bean id="org.apache.cxf.transport.ConduitInitiatorManager" class="org.apache.cxf.transport.ConduitInitiatorManagerImpl">
-        <constructor-arg>
+        <property name="mapProvider">
             <bean class="org.apache.cxf.configuration.spring.SpringBeanMap">
               <property name="type" value="org.apache.cxf.transport.ConduitInitiator"/>
               <property name="idsProperty" value="transportIds"/>
             </bean>
-        </constructor-arg>
+        </property>
         <property name="bus" ref="cxf"/>
     </bean>
     
@@ -96,14 +96,14 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         
 
     <bean id="org.apache.cxf.transports.http.QueryHandlerRegistry" class="org.apache.cxf.transport.http.QueryHandlerRegistryImpl">
-        <constructor-arg ref="cxf"/>
-        <constructor-arg>
+        <property name="bus" ref="cxf"/>
+        <property name="queryHandlers">
         	<list>
         		<bean class="org.apache.cxf.transport.http.WSDLQueryHandler">
-			        <constructor-arg ref="cxf"/>
+			        <property name="bus" ref="cxf"/>
         		</bean>	
         	</list>
-        </constructor-arg>
+        </property>
     </bean>
 
     <bean id="org.apache.cxf.endpoint.EndpointResolverRegistry" class="org.apache.cxf.endpoint.EndpointResolverRegistryImpl">
@@ -113,6 +113,10 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <property name="bus" ref="cxf"/>
     </bean>
     <bean id="org.apache.cxf.catalog.OASISCatalogManager" class="org.apache.cxf.catalog.OASISCatalogManager">
+        <property name="bus" ref="cxf"/>
+    </bean>
+
+    <bean id="org.apache.cxf.endpoint.ServiceContractResolverRegistry" class="org.apache.cxf.endpoint.ServiceContractResolverRegistryImpl">
         <property name="bus" ref="cxf"/>
     </bean>
 </beans>

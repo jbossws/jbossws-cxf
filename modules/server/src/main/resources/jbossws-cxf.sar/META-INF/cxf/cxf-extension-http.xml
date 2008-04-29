@@ -23,8 +23,10 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <bean class="org.apache.cxf.transport.http.policy.HTTPClientAssertionBuilder"/>
-    <bean class="org.apache.cxf.transport.http.policy.HTTPServerAssertionBuilder"/>
+    <bean class="org.apache.cxf.transport.http.policy.HTTPClientAssertionBuilder"
+	  id="org.apache.cxf.transport.http.policy.HTTPClientAssertionBuilder"/>
+    <bean class="org.apache.cxf.transport.http.policy.HTTPServerAssertionBuilder"
+	  id="org.apache.cxf.transport.http.policy.HTTPServerAssertionBuilder"/>
     
     
     <bean class="org.apache.cxf.transport.http.ClientOnlyHTTPTransportFactory"

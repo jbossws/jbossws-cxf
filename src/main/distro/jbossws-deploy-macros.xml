@@ -49,6 +49,7 @@
     <include name="**/wstx.jar"/>
     <include name="**/xml-resolver.jar"/>
     <include name="**/XmlSchema.jar"/>
+    <include name="**/FastInfoset.jar"/>
   </patternset>
   
   <patternset id="jbossws.lib.patternset">
@@ -85,6 +86,7 @@
     <include name="**/wsdl4j.jar"/>
     <include name="**/xml-resolver.jar"/>
     <include name="**/XmlSchema.jar"/>
+    <include name="**/FastInfoset.jar"/>
   </patternset>
   
   <!-- ================================================================== -->

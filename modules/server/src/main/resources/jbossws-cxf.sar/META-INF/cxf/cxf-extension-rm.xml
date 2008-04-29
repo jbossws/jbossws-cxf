@@ -27,7 +27,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <property name="bus" ref="cxf"/>
     </bean>
 
-    <bean class="org.apache.cxf.ws.rm.policy.RMPolicyInterceptorProvider">
+    <bean class="org.apache.cxf.ws.rm.policy.RMPolicyInterceptorProvider"
+	  id="org.apache.cxf.ws.rm.policy.RMPolicyInterceptorProvider">
      	<constructor-arg><ref bean="cxf"/></constructor-arg>
     </bean>
     

@@ -84,6 +84,7 @@
               <include>*:wsdl4j:jar</include>
               <include>*:xml-resolver:jar</include>
               <include>*:XmlSchema:jar</include>
+              <include>*:FastInfoset:jar</include>
             </includes>
           </dependencySet>
           <dependencySet>

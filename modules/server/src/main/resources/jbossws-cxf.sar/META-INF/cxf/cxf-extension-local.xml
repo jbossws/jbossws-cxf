@@ -23,7 +23,9 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <bean class="org.apache.cxf.transport.local.LocalTransportFactory" lazy-init="true">
+    <bean class="org.apache.cxf.transport.local.LocalTransportFactory"
+	  id="org.apache.cxf.transport.local.LocalTransportFactory"
+	  lazy-init="true">
         <property name="bus" ref="cxf"/>
         <property name="transportIds">
             <list>
