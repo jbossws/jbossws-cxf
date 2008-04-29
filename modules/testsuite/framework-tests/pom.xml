@@ -98,7 +98,6 @@
                 
                 <!--  EJB3/Injection excludes -->
                 <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
-                <exclude>org/jboss/test/ws/jaxws/webserviceref/**</exclude>
                 
                 <!--  [JBWS-1178] Multiple virtual host and soap:address problem -->
                 <exclude>org/jboss/test/ws/jaxws/jbws1178/**</exclude>
@@ -152,7 +151,6 @@
                 
                 <!--  [CXF-1515] Bad Enumeration value 'extension restriction' -->
                 <exclude>org/jboss/test/ws/jaxws/jbws1505/**</exclude>
-                <exclude>org/jboss/test/ws/jaxws/jbws1845/**</exclude>
                 
                 <!--  [JBWS-2115] EJB client vehicle not sufficiently isolated -->
                 <exclude>org/jboss/test/ws/jaxws/jbws1581/**</exclude>
@@ -215,7 +213,6 @@
                 
                 <!--  EJB3/Injection excludes -->
                 <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
-                <exclude>org/jboss/test/ws/jaxws/webserviceref/**</exclude>
                 
                 <!--  [JBWS-1178] Multiple virtual host and soap:address problem -->
                 <exclude>org/jboss/test/ws/jaxws/jbws1178/**</exclude>
@@ -269,7 +266,6 @@
                 
                 <!--  [CXF-1515] Bad Enumeration value 'extension restriction' -->
                 <exclude>org/jboss/test/ws/jaxws/jbws1505/**</exclude>
-                <exclude>org/jboss/test/ws/jaxws/jbws1845/**</exclude>
                 
                 <!--  [JBWS-2115] EJB client vehicle not sufficiently isolated -->
                 <exclude>org/jboss/test/ws/jaxws/jbws1581/**</exclude>
