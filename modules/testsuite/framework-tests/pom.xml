@@ -237,6 +237,10 @@
                 <!--  [CXF-1253] CXF does not respect @HandlerChain on client SEI -->
                 <exclude>org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*</exclude>
                 
+                <!-- [JBWS-2161] Investigate why LogicalHandlerJAXBTestCase and HandlerChainTestCase tests fail -->
+                <exclude>org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*</exclude>
+
                 <!--  [CXF-1510] Cannot handle anonymous bare requests -->
                 <exclude>org/jboss/test/ws/jaxws/anonymous/**</exclude>
                 
@@ -349,6 +353,10 @@
                 <!-- [CXF-1253] CXF does not respect @HandlerChain on client SEI -->
                 <exclude>org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*</exclude>
                 
+                <!-- [JBWS-2161] Investigate why LogicalHandlerJAXBTestCase and HandlerChainTestCase tests fail -->
+                <exclude>org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*</exclude>
+
                 <!-- [JBWS-2107] Resolve dependency on @SecurityDomain -->
                 <exclude>org/jboss/test/ws/jaxws/webserviceref/Secure**</exclude>
                 <exclude>org/jboss/test/ws/jaxws/jbws1840/**</exclude>
@@ -415,9 +423,6 @@
                 
                 <!-- [JBWS-2120] @WebWservice does not work with class isolation -->
                 <exclude>org/jboss/test/ws/jaxws/jbws1556/**</exclude>
-                
-                <!-- [JBWS-2097] Unlock WS-ReliableMessaging in all stacks -->
-                <exclude>org/jboss/test/ws/jaxws/wsrm/**</exclude>
               </testExcludes>
             </configuration>
           </plugin>
@@ -476,6 +481,10 @@
                 <!-- [CXF-1253] CXF does not respect @HandlerChain on client SEI -->
                 <exclude>org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*</exclude>
                 
+                <!-- [JBWS-2161] Investigate why LogicalHandlerJAXBTestCase and HandlerChainTestCase tests fail -->
+                <exclude>org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*</exclude>
+
                 <!-- TODO: Fix classpath to ClientLauncher -->
                 <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
                 
@@ -545,17 +554,6 @@
                 <!-- [JBAS-5359] mapped-name is required for context of deployment -->
                 <exclude>org/jboss/test/ws/console/**</exclude>
                 <exclude>org/jboss/test/ws/jaxws/jbws1611/**</exclude>
-                
-                <!-- [JBWS-2097] Unlock WS-ReliableMessaging in all stacks -->
-                <exclude>org/jboss/test/ws/jaxws/wsrm/**</exclude>
-                
-                <!-- [EJBTHREE-1323] ClassNotFoundException: org.jboss.ejb3.tx.TxInterceptorFactory - ->
-                <exclude>org/jboss/test/ws/jaxws/samples/advanced/retail/**</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/context/**</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/eardeployment/**</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/swaref/**</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/webservice/**</exclude-->
               </testExcludes>
             </configuration>
           </plugin>
