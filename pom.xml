@@ -404,6 +404,13 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>apache.incubating.repository</id>
+      <url>http://people.apache.org/repo/m2-incubating-repository</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
   </repositories>
   
   <!-- Profiles -->
@@ -489,17 +496,6 @@
         <module>modules/testsuite</module>
       </modules>
     </profile>
-    
   </profiles>
   
-  <!-- Repositories -->
-  <repositories>
-    <repository>
-      <id>apache.incubating.repository</id>
-      <url>http://people.apache.org/repo/m2-incubating-repository</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 </project>
