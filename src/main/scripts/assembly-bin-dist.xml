@@ -51,13 +51,20 @@
       <directory>target/deploy-artifacts</directory>
       <outputDirectory>deploy</outputDirectory>
     </fileSet>
-    <!-- test excludes -->
+    <!-- test etc -->
     <fileSet>
       <directory>modules/testsuite/cxf-tests/src/test</directory>
       <outputDirectory>tests</outputDirectory>
       <includes>
         <include>etc/**</include>
-        <include>resources/test-excludes-*.txt</include>
+      </includes>
+    </fileSet>
+    <!-- test excludes -->
+    <fileSet>
+      <directory>modules/testsuite</directory>
+      <outputDirectory>tests/resources</outputDirectory>
+      <includes>
+        <include>test-excludes-*.txt</include>
       </includes>
     </fileSet>
   </fileSets>
