@@ -11,68 +11,6 @@
 
 <!-- $Id$ -->
 
-<!--
-  The JBossWS project is organised like this
-  
-                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+                       +~~~~+
-  Target Container:       |     AS-5.0      |  |     AS-4.2      |                       |    | 
-                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+                       |    |
-                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+                       |    |
-  Container Integration:  | jbossws-jboss50 |  | jbossws-jboss42 |                       |    |
-                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+                       |    |
-                          +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+  |    |
-  WS Framework:           |      jbossws-spi, jbossws-framework, jbossws-common       |  |    |
-                          +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+  |    |
-                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  |    |
-  WS Stack Integration:   | jbossws-native  |  |  jbossws-metro  |  |   jbossws-cxf   |  |    |
-                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  |    |
-                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  |    |
-  WS Stack:               |   jbossws-core  |  |   Sun Metro     |  |   Apache CXF    |  |    |
-                          +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  +~~~~~~~~~~~~~~~~~+  |    |
-  WS-* Extensions:        +~+ +~+              +~+ +~+              +~+ +~+              |    |
-                          | | | |              | | | |              | | | |              |    |
-                          | | | |              | | | |              | | | |              |    |
-                          | | | |              | | | |              | | | |              |    |
-                          | | | |              | | | |              | | | |              |    |
-                          | | | |              | | | |              | | | |              |    |
-                          +~+ +~+              +~+ +~+              +~+ +~+              +~~~~+
-                                                                                     JAXWS Testsuite  
-   
-  
-  Typically you would build, deploy, test one of the WS stacks against one of the supported target containers.
-  Here we explain first the manual procedure. Further down you find instruction on how to do this using our
-  automated Hudson QA environment.
-  
-  Working with JBossWS
-  ~~~~~~~~~~~~~~~~~~~~
-  
-  To run the general JAXWS samples against our web service stack on JBoss-5.0 you would run the sequence below. 
-  This is also the required sequence before any SVN commit. If one of the tests fails, please complain loudly.
-  
-             ant deploy-jboss500
-             mvn -Ptestsuite,jboss500 test
-
-  Working with the Hudson QA environment
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  
-  The Hudson QA environment helps you to test any supported stack against any supported target container.
-  To setup Hudson on your local box, you would run
-  
-             cd  framework/trunk/hudson
-             ant hudson-setup
-             ant hudson-start
-  
-  When you hit http://localhost:8180/hudson you should be able to 
-  
-             1. login
-             2. build a target container
-             3. run a testsuite against the target container
-  
-  Publicly, Hudson is available at http://jbws.dyndns.org:8180/hudson/
-  
-  Have fun + good luck
-  The JBossWS Team
--->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -544,11 +482,6 @@
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
-    </repository>
-    <repository>
-      <id>java.net</id>
-      <url>http://download.java.net/maven/1/</url>
-      <layout>legacy</layout>
     </repository>
   </repositories>
 </project>
