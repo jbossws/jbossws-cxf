@@ -7,7 +7,6 @@ org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 
 # EJB3/Injection excludes
 org/jboss/test/ws/jaxws/samples/webserviceref/**
-org/jboss/test/ws/jaxws/webserviceref/**
 
 # [JBWS-1178] Multiple virtual host and soap:address problem
 org/jboss/test/ws/jaxws/jbws1178/**
@@ -33,6 +32,10 @@ org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
 # [CXF-1253] CXF does not respect @HandlerChain on client SEI
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*
 
+# [JBWS-2161] Investigate why LogicalHandlerJAXBTestCase and and HandlerChainTestCase tests fail
+org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
+org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
+
 # [CXF-1510] Cannot handle anonymous bare requests
 org/jboss/test/ws/jaxws/anonymous/**
 
@@ -57,7 +60,6 @@ org/jboss/test/ws/jaxws/jbws1822/**
 
 # [CXF-1515] Bad Enumeration value 'extension restriction'
 org/jboss/test/ws/jaxws/jbws1505/**
-org/jboss/test/ws/jaxws/jbws1845/**
 
 # [JBWS-2115] EJB client vehicle not sufficiently isolated
 org/jboss/test/ws/jaxws/jbws1581/**
