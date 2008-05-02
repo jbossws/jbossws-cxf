@@ -38,7 +38,38 @@
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
   
-  <target name="init" depends="prepare">
+  <!--
+    Loads the jboss.home properties from the effective maven settings
+  -->  
+  <target name="mvn-settings">
+    <mkdir dir="${stack.output.dir}"/>
+    <exec dir="${basedir}" executable="mvn" failonerror="true" output="${stack.output.dir}/effective-settings.txt">
+      <arg value="help:effective-settings"/>
+    </exec>
+    <loadfile srcfile="${stack.output.dir}/effective-settings.txt" property="mvn.effective.settings">
+      <filterchain>
+        <tokenfilter>
+          <replaceregex pattern="\[INFO\](.*)" replace=""/>
+          <replaceregex pattern="Effective settings:" replace=""/>
+          <replaceregex pattern=".\?xml(.*)\?\>" replace=""/>
+        </tokenfilter>
+      </filterchain>
+    </loadfile>
+    <echo message="${mvn.effective.settings}" file="${stack.output.dir}/effective-settings.xml"/>
+    <xmlproperty file="${stack.output.dir}/effective-settings.xml"/>
+    <property name="jboss421.home" value="${settings.profiles.profile.properties.jboss421.home}"/>
+    <property name="jboss422.home" value="${settings.profiles.profile.properties.jboss422.home}"/>
+    <property name="jboss423.home" value="${settings.profiles.profile.properties.jboss423.home}"/>
+    <property name="jboss500.home" value="${settings.profiles.profile.properties.jboss500.home}"/>
+    <property name="jboss501.home" value="${settings.profiles.profile.properties.jboss501.home}"/>
+    <echo message="jboss421.home=${jboss421.home}"/>
+    <echo message="jboss422.home=${jboss422.home}"/>
+    <echo message="jboss423.home=${jboss423.home}"/>
+    <echo message="jboss500.home=${jboss500.home}"/>
+    <echo message="jboss501.home=${jboss501.home}"/>
+  </target>
+  
+  <target name="init" depends="mvn-settings,prepare">
     <xmlproperty file="${stack.dir}/pom.xml"/>
     <property name="version.id" value="${project.version}"/>
           
@@ -73,21 +104,6 @@
       <arg value="-Pbindist"/>
       <arg value="package"/>
       <arg value="assembly:directory"/>
-    </exec>
-  </target>
-  
-  <!-- ================================================================== -->
-  <!-- Miscellaneous                                                       -->
-  <!-- ================================================================== -->
-  
-  <target name="clean" depends="prepare" description="Cleans up most generated files.">
-    
-    <echo message="*************************************"/>
-    <echo message="* mvn clean                         *"/>
-    <echo message="*************************************"/>
-    
-    <exec dir="${basedir}" executable="mvn" failonerror="true">
-      <arg value="clean"/>
     </exec>
   </target>
   

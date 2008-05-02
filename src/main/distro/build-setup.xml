@@ -17,55 +17,47 @@
   <!-- Setup                                                              -->
   <!-- ================================================================== -->
   
-  <!-- Check if ant.properties is available -->
-  <available property="ant.properties.available" file="${basedir}/ant.properties"/>
-  <fail message="Cannot find ant.properties. Did you copy/edit ant.properties.example?" unless="ant.properties.available"/>
-  <property file="${basedir}/ant.properties"/>
-  
-  <property name="jboss422.lib" value="${jboss422.home}/lib"/>
-  <property name="jboss422.client" value="${jboss422.home}/client"/>
-  <property name="jboss422.server" value="${jboss422.home}/server/${jboss.server.instance}"/>
-  <property name="jboss422.server.lib" value="${jboss422.server}/lib"/>
-  <property name="jboss422.server.deploy" value="${jboss422.server}/deploy"/>
-  
-  <property name="jboss423.lib" value="${jboss423.home}/lib"/>
-  <property name="jboss423.client" value="${jboss423.home}/client"/>
-  <property name="jboss423.server" value="${jboss423.home}/server/${jboss.server.instance}"/>
-  <property name="jboss423.server.lib" value="${jboss423.server}/lib"/>
-  <property name="jboss423.server.deploy" value="${jboss423.server}/deploy"/>
-  
-  <property name="jboss500.lib" value="${jboss500.home}/lib"/>
-  <property name="jboss500.client" value="${jboss500.home}/client"/>
-  <property name="jboss500.server" value="${jboss500.home}/server/${jboss.server.instance}"/>
-  <property name="jboss500.server.lib" value="${jboss500.server}/lib"/>
-  <property name="jboss500.server.deploy" value="${jboss500.server}/deploy"/>
-  <property name="jboss500.server.deployers" value="${jboss500.server}/deployers"/>
-  
-  <property name="jboss501.lib" value="${jboss501.home}/lib"/>
-  <property name="jboss501.client" value="${jboss501.home}/client"/>
-  <property name="jboss501.server" value="${jboss501.home}/server/${jboss.server.instance}"/>
-  <property name="jboss501.server.lib" value="${jboss501.server}/lib"/>
-  <property name="jboss501.server.deploy" value="${jboss501.server}/deploy"/>
-  <property name="jboss501.server.deployers" value="${jboss501.server}/deployers"/>
-  
-  <property name="jboss422.available.file" value="${jboss422.client}/jboss-client.jar"/>
-  <property name="jboss423.available.file" value="${jboss423.client}/jboss-client.jar"/>
-  <property name="jboss500.available.file" value="${jboss500.client}/jboss-client.jar"/>
-  <property name="jboss501.available.file" value="${jboss501.client}/jboss-client.jar"/>
-  
-  <available property="jboss422.available" file="${jboss422.available.file}"/>
-  <available property="jboss423.available" file="${jboss423.available.file}"/>
-  <available property="jboss500.available" file="${jboss500.available.file}"/>
-  <available property="jboss501.available" file="${jboss501.available.file}"/>
-  
-  <!-- ================================================================== -->
-  <!-- Initialization                                                     -->
-  <!-- ================================================================== -->
-  
   <target name="prepare">
     
     <!-- Load jbossws.integration.target properties -->
     <property file="${target.properties.file}"/>
+    <property name="jboss.server.instance" value="default"/>
+    
+    <property name="jboss422.lib" value="${jboss422.home}/lib"/>
+    <property name="jboss422.client" value="${jboss422.home}/client"/>
+    <property name="jboss422.server" value="${jboss422.home}/server/${jboss.server.instance}"/>
+    <property name="jboss422.server.lib" value="${jboss422.server}/lib"/>
+    <property name="jboss422.server.deploy" value="${jboss422.server}/deploy"/>
+    
+    <property name="jboss423.lib" value="${jboss423.home}/lib"/>
+    <property name="jboss423.client" value="${jboss423.home}/client"/>
+    <property name="jboss423.server" value="${jboss423.home}/server/${jboss.server.instance}"/>
+    <property name="jboss423.server.lib" value="${jboss423.server}/lib"/>
+    <property name="jboss423.server.deploy" value="${jboss423.server}/deploy"/>
+    
+    <property name="jboss500.lib" value="${jboss500.home}/lib"/>
+    <property name="jboss500.client" value="${jboss500.home}/client"/>
+    <property name="jboss500.server" value="${jboss500.home}/server/${jboss.server.instance}"/>
+    <property name="jboss500.server.lib" value="${jboss500.server}/lib"/>
+    <property name="jboss500.server.deploy" value="${jboss500.server}/deploy"/>
+    <property name="jboss500.server.deployers" value="${jboss500.server}/deployers"/>
+    
+    <property name="jboss501.lib" value="${jboss501.home}/lib"/>
+    <property name="jboss501.client" value="${jboss501.home}/client"/>
+    <property name="jboss501.server" value="${jboss501.home}/server/${jboss.server.instance}"/>
+    <property name="jboss501.server.lib" value="${jboss501.server}/lib"/>
+    <property name="jboss501.server.deploy" value="${jboss501.server}/deploy"/>
+    <property name="jboss501.server.deployers" value="${jboss501.server}/deployers"/>
+    
+    <property name="jboss422.available.file" value="${jboss422.client}/jboss-client.jar"/>
+    <property name="jboss423.available.file" value="${jboss423.client}/jboss-client.jar"/>
+    <property name="jboss500.available.file" value="${jboss500.client}/jboss-client.jar"/>
+    <property name="jboss501.available.file" value="${jboss501.client}/jboss-client.jar"/>
+    
+    <available property="jboss422.available" file="${jboss422.available.file}"/>
+    <available property="jboss423.available" file="${jboss423.available.file}"/>
+    <available property="jboss500.available" file="${jboss500.available.file}"/>
+    <available property="jboss501.available" file="${jboss501.available.file}"/>
     
     <tstamp>
       <format property="build.id" pattern="yyyyMMddHHmm"/>

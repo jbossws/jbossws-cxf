@@ -28,6 +28,11 @@
   <property name="jbossws.default.deploy.conf" value="${build.dir}/jbossws-default-deploy.conf"/>
   <property name="target.properties.file" value="${basedir}/target.properties"/>
   
+  <!-- Check if ant.properties is available -->
+  <available property="ant.properties.available" file="${basedir}/ant.properties"/>
+  <fail message="Cannot find ant.properties. Did you copy/edit ant.properties.example?" unless="ant.properties.available"/>
+  <property file="${basedir}/ant.properties"/>
+  
   <import file="${build.dir}/build-setup.xml"/>
   <import file="${build.dir}/build-deploy.xml"/>
   <import file="${build.dir}/jbossws-deploy-macros.xml"/>
