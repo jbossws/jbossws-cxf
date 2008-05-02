@@ -123,3 +123,14 @@ org/jboss/test/ws/jaxws/samples/webservice/**
 
 # [JBWS-2029] Make the project generator available for all stacks
 org/jboss/test/ws/projectGenerator/**
+
+# [JBWS-2165] Fix xop tests with maven build
+org/jboss/test/ws/jaxws/samples/xop/**
+
+# [JBWS-2164] Fix tools tests with maven build
+org/jboss/test/ws/jaxws/smoke/tools/**
+
+# [JBWS-2163] wsconsume for maven build
+org/jboss/test/ws/jaxws/complex/**
+org/jboss/test/ws/jaxws/holder/**
+
