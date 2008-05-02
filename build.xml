@@ -64,13 +64,14 @@
   
   <target name="build-bin-dist" depends="prepare-deploy" description="Build the binary distribution">
     
-    <echo message="*************************************"/>
-    <echo message="* mvn -P bindist assembly:directory *"/>
-    <echo message="*************************************"/>
+    <echo message="********************************************"/>
+    <echo message="* mvn -Pbindist package assembly:directory *"/>
+    <echo message="********************************************"/>
     
     <delete dir="${stack.output.dir}/jbossws-cxf-dist"/>
     <exec dir="${basedir}" executable="mvn" failonerror="true">
-      <arg value="-P bindist"/>
+      <arg value="-Pbindist"/>
+      <arg value="package"/>
       <arg value="assembly:directory"/>
     </exec>
   </target>
