@@ -340,7 +340,7 @@
   </target>
   
   <target name="deploy-jbossws-endorsed" if="HAVE_JDK_1.6">
-    <macro-deploy-jbossws-endorsed targetdir="${installserver}/../../lib/endorsed" thirdpartydir="${thirdpartydir}"/>
+    <macro-deploy-jbossws-endorsed targetdir="${installserver}/../../lib/endorsed" thirdpartydir="${artifactsdir}/lib"/>
   </target>
   
   <!-- ================================================================== -->
