@@ -38,30 +38,39 @@
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
   
-  <!--
-    Loads the jboss.home properties from the effective maven settings
-  -->  
   <target name="mvn-settings">
+    <!-- Loads the properties from the effective maven settings -->
     <mkdir dir="${stack.output.dir}"/>
-    <exec dir="${basedir}" executable="mvn" failonerror="true" output="${stack.output.dir}/effective-settings.txt">
+    <exec dir="${basedir}" executable="mvn" failonerror="true">
+      <arg value="-Doutput=${stack.output.dir}/effective-settings.xml"/>
       <arg value="help:effective-settings"/>
     </exec>
-    <loadfile srcfile="${stack.output.dir}/effective-settings.txt" property="mvn.effective.settings">
-      <filterchain>
-        <tokenfilter>
-          <replaceregex pattern="\[INFO\](.*)" replace=""/>
-          <replaceregex pattern="Effective settings:" replace=""/>
-          <replaceregex pattern=".\?xml(.*)\?\>" replace=""/>
-        </tokenfilter>
-      </filterchain>
-    </loadfile>
-    <echo message="${mvn.effective.settings}" file="${stack.output.dir}/effective-settings.xml"/>
-    <xmlproperty file="${stack.output.dir}/effective-settings.xml"/>
-    <property name="jboss421.home" value="${settings.profiles.profile.properties.jboss421.home}"/>
-    <property name="jboss422.home" value="${settings.profiles.profile.properties.jboss422.home}"/>
-    <property name="jboss423.home" value="${settings.profiles.profile.properties.jboss423.home}"/>
-    <property name="jboss500.home" value="${settings.profiles.profile.properties.jboss500.home}"/>
-    <property name="jboss501.home" value="${settings.profiles.profile.properties.jboss501.home}"/>
+    <xmlproperty file="${stack.output.dir}/effective-settings.xml" keeproot="false"/>
+    <condition property="jboss421.home" value="${profiles.profile.properties.jboss421.home}">
+      <isset property="profiles.profile.properties.jboss421.home"/>
+    </condition>
+    <condition property="jboss422.home" value="${profiles.profile.properties.jboss422.home}">
+      <isset property="profiles.profile.properties.jboss422.home"/>
+    </condition>
+    <condition property="jboss423.home" value="${profiles.profile.properties.jboss423.home}">
+      <isset property="profiles.profile.properties.jboss423.home"/>
+    </condition>
+    <condition property="jboss500.home" value="${profiles.profile.properties.jboss500.home}">
+      <isset property="profiles.profile.properties.jboss500.home"/>
+    </condition>
+    <condition property="jboss501.home" value="${profiles.profile.properties.jboss501.home}">
+      <isset property="profiles.profile.properties.jboss501.home"/>
+    </condition>
+    
+    <!-- Loads the properties from the user profile -->
+    <xmlproperty file="${basedir}/profiles.xml" keeproot="false"/>
+    <property name="jboss421.home" value="${profiles.profile.properties.jboss421.home}"/>
+    <property name="jboss422.home" value="${profiles.profile.properties.jboss422.home}"/>
+    <property name="jboss423.home" value="${profiles.profile.properties.jboss423.home}"/>
+    <property name="jboss500.home" value="${profiles.profile.properties.jboss500.home}"/>
+    <property name="jboss501.home" value="${profiles.profile.properties.jboss501.home}"/>
+    
+    <echo/>
     <echo message="jboss421.home=${jboss421.home}"/>
     <echo message="jboss422.home=${jboss422.home}"/>
     <echo message="jboss423.home=${jboss423.home}"/>
