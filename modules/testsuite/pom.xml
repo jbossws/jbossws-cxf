@@ -146,6 +146,24 @@
   <profiles>
     
     <!-- 
+    Name:  hudson
+    Descr: Ignore test failures on hudson
+    -->
+    <profile>
+      <id>hudson</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <testFailureIgnore>true</testFailureIgnore>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!-- 
     Name:  jboss422
     Descr: JBoss-4.2.2 specific options  
     -->
