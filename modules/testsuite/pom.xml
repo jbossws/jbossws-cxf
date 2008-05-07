@@ -110,8 +110,16 @@
           <!--argLine>${surefire.jdpw.args}</argLine-->
           <systemProperties>
             <property>
+              <name>build.testlog</name>
+              <value>${project.build.directory}/test-log</value>
+            </property>
+            <property>
               <name>java.naming.provider.url</name>
               <value>jnp://${jboss.bind.address}:1099</value>
+            </property>
+            <property>
+              <name>java.protocol.handler.pkgs</name>
+              <value>org.jboss.virtual.protocol</value>
             </property>
             <property>
               <name>java.util.logging.manager</name>
@@ -124,10 +132,6 @@
             <property>
               <name>jbossws.integration.target</name>
               <value>${jbossws.integration.target}</value>
-            </property>
-            <property>
-              <name>build.testlog</name>
-              <value>${project.build.directory}/test-log</value>
             </property>
             <property>
               <name>test.archive.directory</name>
