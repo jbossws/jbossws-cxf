@@ -51,8 +51,8 @@
   <moduleSets>
     <moduleSet>
       <includes>
-        <include>org.jboss.ws:jbossws-cxf-client</include>
-        <include>org.jboss.ws:jbossws-cxf-server</include>
+        <include>org.jboss.ws.cxf:jbossws-cxf-client</include>
+        <include>org.jboss.ws.cxf:jbossws-cxf-server</include>
       </includes>
       <binaries>
         <outputDirectory>lib</outputDirectory>
@@ -99,7 +99,7 @@
     </moduleSet>
     <moduleSet>
       <includes>
-        <include>org.jboss.ws:jbossws-cxf-management</include>
+        <include>org.jboss.ws.cxf:jbossws-cxf-management</include>
       </includes>
       <binaries>
         <outputDirectory>lib</outputDirectory>

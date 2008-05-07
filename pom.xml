@@ -16,7 +16,7 @@
   <modelVersion>4.0.0</modelVersion>
   
   <name>JBoss Web Services - Stack CXF</name>
-  <groupId>org.jboss.ws</groupId>
+  <groupId>org.jboss.ws.cxf</groupId>
   <artifactId>jbossws-cxf</artifactId>
   <packaging>pom</packaging>
   
