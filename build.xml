@@ -116,19 +116,4 @@
     </exec>
   </target>
   
-  <!-- ================================================================== -->
-  <!-- Miscellaneous                                                       -->
-  <!-- ================================================================== -->
-  
-  <target name="clean" description="Cleans up most generated files.">
-    
-    <echo message="*************************************"/>
-    <echo message="* mvn clean                         *"/>
-    <echo message="*************************************"/>
-    
-    <exec dir="${basedir}" executable="mvn" failonerror="true">
-      <arg value="clean"/>
-    </exec>
-  </target>
-  
 </project>
