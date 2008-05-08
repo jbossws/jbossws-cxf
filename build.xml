@@ -95,24 +95,28 @@
   
   <target name="prepare-deploy" depends="prepare">
     
+    <!-- Use a system property to overwrite the empty default value -->
+    <property name="maven.opts" value=""/>
+    
+    <echo/>
+    <echo message="mvn ${maven.opts} package assembly:directory"/>
+    <echo/>
+    
     <delete dir="${deploy.artifacts.dir}"/>
     <exec dir="${basedir}" executable="mvn" failonerror="true">
-      <arg value="package"/>
-      <arg value="assembly:directory"/>
+      <arg line="${maven.opts} package assembly:directory"/>
     </exec>
   </target>
   
   <target name="build-bin-dist" depends="prepare-deploy" description="Build the binary distribution">
     
-    <echo message="********************************************"/>
-    <echo message="* mvn -Pbindist package assembly:directory *"/>
-    <echo message="********************************************"/>
+    <echo/>
+    <echo message="mvn ${maven.opts} -Pbindist package assembly:directory"/>
+    <echo/>
     
-    <delete dir="${stack.output.dir}/jbossws-cxf-dist"/>
+    <delete dir="${stack.output.dir}/jbossws-native-dist"/>
     <exec dir="${basedir}" executable="mvn" failonerror="true">
-      <arg value="-Pbindist"/>
-      <arg value="package"/>
-      <arg value="assembly:directory"/>
+      <arg line="${maven.opts} -Pbindist package assembly:directory"/>
     </exec>
   </target>
   
