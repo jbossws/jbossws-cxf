@@ -18,6 +18,7 @@
   <properties>
     <surefire.jdpw.args>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</surefire.jdpw.args>
     <surefire.jvm.args>-Djava.security.manager -Djava.security.policy=src/test/etc/tst.policy</surefire.jvm.args>
+    <hibernate.version>3.2.4.sp1</hibernate.version>
   </properties>
   
   <!-- Modules -->
@@ -246,6 +247,11 @@
       </properties>
       <dependencies>
         <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate</artifactId>
+          <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
           <groupId>org.jboss.client</groupId>
           <artifactId>jbossall-client</artifactId>
           <version>${jboss.version}</version>
@@ -278,6 +284,11 @@
         <jbossws.integration.target>jboss501</jbossws.integration.target>
       </properties>
       <dependencies>
+        <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate</artifactId>
+          <version>${hibernate.version}</version>
+        </dependency>
         <dependency>
           <groupId>org.jboss.client</groupId>
           <artifactId>jbossall-client</artifactId>
