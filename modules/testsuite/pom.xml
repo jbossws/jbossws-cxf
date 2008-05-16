@@ -20,6 +20,7 @@
     <surefire.jvm.args>-Djava.security.manager -Djava.security.policy=src/test/etc/tst.policy</surefire.jvm.args>
     <hibernate.version>3.2.4.sp1</hibernate.version>
     <asm.version>2.2.3</asm.version>
+    <endpoint.servlet>org.jboss.wsf.stack.cxf.EndpointServlet</endpoint.servlet>
   </properties>
   
   <!-- Modules -->
