@@ -37,6 +37,7 @@
   <import file="${build.dir}/build-deploy.xml"/>
   <import file="${build.dir}/jbossws-deploy-macros.xml"/>
   <import file="${tests.dir}/ant-import/build-testsuite.xml"/>
+  <import file="${build.dir}/build-project-gen.xml"/>
   
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->

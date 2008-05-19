@@ -33,6 +33,8 @@
         <include>build-setup.xml</include>
         <include>jbossws-default-deploy.conf</include>
         <include>jbossws-deploy-macros.xml</include>
+        <include>build-project-gen.xml</include>
+        <include>user-project-build.xml</include>
       </includes>
     </fileSet>
     <!-- docs -->
@@ -82,8 +84,12 @@
       <unpackOptions>
         <includes>
           <include>ant-import/**</include>
+          <include>java/org/jboss/test/ws/console/**</include>
           <include>java/org/jboss/test/ws/jaxws/samples/**</include>
+          <include>java/org/jboss/test/ws/projectGenerator/**</include>
+          <include>resources/console/**</include>
           <include>resources/jaxws/samples/**</include>
+          <include>resources/projectGenerator/**</include>
         </includes>
       </unpackOptions>
     </dependencySet>

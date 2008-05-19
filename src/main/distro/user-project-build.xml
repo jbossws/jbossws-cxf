@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<project name="@projectName@" default="deploy" basedir="." >
+
+	<property file="${basedir}/build.properties" />
+	<import file="libraries.xml" />
+
+	<!-- set global properties for this build -->
+	<property name="project.name" value="@projectName@" />
+	<property name="dist.dir" value="dist" />
+	<property name="deploy.dir" value="${project.jboss.home}/server/${project.jboss.conf}/deploy" />
+	<property name="output.dir" value="output" />
+	<property name="src.main.dir" value="src/main/java" />
+	<property name="resources.main.dir" value="src/main/resources" />
+	<property name="classes.main.dir" value="classes/main/java" />
+	<property name="javac.debug" value="true" />
+	<property name="javac.deprecation" value="false" />
+
+	<condition property="project.war" value="true">
+		<equals arg1="${project.type}" arg2="war"/>
+	</condition>
+
+	<target name="clean">
+		<delete dir="${output.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="init">
+		<mkdir dir="${output.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<target name="compile" depends="init" description="Compile the Java source code" unless="eclipse.running">
+		<tstamp/>
+		<javac destdir="${output.dir}" classpathref="project.classpath" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
+			<src path="${src.main.dir}" />
+		</javac>
+	</target>
+
+	<target name="copyclasses" depends="init" description="Copy the classes that were compiled by Eclipse" if="eclipse.running">
+		<copy todir="${output.dir}">
+			<fileset dir="${classes/main}">
+				<include name="**/*.class"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="dist" depends="clean,compile,copyclasses" description="Create the application distribution archive">
+		<fail unless="project.type">project.type not set</fail>
+		<jar jarfile="${dist.dir}/${project.name}.${project.type}">
+			<fileset dir="${output.dir}" />
+			<fileset dir="${resources.main.dir}">
+				<include name="META-INF/**"/>
+				<include name="WEB-INF/**" if="project.war" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="deploy" depends="dist" description="Deploy to JBoss AS">
+		<fail unless="project.jboss.home">project.jboss.home not set</fail>
+		<copy todir="${deploy.dir}" file="${dist.dir}/${project.name}.${project.type}" />
+	</target>
+
+	<target name="undeploy" description="Undeploy from JBoss AS">
+		<fail unless="project.jboss.home">project.jboss.home not set</fail>
+		<fail unless="project.jboss.conf">project.jboss.conf not set</fail>
+		<delete file="${deploy.dir}/${project.name}.${project.type}" />
+	</target>
+
+</project>
