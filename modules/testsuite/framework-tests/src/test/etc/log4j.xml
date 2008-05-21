@@ -22,7 +22,7 @@
 
   <!-- A time/date based rolling appender -->
   <appender name="FILE" class="org.jboss.logging.appender.DailyRollingFileAppender">
-    <param name="File" value="${build.testlog}/test.log"/>
+    <param name="File" value="${log4j.output.dir}/test.log"/>
     <param name="Append" value="true"/>
 
     <!-- Rollover at midnight each day -->
