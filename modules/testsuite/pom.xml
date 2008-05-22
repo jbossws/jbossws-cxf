@@ -18,6 +18,10 @@
   <properties>
     <surefire.jdpw.args>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</surefire.jdpw.args>
     <surefire.jvm.args>-Djava.security.manager -Djava.security.policy=src/test/etc/tst.policy</surefire.jvm.args>
+    <test.archive.directory>${project.build.directory}/test-libs</test.archive.directory>
+    <test.classes.directory>${project.build.directory}/test-classes</test.classes.directory>
+    <test.resources.directory>${project.build.directory}/test-resources</test.resources.directory>
+    <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <hibernate.version>3.2.4.sp1</hibernate.version>
     <asm.version>2.2.3</asm.version>
     <endpoint.servlet>org.jboss.wsf.stack.cxf.EndpointServlet</endpoint.servlet>
@@ -109,13 +113,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>${surefire.jvm.args}</argLine>
-          <!--argLine>${surefire.jdpw.args}</argLine-->
           <systemProperties>
-            <property>
-              <name>log4j.output.dir</name>
-              <value>${project.build.directory}</value>
-            </property>
             <property>
               <name>java.naming.provider.url</name>
               <value>jnp://${jboss.bind.address}:1099</value>
@@ -137,12 +135,24 @@
               <value>${jbossws.integration.target}</value>
             </property>
             <property>
+              <name>log4j.output.dir</name>
+              <value>${project.build.directory}</value>
+            </property>
+            <property>
               <name>test.archive.directory</name>
-              <value>${project.build.directory}/test-libs</value>
+              <value>${test.archive.directory}</value>
+            </property>
+            <property>
+              <name>test.classes.directory</name>
+              <value>${test.classes.directory}</value>
             </property>
             <property>
               <name>test.resources.directory</name>
-              <value>${project.build.directory}/test-resources</value>
+              <value>${test.resources.directory}</value>
+            </property>
+            <property>
+              <name>wsdl.publish.location</name>
+              <value>${wsdl.publish.location}</value>
             </property>
           </systemProperties>
         </configuration>
@@ -197,7 +207,7 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <argLine>-Djava.endorsed.dirs=${jboss422.home}/lib/endorsed</argLine>
+              <argLine>${surefire.jvm.args} -Djava.endorsed.dirs=${jboss422.home}/lib/endorsed</argLine>
             </configuration>
           </plugin>
         </plugins>
@@ -230,7 +240,7 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <argLine>-Djava.endorsed.dirs=${jboss423.home}/lib/endorsed</argLine>
+              <argLine>${surefire.jvm.args} -Djava.endorsed.dirs=${jboss423.home}/lib/endorsed</argLine>
             </configuration>
           </plugin>
         </plugins>
@@ -273,7 +283,7 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <argLine>-Djava.endorsed.dirs=${jboss500.home}/lib/endorsed</argLine>
+              <argLine>${surefire.jvm.args}  -Djava.endorsed.dirs=${jboss500.home}/lib/endorsed</argLine>
             </configuration>
           </plugin>
         </plugins>
@@ -306,7 +316,7 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <argLine>-Djava.endorsed.dirs=${jboss501.home}/lib/endorsed</argLine>
+              <argLine>${surefire.jvm.args} -Djava.endorsed.dirs=${jboss501.home}/lib/endorsed</argLine>
             </configuration>
           </plugin>
         </plugins>
