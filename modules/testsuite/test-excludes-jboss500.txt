@@ -103,8 +103,12 @@ org/jboss/test/ws/jaxws/jbws1566/**
 # [JBWS-2120] @WebWservice does not work with class isolation
 org/jboss/test/ws/jaxws/jbws1556/**
 
-# [JBWS-2097] Unlock WS-ReliableMessaging in all stacks
-org/jboss/test/ws/jaxws/wsrm/**
+# [EJBTHREE-1323] ClassNotFoundException: org.jboss.ejb3.tx.TxInterceptorFactory
+org/jboss/test/ws/jaxws/samples/advanced/retail/**
+org/jboss/test/ws/jaxws/samples/context/**
+org/jboss/test/ws/jaxws/samples/eardeployment/**
+org/jboss/test/ws/jaxws/samples/swaref/**
+org/jboss/test/ws/jaxws/samples/webservice/**
 
 # [JBWS-2165] Fix xop tests with maven build
 org/jboss/test/ws/jaxws/samples/xop/**
@@ -115,3 +119,12 @@ org/jboss/test/ws/jaxws/smoke/tools/**
 # [JBWS-2163] wsconsume for maven build
 org/jboss/test/ws/jaxws/complex/**
 org/jboss/test/ws/jaxws/holder/**
+
+# [JBWS-2174] Cannot Obtain Destination for Request
+org/jboss/test/ws/jaxws/jbws944/**
+org/jboss/test/ws/jaxws/jbws1422/**
+org/jboss/test/ws/jaxws/jbws1446/**
+org/jboss/test/ws/jaxws/jbws1556/**
+org/jboss/test/ws/jaxws/jbws1799/**
+org/jboss/test/ws/jaxws/jbws1872/**
+org/jboss/test/ws/jaxws/jbws1969/**
