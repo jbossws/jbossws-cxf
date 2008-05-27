@@ -25,10 +25,14 @@ package org.jboss.wsf.stack.cxf;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jboss.logging.Logger;
+import org.jboss.metadata.javaee.spec.ParamValueMetaData;
+import org.jboss.metadata.web.jboss.JBossWebMetaData;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.DeploymentAspect;
@@ -208,6 +212,41 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
       }
       // put cxf config URL to the property map
       contextParams.put(CXFServletExt.PARAM_CXF_BEANS_URL, cxfURL.toExternalForm());
+      
+      if (dep.getType() == DeploymentType.JAXWS_EJB3)
+      {
+         // put cxf config URL to generated web app context params
+         JBossWebMetaData jbwmd = dep.getAttachment(JBossWebMetaData.class);
+         if (jbwmd != null)
+         {
+            boolean alreadySet = false;
+            List<ParamValueMetaData> ctxParams = jbwmd.getContextParams();
+            if (ctxParams == null)
+            {
+               ctxParams = new ArrayList<ParamValueMetaData>();
+               jbwmd.setContextParams(ctxParams);
+            }
+
+            if (ctxParams.size() > 0)
+            {
+               for (ParamValueMetaData pvmd : ctxParams)
+               {
+                  if (pvmd.getParamName().equals(CXFServletExt.PARAM_CXF_BEANS_URL))
+                  {
+                     alreadySet = true;
+                  }
+               }
+            }
+
+            if (false == alreadySet)
+            {
+               ParamValueMetaData pvmd = new ParamValueMetaData();
+               pvmd.setParamName(CXFServletExt.PARAM_CXF_BEANS_URL);
+               pvmd.setParamValue(cxfURL.toExternalForm());
+               ctxParams.add(pvmd);
+            }
+         }
+      }
    }
 
 }
