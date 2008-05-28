@@ -213,7 +213,19 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
       // put cxf config URL to the property map
       contextParams.put(CXFServletExt.PARAM_CXF_BEANS_URL, cxfURL.toExternalForm());
       
-      if (dep.getType() == DeploymentType.JAXWS_EJB3)
+      boolean jbossWebMetaDataAvailable = true;
+      
+      try
+      {
+         Class.forName("org.jboss.metadata.web.jboss.JBossWebMetaData");
+      }
+      catch (Exception ignore)
+      {
+         // we are not running on AS 5
+         jbossWebMetaDataAvailable = false;
+      }
+      
+      if (jbossWebMetaDataAvailable && (dep.getType() == DeploymentType.JAXWS_EJB3))
       {
          // put cxf config URL to generated web app context params
          JBossWebMetaData jbwmd = dep.getAttachment(JBossWebMetaData.class);
