@@ -14,116 +14,47 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   
-  <!-- Plugins -->
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <property name="tests.output.dir" value="${project.build.directory}"/>
-                <ant antfile="src/scripts/cxf-jars-jaxws.xml" target="build-jars-jaxws"/>
-                <ant antfile="src/scripts/cxf-samples-jaxws.xml" target="build-samples-jaxws"/>
-              </tasks>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
-  
+ 
   <!-- Profiles -->
   <profiles>
     
     <!-- 
-    Name:  jboss422
-    Descr: JBoss-4.2.2 specific options  
+    Name:  noprepare
+    Descr: Skip test preparation with -Dnoprepare  
     -->
     <profile>
-      <id>jboss422</id>
+      <id>noprepare</id>
       <activation>
+        <property>
+          <name>!noprepare</name>
+        </property>
       </activation>
       <build>
         <plugins>
           <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
-              <testExcludeFile>../test-excludes-jboss422.txt</testExcludeFile>
-            </configuration>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>build-jars</id>
+                <phase>test-compile</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <tasks>
+                    <property name="tests.output.dir" value="${project.build.directory}"/>
+                    <property name="tests.resources.dir" value="${basedir}/src/test/resources"/>
+                    <ant antfile="scripts/cxf-jars-jaxws.xml" target="build-jars-jaxws"/>
+                    <ant antfile="scripts/cxf-samples-jaxws.xml" target="build-samples-jaxws"/>
+                  </tasks>
+                </configuration>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
     </profile>
     
-    <!-- 
-    Name:  jboss423
-    Descr: JBoss-4.2.3 specific options  
-    -->
-    <profile>
-      <id>jboss423</id>
-      <activation>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
-              <testExcludeFile>../test-excludes-jboss423.txt</testExcludeFile>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <!-- 
-    Name:  jboss500
-    Descr: JBoss-5.0.0 specific options  
-    -->
-    <profile>
-      <id>jboss500</id>
-      <activation>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
-              <testExcludeFile>../test-excludes-jboss500.txt</testExcludeFile>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <!-- 
-    Name:  jboss501
-    Descr: JBoss-5.0.1 specific options  
-    -->
-    <profile>
-      <id>jboss501</id>
-      <activation>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
-              <testExcludeFile>../test-excludes-jboss501.txt</testExcludeFile>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
   </profiles>
   
 </project>
