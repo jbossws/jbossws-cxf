@@ -46,6 +46,7 @@
     <include name="**/spring-core.jar"/>
     <include name="**/stax-api.jar"/>
     <include name="**/wsdl4j.jar"/>
+    <include name="**/wss4j.jar"/>
     <include name="**/wstx.jar"/>
     <include name="**/xml-resolver.jar"/>
     <include name="**/XmlSchema.jar"/>
@@ -84,7 +85,9 @@
     <include name="**/spring-context.jar"/>
     <include name="**/spring-core.jar"/>
     <include name="**/wsdl4j.jar"/>
+    <include name="**/wss4j.jar"/>
     <include name="**/xml-resolver.jar"/>
+    <include name="**/xmlsec.jar"/>
     <include name="**/XmlSchema.jar"/>
     <include name="**/FastInfoset.jar"/>
   </patternset>

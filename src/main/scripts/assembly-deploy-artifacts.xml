@@ -85,6 +85,8 @@
               <include>*:xml-resolver:jar</include>
               <include>*:XmlSchema:jar</include>
               <include>*:FastInfoset:jar</include>
+              <include>*:wss4j:jar</include>
+              <include>*:xmlsec:jar</include>
             </includes>
           </dependencySet>
           <dependencySet>
