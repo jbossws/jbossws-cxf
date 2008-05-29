@@ -25,20 +25,20 @@
       <outputDirectory>lib</outputDirectory>
       <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
       <useStrictFiltering>true</useStrictFiltering>
-      <scope>provided</scope>
+      <scope>runtime</scope>
       <unpack>false</unpack>
       <includes>
-        <include>*:jbossws-jboss422:jar:*</include>
-        <include>*:jbossws-jboss423:jar:*</include>
-        <include>*:jbossws-jboss500:jar:*</include>
-        <include>*:jbossws-jboss501:jar:*</include>
+        <include>*:jbossws-jboss422:jar</include>
+        <include>*:jbossws-jboss423:jar</include>
+        <include>*:jbossws-jboss500:jar</include>
+        <include>*:jbossws-jboss501:jar</include>
       </includes>
     </dependencySet>
     <dependencySet>
       <outputDirectory>lib</outputDirectory>
       <outputFileNameMapping>${artifact.artifactId}-${artifact.classifier}.${artifact.extension}</outputFileNameMapping>
       <useStrictFiltering>true</useStrictFiltering>
-      <scope>provided</scope>
+      <scope>runtime</scope>
       <unpack>false</unpack>
       <includes>
         <include>*:jbossws-jboss500:jar:container</include>
