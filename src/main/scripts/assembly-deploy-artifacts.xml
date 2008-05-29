@@ -87,6 +87,7 @@
               <include>*:FastInfoset:jar</include>
               <include>*:wss4j:jar</include>
               <include>*:xmlsec:jar</include>
+              <include>*:bcprov-jdk14:jar</include>
             </includes>
           </dependencySet>
           <dependencySet>

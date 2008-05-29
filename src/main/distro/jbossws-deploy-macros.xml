@@ -70,6 +70,7 @@
   </patternset>
   
   <patternset id="jbossws.service.lib.patternset">
+    <include name="**/bcprov-jdk14.jar"/>
     <include name="**/cxf-*.jar"/>
     <include name="**/geronimo-javamail*.jar"/>
     <include name="**/geronimo-ws-metadata*.jar"/>
