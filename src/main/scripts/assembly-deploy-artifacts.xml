@@ -13,7 +13,7 @@
     <dependencySet>
       <outputDirectory>bin</outputDirectory>
       <useStrictFiltering>true</useStrictFiltering>
-      <scope>provided</scope>
+      <scope>runtime</scope>
       <unpack>true</unpack>
       <includes>
         <include>*:jbossws-framework:zip:scripts</include>

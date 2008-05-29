@@ -281,26 +281,22 @@
     </dependencies>
   </dependencyManagement>
   
-  <!-- Dependencies -->
+  <!-- Runtime dependencies, not visible at compile time -->
   <dependencies>
-    
-    <!-- Provided dependencies, visible to all modules -->
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-framework</artifactId>
       <classifier>scripts</classifier>
-      <scope>provided</scope>
+      <scope>runtime</scope>
       <type>zip</type>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-framework</artifactId>
       <classifier>testsuite</classifier>
-      <scope>provided</scope>
+      <scope>runtime</scope>
       <type>zip</type>
     </dependency>
-    
-    <!-- Runtime dependencies, not visible at compile time -->
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss422</artifactId>
