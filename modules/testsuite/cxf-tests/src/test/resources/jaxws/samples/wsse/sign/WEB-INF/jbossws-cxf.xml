@@ -1,0 +1,51 @@
+<beans
+  xmlns='http://www.springframework.org/schema/beans'
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xmlns:beans='http://www.springframework.org/schema/beans'
+  xmlns:jaxws='http://cxf.apache.org/jaxws'
+  xsi:schemaLocation='http://cxf.apache.org/core
+    http://cxf.apache.org/schemas/core.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd'>
+  
+  <bean id="Sign_Request" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+    <constructor-arg>
+      <map>
+        <entry key="action" value="Timestamp Signature"/>
+        <entry key="signaturePropFile" value="WEB-INF/bob.properties"/>
+        <entry key="passwordCallbackClass" value="org.jboss.test.ws.jaxws.samples.wsse.KeystorePasswordCallback"/>
+      </map>
+    </constructor-arg>
+  </bean>
+  
+  <bean id="Sign_Response" class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
+    <constructor-arg>
+      <map>
+        <entry key="action" value="Timestamp Signature"/>
+        <entry key="user" value="bob"/>
+        <entry key="signaturePropFile" value="WEB-INF/bob.properties"/>
+        <entry key="signatureKeyIdentifier" value="DirectReference"/>
+        <entry key="passwordCallbackClass" value="org.jboss.test.ws.jaxws.samples.wsse.KeystorePasswordCallback"/>
+        <entry key="signatureParts" value="{Element}{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Timestamp;{Element}{http://schemas.xmlsoap.org/soap/envelope/}Body"/>
+      </map>
+    </constructor-arg>
+  </bean>
+  
+  <jaxws:endpoint
+    id='ServiceImpl'
+    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse'
+    implementor='org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl'>
+    <jaxws:outInterceptors>
+        <bean class="org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor"/>
+        <ref bean="Sign_Response"/>
+    </jaxws:outInterceptors>
+    <jaxws:inInterceptors>
+        <ref bean="Sign_Request"/>
+        <bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor"/>
+    </jaxws:inInterceptors>
+  </jaxws:endpoint>
+  
+  
+</beans>
