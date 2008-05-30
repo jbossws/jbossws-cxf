@@ -13,6 +13,64 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
   
+  <dependencies>
+    <!-- 
+      These runtime dependencies are picked up by the assembly-deploy-artifacts
+      descriptor. They have no real relevants to this module. 
+    -->
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-framework</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-framework</artifactId>
+      <classifier>scripts</classifier>
+      <scope>runtime</scope>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss422</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss423</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss500</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss500</artifactId>
+      <classifier>container</classifier>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss501</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss501</artifactId>
+      <classifier>container</classifier>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>jboss.jaxr</groupId>
+      <artifactId>juddi-service</artifactId>
+      <scope>runtime</scope>
+      <type>sar</type>
+    </dependency>
+  </dependencies>
+  
+  <!-- Build -->
   <build>
     <plugins>
       <plugin>
