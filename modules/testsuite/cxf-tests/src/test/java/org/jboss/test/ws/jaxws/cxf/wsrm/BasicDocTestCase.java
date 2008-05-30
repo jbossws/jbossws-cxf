@@ -81,19 +81,26 @@ public class BasicDocTestCase extends JBossWSTest
       SpringBusFactory bf = new SpringBusFactory();
       URL cxfConfig = getResourceURL("jaxws/cxf/wsrm/wsrm-client-config.xml");
       Bus bus = bf.createBus(cxfConfig);
-      BusFactory.setDefaultBus(bus);
-
-      URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-doc/wsrm-basic-doc.wsdl");
-      QName serviceName = new QName(targetNS, "RMService");
-
-      Service service = Service.create(wsdlURL, serviceName);
-      BasicDocEndpoint port = (BasicDocEndpoint)service.getPort(BasicDocEndpoint.class);
-
-      // Enable addressing
-      BindingProvider bp = (BindingProvider)port;
-      bp.getRequestContext().put("org.apache.cxf.ws.addressing.using", Boolean.TRUE);
-
-      Object retObj = port.echo("Hello");
-      assertEquals("Hello", retObj);
+      try
+      {
+         BusFactory.setDefaultBus(bus);
+   
+         URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-doc/wsrm-basic-doc.wsdl");
+         QName serviceName = new QName(targetNS, "RMService");
+   
+         Service service = Service.create(wsdlURL, serviceName);
+         BasicDocEndpoint port = (BasicDocEndpoint)service.getPort(BasicDocEndpoint.class);
+   
+         // Enable addressing
+         BindingProvider bp = (BindingProvider)port;
+         bp.getRequestContext().put("org.apache.cxf.ws.addressing.using", Boolean.TRUE);
+   
+         Object retObj = port.echo("Hello");
+         assertEquals("Hello", retObj);
+      }
+      finally
+      {
+         bus.shutdown(true);
+      }
    }
 }

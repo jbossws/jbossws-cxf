@@ -81,19 +81,26 @@ public class BasicRPCTestCase extends JBossWSTest
       SpringBusFactory bf = new SpringBusFactory();
       URL cxfConfig = getResourceURL("jaxws/cxf/wsrm/wsrm-client-config.xml");
       Bus bus = bf.createBus(cxfConfig);
-      BusFactory.setDefaultBus(bus);
-
-      URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-rpc/wsrm-basic-rpc.wsdl");
-      QName serviceName = new QName(targetNS, "RMService");
-
-      Service service = Service.create(wsdlURL, serviceName);
-      BasicRPCEndpoint port = (BasicRPCEndpoint)service.getPort(BasicRPCEndpoint.class);
-
-      // Enable addressing
-      BindingProvider bp = (BindingProvider)port;
-      bp.getRequestContext().put("org.apache.cxf.ws.addressing.using", Boolean.TRUE);
-
-      Object retObj = port.echo("Hello");
-      assertEquals("Hello", retObj);
+      try
+      {
+         BusFactory.setDefaultBus(bus);
+   
+         URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-rpc/wsrm-basic-rpc.wsdl");
+         QName serviceName = new QName(targetNS, "RMService");
+   
+         Service service = Service.create(wsdlURL, serviceName);
+         BasicRPCEndpoint port = (BasicRPCEndpoint)service.getPort(BasicRPCEndpoint.class);
+   
+         // Enable addressing
+         BindingProvider bp = (BindingProvider)port;
+         bp.getRequestContext().put("org.apache.cxf.ws.addressing.using", Boolean.TRUE);
+   
+         Object retObj = port.echo("Hello");
+         assertEquals("Hello", retObj);
+      }
+      finally
+      {
+         bus.shutdown(true);
+      }
    }
 }
