@@ -14,8 +14,8 @@
     <constructor-arg>
       <map>
         <entry key="action" value="Timestamp Signature Encrypt"/>
-        <entry key="signaturePropFile" value="WEB-INF/bob.properties"/>
-        <entry key="decryptionPropFile" value="WEB-INF/bob.properties"/>
+        <entry key="signaturePropFile" value="bob.properties"/>
+        <entry key="decryptionPropFile" value="bob.properties"/>
         <entry key="passwordCallbackClass" value="org.jboss.test.ws.jaxws.samples.wsse.KeystorePasswordCallback"/>
       </map>
     </constructor-arg>
@@ -26,8 +26,8 @@
       <map>
         <entry key="action" value="Timestamp Signature Encrypt"/>
         <entry key="user" value="bob"/>
-        <entry key="signaturePropFile" value="WEB-INF/bob.properties"/>
-        <entry key="encryptionPropFile" value="WEB-INF/bob.properties"/>
+        <entry key="signaturePropFile" value="bob.properties"/>
+        <entry key="encryptionPropFile" value="bob.properties"/>
         <entry key="encryptionUser" value="Alice"/>
         <entry key="signatureKeyIdentifier" value="DirectReference"/>
         <entry key="passwordCallbackClass" value="org.jboss.test.ws.jaxws.samples.wsse.KeystorePasswordCallback"/>
