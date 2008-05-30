@@ -41,7 +41,7 @@
   
   <jaxws:endpoint
     id='ServiceImpl'
-    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse'
+    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse-sign-encrypt'
     implementor='org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl'>
     <jaxws:outInterceptors>
         <bean class="org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor"/>
