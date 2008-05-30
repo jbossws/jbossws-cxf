@@ -34,6 +34,7 @@
     <module>modules/management</module>
     <module>modules/server</module>
     <module>modules/client</module>
+    <module>modules/packeting</module>
   </modules>
   
   <!-- Properties -->
@@ -291,84 +292,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-  
-  <!-- Runtime dependencies, not visible at compile time -->
-  <dependencies>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-framework</artifactId>
-      <classifier>scripts</classifier>
-      <scope>runtime</scope>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-framework</artifactId>
-      <classifier>testsuite</classifier>
-      <scope>runtime</scope>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss422</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss422</artifactId>
-      <classifier>resources</classifier>
-      <scope>runtime</scope>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss423</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss423</artifactId>
-      <classifier>resources</classifier>
-      <scope>runtime</scope>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss500</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss500</artifactId>
-      <classifier>container</classifier>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss500</artifactId>
-      <classifier>resources</classifier>
-      <scope>runtime</scope>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss501</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss501</artifactId>
-      <classifier>container</classifier>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss501</artifactId>
-      <classifier>resources</classifier>
-      <scope>runtime</scope>
-      <type>zip</type>
-    </dependency>
-  </dependencies>
   
   <!-- Plugins -->
   <build>
