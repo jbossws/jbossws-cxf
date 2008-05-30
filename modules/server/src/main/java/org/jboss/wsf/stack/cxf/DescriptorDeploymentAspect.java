@@ -47,7 +47,7 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 public class DescriptorDeploymentAspect extends DeploymentAspect
 {
    // provide logging
-   private static final Logger log = Logger.getLogger(DescriptorDeploymentAspect.class);
+   private final Logger log = Logger.getLogger(DescriptorDeploymentAspect.class);
 
    private String invokerEJB3;
    private String invokerJSE;
@@ -92,7 +92,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
     * @param dep deployment which initial classloader will be used
     * @return <b>cxf.xml URL</b> or <b>null</b> if not found
     */
-   private static URL getCXFConfigFromClassLoader(Deployment dep)
+   private URL getCXFConfigFromClassLoader(Deployment dep)
    {
       ClassLoader initCL = dep.getInitialClassLoader();
       URL cxfURL = initCL.getResource("cxf.xml");
@@ -112,7 +112,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
     * @param dep deployment where to look for resources
     * @return <b>jbossws-cxf.xml URL</b> or <b>null</b> if not found
     */
-   private static URL getCXFConfigFromDeployment(Deployment dep)
+   private URL getCXFConfigFromDeployment(Deployment dep)
    {
       DeploymentType depType = dep.getType();
       
@@ -195,7 +195,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
     * @param dep deployment where to put
     * @param cxfURL to be put
     */
-   private static void putCXFConfigToDeployment(Deployment dep, URL cxfURL)
+   private void putCXFConfigToDeployment(Deployment dep, URL cxfURL)
    {
       // get property map
       String propKey = "org.jboss.ws.webapp.ContextParameterMap";
