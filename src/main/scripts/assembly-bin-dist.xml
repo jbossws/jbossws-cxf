@@ -76,8 +76,11 @@
     <dependencySet>
       <outputDirectory>tests</outputDirectory>
       <useStrictFiltering>true</useStrictFiltering>
-      <scope>provided</scope>
+      <scope>runtime</scope>
       <unpack>true</unpack>
+      <includes>
+        <include>*:jbossws-framework:zip:testsuite</include>
+      </includes>
       <unpackOptions>
         <includes>
           <include>ant-import/**</include>
@@ -89,15 +92,6 @@
           <include>resources/projectGenerator/**</include>
         </includes>
       </unpackOptions>
-    </dependencySet>
-    <dependencySet>
-      <outputDirectory>tests</outputDirectory>
-      <useStrictFiltering>true</useStrictFiltering>
-      <scope>runtime</scope>
-      <unpack>true</unpack>
-      <includes>
-        <include>*:jbossws-framework:zip:testsuite</include>
-      </includes>
     </dependencySet>
   </dependencySets>
   
