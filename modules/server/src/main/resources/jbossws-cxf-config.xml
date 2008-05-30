@@ -56,7 +56,7 @@
   </bean>
 
   <bean name="WSCXFDescriptorDeploymentAspect" class="org.jboss.wsf.stack.cxf.DescriptorDeploymentAspect">
-    <property name="requires">EndpointAddress</property>
+    <property name="requires">EndpointAddress,WebMetaData</property>
     <property name="provides">StackDescriptor</property>
     <property name="invokerEJB3">org.jboss.wsf.stack.cxf.InvokerEJB3</property>
     <property name="invokerJSE">org.jboss.wsf.stack.cxf.InvokerJSE</property>
