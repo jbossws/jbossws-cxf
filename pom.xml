@@ -31,9 +31,9 @@
   
   <!-- Modules -->
   <modules>
-    <module>modules/management</module>
     <module>modules/server</module>
     <module>modules/client</module>
+    <module>modules/management</module>
   </modules>
   
   <!-- Properties -->
