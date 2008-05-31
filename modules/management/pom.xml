@@ -32,6 +32,13 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-framework</artifactId>
+      <classifier>testsuite</classifier>
+      <scope>runtime</scope>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss422</artifactId>
       <scope>runtime</scope>
     </dependency>

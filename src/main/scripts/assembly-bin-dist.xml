@@ -72,27 +72,36 @@
   </fileSets>
   
   <!-- framework tests -->
-  <dependencySets>
-    <dependencySet>
-      <outputDirectory>tests</outputDirectory>
-      <useStrictFiltering>true</useStrictFiltering>
-      <scope>runtime</scope>
-      <unpack>true</unpack>
+  <moduleSets>
+    <moduleSet>
       <includes>
-        <include>*:jbossws-framework:zip:testsuite</include>
+        <include>org.jboss.ws.cxf:jbossws-cxf-management</include>
       </includes>
-      <unpackOptions>
-        <includes>
-          <include>ant-import/**</include>
-          <include>java/org/jboss/test/ws/console/**</include>
-          <include>java/org/jboss/test/ws/jaxws/samples/**</include>
-          <include>java/org/jboss/test/ws/projectGenerator/**</include>
-          <include>resources/console/**</include>
-          <include>resources/jaxws/samples/**</include>
-          <include>resources/projectGenerator/**</include>
-        </includes>
-      </unpackOptions>
-    </dependencySet>
-  </dependencySets>
+      <binaries>
+        <dependencySets>
+          <dependencySet>
+            <outputDirectory>tests</outputDirectory>
+            <useStrictFiltering>true</useStrictFiltering>
+            <scope>runtime</scope>
+            <unpack>true</unpack>
+            <includes>
+              <include>*:jbossws-framework:zip:testsuite</include>
+            </includes>
+            <unpackOptions>
+              <includes>
+                <include>ant-import/**</include>
+                <include>java/org/jboss/test/ws/console/**</include>
+                <include>java/org/jboss/test/ws/jaxws/samples/**</include>
+                <include>java/org/jboss/test/ws/projectGenerator/**</include>
+                <include>resources/console/**</include>
+                <include>resources/jaxws/samples/**</include>
+                <include>resources/projectGenerator/**</include>
+              </includes>
+            </unpackOptions>
+          </dependencySet>
+        </dependencySets>
+      </binaries>
+    </moduleSet>
+  </moduleSets>
   
 </assembly>
