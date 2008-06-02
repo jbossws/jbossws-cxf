@@ -40,7 +40,7 @@ org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
 # [CXF-1623] Wrong AnnotationHandlerChainBuilder.protocolMatches() method implementation or preconditions
 org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
 
-# [JBWS-2161] Investigate why LogicalHandlerJAXBTestCase and and HandlerChainTestCase tests fail
+# [CXF-1624] XmlSchemaException: Schema name conflict in collection
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
 
 # TODO: Fix classpath to ClientLauncher
