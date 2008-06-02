@@ -31,9 +31,12 @@ org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
 
 # [CXF-1253] CXF does not respect @HandlerChain on client SEI
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*
+org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
+
+# [CXF-1623] Wrong AnnotationHandlerChainBuilder.protocolMatches() method implementation or preconditions
+org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
 
 # [JBWS-2161] Investigate why LogicalHandlerJAXBTestCase and and HandlerChainTestCase tests fail
-org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
 
 # [JBWS-2107] Resolve dependency on @SecurityDomain
