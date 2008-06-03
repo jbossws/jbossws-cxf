@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<server>
-  <mbean code="org.jboss.test.ws.jaxws.samples.wsse.BouncyCastleLoader" name="org.jboss.test.ws.jaxws.samples.wsse:service=BouncyCastleLoader"/>
-</server>

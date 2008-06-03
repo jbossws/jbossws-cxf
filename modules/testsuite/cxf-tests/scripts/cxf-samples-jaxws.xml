@@ -95,17 +95,6 @@
           <include name="bob.properties" />
        </zipfileset>
     </war>
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-sign-encrypt.sar">
-	  <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/sign-encrypt/META-INF">
-        <include name="jboss-service.xml" />
-      </metainf>
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/samples/wsse/BouncyCastleLoader*.class"/>
-      </fileset>
-      <fileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/sign-encrypt">
-        <include name="bcprov*.jar" />
-      </fileset>
-    </jar>
   	
     <!-- jaxws-samples-wsse-sign-encrypt-client -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-sign-encrypt-client.jar">

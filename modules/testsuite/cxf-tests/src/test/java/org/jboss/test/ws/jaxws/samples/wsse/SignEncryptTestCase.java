@@ -43,6 +43,7 @@ import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
 import org.apache.cxf.binding.soap.saaj.SAAJInInterceptor;
 import org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor;
+import javax.xml.ws.soap.SOAPFaultException;
 
 /**
  * WS-Security sign & encrypt test case
@@ -56,8 +57,7 @@ public final class SignEncryptTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(SignEncryptTestCase.class,
-            "jaxws-samples-wsse-sign-encrypt.sar jaxws-samples-wsse-sign-encrypt-client.jar jaxws-samples-wsse-sign-encrypt.war");
+      return new JBossWSTestSetup(SignEncryptTestCase.class, "jaxws-samples-wsse-sign-encrypt-client.jar jaxws-samples-wsse-sign-encrypt.war");
    }
 
    public void test() throws Exception
@@ -67,7 +67,14 @@ public final class SignEncryptTestCase extends JBossWSTest
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy);
-      assertEquals("Secure Hello World!", proxy.sayHello());
+      try
+      {
+         assertEquals("Secure Hello World!", proxy.sayHello());
+      }
+      catch (SOAPFaultException e)
+      {
+         throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
+      }
    }
    
    private void setupWsse(ServiceIface proxy)
