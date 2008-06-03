@@ -128,3 +128,4 @@ org/jboss/test/ws/jaxws/samples/eardeployment/**
 org/jboss/test/ws/jaxws/samples/advanced/retail/**
 org/jboss/test/ws/jaxws/samples/webservice/WebServiceEJB3TestCase.*
 org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
+org/jboss/test/ws/projectGenerator/**
