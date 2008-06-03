@@ -103,6 +103,21 @@
 	  	<include name="alice.jks" />
       </metainf>
     </jar>
+  	
+    <!-- jaxws-samples-wsse-username -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-username.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/username/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/Service*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/jaxws/*.class"/>
+		  <include name="org/jboss/test/ws/jaxws/samples/wsse/ServerUsernamePasswordCallback.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/username/WEB-INF">
+          <include name="jbossws-cxf.xml"/>
+       	  <include name="wsdl/*"/>
+       </webinf>
+    </war>
 
     <!-- Please add alphabetically -->
     

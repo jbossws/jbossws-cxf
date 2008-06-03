@@ -1,0 +1,34 @@
+<beans
+  xmlns='http://www.springframework.org/schema/beans'
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xmlns:beans='http://www.springframework.org/schema/beans'
+  xmlns:jaxws='http://cxf.apache.org/jaxws'
+  xsi:schemaLocation='http://cxf.apache.org/core
+    http://cxf.apache.org/schemas/core.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd'>
+  
+  <bean id="UsernameToken_Request" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+    <constructor-arg>
+      <map>
+        <entry key="action" value="UsernameToken"/> 
+        <!-- <entry key="passwordType" value="PasswordDigest"/> -->
+        <entry key="passwordCallbackClass" value="org.jboss.test.ws.jaxws.samples.wsse.ServerUsernamePasswordCallback"/> 
+      </map>
+    </constructor-arg>
+  </bean>
+  
+  <jaxws:endpoint
+    id='ServiceImpl'
+    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse-username'
+    implementor='org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl'>
+    <jaxws:inInterceptors>
+        <ref bean="UsernameToken_Request"/>
+        <bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor"/>
+    </jaxws:inInterceptors>
+  </jaxws:endpoint>
+  
+  
+</beans>
