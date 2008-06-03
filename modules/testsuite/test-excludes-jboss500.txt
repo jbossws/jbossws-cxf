@@ -128,3 +128,6 @@ org/jboss/test/ws/jaxws/samples/eardeployment/**
 org/jboss/test/ws/jaxws/samples/advanced/retail/**
 org/jboss/test/ws/jaxws/samples/webservice/WebServiceEJB3TestCase.*
 org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
+
+# [JBWS-2197] Dynamically load Bouncy Castle provider on AS 5.0.x
+org/jboss/test/ws/jaxws/samples/wsse/SignEncryptTestCase.*

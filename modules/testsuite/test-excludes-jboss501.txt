@@ -125,3 +125,6 @@ org/jboss/test/ws/jaxws/holder/**
 
 # [JBWS-2194] request requires HTTP authentication: Unauthorized
 org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
+
+# [JBWS-2197] Dynamically load Bouncy Castle provider on AS 5.0.x
+org/jboss/test/ws/jaxws/samples/wsse/SignEncryptTestCase.*
