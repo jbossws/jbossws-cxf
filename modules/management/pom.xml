@@ -86,7 +86,7 @@
            </execution>
          </executions>
          <configuration>
-           <format>yyyyMMddHHmm</format>
+           <format>{0,date,yyyyMMddHHmm}</format>
            <items>
              <item>timestamp</item>
            </items>
