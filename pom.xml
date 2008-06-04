@@ -242,6 +242,12 @@
         <groupId>javax.xml.ws</groupId>
         <artifactId>jaxws-api</artifactId>
         <version>${jaxws.api.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.jws</groupId>
+            <artifactId>jsr181</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>com.sun.xml.fastinfoset</groupId>
