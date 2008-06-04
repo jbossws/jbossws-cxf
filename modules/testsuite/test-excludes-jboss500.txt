@@ -5,6 +5,9 @@
 # Won't Fix: [CXF-1261] Handler does not see XOP message properly
 org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 
+# Exclude endpoints with AS42 @SecurityDomain
+org/jboss/test/ws/jaxws/samples/securityDomain/SecureEndpointImpl.*
+
 # [JBWS-1178] Multiple virtual host and soap:address problem
 org/jboss/test/ws/jaxws/jbws1178/**
 
@@ -38,10 +41,6 @@ org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
 
 # [CXF-1624] XmlSchemaException: Schema name conflict in collection
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
-
-# [JBWS-2107] Resolve dependency on @SecurityDomain
-org/jboss/test/ws/jaxws/webserviceref/Secure**
-org/jboss/test/ws/jaxws/jbws1840/**
 
 # [CXF-1510] Cannot handle anonymous bare requests
 org/jboss/test/ws/jaxws/anonymous/**

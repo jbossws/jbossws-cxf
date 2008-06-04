@@ -8,6 +8,9 @@ org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 # EJB3/Injection excludes
 org/jboss/test/ws/jaxws/samples/webserviceref/**
 
+# Exclude endpoints with AS5 @SecurityDomain
+org/jboss/test/ws/jaxws/samples/securityDomain/SecureEndpointAS5Impl.*
+
 # [JBWS-1178] Multiple virtual host and soap:address problem
 org/jboss/test/ws/jaxws/jbws1178/**
 
