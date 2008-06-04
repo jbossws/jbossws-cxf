@@ -14,9 +14,9 @@
 <project>
   
   <!-- 
-    These patterns should be common for all supported containers.
-    All jars must also be declared in component-info.xml to ensure 
-    that the AS build uses the same version.
+  These patterns should be common for all supported containers.
+  All jars must also be declared in component-info.xml to ensure 
+  that the AS build uses the same version.
   -->
   <patternset id="jbossws.bin.patternset">
     <include name="**/wsconsume.bat"/>
@@ -274,48 +274,49 @@
     </sequential>
   </macrodef>
   
-   <!-- ================================================================== -->
-   <!-- Deploy Deployers                                                   -->
-   <!-- ================================================================== -->
-
-   <macrodef name="macro-deploy-jbossws-deployers50">
-      <attribute name="artifactsdir"/>
-      <attribute name="targetdir"/>
-      <attribute name="jbossid"/>
-      <sequential>
-        <mkdir dir="@{targetdir}"/>
-        <copy todir="@{targetdir}" flatten="true" overwrite="true">
-          <fileset dir="@{artifactsdir}/lib">
-            <include name="**/jbossws-common.jar"/>
-            <include name="**/jbossws-framework.jar"/>
-            <include name="**/jbossws-@{jbossid}.jar"/>
-          </fileset>
-        </copy>
-        <copy todir="@{targetdir}/META-INF" flatten="true" overwrite="true">
-          <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}">
-            <include name="**/jbossws-deployer-beans.xml"/>
-          </fileset>
-        </copy>
-      </sequential>
-   </macrodef>
-
-   <!-- ================================================================== -->
-   <!-- Deploy Deploy                                                   -->
-   <!-- ================================================================== -->
-
-    <macrodef name="macro-deploy-jbossws-deploy50">
-      <attribute name="thirdpartydir"/>
-      <attribute name="targetdir"/>
-      <attribute name="jbossid"/>
-      <sequential>
-         <mkdir dir="@{targetdir}"/>
-         <copy todir="@{targetdir}" flatten="true" overwrite="true">
-            <fileset dir="@{thirdpartydir}">               
-               <include name="**/jbossws-@{jbossid}-container.jar"/>
-            </fileset>
-         </copy>
-      </sequential>
-   </macrodef>
+  <!-- ================================================================== -->
+  <!-- Deploy Deployers                                                   -->
+  <!-- ================================================================== -->
+  
+  <macrodef name="macro-deploy-jbossws-deployers50">
+    <attribute name="artifactsdir"/>
+    <attribute name="targetdir"/>
+    <attribute name="jbossid"/>
+    <sequential>
+      <mkdir dir="@{targetdir}"/>
+      <copy todir="@{targetdir}" flatten="true" overwrite="true">
+        <fileset dir="@{artifactsdir}/lib">
+          <include name="**/jbossws-common.jar"/>
+          <include name="**/jbossws-framework.jar"/>
+          <include name="**/jbossws-@{jbossid}.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/META-INF" flatten="true" overwrite="true">
+        <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}">
+          <include name="**/jbossws-deployer-beans.xml"/>
+        </fileset>
+      </copy>
+    </sequential>
+  </macrodef>
+  
+  <!-- ================================================================== -->
+  <!-- Deploy Deploy                                                   -->
+  <!-- ================================================================== -->
+  
+  <macrodef name="macro-deploy-jbossws-deploy50">
+    <attribute name="thirdpartydir"/>
+    <attribute name="targetdir"/>
+    <attribute name="jbossid"/>
+    <sequential>
+      <mkdir dir="@{targetdir}"/>
+      <unzip dest="@{targetdir}/jbossws.sar" src="@{thirdpartydir}/jbossws-@{jbossid}-container.jar">
+        <patternset>
+          <include name="META-INF/jbossws-container-beans.xml"/>
+        </patternset>
+      </unzip>
+      <move file="@{targetdir}/jbossws.sar/META-INF/jbossws-container-beans.xml" todir="@{targetdir}"/>
+    </sequential>
+  </macrodef>
   
   <!-- ================================================================== -->
   <!-- Deploy JBossWS                                                     -->
