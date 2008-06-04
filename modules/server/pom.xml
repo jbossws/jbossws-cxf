@@ -28,12 +28,6 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-framework</artifactId>
-      <classifier>scripts</classifier>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-spi</artifactId>
     </dependency>
     <dependency>

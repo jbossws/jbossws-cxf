@@ -67,16 +67,7 @@
         <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
         <includeDependencies>false</includeDependencies>
         <unpack>false</unpack>
-        <dependencySets>
-          <dependencySet>
-            <outputDirectory>bin</outputDirectory>
-            <useStrictFiltering>true</useStrictFiltering>
-            <scope>runtime</scope>
-            <unpack>true</unpack>
-            <includes>
-              <include>*:jbossws-framework:zip:scripts</include>
-            </includes>
-          </dependencySet>
+        <dependencySets>          
           <dependencySet>
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
@@ -108,8 +99,20 @@
     </moduleSet>
   </moduleSets>
   
-  <!-- resources -->
+
   <fileSets>
+
+      <!-- bin -->
+    <fileSet>
+      <directory>src/main/etc</directory>
+      <outputDirectory>bin</outputDirectory>
+      <includes>
+        <include>wsconsume.*</include>
+        <include>wsprovide.*</include>
+      </includes>
+    </fileSet>
+
+     <!-- resources -->
     <fileSet>
       <directory>modules/server/target/resources</directory>
       <outputDirectory>resources</outputDirectory>

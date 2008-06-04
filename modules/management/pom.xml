@@ -22,14 +22,7 @@
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-framework</artifactId>
       <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-framework</artifactId>
-      <classifier>scripts</classifier>
-      <scope>runtime</scope>
-      <type>zip</type>
-    </dependency>
+    </dependency>    
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-framework</artifactId>
