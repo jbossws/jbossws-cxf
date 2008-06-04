@@ -74,11 +74,41 @@
   <build>
     <plugins>
       <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>custom-build-id</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <tstamp>
+                  <format property="custom.build.id" pattern="yyyyMMddHHmm"/>
+                </tstamp>
+                <mkdir dir="${project.build.directory}"/>
+                <echo message="custom.build.id=${custom.build.id}" file="${project.build.directory}/substitution.properties"/>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
          <artifactId>maven-war-plugin</artifactId>
          <configuration>
            <warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
+           <filters>
+             <filter>${project.build.directory}/substitution.properties</filter>
+           </filters>
+           <webResources>
+             <resource>
+               <directory>src/main/webapp</directory>
+               <filtering>true</filtering>
+             </resource>
+           </webResources>
          </configuration>       
       </plugin>
-    </plugins>    
+    </plugins>
   </build>
 </project>
