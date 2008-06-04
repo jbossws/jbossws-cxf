@@ -29,6 +29,13 @@
     <version>1.0.0.GA</version>
   </parent>
   
+  <!-- Source Control Management -->
+  <scm>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/trunk</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/trunk</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/trunk</url>
+  </scm>
+  
   <!-- Modules -->
   <modules>
     <module>modules/server</module>
@@ -472,12 +479,5 @@
       </modules>
     </profile>
   </profiles>
-  
-  <!-- Source Control Management -->
-  <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/trunk</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/trunk</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/trunk</url>
-  </scm>
   
 </project>
