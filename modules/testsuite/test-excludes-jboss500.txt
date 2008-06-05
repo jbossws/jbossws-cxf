@@ -119,6 +119,7 @@ org/jboss/test/ws/jaxws/jbws1446/**
 org/jboss/test/ws/jaxws/jbws1799/**
 org/jboss/test/ws/jaxws/jbws1872/**
 org/jboss/test/ws/jaxws/jbws1969/**
+org/jboss/test/ws/jaxws/samples/securityDomain/**
 org/jboss/test/ws/jaxws/samples/swaref/**
 org/jboss/test/ws/jaxws/samples/eardeployment/**
 org/jboss/test/ws/jaxws/samples/advanced/retail/**
