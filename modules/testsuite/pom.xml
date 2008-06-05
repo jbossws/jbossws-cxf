@@ -44,16 +44,6 @@
       <artifactId>jbossws-framework</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-framework</artifactId>
-      <classifier>testsuite</classifier>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-spi</artifactId>
-    </dependency>
-    <dependency>
       <groupId>javax.ejb</groupId>
       <artifactId>ejb-api</artifactId>
     </dependency>
