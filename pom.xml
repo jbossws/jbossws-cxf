@@ -26,7 +26,7 @@
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1.GA</version>
   </parent>
   
   <!-- Source Control Management -->
