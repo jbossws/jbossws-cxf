@@ -20,13 +20,13 @@
   <artifactId>jbossws-cxf</artifactId>
   <packaging>pom</packaging>
   
-  <version>3.0.2-SNAPSHOT</version>
+  <version>3.0.3-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1.GA</version>
   </parent>
   
   <!-- Source Control Management -->
