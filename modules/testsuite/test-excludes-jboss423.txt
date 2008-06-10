@@ -2,27 +2,11 @@
 # $Id$
 #
 
-# Won't Fix: [CXF-1261] Handler does not see XOP message properly
-org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
-
 # EJB3/Injection excludes
 org/jboss/test/ws/jaxws/samples/webserviceref/**
 
 # Exclude endpoints with AS5 @SecurityDomain
 org/jboss/test/ws/jaxws/samples/securityDomain/SecureEndpointAS5Impl.*
-
-# [JBWS-1178] Multiple virtual host and soap:address problem
-org/jboss/test/ws/jaxws/jbws1178/**
-
-# [JBWS-1774] Provide tools implementation for CXF
-org/jboss/test/ws/jaxws/complex/**
-org/jboss/test/ws/jaxws/holder/**
-
-# [JBWS-1683] Fix JAXR samples for CXF
-org/jboss/test/ws/jaxws/samples/jaxr/**
-
-# [JBWS-1774] Provide a tools implementation for CXF (WSContractProvider and WSContractConsumer)
-org/jboss/test/ws/jaxws/smoke/tools/**
 
 # [CXF-1244] Application Exception not initialized properly
 org/jboss/test/ws/jaxws/samples/exception/**
@@ -36,11 +20,8 @@ org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*
 org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
 
-# [CXF-1623] Wrong AnnotationHandlerChainBuilder.protocolMatches() method implementation or preconditions
-org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
-
-# [CXF-1624] XmlSchemaException: Schema name conflict in collection
-org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
+# [CXF-1261] Handler does not see XOP message properly
+org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 
 # [CXF-1510] Cannot handle anonymous bare requests
 org/jboss/test/ws/jaxws/anonymous/**
@@ -48,9 +29,6 @@ org/jboss/test/ws/jaxws/anonymous/**
 # [CXF-1511] WrappedMessageContext does not implement SOAPMessageContext
 org/jboss/test/ws/jaxws/binding/**
 org/jboss/test/ws/jaxws/namespace/**
-
-# [JBWS-2112] Cannot use CXF with endpoint API
-org/jboss/test/ws/jaxws/endpoint/**
 
 # [CXF-1513] NPE in JaxWsServiceConfiguration
 org/jboss/test/ws/jaxws/handlerscope/**
@@ -60,34 +38,18 @@ org/jboss/test/ws/jaxws/jbws1797/**
 # [CXF-1514] Generated WSDL does not take 'transport-guarantee' in web.xml into account
 org/jboss/test/ws/jaxws/jbws1190/**
 
-# [JBWS-2114] IllegalArgumentException: Wrong target. class 
-org/jboss/test/ws/jaxws/jbws1283/**
-org/jboss/test/ws/jaxws/jbws1822/**
-
 # [CXF-1515] Bad Enumeration value 'extension restriction'
 org/jboss/test/ws/jaxws/jbws1505/**
-
-# [JBWS-2115] EJB client vehicle not sufficiently isolated
-org/jboss/test/ws/jaxws/jbws1581/**
 
 # [CXF-1516] Type inheritance with document/literal/wrapped
 org/jboss/test/ws/jaxws/jbws1702/**
 org/jboss/test/ws/jaxws/jbws1733/**
 
-# [JBWS-2117] web.xml modified to web.xml.org - Subsequent runs fail
-org/jboss/test/ws/jaxws/jbws1762/**
-
 # [CXF-1517] HTTP bindings for Provider
 org/jboss/test/ws/jaxws/jbws1807/**
 
-# [JBWS-2118] context-root in jboss.xml is ignored
-org/jboss/test/ws/jaxws/jbws1813/**
-
 # [CXF-1518] Missing fault detail in messages from SLSB Provider
 org/jboss/test/ws/jaxws/jbws1815/**
-
-# [JBWS-2119] WebServiceRef injection from DD doesn't work
-org/jboss/test/ws/jaxws/jbws1841/**
 
 # [CXF-1519] Explicitly set the namespace of a WebFault
 org/jboss/test/ws/jaxws/jbws1904/**
@@ -101,9 +63,45 @@ org/jboss/test/ws/jaxws/webfault/**
 # [CXF-1522] NPE in ServiceUtils
 org/jboss/test/ws/jaxws/jbws1566/**
 
-# [JBWS-2165] Fix xop tests with maven build
-org/jboss/test/ws/jaxws/samples/xop/**
+# [CXF-1623] Wrong AnnotationHandlerChainBuilder.protocolMatches() method implementation or preconditions
+org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
+
+# [CXF-1624] XmlSchemaException: Schema name conflict in collection
+org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
+
+# [JBWS-1178] Multiple virtual host and soap:address problem
+org/jboss/test/ws/jaxws/jbws1178/**
+
+# [JBWS-1683] Fix JAXR samples for CXF
+org/jboss/test/ws/jaxws/samples/jaxr/**
+
+# [JBWS-1774] Provide tools implementation for CXF
+org/jboss/test/ws/jaxws/complex/**
+org/jboss/test/ws/jaxws/holder/**
+org/jboss/test/ws/jaxws/smoke/tools/**
+
+# [JBWS-2112] Cannot use CXF with endpoint API
+org/jboss/test/ws/jaxws/endpoint/**
+
+# [JBWS-2114] IllegalArgumentException: Wrong target. class 
+org/jboss/test/ws/jaxws/jbws1283/**
+org/jboss/test/ws/jaxws/jbws1822/**
+
+# [JBWS-2115] EJB client vehicle not sufficiently isolated
+org/jboss/test/ws/jaxws/jbws1581/**
+
+# [JBWS-2117] web.xml modified to web.xml.org - Subsequent runs fail
+org/jboss/test/ws/jaxws/jbws1762/**
+
+# [JBWS-2118] context-root in jboss.xml is ignored
+org/jboss/test/ws/jaxws/jbws1813/**
+
+# [JBWS-2119] WebServiceRef injection from DD doesn't work
+org/jboss/test/ws/jaxws/jbws1841/**
 
 # [JBWS-2163] wsconsume for maven build
 org/jboss/test/ws/jaxws/complex/**
 org/jboss/test/ws/jaxws/holder/**
+
+# [JBWS-2165] Fix xop tests with maven build
+org/jboss/test/ws/jaxws/samples/xop/**
