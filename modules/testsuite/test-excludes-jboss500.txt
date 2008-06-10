@@ -1,5 +1,5 @@
 #
-# $Id: test-excludes.txt 3915 2007-07-17 16:16:05Z heiko.braun@jboss.com $
+# $Id: test-excludes-jboss500.txt 3915 2007-07-17 16:16:05Z heiko.braun@jboss.com $
 #
 
 # Won't Fix: [CXF-1261] Handler does not see XOP message properly

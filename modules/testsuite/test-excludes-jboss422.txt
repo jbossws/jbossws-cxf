@@ -1,5 +1,5 @@
 #
-# $Id: test-excludes.txt 3915 2007-07-17 16:16:05Z heiko.braun@jboss.com $
+# $Id: test-excludes-jboss422.txt 3915 2007-07-17 16:16:05Z heiko.braun@jboss.com $
 #
 
 # EJB3/Injection excludes
