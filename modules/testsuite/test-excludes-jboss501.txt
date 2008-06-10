@@ -122,3 +122,8 @@ org/jboss/test/ws/jaxws/holder/**
 
 # [JBWS-2194] request requires HTTP authentication: Unauthorized
 org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
+
+#[EJBTHREE-1410] Fix the package name for SecurityContextAssociation
+org/jboss/test/ws/jaxws/jbws944/JBWS944TestCase.*
+org/jboss/test/ws/jaxws/samples/swaref/SWARefTestCase.*
+org/jboss/test/ws/jaxws/samples/webservice/WebServiceEJB3TestCase.*
