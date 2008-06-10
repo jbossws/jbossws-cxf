@@ -21,9 +21,6 @@ org/jboss/test/ws/jaxws/samples/jaxr/**
 # [JBWS-1774] Provide a tools implementation for CXF (WSContractProvider and WSContractConsumer)
 org/jboss/test/ws/jaxws/smoke/tools/**
 
-# [EJBTHREE-1150] WebServiceContext injection requires mapped-name
-org/jboss/test/ws/jaxws/samples/context/WebServiceContextJSETestCase.*
-
 # [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored
 org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
 org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefServletTestCase.*
@@ -73,7 +70,6 @@ org/jboss/test/ws/jaxws/jbws1822/**
 
 # [CXF-1515] Bad Enumeration value 'extension restriction'
 org/jboss/test/ws/jaxws/jbws1505/**
-org/jboss/test/ws/jaxws/jbws1845/**
 
 # [JBWS-2115] EJB client vehicle not sufficiently isolated
 org/jboss/test/ws/jaxws/jbws1581/**
@@ -108,10 +104,6 @@ org/jboss/test/ws/jaxws/webfault/**
 
 # [CXF-1522] NPE in ServiceUtils
 org/jboss/test/ws/jaxws/jbws1566/**
-
-# [JBAS-5359] mapped-name is required for context of deployment
-org/jboss/test/ws/console/**
-org/jboss/test/ws/jaxws/jbws1611/**
 
 # [JBWS-2165] Fix xop tests with maven build
 org/jboss/test/ws/jaxws/samples/xop/**
