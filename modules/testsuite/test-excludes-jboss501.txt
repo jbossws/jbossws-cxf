@@ -127,3 +127,11 @@ org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
 org/jboss/test/ws/jaxws/jbws944/JBWS944TestCase.*
 org/jboss/test/ws/jaxws/samples/swaref/SWARefTestCase.*
 org/jboss/test/ws/jaxws/samples/webservice/WebServiceEJB3TestCase.*
+org/jboss/test/ws/jaxws/jbws1422/JBWS1422TestCase.*
+org/jboss/test/ws/jaxws/jbws1446/JBWS1446TestCase.*
+org/jboss/test/ws/jaxws/jbws1556/JBWS1556EarTestCase.*
+org/jboss/test/ws/jaxws/jbws1799/JBWS1799TestCase.*
+org/jboss/test/ws/jaxws/jbws1872/JBWS1872TestCase.*
+org/jboss/test/ws/jaxws/samples/advanced/retail/RetailSampleTestCase.*
+org/jboss/test/ws/jaxws/samples/securityDomain/SecurityDomainTestCase.*
+
