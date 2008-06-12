@@ -103,12 +103,15 @@ org/jboss/test/ws/jaxws/jbws1813/**
 # [JBWS-2119] WebServiceRef injection from DD doesn't work
 org/jboss/test/ws/jaxws/jbws1841/**
 
-# [JBWS-2223] wsconsume for cxf build
-org/jboss/test/ws/jaxws/complex/**
-org/jboss/test/ws/jaxws/holder/**
-
 # [JBWS-2165] Fix xop tests with maven build
 org/jboss/test/ws/jaxws/samples/xop/**
 
 # [JBWS-2194] request requires HTTP authentication: Unauthorized
 org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
+
+# [JBWS-2223] wsconsume for cxf build
+org/jboss/test/ws/jaxws/complex/**
+org/jboss/test/ws/jaxws/holder/**
+
+# [JBWS-2226] Investigate why multiple virtual hosts test fails on CXF
+org/jboss/test/ws/jaxws/jbws1178/**
