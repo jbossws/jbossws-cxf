@@ -41,6 +41,7 @@
     <module>modules/server</module>
     <module>modules/client</module>
     <module>modules/management</module>
+    <module>modules/resources</module>
   </modules>
   
   <!-- Properties -->

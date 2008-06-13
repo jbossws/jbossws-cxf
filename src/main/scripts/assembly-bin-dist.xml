@@ -31,10 +31,16 @@
       <includes>
         <include>build-deploy.xml</include>
         <include>build-setup.xml</include>
-        <include>jbossws-default-deploy.conf</include>
         <include>jbossws-deploy-macros.xml</include>
         <include>build-project-gen.xml</include>
         <include>user-project-build.xml</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>modules/resources/src/main/resources/bin</directory>
+      <outputDirectory>build</outputDirectory>
+      <includes>
+        <include>jbossws-default-deploy.conf</include>
       </includes>
     </fileSet>
     <!-- docs -->

@@ -2,7 +2,7 @@
 
 #
 # @author Heiko.Braun@jboss.com
-# @version $Id: $
+# @version $Id$
 #
 
 DIRNAME=`dirname $0`

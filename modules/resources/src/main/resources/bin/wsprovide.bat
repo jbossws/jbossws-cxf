@@ -1,6 +1,6 @@
 @echo off
 
-rem $Id: wsprovide.bat 3101 2007-05-16 08:26:33Z heiko.braun@jboss.com $
+rem $Id$
 
 @if not "%ECHO%" == ""  echo %ECHO%
 @if "%OS%" == "Windows_NT"  setlocal
