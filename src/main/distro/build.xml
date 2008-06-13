@@ -23,9 +23,8 @@
   <property name="thirdparty.dir" value="${basedir}/deploy/lib"/>
   <property name="tests.dir" value="${basedir}/tests"/>
   <property name="tests.output.dir" value="${output.dir}"/>
-  <property name="stack.resources.dir" value="${basedir}/../../../modules/resources/src/main/resources"/>
   <property name="deploy.artifacts.dir" value="${basedir}/deploy"/>
-  <property name="jbossws.default.deploy.conf" value="${stack.resources.dir}/resources/jbossws-default-deploy.conf"/>
+  <property name="jbossws.default.deploy.conf" value="${build.dir}/jbossws-default-deploy.conf"/>
   <property name="target.properties.file" value="${basedir}/target.properties"/>
   
   <!-- Check if ant.properties is available -->
@@ -35,7 +34,7 @@
   
   <import file="${build.dir}/build-setup.xml"/>
   <import file="${build.dir}/build-deploy.xml"/>
-  <import file="${stack.resources.dir}/resources/jbossws-deploy-macros.xml"/>
+  <import file="${build.dir}/jbossws-deploy-macros.xml"/>
   <import file="${tests.dir}/ant-import/build-testsuite.xml"/>
   <import file="${build.dir}/build-project-gen.xml"/>
   
