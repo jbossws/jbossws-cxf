@@ -25,7 +25,7 @@
   <property name="tests.output.dir" value="${output.dir}"/>
   
   <property name="deploy.artifacts.dir" value="${basedir}/deploy"/>
-  <property name="jbossws.default.deploy.conf" value="${build.dir}/jbossws-default-deploy.conf"/>
+  <property name="jbossws.default.deploy.conf" value="${basedir}/../../../modules/resources/src/main/resources/bin/jbossws-default-deploy.conf"/>
   <property name="target.properties.file" value="${basedir}/target.properties"/>
   
   <!-- Check if ant.properties is available -->

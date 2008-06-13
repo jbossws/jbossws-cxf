@@ -31,7 +31,7 @@
   <import file="${stack.distro.dir}/build-deploy.xml"/>
   <import file="${stack.distro.dir}/jbossws-deploy-macros.xml"/>
   
-  <property name="jbossws.default.deploy.conf" value="${stack.distro.dir}/jbossws-default-deploy.conf"/>
+  <property name="jbossws.default.deploy.conf" value="${stack.dir}/modules/resources/src/main/resources/bin/jbossws-default-deploy.conf"/>
   <property name="target.properties.file" value="${basedir}/target.properties"/>
   
   <!-- ================================================================== -->

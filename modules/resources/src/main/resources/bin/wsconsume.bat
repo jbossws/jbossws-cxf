@@ -1,6 +1,6 @@
 @echo off
 
-rem $Id: wsgen.bat 2158 2007-01-27 06:20:59Z jason.greene@jboss.com $
+rem $Id$
 
 @if not "%ECHO%" == ""  echo %ECHO%
 @if "%OS%" == "Windows_NT"  setlocal
