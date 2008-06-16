@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf</artifactId>
-    <version>3.0.2-SNAPSHOT</version>
+    <version>3.0.2.GA</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   
@@ -168,7 +168,7 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss423</artifactId>
+                  <artifactId>jbossws-jboss423Trunk</artifactId>
                   <version>${jbossws.jboss423.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>
@@ -176,7 +176,7 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss500</artifactId>
+                  <artifactId>jbossws-jboss500Beta4</artifactId>
                   <version>${jbossws.jboss500.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>
@@ -184,7 +184,7 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss501</artifactId>
+                  <artifactId>jbossws-jboss500Trunk</artifactId>
                   <version>${jbossws.jboss501.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>
