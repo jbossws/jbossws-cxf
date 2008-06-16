@@ -78,9 +78,9 @@
             <includes>
               <include>*:jbossws-framework:jar</include>
               <include>*:jbossws-jboss422:jar</include>
-              <include>*:jbossws-jboss423Trunk:jar</include>
-              <include>*:jbossws-jboss500Beta4:jar</include>
-              <include>*:jbossws-jboss500Trunk:jar</include>
+              <include>*:jbossws-jboss423:jar</include>
+              <include>*:jbossws-jboss500:jar</include>
+              <include>*:jbossws-jboss501:jar</include>
               <include>*:juddi-service:sar</include>
             </includes>
           </dependencySet>
@@ -91,8 +91,8 @@
             <scope>runtime</scope>
             <unpack>false</unpack>
             <includes>
-              <include>*:jbossws-jboss500Beta4:jar:container</include>
-              <include>*:jbossws-jboss500Trunk:jar:container</include>
+              <include>*:jbossws-jboss500:jar:container</include>
+              <include>*:jbossws-jboss501:jar:container</include>
             </includes>
           </dependencySet>
         </dependencySets>
