@@ -223,7 +223,7 @@
     <sequential>
       <mkdir dir="@{targetdir}"/>
       <copy todir="@{targetdir}" flatten="true">
-        <fileset dir="@{artifactsdir}/lib">
+        <fileset dir="@{artifactsdir}">
           <patternset refid="jbossws.service.lib.patternset"/>
           <include name="**/jaxb-api.jar"/>
           <include name="**/jaxb-impl.jar"/>
@@ -257,7 +257,7 @@
     <sequential>
       <mkdir dir="@{targetdir}"/>
       <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{artifactsdir}/lib">
+        <fileset dir="@{artifactsdir}">
           <patternset refid="jbossws.service.lib.patternset"/>
         </fileset>
       </copy>
