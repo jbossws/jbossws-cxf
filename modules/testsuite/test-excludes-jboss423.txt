@@ -69,9 +69,6 @@ org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
 # [CXF-1624] XmlSchemaException: Schema name conflict in collection
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
 
-# [JBWS-1178] Multiple virtual host and soap:address problem
-org/jboss/test/ws/jaxws/jbws1178/**
-
 # [JBWS-1683] Fix JAXR samples for CXF
 org/jboss/test/ws/jaxws/samples/jaxr/**
 
@@ -99,9 +96,12 @@ org/jboss/test/ws/jaxws/jbws1813/**
 # [JBWS-2119] WebServiceRef injection from DD doesn't work
 org/jboss/test/ws/jaxws/jbws1841/**
 
-# [JBWS-2163] wsconsume for maven build
+# [JBWS-2165] Fix xop tests with maven build
+org/jboss/test/ws/jaxws/samples/xop/**
+
+# [JBWS-2223] wsconsume for cxf build
 org/jboss/test/ws/jaxws/complex/**
 org/jboss/test/ws/jaxws/holder/**
 
-# [JBWS-2165] Fix xop tests with maven build
-org/jboss/test/ws/jaxws/samples/xop/**
+# [JBWS-2227] Investigate why multiple virtual hosts test fails on CXF
+org/jboss/test/ws/jaxws/jbws1178/**
