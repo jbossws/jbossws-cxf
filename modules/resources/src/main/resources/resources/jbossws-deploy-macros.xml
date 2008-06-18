@@ -316,6 +316,14 @@
           <include name="**/jbossws-@{jbossid}-container.jar"/>
         </fileset>
       </copy>
+      <unzip dest="@{targetdir}" src="@{targetdir}/jbossws-@{jbossid}-container.jar">
+        <patternset>
+          <include name="META-INF/jbossws-container-beans.xml"/>
+        </patternset>
+      </unzip>
+      <move file="@{targetdir}/META-INF/jbossws-container-beans.xml" tofile="@{targetdir}/jbossws-container-beans.xml"/>
+      <delete file="@{targetdir}/jbossws-@{jbossid}-container.jar"/>
+      <delete dir="@{targetdir}/META-INF"/>
     </sequential>
   </macrodef>
   
@@ -326,10 +334,7 @@
   <!-- JDK Detection -->
   <available classname="java.io.Console" property="HAVE_JDK_1.6"/>
   
-  <target name="deploy-jbossws-cxf42" depends="deploy-jbossws-endorsed">
-    <fail message="installserver must be specified" unless="installserver"/>
-    <fail message="artifactsdir must be specified" unless="artifactsdir"/>
-    <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
+  <target name="deploy-jbossws-cxf42" depends="check-parameters,deploy-jbossws-endorsed">
     <macro-deploy-jbossws-bin targetdir="${installserver}/../../bin" artifactsdir="${artifactsdir}"/>
     <macro-deploy-jbossws-client targetdir="${installserver}/../../client" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-lib42 targetdir="${installserver}/../../lib" thirdpartydir="${thirdpartydir}"/>
@@ -337,10 +342,7 @@
     <macro-deploy-jbossws-cxf42-sar targetdir="${installserver}/deploy/jbossws.sar" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
   </target>
   
-  <target name="deploy-jbossws-cxf50" depends="deploy-jbossws-endorsed">
-    <fail message="installserver must be specified" unless="installserver"/>
-    <fail message="artifactsdir must be specified" unless="artifactsdir"/>
-    <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
+  <target name="deploy-jbossws-cxf50" depends="check-parameters,deploy-jbossws-endorsed">
     <macro-deploy-jbossws-bin targetdir="${installserver}/../../bin" artifactsdir="${artifactsdir}"/>
     <macro-deploy-jbossws-client targetdir="${installserver}/../../client" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-lib50 targetdir="${installserver}/../../lib" thirdpartydir="${thirdpartydir}"/>
@@ -352,6 +354,12 @@
   
   <target name="deploy-jbossws-endorsed" if="HAVE_JDK_1.6">
     <macro-deploy-jbossws-endorsed targetdir="${installserver}/../../lib/endorsed" thirdpartydir="${thirdpartydir}"/>
+  </target>
+  
+  <target name="check-parameters">
+    <fail message="installserver must be specified" unless="installserver"/>
+    <fail message="artifactsdir must be specified" unless="artifactsdir"/>
+    <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
   </target>
   
   <!-- ================================================================== -->
