@@ -14,4 +14,28 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
+  <!-- plugins -->
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <ant antfile="src/main/scripts/zip-other-configs.xml">
+                  <property name="project.build.finalName" value="${project.build.finalName}"/>
+                </ant>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

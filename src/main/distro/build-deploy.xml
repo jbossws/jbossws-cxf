@@ -23,6 +23,7 @@
       <param name="installserver" value="${deploy.structure}/server/${jboss.server.instance}"/>
       <param name="jbossid" value="${jbossws.integration.target}"/>
       <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
+      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
     </antcall>
     <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
   </target>
@@ -81,6 +82,7 @@
       <param name="installserver" value="${deploy.structure}/server/${jboss.server.instance}"/>
       <param name="jbossid" value="${jbossws.integration.target}"/>
       <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
+      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
     </antcall>
     <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
   </target>
