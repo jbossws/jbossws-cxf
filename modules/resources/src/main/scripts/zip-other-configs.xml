@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id$ -->
+
+<project default="main">
+
+  <property name="target.dir" value="${basedir}/target"/>
+  <property name="source.jar" value="${target.dir}/${project.build.finalName}-sources.jar"/>
+  <property name="binary.jar" value="${target.dir}/${project.build.finalName}.jar"/>
+
+  <target name="main">
+    <copy todir="${target.dir}/classes/resources">
+      <fileset dir="${basedir}/../server/target/resources"/>
+    </copy>
+    <jar destfile="${source.jar}" basedir="${target.dir}/classes" update="true"/>
+    <jar destfile="${binary.jar}" basedir="${target.dir}/classes" update="true"/>
+  </target>
+  
+</project>
