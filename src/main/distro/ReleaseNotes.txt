@@ -1,8 +1,8 @@
 
-@implementation.title@
-@implementation.url@
+${project.name}
+http://www.jboss.org/products/jbossws/stack/cxf
 
-Version: @specification.version@-cxf-@version.id@
+Version: jbossws-cxf-${project.version}
 
 Release Notes
 =============
@@ -22,17 +22,10 @@ http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.p
 For issues that are scheduled for future versions see the road map.
 http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.project:roadmap-panel
 
-What's new in jbossws-@version.id@
+What's new in jbossws-cxf-${project.version}
 ----------------------------------
 
-Bug
-
-Feature Request
-
-Task
-
-Errata
-
+See: http://jira.jboss.org/jira/browse/JBWS-2075
 
 Enjoy,
 The JBossWS Team

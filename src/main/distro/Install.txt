@@ -1,8 +1,8 @@
 
-@implementation.title@
-@implementation.url@
+${project.name}
+http://www.jboss.org/jbossws/
 
-Version: jbossws-@version.id@
+Version: jbossws-cxf-${project.version}
 
 Installation instructions
 =========================
