@@ -1,6 +1,6 @@
 
 ${project.name}
-http://www.jboss.org/products/jbossws/stack/cxf
+http://www.jboss.org/jbossws/
 
 Version: jbossws-cxf-${project.version}
 
