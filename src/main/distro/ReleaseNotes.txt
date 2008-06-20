@@ -25,11 +25,11 @@ http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.p
 What's new in jbossws-cxf-${project.version}
 ----------------------------------
 
-Feature Request
+Bug
 
     TODO: enumerate
 
-Bug
+Feature Request
 
     TODO: enumerate
 
