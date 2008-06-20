@@ -56,11 +56,11 @@ Bug
 Task
 
     * [JBWS-2029] - Make the project generator available for all stacks
-    * [JBWS-2094] - Upgrade to Apache CXF 2.1
     * [JBWS-2097] - Unlock WS-ReliableMessaging in all stacks
     * [JBWS-2098] - Unlock WS-Security in all stacks
     * [JBWS-2099] - Unlock WS-Policy in all stacks
     * [JBWS-2100] - Unlock WS-Addressing in all stacks
+    * [JBWS-2160] - Upgrade to Apache CXF 2.1
 
 Errata
 
