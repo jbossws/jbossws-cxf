@@ -25,7 +25,21 @@ http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.p
 What's new in jbossws-cxf-${project.version}
 ----------------------------------
 
-See: http://jira.jboss.org/jira/browse/JBWS-2075
+Bug
+
+    * [JBWS-2174] - CXF specific DD location context param isn't propagated to CXF transport  
+
+Task
+
+    * [JBWS-2029] - Make the project generator available for all stacks
+    * [JBWS-2094] - Upgrade to Apache CXF 2.1
+    * [JBWS-2097] - Unlock WS-ReliableMessaging in all stacks
+    * [JBWS-2098] - Unlock WS-Security in all stacks
+    * [JBWS-2099] - Unlock WS-Policy in all stacks
+
+Errata
+
+    See: http://jira.jboss.org/jira/browse/JBWS-2075
 
 Enjoy,
 The JBossWS Team
