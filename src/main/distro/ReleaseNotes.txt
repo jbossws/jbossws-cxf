@@ -36,6 +36,7 @@ Task
     * [JBWS-2097] - Unlock WS-ReliableMessaging in all stacks
     * [JBWS-2098] - Unlock WS-Security in all stacks
     * [JBWS-2099] - Unlock WS-Policy in all stacks
+    * [JBWS-2100] - Unlock WS-Addressing in all stacks
 
 Errata
 
