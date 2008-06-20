@@ -118,6 +118,13 @@
     <exec dir="${basedir}" executable="mvn" failonerror="true">
       <arg line="${maven.opts} -Pbindist package assembly:directory"/>
     </exec>
+
+    <zip destfile="${stack.output.dir}/jbossws-cxf-dist.zip">
+      <zipfileset
+        dir="${stack.output.dir}/jbossws-cxf-dist"
+        includes="build/ deploy/ docs/ tests/ build.xml ant.properties"
+        prefix="jbossws-cxf-dist"/>
+    </zip>
   </target>
   
 </project>
