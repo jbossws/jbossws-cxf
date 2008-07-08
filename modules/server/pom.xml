@@ -176,7 +176,7 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss500Beta4</artifactId>
+                  <artifactId>jbossws-jboss500x</artifactId>
                   <version>${jbossws.jboss500.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>
