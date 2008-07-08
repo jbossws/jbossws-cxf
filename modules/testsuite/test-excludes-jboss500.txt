@@ -1,5 +1,5 @@
 #
-# $Id: test-excludes-jboss500.txt 3915 2007-07-17 16:16:05Z heiko.braun@jboss.com $
+# $Id: test-excludes-jboss500.txt 7776 2008-07-03 10:55:50Z alessio.soldano@jboss.com $
 #
 
 # Won't Fix: [CXF-1261] Handler does not see XOP message properly
@@ -7,6 +7,9 @@ org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 
 # Exclude endpoints with AS42 @SecurityDomain
 org/jboss/test/ws/jaxws/samples/securityDomain/SecureEndpointImpl.*
+
+# TODO: Fix classpath to ClientLauncher
+org/jboss/test/ws/jaxws/samples/webserviceref/**
 
 # [CXF-1244] Application Exception not initialized properly
 org/jboss/test/ws/jaxws/samples/exception/**
@@ -37,7 +40,6 @@ org/jboss/test/ws/jaxws/jbws1190/**
 
 # [CXF-1515] Bad Enumeration value 'extension restriction'
 org/jboss/test/ws/jaxws/jbws1505/**
-org/jboss/test/ws/jaxws/jbws1845/**
 
 # [CXF-1516] Type inheritance with document/literal/wrapped
 org/jboss/test/ws/jaxws/jbws1702/**
@@ -69,6 +71,7 @@ org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
 
 # [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored
 org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
+org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefServletTestCase.*
 
 # [JBWS-1178] Multiple virtual host and soap:address problem
 org/jboss/test/ws/jaxws/jbws1178/**
@@ -100,26 +103,11 @@ org/jboss/test/ws/jaxws/jbws1813/**
 # [JBWS-2119] WebServiceRef injection from DD doesn't work
 org/jboss/test/ws/jaxws/jbws1841/**
 
-# [JBWS-2120] @WebWservice does not work with class isolation
-org/jboss/test/ws/jaxws/jbws1556/**
-
 # [JBWS-2165] Fix xop tests with maven build
 org/jboss/test/ws/jaxws/samples/xop/**
 
-# [JBWS-2174] Cannot Obtain Destination for Request
-org/jboss/test/ws/jaxws/jbws944/**
-org/jboss/test/ws/jaxws/jbws1422/**
-org/jboss/test/ws/jaxws/jbws1446/**
-org/jboss/test/ws/jaxws/jbws1799/**
-org/jboss/test/ws/jaxws/jbws1872/**
-org/jboss/test/ws/jaxws/jbws1969/**
-org/jboss/test/ws/jaxws/samples/securityDomain/**
-org/jboss/test/ws/jaxws/samples/swaref/**
-org/jboss/test/ws/jaxws/samples/eardeployment/**
-org/jboss/test/ws/jaxws/samples/advanced/retail/**
-org/jboss/test/ws/jaxws/samples/webservice/WebServiceEJB3TestCase.*
+# [JBWS-2194] request requires HTTP authentication: Unauthorized
 org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
-org/jboss/test/ws/projectGenerator/**
 
 # [JBWS-2223] wsconsume for cxf build
 org/jboss/test/ws/jaxws/complex/**
