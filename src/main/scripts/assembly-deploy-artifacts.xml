@@ -98,7 +98,7 @@
             <scope>runtime</scope>
             <unpack>false</unpack>
             <includes>
-              <include>*:jbossws-jboss500x:jar</include>
+              <include>*:jbossws-jboss500CR1:jar</include>
             </includes>
           </dependencySet>
           <dependencySet>
@@ -118,7 +118,7 @@
             <scope>runtime</scope>
             <unpack>false</unpack>
             <includes>
-              <include>*:jbossws-jboss500x:jar:container</include>
+              <include>*:jbossws-jboss500CR1:jar:container</include>
             </includes>
           </dependencySet>
           <dependencySet>

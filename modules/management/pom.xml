@@ -42,12 +42,12 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss500x</artifactId>
+      <artifactId>jbossws-jboss500CR1</artifactId>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss500x</artifactId>
+      <artifactId>jbossws-jboss500CR1</artifactId>
       <classifier>container</classifier>
       <scope>runtime</scope>
     </dependency>
