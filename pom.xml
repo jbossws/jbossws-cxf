@@ -48,7 +48,7 @@
   <properties>
     <jbossws.common.version>1.0.5.GA</jbossws.common.version>
     <jbossws.framework.version>3.0.3-SNAPSHOT</jbossws.framework.version>
-    <jbossws.spi.version>1.0.4.GA</jbossws.spi.version>
+    <jbossws.spi.version>1.0.5-SNAPSHOT</jbossws.spi.version>
     <jbossws.jboss422.version>3.0.2.GA</jbossws.jboss422.version>
     <jbossws.jboss423.version>3.0.2.GA</jbossws.jboss423.version>
     <jbossws.jboss500.version>3.0.2.GA</jbossws.jboss500.version>
