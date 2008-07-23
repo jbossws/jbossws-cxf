@@ -47,7 +47,7 @@
   
   <target name="undeploy-jboss422" depends="target-jboss422,init" description="Remove jbossws from jboss422">
     <fail message="Not available: ${jboss422.available.file}" unless="jboss422.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss422.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
+    <macro-undeploy-jbossws42 targetdir="${jboss422.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
   </target>
   
   <!-- ================================================================== -->
@@ -69,7 +69,7 @@
   
   <target name="undeploy-jboss423" depends="target-jboss423,init" description="Remove jbossws from jboss423">
     <fail message="Not available: ${jboss423.available.file}" unless="jboss423.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss423.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
+    <macro-undeploy-jbossws42 targetdir="${jboss423.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
   </target>
   
   <!-- ================================================================== -->
@@ -106,7 +106,7 @@
   
   <target name="undeploy-jboss500" depends="target-jboss500,init" description="Remove jbossws from jboss500">
     <fail message="Not available: ${jboss500.available.file}" unless="jboss500.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss500.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
+    <macro-undeploy-jbossws50 targetdir="${jboss500.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
     <!-- [JBWS-2177] Test clients fail with xml-apis.jar in lib/endorsed -->
     <delete file="${jboss500.home}/lib/endorsed/xml-apis.jar"/>
   </target>
@@ -130,7 +130,7 @@
   
   <target name="undeploy-jboss501" depends="target-jboss501,init" description="Remove jbossws from jboss501">
     <fail message="Not available: ${jboss501.available.file}" unless="jboss501.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss501.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
+    <macro-undeploy-jbossws50 targetdir="${jboss501.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
   </target>
   
   <!-- ================================================================== -->

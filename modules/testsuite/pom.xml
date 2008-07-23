@@ -333,8 +333,9 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss500CR1</artifactId>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-webservices</artifactId>
+          <version>${jboss.version}</version>
         </dependency>
         <dependency>
           <groupId>org.hibernate</groupId>
@@ -391,8 +392,9 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss500x</artifactId>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-webservices</artifactId>
+          <version>${jboss.version}</version>
         </dependency>
         <dependency>
           <groupId>org.jboss.jbossas</groupId>

@@ -91,7 +91,7 @@
               <include>*:jbossws-jboss423x:jar</include>
             </includes>
           </dependencySet>
-          <dependencySet>
+          <!--dependencySet>
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss500.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
@@ -130,7 +130,7 @@
             <includes>
               <include>*:jbossws-jboss500x:jar:container</include>
             </includes>
-          </dependencySet>
+          </dependencySet-->
         </dependencySets>
       </binaries>
     </moduleSet>
