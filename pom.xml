@@ -51,6 +51,7 @@
     <jbossws.spi.version>1.0.5-SNAPSHOT</jbossws.spi.version>
     <jbossws.jboss422.version>3.0.2.GA</jbossws.jboss422.version>
     <jbossws.jboss423.version>3.0.2.GA</jbossws.jboss423.version>
+    <jbossws.jboss424.version>3.0.3-SNAPSHOT</jbossws.jboss424.version>
     <jbossws.jboss500.version>3.0.2.GA</jbossws.jboss500.version>
     <jbossws.jboss501.version>3.0.3-SNAPSHOT</jbossws.jboss501.version>
     <cxf.version>2.1</cxf.version>
@@ -108,13 +109,25 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss423x</artifactId>
+        <artifactId>jbossws-jboss423</artifactId>
         <version>${jbossws.jboss423.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss423x</artifactId>
+        <artifactId>jbossws-jboss423</artifactId>
         <version>${jbossws.jboss423.version}</version>
+        <classifier>resources</classifier>
+        <type>zip</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss424x</artifactId>
+        <version>${jbossws.jboss424.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss424x</artifactId>
+        <version>${jbossws.jboss424.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
@@ -425,6 +438,18 @@
       <properties>
         <jbossws.integration.target>jboss423</jbossws.integration.target>
         <jboss.home>${jboss423.home}</jboss.home>
+      </properties>
+    </profile>
+    
+    <!-- 
+    Name:  jboss424
+    Descr: JBoss-4.2.4 specific options  
+    -->
+    <profile>
+      <id>jboss424</id>
+      <properties>
+        <jbossws.integration.target>jboss424</jbossws.integration.target>
+        <jboss.home>${jboss424.home}</jboss.home>
       </properties>
     </profile>
     

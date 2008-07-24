@@ -46,14 +46,14 @@
       <arg value="help:effective-settings"/>
     </exec>
     <xmlproperty file="${stack.output.dir}/effective-settings.xml" keeproot="false"/>
-    <condition property="jboss421.home" value="${profiles.profile.properties.jboss421.home}">
-      <isset property="profiles.profile.properties.jboss421.home"/>
-    </condition>
     <condition property="jboss422.home" value="${profiles.profile.properties.jboss422.home}">
       <isset property="profiles.profile.properties.jboss422.home"/>
     </condition>
     <condition property="jboss423.home" value="${profiles.profile.properties.jboss423.home}">
       <isset property="profiles.profile.properties.jboss423.home"/>
+    </condition>
+    <condition property="jboss424.home" value="${profiles.profile.properties.jboss424.home}">
+      <isset property="profiles.profile.properties.jboss424.home"/>
     </condition>
     <condition property="jboss500.home" value="${profiles.profile.properties.jboss500.home}">
       <isset property="profiles.profile.properties.jboss500.home"/>
@@ -64,16 +64,16 @@
     
     <!-- Loads the properties from the user profile -->
     <xmlproperty file="${basedir}/profiles.xml" keeproot="false"/>
-    <property name="jboss421.home" value="${profiles.profile.properties.jboss421.home}"/>
     <property name="jboss422.home" value="${profiles.profile.properties.jboss422.home}"/>
     <property name="jboss423.home" value="${profiles.profile.properties.jboss423.home}"/>
+    <property name="jboss424.home" value="${profiles.profile.properties.jboss424.home}"/>
     <property name="jboss500.home" value="${profiles.profile.properties.jboss500.home}"/>
     <property name="jboss501.home" value="${profiles.profile.properties.jboss501.home}"/>
     
     <echo/>
-    <echo message="jboss421.home=${jboss421.home}"/>
     <echo message="jboss422.home=${jboss422.home}"/>
     <echo message="jboss423.home=${jboss423.home}"/>
+    <echo message="jboss424.home=${jboss424.home}"/>
     <echo message="jboss500.home=${jboss500.home}"/>
     <echo message="jboss501.home=${jboss501.home}"/>
   </target>

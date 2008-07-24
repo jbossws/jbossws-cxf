@@ -37,7 +37,12 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss423x</artifactId>
+      <artifactId>jbossws-jboss423</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss424x</artifactId>
       <scope>runtime</scope>
     </dependency>
     <!-- [JBWS-2263] -->

@@ -39,8 +39,15 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss423x</artifactId>
+      <artifactId>jbossws-jboss423</artifactId>
       <version>${jbossws.jboss423.version}</version>
+      <classifier>resources</classifier>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss424x</artifactId>
+      <version>${jbossws.jboss424.version}</version>
       <classifier>resources</classifier>
       <type>zip</type>
     </dependency>
@@ -168,11 +175,19 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss423x</artifactId>
+                  <artifactId>jbossws-jboss423</artifactId>
                   <version>${jbossws.jboss423.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss423</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.ws</groupId>
+                  <artifactId>jbossws-jboss424x</artifactId>
+                  <version>${jbossws.jboss424.version}</version>
+                  <classifier>resources</classifier>
+                  <type>zip</type>
+                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss424</outputDirectory>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
@@ -208,6 +223,7 @@
               <tasks>
                 <property name="jbossws.jboss422.version" value="${jbossws.jboss422.version}"/>
                 <property name="jbossws.jboss423.version" value="${jbossws.jboss423.version}"/>
+                <property name="jbossws.jboss424.version" value="${jbossws.jboss424.version}"/>
                 <ant antfile="src/main/scripts/antrun-beans-config.xml"/>
               </tasks>
             </configuration>
