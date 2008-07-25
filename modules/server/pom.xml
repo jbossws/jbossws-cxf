@@ -189,6 +189,8 @@
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss424</outputDirectory>
                 </artifactItem>
+                <!-- JBWS-2263 -->
+                <!--
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
                   <artifactId>jbossws-jboss500CR1</artifactId>
@@ -205,6 +207,7 @@
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss501</outputDirectory>
                 </artifactItem>
+                -->
               </artifactItems>
             </configuration>
           </execution>
