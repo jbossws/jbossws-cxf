@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf;
 
-//$Id$
-
 import org.jboss.wsf.common.management.AbstractServerConfigMBean;
 
 /**

@@ -1,7 +1,3 @@
-#
-# $Id: test-excludes-jboss500.txt 7776 2008-07-03 10:55:50Z alessio.soldano@jboss.com $
-#
-
 # Won't Fix: [CXF-1261] Handler does not see XOP message properly
 org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 

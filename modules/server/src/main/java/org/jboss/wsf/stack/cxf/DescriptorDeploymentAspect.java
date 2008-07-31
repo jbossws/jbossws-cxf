@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf;
 
-//$Id$
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;

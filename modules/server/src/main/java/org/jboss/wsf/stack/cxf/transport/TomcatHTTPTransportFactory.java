@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.transport;
 
-// $Id$
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

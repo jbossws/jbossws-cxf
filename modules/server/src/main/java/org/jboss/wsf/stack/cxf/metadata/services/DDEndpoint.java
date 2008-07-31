@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.metadata.services;
 
-//$Id$
-
 import java.io.IOException;
 import java.io.Writer;
 

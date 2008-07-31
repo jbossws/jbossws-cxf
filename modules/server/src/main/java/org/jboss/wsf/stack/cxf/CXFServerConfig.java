@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf;
 
-//$Id$
-
 import org.jboss.logging.Logger;
 import org.jboss.wsf.common.management.AbstractServerConfig;
 

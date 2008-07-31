@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
-// $Id$
-
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 

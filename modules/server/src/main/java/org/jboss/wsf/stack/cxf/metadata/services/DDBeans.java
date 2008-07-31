@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.metadata.services;
 
-//$Id$
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,8 +32,6 @@ import java.util.List;
 
 import org.jboss.wsf.spi.deployment.WSFDeploymentException;
 import org.jboss.wsf.common.IOUtils;
-
-//$Id$
 
 /**
  * Metadata model for cxf.xml 

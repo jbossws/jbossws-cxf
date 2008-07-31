@@ -1,10 +1,5 @@
 #!/bin/sh
 
-#
-# @author Heiko.Braun@jboss.com
-# @version $Id$
-#
-
 DIRNAME=`dirname $0`
 PROGNAME=`basename $0`
 

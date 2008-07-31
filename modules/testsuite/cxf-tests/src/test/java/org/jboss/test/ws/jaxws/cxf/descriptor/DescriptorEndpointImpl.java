@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.cxf.descriptor;
 
-// $Id$
-
 import java.util.logging.Logger;
 
 import javax.jws.WebMethod;

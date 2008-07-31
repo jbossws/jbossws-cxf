@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
-// $Id$
-
 import java.lang.reflect.AnnotatedElement;
 
 import javax.naming.Context;

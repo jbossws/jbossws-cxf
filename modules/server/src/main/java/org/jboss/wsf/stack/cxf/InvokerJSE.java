@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf;
 
-//$Id$
-
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 

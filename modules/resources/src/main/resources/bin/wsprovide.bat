@@ -1,7 +1,5 @@
 @echo off
 
-rem $Id$
-
 @if not "%ECHO%" == ""  echo %ECHO%
 @if "%OS%" == "Windows_NT"  setlocal
 

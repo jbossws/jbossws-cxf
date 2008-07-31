@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
-// $Id$
-
 import org.jboss.wsf.spi.serviceref.ServiceRefBinder;
 import org.jboss.wsf.spi.serviceref.ServiceRefBinderFactory;
 import org.jboss.wsf.spi.serviceref.ServiceRefHandler.Type;

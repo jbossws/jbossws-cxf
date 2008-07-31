@@ -1,7 +1,3 @@
-#
-# $Id$
-#
-
 # EJB3/Injection excludes
 org/jboss/test/ws/jaxws/samples/webserviceref/**
 

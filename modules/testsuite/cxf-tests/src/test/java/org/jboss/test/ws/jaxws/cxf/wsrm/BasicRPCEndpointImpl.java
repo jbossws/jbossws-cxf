@@ -21,8 +21,6 @@
   */
 package org.jboss.test.ws.jaxws.cxf.wsrm;
 
-// $Id$
-
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;

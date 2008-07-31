@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf;
 
-//$Id$
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
