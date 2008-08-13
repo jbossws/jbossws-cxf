@@ -46,12 +46,12 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.common.version>1.0.6-SNAPSHOT</jbossws.common.version>
-    <jbossws.framework.version>3.0.3-SNAPSHOT</jbossws.framework.version>
-    <jbossws.spi.version>1.0.5-SNAPSHOT</jbossws.spi.version>
-    <jbossws.jboss422.version>3.0.3-SNAPSHOT</jbossws.jboss422.version>
-    <jbossws.jboss423.version>3.0.3-SNAPSHOT</jbossws.jboss423.version>
-    <jbossws.jboss424.version>3.0.3-SNAPSHOT</jbossws.jboss424.version>
+    <jbossws.common.version>1.0.6.GA</jbossws.common.version>
+    <jbossws.framework.version>3.0.3.GA</jbossws.framework.version>
+    <jbossws.spi.version>1.0.5.GA</jbossws.spi.version>
+    <jbossws.jboss422.version>3.0.3.GA</jbossws.jboss422.version>
+    <jbossws.jboss423.version>3.0.3.GA</jbossws.jboss423.version>
+    <jbossws.jboss424.version>3.0.3.GA</jbossws.jboss424.version>
     <!-- JBWS-2263 -->
     <!--
     <jbossws.jboss500.version>3.0.2.GA</jbossws.jboss500.version>
