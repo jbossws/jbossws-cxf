@@ -46,6 +46,22 @@ The JBossWS Team
 
 Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+jbossws-cxf-3.0.3.GA
+------------------------
+
+Bug
+
+    * [JBWS-2194] - Cannot get security domain declared through jboss.xml DD
+
+Feature Request
+
+    * [JBWS-981]  - Virtual host configuration for EJB endpoints
+    * [JBWS-2191] - Provide junit tests for the record management tools
+
+Errata
+
+    See: http://jira.jboss.org/jira/browse/JBWS-2279
+
 jbossws-cxf-3.0.2.GA
 ------------------------
 
