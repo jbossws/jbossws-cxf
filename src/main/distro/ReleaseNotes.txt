@@ -27,19 +27,16 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    TODO: enumerate
+    * [JBWS-2194] - Cannot get security domain declared through jboss.xml D
 
 Feature Request
 
-    TODO: enumerate
-
-Task
-
-    TODO: enumerate
+    * [JBWS-981]  - Virtual host configuration for EJB endpoints
+    * [JBWS-2191] - Provide junit tests for the record management tools
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
+    See: http://jira.jboss.org/jira/browse/JBWS-2279
 
 Enjoy,
 The JBossWS Team
