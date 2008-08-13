@@ -27,7 +27,7 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    * [JBWS-2194] - Cannot get security domain declared through jboss.xml D
+    * [JBWS-2194] - Cannot get security domain declared through jboss.xml DD
 
 Feature Request
 
