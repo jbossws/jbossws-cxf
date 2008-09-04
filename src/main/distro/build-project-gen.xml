@@ -9,8 +9,6 @@
 <!--                                                                        -->
 <!-- ====================================================================== -->
 
-<!-- $Id$ -->
-
 <project>
 
   <target name="init-project-properties" depends="tests-init">

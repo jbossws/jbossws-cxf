@@ -9,8 +9,6 @@
 <!--                                                                        -->
 <!-- ====================================================================== -->
 
-<!-- $Id$ -->
-
 <project default="main">
   
   <property name="project.resources.directory" value="${basedir}/src/main/resources"/>

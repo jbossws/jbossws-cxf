@@ -9,8 +9,6 @@
 <!--                                                                        -->
 <!-- ====================================================================== -->
 
-<!-- $Id$ -->
-
 <project default="main">
 
   <property name="target.dir" value="${basedir}/target"/>
