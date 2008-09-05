@@ -124,6 +124,10 @@
           <failIfNoTests>false</failIfNoTests>
           <systemProperties>
             <property>
+              <name>jboss.server.instance</name>
+              <value>${jboss.server.instance}</value>
+            </property>
+            <property>
               <name>java.naming.provider.url</name>
               <value>jnp://${jboss.bind.address}:1099</value>
             </property>
@@ -472,13 +476,13 @@
         </plugins>
       </build>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  no-jboss-bind-address
     Descr: Set the default jboss.bind.address
-    
+
     command line cannot overwrite pom properties
-    http://jira.codehaus.org/browse/MNG-3546   
+    http://jira.codehaus.org/browse/MNG-3546
     -->
     <profile>
       <id>no-jboss-bind-address</id>
@@ -489,6 +493,25 @@
       </activation>
       <properties>
         <jboss.bind.address>localhost</jboss.bind.address>
+      </properties>
+    </profile>
+
+    <!--
+    Name:  no-jboss-server-instance
+    Descr: Set the default jboss.server.instance
+
+    command line cannot overwrite pom properties
+    http://jira.codehaus.org/browse/MNG-3546
+    -->
+    <profile>
+      <id>no-jboss-server-instance</id>
+      <activation>
+        <property>
+          <name>!jboss.server.instance</name>
+        </property>
+      </activation>
+      <properties>
+        <jboss.server.instance>default</jboss.server.instance>
       </properties>
     </profile>
   </profiles>
