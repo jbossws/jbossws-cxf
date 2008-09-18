@@ -48,12 +48,12 @@
     <!-- [JBWS-2263] -->
     <!--dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss500CR1</artifactId>
+      <artifactId>jbossws-jboss500CR2</artifactId>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss500CR1</artifactId>
+      <artifactId>jbossws-jboss500CR2</artifactId>
       <classifier>container</classifier>
       <scope>runtime</scope>
     </dependency>

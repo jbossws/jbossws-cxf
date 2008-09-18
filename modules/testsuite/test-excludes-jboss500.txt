@@ -102,16 +102,9 @@ org/jboss/test/ws/jaxws/jbws1841/**
 # [JBWS-2165] Fix xop tests with maven build
 org/jboss/test/ws/jaxws/samples/xop/**
 
-# [JBWS-2194] Cannot get security domain declared through jboss.xml DD (fixed
-# # starting from AS 5 trunk container integration, next release 5.0.0.CR2)
-org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase.*
-
 # [JBWS-2223] wsconsume for cxf build
 org/jboss/test/ws/jaxws/complex/**
 org/jboss/test/ws/jaxws/holder/**
 
 # [JBWS-2227] Investigate why multiple virtual hosts test fails on CXF
 org/jboss/test/ws/jaxws/jbws1178/**
-
-# [JBWS-981] @WebContext defined virtual hosts only being fixed for JBoss 5 
-org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*

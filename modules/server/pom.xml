@@ -193,7 +193,7 @@
                 <!--
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss500CR1</artifactId>
+                  <artifactId>jbossws-jboss500CR2</artifactId>
                   <version>${jbossws.jboss500.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>
