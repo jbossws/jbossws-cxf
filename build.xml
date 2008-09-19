@@ -139,7 +139,7 @@
     <zip destfile="${stack.output.dir}/jbossws-cxf-src-dist.zip">
       <zipfileset
         dir="${stack.output.dir}/jbossws-cxf-src-dist"
-        includes="build/ deploy/ docs/ tests/ build.xml ant.properties"
+        includes="modules/ src/ build.xml pom.xml profiles.xml.example"
         prefix="jbossws-cxf-src-dist"/>
     </zip>
   </target>
