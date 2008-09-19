@@ -409,11 +409,34 @@
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <configuration>
-              <finalName>jbossws-cxf-dist</finalName>
+              <finalName>jbossws-cxf-bin-dist</finalName>
               <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
               <appendAssemblyId>false</appendAssemblyId>
               <descriptors>
                 <descriptor>src/main/scripts/assembly-bin-dist.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!-- 
+    Name:  srcdist
+    Descr: Build the source distribution  
+    -->
+    <profile>
+      <id>srcdist</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <configuration>
+              <finalName>jbossws-cxf-src-dist</finalName>
+              <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>src/main/scripts/assembly-src-dist.xml</descriptor>
               </descriptors>
             </configuration>
           </plugin>

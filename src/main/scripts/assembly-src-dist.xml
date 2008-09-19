@@ -1,0 +1,70 @@
+<assembly xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.1.0-SNAPSHOT.xsd">
+  
+  <id>source-distribution</id>
+  <formats>
+    <format>dir</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  
+  <fileSets>
+    <fileSet>
+      <directory>src/</directory>
+      <outputDirectory>src/</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>modules/</directory>
+      <outputDirectory>modules/</outputDirectory>
+      <excludes>
+        <exclude>**/target/**</exclude>
+        <exclude>**/framework-tests/**</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>modules/testsuite/framework-tests</directory>
+      <outputDirectory>modules/testsuite/framework-tests</outputDirectory>
+      <includes>
+        <include>src/test/etc/</include>
+        <include>scripts/</include>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory></directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>build.xml</include>
+        <include>pom.xml</include>
+        <include>profiles.xml.example</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+  
+  <!-- framework tests -->
+  <moduleSets>
+    <moduleSet>
+      <includes>
+        <include>org.jboss.ws.cxf:jbossws-cxf-management</include>
+      </includes>
+      <binaries>
+        <dependencySets>
+          <dependencySet>
+            <outputDirectory>modules/testsuite/framework-tests/src/test</outputDirectory>
+            <useStrictFiltering>true</useStrictFiltering>
+            <scope>runtime</scope>
+            <unpack>true</unpack>
+            <includes>
+              <include>*:jbossws-framework:zip:testsuite</include>
+            </includes>
+            <unpackOptions>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </unpackOptions>
+          </dependencySet>
+        </dependencySets>
+      </binaries>
+    </moduleSet>
+  </moduleSets>
+  
+</assembly>

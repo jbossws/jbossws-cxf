@@ -112,16 +112,35 @@
     <echo message="mvn ${maven.opts} -Pbindist package assembly:directory"/>
     <echo/>
     
-    <delete dir="${stack.output.dir}/jbossws-native-dist"/>
+    <delete dir="${stack.output.dir}/jbossws-cxf-bin-dist"/>
     <exec dir="${basedir}" executable="mvn" failonerror="true">
       <arg line="${maven.opts} -Pbindist package assembly:directory"/>
     </exec>
 
-    <zip destfile="${stack.output.dir}/jbossws-cxf-dist.zip">
+    <zip destfile="${stack.output.dir}/jbossws-cxf-bin-dist.zip">
       <zipfileset
-        dir="${stack.output.dir}/jbossws-cxf-dist"
+        dir="${stack.output.dir}/jbossws-cxf-bin-dist"
         includes="build/ deploy/ docs/ tests/ build.xml ant.properties"
-        prefix="jbossws-cxf-dist"/>
+        prefix="jbossws-cxf-bin-dist"/>
+    </zip>
+  </target>
+  
+  <target name="build-src-dist" depends="prepare-deploy" description="Build the source distribution">
+    
+    <echo/>
+    <echo message="mvn ${maven.opts} -Psrcdist package assembly:directory"/>
+    <echo/>
+    
+    <delete dir="${stack.output.dir}/jbossws-cxf-src-dist"/>
+    <exec dir="${basedir}" executable="mvn" failonerror="true">
+      <arg line="${maven.opts} -Psrcdist package assembly:directory"/>
+    </exec>
+
+    <zip destfile="${stack.output.dir}/jbossws-cxf-src-dist.zip">
+      <zipfileset
+        dir="${stack.output.dir}/jbossws-cxf-src-dist"
+        includes="build/ deploy/ docs/ tests/ build.xml ant.properties"
+        prefix="jbossws-cxf-src-dist"/>
     </zip>
   </target>
   
