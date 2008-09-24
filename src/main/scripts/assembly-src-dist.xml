@@ -9,6 +9,10 @@
   
   <fileSets>
     <fileSet>
+      <directory>eclipse/</directory>
+      <outputDirectory>eclipse/</outputDirectory>
+    </fileSet>
+    <fileSet>
       <directory>src/</directory>
       <outputDirectory>src/</outputDirectory>
     </fileSet>
@@ -33,6 +37,8 @@
       <directory></directory>
       <outputDirectory>/</outputDirectory>
       <includes>
+        <include>.classpath</include>
+        <include>.project</include>
         <include>build.xml</include>
         <include>pom.xml</include>
         <include>profiles.xml.example</include>

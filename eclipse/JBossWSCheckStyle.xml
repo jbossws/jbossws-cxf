@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This configuration file was written by the eclipse-cs plugin configuration editor
+-->
+<!--
+    Checkstyle-Configuration: JBossWS Checks
+    Description: JBossWS Java Coding Convention Checks
+-->
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<module name="Checker">
+    <property name="severity" value="warning"/>
+    <module name="TreeWalker">
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"/>
+        <module name="AnonInnerLength"/>
+        <module name="ExecutableStatementCount">
+            <property name="max" value="60"/>
+            <property name="tokens" value="INSTANCE_INIT,STATIC_INIT,METHOD_DEF,CTOR_DEF"/>
+        </module>
+        <module name="FileLength">
+            <property name="max" value="1000"/>
+        </module>
+        <module name="LineLength">
+            <property name="max" value="120"/>
+            <property name="tabWidth" value="4"/>
+        </module>
+        <module name="MethodLength"/>
+        <module name="ParameterNumber"/>
+        <module name="AvoidStarImport"/>
+        <module name="IllegalImport"/>
+        <module name="ImportOrder"/>
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+        <module name="AbstractClassName"/>
+        <module name="ConstantName"/>
+        <module name="LocalFinalVariableName"/>
+        <module name="LocalVariableName"/>
+        <module name="MemberName"/>
+        <module name="MethodName"/>
+        <module name="PackageName"/>
+        <module name="ParameterName"/>
+        <module name="StaticVariableName"/>
+        <module name="TypeName"/>
+        <module name="CovariantEquals"/>
+        <module name="DefaultComesLast"/>
+        <module name="DeclarationOrder"/>
+        <module name="DoubleCheckedLocking"/>
+        <module name="EqualsHashCode"/>
+        <module name="ExplicitInitialization"/>
+        <module name="FallThrough"/>
+        <module name="FinalLocalVariable"/>
+        <module name="HiddenField"/>
+        <module name="IllegalInstantiation"/>
+        <module name="IllegalThrows"/>
+        <module name="IllegalType">
+            <property name="tokens" value="METHOD_DEF,PARAMETER_DEF"/>
+        </module>
+        <module name="InnerAssignment"/>
+        <module name="JUnitTestCase"/>
+        <module name="MagicNumber">
+            <property name="ignoreNumbers" value="-1, 0, 1"/>
+        </module>
+        <module name="MissingCtor"/>
+        <module name="MissingSwitchDefault"/>
+        <module name="ModifiedControlVariable"/>
+        <module name="MultipleStringLiterals"/>
+        <module name="MultipleVariableDeclarations"/>
+        <module name="NestedIfDepth"/>
+        <module name="NestedTryDepth"/>
+        <module name="PackageDeclaration"/>
+        <module name="ParameterAssignment"/>
+        <module name="RedundantThrows">
+            <property name="logLoadErrors" value="true"/>
+            <property name="suppressLoadErrors" value="true"/>
+        </module>
+        <module name="RequireThis"/>
+        <module name="ReturnCount">
+            <property name="max" value="5"/>
+        </module>
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+        <module name="StringLiteralEquality"/>
+        <module name="SuperClone"/>
+        <module name="SuperFinalize"/>
+        <module name="ArrayTrailingComma"/>
+        <module name="UnnecessaryParentheses"/>
+        <module name="JUnitTestCase"/>
+        <module name="DesignForExtension"/>
+        <module name="FinalClass"/>
+        <module name="HideUtilityClassConstructor"/>
+        <module name="InterfaceIsType"/>
+        <module name="ThrowsCount"/>
+        <module name="VisibilityModifier"/>
+        <module name="MutableException"/>
+        <module name="EmptyBlock"/>
+        <module name="LeftCurly">
+            <property name="option" value="nl"/>
+            <property name="maxLineLength" value="120"/>
+        </module>
+        <module name="RightCurly">
+            <property name="option" value="alone"/>
+        </module>
+        <module name="EmptyForInitializerPad">
+            <property name="option" value="space"/>
+        </module>
+        <module name="EmptyForIteratorPad">
+            <property name="option" value="space"/>
+        </module>
+        <module name="NoWhitespaceAfter"/>
+        <module name="NoWhitespaceBefore"/>
+        <module name="OperatorWrap">
+            <property name="option" value="eol"/>
+            <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LE,LITERAL_INSTANCEOF,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,SL,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN"/>
+        </module>
+        <module name="MethodParamPad">
+            <property name="allowLineBreaks" value="true"/>
+        </module>
+        <module name="ParenPad">
+            <property name="option" value="space"/>
+        </module>
+        <module name="TabCharacter"/>
+        <module name="TypecastParenPad">
+            <property name="option" value="space"/>
+            <property name="tokens" value="RPAREN,TYPECAST"/>
+        </module>
+        <module name="WhitespaceAround">
+            <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,LITERAL_ASSERT,GENERIC_START,GENERIC_END,TYPE_EXTENSION_AND,WILDCARD_TYPE"/>
+        </module>
+        <module name="NeedBraces"/>
+        <module name="WhitespaceAfter"/>
+        <module name="BooleanExpressionComplexity"/>
+        <module name="ClassDataAbstractionCoupling"/>
+        <module name="ClassFanOutComplexity"/>
+        <module name="CyclomaticComplexity"/>
+        <module name="JavaNCSS"/>
+        <module name="NPathComplexity"/>
+        <module name="UncommentedMain"/>
+        <module name="TodoComment"/>
+        <module name="TrailingComment"/>
+        <module name="Indentation"/>
+        <module name="FinalParameters"/>
+        <module name="ArrayTypeStyle"/>
+        <module name="JavadocMethod">
+            <property name="allowUndeclaredRTE" value="true"/>
+            <property name="logLoadErrors" value="true"/>
+        </module>
+        <module name="JavadocStyle"/>
+        <module name="JavadocType"/>
+        <module name="JavadocVariable"/>
+        <module name="WriteTag"/>
+    </module>
+    <module name="NewlineAtEndOfFile"/>
+    <module name="PackageHtml"/>
+</module>

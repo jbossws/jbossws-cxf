@@ -36,10 +36,20 @@
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
   
-  <target name="mvn-settings">
+  <target name="os-init">
+    <condition property="ext" value=".bat">
+      <not>
+        <os family="unix"/>
+      </not>
+    </condition>
+    <property name="ext" value=""/>
+    <property name="mvn" value="mvn${ext}"/>
+  </target>
+
+  <target name="mvn-settings" depends="os-init">
     <!-- Loads the properties from the effective maven settings -->
     <mkdir dir="${stack.output.dir}"/>
-    <exec dir="${basedir}" executable="mvn" failonerror="true">
+    <exec dir="${basedir}" executable="${mvn}" failonerror="true">
       <arg value="-Doutput=${stack.output.dir}/effective-settings.xml"/>
       <arg value="help:effective-settings"/>
     </exec>
@@ -76,7 +86,7 @@
     <echo message="jboss501.home=${jboss501.home}"/>
   </target>
   
-  <target name="init" depends="mvn-settings,prepare">
+  <target name="init" depends="mvn-settings,prepare,os-init">
     <xmlproperty file="${stack.dir}/pom.xml"/>
     <property name="version.id" value="${project.version}"/>
           
@@ -91,29 +101,29 @@
   <!-- Distribution                                                       -->
   <!-- ================================================================== -->
   
-  <target name="prepare-deploy" depends="prepare">
+  <target name="prepare-deploy" depends="prepare,os-init">
     
     <!-- Use a system property to overwrite the empty default value -->
     <property name="maven.opts" value=""/>
     
     <echo/>
-    <echo message="mvn ${maven.opts} package assembly:directory"/>
+    <echo message="${mvn} ${maven.opts} package assembly:directory"/>
     <echo/>
     
     <delete dir="${deploy.artifacts.dir}"/>
-    <exec dir="${basedir}" executable="mvn" failonerror="true">
+    <exec dir="${basedir}" executable="${mvn}" failonerror="true">
       <arg line="${maven.opts} package assembly:directory"/>
     </exec>
   </target>
   
-  <target name="build-bin-dist" depends="prepare-deploy" description="Build the binary distribution">
+  <target name="build-bin-dist" depends="prepare-deploy,os-init" description="Build the binary distribution">
     
     <echo/>
-    <echo message="mvn ${maven.opts} -Pbindist package assembly:directory"/>
+    <echo message="${mvn} ${maven.opts} -Pbindist package assembly:directory"/>
     <echo/>
     
     <delete dir="${stack.output.dir}/jbossws-cxf-bin-dist"/>
-    <exec dir="${basedir}" executable="mvn" failonerror="true">
+    <exec dir="${basedir}" executable="${mvn}" failonerror="true">
       <arg line="${maven.opts} -Pbindist package assembly:directory"/>
     </exec>
 
@@ -125,21 +135,21 @@
     </zip>
   </target>
   
-  <target name="build-src-dist" depends="prepare-deploy" description="Build the source distribution">
+  <target name="build-src-dist" depends="prepare-deploy,os-init" description="Build the source distribution">
     
     <echo/>
-    <echo message="mvn ${maven.opts} -Psrcdist package assembly:directory"/>
+    <echo message="${mvn} ${maven.opts} -Psrcdist package assembly:directory"/>
     <echo/>
     
     <delete dir="${stack.output.dir}/jbossws-cxf-src-dist"/>
-    <exec dir="${basedir}" executable="mvn" failonerror="true">
+    <exec dir="${basedir}" executable="${mvn}" failonerror="true">
       <arg line="${maven.opts} -Psrcdist package assembly:directory"/>
     </exec>
 
     <zip destfile="${stack.output.dir}/jbossws-cxf-src-dist.zip">
       <zipfileset
         dir="${stack.output.dir}/jbossws-cxf-src-dist"
-        includes="modules/ src/ build.xml pom.xml profiles.xml.example"
+        includes="modules/ src/ eclipse/ build.xml pom.xml profiles.xml.example .classpath .project"
         prefix="jbossws-cxf-src-dist"/>
     </zip>
   </target>
