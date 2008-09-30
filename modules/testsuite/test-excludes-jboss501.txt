@@ -106,5 +106,8 @@ org/jboss/test/ws/jaxws/samples/xop/**
 org/jboss/test/ws/jaxws/complex/**
 org/jboss/test/ws/jaxws/holder/**
 
+# [JBWS-2330] Failed to deploy service with multiple bindings
+org/jboss/test/ws/jaxws/jbws2278/**
+
 # [JBWS-2227] Investigate why multiple virtual hosts test fails on CXF
 org/jboss/test/ws/jaxws/jbws1178/**
