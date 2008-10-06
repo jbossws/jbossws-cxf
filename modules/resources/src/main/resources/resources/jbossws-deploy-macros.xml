@@ -342,10 +342,10 @@
       </copy>
       <unzip dest="@{targetdir}" src="@{targetdir}/jbossws-@{jbossid}-container.jar">
         <patternset>
-          <include name="META-INF/jbossws-container-beans.xml"/>
+          <include name="META-INF/jbossws-container-jboss-beans.xml"/>
         </patternset>
       </unzip>
-      <move file="@{targetdir}/META-INF/jbossws-container-beans.xml" tofile="@{targetdir}/jbossws-container-beans.xml"/>
+      <move file="@{targetdir}/META-INF/jbossws-container-jboss-beans.xml" tofile="@{targetdir}/jbossws-container-jboss-beans.xml"/>
       <delete file="@{targetdir}/jbossws-@{jbossid}-container.jar"/>
       <delete dir="@{targetdir}/META-INF"/>
     </sequential>
