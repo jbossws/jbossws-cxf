@@ -46,7 +46,8 @@
       <scope>runtime</scope>
     </dependency>
     <!-- [JBWS-2263] -->
-    <!--dependency>
+    <!-- START -->
+    <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss500CR2</artifactId>
       <scope>runtime</scope>
@@ -67,7 +68,8 @@
       <artifactId>jbossws-jboss500x</artifactId>
       <classifier>container</classifier>
       <scope>runtime</scope>
-    </dependency-->
+    </dependency>
+    <!-- END -->
     <dependency>
       <groupId>jboss.jaxr</groupId>
       <artifactId>juddi-service</artifactId>

@@ -187,7 +187,9 @@
         <fileset dir="@{thirdpartydir}">
           <patternset refid="jbossws.client.patternset"/>
           <!-- [JBWS-2263] -->
-          <!--include name="**/jbossws-@{jbossid}.jar"/-->
+          <!-- START -->
+          <include name="**/jbossws-@{jbossid}.jar"/>
+          <!-- END -->
         </fileset>
       </copy>
     </sequential>
@@ -306,15 +308,19 @@
           <include name="**/jbossws-common.jar"/>
           <include name="**/jbossws-framework.jar"/>
           <!-- [JBWS-2263] -->
-          <!--include name="**/jbossws-@{jbossid}.jar"/-->
+          <!-- START -->
+          <include name="**/jbossws-@{jbossid}.jar"/>
+          <!-- END -->
         </fileset>
       </copy>
       <!-- [JBWS-2263] -->
-      <!--copy todir="@{targetdir}/META-INF" flatten="true" overwrite="true">
+      <!-- START -->
+      <copy todir="@{targetdir}/META-INF" flatten="true" overwrite="true">
         <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}">
           <include name="**/jbossws-deployer-beans.xml"/>
         </fileset>
-      </copy-->
+      </copy>
+      <!-- END -->
     </sequential>
   </macrodef>
   
@@ -323,7 +329,8 @@
   <!-- ================================================================== -->
   
   <!-- [JBWS-2263] -->
-  <!--macrodef name="macro-deploy-jbossws-deploy50">
+  <!-- START -->
+  <macrodef name="macro-deploy-jbossws-deploy50">
     <attribute name="thirdpartydir"/>
     <attribute name="targetdir"/>
     <attribute name="jbossid"/>
@@ -342,7 +349,8 @@
       <delete file="@{targetdir}/jbossws-@{jbossid}-container.jar"/>
       <delete dir="@{targetdir}/META-INF"/>
     </sequential>
-  </macrodef-->
+  </macrodef>
+  <!-- END -->
   
   <!-- ================================================================== -->
   <!-- Deploy JBossWS                                                     -->
@@ -367,7 +375,9 @@
     <macro-deploy-jbossws-cxf50-sar targetdir="${installserver}/deploy/jbossws.sar" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-deployers50 targetdir="${installserver}/deployers/jbossws.deployer/" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <!-- [JBWS-2263] -->
-    <!--macro-deploy-jbossws-deploy50 targetdir="${installserver}/deploy" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/-->
+    <!-- START -->
+    <macro-deploy-jbossws-deploy50 targetdir="${installserver}/deploy" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
+    <!-- END -->
   </target>
   
   <target name="deploy-jbossws-endorsed" if="HAVE_JDK_1.6">
@@ -430,15 +440,17 @@
       <fail message="Cannot find ${jboss.home}/client" unless="jboss.undeploy.client"/>
       
       <!-- [JBWS-2263] -->
+      <!-- START -->
       <!-- delete stale container integration jars -->
-      <!--delete>
+      <delete>
         <fileset dir="${jboss.server.home}">
           <include name="**/jbossws-jboss*.jar"/>
         </fileset>
         <fileset dir="${jboss.home}/client">
           <include name="jbossws-jboss*.jar"/>
         </fileset>
-      </delete-->
+      </delete>
+      <!-- END -->
       
       <!-- delete content of last deployment -->
       <delete>
