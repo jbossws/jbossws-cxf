@@ -41,8 +41,9 @@ import javax.xml.ws.WebServiceException;
 import java.io.IOException;
 
 /**
+ * A servlet that is installed for every web service endpoint.
  * @author Heiko.Braun@jboss.com
- *         Created: Jul 24, 2007
+ * @author richard.opalka@jboss.com
  */
 public class EndpointServlet extends HttpServlet
 {
@@ -52,18 +53,20 @@ public class EndpointServlet extends HttpServlet
    public void init(ServletConfig servletConfig) throws ServletException
    {
       super.init(servletConfig);
+      this.initRegistry();
+      this.initDeploymentAspectManager();
+      String contextPath = servletConfig.getServletContext().getContextPath();
+      this.initServiceEndpoint(contextPath);
+   }
+   
+   protected void initRegistry()
+   {
       SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
       epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).getEndpointRegistry();
-   }
+   }   
 
    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
    {
-      if (endpoint == null)
-      {
-         String contextPath = req.getContextPath();
-         initServiceEndpoint(contextPath);
-      }
-
       try
       {
          EndpointAssociation.setEndpoint(endpoint);
@@ -80,7 +83,16 @@ public class EndpointServlet extends HttpServlet
     */
    protected void initServiceEndpoint(String contextPath)
    {
-      WebAppResolver resolver = new WebAppResolver(contextPath, getServletName());
+      this.initEndpoint(contextPath, getServletName());
+      this.setRuntimeLoader();
+      this.callRuntimeAspects();
+   }
+
+   /** Initialize the service endpoint
+    */
+   protected void initEndpoint(String contextPath, String servletName)
+   {
+      WebAppResolver resolver = new WebAppResolver(contextPath, servletName);
       this.endpoint = epRegistry.resolve(resolver);
 
       if (this.endpoint == null)
@@ -91,7 +103,10 @@ public class EndpointServlet extends HttpServlet
          );
          throw new WebServiceException("Cannot obtain endpoint for: " + oname);
       }
-
+   }
+   
+   private void setRuntimeLoader()
+   {
       // Set the runtime classloader for JSE endpoints, this should be the tomcat classloader
       Deployment dep = endpoint.getService().getDeployment();
       if (dep.getType() == Deployment.DeploymentType.JAXRPC_JSE || dep.getType() == Deployment.DeploymentType.JAXWS_JSE)
@@ -100,4 +115,21 @@ public class EndpointServlet extends HttpServlet
          dep.setRuntimeClassLoader(classLoader);
       }
    }
+   
+   /**
+    * Template method
+    */
+   protected void initDeploymentAspectManager()
+   {
+      // does nothing (because of BC)
+   }
+   
+   /**
+    * Template method
+    */
+   protected void callRuntimeAspects()
+   {
+      // does nothing (because of BC)
+   }
+   
 }
