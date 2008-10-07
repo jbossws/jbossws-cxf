@@ -33,7 +33,7 @@
       <header trimleading="yes">
         &lt;deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
         xmlns="urn:jboss:bean-deployer"&gt; </header>
-      <fileset file="${project.resources.directory}/jbossws-cxf-config.xml"/>
+      <fileset file="${project.resources.directory}/as4-jbossws-cxf-config.xml"/>
       <fileset file="${project.build.resources.directory}/jbossws-jboss422/jbossws-jboss42-config.xml"/>
       <footer trimleading="yes">
         &lt;/deployment&gt; </footer>
@@ -45,7 +45,7 @@
       <header trimleading="yes">
         &lt;deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
         xmlns="urn:jboss:bean-deployer"&gt; </header>
-      <fileset file="${project.resources.directory}/jbossws-cxf-config.xml"/>
+      <fileset file="${project.resources.directory}/as4-jbossws-cxf-config.xml"/>
       <fileset file="${project.build.resources.directory}/jbossws-jboss423/jbossws-jboss42-config.xml"/>
       <footer trimleading="yes">
         &lt;/deployment&gt; </footer>
@@ -57,7 +57,7 @@
       <header trimleading="yes">
         &lt;deployment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:jboss:bean-deployer bean-deployer_1_0.xsd"
         xmlns="urn:jboss:bean-deployer"&gt; </header>
-      <fileset file="${project.resources.directory}/jbossws-cxf-config.xml"/>
+      <fileset file="${project.resources.directory}/as4-jbossws-cxf-config.xml"/>
       <fileset file="${project.build.resources.directory}/jbossws-jboss424/jbossws-jboss42-config.xml"/>
       <footer trimleading="yes">
         &lt;/deployment&gt; </footer>
@@ -68,7 +68,7 @@
     <concat destfile="${project.build.resources.directory}/jbossws-jboss500/jbossws.beans/META-INF/jboss-beans.xml">
       <header trimleading="yes">
         &lt;deployment xmlns="urn:jboss:bean-deployer:2.0"&gt; </header>
-      <fileset file="${project.resources.directory}/jbossws-cxf-config.xml"/>
+      <fileset file="${project.resources.directory}/as5-jbossws-cxf-config.xml"/>
       <footer trimleading="yes">
         &lt;/deployment&gt; </footer>
     </concat>
@@ -78,7 +78,7 @@
     <concat destfile="${project.build.resources.directory}/jbossws-jboss501/jbossws.beans/META-INF/jboss-beans.xml">
       <header trimleading="yes">
         &lt;deployment xmlns="urn:jboss:bean-deployer:2.0"&gt; </header>
-      <fileset file="${project.resources.directory}/jbossws-cxf-config.xml"/>
+      <fileset file="${project.resources.directory}/as5-jbossws-cxf-config.xml"/>
       <footer trimleading="yes">
         &lt;/deployment&gt; </footer>
     </concat>
