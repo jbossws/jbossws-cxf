@@ -21,47 +21,26 @@
  */
 package org.jboss.wsf.stack.cxf;
 
-import org.jboss.wsf.spi.DeploymentAspectManagerLocator;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
-import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.DeploymentAspectManager;
+import org.jboss.wsf.framework.deployment.AbstractAspectizedEndpointServlet;
+import org.jboss.wsf.spi.management.EndpointResolver;
 
 /**
- * Endpoint servlet with WS framework aspects support called on servlet lifecycle methods
+ * An aspectized CXF endpoint servlet that is installed for every web service endpoint on AS 5.x series
  * @author richard.opalka@jboss.com
  */
-public class AspectizedEndpointServlet extends EndpointServlet
+public final class AspectizedEndpointServlet extends AbstractAspectizedEndpointServlet
 {
 
-   protected DeploymentAspectManager aspectsManager;
+   /**
+    * Provides CXF specific endpoint resolver
+    * @param servletContext servlet context
+    * @param servletName servlet name
+    * @return new CXF specific endpoint resolver
+    */
+   @Override
+   protected final EndpointResolver newEndpointResolver(String servletContext, String servletName)
+   {
+      return new WebAppResolver(servletContext, servletName);
+   }
 
-   protected void initDeploymentAspectManager()
-   {
-      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      DeploymentAspectManagerLocator locator = spiProvider.getSPI(DeploymentAspectManagerLocator.class);
-      aspectsManager = locator.locateDeploymentAspectManager("WSServletAspectManager");
-   }
-   
-   protected void callRuntimeAspects()
-   {
-      Deployment dep = endpoint.getService().getDeployment();
-      aspectsManager.create(dep, null);
-      aspectsManager.start(dep, null);
-   }
-   
-   public void destroy()
-   {
-      try
-      {
-         Deployment dep = endpoint.getService().getDeployment();
-         aspectsManager.stop(dep, null);
-         aspectsManager.destroy(dep, null);
-      }
-      finally
-      {
-         super.destroy();
-      }
-   }
-   
 }
