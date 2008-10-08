@@ -41,6 +41,7 @@ import org.jboss.wsf.common.ObjectNameFactory;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.Endpoint.EndpointState;
 import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
@@ -80,8 +81,25 @@ public class CXFServletExt extends CXFServlet
       endpoint = initServiceEndpoint(contextPath);
 
       context.setAttribute(ServletController.class.getName(), getController());
+      this.startEndpoint();
    }
-
+   
+   private void startEndpoint()
+   {
+      if (this.endpoint.getState() == EndpointState.CREATED)
+      {
+         this.endpoint.getLifecycleHandler().start(this.endpoint);
+      }
+   }
+   
+   private void stopEndpoint()
+   {
+      if (this.endpoint.getState() == EndpointState.STARTED)
+      {
+         this.endpoint.getLifecycleHandler().stop(this.endpoint);
+      }
+   }
+   
    @Override
    public ServletController createServletController(ServletConfig servletConfig)
    {
@@ -145,6 +163,7 @@ public class CXFServletExt extends CXFServlet
       if (childCtx != null)
          childCtx.destroy();
 
+      this.stopEndpoint();
       super.destroy();
    }
 

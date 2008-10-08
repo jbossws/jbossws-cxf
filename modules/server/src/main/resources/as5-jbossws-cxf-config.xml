@@ -49,8 +49,7 @@
     <property name="provides">ContextProperties</property>
     <property name="contextProperties">
       <map keyClass="java.lang.String" valueClass="java.lang.String">
-        <entry><key>org.jboss.ws.webapp.ServletClass</key><value>org.jboss.wsf.stack.cxf.AspectizedEndpointServlet</value></entry>
-        <entry><key>org.jboss.ws.webapp.ServletAspectManagerName</key><value>WSCXFServletAspectManager</value></entry>
+        <entry><key>org.jboss.ws.webapp.ServletClass</key><value>org.jboss.wsf.stack.cxf.CXFServletExt</value></entry>
       </map>
     </property>
   </bean>
@@ -77,18 +76,6 @@
         <inject bean="WSLogRecorder"/>
       </list>
     </property>
-  </bean>
-
-  <bean name="WSEndpointServletLifecycleDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointServletLifecycleDeploymentAspect">
-    <property name="requires">LAST_DEPLOYMENT_ASPECT</property>
-  </bean>
-
-  <!--
-    The endpoint servlet DA manager
-  -->
-
-  <bean name="WSCXFServletAspectManager" class="org.jboss.wsf.framework.deployment.DeploymentAspectManagerImpl">
-    <property name="name">WSCXFServletAspectManager</property>
   </bean>
 
   <!--
@@ -121,14 +108,4 @@
       </set>
     </property>
     <depends>WSDeploymentAspectInstallerEJB</depends>
-  </bean>
-
-  <bean name="WSCXFServletAspectManagerInstaller" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
-    <property name="manager"><inject bean="WSCXFServletAspectManager"/></property>
-    <property name="sortAspectsOnCreate">true</property>
-    <property name="aspects">
-      <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">
-        <inject bean="WSEndpointServletLifecycleDeploymentAspect"/>
-      </set>
-    </property>
   </bean>

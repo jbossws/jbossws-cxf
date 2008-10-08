@@ -253,7 +253,7 @@
       <properties>
         <jboss.version>4.2.2.GA</jboss.version>
         <jbossws.integration.target>jboss422</jbossws.integration.target>
-        <endpoint.servlet>org.jboss.wsf.stack.cxf.EndpointServlet</endpoint.servlet>
+        <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
       <dependencies>
         <dependency>
@@ -294,7 +294,7 @@
       <properties>
         <jboss.version>4.2.3.GA</jboss.version>
         <jbossws.integration.target>jboss423</jbossws.integration.target>
-        <endpoint.servlet>org.jboss.wsf.stack.cxf.EndpointServlet</endpoint.servlet>
+        <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
       <dependencies>
         <dependency>
@@ -335,7 +335,7 @@
       <properties>
         <jboss.version>4.2.4-SNAPSHOT</jboss.version>
         <jbossws.integration.target>jboss424</jbossws.integration.target>
-        <endpoint.servlet>org.jboss.wsf.stack.cxf.EndpointServlet</endpoint.servlet>
+        <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
       <dependencies>
         <dependency>
@@ -376,7 +376,7 @@
       <properties>
         <jboss.version>5.0.0.CR2</jboss.version>
         <jbossws.integration.target>jboss500</jbossws.integration.target>
-        <endpoint.servlet>org.jboss.wsf.stack.cxf.EndpointServlet</endpoint.servlet>
+        <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
       <dependencies>
         <!-- [JBWS-2263] -->
@@ -435,7 +435,7 @@
       <properties>
         <jboss.version>5.0.0-SNAPSHOT</jboss.version>
         <jbossws.integration.target>jboss501</jbossws.integration.target>
-        <endpoint.servlet>org.jboss.wsf.stack.cxf.EndpointServlet</endpoint.servlet>
+        <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
       <dependencies>
         <!-- [JBWS-2263] -->
