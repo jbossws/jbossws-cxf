@@ -274,21 +274,11 @@
     <attribute name="jbossid"/>
     <sequential>
       <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{thirdpartydir}">
-          <patternset refid="jbossws.service.lib.patternset"/>
-        </fileset>
-      </copy>
       <unzip dest="@{targetdir}/jbossws-management.war">
         <fileset dir="@{thirdpartydir}">
           <include name="**/jbossws-cxf-management.war"/>
         </fileset>
       </unzip>
-      <copy todir="@{targetdir}">
-        <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}/jbossws.beans">
-          <include name="META-INF/**"/>
-        </fileset>
-      </copy>
     </sequential>
   </macrodef>
   
@@ -303,6 +293,16 @@
     <attribute name="jbossid"/>
     <sequential>
       <mkdir dir="@{targetdir}"/>
+      <copy todir="@{targetdir}" flatten="true" overwrite="true">
+        <fileset dir="@{thirdpartydir}">
+          <patternset refid="jbossws.service.lib.patternset"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}">
+        <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}/jbossws.beans">
+          <include name="META-INF/**"/>
+        </fileset>
+      </copy>
       <copy todir="@{targetdir}" flatten="true" overwrite="true">
         <fileset dir="@{thirdpartydir}">
           <include name="**/jbossws-common.jar"/>
@@ -376,7 +376,7 @@
     <macro-deploy-jbossws-deployers50 targetdir="${installserver}/deployers/jbossws.deployer/" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <!-- [JBWS-2263] -->
     <!-- START -->
-    <macro-deploy-jbossws-deploy50 targetdir="${installserver}/deploy" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
+    <macro-deploy-jbossws-deploy50 targetdir="${installserver}/deployers/jbossws.deployer/META-INF" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <!-- END -->
   </target>
   
