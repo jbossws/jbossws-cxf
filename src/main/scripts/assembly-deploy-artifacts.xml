@@ -31,7 +31,6 @@
               <include>*:jaxrpc-api:jar</include>
               <include>*:jaxws-api:jar</include>
               <include>*:jbossws-common:jar</include>
-              <include>*:jbossws-framework:jar</include>
               <include>*:jbossws-spi:jar</include>
               <include>*:junit:jar</include>
               <include>*:neethi:jar</include>
