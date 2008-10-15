@@ -21,7 +21,7 @@
       <outputDirectory>/</outputDirectory>
       <filtered>true</filtered>
       <includes>
-        <include>ant.properties</include>
+        <include>ant.properties.example</include>
       </includes>
     </fileSet>
     <!-- build -->
