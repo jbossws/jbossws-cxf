@@ -18,7 +18,7 @@
   <artifactId>jbossws-cxf</artifactId>
   <packaging>pom</packaging>
   
-  <version>3.0.4-SNAPSHOT</version>
+  <version>3.0.5-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
@@ -44,7 +44,7 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.common.version>1.0.7.GA</jbossws.common.version>
+    <jbossws.common.version>1.0.8-SNAPSHOT</jbossws.common.version>
     <jbossws.framework.version>3.0.4.GA</jbossws.framework.version>
     <jbossws.spi.version>1.0.6.GA</jbossws.spi.version>
     <jbossws.jboss422.version>3.0.4.GA</jbossws.jboss422.version>
