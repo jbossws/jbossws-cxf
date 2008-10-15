@@ -18,7 +18,7 @@
   <artifactId>jbossws-cxf</artifactId>
   <packaging>pom</packaging>
   
-  <version>3.0.4-SNAPSHOT</version>
+  <version>3.0.4.GA</version>
   
   <!-- Parent -->
   <parent>
