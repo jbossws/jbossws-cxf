@@ -27,19 +27,22 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    TODO: enumerate
-
-Feature Request
-
-    TODO: enumerate
+    * [JBWS-2246] - NPE deploying web services in service archive in CR1 release
+    * [JBWS-2290] - Missing property jbossws.integration.target during ant eclipse
+    * [JBWS-2322] - Commandline JBossWS Native Tests Are Not Cross Platform
+    * [JBWS-2336] - Fix JSE deployers ordering
+    * [JBWS-2363] - Binary distribution has ant.properties instead of ant.properties.example
 
 Task
 
-    TODO: enumerate
+    * [JBWS-2286] - Provide source distributions
+    * [JBWS-2289] - Update source code headers
+    * [JBWS-2310] - Restore hudson job cleaning maven repository
+    * [JBWS-2320] - JBossWS ant and maven targets don't work on Windows OS
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
+    See: https://jira.jboss.org/jira/browse/JBWS-2359
 
 Enjoy,
 The JBossWS Team
