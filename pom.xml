@@ -47,9 +47,9 @@
     <jbossws.common.version>1.0.8-SNAPSHOT</jbossws.common.version>
     <jbossws.framework.version>3.0.5-SNAPSHOT</jbossws.framework.version>
     <jbossws.spi.version>1.0.7-SNAPSHOT</jbossws.spi.version>
-    <jbossws.jboss422.version>3.0.4.GA</jbossws.jboss422.version>
-    <jbossws.jboss423.version>3.0.4.GA</jbossws.jboss423.version>
-    <jbossws.jboss424.version>3.0.4.GA</jbossws.jboss424.version>
+    <jbossws.jboss422.version>3.0.5-SNAPSHOT</jbossws.jboss422.version>
+    <jbossws.jboss423.version>3.0.5-SNAPSHOT</jbossws.jboss423.version>
+    <jbossws.jboss424.version>3.0.5-SNAPSHOT</jbossws.jboss424.version>
     <!-- JBWS-2263 -->
     <!-- START -->
     <jbossws.jboss500.version>3.0.5-SNAPSHOT</jbossws.jboss500.version>
