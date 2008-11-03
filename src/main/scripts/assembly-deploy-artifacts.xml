@@ -113,26 +113,6 @@
               <include>*:jbossws-jboss500x:jar</include>
             </includes>
           </dependencySet>
-          <dependencySet>
-            <outputDirectory>lib</outputDirectory>
-            <outputFileNameMapping>jbossws-jboss500-${artifact.classifier}.${artifact.extension}</outputFileNameMapping>
-            <useStrictFiltering>true</useStrictFiltering>
-            <scope>runtime</scope>
-            <unpack>false</unpack>
-            <includes>
-              <include>*:jbossws-jboss500CR2:jar:container</include>
-            </includes>
-          </dependencySet>
-          <dependencySet>
-            <outputDirectory>lib</outputDirectory>
-            <outputFileNameMapping>jbossws-jboss501-${artifact.classifier}.${artifact.extension}</outputFileNameMapping>
-            <useStrictFiltering>true</useStrictFiltering>
-            <scope>runtime</scope>
-            <unpack>false</unpack>
-            <includes>
-              <include>*:jbossws-jboss500x:jar:container</include>
-            </includes>
-          </dependencySet>
           <!-- END -->
         </dependencySets>
       </binaries>

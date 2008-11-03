@@ -325,34 +325,6 @@
   </macrodef>
   
   <!-- ================================================================== -->
-  <!-- Deploy Deploy                                                   -->
-  <!-- ================================================================== -->
-  
-  <!-- [JBWS-2263] -->
-  <!-- START -->
-  <macrodef name="macro-deploy-jbossws-deploy50">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-    <attribute name="jbossid"/>
-    <sequential>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{thirdpartydir}">
-          <include name="**/jbossws-@{jbossid}-container.jar"/>
-        </fileset>
-      </copy>
-      <unzip dest="@{targetdir}" src="@{targetdir}/jbossws-@{jbossid}-container.jar">
-        <patternset>
-          <include name="META-INF/jbossws-container-jboss-beans.xml"/>
-        </patternset>
-      </unzip>
-      <move file="@{targetdir}/META-INF/jbossws-container-jboss-beans.xml" tofile="@{targetdir}/jbossws-container-jboss-beans.xml"/>
-      <delete file="@{targetdir}/jbossws-@{jbossid}-container.jar"/>
-      <delete dir="@{targetdir}/META-INF"/>
-    </sequential>
-  </macrodef>
-  <!-- END -->
-  
-  <!-- ================================================================== -->
   <!-- Deploy JBossWS                                                     -->
   <!-- ================================================================== -->
   
@@ -374,10 +346,6 @@
     <macro-deploy-jbossws-server-lib50 targetdir="${installserver}/lib" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-cxf50-sar targetdir="${installserver}/deploy/jbossws.sar" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-deployers50 targetdir="${installserver}/deployers/jbossws.deployer/" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
-    <!-- [JBWS-2263] -->
-    <!-- START -->
-    <macro-deploy-jbossws-deploy50 targetdir="${installserver}/deployers/jbossws.deployer/META-INF" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
-    <!-- END -->
   </target>
   
   <target name="deploy-jbossws-endorsed" if="HAVE_JDK_1.6">

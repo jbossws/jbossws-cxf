@@ -54,19 +54,7 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss500CR2</artifactId>
-      <classifier>container</classifier>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss500x</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss500x</artifactId>
-      <classifier>container</classifier>
       <scope>runtime</scope>
     </dependency>
     <!-- END -->
