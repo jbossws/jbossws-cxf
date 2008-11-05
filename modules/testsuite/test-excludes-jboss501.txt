@@ -111,3 +111,7 @@ org/jboss/test/ws/jaxws/jbws2278/**
 
 # [JBWS-2227] Investigate why multiple virtual hosts test fails on CXF
 org/jboss/test/ws/jaxws/jbws1178/**
+
+# [JBWS-2384] NameAlreadyBoundException when more than one virtual host are specified in @WebContext(virtualHosts) annotation variable
+org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*
+
