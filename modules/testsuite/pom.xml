@@ -477,7 +477,7 @@
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                 <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/server/default/lib/jboss-ejb3-core.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/server/lib/jboss-ejb3-core.jar</additionalClasspathElement>
               </additionalClasspathElements>
             </configuration>
           </plugin>

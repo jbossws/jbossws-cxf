@@ -22,6 +22,7 @@
   <property name="tests.dir" value="${basedir}/tests"/>
   <property name="tests.output.dir" value="${output.dir}"/>
   <property name="deploy.artifacts.dir" value="${basedir}/deploy"/>
+  <property name="jbossws.as5.default.deploy.conf" value="${build.dir}/jbossws-as5-default-deploy.conf"/>
   <property name="jbossws.default.deploy.conf" value="${build.dir}/jbossws-default-deploy.conf"/>
   <property name="target.properties.file" value="${basedir}/target.properties"/>
   

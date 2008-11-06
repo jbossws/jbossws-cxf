@@ -30,6 +30,7 @@
   <import file="${stack.resources.dir}/resources/jbossws-deploy-macros.xml"/>
   
   <property name="jbossws.default.deploy.conf" value="${stack.resources.dir}/resources/jbossws-default-deploy.conf"/>
+  <property name="jbossws.as5.default.deploy.conf" value="${stack.resources.dir}/resources/jbossws-as5-default-deploy.conf"/>
   <property name="target.properties.file" value="${basedir}/target.properties"/>
   
   <!-- ================================================================== -->

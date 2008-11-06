@@ -49,7 +49,7 @@
     <property name="jboss501.lib" value="${jboss501.home}/lib"/>
     <property name="jboss501.client" value="${jboss501.home}/client"/>
     <property name="jboss501.server" value="${jboss501.home}/server/${jboss.server.instance}"/>
-    <property name="jboss501.server.lib" value="${jboss501.server}/lib"/>
+    <property name="jboss501.server.lib" value="${jboss501.home}/server/lib"/>
     <property name="jboss501.server.deploy" value="${jboss501.server}/deploy"/>
     <property name="jboss501.server.deployers" value="${jboss501.server}/deployers"/>
     
