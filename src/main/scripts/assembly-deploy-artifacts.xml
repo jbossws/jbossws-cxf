@@ -1,12 +1,12 @@
 <assembly xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.1.0-SNAPSHOT.xsd">
-  
+
   <id>deploy-artifacts</id>
   <formats>
     <format>dir</format>
   </formats>
   <includeBaseDirectory>false</includeBaseDirectory>
-  
+
   <moduleSets>
     <moduleSet>
       <includes>
@@ -22,37 +22,37 @@
             <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <includes>
-              <include>*:cxf-*</include>
-              <include>*:geronimo-javamail*</include>
-              <include>*:geronimo-ws-metadata*</include>
-              <include>*:jaxb-api:jar</include>
-              <include>*:jaxb-impl:jar</include>
-              <include>*:jaxb-xjc:jar</include>
-              <include>*:jaxrpc-api:jar</include>
-              <include>*:jaxws-api:jar</include>
-              <include>*:jbossws-common:jar</include>
-              <include>*:jbossws-spi:jar</include>
-              <include>*:junit:jar</include>
-              <include>*:neethi:jar</include>
-              <include>*:saaj-api:jar</include>
-              <include>*:saaj-impl:jar</include>
-              <include>*:spring-beans:jar</include>
-              <include>*:spring-context:jar</include>
-              <include>*:spring-core:jar</include>
-              <include>*:stax-api:jar</include>
-              <include>*:wsdl4j:jar</include>
-              <include>*:xml-resolver:jar</include>
-              <include>*:XmlSchema:jar</include>
-              <include>*:FastInfoset:jar</include>
-              <include>*:wss4j:jar</include>
-              <include>*:xmlsec:jar</include>
+              <include>org.apache.cxf:cxf-*</include>
+              <include>org.apache.geronimo.specs:geronimo-javamail*</include>
+              <include>org.apache.geronimo.specs:geronimo-ws-metadata*</include>
+              <include>javax.xml.bind:jaxb-api:jar</include>
+              <include>com.sun.xml.bind:jaxb-impl:jar</include>
+              <include>com.sun.xml.bind:jaxb-xjc:jar</include>
+              <include>javax.xml:jaxrpc-api:jar</include>
+              <include>javax.xml.ws:jaxws-api:jar</include>
+              <include>org.jboss.ws:jbossws-common:jar</include>
+              <include>org.jboss.ws:jbossws-spi:jar</include>
+              <include>junit:junit:jar</include>
+              <include>org.apache.neethi:neethi:jar</include>
+              <include>javax.xml.soap:saaj-api:jar</include>
+              <include>com.sun.xml.messaging.saaj:saaj-impl:jar</include>
+              <include>org.springframework:spring-beans:jar</include>
+              <include>org.springframework:spring-context:jar</include>
+              <include>org.springframework:spring-core:jar</include>
+              <include>stax:stax-api:jar</include>
+              <include>wsdl4j:wsdl4j:jar</include>
+              <include>xml-resolver:xml-resolver:jar</include>
+              <include>org.apache.ws.commons.schema:XmlSchema:jar</include>
+              <include>com.sun.xml.fastinfoset:FastInfoset:jar</include>
+              <include>org.apache.ws.security:wss4j:jar</include>
+              <include>xml-security:xmlsec:jar</include>
             </includes>
           </dependencySet>
           <dependencySet>
             <outputFileNameMapping>wstx.jar</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <includes>
-              <include>*:wstx-asl:jar</include>
+              <include>org.codehaus.woodstox:wstx-asl:jar</include>
             </includes>
           </dependencySet>
         </dependencySets>
@@ -67,7 +67,7 @@
         <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
         <includeDependencies>false</includeDependencies>
         <unpack>false</unpack>
-        <dependencySets>          
+        <dependencySets>
           <dependencySet>
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
@@ -75,10 +75,10 @@
             <scope>runtime</scope>
             <unpack>false</unpack>
             <includes>
-              <include>*:jbossws-framework:jar</include>
-              <include>*:jbossws-jboss422:jar</include>
-              <include>*:jbossws-jboss423:jar</include>
-              <include>*:juddi-service:sar</include>
+              <include>org.jboss.ws:jbossws-framework:jar</include>
+              <include>org.jboss.ws:jbossws-jboss422:jar</include>
+              <include>org.jboss.ws:jbossws-jboss423:jar</include>
+              <include>jboss.jaxr:juddi-service:sar</include>
             </includes>
           </dependencySet>
           <dependencySet>
@@ -88,7 +88,7 @@
             <scope>runtime</scope>
             <unpack>false</unpack>
             <includes>
-              <include>*:jbossws-jboss424x:jar</include>
+              <include>org.jboss.ws:jbossws-jboss424x:jar</include>
             </includes>
           </dependencySet>
           <!-- [JBWS-2263] -->
@@ -100,7 +100,7 @@
             <scope>runtime</scope>
             <unpack>false</unpack>
             <includes>
-              <include>*:jbossws-jboss500CR2:jar</include>
+              <include>org.jboss.ws:jbossws-jboss500CR2:jar</include>
             </includes>
           </dependencySet>
           <dependencySet>
@@ -110,7 +110,7 @@
             <scope>runtime</scope>
             <unpack>false</unpack>
             <includes>
-              <include>*:jbossws-jboss500x:jar</include>
+              <include>org.jboss.ws:jbossws-jboss500x:jar</include>
             </includes>
           </dependencySet>
           <!-- END -->
@@ -118,7 +118,6 @@
       </binaries>
     </moduleSet>
   </moduleSets>
-  
 
   <fileSets>
     <!-- bin -->
