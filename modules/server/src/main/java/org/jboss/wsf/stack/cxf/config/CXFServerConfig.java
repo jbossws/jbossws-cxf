@@ -19,9 +19,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf;
+package org.jboss.wsf.stack.cxf.config;
 
-import org.jboss.wsf.common.management.AbstractServerConfigMBean;
+import org.jboss.logging.Logger;
+import org.jboss.wsf.common.management.AbstractServerConfig;
 
 /**
  * Basic implementation of a ServerConfig 
@@ -29,9 +30,24 @@ import org.jboss.wsf.common.management.AbstractServerConfigMBean;
  * @author Thomas.Diesler@jboss.org
  * @since 08-May-2006
  */
-public interface CXFServerConfigMBean extends AbstractServerConfigMBean
+public class CXFServerConfig extends AbstractServerConfig implements CXFServerConfigMBean
 {
-   String getImplementationTitle();
+   private static final Logger log = Logger.getLogger(CXFServerConfig.class);
+   
+   public String getImplementationTitle()
+   {
+      return getClass().getPackage().getImplementationTitle();
+   }
 
-   String getImplementationVersion();
+   public String getImplementationVersion()
+   {
+      return getClass().getPackage().getImplementationVersion();
+   }
+   
+   public void create() throws Exception
+   {
+      log.info(getImplementationTitle());
+      log.info(getImplementationVersion());
+      super.create();
+   }
 }

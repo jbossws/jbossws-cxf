@@ -1,6 +1,6 @@
   
   <!-- An abstraction of server configuration aspects. -->  
-  <bean name="WSServerConfig" class="org.jboss.wsf.stack.cxf.CXFServerConfig">
+  <bean name="WSServerConfig" class="org.jboss.wsf.stack.cxf.config.CXFServerConfig">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
     
     <!--
