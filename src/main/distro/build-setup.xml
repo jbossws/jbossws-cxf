@@ -42,7 +42,7 @@
     <property name="jboss500.lib" value="${jboss500.home}/lib"/>
     <property name="jboss500.client" value="${jboss500.home}/client"/>
     <property name="jboss500.server" value="${jboss500.home}/server/${jboss.server.instance}"/>
-    <property name="jboss500.server.lib" value="${jboss500.server}/lib"/>
+    <property name="jboss500.server.lib" value="${jboss500.home}/common/lib"/>
     <property name="jboss500.server.deploy" value="${jboss500.server}/deploy"/>
     <property name="jboss500.server.deployers" value="${jboss500.server}/deployers"/>
     

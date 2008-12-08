@@ -189,7 +189,7 @@
                 <!-- START -->
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss500CR2</artifactId>
+                  <artifactId>jbossws-jboss500</artifactId>
                   <version>${jbossws.jboss500.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>
@@ -197,7 +197,7 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss500x</artifactId>
+                  <artifactId>jbossws-jboss501CR1</artifactId>
                   <version>${jbossws.jboss501.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>

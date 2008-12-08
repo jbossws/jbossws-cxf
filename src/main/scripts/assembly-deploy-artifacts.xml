@@ -78,6 +78,7 @@
               <include>org.jboss.ws:jbossws-framework:jar</include>
               <include>org.jboss.ws:jbossws-jboss422:jar</include>
               <include>org.jboss.ws:jbossws-jboss423:jar</include>
+              <include>org.jboss.ws:jbossws-jboss500:jar</include>
               <include>jboss.jaxr:juddi-service:sar</include>
             </includes>
           </dependencySet>
@@ -95,22 +96,12 @@
           <!-- START -->
           <dependencySet>
             <outputDirectory>lib</outputDirectory>
-            <outputFileNameMapping>jbossws-jboss500.${module.extension}</outputFileNameMapping>
-            <useStrictFiltering>true</useStrictFiltering>
-            <scope>runtime</scope>
-            <unpack>false</unpack>
-            <includes>
-              <include>org.jboss.ws:jbossws-jboss500CR2:jar</include>
-            </includes>
-          </dependencySet>
-          <dependencySet>
-            <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss501.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <scope>runtime</scope>
             <unpack>false</unpack>
             <includes>
-              <include>org.jboss.ws:jbossws-jboss500x:jar</include>
+              <include>org.jboss.ws:jbossws-jboss501CR1:jar</include>
             </includes>
           </dependencySet>
           <!-- END -->

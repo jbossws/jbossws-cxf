@@ -24,6 +24,7 @@
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <hibernate.version>3.2.4.sp1</hibernate.version>
     <asm.version>2.2.3</asm.version>
+    <jboss.javaee.version>5.0.0.GA</jboss.javaee.version>
   </properties>
   
   <!-- Modules -->
@@ -374,7 +375,7 @@
     <profile>
       <id>jboss500</id>
       <properties>
-        <jboss.version>5.0.0.CR2</jboss.version>
+        <jboss.version>5.0.0.GA</jboss.version>
         <jbossws.integration.target>jboss500</jbossws.integration.target>
         <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
@@ -383,7 +384,7 @@
         <!-- START -->
         <dependency>
           <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss500CR2</artifactId>
+          <artifactId>jbossws-jboss500</artifactId>
         </dependency>
         <!--dependency>
           <groupId>org.jboss.jbossas</groupId>
@@ -395,11 +396,17 @@
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-ejb3</artifactId>
           <version>${jboss.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.security</groupId>
+              <artifactId>jbosssx</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.jboss.javaee</groupId>
           <artifactId>jboss-javaee</artifactId>
-          <version>${jboss.version}</version>
+          <version>${jboss.javaee.version}</version>
         </dependency>
       </dependencies>
       <build>
@@ -418,7 +425,7 @@
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                 <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/server/default/lib/jboss-ejb3-core.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
               </additionalClasspathElements>
             </configuration>
           </plugin>
@@ -433,7 +440,7 @@
     <profile>
       <id>jboss501</id>
       <properties>
-        <jboss.version>5.0.0-SNAPSHOT</jboss.version>
+        <jboss.version>5.0.1-SNAPSHOT</jboss.version>
         <jbossws.integration.target>jboss501</jbossws.integration.target>
         <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
@@ -442,7 +449,7 @@
         <!-- START -->
         <dependency>
           <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss500x</artifactId>
+          <artifactId>jbossws-jboss501CR1</artifactId>
         </dependency>
         <!--dependency>
           <groupId>org.jboss.jbossas</groupId>
@@ -454,11 +461,17 @@
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-ejb3</artifactId>
           <version>${jboss.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.security</groupId>
+              <artifactId>jbosssx</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.jboss.javaee</groupId>
           <artifactId>jboss-javaee</artifactId>
-          <version>${jboss.version}</version>
+          <version>${jboss.javaee.version}</version>
         </dependency>
       </dependencies>
       <build>

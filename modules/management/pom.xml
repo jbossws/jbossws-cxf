@@ -49,12 +49,12 @@
     <!-- START -->
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss500CR2</artifactId>
+      <artifactId>jbossws-jboss500</artifactId>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss500x</artifactId>
+      <artifactId>jbossws-jboss501CR1</artifactId>
       <scope>runtime</scope>
     </dependency>
     <!-- END -->
