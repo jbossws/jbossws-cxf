@@ -8,8 +8,9 @@ jboss423.home=@jboss423.home@
 jboss424.home=@jboss424.home@
 jboss500.home=@jboss500.home@
 jboss501.home=@jboss501.home@
+jboss510.home=@jboss510.home@
 
-# The JBoss server under test. This can be [jboss422|jboss423|jboss424|jboss500|jboss501]
+# The JBoss server under test. This can be [jboss422|jboss423|jboss424|jboss500|jboss501|jboss510]
 jbossws.integration.target=jboss500
 
 # The JBoss settings

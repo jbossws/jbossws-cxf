@@ -54,6 +54,7 @@
     <!-- START -->
     <jbossws.jboss500.version>3.0.5-SNAPSHOT</jbossws.jboss500.version>
     <jbossws.jboss501.version>3.0.5-SNAPSHOT</jbossws.jboss501.version>
+    <jbossws.jboss510.version>3.0.5-SNAPSHOT</jbossws.jboss510.version>
     <!-- END -->
     <cxf.version>2.1</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
@@ -155,6 +156,18 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss501CR1</artifactId>
         <version>${jbossws.jboss501.version}</version>
+        <classifier>resources</classifier>
+        <type>zip</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss510x</artifactId>
+        <version>${jbossws.jboss510.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss510x</artifactId>
+        <version>${jbossws.jboss510.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
@@ -482,13 +495,25 @@
     
     <!-- 
     Name:  jboss501
-    Descr: JBoss-5.0.0 specific options  
+    Descr: JBoss-5.0.1 specific options  
     -->
     <profile>
       <id>jboss501</id>
       <properties>
         <jbossws.integration.target>jboss501</jbossws.integration.target>
         <jboss.home>${jboss501.home}</jboss.home>
+      </properties>
+    </profile>
+    
+    <!-- 
+    Name:  jboss510
+    Descr: JBoss-5.1.0 specific options  
+    -->
+    <profile>
+      <id>jboss510</id>
+      <properties>
+        <jbossws.integration.target>jboss510</jbossws.integration.target>
+        <jboss.home>${jboss510.home}</jboss.home>
       </properties>
     </profile>
     

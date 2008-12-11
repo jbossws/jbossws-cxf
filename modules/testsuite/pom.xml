@@ -498,6 +498,71 @@
       </build>
     </profile>
 
+    <!-- 
+    Name:  jboss510
+    Descr: JBoss-5.1.0 specific options  
+    -->
+    <profile>
+      <id>jboss510</id>
+      <properties>
+        <jboss.version>5.1.0-SNAPSHOT</jboss.version>
+        <jbossws.integration.target>jboss510</jbossws.integration.target>
+        <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
+      </properties>
+      <dependencies>
+        <!-- [JBWS-2263] -->
+        <!-- START -->
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss510x</artifactId>
+        </dependency>
+        <!--dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-webservices</artifactId>
+          <version>${jboss.version}</version>
+        </dependency-->
+        <!-- END -->
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-ejb3</artifactId>
+          <version>${jboss.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.security</groupId>
+              <artifactId>jbosssx</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.javaee</groupId>
+          <artifactId>jboss-javaee</artifactId>
+          <version>${jboss.javaee.version}</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
+              <testExcludeFile>../test-excludes-jboss510.txt</testExcludeFile>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>${surefire.jvm.args} -Djava.endorsed.dirs=${jboss510.home}/lib/endorsed</argLine>
+              <!-- TODO: replace with maven dependencies -->
+              <additionalClasspathElements>
+                <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
+              </additionalClasspathElements>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
     <!--
     Name:  no-jboss-bind-address
     Descr: Set the default jboss.bind.address

@@ -40,7 +40,7 @@
       <outputDirectory>build</outputDirectory>
       <includes>
         <include>jbossws-as5-default-deploy.conf</include>
-        <include>jbossws-default-deploy.conf</include>
+        <include>jbossws-as4-default-deploy.conf</include>
         <include>jbossws-deploy-macros.xml</include>
       </includes>
     </fileSet>
