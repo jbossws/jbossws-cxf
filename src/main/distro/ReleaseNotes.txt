@@ -38,6 +38,7 @@ Task
 
     * [JBWS-2339] - Improve endpoint lifecycle management
     * [JBWS-2355] - Remove Aspect Manager support from AbstractEndpointServlet
+    * [JBWS-2366] - Restore missing images on wiki
     * [JBWS-2383] - Fix JBossWS deployment macros for new JBossAS trunk directory structure
 
 Errata
