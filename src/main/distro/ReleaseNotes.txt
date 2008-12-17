@@ -46,6 +46,28 @@ The JBossWS Team
 
 Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+jbossws-cxf-3.0.5.GA
+------------------------
+
+Bug
+
+    * [JBWS-2399] - Specify groupId explicitly in assembly creating deploy-artifacts directory
+    * [JBWS-2364] - Incorrect JBossWS version displayed in server startup log 
+
+Feature Request
+
+    * [JBWS-2375] - Add getChildren fuctionality to UnifiedVirtualFile  
+
+Task
+
+    * [JBWS-2339] - Improve endpoint lifecycle management
+    * [JBWS-2355] - Remove Aspect Manager support from AbstractEndpointServlet
+    * [JBWS-2383] - Fix JBossWS deployment macros for new JBossAS trunk directory structure
+
+Errata
+
+    See: https://jira.jboss.org/jira/browse/JBWS-2429
+
 jbossws-cxf-3.0.4.GA
 ------------------------
 
