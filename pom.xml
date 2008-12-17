@@ -45,16 +45,16 @@
   <!-- Properties -->
   <properties>
     <jbossws.common.version>1.0.8.GA</jbossws.common.version>
-    <jbossws.framework.version>3.0.5-SNAPSHOT</jbossws.framework.version>
+    <jbossws.framework.version>3.0.5.GA</jbossws.framework.version>
     <jbossws.spi.version>1.0.7.GA</jbossws.spi.version>
     <jbossws.jboss422.version>3.0.5.GA</jbossws.jboss422.version>
     <jbossws.jboss423.version>3.0.5.GA</jbossws.jboss423.version>
-    <jbossws.jboss424.version>3.0.5-SNAPSHOT</jbossws.jboss424.version>
+    <jbossws.jboss424.version>3.0.5.GA</jbossws.jboss424.version>
     <jbossws.jboss500.version>3.0.5.GA</jbossws.jboss500.version>
     <!-- JBWS-2263 -->
     <!-- START -->
-    <jbossws.jboss501.version>3.0.5-SNAPSHOT</jbossws.jboss501.version>
-    <jbossws.jboss510.version>3.0.5-SNAPSHOT</jbossws.jboss510.version>
+    <jbossws.jboss501.version>3.0.5.GA</jbossws.jboss501.version>
+    <jbossws.jboss510.version>3.0.5.GA</jbossws.jboss510.version>
     <!-- END -->
     <cxf.version>2.1</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
