@@ -27,19 +27,22 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    TODO: enumerate
+    * [JBWS-2399] - Specify groupId explicitly in assembly creating deploy-artifacts directory
+    * [JBWS-2364] - Incorrect JBossWS version displayed in server startup log 
 
 Feature Request
 
-    TODO: enumerate
+    * [JBWS-2375] - Add getChildren fuctionality to UnifiedVirtualFile  
 
 Task
 
-    TODO: enumerate
+    * [JBWS-2339] - Improve endpoint lifecycle management
+    * [JBWS-2355] - Remove Aspect Manager support from AbstractEndpointServlet
+    * [JBWS-2383] - Fix JBossWS deployment macros for new JBossAS trunk directory structure
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
+    See: https://jira.jboss.org/jira/browse/JBWS-2429
 
 Enjoy,
 The JBossWS Team
