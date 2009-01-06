@@ -132,9 +132,7 @@
       <copy todir="@{targetdir}" flatten="true" overwrite="true">
         <fileset dir="@{thirdpartydir}">
           <patternset refid="jbossws.lib.patternset"/>
-          <include name="**/jaxb-api.jar"/>
           <include name="**/jaxb-impl.jar"/>
-          <include name="**/stax-api.jar"/>
           <include name="**/wstx.jar"/>
         </fileset>
       </copy>
@@ -149,9 +147,7 @@
       <copy todir="@{targetdir}" flatten="true" overwrite="true">
         <fileset dir="@{thirdpartydir}">
           <patternset refid="jbossws.lib.patternset"/>
-          <include name="**/jaxb-api.jar"/>
           <include name="**/jaxb-impl.jar"/>
-          <include name="**/stax-api.jar"/>
           <include name="**/wstx.jar"/>
         </fileset>
       </copy>
