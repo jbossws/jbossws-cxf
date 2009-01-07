@@ -64,7 +64,7 @@
     </dependency>
     <!-- END -->
     <dependency>
-      <groupId>jboss.jaxr</groupId>
+      <groupId>org.jboss.jaxr</groupId>
       <artifactId>juddi-service</artifactId>
       <scope>runtime</scope>
       <type>sar</type>

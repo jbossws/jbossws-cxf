@@ -65,9 +65,6 @@ org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
 # [CXF-1624] XmlSchemaException: Schema name conflict in collection
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
 
-# [JBWS-1683] Fix JAXR samples for CXF
-org/jboss/test/ws/jaxws/samples/jaxr/**
-
 # [JBWS-1774] Provide tools implementation for CXF
 org/jboss/test/ws/jaxws/complex/**
 org/jboss/test/ws/jaxws/holder/**

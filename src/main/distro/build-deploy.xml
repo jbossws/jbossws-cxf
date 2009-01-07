@@ -195,7 +195,7 @@
   <macrodef name="macro-create-deploy-conf">
     <attribute name="deploystructure"/>
     <sequential>
-      <fileset id="jbossws.deploy.fileset" dir="@{deploystructure}" excludes="**/jbossws.sar/**"/>
+      <fileset id="jbossws.deploy.fileset" dir="@{deploystructure}" excludes="**/jbossws.sar/**,**/juddi-service.sar/**"/>
       <property name="jbossws.deploy.fileset" refid="jbossws.deploy.fileset"/>
       <property name="jbossws.sar.dir" value="@{deploystructure}/server/${jboss.server.instance}/deploy/jbossws.sar"/>
       <echo file="${jbossws.sar.dir}/jbossws-deploy.conf" message="${jbossws.deploy.fileset}"/>

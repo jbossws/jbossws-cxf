@@ -274,6 +274,29 @@
   </macrodef>
   
   <!-- ================================================================== -->
+  <!-- Deploy JUDDI Service                                               -->
+  <!-- ================================================================== -->
+  
+  <macrodef name="macro-deploy-juddi-sar">
+    <attribute name="thirdpartydir"/>
+    <attribute name="targetdir"/>
+    <sequential>
+      <mkdir dir="@{targetdir}"/>
+      <unzip dest="@{targetdir}">
+        <fileset dir="@{thirdpartydir}">
+          <include name="**/juddi-service.sar"/>
+        </fileset>
+      </unzip>
+      <copy todir="@{targetdir}" flatten="true" overwrite="true">
+        <fileset dir="@{thirdpartydir}">
+          <include name="**/juddi.jar"/>
+          <include name="**/scout.jar"/>
+        </fileset>
+      </copy>
+    </sequential>
+  </macrodef>
+  
+  <!-- ================================================================== -->
   <!-- Deploy JBossWS Service                                             -->
   <!-- ================================================================== -->
   
@@ -435,6 +458,7 @@
     <macro-deploy-jbossws-lib42 targetdir="${installserver}/../../lib" thirdpartydir="${thirdpartydir}"/>
     <macro-deploy-jbossws-server-lib42 targetdir="${installserver}/lib" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-cxf42-sar targetdir="${installserver}/deploy/jbossws.sar" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
+    <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
   </target>
   
   <target name="deploy-jbossws-cxf50" depends="check-parameters,deploy-jbossws-endorsed">
@@ -444,6 +468,7 @@
     <macro-deploy-jbossws-server-lib50 targetdir="${installserver}/../../common/lib" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/> <!-- Please note the "../../common" to use common server lib! -->
     <macro-deploy-jbossws-cxf50-sar targetdir="${installserver}/deploy/jbossws.sar" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-deployers50 targetdir="${installserver}/deployers/jbossws.deployer/" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
+    <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
   </target>
   
   <target name="deploy-jbossws-cxf51" depends="check-parameters,deploy-jbossws-endorsed">
@@ -453,6 +478,7 @@
     <macro-deploy-jbossws-server-lib51 targetdir="${installserver}/../../common/lib" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/> <!-- Please note the "../../common" to use common server lib! -->
     <macro-deploy-jbossws-cxf51-sar targetdir="${installserver}/deploy/jbossws.sar" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-deployers51 targetdir="${installserver}/deployers/jbossws.deployer/" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
+    <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
   </target>
   
   <target name="deploy-jbossws-endorsed" if="HAVE_JDK_1.6">
@@ -499,6 +525,9 @@
       <!-- delete jbossws.sar -->
       <delete dir="@{targetdir}"/>
       
+      <!-- delete juddi-service.sar -->
+      <delete dir="@{targetdir}/../juddi-service.sar"/>
+      
     </sequential>
   </macrodef>
   
@@ -535,6 +564,9 @@
       <!-- delete jbossws.sar -->
       <delete dir="@{targetdir}"/>
       
+      <!-- delete juddi-service.sar -->
+      <delete dir="@{targetdir}/../juddi-service.sar"/>
+      
     </sequential>
   </macrodef>
   
@@ -570,6 +602,9 @@
       
       <!-- delete jbossws.sar -->
       <delete dir="@{targetdir}"/>
+      
+      <!-- delete juddi-service.sar -->
+      <delete dir="@{targetdir}/../juddi-service.sar"/>
       
     </sequential>
   </macrodef>

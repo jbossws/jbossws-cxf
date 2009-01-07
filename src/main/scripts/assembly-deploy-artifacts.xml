@@ -79,7 +79,9 @@
               <include>org.jboss.ws:jbossws-jboss422:jar</include>
               <include>org.jboss.ws:jbossws-jboss423:jar</include>
               <include>org.jboss.ws:jbossws-jboss500:jar</include>
-              <include>jboss.jaxr:juddi-service:sar</include>
+              <include>org.jboss.jaxr:juddi-service:sar</include>
+              <include>apache-scout:scout:jar</include>
+              <include>juddi:juddi:jar</include>
             </includes>
           </dependencySet>
           <dependencySet>

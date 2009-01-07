@@ -130,7 +130,7 @@
       <artifactId>jaxb-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>jboss.jaxr</groupId>
+      <groupId>org.jboss.jaxr</groupId>
       <artifactId>juddi-service</artifactId>
       <type>sar</type>
     </dependency>

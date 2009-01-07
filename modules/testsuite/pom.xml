@@ -62,6 +62,34 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <!-- JAXR samples -->
+    <dependency>
+      <groupId>apache-scout</groupId>
+      <artifactId>scout</artifactId>
+      <version>${apache.scout.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>juddi</groupId>
+      <artifactId>juddi</artifactId>
+      <version>${juddi.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.jaxr</groupId>
+      <artifactId>juddi-saaj</artifactId>
+      <version>${jboss.jaxr.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
   </dependencies>
   
   <!-- Build -->

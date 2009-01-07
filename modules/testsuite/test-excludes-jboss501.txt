@@ -72,9 +72,6 @@ org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefServletTestCase.*
 # [JBWS-1178] Multiple virtual host and soap:address problem
 org/jboss/test/ws/jaxws/jbws1178/**
 
-# [JBWS-1683] Fix JAXR samples for CXF
-org/jboss/test/ws/jaxws/samples/jaxr/**
-
 # [JBWS-1774] Provide tools implementation for CXF
 org/jboss/test/ws/jaxws/complex/**
 org/jboss/test/ws/jaxws/holder/**

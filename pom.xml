@@ -64,7 +64,10 @@
     <jaxb.impl.version>2.1.6</jaxb.impl.version>
     <jaxrpc.api.version>1.1</jaxrpc.api.version>
     <jaxws.api.version>2.1-1</jaxws.api.version>
-    <juddi.service.version>1.2.0.GA</juddi.service.version>
+    <juddi.version>0.9RC4</juddi.version>
+    <jboss.jaxr.version>1.2.1.GA</jboss.jaxr.version>
+    <apache.scout.version>0.7rc2</apache.scout.version>
+    <commons.logging.version>1.1.1</commons.logging.version>
     <log4j.version>1.2.14</log4j.version>
     <saaj.api.version>1.3</saaj.api.version>
     <xmlsec.version>1.3.0</xmlsec.version>
@@ -315,10 +318,25 @@
         <version>${jaxb.impl.version}</version>
       </dependency>
       <dependency>
-        <groupId>jboss.jaxr</groupId>
+        <groupId>org.jboss.jaxr</groupId>
         <artifactId>juddi-service</artifactId>
-        <version>${juddi.service.version}</version>
+        <version>${jboss.jaxr.version}</version>
         <type>sar</type>
+      </dependency>
+      <dependency>
+        <groupId>apache-scout</groupId>
+        <artifactId>scout</artifactId>
+        <version>${apache.scout.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>juddi</groupId>
+        <artifactId>juddi</artifactId>
+        <version>${juddi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>${commons.logging.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
