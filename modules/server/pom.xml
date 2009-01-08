@@ -197,19 +197,19 @@
                 <!-- START -->
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss501CR1</artifactId>
-                  <version>${jbossws.jboss501.version}</version>
-                  <classifier>resources</classifier>
-                  <type>zip</type>
-                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss501</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.ws</groupId>
                   <artifactId>jbossws-jboss510x</artifactId>
                   <version>${jbossws.jboss510.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss510</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.ws</groupId>
+                  <artifactId>jbossws-jboss600x</artifactId>
+                  <version>${jbossws.jboss600.version}</version>
+                  <classifier>resources</classifier>
+                  <type>zip</type>
+                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss600</outputDirectory>
                 </artifactItem>
                 <!-- END -->
               </artifactItems>
