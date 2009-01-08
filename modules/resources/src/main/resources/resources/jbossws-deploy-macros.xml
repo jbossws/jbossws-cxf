@@ -449,40 +449,36 @@
   <!-- Deploy JBossWS                                                     -->
   <!-- ================================================================== -->
   
-  <!-- JDK Detection -->
-  <available classname="java.io.Console" property="HAVE_JDK_1.6"/>
-  
-  <target name="deploy-jbossws-cxf42" depends="check-parameters,deploy-jbossws-endorsed">
+  <target name="deploy-jbossws-cxf42" depends="check-parameters">
     <macro-deploy-jbossws-bin targetdir="${installserver}/../../bin" artifactsdir="${artifactsdir}"/>
     <macro-deploy-jbossws-client42 targetdir="${installserver}/../../client" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-lib42 targetdir="${installserver}/../../lib" thirdpartydir="${thirdpartydir}"/>
+    <macro-deploy-jbossws-endorsed targetdir="${installserver}/../../lib/endorsed" thirdpartydir="${thirdpartydir}"/>
     <macro-deploy-jbossws-server-lib42 targetdir="${installserver}/lib" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-cxf42-sar targetdir="${installserver}/deploy/jbossws.sar" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
   </target>
   
-  <target name="deploy-jbossws-cxf50" depends="check-parameters,deploy-jbossws-endorsed">
+  <target name="deploy-jbossws-cxf50" depends="check-parameters">
     <macro-deploy-jbossws-bin targetdir="${installserver}/../../bin" artifactsdir="${artifactsdir}"/>
     <macro-deploy-jbossws-client50 targetdir="${installserver}/../../client" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-lib50 targetdir="${installserver}/../../lib" thirdpartydir="${thirdpartydir}"/>
+    <macro-deploy-jbossws-endorsed targetdir="${installserver}/../../lib/endorsed" thirdpartydir="${thirdpartydir}"/>
     <macro-deploy-jbossws-server-lib50 targetdir="${installserver}/../../common/lib" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/> <!-- Please note the "../../common" to use common server lib! -->
     <macro-deploy-jbossws-cxf50-sar targetdir="${installserver}/deploy/jbossws.sar" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-deployers50 targetdir="${installserver}/deployers/jbossws.deployer/" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
   </target>
   
-  <target name="deploy-jbossws-cxf51" depends="check-parameters,deploy-jbossws-endorsed">
+  <target name="deploy-jbossws-cxf51" depends="check-parameters">
     <macro-deploy-jbossws-bin targetdir="${installserver}/../../bin" artifactsdir="${artifactsdir}"/>
     <macro-deploy-jbossws-client51 targetdir="${installserver}/../../client" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-lib51 targetdir="${installserver}/../../lib" thirdpartydir="${thirdpartydir}"/>
+    <macro-deploy-jbossws-endorsed targetdir="${installserver}/../../lib/endorsed" thirdpartydir="${thirdpartydir}"/>
     <macro-deploy-jbossws-server-lib51 targetdir="${installserver}/../../common/lib" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/> <!-- Please note the "../../common" to use common server lib! -->
     <macro-deploy-jbossws-cxf51-sar targetdir="${installserver}/deploy/jbossws.sar" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-deployers51 targetdir="${installserver}/deployers/jbossws.deployer/" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
-  </target>
-  
-  <target name="deploy-jbossws-endorsed" if="HAVE_JDK_1.6">
-    <macro-deploy-jbossws-endorsed targetdir="${installserver}/../../lib/endorsed" thirdpartydir="${thirdpartydir}"/>
   </target>
   
   <target name="check-parameters">
