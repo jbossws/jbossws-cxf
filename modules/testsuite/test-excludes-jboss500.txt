@@ -82,13 +82,9 @@ org/jboss/test/ws/jaxws/endpoint/**
 
 # [JBWS-2114] IllegalArgumentException: Wrong target. class 
 org/jboss/test/ws/jaxws/jbws1283/**
-org/jboss/test/ws/jaxws/jbws1822/**
 
 # [JBWS-2115] EJB client vehicle not sufficiently isolated
 org/jboss/test/ws/jaxws/jbws1581/**
-
-# [JBWS-2117] web.xml modified to web.xml.org - Subsequent runs fail
-org/jboss/test/ws/jaxws/jbws1762/**
 
 # [JBWS-2118] context-root in jboss.xml is ignored
 org/jboss/test/ws/jaxws/jbws1813/**
