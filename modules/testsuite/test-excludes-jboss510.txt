@@ -69,6 +69,9 @@ org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
 org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
 org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefServletTestCase.*
 
+# [JBWS-1655] Add support for endpoint address rewriting
+org/jboss/test/ws/jaxws/jbws2150/**
+
 # [JBWS-1178] Multiple virtual host and soap:address problem
 org/jboss/test/ws/jaxws/jbws1178/**
 

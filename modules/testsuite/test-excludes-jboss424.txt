@@ -65,6 +65,9 @@ org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
 # [CXF-1624] XmlSchemaException: Schema name conflict in collection
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
 
+# [JBWS-1655] Add support for endpoint address rewriting
+org/jboss/test/ws/jaxws/jbws2150/**
+
 # [JBWS-1774] Provide tools implementation for CXF
 org/jboss/test/ws/jaxws/complex/**
 org/jboss/test/ws/jaxws/holder/**
