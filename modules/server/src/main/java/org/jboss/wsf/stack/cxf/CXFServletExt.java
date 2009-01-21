@@ -81,30 +81,13 @@ public class CXFServletExt extends CXFServlet
       endpoint = initServiceEndpoint(contextPath);
 
       context.setAttribute(ServletController.class.getName(), getController());
-      this.startEndpoint();
-   }
-   
-   private void startEndpoint()
-   {
-      if (this.endpoint.getState() == EndpointState.CREATED)
-      {
-         this.endpoint.getLifecycleHandler().start(this.endpoint);
-      }
-   }
-   
-   private void stopEndpoint()
-   {
-      if (this.endpoint.getState() == EndpointState.STARTED)
-      {
-         this.endpoint.getLifecycleHandler().stop(this.endpoint);
-      }
    }
    
    @Override
    public ServletController createServletController(ServletConfig servletConfig)
    {
       ServletTransportFactory stf = (ServletTransportFactory)createServletTransportFactory();
-      return new ServletControllerExt(stf, this);
+      return new ServletControllerExt(stf, servletConfig.getServletContext(), bus);
    }
 
    @Override
@@ -163,7 +146,6 @@ public class CXFServletExt extends CXFServlet
       if (childCtx != null)
          childCtx.destroy();
 
-      this.stopEndpoint();
       super.destroy();
    }
 

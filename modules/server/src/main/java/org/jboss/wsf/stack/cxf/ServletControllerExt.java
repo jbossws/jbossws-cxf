@@ -21,25 +21,23 @@
  */
 package org.jboss.wsf.stack.cxf;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.service.model.EndpointInfo;
-import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.ServletDestination;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.apache.cxf.transports.http.QueryHandler;
 import org.apache.cxf.transports.http.QueryHandlerRegistry;
-import org.jboss.logging.Logger;
 
 /**
  * An extension to the CXF servlet controller
@@ -49,16 +47,16 @@ import org.jboss.logging.Logger;
  */
 public class ServletControllerExt extends ServletController
 {
-   private static Logger log = Logger.getLogger(ServletControllerExt.class);
-
    private ServletTransportFactory cxfTransport;
-   private CXFServlet cxfServlet;
+   private ServletContext servletCtx;
+   private Bus bus;
 
-   public ServletControllerExt(ServletTransportFactory cxfTransport, CXFServlet cxfServlet)
+   public ServletControllerExt(ServletTransportFactory cxfTransport, ServletContext servletCtx, Bus bus)
    {
-      super(cxfTransport, cxfServlet);
+      super(cxfTransport, servletCtx, bus);
       this.cxfTransport = cxfTransport;
-      this.cxfServlet = cxfServlet;
+      this.servletCtx = servletCtx;
+      this.bus = bus;
    }
    
    /**
@@ -114,7 +112,6 @@ public class ServletControllerExt extends ServletController
    private boolean handleQuery(HttpServletRequest req, HttpServletResponse res, ServletDestination dest)
    throws ServletException
    {
-      Bus bus = cxfServlet.getBus();
       boolean hasQuery = (null != req.getQueryString()) && (req.getQueryString().length() > 0);
       boolean queryHandlerRegistryExists = bus.getExtension(QueryHandlerRegistry.class) != null;
       

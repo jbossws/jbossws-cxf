@@ -41,6 +41,9 @@ Errata
 
     See: TODO: reference to associated JIRA issue
 
+
+This version of ${project.name} is based on CXF ${cxf.version}
+
 Enjoy,
 The JBossWS Team
 

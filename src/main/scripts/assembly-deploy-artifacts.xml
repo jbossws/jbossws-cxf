@@ -29,7 +29,6 @@
               <include>com.sun.xml.bind:jaxb-impl:jar</include>
               <include>com.sun.xml.bind:jaxb-xjc:jar</include>
               <include>javax.xml:jaxrpc-api:jar</include>
-              <include>javax.xml.ws:jaxws-api:jar</include>
               <include>org.jboss.ws:jbossws-common:jar</include>
               <include>org.jboss.ws:jbossws-spi:jar</include>
               <include>junit:junit:jar</include>
@@ -45,7 +44,14 @@
               <include>org.apache.ws.commons.schema:XmlSchema:jar</include>
               <include>com.sun.xml.fastinfoset:FastInfoset:jar</include>
               <include>org.apache.ws.security:wss4j:jar</include>
-              <include>xml-security:xmlsec:jar</include>
+              <include>org.apache.santuario:xmlsec:jar</include>
+            </includes>
+          </dependencySet>
+          <dependencySet>
+            <outputFileNameMapping>jaxws-api.jar</outputFileNameMapping>
+            <useStrictFiltering>true</useStrictFiltering>
+            <includes>
+              <include>org.apache.geronimo.specs:geronimo-jaxws_2.1_spec:jar</include>
             </includes>
           </dependencySet>
           <dependencySet>
