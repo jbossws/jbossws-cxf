@@ -114,7 +114,6 @@ public abstract class AbstractInvoker implements Invoker
       Object retObj = null;
       try
       {
-         invContext.setTargetBean(getTargetBean(ep));
          invHandler.invoke(ep, inv);
          retObj = inv.getReturnValue();
       }
@@ -127,12 +126,6 @@ public abstract class AbstractInvoker implements Invoker
    }
 
    protected abstract WebServiceContext getWebServiceContext(MessageContext msgCtx);
-
-   protected Object getTargetBean(Endpoint ep) throws InstantiationException, IllegalAccessException
-   {
-      Class beanClass = ep.getTargetBeanClass();
-      return beanClass.newInstance();
-   }
 
    protected void handleException(Exception ex)
    {
