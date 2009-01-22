@@ -24,7 +24,6 @@ org/jboss/test/ws/jaxws/anonymous/**
 
 # [CXF-1511] WrappedMessageContext does not implement SOAPMessageContext
 org/jboss/test/ws/jaxws/binding/**
-org/jboss/test/ws/jaxws/namespace/**
 
 # [CXF-1513] NPE in JaxWsServiceConfiguration
 org/jboss/test/ws/jaxws/handlerscope/**
@@ -55,12 +54,6 @@ org/jboss/test/ws/jaxws/jbws2000/**
 
 # [CXF-1521] Exception handling with @WebFault annotation
 org/jboss/test/ws/jaxws/webfault/**
-
-# [CXF-1522] NPE in ServiceUtils
-org/jboss/test/ws/jaxws/jbws1566/**
-
-# [CXF-1623] Wrong AnnotationHandlerChainBuilder.protocolMatches() method implementation or preconditions
-org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
 
 # [CXF-1624] XmlSchemaException: Schema name conflict in collection
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
