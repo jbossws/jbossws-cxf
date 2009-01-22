@@ -63,6 +63,8 @@ import org.jboss.wsf.spi.invocation.InvocationHandler;
  */
 public abstract class AbstractInvoker implements Invoker
 {
+   private static final Object[] NO_ARGS = new Object[]{};
+   
    public Object invoke(Exchange exchange, Object o)
    {
       // set up the webservice request context 
@@ -90,15 +92,18 @@ public abstract class AbstractInvoker implements Invoker
       MethodDispatcher md = (MethodDispatcher)exchange.get(Service.class).get(MethodDispatcher.class.getName());
       Method m = md.getMethod(bop);
 
-      Object[] params;
-      if (o instanceof List<?>)
+      Object[] params = NO_ARGS;
+      if (m.getParameterTypes().length != 0)
       {
-         List<Object> paramList = CastUtils.cast((List<?>)o);
-         params = paramList.toArray();
-      }
-      else
-      {
-         params = new Object[]{o};
+         if (o instanceof List<?>)
+         {
+            List<Object> paramList = CastUtils.cast((List<?>)o);
+            params = paramList.toArray();
+         }
+         else
+         {
+            params = new Object[]{o};
+         }
       }
 
       Endpoint ep = EndpointAssociation.getEndpoint();
