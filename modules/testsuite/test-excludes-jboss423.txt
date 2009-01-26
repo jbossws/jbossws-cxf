@@ -30,6 +30,9 @@ org/jboss/test/ws/jaxws/handlerscope/**
 org/jboss/test/ws/jaxws/jbws1694/**
 org/jboss/test/ws/jaxws/jbws1797/**
 
+# [CXF-2006] RespectBinding feature and not understood required extensibility elements
+org/jboss/test/ws/jaxws/jbws2449/**
+
 # [JBWS-2247][CXF-1514] Generated WSDL does not take 'transport-guarantee' in web.xml into account
 org/jboss/test/ws/jaxws/jbws1190/**
 
