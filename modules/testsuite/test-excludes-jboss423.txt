@@ -108,3 +108,6 @@ org/jboss/test/ws/jaxws/samples/wsse/**
 
 # [JBWS-2480] Soap attachments are dropped on server response
 org/jboss/test/ws/jaxws/jbws1283/**
+
+# [JBWS-2491] Enable JAXWS 2.1 WebServiceContext methods 
+org/jboss/test/ws/jaxws/jbws2257/**
