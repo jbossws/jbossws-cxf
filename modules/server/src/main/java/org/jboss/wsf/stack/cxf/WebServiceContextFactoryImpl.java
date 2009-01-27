@@ -21,27 +21,29 @@
  */
 package org.jboss.wsf.stack.cxf;
 
-import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
+import org.apache.cxf.jaxws.context.WebServiceContextImpl;
+import org.jboss.wsf.spi.invocation.ExtensibleWebServiceContext;
 import org.jboss.wsf.spi.invocation.InvocationType;
 import org.jboss.wsf.spi.invocation.WebServiceContextFactory;
 
 /**
- * An CXF invoker for JSE
  * 
- * @author Thomas.Diesler@jboss.org
  * @author alessio.soldano@jboss.com
- * @since 21-May-2007
+ * 
  */
-public class InvokerJSE extends AbstractInvoker
+public class WebServiceContextFactoryImpl extends WebServiceContextFactory
 {
-   protected WebServiceContext getWebServiceContext(MessageContext msgCtx)
+   public ExtensibleWebServiceContext newWebServiceContext(InvocationType type, MessageContext messageContext)
    {
-      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      WebServiceContextFactory contextFactory = spiProvider.getSPI(WebServiceContextFactory.class);
-      return contextFactory.newWebServiceContext(InvocationType.JAXWS_JSE, msgCtx);
+      ExtensibleWebServiceContext context = null;
+
+      if (type.toString().indexOf("EJB") != -1 || type.toString().indexOf("MDB") != -1)
+         context = new WebServiceContextEJB(new WebServiceContextImpl(messageContext));
+      else
+         context = new WebServiceContextJSE(new WebServiceContextImpl(messageContext));
+
+      return context;
    }
 }

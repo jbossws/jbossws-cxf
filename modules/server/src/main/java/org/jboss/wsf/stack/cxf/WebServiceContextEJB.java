@@ -21,27 +21,36 @@
  */
 package org.jboss.wsf.stack.cxf;
 
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
+import java.security.Principal;
 
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
-import org.jboss.wsf.spi.invocation.InvocationType;
-import org.jboss.wsf.spi.invocation.WebServiceContextFactory;
+import javax.ejb.EJBContext;
+import javax.xml.ws.WebServiceContext;
+
+import org.jboss.wsf.spi.invocation.WebServiceContextDelegate;
 
 /**
- * An CXF invoker for JSE
  * 
- * @author Thomas.Diesler@jboss.org
  * @author alessio.soldano@jboss.com
- * @since 21-May-2007
+ * @since 27-Jan-2009
  */
-public class InvokerJSE extends AbstractInvoker
+public class WebServiceContextEJB extends WebServiceContextDelegate
 {
-   protected WebServiceContext getWebServiceContext(MessageContext msgCtx)
+   public WebServiceContextEJB(WebServiceContext ctx)
    {
-      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      WebServiceContextFactory contextFactory = spiProvider.getSPI(WebServiceContextFactory.class);
-      return contextFactory.newWebServiceContext(InvocationType.JAXWS_JSE, msgCtx);
+      super(ctx);
+   }
+
+   public Principal getUserPrincipal()
+   {
+      EJBContext ejbContext = getAttachment(EJBContext.class);
+      Principal principal = ejbContext.getCallerPrincipal();
+      return principal;
+   }
+
+   public boolean isUserInRole(String role)
+   {
+      EJBContext ejbContext = getAttachment(EJBContext.class);
+      boolean isUserInRole = ejbContext.isCallerInRole(role);
+      return isUserInRole;
    }
 }

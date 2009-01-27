@@ -21,27 +21,42 @@
  */
 package org.jboss.wsf.stack.cxf;
 
+import java.security.Principal;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
-import org.jboss.wsf.spi.invocation.InvocationType;
-import org.jboss.wsf.spi.invocation.WebServiceContextFactory;
+import org.jboss.wsf.spi.invocation.WebServiceContextDelegate;
 
 /**
- * An CXF invoker for JSE
  * 
- * @author Thomas.Diesler@jboss.org
  * @author alessio.soldano@jboss.com
- * @since 21-May-2007
+ * @since 27-Jan-2009
  */
-public class InvokerJSE extends AbstractInvoker
+public class WebServiceContextJSE extends WebServiceContextDelegate
 {
-   protected WebServiceContext getWebServiceContext(MessageContext msgCtx)
+   private HttpServletRequest httpRequest;
+   
+   public WebServiceContextJSE(WebServiceContext ctx)
    {
-      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      WebServiceContextFactory contextFactory = spiProvider.getSPI(WebServiceContextFactory.class);
-      return contextFactory.newWebServiceContext(InvocationType.JAXWS_JSE, msgCtx);
+      super(ctx);
+      httpRequest = (HttpServletRequest)ctx.getMessageContext().get(MessageContext.SERVLET_REQUEST);
+      if (httpRequest == null)
+       throw new IllegalStateException("Cannot obtain HTTPServletRequest from message context");
+   }
+
+   @Override
+   public Principal getUserPrincipal()
+   {
+      Principal principal = httpRequest.getUserPrincipal();
+      return principal;
+   }
+
+   @Override
+   public boolean isUserInRole(String role)
+   {
+      boolean isUserInRole = httpRequest.isUserInRole(role);
+      return isUserInRole;
    }
 }

@@ -24,18 +24,24 @@ package org.jboss.wsf.stack.cxf;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
-import org.jboss.wsf.spi.invocation.WebServiceContextEJB;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.wsf.spi.invocation.InvocationType;
+import org.jboss.wsf.spi.invocation.WebServiceContextFactory;
 
 /**
  * An XFire invoker for EJB3
  * 
  * @author Thomas.Diesler@jboss.org
+ * @author alessio.soldano@jboss.com
  * @since 21-May-2007
  */
 public class InvokerEJB3 extends AbstractInvoker
 {
    protected WebServiceContext getWebServiceContext(MessageContext msgCtx)
    {
-      return new WebServiceContextEJB(msgCtx);
+      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
+      WebServiceContextFactory contextFactory = spiProvider.getSPI(WebServiceContextFactory.class);
+      return contextFactory.newWebServiceContext(InvocationType.JAXWS_EJB3, msgCtx);
    }
 }
