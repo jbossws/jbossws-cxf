@@ -30,9 +30,6 @@ org/jboss/test/ws/jaxws/handlerscope/**
 org/jboss/test/ws/jaxws/jbws1694/**
 org/jboss/test/ws/jaxws/jbws1797/**
 
-# [CXF-2006] RespectBinding feature and not understood required extensibility elements
-org/jboss/test/ws/jaxws/jbws2449/**
-
 # [JBWS-2247][CXF-1514] Generated WSDL does not take 'transport-guarantee' in web.xml into account
 org/jboss/test/ws/jaxws/jbws1190/**
 
@@ -60,6 +57,12 @@ org/jboss/test/ws/jaxws/webfault/**
 
 # [CXF-1624] XmlSchemaException: Schema name conflict in collection
 org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
+
+# [CXF-2006] RespectBinding feature and not understood required extensibility elements
+org/jboss/test/ws/jaxws/jbws2449/**
+
+# [CXF-2011] Asynchronous client behaves improperly
+org/jboss/test/ws/jaxws/samples/asynchronous/AsynchronousProxyTestCase.*
 
 # [JBWS-1655] Add support for endpoint address rewriting
 org/jboss/test/ws/jaxws/jbws2150/**
