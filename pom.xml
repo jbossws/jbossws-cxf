@@ -408,7 +408,7 @@
     </repository>
     <repository>
       <id>apache.incubating.repository</id>
-      <url>http://people.apache.org/repo/m2-incubating-repository</url>
+      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
