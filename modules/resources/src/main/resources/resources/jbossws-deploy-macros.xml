@@ -24,6 +24,8 @@
   </patternset>
   
   <patternset id="jbossws.client.patternset">
+    <include name="**/commons-collections.jar"/>
+    <include name="**/commons-lang.jar"/>
     <include name="**/cxf-*.jar"/>
     <include name="**/geronimo-javamail*.jar"/>
     <include name="**/geronimo-ws-metadata*.jar"/>
@@ -43,6 +45,7 @@
     <include name="**/spring-context.jar"/>
     <include name="**/spring-core.jar"/>
     <include name="**/stax-api.jar"/>
+  	<include name="**/velocity.jar"/>
     <include name="**/wsdl4j.jar"/>
     <include name="**/wss4j.jar"/>
     <include name="**/wstx.jar"/>
