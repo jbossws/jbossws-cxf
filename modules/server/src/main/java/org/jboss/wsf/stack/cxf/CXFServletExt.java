@@ -41,7 +41,6 @@ import org.jboss.wsf.common.ObjectNameFactory;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.deployment.Endpoint.EndpointState;
 import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
