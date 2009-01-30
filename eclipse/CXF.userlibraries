@@ -1,156 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- export MAVEN_OPTS="$MAVEN_OPTS -Djbossws-download-sources=true" // execute this command to download the sources as well -->
+<!-- 
+  1.) execute the following command to download CXF sources as well during the build process
+  export MAVEN_OPTS="$MAVEN_OPTS -Djbossws-download-sources=true"
+  2.) Replace $JBOSS500GA_SOURCES with correct value and import in eclipse using
+  Window -> Preferences -> Java -> Build path -> User Libraries -> Import 
+-->
 <eclipse-userlibraries version="2">
   <library name="CXF" systemlibrary="false">
     <archive
-      path   = "/home/opalka/.m2/repository/com/sun/xml/fastinfoset/FastInfoset/1.2.2/FastInfoset-1.2.2.jar"
+      path   = "$M2_REPOSITORY_HOME/apache-velocity/velocity/1.5/velocity-1.5.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/ws/commons/schema/XmlSchema/1.4.2/XmlSchema-1.4.2.jar"
-      source = "/home/opalka/.m2/repository/org/apache/ws/commons/schema/XmlSchema/1.4.2/XmlSchema-1.4.2-sources.jar"/>
+      path   = "$M2_REPOSITORY_HOME/com/sun/xml/fastinfoset/FastInfoset/1.2.2/FastInfoset-1.2.2.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-transports-jms/2.1.3/cxf-rt-transports-jms-2.1.3.jar" 
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-transports-jms/2.1.3/cxf-rt-transports-jms-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/commons-collections/commons-collections/3.1/commons-collections-3.1.jar"
+      source = "$M2_REPOSITORY_HOME/commons-collections/commons-collections/3.1/commons-collections-3.1-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-core/2.1.3/cxf-rt-core-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-core/2.1.3/cxf-rt-core-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/commons-lang/commons-lang/2.3/commons-lang-2.3.jar"
+      source = "$M2_REPOSITORY_HOME/commons-lang/commons-lang/2.3/commons-lang-2.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-bindings-http/2.1.3/cxf-rt-bindings-http-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-bindings-http/2.1.3/cxf-rt-bindings-http-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/ws/commons/schema/XmlSchema/1.4.2/XmlSchema-1.4.2.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/ws/commons/schema/XmlSchema/1.4.2/XmlSchema-1.4.2-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-common-schemas/2.1.3/cxf-common-schemas-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-common-schemas/2.1.3/cxf-common-schemas-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-databinding-aegis/2.1.3/cxf-rt-databinding-aegis-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-databinding-aegis/2.1.3/cxf-rt-databinding-aegis-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-bindings-coloc/2.1.3/cxf-rt-bindings-coloc-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-bindings-coloc/2.1.3/cxf-rt-bindings-coloc-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-javascript/2.1.3/cxf-rt-javascript-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-javascript/2.1.3/cxf-rt-javascript-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-frontend-jaxws/2.1.3/cxf-rt-frontend-jaxws-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-frontend-jaxws/2.1.3/cxf-rt-frontend-jaxws-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-anttasks/2.1.3/cxf-anttasks-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-anttasks/2.1.3/cxf-anttasks-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-ws-rm/2.1.3/cxf-rt-ws-rm-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-ws-rm/2.1.3/cxf-rt-ws-rm-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-jms/2.1.3/cxf-rt-transports-jms-2.1.3.jar" 
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-jms/2.1.3/cxf-rt-transports-jms-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-transports-http-jetty/2.1.3/cxf-rt-transports-http-jetty-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-transports-http-jetty/2.1.3/cxf-rt-transports-http-jetty-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-core/2.1.3/cxf-rt-core-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-core/2.1.3/cxf-rt-core-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-transports-http/2.1.3/cxf-rt-transports-http-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-transports-http/2.1.3/cxf-rt-transports-http-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-http/2.1.3/cxf-rt-bindings-http-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-http/2.1.3/cxf-rt-bindings-http-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-ws-addr/2.1.3/cxf-rt-ws-addr-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-ws-addr/2.1.3/cxf-rt-ws-addr-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-common-schemas/2.1.3/cxf-common-schemas-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-common-schemas/2.1.3/cxf-common-schemas-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-transports-local/2.1.3/cxf-rt-transports-local-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-transports-local/2.1.3/cxf-rt-transports-local-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-coloc/2.1.3/cxf-rt-bindings-coloc-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-coloc/2.1.3/cxf-rt-bindings-coloc-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-bindings-xml/2.1.3/cxf-rt-bindings-xml-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-bindings-xml/2.1.3/cxf-rt-bindings-xml-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-jaxws/2.1.3/cxf-rt-frontend-jaxws-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-jaxws/2.1.3/cxf-rt-frontend-jaxws-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-ws-policy/2.1.3/cxf-rt-ws-policy-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-ws-policy/2.1.3/cxf-rt-ws-policy-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-rm/2.1.3/cxf-rt-ws-rm-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-rm/2.1.3/cxf-rt-ws-rm-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-management/2.1.3/cxf-rt-management-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-management/2.1.3/cxf-rt-management-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-http-jetty/2.1.3/cxf-rt-transports-http-jetty-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-http-jetty/2.1.3/cxf-rt-transports-http-jetty-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-databinding-jaxb/2.1.3/cxf-rt-databinding-jaxb-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-databinding-jaxb/2.1.3/cxf-rt-databinding-jaxb-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-http/2.1.3/cxf-rt-transports-http-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-http/2.1.3/cxf-rt-transports-http-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-common-utilities/2.1.3/cxf-common-utilities-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-common-utilities/2.1.3/cxf-common-utilities-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-addr/2.1.3/cxf-rt-ws-addr-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-addr/2.1.3/cxf-rt-ws-addr-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-frontend-simple/2.1.3/cxf-rt-frontend-simple-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-frontend-simple/2.1.3/cxf-rt-frontend-simple-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-local/2.1.3/cxf-rt-transports-local-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-local/2.1.3/cxf-rt-transports-local-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-bindings-soap/2.1.3/cxf-rt-bindings-soap-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-bindings-soap/2.1.3/cxf-rt-bindings-soap-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-xml/2.1.3/cxf-rt-bindings-xml-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-xml/2.1.3/cxf-rt-bindings-xml-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-ws-security/2.1.3/cxf-rt-ws-security-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-ws-security/2.1.3/cxf-rt-ws-security-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-policy/2.1.3/cxf-rt-ws-policy-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-policy/2.1.3/cxf-rt-ws-policy-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-tools-common/2.1.3/cxf-tools-common-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-tools-common/2.1.3/cxf-tools-common-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-management/2.1.3/cxf-rt-management-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-management/2.1.3/cxf-rt-management-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-api/2.1.3/cxf-api-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-api/2.1.3/cxf-api-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-databinding-jaxb/2.1.3/cxf-rt-databinding-jaxb-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-databinding-jaxb/2.1.3/cxf-rt-databinding-jaxb-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-bindings-object/2.1.3/cxf-rt-bindings-object-2.1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/cxf/cxf-rt-bindings-object/2.1.3/cxf-rt-bindings-object-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-common-utilities/2.1.3/cxf-common-utilities-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-common-utilities/2.1.3/cxf-common-utilities-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/geronimo/specs/geronimo-javamail_1.4_spec/1.3/geronimo-javamail_1.4_spec-1.3.jar"
-      source = "/home/opalka/.m2/repository/org/apache/geronimo/specs/geronimo-javamail_1.4_spec/1.3/geronimo-javamail_1.4_spec-1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-simple/2.1.3/cxf-rt-frontend-simple-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-simple/2.1.3/cxf-rt-frontend-simple-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/geronimo/specs/geronimo-ws-metadata_2.0_spec/1.1.2/geronimo-ws-metadata_2.0_spec-1.1.2.jar"
-      source = "/home/opalka/.m2/repository/org/apache/geronimo/specs/geronimo-ws-metadata_2.0_spec/1.1.2/geronimo-ws-metadata_2.0_spec-1.1.2-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-soap/2.1.3/cxf-rt-bindings-soap-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-soap/2.1.3/cxf-rt-bindings-soap-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/javax/xml/jaxrpc-api/1.1/jaxrpc-api-1.1.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-security/2.1.3/cxf-rt-ws-security-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-security/2.1.3/cxf-rt-ws-security-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/geronimo/specs/geronimo-jaxws_2.1_spec/1.0/geronimo-jaxws_2.1_spec-1.0.jar"
-      source = "/home/opalka/.m2/repository/org/apache/geronimo/specs/geronimo-jaxws_2.1_spec/1.0/geronimo-jaxws_2.1_spec-1.0-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-common/2.1.3/cxf-tools-common-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-common/2.1.3/cxf-tools-common-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/neethi/neethi/2.0.4/neethi-2.0.4.jar"
-      source = "/home/opalka/.m2/repository/org/apache/neethi/neethi/2.0.4/neethi-2.0.4-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-java2ws/2.1.3/cxf-tools-java2ws-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-java2ws/2.1.3/cxf-tools-java2ws-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/javax/xml/soap/saaj-api/1.3/saaj-api-1.3.jar"
-      source = "/home/opalka/.m2/repository/javax/xml/soap/saaj-api/1.3/saaj-api-1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-validator/2.1.3/cxf-tools-validator-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-validator/2.1.3/cxf-tools-validator-2.1.3-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/com/sun/xml/messaging/saaj/saaj-impl/1.3.2/saaj-impl-1.3.2.jar"
-      source = "/home/opalka/.m2/repository/com/sun/xml/messaging/saaj/saaj-impl/1.3.2/saaj-impl-1.3.2-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-core/2.1.3/cxf-tools-wsdlto-core-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-core/2.1.3/cxf-tools-wsdlto-core-2.1.3-sources.jar"
+    />
+    <archive
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-databinding-jaxb/2.1.3/cxf-tools-wsdlto-databinding-jaxb-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-databinding-jaxb/2.1.3/cxf-tools-wsdlto-databinding-jaxb-2.1.3-sources.jar"
+    />
+    <archive
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-frontend-jaxws/2.1.3/cxf-tools-wsdlto-frontend-jaxws-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-frontend-jaxws/2.1.3/cxf-tools-wsdlto-frontend-jaxws-2.1.3-sources.jar"
+    />
+    <archive
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-api/2.1.3/cxf-api-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-api/2.1.3/cxf-api-2.1.3-sources.jar"
+    />
+    <archive
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-object/2.1.3/cxf-rt-bindings-object-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-object/2.1.3/cxf-rt-bindings-object-2.1.3-sources.jar"
+    />
+    <archive
+      path   = "$M2_REPOSITORY_HOME/org/apache/geronimo/specs/geronimo-javamail_1.4_spec/1.3/geronimo-javamail_1.4_spec-1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/geronimo/specs/geronimo-javamail_1.4_spec/1.3/geronimo-javamail_1.4_spec-1.3-sources.jar"
+    />
+    <archive
+      path   = "$M2_REPOSITORY_HOME/org/apache/geronimo/specs/geronimo-ws-metadata_2.0_spec/1.1.2/geronimo-ws-metadata_2.0_spec-1.1.2.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/geronimo/specs/geronimo-ws-metadata_2.0_spec/1.1.2/geronimo-ws-metadata_2.0_spec-1.1.2-sources.jar"
+    />
+    <archive
+      path   = "$M2_REPOSITORY_HOME/javax/xml/jaxrpc-api/1.1/jaxrpc-api-1.1.jar"
+    />
+    <archive
+      path   = "$M2_REPOSITORY_HOME/org/apache/geronimo/specs/geronimo-jaxws_2.1_spec/1.0/geronimo-jaxws_2.1_spec-1.0.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/geronimo/specs/geronimo-jaxws_2.1_spec/1.0/geronimo-jaxws_2.1_spec-1.0-sources.jar"
+    />
+    <archive
+      path   = "$M2_REPOSITORY_HOME/org/apache/neethi/neethi/2.0.4/neethi-2.0.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/neethi/neethi/2.0.4/neethi-2.0.4-sources.jar"
+    />
+    <archive
+      path   = "$M2_REPOSITORY_HOME/javax/xml/soap/saaj-api/1.3/saaj-api-1.3.jar"
+      source = "$M2_REPOSITORY_HOME/javax/xml/soap/saaj-api/1.3/saaj-api-1.3-sources.jar"
+    />
+    <archive
+      path   = "$M2_REPOSITORY_HOME/com/sun/xml/messaging/saaj/saaj-impl/1.3.2/saaj-impl-1.3.2.jar"
+      source = "$M2_REPOSITORY_HOME/com/sun/xml/messaging/saaj/saaj-impl/1.3.2/saaj-impl-1.3.2-sources.jar"
     />
     <!-- 
       Spring sources are available only since 2.5 version in maven central repository, 
       see: http://blog.springsource.com/2007/09/18/maven-artifacts-2/
     -->
     <archive
-      path   = "/home/opalka/.m2/repository/org/springframework/spring-beans/2.0.8/spring-beans-2.0.8.jar"
+      path   = "$M2_REPOSITORY_HOME/org/springframework/spring-beans/2.0.8/spring-beans-2.0.8.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/springframework/spring-context/2.0.8/spring-context-2.0.8.jar"
+      path   = "$M2_REPOSITORY_HOME/org/springframework/spring-context/2.0.8/spring-context-2.0.8.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/springframework/spring-core/2.0.8/spring-core-2.0.8.jar"
+      path   = "$M2_REPOSITORY_HOME/org/springframework/spring-core/2.0.8/spring-core-2.0.8.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/wsdl4j/wsdl4j/1.6.2/wsdl4j-1.6.2.jar"
-      source = "/home/opalka/.m2/repository/wsdl4j/wsdl4j/1.6.2/wsdl4j-1.6.2-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/wsdl4j/wsdl4j/1.6.2/wsdl4j-1.6.2.jar"
+      source = "$M2_REPOSITORY_HOME/wsdl4j/wsdl4j/1.6.2/wsdl4j-1.6.2-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/ws/security/wss4j/1.5.4/wss4j-1.5.4.jar"
-      source = "/home/opalka/.m2/repository/org/apache/ws/security/wss4j/1.5.4/wss4j-1.5.4-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/ws/security/wss4j/1.5.4/wss4j-1.5.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/ws/security/wss4j/1.5.4/wss4j-1.5.4-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
-      source = "/home/opalka/.m2/repository/xml-resolver/xml-resolver/1.2/xml-resolver-1.2-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
+      source = "$M2_REPOSITORY_HOME/xml-resolver/xml-resolver/1.2/xml-resolver-1.2-sources.jar"
     />
     <archive
-      path   = "/home/opalka/.m2/repository/org/apache/santuario/xmlsec/1.4.0/xmlsec-1.4.0.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/santuario/xmlsec/1.4.0/xmlsec-1.4.0.jar"
     />
   </library>
 </eclipse-userlibraries>
