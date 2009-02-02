@@ -144,11 +144,6 @@ public class CXFConsumerImpl extends WSContractConsumer
          args.add(catalog.getAbsolutePath());
       }
 
-      if (extension)
-      {
-         messageStream.println("TODO! Cheek SOAP 1.2 extension");
-      }
-
       if (!nocompile)
       {
          args.add("-compile");
@@ -190,6 +185,11 @@ public class CXFConsumerImpl extends WSContractConsumer
          stream = NullPrintStream.getInstance();
       }
 
+      if (extension)
+      {
+         stream.println("TODO! Cheek SOAP 1.2 extension");
+      }
+
       if (!outputDir.exists() && !outputDir.mkdirs())
          throw new IllegalStateException("Could not make directory: " + outputDir.getName());
 
@@ -200,7 +200,7 @@ public class CXFConsumerImpl extends WSContractConsumer
       // Always set the target
       if (target != null)
       {
-         messageStream.println("WSConsume (CXF) does not allow to setup the JAX-WS specification target, using JAX-WS 2.1.");
+         stream.println("WSConsume (CXF) does not allow to setup the JAX-WS specification target, using JAX-WS 2.1.");
       }
       
       // finally the WSDL file
