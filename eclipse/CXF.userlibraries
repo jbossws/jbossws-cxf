@@ -58,6 +58,10 @@
       source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-coloc/2.1.3/cxf-rt-bindings-coloc-2.1.3-sources.jar"
     />
     <archive
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-corba/2.1.3/cxf-rt-bindings-corba-2.1.3.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-corba/2.1.3/cxf-rt-bindings-corba-2.1.3-sources.jar"
+    />
+    <archive
       path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-jaxws/2.1.3/cxf-rt-frontend-jaxws-2.1.3.jar"
       source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-jaxws/2.1.3/cxf-rt-frontend-jaxws-2.1.3-sources.jar"
     />
