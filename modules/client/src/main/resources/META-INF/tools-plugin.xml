@@ -19,6 +19,13 @@
 -->
 <plugin xmlns="http://cxf.apache.org/tools/plugin" name="default" version="" provider="cxf.apache.org">
 
+  <!-- Copied from CXF-SOURCES/rt/databinding/xmlbeans/src/main/resources/META-INF/tools-plugin.xml -->
+  <databinding
+    name="xmlbeans"
+    package="org.apache.cxf.xmlbeans.tools"
+    profile="XMLBeansToolingDataBinding"
+  />
+
   <!-- Copied from CXF-SOURCES/tools/wsdlto/databinding/jaxb/src/main/resources/META-INF/tools-plugin.xml -->
   <databinding
     name="jaxb"
