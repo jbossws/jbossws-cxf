@@ -14,3 +14,4 @@ META-INF/cxf/cxf-extension-http-binding.xml
 META-INF/cxf/cxf-extension-jaxrs-binding.xml
 META-INF/cxf/cxf-extension-policy.xml
 META-INF/cxf/cxf-extension-rm.xml
+META-INF/cxf/cxf-extension-jbossws.xml
