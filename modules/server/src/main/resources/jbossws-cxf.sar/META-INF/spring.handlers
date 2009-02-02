@@ -18,55 +18,263 @@
 #    under the License.
 #
 #
+http\://cxf.apache.org/clustering=org.apache.cxf.clustering.spring.NamespaceHandler
+http\://cxf.apache.org/core=org.apache.cxf.bus.spring.NamespaceHandler
 
-#####
-# Commands used to generate this file:
 #
-# cd $CXF_213_SOURCES
-# touch ~/spring.handlers
-# find -type f -name spring.handlers | awk ' { print "echo \\# Copied from "$1" >> ~/spring.handlers && cat "$1" >> ~/spring.handlers"; } ' | /bin/bash -
 #
-#####
-
-# Copied from CXF-SOURCES/rt/ws/rm/src/main/resources/META-INF/spring.handlers
-http\://cxf.apache.org/ws/rm/manager=org.apache.cxf.ws.rm.spring.NamespaceHandler
-
-# Copied from CXF-SOURCES/rt/ws/addr/src/main/resources/META-INF/spring.handlers
+#    Licensed to the Apache Software Foundation (ASF) under one
+#    or more contributor license agreements. See the NOTICE file
+#    distributed with this work for additional information
+#    regarding copyright ownership. The ASF licenses this file
+#    to you under the Apache License, Version 2.0 (the
+#    "License"); you may not use this file except in compliance
+#    with the License. You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing,
+#    software distributed under the License is distributed on an
+#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the License for the
+#    specific language governing permissions and limitations
+#    under the License.
+#
+#
+http\://cxf.apache.org/jaxws=org.apache.cxf.jaxws.spring.NamespaceHandler
+#
+#
+#    Licensed to the Apache Software Foundation (ASF) under one
+#    or more contributor license agreements. See the NOTICE file
+#    distributed with this work for additional information
+#    regarding copyright ownership. The ASF licenses this file
+#    to you under the Apache License, Version 2.0 (the
+#    "License"); you may not use this file except in compliance
+#    with the License. You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing,
+#    software distributed under the License is distributed on an
+#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the License for the
+#    specific language governing permissions and limitations
+#    under the License.
+#
+#
+http\://cxf.apache.org/bindings/soap=org.apache.cxf.binding.soap.spring.NamespaceHandler
+#
+#
+#    Licensed to the Apache Software Foundation (ASF) under one
+#    or more contributor license agreements. See the NOTICE file
+#    distributed with this work for additional information
+#    regarding copyright ownership. The ASF licenses this file
+#    to you under the Apache License, Version 2.0 (the
+#    "License"); you may not use this file except in compliance
+#    with the License. You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing,
+#    software distributed under the License is distributed on an
+#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the License for the
+#    specific language governing permissions and limitations
+#    under the License.
+#
+#
+http\://cxf.apache.org/simple=org.apache.cxf.frontend.spring.NamespaceHandler
+#
+#
+#    Licensed to the Apache Software Foundation (ASF) under one
+#    or more contributor license agreements. See the NOTICE file
+#    distributed with this work for additional information
+#    regarding copyright ownership. The ASF licenses this file
+#    to you under the Apache License, Version 2.0 (the
+#    "License"); you may not use this file except in compliance
+#    with the License. You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing,
+#    software distributed under the License is distributed on an
+#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the License for the
+#    specific language governing permissions and limitations
+#    under the License.
+#
+#
 http\://cxf.apache.org/ws/addressing=org.apache.cxf.ws.addressing.spring.NamespaceHandler
+#
+#
+#    Licensed to the Apache Software Foundation (ASF) under one
+#    or more contributor license agreements. See the NOTICE file
+#    distributed with this work for additional information
+#    regarding copyright ownership. The ASF licenses this file
+#    to you under the Apache License, Version 2.0 (the
+#    "License"); you may not use this file except in compliance
+#    with the License. You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing,
+#    software distributed under the License is distributed on an
+#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the License for the
+#    specific language governing permissions and limitations
+#    under the License.
+#
+#
+http\://cxf.apache.org/transports/http/configuration=org.apache.cxf.transport.http.spring.NamespaceHandler
+#
+#
+#    Licensed to the Apache Software Foundation (ASF) under one
+#    or more contributor license agreements. See the NOTICE file
+#    distributed with this work for additional information
+#    regarding copyright ownership. The ASF licenses this file
+#    to you under the Apache License, Version 2.0 (the
+#    "License"); you may not use this file except in compliance
+#    with the License. You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing,
+#    software distributed under the License is distributed on an
+#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the License for the
+#    specific language governing permissions and limitations
+#    under the License.
+#
+#
+http\://cxf.apache.org/transports/http-jetty/configuration=org.apache.cxf.transport.http_jetty.spring.NamespaceHandler
 
-#Copied from CXF-SOURCES/rt/ws/policy/src/main/resources/META-INF/spring.handlers
+#
+#
+#    Licensed to the Apache Software Foundation (ASF) under one
+#    or more contributor license agreements. See the NOTICE file
+#    distributed with this work for additional information
+#    regarding copyright ownership. The ASF licenses this file
+#    to you under the Apache License, Version 2.0 (the
+#    "License"); you may not use this file except in compliance
+#    with the License. You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing,
+#    software distributed under the License is distributed on an
+#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the License for the
+#    specific language governing permissions and limitations
+#    under the License.
+#
+#
+http\://cxf.apache.org/transports/jms=org.apache.cxf.transport.jms.spring.NamespaceHandler
+#
+#
+#    Licensed to the Apache Software Foundation (ASF) under one
+#    or more contributor license agreements. See the NOTICE file
+#    distributed with this work for additional information
+#    regarding copyright ownership. The ASF licenses this file
+#    to you under the Apache License, Version 2.0 (the
+#    "License"); you may not use this file except in compliance
+#    with the License. You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing,
+#    software distributed under the License is distributed on an
+#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the License for the
+#    specific language governing permissions and limitations
+#    under the License.
+#
+#
+http\://cxf.apache.org/binding/coloc=org.apache.cxf.binding.coloc.spring.NamespaceHandler
+#
+#
+#    Licensed to the Apache Software Foundation (ASF) under one
+#    or more contributor license agreements. See the NOTICE file
+#    distributed with this work for additional information
+#    regarding copyright ownership. The ASF licenses this file
+#    to you under the Apache License, Version 2.0 (the
+#    "License"); you may not use this file except in compliance
+#    with the License. You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing,
+#    software distributed under the License is distributed on an
+#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the License for the
+#    specific language governing permissions and limitations
+#    under the License.
+#
+#
+http\://cxf.apache.org/bindings/object=org.apache.cxf.binding.object.spring.NamespaceHandler
+#
+#
+#    Licensed to the Apache Software Foundation (ASF) under one
+#    or more contributor license agreements. See the NOTICE file
+#    distributed with this work for additional information
+#    regarding copyright ownership. The ASF licenses this file
+#    to you under the Apache License, Version 2.0 (the
+#    "License"); you may not use this file except in compliance
+#    with the License. You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing,
+#    software distributed under the License is distributed on an
+#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the License for the
+#    specific language governing permissions and limitations
+#    under the License.
+#
+#
+http\://cxf.apache.org/jaxrs=org.apache.cxf.jaxrs.spring.NamespaceHandler
+#
+#
+#    Licensed to the Apache Software Foundation (ASF) under one
+#    or more contributor license agreements. See the NOTICE file
+#    distributed with this work for additional information
+#    regarding copyright ownership. The ASF licenses this file
+#    to you under the Apache License, Version 2.0 (the
+#    "License"); you may not use this file except in compliance
+#    with the License. You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing,
+#    software distributed under the License is distributed on an
+#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the License for the
+#    specific language governing permissions and limitations
+#    under the License.
+#
+#
 http\://cxf.apache.org/policy=org.apache.cxf.ws.policy.spring.NamespaceHandler
 http\://www.w3.org/ns/ws-policy=org.apache.cxf.ws.policy.spring.PolicyNamespaceHandler
 http\://www.w3.org/2006/07/ws-policy=org.apache.cxf.ws.policy.spring.PolicyNamespaceHandler
 http\://schemas.xmlsoap.org/ws/2004/09/policy=org.apache.cxf.ws.policy.spring.PolicyNamespaceHandler
 
-# Copied from CXF-SOURCES/rt/core/src/main/resources/META-INF/spring.handlers
-http\://cxf.apache.org/clustering=org.apache.cxf.clustering.spring.NamespaceHandler
-http\://cxf.apache.org/core=org.apache.cxf.bus.spring.NamespaceHandler
-
-# Copied from CXF-SOURCES/rt/bindings/object/src/main/resources/META-INF/spring.handlers
-http\://cxf.apache.org/bindings/object=org.apache.cxf.binding.object.spring.NamespaceHandler
-
-# Copied from CXF-SOURCES/rt/bindings/soap/src/main/resources/META-INF/spring.handlers
-http\://cxf.apache.org/bindings/soap=org.apache.cxf.binding.soap.spring.NamespaceHandler
-
-# Copied from CXF-SOURCES/rt/bindings/coloc/src/main/resources/META-INF/spring.handlers
-http\://cxf.apache.org/binding/coloc=org.apache.cxf.binding.coloc.spring.NamespaceHandler
-
-# Copied from CXF-SOURCES/rt/transports/jms/src/main/resources/META-INF/spring.handlers
-http\://cxf.apache.org/transports/jms=org.apache.cxf.transport.jms.spring.NamespaceHandler
-
-# Copied from CXF-SOURCES/rt/transports/http-jetty/src/main/resources/META-INF/spring.handlers
-http\://cxf.apache.org/transports/http-jetty/configuration=org.apache.cxf.transport.http_jetty.spring.NamespaceHandler
-
-# Copied from CXF-SOURCES/rt/transports/http/src/main/resources/META-INF/spring.handlers
-http\://cxf.apache.org/transports/http/configuration=org.apache.cxf.transport.http.spring.NamespaceHandler
-
-# Copied from CXF-SOURCES/rt/frontend/jaxrs/src/main/resources/META-INF/spring.handlers
-http\://cxf.apache.org/jaxrs=org.apache.cxf.jaxrs.spring.NamespaceHandler
-
-# Copied from CXF-SOURCES/rt/frontend/jaxws/src/main/resources/META-INF/spring.handlers
-http\://cxf.apache.org/jaxws=org.apache.cxf.jaxws.spring.NamespaceHandler
-
-# Copied from CXF-SOURCES/rt/frontend/simple/src/main/resources/META-INF/spring.handlers
-http\://cxf.apache.org/simple=org.apache.cxf.frontend.spring.NamespaceHandler
+#
+#
+#    Licensed to the Apache Software Foundation (ASF) under one
+#    or more contributor license agreements. See the NOTICE file
+#    distributed with this work for additional information
+#    regarding copyright ownership. The ASF licenses this file
+#    to you under the Apache License, Version 2.0 (the
+#    "License"); you may not use this file except in compliance
+#    with the License. You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing,
+#    software distributed under the License is distributed on an
+#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the License for the
+#    specific language governing permissions and limitations
+#    under the License.
+#
+#
+http\://cxf.apache.org/ws/rm/manager=org.apache.cxf.ws.rm.spring.NamespaceHandler

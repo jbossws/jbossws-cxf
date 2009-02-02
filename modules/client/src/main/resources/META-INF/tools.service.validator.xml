@@ -19,13 +19,9 @@
 -->
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
-<properties>
-
-  <!-- Copied from CXF-SOURCES/rt/bindings/xml/src/main/resources/META-INF/tools.service.validator.xml -->
-  <entry key="XMLFormatValidator">org.apache.cxf.binding.xml.XMLFormatValidator</entry>
-
-  <!-- Copied from CXF-SOURCES/tools/wsdlto/frontend/jaxws/src/main/resources/META-INF/tools.service.validator.xml -->
+<properties version="1.0">
   <entry key="UniqueBodyValidator">org.apache.cxf.tools.wsdlto.frontend.jaxws.validator.UniqueBodyValidator</entry>
   <entry key="WrapperStyleNameCollisionValidator">org.apache.cxf.tools.wsdlto.frontend.jaxws.validator.WrapperStyleNameCollisionValidator</entry>
-
+  <entry key="XMLFormatValidator">org.apache.cxf.binding.xml.XMLFormatValidator</entry>
 </properties>
+
