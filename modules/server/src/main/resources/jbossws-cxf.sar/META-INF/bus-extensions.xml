@@ -1,27 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements. See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership. The ASF licenses this file
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License. You may obtain a copy of the License at
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements. See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership. The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License. You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+  http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied. See the License for the
-specific language governing permissions and limitations
-under the License.
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied. See the License for the
+  specific language governing permissions and limitations
+  under the License.
 -->
 <extensions xmlns="http://cxf.apache.org/bus/extension">
-  <extension class="org.apache.cxf.binding.object.ObjectBindingFactory" interface="org.apache.cxf.binding.BindingFactory" deferred="true">
+
+  <!-- Copied from CXF-SOURCES/rt/management/src/main/resources/META-INF/cxf/bus-extensions.xml -->
+  <extension
+    class="org.apache.cxf.management.jmx.InstrumentationManagerImpl"
+    interface="org.apache.cxf.management.InstrumentationManager"
+  />
+
+  <!-- Copied from CXF-SOURCES/rt/core/src/main/resources/META-INF/cxf/bus-extensions.xml -->
+  <extension
+    class="org.apache.cxf.wsdl11.WSDLManagerImpl"
+    interface="org.apache.cxf.wsdl.WSDLManager"
+  />
+  <extension
+    class="org.apache.cxf.phase.PhaseManagerImpl"
+    interface="org.apache.cxf.phase.PhaseManager"
+  />
+  <extension
+    class="org.apache.cxf.workqueue.WorkQueueManagerImpl"
+    interface="org.apache.cxf.workqueue.WorkQueueManager"
+  />
+  <extension
+    class="org.apache.cxf.buslifecycle.CXFBusLifeCycleManager"
+    interface="org.apache.cxf.buslifecycle.BusLifeCycleManager"
+  />
+  <extension
+    class="org.apache.cxf.endpoint.ServerRegistryImpl"
+    interface="org.apache.cxf.endpoint.ServerRegistry"
+  />
+  <extension
+    class="org.apache.cxf.transport.http.QueryHandlerRegistryImpl"
+    interface="org.apache.cxf.transports.http.QueryHandlerRegistry"
+  /> 
+  <extension
+    class="org.apache.cxf.endpoint.EndpointResolverRegistryImpl"
+    interface="org.apache.cxf.endpoint.EndpointResolverRegistry"
+  />
+  <extension
+    class="org.apache.cxf.headers.HeaderManagerImpl"
+    interface="org.apache.cxf.headers.HeaderManager"
+  />
+  <extension
+    class="org.apache.cxf.catalog.OASISCatalogManager"
+    interface="org.apache.cxf.catalog.OASISCatalogManager"
+  />
+
+  <!-- Copied from CXF-SOURCES/rt/bindings/object/src/main/resources/META-INF/cxf/bus-extensions.xml -->
+  <extension
+    class="org.apache.cxf.binding.object.ObjectBindingFactory" 
+    interface="org.apache.cxf.binding.BindingFactory"
+    deferred="true"
+  >
     <namespace>http://cxf.apache.org/binding/object/</namespace>
   </extension>
-  <extension class="org.jboss.wsf.stack.cxf.transport.TomcatHTTPTransportFactory" interface="org.apache.cxf.transport.DestinationFactory" deferred="true">
+
+  <!-- Copied from CXF-SOURCES/rt/bindings/soap/src/main/resources/META-INF/cxf/bus-extensions.xml -->
+  <extension
+    class="org.apache.cxf.binding.soap.SoapBindingFactory" 
+    interface="org.apache.cxf.binding.BindingFactory"
+    deferred="true"
+  >
+    <namespace>http://schemas.xmlsoap.org/soap/</namespace>
+    <namespace>http://schemas.xmlsoap.org/wsdl/soap/</namespace>
+    <namespace>http://schemas.xmlsoap.org/wsdl/soap12/</namespace>
+    <namespace>http://www.w3.org/2003/05/soap/bindings/HTTP/</namespace>
+    <namespace>http://schemas.xmlsoap.org/wsdl/soap/http</namespace>
+  </extension>
+    
+  <extension
+    class="org.apache.cxf.binding.soap.SoapTransportFactory" 
+    interface="org.apache.cxf.transport.DestinationFactory"
+    deferred="true"
+  >
+    <namespace>http://schemas.xmlsoap.org/soap/</namespace>
+    <namespace>http://schemas.xmlsoap.org/wsdl/soap/</namespace>
+    <namespace>http://schemas.xmlsoap.org/wsdl/soap12/</namespace>
+  </extension>    
+
+  <!-- Copied from CXF-SOURCES/rt/bindings/jbi/src/main/resources/META-INF/cxf/bus-extensions.xml -->
+  <extension
+    class="org.apache.cxf.binding.jbi.JBIBindingFactory"
+    deferred="true"
+  >
+    <namespace>http://cxf.apache.org/bindings/jbi</namespace>
+    <namespace>http://java.sun.com/xml/ns/jbi/binding/service+engine</namespace>
+  </extension>
+
+  <!-- Copied from CXF-SOURCES/rt/bindings/corba/src/main/resources/META-INF/cxf/bus-extensions.xml -->
+  <extension
+    class="org.apache.cxf.binding.corba.CorbaBindingFactory"
+    deferred="true"
+  >
+    <namespace>http://cxf.apache.org/bindings/corba</namespace>
+    <namespace>http://schemas.apache.org/yoko/bindings/corba</namespace>
+  </extension>
+
+  <!-- Copied from CXF-SOURCES/rt/bindings/http/src/main/resources/META-INF/cxf/bus-extensions.xml -->
+  <extension
+    class="org.apache.cxf.binding.http.HttpBindingFactory" 
+    interface="org.apache.cxf.binding.BindingFactory"
+    deferred="true"
+  >
+    <namespace>http://apache.org/cxf/binding/http</namespace>
+  </extension>
+
+  <!-- Copied from CXF-SOURCES/rt/bindings/xml/src/main/resources/META-INF/cxf/bus-extensions.xml -->
+  <extension
+    class="org.apache.cxf.binding.xml.XMLBindingFactory"
+    deferred="true"
+  >
+    <namespace>http://cxf.apache.org/bindings/xformat</namespace>
+    <namespace>http://www.w3.org/2004/08/wsdl/http</namespace>       
+  </extension>
+
+  <!-- Copied from CXF-SOURCES/rt/transports/jms/src/main/resources/META-INF/cxf/bus-extensions.xml -->
+  <extension
+    class="org.apache.cxf.transport.jms.JMSTransportFactory"
+    deferred="true"
+  >
+    <namespace>http://cxf.apache.org/transports/jms</namespace>
+    <namespace>http://cxf.apache.org/transports/jms/configuration</namespace>
+  </extension>
+
+  <!-- Copied from CXF-SOURCES/rt/transports/http-jetty/src/main/resources/META-INF/cxf/bus-extensions.xml -->
+  <extension
+    class="org.apache.cxf.transport.http_jetty.JettyHTTPTransportFactory"
+    deferred="true"
+  >
     <namespace>http://schemas.xmlsoap.org/wsdl/soap/http</namespace>
     <namespace>http://schemas.xmlsoap.org/soap/http</namespace>
     <namespace>http://www.w3.org/2003/05/soap/bindings/HTTP/</namespace>
@@ -29,37 +152,23 @@ under the License.
     <namespace>http://cxf.apache.org/transports/http/configuration</namespace>
     <namespace>http://cxf.apache.org/bindings/xformat</namespace>
   </extension>
-  <extension class="org.apache.cxf.binding.http.HttpBindingFactory" interface="org.apache.cxf.binding.BindingFactory" deferred="true">
-    <namespace>http://apache.org/cxf/binding/http</namespace>
+
+  <!-- Copied from CXF-SOURCES/rt/transports/jbi/src/main/resources/META-INF/cxf/bus-extensions.xml -->
+  <extension
+    class="org.apache.cxf.transport.jbi.JBITransportFactory"
+    deferred="true"
+  >
+    <namespace>http://cxf.apache.org/transports/jbi</namespace>
+    <namespace>http://cxf.apache.org/transports/jbi/configuration</namespace>
   </extension>
-  <extension class="org.apache.cxf.binding.xml.XMLBindingFactory" deferred="true">
-    <namespace>http://cxf.apache.org/bindings/xformat</namespace>
-    <namespace>http://www.w3.org/2004/08/wsdl/http</namespace>
+
+  <!-- Copied from CXF-SOURCES/rt/frontend/jaxrs/src/main/resources/META-INF/cxf/bus-extensions.xml -->
+  <extension
+    class="org.apache.cxf.jaxrs.JAXRSBindingFactory" 
+    interface="org.apache.cxf.binding.BindingFactory"
+    deferred="true"
+  >
+    <namespace>http://apache.org/cxf/binding/jaxrs</namespace>
   </extension>
-  <extension class="org.apache.cxf.wsdl11.WSDLManagerImpl" interface="org.apache.cxf.wsdl.WSDLManager"/>
-  <extension class="org.apache.cxf.phase.PhaseManagerImpl" interface="org.apache.cxf.phase.PhaseManager"/>
-  <extension class="org.apache.cxf.workqueue.WorkQueueManagerImpl" interface="org.apache.cxf.workqueue.WorkQueueManager"/>
-  <extension class="org.apache.cxf.buslifecycle.CXFBusLifeCycleManager" interface="org.apache.cxf.buslifecycle.BusLifeCycleManager"/>
-  <extension class="org.apache.cxf.endpoint.ServerRegistryImpl" interface="org.apache.cxf.endpoint.ServerRegistry"/>
-  <extension class="org.apache.cxf.transport.http.QueryHandlerRegistryImpl" interface="org.apache.cxf.transports.http.QueryHandlerRegistry"/>
-  <extension class="org.apache.cxf.endpoint.EndpointResolverRegistryImpl" interface="org.apache.cxf.endpoint.EndpointResolverRegistry"/>
-  <extension class="org.apache.cxf.headers.HeaderManagerImpl" interface="org.apache.cxf.headers.HeaderManager"/>
-  <extension class="org.apache.cxf.catalog.OASISCatalogManager" interface="org.apache.cxf.catalog.OASISCatalogManager"/>
-  <extension class="org.apache.cxf.transport.jms.JMSTransportFactory" deferred="true">
-    <namespace>http://cxf.apache.org/transports/jms</namespace>
-    <namespace>http://cxf.apache.org/transports/jms/configuration</namespace>
-  </extension>
-  <extension class="org.apache.cxf.management.jmx.InstrumentationManagerImpl" interface="org.apache.cxf.management.InstrumentationManager"/>
-  <extension class="org.apache.cxf.binding.soap.SoapBindingFactory" interface="org.apache.cxf.binding.BindingFactory" deferred="true">
-    <namespace>http://schemas.xmlsoap.org/soap/</namespace>
-    <namespace>http://schemas.xmlsoap.org/wsdl/soap/</namespace>
-    <namespace>http://schemas.xmlsoap.org/wsdl/soap12/</namespace>
-    <namespace>http://www.w3.org/2003/05/soap/bindings/HTTP/</namespace>
-    <namespace>http://schemas.xmlsoap.org/wsdl/soap/http</namespace>
-  </extension>
-  <extension class="org.apache.cxf.binding.soap.SoapTransportFactory" interface="org.apache.cxf.transport.DestinationFactory" deferred="true">
-    <namespace>http://schemas.xmlsoap.org/soap/</namespace>
-    <namespace>http://schemas.xmlsoap.org/wsdl/soap/</namespace>
-    <namespace>http://schemas.xmlsoap.org/wsdl/soap12/</namespace>
-  </extension>
+
 </extensions>

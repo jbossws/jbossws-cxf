@@ -18,179 +18,25 @@
 #    under the License.
 #
 #
-http\://cxf.apache.org/schemas/jaxws.xsd=schemas/jaxws.xsd
+
+#####
+# Commands used to generate this file:
 #
+# cd $CXF_213_SOURCES
+# touch ~/spring.schemas
+# find -type f -name spring.schemas | awk ' { print "echo \\# Copied from "$1" >> ~/spring.schemas && cat "$1" >> ~/spring.schemas"; } ' | /bin/bash -
 #
-#    Licensed to the Apache Software Foundation (ASF) under one
-#    or more contributor license agreements. See the NOTICE file
-#    distributed with this work for additional information
-#    regarding copyright ownership. The ASF licenses this file
-#    to you under the Apache License, Version 2.0 (the
-#    "License"); you may not use this file except in compliance
-#    with the License. You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing,
-#    software distributed under the License is distributed on an
-#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#    KIND, either express or implied. See the License for the
-#    specific language governing permissions and limitations
-#    under the License.
-#
-#
+#####
+
+# Copied from CXF-SOURCES/rt/ws/rm/src/main/resources/META-INF/spring.schemas
 http\://cxf.apache.org/schemas/configuration/wsrm-manager-types.xsd=schemas/configuration/wsrm-manager-types.xsd
 http\://cxf.apache.org/schemas/configuration/wsrm-manager.xsd=schemas/configuration/wsrm-manager.xsd
 http\://schemas.xmlsoap.org/ws/2005/02/rm/wsrm-policy.xsd=schemas/configuration/wsrm-policy.xsd
-#
-#
-#    Licensed to the Apache Software Foundation (ASF) under one
-#    or more contributor license agreements. See the NOTICE file
-#    distributed with this work for additional information
-#    regarding copyright ownership. The ASF licenses this file
-#    to you under the Apache License, Version 2.0 (the
-#    "License"); you may not use this file except in compliance
-#    with the License. You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing,
-#    software distributed under the License is distributed on an
-#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#    KIND, either express or implied. See the License for the
-#    specific language governing permissions and limitations
-#    under the License.
-#
-#
+
+# Copied from CXF-SOURCES/rt/ws/addr/src/main/resources/META-INF/spring.schemas
 http\://cxf.apache.org/schemas/ws/addressing.xsd=schemas/ws-addr-conf.xsd
-#
-#
-#    Licensed to the Apache Software Foundation (ASF) under one
-#    or more contributor license agreements. See the NOTICE file
-#    distributed with this work for additional information
-#    regarding copyright ownership. The ASF licenses this file
-#    to you under the Apache License, Version 2.0 (the
-#    "License"); you may not use this file except in compliance
-#    with the License. You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing,
-#    software distributed under the License is distributed on an
-#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#    KIND, either express or implied. See the License for the
-#    specific language governing permissions and limitations
-#    under the License.
-#
-#
-http\://cxf.apache.org/schema/bindings/object.xsd=org/apache/cxf/binding/soap/spring/object.xsd
-#
-#
-#    Licensed to the Apache Software Foundation (ASF) under one
-#    or more contributor license agreements. See the NOTICE file
-#    distributed with this work for additional information
-#    regarding copyright ownership. The ASF licenses this file
-#    to you under the Apache License, Version 2.0 (the
-#    "License"); you may not use this file except in compliance
-#    with the License. You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing,
-#    software distributed under the License is distributed on an
-#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#    KIND, either express or implied. See the License for the
-#    specific language governing permissions and limitations
-#    under the License.
-#
-#
-http\://cxf.apache.org/schemas/configuration/http-jetty.xsd=schemas/configuration/http-jetty.xsd
 
-#
-#
-#    Licensed to the Apache Software Foundation (ASF) under one
-#    or more contributor license agreements. See the NOTICE file
-#    distributed with this work for additional information
-#    regarding copyright ownership. The ASF licenses this file
-#    to you under the Apache License, Version 2.0 (the
-#    "License"); you may not use this file except in compliance
-#    with the License. You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing,
-#    software distributed under the License is distributed on an
-#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#    KIND, either express or implied. See the License for the
-#    specific language governing permissions and limitations
-#    under the License.
-#
-#
-http\://cxf.apache.org/schemas/wsdl/http-conf.xsd=schemas/wsdl/http-conf.xsd
-http\://cxf.apache.org/schemas/configuration/http-conf.xsd=schemas/configuration/http-conf.xsd
-
-#
-#
-#    Licensed to the Apache Software Foundation (ASF) under one
-#    or more contributor license agreements. See the NOTICE file
-#    distributed with this work for additional information
-#    regarding copyright ownership. The ASF licenses this file
-#    to you under the Apache License, Version 2.0 (the
-#    "License"); you may not use this file except in compliance
-#    with the License. You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing,
-#    software distributed under the License is distributed on an
-#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#    KIND, either express or implied. See the License for the
-#    specific language governing permissions and limitations
-#    under the License.
-#
-#
-http\://cxf.apache.org/schemas/configuration/cxf-beans.xsd=schemas/configuration/cxf-beans.xsd
-#
-#
-#    Licensed to the Apache Software Foundation (ASF) under one
-#    or more contributor license agreements. See the NOTICE file
-#    distributed with this work for additional information
-#    regarding copyright ownership. The ASF licenses this file
-#    to you under the Apache License, Version 2.0 (the
-#    "License"); you may not use this file except in compliance
-#    with the License. You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing,
-#    software distributed under the License is distributed on an
-#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#    KIND, either express or implied. See the License for the
-#    specific language governing permissions and limitations
-#    under the License.
-#
-#
-http\://cxf.apache.org/schemas/simple.xsd=schemas/simple.xsd
-#
-#
-#    Licensed to the Apache Software Foundation (ASF) under one
-#    or more contributor license agreements. See the NOTICE file
-#    distributed with this work for additional information
-#    regarding copyright ownership. The ASF licenses this file
-#    to you under the Apache License, Version 2.0 (the
-#    "License"); you may not use this file except in compliance
-#    with the License. You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing,
-#    software distributed under the License is distributed on an
-#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#    KIND, either express or implied. See the License for the
-#    specific language governing permissions and limitations
-#    under the License.
-#
-#
+# Copied from CXF-SOURCES/rt/ws/policy/src/main/resources/META-INF/spring.schemas
 http\://www.w3.org/2007/02/ws-policy.xsd=schemas/ws-policy-200702.xsd
 http\://www.w3.org/2006/07/ws-policy.xsd=schemas/ws-policy-200607.xsd
 http\://schemas.xmlsoap.org/ws/2004/09/policy/ws-policy.xsd=schemas/ws-policy-200409.xsd
@@ -199,95 +45,41 @@ http\://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.
 http\://www.w3.org/2001/xml.xsd=schemas/xml.xsd
 http\://cxf.apache.org/schemas/policy.xsd=schemas/policy.xsd
 
-#
-#
-#    Licensed to the Apache Software Foundation (ASF) under one
-#    or more contributor license agreements. See the NOTICE file
-#    distributed with this work for additional information
-#    regarding copyright ownership. The ASF licenses this file
-#    to you under the Apache License, Version 2.0 (the
-#    "License"); you may not use this file except in compliance
-#    with the License. You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing,
-#    software distributed under the License is distributed on an
-#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#    KIND, either express or implied. See the License for the
-#    specific language governing permissions and limitations
-#    under the License.
-#
-#
+# Copied from CXF-SOURCES/rt/core/src/main/resources/META-INF/spring.schemas
 http\://cxf.apache.org/schemas/core.xsd=schemas/core.xsd
-#
-#
-#    Licensed to the Apache Software Foundation (ASF) under one
-#    or more contributor license agreements. See the NOTICE file
-#    distributed with this work for additional information
-#    regarding copyright ownership. The ASF licenses this file
-#    to you under the Apache License, Version 2.0 (the
-#    "License"); you may not use this file except in compliance
-#    with the License. You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing,
-#    software distributed under the License is distributed on an
-#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#    KIND, either express or implied. See the License for the
-#    specific language governing permissions and limitations
-#    under the License.
-#
-#
+
+# Copied from CXF-SOURCES/rt/bindings/object/src/main/resources/META-INF/spring.schemas
+http\://cxf.apache.org/schemas/bindings/object.xsd=schemas/bindings/object.xsd
+
+# Copied from CXF-SOURCES/rt/bindings/soap/src/main/resources/META-INF/spring.schemas
+http\://cxf.apache.org/schemas/configuration/soap.xsd=schemas/configuration/soap.xsd
+
+# Copied from CXF-SOURCES/rt/transports/jms/src/main/resources/META-INF/spring.schemas
 http\://cxf.apache.org/schemas/wsdl/jms.xsd=schemas/wsdl/jms.xsd
 http\://cxf.apache.org/schemas/configuration/jms.xsd=schemas/configuration/jms.xsd
 
-#
-#
-#    Licensed to the Apache Software Foundation (ASF) under one
-#    or more contributor license agreements. See the NOTICE file
-#    distributed with this work for additional information
-#    regarding copyright ownership. The ASF licenses this file
-#    to you under the Apache License, Version 2.0 (the
-#    "License"); you may not use this file except in compliance
-#    with the License. You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing,
-#    software distributed under the License is distributed on an
-#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#    KIND, either express or implied. See the License for the
-#    specific language governing permissions and limitations
-#    under the License.
-#
-#
+# Copied from CXF-SOURCES/rt/transports/http-jetty/src/main/resources/META-INF/spring.schemas
+http\://cxf.apache.org/schemas/configuration/http-jetty.xsd=schemas/configuration/http-jetty.xsd
+
+# Copied from CXF-SOURCES/rt/transports/http/src/main/resources/META-INF/spring.schemas
+http\://cxf.apache.org/schemas/wsdl/http-conf.xsd=schemas/wsdl/http-conf.xsd
+http\://cxf.apache.org/schemas/configuration/http-conf.xsd=schemas/configuration/http-conf.xsd
+
+# Copied from CXF-SOURCES/rt/frontend/jaxrs/src/main/resources/META-INF/spring.schemas
+http\://cxf.apache.org/schemas/jaxrs.xsd=schemas/jaxrs.xsd
+
+# Copied from CXF-SOURCES/rt/frontend/jaxws/src/main/resources/META-INF/spring.schemas
+http\://cxf.apache.org/schemas/jaxws.xsd=schemas/jaxws.xsd
+
+# Copied from CXF-SOURCES/rt/frontend/simple/src/main/resources/META-INF/spring.schemas
+http\://cxf.apache.org/schemas/simple.xsd=schemas/simple.xsd
+
+# Copied from CXF-SOURCES/common/common/src/main/resources/META-INF/spring.schemas
+http\://cxf.apache.org/schemas/configuration/cxf-beans.xsd=schemas/configuration/cxf-beans.xsd
+
+# Copied from CXF-SOURCES/common/schemas/src/main/resources/META-INF/spring.schemas
 http\://schemas.xmlsoap.org/wsdl/=schemas/wsdl/wsdl.xsd
+http\://schemas.xmlsoap.org/wsdl/2003-02-11.xsd=schemas/wsdl/wsdl.xsd
 http\://schemas.xmlsoap.org/wsdl/http/=schemas/wsdl/http.xsd
 http\://schemas.xmlsoap.org/ws/2004/08/addressing=schemas/wsdl/addressing.xsd
-
 http\://cxf.apache.org/schemas/configuration/security.xsd=schemas/configuration/security.xsd
-
-
-#
-#
-#    Licensed to the Apache Software Foundation (ASF) under one
-#    or more contributor license agreements. See the NOTICE file
-#    distributed with this work for additional information
-#    regarding copyright ownership. The ASF licenses this file
-#    to you under the Apache License, Version 2.0 (the
-#    "License"); you may not use this file except in compliance
-#    with the License. You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing,
-#    software distributed under the License is distributed on an
-#    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#    KIND, either express or implied. See the License for the
-#    specific language governing permissions and limitations
-#    under the License.
-#
-#
-http\://cxf.apache.org/schemas/configuration/soap.xsd=schemas/configuration/soap.xsd
