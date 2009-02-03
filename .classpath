@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path="modules/testsuite/cxf-tests/src/test/java"/>
 	<classpathentry kind="src" output="modules/server/target/classes" path="modules/server/src/main/java"/>
 	<classpathentry excluding="**" kind="src" output="modules/server/target/classes" path="modules/server/src/main/resources/jbossws-cxf-server.jar"/>
 	<classpathentry excluding="**" kind="src" output="modules/server/target/classes" path="modules/server/src/main/resources/jbossws-cxf.sar"/>
 	<classpathentry kind="src" output="modules/client/target/classes" path="modules/client/src/main/java"/>
 	<classpathentry excluding="**" kind="src" output="modules/client/target/classes" path="modules/client/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="modules/resources/target/classes" path="modules/resources/src/main/resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
