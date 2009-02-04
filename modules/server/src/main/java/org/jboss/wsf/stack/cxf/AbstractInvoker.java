@@ -18,7 +18,25 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */ 
+ */
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package org.jboss.wsf.stack.cxf;
 
 import java.lang.reflect.InvocationTargetException;
@@ -34,16 +52,20 @@ import javax.activation.DataHandler;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.MessageContext.Scope;
+import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.cxf.attachment.AttachmentImpl;
+import org.apache.cxf.binding.soap.SoapFault;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.frontend.MethodDispatcher;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.helpers.CastUtils;
+import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxws.context.WebServiceContextImpl;
 import org.apache.cxf.jaxws.context.WrappedMessageContext;
 import org.apache.cxf.message.Attachment;
 import org.apache.cxf.message.Exchange;
+import org.apache.cxf.message.FaultMode;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageContentsList;
 import org.apache.cxf.service.Service;
@@ -59,7 +81,7 @@ import org.jboss.wsf.spi.invocation.InvocationHandler;
  * An abstract CXF invoker
  * 
  * @author Thomas.Diesler@jboss.org
- * @since 06-Dec-2007
+ * @author richard.opalka@jboss.com
  */
 public abstract class AbstractInvoker implements Invoker
 {
@@ -93,11 +115,12 @@ public abstract class AbstractInvoker implements Invoker
       Method m = md.getMethod(bop);
 
       Object[] params = NO_ARGS;
+      List<Object> paramList = null;
       if (m.getParameterTypes().length != 0)
       {
          if (o instanceof List<?>)
          {
-            List<Object> paramList = CastUtils.cast((List<?>)o);
+            paramList = CastUtils.cast((List<?>)o);
             params = paramList.toArray();
          }
          else
@@ -121,25 +144,64 @@ public abstract class AbstractInvoker implements Invoker
       {
          invHandler.invoke(ep, inv);
          retObj = inv.getReturnValue();
-      }
-      catch (Exception ex)
-      {
-         handleException(ex);
+      } catch (InvocationTargetException e) {
+         Throwable t = e.getCause();
+         if (t == null) {
+            t = e;
+         }
+         exchange.getInMessage().put(FaultMode.class, FaultMode.UNCHECKED_APPLICATION_FAULT);
+         for (Class<?> cl : m.getExceptionTypes()) {
+            if (cl.isInstance(t)) {
+               exchange.getInMessage().put(FaultMode.class, 
+                     FaultMode.CHECKED_APPLICATION_FAULT);                    
+            }
+         }
+
+         if (t instanceof Fault) {
+            exchange.getInMessage().put(FaultMode.class, 
+                  FaultMode.CHECKED_APPLICATION_FAULT);                    
+            throw (Fault)t;
+         }
+         throw createFault(t, m, paramList, true);
+      } catch (Fault f) {
+         exchange.getInMessage().put(FaultMode.class, FaultMode.UNCHECKED_APPLICATION_FAULT);
+         throw f;
+      } catch (Exception e) {
+         exchange.getInMessage().put(FaultMode.class, FaultMode.UNCHECKED_APPLICATION_FAULT);
+         throw createFault(e, m, paramList, false);
       }
 
       return retObj;
    }
+   
+   protected SOAPFaultException findSoapFaultException(Throwable ex) {
+      if (ex instanceof SOAPFaultException) {
+          return (SOAPFaultException)ex;
+      }
+      if (ex.getCause() != null) {
+          return findSoapFaultException(ex.getCause());
+      }
+      return null;
+  }
+  
+  protected Fault createFault(Throwable ex, Method m, List<Object> params, boolean checked) {
+      //map the JAX-WS faults
+      SOAPFaultException sfe = findSoapFaultException(ex);
+      if (sfe != null) {
+          SoapFault fault = new SoapFault(sfe.getFault().getFaultString(),
+                                          ex,
+                                          sfe.getFault().getFaultCodeAsQName());
+          fault.setRole(sfe.getFault().getFaultActor());
+          fault.setDetail(sfe.getFault().getDetail());
+          
+          return fault;
+      }
+      
+      return new Fault(ex);
+  }
+
 
    protected abstract WebServiceContext getWebServiceContext(MessageContext msgCtx);
-
-   protected void handleException(Exception ex)
-   {
-      Throwable th = ex;
-      if (ex instanceof InvocationTargetException)
-         th = ((InvocationTargetException)ex).getTargetException();
-
-      throw new RuntimeException(th);
-   }
 
    protected Map<String, Object> removeHandlerProperties(WrappedMessageContext ctx)
    {
@@ -168,10 +230,10 @@ public abstract class AbstractInvoker implements Invoker
       // Need to copy header only if the message is going out.
       if (ctx.containsKey(Header.HEADER_LIST) && ctx.get(Header.HEADER_LIST) instanceof List<?>)
       {
-         List list = (List) ctx.get(Header.HEADER_LIST);
+         List<?> list = (List<?>) ctx.get(Header.HEADER_LIST);
          if (list != null && !list.isEmpty()) {
             SoapMessage sm = (SoapMessage) createResponseMessage(exchange);
-            Iterator iter = list.iterator();
+            Iterator<?> iter = list.iterator();
             while (iter.hasNext())
             {
                sm.getHeaders().add((Header) iter.next());
