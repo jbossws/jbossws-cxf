@@ -70,17 +70,21 @@ public class ServletControllerExt extends ServletController
       // Find destination based on request URI
       String requestURI = req.getRequestURI();
       Collection<ServletDestination> destinations = cxfTransport.getDestinations();
+      String exactMatch = null;
+      ServletDestination returnValue = null;
       for (ServletDestination destination : destinations)
       {
          EndpointInfo endpointInfo = destination.getEndpointInfo();
          String address = endpointInfo.getAddress();
          
          // Fix invalid leading slash
+         /*
          if (address.startsWith("/http://"))
          {
             address = address.substring(1);
             endpointInfo.setAddress(address);
          }
+         */
          
          String path = address;
          try
@@ -92,13 +96,20 @@ public class ServletControllerExt extends ServletController
             // ignore
          }
          
-         if (requestURI.startsWith(path))
+         if (requestURI.equals(path))
          {
-            return destination;
+            return destination; // exact match
+         }
+         else if (requestURI.startsWith(path))
+         {
+            returnValue = destination; // fallback
          }
       }
 
-      throw new ServletException("Cannot obtain destination for: " + requestURI);
+      if (returnValue == null)
+         throw new ServletException("Cannot obtain destination for: " + requestURI);
+      
+      return returnValue;
    }
    
    /**
