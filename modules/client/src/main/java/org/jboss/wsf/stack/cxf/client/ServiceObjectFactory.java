@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.jaxws.ServiceImpl;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 
@@ -28,14 +30,23 @@ import javax.naming.*;
 import javax.naming.spi.ObjectFactory;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+import javax.xml.ws.spi.ServiceDelegate;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.jboss.logging.Logger;
 
 /**
@@ -171,6 +182,12 @@ public class ServiceObjectFactory implements ObjectFactory
             }
          }
 
+         if ((serviceRef.getHandlerChain() != null) && (target instanceof Service))
+         {
+            Bus bus = getBus((Service)target);
+            ((Service)target).setHandlerResolver(new HandlerResolverImpl(bus, serviceRef.getHandlerChain(), target.getClass()));
+         }
+
          return target;
       }
       catch (Throwable ex)
@@ -178,6 +195,49 @@ public class ServiceObjectFactory implements ObjectFactory
          WSFException.rethrow("Cannot create service", ex);
          return null;
       }
+   }
+   
+   private Bus getBus(final Service service) throws Throwable
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm != null)
+      {
+         try
+         {
+            return AccessController.doPrivileged(new PrivilegedExceptionAction<Bus>()
+            {
+               public Bus run() throws Exception
+               {
+                  Field delegateField = findServiceDelegateField(service.getClass());
+                  delegateField.setAccessible(true);
+                  ServiceImpl serviceImpl = (ServiceImpl)delegateField.get(service);
+                  return serviceImpl.getBus();
+               }
+            });
+         }
+         catch (PrivilegedActionException e)
+         {
+            throw e.getCause();
+         }
+      }
+      Field delegateField = findServiceDelegateField(service.getClass());
+      delegateField.setAccessible(true);
+      ServiceImpl serviceImpl = (ServiceImpl)delegateField.get(service);
+      return serviceImpl.getBus();
+   }
+   
+   private static Field findServiceDelegateField(Class<?> clazz)
+   {
+      while (clazz != null)
+      {
+         for (Field f : clazz.getDeclaredFields())
+         {
+            if (f.getType().equals(ServiceDelegate.class))
+               return f;
+         }
+         clazz = clazz.getSuperclass();
+      }
+      return null;
    }
 
 
