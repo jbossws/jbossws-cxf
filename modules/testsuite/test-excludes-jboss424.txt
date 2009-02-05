@@ -36,9 +36,6 @@ org/jboss/test/ws/jaxws/jbws1702/**
 # [CXF-1517] HTTP bindings for Provider
 org/jboss/test/ws/jaxws/jbws1807/**
 
-# [CXF-1518] Missing fault detail in messages from SLSB Provider
-org/jboss/test/ws/jaxws/jbws1815/**
-
 # [CXF-1519] Explicitly set the namespace of a WebFault
 org/jboss/test/ws/jaxws/jbws1904/**
 
