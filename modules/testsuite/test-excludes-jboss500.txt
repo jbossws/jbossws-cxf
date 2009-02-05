@@ -7,9 +7,6 @@ org/jboss/test/ws/jaxws/samples/securityDomain/SecureEndpointImpl.*
 # TODO: Fix classpath to ClientLauncher
 org/jboss/test/ws/jaxws/samples/webserviceref/**
 
-# [CXF-1244] Application Exception not initialized properly
-org/jboss/test/ws/jaxws/samples/exception/**
-
 # [CXF-1252] Provider PAYLOAD endpoint expects SOAP Envelope
 org/jboss/test/ws/jaxws/samples/httpbinding/**
 org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase.*
