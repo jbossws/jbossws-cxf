@@ -38,7 +38,6 @@
               <include>org.springframework:spring-beans:jar</include>
               <include>org.springframework:spring-context:jar</include>
               <include>org.springframework:spring-core:jar</include>
-              <include>stax:stax-api:jar</include>
               <include>wsdl4j:wsdl4j:jar</include>
               <include>xml-resolver:xml-resolver:jar</include>
               <include>org.apache.ws.commons.schema:XmlSchema:jar</include>
@@ -55,6 +54,13 @@
             <useStrictFiltering>true</useStrictFiltering>
             <includes>
               <include>org.apache.geronimo.specs:geronimo-jaxws_2.1_spec:jar</include>
+            </includes>
+          </dependencySet>
+          <dependencySet>
+            <outputFileNameMapping>stax-api.jar</outputFileNameMapping>
+            <useStrictFiltering>true</useStrictFiltering>
+            <includes>
+              <include>org.apache.geronimo.specs:geronimo-stax-api_1.0_spec</include>
             </includes>
           </dependencySet>
           <dependencySet>
