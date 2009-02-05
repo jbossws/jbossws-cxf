@@ -1,6 +1,3 @@
-# Won't Fix: [CXF-1261] Handler does not see XOP message properly
-org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
-
 # Exclude endpoints with AS42 @SecurityDomain
 org/jboss/test/ws/jaxws/samples/securityDomain/SecureEndpointImpl.*
 
@@ -56,25 +53,12 @@ org/jboss/test/ws/jaxws/samples/asynchronous/AsynchronousProxyTestCase.*
 
 # [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored
 org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
-org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefServletTestCase.*
 
 # [JBWS-1655] Add support for endpoint address rewriting
 org/jboss/test/ws/jaxws/jbws2150/**
 
-# [JBWS-1178] Multiple virtual host and soap:address problem
-org/jboss/test/ws/jaxws/jbws1178/**
-
-# [JBWS-2112] Cannot use CXF with endpoint API
-org/jboss/test/ws/jaxws/endpoint/**
-
 # [JBWS-2115] EJB client vehicle not sufficiently isolated
 org/jboss/test/ws/jaxws/jbws1581/**
-
-# [JBWS-2118] context-root in jboss.xml is ignored
-org/jboss/test/ws/jaxws/jbws1813/**
-
-# [JBWS-2119] WebServiceRef injection from DD doesn't work
-org/jboss/test/ws/jaxws/jbws1841/**
 
 # [JBWS-2165] Fix xop tests with maven build
 org/jboss/test/ws/jaxws/samples/xop/**
@@ -88,9 +72,6 @@ org/jboss/test/ws/jaxws/jbws2278/**
 
 # [JBWS-2227] Investigate why multiple virtual hosts test fails on CXF
 org/jboss/test/ws/jaxws/jbws1178/**
-
-# [JBWS-2384] NameAlreadyBoundException when more than one virtual host are specified in @WebContext(virtualHosts) annotation variable
-org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*
 
 # [JBWS-2478] Investigate why WS-Security CXF tests are failing
 org/jboss/test/ws/jaxws/samples/wsse/**
