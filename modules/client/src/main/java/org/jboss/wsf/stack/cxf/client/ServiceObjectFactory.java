@@ -187,7 +187,9 @@ public class ServiceObjectFactory implements ObjectFactory
             Bus bus = getBus((Service)target);
             ((Service)target).setHandlerResolver(new HandlerResolverImpl(bus, serviceRef.getHandlerChain(), target.getClass()));
          }
-
+         
+         hackServiceDelegate(target, serviceRef);
+         
          return target;
       }
       catch (Throwable ex)
@@ -195,6 +197,38 @@ public class ServiceObjectFactory implements ObjectFactory
          WSFException.rethrow("Cannot create service", ex);
          return null;
       }
+   }
+   
+   // TODO: ugly hack that should be removed in the future
+   private Object hackServiceDelegate(final Object service, final UnifiedServiceRefMetaData serviceRef) throws Throwable
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm != null)
+      {
+         try
+         {
+            return AccessController.doPrivileged(new PrivilegedExceptionAction<Object>()
+            {
+               public Object run() throws Exception
+               {
+                  Field delegateField = findServiceDelegateField(service.getClass());
+                  delegateField.setAccessible(true);
+                  ServiceDelegate delegate = (ServiceDelegate)delegateField.get(service);
+                  delegateField.set(service, new ServiceRefStubPropertyServiceDelegate(delegate, serviceRef));
+                  return delegate;
+               }
+            });
+         }
+         catch (PrivilegedActionException e)
+         {
+            throw e.getCause();
+         }
+      }
+      Field delegateField = findServiceDelegateField(service.getClass());
+      delegateField.setAccessible(true);
+      ServiceDelegate delegate = (ServiceDelegate)delegateField.get(service);
+      delegateField.set(service, new ServiceRefStubPropertyServiceDelegate(delegate, serviceRef));
+      return delegate;
    }
    
    private Bus getBus(final Service service) throws Throwable
