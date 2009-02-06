@@ -212,10 +212,15 @@ public class ServiceObjectFactory implements ObjectFactory
                public Object run() throws Exception
                {
                   Field delegateField = findServiceDelegateField(service.getClass());
-                  delegateField.setAccessible(true);
-                  ServiceDelegate delegate = (ServiceDelegate)delegateField.get(service);
-                  delegateField.set(service, new ServiceRefStubPropertyServiceDelegate(delegate, serviceRef));
-                  return delegate;
+                  if (delegateField != null)
+                  {
+                     delegateField.setAccessible(true);
+                     ServiceDelegate delegate = (ServiceDelegate)delegateField.get(service);
+                     delegateField.set(service, new ServiceRefStubPropertyServiceDelegate(delegate, serviceRef));
+                     return delegate;
+                  } else {
+                     return null;
+                  }
                }
             });
          }
@@ -225,10 +230,15 @@ public class ServiceObjectFactory implements ObjectFactory
          }
       }
       Field delegateField = findServiceDelegateField(service.getClass());
-      delegateField.setAccessible(true);
-      ServiceDelegate delegate = (ServiceDelegate)delegateField.get(service);
-      delegateField.set(service, new ServiceRefStubPropertyServiceDelegate(delegate, serviceRef));
-      return delegate;
+      if (delegateField != null)
+      {
+         delegateField.setAccessible(true);
+         ServiceDelegate delegate = (ServiceDelegate)delegateField.get(service);
+         delegateField.set(service, new ServiceRefStubPropertyServiceDelegate(delegate, serviceRef));
+         return delegate;
+      } else {
+         return null;
+      }
    }
    
    private Bus getBus(final Service service) throws Throwable
@@ -243,9 +253,13 @@ public class ServiceObjectFactory implements ObjectFactory
                public Bus run() throws Exception
                {
                   Field delegateField = findServiceDelegateField(service.getClass());
-                  delegateField.setAccessible(true);
-                  ServiceImpl serviceImpl = (ServiceImpl)delegateField.get(service);
-                  return serviceImpl.getBus();
+                  if (delegateField != null)
+                  {
+                     delegateField.setAccessible(true);
+                     ServiceImpl serviceImpl = (ServiceImpl)delegateField.get(service);
+                     return serviceImpl.getBus();
+                  }
+                  throw new IllegalStateException("Bus not found");
                }
             });
          }
@@ -255,9 +269,13 @@ public class ServiceObjectFactory implements ObjectFactory
          }
       }
       Field delegateField = findServiceDelegateField(service.getClass());
-      delegateField.setAccessible(true);
-      ServiceImpl serviceImpl = (ServiceImpl)delegateField.get(service);
-      return serviceImpl.getBus();
+      if (delegateField != null)
+      {
+         delegateField.setAccessible(true);
+         ServiceImpl serviceImpl = (ServiceImpl)delegateField.get(service);
+         return serviceImpl.getBus();
+      }
+      throw new IllegalStateException("Bus not found");
    }
    
    private static Field findServiceDelegateField(Class<?> clazz)
