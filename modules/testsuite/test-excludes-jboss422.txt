@@ -51,6 +51,9 @@ org/jboss/test/ws/jaxws/jbws2449/**
 # [CXF-2011] Asynchronous client behaves improperly
 org/jboss/test/ws/jaxws/samples/asynchronous/AsynchronousProxyTestCase.*
 
+# [JBWS-981] @WebContext defined virtual hosts only being fixed for JBoss 5 
+org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*
+
 # [JBWS-1655] Add support for endpoint address rewriting
 org/jboss/test/ws/jaxws/jbws2150/**
 
@@ -79,11 +82,11 @@ org/jboss/test/ws/jaxws/jbws1178/**
 # [JBWS-2240] PortComponent from jboss.xml descriptor is not parsed
 org/jboss/test/ws/jaxws/jbws2241/**
 
+# [JBWS-2307] Stub properties not propagated through service-ref (fixed in AS 5.x and above)
+org/jboss/test/ws/jaxws/jbws2307/JBWS2307TestCase.*
+
 # [JBWS-2330] Failed to deploy service with multiple bindings
 org/jboss/test/ws/jaxws/jbws2278/**
-
-# [JBWS-981] @WebContext defined virtual hosts only being fixed for JBoss 5 
-org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*
 
 # [JBWS-2478] Investigate why WS-Security CXF tests are failing
 org/jboss/test/ws/jaxws/samples/wsse/**
