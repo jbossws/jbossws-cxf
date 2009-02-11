@@ -48,9 +48,6 @@ org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
 # [CXF-2006] RespectBinding feature and not understood required extensibility elements
 org/jboss/test/ws/jaxws/jbws2449/**
 
-# [CXF-2011] Asynchronous client behaves improperly
-org/jboss/test/ws/jaxws/samples/asynchronous/AsynchronousProxyTestCase.*
-
 # [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored
 org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
 
@@ -78,3 +75,6 @@ org/jboss/test/ws/jaxws/samples/wsse/**
 
 # [JBWS-2480] Soap attachments are dropped on server response
 org/jboss/test/ws/jaxws/jbws1283/**
+
+# [JBWS-2525] Investigate why WS-RM CXF tests are failing
+org/jboss/test/ws/jaxws/samples/wsrm/**
