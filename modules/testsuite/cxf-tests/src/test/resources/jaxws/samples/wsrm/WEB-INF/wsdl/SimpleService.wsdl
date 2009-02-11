@@ -3,7 +3,9 @@
 
   <wsp:UsingPolicy/>
   <wsp:Policy wsu:Id="wsrm10policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-    <wswa:UsingAddressing xmlns:wswa="http://www.w3.org/2006/05/addressing/wsdl"/>
+    <wswa:UsingAddressing xmlns:wswa="http://www.w3.org/2006/05/addressing/wsdl">
+       <wsp:Policy/>
+    </wswa:UsingAddressing>
     <wsrmp:RMAssertion xmlns:wsrmp="http://schemas.xmlsoap.org/ws/2005/02/rm/policy"/>
   </wsp:Policy>
   
