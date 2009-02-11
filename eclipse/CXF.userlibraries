@@ -26,132 +26,132 @@
       source = "$M2_REPOSITORY_HOME/org/apache/ws/commons/schema/XmlSchema/1.4.2/XmlSchema-1.4.2-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-databinding-aegis/2.1.3/cxf-rt-databinding-aegis-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-databinding-aegis/2.1.3/cxf-rt-databinding-aegis-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-databinding-aegis/2.1.4/cxf-rt-databinding-aegis-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-databinding-aegis/2.1.4/cxf-rt-databinding-aegis-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-javascript/2.1.3/cxf-rt-javascript-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-javascript/2.1.3/cxf-rt-javascript-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-javascript/2.1.4/cxf-rt-javascript-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-javascript/2.1.4/cxf-rt-javascript-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-anttasks/2.1.3/cxf-anttasks-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-anttasks/2.1.3/cxf-anttasks-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-anttasks/2.1.4/cxf-anttasks-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-anttasks/2.1.4/cxf-anttasks-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-jms/2.1.3/cxf-rt-transports-jms-2.1.3.jar" 
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-jms/2.1.3/cxf-rt-transports-jms-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-jms/2.1.4/cxf-rt-transports-jms-2.1.4.jar" 
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-jms/2.1.4/cxf-rt-transports-jms-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-core/2.1.3/cxf-rt-core-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-core/2.1.3/cxf-rt-core-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-core/2.1.4/cxf-rt-core-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-core/2.1.4/cxf-rt-core-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-http/2.1.3/cxf-rt-bindings-http-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-http/2.1.3/cxf-rt-bindings-http-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-http/2.1.4/cxf-rt-bindings-http-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-http/2.1.4/cxf-rt-bindings-http-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-common-schemas/2.1.3/cxf-common-schemas-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-common-schemas/2.1.3/cxf-common-schemas-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-common-schemas/2.1.4/cxf-common-schemas-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-common-schemas/2.1.4/cxf-common-schemas-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-coloc/2.1.3/cxf-rt-bindings-coloc-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-coloc/2.1.3/cxf-rt-bindings-coloc-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-coloc/2.1.4/cxf-rt-bindings-coloc-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-coloc/2.1.4/cxf-rt-bindings-coloc-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-corba/2.1.3/cxf-rt-bindings-corba-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-corba/2.1.3/cxf-rt-bindings-corba-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-corba/2.1.4/cxf-rt-bindings-corba-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-corba/2.1.4/cxf-rt-bindings-corba-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-jaxws/2.1.3/cxf-rt-frontend-jaxws-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-jaxws/2.1.3/cxf-rt-frontend-jaxws-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-jaxws/2.1.4/cxf-rt-frontend-jaxws-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-jaxws/2.1.4/cxf-rt-frontend-jaxws-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-jaxrs/2.1.3/cxf-rt-frontend-jaxrs-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-jaxrs/2.1.3/cxf-rt-frontend-jaxrs-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-jaxrs/2.1.4/cxf-rt-frontend-jaxrs-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-jaxrs/2.1.4/cxf-rt-frontend-jaxrs-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-rm/2.1.3/cxf-rt-ws-rm-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-rm/2.1.3/cxf-rt-ws-rm-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-rm/2.1.4/cxf-rt-ws-rm-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-rm/2.1.4/cxf-rt-ws-rm-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-http-jetty/2.1.3/cxf-rt-transports-http-jetty-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-http-jetty/2.1.3/cxf-rt-transports-http-jetty-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-http-jetty/2.1.4/cxf-rt-transports-http-jetty-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-http-jetty/2.1.4/cxf-rt-transports-http-jetty-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-http/2.1.3/cxf-rt-transports-http-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-http/2.1.3/cxf-rt-transports-http-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-http/2.1.4/cxf-rt-transports-http-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-http/2.1.4/cxf-rt-transports-http-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-addr/2.1.3/cxf-rt-ws-addr-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-addr/2.1.3/cxf-rt-ws-addr-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-addr/2.1.4/cxf-rt-ws-addr-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-addr/2.1.4/cxf-rt-ws-addr-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-local/2.1.3/cxf-rt-transports-local-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-local/2.1.3/cxf-rt-transports-local-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-local/2.1.4/cxf-rt-transports-local-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-transports-local/2.1.4/cxf-rt-transports-local-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-xml/2.1.3/cxf-rt-bindings-xml-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-xml/2.1.3/cxf-rt-bindings-xml-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-xml/2.1.4/cxf-rt-bindings-xml-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-xml/2.1.4/cxf-rt-bindings-xml-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-policy/2.1.3/cxf-rt-ws-policy-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-policy/2.1.3/cxf-rt-ws-policy-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-policy/2.1.4/cxf-rt-ws-policy-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-policy/2.1.4/cxf-rt-ws-policy-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-management/2.1.3/cxf-rt-management-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-management/2.1.3/cxf-rt-management-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-management/2.1.4/cxf-rt-management-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-management/2.1.4/cxf-rt-management-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-databinding-jaxb/2.1.3/cxf-rt-databinding-jaxb-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-databinding-jaxb/2.1.3/cxf-rt-databinding-jaxb-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-databinding-jaxb/2.1.4/cxf-rt-databinding-jaxb-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-databinding-jaxb/2.1.4/cxf-rt-databinding-jaxb-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-common-utilities/2.1.3/cxf-common-utilities-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-common-utilities/2.1.3/cxf-common-utilities-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-common-utilities/2.1.4/cxf-common-utilities-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-common-utilities/2.1.4/cxf-common-utilities-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-simple/2.1.3/cxf-rt-frontend-simple-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-simple/2.1.3/cxf-rt-frontend-simple-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-simple/2.1.4/cxf-rt-frontend-simple-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-frontend-simple/2.1.4/cxf-rt-frontend-simple-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-soap/2.1.3/cxf-rt-bindings-soap-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-soap/2.1.3/cxf-rt-bindings-soap-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-soap/2.1.4/cxf-rt-bindings-soap-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-soap/2.1.4/cxf-rt-bindings-soap-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-security/2.1.3/cxf-rt-ws-security-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-security/2.1.3/cxf-rt-ws-security-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-security/2.1.4/cxf-rt-ws-security-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-ws-security/2.1.4/cxf-rt-ws-security-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-common/2.1.3/cxf-tools-common-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-common/2.1.3/cxf-tools-common-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-common/2.1.4/cxf-tools-common-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-common/2.1.4/cxf-tools-common-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-java2ws/2.1.3/cxf-tools-java2ws-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-java2ws/2.1.3/cxf-tools-java2ws-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-java2ws/2.1.4/cxf-tools-java2ws-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-java2ws/2.1.4/cxf-tools-java2ws-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-validator/2.1.3/cxf-tools-validator-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-validator/2.1.3/cxf-tools-validator-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-validator/2.1.4/cxf-tools-validator-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-validator/2.1.4/cxf-tools-validator-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-core/2.1.3/cxf-tools-wsdlto-core-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-core/2.1.3/cxf-tools-wsdlto-core-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-core/2.1.4/cxf-tools-wsdlto-core-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-core/2.1.4/cxf-tools-wsdlto-core-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-databinding-jaxb/2.1.3/cxf-tools-wsdlto-databinding-jaxb-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-databinding-jaxb/2.1.3/cxf-tools-wsdlto-databinding-jaxb-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-databinding-jaxb/2.1.4/cxf-tools-wsdlto-databinding-jaxb-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-databinding-jaxb/2.1.4/cxf-tools-wsdlto-databinding-jaxb-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-frontend-jaxws/2.1.3/cxf-tools-wsdlto-frontend-jaxws-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-frontend-jaxws/2.1.3/cxf-tools-wsdlto-frontend-jaxws-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-frontend-jaxws/2.1.4/cxf-tools-wsdlto-frontend-jaxws-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-tools-wsdlto-frontend-jaxws/2.1.4/cxf-tools-wsdlto-frontend-jaxws-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-api/2.1.3/cxf-api-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-api/2.1.3/cxf-api-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-api/2.1.4/cxf-api-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-api/2.1.4/cxf-api-2.1.4-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-object/2.1.3/cxf-rt-bindings-object-2.1.3.jar"
-      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-object/2.1.3/cxf-rt-bindings-object-2.1.3-sources.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-object/2.1.4/cxf-rt-bindings-object-2.1.4.jar"
+      source = "$M2_REPOSITORY_HOME/org/apache/cxf/cxf-rt-bindings-object/2.1.4/cxf-rt-bindings-object-2.1.4-sources.jar"
     />
     <archive
       path   = "$M2_REPOSITORY_HOME/org/apache/geronimo/specs/geronimo-javamail_1.4_spec/1.3/geronimo-javamail_1.4_spec-1.3.jar"
@@ -206,7 +206,7 @@
       source = "$M2_REPOSITORY_HOME/xml-resolver/xml-resolver/1.2/xml-resolver-1.2-sources.jar"
     />
     <archive
-      path   = "$M2_REPOSITORY_HOME/org/apache/santuario/xmlsec/1.4.0/xmlsec-1.4.0.jar"
+      path   = "$M2_REPOSITORY_HOME/org/apache/santuario/xmlsec/1.4.2/xmlsec-1.4.2.jar"
     />
   </library>
 </eclipse-userlibraries>
