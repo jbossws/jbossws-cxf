@@ -26,6 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -51,9 +52,9 @@ public class ServletControllerExt extends ServletController
    private ServletContext servletCtx;
    private Bus bus;
 
-   public ServletControllerExt(ServletTransportFactory cxfTransport, ServletContext servletCtx, Bus bus)
+   public ServletControllerExt(ServletTransportFactory cxfTransport, ServletConfig config, ServletContext servletCtx, Bus bus)
    {
-      super(cxfTransport, servletCtx, bus);
+      super(cxfTransport, config, servletCtx, bus);
       this.cxfTransport = cxfTransport;
       this.servletCtx = servletCtx;
       this.bus = bus;

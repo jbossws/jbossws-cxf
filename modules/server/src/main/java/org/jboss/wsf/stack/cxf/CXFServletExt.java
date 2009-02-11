@@ -86,7 +86,7 @@ public class CXFServletExt extends CXFServlet
    public ServletController createServletController(ServletConfig servletConfig)
    {
       ServletTransportFactory stf = (ServletTransportFactory)createServletTransportFactory();
-      return new ServletControllerExt(stf, servletConfig.getServletContext(), bus);
+      return new ServletControllerExt(stf, servletConfig, servletConfig.getServletContext(), bus);
    }
 
    @Override
