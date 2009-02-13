@@ -464,11 +464,11 @@
       <dependencies>
         <!-- [JBWS-2505] -->
         <!-- START -->
-        <!--dependency>
+        <dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-jboss501x</artifactId>
-        </dependency-->
-        <dependency>
+        </dependency>
+        <!--dependency>
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-webservices</artifactId>
           <version>${jboss.version}</version>
@@ -478,7 +478,7 @@
               <artifactId>jbosssx</artifactId>
             </exclusion>
           </exclusions>
-        </dependency>
+        </dependency-->
         <!-- END -->
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
@@ -534,11 +534,11 @@
       <dependencies>
         <!-- [JBWS-2505] -->
         <!-- START -->
-        <!--dependency>
+        <dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-jboss510x</artifactId>
-        </dependency-->
-        <dependency>
+        </dependency>
+        <!--dependency>
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-webservices</artifactId>
           <version>${jboss.version}</version>
@@ -548,7 +548,7 @@
               <artifactId>jbosssx</artifactId>
             </exclusion>
           </exclusions>
-        </dependency>
+        </dependency-->
         <!-- END -->
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
@@ -604,11 +604,11 @@
       <dependencies>
         <!-- [JBWS-2505] -->
         <!-- START -->
-        <!--dependency>
+        <dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-jboss600x</artifactId>
-        </dependency-->
-        <dependency>
+        </dependency>
+        <!--dependency>
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-webservices</artifactId>
           <version>${jboss.version}</version>
@@ -618,7 +618,7 @@
               <artifactId>jbosssx</artifactId>
             </exclusion>
           </exclusions>
-        </dependency>
+        </dependency-->
         <!-- END -->
         <dependency>
           <groupId>org.jboss.jbossas</groupId>

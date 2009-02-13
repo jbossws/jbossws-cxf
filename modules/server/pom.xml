@@ -243,7 +243,6 @@
                 </artifactItem>
                 <!-- JBWS-2505 -->
                 <!-- START -->
-                <!--
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
                   <artifactId>jbossws-jboss501x</artifactId>
@@ -268,7 +267,6 @@
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss600</outputDirectory>
                 </artifactItem>
-                -->
                 <!-- END -->
               </artifactItems>
             </configuration>
