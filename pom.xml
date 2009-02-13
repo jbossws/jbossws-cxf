@@ -64,7 +64,7 @@
     <fastinfoset.api.version>1.2.2</fastinfoset.api.version>
     <jboss.common.version>1.2.1.GA</jboss.common.version>
     <jaxb.api.version>2.1</jaxb.api.version>
-    <jaxb.impl.version>2.1.6</jaxb.impl.version>
+    <jaxb.impl.version>2.1.9</jaxb.impl.version>
     <jaxrpc.api.version>1.1</jaxrpc.api.version>
     <jaxws.api.version>2.1-1</jaxws.api.version>
     <juddi.version>0.9RC4</juddi.version>
