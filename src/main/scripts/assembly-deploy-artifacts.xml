@@ -111,7 +111,6 @@
           </dependencySet>
           <!-- [JBWS-2505] -->
           <!-- START -->
-          <!--
           <dependencySet>
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss501.${module.extension}</outputFileNameMapping>
@@ -142,7 +141,6 @@
               <include>org.jboss.ws:jbossws-jboss600x:jar</include>
             </includes>
           </dependencySet>
-          -->
           <!-- END -->
         </dependencySets>
       </binaries>

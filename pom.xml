@@ -53,11 +53,9 @@
     <jbossws.jboss500.version>3.1.0-SNAPSHOT</jbossws.jboss500.version>
     <!-- JBWS-2505 -->
     <!-- START -->
-    <!--
     <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
     <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
     <jbossws.jboss600.version>3.1.0-SNAPSHOT</jbossws.jboss600.version>
-    -->
     <!-- END -->
     <cxf.version>2.1.4</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
@@ -156,7 +154,6 @@
       </dependency>
       <!-- JBWS-2505 -->
       <!-- START -->
-      <!--
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss501x</artifactId>
@@ -193,7 +190,6 @@
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
-      -->
       <!-- END -->
 
       <!-- provided apis -->
