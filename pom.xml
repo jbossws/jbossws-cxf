@@ -53,7 +53,7 @@
     <jbossws.jboss500.version>3.1.0-SNAPSHOT</jbossws.jboss500.version>
     <!-- JBWS-2505 -->
     <!-- START -->
-    <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
+    <jbossws.jboss501.version>3.1.0-SNAPSHOT</jbossws.jboss501.version>
     <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
     <jbossws.jboss600.version>3.1.0-SNAPSHOT</jbossws.jboss600.version>
     <!-- END -->
