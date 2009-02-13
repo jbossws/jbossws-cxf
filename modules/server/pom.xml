@@ -241,8 +241,17 @@
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss500</outputDirectory>
                 </artifactItem>
-                <!-- JBWS-2263 -->
+                <!-- JBWS-2505 -->
                 <!-- START -->
+                <!--
+                <artifactItem>
+                  <groupId>org.jboss.ws</groupId>
+                  <artifactId>jbossws-jboss501x</artifactId>
+                  <version>${jbossws.jboss501.version}</version>
+                  <classifier>resources</classifier>
+                  <type>zip</type>
+                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss501</outputDirectory>
+                </artifactItem>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
                   <artifactId>jbossws-jboss510x</artifactId>
@@ -259,6 +268,7 @@
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss600</outputDirectory>
                 </artifactItem>
+                -->
                 <!-- END -->
               </artifactItems>
             </configuration>

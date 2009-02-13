@@ -51,10 +51,13 @@
     <jbossws.jboss423.version>3.1.0-SNAPSHOT</jbossws.jboss423.version>
     <jbossws.jboss424.version>3.1.0-SNAPSHOT</jbossws.jboss424.version>
     <jbossws.jboss500.version>3.1.0-SNAPSHOT</jbossws.jboss500.version>
-    <!-- JBWS-2263 -->
+    <!-- JBWS-2505 -->
     <!-- START -->
+    <!--
+    <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
     <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
     <jbossws.jboss600.version>3.1.0-SNAPSHOT</jbossws.jboss600.version>
+    -->
     <!-- END -->
     <cxf.version>2.1.4</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
@@ -151,8 +154,21 @@
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
-      <!-- JBWS-2263 -->
+      <!-- JBWS-2505 -->
       <!-- START -->
+      <!--
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss501x</artifactId>
+        <version>${jbossws.jboss501.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss501x</artifactId>
+        <version>${jbossws.jboss501.version}</version>
+        <classifier>resources</classifier>
+        <type>zip</type>
+      </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss510x</artifactId>
@@ -177,8 +193,9 @@
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
+      -->
       <!-- END -->
-      
+
       <!-- provided apis -->
       <dependency>
         <groupId>javax.ejb</groupId>
@@ -525,10 +542,10 @@
         </plugins>
       </build>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  jboss422
-    Descr: JBoss-4.2.2 specific options  
+    Descr: JBoss-4.2.2 specific options
     -->
     <profile>
       <id>jboss422</id>
@@ -537,10 +554,10 @@
         <jboss.home>${jboss422.home}</jboss.home>
       </properties>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  jboss423
-    Descr: JBoss-4.2.2 specific options  
+    Descr: JBoss-4.2.2 specific options
     -->
     <profile>
       <id>jboss423</id>
@@ -549,10 +566,10 @@
         <jboss.home>${jboss423.home}</jboss.home>
       </properties>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  jboss424
-    Descr: JBoss-4.2.4 specific options  
+    Descr: JBoss-4.2.4 specific options
     -->
     <profile>
       <id>jboss424</id>
@@ -561,10 +578,10 @@
         <jboss.home>${jboss424.home}</jboss.home>
       </properties>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  jboss500
-    Descr: JBoss-5.0.0 specific options  
+    Descr: JBoss-5.0.0 specific options
     -->
     <profile>
       <id>jboss500</id>
@@ -573,10 +590,22 @@
         <jboss.home>${jboss500.home}</jboss.home>
       </properties>
     </profile>
-    
-    <!-- 
+
+    <!--
+    Name:  jboss501
+    Descr: JBoss-5.0.1 specific options
+    -->
+    <profile>
+      <id>jboss501</id>
+      <properties>
+        <jbossws.integration.target>jboss501</jbossws.integration.target>
+        <jboss.home>${jboss501.home}</jboss.home>
+      </properties>
+    </profile>
+
+    <!--
     Name:  jboss510
-    Descr: JBoss-5.1.0 specific options  
+    Descr: JBoss-5.1.0 specific options
     -->
     <profile>
       <id>jboss510</id>
@@ -585,10 +614,10 @@
         <jboss.home>${jboss510.home}</jboss.home>
       </properties>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  jboss600
-    Descr: JBoss-6.0.0 specific options  
+    Descr: JBoss-6.0.0 specific options
     -->
     <profile>
       <id>jboss600</id>
@@ -597,10 +626,10 @@
         <jboss.home>${jboss600.home}</jboss.home>
       </properties>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  smoketest
-    Descr: Executes the smoke tests  
+    Descr: Executes the smoke tests
     -->
     <profile>
       <id>smoketest</id>

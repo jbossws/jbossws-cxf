@@ -56,6 +56,7 @@
     <condition property="jbossws.integration.jboss50" value="true">
       <or>
         <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
       </or>
     </condition>
     <condition property="jbossws.integration.jboss51" value="true">

@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <name>JBoss Web Services - Stack CXF Testsuite</name>
   <artifactId>jbossws-cxf-testsuite</artifactId>
   <packaging>pom</packaging>
-  
+
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
@@ -13,7 +13,7 @@
     <version>3.1.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
-  
+
   <!-- Properties -->
   <properties>
     <surefire.security.args>-Djava.security.manager -Djava.security.policy=src/test/etc/tst.policy</surefire.security.args>
@@ -25,15 +25,16 @@
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <hibernate.version>3.2.4.sp1</hibernate.version>
     <asm.version>2.2.3</asm.version>
+    <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
     <jboss.javaee.version>5.0.0.GA</jboss.javaee.version>
   </properties>
-  
+
   <!-- Modules -->
   <modules>
     <module>cxf-tests</module>
     <module>framework-tests</module>
   </modules>
-  
+
   <!-- Dependencies -->
   <dependencies>
     <dependency>
@@ -92,7 +93,7 @@
       <artifactId>commons-logging</artifactId>
     </dependency>
   </dependencies>
-  
+
   <!-- Build -->
   <build>
     <testResources>
@@ -225,13 +226,13 @@
       </plugin>
     </plugins>
   </build>
-  
+
   <!-- Profiles -->
   <profiles>
-    
-    <!-- 
+
+    <!--
     Name:  debug
-    Descr: Enable remote debuging for tests 
+    Descr: Enable remote debuging for tests
     -->
     <profile>
       <id>debug</id>
@@ -255,8 +256,8 @@
         <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args}</surefire.jvm.args>
       </properties>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  hudson
     Descr: Ignore test failures on hudson
     -->
@@ -273,17 +274,16 @@
         </plugins>
       </build>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  jboss422
-    Descr: JBoss-4.2.2 specific options  
+    Descr: JBoss-4.2.2 specific options
     -->
     <profile>
       <id>jboss422</id>
       <properties>
         <jboss.version>4.2.2.GA</jboss.version>
         <jbossws.integration.target>jboss422</jbossws.integration.target>
-        <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
       <dependencies>
         <dependency>
@@ -314,17 +314,16 @@
         </plugins>
       </build>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  jboss423
-    Descr: JBoss-4.2.3 specific options  
+    Descr: JBoss-4.2.3 specific options
     -->
     <profile>
       <id>jboss423</id>
       <properties>
         <jboss.version>4.2.3.GA</jboss.version>
         <jbossws.integration.target>jboss423</jbossws.integration.target>
-        <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
       <dependencies>
         <dependency>
@@ -355,17 +354,16 @@
         </plugins>
       </build>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  jboss424
-    Descr: JBoss-4.2.4 specific options  
+    Descr: JBoss-4.2.4 specific options
     -->
     <profile>
       <id>jboss424</id>
       <properties>
         <jboss.version>4.2.4-SNAPSHOT</jboss.version>
         <jbossws.integration.target>jboss424</jbossws.integration.target>
-        <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
       <dependencies>
         <dependency>
@@ -396,31 +394,22 @@
         </plugins>
       </build>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  jboss500
-    Descr: JBoss-5.0.0 specific options  
+    Descr: JBoss-5.0.0 specific options
     -->
     <profile>
       <id>jboss500</id>
       <properties>
         <jboss.version>5.0.0.GA</jboss.version>
         <jbossws.integration.target>jboss500</jbossws.integration.target>
-        <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
       <dependencies>
-        <!-- [JBWS-2263] -->
-        <!-- START -->
         <dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-jboss500</artifactId>
         </dependency>
-        <!--dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-webservices</artifactId>
-          <version>${jboss.version}</version>
-        </dependency-->
-        <!-- END -->
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-ejb3</artifactId>
@@ -461,30 +450,93 @@
         </plugins>
       </build>
     </profile>
-    
-    <!-- 
+
+    <!--
+    Name:  jboss501
+    Descr: JBoss-5.0.1 specific options
+    -->
+    <profile>
+      <id>jboss501</id>
+      <properties>
+        <jboss.version>5.0.1-SNAPSHOT</jboss.version>
+        <jbossws.integration.target>jboss501</jbossws.integration.target>
+      </properties>
+      <dependencies>
+        <!-- [JBWS-2505] -->
+        <!-- START -->
+        <!--dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss501x</artifactId>
+        </dependency-->
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-webservices</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+        <!-- END -->
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-ejb3</artifactId>
+          <version>${jboss.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.security</groupId>
+              <artifactId>jbosssx</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.javaee</groupId>
+          <artifactId>jboss-javaee</artifactId>
+          <version>${jboss.javaee.version}</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
+              <testExcludeFile>../test-excludes-jboss501.txt</testExcludeFile>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>${surefire.jvm.args} -Djava.endorsed.dirs=${jboss501.home}/lib/endorsed</argLine>
+              <!-- TODO: replace with maven dependencies -->
+              <additionalClasspathElements>
+                <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
+              </additionalClasspathElements>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
     Name:  jboss510
-    Descr: JBoss-5.1.0 specific options  
+    Descr: JBoss-5.1.0 specific options
     -->
     <profile>
       <id>jboss510</id>
       <properties>
         <jboss.version>5.1.0-SNAPSHOT</jboss.version>
         <jbossws.integration.target>jboss510</jbossws.integration.target>
-        <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
       <dependencies>
-        <!-- [JBWS-2263] -->
+        <!-- [JBWS-2505] -->
         <!-- START -->
-        <dependency>
+        <!--dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-jboss510x</artifactId>
-        </dependency>
-        <!--dependency>
+        </dependency-->
+        <dependency>
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-webservices</artifactId>
           <version>${jboss.version}</version>
-        </dependency-->
+        </dependency>
         <!-- END -->
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
@@ -527,29 +579,28 @@
       </build>
     </profile>
 
-    <!-- 
+    <!--
     Name:  jboss600
-    Descr: JBoss-6.0.0 specific options  
+    Descr: JBoss-6.0.0 specific options
     -->
     <profile>
       <id>jboss600</id>
       <properties>
         <jboss.version>6.0.0-SNAPSHOT</jboss.version>
         <jbossws.integration.target>jboss600</jbossws.integration.target>
-        <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
       </properties>
       <dependencies>
-        <!-- [JBWS-2263] -->
+        <!-- [JBWS-2505] -->
         <!-- START -->
-        <dependency>
+        <!--dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-jboss600x</artifactId>
-        </dependency>
-        <!--dependency>
+        </dependency-->
+        <dependency>
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-webservices</artifactId>
           <version>${jboss.version}</version>
-        </dependency-->
+        </dependency>
         <!-- END -->
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
@@ -630,5 +681,5 @@
       </properties>
     </profile>
   </profiles>
-  
+
 </project>

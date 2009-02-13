@@ -1,0 +1,77 @@
+# Exclude endpoints with AS42 @SecurityDomain
+org/jboss/test/ws/jaxws/samples/securityDomain/SecureEndpointImpl.*
+
+# TODO: Fix classpath to ClientLauncher
+org/jboss/test/ws/jaxws/samples/webserviceref/**
+
+# [CXF-1252] Provider PAYLOAD endpoint expects SOAP Envelope
+org/jboss/test/ws/jaxws/samples/httpbinding/**
+org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase.*
+org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
+
+# [CXF-1253] CXF does not respect @HandlerChain on client SEI
+org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerSourceTestCase.*
+org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainTestCase.*
+
+# [CXF-1510] Cannot handle anonymous bare requests
+org/jboss/test/ws/jaxws/anonymous/**
+
+# [CXF-1511] WrappedMessageContext does not implement SOAPMessageContext
+org/jboss/test/ws/jaxws/binding/**
+
+# [CXF-1513] NPE in JaxWsServiceConfiguration
+org/jboss/test/ws/jaxws/handlerscope/**
+org/jboss/test/ws/jaxws/jbws1694/**
+org/jboss/test/ws/jaxws/jbws1797/**
+
+# [JBWS-2247][CXF-1514] Generated WSDL does not take 'transport-guarantee' in web.xml into account
+org/jboss/test/ws/jaxws/jbws1190/**
+
+# [CXF-1516] Type inheritance with document/literal/wrapped
+org/jboss/test/ws/jaxws/jbws1702/**
+
+# [CXF-1517] HTTP bindings for Provider
+org/jboss/test/ws/jaxws/jbws1807/**
+
+# [CXF-1519] Explicitly set the namespace of a WebFault
+org/jboss/test/ws/jaxws/jbws1904/**
+
+# [CXF-1520] MTOM chunked encoding transfer
+org/jboss/test/ws/jaxws/jbws2000/**
+
+# [CXF-1521] Exception handling with @WebFault annotation
+org/jboss/test/ws/jaxws/webfault/**
+
+# [CXF-1624] XmlSchemaException: Schema name conflict in collection
+org/jboss/test/ws/jaxws/samples/logicalhandler/LogicalHandlerJAXBTestCase.*
+
+# [CXF-2006] RespectBinding feature and not understood required extensibility elements
+org/jboss/test/ws/jaxws/jbws2449/**
+
+# [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored
+org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
+
+# [JBWS-1655] Add support for endpoint address rewriting
+org/jboss/test/ws/jaxws/jbws2150/**
+
+# [JBWS-2115] EJB client vehicle not sufficiently isolated
+org/jboss/test/ws/jaxws/jbws1581/**
+
+# [JBWS-2165] Fix xop tests with maven build
+org/jboss/test/ws/jaxws/samples/xop/**
+
+# [JBWS-2223] wsconsume for cxf build
+org/jboss/test/ws/jaxws/complex/**
+org/jboss/test/ws/jaxws/holder/**
+
+# [JBWS-2330] Failed to deploy service with multiple bindings
+org/jboss/test/ws/jaxws/jbws2278/**
+
+# [JBWS-2227] Investigate why multiple virtual hosts test fails on CXF
+org/jboss/test/ws/jaxws/jbws1178/**
+
+# [JBWS-2478] Investigate why WS-Security CXF tests are failing
+org/jboss/test/ws/jaxws/samples/wsse/SignEncryptTestCase.*
+
+# [JBWS-2480] Soap attachments are dropped on server response
+org/jboss/test/ws/jaxws/jbws1283/**

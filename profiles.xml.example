@@ -11,12 +11,13 @@
         </property>
       </activation>
       <properties>
-        <jboss422.home>/home/tdiesler/svn/jbossas/tags/JBoss_4_2_2_GA/build/output/jboss-4.2.2.GA</jboss422.home>
-        <jboss423.home>/home/tdiesler/svn/jbossas/tags/JBoss_4_2_3_GA/build/output/jboss-4.2.3.GA</jboss423.home>
-        <jboss424.home>/home/tdiesler/svn/jbossas/branches/Branch_4_2/build/output/jboss-4.2.4.GA</jboss424.home>
-        <jboss500.home>/home/tdiesler/svn/jbossas/tags/JBoss_5_0_0_GA/build/output/jboss-5.0.0.GA</jboss500.home>
-        <jboss510.home>/home/tdiesler/svn/jbossas/branches/Branch_5_x/build/output/jboss-5.1.0.Beta1</jboss510.home>
-        <jboss600.home>/home/tdiesler/svn/jbossas/trunk/build/output/jboss-6.0.0.Alpha1</jboss600.home>
+        <jboss422.home>/home/opalka/svn/jbossas/tags/JBoss_4_2_2_GA/build/output/jboss-4.2.2.GA</jboss422.home>
+        <jboss423.home>/home/opalka/svn/jbossas/tags/JBoss_4_2_3_GA/build/output/jboss-4.2.3.GA</jboss423.home>
+        <jboss424.home>/home/opalka/svn/jbossas/branches/Branch_4_2/build/output/jboss-4.2.4.GA</jboss424.home>
+        <jboss500.home>/home/opalka/svn/jbossas/tags/JBoss_5_0_0_GA/build/output/jboss-5.0.0.GA</jboss500.home>
+        <jboss501.home>/home/opalka/svn/jbossas/branches/Branch_5_0/build/output/jboss-5.0.1.GA</jboss501.home>
+        <jboss510.home>/home/opalka/svn/jbossas/branches/Branch_5_x/build/output/jboss-5.1.0.Beta1</jboss510.home>
+        <jboss600.home>/home/opalka/svn/jbossas/trunk/build/output/jboss-6.0.0.Alpha1</jboss600.home>
       </properties>
     </profile>
     

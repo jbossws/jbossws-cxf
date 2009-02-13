@@ -109,8 +109,19 @@
               <include>org.jboss.ws:jbossws-jboss424x:jar</include>
             </includes>
           </dependencySet>
-          <!-- [JBWS-2263] -->
+          <!-- [JBWS-2505] -->
           <!-- START -->
+          <!--
+          <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <outputFileNameMapping>jbossws-jboss501.${module.extension}</outputFileNameMapping>
+            <useStrictFiltering>true</useStrictFiltering>
+            <scope>runtime</scope>
+            <unpack>false</unpack>
+            <includes>
+              <include>org.jboss.ws:jbossws-jboss501x:jar</include>
+            </includes>
+          </dependencySet>
           <dependencySet>
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss510.${module.extension}</outputFileNameMapping>
@@ -131,6 +142,7 @@
               <include>org.jboss.ws:jbossws-jboss600x:jar</include>
             </includes>
           </dependencySet>
+          -->
           <!-- END -->
         </dependencySets>
       </binaries>
