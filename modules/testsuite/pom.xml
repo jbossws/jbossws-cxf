@@ -472,6 +472,12 @@
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-webservices</artifactId>
           <version>${jboss.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.security</groupId>
+              <artifactId>jbosssx</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <!-- END -->
         <dependency>
@@ -536,6 +542,12 @@
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-webservices</artifactId>
           <version>${jboss.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.security</groupId>
+              <artifactId>jbosssx</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <!-- END -->
         <dependency>
@@ -600,6 +612,12 @@
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-webservices</artifactId>
           <version>${jboss.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.security</groupId>
+              <artifactId>jbosssx</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <!-- END -->
         <dependency>
