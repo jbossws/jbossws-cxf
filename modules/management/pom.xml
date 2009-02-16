@@ -50,13 +50,14 @@
       <artifactId>jbossws-jboss500</artifactId>
       <scope>runtime</scope>
     </dependency>
-    <!-- [JBWS-2505] -->
-    <!-- START -->
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss501x</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <!-- [JBWS-2505] -->
+    <!-- START -->
+    <!--
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss510x</artifactId>
@@ -67,6 +68,7 @@
       <artifactId>jbossws-jboss600x</artifactId>
       <scope>runtime</scope>
     </dependency>
+    -->
     <!-- END -->
     <dependency>
       <groupId>org.jboss.jaxr</groupId>

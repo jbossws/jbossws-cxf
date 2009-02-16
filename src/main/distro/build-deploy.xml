@@ -96,17 +96,6 @@
   <!-- Prepare Deployment Structure JBoss-5.0.x                           -->
   <!-- ================================================================== -->
 
-  <target name="deploy-structure-jboss500" depends="prepare-deploy">
-    <delete dir="${deploy.structure}"/>
-    <antcall target="deploy-jbossws-cxf500" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/server/${jboss.server.instance}"/>
-      <param name="jbossid" value="${jbossws.integration.target}"/>
-      <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-    </antcall>
-    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
-  </target>
-
   <target name="deploy-structure-jboss50" depends="prepare-deploy">
     <delete dir="${deploy.structure}"/>
     <antcall target="deploy-jbossws-cxf50" inheritall="false">
@@ -127,7 +116,7 @@
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-jboss500" depends="undeploy-jboss500,deploy-structure-jboss500" description="Deploy jbossws to jboss500">
+  <target name="deploy-jboss500" depends="undeploy-jboss500,deploy-structure-jboss50" description="Deploy jbossws to jboss500">
     <fail message="Not available: ${jboss500.available.file}" unless="jboss500.available"/>
     <copy todir="${jboss500.home}" overwrite="true">
       <fileset dir="${deploy.structure}"/>
@@ -137,7 +126,7 @@
 
   <target name="undeploy-jboss500" depends="target-jboss500,init" description="Remove jbossws from jboss500">
     <fail message="Not available: ${jboss500.available.file}" unless="jboss500.available"/>
-    <macro-undeploy-jbossws500 targetdir="${jboss500.server.deploy}/jbossws.sar" defaultconf="${jbossws.as5.default.deploy.conf}"/>
+    <macro-undeploy-jbossws50 targetdir="${jboss500.server.deploy}/jbossws.sar" defaultconf="${jbossws.as5.default.deploy.conf}"/>
   </target>
 
   <!-- ================================================================== -->

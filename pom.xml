@@ -51,11 +51,13 @@
     <jbossws.jboss423.version>3.1.0-SNAPSHOT</jbossws.jboss423.version>
     <jbossws.jboss424.version>3.1.0-SNAPSHOT</jbossws.jboss424.version>
     <jbossws.jboss500.version>3.1.0-SNAPSHOT</jbossws.jboss500.version>
+    <jbossws.jboss501.version>3.1.0-SNAPSHOT</jbossws.jboss501.version>
     <!-- JBWS-2505 -->
     <!-- START -->
-    <jbossws.jboss501.version>3.1.0-SNAPSHOT</jbossws.jboss501.version>
+    <!--
     <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
     <jbossws.jboss600.version>3.1.0-SNAPSHOT</jbossws.jboss600.version>
+    -->
     <!-- END -->
     <cxf.version>2.1.4</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
@@ -152,20 +154,21 @@
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss501x</artifactId>
+        <version>${jbossws.jboss501.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss501x</artifactId>
+        <version>${jbossws.jboss501.version}</version>
+        <classifier>resources</classifier>
+        <type>zip</type>
+      </dependency>
       <!-- JBWS-2505 -->
       <!-- START -->
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss501x</artifactId>
-        <version>${jbossws.jboss501.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss501x</artifactId>
-        <version>${jbossws.jboss501.version}</version>
-        <classifier>resources</classifier>
-        <type>zip</type>
-      </dependency>
+      <!--
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss510x</artifactId>
@@ -190,6 +193,7 @@
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
+      -->
       <!-- END -->
 
       <!-- provided apis -->
