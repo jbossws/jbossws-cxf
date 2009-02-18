@@ -54,6 +54,7 @@
     <property name="contextProperties">
       <map keyClass="java.lang.String" valueClass="java.lang.String">
         <entry><key>org.jboss.ws.webapp.ServletClass</key><value>org.jboss.wsf.stack.cxf.CXFServletExt</value></entry>
+        <entry><key>org.jboss.ws.webapp.ServletContextListener</key><value>org.springframework.web.context.ContextLoaderListener</value></entry>
       </map>
     </property>
   </bean>
