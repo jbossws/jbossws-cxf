@@ -22,6 +22,7 @@
 package org.jboss.wsf.stack.cxf.client;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
@@ -119,6 +120,8 @@ public class ServiceObjectFactory implements ObjectFactory
 
          // Get the URL to the wsdl
          URL wsdlURL = serviceRef.getWsdlLocation();
+
+         BusFactory.setThreadDefaultBus(null); // cleanup thread locals before constructing Service
 
          // Generic javax.xml.ws.Service
          if (serviceClass == Service.class)
