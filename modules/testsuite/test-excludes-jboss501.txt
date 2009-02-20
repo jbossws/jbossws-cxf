@@ -72,3 +72,6 @@ org/jboss/test/ws/jaxws/jbws1178/**
 
 # [JBWS-2480] Soap attachments are dropped on server response
 org/jboss/test/ws/jaxws/jbws1283/**
+
+# [JBWS-2533] Fix MTOM/XOP Content Type Testcase failure
+org/jboss/test/ws/jaxws/jbws2419/**
