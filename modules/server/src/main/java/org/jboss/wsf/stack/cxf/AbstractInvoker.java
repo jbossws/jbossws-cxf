@@ -82,6 +82,8 @@ import org.jboss.wsf.spi.invocation.InvocationHandler;
  * 
  * @author Thomas.Diesler@jboss.org
  * @author richard.opalka@jboss.com
+ * 
+ * @see org.apache.cxf.jaxws.AbstractJAXWSMethodInvoker
  */
 public abstract class AbstractInvoker implements Invoker
 {
@@ -279,13 +281,11 @@ public abstract class AbstractInvoker implements Invoker
          return null;
       }
       Message m = exchange.getOutMessage();
-      if (m == null && !exchange.isOneWay()) {
-         throw new UnsupportedOperationException();
-         /* TODO: below is the copy/paste from CXF 2.1.3 AbstractJAXWSMethodInvoker.java, should we enable it? 
-         Endpoint ep = exchange.get(Endpoint.class);
+      if (m == null && !exchange.isOneWay())
+      {
+         org.apache.cxf.endpoint.Endpoint ep = exchange.get(org.apache.cxf.endpoint.Endpoint.class);
          m = ep.getBinding().createMessage();
          exchange.setOutMessage(m);
-         */
       }
       return m;
    }
