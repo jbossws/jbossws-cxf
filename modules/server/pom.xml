@@ -28,13 +28,6 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss422</artifactId>
-      <version>${jbossws.jboss422.version}</version>
-      <classifier>resources</classifier>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss423</artifactId>
       <version>${jbossws.jboss423.version}</version>
       <classifier>resources</classifier>
@@ -211,14 +204,6 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss422</artifactId>
-                  <version>${jbossws.jboss422.version}</version>
-                  <classifier>resources</classifier>
-                  <type>zip</type>
-                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss422</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.ws</groupId>
                   <artifactId>jbossws-jboss423</artifactId>
                   <version>${jbossws.jboss423.version}</version>
                   <classifier>resources</classifier>
@@ -286,7 +271,6 @@
             </goals>
             <configuration>
               <tasks>
-                <property name="jbossws.jboss422.version" value="${jbossws.jboss422.version}"/>
                 <property name="jbossws.jboss423.version" value="${jbossws.jboss423.version}"/>
                 <property name="jbossws.jboss424.version" value="${jbossws.jboss424.version}"/>
                 <ant antfile="src/main/scripts/antrun-beans-config.xml"/>

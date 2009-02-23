@@ -91,7 +91,6 @@
             <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws:jbossws-framework:jar</include>
-              <include>org.jboss.ws:jbossws-jboss422:jar</include>
               <include>org.jboss.ws:jbossws-jboss423:jar</include>
               <include>org.jboss.ws:jbossws-jboss500:jar</include>
               <include>org.jboss.jaxr:juddi-service:sar</include>

@@ -32,11 +32,6 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss422</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss423</artifactId>
       <scope>runtime</scope>
     </dependency>

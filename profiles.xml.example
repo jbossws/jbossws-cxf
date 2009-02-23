@@ -11,7 +11,6 @@
         </property>
       </activation>
       <properties>
-        <jboss422.home>/home/opalka/svn/jbossas/tags/JBoss_4_2_2_GA/build/output/jboss-4.2.2.GA</jboss422.home>
         <jboss423.home>/home/opalka/svn/jbossas/tags/JBoss_4_2_3_GA/build/output/jboss-4.2.3.GA</jboss423.home>
         <jboss424.home>/home/opalka/svn/jbossas/branches/Branch_4_2/build/output/jboss-4.2.4.GA</jboss424.home>
         <jboss500.home>/home/opalka/svn/jbossas/tags/JBoss_5_0_0_GA/build/output/jboss-5.0.0.GA</jboss500.home>

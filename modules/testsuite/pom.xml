@@ -276,46 +276,6 @@
     </profile>
 
     <!--
-    Name:  jboss422
-    Descr: JBoss-4.2.2 specific options
-    -->
-    <profile>
-      <id>jboss422</id>
-      <properties>
-        <jboss.version>4.2.2.GA</jboss.version>
-        <jbossws.integration.target>jboss422</jbossws.integration.target>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.client</groupId>
-          <artifactId>jbossall-client</artifactId>
-          <version>${jboss.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss422</artifactId>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
-              <testExcludeFile>../test-excludes-jboss422.txt</testExcludeFile>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <argLine>${surefire.jvm.args} -Djava.endorsed.dirs=${jboss422.home}/lib/endorsed</argLine>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!--
     Name:  jboss423
     Descr: JBoss-4.2.3 specific options
     -->

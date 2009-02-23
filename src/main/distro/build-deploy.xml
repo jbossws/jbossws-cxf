@@ -27,28 +27,6 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- Deployment JBoss422                                                -->
-  <!-- ================================================================== -->
-
-  <target name="target-jboss422">
-    <property name="jbossws.integration.target" value="jboss422"/>
-    <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
-  </target>
-
-  <target name="deploy-jboss422" depends="undeploy-jboss422,deploy-structure-jboss42" description="Deploy jbossws to jboss422">
-    <fail message="Not available: ${jboss422.available.file}" unless="jboss422.available"/>
-    <copy todir="${jboss422.home}" overwrite="true">
-      <fileset dir="${deploy.structure}"/>
-    </copy>
-    <chmod dir="${jboss422.home}/bin" perm="+x" includes="*.sh"/>
-  </target>
-
-  <target name="undeploy-jboss422" depends="target-jboss422,init" description="Remove jbossws from jboss422">
-    <fail message="Not available: ${jboss422.available.file}" unless="jboss422.available"/>
-    <macro-undeploy-jbossws42 targetdir="${jboss422.server.deploy}/jbossws.sar" defaultconf="${jbossws.as4.default.deploy.conf}"/>
-  </target>
-
-  <!-- ================================================================== -->
   <!-- Deployment JBoss423                                                -->
   <!-- ================================================================== -->
 
