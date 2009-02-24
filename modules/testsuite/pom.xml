@@ -442,6 +442,11 @@
           <artifactId>jboss-javaee</artifactId>
           <version>${jboss.javaee.version}</version>
         </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-security</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
       </dependencies>
       <build>
         <plugins>
@@ -459,7 +464,6 @@
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                 <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
               </additionalClasspathElements>
             </configuration>
           </plugin>
@@ -514,6 +518,11 @@
           <artifactId>jboss-javaee</artifactId>
           <version>${jboss.javaee.version}</version>
         </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-security</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
       </dependencies>
       <build>
         <plugins>
@@ -531,7 +540,6 @@
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                 <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
               </additionalClasspathElements>
             </configuration>
           </plugin>
@@ -586,6 +594,11 @@
           <artifactId>jboss-javaee</artifactId>
           <version>${jboss.javaee.version}</version>
         </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-security</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
       </dependencies>
       <build>
         <plugins>
@@ -603,7 +616,6 @@
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                 <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
               </additionalClasspathElements>
             </configuration>
           </plugin>
