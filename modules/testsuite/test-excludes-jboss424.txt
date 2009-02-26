@@ -5,7 +5,6 @@ org/jboss/test/ws/jaxws/samples/webserviceref/**
 org/jboss/test/ws/jaxws/samples/securityDomain/SecureEndpointAS5Impl.*
 
 # [CXF-1252] Provider PAYLOAD endpoint expects SOAP Envelope
-org/jboss/test/ws/jaxws/samples/httpbinding/**
 org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase.*
 org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
 
@@ -24,7 +23,7 @@ org/jboss/test/ws/jaxws/handlerscope/**
 org/jboss/test/ws/jaxws/jbws1694/**
 org/jboss/test/ws/jaxws/jbws1797/**
 
-# [JBWS-2247][CXF-1514] Generated WSDL does not take 'transport-guarantee' in web.xml into account
+# [CXF-1514][JBWS-2247] Generated WSDL does not take 'transport-guarantee' in web.xml into account
 org/jboss/test/ws/jaxws/jbws1190/**
 
 # [CXF-1516] Type inheritance with document/literal/wrapped
@@ -35,9 +34,6 @@ org/jboss/test/ws/jaxws/jbws1807/**
 
 # [CXF-1519] Explicitly set the namespace of a WebFault
 org/jboss/test/ws/jaxws/jbws1904/**
-
-# [CXF-1520] MTOM chunked encoding transfer
-org/jboss/test/ws/jaxws/jbws2000/**
 
 # [CXF-1521] Exception handling with @WebFault annotation
 org/jboss/test/ws/jaxws/webfault/**
@@ -54,9 +50,6 @@ org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*
 # [JBWS-1655] Add support for endpoint address rewriting
 org/jboss/test/ws/jaxws/jbws2150/**
 
-# [JBWS-2115] EJB client vehicle not sufficiently isolated
-org/jboss/test/ws/jaxws/jbws1581/**
-
 # [JBWS-2117] web.xml modified to web.xml.org - Subsequent runs fail
 org/jboss/test/ws/jaxws/jbws1762/**
 
@@ -67,7 +60,7 @@ org/jboss/test/ws/jaxws/jbws1813/**
 org/jboss/test/ws/jaxws/jbws1841/**
 
 # [JBWS-2165] Fix xop tests with maven build
-org/jboss/test/ws/jaxws/samples/xop/**
+org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 
 # [JBWS-2223] wsconsume for cxf build
 org/jboss/test/ws/jaxws/complex/**
