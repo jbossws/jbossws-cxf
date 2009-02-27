@@ -49,6 +49,51 @@ The JBossWS Team
 
 Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+What's new in jbossws-cxf-3.1.0.GA
+----------------------------------
+
+Bug
+
+    * [JBWS-1683] - Fix JAXR samples for CXF
+    * [JBWS-2114] - IllegalArgumentException: Wrong target. class
+    * [JBWS-2115] - EJB client vehicle not sufficiently isolated
+    * [JBWS-2118] - context-root in jboss.xml is ignored
+    * [JBWS-2119] - WebServiceRef injection from DD doesn't work
+    * [JBWS-2377] - jbossws-deploy.conf in 'all' configuration links libraries in 'default' conf
+    * [JBWS-2416] - Search is not working on the mediawiki
+    * [JBWS-2478] - AbstractInvoker throws UnsupportedOperationException when running wsse encryption test
+    * [JBWS-2497] - Handler was not called
+    * [JBWS-2499] - SOAP Fault tests failing
+    * [JBWS-2502] - Preconfigured handler was not retured by original HandlerResolver
+    * [JBWS-2512] - Improper destination is used when there are multiple destinations in descriptor
+    * [JBWS-2513] - Implement proper handling of application exceptions
+    * [JBWS-2517] - HandlerChain is not set on client side when specified via WebServiceRefs
+    * [JBWS-2519] - Stub properties not propagated through service-ref
+    * [JBWS-2525] - Wrong addressing policy in WS-RM CXF tests
+    * [JBWS-2527] - BeanFactory not initialized or already closed - call 'refresh' before accessing beans via the ApplicationContext
+
+
+Feature Request
+
+    * [JBWS-1774] - Provide tools implementation for CXF (WSContractProvider and WSContractConsumer)
+    * [JBWS-2417] - Update to more recent CXF components
+    * [JBWS-2491] - Enable JAXWS 2.1 WebServiceContext methods
+
+Task
+
+    * [JBWS-2090] - Setup mailing lists for metro,cxf user forums
+    * [JBWS-2431] - Update native deployment macros to don't publish jaxb-api.jar and stax-api.jar to JBOSS_HOME/lib directory
+    * [JBWS-2444] - Update hudson, deploy scripts, etc. for new AS repository layout
+    * [JBWS-2483] - Add smoke tools tests to the binary distro
+    * [JBWS-2505] - Remove container integration layer for AS 5.1.0 and AS 6.0.0
+    * [JBWS-2515] - Upload cxf artifacts to jboss m2 repository
+    * [JBWS-2516] - Test cxf stack with JDK 1.6
+    * [JBWS-2531] - Check testsuite & hudson integration
+
+Errata
+
+    See: https://jira.jboss.org/jira/browse/JBWS-2543
+
 jbossws-cxf-3.0.5.GA
 ------------------------
 
