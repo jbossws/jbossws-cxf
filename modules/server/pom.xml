@@ -228,7 +228,7 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss501x</artifactId>
+                  <artifactId>jbossws-jboss501</artifactId>
                   <version>${jbossws.jboss501.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>

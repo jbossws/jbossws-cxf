@@ -115,7 +115,7 @@
             <scope>runtime</scope>
             <unpack>false</unpack>
             <includes>
-              <include>org.jboss.ws:jbossws-jboss501x:jar</include>
+              <include>org.jboss.ws:jbossws-jboss501:jar</include>
             </includes>
           </dependencySet>
           <!-- [JBWS-2505] -->
