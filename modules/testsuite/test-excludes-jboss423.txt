@@ -59,7 +59,7 @@ org/jboss/test/ws/jaxws/jbws1813/**
 # [JBWS-2119] WebServiceRef injection from DD doesn't work
 org/jboss/test/ws/jaxws/jbws1841/**
 
-# [JBWS-2165] Fix xop tests with maven build
+# [JBWS-2561] XOP request not properly inlined
 org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 
 # [JBWS-2223] wsconsume for cxf build
