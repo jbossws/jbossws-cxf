@@ -47,7 +47,7 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss501x</artifactId>
+      <artifactId>jbossws-jboss501</artifactId>
       <scope>runtime</scope>
     </dependency>
     <!-- [JBWS-2505] -->

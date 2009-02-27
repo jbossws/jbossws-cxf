@@ -44,13 +44,13 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.common.version>1.0.9-SNAPSHOT</jbossws.common.version>
+    <jbossws.common.version>1.0.9.GA</jbossws.common.version>
     <jbossws.framework.version>3.1.0-SNAPSHOT</jbossws.framework.version>
-    <jbossws.spi.version>1.1.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.jboss423.version>3.1.0-SNAPSHOT</jbossws.jboss423.version>
-    <jbossws.jboss424.version>3.1.0-SNAPSHOT</jbossws.jboss424.version>
-    <jbossws.jboss500.version>3.1.0-SNAPSHOT</jbossws.jboss500.version>
-    <jbossws.jboss501.version>3.1.0-SNAPSHOT</jbossws.jboss501.version>
+    <jbossws.spi.version>1.1.0.GA</jbossws.spi.version>
+    <jbossws.jboss423.version>3.1.0.GA</jbossws.jboss423.version>
+    <jbossws.jboss424.version>3.1.0.GA</jbossws.jboss424.version>
+    <jbossws.jboss500.version>3.1.0.GA</jbossws.jboss500.version>
+    <jbossws.jboss501.version>3.1.0.GA</jbossws.jboss501.version>
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
@@ -143,12 +143,12 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss501x</artifactId>
+        <artifactId>jbossws-jboss501</artifactId>
         <version>${jbossws.jboss501.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss501x</artifactId>
+        <artifactId>jbossws-jboss501</artifactId>
         <version>${jbossws.jboss501.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
