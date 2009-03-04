@@ -48,7 +48,6 @@
     <jbossws.framework.version>3.1.1-SNAPSHOT</jbossws.framework.version>
     <jbossws.spi.version>1.1.1-SNAPSHOT</jbossws.spi.version>
     <jbossws.jboss423.version>3.1.0.GA</jbossws.jboss423.version>
-    <jbossws.jboss424.version>3.1.0.GA</jbossws.jboss424.version>
     <jbossws.jboss500.version>3.1.0.GA</jbossws.jboss500.version>
     <jbossws.jboss501.version>3.1.0.GA</jbossws.jboss501.version>
     <!-- JBWS-2505 -->
@@ -114,18 +113,6 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss423</artifactId>
         <version>${jbossws.jboss423.version}</version>
-        <classifier>resources</classifier>
-        <type>zip</type>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss424x</artifactId>
-        <version>${jbossws.jboss424.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss424x</artifactId>
-        <version>${jbossws.jboss424.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
@@ -532,18 +519,6 @@
       <properties>
         <jbossws.integration.target>jboss423</jbossws.integration.target>
         <jboss.home>${jboss423.home}</jboss.home>
-      </properties>
-    </profile>
-
-    <!--
-    Name:  jboss424
-    Descr: JBoss-4.2.4 specific options
-    -->
-    <profile>
-      <id>jboss424</id>
-      <properties>
-        <jbossws.integration.target>jboss424</jbossws.integration.target>
-        <jboss.home>${jboss424.home}</jboss.home>
       </properties>
     </profile>
 

@@ -33,13 +33,6 @@
       <classifier>resources</classifier>
       <type>zip</type>
     </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss424x</artifactId>
-      <version>${jbossws.jboss424.version}</version>
-      <classifier>resources</classifier>
-      <type>zip</type>
-    </dependency>
     
     <!-- CXF dependencies -->
     <dependency>
@@ -212,14 +205,6 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss424x</artifactId>
-                  <version>${jbossws.jboss424.version}</version>
-                  <classifier>resources</classifier>
-                  <type>zip</type>
-                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss424</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.ws</groupId>
                   <artifactId>jbossws-jboss500</artifactId>
                   <version>${jbossws.jboss500.version}</version>
                   <classifier>resources</classifier>
@@ -272,7 +257,6 @@
             <configuration>
               <tasks>
                 <property name="jbossws.jboss423.version" value="${jbossws.jboss423.version}"/>
-                <property name="jbossws.jboss424.version" value="${jbossws.jboss424.version}"/>
                 <ant antfile="src/main/scripts/antrun-beans-config.xml"/>
               </tasks>
             </configuration>

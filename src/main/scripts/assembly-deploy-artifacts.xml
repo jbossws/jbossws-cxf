@@ -100,16 +100,6 @@
           </dependencySet>
           <dependencySet>
             <outputDirectory>lib</outputDirectory>
-            <outputFileNameMapping>jbossws-jboss424.${module.extension}</outputFileNameMapping>
-            <useStrictFiltering>true</useStrictFiltering>
-            <scope>runtime</scope>
-            <unpack>false</unpack>
-            <includes>
-              <include>org.jboss.ws:jbossws-jboss424x:jar</include>
-            </includes>
-          </dependencySet>
-          <dependencySet>
-            <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss501.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <scope>runtime</scope>
