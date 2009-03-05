@@ -454,29 +454,12 @@
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-webservices</artifactId>
           <version>${jboss.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.security</groupId>
-              <artifactId>jbosssx</artifactId>
-            </exclusion>
-          </exclusions>
         </dependency>
         <!-- END -->
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-ejb3</artifactId>
           <version>${jboss.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.security</groupId>
-              <artifactId>jbosssx</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.javaee</groupId>
-          <artifactId>jboss-javaee</artifactId>
-          <version>${jboss.javaee.version}</version>
         </dependency>
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
@@ -497,10 +480,6 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <argLine>${surefire.jvm.args} -Djava.endorsed.dirs=${jboss510.home}/lib/endorsed</argLine>
-              <!-- TODO: replace with maven dependencies -->
-              <additionalClasspathElements>
-                <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
-              </additionalClasspathElements>
             </configuration>
           </plugin>
         </plugins>
@@ -530,29 +509,12 @@
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-webservices</artifactId>
           <version>${jboss.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.security</groupId>
-              <artifactId>jbosssx</artifactId>
-            </exclusion>
-          </exclusions>
         </dependency>
         <!-- END -->
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-ejb3</artifactId>
           <version>${jboss.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.security</groupId>
-              <artifactId>jbosssx</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.javaee</groupId>
-          <artifactId>jboss-javaee</artifactId>
-          <version>${jboss.javaee.version}</version>
         </dependency>
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
@@ -573,10 +535,6 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <argLine>${surefire.jvm.args} -Djava.endorsed.dirs=${jboss600.home}/lib/endorsed</argLine>
-              <!-- TODO: replace with maven dependencies -->
-              <additionalClasspathElements>
-                <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
-              </additionalClasspathElements>
             </configuration>
           </plugin>
         </plugins>
