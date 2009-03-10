@@ -87,6 +87,22 @@
             <artifactId>maven-antrun-plugin</artifactId>
             <executions>
               <execution>
+                <id>wsconsume</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <tasks>
+                    <property name="maven.test.classpath" refid="maven.test.classpath"/>
+                    <property name="tests.resources.dir" value="${basedir}/src/test/resources"/>
+                    <property name="tests.output.dir" value="${project.build.directory}"/>
+                    <property name="project.version" value="${project.version}"/>
+                    <ant antfile="scripts/antrun-wsconsume.xml" target="wsconsume"/>
+                  </tasks>
+                </configuration>
+              </execution>
+              <execution>
                 <phase>test-compile</phase>
                 <goals>
                   <goal>run</goal>
