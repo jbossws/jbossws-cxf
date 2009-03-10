@@ -62,8 +62,7 @@ org/jboss/test/ws/jaxws/jbws1841/**
 # [JBWS-2561] XOP request not properly inlined
 org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*
 
-# [JBWS-2223] wsconsume for cxf build
-org/jboss/test/ws/jaxws/complex/**
+# [JBWS-2571] Mode.INOUT parameter not generated
 org/jboss/test/ws/jaxws/holder/**
 
 # [JBWS-2227] Investigate why multiple virtual hosts test fails on CXF
