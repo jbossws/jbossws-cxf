@@ -15,8 +15,8 @@
 
   <dependencies>
     <!--
-      These runtime dependencies are picked up by the assembly-deploy-artifacts
-      descriptor. They have no real relevants to this module. 
+      These dependencies are picked up by the assembly-deploy-artifacts
+      descriptor. They have no real and relevant meaning for this module
     -->
     <dependency>
       <groupId>org.jboss.ws</groupId>
