@@ -57,7 +57,7 @@
           <dependencySet>
             <outputDirectory>modules/testsuite/framework-tests/src/test</outputDirectory>
             <useStrictFiltering>true</useStrictFiltering>
-            <scope>runtime</scope>
+            <scope>provided</scope>
             <unpack>true</unpack>
             <includes>
               <include>*:jbossws-framework:zip:testsuite</include>

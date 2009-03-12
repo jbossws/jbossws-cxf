@@ -87,7 +87,7 @@
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
-            <scope>runtime</scope>
+            <scope>provided</scope>
             <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws:jbossws-framework:jar</include>
@@ -102,7 +102,7 @@
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss501.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
-            <scope>runtime</scope>
+            <scope>provided</scope>
             <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws:jbossws-jboss501:jar</include>
@@ -115,7 +115,7 @@
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss510.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
-            <scope>runtime</scope>
+            <scope>provided</scope>
             <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws:jbossws-jboss510x:jar</include>
@@ -125,7 +125,7 @@
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss600.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
-            <scope>runtime</scope>
+            <scope>provided</scope>
             <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws:jbossws-jboss600x:jar</include>

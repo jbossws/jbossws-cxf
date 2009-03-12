@@ -174,7 +174,7 @@
   <build>
     <resources>
       <resource>
-        <targetPath>/</targetPath>
+        <targetPath>.</targetPath>
         <directory>src/main/resources/jbossws-cxf-server.jar</directory>
       </resource>
       <resource>
