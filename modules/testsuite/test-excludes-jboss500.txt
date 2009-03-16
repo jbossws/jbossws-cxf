@@ -20,7 +20,7 @@ org/jboss/test/ws/jaxws/binding/**
 # [CXF-1514][JBWS-2247] Generated WSDL does not take 'transport-guarantee' in web.xml into account
 org/jboss/test/ws/jaxws/jbws1190/**
 
-# [CXF-1516] Type inheritance with document/literal/wrapped
+# [CXF-1516] Type inheritance with document/literal/bare
 org/jboss/test/ws/jaxws/jbws1702/**
 
 # [CXF-1517] HTTP bindings for Provider
