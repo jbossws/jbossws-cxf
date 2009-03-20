@@ -76,5 +76,6 @@
   <extension class="org.apache.cxf.jaxrs.JAXRSBindingFactory" interface="org.apache.cxf.binding.BindingFactory" deferred="true">
     <namespace>http://apache.org/cxf/binding/jaxrs</namespace>
   </extension>
+  <extension class="org.apache.cxf.wstx_msv_validation.WoodstoxValidationImpl" interface="org.apache.cxf.staxutils.StaxValidationManager"/>
 </extensions>
 

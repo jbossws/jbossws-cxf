@@ -117,6 +117,10 @@
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-wstx-msv-validation</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-xjc-ts</artifactId>
     </dependency>
     <dependency>
