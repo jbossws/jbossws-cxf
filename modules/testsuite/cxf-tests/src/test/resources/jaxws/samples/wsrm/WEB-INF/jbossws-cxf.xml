@@ -27,7 +27,7 @@
       <bean class='org.jboss.wsf.stack.cxf.InvokerJSE'/>
     </jaxws:invoker>
     <jaxws:features>
-      <p:policies namespace="http://www.w3.org/2006/07/ws-policy">
+      <p:policies>
         <wsp:PolicyReference URI="#wsrm10policy" xmlns:wsp="http://www.w3.org/2006/07/ws-policy"/>
       </p:policies>
     </jaxws:features>

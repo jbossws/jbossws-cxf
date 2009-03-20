@@ -60,6 +60,7 @@
     <cxf.version>2.2</cxf.version>
     <cxf.anttasks.version>2.1.4</cxf.anttasks.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
+    <cxf.asm.version>2.2.3</cxf.asm.version>
     <fastinfoset.api.version>1.2.2</fastinfoset.api.version>
     <jboss.common.version>1.2.1.GA</jboss.common.version>
     <jaxb.api.version>2.1</jaxb.api.version>
@@ -346,6 +347,11 @@
         <groupId>org.apache.santuario</groupId>
         <artifactId>xmlsec</artifactId>
         <version>${xmlsec.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>asm</groupId>
+        <artifactId>asm</artifactId>
+        <version>${cxf.asm.version}</version>
       </dependency>
       
       <!-- jboss provided -->

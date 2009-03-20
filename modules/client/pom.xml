@@ -135,6 +135,10 @@
       <groupId>org.apache.santuario</groupId>
       <artifactId>xmlsec</artifactId>
     </dependency>
+    <dependency>
+      <groupId>asm</groupId>
+      <artifactId>asm</artifactId>
+    </dependency>
     
     <!--
     useStrictFiltering requires dependency in all included modules
