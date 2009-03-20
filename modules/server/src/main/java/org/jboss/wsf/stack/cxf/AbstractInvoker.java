@@ -98,14 +98,21 @@ public abstract class AbstractInvoker implements Invoker
 
       WebServiceContextImpl.setMessageContext(ctx);
 
-      Object retObj = _invokeInternal(exchange, o, ctx);
+      Object retObj = null;
+      try
+      {
+         retObj = _invokeInternal(exchange, o, ctx);
 
-      addHandlerProperties(ctx, handlerScopedStuff);
+         addHandlerProperties(ctx, handlerScopedStuff);
 
-      //update the webservice response context
-      updateWebServiceContext(exchange, ctx);
-      //clear the WebServiceContextImpl's ThreadLocal variable
-      WebServiceContextImpl.clear();
+         //update the webservice response context
+         updateWebServiceContext(exchange, ctx);
+      }
+      finally
+      {
+         //clear the WebServiceContextImpl's ThreadLocal variable
+         WebServiceContextImpl.clear();
+      }
 
       return new MessageContentsList(retObj);
    }
