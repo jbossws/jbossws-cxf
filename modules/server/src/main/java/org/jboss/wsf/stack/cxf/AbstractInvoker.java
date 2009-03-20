@@ -235,10 +235,13 @@ public abstract class AbstractInvoker implements Invoker
          List<?> list = (List<?>) ctx.get(Header.HEADER_LIST);
          if (list != null && !list.isEmpty()) {
             SoapMessage sm = (SoapMessage) createResponseMessage(exchange);
-            Iterator<?> iter = list.iterator();
-            while (iter.hasNext())
+            if (sm != null)
             {
-               sm.getHeaders().add((Header) iter.next());
+               Iterator<?> iter = list.iterator();
+               while (iter.hasNext())
+               {
+                  sm.getHeaders().add((Header) iter.next());
+               }
             }
          }
       }
