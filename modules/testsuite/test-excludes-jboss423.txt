@@ -89,3 +89,7 @@ org/jboss/test/ws/jaxws/jbws1797/**
 # [JBWS-2582] org.apache.cxf.tools.common.ToolException: -p option cannot be
 # used when wsdl contains mutiple schemas
 org/jboss/test/ws/jaxws/complex/**
+
+# [JBWS-2151] Provide wsrunclient.sh(.bat) for Metro and CXF
+org/jboss/test/ws/jaxws/smoke/tools/WSRunClientTestCase.*
+
