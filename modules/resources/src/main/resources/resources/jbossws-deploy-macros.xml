@@ -21,9 +21,12 @@
     <include name="**/wsconsume.sh"/>
     <include name="**/wsprovide.bat"/>
     <include name="**/wsprovide.sh"/>
+    <include name="**/wsrunclient.bat"/>
+    <include name="**/wsrunclient.sh"/>
   </patternset>
   
   <patternset id="jbossws.client.patternset">
+    <include name="**/asm.jar"/>
     <include name="**/commons-collections.jar"/>
     <include name="**/commons-lang.jar"/>
     <include name="**/cxf-*.jar"/>

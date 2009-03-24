@@ -62,6 +62,3 @@ org/jboss/test/ws/jaxws/complex/**
 
 # [JBWS-2584] Provider endpoint causes NPE in AbstractPolicyInterceptor
 org/jboss/test/ws/jaxws/jbws1815/**
-
-# [JBWS-2151] Provide wsrunclient.sh(.bat) for Metro and CXF
-org/jboss/test/ws/jaxws/smoke/tools/WSRunClientTestCase.*
