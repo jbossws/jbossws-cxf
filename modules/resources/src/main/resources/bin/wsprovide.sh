@@ -144,6 +144,5 @@ fi
 
 "$JAVA" $JAVA_OPTS \
    -Djava.endorsed.dirs="$JBOSS_ENDORSED_DIRS" \
-   -Dlog4j.configuration=wstools-log4j.xml \
    -classpath "$WSPROVIDE_CLASSPATH" \
    org.jboss.wsf.spi.tools.cmd.WSProvide "$@"
