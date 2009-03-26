@@ -74,9 +74,6 @@ org/jboss/test/ws/jaxws/jbws2257/**
 # [JBWS-2527] BeanFactory not initialized or already closed (fixed on AS 5.x series only)
 org/jboss/test/ws/jaxws/jbws2527/**
 
-# [JBWS-2533] Fix MTOM/XOP Content Type Testcase failure
-org/jboss/test/ws/jaxws/jbws2419/**
-
 # [JBWS-2397] Fix jbws1797 testcase
 org/jboss/test/ws/jaxws/jbws1797/**
 
