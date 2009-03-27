@@ -198,7 +198,7 @@ public abstract class AbstractInvoker implements Invoker
       SOAPFaultException sfe = findSoapFaultException(ex);
       if (sfe != null) {
           SoapFault fault = new SoapFault(sfe.getFault().getFaultString(),
-                                          ex,
+                                          sfe,
                                           sfe.getFault().getFaultCodeAsQName());
           fault.setRole(sfe.getFault().getFaultActor());
           fault.setDetail(sfe.getFault().getDetail());
