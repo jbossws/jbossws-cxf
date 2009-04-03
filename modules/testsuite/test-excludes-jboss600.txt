@@ -65,3 +65,6 @@ org/jboss/test/ws/jaxws/jbws1815/**
 
 # [JBWS-2591] WSConsume does not generate @XmlList with doc/lit wsdl
 org/jboss/test/ws/jaxws/jbws2591/**
+
+# [JBWS-2593] WSConsume does not generate @XmlJavaTypeAdapter in SEI
+org/jboss/test/ws/jaxws/jbws2593/**
