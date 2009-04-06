@@ -130,10 +130,6 @@ WSPROVIDE_CLASSPATH="$WSPROVIDE_CLASSPATH:$LIBDIR/xml-resolver.jar"
 WSPROVIDE_CLASSPATH="$WSPROVIDE_CLASSPATH:$LIBDIR/wsdl4j.jar"
 WSPROVIDE_CLASSPATH="$WSPROVIDE_CLASSPATH:$LIBDIR/wstx.jar"
 
-###
-# Execute the JVM
-###
-
 # For Cygwin, switch paths to Windows format before running java
 if $cygwin; then
     JBOSS_HOME=`cygpath --path --windows "$JBOSS_HOME"`
@@ -142,6 +138,7 @@ if $cygwin; then
     JBOSS_ENDORSED_DIRS=`cygpath --path --windows "$JBOSS_ENDORSED_DIRS"`
 fi
 
+# Execute the command
 "$JAVA" $JAVA_OPTS \
    -Djava.endorsed.dirs="$JBOSS_ENDORSED_DIRS" \
    -classpath "$WSPROVIDE_CLASSPATH" \
