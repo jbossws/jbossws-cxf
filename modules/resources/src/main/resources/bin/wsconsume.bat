@@ -8,23 +8,8 @@ if "%OS%" == "Windows_NT" set DIRNAME=%~dp0%
 set PROGNAME=run.bat
 if "%OS%" == "Windows_NT" set PROGNAME=%~nx0%
 
-rem Read all command line arguments
-
-REM
-REM The %ARGS% env variable commented out in favor of using %* to include
-REM all args in java command line. See bug #840239. [jpl]
-REM
-REM set ARGS=
-REM :loop
-REM if [%1] == [] goto endloop
-REM         set ARGS=%ARGS% %1
-REM         shift
-REM         goto loop
-REM :endloop
-
 set JAVA=%JAVA_HOME%\bin\java
 set JBOSS_HOME=%DIRNAME%\..
-rem Setup the java endorsed dirs
 set JBOSS_ENDORSED_DIRS=%JBOSS_HOME%\lib\endorsed
 
 rem shared libs
