@@ -35,6 +35,10 @@ import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
+import javax.xml.ws.BindingType;
+import javax.xml.ws.soap.SOAPBinding;
+import javax.xml.ws.soap.MTOM;
+
 /**
  * A deployer that locates or generates cxf.xml 
  *
@@ -163,7 +167,9 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
          String address = ep.getAddress();
          String implementor = ep.getTargetBeanName();
 
-         DDEndpoint ddep = new DDEndpoint(id, address, implementor);
+         boolean mtomEnabled = isMtomEnabled(ep.getTargetBeanClass());
+
+         DDEndpoint ddep = new DDEndpoint(id, address, implementor, mtomEnabled);
 
          if (depType == DeploymentType.JAXWS_EJB3)
          {
@@ -174,6 +180,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
          {
             ddep.setInvoker(invokerJSE);
          }
+
 
          log.info("Add " + ddep);
          dd.addEndpoint(ddep);
@@ -205,6 +212,21 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
       }
       // put cxf config URL to the property map
       contextParams.put(CXFServletExt.PARAM_CXF_BEANS_URL, cxfURL.toExternalForm());
+   }
+
+   private static boolean isMtomEnabled(Class<?> beanClass)
+   {
+      BindingType bindingType = (BindingType)beanClass.getAnnotation(BindingType.class);
+      MTOM mtom = (MTOM)beanClass.getAnnotation(MTOM.class);
+
+      boolean mtomEnabled = mtom != null;
+      if (!mtomEnabled && bindingType != null)
+      {
+         String binding = bindingType.value();
+         mtomEnabled = binding.equals(SOAPBinding.SOAP11HTTP_MTOM_BINDING) || binding.equals(SOAPBinding.SOAP12HTTP_MTOM_BINDING);
+      }
+      
+      return mtomEnabled;
    }
 
 }

@@ -28,7 +28,7 @@ import java.io.Writer;
  * Metadata model for cxf.xml 
  *
  * @author Thomas.Diesler@jboss.org
- * @since 21-May-2007
+ * @author ropalka@redhat.com
  */
 public class DDEndpoint
 {
@@ -36,12 +36,14 @@ public class DDEndpoint
    private String address;
    private String implementor;
    private String invoker;
+   private boolean mtomEnabled;
 
-   public DDEndpoint(String id, String address, String implementor)
+   public DDEndpoint(String id, String address, String implementor, boolean mtomEnabled)
    {
       this.id = id;
       this.address = address;
       this.implementor = implementor;
+      this.mtomEnabled = mtomEnabled;
    }
 
    public void setInvoker(String invoker)
@@ -51,14 +53,22 @@ public class DDEndpoint
    
    public void writeTo(Writer writer) throws IOException
    {
-      writer.write("<jaxws:endpoint id='" + id + "'");
-      writer.write(" address='" + address + "'");
-      writer.write(" implementor='" + implementor + "'");
+      writer.write("<jaxws:endpoint id='" + this.id + "'");
+      writer.write(" address='" + this.address + "'");
+      writer.write(" implementor='" + this.implementor + "'");
       writer.write(">");
       
-      // [JBWS-1746] Add support for configurable invoker in cxf.xml
-      if (invoker != null)
-         writer.write("<jaxws:invoker><bean class='" + invoker + "'/></jaxws:invoker>");
+      if (this.mtomEnabled)
+      {
+         writer.write("<jaxws:binding>");
+         writer.write("<soap:soapBinding mtomEnabled='" + this.mtomEnabled + "'/>");
+         writer.write("</jaxws:binding>");
+      }
+
+      if (this.invoker != null)
+      {
+         writer.write("<jaxws:invoker><bean class='" + this.invoker + "'/></jaxws:invoker>");
+      }
       
       writer.write("</jaxws:endpoint>");
    }
@@ -66,10 +76,11 @@ public class DDEndpoint
    public String toString()
    {
       StringBuilder str = new StringBuilder("Service");
-      str.append("\n id=" + id);
-      str.append("\n address=" + address);
-      str.append("\n implementor=" + implementor);
-      str.append("\n invoker=" + invoker);
+      str.append("\n id=" + this.id);
+      str.append("\n address=" + this.address);
+      str.append("\n implementor=" + this.implementor);
+      str.append("\n invoker=" + this.invoker);
+      str.append("\n mtomEnabled=" + this.mtomEnabled);
       return str.toString();
    }
 }

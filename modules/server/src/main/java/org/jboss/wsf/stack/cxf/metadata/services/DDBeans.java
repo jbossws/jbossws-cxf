@@ -104,6 +104,7 @@ public class DDBeans
             "xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' " +
             "xmlns:beans='http://www.springframework.org/schema/beans' " +
             "xmlns:jaxws='http://cxf.apache.org/jaxws' " +
+            "xmlns:soap='http://cxf.apache.org/bindings/soap' " + 
             "xsi:schemaLocation='http://www.springframework.org/schema/beans " +
             "http://www.springframework.org/schema/beans/spring-beans.xsd " +
             "http://cxf.apache.org/jaxws " +
