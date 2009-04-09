@@ -44,9 +44,9 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.common.version>1.0.10-SNAPSHOT</jbossws.common.version>
+    <jbossws.common.version>1.0.10.GA</jbossws.common.version>
     <jbossws.framework.version>3.1.1-SNAPSHOT</jbossws.framework.version>
-    <jbossws.spi.version>1.1.1-SNAPSHOT</jbossws.spi.version>
+    <jbossws.spi.version>1.1.1.GA</jbossws.spi.version>
     <jbossws.jboss423.version>3.1.1-SNAPSHOT</jbossws.jboss423.version>
     <jbossws.jboss500.version>3.1.1-SNAPSHOT</jbossws.jboss500.version>
     <jbossws.jboss501.version>3.1.1-SNAPSHOT</jbossws.jboss501.version>
