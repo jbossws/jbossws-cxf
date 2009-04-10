@@ -9,8 +9,7 @@
 <!--                                                                        -->
 <!-- ====================================================================== -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
   <name>JBoss Web Services - Stack CXF</name>
@@ -29,9 +28,9 @@
   
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/trunk</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/trunk</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/trunk</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/branches/jbossws-cxf-3.1.1</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/branches/jbossws-cxf-3.1.1</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/branches/jbossws-cxf-3.1.1</url>
   </scm>
   
   <!-- Modules -->
@@ -421,10 +420,10 @@
             </goals>
             <configuration>
               <tasks>
-                <echo/>
-                <echo message="profile=${jbossws.integration.target}"/>
-                <echo message="jboss.home=${jboss.home}"/>
-                <echo/>
+                <echo />
+                <echo message="profile=${jbossws.integration.target}" />
+                <echo message="jboss.home=${jboss.home}" />
+                <echo />
               </tasks>
             </configuration>
           </execution>
