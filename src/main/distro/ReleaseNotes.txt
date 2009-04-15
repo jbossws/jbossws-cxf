@@ -27,19 +27,41 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    TODO: enumerate
+    * [JBWS-1665] - incorrect wsdl generation
+    * [JBWS-2506] - Cannot find symbol javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter$DEFAULT
+    * [JBWS-2529] - Missing type in generated WSDL definition
+    * [JBWS-2555] - Miscellaneous issues reported by FindBugs
+    * [JBWS-2562] - There are tests failures in CXF when no internet connection is available
+    * [JBWS-2564] - Use Server MBean instead of ServerConfig to get JBoss version
+    * [JBWS-2573] - Fix JBossWS builds with Maven 2.0.10
+    * [JBWS-2581] - NPE in AbstractInvoker
+    * [JBWS-2585] - JBossWS commandline tools reference not existing log4j config
+    * [JBWS-2589] - Some deployment failures prevent re-deployment
 
 Feature Request
 
-    TODO: enumerate
+    * [JBWS-2151] - Provide wsrunclient.sh(.bat) for Metro and CXF
 
 Task
 
-    TODO: enumerate
+    * [JBWS-2223] - wsconsume for cxf build
+    * [JBWS-2327] - Provide tests for wsrunclient shell script
+    * [JBWS-2487] - Run TCK5 and detect issues
+    * [JBWS-2490] - JAXWS TCK5 test suite
+    * [JBWS-2524] - Sort out / remove GenericSOAPHandler duplicity
+    * [JBWS-2533] - Fix MTOM/XOP Content Type Testcase failure
+    * [JBWS-2537] - Simplify Hudson Jobs
+    * [JBWS-2538] - FastInfoset interoperability
+    * [JBWS-2553] - Enable WebServiceRef tests
+    * [JBWS-2566] - Add Maven Release plugin
+    * [JBWS-2568] - Remove AS 4.2 branch support (424 target)
+    * [JBWS-2576] - Verify dependencies on outstanding CXF issues
+    * [JBWS-2577] - Update to Apache CXF 2.2
+    * [JBWS-2583] - Upload cxf 2.2 artifacts to jboss m2 repository
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
+    See: https://jira.jboss.org/jira/browse/JBWS-2600
 
 
 This version of ${project.name} is based on CXF ${cxf.version}
