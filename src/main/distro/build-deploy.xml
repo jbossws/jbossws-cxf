@@ -12,43 +12,6 @@
 <project>
 
   <!-- ================================================================== -->
-  <!-- Prepare Deployment Structure JBoss-4.2.x                           -->
-  <!-- ================================================================== -->
-
-  <target name="deploy-structure-jboss42" depends="prepare-deploy">
-    <delete dir="${deploy.structure}"/>
-    <antcall target="deploy-jbossws-cxf42" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/server/${jboss.server.instance}"/>
-      <param name="jbossid" value="${jbossws.integration.target}"/>
-      <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-    </antcall>
-    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Deployment JBoss423                                                -->
-  <!-- ================================================================== -->
-
-  <target name="target-jboss423">
-    <property name="jbossws.integration.target" value="jboss423"/>
-    <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
-  </target>
-
-  <target name="deploy-jboss423" depends="undeploy-jboss423,deploy-structure-jboss42" description="Deploy jbossws to jboss423">
-    <fail message="Not available: ${jboss423.available.file}" unless="jboss423.available"/>
-    <copy todir="${jboss423.home}" overwrite="true">
-      <fileset dir="${deploy.structure}"/>
-    </copy>
-    <chmod dir="${jboss423.home}/bin" perm="+x" includes="*.sh"/>
-  </target>
-
-  <target name="undeploy-jboss423" depends="target-jboss423,init" description="Remove jbossws from jboss423">
-    <fail message="Not available: ${jboss423.available.file}" unless="jboss423.available"/>
-    <macro-undeploy-jbossws42 targetdir="${jboss423.server.deploy}/jbossws.sar" defaultconf="${jbossws.as4.default.deploy.conf}"/>
-  </target>
-
-  <!-- ================================================================== -->
   <!-- Prepare Deployment Structure JBoss-5.0.x                           -->
   <!-- ================================================================== -->
 
@@ -82,7 +45,7 @@
 
   <target name="undeploy-jboss500" depends="target-jboss500,init" description="Remove jbossws from jboss500">
     <fail message="Not available: ${jboss500.available.file}" unless="jboss500.available"/>
-    <macro-undeploy-jbossws50 targetdir="${jboss500.server.deploy}/jbossws.sar" defaultconf="${jbossws.as5.default.deploy.conf}"/>
+    <macro-undeploy-jbossws50 targetdir="${jboss500.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
   </target>
 
   <!-- ================================================================== -->
@@ -104,7 +67,7 @@
 
   <target name="undeploy-jboss501" depends="target-jboss501,init" description="Remove jbossws from jboss501">
     <fail message="Not available: ${jboss501.available.file}" unless="jboss501.available"/>
-    <macro-undeploy-jbossws50 targetdir="${jboss501.server.deploy}/jbossws.sar" defaultconf="${jbossws.as5.default.deploy.conf}"/>
+    <macro-undeploy-jbossws50 targetdir="${jboss501.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
   </target>
 
   <!-- ================================================================== -->
@@ -141,7 +104,7 @@
 
   <target name="undeploy-jboss510" depends="target-jboss510,init" description="Remove jbossws from jboss510">
     <fail message="Not available: ${jboss510.available.file}" unless="jboss510.available"/>
-    <macro-undeploy-jbossws51 targetdir="${jboss510.server.deploy}/jbossws.sar" defaultconf="${jbossws.as5.default.deploy.conf}"/>
+    <macro-undeploy-jbossws51 targetdir="${jboss510.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
   </target>
 
   <!-- ================================================================== -->
@@ -178,7 +141,7 @@
 
   <target name="undeploy-jboss600" depends="target-jboss600,init" description="Remove jbossws from jboss600">
     <fail message="Not available: ${jboss600.available.file}" unless="jboss600.available"/>
-    <macro-undeploy-jbossws60 targetdir="${jboss600.server.deploy}/jbossws.sar" defaultconf="${jbossws.as5.default.deploy.conf}"/>
+    <macro-undeploy-jbossws60 targetdir="${jboss600.server.deploy}/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
   </target>
 
   <!-- ================================================================== -->

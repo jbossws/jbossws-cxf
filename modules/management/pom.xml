@@ -31,11 +31,6 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss423</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss500</artifactId>
       <scope>provided</scope>
     </dependency>

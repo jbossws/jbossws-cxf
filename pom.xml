@@ -46,7 +46,6 @@
     <jbossws.common.version>1.0.11-SNAPSHOT</jbossws.common.version>
     <jbossws.framework.version>3.2.0-SNAPSHOT</jbossws.framework.version>
     <jbossws.spi.version>1.1.1.GA</jbossws.spi.version>
-    <jbossws.jboss423.version>3.1.1.GA</jbossws.jboss423.version>
     <jbossws.jboss500.version>3.1.1.GA</jbossws.jboss500.version>
     <jbossws.jboss501.version>3.1.1.GA</jbossws.jboss501.version>
     <!-- JBWS-2505 -->
@@ -103,18 +102,6 @@
         <artifactId>jbossws-framework</artifactId>
         <version>${version}</version>
         <classifier>testsuite</classifier>
-        <type>zip</type>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss423</artifactId>
-        <version>${jbossws.jboss423.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss423</artifactId>
-        <version>${jbossws.jboss423.version}</version>
-        <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
       <dependency>
@@ -528,18 +515,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-
-    <!--
-    Name:  jboss423
-    Descr: JBoss-4.2.2 specific options
-    -->
-    <profile>
-      <id>jboss423</id>
-      <properties>
-        <jbossws.integration.target>jboss423</jbossws.integration.target>
-        <jboss.home>${jboss423.home}</jboss.home>
-      </properties>
     </profile>
 
     <!--
