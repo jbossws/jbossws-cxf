@@ -54,9 +54,9 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 	<bean id="org.apache.cxf.binding.soap.customEditorConfigurer"
 		class="org.springframework.beans.factory.config.CustomEditorConfigurer">
 		<property name="propertyEditorRegistrars">
-		<list>
-            <bean class="org.apache.cxf.binding.soap.spring.SoapVersionRegistrar"/>
-		</list>
+			<list>
+				<bean class="org.apache.cxf.binding.soap.spring.SoapVersionRegistrar"/>
+			</list>
 		</property>
 	</bean>
 </beans>

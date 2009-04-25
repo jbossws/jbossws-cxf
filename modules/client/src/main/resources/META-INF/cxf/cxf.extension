@@ -12,5 +12,6 @@ META-INF/cxf/cxf-extension-jms.xml
 META-INF/cxf/cxf-extension-object-binding.xml
 META-INF/cxf/cxf-extension-http-binding.xml
 META-INF/cxf/cxf-extension-jaxrs-binding.xml
+META-INF/cxf/cxf-extension-ws-security.xml
 META-INF/cxf/cxf-extension-policy.xml
 META-INF/cxf/cxf-extension-rm.xml
