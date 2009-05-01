@@ -1,0 +1,24 @@
+<beans
+  xmlns='http://www.springframework.org/schema/beans'
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xmlns:beans='http://www.springframework.org/schema/beans'
+  xmlns:jaxws='http://cxf.apache.org/jaxws'
+  xsi:schemaLocation='http://cxf.apache.org/core
+    http://cxf.apache.org/schemas/core.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd'>
+  
+  <jaxws:endpoint
+    id='ServiceImpl'
+    address='https://@jboss.bind.address@:8443/jaxws-samples-wssePolicy-username'
+    implementor='org.jboss.test.ws.jaxws.samples.wssePolicy.ServiceImpl'>
+    
+    <jaxws:properties>
+      <entry key="ws-security.callback-handler" value="org.jboss.test.ws.jaxws.samples.wssePolicy.ServerUsernamePasswordCallback"/>
+    </jaxws:properties>
+  </jaxws:endpoint>
+  
+  
+</beans>

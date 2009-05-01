@@ -1,0 +1,28 @@
+<beans
+  xmlns='http://www.springframework.org/schema/beans'
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xmlns:beans='http://www.springframework.org/schema/beans'
+  xmlns:jaxws='http://cxf.apache.org/jaxws'
+  xsi:schemaLocation='http://cxf.apache.org/core
+    http://cxf.apache.org/schemas/core.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd'>
+  
+  <jaxws:endpoint
+    id='ServiceImpl'
+    address='http://@jboss.bind.address@:8080/jaxws-samples-wssePolicy-sign-encrypt'
+    implementor='org.jboss.test.ws.jaxws.samples.wssePolicy.ServiceImpl'>
+    
+    <jaxws:properties>
+       <entry key="ws-security.signature.properties" value="bob.properties"/>
+       <entry key="ws-security.encryption.properties" value="bob.properties"/>
+       <entry key="ws-security.signature.username" value="bob"/>
+       <entry key="ws-security.encryption.username" value="alice"/>
+       <entry key="ws-security.callback-handler" value="org.jboss.test.ws.jaxws.samples.wssePolicy.KeystorePasswordCallback"/>
+    </jaxws:properties>
+  </jaxws:endpoint>
+  
+  
+</beans>
