@@ -87,6 +87,8 @@ public class ServiceObjectFactory implements ObjectFactory
    {
       try
       {
+         BusFactory.setThreadDefaultBus(null); // cleanup thread locals before constructing Service
+
          Reference ref = (Reference)obj;
 
          // Get the target class name
@@ -120,8 +122,6 @@ public class ServiceObjectFactory implements ObjectFactory
 
          // Get the URL to the wsdl
          URL wsdlURL = serviceRef.getWsdlLocation();
-
-         BusFactory.setThreadDefaultBus(null); // cleanup thread locals before constructing Service
 
          // Generic javax.xml.ws.Service
          if (serviceClass == Service.class)
