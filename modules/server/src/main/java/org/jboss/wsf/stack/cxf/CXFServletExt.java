@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceException;
 
+import org.apache.cxf.BusFactory;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
@@ -129,6 +130,7 @@ public class CXFServletExt extends CXFServlet
    {
       try
       {
+         BusFactory.setThreadDefaultBus(getBus());
          EndpointAssociation.setEndpoint(endpoint);
          RequestHandler requestHandler = (RequestHandler)endpoint.getRequestHandler();
          requestHandler.handleHttpRequest(endpoint, req, res, getServletContext());
@@ -136,6 +138,7 @@ public class CXFServletExt extends CXFServlet
       finally
       {
          EndpointAssociation.removeEndpoint();
+         BusFactory.setThreadDefaultBus(null);
       }
    }
 
