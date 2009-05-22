@@ -55,7 +55,7 @@
     <jbossws.jboss600.version>3.1.0-SNAPSHOT</jbossws.jboss600.version>
     -->
     <!-- END -->
-    <cxf.version>2.2.1</cxf.version>
+    <cxf.version>2.2.2-SNAPSHOT</cxf.version>
     <cxf.anttasks.version>2.1.5</cxf.anttasks.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>2.2.3</cxf.asm.version>
@@ -458,6 +458,16 @@
     <repository>
       <id>snapshots.jboss.org</id>
       <url>http://snapshots.jboss.org/maven2</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>repository-snapshots-apache</id>
+      <url>http://repository.apache.org/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
