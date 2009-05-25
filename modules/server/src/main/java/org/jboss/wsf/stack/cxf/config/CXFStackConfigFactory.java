@@ -21,19 +21,27 @@
  */
 package org.jboss.wsf.stack.cxf.config;
 
-import org.jboss.logging.Logger;
-import org.jboss.wsf.common.management.AbstractServerConfig;
+import org.jboss.wsf.spi.management.StackConfig;
+import org.jboss.wsf.spi.management.StackConfigFactory;
 
 /**
- * Basic implementation of a ServerConfig 
+ * 
+ * @author alessio.soldano@jboss.com
+ * @since 25-May-2009
  *
- * @author Thomas.Diesler@jboss.org
- * @since 08-May-2006
  */
-public class CXFServerConfig extends AbstractServerConfig implements CXFServerConfigMBean
+public class CXFStackConfigFactory extends StackConfigFactory
 {
-   private static final Logger log = Logger.getLogger(CXFServerConfig.class);
-   
+   @Override
+   public StackConfig getStackConfig()
+   {
+      return new CXFStackConfig();
+   }
+}
+
+class CXFStackConfig implements StackConfig
+{
+
    public String getImplementationTitle()
    {
       return getClass().getPackage().getImplementationTitle();
@@ -44,10 +52,4 @@ public class CXFServerConfig extends AbstractServerConfig implements CXFServerCo
       return getClass().getPackage().getImplementationVersion();
    }
    
-   public void create() throws Exception
-   {
-      log.info(getImplementationTitle());
-      log.info(getImplementationVersion());
-      super.create();
-   }
 }

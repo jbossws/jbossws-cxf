@@ -1,29 +1,4 @@
   
-  <!-- An abstraction of server configuration aspects. -->  
-  <bean name="WSServerConfig" class="org.jboss.wsf.stack.cxf.config.CXFServerConfig">
-    <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
-    
-    <!--
-        The WSDL, that is a required deployment artifact for an endpoint, has a <soap:address>
-        element which points to the location of the endpoint. JBoss supports rewriting of that SOAP address.
-      
-        If the content of <soap:address> is a valid URL, JBossWS will not rewrite it unless 'modifySOAPAddress' is true.
-        If the content of <soap:address> is not a valid URL, JBossWS will rewrite it using the attribute values given below.
-        
-        If 'webServiceHost' is not set, JBossWS uses requesters protocol host and port when rewriting the <soap:address>.
-    -->
-    <property name="webServiceHost">${jboss.bind.address}</property>
-    <property name="modifySOAPAddress">true</property>
-    
-    <!-- 
-      Set these properties to explicitly define the ports that will be used for rewriting the SOAP address.
-      Otherwise the ports will be identified by querying the list of installed connectors. 
-      If multiple connectors are found the port of the first connector is used.
-      <property name="webServiceSecurePort">8443</property>
-      <property name="webServicePort">8080</property>
-    -->
-  </bean>
-
   <!-- The registry for web service endpoints -->
   <bean name="WSEndpointRegistry" class="org.jboss.wsf.framework.management.ManagedEndpointRegistry">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
