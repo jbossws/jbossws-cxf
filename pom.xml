@@ -43,7 +43,7 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.common.version>1.1.1-SNAPSHOT</jbossws.common.version>
+    <jbossws.common.version>1.2.0-SNAPSHOT</jbossws.common.version>
     <jbossws.framework.version>3.2.0-SNAPSHOT</jbossws.framework.version>
     <jbossws.spi.version>1.2.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.jboss500.version>3.2.0-SNAPSHOT</jbossws.jboss500.version>
