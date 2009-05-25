@@ -23,11 +23,14 @@ package org.jboss.wsf.stack.cxf.client;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.jaxws.ServiceImpl;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 
-import javax.naming.*;
+import javax.naming.Context;
+import javax.naming.Name;
+import javax.naming.NamingException;
+import javax.naming.RefAddr;
+import javax.naming.Reference;
 import javax.naming.spi.ObjectFactory;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -45,8 +48,6 @@ import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.jboss.logging.Logger;
 
@@ -57,7 +58,7 @@ import org.jboss.logging.Logger;
  * @see ServiceReferenceable
  *
  * @author Thomas.Diesler@jboss.com
- * @since 06-Dec-2007
+ * @author Richard.Opalka@jboss.com
  */
 public class ServiceObjectFactory implements ObjectFactory
 {
@@ -83,6 +84,7 @@ public class ServiceObjectFactory implements ObjectFactory
     * @see javax.naming.spi.NamingManager#getObjectInstance
     * @see javax.naming.spi.NamingManager#getURLContext
     */
+   @SuppressWarnings(value="unchecked")
    public Object getObjectInstance(Object obj, Name name, Context nameCtx, Hashtable environment) throws Exception
    {
       try
@@ -187,7 +189,7 @@ public class ServiceObjectFactory implements ObjectFactory
 
          if ((serviceRef.getHandlerChain() != null) && (target instanceof Service))
          {
-            Bus bus = getBus((Service)target);
+            Bus bus = BusFactory.getThreadDefaultBus();
             ((Service)target).setHandlerResolver(new HandlerResolverImpl(bus, serviceRef.getHandlerChain(), target.getClass()));
          }
          
@@ -242,43 +244,6 @@ public class ServiceObjectFactory implements ObjectFactory
       } else {
          return null;
       }
-   }
-   
-   private Bus getBus(final Service service) throws Throwable
-   {
-      SecurityManager sm = System.getSecurityManager();
-      if (sm != null)
-      {
-         try
-         {
-            return AccessController.doPrivileged(new PrivilegedExceptionAction<Bus>()
-            {
-               public Bus run() throws Exception
-               {
-                  Field delegateField = findServiceDelegateField(service.getClass());
-                  if (delegateField != null)
-                  {
-                     delegateField.setAccessible(true);
-                     ServiceImpl serviceImpl = (ServiceImpl)delegateField.get(service);
-                     return serviceImpl.getBus();
-                  }
-                  throw new IllegalStateException("Bus not found");
-               }
-            });
-         }
-         catch (PrivilegedActionException e)
-         {
-            throw e.getCause();
-         }
-      }
-      Field delegateField = findServiceDelegateField(service.getClass());
-      if (delegateField != null)
-      {
-         delegateField.setAccessible(true);
-         ServiceImpl serviceImpl = (ServiceImpl)delegateField.get(service);
-         return serviceImpl.getBus();
-      }
-      throw new IllegalStateException("Bus not found");
    }
    
    private static Field findServiceDelegateField(Class<?> clazz)
