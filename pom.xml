@@ -59,7 +59,7 @@
     <cxf.anttasks.version>2.1.5</cxf.anttasks.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>2.2.3</cxf.asm.version>
-    <fastinfoset.api.version>1.2.3</fastinfoset.api.version>
+    <fastinfoset.api.version>1.2.6</fastinfoset.api.version>
     <jboss.common.version>1.2.1.GA</jboss.common.version>
     <jaxb.api.version>2.1</jaxb.api.version>
     <jaxb.impl.version>2.1.9</jaxb.impl.version>
