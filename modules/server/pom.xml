@@ -206,16 +206,24 @@
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss501</outputDirectory>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.ws</groupId>
+                  <artifactId>jbossws-jboss510</artifactId>
+                  <version>${jbossws.jboss510.version}</version>
+                  <classifier>resources</classifier>
+                  <type>zip</type>
+                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss510</outputDirectory>
+                </artifactItem>
                 <!-- JBWS-2505 -->
                 <!-- START -->
                 <!--
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss510x</artifactId>
-                  <version>${jbossws.jboss510.version}</version>
+                  <artifactId>jbossws-jboss520x</artifactId>
+                  <version>${jbossws.jboss520.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>
-                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss510</outputDirectory>
+                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss520</outputDirectory>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>

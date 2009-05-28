@@ -398,8 +398,53 @@
     <profile>
       <id>jboss510</id>
       <properties>
-        <jboss.version>5.1.0-SNAPSHOT</jboss.version>
+        <jboss.version>5.1.0.GA</jboss.version>
         <jbossws.integration.target>jboss510</jbossws.integration.target>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss510</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-ejb3</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-security</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
+              <testExcludeFile>../test-excludes-jboss510.txt</testExcludeFile>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>${surefire.jvm.args} -Djava.endorsed.dirs=${jboss510.home}/lib/endorsed</argLine>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+    Name:  jboss520
+    Descr: JBoss-5.2.0 specific options
+    -->
+    <profile>
+      <id>jboss520</id>
+      <properties>
+        <jboss.version>5.2.0-SNAPSHOT</jboss.version>
+        <jbossws.integration.target>jboss520</jbossws.integration.target>
       </properties>
       <dependencies>
         <!-- [JBWS-2505] -->
@@ -407,7 +452,7 @@
         <!--
         <dependency>
           <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss510x</artifactId>
+          <artifactId>jbossws-jboss520x</artifactId>
         </dependency>
         -->
         <dependency>
@@ -433,13 +478,13 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
               <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
-              <testExcludeFile>../test-excludes-jboss510.txt</testExcludeFile>
+              <testExcludeFile>../test-excludes-jboss520.txt</testExcludeFile>
             </configuration>
           </plugin>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <argLine>${surefire.jvm.args} -Djava.endorsed.dirs=${jboss510.home}/lib/endorsed</argLine>
+              <argLine>${surefire.jvm.args} -Djava.endorsed.dirs=${jboss520.home}/lib/endorsed</argLine>
             </configuration>
           </plugin>
         </plugins>

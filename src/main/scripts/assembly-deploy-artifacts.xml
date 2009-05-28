@@ -108,9 +108,6 @@
               <include>org.jboss.ws:jbossws-jboss501:jar</include>
             </includes>
           </dependencySet>
-          <!-- [JBWS-2505] -->
-          <!-- START -->
-          <!--
           <dependencySet>
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss510.${module.extension}</outputFileNameMapping>
@@ -118,7 +115,20 @@
             <scope>provided</scope>
             <unpack>false</unpack>
             <includes>
-              <include>org.jboss.ws:jbossws-jboss510x:jar</include>
+              <include>org.jboss.ws:jbossws-jboss510:jar</include>
+            </includes>
+          </dependencySet>
+          <!-- [JBWS-2505] -->
+          <!-- START -->
+          <!--
+          <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <outputFileNameMapping>jbossws-jboss520.${module.extension}</outputFileNameMapping>
+            <useStrictFiltering>true</useStrictFiltering>
+            <scope>provided</scope>
+            <unpack>false</unpack>
+            <includes>
+              <include>org.jboss.ws:jbossws-jboss520x:jar</include>
             </includes>
           </dependencySet>
           <dependencySet>

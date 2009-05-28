@@ -48,11 +48,12 @@
     <jbossws.spi.version>1.2.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.jboss500.version>3.2.0-SNAPSHOT</jbossws.jboss500.version>
     <jbossws.jboss501.version>3.2.0-SNAPSHOT</jbossws.jboss501.version>
+    <jbossws.jboss510.version>3.2.0-SNAPSHOT</jbossws.jboss510.version>
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
-    <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
-    <jbossws.jboss600.version>3.1.0-SNAPSHOT</jbossws.jboss600.version>
+    <jbossws.jboss520.version>3.2.0-SNAPSHOT</jbossws.jboss520.version>
+    <jbossws.jboss600.version>3.2.0-SNAPSHOT</jbossws.jboss600.version>
     -->
     <!-- END -->
     <cxf.version>2.2.2-SNAPSHOT</cxf.version>
@@ -128,18 +129,30 @@
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss510</artifactId>
+        <version>${jbossws.jboss510.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss510</artifactId>
+        <version>${jbossws.jboss510.version}</version>
+        <classifier>resources</classifier>
+        <type>zip</type>
+      </dependency>
       <!-- JBWS-2505 -->
       <!-- START -->
       <!--
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss510x</artifactId>
-        <version>${jbossws.jboss510.version}</version>
+        <artifactId>jbossws-jboss520x</artifactId>
+        <version>${jbossws.jboss520.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss510x</artifactId>
-        <version>${jbossws.jboss510.version}</version>
+        <artifactId>jbossws-jboss520x</artifactId>
+        <version>${jbossws.jboss520.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
@@ -555,6 +568,18 @@
       <properties>
         <jbossws.integration.target>jboss510</jbossws.integration.target>
         <jboss.home>${jboss510.home}</jboss.home>
+      </properties>
+    </profile>
+
+    <!--
+    Name:  jboss520
+    Descr: JBoss-5.2.0 specific options
+    -->
+    <profile>
+      <id>jboss520</id>
+      <properties>
+        <jbossws.integration.target>jboss520</jbossws.integration.target>
+        <jboss.home>${jboss520.home}</jboss.home>
       </properties>
     </profile>
 
