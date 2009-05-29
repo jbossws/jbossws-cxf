@@ -29,6 +29,9 @@ import javax.xml.ws.soap.SOAPFaultException;
 
 import junit.framework.Test;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
+import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.jboss.test.ws.jaxws.cxf.interop.wstrust10.interopbaseaddress.interop.IPingService;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
@@ -43,86 +46,85 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class SymmetricBindingClientTestCase extends JBossWSTest
 {
+   private Bus bus;
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(SymmetricBindingClientTestCase.class, "");
+      return new JBossWSTestSetup(SymmetricBindingClientTestCase.class, "jaxws-cxf-interop-wstrust10-client.jar");
    }
    
    public void testScenario2() throws Exception
    {
-      this.deploy("jaxws-cxf-interop-wstrust10-scenario2-client.jar");
+      this.loadBus("scenario2");
+      QName serviceName = new QName("http://tempuri.org/", "SymmetricFederatedService");
+      Service service = Service.create(getServiceURL(), serviceName);
+      QName portName = new QName("http://tempuri.org/", "Scenario_2_IssuedToken_MutualCertificate10");
+      IPingService proxy = service.getPort(portName, IPingService.class);
       try
       {
-         QName serviceName = new QName("http://tempuri.org/", "SymmetricFederatedService");
-         Service service = Service.create(getServiceURL(), serviceName);
-         QName portName = new QName("http://tempuri.org/", "Scenario_2_IssuedToken_MutualCertificate10");
-         IPingService proxy = service.getPort(portName, IPingService.class);
-         try
-         {
-            assertEquals("Hi!", proxy.echo("Hi!"));
-         }
-         catch (SOAPFaultException e)
-         {
-            throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
-         }
+         assertEquals("Hi!", proxy.echo("Hi!"));
       }
-      finally
+      catch (SOAPFaultException e)
       {
-         this.undeploy("jaxws-cxf-interop-wstrust10-scenario2-client.jar");
+         throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
       }
    }
    
    public void testScenario5() throws Exception
    {
-      this.deploy("jaxws-cxf-interop-wstrust10-scenario5-client.jar");
+      this.loadBus("scenario5");
+      QName serviceName = new QName("http://tempuri.org/", "SymmetricFederatedService");
+      Service service = Service.create(getServiceURL(), serviceName);
+      QName portName = new QName("http://tempuri.org/", "Scenario_5_IssuedTokenForCertificate_MutualCertificate11");
+      IPingService proxy = service.getPort(portName, IPingService.class);
       try
       {
-         QName serviceName = new QName("http://tempuri.org/", "SymmetricFederatedService");
-         Service service = Service.create(getServiceURL(), serviceName);
-         QName portName = new QName("http://tempuri.org/", "Scenario_5_IssuedTokenForCertificate_MutualCertificate11");
-         IPingService proxy = service.getPort(portName, IPingService.class);
-         try
-         {
-            assertEquals("Hi!", proxy.echo("Hi!"));
-         }
-         catch (SOAPFaultException e)
-         {
-            throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
-         }
+         assertEquals("Hi!", proxy.echo("Hi!"));
       }
-      finally
+      catch (SOAPFaultException e)
       {
-         this.undeploy("jaxws-cxf-interop-wstrust10-scenario5-client.jar");
+         throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
       }
    }
    
    public void testScenario6() throws Exception
    {
-      this.deploy("jaxws-cxf-interop-wstrust10-scenario6-client.jar");
+      this.loadBus("scenario6");
+      QName serviceName = new QName("http://tempuri.org/", "SymmetricFederatedService");
+      Service service = Service.create(getServiceURL(), serviceName);
+      QName portName = new QName("http://tempuri.org/", "Scenario_6_IssuedTokenForCertificateSecureConversation_MutualCertificate11");
+      IPingService proxy = service.getPort(portName, IPingService.class);
       try
       {
-         QName serviceName = new QName("http://tempuri.org/", "SymmetricFederatedService");
-         Service service = Service.create(getServiceURL(), serviceName);
-         QName portName = new QName("http://tempuri.org/", "Scenario_6_IssuedTokenForCertificateSecureConversation_MutualCertificate11");
-         IPingService proxy = service.getPort(portName, IPingService.class);
-         try
-         {
-            assertEquals("Hi!", proxy.echo("Hi!"));
-         }
-         catch (SOAPFaultException e)
-         {
-            throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
-         }
+         assertEquals("Hi!", proxy.echo("Hi!"));
       }
-      finally
+      catch (SOAPFaultException e)
       {
-         this.undeploy("jaxws-cxf-interop-wstrust10-scenario6-client.jar");
+         throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
       }
+   }
+   
+   private void loadBus(String scenario) throws Exception
+   {
+      System.out.println("Loading bus for " + scenario + "...");
+      SpringBusFactory busFactory = new SpringBusFactory();
+      URL cxfConfig = getResourceURL("jaxws/cxf/interop/wstrust10/META-INF/" + scenario + "-client-config.xml");
+      bus = busFactory.createBus(cxfConfig);
+      BusFactory.setDefaultBus(bus);
+   }
+   
+   @Override
+   protected void tearDown() throws Exception
+   {
+      System.out.println("... bus teardown");
+      if (bus != null)
+         bus.shutdown(true);
+
+      super.tearDown();
    }
    
    private URL getServiceURL() throws Exception
    {
       return getResourceURL("jaxws/cxf/interop/wstrust10/META-INF/wsdl/WsTrustSym.wsdl");
    }
-
 }

@@ -33,48 +33,9 @@
     </war>
 
     <!-- jaxws-cxf-interop-wstrust10-client -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-interop-wstrust10-scenario2-client.jar">
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-interop-wstrust10-client.jar">
       <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF">
         <include name="**/*" />
-      </metainf>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF/scenario2">
-        <include name="cxf.xml" />
-      </metainf>
-    </jar>
-
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-interop-wstrust10-scenario5-client.jar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF">
-        <include name="**/*" />
-      </metainf>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF/scenario5">
-        <include name="cxf.xml" />
-      </metainf>
-    </jar>
-
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-interop-wstrust10-scenario6-client.jar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF">
-        <include name="**/*" />
-      </metainf>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF/scenario6">
-        <include name="cxf.xml" />
-      </metainf>
-    </jar>
-
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-interop-wstrust10-scenario9-client.jar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF">
-        <include name="**/*" />
-      </metainf>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF/scenario9">
-        <include name="cxf.xml" />
-      </metainf>
-    </jar>
-
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-interop-wstrust10-scenario10-client.jar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF">
-        <include name="**/*" />
-      </metainf>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF/scenario10">
-        <include name="cxf.xml" />
       </metainf>
     </jar>
 
