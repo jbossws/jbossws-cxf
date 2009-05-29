@@ -29,9 +29,6 @@ import javax.xml.ws.soap.SOAPFaultException;
 
 import junit.framework.Test;
 
-import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
-import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.jboss.test.ws.jaxws.cxf.interop.wstrust10.interopbaseaddress.interop.IPingService;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
@@ -47,64 +44,57 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class AsymmetricBindingClientTestCase extends JBossWSTest
 {
-   private Bus bus;
-   
    public static Test suite()
    {
-      return new JBossWSTestSetup(AsymmetricBindingClientTestCase.class, "jaxws-cxf-interop-wstrust10-client.jar");
+      return new JBossWSTestSetup(AsymmetricBindingClientTestCase.class, "");
    }
    
    public void testScenario9() throws Exception
    {
-      this.loadBus("scenario9");
-      QName serviceName = new QName("http://tempuri.org/", "AsymmetricFederatedService");
-      Service service = Service.create(getServiceURL(), serviceName);
-      QName portName = new QName("http://tempuri.org/", "Scenario_9_IssuedTokenForCertificate_MutualCertificate11");
-      IPingService proxy = service.getPort(portName, IPingService.class);
+      this.deploy("jaxws-cxf-interop-wstrust10-scenario9-client.jar");
       try
       {
-         assertEquals("Hi!", proxy.echo("Hi!"));
+         QName serviceName = new QName("http://tempuri.org/", "AsymmetricFederatedService");
+         Service service = Service.create(getServiceURL(), serviceName);
+         QName portName = new QName("http://tempuri.org/", "Scenario_9_IssuedTokenForCertificate_MutualCertificate11");
+         IPingService proxy = service.getPort(portName, IPingService.class);
+         try
+         {
+            assertEquals("Hi!", proxy.echo("Hi!"));
+         }
+         catch (SOAPFaultException e)
+         {
+            throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
+         }
       }
-      catch (SOAPFaultException e)
+      finally
       {
-         throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
+         this.undeploy("jaxws-cxf-interop-wstrust10-scenario9-client.jar");
       }
    }
    
    public void testScenario10() throws Exception
    {
-      this.loadBus("scenario10");
-      QName serviceName = new QName("http://tempuri.org/", "AsymmetricFederatedService");
-      Service service = Service.create(getServiceURL(), serviceName);
-      QName portName = new QName("http://tempuri.org/", "Scenario_10_IssuedTokenForCertificateSecureConversation_MutualCertificate11");
-      IPingService proxy = service.getPort(portName, IPingService.class);
+      this.deploy("jaxws-cxf-interop-wstrust10-scenario10-client.jar");
       try
       {
-         assertEquals("Hi!", proxy.echo("Hi!"));
+         QName serviceName = new QName("http://tempuri.org/", "AsymmetricFederatedService");
+         Service service = Service.create(getServiceURL(), serviceName);
+         QName portName = new QName("http://tempuri.org/", "Scenario_10_IssuedTokenForCertificateSecureConversation_MutualCertificate11");
+         IPingService proxy = service.getPort(portName, IPingService.class);
+         try
+         {
+            assertEquals("Hi!", proxy.echo("Hi!"));
+         }
+         catch (SOAPFaultException e)
+         {
+            throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
+         }
       }
-      catch (SOAPFaultException e)
+      finally
       {
-         throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
+         this.undeploy("jaxws-cxf-interop-wstrust10-scenario10-client.jar");
       }
-   }
-   
-   private void loadBus(String scenario) throws Exception
-   {
-      System.out.println("Loading bus for " + scenario + "...");
-      SpringBusFactory busFactory = new SpringBusFactory();
-      URL cxfConfig = getResourceURL("jaxws/cxf/interop/wstrust10/META-INF/" + scenario + "-client-config.xml");
-      bus = busFactory.createBus(cxfConfig);
-      BusFactory.setDefaultBus(bus);
-   }
-   
-   @Override
-   protected void tearDown() throws Exception
-   {
-      System.out.println("... bus teardown");
-      if (bus != null)
-         bus.shutdown(true);
-
-      super.tearDown();
    }
    
    private URL getServiceURL() throws Exception
