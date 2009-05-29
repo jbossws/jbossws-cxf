@@ -29,9 +29,6 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
-import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
-import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
@@ -50,7 +47,7 @@ public class BasicRPCTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(BasicRPCTestCase.class, "jaxws-cxf-wsrm-basic-rpc.war");
+      return new JBossWSTestSetup(BasicRPCTestCase.class, "jaxws-cxf-wsrm-basic-rpc.war,jaxws-cxf-wsrm-basic-client.jar");
    }
 
    public void testWSDLAccess() throws Exception
@@ -62,7 +59,7 @@ public class BasicRPCTestCase extends JBossWSTest
       System.out.println("FIXME: [CXF-1310] Generated WSDL for an WS-RM endpoint does not contain RM policies");
    }
 
-   public void _testStandardClient() throws Exception
+   public void testClient() throws Exception
    {
       URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-rpc/wsrm-basic-rpc.wsdl");
       QName serviceName = new QName(targetNS, "RMService");
@@ -70,37 +67,11 @@ public class BasicRPCTestCase extends JBossWSTest
       Service service = Service.create(wsdlURL, serviceName);
       BasicRPCEndpoint port = (BasicRPCEndpoint)service.getPort(BasicRPCEndpoint.class);
 
-      System.out.println("FIXME: [CXF-1320] Configure WS-RM client from WSDL only");
+      // Enable addressing
+      BindingProvider bp = (BindingProvider)port;
+      bp.getRequestContext().put("org.apache.cxf.ws.addressing.using", Boolean.TRUE);
 
       Object retObj = port.echo("Hello");
       assertEquals("Hello", retObj);
-   }
-
-   public void testSpringClient() throws Exception
-   {
-      SpringBusFactory bf = new SpringBusFactory();
-      URL cxfConfig = getResourceURL("jaxws/cxf/wsrm/wsrm-client-config.xml");
-      Bus bus = bf.createBus(cxfConfig);
-      try
-      {
-         BusFactory.setDefaultBus(bus);
-   
-         URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-rpc/wsrm-basic-rpc.wsdl");
-         QName serviceName = new QName(targetNS, "RMService");
-   
-         Service service = Service.create(wsdlURL, serviceName);
-         BasicRPCEndpoint port = (BasicRPCEndpoint)service.getPort(BasicRPCEndpoint.class);
-   
-         // Enable addressing
-         BindingProvider bp = (BindingProvider)port;
-         bp.getRequestContext().put("org.apache.cxf.ws.addressing.using", Boolean.TRUE);
-   
-         Object retObj = port.echo("Hello");
-         assertEquals("Hello", retObj);
-      }
-      finally
-      {
-         bus.shutdown(true);
-      }
    }
 }

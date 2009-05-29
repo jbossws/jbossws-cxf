@@ -21,13 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsa;
 
-import java.io.File;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+
 import junit.framework.Test;
-import org.apache.cxf.Bus;
-import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -40,11 +38,10 @@ public final class AddressingTestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsa/AddressingService";
    private ServiceIface proxy;
-   private Bus bus;
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(AddressingTestCase.class, "jaxws-samples-wsa.war");
+      return new JBossWSTestSetup(AddressingTestCase.class, "jaxws-samples-wsa.war,jaxws-samples-wsa-client.jar");
    }
 
    @Override
@@ -52,25 +49,12 @@ public final class AddressingTestCase extends JBossWSTest
    {
       super.setUp();
 
-      SpringBusFactory busFactory = new SpringBusFactory();
-      URL cxfConfig = new File("test-resources/jaxws/samples/wsa/cxf-client-config.xml").toURL();
-      bus = busFactory.createBus(cxfConfig);
-      busFactory.setDefaultBus(bus);
-
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsaddressing", "AddressingService");
       URL wsdlURL = new URL(serviceURL + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       proxy = (ServiceIface)service.getPort(ServiceIface.class);
    }
 
-   @Override
-   protected void tearDown() throws Exception
-   {
-      bus.shutdown(true);
-
-      super.tearDown();
-   }
-   
    public void test() throws Exception
    {
       assertEquals("Hello World!", proxy.sayHello());
