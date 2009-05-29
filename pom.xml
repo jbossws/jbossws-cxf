@@ -56,7 +56,7 @@
     <jbossws.jboss600.version>3.2.0-SNAPSHOT</jbossws.jboss600.version>
     -->
     <!-- END -->
-    <cxf.version>2.2.2-SNAPSHOT</cxf.version>
+    <cxf.version>2.2.2</cxf.version>
     <cxf.anttasks.version>2.1.5</cxf.anttasks.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>2.2.3</cxf.asm.version>
