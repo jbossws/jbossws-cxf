@@ -54,16 +54,8 @@
     <namespace>http://www.w3.org/2004/08/wsdl/http</namespace>
     <namespace>http://schemas.xmlsoap.org/wsdl/http/</namespace>
   </extension>
-  <extension class="org.apache.cxf.transport.http.ClientOnlyHTTPTransportFactory" deferred="true">
-    <namespace>http://schemas.xmlsoap.org/wsdl/soap/http</namespace>
-    <namespace>http://schemas.xmlsoap.org/soap/http</namespace>
-    <namespace>http://www.w3.org/2003/05/soap/bindings/HTTP/</namespace>
-    <namespace>http://schemas.xmlsoap.org/wsdl/http/</namespace>
-    <namespace>http://cxf.apache.org/transports/http/configuration</namespace>
-    <namespace>http://cxf.apache.org/bindings/xformat</namespace>
-  </extension>
   <extension class="org.apache.cxf.management.jmx.InstrumentationManagerImpl" interface="org.apache.cxf.management.InstrumentationManager" />
-  <extension class="org.apache.cxf.transport.http_jetty.JettyHTTPTransportFactory" deferred="false">
+  <extension class="org.apache.cxf.transport.http_jetty.JettyHTTPTransportFactory" deferred="true">
     <namespace>http://schemas.xmlsoap.org/wsdl/soap/http</namespace>
     <namespace>http://schemas.xmlsoap.org/soap/http</namespace>
     <namespace>http://www.w3.org/2003/05/soap/bindings/HTTP/</namespace>
