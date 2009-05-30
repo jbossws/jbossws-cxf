@@ -100,7 +100,7 @@
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-framework</artifactId>
-        <version>${version}</version>
+        <version>${jbossws.framework.version}</version>
         <classifier>testsuite</classifier>
         <type>zip</type>
       </dependency>
