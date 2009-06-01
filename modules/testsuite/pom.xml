@@ -398,7 +398,7 @@
     <profile>
       <id>jboss510</id>
       <properties>
-        <jboss.version>5.1.0-SNAPSHOT</jboss.version>
+        <jboss.version>5.1.0.GA</jboss.version>
         <jbossws.integration.target>jboss510</jbossws.integration.target>
       </properties>
       <dependencies>
