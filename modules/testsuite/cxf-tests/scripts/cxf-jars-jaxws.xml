@@ -7,9 +7,9 @@
 <!-- ============================================================ -->
 
 <project>
-  
+
   <description>JBossWS test archive builder</description>
-  
+
   <!-- ============================================================================== -->
   <!-- Building                                                                       -->
   <!--                                                                                -->
@@ -17,11 +17,11 @@
   <!-- http://www.jboss.com/index.html?module=bb&op=viewtopic&p=4144172#4144172       -->
   <!--                                                                                -->
   <!-- ============================================================================== -->
-  
+
   <target name="build-jars-jaxws" description="Build the deployments.">
-    
+
     <mkdir dir="${tests.output.dir}/test-libs"/>
-    
+
     <!-- jaxws-cxf-descriptor -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-descriptor.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/descriptor/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
@@ -31,14 +31,14 @@
         <include name="jbossws-cxf.xml"/>
       </webinf>
     </war>
-  	
+
     <!-- jaxws-cxf-interop-wstrust10-client -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-interop-wstrust10-client.jar">
-	  <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF">
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF">
         <include name="**/*" />
       </metainf>
     </jar>
-    
+
     <!-- jaxws-cxf-wsrm-basic-doc -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-wsrm-basic-doc.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/basic-doc/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
@@ -49,7 +49,7 @@
         <include name="jbossws-cxf.xml"/>
       </webinf>
     </war>
-    
+
     <!-- jaxws-cxf-wsrm-basic-rpc -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-wsrm-basic-rpc.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/basic-rpc/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
@@ -60,9 +60,16 @@
         <include name="jbossws-cxf.xml"/>
       </webinf>
     </war>
-    
+
+    <!-- jaxws-cxf-wsrm-basic-client -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-wsrm-basic-client.jar">
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/">
+        <include name="cxf.xml" />
+      </metainf>
+    </jar>
+
     <!-- Please add alphabetically -->
-    
+
   </target>
-  
+
 </project>

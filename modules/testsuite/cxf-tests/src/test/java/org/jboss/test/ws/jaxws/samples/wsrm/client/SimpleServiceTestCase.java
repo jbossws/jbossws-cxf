@@ -21,14 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsrm.client;
 
-import java.io.File;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+
 import junit.framework.Test;
-import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
-import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.jboss.test.ws.jaxws.samples.wsrm.generated.SimpleService;
@@ -42,11 +39,10 @@ public final class SimpleServiceTestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsrm/SimpleService";
    private SimpleService proxy;
-   private Bus bus;
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(SimpleServiceTestCase.class, "jaxws-samples-wsrm.war");
+      return new JBossWSTestSetup(SimpleServiceTestCase.class, "jaxws-samples-wsrm.war,jaxws-samples-wsrm-client.jar");
    }
 
    @Override
@@ -54,25 +50,12 @@ public final class SimpleServiceTestCase extends JBossWSTest
    {
       super.setUp();
 
-      SpringBusFactory busFactory = new SpringBusFactory();
-      URL cxfConfig = getResourceURL("jaxws/samples/wsrm/wsrm-client-config.xml");
-      bus = busFactory.createBus(cxfConfig);
-      busFactory.setDefaultBus(bus);
-
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsrm", "SimpleService");
       URL wsdlURL = new URL(serviceURL + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       proxy = (SimpleService)service.getPort(SimpleService.class);
    }
 
-   @Override
-   protected void tearDown() throws Exception
-   {
-      bus.shutdown(true);
-
-      super.tearDown();
-   }
-   
    public void test() throws Exception
    {
       proxy.ping(); // one way call
