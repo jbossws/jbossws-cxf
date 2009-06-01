@@ -27,19 +27,31 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    TODO: enumerate
+    * [JBWS-2528] - Missing parameterOrder in portType/operation
+    * [JBWS-2582] - CXF ToolException: -p option cannot be used when wsdl contains mutiple schemas
+    * [JBWS-2584] - Provider endpoint causes NPE in AbstractPolicyInterceptor
+    * [JBWS-2591] - WSConsume does not generate @XmlList with doc/lit wsdl
+    * [JBWS-2593] - WSConsume does not generate @XmlJavaTypeAdapter in SEI
+    * [JBWS-2597] - XsiNilLoader throws NPE when using FastInfoset and nullable elements
+    * [JBWS-2616] - handlerscope testcase is (native) stack specific
+    * [JBWS-2629] - Transient failures in jaxws module of TCK
 
 Feature Request
 
-    TODO: enumerate
+    * [JBWS-2619] - Consider DeploymentUnit's metadataLocation in ArchiveDeployment.getMetadataFileURL(..)
+    * [JBWS-2628] - Upgrade to Apache CXF 2.2.1
+    * [JBWS-2653] - Upgrade to Apache CXF 2.2.2
 
 Task
 
-    TODO: enumerate
+    * [JBWS-2578] - Provide testcase for WS-SecurityPolicy
+    * [JBWS-2612] - Remove AS 4.2.x support from all stacks
+    * [JBWS-2626] - Update CXF stack tutorials to refer to JBossWS tools
+    * [JBWS-2667] - Upload cxf 2.2.2 artifacts to jboss m2 repository
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
+    See: TODO: https://jira.jboss.org/jira/browse/JBWS-2665
 
 
 This version of ${project.name} is based on CXF ${cxf.version}
