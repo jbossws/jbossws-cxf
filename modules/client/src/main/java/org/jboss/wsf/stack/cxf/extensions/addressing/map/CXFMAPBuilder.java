@@ -24,7 +24,6 @@ package org.jboss.wsf.stack.cxf.extensions.addressing.map;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.handler.MessageContext;
 
 import org.apache.cxf.ws.addressing.AddressingBuilder;
 import org.apache.cxf.ws.addressing.AddressingConstants;
