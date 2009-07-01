@@ -38,4 +38,6 @@ import javax.jws.soap.SOAPBinding;
 public interface EndpointInterface extends Remote
 {
    String echo(String input) throws RemoteException;
+   
+   public int getCount();
 }

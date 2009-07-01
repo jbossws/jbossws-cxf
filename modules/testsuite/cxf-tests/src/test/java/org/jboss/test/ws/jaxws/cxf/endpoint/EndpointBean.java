@@ -37,8 +37,16 @@ import javax.jws.WebService;
 )
 public class EndpointBean implements EndpointInterface
 {
+   private int count;
+   
    public String echo(String input)
    {
+      count++;
       return input;
+   }
+   
+   public int getCount()
+   {
+      return count;
    }
 }

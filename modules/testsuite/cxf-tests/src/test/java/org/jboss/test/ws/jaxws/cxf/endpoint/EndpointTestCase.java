@@ -40,13 +40,30 @@ public class EndpointTestCase extends JBossWSTest
 {
    private static final int port = 8878;
 
-   public void testJSEEndpointPublish() throws Exception
+   public void test() throws Exception
    {
-      EndpointBean epImpl = new EndpointBean();
-      Endpoint endpoint = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, epImpl);
       String publishURL = "http://" + getServerHost() + ":" + port + "/jaxws-endpoint";
+      Endpoint endpoint = publishEndpoint(new EndpointBean(), publishURL);
+      
+      String publishURL2 = "http://" + getServerHost() + ":" + port + "/jaxws-endpoint2";
+      Endpoint endpoint2 = publishEndpoint(new EndpointBean(), publishURL2);
+      
+      invokeEndpoint(publishURL);
+      invokeEndpoint(publishURL2);
+      
+      endpoint.stop();
+      endpoint2.stop();
+   }
+   
+   private Endpoint publishEndpoint(EndpointBean epImpl, String publishURL)
+   {
+      Endpoint endpoint = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, epImpl);
       endpoint.publish(publishURL);
-
+      return endpoint;
+   }
+   
+   private void invokeEndpoint(String publishURL) throws Exception
+   {
       URL wsdlURL = new URL(publishURL + "?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/cxf/endpoint", "EndpointService");
       Service service = Service.create(wsdlURL, qname);
@@ -54,9 +71,11 @@ public class EndpointTestCase extends JBossWSTest
 
       // Invoke the endpoint
       String helloWorld = "Hello world!";
+      assertEquals(0, port.getCount());
       Object retObj = port.echo(helloWorld);
       assertEquals(helloWorld, retObj);
-
-      endpoint.stop();
+      assertEquals(1, port.getCount());
+      port.echo(helloWorld);
+      assertEquals(2, port.getCount());
    }
 }
