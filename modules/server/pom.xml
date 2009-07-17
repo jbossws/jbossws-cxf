@@ -178,6 +178,9 @@
       </resource>
     </resources>
     <plugins>
+                <!-- JBWS-2505 -->
+                <!-- START -->
+                <!--
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
@@ -192,46 +195,19 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss500</artifactId>
-                  <version>${jbossws.jboss500.version}</version>
-                  <classifier>resources</classifier>
-                  <type>zip</type>
-                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss500</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss501</artifactId>
-                  <version>${jbossws.jboss501.version}</version>
-                  <classifier>resources</classifier>
-                  <type>zip</type>
-                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss501</outputDirectory>
-                </artifactItem>
-                <!-- JBWS-2505 -->
-                <!-- START -->
-                <!--
-                <artifactItem>
-                  <groupId>org.jboss.ws</groupId>
                   <artifactId>jbossws-jboss510x</artifactId>
                   <version>${jbossws.jboss510.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss510</outputDirectory>
                 </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss600x</artifactId>
-                  <version>${jbossws.jboss600.version}</version>
-                  <classifier>resources</classifier>
-                  <type>zip</type>
-                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss600</outputDirectory>
-                </artifactItem>
-                -->
-                <!-- END -->
               </artifactItems>
             </configuration>
           </execution>
         </executions>
       </plugin>
+                -->
+                <!-- END -->
       <!-- http://jira.codehaus.org/browse/MANTRUN-89 -->
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>

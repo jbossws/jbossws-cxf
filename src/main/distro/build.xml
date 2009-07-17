@@ -45,20 +45,9 @@
     <fail message="jbossws.integration.target not set" unless="jbossws.integration.target"/>
     <echo message="integration.target=${jbossws.integration.target}"/>
     
-    <condition property="jbossws.integration.jboss50" value="true">
-      <or>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss500"/>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss501"/>
-      </or>
-    </condition>
     <condition property="jbossws.integration.jboss51" value="true">
       <or>
         <equals arg1="${jbossws.integration.target}" arg2="jboss510"/>
-      </or>
-    </condition>
-  	<condition property="jbossws.integration.jboss60" value="true">
-      <or>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss600"/>
       </or>
     </condition>
     

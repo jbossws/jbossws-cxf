@@ -54,31 +54,16 @@
       <arg value="help:effective-settings"/>
     </exec>
     <xmlproperty file="${stack.output.dir}/effective-settings.xml" keeproot="false"/>
-    <condition property="jboss500.home" value="${profiles.profile.properties.jboss500.home}">
-      <isset property="profiles.profile.properties.jboss500.home"/>
-    </condition>
-    <condition property="jboss501.home" value="${profiles.profile.properties.jboss501.home}">
-      <isset property="profiles.profile.properties.jboss501.home"/>
-    </condition>
     <condition property="jboss510.home" value="${profiles.profile.properties.jboss510.home}">
       <isset property="profiles.profile.properties.jboss510.home"/>
-    </condition>
-    <condition property="jboss600.home" value="${profiles.profile.properties.jboss600.home}">
-      <isset property="profiles.profile.properties.jboss600.home"/>
     </condition>
 
     <!-- Loads the properties from the user profile -->
     <xmlproperty file="${basedir}/profiles.xml" keeproot="false"/>
-    <property name="jboss500.home" value="${profiles.profile.properties.jboss500.home}"/>
-    <property name="jboss501.home" value="${profiles.profile.properties.jboss501.home}"/>
     <property name="jboss510.home" value="${profiles.profile.properties.jboss510.home}"/>
-    <property name="jboss600.home" value="${profiles.profile.properties.jboss600.home}"/>
 
     <echo/>
-    <echo message="jboss500.home=${jboss500.home}"/>
-    <echo message="jboss501.home=${jboss501.home}"/>
     <echo message="jboss510.home=${jboss510.home}"/>
-    <echo message="jboss600.home=${jboss600.home}"/>
   </target>
 
   <target name="init" depends="mvn-settings,prepare,os-init">

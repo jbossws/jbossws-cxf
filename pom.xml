@@ -44,15 +44,12 @@
   <!-- Properties -->
   <properties>
     <jbossws.common.version>1.1.0.SP2</jbossws.common.version>
-    <jbossws.framework.version>3.1.2.SP3</jbossws.framework.version>
+    <jbossws.framework.version>3.1.2-SNAPSHOT</jbossws.framework.version>
     <jbossws.spi.version>1.1.2.SP1</jbossws.spi.version>
-    <jbossws.jboss500.version>3.1.2.GA</jbossws.jboss500.version>
-    <jbossws.jboss501.version>3.1.2.GA</jbossws.jboss501.version>
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
     <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
-    <jbossws.jboss600.version>3.1.0-SNAPSHOT</jbossws.jboss600.version>
     -->
     <!-- END -->
     <cxf.version>2.2.2</cxf.version>
@@ -104,30 +101,6 @@
         <classifier>testsuite</classifier>
         <type>zip</type>
       </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss500</artifactId>
-        <version>${jbossws.jboss500.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss500</artifactId>
-        <version>${jbossws.jboss500.version}</version>
-        <classifier>resources</classifier>
-        <type>zip</type>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss501</artifactId>
-        <version>${jbossws.jboss501.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss501</artifactId>
-        <version>${jbossws.jboss501.version}</version>
-        <classifier>resources</classifier>
-        <type>zip</type>
-      </dependency>
       <!-- JBWS-2505 -->
       <!-- START -->
       <!--
@@ -140,18 +113,6 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss510x</artifactId>
         <version>${jbossws.jboss510.version}</version>
-        <classifier>resources</classifier>
-        <type>zip</type>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss600x</artifactId>
-        <version>${jbossws.jboss600.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss600x</artifactId>
-        <version>${jbossws.jboss600.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
@@ -523,30 +484,6 @@
     </profile>
 
     <!--
-    Name:  jboss500
-    Descr: JBoss-5.0.0 specific options
-    -->
-    <profile>
-      <id>jboss500</id>
-      <properties>
-        <jbossws.integration.target>jboss500</jbossws.integration.target>
-        <jboss.home>${jboss500.home}</jboss.home>
-      </properties>
-    </profile>
-
-    <!--
-    Name:  jboss501
-    Descr: JBoss-5.0.1 specific options
-    -->
-    <profile>
-      <id>jboss501</id>
-      <properties>
-        <jbossws.integration.target>jboss501</jbossws.integration.target>
-        <jboss.home>${jboss501.home}</jboss.home>
-      </properties>
-    </profile>
-
-    <!--
     Name:  jboss510
     Descr: JBoss-5.1.0 specific options
     -->
@@ -555,18 +492,6 @@
       <properties>
         <jbossws.integration.target>jboss510</jbossws.integration.target>
         <jboss.home>${jboss510.home}</jboss.home>
-      </properties>
-    </profile>
-
-    <!--
-    Name:  jboss600
-    Descr: JBoss-6.0.0 specific options
-    -->
-    <profile>
-      <id>jboss600</id>
-      <properties>
-        <jbossws.integration.target>jboss600</jbossws.integration.target>
-        <jboss.home>${jboss600.home}</jboss.home>
       </properties>
     </profile>
 

@@ -29,27 +29,12 @@
       <scope>provided</scope>
       <type>zip</type>
     </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss500</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss501</artifactId>
-      <scope>provided</scope>
-    </dependency>
     <!-- [JBWS-2505] -->
     <!-- START -->
     <!--
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss510x</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss600x</artifactId>
       <scope>provided</scope>
     </dependency>
     -->
