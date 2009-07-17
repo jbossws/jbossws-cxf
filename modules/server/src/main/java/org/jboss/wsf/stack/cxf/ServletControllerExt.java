@@ -39,6 +39,8 @@ import org.apache.cxf.transport.servlet.ServletDestination;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.apache.cxf.transports.http.QueryHandler;
 import org.apache.cxf.transports.http.QueryHandlerRegistry;
+import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.management.EndpointMetrics;
 
 /**
  * An extension to the CXF servlet controller
@@ -150,14 +152,50 @@ public class ServletControllerExt extends ServletController
       return false;
    }
 
-   public void invoke(HttpServletRequest req, HttpServletResponse res) throws ServletException
+   public void invoke(HttpServletRequest req, HttpServletResponse res, Endpoint ep) throws ServletException
    {
       ServletDestination dest = findDestination(req);
       boolean requestHandled = handleQuery(req, res, dest); 
       
       if (false == requestHandled)
       {
-         invokeDestination(req, res, dest);
+         Long beginTime = initRequestMetrics(ep);
+         HttpServletResponseExt response = new HttpServletResponseExt(res);
+         invokeDestination(req, response, dest);
+         if (response.getStatus() < 500)
+         {
+            processResponseMetrics(ep, beginTime);
+         }
+         else
+         {
+            processFaultMetrics(ep, beginTime);
+         }
       }
    }
+   
+   private long initRequestMetrics(Endpoint endpoint)
+   {
+      long beginTime = 0;
+
+      EndpointMetrics metrics = endpoint.getEndpointMetrics();
+      if (metrics != null)
+         beginTime = metrics.processRequestMessage();
+
+      return beginTime;
+   }
+
+   private void processResponseMetrics(Endpoint endpoint, long beginTime)
+   {
+      EndpointMetrics metrics = endpoint.getEndpointMetrics();
+      if (metrics != null)
+         metrics.processResponseMessage(beginTime);
+   }
+
+   private void processFaultMetrics(Endpoint endpoint, long beginTime)
+   {
+      EndpointMetrics metrics = endpoint.getEndpointMetrics();
+      if (metrics != null)
+         metrics.processFaultMessage(beginTime);
+   }
+   
 }
