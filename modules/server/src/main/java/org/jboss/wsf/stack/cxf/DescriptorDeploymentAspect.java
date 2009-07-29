@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.logging.Logger;
+import org.jboss.wsf.common.integration.WSConstants;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.DeploymentAspect;
@@ -64,7 +65,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
    }
    
    @Override
-   public void create(Deployment dep)
+   public void start(Deployment dep)
    {
       URL cxfURL = getCXFConfigFromClassLoader(dep);
       if (cxfURL == null)
@@ -79,7 +80,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
    }
 
    @Override
-   public void destroy(Deployment dep)
+   public void stop(Deployment dep)
    {
       DDBeans dd = dep.getAttachment(DDBeans.class);
       if (dd != null)
@@ -195,20 +196,21 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
    }
 
    /**
-    * Puts CXF config file to deployment property <b>org.jboss.ws.webapp.ContextParameterMap</b> map
-    * @param dep deployment where to put
-    * @param cxfURL to be put
+    * Puts CXF config file reference to the stack specific context properties. 
+    *
+    * @param dep webservice deployment
+    * @param cxfURL CXF DD URL
+    * @see org.jboss.wsf.common.integration.WSConstants.STACK_CONTEXT_PARAMS
     */
    private void putCXFConfigToDeployment(Deployment dep, URL cxfURL)
    {
       // get property map
-      String propKey = "org.jboss.ws.webapp.ContextParameterMap";
-      Map<String, String> contextParams = (Map<String, String>)dep.getProperty(propKey);
+      Map<String, String> contextParams = (Map<String, String>)dep.getProperty(WSConstants.STACK_CONTEXT_PARAMS);
       if (contextParams == null)
       {
          // if there's no associated map with the property create it now
          contextParams = new HashMap<String, String>();
-         dep.setProperty(propKey, contextParams);
+         dep.setProperty(WSConstants.STACK_CONTEXT_PARAMS, contextParams);
       }
       // put cxf config URL to the property map
       contextParams.put(CXFServletExt.PARAM_CXF_BEANS_URL, cxfURL.toExternalForm());

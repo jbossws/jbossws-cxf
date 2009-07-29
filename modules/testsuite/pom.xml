@@ -25,7 +25,6 @@
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <hibernate.version>3.2.4.sp1</hibernate.version>
     <asm.version>2.2.3</asm.version>
-    <endpoint.servlet>org.jboss.wsf.stack.cxf.CXFServletExt</endpoint.servlet>
     <jboss.javaee.version>5.0.0.GA</jboss.javaee.version>
   </properties>
 
@@ -176,6 +175,10 @@
             <property>
               <name>jbossws.integration.target</name>
               <value>${jbossws.integration.target}</value>
+            </property>
+            <property>
+              <name>test.disable.deployment</name>
+              <value>false</value>
             </property>
             <property>
               <name>log4j.output.dir</name>

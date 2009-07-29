@@ -1,9 +1,12 @@
-  
+<?xml version="1.0" encoding="UTF-8"?>
+
+<deployment xmlns="urn:jboss:bean-deployer:2.0">
+
   <!-- The registry for web service endpoints -->
   <bean name="WSEndpointRegistry" class="org.jboss.wsf.framework.management.ManagedEndpointRegistry">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
   </bean>
-  
+
   <!-- Logging redirector -->
   <bean name="JDKLogRedirector" class="org.jboss.wsf.common.logging.JDKLogRedirector">
     <property name="namespaces">
@@ -21,16 +24,18 @@
     <property name="recording">false</property>
   </bean>
 
-  <!-- 
-    The stack specific deployment aspects
-  --> 
+  <!-- The stack specific deployment aspects -->
   <bean name="WSCXFContextPropertiesDeploymentAspect" class="org.jboss.wsf.framework.deployment.ContextPropertiesDeploymentAspect">
     <property name="provides">ContextProperties</property>
     <property name="contextProperties">
       <map keyClass="java.lang.String" valueClass="java.lang.String">
-        <entry><key>org.jboss.ws.webapp.ServletClass</key><value>org.jboss.wsf.stack.cxf.CXFServletExt</value></entry>
+        <entry>
+          <key>stack.transport.class</key>
+          <value>org.jboss.wsf.stack.cxf.CXFServletExt</value>
+        </entry>
       </map>
     </property>
+    <property name="relativeOrder">31</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
 
   <bean name="WSCXFDescriptorDeploymentAspect" class="org.jboss.wsf.stack.cxf.DescriptorDeploymentAspect">
@@ -38,17 +43,20 @@
     <property name="provides">StackDescriptor</property>
     <property name="invokerEJB3">org.jboss.wsf.stack.cxf.InvokerEJB3</property>
     <property name="invokerJSE">org.jboss.wsf.stack.cxf.InvokerJSE</property>
+    <property name="relativeOrder">21</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
 
   <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
-    <property name="requires">ContainerEndpointHandler</property>
-    <property name="provides">StackEndpointHandler</property>        
+    <property name="requires">ContainerMetaData</property>
+    <property name="provides">StackEndpointHandler</property>
+    <property name="relativeOrder">13</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
 
   <bean name="WSCXFEndpointRecordProcessorDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointRecordProcessorDeploymentAspect">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
     <property name="requires">RegisteredEndpoint</property>
     <property name="provides">EndpointRecordProcessors</property>
+    <property name="relativeOrder">36</property> <!-- [JBDEPLOY-201] workaround -->
     <property name="processors">
       <list class="java.util.ArrayList" elementClass="org.jboss.wsf.spi.management.recording.RecordProcessor">
         <inject bean="WSMemoryBufferRecorder"/>
@@ -57,45 +65,4 @@
     </property>
   </bean>
 
-  <!-- Deployment aspect installers -->  
-
-  <!-- Phase 2 -->
-  <bean name="WSCXFDeploymentAspectInstallerPreJSE" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
-    <property name="manager"><inject bean="WSDeploymentAspectManagerPreJSE"/></property>
-    <property name="sortAspectsOnCreate">true</property>
-    <property name="aspects">
-      <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">
-        <inject bean="WSCXFContextPropertiesDeploymentAspect"/>
-        <inject bean="WSCXFDescriptorDeploymentAspect"/>
-      </set>
-    </property>
-    <depends>WSDeploymentAspectInstallerPreJSE</depends>
-  </bean>
-
-  <!-- Phase 2 -->
-  <bean name="WSCXFDeploymentAspectInstallerPostJSE" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
-    <property name="manager"><inject bean="WSDeploymentAspectManagerPostJSE"/></property>
-    <property name="sortAspectsOnCreate">true</property>
-    <property name="aspects">
-      <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">        
-        <inject bean="WSCXFEndpointHandlerDeploymentAspect"/>
-        <inject bean="WSCXFEndpointRecordProcessorDeploymentAspect"/>
-      </set>
-    </property>
-    <depends>WSDeploymentAspectInstallerPostJSE</depends>
-  </bean>
-
-  <bean name="WSCXFDeploymentAspectInstallerEJB" class="org.jboss.wsf.framework.deployment.DeploymentAspectInstaller">
-    <property name="manager"><inject bean="WSDeploymentAspectManagerEJB"/></property>
-    <property name="sortAspectsOnCreate">true</property>
-    <property name="aspects">
-      <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">
-        <inject bean="WSCXFContextPropertiesDeploymentAspect"/>
-        <inject bean="WSCXFEndpointHandlerDeploymentAspect"/>
-        <inject bean="WSCXFEndpointRecordProcessorDeploymentAspect"/>
-        <inject bean="WSCXFDescriptorDeploymentAspect"/>
-      </set>
-    </property>
-    <depends>WSDeploymentAspectInstallerEJB</depends>
-  </bean>
-    
+</deployment>

@@ -446,7 +446,7 @@
       </copy>
       <copy todir="@{targetdir}/META-INF" flatten="true" overwrite="true">
         <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}">
-          <include name="**/jbossws-deployer-jboss-beans.xml"/>
+          <include name="**/stack-agnostic-jboss-beans.xml"/>
         </fileset>
       </copy>
     </sequential>
@@ -478,7 +478,7 @@
       </copy>
       <copy todir="@{targetdir}/META-INF" flatten="true" overwrite="true">
         <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}">
-          <include name="**/jbossws-deployer-jboss-beans.xml"/>
+          <include name="**/stack-agnostic-jboss-beans.xml"/>
         </fileset>
       </copy>
     </sequential>
@@ -518,7 +518,7 @@
       <!--
       <copy todir="@{targetdir}/META-INF" flatten="true" overwrite="true">
         <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}">
-          <include name="**/jbossws-deployer-jboss-beans.xml"/>
+          <include name="**/stack-agnostic-jboss-beans.xml"/>
         </fileset>
       </copy>
       -->
@@ -560,7 +560,7 @@
       <!--
       <copy todir="@{targetdir}/META-INF" flatten="true" overwrite="true">
         <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}">
-          <include name="**/jbossws-deployer-jboss-beans.xml"/>
+          <include name="**/stack-agnostic-jboss-beans.xml"/>
         </fileset>
       </copy>
       -->
