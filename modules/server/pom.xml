@@ -141,8 +141,8 @@
     
     <!-- jboss provided -->
     <dependency>
-      <groupId>jboss.common</groupId>
-      <artifactId>jboss-common</artifactId>
+      <groupId>org.jboss</groupId>
+      <artifactId>jboss-common-core</artifactId>
     </dependency>
     
     <!-- transitve dependencies -->

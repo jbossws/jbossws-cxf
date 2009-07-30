@@ -61,7 +61,7 @@
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>2.2.3</cxf.asm.version>
     <fastinfoset.api.version>1.2.6</fastinfoset.api.version>
-    <jboss.common.version>1.2.1.GA</jboss.common.version>
+    <jboss.common.core.version>2.2.14.GA</jboss.common.core.version>
     <jaxb.api.version>2.1</jaxb.api.version>
     <jaxb.impl.version>2.1.9</jaxb.impl.version>
     <jaxrpc.api.version>1.1</jaxrpc.api.version>
@@ -350,9 +350,9 @@
       
       <!-- jboss provided -->
       <dependency>
-        <groupId>jboss.common</groupId>
-        <artifactId>jboss-common</artifactId>
-        <version>${jboss.common.version}</version>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-common-core</artifactId>
+        <version>${jboss.common.core.version}</version>
         <scope>provided</scope>
       </dependency>
       
