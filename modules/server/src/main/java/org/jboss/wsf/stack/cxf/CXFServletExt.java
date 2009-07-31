@@ -135,7 +135,6 @@ public class CXFServletExt extends CXFServlet
    }
 
    //required up to CXF 2.2.2
-   @Override
    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
    {
       try
@@ -153,7 +152,6 @@ public class CXFServletExt extends CXFServlet
    }
    
    //required for CXF 2.2.3 or greater
-   @Override
    protected void invoke(HttpServletRequest req, HttpServletResponse res) throws ServletException
    {
       try
