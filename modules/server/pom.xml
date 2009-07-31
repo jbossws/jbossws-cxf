@@ -16,6 +16,10 @@
   <!-- Dependencies -->
   <dependencies>
     
+    <dependency>
+      <groupId>javax.ejb</groupId>
+      <artifactId>ejb-api</artifactId>
+    </dependency>
     <!-- jbossws dependencies -->
     <dependency>
       <groupId>org.jboss.ws</groupId>
