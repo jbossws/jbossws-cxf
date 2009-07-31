@@ -34,10 +34,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceException;
 
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.transport.DestinationFactory;
+import org.apache.cxf.transport.DestinationFactoryManager;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.jboss.logging.Logger;
+import org.jboss.ws.Constants;
 import org.jboss.wsf.common.ObjectNameFactory;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
@@ -98,6 +101,12 @@ public class CXFServletExt extends CXFServlet
       ServletContext svCtx = getServletContext();
       ApplicationContext appCtx = (ApplicationContext)svCtx.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT");
 
+      //Install our SoapTransportFactory to allow for proper soap address rewrite
+      DestinationFactoryManager dfm = getBus().getExtension(DestinationFactoryManager.class);
+      DestinationFactory factory = new SoapTransportFactoryExt();
+      dfm.registerDestinationFactory(Constants.NS_SOAP11, factory);
+      dfm.registerDestinationFactory(Constants.NS_SOAP12, factory);
+            
       loadAdditionalConfigExt(appCtx, servletConfig);
    }
 
@@ -125,6 +134,7 @@ public class CXFServletExt extends CXFServlet
       }
    }
 
+   //required up to CXF 2.2.2
    @Override
    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
    {
@@ -134,6 +144,28 @@ public class CXFServletExt extends CXFServlet
          EndpointAssociation.setEndpoint(endpoint);
          RequestHandler requestHandler = (RequestHandler)endpoint.getRequestHandler();
          requestHandler.handleHttpRequest(endpoint, req, res, getServletContext());
+      }
+      finally
+      {
+         EndpointAssociation.removeEndpoint();
+         BusFactory.setThreadDefaultBus(null);
+      }
+   }
+   
+   //required for CXF 2.2.3 or greater
+   @Override
+   protected void invoke(HttpServletRequest req, HttpServletResponse res) throws ServletException
+   {
+      try
+      {
+         BusFactory.setThreadDefaultBus(getBus());
+         EndpointAssociation.setEndpoint(endpoint);
+         RequestHandler requestHandler = (RequestHandler)endpoint.getRequestHandler();
+         requestHandler.handleHttpRequest(endpoint, req, res, getServletContext());
+      }
+      catch (IOException ioe)
+      {
+         throw new ServletException(ioe);
       }
       finally
       {
