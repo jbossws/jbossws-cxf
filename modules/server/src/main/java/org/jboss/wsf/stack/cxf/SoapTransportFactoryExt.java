@@ -52,7 +52,6 @@ import org.jboss.wsf.spi.management.ServerConfigFactory;
  */
 public class SoapTransportFactoryExt extends SoapTransportFactory
 {
-   private static Logger log = Logger.getLogger(SoapTransportFactoryExt.class); 
    private ServerConfig serverConfig;
    
    public EndpointInfo createEndpointInfo(ServiceInfo serviceInfo, BindingInfo b, Port port)
@@ -64,7 +63,7 @@ public class SoapTransportFactoryExt extends SoapTransportFactory
          transportURI = sbi.getTransportURI();
       }
       ServerConfig config = getServerConfig();
-      EndpointInfo info = new CustomSoapEndpointInfo(serviceInfo, transportURI, config != null && config.isModifySOAPAddress());
+      EndpointInfo info = new AddressRewritingEndpointInfo(serviceInfo, transportURI, config, "");
       if (port != null)
       {
          List ees = port.getExtensibilityElements();
@@ -97,64 +96,4 @@ public class SoapTransportFactoryExt extends SoapTransportFactory
       }
       return serverConfig;
    }
-   
-   /**
-    * A custom EndpointInfo that updates the SoapAddress extension
-    * coming from the wsdl definition according to the JBossWS
-    * soap address rewrite rules.
-    * 
-    */
-   private class CustomSoapEndpointInfo extends EndpointInfo
-   {
-      boolean alwaysModifyWsdl;
-      SoapAddress saddress;
-
-      CustomSoapEndpointInfo(ServiceInfo serv, String trans, boolean alwaysModifyWsdl)
-      {
-         super(serv, trans);
-         this.alwaysModifyWsdl = alwaysModifyWsdl;
-      }
-
-      public void setAddress(String s)
-      {
-         boolean currentInvalid = isCurrentAddressInvalid();
-         super.setAddress(s);
-         if (alwaysModifyWsdl || currentInvalid)
-         {
-            log.info("Setting new address: " + s);
-            if (saddress != null)
-            {
-               saddress.setLocationURI(s);
-            }
-         }
-      }
-
-      public void addExtensor(Object el)
-      {
-         super.addExtensor(el);
-         if (el instanceof SoapAddress)
-         {
-            saddress = (SoapAddress)el;
-         }
-      }
-      
-      private boolean isCurrentAddressInvalid()
-      {
-         String address = super.getAddress();
-         if (address != null)
-         {
-            try
-            {
-               new URL(address);
-            }
-            catch (MalformedURLException e)
-            {
-               log.info("Forcing rewrite of invalid address: " + address);
-               return true;
-            }
-         }
-         return false;
-      }
-   }
-   
 }
