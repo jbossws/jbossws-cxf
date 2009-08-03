@@ -48,14 +48,12 @@ public class AddressRewritingEndpointInfo extends EndpointInfo
    private static Logger log = Logger.getLogger(AddressRewritingEndpointInfo.class);
    
    private ServerConfig serverConfig;
-   private String transportGuarantee;
    SoapAddress saddress;
 
-   AddressRewritingEndpointInfo(ServiceInfo serv, String trans, ServerConfig serverConfig, String transportGuarantee)
+   AddressRewritingEndpointInfo(ServiceInfo serv, String trans, ServerConfig serverConfig)
    {
       super(serv, trans);
       this.serverConfig = serverConfig;
-      this.transportGuarantee = transportGuarantee;
    }
 
    /**
@@ -71,7 +69,6 @@ public class AddressRewritingEndpointInfo extends EndpointInfo
    public void setAddress(String s)
    {
       String previousAddress = super.getAddress();
-      log.warn(previousAddress + " -> " + s + " ?");
       super.setAddress(s);
       boolean setNewAddress = false;
       if (previousAddress == null)
@@ -83,7 +80,7 @@ public class AddressRewritingEndpointInfo extends EndpointInfo
          String uriScheme = getUriScheme(s);
          //we set https if the transport guarantee is CONFIDENTIAL or the previous address already used https
          //(if the original wsdl soap:address uses https we can't overwrite it with http)
-         if (isConfidential() || "https".equalsIgnoreCase(getUriScheme(previousAddress)))
+         if ("https".equalsIgnoreCase(getUriScheme(previousAddress)))
          {
             uriScheme = "https";
          }
@@ -97,7 +94,7 @@ public class AddressRewritingEndpointInfo extends EndpointInfo
       }
       if (setNewAddress && saddress != null)
       {
-         log.info("New service endpoint address: " + s);
+         log.info("Setting new service endpoint address in wsdl: " + s);
          saddress.setLocationURI(s);
       }
    }
@@ -123,22 +120,16 @@ public class AddressRewritingEndpointInfo extends EndpointInfo
       //check config prop forcing address rewrite
       if (serverConfig.isModifySOAPAddress())
       {
-         log.warn("Rewrite required because of configuration");
+         log.debug("Rewrite required because of configuration");
          return true;
       }
       //check if the previous address is not valid
       if (isInvalidAddress(previousAddress))
       {
-         log.warn("Rewrite required because of invalid url");
+         log.debug("Rewrite required because of invalid url");
          return true;
       }
-      String uriScheme = getUriScheme(previousAddress);
-      //check if the address' scheme does not match the transport guarantee
-      if ("http".equalsIgnoreCase(uriScheme) && isConfidential())
-      {
-         return true;
-      }
-      log.warn("Rewrite NOT required");
+      log.debug("Rewrite not required");
       return false;
    }
    
@@ -162,11 +153,6 @@ public class AddressRewritingEndpointInfo extends EndpointInfo
          return true;
       }
       return false;
-   }
-   
-   private boolean isConfidential()
-   {
-      return "CONFIDENTIAL".equals(transportGuarantee);
    }
    
    /**
@@ -202,12 +188,12 @@ public class AddressRewritingEndpointInfo extends EndpointInfo
             }
          }
          String urlStr = uriScheme + "://" + host + port + path;
-         log.info("Rewritten new candidate service endpoint address '" + s + "' to '" + urlStr + "'");
+         log.debug("Rewritten new candidate service endpoint address '" + s + "' to '" + urlStr + "'");
          return urlStr;
       }
       catch (Exception e)
       {
-         log.info("Invalid url provided, using it without rewriting: " + s);
+         log.debug("Invalid url provided, using it without rewriting: " + s);
          return s;
       }
    }

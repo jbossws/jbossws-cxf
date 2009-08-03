@@ -63,7 +63,7 @@ public class SoapTransportFactoryExt extends SoapTransportFactory
          transportURI = sbi.getTransportURI();
       }
       ServerConfig config = getServerConfig();
-      EndpointInfo info = new AddressRewritingEndpointInfo(serviceInfo, transportURI, config, "");
+      EndpointInfo info = new AddressRewritingEndpointInfo(serviceInfo, transportURI, config);
       if (port != null)
       {
          List ees = port.getExtensibilityElements();
