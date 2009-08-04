@@ -56,14 +56,14 @@
     <jbossws.jboss600.version>3.2.0-SNAPSHOT</jbossws.jboss600.version>
     -->
     <!-- END -->
-    <cxf.version>2.2.2</cxf.version>
+    <cxf.version>2.2.3</cxf.version>
     <cxf.anttasks.version>2.1.5</cxf.anttasks.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>2.2.3</cxf.asm.version>
-    <fastinfoset.api.version>1.2.6</fastinfoset.api.version>
+    <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
     <jboss.common.core.version>2.2.14.GA</jboss.common.core.version>
     <jaxb.api.version>2.1</jaxb.api.version>
-    <jaxb.impl.version>2.1.9</jaxb.impl.version>
+    <jaxb.impl.version>2.1.12</jaxb.impl.version>
     <jaxrpc.api.version>1.1</jaxrpc.api.version>
     <jaxws.api.version>2.1-1</jaxws.api.version>
     <juddi.version>0.9RC4</juddi.version>
@@ -75,7 +75,7 @@
     <log4j.version>1.2.14</log4j.version>
     <saaj.api.version>1.3</saaj.api.version>
     <velocity.version>1.5</velocity.version>
-    <xmlsec.version>1.4.2</xmlsec.version>
+    <xmlsec.version>1.4.3</xmlsec.version>
     <wstx.version>3.2.8</wstx.version>
   </properties>
   
@@ -280,6 +280,11 @@
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-tools-wsdlto-frontend-jaxws</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cxf.xjcplugins</groupId>
+        <artifactId>cxf-xjc-bug671</artifactId>
         <version>${cxf.version}</version>
       </dependency>
       <dependency>
