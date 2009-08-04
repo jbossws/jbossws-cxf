@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2009, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -133,25 +133,8 @@ public class CXFServletExt extends CXFServlet
          childCtx.refresh();
       }
    }
-
-   //required up to CXF 2.2.2
-   public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
-   {
-      try
-      {
-         BusFactory.setThreadDefaultBus(getBus());
-         EndpointAssociation.setEndpoint(endpoint);
-         RequestHandler requestHandler = (RequestHandler)endpoint.getRequestHandler();
-         requestHandler.handleHttpRequest(endpoint, req, res, getServletContext());
-      }
-      finally
-      {
-         EndpointAssociation.removeEndpoint();
-         BusFactory.setThreadDefaultBus(null);
-      }
-   }
    
-   //required for CXF 2.2.3 or greater
+   @Override
    protected void invoke(HttpServletRequest req, HttpServletResponse res) throws ServletException
    {
       try
