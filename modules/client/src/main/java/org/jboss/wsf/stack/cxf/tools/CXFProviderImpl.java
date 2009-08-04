@@ -22,6 +22,7 @@
 package org.jboss.wsf.stack.cxf.tools;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -172,7 +173,7 @@ public class CXFProviderImpl extends WSContractProvider
          args.add(endpointClass.getCanonicalName());
          
          JavaToWS j2w = new JavaToWS(args.toArray(new String[0]));
-         j2w.run();
+         j2w.run(stream);
       }
       catch (Throwable t)
       {

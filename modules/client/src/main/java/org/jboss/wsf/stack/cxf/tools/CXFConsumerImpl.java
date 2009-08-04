@@ -221,7 +221,7 @@ public class CXFConsumerImpl extends WSContractConsumer
       WSDLToJava w2j = new WSDLToJava(args.toArray(new String[0]));
       try
       {
-         w2j.run(new ToolContext());
+         w2j.run(new ToolContext(), stream);
       }
       catch (Throwable t)
       {
