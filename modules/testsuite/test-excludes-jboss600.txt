@@ -44,3 +44,6 @@ org/jboss/test/ws/jaxws/jbws1283/**
 
 # [JBWS-2397] Fix jbws1797 testcase
 org/jboss/test/ws/jaxws/jbws1797/**
+
+# [JBWS-2630] Wrong context when deploying endpoint in war embedded in a jar
+org/jboss/test/ws/jaxws/jbws2630/**
