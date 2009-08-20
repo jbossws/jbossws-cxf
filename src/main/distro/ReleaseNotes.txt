@@ -7,8 +7,9 @@ Version: jbossws-cxf-${project.version}
 Release Notes
 =============
 
-The wiki (http://labs.jboss.com/portal/jbossws/) is usally a good starting point.
-It contains the User Guide and Quick Start instructions.
+The project home page (http://www.jboss.org/jbossws) and the community wiki
+(http://www.jboss.org/community/wiki/JBossWS) are usually good starting points.
+They contain the User Guide and Quick Start instructions.
 
 A list of examples that accompany the UserGuide can be found in the tests directory
 that ship with the distribution.
