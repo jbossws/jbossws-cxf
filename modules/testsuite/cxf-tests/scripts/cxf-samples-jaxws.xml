@@ -32,12 +32,6 @@
           prefix="WEB-INF/wsdl"/>
     </war>
 
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsa-client.jar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsa">
-        <include name="cxf.xml"/>
-      </metainf>
-    </jar>
-
     <!-- jaxws-samples-wsrm -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsrm.war"

@@ -7,7 +7,7 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
     http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
   '>
-  
+
   <jaxws:endpoint
     id='ServiceImpl'
     address='http://@jboss.bind.address@:8080/jaxws-samples-wsa'
@@ -15,9 +15,6 @@
     <jaxws:invoker>
       <bean class='org.jboss.wsf.stack.cxf.InvokerJSE'/>
     </jaxws:invoker>
-    <jaxws:features>
-      <wsa:addressing usingAddressingAdvisory="false" allowDuplicates="false"/>
-    </jaxws:features>
   </jaxws:endpoint>
-  
+
 </beans>

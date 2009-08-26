@@ -24,6 +24,7 @@ package org.jboss.test.ws.jaxws.samples.wsa;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+import javax.xml.ws.soap.AddressingFeature;
 
 import junit.framework.Test;
 import org.jboss.wsf.test.JBossWSTest;
@@ -37,26 +38,20 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 public final class AddressingTestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsa/AddressingService";
-   private ServiceIface proxy;
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(AddressingTestCase.class, "jaxws-samples-wsa.war,jaxws-samples-wsa-client.jar");
-   }
-
-   @Override
-   protected void setUp() throws Exception
-   {
-      super.setUp();
-
-      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsaddressing", "AddressingService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
-      proxy = (ServiceIface)service.getPort(ServiceIface.class);
+      return new JBossWSTestSetup(AddressingTestCase.class, "jaxws-samples-wsa.war");
    }
 
    public void test() throws Exception
    {
+      // construct proxy
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsaddressing", "AddressingService");
+      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class, new AddressingFeature());
+      // invoke method
       assertEquals("Hello World!", proxy.sayHello());
    }
    
