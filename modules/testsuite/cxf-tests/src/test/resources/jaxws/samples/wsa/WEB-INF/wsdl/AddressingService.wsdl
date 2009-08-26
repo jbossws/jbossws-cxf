@@ -45,7 +45,6 @@
   <wsdl:service name="AddressingService">
     <wsdl:port name="AddressingServicePort" binding="tns:AddressingServiceSoapBinding">
       <soap:address location="http://localhost:9090/hello"/>
-      <UsingAddressing xmlns="http://www.w3.org/2006/05/addressing/wsdl"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
