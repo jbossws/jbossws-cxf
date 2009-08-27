@@ -72,8 +72,9 @@ The JBossWS Team
 
 Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+--------------------
 jbossws-cxf-3.1.2.GA
-------------------------
+--------------------
 
 Bug
 
@@ -101,12 +102,13 @@ Task
 
 Errata
 
-    See: TODO: https://jira.jboss.org/jira/browse/JBWS-2665
+    See: https://jira.jboss.org/jira/browse/JBWS-2665
 
 This version of JBoss Web Services - Stack CXF is based on CXF 2.2.2
 
+--------------------
 jbossws-cxf-3.1.1.GA
-------------------------
+--------------------
 
 Bug
 
@@ -148,8 +150,9 @@ Errata
 
 This version of JBoss Web Services - CXF is based on Apache CXF 2.2
 
+--------------------
 jbossws-cxf-3.1.0.GA
-------------------------
+--------------------
 
 Bug
 
@@ -170,7 +173,6 @@ Bug
     * [JBWS-2519] - Stub properties not propagated through service-ref
     * [JBWS-2525] - Wrong addressing policy in WS-RM CXF tests
     * [JBWS-2527] - BeanFactory not initialized or already closed - call 'refresh' before accessing beans via the ApplicationContext
-
 
 Feature Request
 
@@ -193,8 +195,9 @@ Errata
 
     See: https://jira.jboss.org/jira/browse/JBWS-2543
 
+--------------------
 jbossws-cxf-3.0.5.GA
-------------------------
+--------------------
 
 Bug
 
@@ -216,8 +219,9 @@ Errata
 
     See: https://jira.jboss.org/jira/browse/JBWS-2429
 
+--------------------
 jbossws-cxf-3.0.4.GA
-------------------------
+--------------------
 
 Bug
 
@@ -238,8 +242,9 @@ Errata
 
     See: https://jira.jboss.org/jira/browse/JBWS-2359
 
+--------------------
 jbossws-cxf-3.0.3.GA
-------------------------
+--------------------
 
 Bug
 
@@ -254,8 +259,9 @@ Errata
 
     See: http://jira.jboss.org/jira/browse/JBWS-2279
 
+--------------------
 jbossws-cxf-3.0.2.GA
-------------------------
+--------------------
 
 Bug
 
@@ -274,6 +280,7 @@ Errata
 
     See: http://jira.jboss.org/jira/browse/JBWS-2075
 
+--------------------------
 jbossws-3.0.1-cxf-1.0.1.GA
 --------------------------
 
@@ -297,6 +304,7 @@ Errata
     FIXME: [JBWS-1683] - Fix JAXR samples for CXF
     FIXME: [JBWS-1774] - Provide tools implementation for CXF (WSContractProvider and WSContractConsumer)
 
+------------------------
 jbossws-3.0-cxf-1.0.0.GA
 ------------------------
 
