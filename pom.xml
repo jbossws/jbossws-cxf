@@ -43,17 +43,17 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.common.version>1.2.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.framework.version>3.2.0-SNAPSHOT</jbossws.framework.version>
-    <jbossws.spi.version>1.2.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.jboss500.version>3.2.0-SNAPSHOT</jbossws.jboss500.version>
-    <jbossws.jboss501.version>3.2.0-SNAPSHOT</jbossws.jboss501.version>
-    <jbossws.jboss510.version>3.2.0-SNAPSHOT</jbossws.jboss510.version>
+    <jbossws.common.version>1.2.0.GA</jbossws.common.version>
+    <jbossws.framework.version>3.2.0.GA</jbossws.framework.version>
+    <jbossws.spi.version>1.2.0.GA</jbossws.spi.version>
+    <jbossws.jboss500.version>3.2.0.GA</jbossws.jboss500.version>
+    <jbossws.jboss501.version>3.2.0.GA</jbossws.jboss501.version>
+    <jbossws.jboss510.version>3.2.0.GA</jbossws.jboss510.version>
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
-    <jbossws.jboss520.version>3.2.0-SNAPSHOT</jbossws.jboss520.version>
-    <jbossws.jboss600.version>3.2.0-SNAPSHOT</jbossws.jboss600.version>
+    <jbossws.jboss520.version>3.2.0.GA</jbossws.jboss520.version>
+    <jbossws.jboss600.version>3.2.0.GA</jbossws.jboss600.version>
     -->
     <!-- END -->
     <cxf.version>2.2.3</cxf.version>
