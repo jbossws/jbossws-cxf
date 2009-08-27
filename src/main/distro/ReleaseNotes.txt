@@ -28,20 +28,42 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    TODO: enumerate
+    * [JBWS-2508] - Tools output is not correctly redirected
+    * [JBWS-2630] - Invalid "Endpoint Address" in http://localhost:8080/jbossws/services, when a .war is embedded in a jar.
+    * [JBWS-2668] - Add missing privileged blocks
+    * [JBWS-2669] - Endpoint metrics do not work
+    * [JBWS-2699] - BackwardCompatibleURLPatternDeploymentAspect is mangling URLs
 
 Feature Request
 
-    TODO: enumerate
+    * [JBWS-1655] - Add support for endpoint address rewriting
+    * [JBWS-2106] - Unify Native and CXF api for JAX-WSA (JSR-261)
+    * [JBWS-2227] - soap:address rewrite for multiple virtual hosts support on CXF
+    * [JBWS-2507] - Support generics in wrapper classes
+    * [JBWS-2652] - jboss-bootstrap upgrade
+    * [JBWS-2657] - Provide testcase for common JSR-261 API
 
 Task
 
-    TODO: enumerate
+    * [JBWS-2203] - Test message context properties with CXF stack
+    * [JBWS-2247] - Rewrite test for JBWS-1190 making it stack agnostic
+    * [JBWS-2402] - Upgrade JBoss-JAXR to 2.0.1 including its dependencies
+    * [JBWS-2435] - Move jbossws documentation to http://www.jboss.org/community/docs/
+    * [JBWS-2457] - Update WS-Addressing tutorials to use JAXWS 2.1 AddressingFeature
+    * [JBWS-2521] - Refactor / rewrite ServiceObjectFactory
+    * [JBWS-2639] - Provide testcase for WS-Trust (client side)
+    * [JBWS-2661] - Remove proprietary CXF API usage from WS-A and WS-RM samples
+    * [JBWS-2707] - Update to Apache CXF 2.2.3
+    * [JBWS-2719] - Allow jconsole to be attached to testsuite
+    * [JBWS-2722] - Review documentation
+    * [JBWS-2333] - Refactor ArchiveDeployerHook.getWebservicesMetaData() to Separate Deployer
+    * [JBWS-2370] - Ensure correct JBossWS startup if there are Webservice archived in deploy directory during JBossAS bootstrap
+    * [JBWS-2382] - Fix JBossWS deployers processing
+    * [JBWS-2658] - Update jboss.org/jbossws home page
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
-
+    See: https://jira.jboss.org/jira/browse/JBWS-2736
 
 This version of ${project.name} is based on CXF ${cxf.version}
 
