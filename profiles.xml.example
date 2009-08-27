@@ -15,7 +15,7 @@
         <jboss501.home>/home/opalka/svn/jbossas/tags/JBoss_5_0_1_GA/build/output/jboss-5.0.1.GA</jboss501.home>
         <jboss510.home>/home/opalka/svn/jbossas/tags/JBoss_5_1_0_GA/build/output/jboss-5.1.0.GA</jboss510.home>
         <jboss520.home>/home/opalka/svn/jbossas/branches/Branch_5_x/build/output/jboss-5.2.0.Beta</jboss520.home>
-        <jboss600.home>/home/opalka/svn/jbossas/trunk/build/output/jboss-6.0.0.Alpha1</jboss600.home>
+        <jboss600.home>/home/opalka/svn/jbossas/trunk/build/output/jboss-6.0.0-SNAPSHOT</jboss600.home>
       </properties>
     </profile>
 
