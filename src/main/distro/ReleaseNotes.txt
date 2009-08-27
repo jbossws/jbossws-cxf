@@ -72,8 +72,8 @@ The JBossWS Team
 
 Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-What's new in jbossws-cxf-3.1.2.GA
-----------------------------------
+jbossws-cxf-3.1.2.GA
+------------------------
 
 Bug
 
@@ -103,11 +103,10 @@ Errata
 
     See: TODO: https://jira.jboss.org/jira/browse/JBWS-2665
 
-
 This version of JBoss Web Services - Stack CXF is based on CXF 2.2.2
 
-What's new in jbossws-cxf-3.1.1.GA
-----------------------------------
+jbossws-cxf-3.1.1.GA
+------------------------
 
 Bug
 
@@ -147,11 +146,10 @@ Errata
 
     See: https://jira.jboss.org/jira/browse/JBWS-2600
 
-
 This version of JBoss Web Services - CXF is based on Apache CXF 2.2
 
-What's new in jbossws-cxf-3.1.0.GA
-----------------------------------
+jbossws-cxf-3.1.0.GA
+------------------------
 
 Bug
 
