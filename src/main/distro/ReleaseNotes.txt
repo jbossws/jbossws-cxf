@@ -42,7 +42,6 @@ Errata
 
     See: TODO: reference to associated JIRA issue
 
-
 This version of ${project.name} is based on CXF ${cxf.version}
 
 Enjoy,
@@ -92,7 +91,6 @@ Errata
 
     See: https://jira.jboss.org/jira/browse/JBWS-2736
 
-
 This version of JBoss Web Services - Stack CXF is based on CXF 2.2.3
 
 jbossws-cxf-3.1.2.GA
@@ -125,7 +123,6 @@ Task
 Errata
 
     See: TODO: https://jira.jboss.org/jira/browse/JBWS-2665
-
 
 This version of JBoss Web Services - Stack CXF is based on CXF 2.2.2
 
@@ -169,7 +166,6 @@ Task
 Errata
 
     See: https://jira.jboss.org/jira/browse/JBWS-2600
-
 
 This version of JBoss Web Services - CXF is based on Apache CXF 2.2
 
