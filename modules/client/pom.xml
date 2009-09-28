@@ -45,7 +45,21 @@
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-bindings-coloc</artifactId>
+      <exclusions>
+         <exclusion>
+           <groupId>org.apache.geronimo.specs</groupId>
+           <artifactId>geronimo-jaxws_2.1_spec</artifactId>
+         </exclusion>
+       </exclusions>
     </dependency>
+    
+    <dependency>
+       <groupId>javax.xml.ws</groupId>
+       <artifactId>jaxws-api</artifactId>
+       <version>2.1</version>
+    </dependency> 
+
+
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-bindings-corba</artifactId>
@@ -162,5 +176,35 @@
       <artifactId>log4j</artifactId>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <dependencies>
+           <dependency>
+             <artifactId>maven-archiver</artifactId>
+             <groupId>org.apache.maven</groupId>
+             <version>2.4</version>
+           </dependency>
+         </dependencies> 
+        <configuration>
+          <archive>
+            <manifest>
+               <addClasspath>true</addClasspath>
+               <classpathLayoutType>custom</classpathLayoutType> 
+               <!--a bug in http://jira.codehaus.org/browse/MJAR-118, this needs to be reviewed(remove one $) when maven jar plugin is updated-->
+               <customClasspathLayout>$${artifact.artifactId}.$${artifact.extension}</customClasspathLayout>
+	    </manifest>         
+            <manifestEntries>
+              <Class-Path>jbossws-framework.jar jaxws-api.jar stax-api.jar wstx.jar</Class-Path>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+
   
 </project>

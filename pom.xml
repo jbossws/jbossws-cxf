@@ -78,7 +78,8 @@
     <xmlsec.version>1.4.3</xmlsec.version>
     <wstx.version>3.2.8</wstx.version>
   </properties>
-  
+
+
   <!-- DependencyManagement -->
   <dependencyManagement>
     <dependencies>
@@ -414,6 +415,23 @@
   
   <!-- Plugins -->
   <build>
+  
+  <!-- PluginMangament-->
+  <pluginManagement>
+     <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <dependencies>
+           <dependency>
+             <artifactId>maven-archiver</artifactId>
+             <groupId>org.apache.maven</groupId>
+             <version>2.4</version>
+           </dependency>
+         </dependencies> 
+      </plugin>
+     </plugins>
+  </pluginManagement>
+
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
