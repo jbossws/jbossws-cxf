@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.0.2.GA</version>
+    <version>1.0.3-SNAPSHOT</version>
   </parent>
   
   <!-- Source Control Management -->
@@ -500,16 +500,6 @@
     <repository>
       <id>snapshots.jboss.org</id>
       <url>http://snapshots.jboss.org/maven2</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>repository-snapshots-apache</id>
-      <url>http://repository.apache.org/snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
