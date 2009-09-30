@@ -14,6 +14,11 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
+  <properties>
+    <stack.name>cxf</stack.name>
+  </properties>
+
+
   <!-- Dependencies -->
   <dependencies>
     <dependency>
@@ -83,6 +88,48 @@
               </execution>
             </executions>
           </plugin>
+
+
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+             <execution>
+             <id>filter-test</id>
+             <!--This is for filter the stack name in the test-->
+             <phase>generate-sources</phase>
+             <goals>
+              <goal>copy-resources</goal>
+             </goals>
+             <configuration>
+              <outputDirectory>target/tmp</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>src/test/java/org/jboss/test/ws/jaxws/jbws1666</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>              
+              </configuration>            
+             </execution>
+
+            <execution>
+            <id>copy-back-test</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <overwrite>true</overwrite>
+              <outputDirectory>src/test/java/org/jboss/test/ws/jaxws/jbws1666</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>target/tmp</directory>
+                </resource>
+              </resources>       
+            </configuration>            
+            </execution>
+           </executions>
+          </plugin>
+
           <plugin>
             <artifactId>maven-antrun-plugin</artifactId>
             <executions>
