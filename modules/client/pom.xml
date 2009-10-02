@@ -197,7 +197,7 @@
                <customClasspathLayout>$${artifact.artifactId}.$${artifact.extension}</customClasspathLayout>
 	    </manifest>         
             <manifestEntries>
-              <Class-Path>jbossws-framework.jar jaxws-api.jar stax-api.jar wstx.jar</Class-Path>
+              <Class-Path>jbossws-framework.jar jaxws-api.jar jboss-logging-spi.jar jboss-logging-log4j.jar jcl-over-slf4j.jar slf4j-api.jar slf4j-jboss-logging.jar stax-api.jar wstx.jar</Class-Path>
             </manifestEntries>
           </archive>
         </configuration>
