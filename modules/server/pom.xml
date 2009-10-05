@@ -171,6 +171,10 @@
       <artifactId>jaxb-api</artifactId>
     </dependency>
     <dependency>
+      <groupId>jboss.jaxbintros</groupId>
+      <artifactId>jboss-jaxb-intros</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.jboss.jaxr</groupId>
       <artifactId>juddi-service</artifactId>
       <type>sar</type>

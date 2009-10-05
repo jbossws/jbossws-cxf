@@ -36,6 +36,7 @@ import javax.xml.ws.WebServiceException;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
+import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.transport.DestinationFactoryManager;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.transport.servlet.ServletController;
@@ -75,16 +76,6 @@ public class CXFServletExt extends CXFServlet
    public void init(ServletConfig servletConfig) throws ServletException
    {
       super.init(servletConfig);
-
-      // Init the Endpoint
-      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).getEndpointRegistry();
-
-      ServletContext context = servletConfig.getServletContext();
-      String contextPath = context.getContextPath();
-      endpoint = initServiceEndpoint(contextPath);
-
-      context.setAttribute(ServletController.class.getName(), getController());
    }
    
    @Override
@@ -109,12 +100,33 @@ public class CXFServletExt extends CXFServlet
       factory.setBus(bus);
       dfm.registerDestinationFactory(Constants.NS_SOAP11, factory);
       dfm.registerDestinationFactory(Constants.NS_SOAP12, factory);
-            
+
+      //Init the Endpoint
+      initEndpoint(servletConfig);
+      
+      //Load additional configurations
       loadAdditionalConfigExt(appCtx, servletConfig);
    }
+   
+   private void initEndpoint(ServletConfig servletConfig)
+   {
+      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
+      epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).getEndpointRegistry();
 
+      ServletContext context = servletConfig.getServletContext();
+      String contextPath = context.getContextPath();
+      endpoint = initServiceEndpoint(contextPath);
+      
+      context.setAttribute(ServletController.class.getName(), getController());
+   }
+   
    private void loadAdditionalConfigExt(ApplicationContext ctx, ServletConfig servletConfig) throws ServletException
    {
+      //Add extension to configure server beans according to JBossWS customizations 
+      Configurer configurer = bus.getExtension(Configurer.class);
+      bus.setExtension(new JBossWSBeanConfigurer(endpoint, configurer), Configurer.class);
+      
+      //Load configuration 
       String location = servletConfig.getServletContext().getInitParameter(PARAM_CXF_BEANS_URL);
       if (location != null)
       {

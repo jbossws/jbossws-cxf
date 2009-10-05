@@ -172,6 +172,10 @@
       <artifactId>jboss-common-core</artifactId>
     </dependency>
     <dependency>
+      <groupId>jboss.jaxbintros</groupId>
+      <artifactId>jboss-jaxb-intros</artifactId>
+    </dependency>
+    <dependency>
       <groupId>apache-log4j</groupId>
       <artifactId>log4j</artifactId>
     </dependency>

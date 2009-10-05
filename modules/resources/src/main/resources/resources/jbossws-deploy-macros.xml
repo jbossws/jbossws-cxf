@@ -79,6 +79,7 @@
     <include name="**/geronimo-ws-metadata*.jar"/>
     <include name="**/jaxrpc-api.jar"/>
     <include name="**/jaxws-api.jar"/>
+    <include name="**/jboss-jaxb-intros.jar"/>
     <include name="**/jbossws-cxf-client*.jar"/>
     <include name="**/jbossws-cxf-server*.jar"/>
     <include name="**/jdom.jar"/>

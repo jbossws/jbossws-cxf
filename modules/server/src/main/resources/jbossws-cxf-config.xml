@@ -39,7 +39,7 @@
   </bean>
 
   <bean name="WSCXFDescriptorDeploymentAspect" class="org.jboss.wsf.stack.cxf.DescriptorDeploymentAspect">
-    <property name="requires">EndpointAddress</property>
+    <property name="requires">EndpointAddress,JAXBIntros</property>
     <property name="provides">StackDescriptor</property>
     <property name="invokerEJB3">org.jboss.wsf.stack.cxf.InvokerEJB3</property>
     <property name="invokerJSE">org.jboss.wsf.stack.cxf.InvokerJSE</property>
@@ -63,6 +63,11 @@
         <inject bean="WSLogRecorder"/>
       </list>
     </property>
+  </bean>
+  
+  <bean name="WSCXFJAXBIntroDeploymentAspect" class="org.jboss.wsf.stack.cxf.JAXBIntroDeploymentAspect">
+    <property name="provides">JAXBIntros</property>
+    <property name="relativeOrder">20</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
 
 </deployment>
