@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<jaxb-intros xmlns="http://www.jboss.org/xsd/jaxb/intros" default-namespace="http://org.jboss.ws/provider">
+
+  <!--
+  Note: how the "name" attributes on class, field and method configs can be regular expressions.
+  -->
+
+  <!--
+@XmlRootElement(namespace = "http://org.jboss.ws/provider", name = "user")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "UserType", propOrder = { "string", "qname" })
+public class UserType {}
+  -->
+
+  <!--
+  The type namespaces on the customerOrder are different from the rest of the message...
+  -->
+  <Class name="org.jboss.test.ws.jaxws.cxf.jaxbintros.UserType">
+    <XmlAccessorType value="FIELD"/>   
+    <XmlRootElement name="user" namespace="http://org.jboss.ws/provider"/>
+
+    <Field name="string">
+      <XmlAttribute />
+    </Field>    
+  </Class>
+
+</jaxb-intros>

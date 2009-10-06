@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2009, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,20 +19,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.binding;
+package org.jboss.test.ws.jaxws.cxf.jaxbintros;
 
-import com.sun.xml.bind.api.JAXBRIContext;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 
-public class JAXBBindingCustomization extends org.jboss.wsf.spi.binding.JAXBBindingCustomization
+@WebService(name = "EndpointService", targetNamespace = "http://org.jboss.ws/cxf/jaxbintros")
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
+public interface AnnotatedUserEndpoint
 {
-   private static final long serialVersionUID = -3099372764620602230L;
-
-   // Use an alternative RuntimeAnnotationReader implementation
-   public final static String ANNOTATION_READER = JAXBRIContext.ANNOTATION_READER;
-
-   // Reassign the default namespace URI to something else at the runtime
-   public final static String DEFAULT_NAMESPACE_REMAP = JAXBRIContext.DEFAULT_NAMESPACE_REMAP;
-
-   // Enable the c14n marshalling support in the JAXBContext.
-   public final static String CANONICALIZATION_SUPPORT = JAXBRIContext.CANONICALIZATION_SUPPORT;
+   public AnnotatedUserType echo(AnnotatedUserType foo);
 }

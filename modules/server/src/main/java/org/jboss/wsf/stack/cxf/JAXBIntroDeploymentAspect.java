@@ -93,7 +93,7 @@ public class JAXBIntroDeploymentAspect extends DeploymentAspect
             JaxbIntros jaxbIntros = IntroductionsConfigParser.parseConfig(introsConfigStream);
             IntroductionsAnnotationReader annotationReader = new IntroductionsAnnotationReader(jaxbIntros);
             String defaultNamespace = jaxbIntros.getDefaultNamespace();
-            BindingCustomization jaxbCustomizations = new org.jboss.wsf.stack.cxf.binding.JAXBBindingCustomization();
+            BindingCustomization jaxbCustomizations = new org.jboss.wsf.stack.cxf.client.configuration.JAXBBindingCustomization();
 
             jaxbCustomizations.put(JAXBRIContext.ANNOTATION_READER, annotationReader);
             if(defaultNamespace != null) {

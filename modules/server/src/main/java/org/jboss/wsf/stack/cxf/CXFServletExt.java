@@ -46,11 +46,13 @@ import org.jboss.ws.Constants;
 import org.jboss.wsf.common.ObjectNameFactory;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
@@ -123,8 +125,9 @@ public class CXFServletExt extends CXFServlet
    private void loadAdditionalConfigExt(ApplicationContext ctx, ServletConfig servletConfig) throws ServletException
    {
       //Add extension to configure server beans according to JBossWS customizations 
-      Configurer configurer = bus.getExtension(Configurer.class);
-      bus.setExtension(new JBossWSBeanConfigurer(endpoint, configurer), Configurer.class);
+      JBossWSCXFConfigurer jbosswsConfigurer = new JBossWSCXFConfigurer(bus.getExtension(Configurer.class));
+      jbosswsConfigurer.setBindingCustomization(endpoint.getAttachment(BindingCustomization.class));
+      bus.setExtension(jbosswsConfigurer, Configurer.class);
       
       //Load configuration 
       String location = servletConfig.getServletContext().getInitParameter(PARAM_CXF_BEANS_URL);

@@ -17,6 +17,12 @@
   <dependencies>
     
     <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-client</artifactId>
+      <version>${version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>javax.ejb</groupId>
       <artifactId>ejb-api</artifactId>
     </dependency>
