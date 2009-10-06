@@ -90,7 +90,7 @@ public class JAXBIntroTestCase extends JBossWSTest
     */
    public void testEndpoint() throws Exception
    {
-      System.out.println("FIXME: [CXF-2460] Re-enable test after updating to CXF 2.2.4");
+      System.out.println("FIXME: [CXF-2460][JBWS-2714] Re-enable test after updating to CXF 2.2.4");
 //      try
 //      {
 //         URL wsdlURL = new URL(endpointAddress + "?wsdl");
@@ -123,7 +123,7 @@ public class JAXBIntroTestCase extends JBossWSTest
       URL wsdlURL = new URL(endpointAddress + "?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/cxf/jaxbintros", "EndpointBeanService");
 
-      setBindingCustomizationOnClientSide();
+      //setBindingCustomizationOnClientSide();
       Service service = Service.create(wsdlURL, serviceName);
       AnnotatedUserEndpoint port = service.getPort(AnnotatedUserEndpoint.class);
       AnnotatedUserType user = new AnnotatedUserType();
