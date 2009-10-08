@@ -65,7 +65,7 @@
     </property>
   </bean>
   
-  <bean name="WSCXFJAXBIntroDeploymentAspect" class="org.jboss.wsf.stack.cxf.JAXBIntroDeploymentAspect">
+  <bean name="WSCXFJAXBIntroDeploymentAspect" class="org.jboss.wsf.framework.deployment.JAXBIntroDeploymentAspect">
     <property name="provides">JAXBIntros</property>
     <property name="relativeOrder">20</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>

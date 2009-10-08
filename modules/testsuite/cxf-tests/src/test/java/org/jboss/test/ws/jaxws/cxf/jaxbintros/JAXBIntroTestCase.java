@@ -32,18 +32,14 @@ import junit.framework.Test;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.Configurer;
-import org.jboss.jaxb.intros.IntroductionsAnnotationReader;
-import org.jboss.jaxb.intros.IntroductionsConfigParser;
-import org.jboss.jaxb.intros.configmodel.JaxbIntros;
+import org.jboss.jaxb.intros.BindingCustomizationFactory;
 import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.spi.binding.BindingCustomization;
-import org.jboss.wsf.stack.cxf.client.configuration.JAXBBindingCustomization;
+import org.jboss.wsf.spi.binding.JAXBBindingCustomization;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
-
-import com.sun.xml.bind.api.JAXBRIContext;
 
 /**
  * Test the JAXBIntroduction features.
@@ -123,7 +119,6 @@ public class JAXBIntroTestCase extends JBossWSTest
       URL wsdlURL = new URL(endpointAddress + "?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/cxf/jaxbintros", "EndpointBeanService");
 
-      //setBindingCustomizationOnClientSide();
       Service service = Service.create(wsdlURL, serviceName);
       AnnotatedUserEndpoint port = service.getPort(AnnotatedUserEndpoint.class);
       AnnotatedUserType user = new AnnotatedUserType();
@@ -142,15 +137,8 @@ public class JAXBIntroTestCase extends JBossWSTest
     */
    private void setBindingCustomizationOnClientSide() throws Exception
    {
-      JaxbIntros jaxbIntros = IntroductionsConfigParser.parseConfig(getResourceURL("jaxws/cxf/jaxbintros/META-INF/jaxb-intros.xml").openStream());
-      IntroductionsAnnotationReader annotationReader = new IntroductionsAnnotationReader(jaxbIntros);
-      String defaultNamespace = jaxbIntros.getDefaultNamespace();
       BindingCustomization jaxbCustomizations = new JAXBBindingCustomization();
-
-      jaxbCustomizations.put(JAXBRIContext.ANNOTATION_READER, annotationReader);
-      if(defaultNamespace != null) {
-         jaxbCustomizations.put(JAXBRIContext.DEFAULT_NAMESPACE_REMAP, defaultNamespace);
-      }
+      BindingCustomizationFactory.populateBindingCustomization(getResourceURL("jaxws/cxf/jaxbintros/META-INF/jaxb-intros.xml").openStream(), jaxbCustomizations);
       
       bus = BusFactory.getThreadDefaultBus();
       originalConfigurer = bus.getExtension(Configurer.class);
