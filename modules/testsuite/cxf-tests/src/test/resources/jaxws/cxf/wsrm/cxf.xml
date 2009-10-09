@@ -16,12 +16,12 @@
   </bean>
   <bean id="rmCodec" class="org.apache.cxf.ws.rm.soap.RMSoapInterceptor"/>
   
-  <!--p:engine enabled="true" ignoreUnknownAssertions="true"/-->
+  <p:engine enabled="true" ignoreUnknownAssertions="true"/>
   
   <cxf:bus name="cxf">
-    <!--cxf:features>
+    <cxf:features>
       <p:policies ignoreUnknownAssertions="true"/>
-    </cxf:features-->
+    </cxf:features>
     <cxf:inInterceptors>
       <ref bean="mapAggregator"/>
       <ref bean="mapCodec"/>

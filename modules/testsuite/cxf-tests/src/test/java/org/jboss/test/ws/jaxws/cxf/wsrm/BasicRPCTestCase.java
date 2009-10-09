@@ -24,7 +24,6 @@ package org.jboss.test.ws.jaxws.cxf.wsrm;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
@@ -66,10 +65,6 @@ public class BasicRPCTestCase extends JBossWSTest
 
       Service service = Service.create(wsdlURL, serviceName);
       BasicRPCEndpoint port = (BasicRPCEndpoint)service.getPort(BasicRPCEndpoint.class);
-
-      // Enable addressing
-      BindingProvider bp = (BindingProvider)port;
-      bp.getRequestContext().put("org.apache.cxf.ws.addressing.using", Boolean.TRUE);
 
       Object retObj = port.echo("Hello");
       assertEquals("Hello", retObj);
