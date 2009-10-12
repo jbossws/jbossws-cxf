@@ -13,18 +13,15 @@
 		<property name="dataBinding" ref="aegisBean" />
 	</bean>
 
-	<jaxws:endpoint id='TestService'
-		address='http://@jboss.bind.address@:8080/jaxws-cxf-descriptor'
-		implementor='org.jboss.test.ws.jaxws.cxf.descriptor.DescriptorEndpointImpl'>
-
+	<jaxws:endpoint id='AegisGroupQueryService'
+		address='http://@jboss.bind.address@:8080/jaxws-aegis'
+		implementor='org.jboss.test.ws.jaxws.cxf.aegis.AegisGroupQueryImpl'>
 		<jaxws:serviceFactory>
-			<ref bean='jaxws-and-aegis-service-factory' />
+			<ref bean='aegis-service-factory' />
 		</jaxws:serviceFactory>
-
 		<jaxws:invoker>
 			<bean class='org.jboss.wsf.stack.cxf.InvokerJSE' />
 		</jaxws:invoker>
-
 	</jaxws:endpoint>
 
 </beans>
