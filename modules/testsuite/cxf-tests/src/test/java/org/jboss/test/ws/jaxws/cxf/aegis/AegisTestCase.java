@@ -38,7 +38,7 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 
 public class AegisTestCase extends JBossWSTest
 {
-   private String endpointURL = "http://" + getServerHost() + ":9090/jaxws-aegis";
+   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-aegis";
    private String targetNS = "http://org.jboss.ws.jaxws.cxf/descriptor";
 
    public static Test suite()
