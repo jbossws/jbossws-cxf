@@ -133,7 +133,7 @@ public class CXFMAP implements MAP
       }
       else
       {
-         implementation.setTo(null);
+         implementation.setTo((EndpointReferenceType)null);
       }
    }
 
