@@ -67,6 +67,7 @@
 
   <patternset id="jbossws.server.lib.patternset">
     <include name="**/jaxws-api.jar"/>
+    <include name="**/geronimo-ws-metadata*.jar"/>
     <include name="**/jbossws-common.jar"/>
     <include name="**/jbossws-framework.jar"/>
     <include name="**/jbossws-spi.jar"/>

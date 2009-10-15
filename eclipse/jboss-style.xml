@@ -3,8 +3,8 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: JBossWS Checks
-    Description: JBossWS Java Coding Convention Checks
+    Checkstyle-Configuration: jboss-checkstyle
+    Description: none
 -->
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 <module name="Checker">
@@ -17,12 +17,9 @@
             <property name="max" value="60"/>
             <property name="tokens" value="INSTANCE_INIT,STATIC_INIT,METHOD_DEF,CTOR_DEF"/>
         </module>
-        <module name="FileLength">
-            <property name="max" value="1000"/>
-        </module>
         <module name="LineLength">
-            <property name="max" value="120"/>
-            <property name="tabWidth" value="4"/>
+            <property name="max" value="168"/>
+            <property name="tabWidth" value="3"/>
         </module>
         <module name="MethodLength"/>
         <module name="ParameterNumber"/>
@@ -49,14 +46,11 @@
         <module name="ExplicitInitialization"/>
         <module name="FallThrough"/>
         <module name="FinalLocalVariable"/>
-        <module name="HiddenField"/>
         <module name="IllegalInstantiation"/>
-        <module name="IllegalThrows"/>
         <module name="IllegalType">
             <property name="tokens" value="METHOD_DEF,PARAMETER_DEF"/>
         </module>
         <module name="InnerAssignment"/>
-        <module name="JUnitTestCase"/>
         <module name="MagicNumber">
             <property name="ignoreNumbers" value="-1, 0, 1"/>
         </module>
@@ -84,7 +78,6 @@
         <module name="SuperFinalize"/>
         <module name="ArrayTrailingComma"/>
         <module name="UnnecessaryParentheses"/>
-        <module name="JUnitTestCase"/>
         <module name="DesignForExtension"/>
         <module name="FinalClass"/>
         <module name="HideUtilityClassConstructor"/>
@@ -110,24 +103,22 @@
         <module name="NoWhitespaceBefore"/>
         <module name="OperatorWrap">
             <property name="option" value="eol"/>
-            <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LE,LITERAL_INSTANCEOF,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,SL,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN"/>
+            <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LE,LITERAL_INSTANCEOF,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,SL,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN"/>
         </module>
         <module name="MethodParamPad">
             <property name="allowLineBreaks" value="true"/>
         </module>
-        <module name="ParenPad">
-            <property name="option" value="space"/>
-        </module>
         <module name="TabCharacter"/>
         <module name="TypecastParenPad">
-            <property name="option" value="space"/>
             <property name="tokens" value="RPAREN,TYPECAST"/>
         </module>
         <module name="WhitespaceAround">
-            <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,LITERAL_ASSERT,GENERIC_START,GENERIC_END,TYPE_EXTENSION_AND,WILDCARD_TYPE"/>
+            <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,LITERAL_ASSERT,TYPE_EXTENSION_AND"/>
         </module>
         <module name="NeedBraces"/>
-        <module name="WhitespaceAfter"/>
+        <module name="WhitespaceAfter">
+            <property name="tokens" value="COMMA,SEMI"/>
+        </module>
         <module name="BooleanExpressionComplexity"/>
         <module name="ClassDataAbstractionCoupling"/>
         <module name="ClassFanOutComplexity"/>
@@ -137,7 +128,10 @@
         <module name="UncommentedMain"/>
         <module name="TodoComment"/>
         <module name="TrailingComment"/>
-        <module name="Indentation"/>
+        <module name="Indentation">
+            <property name="basicOffset" value="3"/>
+            <property name="caseIndent" value="3"/>
+        </module>
         <module name="FinalParameters"/>
         <module name="ArrayTypeStyle"/>
         <module name="JavadocMethod">
@@ -148,7 +142,7 @@
         <module name="JavadocType"/>
         <module name="JavadocVariable"/>
         <module name="WriteTag"/>
+        <module name="SuperFinalize"/>
     </module>
     <module name="NewlineAtEndOfFile"/>
-    <module name="PackageHtml"/>
 </module>
