@@ -50,6 +50,7 @@
               <include>commons-collections:commons-collections:jar</include>
               <include>commons-lang:commons-lang:jar</include>
               <include>jboss.jaxbintros:jboss-jaxb-intros</include>
+              <include>org.mortbay.jetty:jetty*</include>
             </includes>
           </dependencySet>
           <dependencySet>
