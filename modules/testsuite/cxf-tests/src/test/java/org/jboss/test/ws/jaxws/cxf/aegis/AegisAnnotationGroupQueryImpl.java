@@ -21,34 +21,28 @@
  */
 package org.jboss.test.ws.jaxws.cxf.aegis;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.Test;
+import javax.jws.WebService;
 
-import org.apache.cxf.aegis.databinding.AegisDatabinding;
-import org.apache.cxf.frontend.ClientProxyFactoryBean;
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
-
-public class AegisTestCase extends JBossWSTest
+@WebService(endpointInterface="org.jboss.test.ws.jaxws.cxf.aegis.AegisAnnotationGroupQuery")
+public class AegisAnnotationGroupQueryImpl implements AegisAnnotationGroupQuery
 {
-   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-aegis";
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(AegisTestCase.class, "jaxws-aegis.war");
-   }
-
-   public void testAccess() throws Exception
-   {
-      ClientProxyFactoryBean proxyFactory = new ClientProxyFactoryBean();
-      proxyFactory.setDataBinding(new AegisDatabinding());
-      proxyFactory.setServiceClass(AegisGroupQuery.class);
-      proxyFactory.setAddress(endpointURL);
-      AegisGroupQuery query = (AegisGroupQuery)proxyFactory.create();
-      Map<Integer, String> members =  query.getMembers();
-      this.assertEquals(2, members.size());
-      this.assertEquals(true, members.containsKey(2));
-   }
+  Map<Integer, Member> members = new HashMap<Integer, Member>();
+  
+  public Map getMembers() {
+     Member member1 = new Member();
+     member1.setId(1);
+     member1.setName("Jane");
+     
+     Member member2 = new Member();
+     member2.setId(2);
+     member2.setName("Mike");
+     
+     members.put(member1.getId(), member1);
+     members.put(member2.getId(), member2);
+     return members;
+  }
 
 }

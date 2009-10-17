@@ -30,16 +30,16 @@ import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
-public class AegisTestCase extends JBossWSTest
+public class AegisAnnotationTestCase extends JBossWSTest
 {
-   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-aegis";
+   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-aegis-annotation";
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(AegisTestCase.class, "jaxws-aegis.war");
+      return new JBossWSTestSetup(AegisAnnotationTestCase.class, "jaxws-aegis-annotation.war");
    }
 
-   public void testAccess() throws Exception
+   public void testAccessAnnotation() throws Exception
    {
       ClientProxyFactoryBean proxyFactory = new ClientProxyFactoryBean();
       proxyFactory.setDataBinding(new AegisDatabinding());

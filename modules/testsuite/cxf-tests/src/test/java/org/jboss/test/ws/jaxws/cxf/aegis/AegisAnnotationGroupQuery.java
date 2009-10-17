@@ -23,32 +23,16 @@ package org.jboss.test.ws.jaxws.cxf.aegis;
 
 import java.util.Map;
 
-import junit.framework.Test;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 
 import org.apache.cxf.aegis.databinding.AegisDatabinding;
-import org.apache.cxf.frontend.ClientProxyFactoryBean;
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.apache.cxf.annotations.DataBinding;
 
-public class AegisTestCase extends JBossWSTest
+@WebService(name="AegisGroupQuery")
+@DataBinding(AegisDatabinding.class)
+public interface AegisAnnotationGroupQuery
 {
-   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-aegis";
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(AegisTestCase.class, "jaxws-aegis.war");
-   }
-
-   public void testAccess() throws Exception
-   {
-      ClientProxyFactoryBean proxyFactory = new ClientProxyFactoryBean();
-      proxyFactory.setDataBinding(new AegisDatabinding());
-      proxyFactory.setServiceClass(AegisGroupQuery.class);
-      proxyFactory.setAddress(endpointURL);
-      AegisGroupQuery query = (AegisGroupQuery)proxyFactory.create();
-      Map<Integer, String> members =  query.getMembers();
-      this.assertEquals(2, members.size());
-      this.assertEquals(true, members.containsKey(2));
-   }
-
+   @WebMethod
+   Map getMembers();
 }

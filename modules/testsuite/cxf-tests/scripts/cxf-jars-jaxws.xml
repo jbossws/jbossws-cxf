@@ -27,11 +27,23 @@
        warfile="${tests.output.dir}/test-libs/jaxws-aegis.war"
        webxml="${tests.output.dir}/test-resources/jaxws/cxf/aegis/jaxws/WEB-INF/web.xml">
        <classes dir="${tests.output.dir}/test-classes">
-          <include name="org/jboss/test/ws/jaxws/cxf/aegis/*.class"/>
+          <include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisGroupQuery.class"/>
+          <include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisGroupQueryImpl.class"/>
+          <include name="org/jboss/test/ws/jaxws/cxf/aegis/Member.class"/>
        </classes>
        <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/aegis/jaxws/WEB-INF/">
           <include name="jbossws-cxf.xml"/>
        </webinf>
+    </war>
+    
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-aegis-annotation.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/cxf/aegis/jaxws/annotation/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisAnnotationGroupQuery.class"/>
+          <include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisAnnotationGroupQueryImpl.class"/>
+          <include name="org/jboss/test/ws/jaxws/cxf/aegis/Member.class"/>
+       </classes>
     </war>
 
     <!-- jaxws-cxf-descriptor -->
