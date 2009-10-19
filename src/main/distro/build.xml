@@ -74,10 +74,9 @@
   <target name="tests-init" depends="init,tests-classpath">
     
     <path id="ws.stack.classpath">
-      <fileset dir="${thirdparty.dir}"/>
-    </path>
-    
-    <path id="tests.extra.classpath">
+      <fileset dir="${thirdparty.dir}">
+        <exclude name="**/jbossws-jboss*.jar"/>
+      </fileset>
     </path>
     
     <property name="jbossws.test.log" value="${tests.output.dir}"/>
