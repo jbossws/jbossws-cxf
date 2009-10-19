@@ -41,6 +41,7 @@
     <include name="**/jbossws-framework.jar"/>
     <include name="**/jbossws-spi.jar"/>
     <include name="**/jdom.jar"/>
+    <include name="**/jetty*.jar"/>
     <include name="**/neethi.jar"/>
     <include name="**/saaj-api.jar"/>
     <include name="**/saaj-impl.jar"/>
