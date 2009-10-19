@@ -77,6 +77,8 @@
     <velocity.version>1.5</velocity.version>
     <xmlsec.version>1.4.3</xmlsec.version>
     <wstx.version>3.2.8</wstx.version>
+    <spring.version>2.5.5</spring.version>
+
   </properties>
 
 
@@ -364,7 +366,19 @@
         <artifactId>asm</artifactId>
         <version>${cxf.asm.version}</version>
       </dependency>
-      
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-tx</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-jms</artifactId>
+         <version>${spring.version}</version>
+      </dependency>   
+     
       <!-- jboss provided -->
       <dependency>
         <groupId>org.jboss</groupId>
@@ -506,7 +520,7 @@
       <id>snapshots.jboss.org</id>
       <url>http://snapshots.jboss.org/maven2</url>
       <snapshots>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
       </snapshots>
     </repository>
   </repositories>

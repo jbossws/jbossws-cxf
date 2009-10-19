@@ -15,6 +15,33 @@
   <target name="build-samples-jaxws" description="Build the jaxws samples deployments">
 
     <mkdir dir="${tests.output.dir}/test-libs"/>
+  	
+    <!-- jaxws-samples-jmstransport -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-jmstransport.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/jmstransport/*.class"/>
+       </classes>
+       <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/META-INF/">
+          <include name="wsdl.plugin.xml"/>                
+       </metainf>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/WEB-INF">
+          <include name="wsdl/**"/>
+          <include name="jbossws-cxf.xml"/>
+          <include name="jboss-web.xml"/>
+       </webinf>
+    </war>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-jmstransport.sar">
+      <fileset dir="${tests.output.dir}/test-libs">
+        <include name="jaxws-samples-jmstransport.war"/>
+      </fileset>
+        <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/META-INF">
+          <include name="jboss-service.xml"/>   
+        </metainf>
+    </jar>
+  	
+  	
 
     <!-- jaxws-samples-wsa -->
     <war

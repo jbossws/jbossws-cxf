@@ -47,6 +47,8 @@
     <include name="**/spring-beans.jar"/>
     <include name="**/spring-context.jar"/>
     <include name="**/spring-core.jar"/>
+  	<include name="**/spring-jms.jar"/>
+  	<include name="**/spring-tx.jar"/>
     <include name="**/stax-api.jar"/>
     <include name="**/velocity.jar"/>
     <include name="**/wsdl4j.jar"/>
@@ -90,6 +92,8 @@
     <include name="**/spring-beans.jar"/>
     <include name="**/spring-context.jar"/>
     <include name="**/spring-core.jar"/>
+  	<include name="**/spring-jms.jar"/>
+  	<include name="**/spring-tx.jar"/>
     <include name="**/wsdl4j.jar"/>
     <include name="**/wss4j.jar"/>
     <include name="**/xml-resolver.jar"/>

@@ -455,6 +455,11 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss510.home}/lib/endorsed</argLine>
+              <!-- TODO: replace with maven dependencies -->
+              <additionalClasspathElements>
+                <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
+              </additionalClasspathElements>
             </configuration>
           </plugin>
         </plugins>

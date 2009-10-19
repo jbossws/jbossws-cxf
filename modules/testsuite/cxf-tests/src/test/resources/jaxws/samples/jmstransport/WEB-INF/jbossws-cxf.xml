@@ -1,0 +1,25 @@
+<beans xmlns='http://www.springframework.org/schema/beans'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:beans='http://www.springframework.org/schema/beans'
+        xmlns:jms="http://cxf.apache.org/transports/jms"
+	xmlns:jaxws='http://cxf.apache.org/jaxws'
+	xsi:schemaLocation='http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://www.w3.org/2006/07/ws-policy http://www.w3.org/2006/07/ws-policy.xsd 
+  http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+  http://cxf.apache.org/transports/jms http://cxf.apache.org/schemas/configuration/jms.xsd'>
+
+  <import resource="classpath:META-INF/cxf/cxf-extension-jms.xml"/>    
+	<jaxws:endpoint id='SOAPQueryService'
+		implementor='org.jboss.test.ws.jaxws.samples.jmstransport.OrganizationHttpEndpoint'
+                >
+		<jaxws:invoker>
+			<bean class='org.jboss.wsf.stack.cxf.InvokerJSE'/>
+		</jaxws:invoker>
+	</jaxws:endpoint>
+
+	<jaxws:endpoint id='JMSQueryService'
+		implementor='org.jboss.test.ws.jaxws.samples.jmstransport.OrganizationJmsEndpoint'
+                transportId="http://cxf.apache.org/transports/jms">
+	</jaxws:endpoint>
+</beans>
+
+
