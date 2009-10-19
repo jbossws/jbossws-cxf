@@ -520,7 +520,7 @@
       <id>snapshots.jboss.org</id>
       <url>http://snapshots.jboss.org/maven2</url>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
     </repository>
   </repositories>
