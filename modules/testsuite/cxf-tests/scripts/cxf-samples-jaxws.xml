@@ -23,9 +23,6 @@
        <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/jmstransport/*.class"/>
        </classes>
-       <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/META-INF/">
-          <include name="wsdl.plugin.xml"/>                
-       </metainf>
        <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/WEB-INF">
           <include name="wsdl/**"/>
           <include name="jbossws-cxf.xml"/>
