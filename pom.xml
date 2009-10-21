@@ -68,7 +68,7 @@
     <jaxws.api.version>2.1-1</jaxws.api.version>
     <jboss.jaxr.version>2.0.1</jboss.jaxr.version>
     <apache.scout.version>1.1.1</apache.scout.version>
-    <juddi.version>2.0.1</juddi.version>
+    <juddi.version>0.9RC4</juddi.version>
     <commons-collections.version>3.1</commons-collections.version>
     <commons-lang.version>2.4</commons-lang.version>
     <commons.logging.version>1.1.1</commons.logging.version>
