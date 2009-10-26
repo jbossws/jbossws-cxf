@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 
 import javax.management.ObjectName;
@@ -37,6 +38,8 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
 import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.management.InstrumentationManager;
+import org.apache.cxf.management.counters.CounterRepository;
 import org.apache.cxf.transport.DestinationFactoryManager;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.transport.servlet.ServletController;
@@ -53,6 +56,7 @@ import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
+import org.jbossws.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
@@ -67,6 +71,7 @@ import org.springframework.core.io.InputStreamResource;
 public class CXFServletExt extends CXFServlet
 {
    public static final String PARAM_CXF_BEANS_URL = "jbossws.cxf.beans.url";
+   public static final String ENABLE_CXF_MANAGEMENT = "enable.cxf.management";
 
    private static Logger log = Logger.getLogger(CXFServletExt.class);
 
@@ -79,7 +84,7 @@ public class CXFServletExt extends CXFServlet
    {
       super.init(servletConfig);
    }
-   
+
    @Override
    public ServletController createServletController(ServletConfig servletConfig)
    {
@@ -96,6 +101,12 @@ public class CXFServletExt extends CXFServlet
       ApplicationContext appCtx = (ApplicationContext)svCtx.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT");
 
       Bus bus = getBus();
+
+      //register the InstrumentManagementImpl
+      if (svCtx.getInitParameter(ENABLE_CXF_MANAGEMENT) != null && "true".equalsIgnoreCase((String)svCtx.getInitParameter(ENABLE_CXF_MANAGEMENT))) {
+         registerInstrumentManger(bus);
+      }
+
       //Install our SoapTransportFactory to allow for proper soap address rewrite
       DestinationFactoryManager dfm = bus.getExtension(DestinationFactoryManager.class);
       SoapTransportFactory factory = new SoapTransportFactoryExt();
@@ -105,11 +116,11 @@ public class CXFServletExt extends CXFServlet
 
       //Init the Endpoint
       initEndpoint(servletConfig);
-      
+
       //Load additional configurations
       loadAdditionalConfigExt(appCtx, servletConfig);
    }
-   
+
    private void initEndpoint(ServletConfig servletConfig)
    {
       SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
@@ -118,17 +129,17 @@ public class CXFServletExt extends CXFServlet
       ServletContext context = servletConfig.getServletContext();
       String contextPath = context.getContextPath();
       endpoint = initServiceEndpoint(contextPath);
-      
+
       context.setAttribute(ServletController.class.getName(), getController());
    }
-   
+
    private void loadAdditionalConfigExt(ApplicationContext ctx, ServletConfig servletConfig) throws ServletException
    {
       //Add extension to configure server beans according to JBossWS customizations 
       JBossWSCXFConfigurer jbosswsConfigurer = new JBossWSCXFConfigurer(bus.getExtension(Configurer.class));
       jbosswsConfigurer.setBindingCustomization(endpoint.getAttachment(BindingCustomization.class));
       bus.setExtension(jbosswsConfigurer, Configurer.class);
-      
+
       //Load configuration 
       String location = servletConfig.getServletContext().getInitParameter(PARAM_CXF_BEANS_URL);
       if (location != null)
@@ -151,7 +162,7 @@ public class CXFServletExt extends CXFServlet
          childCtx.refresh();
       }
    }
-   
+
    @Override
    protected void invoke(HttpServletRequest req, HttpServletResponse res) throws ServletException
    {
@@ -210,5 +221,30 @@ public class CXFServletExt extends CXFServlet
       }
 
       return endpoint;
+   }
+
+   private void registerInstrumentManger(Bus bus) throws ServletException
+   {
+      InstrumentationManagerExtImpl instrumentationManagerImpl = new InstrumentationManagerExtImpl();
+      instrumentationManagerImpl.setBus(bus);
+      instrumentationManagerImpl.setEnabled(true);
+      instrumentationManagerImpl.initMBeanServer();
+      instrumentationManagerImpl.register();
+      bus.setExtension(instrumentationManagerImpl, InstrumentationManager.class);
+
+      //attach couterRepository
+      CounterRepository couterRepository = new CounterRepository();
+      couterRepository.setBus(bus);
+
+      try
+      {
+         Method method = CounterRepository.class.getDeclaredMethod("registerInterceptorsToBus", new Class[] {});
+         method.setAccessible(true);
+         method.invoke(couterRepository, new Object[] {});
+      }
+      catch (Exception e)
+      {
+         throw new ServletException(e);
+      }
    }
 }

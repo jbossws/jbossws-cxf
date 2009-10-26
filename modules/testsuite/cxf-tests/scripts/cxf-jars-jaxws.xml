@@ -8,103 +8,95 @@
 
 <project>
 
-  <description>JBossWS test archive builder</description>
+	<description>JBossWS test archive builder</description>
 
-  <!-- ============================================================================== -->
-  <!-- Building                                                                       -->
-  <!--                                                                                -->
-  <!-- Where to create your tests                                                     -->
-  <!-- http://www.jboss.com/index.html?module=bb&op=viewtopic&p=4144172#4144172       -->
-  <!--                                                                                -->
-  <!-- ============================================================================== -->
+	<!-- ============================================================================== -->
+	<!-- Building                                                                       -->
+	<!--                                                                                -->
+	<!-- Where to create your tests                                                     -->
+	<!-- http://www.jboss.com/index.html?module=bb&op=viewtopic&p=4144172#4144172       -->
+	<!--                                                                                -->
+	<!-- ============================================================================== -->
 
-  <target name="build-jars-jaxws" description="Build the deployments.">
+	<target name="build-jars-jaxws" description="Build the deployments.">
 
-    <mkdir dir="${tests.output.dir}/test-libs"/>
+		<mkdir dir="${tests.output.dir}/test-libs" />
 
-    <!-- jaxws-aegis -->
-    <war
-       warfile="${tests.output.dir}/test-libs/jaxws-aegis.war"
-       webxml="${tests.output.dir}/test-resources/jaxws/cxf/aegis/jaxws/WEB-INF/web.xml">
-       <classes dir="${tests.output.dir}/test-classes">
-          <include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisGroupQuery.class"/>
-          <include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisGroupQueryImpl.class"/>
-          <include name="org/jboss/test/ws/jaxws/cxf/aegis/Member.class"/>
-       </classes>
-       <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/aegis/jaxws/WEB-INF/">
-          <include name="jbossws-cxf.xml"/>
-       </webinf>
-    </war>
-    
-    <war
-       warfile="${tests.output.dir}/test-libs/jaxws-aegis-annotation.war"
-       webxml="${tests.output.dir}/test-resources/jaxws/cxf/aegis/jaxws/annotation/WEB-INF/web.xml">
-       <classes dir="${tests.output.dir}/test-classes">
-          <include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisAnnotationGroupQuery.class"/>
-          <include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisAnnotationGroupQueryImpl.class"/>
-          <include name="org/jboss/test/ws/jaxws/cxf/aegis/Member.class"/>
-       </classes>
-    </war>
+		<!-- jaxws-aegis -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-aegis.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/aegis/jaxws/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisGroupQuery.class" />
+				<include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisGroupQueryImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/cxf/aegis/Member.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/aegis/jaxws/WEB-INF/">
+				<include name="jbossws-cxf.xml" />
+			</webinf>
+		</war>
 
-    <!-- jaxws-cxf-descriptor -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-descriptor.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/descriptor/WEB-INF/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/descriptor/DescriptorEndpointImpl.class"/>
-      </classes>
-      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/descriptor/WEB-INF">
-        <include name="jbossws-cxf.xml"/>
-      </webinf>
-    </war>
+		<war warfile="${tests.output.dir}/test-libs/jaxws-aegis-annotation.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/aegis/jaxws/annotation/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisAnnotationGroupQuery.class" />
+				<include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisAnnotationGroupQueryImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/cxf/aegis/Member.class" />
+			</classes>
+		</war>
 
-    <!-- jaxws-cxf-interop-wstrust10-client -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-interop-wstrust10-client.jar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF">
-        <include name="**/*" />
-      </metainf>
-    </jar>
-  	
-    <!-- jaxws-cxf-jaxbintros -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jaxbintros.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/Endpoint.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/EndpointBean.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/UserType.class"/>
-      </fileset>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/jaxbintros/META-INF">
-        <include name="**/*" />
-      </metainf>
-    </jar>
+		<!-- jaxws-cxf-descriptor -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-cxf-descriptor.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/descriptor/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/cxf/descriptor/DescriptorEndpointImpl.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/descriptor/WEB-INF">
+				<include name="jbossws-cxf.xml" />
+			</webinf>
+		</war>
 
-    <!-- jaxws-cxf-wsrm-basic-doc -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-wsrm-basic-doc.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/basic-doc/WEB-INF/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocEndpointImpl.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocEndpoint.class"/>
-      </classes>
-      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/basic-doc/WEB-INF">
-        <include name="jbossws-cxf.xml"/>
-      </webinf>
-    </war>
+		<!-- jaxws-cxf-interop-wstrust10-client -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-interop-wstrust10-client.jar">
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF">
+				<include name="**/*" />
+			</metainf>
+		</jar>
 
-    <!-- jaxws-cxf-wsrm-basic-rpc -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-wsrm-basic-rpc.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/basic-rpc/WEB-INF/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCEndpointImpl.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCEndpoint.class"/>
-      </classes>
-      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/basic-rpc/WEB-INF">
-        <include name="jbossws-cxf.xml"/>
-      </webinf>
-    </war>
+		<!-- jaxws-cxf-management -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-cxf-management.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/management/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/cxf/management/HelloWorldImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/cxf/management/HelloWorld.class"/>
+			</classes>
+		</war>
+		
+		<!-- jaxws-cxf-wsrm-basic-doc -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-cxf-wsrm-basic-doc.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/basic-doc/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocEndpointImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocEndpoint.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/basic-doc/WEB-INF">
+				<include name="jbossws-cxf.xml" />
+			</webinf>
+		</war>
 
-    <!-- jaxws-cxf-wsrm-basic-client -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-wsrm-basic-client.jar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/">
-        <include name="cxf.xml" />
-      </metainf>
-    </jar>
-    <!-- Please add alphabetically -->
+		<!-- jaxws-cxf-wsrm-basic-rpc -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-cxf-wsrm-basic-rpc.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/basic-rpc/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCEndpointImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCEndpoint.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/basic-rpc/WEB-INF">
+				<include name="jbossws-cxf.xml" />
+			</webinf>
+		</war>
 
-  </target>
+		<!-- jaxws-cxf-wsrm-basic-client -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-wsrm-basic-client.jar">
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/wsrm/">
+				<include name="cxf.xml" />
+			</metainf>
+		</jar>
+		<!-- Please add alphabetically -->
+
+	</target>
 
 </project>
