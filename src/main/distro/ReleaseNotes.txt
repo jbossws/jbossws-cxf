@@ -50,6 +50,47 @@ The JBossWS Team
 Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 --------------------
+jbossws-cxf-3.2.1.GA
+--------------------
+
+Bug
+
+    * [JBWS-2743] - Make sure all maven dependencies are downloaded only from JBoss repositories
+    * [JBWS-2745] - Issue with stack switch and binary distro install
+    * [JBWS-2759] - JBossWS installation doesn't work for non default configurations
+    * [JBWS-2760] - wsconsume.bat and wsprovider.bat require JAVA_HOME environment variable in Winodws OS
+    * [JBWS-2764] - Wrong SOAP stack version in JBoss webservices console
+    * [JBWS-2773] - Remove JBossAS webservices integration layer from tests classpath
+    * [JBWS-2786] - Wrong classpath declaration in wsconsume.bat
+
+Feature Request
+
+    * [JBWS-2660] - Provide testcase for JMS transport with CXF stack
+    * [JBWS-2714] - Enable JAXBIntroductions support
+    * [JBWS-2740] - Add Class-Path attribute to jbossws-cxf-client manifest file
+    * [JBWS-2752] - Add 'nocompile' option to wsconsume (command line)
+
+Task
+
+    * [JBWS-2613] - Ensure correct line ends in windows shell scripts (CRNL)
+    * [JBWS-2727] - Fix AS-Tests-AS-6.0.0 hudson job
+    * [JBWS-2749] - Update Hudson jobs because of JDK1.5 finishing EOL transition period
+    * [JBWS-2750] - Reduce impact of logging on performances
+    * [JBWS-2757] - Update Class-Path attribute in manifest
+    * [JBWS-2763] - Miscellaneous performance optimizations
+    * [JBWS-2766] - Provide a testcase for Aegis binding
+    * [JBWS-2772] - Remove JBoss kernel dependencies from SPI, COMMON and all STACKS
+    * [JBWS-2780] - Upgrade to Apache CXF 2.2.4
+    * [JBWS-2794] - Release spi, common, framework and container integrations
+    * [JBWS-2798] - Release JBossWS-CXF 3.2.1.GA binaries and sources
+
+Errata
+
+    See: https://jira.jboss.org/jira/browse/JBWS-2800
+
+This version of JBoss Web Services - Stack CXF is based on CXF 2.2.4
+
+--------------------
 jbossws-cxf-3.2.0.GA
 --------------------
 
