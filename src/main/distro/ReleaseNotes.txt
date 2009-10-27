@@ -38,7 +38,7 @@ Bug
 
 Feature Request
 
-    * [JBWS-2660] - Investigate enabling JMS transport with CXF stack
+    * [JBWS-2660] - Provide testcase for JMS transport with CXF stack
     * [JBWS-2714] - Enable JAXBIntroductions support
     * [JBWS-2740] - Add Class-Path attribute to jbossws-cxf-client manifest file
     * [JBWS-2752] - Add 'nocompile' option to wsconsume (command line)
