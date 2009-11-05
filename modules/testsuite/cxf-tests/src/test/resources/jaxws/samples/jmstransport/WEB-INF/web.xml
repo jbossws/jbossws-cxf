@@ -8,11 +8,21 @@
   <servlet>
     <servlet-name>OrganizationService</servlet-name>
     <servlet-class>org.jboss.test.ws.jaxws.samples.jmstransport.OrganizationHttpEndpoint</servlet-class>
-    <load-on-startup>1</load-on-startup>
   </servlet>
 
+  <servlet>
+    <servlet-name>OrganizationJmsService</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.samples.jmstransport.OrganizationJmsEndpoint</servlet-class>
+  </servlet>
+  
+  
   <servlet-mapping>
     <servlet-name>OrganizationService</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>OrganizationJmsService</servlet-name>
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
 

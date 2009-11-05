@@ -46,6 +46,11 @@
     <property name="relativeOrder">21</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
 
+  <bean name="JMSEndpointAddressDeploymentAspect" class="org.jboss.wsf.stack.cxf.JMSEndpointAddressDeploymentAspect">
+    <property name="requires">ContextProperties</property>
+    <property name="relativeOrder">22</property> <!-- [JBDEPLOY-201] workaround -->
+  </bean>
+
   <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
     <property name="requires">ContainerMetaData</property>
     <property name="provides">StackEndpointHandler</property>

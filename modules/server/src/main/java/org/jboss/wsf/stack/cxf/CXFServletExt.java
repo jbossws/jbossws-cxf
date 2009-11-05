@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
 
@@ -38,9 +39,15 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
 import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.endpoint.ServerImpl;
+import org.apache.cxf.endpoint.ServerRegistry;
+import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
+import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
 import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.counters.CounterRepository;
 import org.apache.cxf.transport.DestinationFactoryManager;
+import org.apache.cxf.transport.jms.AddressType;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
@@ -71,8 +78,9 @@ import org.springframework.core.io.InputStreamResource;
 public class CXFServletExt extends CXFServlet
 {
    public static final String PARAM_CXF_BEANS_URL = "jbossws.cxf.beans.url";
-   public static final String ENABLE_CXF_MANAGEMENT = "enable.cxf.management";
-
+   public static final String ENABLE_CXF_MANAGEMENT = "enable.cxf.management";  
+   public static final String JMS_NS = "http://cxf.apache.org/transports/jms";
+   
    private static Logger log = Logger.getLogger(CXFServletExt.class);
 
    protected Endpoint endpoint;
@@ -118,7 +126,8 @@ public class CXFServletExt extends CXFServlet
       initEndpoint(servletConfig);
 
       //Load additional configurations
-      loadAdditionalConfigExt(appCtx, servletConfig);
+      loadAdditionalConfigExt(appCtx, servletConfig);      
+      correctJmsEndpointAddress(endpoint, bus);
    }
 
    private void initEndpoint(ServletConfig servletConfig)
@@ -246,5 +255,38 @@ public class CXFServletExt extends CXFServlet
       {
          throw new ServletException(e);
       }
+   }
+   
+   private void correctJmsEndpointAddress(Endpoint endpoint, Bus bus) throws ServletException {
+     for (Server server : bus.getExtension(ServerRegistry.class).getServers()) {
+        if (server.getEndpoint() instanceof JaxWsEndpointImpl) {
+           JaxWsEndpointImpl endpointImpl = (JaxWsEndpointImpl)server.getEndpoint();
+         try
+         {
+            Field field = JaxWsEndpointImpl.class.getDeclaredField("implInfo");
+            field.setAccessible(true);
+            Object object = field.get(endpointImpl);
+            if (object != null) {
+               JaxWsImplementorInfo implementInfo = (JaxWsImplementorInfo)object;
+               Class endpointClass = implementInfo.getImplementorClass();
+               if (endpoint.getTargetBeanClass().getName().equals(endpointClass.getName()) 
+                     && JMS_NS.equals(server.getEndpoint().getEndpointInfo().getTransportId())) {
+                     //server.getDestination().getAddress()
+                     AddressType address = server.getEndpoint().getEndpointInfo().getExtensor(AddressType.class);
+                     String jmsURL = "jms://" + address.getJndiDestinationName();
+                     if (address.getJndiReplyDestinationName() != null) {
+                        jmsURL = jmsURL +"?replyToName=" +address.getJndiReplyDestinationName();
+                        endpoint.setAddress(jmsURL);
+                     }
+               }
+                 
+            }
+         }
+         catch (Exception e)
+         {
+            throw new ServletException(e);
+         }           
+        }
+     }
    }
 }
