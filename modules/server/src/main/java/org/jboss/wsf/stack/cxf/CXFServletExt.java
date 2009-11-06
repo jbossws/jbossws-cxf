@@ -48,6 +48,7 @@ import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.counters.CounterRepository;
 import org.apache.cxf.transport.DestinationFactoryManager;
 import org.apache.cxf.transport.jms.AddressType;
+import org.apache.cxf.transport.jms.JMSDestination;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
@@ -138,17 +139,19 @@ public class CXFServletExt extends CXFServlet
       ServletContext context = servletConfig.getServletContext();
       String contextPath = context.getContextPath();
       endpoint = initServiceEndpoint(contextPath);
-
+      //Add customization check to use default CXF configurer
+      BindingCustomization customization = endpoint.getAttachment(BindingCustomization.class);
+      if (customization != null) {
+         //Add extension to configure server beans according to JBossWS customizations
+         JBossWSCXFConfigurer jbosswsConfigurer = new JBossWSCXFConfigurer(bus.getExtension(Configurer.class));
+         jbosswsConfigurer.setBindingCustomization(endpoint.getAttachment(BindingCustomization.class));
+         bus.setExtension(jbosswsConfigurer, Configurer.class);
+      }
       context.setAttribute(ServletController.class.getName(), getController());
    }
 
    private void loadAdditionalConfigExt(ApplicationContext ctx, ServletConfig servletConfig) throws ServletException
    {
-      //Add extension to configure server beans according to JBossWS customizations 
-      JBossWSCXFConfigurer jbosswsConfigurer = new JBossWSCXFConfigurer(bus.getExtension(Configurer.class));
-      jbosswsConfigurer.setBindingCustomization(endpoint.getAttachment(BindingCustomization.class));
-      bus.setExtension(jbosswsConfigurer, Configurer.class);
-
       //Load configuration 
       String location = servletConfig.getServletContext().getInitParameter(PARAM_CXF_BEANS_URL);
       if (location != null)
@@ -273,10 +276,25 @@ public class CXFServletExt extends CXFServlet
                      && JMS_NS.equals(server.getEndpoint().getEndpointInfo().getTransportId())) {
                      //server.getDestination().getAddress()
                      AddressType address = server.getEndpoint().getEndpointInfo().getExtensor(AddressType.class);
-                     String jmsURL = "jms://" + address.getJndiDestinationName();
-                     if (address.getJndiReplyDestinationName() != null) {
-                        jmsURL = jmsURL +"?replyToName=" +address.getJndiReplyDestinationName();
-                        endpoint.setAddress(jmsURL);
+                     if (address == null) 
+                     {
+                         //java first : the address is from jbossws-cxf.xml
+                         JMSDestination jmsDestination = (JMSDestination)server.getDestination();
+                         String url = "jms://" + jmsDestination.getJmsConfig().getTargetDestination();
+                         if (jmsDestination.getJmsConfig().getReplyDestination() != null) {
+                            url = url + "?replyToName=" + jmsDestination.getJmsConfig().getReplyDestination();
+                            endpoint.setAddress(url);
+                         }
+          
+                     } else 
+                     {
+                        //wsdl first: the address is from wsdl
+                        String jmsURL = "jms://" + address.getJndiDestinationName();
+                        if (address.getJndiReplyDestinationName() != null)
+                        {
+                           jmsURL = jmsURL + "?replyToName=" + address.getJndiReplyDestinationName();
+                           endpoint.setAddress(jmsURL);
+                        }
                      }
                }
                  

@@ -38,6 +38,28 @@
         </metainf>
     </jar>
   	
+    <!-- jaxws-fromjava-jmstransport -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-fromjava-jmstransport.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/fromjava/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/jmstransport/Organization.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/jmstransport/OrganizationJmsImpl.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/fromjava/WEB-INF">
+          <include name="jbossws-cxf.xml"/>
+          <include name="jboss-web.xml"/>
+       </webinf>
+    </war>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxws-fromjava-jmstransport.sar">
+      <fileset dir="${tests.output.dir}/test-libs">
+        <include name="jaxws-fromjava-jmstransport.war"/>
+      </fileset>
+        <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/META-INF">
+          <include name="jboss-service.xml"/>   
+        </metainf>
+    </jar>  	
+  	
   	
 
     <!-- jaxws-samples-wsa -->
