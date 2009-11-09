@@ -22,7 +22,6 @@
 package org.jboss.wsf.stack.cxf.tools;
 
 import java.io.File;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -32,6 +31,7 @@ import java.util.List;
 import org.apache.cxf.tools.java2ws.JavaToWS;
 import org.jboss.ws.tools.io.NullPrintStream;
 import org.jboss.wsf.spi.tools.WSContractProvider;
+import org.w3c.dom.Element;
 
 /**
  * A WSContractProvider for the CXF stack
@@ -92,6 +92,7 @@ public class CXFProviderImpl extends WSContractProvider
    {
       try
       {
+         initLog4j();
          provide(loader.loadClass(endpointClass));
       }
       catch (ClassNotFoundException e)
@@ -148,7 +149,8 @@ public class CXFProviderImpl extends WSContractProvider
          PrintStream stream = messageStream;
          if (stream != null)
          {
-            args.add("-verbose");
+            // There is no need to set verbose to cxf java2ws tool
+            //args.add("-verbose");
          }
          else
          {
@@ -218,5 +220,33 @@ public class CXFProviderImpl extends WSContractProvider
       }
 
       return cp;
+   }
+
+   /**
+    * cxf java2ws tool requires log4j configuration;this method will configure log4j when running in command line and avoid the log4j not configure error.
+    */
+   private void initLog4j() {
+      //TODO: look at if it is possible to set jboss LoggerRepository 
+      String xmlConfig = "<log4j:configuration xmlns:log4j=\"http://jakarta.apache.org/log4j/\" debug=\"false\">"
+         +   "<appender name=\"CONSOLE\" class=\"org.apache.log4j.ConsoleAppender\">"
+         +      "<param name=\"Threshold\" value=\"WARN\"/>"
+         +      "<param name=\"Target\" value=\"System.out\"/>"
+         +      "<layout class=\"org.apache.log4j.PatternLayout\">"
+         +        " <param name=\"ConversionPattern\" value=\"%d %-5p [%c] (%t) %m%n\"/>"
+         +      "</layout>"
+         +    "</appender>"
+         +    "<root>" 
+         +       "<appender-ref ref=\"CONSOLE\"/>" 
+         +	  "</root>"    
+         +    "</log4j:configuration>";
+      try
+      {
+         Element element = javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new java.io.StringBufferInputStream(xmlConfig)).getDocumentElement();
+         org.apache.log4j.xml.DOMConfigurator.configure(element);
+      }
+      catch (Exception e)
+      {
+         //igonre
+      }
    }
 }
