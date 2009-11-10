@@ -94,11 +94,11 @@ public class FromJavaJMSTransportTestCase extends JBossWSTest
       sender.send(message);
       sender.close();
 
-      int timeout = 3000;
+      int timeout = 5;
       while (waitForResponse && timeout > 0)
       {
-         Thread.sleep(100);
-         timeout -= 10;
+         Thread.sleep(1000);
+         timeout = timeout -1;
       }
 
       assertNotNull("Expected response message", responseListener.resMessage);
