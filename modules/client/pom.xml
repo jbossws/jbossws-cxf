@@ -28,10 +28,6 @@
     <!-- CXF dependencies -->
     <dependency>
       <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-anttasks</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-bindings-soap</artifactId>
     </dependency>
     <dependency>
