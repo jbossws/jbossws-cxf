@@ -149,8 +149,8 @@ public class CXFProviderImpl extends WSContractProvider
          PrintStream stream = messageStream;
          if (stream != null)
          {
-            // There is no need to set verbose to cxf java2ws tool
-            //args.add("-verbose");
+            //TODO: There is no need to set verbose to cxf java2ws tool ?
+            args.add("-verbose");
          }
          else
          {
