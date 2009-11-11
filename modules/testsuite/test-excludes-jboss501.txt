@@ -42,8 +42,5 @@ org/jboss/test/ws/jaxws/jbws1283/**
 # [JBWS-2397] Fix jbws1797 testcase
 org/jboss/test/ws/jaxws/jbws1797/**
 
-# [JBWS-2770] Rewrite org.jboss.test.ws.jaxws.binding testcase
-org/jboss/test/ws/jaxws/binding/**
-
 # [JBWS-2809] Investigate why MemoryBufferRecorderTestCase is failing
 org/jboss/test/ws/management/recording/MemoryBufferRecorderTestCase.*
