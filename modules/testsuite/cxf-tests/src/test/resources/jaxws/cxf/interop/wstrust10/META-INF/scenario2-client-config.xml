@@ -36,4 +36,7 @@
     		</map>
     	</property>
     </bean>
+    <http:conduit name="*.http-conduit">
+       <http:client AllowChunking="false"/>
+    </http:conduit>
 </beans>

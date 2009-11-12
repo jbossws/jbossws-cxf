@@ -61,4 +61,7 @@
             <entry key="ws-security.encryption.properties.sct" value="META-INF/etc/bob.properties"/> 
         </jaxws:properties>
     </jaxws:client>
+     <http:conduit name="*.http-conduit">
+       <http:client AllowChunking="false"/>
+    </http:conduit>
 </beans>
