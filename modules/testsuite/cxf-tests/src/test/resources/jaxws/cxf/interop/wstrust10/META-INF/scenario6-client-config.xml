@@ -60,6 +60,7 @@
             <entry key="ws-security.encryption.properties.sct" value="META-INF/etc/bob.properties"/> 
         </jaxws:properties>
     </jaxws:client>
+    <!--Add disable chunk mode for running on Windows -->
     <http:conduit name="*.http-conduit">
        <http:client AllowChunking="false"/>
     </http:conduit>   

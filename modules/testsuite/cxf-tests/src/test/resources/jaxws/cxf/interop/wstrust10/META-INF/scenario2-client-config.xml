@@ -36,6 +36,7 @@
     		</map>
     	</property>
     </bean>
+    <!--Add disable chunk mode for running on Windows -->
     <http:conduit name="*.http-conduit">
        <http:client AllowChunking="false"/>
     </http:conduit>
