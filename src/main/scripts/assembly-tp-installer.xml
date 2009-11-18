@@ -32,6 +32,8 @@
         <include>default-deploy.conf</include>
         <include>standard-deploy.conf</include>
         <include>all-deploy.conf</include>
+        <include>production-deploy.conf</include>
+        <include>web-deploy.conf</include>
         <include>jbossws-deploy-macros.xml</include>
       </includes>
     </fileSet>
