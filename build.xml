@@ -133,5 +133,24 @@
         prefix="jbossws-cxf-src-dist"/>
     </zip>
   </target>
+	  
+  <target name="build-tp-installer" depends="prepare-deploy,os-init" description="Build the CXF Tech Preview Installer">
+	    
+    <echo/>
+    <echo message="${mvn} ${maven.opts} -Ptp-installer package assembly:directory"/>
+    <echo/>
+    
+    <delete dir="${stack.output.dir}/jbossws-cxf-tp-installer"/>
+    <exec dir="${basedir}" executable="${mvn}" failonerror="true">
+      <arg line="${maven.opts} -Ptp-installer package assembly:directory"/>
+    </exec>
+  	
+    <zip destfile="${stack.output.dir}/jbossws-cxf-tp-installer.zip">
+      <zipfileset
+        dir="${stack.output.dir}/jbossws-cxf-tp-installer"
+        includes="build/ deploy/ docs/ tests/ build.xml ant.properties.example"
+        prefix="jbossws-cxf-tp-installer"/>
+    </zip>
+  </target>
   
 </project>

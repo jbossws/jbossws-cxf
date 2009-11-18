@@ -1,0 +1,3 @@
+This is the JBossWS-CXF Tech Preview (TP) installer for JBoss EAP.
+Simply run "ant" from the jbossws-cxf-tp-installer dir you got after
+extracting the jbossws-cxf-tp-installer.zip in your EAP JBOSS_HOME.

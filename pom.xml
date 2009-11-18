@@ -483,6 +483,29 @@
       </build>
     </profile>
 
+    <!-- 
+    Name:  tp-installer
+    Descr: Build the CXF Tech Preview Installer  
+    -->
+    <profile>
+      <id>tp-installer</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <configuration>
+              <finalName>jbossws-cxf-tp-installer</finalName>
+              <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>src/main/scripts/assembly-tp-installer.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
     <!--
     Name:  jboss510
     Descr: JBoss-5.1.0 specific options

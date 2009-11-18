@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<project basedir="." name="JBossWS-CXF-TP-Installer" default="install">
+  
+  <!-- ================================================================== -->
+  <!-- Setup                                                              -->
+  <!-- ================================================================== -->
+  
+  <property name="build.dir" value="${basedir}/build"/>
+  <property name="docs.dir" value="${basedir}/docs"/>
+  <property name="output.dir" value="${basedir}/output"/>
+  <property name="thirdparty.dir" value="${basedir}/deploy/lib"/>
+  <property name="deploy.artifacts.dir" value="${basedir}/deploy"/>
+  <property name="jbossws.default.deploy.conf" value="${build.dir}/default-deploy.conf"/>
+  <property name="jbossws.standard.deploy.conf" value="${build.dir}/standard-deploy.conf"/>
+  <property name="jbossws.production.deploy.conf" value="${build.dir}/production-deploy.conf"/>
+  <property name="jbossws.web.deploy.conf" value="${build.dir}/web-deploy.conf"/>
+  <property name="jbossws.all.deploy.conf" value="${build.dir}/all-deploy.conf"/>
+  
+  <property name="jbossws.integration.target" value="jboss510"/>
+  <property name="jboss510.home" value="${basedir}/.."/>
+	
+  
+  <import file="${build.dir}/build-setup.xml"/>
+  <import file="${build.dir}/build-deploy.xml"/>
+  <import file="${build.dir}/jbossws-deploy-macros.xml"/>
+  
+  <!-- ================================================================== -->
+  <!-- Initialization                                                     -->
+  <!-- ================================================================== -->
+  
+  <target name="init" depends="prepare">
+          
+    <fail message="jbossws.integration.target not set" unless="jbossws.integration.target"/>
+    <echo message="integration.target=${jbossws.integration.target}"/>
+    
+    <property name="deploy.structure" value="${output.dir}/deploy-${jbossws.integration.target}"/>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Building                                                           -->
+  <!-- ================================================================== -->
+  
+  <!-- dummy targets -->
+  <target name="prepare-deploy" depends="init"/>
+  <target name="install" depends="clean, deploy-jboss510" description="Install JBossWS-CXF Tech Preview">
+  	<echo message="-----------------------------------------------------------------------"/>
+  	<echo message=" WARNING: JBossWS-CXF Tech Preview is not meant for production use yet"/>
+  	<echo message="-----------------------------------------------------------------------"/>
+  </target>
+	
+  <target name="clean" depends="prepare">
+    <delete dir="${output.dir}"/>
+  </target>
+  
+</project>
