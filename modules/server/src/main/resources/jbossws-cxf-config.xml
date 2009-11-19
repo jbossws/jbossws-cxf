@@ -51,6 +51,11 @@
     <property name="relativeOrder">22</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
 
+  <bean name="ResourceResolverDeploymentAspect" class="org.jboss.wsf.stack.cxf.ResourceResolverDeploymentAspect">
+    <property name="requires">StackDescriptor</property>
+    <property name="relativeOrder">23</property> <!-- [JBDEPLOY-201] workaround -->
+  </bean>
+
   <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
     <property name="requires">ContainerMetaData</property>
     <property name="provides">StackEndpointHandler</property>

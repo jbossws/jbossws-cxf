@@ -40,12 +40,13 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.endpoint.ServerImpl;
 import org.apache.cxf.endpoint.ServerRegistry;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
 import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.counters.CounterRepository;
+import org.apache.cxf.resource.ResourceManager;
+import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.DestinationFactoryManager;
 import org.apache.cxf.transport.jms.AddressType;
 import org.apache.cxf.transport.jms.JMSDestination;
@@ -139,6 +140,14 @@ public class CXFServletExt extends CXFServlet
       ServletContext context = servletConfig.getServletContext();
       String contextPath = context.getContextPath();
       endpoint = initServiceEndpoint(contextPath);
+      
+      //Install the JBossWS resource resolver
+      ResourceResolver resourceResolver = endpoint.getAttachment(ResourceResolver.class);
+      if (resourceResolver != null)
+      {
+         bus.getExtension(ResourceManager.class).addResourceResolver(resourceResolver);
+      }
+      
       //Add customization check to use default CXF configurer
       BindingCustomization customization = endpoint.getAttachment(BindingCustomization.class);
       if (customization != null) {

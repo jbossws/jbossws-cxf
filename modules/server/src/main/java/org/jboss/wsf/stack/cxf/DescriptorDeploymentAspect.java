@@ -26,6 +26,10 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.ws.BindingType;
+import javax.xml.ws.soap.MTOM;
+import javax.xml.ws.soap.SOAPBinding;
+
 import org.jboss.logging.Logger;
 import org.jboss.wsf.common.integration.WSConstants;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
@@ -35,10 +39,6 @@ import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
-
-import javax.xml.ws.BindingType;
-import javax.xml.ws.soap.SOAPBinding;
-import javax.xml.ws.soap.MTOM;
 
 /**
  * A deployer that locates or generates cxf.xml 
@@ -140,7 +140,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
       {
          // get resource URL
          ArchiveDeployment archDep = (ArchiveDeployment)dep;
-         cxfURL = archDep.getMetaDataFileURL(metadir + "/jbossws-cxf.xml");
+         cxfURL = archDep.getResourceResolver().resolve(metadir + "/jbossws-cxf.xml");
          log.info("JBossWS-CXF configuration found: " + cxfURL);
       }
       catch (IOException ignore)
@@ -202,6 +202,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
     * @param cxfURL CXF DD URL
     * @see org.jboss.wsf.common.integration.WSConstants.STACK_CONTEXT_PARAMS
     */
+   @SuppressWarnings("unchecked")
    private void putCXFConfigToDeployment(Deployment dep, URL cxfURL)
    {
       // get property map

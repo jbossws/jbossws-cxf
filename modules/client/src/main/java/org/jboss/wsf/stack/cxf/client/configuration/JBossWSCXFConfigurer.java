@@ -26,6 +26,7 @@ import org.apache.cxf.databinding.DataBinding;
 import org.apache.cxf.frontend.AbstractWSDLBasedEndpointFactory;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.apache.cxf.jaxb.JAXBDataBinding;
+import org.apache.cxf.service.factory.ReflectionServiceFactoryBean;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.binding.JAXBBindingCustomization;
 
@@ -95,9 +96,21 @@ public class JBossWSCXFConfigurer implements Configurer
       if (customization != null)
       {
          //customize default databinding (early pulls in ServiceFactory default databinding and configure it, as it's lazily loaded)
-         setBindingCustomization(factory.getServiceFactory().getDataBinding(), customization);
+         ReflectionServiceFactoryBean serviceFactory = factory.getServiceFactory();
+         serviceFactory.reset();
+         DataBinding serviceFactoryDataBinding = serviceFactory.getDataBinding(true);
+         setBindingCustomization(serviceFactoryDataBinding, customization);
+         serviceFactory.setDataBinding(serviceFactoryDataBinding);
          //customize user provided databinding (CXF later overrides the ServiceFactory databinding using the user provided one) 
-         setBindingCustomization(factory.getDataBinding(), customization);
+         if (factory.getDataBinding() == null)
+         {
+            //set the service factory's databinding to prevent CXF resetting everything because user did not provide anything
+            factory.setDataBinding(serviceFactoryDataBinding);
+         }
+         else
+         {
+            setBindingCustomization(factory.getDataBinding(), customization);
+         }
       }
       //add other configurations here below
    }
@@ -113,9 +126,21 @@ public class JBossWSCXFConfigurer implements Configurer
       if (customization != null)
       {
          //customize default databinding (early pulls in ServiceFactory default databinding and configure it, as it's lazily loaded)
-         setBindingCustomization(factory.getServiceFactory().getDataBinding(), customization);
+         ReflectionServiceFactoryBean serviceFactory = factory.getServiceFactory();
+         serviceFactory.reset();
+         DataBinding serviceFactoryDataBinding = serviceFactory.getDataBinding(true);
+         setBindingCustomization(serviceFactoryDataBinding, customization);
+         serviceFactory.setDataBinding(serviceFactoryDataBinding);
          //customize user provided databinding (CXF later overrides the ServiceFactory databinding using the user provided one) 
-         setBindingCustomization(factory.getDataBinding(), customization);
+         if (factory.getDataBinding() == null)
+         {
+            //set the service factory's databinding to prevent CXF resetting everything because user did not provide anything
+            factory.setDataBinding(serviceFactoryDataBinding);
+         }
+         else
+         {
+            setBindingCustomization(factory.getDataBinding(), customization);
+         }
       }
       //add other configurations here below
    }
