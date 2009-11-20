@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2009, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,11 +21,14 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
-import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
-import org.apache.cxf.configuration.Configurer;
-import org.jboss.wsf.spi.WSFException;
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.Hashtable;
 
 import javax.naming.Context;
 import javax.naming.Name;
@@ -35,22 +38,15 @@ import javax.naming.Reference;
 import javax.naming.spi.ObjectFactory;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import javax.xml.ws.spi.ServiceDelegate;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.Hashtable;
-
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
+import org.apache.cxf.bus.spring.SpringBusFactory;
+import org.apache.cxf.configuration.Configurer;
 import org.jboss.logging.Logger;
+import org.jboss.wsf.spi.WSFException;
+import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 
 /**
  * This ServiceObjectFactory reconstructs a javax.xml.ws.Service
@@ -98,10 +94,22 @@ public class ServiceObjectFactory implements ObjectFactory
 
          // Unmarshall the UnifiedServiceRef
          UnifiedServiceRefMetaData serviceRef = unmarshallServiceRef(ref);
+         
+         Bus bus;
+         URL cxfConfig = getCXFConfiguration(serviceRef.getVfsRoot());
+         if (cxfConfig != null)
+         {
+            SpringBusFactory busFactory = new SpringBusFactory();
+            bus = busFactory.createBus(cxfConfig);
+            BusFactory.setDefaultBus(bus);
+         }
+         else
+         {
+            //Reset bus before constructing Service
+            BusFactory.setThreadDefaultBus(null);
+            bus = BusFactory.getThreadDefaultBus();
+         }
 
-         //Reset bus before constructing Service
-         BusFactory.setThreadDefaultBus(null);
-         Bus bus = BusFactory.getThreadDefaultBus();
          //Add extension to configure stub properties using the UnifiedServiceRefMetaData 
          Configurer configurer = bus.getExtension(Configurer.class);
          bus.setExtension(new ServiceRefStubPropertyConfigurer(serviceRef, configurer), Configurer.class);
@@ -230,6 +238,26 @@ public class ServiceObjectFactory implements ObjectFactory
       */
 
       return sref;
+   }
+   
+   public URL getCXFConfiguration(UnifiedVirtualFile vfsRoot)
+   {
+      URL url = null;
+      try
+      {
+         url = vfsRoot.findChild("WEB-INF/jbossws-cxf.xml").toURL();
+      }
+      catch (Exception e) {}
+      
+      if (url == null)
+      {
+         try
+         {
+            url = vfsRoot.findChild("META-INF/jbossws-cxf.xml").toURL();
+         }
+         catch (Exception e) {}
+      }
+      return url;
    }
 }
 
