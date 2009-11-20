@@ -199,10 +199,6 @@
         <targetPath>.</targetPath>
         <directory>src/main/resources/jbossws-cxf-server.jar</directory>
       </resource>
-      <resource>
-        <targetPath>../resources/jbossws-cxf.sar</targetPath>
-        <directory>src/main/resources/jbossws-cxf.sar</directory>
-      </resource>
     </resources>
     <plugins>
       <plugin>
