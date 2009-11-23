@@ -23,7 +23,7 @@
             <useStrictFiltering>true</useStrictFiltering>
             <includes>
               <include>org.apache.cxf:cxf-*</include>
-              <include>org.apache.geronimo.specs:geronimo-javamail*</include>
+              <include>javax.mail:mail*</include>
               <include>org.apache.geronimo.specs:geronimo-ws-metadata*</include>
               <include>javax.xml.bind:jaxb-api:jar</include>
               <include>com.sun.xml.bind:jaxb-impl:jar</include>
@@ -54,7 +54,7 @@
             <outputFileNameMapping>jaxws-api.jar</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <includes>
-              <include>org.apache.geronimo.specs:geronimo-jaxws_2.1_spec:jar</include>
+              <include>javax.xml.ws:jaxws-api:jar</include>
             </includes>
           </dependencySet>
           <dependencySet>

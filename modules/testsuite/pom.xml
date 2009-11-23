@@ -46,8 +46,8 @@
       <artifactId>jbossws-framework</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.ejb</groupId>
-      <artifactId>ejb-api</artifactId>
+      <groupId>org.jboss.javaee</groupId>
+      <artifactId>jboss-ejb-api</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.jws</groupId>

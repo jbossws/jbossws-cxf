@@ -28,10 +28,6 @@
     <!-- CXF dependencies -->
     <dependency>
       <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-anttasks</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-bindings-soap</artifactId>
     </dependency>
     <dependency>
@@ -143,6 +139,14 @@
     <dependency>
       <groupId>org.jboss</groupId>
       <artifactId>jboss-common-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.ws</groupId>
+      <artifactId>jaxws-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.javaee</groupId>
+      <artifactId>jboss-ejb-api</artifactId>
     </dependency>
     
     <!-- transitve dependencies -->
