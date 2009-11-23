@@ -96,17 +96,17 @@ public class ServiceObjectFactory implements ObjectFactory
          UnifiedServiceRefMetaData serviceRef = unmarshallServiceRef(ref);
          
          Bus bus;
+         //Reset bus before constructing Service
+         BusFactory.setThreadDefaultBus(null);
          URL cxfConfig = getCXFConfiguration(serviceRef.getVfsRoot());
          if (cxfConfig != null)
          {
             SpringBusFactory busFactory = new SpringBusFactory();
             bus = busFactory.createBus(cxfConfig);
-            BusFactory.setDefaultBus(bus);
+            BusFactory.setThreadDefaultBus(bus);
          }
          else
          {
-            //Reset bus before constructing Service
-            BusFactory.setThreadDefaultBus(null);
             bus = BusFactory.getThreadDefaultBus();
          }
 
