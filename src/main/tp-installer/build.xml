@@ -20,11 +20,11 @@
   <property name="output.dir" value="${basedir}/output"/>
   <property name="thirdparty.dir" value="${basedir}/deploy/lib"/>
   <property name="deploy.artifacts.dir" value="${basedir}/deploy"/>
-  <property name="jbossws.default.deploy.conf" value="${build.dir}/default-deploy.conf"/>
-  <property name="jbossws.standard.deploy.conf" value="${build.dir}/standard-deploy.conf"/>
-  <property name="jbossws.production.deploy.conf" value="${build.dir}/production-deploy.conf"/>
-  <property name="jbossws.web.deploy.conf" value="${build.dir}/web-deploy.conf"/>
-  <property name="jbossws.all.deploy.conf" value="${build.dir}/all-deploy.conf"/>
+  <property name="jbossws.default.deploy.conf" value="${build.dir}/default-deploy-tp-installer.conf"/>
+  <property name="jbossws.standard.deploy.conf" value="${build.dir}/standard-deploy-tp-installer.conf"/>
+  <property name="jbossws.production.deploy.conf" value="${build.dir}/production-deploy-tp-installer.conf"/>
+  <property name="jbossws.web.deploy.conf" value="${build.dir}/web-deploy-tp-installer.conf"/>
+  <property name="jbossws.all.deploy.conf" value="${build.dir}/all-deploy-tp-installer.conf"/>
   
   <property name="jbossws.integration.target" value="jboss510"/>
   <property name="jboss510.home" value="${basedir}/.."/>
@@ -32,7 +32,7 @@
   
   <import file="${build.dir}/build-setup.xml"/>
   <import file="${build.dir}/build-deploy.xml"/>
-  <import file="${build.dir}/jbossws-deploy-macros.xml"/>
+  <import file="${build.dir}/jbossws-tp-installer-macros.xml"/>
   
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
