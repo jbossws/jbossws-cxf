@@ -142,6 +142,9 @@
     
     <delete dir="${stack.output.dir}/jbossws-cxf-tp-installer"/>
     <exec dir="${basedir}" executable="${mvn}" failonerror="true">
+      <arg line="${maven.opts} -Ptp-installer dependency:tree"/>
+    </exec>
+    <exec dir="${basedir}" executable="${mvn}" failonerror="true">
       <arg line="${maven.opts} -Ptp-installer package assembly:directory"/>
     </exec>
   	
