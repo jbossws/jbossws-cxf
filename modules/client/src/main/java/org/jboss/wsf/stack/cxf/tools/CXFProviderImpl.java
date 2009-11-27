@@ -42,11 +42,12 @@ import org.w3c.dom.Element;
 public class CXFProviderImpl extends WSContractProvider
 {
    private ClassLoader loader;
-   private boolean generateWsdl = false;
-   private boolean generateSource = false;
+   private boolean generateWsdl;
+   private boolean extension;
+   private boolean generateSource;
    private File outputDir = new File("output");
-   private File resourceDir = null;
-   private File sourceDir = null;
+   private File resourceDir;
+   private File sourceDir;
    private PrintStream messageStream;
 
    public CXFProviderImpl()
@@ -56,6 +57,11 @@ public class CXFProviderImpl extends WSContractProvider
    public void setGenerateWsdl(boolean generateWsdl)
    {
       this.generateWsdl = generateWsdl;
+   }
+
+   public void setExtension(boolean extension)
+   {
+      this.extension = extension;
    }
 
    public void setGenerateSource(boolean generateSource)
@@ -157,9 +163,12 @@ public class CXFProviderImpl extends WSContractProvider
             stream = NullPrintStream.getInstance();
          }
 
+         // -wsdl[:protocol]
          if (generateWsdl)
          {
             args.add("-wsdl");
+            if (extension)
+               args.add("-soap12");
          }
 
          String cp = buildClasspathString(loader);
