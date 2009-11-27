@@ -568,6 +568,18 @@
       </snapshots>
     </repository>
   </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>repository.jboss.org</id>
+      <url>http://repository.jboss.org/maven2</url>
+    </pluginRepository>
+  </pluginRepositories>
   
   <!-- Profiles -->
   <profiles>
