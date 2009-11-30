@@ -45,14 +45,16 @@
     <property name="invokerJSE">org.jboss.wsf.stack.cxf.InvokerJSE</property>
     <property name="relativeOrder">21</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
-
+  
   <bean name="JMSEndpointAddressDeploymentAspect" class="org.jboss.wsf.stack.cxf.JMSEndpointAddressDeploymentAspect">
-    <property name="requires">ContextProperties</property>
+    <property name="requires">StackDescriptor</property>
+    <property name="provides">JmsEndpointAddress</property>
     <property name="relativeOrder">22</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
 
   <bean name="ResourceResolverDeploymentAspect" class="org.jboss.wsf.stack.cxf.ResourceResolverDeploymentAspect">
-    <property name="requires">StackDescriptor</property>
+    <property name="requires">JmsEndpointAddress</property>
+    <property name="provides">ResourceResolver</property>
     <property name="relativeOrder">23</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
 
