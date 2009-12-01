@@ -82,6 +82,12 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-common</artifactId>
         <version>${jbossws.common.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>sun-jaxb</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
