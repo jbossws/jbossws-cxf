@@ -132,6 +132,12 @@
         <scope>provided</scope>
       </dependency>
       <dependency>
+        <groupId>org.jboss.javaee</groupId>
+        <artifactId>jboss-javaee</artifactId>
+        <version>5.0.1.GA</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
         <groupId>javax.jws</groupId>
         <artifactId>jsr181-api</artifactId>
         <version>1.0-MR1</version>
