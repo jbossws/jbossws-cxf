@@ -73,7 +73,7 @@
     <include name="**/spring-beans.jar"/>
     <include name="**/spring-context.jar"/>
     <include name="**/spring-core.jar"/>
-    <include name="**/wsdl4j.jar"/>
+    <include name="**/wss4j.jar"/>
     <include name="**/xml-resolver.jar"/>
     <include name="**/asm.jar"/>
     <include name="**/XmlSchema.jar"/>
@@ -81,8 +81,8 @@
     <include name="${installserver}/../../client/FastInfoset.jar"/>
     <!-- <include name="**/xmlsec.jar"/> -->
     <include name="${installserver}/../../client/xmlsec.jar"/>
-    <!-- <include name="**/wss4j.jar"/> -->
-    <include name="${installserver}/../../client/wss4j.jar"/>
+    <!-- <include name="**/wsdl4j.jar"/> -->
+    <include name="${installserver}/../../client/wsdl4j.jar"/>
   </patternset>
 
   
