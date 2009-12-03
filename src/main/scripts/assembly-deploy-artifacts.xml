@@ -38,16 +38,16 @@
               <include>org.springframework:spring-beans:jar</include>
               <include>org.springframework:spring-context:jar</include>
               <include>org.springframework:spring-core:jar</include>
-              <include>wsdl4j:wsdl4j:jar</include>
               <include>xml-resolver:xml-resolver:jar</include>
               <include>org.apache.ws.commons.schema:XmlSchema:jar</include>
-              <include>com.sun.xml.fastinfoset:FastInfoset:jar</include>
               <include>org.apache.ws.security:wss4j:jar</include>
-              <include>org.apache.santuario:xmlsec:jar</include>
               <include>asm:asm:jar</include>
               <include>apache-velocity:velocity:jar</include>
               <include>commons-collections:commons-collections:jar</include>
               <include>commons-lang:commons-lang:jar</include>
+              <!-- <include>com.sun.xml.fastinfoset:FastInfoset:jar</include> -->
+              <!-- <include>org.apache.santuario:xmlsec:jar</include> -->
+              <!-- <include>wsdl4j:wsdl4j:jar</include> -->
             </includes>
           </dependencySet>
           <dependencySet>
