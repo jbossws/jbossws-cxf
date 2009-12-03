@@ -95,7 +95,7 @@
     <attribute name="targetdir"/>
     <sequential>
       <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
+      <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
         <fileset dir="@{artifactsdir}/bin">
           <patternset refid="jbossws.bin.patternset"/>
         </fileset>
@@ -112,7 +112,7 @@
     <attribute name="targetdir"/>
     <sequential>
       <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
+      <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
         <fileset dir="@{thirdpartydir}">
           <patternset refid="jbossws.lib.patternset"/>
         </fileset>
@@ -129,7 +129,7 @@
     <attribute name="targetdir"/>
     <sequential>
       <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
+      <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
         <fileset dir="@{thirdpartydir}">
           <patternset refid="jbossws.lib.endorsed.patternset"/>
         </fileset>
@@ -147,7 +147,7 @@
     <attribute name="jbossid"/>
     <sequential>
       <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
+      <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
         <fileset dir="@{thirdpartydir}">
           <patternset refid="jbossws.client.patternset"/>
           <!-- [JBWS-2505] -->
@@ -171,7 +171,7 @@
     <attribute name="jbossid"/>
     <sequential>
       <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
+      <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
         <fileset dir="@{thirdpartydir}">
           <patternset refid="jbossws.server.lib.patternset"/>
         </fileset>
@@ -193,7 +193,7 @@
           <include name="**/juddi-service.sar"/>
         </fileset>
       </unzip>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
+      <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
         <fileset dir="@{thirdpartydir}">
           <include name="**/juddi.jar"/>
           <include name="**/scout.jar"/>
@@ -232,7 +232,7 @@
     <attribute name="jbossid"/>
     <sequential>
       <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
+      <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
         <fileset dir="@{thirdpartydir}">
           <patternset refid="jbossws.service.lib.patternset"/>
         </fileset>
@@ -242,7 +242,7 @@
           <include name="META-INF/**"/>
         </fileset>
       </copy>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
+      <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
         <fileset dir="@{thirdpartydir}">
           <include name="**/jbossws-common.jar"/>
           <include name="**/jbossws-framework.jar"/>
@@ -257,7 +257,7 @@
       <!-- [JBWS-2505] -->
       <!-- START -->
       <!--
-      <copy todir="@{targetdir}/META-INF" flatten="true" overwrite="true">
+      <copy todir="@{targetdir}/META-INF" flatten="true" overwrite="true" verbose="true">
         <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}">
           <include name="**/jbossws-deployer-jboss-beans.xml"/>
         </fileset>
