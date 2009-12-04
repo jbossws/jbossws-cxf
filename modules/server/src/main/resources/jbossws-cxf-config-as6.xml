@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<deployment xmlns="urn:jboss:bean-deployer:2.0">
+
+  <!-- The registry for web service endpoints -->
+  <bean name="WSEndpointRegistry" class="org.jboss.wsf.framework.management.ManagedEndpointRegistry">
+    <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
+  </bean>
+
+  <!-- Logging redirector -->
+  <bean name="JDKLogRedirector" class="org.jboss.wsf.common.logging.JDKLogRedirector">
+    <property name="namespaces">
+      <list class="java.util.LinkedList" elementClass="java.lang.String">
+        <value>org.apache.cxf</value>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Installed Record Processors-->
+  <bean name="WSMemoryBufferRecorder" class="org.jboss.wsf.framework.management.recording.MemoryBufferRecorder">
+    <property name="recording">false</property>
+  </bean>
+  <bean name="WSLogRecorder" class="org.jboss.wsf.framework.management.recording.LogRecorder">
+    <property name="recording">false</property>
+  </bean>
+
+  <!-- The stack specific deployment aspects -->
+  <bean name="WSCXFContextPropertiesDeploymentAspect" class="org.jboss.wsf.framework.deployment.ContextPropertiesDeploymentAspect">
+    <property name="provides">ContextProperties</property>
+    <property name="contextProperties">
+      <map keyClass="java.lang.String" valueClass="java.lang.String">
+        <entry>
+          <key>stack.transport.class</key>
+          <value>org.jboss.wsf.stack.cxf.CXFServletExt</value>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean name="WSCXFDescriptorDeploymentAspect" class="org.jboss.wsf.stack.cxf.DescriptorDeploymentAspect">
+    <property name="requires">EndpointAddress,JAXBIntros</property>
+    <property name="provides">StackDescriptor</property>
+    <property name="invokerEJB3">org.jboss.wsf.stack.cxf.InvokerEJB3</property>
+    <property name="invokerJSE">org.jboss.wsf.stack.cxf.InvokerJSE</property>
+  </bean>
+
+  <bean name="JMSEndpointAddressDeploymentAspect" class="org.jboss.wsf.stack.cxf.JMSEndpointAddressDeploymentAspect">
+    <property name="requires">StackDescriptor</property>
+    <property name="provides">JmsEndpointAddress</property>
+  </bean>
+
+  <bean name="ResourceResolverDeploymentAspect" class="org.jboss.wsf.stack.cxf.ResourceResolverDeploymentAspect">
+    <property name="requires">JmsEndpointAddress</property>
+    <property name="provides">ResourceResolver</property>
+  </bean>
+
+  <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
+    <property name="requires">ContainerMetaData</property>
+    <property name="provides">StackEndpointHandler</property>
+  </bean>
+
+  <bean name="WSCXFEndpointRecordProcessorDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointRecordProcessorDeploymentAspect">
+    <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
+    <property name="requires">RegisteredEndpoint</property>
+    <property name="provides">EndpointRecordProcessors</property>
+    <property name="processors">
+      <list class="java.util.ArrayList" elementClass="org.jboss.wsf.spi.management.recording.RecordProcessor">
+        <inject bean="WSMemoryBufferRecorder"/>
+        <inject bean="WSLogRecorder"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean name="WSCXFJAXBIntroDeploymentAspect" class="org.jboss.wsf.framework.deployment.JAXBIntroDeploymentAspect">
+    <property name="provides">JAXBIntros</property>
+  </bean>
+
+</deployment>
