@@ -320,7 +320,7 @@
       <!-- START -->
       <!-- delete stale container integration jars -->
       <!--
-      <delete>
+      <delete verbose="true">
         <fileset dir="${jboss.server.home}">
           <include name="**/jbossws-jboss*.jar"/>
         </fileset>
@@ -332,15 +332,15 @@
       <!-- END -->
       
       <!-- delete content of last deployment -->
-      <delete>
+      <delete verbose="true">
         <fileset dir="${jboss.home}" includes="${jbossws.deploy.conf}"/>
       </delete>
       
       <!-- delete jbossws.sar -->
-      <delete dir="@{targetdir}"/>
+      <delete dir="@{targetdir}" verbose="true"/>
       
       <!-- delete juddi-service.sar -->
-      <delete dir="@{targetdir}/../juddi-service.sar"/>
+      <delete dir="@{targetdir}/../juddi-service.sar" verbose="true"/>
       
     </sequential>
   </macrodef>
