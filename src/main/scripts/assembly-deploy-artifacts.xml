@@ -23,14 +23,14 @@
             <useStrictFiltering>true</useStrictFiltering>
             <includes>
               <include>org.apache.cxf:cxf-*</include>
-              <include>javax.mail:mail*</include>
+              <!-- <include>javax.mail:mail*</include> -->
               <include>org.apache.geronimo.specs:geronimo-ws-metadata*</include>
               <include>javax.xml.bind:jaxb-api:jar</include>
               <include>com.sun.xml.bind:jaxb-impl:jar</include>
               <include>com.sun.xml.bind:jaxb-xjc:jar</include>
               <include>javax.xml:jaxrpc-api:jar</include>
-              <include>org.jboss.ws:jbossws-common:jar</include>
-              <include>org.jboss.ws:jbossws-spi:jar</include>
+              <!-- <include>org.jboss.ws:jbossws-spi:jar</include> -->
+              <!-- <include>org.jboss.ws:jbossws-common:jar</include> -->
               <include>junit:junit:jar</include>
               <include>org.apache.neethi:neethi:jar</include>
               <include>javax.xml.soap:saaj-api:jar</include>
@@ -38,12 +38,12 @@
               <include>org.springframework:spring-beans:jar</include>
               <include>org.springframework:spring-context:jar</include>
               <include>org.springframework:spring-core:jar</include>
-              <include>xml-resolver:xml-resolver:jar</include>
+              <!-- <include>xml-resolver:xml-resolver:jar</include> -->
               <include>org.apache.ws.commons.schema:XmlSchema:jar</include>
               <include>org.apache.ws.security:wss4j:jar</include>
-              <include>asm:asm:jar</include>
+              <!-- <include>asm:asm:jar</include> -->
               <include>apache-velocity:velocity:jar</include>
-              <include>commons-collections:commons-collections:jar</include>
+              <!-- <include>commons-collections:commons-collections:jar</include> -->
               <include>commons-lang:commons-lang:jar</include>
               <!-- <include>com.sun.xml.fastinfoset:FastInfoset:jar</include> -->
               <!-- <include>org.apache.santuario:xmlsec:jar</include> -->

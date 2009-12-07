@@ -26,22 +26,28 @@
   </patternset>
   
   <patternset id="jbossws.client.patternset">
-    <include name="**/asm.jar"/>
     <include name="**/cxf-*.jar"/>
-    <include name="**/commons-collections.jar"/>
     <include name="**/commons-lang.jar"/>
-    <include name="**/jbossws-common.jar"/>
     <include name="**/jbossws-cxf-client*.jar"/>
-    <include name="**/jbossws-framework.jar"/>
-    <include name="**/jbossws-spi.jar"/>
-    <include name="**/jdom.jar"/>
+    <!-- <include name="**/jdom.jar"/> -->
     <include name="**/neethi.jar"/>
     <include name="**/spring-beans.jar"/>
     <include name="**/spring-context.jar"/>
     <include name="**/spring-core.jar"/>
-    <include name="**/xml-resolver.jar"/>
     <include name="**/XmlSchema.jar"/>
     <include name="**/velocity.jar"/>
+    <!-- <include name="**/asm.jar"/> -->
+    <include name="${installserver}/../../common/lib/asm.jar"/>
+    <!-- <include name="**/commons-collections.jar"/> -->
+    <include name="${installserver}/../../common/lib/commons-collections.jar"/>
+    <!-- Do not replace these until they are really different
+         from the ones shipped with the JBoss ative EAP AS
+    <include name="**/jbossws-spi.jar"/>
+    <include name="**/jbossws-common.jar"/>
+    <include name="**/jbossws-framework.jar"/>
+    -->
+    <!-- Already in the AS endorsed dir -->
+    <!-- <include name="**/xml-resolver.jar"/> -->
   </patternset>
   
   <patternset id="jbossws.lib.patternset">
@@ -53,20 +59,23 @@
   </patternset>
   
   <patternset id="jbossws.server.lib.patternset">
+    <include name="**/nothing-to-deploy"/>
+    <!-- Do not replace these until they are really different
+         from the ones shipped with the JBoss ative EAP AS
     <include name="**/jbossws-common.jar"/>
     <include name="**/jbossws-framework.jar"/>
     <include name="**/jbossws-spi.jar"/>
+    -->
   </patternset>
   
   <patternset id="jbossws.service.lib.patternset">
     <include name="**/cxf-*.jar"/>
-   <!-- <include name="**/geronimo-javamail*.jar"/> -->
     <include name="**/geronimo-ws-metadata*.jar"/>
     <include name="**/jaxrpc-api.jar"/>
     <include name="**/jaxws-api.jar"/>
     <include name="**/jbossws-cxf-client*.jar"/>
     <include name="**/jbossws-cxf-server*.jar"/>
-    <include name="**/jdom.jar"/>
+    <!-- <include name="**/jdom.jar"/> -->
     <include name="**/neethi.jar"/>
     <include name="**/saaj-api.jar"/>
     <include name="**/saaj-impl.jar"/>
@@ -74,8 +83,6 @@
     <include name="**/spring-context.jar"/>
     <include name="**/spring-core.jar"/>
     <include name="**/wss4j.jar"/>
-    <include name="**/xml-resolver.jar"/>
-    <include name="**/asm.jar"/>
     <include name="**/XmlSchema.jar"/>
     <!-- <include name="**/FastInfoset.jar"/> -->
     <include name="${installserver}/../../client/FastInfoset.jar"/>
@@ -83,6 +90,11 @@
     <include name="${installserver}/../../client/xmlsec.jar"/>
     <!-- <include name="**/wsdl4j.jar"/> -->
     <include name="${installserver}/../../client/wsdl4j.jar"/>
+    <!-- Already in the AS common/lib -->
+    <!-- <include name="**/asm.jar"/> -->
+    <!-- <include name="**/geronimo-javamail*.jar"/> -->
+    <!-- Already in the AS endorsed dir -->
+    <!-- <include name="**/xml-resolver.jar"/> -->
   </patternset>
 
   
