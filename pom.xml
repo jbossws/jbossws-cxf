@@ -54,7 +54,7 @@
     <!-- END -->
     <cxf.version>2.2.2</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
-    <cxf.asm.version>2.2.3</cxf.asm.version>
+    <cxf.asm.version>3.1</cxf.asm.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
     <jaxb.api.version>2.1.9.patch01</jaxb.api.version>
@@ -64,13 +64,13 @@
     <juddi.version>2.0.1</juddi.version>
     <jboss.jaxr.version>2.0.1</jboss.jaxr.version>
     <apache.scout.version>1.1.1</apache.scout.version>
-    <commons-collections.version>3.1</commons-collections.version>
+    <commons-collections.version>3.2</commons-collections.version>
     <commons-lang.version>2.4</commons-lang.version>
     <commons.logging.version>1.1.1</commons.logging.version>
     <log4j.version>1.2.14</log4j.version>
     <saaj.api.version>1.3</saaj.api.version>
     <velocity.version>1.5</velocity.version>
-    <xmlsec.version>1.4.2</xmlsec.version>
+    <xmlsec.version>1.4.3</xmlsec.version>
   </properties>
   
   <!-- DependencyManagement -->
