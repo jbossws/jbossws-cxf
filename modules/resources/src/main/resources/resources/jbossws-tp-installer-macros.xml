@@ -347,10 +347,9 @@
       <!-- delete jbossws.sar -->
       <delete dir="@{targetdir}" verbose="true"/>
       
-      <!-- No need to do this until we are actually changing something in it
+      <!-- No need to do this until we are actually changing something in it -->
       <!-- delete juddi-service.sar -->
-      <delete dir="@{targetdir}/../juddi-service.sar" verbose="true"/>
-      -->
+      <!-- <delete dir="@{targetdir}/../juddi-service.sar" verbose="true"/> -->
       
     </sequential>
   </macrodef>
