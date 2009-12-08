@@ -37,9 +37,7 @@
     <include name="**/XmlSchema.jar"/>
     <include name="**/velocity.jar"/>
     <!-- <include name="**/asm.jar"/> -->
-    <include name="${targetdir}/../common/lib/asm.jar"/>
     <!-- <include name="**/commons-collections.jar"/> -->
-    <include name="${targetdir}/../common/lib/commons-collections.jar"/>
     <!-- Do not replace these until they are really different
          from the ones shipped with the JBoss ative EAP AS
     <include name="**/jbossws-spi.jar"/>
@@ -48,6 +46,10 @@
     -->
     <!-- Already in the AS endorsed dir -->
     <!-- <include name="**/xml-resolver.jar"/> -->
+  </patternset>
+  <patternset id="jbossws.client.patternset2">
+    <include name="**/asm.jar"/>
+    <include name="**/commons-collections.jar"/>
   </patternset>
   
   <patternset id="jbossws.lib.patternset">
@@ -168,6 +170,12 @@
           <include name="**/jbossws-@{jbossid}.jar"/>
           -->
           <!-- END -->
+        </fileset>
+      </copy>
+      <!-- Use the files already in the AS to avoid different MD5 sums -->
+      <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
+        <fileset dir="@{targetdir}/../common/lib">
+          <patternset refid="jbossws.client.patternset2"/>
         </fileset>
       </copy>
     </sequential>
