@@ -37,9 +37,9 @@
     <include name="**/XmlSchema.jar"/>
     <include name="**/velocity.jar"/>
     <!-- <include name="**/asm.jar"/> -->
-    <include name="${installserver}/../../common/lib/asm.jar"/>
+    <include name="${targetdir}/../common/lib/asm.jar"/>
     <!-- <include name="**/commons-collections.jar"/> -->
-    <include name="${installserver}/../../common/lib/commons-collections.jar"/>
+    <include name="${targetdir}/../common/lib/commons-collections.jar"/>
     <!-- Do not replace these until they are really different
          from the ones shipped with the JBoss ative EAP AS
     <include name="**/jbossws-spi.jar"/>
