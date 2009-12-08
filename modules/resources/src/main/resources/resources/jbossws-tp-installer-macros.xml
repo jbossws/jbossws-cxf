@@ -333,7 +333,11 @@
       
       <!-- delete content of last deployment -->
       <delete verbose="true">
-        <fileset dir="${jboss.home}" includes="${jbossws.deploy.conf}"/>
+        <fileset dir="${jboss.home}" includes="${jbossws.deploy.conf}">
+        <exclude name="jbossws-spi.jar"/>
+        <exclude name="jbossws-common.jar"/>
+        <exclude name="jbossws-framework.jar"/>
+        </fileset>
       </delete>
       
       <!-- delete jbossws.sar -->
