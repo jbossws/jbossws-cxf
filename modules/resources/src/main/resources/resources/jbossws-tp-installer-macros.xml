@@ -36,17 +36,15 @@
     <include name="**/spring-core.jar"/>
     <include name="**/XmlSchema.jar"/>
     <include name="**/velocity.jar"/>
-    <!-- <include name="**/asm.jar"/> -->
-    <!-- <include name="**/commons-collections.jar"/> -->
     <!-- Do not replace these until they are really different
-         from the ones shipped with the JBoss ative EAP AS
-    <include name="**/jbossws-spi.jar"/>
-    <include name="**/jbossws-common.jar"/>
-    <include name="**/jbossws-framework.jar"/>
-    -->
+         from the ones shipped with the JBoss ative EAP AS -->
+    <!-- <include name="**/jbossws-spi.jar"/> -->
+    <!-- <include name="**/jbossws-common.jar"/> -->
+    <!-- <include name="**/jbossws-framework.jar"/> -->
     <!-- Already in the AS endorsed dir -->
     <!-- <include name="**/xml-resolver.jar"/> -->
   </patternset>
+  <!-- Copy these ones from the EAP AS common/lib so the MD5 is the same -->
   <patternset id="jbossws.client.patternset2">
     <include name="**/asm.jar"/>
     <include name="**/commons-collections.jar"/>
@@ -86,16 +84,15 @@
     <include name="**/spring-core.jar"/>
     <include name="**/wss4j.jar"/>
     <include name="**/XmlSchema.jar"/>
+    <!-- The ones below are not removed and there are no changes to them
+         so there is no need to override what is already there -->
     <!-- <include name="**/FastInfoset.jar"/> -->
-    <include name="${installserver}/../../client/FastInfoset.jar"/>
     <!-- <include name="**/xmlsec.jar"/> -->
-    <include name="${installserver}/../../client/xmlsec.jar"/>
     <!-- <include name="**/wsdl4j.jar"/> -->
-    <include name="${installserver}/../../client/wsdl4j.jar"/>
-    <!-- Already in the AS common/lib -->
+    <!-- Already in the AS common/lib and thus visible -->
     <!-- <include name="**/asm.jar"/> -->
     <!-- <include name="**/geronimo-javamail*.jar"/> -->
-    <!-- Already in the AS endorsed dir -->
+    <!-- Already in the AS endorsed dir and thus visible -->
     <!-- <include name="**/xml-resolver.jar"/> -->
   </patternset>
 
@@ -172,7 +169,7 @@
           <!-- END -->
         </fileset>
       </copy>
-      <!-- Use the files already in the AS to avoid different MD5 sums -->
+      <!-- Copy these ones from the EAP AS common/lib so the MD5 is the same -->
       <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
         <fileset dir="@{thirdpartydir}/../../common/lib">
           <patternset refid="jbossws.client.patternset2"/>
