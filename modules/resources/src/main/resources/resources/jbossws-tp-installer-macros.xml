@@ -174,7 +174,7 @@
       </copy>
       <!-- Use the files already in the AS to avoid different MD5 sums -->
       <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
-        <fileset dir="@{thirdpartydir}/../../../common/lib">
+        <fileset dir="@{thirdpartydir}/../../common/lib">
           <patternset refid="jbossws.client.patternset2"/>
         </fileset>
       </copy>
