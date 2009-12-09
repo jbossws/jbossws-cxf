@@ -16,8 +16,8 @@ In order to install JBossWS the following steps are necessary:
 	ant deploy-jboss500
 	ant deploy-jboss501
 	ant deploy-jboss510
-	ant deploy-jboss520
 	ant deploy-jboss600
+	ant deploy-jboss601
 
 4.) Execute the samples to verify your installation
 

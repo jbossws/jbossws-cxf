@@ -49,7 +49,7 @@
     <!--
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss520x</artifactId>
+      <artifactId>jbossws-jboss600</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>

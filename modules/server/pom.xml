@@ -242,19 +242,19 @@
                 <!--
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss520x</artifactId>
-                  <version>${jbossws.jboss520.version}</version>
-                  <classifier>resources</classifier>
-                  <type>zip</type>
-                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss520</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss600x</artifactId>
+                  <artifactId>jbossws-jboss600</artifactId>
                   <version>${jbossws.jboss600.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss600</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.ws</groupId>
+                  <artifactId>jbossws-jboss600x</artifactId>
+                  <version>${jbossws.jboss601.version}</version>
+                  <classifier>resources</classifier>
+                  <type>zip</type>
+                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss601</outputDirectory>
                 </artifactItem>
                 -->
                 <!-- END -->

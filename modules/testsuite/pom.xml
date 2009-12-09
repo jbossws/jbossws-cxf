@@ -489,64 +489,13 @@
     </profile>
 
     <!--
-    Name:  jboss520
-    Descr: JBoss-5.2.0 specific options
-    -->
-    <profile>
-      <id>jboss520</id>
-      <properties>
-        <jboss.version>5.2.0-SNAPSHOT</jboss.version>
-        <jbossws.integration.target>jboss520</jbossws.integration.target>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate</artifactId>
-          <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-ejb3</artifactId>
-          <version>${jboss.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-security</artifactId>
-          <version>${jboss.version}</version>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
-              <testExcludeFile>../test-excludes-jboss520.txt</testExcludeFile>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss520.home}/lib/endorsed</argLine>
-              <!-- TODO: replace with maven dependencies -->
-              <additionalClasspathElements>
-                <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
-              </additionalClasspathElements>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!--
     Name:  jboss600
     Descr: JBoss-6.0.0 specific options
     -->
     <profile>
       <id>jboss600</id>
       <properties>
-        <jboss.version>6.0.0-SNAPSHOT</jboss.version>
+        <jboss.version>6.0.0.M1</jboss.version>
         <jbossws.integration.target>jboss600</jbossws.integration.target>
       </properties>
       <dependencies>
@@ -579,6 +528,57 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss600.home}/lib/endorsed</argLine>
+              <!-- TODO: replace with maven dependencies -->
+              <additionalClasspathElements>
+                <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
+              </additionalClasspathElements>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+    Name:  jboss601
+    Descr: JBoss-6.0.1 specific options
+    -->
+    <profile>
+      <id>jboss601</id>
+      <properties>
+        <jboss.version>6.0.0-SNAPSHOT</jboss.version>
+        <jbossws.integration.target>jboss601</jbossws.integration.target>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate</artifactId>
+          <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-ejb3</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-security</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
+              <testExcludeFile>../test-excludes-jboss601.txt</testExcludeFile>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss601.home}/lib/endorsed</argLine>
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                 <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>

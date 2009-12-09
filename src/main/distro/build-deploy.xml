@@ -110,48 +110,10 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- Prepare Deployment Structure JBoss-5.2.x                           -->
+  <!-- Prepare Deployment Structure JBoss-6.0.0                           -->
   <!-- ================================================================== -->
 
-  <target name="deploy-structure-jboss52" depends="prepare-deploy">
-    <delete dir="${deploy.structure}"/>
-    <antcall target="deploy-jbossws-cxf" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/server/${jboss.server.instance}"/>
-      <param name="jbossid" value="${jbossws.integration.target}"/>
-      <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="modifyjbossintegration" value="false"/><!-- [JBWS-2505] -->
-    </antcall>
-    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Deployment JBoss520                                                -->
-  <!-- ================================================================== -->
-
-  <target name="target-jboss520">
-    <property name="jbossws.integration.target" value="jboss520"/>
-    <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
-  </target>
-
-  <target name="deploy-jboss520" depends="undeploy-jboss520,deploy-structure-jboss52" description="Deploy jbossws to jboss520">
-    <fail message="Not available: ${jboss520.available.file}" unless="jboss520.available"/>
-    <copy todir="${jboss520.home}" overwrite="true">
-      <fileset dir="${deploy.structure}"/>
-    </copy>
-    <chmod dir="${jboss520.home}/bin" perm="+x" includes="*.sh"/>
-  </target>
-
-  <target name="undeploy-jboss520" depends="target-jboss520,init" description="Remove jbossws from jboss520">
-    <fail message="Not available: ${jboss520.available.file}" unless="jboss520.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss520.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="false"/><!-- [JBWS-2505] -->
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Prepare Deployment Structure JBoss-6.0.x                           -->
-  <!-- ================================================================== -->
-
-  <target name="deploy-structure-jboss60" depends="prepare-deploy">
+  <target name="deploy-structure-jboss600" depends="prepare-deploy">
     <delete dir="${deploy.structure}"/>
     <antcall target="deploy-jbossws-cxf" inheritall="false">
       <param name="installserver" value="${deploy.structure}/server/${jboss.server.instance}"/>
@@ -172,7 +134,7 @@
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-jboss600" depends="undeploy-jboss600,deploy-structure-jboss60" description="Deploy jbossws to jboss600">
+  <target name="deploy-jboss600" depends="undeploy-jboss600,deploy-structure-jboss600" description="Deploy jbossws to jboss600">
     <fail message="Not available: ${jboss600.available.file}" unless="jboss600.available"/>
     <copy todir="${jboss600.home}" overwrite="true">
       <fileset dir="${deploy.structure}"/>
@@ -183,6 +145,44 @@
   <target name="undeploy-jboss600" depends="target-jboss600,init" description="Remove jbossws from jboss600">
     <fail message="Not available: ${jboss600.available.file}" unless="jboss600.available"/>
     <macro-undeploy-jbossws targetdir="${jboss600.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="false"/><!-- [JBWS-2505] -->
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Prepare Deployment Structure JBoss-6.0.1                           -->
+  <!-- ================================================================== -->
+
+  <target name="deploy-structure-jboss601" depends="prepare-deploy">
+    <delete dir="${deploy.structure}"/>
+    <antcall target="deploy-jbossws-cxf" inheritall="false">
+      <param name="installserver" value="${deploy.structure}/server/${jboss.server.instance}"/>
+      <param name="jbossid" value="${jbossws.integration.target}"/>
+      <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
+      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
+      <param name="modifyjbossintegration" value="false"/><!-- [JBWS-2505] -->
+    </antcall>
+    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Deployment JBoss601                                                -->
+  <!-- ================================================================== -->
+
+  <target name="target-jboss601">
+    <property name="jbossws.integration.target" value="jboss601"/>
+    <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
+  </target>
+
+  <target name="deploy-jboss601" depends="undeploy-jboss601,deploy-structure-jboss601" description="Deploy jbossws to jboss601">
+    <fail message="Not available: ${jboss601.available.file}" unless="jboss601.available"/>
+    <copy todir="${jboss601.home}" overwrite="true">
+      <fileset dir="${deploy.structure}"/>
+    </copy>
+    <chmod dir="${jboss601.home}/bin" perm="+x" includes="*.sh"/>
+  </target>
+
+  <target name="undeploy-jboss601" depends="target-jboss601,init" description="Remove jbossws from jboss601">
+    <fail message="Not available: ${jboss601.available.file}" unless="jboss601.available"/>
+    <macro-undeploy-jbossws targetdir="${jboss601.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="false"/><!-- [JBWS-2505] -->
   </target>
 
   <!-- ================================================================== -->

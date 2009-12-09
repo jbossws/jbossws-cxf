@@ -52,8 +52,8 @@
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
-    <jbossws.jboss520.version>3.2.1.GA</jbossws.jboss520.version>
     <jbossws.jboss600.version>3.2.1.GA</jbossws.jboss600.version>
+    <jbossws.jboss601.version>3.2.1.GA</jbossws.jboss601.version>
     -->
     <!-- END -->
     <cxf.version>2.2.5</cxf.version>
@@ -149,25 +149,25 @@
       <!--
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss520x</artifactId>
-        <version>${jbossws.jboss520.version}</version>
+        <artifactId>jbossws-jboss600</artifactId>
+        <version>${jbossws.jboss600.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss520x</artifactId>
-        <version>${jbossws.jboss520.version}</version>
+        <artifactId>jbossws-jboss600</artifactId>
+        <version>${jbossws.jboss600.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss600x</artifactId>
-        <version>${jbossws.jboss600.version}</version>
+        <version>${jbossws.jboss601.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss600x</artifactId>
-        <version>${jbossws.jboss600.version}</version>
+        <version>${jbossws.jboss601.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
@@ -610,18 +610,6 @@
     </profile>
 
     <!--
-    Name:  jboss520
-    Descr: JBoss-5.2.0 specific options
-    -->
-    <profile>
-      <id>jboss520</id>
-      <properties>
-        <jbossws.integration.target>jboss520</jbossws.integration.target>
-        <jboss.home>${jboss520.home}</jboss.home>
-      </properties>
-    </profile>
-
-    <!--
     Name:  jboss600
     Descr: JBoss-6.0.0 specific options
     -->
@@ -630,6 +618,18 @@
       <properties>
         <jbossws.integration.target>jboss600</jbossws.integration.target>
         <jboss.home>${jboss600.home}</jboss.home>
+      </properties>
+    </profile>
+
+    <!--
+    Name:  jboss601
+    Descr: JBoss-6.0.1 specific options
+    -->
+    <profile>
+      <id>jboss601</id>
+      <properties>
+        <jbossws.integration.target>jboss601</jbossws.integration.target>
+        <jboss.home>${jboss601.home}</jboss.home>
       </properties>
     </profile>
 
