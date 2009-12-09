@@ -24,7 +24,8 @@
             <includes>
               <include>org.apache.cxf:cxf-*</include>
               <!-- <include>javax.mail:mail*</include> -->
-              <include>org.apache.geronimo.specs:geronimo-ws-metadata*</include>
+              <!-- ws-metadata -->
+              <include>javax.jws:jsr181-api:jar</include>
               <include>javax.xml.bind:jaxb-api:jar</include>
               <include>com.sun.xml.bind:jaxb-impl:jar</include>
               <include>com.sun.xml.bind:jaxb-xjc:jar</include>

@@ -31,7 +31,8 @@
     <include name="**/commons-lang.jar"/>
     <include name="**/cxf-*.jar"/>
     <include name="**/geronimo-javamail*.jar"/>
-    <include name="**/geronimo-ws-metadata*.jar"/>
+    <!-- ws-metadata -->
+    <include name="**/jsr181-api.jar"/>
     <include name="**/jaxb-api.jar"/>
     <include name="**/jaxb-impl.jar"/>
     <include name="**/jaxb-xjc.jar"/>

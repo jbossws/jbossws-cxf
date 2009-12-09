@@ -122,7 +122,8 @@
   		<pathelement location="${jboss.client}/jbossws-common.jar"/>
   		<pathelement location="${jboss.client}/jbossws-spi.jar"/>
   		<pathelement location="${jboss.client}/jbossws-cxf-client.jar"/>
-  		<pathelement location="${jboss.client}/geronimo-ws-metadata_2.0_spec.jar"/>
+                <!-- ws-metadata -->
+  		<pathelement location="${jboss.client}/jsr181-api.jar"/>
   		<path refid="integration.target.javac.classpath" />
 	</path>
   	<eclipseClasspathGenerator pathId="project.classpath" outputFile="${project.home}/.classpath" srcPath="src/main/java" srcOutput="bin/main" />
