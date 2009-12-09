@@ -445,7 +445,6 @@
       <properties>
         <jboss.version>5.1.0.GA</jboss.version>
         <jbossws.integration.target>jboss510</jbossws.integration.target>
-        <!--security.manager.args>-Djava.home=${java.home} -Djboss.home=${jboss510.home} -Dtarget.dir=${project.build.directory} -Djava.security.debug=failure -Djava.security.manager -Djava.security.policy==${basedir}/../src/test/resources/securityMgr/jboss-${jboss.version}/client.policy -DM2_REPO=${settings.localRepository}</security.manager.args-->
       </properties>
       <dependencies>
         <dependency>
@@ -477,7 +476,7 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss510.home}/lib/endorsed ${security.manager.args}</argLine>
+              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss510.home}/lib/endorsed</argLine>
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                 <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
