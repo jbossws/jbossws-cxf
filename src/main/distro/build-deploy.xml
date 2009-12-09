@@ -46,7 +46,7 @@
 
   <target name="undeploy-jboss500" depends="target-jboss500,init" description="Remove jbossws from jboss500">
     <fail message="Not available: ${jboss500.available.file}" unless="jboss500.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss500.server}" defaultconf="${jbossws.default.deploy.conf}"/>
+    <macro-undeploy-jbossws targetdir="${jboss500.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="true"/>
   </target>
 
   <!-- ================================================================== -->
