@@ -132,12 +132,6 @@
       <!-- provided apis -->
       <dependency>
         <groupId>org.jboss.javaee</groupId>
-        <artifactId>jboss-ejb-api</artifactId>
-        <version>3.0.0.GA</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.javaee</groupId>
         <artifactId>jboss-javaee</artifactId>
         <version>5.0.1.GA</version>
         <scope>provided</scope>
@@ -147,6 +141,23 @@
         <groupId>javax.jws</groupId>
         <artifactId>jsr181-api</artifactId>
         <version>1.0-MR1</version>
+      </dependency>
+      <!-- we just want javax.annotation 1.0 but it is in the ejb3 API JAR -->
+      <dependency>
+        <groupId>org.jboss.javaee</groupId>
+        <artifactId>jboss-ejb-api</artifactId>
+        <version>3.0.0.GA</version>
+        <scope>provided</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.jboss.ws.native</groupId>
+            <artifactId>jbossws-native-jaxrpc</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jboss.ws.native</groupId>
+            <artifactId>jbossws-native-saaj</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       
       <!-- CXF dependencies -->
@@ -208,6 +219,10 @@
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-jaxws_2.1_spec</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>com.sun.xml.fastinfoset</groupId>
+            <artifactId>FastInfoset</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -218,6 +233,10 @@
           <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-annotation_1.0_spec</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-stax-api_1.0_spec</artifactId>
           </exclusion>
           <!-- Specify the Spring bits we need at the version we need later -->
           <exclusion>
@@ -513,22 +532,6 @@
         <artifactId>jboss-jms-api</artifactId>
         <version>1.1.0.GA</version>
       </dependency>
-      <!-- we just want javax.annotation 1.0 but it is in the ejb3 API JAR -->
-      <dependency>
-        <groupId>org.jboss.javaee</groupId>
-        <artifactId>jboss-ejb3-api</artifactId>
-        <version>3.0.0.GA</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.jboss.ws.native</groupId>
-            <artifactId>jbossws-native-jaxrpc</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.jboss.ws.native</groupId>
-            <artifactId>jbossws-native-saaj</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
     </dependencies>
   </dependencyManagement>
   
@@ -625,6 +628,16 @@
     </repository>
   </repositories>
   <pluginRepositories>
+    <pluginRepository>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>prod-repository.jboss.org</id>
+      <url>http://repository.jboss.org/maven2-brew</url>
+    </pluginRepository>
     <pluginRepository>
       <releases>
         <updatePolicy>never</updatePolicy>
