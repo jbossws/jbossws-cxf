@@ -55,6 +55,7 @@
     <cxf.version>2.2.2</cxf.version>
     <cxf.stax.version>1.0</cxf.stax.version>
     <cxf.asm.version>3.1</cxf.asm.version>
+    <cxf.spring.version>2.5.6.SEC01</cxf.spring.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
     <jaxb.api.version>2.1.9.patch01</jaxb.api.version>
@@ -218,6 +219,15 @@
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-annotation_1.0_spec</artifactId>
           </exclusion>
+          <!-- Specify the Spring bits we need at the version we need later -->
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -243,6 +253,11 @@
           <exclusion>
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>
+          </exclusion>
+          <!-- Specify the Spring bits we need at the version we need later -->
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -399,6 +414,21 @@
         <groupId>asm</groupId>
         <artifactId>asm</artifactId>
         <version>${cxf.asm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>${cxf.spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>${cxf.spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${cxf.spring.version}</version>
       </dependency>
       
       <!-- jboss provided -->
