@@ -61,11 +61,10 @@
   <patternset id="jbossws.server.lib.patternset">
     <include name="**/nothing-to-deploy"/>
     <!-- Do not replace these until they are really different
-         from the ones shipped with the JBoss ative EAP AS
-    <include name="**/jbossws-common.jar"/>
-    <include name="**/jbossws-framework.jar"/>
-    <include name="**/jbossws-spi.jar"/>
-    -->
+         from the ones shipped with the JBoss ative EAP AS -->
+    <!-- <include name="**/jbossws-common.jar"/> -->
+    <!-- <include name="**/jbossws-framework.jar"/> -->
+    <!-- <include name="**/jbossws-spi.jar"/> -->
   </patternset>
   
   <patternset id="jbossws.service.lib.patternset">
