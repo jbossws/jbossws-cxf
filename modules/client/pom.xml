@@ -119,8 +119,8 @@
       <artifactId>commons-lang</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.geronimo.specs</groupId>
-      <artifactId>geronimo-stax-api_1.0_spec</artifactId>
+      <groupId>stax</groupId>
+      <artifactId>stax-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.santuario</groupId>
@@ -154,7 +154,7 @@
       <artifactId>jboss-ejb-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>apache-log4j</groupId>
+      <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
     </dependency>
   </dependencies>
