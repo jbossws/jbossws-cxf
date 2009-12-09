@@ -84,7 +84,6 @@
         <includeDependencies>false</includeDependencies>
         <unpack>false</unpack>
         <dependencySets>
-          <!-- Do not include juddi-service as it has not changed
           <dependencySet>
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
@@ -98,7 +97,6 @@
               <include>juddi:juddi:jar</include>
             </includes>
           </dependencySet>
-          -->
           <!-- [JBWS-2505] -->
           <!-- START -->
           <!--

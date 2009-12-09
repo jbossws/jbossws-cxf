@@ -61,10 +61,11 @@
   <patternset id="jbossws.server.lib.patternset">
     <include name="**/nothing-to-deploy"/>
     <!-- Do not replace these until they are really different
-         from the ones shipped with the JBoss ative EAP AS -->
-    <!-- <include name="**/jbossws-common.jar"/> -->
-    <!-- <include name="**/jbossws-framework.jar"/> -->
-    <!-- <include name="**/jbossws-spi.jar"/> -->
+         from the ones shipped with the JBoss ative EAP AS
+    <include name="**/jbossws-common.jar"/>
+    <include name="**/jbossws-framework.jar"/>
+    <include name="**/jbossws-spi.jar"/>
+    -->
   </patternset>
   
   <patternset id="jbossws.service.lib.patternset">
@@ -260,6 +261,8 @@
       </copy>
       <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
         <fileset dir="@{thirdpartydir}">
+          <include name="**/jbossws-common.jar"/>
+          <include name="**/jbossws-framework.jar"/>
           <!-- [JBWS-2505] -->
           <!-- START -->
           <!--
@@ -293,9 +296,7 @@
     <macro-deploy-jbossws-server-lib51 targetdir="${installserver}/../../common/lib" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/> <!-- Please note the "../../common" to use common server lib! -->
     <macro-deploy-jbossws-cxf51-sar targetdir="${installserver}/deploy/jbossws.sar" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-deployers51 targetdir="${installserver}/deployers/jbossws.deployer/" artifactsdir="${artifactsdir}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
-    <!-- No need to do this until we are actually changing something in it
     <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
-    -->
   </target>
 
   <target name="check-parameters">
@@ -347,9 +348,8 @@
       <!-- delete jbossws.sar -->
       <delete dir="@{targetdir}" verbose="true"/>
       
-      <!-- No need to do this until we are actually changing something in it -->
       <!-- delete juddi-service.sar -->
-      <!-- <delete dir="@{targetdir}/../juddi-service.sar" verbose="true"/> -->
+      <delete dir="@{targetdir}/../juddi-service.sar" verbose="true"/>
       
     </sequential>
   </macrodef>
