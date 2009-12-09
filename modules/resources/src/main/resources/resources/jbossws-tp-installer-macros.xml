@@ -261,8 +261,9 @@
       </copy>
       <copy todir="@{targetdir}" flatten="true" overwrite="true" verbose="true">
         <fileset dir="@{thirdpartydir}">
-          <include name="**/jbossws-common.jar"/>
-          <include name="**/jbossws-framework.jar"/>
+          <include name="**/nothing-to-deploy"/>
+          <!-- <include name="**/jbossws-common.jar"/> -->
+          <!-- <include name="**/jbossws-framework.jar"/> -->
           <!-- [JBWS-2505] -->
           <!-- START -->
           <!--
