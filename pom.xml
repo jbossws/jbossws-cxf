@@ -356,6 +356,10 @@
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-jaxws_2.1_spec</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-stax-api_1.0_spec</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -399,11 +403,13 @@
           </exclusion>
         </exclusions>
       </dependency>
+      <!-- Not needed if we use the original in the EAP
       <dependency>
         <groupId>com.sun.xml.fastinfoset</groupId>
         <artifactId>FastInfoset</artifactId>
         <version>${fastinfoset.api.version}</version>
       </dependency>
+      -->
       <dependency>
         <groupId>apache-velocity</groupId>
         <artifactId>velocity</artifactId>
