@@ -278,6 +278,10 @@
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-stax-api_1.0_spec</artifactId>
+          </exclusion>
           <!-- Specify the Spring bits we need at the version we need later -->
           <exclusion>
             <groupId>org.springframework</groupId>
