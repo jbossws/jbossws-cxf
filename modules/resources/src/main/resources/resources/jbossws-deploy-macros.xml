@@ -25,6 +25,7 @@
 
   <patternset id="jbossws.client.patternset">
     <include name="**/asm.jar"/>
+    <include name="**/commons-beanutils.jar"/>
     <include name="**/commons-collections.jar"/>
     <include name="**/commons-lang.jar"/>
     <include name="**/cxf-*.jar"/>
@@ -68,6 +69,7 @@
   </patternset>
 
   <patternset id="jbossws.server.lib.patternset">
+    <include name="**/commons-beanutils.jar"/>
     <include name="**/jaxws-api.jar"/>
     <include name="**/geronimo-ws-metadata*.jar"/>
     <include name="**/jbossws-common.jar"/>
