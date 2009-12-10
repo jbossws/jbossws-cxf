@@ -265,6 +265,10 @@
           </exclusion>
           <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-jaxws_2.1_spec</artifactId>
           </exclusion>
         </exclusions>
@@ -433,12 +437,12 @@
         <version>${cxf.stax.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.santuario</groupId>
+        <groupId>org.apache</groupId>
         <artifactId>xmlsec</artifactId>
         <version>${xmlsec.version}</version>
       </dependency>
       <dependency>
-        <groupId>asm</groupId>
+        <groupId>org.objectweb.asm</groupId>
         <artifactId>asm</artifactId>
         <version>${cxf.asm.version}</version>
       </dependency>
