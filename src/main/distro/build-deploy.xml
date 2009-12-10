@@ -28,28 +28,6 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- Deployment JBoss500                                                -->
-  <!-- ================================================================== -->
-
-  <target name="target-jboss500">
-    <property name="jbossws.integration.target" value="jboss500"/>
-    <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
-  </target>
-
-  <target name="deploy-jboss500" depends="undeploy-jboss500,deploy-structure-jboss50" description="Deploy jbossws to jboss500">
-    <fail message="Not available: ${jboss500.available.file}" unless="jboss500.available"/>
-    <copy todir="${jboss500.home}" overwrite="true">
-      <fileset dir="${deploy.structure}"/>
-    </copy>
-    <chmod dir="${jboss500.home}/bin" perm="+x" includes="*.sh"/>
-  </target>
-
-  <target name="undeploy-jboss500" depends="target-jboss500,init" description="Remove jbossws from jboss500">
-    <fail message="Not available: ${jboss500.available.file}" unless="jboss500.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss500.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="true"/>
-  </target>
-
-  <!-- ================================================================== -->
   <!-- Deployment JBoss501                                                -->
   <!-- ================================================================== -->
 

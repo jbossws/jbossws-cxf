@@ -21,13 +21,6 @@
     <property file="${target.properties.file}"/>
     <property name="jboss.server.instance" value="default"/>
 
-    <property name="jboss500.lib" value="${jboss500.home}/lib"/>
-    <property name="jboss500.client" value="${jboss500.home}/client"/>
-    <property name="jboss500.server" value="${jboss500.home}/server/${jboss.server.instance}"/>
-    <property name="jboss500.server.lib" value="${jboss500.home}/common/lib"/>
-    <property name="jboss500.server.deploy" value="${jboss500.server}/deploy"/>
-    <property name="jboss500.server.deployers" value="${jboss500.server}/deployers"/>
-
     <property name="jboss501.lib" value="${jboss501.home}/lib"/>
     <property name="jboss501.client" value="${jboss501.home}/client"/>
     <property name="jboss501.server" value="${jboss501.home}/server/${jboss.server.instance}"/>
@@ -56,13 +49,11 @@
     <property name="jboss601.server.deploy" value="${jboss601.server}/deploy"/>
     <property name="jboss601.server.deployers" value="${jboss601.server}/deployers"/>
 
-    <property name="jboss500.available.file" value="${jboss500.client}/jboss-client.jar"/>
     <property name="jboss501.available.file" value="${jboss501.client}/jboss-client.jar"/>
     <property name="jboss510.available.file" value="${jboss510.client}/jboss-client.jar"/>
     <property name="jboss600.available.file" value="${jboss600.client}/jboss-client.jar"/>
     <property name="jboss601.available.file" value="${jboss601.client}/jboss-client.jar"/>
 
-    <available property="jboss500.available" file="${jboss500.available.file}"/>
     <available property="jboss501.available" file="${jboss501.available.file}"/>
     <available property="jboss510.available" file="${jboss510.available.file}"/>
     <available property="jboss600.available" file="${jboss600.available.file}"/>
