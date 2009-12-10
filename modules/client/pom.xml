@@ -157,6 +157,10 @@
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.sun.xml.fastinfoset</groupId>
+      <artifactId>FastInfoset</artifactId>
+    </dependency>
   </dependencies>
   
 </project>

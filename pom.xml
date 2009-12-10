@@ -142,6 +142,12 @@
         <artifactId>jsr181-api</artifactId>
         <version>1.0-MR1</version>
       </dependency>
+      <dependency>
+        <groupId>com.sun.xml.fastinfoset</groupId>
+        <artifactId>FastInfoset</artifactId>
+        <version>${fastinfoset.api.version}</version>
+        <scope>provided</scope>
+      </dependency>
       <!-- we just want javax.annotation 1.0 but it is in the ejb3 API JAR -->
       <dependency>
         <groupId>org.jboss.javaee</groupId>
@@ -403,13 +409,6 @@
           </exclusion>
         </exclusions>
       </dependency>
-      <!-- Not needed if we use the original in the EAP
-      <dependency>
-        <groupId>com.sun.xml.fastinfoset</groupId>
-        <artifactId>FastInfoset</artifactId>
-        <version>${fastinfoset.api.version}</version>
-      </dependency>
-      -->
       <dependency>
         <groupId>apache-velocity</groupId>
         <artifactId>velocity</artifactId>
