@@ -146,7 +146,6 @@
         <groupId>com.sun.xml.fastinfoset</groupId>
         <artifactId>FastInfoset</artifactId>
         <version>${fastinfoset.api.version}</version>
-        <scope>provided</scope>
       </dependency>
       <!-- we just want javax.annotation 1.0 but it is in the ejb3 API JAR -->
       <dependency>
