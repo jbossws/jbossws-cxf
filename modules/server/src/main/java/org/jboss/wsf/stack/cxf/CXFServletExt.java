@@ -129,7 +129,6 @@ public class CXFServletExt extends CXFServlet
 
       //Load additional configurations
       loadAdditionalConfigExt(appCtx, servletConfig);      
-      correctJmsEndpointAddress(endpoint, bus);
    }
 
    private void initEndpoint(ServletConfig servletConfig)
@@ -267,53 +266,5 @@ public class CXFServletExt extends CXFServlet
       {
          throw new ServletException(e);
       }
-   }
-   
-   private void correctJmsEndpointAddress(Endpoint endpoint, Bus bus) throws ServletException {
-     for (Server server : bus.getExtension(ServerRegistry.class).getServers()) {
-        if (server.getEndpoint() instanceof JaxWsEndpointImpl) {
-           JaxWsEndpointImpl endpointImpl = (JaxWsEndpointImpl)server.getEndpoint();
-         try
-         {
-            Field field = JaxWsEndpointImpl.class.getDeclaredField("implInfo");
-            field.setAccessible(true);
-            Object object = field.get(endpointImpl);
-            if (object != null) {
-               JaxWsImplementorInfo implementInfo = (JaxWsImplementorInfo)object;
-               Class endpointClass = implementInfo.getImplementorClass();
-               if (endpoint.getTargetBeanClass().getName().equals(endpointClass.getName()) 
-                     && JMS_NS.equals(server.getEndpoint().getEndpointInfo().getTransportId())) {
-                     //server.getDestination().getAddress()
-                     AddressType address = server.getEndpoint().getEndpointInfo().getExtensor(AddressType.class);
-                     if (address == null) 
-                     {
-                         //java first : the address is from jbossws-cxf.xml
-                         JMSDestination jmsDestination = (JMSDestination)server.getDestination();
-                         String url = "jms://" + jmsDestination.getJmsConfig().getTargetDestination();
-                         if (jmsDestination.getJmsConfig().getReplyDestination() != null) {
-                            url = url + "?replyToName=" + jmsDestination.getJmsConfig().getReplyDestination();
-                            endpoint.setAddress(url);
-                         }
-          
-                     } else 
-                     {
-                        //wsdl first: the address is from wsdl
-                        String jmsURL = "jms://" + address.getJndiDestinationName();
-                        if (address.getJndiReplyDestinationName() != null)
-                        {
-                           jmsURL = jmsURL + "?replyToName=" + address.getJndiReplyDestinationName();
-                           endpoint.setAddress(jmsURL);
-                        }
-                     }
-               }
-                 
-            }
-         }
-         catch (Exception e)
-         {
-            throw new ServletException(e);
-         }           
-        }
-     }
    }
 }
