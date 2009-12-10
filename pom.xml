@@ -46,6 +46,7 @@
     <jbossws.common.version>1.2.2-SNAPSHOT</jbossws.common.version>
     <jbossws.framework.version>3.2.2-SNAPSHOT</jbossws.framework.version>
     <jbossws.spi.version>1.2.2-SNAPSHOT</jbossws.spi.version>
+    <jbossws.jboss500.version>3.2.1.GA</jbossws.jboss500.version>
     <jbossws.jboss501.version>3.2.1.GA</jbossws.jboss501.version>
     <jbossws.jboss510.version>3.2.1.GA</jbossws.jboss510.version>
     <!-- JBWS-2505 -->
@@ -105,6 +106,18 @@
         <artifactId>jbossws-framework</artifactId>
         <version>${jbossws.framework.version}</version>
         <classifier>testsuite</classifier>
+        <type>zip</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss500</artifactId>
+        <version>${jbossws.jboss500.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss500</artifactId>
+        <version>${jbossws.jboss500.version}</version>
+        <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
       <dependency>
@@ -558,6 +571,18 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+
+    <!--
+    Name:  jboss500
+    Descr: JBoss-5.0.0 specific options
+    -->
+    <profile>
+      <id>jboss500</id>
+      <properties>
+        <jbossws.integration.target>jboss500</jbossws.integration.target>
+        <jboss.home>${jboss500.home}</jboss.home>
+      </properties>
     </profile>
 
     <!--
