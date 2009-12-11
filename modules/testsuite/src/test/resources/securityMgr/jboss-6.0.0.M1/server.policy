@@ -326,6 +326,7 @@ grant {
    permission java.util.logging.LoggingPermission "control";
    permission javax.management.MBeanPermission "javax.management.MBeanServerDelegate#-[JMImplementation:type=MBeanServerDelegate]", "addNotificationListener";
 
+   permission java.lang.RuntimePermission "setContextClassLoader";
 
    // for org.jboss.test.ws.jaxws.cxf.webserviceref.WebServiceRefServletTestCase.testServletClient()
    permission java.io.FilePermission "<<ALL FILES>>", "read";
