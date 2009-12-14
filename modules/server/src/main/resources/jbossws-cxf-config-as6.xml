@@ -44,11 +44,6 @@
     <property name="invokerJSE">org.jboss.wsf.stack.cxf.InvokerJSE</property>
   </bean>
 
-  <bean name="JMSEndpointAddressDeploymentAspect" class="org.jboss.wsf.stack.cxf.JMSEndpointAddressDeploymentAspect">
-    <property name="requires">StackDescriptor</property>
-    <property name="provides">JmsEndpointAddress</property>
-  </bean>
-
   <bean name="ResourceResolverDeploymentAspect" class="org.jboss.wsf.stack.cxf.ResourceResolverDeploymentAspect">
     <property name="requires">JmsEndpointAddress</property>
     <property name="provides">ResourceResolver</property>
