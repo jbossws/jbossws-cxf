@@ -18,11 +18,6 @@
 
     <copy
       file="${src.dir}/jbossws-cxf-config-as5.xml"
-      tofile="${dest.dir}/jbossws-jboss500/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
-    />
-
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as5.xml"
       tofile="${dest.dir}/jbossws-jboss501/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
     />
 
