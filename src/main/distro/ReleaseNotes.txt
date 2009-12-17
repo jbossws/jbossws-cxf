@@ -17,7 +17,7 @@ that ship with the distribution.
 If you have any questions, please post to the JBossWS User Forum
 http://www.jboss.org/index.html?module=bb&op=viewforum&f=276
 
-For details see the change log. 
+For details see the change log.
 http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel
 
 For issues that are scheduled for future versions see the road map.
@@ -28,19 +28,35 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    TODO: enumerate
+    * [JBWS-2769] - Make sure our test suites for all stacks pass on Windows XP
+    * [JBWS-2806] - Wrong parameter number exception with explicit soap headers
+    * [JBWS-2809] - MessageContext WSDL_* properties not available in handlers
+    * [JBWS-2822] - JAX-WS Client endpoint configuration in jbossws-cxf.xml is ignored when using @WebServiceRef
+    * [JBWS-2853] - Ineffective implementation of string normalize method
+    * [JBWS-2859] - Optimize DefaultEndpoint.getTargetBeanClass() method
 
 Feature Request
 
-    TODO: enumerate
+    * [JBWS-2751] - JAXBIntroductions: support @XmlTransient, @XmlID, @XmlIDREF, @XmlElementWrapper and @XmlJavaTypeAdapter
 
 Task
 
-    TODO: enumerate
+    * [JBWS-2692] - Define client/server security policy for JBWS testsuite and run it under a security manager
+    * [JBWS-2765] - Verify logging redirection
+    * [JBWS-2770] - Rewrite org.jboss.test.ws.jaxws.binding testcase to get SOAPMessageContext from handlers
+    * [JBWS-2821] - Remove jbossws.sar from deploy directory
+    * [JBWS-2824] - test.log file not found exception when run the testsuite and wsprovide command log4j configuration is not initilized error
+    * [JBWS-2825] - Remove dependency on cxf-anttasks
+    * [JBWS-2826] - Give more time to copy the process inputstream and error stream in JBossWSTest
+    * [JBWS-2828] - Update to Apache CXF 2.2.5
+    * [JBWS-2835] - Remove deployers ordering workaround forAS 6.x series
+    * [JBWS-2836] - Remove unused jbossws-cxf.sar resources
+    * [JBWS-2840] - Implement support for SOAP12 protocol in wsprovide
+    * [JBWS-2848] - Fix build/testsuite for supporting AS 6.0.0.M1 integration target
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
+    See: https://jira.jboss.org/jira/browse/JBWS-2866
 
 This version of ${project.name} is based on CXF ${cxf.version}
 
