@@ -51,15 +51,16 @@ import org.w3c.dom.Element;
  */
 public class JAXBIntroTestCase extends JBossWSTest
 {
-   private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-jaxbintros/EndpointBean";
+
+   private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-jaxbintros/EndpointService";
    private Bus bus;
    private Configurer originalConfigurer;
-   
+
    public static Test suite()
    {
       return new JBossWSTestSetup(JAXBIntroTestCase.class, "jaxws-cxf-jaxbintros.jar");
    }
-                                     
+
    @SuppressWarnings("unchecked")
    public void testWSDLAccess() throws Exception
    {
@@ -78,10 +79,10 @@ public class JAXBIntroTestCase extends JBossWSTest
       }
       assertTrue("<xs:attribute name=\"string\" ..> not found in wsdl", attributeFound);
    }
-   
+
    /**
     * Both client and server side use plain UserType class but have jaxbintros in place to deal with customizations
-    * 
+    *
     * @throws Exception
     */
    public void testEndpoint() throws Exception
@@ -90,7 +91,7 @@ public class JAXBIntroTestCase extends JBossWSTest
       {
          URL wsdlURL = new URL(endpointAddress + "?wsdl");
          QName serviceName = new QName("http://org.jboss.ws/cxf/jaxbintros", "EndpointBeanService");
-   
+
          setBindingCustomizationOnClientSide();
          Service service = Service.create(wsdlURL, serviceName);
          Endpoint port = service.getPort(Endpoint.class);
@@ -107,10 +108,10 @@ public class JAXBIntroTestCase extends JBossWSTest
          restoreConfigurer();
       }
    }
-   
+
    /**
     * Client side uses the annotated user type class, server side uses the plain one but has jaxintros in place
-    * 
+    *
     * @throws Exception
     */
    public void testAnnotatedUserEndpoint() throws Exception
@@ -128,17 +129,17 @@ public class JAXBIntroTestCase extends JBossWSTest
       assertEquals("Foo", result.getString());
       assertEquals(qname, result.getQname());
    }
-   
+
    /**
     * Setup binding customization on client side using the JBossWSCXFConfigurer
-    * 
+    *
     * @throws Exception
     */
    private void setBindingCustomizationOnClientSide() throws Exception
    {
       BindingCustomization jaxbCustomizations = new JAXBBindingCustomization();
       BindingCustomizationFactory.populateBindingCustomization(getResourceURL("jaxws/cxf/jaxbintros/META-INF/jaxb-intros.xml").openStream(), jaxbCustomizations);
-      
+
       bus = BusFactory.getThreadDefaultBus();
       originalConfigurer = bus.getExtension(Configurer.class);
       JBossWSCXFConfigurer configurer = new JBossWSCXFConfigurer(originalConfigurer);
@@ -146,9 +147,10 @@ public class JAXBIntroTestCase extends JBossWSTest
       bus.setExtension(configurer, Configurer.class);
 
    }
-   
+
    private void restoreConfigurer()
    {
       bus.setExtension(originalConfigurer, Configurer.class);
    }
+
 }
