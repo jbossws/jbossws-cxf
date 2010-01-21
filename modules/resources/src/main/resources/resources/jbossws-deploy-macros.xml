@@ -185,6 +185,7 @@
       <copy todir="@{targetdir}" flatten="true" overwrite="true">
         <fileset dir="@{thirdpartydir}">
           <patternset refid="jbossws.server.lib.patternset"/>
+          <include name="**/jbossws-${jbossid}.jar"/>
         </fileset>
       </copy>
     </sequential>
@@ -251,12 +252,6 @@
           <include name="META-INF/**"/>
         </fileset>
       </copy>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{thirdpartydir}">
-          <include name="**/jbossws-common.jar"/>
-          <include name="**/jbossws-framework.jar"/>
-        </fileset>
-      </copy>
       <antcall target="modify-jboss-integration">
         <param name="targetdir" value="@{targetdir}"/>
       </antcall>
@@ -265,11 +260,6 @@
 
   <target name="modify-jboss-integration" depends="process-jboss-integration" if="fixintegration">
     <sequential>
-      <copy todir="${targetdir}" flatten="true" overwrite="true">
-        <fileset dir="${thirdpartydir}">
-          <include name="**/jbossws-${jbossid}.jar"/>
-        </fileset>
-      </copy>
       <copy todir="${targetdir}/META-INF" flatten="true" overwrite="true">
         <fileset dir="${artifactsdir}/resources/jbossws-${jbossid}">
           <include name="**/stack-agnostic-jboss-beans.xml"/>
@@ -342,6 +332,9 @@
         <include name="**/jbossws-jboss*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/client">
+        <include name="**/jbossws-jboss*.jar"/>
+      </fileset>
+      <fileset dir="${jboss.home}/common">
         <include name="**/jbossws-jboss*.jar"/>
       </fileset>
     </delete>
