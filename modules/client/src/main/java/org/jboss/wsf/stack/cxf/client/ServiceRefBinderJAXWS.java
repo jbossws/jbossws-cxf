@@ -121,7 +121,7 @@ public class ServiceRefBinderJAXWS implements ServiceRefBinder
       String serviceImplClass = null;
 
       // #1 Use the explicit @WebServiceRef.value
-      if (wsref != null && wsref.value() != Object.class)
+      if (wsref != null && wsref.value() != Object.class && wsref.value() != Service.class)
          serviceImplClass = wsref.value().getName();
 
       // #2 Use the target ref type
