@@ -357,6 +357,7 @@
             <configuration>
               <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
               <testExcludeFile>../test-excludes-jboss501.txt</testExcludeFile>
+              <compilerArgument>-Djava.endorsed.dirs=${jboss501.home}/lib/endorsed</compilerArgument>
             </configuration>
           </plugin>
           <plugin>
@@ -409,6 +410,7 @@
             <configuration>
               <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
               <testExcludeFile>../test-excludes-jboss510.txt</testExcludeFile>
+              <compilerArgument>-Djava.endorsed.dirs=${jboss510.home}/lib/endorsed</compilerArgument>
             </configuration>
           </plugin>
           <plugin>
@@ -460,6 +462,7 @@
             <configuration>
               <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
               <testExcludeFile>../test-excludes-jboss600.txt</testExcludeFile>
+              <compilerArgument>-Djava.endorsed.dirs=${jboss600.home}/lib/endorsed</compilerArgument>
             </configuration>
           </plugin>
           <plugin>
@@ -511,6 +514,7 @@
             <configuration>
               <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
               <testExcludeFile>../test-excludes-jboss601.txt</testExcludeFile>
+              <compilerArgument>-Djava.endorsed.dirs=${jboss601.home}/lib/endorsed</compilerArgument>
             </configuration>
           </plugin>
           <plugin>
