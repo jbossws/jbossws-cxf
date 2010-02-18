@@ -31,10 +31,10 @@ import javax.xml.ws.soap.MTOM;
 import javax.xml.ws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
+import org.jboss.wsf.common.integration.AbstractDeploymentAspect;
 import org.jboss.wsf.common.integration.WSConstants;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.DeploymentAspect;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
@@ -46,7 +46,7 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
  * @author Thomas.Diesler@jboss.org
  * @since 10-May-2007
  */
-public class DescriptorDeploymentAspect extends DeploymentAspect
+public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
 {
    // provide logging
    private final Logger log = Logger.getLogger(DescriptorDeploymentAspect.class);

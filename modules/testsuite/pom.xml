@@ -368,6 +368,9 @@
               <additionalClasspathElements>
                 <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
                 <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
+                 <!-- Libs below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
+                <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/common/lib/netty.jar</additionalClasspathElement>
               </additionalClasspathElements>
             </configuration>
           </plugin>
@@ -421,6 +424,9 @@
               <additionalClasspathElements>
                 <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
                 <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
+                 <!-- Libs below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
+                <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/common/lib/netty.jar</additionalClasspathElement>
               </additionalClasspathElements>
             </configuration>
           </plugin>
@@ -473,6 +479,9 @@
               <additionalClasspathElements>
                 <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
                 <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
+                 <!-- Libs below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
+                <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/common/lib/netty.jar</additionalClasspathElement>
               </additionalClasspathElements>
             </configuration>
           </plugin>
@@ -525,6 +534,9 @@
               <additionalClasspathElements>
                 <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
                 <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
+                 <!-- Libs below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
+                <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/common/lib/netty.jar</additionalClasspathElement>
               </additionalClasspathElements>
             </configuration>
           </plugin>

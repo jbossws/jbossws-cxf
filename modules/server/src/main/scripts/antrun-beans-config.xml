@@ -35,6 +35,11 @@
       file="${src.dir}/jbossws-cxf-config-as6.xml"
       tofile="${dest.dir}/jbossws-jboss601/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
     />
+  	
+    <copy
+      file="${src.dir}/jbossws-jaxrpc-config-as6.xml"
+      tofile="${dest.dir}/jbossws-jaxrpc-jboss601/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
+    />
 
   </target>
 

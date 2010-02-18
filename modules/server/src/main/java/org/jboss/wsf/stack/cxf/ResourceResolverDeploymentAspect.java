@@ -21,9 +21,9 @@
  */
 package org.jboss.wsf.stack.cxf;
 
+import org.jboss.wsf.common.integration.AbstractDeploymentAspect;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.DeploymentAspect;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
 
@@ -36,7 +36,7 @@ import org.jboss.wsf.spi.deployment.ResourceResolver;
  * @author alessio.soldano@jboss.com
  * @since 19-Nov-2009
  */
-public class ResourceResolverDeploymentAspect extends DeploymentAspect
+public class ResourceResolverDeploymentAspect extends AbstractDeploymentAspect
 {
    @Override
    public void start(Deployment dep)

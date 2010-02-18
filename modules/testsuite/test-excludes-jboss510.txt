@@ -45,3 +45,6 @@ org/jboss/test/ws/jaxws/jbws1797/**
 # [JBWS-2917] We're using buggy xalan version causing namespaces issues
 org/jboss/test/ws/jaxws/jbws2917/**
 org/jboss/test/ws/jaxws/endpointReference/EndpointReferenceBuilderTestCase.*
+
+# [JBWS-2895] JAX-RPC available from AS 6.0.0.M2
+org/jboss/test/ws/jaxrpc/**

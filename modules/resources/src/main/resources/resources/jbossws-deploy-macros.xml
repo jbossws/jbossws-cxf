@@ -34,6 +34,7 @@
     <include name="**/jaxb-api.jar"/>
     <include name="**/jaxb-impl.jar"/>
     <include name="**/jaxb-xjc.jar"/>
+    <include name="**/jaxrpc-api.jar"/>
     <include name="**/jaxws-api.jar"/>
     <include name="**/jbossws-common.jar"/>
     <include name="**/jbossws-cxf-client*.jar"/>
@@ -258,6 +259,19 @@
     </sequential>
   </macrodef>
 
+  <macrodef name="macro-deploy-jbossws-jaxrpc-deployers">
+    <attribute name="artifactsdir"/>
+    <attribute name="targetdir"/>
+    <attribute name="jbossid"/>
+    <sequential>
+      <copy todir="@{targetdir}">
+        <fileset dir="@{artifactsdir}/resources/jbossws-jaxrpc-@{jbossid}/jbossws.beans">
+          <include name="META-INF/**"/>
+        </fileset>
+      </copy>
+    </sequential>
+  </macrodef>
+
   <target name="modify-jboss-integration" depends="process-jboss-integration" if="fixintegration">
     <sequential>
       <copy todir="${targetdir}/META-INF" flatten="true" overwrite="true">
@@ -290,6 +304,18 @@
     <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
   </target>
 
+  <target name="deploy-jbossws-cxf-with-jaxrpc" depends="check-parameters">
+    <macro-deploy-jbossws-bin targetdir="${installserver}/../../bin" artifactsdir="${artifactsdir}"/>
+    <macro-deploy-jbossws-client targetdir="${installserver}/../../client" thirdpartydir="${thirdpartydir}"/>
+    <macro-deploy-jbossws-lib targetdir="${installserver}/../../lib" thirdpartydir="${thirdpartydir}"/>
+    <macro-deploy-jbossws-endorsed targetdir="${installserver}/../../lib/endorsed" thirdpartydir="${thirdpartydir}"/>
+    <macro-deploy-jbossws-server-lib targetdir="${installserver}/../../common/lib" thirdpartydir="${thirdpartydir}"/>
+    <macro-deploy-jbossws-deployment targetdir="${installserver}/deploy/jbossws-console.war" thirdpartydir="${thirdpartydir}"/>
+    <macro-deploy-jbossws-deployers targetdir="${installserver}/deployers/jbossws.deployer/" thirdpartydir="${thirdpartydir}" artifactsdir="${artifactsdir}" jbossid="${jbossid}"/>
+    <macro-deploy-jbossws-jaxrpc-deployers targetdir="${installserver}/deployers/jbossws-jaxrpc.deployer/" artifactsdir="${artifactsdir}" jbossid="${jbossid}"/>
+    <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
+  </target>
+
   <!-- ================================================================== -->
   <!-- Undeploy JBossWS                                                   -->
   <!-- ================================================================== -->
@@ -298,6 +324,8 @@
     <attribute name="defaultconf"/>
     <attribute name="targetdir"/>
     <attribute name="modifyjbossintegration"/>
+  	<attribute name="removenativecore"/>
+  	
     <sequential>
       <loadfile property="jbossws.deploy.conf" srcfile="@{targetdir}/deploy/jbossws.sar/jbossws-deploy.conf" failonerror="false"/>
       <loadfile property="jbossws.deploy.conf" srcfile="@{targetdir}/deployers/jbossws.deployer/jbossws-deploy.conf" failonerror="false"/>
@@ -323,6 +351,15 @@
       <delete>
         <fileset dir="${jboss.home}" includes="${jbossws.deploy.conf}"/>
       </delete>
+    	
+      <!-- [JBWS-2895] jbossws-native-core.jar is not removed by default from JBWS 3.3.0, as it's required for jaxrpc support -->
+      <condition property="removenativecoreprop">
+        <and>
+          <istrue value="@{removenativecore}"/>
+        </and>
+      </condition>
+      <antcall target="remove-native-core-from-client-and-common"/>
+      
     </sequential>
   </macrodef>
 
@@ -336,6 +373,17 @@
       </fileset>
       <fileset dir="${jboss.home}/common">
         <include name="**/jbossws-jboss*.jar"/>
+      </fileset>
+    </delete>
+  </target>
+	
+  <target name="remove-native-core-from-client-and-common" if="removenativecoreprop">
+    <delete>
+      <fileset dir="${jboss.home}/client">
+        <include name="**/jbossws-native-core.jar"/>
+      </fileset>
+      <fileset dir="${jboss.home}/common">
+        <include name="**/jbossws-native-core.jar"/>
       </fileset>
     </delete>
   </target>

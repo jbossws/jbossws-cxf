@@ -46,7 +46,7 @@
 
   <target name="undeploy-jboss501" depends="target-jboss501,init" description="Remove jbossws from jboss501">
     <fail message="Not available: ${jboss501.available.file}" unless="jboss501.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss501.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="true"/>
+    <macro-undeploy-jbossws targetdir="${jboss501.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="true" removenativecore="true"/>
   </target>
 
   <!-- ================================================================== -->
@@ -84,7 +84,7 @@
 
   <target name="undeploy-jboss510" depends="target-jboss510,init" description="Remove jbossws from jboss510">
     <fail message="Not available: ${jboss510.available.file}" unless="jboss510.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss510.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="true"/>
+    <macro-undeploy-jbossws targetdir="${jboss510.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="true" removenativecore="true"/>
   </target>
 
   <!-- ================================================================== -->
@@ -122,7 +122,7 @@
 
   <target name="undeploy-jboss600" depends="target-jboss600,init" description="Remove jbossws from jboss600">
     <fail message="Not available: ${jboss600.available.file}" unless="jboss600.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss600.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="false"/><!-- [JBWS-2505] -->
+    <macro-undeploy-jbossws targetdir="${jboss600.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="false" removenativecore="true" /><!-- [JBWS-2505][JBWS-2895] -->
   </target>
 
   <!-- ================================================================== -->
@@ -131,7 +131,7 @@
 
   <target name="deploy-structure-jboss601" depends="prepare-deploy">
     <delete dir="${deploy.structure}"/>
-    <antcall target="deploy-jbossws-cxf" inheritall="false">
+    <antcall target="deploy-jbossws-cxf-with-jaxrpc" inheritall="false">
       <param name="installserver" value="${deploy.structure}/server/${jboss.server.instance}"/>
       <param name="jbossid" value="${jbossws.integration.target}"/>
       <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
@@ -160,7 +160,7 @@
 
   <target name="undeploy-jboss601" depends="target-jboss601,init" description="Remove jbossws from jboss601">
     <fail message="Not available: ${jboss601.available.file}" unless="jboss601.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss601.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="false"/><!-- [JBWS-2505] -->
+    <macro-undeploy-jbossws targetdir="${jboss601.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="false" removenativecore="false"/><!-- [JBWS-2505][JBWS-2895] -->
   </target>
 
   <!-- ================================================================== -->

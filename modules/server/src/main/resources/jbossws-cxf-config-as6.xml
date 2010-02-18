@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <deployment xmlns="urn:jboss:bean-deployer:2.0">
-
+  
   <!-- The registry for web service endpoints -->
   <bean name="WSEndpointRegistry" class="org.jboss.wsf.framework.management.ManagedEndpointRegistry">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
@@ -35,6 +35,7 @@
         </entry>
       </map>
     </property>
+    <property name="forJaxRpc">false</property>
   </bean>
 
   <bean name="WSCXFDescriptorDeploymentAspect" class="org.jboss.wsf.stack.cxf.DescriptorDeploymentAspect">
@@ -42,16 +43,19 @@
     <property name="provides">StackDescriptor</property>
     <property name="invokerEJB3">org.jboss.wsf.stack.cxf.InvokerEJB3</property>
     <property name="invokerJSE">org.jboss.wsf.stack.cxf.InvokerJSE</property>
+    <property name="forJaxRpc">false</property>
   </bean>
 
   <bean name="ResourceResolverDeploymentAspect" class="org.jboss.wsf.stack.cxf.ResourceResolverDeploymentAspect">
     <property name="requires">JmsEndpointAddress</property>
     <property name="provides">ResourceResolver</property>
+    <property name="forJaxRpc">false</property>
   </bean>
 
   <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
     <property name="requires">ContainerMetaData</property>
     <property name="provides">StackEndpointHandler</property>
+    <property name="forJaxRpc">false</property>
   </bean>
 
   <bean name="WSCXFEndpointRecordProcessorDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointRecordProcessorDeploymentAspect">
@@ -64,10 +68,12 @@
         <inject bean="WSLogRecorder"/>
       </list>
     </property>
+    <property name="forJaxRpc">false</property>
   </bean>
 
   <bean name="WSCXFJAXBIntroDeploymentAspect" class="org.jboss.wsf.framework.deployment.JAXBIntroDeploymentAspect">
     <property name="provides">JAXBIntros</property>
+    <property name="forJaxRpc">false</property>
   </bean>
 
 </deployment>
