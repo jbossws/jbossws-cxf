@@ -48,10 +48,10 @@
     <jbossws.framework.version>3.3.0-SNAPSHOT</jbossws.framework.version>
     <jbossws.jboss501.version>3.3.0-SNAPSHOT</jbossws.jboss501.version>
     <jbossws.jboss510.version>3.3.0-SNAPSHOT</jbossws.jboss510.version>
+    <jbossws.jboss600M2.version>3.3.0-SNAPSHOT</jbossws.jboss600M2.version>
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
-    <jbossws.jboss600.version>3.2.1.GA</jbossws.jboss600.version>
     <jbossws.jboss601.version>3.2.1.GA</jbossws.jboss601.version>
     -->
     <!-- END -->
@@ -131,21 +131,21 @@
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
-      <!-- JBWS-2505 -->
-      <!-- START -->
-      <!--
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss600</artifactId>
-        <version>${jbossws.jboss600.version}</version>
+        <artifactId>jbossws-jboss600M2</artifactId>
+        <version>${jbossws.jboss600M2.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss600</artifactId>
-        <version>${jbossws.jboss600.version}</version>
+        <artifactId>jbossws-jboss600M2</artifactId>
+        <version>${jbossws.jboss600M2.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
       </dependency>
+      <!-- JBWS-2505 -->
+      <!-- START -->
+      <!--
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss600x</artifactId>
