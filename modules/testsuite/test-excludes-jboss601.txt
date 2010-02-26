@@ -42,8 +42,7 @@ org/jboss/test/ws/jaxws/jbws1283/**
 # [JBWS-2397] Fix jbws1797 testcase
 org/jboss/test/ws/jaxws/jbws1797/**
 
-# [JBWS-2917] We're using buggy xalan version causing namespaces issues
-org/jboss/test/ws/jaxws/jbws2917/**
+# [JBWS-2945] JAX-WS 2.2 implementation not yet available for CXF stack
 org/jboss/test/ws/jaxws/jbws2937/**
 org/jboss/test/ws/jaxws/jbws2942/**
 org/jboss/test/ws/jaxws/endpointReference/EndpointReferenceBuilderTestCase.*
