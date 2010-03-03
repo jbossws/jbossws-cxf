@@ -50,7 +50,7 @@ public class CXFConsumerImpl extends WSContractConsumer
    private PrintStream messageStream = null;
    private String wsdlLocation = null;
    private List<String> additionalCompilerClassPath = new ArrayList<String>();
-   private String target = null;
+   private String target;
    private boolean nocompile = false;
 
    @Override
