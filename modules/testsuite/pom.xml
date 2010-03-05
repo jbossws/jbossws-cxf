@@ -27,6 +27,7 @@
     <hibernate.version>3.2.4.sp1</hibernate.version>
     <asm.version>2.2.3</asm.version>
     <jboss.javaee.version>5.0.0.GA</jboss.javaee.version>
+    <jboss.metadata.common.version>2.0.0.Alpha13</jboss.metadata.common.version>
   </properties>
 
   <!-- Modules -->
@@ -514,6 +515,25 @@
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-security</artifactId>
           <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.metadata</groupId>
+          <artifactId>jboss-metadata-common</artifactId>
+          <version>${jboss.metadata.common.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.hibernate</groupId>
+              <artifactId>ejb3-persistence</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>jboss.jbossws</groupId>
+              <artifactId>jboss-jaxws</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>sun-jaxb</groupId>
+              <artifactId>jaxb-api</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
       </dependencies>
       <build>
