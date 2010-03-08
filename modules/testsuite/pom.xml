@@ -27,7 +27,6 @@
     <hibernate.version>3.2.4.sp1</hibernate.version>
     <asm.version>2.2.3</asm.version>
     <jboss.javaee.version>5.0.0.GA</jboss.javaee.version>
-    <jboss.metadata.common.version>2.0.0.Alpha13</jboss.metadata.common.version>
   </properties>
 
   <!-- Modules -->
@@ -508,18 +507,13 @@
         </dependency>
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-ejb3</artifactId>
+          <artifactId>jboss-as-aspects</artifactId>
           <version>${jboss.version}</version>
         </dependency>
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-security</artifactId>
+          <artifactId>jboss-as-connector</artifactId>
           <version>${jboss.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.metadata</groupId>
-          <artifactId>jboss-metadata-common</artifactId>
-          <version>${jboss.metadata.common.version}</version>
           <exclusions>
             <exclusion>
               <groupId>org.hibernate</groupId>
@@ -534,6 +528,27 @@
               <artifactId>jaxb-api</artifactId>
             </exclusion>
           </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-ejb3</artifactId>
+          <version>${jboss.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.microcontainer</groupId>
+              <artifactId>jboss-kernel</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-security</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-system</artifactId>
+          <version>${jboss.version}</version>
         </dependency>
       </dependencies>
       <build>
