@@ -169,7 +169,7 @@
             </property>
             <property>
               <name>java.protocol.handler.pkgs</name>
-              <value>org.jboss.virtual.protocol</value>
+              <value>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</value>
             </property>
             <property>
               <name>java.util.logging.manager</name>
