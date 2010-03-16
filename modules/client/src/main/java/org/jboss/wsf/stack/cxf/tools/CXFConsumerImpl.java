@@ -50,6 +50,7 @@ public class CXFConsumerImpl extends WSContractConsumer
    private PrintStream messageStream = null;
    private String wsdlLocation = null;
    private List<String> additionalCompilerClassPath = new ArrayList<String>();
+   private boolean additionalHeaders = false;
    private String target;
    private boolean nocompile = false;
 
@@ -107,9 +108,16 @@ public class CXFConsumerImpl extends WSContractConsumer
       this.wsdlLocation = wsdlLocation;
    }
 
+   @Override
    public void setAdditionalCompilerClassPath(List<String> additionalCompilerClassPath)
    {
       this.additionalCompilerClassPath = additionalCompilerClassPath;
+   }
+   
+   @Override
+   public void setAdditionalHeaders(boolean additionalHeaders)
+   {
+      this.additionalHeaders = additionalHeaders;
    }
 
    @Override
@@ -148,6 +156,9 @@ public class CXFConsumerImpl extends WSContractConsumer
       {
          args.add("-compile");
       }
+      
+      args.add("-exsh");
+      args.add(additionalHeaders ? "true" : "false");
 
       if (generateSource && sourceDir == null)
       {
