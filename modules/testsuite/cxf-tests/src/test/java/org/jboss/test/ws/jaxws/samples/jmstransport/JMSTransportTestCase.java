@@ -33,6 +33,7 @@ import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import javax.management.ObjectName;
 import javax.naming.InitialContext;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -40,7 +41,9 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.common.DOMUtils;
+import org.jboss.wsf.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -54,9 +57,22 @@ public class JMSTransportTestCase extends JBossWSTest
    
    public static Test suite() throws Exception
    {
-      return new JBossWSTestSetup(JMSTransportTestCase.class, "jaxws-samples-jmstransport.sar");
+      return new JBossWSTestSetup(JMSTransportTestCase.class, isHornetQAvailable() ? "jaxws-samples-jmstransport-as6.sar" : "jaxws-samples-jmstransport.sar");
    }
 
+   private static boolean isHornetQAvailable()
+   {
+      try
+      {
+         ObjectName oname = ObjectNameFactory.create("jboss.system:type=Server");
+         String jbossVersion = (String)getServer().getAttribute(oname, "VersionNumber");
+         return JBossWSTestHelper.isTargetJBoss6() && !jbossVersion.contains("M2");
+      }
+      catch (Exception e)
+      {
+         return false;
+      }
+   }
 
   public void testJMSEndpointPort() throws Exception
    {
@@ -136,6 +152,8 @@ public class JMSTransportTestCase extends JBossWSTest
       assertNotNull("Expected response message", responseListener.resMessage);
       assertEquals(DOMUtils.parse(resMessage), DOMUtils.parse(responseListener.resMessage));
 
+      sender.close();
+      receiver.close();
       con.stop();
       session.close();
       con.close();

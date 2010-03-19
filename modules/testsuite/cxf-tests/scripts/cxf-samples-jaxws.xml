@@ -37,6 +37,14 @@
           <include name="jboss-service.xml"/>   
         </metainf>
     </jar>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-jmstransport-as6.sar">
+      <fileset dir="${tests.output.dir}/test-libs">
+        <include name="jaxws-samples-jmstransport.war"/>
+      </fileset>
+        <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/META-INF">
+          <include name="hornetq-jms.xml"/>   
+        </metainf>
+    </jar>
   	
     <!-- jaxws-fromjava-jmstransport -->
     <war
@@ -59,6 +67,14 @@
           <include name="jboss-service.xml"/>   
         </metainf>
     </jar>  	
+    <jar jarfile="${tests.output.dir}/test-libs/jaxws-fromjava-jmstransport-as6.sar">
+      <fileset dir="${tests.output.dir}/test-libs">
+        <include name="jaxws-fromjava-jmstransport.war"/>
+      </fileset>
+        <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/META-INF">
+          <include name="hornetq-jms.xml"/>   
+        </metainf>
+    </jar>
   	
   	
 

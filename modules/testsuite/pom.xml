@@ -26,6 +26,7 @@
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <hibernate.version>3.2.4.sp1</hibernate.version>
     <asm.version>2.2.3</asm.version>
+    <hornetq.version>2.1.0.r8931</hornetq.version>
     <jboss.javaee.version>5.0.0.GA</jboss.javaee.version>
   </properties>
 
@@ -549,6 +550,16 @@
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-system</artifactId>
           <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.hornetq</groupId>
+          <artifactId>hornetq-transports</artifactId>
+          <version>${hornetq.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.hornetq</groupId>
+          <artifactId>hornetq-jms-client</artifactId>
+          <version>${hornetq.version}</version>
         </dependency>
       </dependencies>
       <build>
