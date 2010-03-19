@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.apache.cxf.tools.java2ws.JavaToWS;
 import org.jboss.ws.tools.io.NullPrintStream;
+import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.spi.tools.WSContractProvider;
 import org.w3c.dom.Element;
 
@@ -250,12 +251,12 @@ public class CXFProviderImpl extends WSContractProvider
          +    "</log4j:configuration>";
       try
       {
-         Element element = javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new java.io.StringBufferInputStream(xmlConfig)).getDocumentElement();
+         Element element = DOMUtils.parse(xmlConfig);
          org.apache.log4j.xml.DOMConfigurator.configure(element);
       }
       catch (Exception e)
       {
-         //igonre
+         //ignore
       }
    }
 }

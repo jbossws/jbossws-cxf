@@ -311,7 +311,7 @@ public final class HandlerResolverImpl extends HandlerChainBuilder implements Ha
          {
             File file = new File(filename);
             if (file.exists())
-               fileURL = file.toURL();
+               fileURL = file.toURI().toURL();
          }
          catch (MalformedURLException e)
          {
