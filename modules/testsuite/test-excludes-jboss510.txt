@@ -5,9 +5,6 @@ org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*
 org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase.*
 org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
 
-# [CXF-1510] Cannot handle anonymous bare requests
-org/jboss/test/ws/jaxws/anonymous/**
-
 # [CXF-1516] Type inheritance with document/literal/bare
 org/jboss/test/ws/jaxws/jbws1702/**
 
