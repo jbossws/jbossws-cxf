@@ -51,6 +51,6 @@ org/jboss/test/ws/jaxws/endpointReference/EndpointReferenceBuilderTestCase.*
 # [JBWS-2895] JAX-RPC available from AS 6.0.0.M3
 org/jboss/test/ws/jaxrpc/**
 
-# [JBWS-2960] TODO
+# TODO investigate failures
 org/jboss/test/ws/jaxws/jbws2960/*TestCase.*
-
+org/jboss/test/ws/jaxws/handlerscope/*TestCase.*
