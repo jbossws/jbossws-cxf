@@ -75,5 +75,11 @@
     <property name="provides">JAXBIntros</property>
     <property name="relativeOrder">20</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
+  
+  <bean name="WSCXFBusDeploymentAspect" class="org.jboss.wsf.stack.cxf.BusDeploymentAspect">
+    <property name="provides">BusHolder</property>
+    <property name="requires">ResourceResolver,StackDescriptor</property>
+    <property name="relativeOrder">24</property> <!-- [JBDEPLOY-201] workaround -->
+  </bean>
 
 </deployment>

@@ -37,6 +37,7 @@ import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
+import org.jboss.wsf.stack.cxf.client.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
@@ -214,7 +215,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
          dep.setProperty(WSConstants.STACK_CONTEXT_PARAMS, contextParams);
       }
       // put cxf config URL to the property map
-      contextParams.put(CXFServletExt.PARAM_CXF_BEANS_URL, cxfURL.toExternalForm());
+      contextParams.put(BusHolder.PARAM_CXF_BEANS_URL, cxfURL.toExternalForm());
    }
 
    private static boolean isMtomEnabled(Class<?> beanClass)
