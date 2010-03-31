@@ -34,7 +34,8 @@ import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
-import org.jboss.wsf.stack.cxf.client.configuration.BusHolder;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
+import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 
 /**
  * A deployment aspect that creates the CXF Bus early and attaches it to the endpoints (wrapped in a BusHolder)
@@ -56,10 +57,11 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
       ClassLoader origClassLoader = SecurityActions.getContextClassLoader();
       try
       {
+         ArchiveDeployment aDep = (ArchiveDeployment)dep;
          //set the runtime classloader (pointing to the deployment unit) to allow CXF accessing to the classes
          SecurityActions.setContextClassLoader(dep.getRuntimeClassLoader());
          
-         ResourceResolver deploymentResolver = ((ArchiveDeployment)dep).getResourceResolver();
+         ResourceResolver deploymentResolver = aDep.getResourceResolver();
 
          URL cxfServletURL = null;
          try
@@ -68,7 +70,7 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          }
          catch (IOException e)
          {
-         } //ignore, cxf-servlet.xml is optional
+         } //ignore, cxf-servlet.xml is optional, we might even decide not to support this
 
          holder = BusHolder.create(cxfServletURL);
 
@@ -77,8 +79,8 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          {
             URL jbossCxfXml = deploymentResolver.resolve(contextParams.get(BusHolder.PARAM_CXF_BEANS_URL));
             org.apache.cxf.resource.ResourceResolver resolver = new JBossWSResourceResolver(deploymentResolver);
-            BindingCustomization customizations = dep.getAttachment(BindingCustomization.class);
-            holder.configure(jbossCxfXml, new SoapTransportFactoryExt(), resolver, customizations);
+            JBossWSCXFConfigurer configurer = holder.createConfigurer(dep.getAttachment(BindingCustomization.class), new WSDLFilePublisher(aDep));
+            holder.configure(jbossCxfXml, new SoapTransportFactoryExt(), resolver, configurer);
          }
          catch (IOException e)
          {

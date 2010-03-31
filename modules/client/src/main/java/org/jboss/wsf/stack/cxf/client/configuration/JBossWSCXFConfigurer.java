@@ -38,7 +38,7 @@ import org.jboss.wsf.spi.binding.JAXBBindingCustomization;
  */
 public class JBossWSCXFConfigurer implements Configurer
 {
-   private BindingCustomization customization;
+   protected BindingCustomization customization;
    private Configurer delegate;
 
    public JBossWSCXFConfigurer(Configurer delegate)
@@ -46,29 +46,33 @@ public class JBossWSCXFConfigurer implements Configurer
       this.delegate = delegate;
    }
    
-   public void setBindingCustomization(BindingCustomization customization)
+   public JBossWSCXFConfigurer(Configurer delegate, BindingCustomization customization)
    {
+      this(delegate);
       this.customization = customization;
    }
    
+   @Override
    public void configureBean(Object beanInstance)
    {
-      if (beanInstance instanceof AbstractWSDLBasedEndpointFactory)
-      {
-         configureEndpointFactory((AbstractWSDLBasedEndpointFactory)beanInstance);
-      }
-      else if (beanInstance instanceof ClientProxyFactoryBean)
-      {
-         configureClientProxyFactoryBean((ClientProxyFactoryBean)beanInstance);
-      }
-      //add other beans configuration here below
+      internalConfigure(beanInstance);
       if (delegate != null)
       {
          delegate.configureBean(beanInstance);
       }
    }
 
+   @Override
    public void configureBean(String name, Object beanInstance)
+   {
+      internalConfigure(beanInstance);
+      if (delegate != null)
+      {
+         delegate.configureBean(name, beanInstance);
+      }
+   }
+   
+   protected void internalConfigure(Object beanInstance)
    {
       if (beanInstance instanceof AbstractWSDLBasedEndpointFactory)
       {
@@ -79,39 +83,15 @@ public class JBossWSCXFConfigurer implements Configurer
          configureClientProxyFactoryBean((ClientProxyFactoryBean)beanInstance);
       }
       //add other beans configuration here below
-      if (delegate != null)
-      {
-         delegate.configureBean(name, beanInstance);
-      }
    }
    
    /**
-    * Configure the endpoint factory; currently set the binding customization in the databinding (Server Side).
+    * Configure the endpoint factory
     * 
     * @param factory
     */
    protected synchronized void configureEndpointFactory(AbstractWSDLBasedEndpointFactory factory)
    {
-      //Configure binding customization
-      if (customization != null)
-      {
-         //customize default databinding (early pulls in ServiceFactory default databinding and configure it, as it's lazily loaded)
-         ReflectionServiceFactoryBean serviceFactory = factory.getServiceFactory();
-         serviceFactory.reset();
-         DataBinding serviceFactoryDataBinding = serviceFactory.getDataBinding(true);
-         setBindingCustomization(serviceFactoryDataBinding, customization);
-         serviceFactory.setDataBinding(serviceFactoryDataBinding);
-         //customize user provided databinding (CXF later overrides the ServiceFactory databinding using the user provided one) 
-         if (factory.getDataBinding() == null)
-         {
-            //set the service factory's databinding to prevent CXF resetting everything because user did not provide anything
-            factory.setDataBinding(serviceFactoryDataBinding);
-         }
-         else
-         {
-            setBindingCustomization(factory.getDataBinding(), customization);
-         }
-      }
       //add other configurations here below
    }
    
@@ -134,7 +114,7 @@ public class JBossWSCXFConfigurer implements Configurer
          //customize user provided databinding (CXF later overrides the ServiceFactory databinding using the user provided one) 
          if (factory.getDataBinding() == null)
          {
-            //set the service factory's databinding to prevent CXF resetting everything because user did not provide anything
+            //set the endpoint factory's databinding to prevent CXF resetting everything because user did not provide anything
             factory.setDataBinding(serviceFactoryDataBinding);
          }
          else
@@ -145,6 +125,7 @@ public class JBossWSCXFConfigurer implements Configurer
       //add other configurations here below
    }
    
+   @SuppressWarnings("unchecked")
    protected static void setBindingCustomization(DataBinding db, BindingCustomization customization)
    {
       //JAXB
@@ -156,5 +137,10 @@ public class JBossWSCXFConfigurer implements Configurer
          }
       }
       //add other binding customizations here below
+   }
+   
+   public void setBindingCustomization(BindingCustomization customization)
+   {
+      this.customization = customization;
    }
 }

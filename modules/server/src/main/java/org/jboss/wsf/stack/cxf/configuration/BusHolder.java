@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.client.configuration;
+package org.jboss.wsf.stack.cxf.configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +40,8 @@ import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.jboss.logging.Logger;
 import org.jboss.ws.Constants;
 import org.jboss.wsf.spi.binding.BindingCustomization;
+import org.jboss.wsf.stack.cxf.WSDLFilePublisher;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
@@ -104,23 +106,40 @@ public class BusHolder
     * @param jbossCxfXml    The location of the jboss-cxf.xml configuration file
     * @param soapTransportFactory   The SoapTransportFactory to configure, if any
     * @param resolver               The ResourceResolver to configure, if any
-    * @param customization          The BindingCustomization to configure, if any
+    * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     * @throws IOException           Throws IOException if the jboss-cxf.xml file can't be read
     */
-   public void configure(URL jbossCxfXml, SoapTransportFactory soapTransportFactory, ResourceResolver resolver, BindingCustomization customization) throws IOException
+   public void configure(URL jbossCxfXml, SoapTransportFactory soapTransportFactory, ResourceResolver resolver, JBossWSCXFConfigurer configurer) throws IOException
    {
       if (configured)
       {
          throw new IllegalStateException("Underlying bus is already configured for JBossWS use!");
       }
+      if (configurer != null)
+      {
+         bus.setExtension(configurer, Configurer.class);
+      }
       setSoapTransportFactory(bus, soapTransportFactory);
       setResourceResolver(bus, resolver);
-      setBindingCustomization(bus, customization);
       if (jbossCxfXml != null)
       {
          additionalCtx.add(loadAdditionalConfig(ctx, jbossCxfXml));
       }
       configured = true;
+   }
+   
+   /**
+    * A convenient method for getting a jbossws cxf configurer delegating to the cxf configurer
+    * that's currently installed in the hold bus.
+    * 
+    * @param customization    The binding customization to set in the configurer, if any
+    * @param wsdlPublisher    The wsdl file publisher to set in the configurer, if any
+    * @return                 The new jbossws cxf configurer
+    */
+   public JBossWSCXFConfigurer createConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher)
+   {
+      Configurer delegate = bus.getExtension(Configurer.class);
+      return new JBossWSServerCXFConfigurer(delegate, customization, wsdlPublisher);
    }
    
    /**
@@ -185,16 +204,6 @@ public class BusHolder
       }
    }
    
-   protected static void setBindingCustomization(Bus bus, BindingCustomization customization)
-   {
-      if (customization != null) {
-         Configurer prev = bus.getExtension(Configurer.class);
-         JBossWSCXFConfigurer jbosswsConfigurer = (prev instanceof JBossWSCXFConfigurer) ? (JBossWSCXFConfigurer)prev : new JBossWSCXFConfigurer(prev);
-         jbosswsConfigurer.setBindingCustomization(customization);
-         bus.setExtension(jbosswsConfigurer, Configurer.class);
-      }
-   }
-   
    protected static GenericApplicationContext loadAdditionalConfig(ApplicationContext ctx, URL locationUrl) throws IOException
    {
       if (locationUrl == null) throw new IllegalArgumentException("Cannot load additional config from null location!");
@@ -212,6 +221,11 @@ public class BusHolder
       bus.getExtension(DestinationFactoryManager.class).registerDestinationFactory(namespace, factory);
    }
 
+   /**
+    * Return the hold bus
+    * 
+    * @return
+    */
    public Bus getBus()
    {
       return bus;

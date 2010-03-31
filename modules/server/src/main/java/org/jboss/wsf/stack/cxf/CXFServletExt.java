@@ -54,7 +54,8 @@ import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
-import org.jboss.wsf.stack.cxf.client.configuration.BusHolder;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
+import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 import org.springframework.context.ApplicationContext;
 
@@ -133,7 +134,8 @@ public class CXFServletExt extends CXFServlet
       {
          ResourceResolver resolver = endpoint.getAttachment(ResourceResolver.class);
          BindingCustomization customizations = endpoint.getAttachment(BindingCustomization.class);
-         lazyLoadedBusHolder.configure(new URL(jbossCxfXml), new SoapTransportFactoryExt(), resolver, customizations);
+         JBossWSCXFConfigurer configurer = lazyLoadedBusHolder.createConfigurer(customizations, null);
+         lazyLoadedBusHolder.configure(new URL(jbossCxfXml), new SoapTransportFactoryExt(), resolver, configurer);
       }
       catch (IOException e)
       {

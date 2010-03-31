@@ -37,13 +37,15 @@ public class DDEndpoint
    private String implementor;
    private String invoker;
    private boolean mtomEnabled;
+   private String serviceFactory;
 
-   public DDEndpoint(String id, String address, String implementor, boolean mtomEnabled)
+   public DDEndpoint(String id, String address, String implementor, boolean mtomEnabled, String serviceFactory)
    {
       this.id = id;
       this.address = address;
       this.implementor = implementor;
       this.mtomEnabled = mtomEnabled;
+      this.serviceFactory = serviceFactory;
    }
 
    public void setInvoker(String invoker)
@@ -57,6 +59,8 @@ public class DDEndpoint
       writer.write(" address='" + this.address + "'");
       writer.write(" implementor='" + this.implementor + "'");
       writer.write(">");
+      
+      writer.write("<jaxws:serviceFactory><bean class='" + this.serviceFactory + "'/></jaxws:serviceFactory>");
       
       if (this.mtomEnabled)
       {
@@ -81,6 +85,7 @@ public class DDEndpoint
       str.append("\n implementor=" + this.implementor);
       str.append("\n invoker=" + this.invoker);
       str.append("\n mtomEnabled=" + this.mtomEnabled);
+      str.append("\n serviceFactory=" + this.serviceFactory);
       return str.toString();
    }
 }

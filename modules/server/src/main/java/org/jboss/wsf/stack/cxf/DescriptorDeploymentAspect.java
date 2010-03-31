@@ -37,7 +37,7 @@ import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
-import org.jboss.wsf.stack.cxf.client.configuration.BusHolder;
+import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
@@ -171,7 +171,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
 
          boolean mtomEnabled = isMtomEnabled(ep.getTargetBeanClass());
 
-         DDEndpoint ddep = new DDEndpoint(id, address, implementor, mtomEnabled);
+         DDEndpoint ddep = new DDEndpoint(id, address, implementor, mtomEnabled, JBossWSServiceFactoryBean.class.getName());
 
          if (depType == DeploymentType.JAXWS_EJB3)
          {
