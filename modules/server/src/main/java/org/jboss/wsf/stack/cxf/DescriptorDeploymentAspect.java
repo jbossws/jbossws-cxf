@@ -171,7 +171,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
 
          boolean mtomEnabled = isMtomEnabled(ep.getTargetBeanClass());
 
-         DDEndpoint ddep = new DDEndpoint(id, address, implementor, mtomEnabled, JBossWSServiceFactoryBean.class.getName());
+         DDEndpoint ddep = new DDEndpoint(id, address, implementor, mtomEnabled);
 
          if (depType == DeploymentType.JAXWS_EJB3)
          {

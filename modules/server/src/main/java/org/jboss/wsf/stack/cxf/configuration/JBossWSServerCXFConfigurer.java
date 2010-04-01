@@ -26,9 +26,9 @@ import org.apache.cxf.databinding.DataBinding;
 import org.apache.cxf.frontend.AbstractWSDLBasedEndpointFactory;
 import org.apache.cxf.service.factory.ReflectionServiceFactoryBean;
 import org.jboss.wsf.spi.binding.BindingCustomization;
-import org.jboss.wsf.stack.cxf.JBossWSServiceFactoryBean;
 import org.jboss.wsf.stack.cxf.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
+import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 
 /**
  * A JBossWSCXFConfigured to be used on server side
@@ -50,14 +50,24 @@ public class JBossWSServerCXFConfigurer extends JBossWSCXFConfigurer
       super(delegate, customization);
       this.wsdlPublisher = wsdlPublisher;
    }
+   
+   @Override
+   protected void internalConfigure(Object beanInstance)
+   {
+      super.internalConfigure(beanInstance);
+      if (beanInstance instanceof EndpointImpl)
+      {
+         configureEndpoint((EndpointImpl)beanInstance);
+      }
+   }
 
    @Override
    protected synchronized void configureEndpointFactory(AbstractWSDLBasedEndpointFactory factory)
    {
-      ReflectionServiceFactoryBean serviceFactory = factory.getServiceFactory();
       //Configure binding customization
       if (customization != null)
       {
+         ReflectionServiceFactoryBean serviceFactory = factory.getServiceFactory();
          //customize default databinding (early pulls in ServiceFactory default databinding and configure it, as it's lazily loaded)
          serviceFactory.reset();
          DataBinding serviceFactoryDataBinding = serviceFactory.getDataBinding(true);
@@ -74,12 +84,16 @@ public class JBossWSServerCXFConfigurer extends JBossWSCXFConfigurer
             setBindingCustomization(factory.getDataBinding(), customization);
          }
       }
-      //Configure wsdl file publisher
-      if (wsdlPublisher != null && serviceFactory instanceof JBossWSServiceFactoryBean)
-      {
-         ((JBossWSServiceFactoryBean)serviceFactory).setWsdlPublisher(wsdlPublisher);
-      }
       //add other configurations here below
+   }
+   
+   protected synchronized void configureEndpoint(EndpointImpl endpoint)
+   {
+      //Configure wsdl file publisher
+      if (wsdlPublisher != null)
+      {
+         endpoint.setWsdlPublisher(wsdlPublisher);
+      }
    }
    
    public void setWsdlPublisher(WSDLFilePublisher wsdlPublisher)
