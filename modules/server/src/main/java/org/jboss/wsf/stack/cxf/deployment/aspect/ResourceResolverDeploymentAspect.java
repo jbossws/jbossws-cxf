@@ -19,13 +19,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf;
+package org.jboss.wsf.stack.cxf.deployment.aspect;
 
 import org.jboss.wsf.common.integration.AbstractDeploymentAspect;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
+import org.jboss.wsf.stack.cxf.resolver.JBossWSResourceResolver;
 
 /**
  * A deployment aspect for attaching a custom JBoss resources resolver to the endpoint;

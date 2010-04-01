@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf;
+package org.jboss.wsf.stack.cxf.resolver;
 
 import org.jboss.wsf.spi.management.EndpointResolver;
 import org.jboss.wsf.spi.deployment.Endpoint;

@@ -26,9 +26,9 @@ import org.apache.cxf.databinding.DataBinding;
 import org.apache.cxf.frontend.AbstractWSDLBasedEndpointFactory;
 import org.apache.cxf.service.factory.ReflectionServiceFactoryBean;
 import org.jboss.wsf.spi.binding.BindingCustomization;
-import org.jboss.wsf.stack.cxf.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
+import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 
 /**
  * A JBossWSCXFConfigured to be used on server side

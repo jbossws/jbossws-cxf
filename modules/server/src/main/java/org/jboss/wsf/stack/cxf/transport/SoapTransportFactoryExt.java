@@ -19,10 +19,8 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf;
+package org.jboss.wsf.stack.cxf.transport;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,7 +33,6 @@ import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.tools.common.extensions.soap.SoapAddress;
 import org.apache.cxf.tools.util.SOAPBindingUtil;
-import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.management.ServerConfig;
@@ -54,6 +51,7 @@ public class SoapTransportFactoryExt extends SoapTransportFactory
 {
    private ServerConfig serverConfig;
    
+   @SuppressWarnings("unchecked")
    public EndpointInfo createEndpointInfo(ServiceInfo serviceInfo, BindingInfo b, Port port)
    {
       String transportURI = "http://schemas.xmlsoap.org/wsdl/soap/";

@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf;
+package org.jboss.wsf.stack.cxf.deployment.aspect;
 
 import java.io.IOException;
 import java.net.URL;
@@ -36,6 +36,9 @@ import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
+import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
+import org.jboss.wsf.stack.cxf.resolver.JBossWSResourceResolver;
+import org.jboss.wsf.stack.cxf.transport.SoapTransportFactoryExt;
 
 /**
  * A deployment aspect that creates the CXF Bus early and attaches it to the endpoints (wrapped in a BusHolder)

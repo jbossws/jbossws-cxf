@@ -38,7 +38,7 @@
     <property name="relativeOrder">31</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
 
-  <bean name="WSCXFDescriptorDeploymentAspect" class="org.jboss.wsf.stack.cxf.DescriptorDeploymentAspect">
+  <bean name="WSCXFDescriptorDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.DescriptorDeploymentAspect">
     <property name="requires">EndpointAddress,JAXBIntros</property>
     <property name="provides">StackDescriptor</property>
     <property name="invokerEJB3">org.jboss.wsf.stack.cxf.InvokerEJB3</property>
@@ -46,7 +46,7 @@
     <property name="relativeOrder">21</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
 
-  <bean name="ResourceResolverDeploymentAspect" class="org.jboss.wsf.stack.cxf.ResourceResolverDeploymentAspect">
+  <bean name="WSCXFResourceResolverDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.ResourceResolverDeploymentAspect">
     <property name="requires">JmsEndpointAddress</property>
     <property name="provides">ResourceResolver</property>
     <property name="relativeOrder">23</property> <!-- [JBDEPLOY-201] workaround -->
@@ -76,7 +76,7 @@
     <property name="relativeOrder">20</property> <!-- [JBDEPLOY-201] workaround -->
   </bean>
   
-  <bean name="WSCXFBusDeploymentAspect" class="org.jboss.wsf.stack.cxf.BusDeploymentAspect">
+  <bean name="WSCXFBusDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.BusDeploymentAspect">
     <property name="provides">BusHolder</property>
     <property name="requires">ResourceResolver,StackDescriptor</property>
     <property name="relativeOrder">24</property> <!-- [JBDEPLOY-201] workaround -->

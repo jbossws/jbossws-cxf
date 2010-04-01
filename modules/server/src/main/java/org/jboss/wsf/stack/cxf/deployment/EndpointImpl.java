@@ -32,7 +32,6 @@ import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
 import org.apache.cxf.service.Service;
 import org.jboss.logging.Logger;
-import org.jboss.wsf.stack.cxf.WSDLFilePublisher;
 
 /**
  * An extension of @see org.apache.cxf.jaxws.EndpointImpl for dealing with
