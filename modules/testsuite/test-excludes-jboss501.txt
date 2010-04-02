@@ -58,5 +58,5 @@ org/jboss/test/ws/jaxrpc/**
 org/jboss/test/ws/jaxws/jbws2960/*TestCase.*
 org/jboss/test/ws/jaxws/handlerscope/*TestCase.*
 
-# [JBWS-2983] Fix regressions due to HornetQ update
-org/jboss/test/ws/jaxws/samples/jmstransport/**
+# [JBWS-2987] Review JMS integration
+org/jboss/test/ws/jaxws/samples/jmstransport/FromJavaJMSTransportTestCase.*
