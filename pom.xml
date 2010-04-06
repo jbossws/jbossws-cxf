@@ -60,6 +60,7 @@
     <cxf.asm.version>2.2.3</cxf.asm.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
+    <jboss.logging.version>2.2.0.CR1</jboss.logging.version>
     <jaxb.api.version>2.1</jaxb.api.version>
     <jaxb.impl.version>2.1.12</jaxb.impl.version>
     <jaxrpc.api.version>1.1</jaxrpc.api.version>
@@ -415,6 +416,16 @@
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
         <version>${commons.logging.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.logging</groupId>
+        <artifactId>jboss-logging-log4j</artifactId>
+        <version>${jboss.logging.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.logging</groupId>
+        <artifactId>jboss-logging-spi</artifactId>
+        <version>${jboss.logging.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
