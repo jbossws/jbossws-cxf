@@ -54,8 +54,9 @@ org/jboss/test/ws/jaxws/endpointReference/EndpointReferenceBuilderTestCase.*
 # [JBWS-2895] JAX-RPC available from AS 6.0.0.M3
 org/jboss/test/ws/jaxrpc/**
 
-# TODO investigate failures
-org/jboss/test/ws/jaxws/jbws2960/*TestCase.*
+# [JBWS-2945] JAX-WS 2.2 implementation not yet available for CXF stack
+org/jboss/test/ws/jaxws/jbws2960/**
+org/jboss/test/ws/jaxws/jbws2985/**
 org/jboss/test/ws/jaxws/handlerscope/*TestCase.*
 
 # [JBWS-2987] Review JMS integration
