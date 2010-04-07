@@ -23,7 +23,6 @@ package org.jboss.wsf.stack.cxf;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.URL;
 
 import javax.management.ObjectName;
 import javax.servlet.ServletConfig;
@@ -38,27 +37,20 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.counters.CounterRepository;
 import org.apache.cxf.resource.ResourceManager;
-import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.transport.servlet.ServletContextResourceResolver;
 import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
-import org.jboss.logging.Logger;
-import org.jboss.ws.Constants;
 import org.jboss.wsf.common.ObjectNameFactory;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
-import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
-import org.jboss.wsf.stack.cxf.transport.SoapTransportFactoryExt;
-import org.springframework.context.ApplicationContext;
 
 /**
  * An extension to the CXF servlet
@@ -68,18 +60,10 @@ import org.springframework.context.ApplicationContext;
  */
 public class CXFServletExt extends CXFServlet
 {
-   private static final Logger log = Logger.getLogger(CXFServletExt.class);
    public static final String ENABLE_CXF_MANAGEMENT = "enable.cxf.management";  
    
    protected Endpoint endpoint;
    protected EndpointRegistry epRegistry;
-   protected BusHolder lazyLoadedBusHolder;
-
-   @Override
-   public void init(ServletConfig servletConfig) throws ServletException
-   {
-      super.init(servletConfig);
-   }
 
    @Override
    public ServletController createServletController(ServletConfig servletConfig)
@@ -95,52 +79,13 @@ public class CXFServletExt extends CXFServlet
       initEndpoint(servletConfig);
       
       ServletContext svCtx = getServletContext();
-      if (isBusLoadRequired(svCtx))
-      {
-         //reload bus using CXF servlet
-         lazyLoadBus(servletConfig);
-      }
-      else
-      {
-         //keep the bus created during deployment and update it with the information coming from the servlet config
-         updateAvailableBusWithServletInfo(servletConfig);
-      }
+      //keep the bus created during deployment and update it with the information coming from the servlet config
+      updateAvailableBusWithServletInfo(servletConfig);
       
       //register the InstrumentManagementImpl
       //TODO!! remove reflection use inside this by providing proper hook in CXF and move this configuration to BusHolder
       if (svCtx.getInitParameter(ENABLE_CXF_MANAGEMENT) != null && "true".equalsIgnoreCase((String)svCtx.getInitParameter(ENABLE_CXF_MANAGEMENT))) {
          registerInstrumentManger(bus);
-      }
-   }
-   
-   private static boolean isBusLoadRequired(ServletContext svCtx)
-   {
-      boolean result = Constants.LAZY_LOAD_CXF_BUS;
-      result = result || (ApplicationContext)svCtx.getAttribute("interface org.springframework.web.context.WebApplicationContext.ROOT") != null;
-      result = result || (ApplicationContext)svCtx.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT") != null;
-      return result;
-   }
-   
-   private void lazyLoadBus(ServletConfig servletConfig) throws ServletException
-   {
-      log.debug("Loading Bus through CXF servlet...");
-      super.loadBus(servletConfig);
-      //set the controller in the servlet context now that the bus has been configured in the servlet
-      servletConfig.getServletContext().setAttribute(ServletController.class.getName(), getController());
-      //recreate holder from the new bus
-      lazyLoadedBusHolder = BusHolder.create(getBus());
-      //configure bus for jbossws use
-      String jbossCxfXml = servletConfig.getServletContext().getInitParameter(BusHolder.PARAM_CXF_BEANS_URL);
-      try
-      {
-         ResourceResolver resolver = endpoint.getAttachment(ResourceResolver.class);
-         BindingCustomization customizations = endpoint.getAttachment(BindingCustomization.class);
-         JBossWSCXFConfigurer configurer = lazyLoadedBusHolder.createConfigurer(customizations, null);
-         lazyLoadedBusHolder.configure(new URL(jbossCxfXml), new SoapTransportFactoryExt(), resolver, configurer);
-      }
-      catch (IOException e)
-      {
-         throw new ServletException("Error while configuring bus for JBossWS use", e);
       }
    }
    
@@ -219,16 +164,6 @@ public class CXFServletExt extends CXFServlet
       }
 
       return endpoint;
-   }
-
-   @Override
-   public void destroy()
-   {
-      if (lazyLoadedBusHolder != null)
-      {
-         lazyLoadedBusHolder.close();
-      }
-      super.destroy();
    }
 
    private void registerInstrumentManger(Bus bus) throws ServletException

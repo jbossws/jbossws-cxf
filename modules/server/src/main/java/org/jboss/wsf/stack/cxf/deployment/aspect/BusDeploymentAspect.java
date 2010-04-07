@@ -26,7 +26,6 @@ import java.net.URL;
 import java.util.Map;
 
 import org.apache.cxf.BusFactory;
-import org.jboss.ws.Constants;
 import org.jboss.wsf.common.integration.AbstractDeploymentAspect;
 import org.jboss.wsf.common.integration.WSConstants;
 import org.jboss.wsf.spi.binding.BindingCustomization;
@@ -52,10 +51,6 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
    @Override
    public void start(Deployment dep)
    {
-      if (Constants.LAZY_LOAD_CXF_BUS)
-         return;
-      
-      log.debug("Lazy load of CXF bus disabled, loading bus during deployment...");
       BusHolder holder;
       ClassLoader origClassLoader = SecurityActions.getContextClassLoader();
       try

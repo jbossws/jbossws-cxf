@@ -31,7 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.cxf.transport.servlet.ServletController;
-import org.jboss.logging.Logger;
 import org.jboss.util.NotImplementedException;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.InvocationContext;
@@ -45,9 +44,6 @@ import org.jboss.wsf.spi.invocation.RequestHandler;
  */
 public class RequestHandlerImpl implements RequestHandler
 {
-   // provide logging
-   private static final Logger log = Logger.getLogger(RequestHandlerImpl.class);
-
    RequestHandlerImpl()
    {
    }
