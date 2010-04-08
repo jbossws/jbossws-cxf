@@ -55,7 +55,6 @@
     <include name="**/wsdl4j.jar"/>
     <include name="**/wss4j.jar"/>
     <include name="**/wstx.jar"/>
-    <include name="**/xml-resolver.jar"/>
     <include name="**/XmlSchema.jar"/>
     <include name="**/FastInfoset.jar"/>
   </patternset>
@@ -67,27 +66,24 @@
 
   <patternset id="jbossws.lib.endorsed.patternset">
     <include name="**/jaxb-api.jar"/>
+    <include name="**/jaxws-api.jar"/>
+    <include name="**/stax-api.jar"/>
   </patternset>
 
   <patternset id="jbossws.server.lib.patternset">
+    <include name="**/asm.jar"/>
     <include name="**/commons-beanutils.jar"/>
-    <include name="**/jaxws-api.jar"/>
-    <include name="**/geronimo-ws-metadata*.jar"/>
-    <include name="**/jbossws-common.jar"/>
-    <include name="**/jbossws-framework.jar"/>
-    <include name="**/jbossws-spi.jar"/>
-    <include name="**/saaj-api.jar"/>
-  </patternset>
-
-  <patternset id="jbossws.service.lib.patternset">
     <include name="**/cxf-*.jar"/>
+    <include name="**/FastInfoset.jar"/>
     <include name="**/geronimo-javamail*.jar"/>
     <include name="**/geronimo-ws-metadata*.jar"/>
     <include name="**/jaxrpc-api.jar"/>
     <include name="**/jaxws-api.jar"/>
+    <include name="**/geronimo-ws-metadata*.jar"/>
     <include name="**/jboss-jaxb-intros.jar"/>
-    <include name="**/jbossws-cxf-client*.jar"/>
-    <include name="**/jbossws-cxf-server*.jar"/>
+    <include name="**/jbossws-common.jar"/>
+    <include name="**/jbossws-framework.jar"/>
+    <include name="**/jbossws-spi.jar"/>
     <include name="**/jdom.jar"/>
     <include name="**/neethi.jar"/>
     <include name="**/saaj-api.jar"/>
@@ -97,13 +93,15 @@
     <include name="**/spring-core.jar"/>
     <include name="**/spring-jms.jar"/>
     <include name="**/spring-tx.jar"/>
+    <include name="**/XmlSchema.jar"/>
+    <include name="**/xmlsec.jar"/>
     <include name="**/wsdl4j.jar"/>
     <include name="**/wss4j.jar"/>
-    <include name="**/xml-resolver.jar"/>
-    <include name="**/xmlsec.jar"/>
-    <include name="**/asm.jar"/>
-    <include name="**/XmlSchema.jar"/>
-    <include name="**/FastInfoset.jar"/>
+  </patternset>
+
+  <patternset id="jbossws.service.lib.patternset">
+    <include name="**/jbossws-cxf-client*.jar"/>
+    <include name="**/jbossws-cxf-server*.jar"/>
   </patternset>
 
   <!-- ================================================================== -->
