@@ -42,6 +42,7 @@ import org.jboss.ws.Constants;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
+import org.jboss.wsf.stack.cxf.spring.handler.NamespaceHandlerResolver;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
@@ -211,6 +212,7 @@ public class BusHolder
       GenericApplicationContext childCtx = new GenericApplicationContext(ctx);
       XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(childCtx);
       reader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_XSD);
+      reader.setNamespaceHandlerResolver(new NamespaceHandlerResolver());
       reader.loadBeanDefinitions(new InputStreamResource(is));
       childCtx.refresh();
       return childCtx;
