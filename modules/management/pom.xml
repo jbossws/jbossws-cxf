@@ -87,14 +87,45 @@
       </plugin>
       <plugin>
          <artifactId>maven-war-plugin</artifactId>
-         <configuration>
-           <webResources>
-             <resource>
-               <directory>src/main/webapp</directory>
-               <filtering>true</filtering>
-             </resource>
-           </webResources>
-         </configuration>
+         <groupId>org.apache.maven.plugins</groupId>
+         <executions>
+           <execution>
+             <id>console</id>
+             <phase>package</phase>
+             <goals>
+               <goal>war</goal>
+             </goals>
+             <configuration>
+               <warName>jbossws-cxf-management</warName>
+               <warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory>
+               <webappDirectory>${project.build.directory}/jbossws-cxf-management</webappDirectory>
+               <webResources>
+                 <webResource>
+                   <directory>${basedir}/src/main/webapp</directory>
+                   <filtering>true</filtering>
+                 </webResource>
+               </webResources>
+             </configuration>
+           </execution>
+           <execution>
+             <id>pcl</id>
+             <phase>package</phase>
+             <goals>
+               <goal>war</goal>
+             </goals>
+             <configuration>
+               <warName>jbossws-cxf-management-pcl</warName>
+               <warSourceDirectory>${basedir}/src/main/pclwebapp</warSourceDirectory>
+               <webappDirectory>${project.build.directory}/jbossws-cxf-management-pcl</webappDirectory>
+               <webResources>
+                 <webResource>
+                   <directory>${basedir}/src/main/pclwebapp</directory>
+                   <filtering>true</filtering>
+                 </webResource>
+               </webResources>
+             </configuration>
+           </execution>
+         </executions>
       </plugin>
     </plugins>
   </build>
