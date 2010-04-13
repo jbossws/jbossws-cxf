@@ -172,6 +172,16 @@
         <include>jbossws-*/**</include>
       </includes>
     </fileSet>
+    
+    <!-- management console and port component link servlet -->
+    <fileSet>
+      <directory>modules/management/target</directory>
+      <outputDirectory>lib</outputDirectory>
+      <includes>
+        <include>jbossws-cxf-management.war</include>
+        <include>jbossws-cxf-management-pcl.war</include>
+      </includes>
+    </fileSet>
   </fileSets>
   
 </assembly>
