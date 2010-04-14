@@ -22,16 +22,22 @@
 package org.jboss.wsf.stack.cxf.client;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+
+import javax.xml.ws.WebServiceFeature;
+import javax.xml.ws.soap.MTOMFeature;
 
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.apache.cxf.jaxws.support.JaxWsServiceFactoryBean;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedPortComponentRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedStubPropertyMetaData;
 
 /**
- * A CXF configurer that sets the serviceref stub properties in the JaxWsProxyFactoryBean
+ * A CXF configurer that sets the serviceref data in the JaxWsProxyFactoryBean
  *
  * @author alessio.soldano@jboss.com
  * @since 21-Jul-2009
@@ -73,19 +79,41 @@ public class ServiceRefStubPropertyConfigurer implements Configurer
    
    private synchronized void configureJaxWsProxyFactoryBean(JaxWsProxyFactoryBean proxyFactory)
    {
-      Map<String, Object> properties = new HashMap<String, Object>();
-      for (UnifiedPortComponentRefMetaData pcRef : serviceRefMD.getPortComponentRefs())
+      Class<?> clazz = proxyFactory.getServiceClass();
+      UnifiedPortComponentRefMetaData upcmd = serviceRefMD.getPortComponentRef(clazz != null ? clazz.getName() : null, proxyFactory.getServiceName());
+      if (upcmd != null)
       {
-         String sei = pcRef.getServiceEndpointInterface();
-         if (sei != null && sei.equals(proxyFactory.getServiceClass().getName()))
-         {
-            for (UnifiedStubPropertyMetaData prop : pcRef.getStubProperties())
-            {
-               properties.put(prop.getPropName(), prop.getPropValue());
-            }
-         }
+         setProperties(proxyFactory, upcmd);
+         setMTOM((JaxWsServiceFactoryBean)proxyFactory.getServiceFactory(), upcmd);
       }
-      proxyFactory.setProperties(properties);
    }
-
+   
+   private void setMTOM(JaxWsServiceFactoryBean serviceFactoryBean, UnifiedPortComponentRefMetaData upcmd)
+   {
+      if (upcmd.getEnableMTOM())
+      {
+         List<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
+         List<WebServiceFeature> prevFeatures = serviceFactoryBean.getWsFeatures();
+         if (prevFeatures != null)
+         {
+            features.addAll(prevFeatures);
+         }
+         features.add(new MTOMFeature(true));
+         serviceFactoryBean.setWsFeatures(features);
+      }
+   }
+   
+   private void setProperties(JaxWsProxyFactoryBean proxyFactory, UnifiedPortComponentRefMetaData upcmd)
+   {
+      Map<String, Object> properties = proxyFactory.getProperties();
+      if (properties == null)
+      {
+         properties = new HashMap<String, Object>();
+         proxyFactory.setProperties(properties);
+      }
+      for (UnifiedStubPropertyMetaData prop : upcmd.getStubProperties())
+      {
+         properties.put(prop.getPropName(), prop.getPropValue());
+      }
+   }
 }
