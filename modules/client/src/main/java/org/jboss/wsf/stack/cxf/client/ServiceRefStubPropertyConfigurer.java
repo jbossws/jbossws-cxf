@@ -26,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.soap.MTOMFeature;
 
@@ -80,11 +81,23 @@ public class ServiceRefStubPropertyConfigurer implements Configurer
    private synchronized void configureJaxWsProxyFactoryBean(JaxWsProxyFactoryBean proxyFactory)
    {
       Class<?> clazz = proxyFactory.getServiceClass();
-      UnifiedPortComponentRefMetaData upcmd = serviceRefMD.getPortComponentRef(clazz != null ? clazz.getName() : null, proxyFactory.getServiceName());
+      UnifiedPortComponentRefMetaData upcmd = serviceRefMD.getPortComponentRef(clazz != null ? clazz.getName() : null, getServiceName(proxyFactory));
       if (upcmd != null)
       {
          setProperties(proxyFactory, upcmd);
          setMTOM((JaxWsServiceFactoryBean)proxyFactory.getServiceFactory(), upcmd);
+      }
+   }
+   
+   private static QName getServiceName(JaxWsProxyFactoryBean proxyFactory)
+   {
+      try
+      {
+         return proxyFactory.getServiceName();
+      }
+      catch (Exception e) //ignore
+      {
+         return null;
       }
    }
    
