@@ -1,0 +1,40 @@
+
+# /
+/ant.properties
+/clipboard.*
+/target
+/.settings
+/profiles.xml
+/target.properties
+/transaction.log
+
+# /modules/
+/modules/target
+
+# /modules/client/
+/modules/client/target
+
+# /modules/management/
+/modules/management/target
+
+# /modules/resources/
+/modules/resources/target
+
+# /modules/server/
+/modules/server/target
+
+# /modules/testsuite/
+/modules/testsuite/target
+
+# /modules/testsuite/cxf-tests/
+/modules/testsuite/cxf-tests/target
+
+# /modules/testsuite/framework-tests/
+/modules/testsuite/framework-tests/target
+/modules/testsuite/framework-tests/org
+/modules/testsuite/framework-tests/transaction.log
+
+# /modules/testsuite/framework-tests/src/test/
+/modules/testsuite/framework-tests/src/test/ant-import
+/modules/testsuite/framework-tests/src/test/java
+/modules/testsuite/framework-tests/src/test/resources
