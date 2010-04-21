@@ -49,10 +49,10 @@
   <target name="mvn-settings" depends="os-init">
     <!-- Loads the properties from the effective maven settings -->
     <mkdir dir="${stack.output.dir}"/>
-    <exec dir="${basedir}" executable="${mvn}" failonerror="true">
+<!--    <exec dir="${basedir}" executable="${mvn}" failonerror="true">
       <arg value="-Doutput=${stack.output.dir}/effective-settings.xml"/>
       <arg value="help:effective-settings"/>
-    </exec>
+    </exec> -->
     <xmlproperty file="${stack.output.dir}/effective-settings.xml" keeproot="false"/>
     <condition property="jboss501.home" value="${profiles.profile.properties.jboss501.home}">
       <isset property="profiles.profile.properties.jboss501.home"/>
