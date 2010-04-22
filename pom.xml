@@ -16,6 +16,7 @@
   <groupId>org.jboss.ws.cxf</groupId>
   <artifactId>jbossws-cxf</artifactId>
   <packaging>pom</packaging>
+  <description>JBossWS CXF stack</description>
   
   <version>3.3.0.CR2</version>
   
@@ -23,7 +24,7 @@
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.0.5.GA</version>
+    <version>1.0.6.GA</version>
   </parent>
   
   <!-- Source Control Management -->
@@ -504,24 +505,6 @@
       </plugin>
     </plugins>
   </build>
-  
-  <!-- Repositories -->
-  <repositories>
-    <repository>
-      <id>repository.jboss.org</id>
-      <url>http://repository.jboss.org/maven2</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>snapshots.jboss.org</id>
-      <url>http://snapshots.jboss.org/maven2</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
   
   <!-- Profiles -->
   <profiles>

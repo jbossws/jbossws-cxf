@@ -1,0 +1,5 @@
+Setting up Maven environment
+----------------------------
+
+In order to build this version of JBossWS you need to properly setup your local Maven settings.
+Please look at https://community.jboss.org/wiki/JBossWS-Mavenization#Create_or_Update_Maven_2_Settings_JBoss_Nexus_Maven_Repository
