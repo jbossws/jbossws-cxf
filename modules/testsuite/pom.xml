@@ -26,7 +26,7 @@
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <hibernate.version>3.2.4.sp1</hibernate.version>
     <asm.version>2.2.3</asm.version>
-    <hornetq.version>2.1.0.BETA1</hornetq.version>
+    <hornetq.version>2.1.0.BETA3</hornetq.version>
     <jboss.javaee.version>5.0.0.GA</jboss.javaee.version>
   </properties>
 
@@ -442,7 +442,7 @@
     <profile>
       <id>jboss600</id>
       <properties>
-        <jboss.version>6.0.0.20100216-M2</jboss.version>
+        <jboss.version>6.0.0.20100429-M3</jboss.version>
         <jbossws.integration.target>jboss600</jbossws.integration.target>
       </properties>
       <dependencies>
@@ -453,13 +453,53 @@
         </dependency>
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-aspects</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-connector</artifactId>
+          <version>${jboss.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.hibernate</groupId>
+              <artifactId>ejb3-persistence</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>jboss.jbossws</groupId>
+              <artifactId>jboss-jaxws</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>sun-jaxb</groupId>
+              <artifactId>jaxb-api</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-ejb3</artifactId>
           <version>${jboss.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.microcontainer</groupId>
+              <artifactId>jboss-kernel</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-security</artifactId>
           <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.jbossas</groupId>
+          <artifactId>jboss-as-system</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.hornetq</groupId>
+          <artifactId>hornetq-jms-client</artifactId>
+          <version>${hornetq.version}</version>
         </dependency>
       </dependencies>
       <build>
@@ -550,11 +590,6 @@
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-system</artifactId>
           <version>${jboss.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.hornetq</groupId>
-          <artifactId>hornetq-transports</artifactId>
-          <version>${hornetq.version}</version>
         </dependency>
         <dependency>
           <groupId>org.hornetq</groupId>

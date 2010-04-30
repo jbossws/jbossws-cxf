@@ -39,14 +39,14 @@
       <artifactId>jbossws-jboss510</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!-- [JBWS-2505] -->
+    <!-- START -->
+    <!--
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss600M2</artifactId>
       <scope>provided</scope>
     </dependency>
-    <!-- [JBWS-2505] -->
-    <!-- START -->
-    <!--
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss600x</artifactId>
