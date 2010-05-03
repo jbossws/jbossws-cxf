@@ -98,7 +98,7 @@
       <param name="jbossid" value="${jbossws.integration.target}"/>
       <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="modifyjbossintegration" value="false"/><!-- [JBWS-2505] -->
+      <param name="modifyjbossintegration" value="true"/><!-- [JBWS-2505] -->
     </antcall>
     <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
   </target>
@@ -122,7 +122,7 @@
 
   <target name="undeploy-jboss600" depends="target-jboss600,init" description="Remove jbossws from jboss600">
     <fail message="Not available: ${jboss600.available.file}" unless="jboss600.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss600.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="false" removenativecore="false" /><!-- [JBWS-2505][JBWS-2895] -->
+    <macro-undeploy-jbossws targetdir="${jboss600.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="true" removenativecore="false" /><!-- [JBWS-2505][JBWS-2895] -->
   </target>
 
   <!-- ================================================================== -->

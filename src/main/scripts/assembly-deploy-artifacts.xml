@@ -122,9 +122,6 @@
               <include>org.jboss.ws:jbossws-jboss510:jar</include>
             </includes>
           </dependencySet>
-          <!-- [JBWS-2505] -->
-          <!-- START -->
-          <!--
           <dependencySet>
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss600.${module.extension}</outputFileNameMapping>
@@ -132,9 +129,12 @@
             <scope>provided</scope>
             <unpack>false</unpack>
             <includes>
-              <include>org.jboss.ws:jbossws-jboss600M2:jar</include>
+              <include>org.jboss.ws:jbossws-jboss600M3:jar</include>
             </includes>
           </dependencySet>
+          <!-- [JBWS-2505] -->
+          <!-- START -->
+          <!--
           <dependencySet>
             <outputDirectory>lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss601.${module.extension}</outputFileNameMapping>

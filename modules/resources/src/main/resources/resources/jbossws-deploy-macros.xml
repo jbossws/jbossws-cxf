@@ -290,7 +290,7 @@
   <target name="modify-jboss-integration" depends="process-jboss-integration" if="fixintegration">
     <sequential>
       <copy todir="${targetdir}/META-INF" flatten="true" overwrite="true">
-        <fileset dir="${artifactsdir}/resources/jbossws-${jbossid}">
+        <fileset dir="${artifactsdir}/resources/jbossws-${jbossid}/jbossws-jboss.deployer">
           <include name="**/stack-agnostic-jboss-beans.xml"/>
         </fileset>
       </copy>
