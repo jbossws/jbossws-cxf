@@ -22,11 +22,13 @@
 package org.jboss.wsf.stack.cxf.client.configuration;
 
 import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.configuration.jsse.TLSClientParameters;
 import org.apache.cxf.databinding.DataBinding;
 import org.apache.cxf.frontend.AbstractWSDLBasedEndpointFactory;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.apache.cxf.jaxb.JAXBDataBinding;
 import org.apache.cxf.service.factory.ReflectionServiceFactoryBean;
+import org.apache.cxf.transport.http.HTTPConduit;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.binding.JAXBBindingCustomization;
 
@@ -61,6 +63,10 @@ public class JBossWSCXFConfigurer extends DelegatingConfigurer
       else if (beanInstance instanceof ClientProxyFactoryBean)
       {
          configureClientProxyFactoryBean((ClientProxyFactoryBean)beanInstance);
+      }
+      else if (beanInstance instanceof HTTPConduit)
+      {
+         configureHTTPConduit((HTTPConduit)beanInstance);
       }
       //add other beans configuration here below
    }
@@ -123,6 +129,27 @@ public class JBossWSCXFConfigurer extends DelegatingConfigurer
          }
       }
       //add other configurations here below
+   }
+   
+   /**
+    * Configure the HTTPConduit; currently allows for setting disableCNcheck in TLS client parameters according
+    * to the JBoss' org.jboss.security.ignoreHttpsHost system property.
+    * 
+    * @param conduit
+    */
+   protected synchronized void configureHTTPConduit(HTTPConduit conduit)
+   {
+      TLSClientParameters parameters = conduit.getTlsClientParameters();
+      if (parameters == null) //don't do anything when user already provided a configuration
+      {
+         parameters = new TLSClientParameters();
+         parameters.setUseHttpsURLConnectionDefaultSslSocketFactory(true);
+         if (Boolean.getBoolean("org.jboss.security.ignoreHttpsHost"))
+         {
+            parameters.setDisableCNCheck(true);
+         }
+         conduit.setTlsClientParameters(parameters);
+      }
    }
    
    @SuppressWarnings("unchecked")
