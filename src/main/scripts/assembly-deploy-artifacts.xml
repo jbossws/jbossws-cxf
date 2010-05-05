@@ -39,16 +39,16 @@
               <include>org.springframework:spring-beans:jar</include>
               <include>org.springframework:spring-context:jar</include>
               <include>org.springframework:spring-core:jar</include>
-              <!-- <include>xml-resolver:xml-resolver:jar</include> -->
+              <include>xml-resolver:xml-resolver:jar</include>
               <include>org.apache.ws.commons.schema:XmlSchema:jar</include>
               <include>org.apache.ws.security:wss4j:jar</include>
-              <!-- <include>asm:asm:jar</include> -->
+              <include>org.objectweb.asm:asm:jar</include>
               <include>apache-velocity:velocity:jar</include>
-              <!-- <include>commons-collections:commons-collections:jar</include> -->
+              <include>commons-collections:commons-collections:jar</include>
               <include>commons-lang:commons-lang:jar</include>
-              <!-- <include>com.sun.xml.fastinfoset:FastInfoset:jar</include> -->
-              <!-- <include>org.apache.santuario:xmlsec:jar</include> -->
-              <!-- <include>wsdl4j:wsdl4j:jar</include> -->
+              <include>sun-fi:FastInfoset:jar</include>
+              <include>org.apache:xmlsec:jar</include>
+              <include>wsdl4j:wsdl4j:jar</include>
             </includes>
           </dependencySet>
           <dependencySet>
@@ -93,10 +93,9 @@
             <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws:jbossws-framework:jar</include>
-              <!-- Do not include juddi-service as it has not changed 
               <include>org.jboss.jaxr:juddi-service:sar</include>
               <include>apache-scout:scout:jar</include>
-              <include>juddi:juddi:jar</include> -->
+              <include>juddi:juddi:jar</include>
             </includes>
           </dependencySet>
           

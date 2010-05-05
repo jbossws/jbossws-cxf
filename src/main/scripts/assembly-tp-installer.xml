@@ -57,6 +57,18 @@
         <exclude>**/mail.jar</exclude>
         <exclude>**/stax-api.jar</exclude>
         <exclude>**/wstx.jar</exclude>
+        <exclude>**/lib/jbossws-spi.jar</exclude>
+        <exclude>**/lib/jbossws-common.jar</exclude>
+        <exclude>**/lib/jbossws-framework.jar</exclude>
+        <exclude>**/lib/xml-resolver.jar</exclude>
+        <exclude>**/lib/asm.jar</exclude>
+        <exclude>**/lib/commons-collections.jar</exclude>
+        <exclude>**/lib/FastInfoset.jar</exclude>
+        <exclude>**/lib/xmlsec.jar</exclude>
+        <exclude>**/lib/wsdl4j.jar</exclude>
+        <exclude>**/lib/juddi-service.sar</exclude>
+        <exclude>**/lib/scout.jar</exclude>
+        <exclude>**/lib/juddi.jar</exclude>
       </excludes>
     </fileSet>
   </fileSets>
