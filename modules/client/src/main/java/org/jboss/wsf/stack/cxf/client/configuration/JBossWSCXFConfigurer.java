@@ -36,42 +36,22 @@ import org.jboss.wsf.spi.binding.JAXBBindingCustomization;
  * @author alessio.soldano@jboss.com
  * @since 05-Oct-2009
  */
-public class JBossWSCXFConfigurer implements Configurer
+public class JBossWSCXFConfigurer extends DelegatingConfigurer
 {
    protected BindingCustomization customization;
-   private Configurer delegate;
 
    public JBossWSCXFConfigurer(Configurer delegate)
    {
-      this.delegate = delegate;
+      super(delegate);
    }
    
    public JBossWSCXFConfigurer(Configurer delegate, BindingCustomization customization)
    {
-      this(delegate);
+      super(delegate);
       this.customization = customization;
    }
    
    @Override
-   public void configureBean(Object beanInstance)
-   {
-      internalConfigure(beanInstance);
-      if (delegate != null)
-      {
-         delegate.configureBean(beanInstance);
-      }
-   }
-
-   @Override
-   public void configureBean(String name, Object beanInstance)
-   {
-      internalConfigure(beanInstance);
-      if (delegate != null)
-      {
-         delegate.configureBean(name, beanInstance);
-      }
-   }
-   
    protected void internalConfigure(Object beanInstance)
    {
       if (beanInstance instanceof AbstractWSDLBasedEndpointFactory)
@@ -92,6 +72,26 @@ public class JBossWSCXFConfigurer implements Configurer
     */
    protected synchronized void configureEndpointFactory(AbstractWSDLBasedEndpointFactory factory)
    {
+      //Configure binding customization
+      if (customization != null)
+      {
+         ReflectionServiceFactoryBean serviceFactory = factory.getServiceFactory();
+         //customize default databinding (early pulls in ServiceFactory default databinding and configure it, as it's lazily loaded)
+         serviceFactory.reset();
+         DataBinding serviceFactoryDataBinding = serviceFactory.getDataBinding(true);
+         setBindingCustomization(serviceFactoryDataBinding, customization);
+         serviceFactory.setDataBinding(serviceFactoryDataBinding);
+         //customize user provided databinding (CXF later overrides the ServiceFactory databinding using the user provided one) 
+         if (factory.getDataBinding() == null)
+         {
+            //set the endpoint factory's databinding to prevent CXF resetting everything because user did not provide anything
+            factory.setDataBinding(serviceFactoryDataBinding);
+         }
+         else
+         {
+            setBindingCustomization(factory.getDataBinding(), customization);
+         }
+      }
       //add other configurations here below
    }
    

@@ -19,55 +19,54 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.configuration;
+package org.jboss.wsf.stack.cxf.client.configuration;
 
 import org.apache.cxf.configuration.Configurer;
-import org.jboss.wsf.stack.cxf.client.configuration.DelegatingConfigurer;
-import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
-import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 
 /**
- * A JBossWS CXF Configurer to be used on server side
- * 
+ * A CXF configurer that allows for custom configuration before delegating to another configurer;
+ * this is installed by JBossWS' {@see org.jboss.wsf.stack.cxf.client.configuration.ConfigurerInstaller}
+ * (see cxf-extension-jbossws.xml) to allow for custom client side configuration while leaving
+ * Apache CXF the freedom of setting the initial configurer. 
+ *
  * @author alessio.soldano@jboss.com
- * @since 31-Mar-2010
+ * @since 04-May-2010
  */
-public class JBossWSServerCXFConfigurer extends DelegatingConfigurer
+public abstract class DelegatingConfigurer implements Configurer
 {
-   private WSDLFilePublisher wsdlPublisher;
+   protected Configurer delegate;
 
-   public JBossWSServerCXFConfigurer(Configurer delegate)
+   public DelegatingConfigurer(Configurer delegate)
    {
-      super(delegate);
-   }
-   
-   public JBossWSServerCXFConfigurer(Configurer delegate, WSDLFilePublisher wsdlPublisher)
-   {
-      super(delegate);
-      this.wsdlPublisher = wsdlPublisher;
+      this.delegate = delegate;
    }
    
    @Override
-   protected void internalConfigure(Object beanInstance)
+   public void configureBean(Object beanInstance)
    {
-      if (beanInstance instanceof EndpointImpl)
+      internalConfigure(beanInstance);
+      if (delegate != null)
       {
-         configureEndpoint((EndpointImpl)beanInstance);
+         delegate.configureBean(beanInstance);
       }
    }
 
-   protected synchronized void configureEndpoint(EndpointImpl endpoint)
+   @Override
+   public void configureBean(String name, Object beanInstance)
    {
-      //Configure wsdl file publisher
-      if (wsdlPublisher != null)
+      internalConfigure(beanInstance);
+      if (delegate != null)
       {
-         endpoint.setWsdlPublisher(wsdlPublisher);
+         delegate.configureBean(name, beanInstance);
       }
    }
    
-   public void setWsdlPublisher(WSDLFilePublisher wsdlPublisher)
-   {
-      this.wsdlPublisher = wsdlPublisher;
-   }
-
+   /**
+    * Performs custom configurations on the provided bean instance
+    * before delegating to the other configurer.
+    * 
+    * @param beanInstance
+    */
+   protected abstract void internalConfigure(Object beanInstance);
+   
 }

@@ -26,6 +26,7 @@ import java.net.URL;
 import java.util.Map;
 
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.configuration.Configurer;
 import org.jboss.wsf.common.integration.AbstractDeploymentAspect;
 import org.jboss.wsf.common.integration.WSConstants;
 import org.jboss.wsf.spi.binding.BindingCustomization;
@@ -33,7 +34,6 @@ import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.resolver.JBossWSResourceResolver;
@@ -77,7 +77,7 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          {
             URL jbossCxfXml = deploymentResolver.resolve(contextParams.get(BusHolder.PARAM_CXF_BEANS_URL));
             org.apache.cxf.resource.ResourceResolver resolver = new JBossWSResourceResolver(deploymentResolver);
-            JBossWSCXFConfigurer configurer = holder.createConfigurer(dep.getAttachment(BindingCustomization.class), new WSDLFilePublisher(aDep));
+            Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class), new WSDLFilePublisher(aDep));
             holder.configure(jbossCxfXml, new SoapTransportFactoryExt(), resolver, configurer);
          }
          catch (IOException e)

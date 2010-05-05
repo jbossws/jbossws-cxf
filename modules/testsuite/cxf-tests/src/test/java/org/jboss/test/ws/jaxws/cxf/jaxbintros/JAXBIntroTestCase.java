@@ -54,14 +54,13 @@ public class JAXBIntroTestCase extends JBossWSTest
 
    private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-jaxbintros/EndpointService";
    private Bus bus;
-   private Configurer originalConfigurer;
+   private JBossWSCXFConfigurer configurer;
 
    public static Test suite()
    {
       return new JBossWSTestSetup(JAXBIntroTestCase.class, "jaxws-cxf-jaxbintros.jar");
    }
 
-   @SuppressWarnings("unchecked")
    public void testWSDLAccess() throws Exception
    {
       URL wsdlURL = new URL(endpointAddress + "?wsdl");
@@ -105,7 +104,7 @@ public class JAXBIntroTestCase extends JBossWSTest
       }
       finally
       {
-         restoreConfigurer();
+         unsetBindingCustomizationOnClientSide();
       }
    }
 
@@ -135,22 +134,20 @@ public class JAXBIntroTestCase extends JBossWSTest
     *
     * @throws Exception
     */
+   @SuppressWarnings("unchecked")
    private void setBindingCustomizationOnClientSide() throws Exception
    {
       BindingCustomization jaxbCustomizations = new JAXBBindingCustomization();
       BindingCustomizationFactory.populateBindingCustomization(getResourceURL("jaxws/cxf/jaxbintros/META-INF/jaxb-intros.xml").openStream(), jaxbCustomizations);
 
       bus = BusFactory.getThreadDefaultBus();
-      originalConfigurer = bus.getExtension(Configurer.class);
-      JBossWSCXFConfigurer configurer = new JBossWSCXFConfigurer(originalConfigurer);
+      configurer = (JBossWSCXFConfigurer)bus.getExtension(Configurer.class);
       configurer.setBindingCustomization(jaxbCustomizations);
-      bus.setExtension(configurer, Configurer.class);
-
    }
-
-   private void restoreConfigurer()
+   
+   private void unsetBindingCustomizationOnClientSide()
    {
-      bus.setExtension(originalConfigurer, Configurer.class);
+      if (configurer != null)
+         configurer.setBindingCustomization(null);
    }
-
 }

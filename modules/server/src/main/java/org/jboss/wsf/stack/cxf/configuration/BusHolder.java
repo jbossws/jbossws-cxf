@@ -49,7 +49,7 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.InputStreamResource;
 
 /**
- * An wrapper of the Bus for performing most of the configurations required on it by JBossWS
+ * A wrapper of the Bus for performing most of the configurations required on it by JBossWS
  * 
  * @author alessio.soldano@jboss.com
  * @since 25-Mar-2010
@@ -110,7 +110,7 @@ public class BusHolder
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     * @throws IOException           Throws IOException if the jboss-cxf.xml file can't be read
     */
-   public void configure(URL jbossCxfXml, SoapTransportFactory soapTransportFactory, ResourceResolver resolver, JBossWSCXFConfigurer configurer) throws IOException
+   public void configure(URL jbossCxfXml, SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer) throws IOException
    {
       if (configured)
       {
@@ -130,17 +130,19 @@ public class BusHolder
    }
    
    /**
-    * A convenient method for getting a jbossws cxf configurer delegating to the cxf configurer
-    * that's currently installed in the hold bus.
+    * A convenient method for getting a jbossws cxf server configurer delegating to the
+    * cxf configurer that's currently installed in the hold bus.
     * 
     * @param customization    The binding customization to set in the configurer, if any
     * @param wsdlPublisher    The wsdl file publisher to set in the configurer, if any
     * @return                 The new jbossws cxf configurer
     */
-   public JBossWSCXFConfigurer createConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher)
+   public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher)
    {
-      Configurer delegate = bus.getExtension(Configurer.class);
-      return new JBossWSServerCXFConfigurer(delegate, customization, wsdlPublisher);
+      //the JBossWSCXFConfigurer should already be set through cxf-extensions-jbossws.xml
+      JBossWSCXFConfigurer delegate = (JBossWSCXFConfigurer)bus.getExtension(Configurer.class);
+      delegate.setBindingCustomization(customization);
+      return new JBossWSServerCXFConfigurer(delegate, wsdlPublisher);
    }
    
    /**
