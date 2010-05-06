@@ -53,6 +53,8 @@ org/jboss/test/ws/jaxws/jbws2985/**
 org/jboss/test/ws/jaxws/jbws2991/**
 org/jboss/test/ws/jaxws/jbws3008/**
 org/jboss/test/ws/jaxws/endpointReference/EndpointReferenceBuilderTestCase.*
+
+# [JBWS-3020]  Investigate why HandlerScopeTestCase fails
 org/jboss/test/ws/jaxws/handlerscope/*TestCase.*
 
 # [JBWS-2987] Review JMS integration
