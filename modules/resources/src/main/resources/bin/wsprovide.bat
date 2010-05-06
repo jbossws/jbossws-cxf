@@ -18,7 +18,6 @@ if "x%JAVA_HOME%" == "x" (
     set "JAVAC_JAR=%JAVA_HOME%\lib\tools.jar"
   )
 )
-
 set JBOSS_HOME=%DIRNAME%\..
 set JBOSS_ENDORSED_DIRS=%JBOSS_HOME%\lib\endorsed
 
@@ -34,7 +33,8 @@ set WSPROVIDE_CLASSPATH=%WSPROVIDE_CLASSPATH%;%JBOSS_HOME%/client/log4j.jar
 set WSPROVIDE_CLASSPATH=%WSPROVIDE_CLASSPATH%;%JBOSS_HOME%/client/mail.jar
 
 rem CXF XJC patched plugins
-set WSPROVIDE_CLASSPATH=%WSPROVIDE_CLASSPATH%;%JBOSS_HOME%/cxf-xjc-bug671.jar
+set WSPROVIDE_CLASSPATH=%WSPROVIDE_CLASSPATH%;%JBOSS_HOME%/client/cxf-xjc-boolean.jar
+set WSPROVIDE_CLASSPATH=%WSPROVIDE_CLASSPATH%;%JBOSS_HOME%/client/cxf-xjc-bug671.jar
 
 rem shared jaxws libs
 set WSPROVIDE_CLASSPATH=%WSPROVIDE_CLASSPATH%;%JBOSS_HOME%/client/jaxb-api.jar
