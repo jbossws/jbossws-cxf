@@ -23,6 +23,7 @@
             <useStrictFiltering>true</useStrictFiltering>
             <includes>
               <include>org.apache.cxf:cxf-*</include>
+              <include>org.apache.cxf.xjcplugins:cxf-*</include>
               <!-- <include>javax.mail:mail*</include> -->
               <!-- ws-metadata -->
               <include>javax.jws:jsr181-api:jar</include>

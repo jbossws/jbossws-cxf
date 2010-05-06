@@ -1,2 +1,3 @@
-org.apache.cxf.xjc.ts.ToStringPlugin
-org.apache.cxf.xjc.dv.DefaultValuePlugin
+com.sun.tools.xjc.addon.apache_cxf.ts.ToStringPlugin
+com.sun.tools.xjc.addon.apache_cxf.bug671.Bug671Plugin
+com.sun.tools.xjc.addon.apache_cxf.dv.DefaultValuePlugin

@@ -99,6 +99,10 @@
       <artifactId>cxf-tools-wsdlto-frontend-jaxws</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.apache.cxf.xjcplugins</groupId>
+      <artifactId>cxf-xjc-bug671</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-xjc-dv</artifactId>
     </dependency>
@@ -129,6 +133,10 @@
     <dependency>
       <groupId>org.apache</groupId>
       <artifactId>xmlsec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.woodstox</groupId>
+      <artifactId>wstx-asl</artifactId>
     </dependency>
     <dependency>
       <groupId>org.objectweb.asm</groupId>
