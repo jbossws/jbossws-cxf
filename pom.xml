@@ -43,9 +43,9 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.common.version>1.1.0.SP2</jbossws.common.version>
-    <jbossws.framework.version>3.1.2.SP4</jbossws.framework.version>
-    <jbossws.spi.version>1.1.2.SP1</jbossws.spi.version>
+    <jbossws.common.version>1.1.0-SNAPSHOT</jbossws.common.version>
+    <jbossws.framework.version>3.1.2-SNAPSHOT</jbossws.framework.version>
+    <jbossws.spi.version>1.1.2-SNAPSHOT</jbossws.spi.version>
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
