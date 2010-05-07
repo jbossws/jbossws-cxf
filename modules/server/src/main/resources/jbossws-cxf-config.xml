@@ -64,6 +64,11 @@
     <property name="invokerEJB3">org.jboss.wsf.stack.cxf.InvokerEJB3</property>
     <property name="invokerJSE">org.jboss.wsf.stack.cxf.InvokerJSE</property>
   </bean>
+  
+  <bean name="ResourceResolverDeploymentAspect" class="org.jboss.wsf.stack.cxf.ResourceResolverDeploymentAspect">
+    <property name="requires">StackDescriptor</property>
+    <property name="provides">ResourceResolver</property>
+  </bean>
 
   <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
     <property name="requires">ContainerEndpointHandler</property>
@@ -103,6 +108,7 @@
     <property name="sortAspectsOnCreate">true</property>
     <property name="aspects">
       <set class="java.util.HashSet" elementClass="org.jboss.wsf.spi.deployment.DeploymentAspect">        
+        <inject bean="ResourceResolverDeploymentAspect"/>
         <inject bean="WSCXFEndpointHandlerDeploymentAspect"/>
         <inject bean="WSCXFEndpointRecordProcessorDeploymentAspect"/>
       </set>
@@ -119,6 +125,7 @@
         <inject bean="WSCXFEndpointHandlerDeploymentAspect"/>
         <inject bean="WSCXFEndpointRecordProcessorDeploymentAspect"/>
         <inject bean="WSCXFDescriptorDeploymentAspect"/>
+        <inject bean="ResourceResolverDeploymentAspect"/>
       </set>
     </property>
     <depends>WSDeploymentAspectInstallerEJB</depends>

@@ -33,8 +33,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceException;
 
+import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.transport.DestinationFactory;
+import org.apache.cxf.binding.soap.SoapTransportFactory;
+import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.endpoint.ServerRegistry;
+import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
+import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
+import org.apache.cxf.management.InstrumentationManager;
+import org.apache.cxf.management.counters.CounterRepository;
+import org.apache.cxf.resource.ResourceManager;
+import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.DestinationFactoryManager;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.transport.servlet.ServletController;
@@ -74,16 +84,6 @@ public class CXFServletExt extends CXFServlet
    public void init(ServletConfig servletConfig) throws ServletException
    {
       super.init(servletConfig);
-
-      // Init the Endpoint
-      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).getEndpointRegistry();
-
-      ServletContext context = servletConfig.getServletContext();
-      String contextPath = context.getContextPath();
-      endpoint = initServiceEndpoint(contextPath);
-
-      context.setAttribute(ServletController.class.getName(), getController());
    }
    
    @Override
@@ -101,13 +101,39 @@ public class CXFServletExt extends CXFServlet
       ServletContext svCtx = getServletContext();
       ApplicationContext appCtx = (ApplicationContext)svCtx.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT");
 
+      Bus bus = getBus();
+
       //Install our SoapTransportFactory to allow for proper soap address rewrite
-      DestinationFactoryManager dfm = getBus().getExtension(DestinationFactoryManager.class);
-      DestinationFactory factory = new SoapTransportFactoryExt();
+      DestinationFactoryManager dfm = bus.getExtension(DestinationFactoryManager.class);
+      SoapTransportFactory factory = new SoapTransportFactoryExt();
+      factory.setBus(bus);
       dfm.registerDestinationFactory(Constants.NS_SOAP11, factory);
       dfm.registerDestinationFactory(Constants.NS_SOAP12, factory);
+
+      //Init the Endpoint
+      initEndpoint(servletConfig);
             
+      //Load additional configurations
       loadAdditionalConfigExt(appCtx, servletConfig);
+   }
+
+   private void initEndpoint(ServletConfig servletConfig)
+   {
+      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
+      epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).getEndpointRegistry();
+
+      ServletContext context = servletConfig.getServletContext();
+      String contextPath = context.getContextPath();
+      endpoint = initServiceEndpoint(contextPath);
+      
+      //Install the JBossWS resource resolver
+      ResourceResolver resourceResolver = endpoint.getAttachment(ResourceResolver.class);
+      if (resourceResolver != null)
+      {
+         bus.getExtension(ResourceManager.class).addResourceResolver(resourceResolver);
+      }
+      
+      context.setAttribute(ServletController.class.getName(), getController());
    }
 
    private void loadAdditionalConfigExt(ApplicationContext ctx, ServletConfig servletConfig) throws ServletException
