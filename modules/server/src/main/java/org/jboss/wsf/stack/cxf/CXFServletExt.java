@@ -36,13 +36,6 @@ import javax.xml.ws.WebServiceException;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
-import org.apache.cxf.configuration.Configurer;
-import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.endpoint.ServerRegistry;
-import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
-import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
-import org.apache.cxf.management.InstrumentationManager;
-import org.apache.cxf.management.counters.CounterRepository;
 import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.DestinationFactoryManager;
@@ -102,7 +95,6 @@ public class CXFServletExt extends CXFServlet
       ApplicationContext appCtx = (ApplicationContext)svCtx.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT");
 
       Bus bus = getBus();
-
       //Install our SoapTransportFactory to allow for proper soap address rewrite
       DestinationFactoryManager dfm = bus.getExtension(DestinationFactoryManager.class);
       SoapTransportFactory factory = new SoapTransportFactoryExt();

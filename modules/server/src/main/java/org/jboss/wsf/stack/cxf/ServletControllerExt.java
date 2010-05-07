@@ -39,6 +39,12 @@ import org.apache.cxf.transport.servlet.ServletDestination;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.apache.cxf.transports.http.QueryHandler;
 import org.apache.cxf.transports.http.QueryHandlerRegistry;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.management.EndpointMetrics;
+import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.wsf.spi.management.ServerConfigFactory;
 
 /**
  * An extension to the CXF servlet controller
@@ -51,6 +57,7 @@ public class ServletControllerExt extends ServletController
    private ServletTransportFactory cxfTransport;
    private ServletContext servletCtx;
    private Bus bus;
+   private ServerConfig serverConfig;
 
    public ServletControllerExt(ServletTransportFactory cxfTransport, ServletConfig config, ServletContext servletCtx, Bus bus)
    {
@@ -58,6 +65,8 @@ public class ServletControllerExt extends ServletController
       this.cxfTransport = cxfTransport;
       this.servletCtx = servletCtx;
       this.bus = bus;
+      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
+      serverConfig = spiProvider.getSPI(ServerConfigFactory.class).getServerConfig();
    }
    
    /**
@@ -126,6 +135,10 @@ public class ServletControllerExt extends ServletController
          String ctxUri = req.getRequestURI();
          String baseUri = req.getRequestURL().toString() + "?" + req.getQueryString();
          EndpointInfo endpointInfo = dest.getEndpointInfo();
+         if (ServerConfig.UNDEFINED_HOSTNAME.equals(serverConfig.getWebServiceHost()))
+         {
+            endpointInfo.setProperty("autoRewriteSoapAddress", true);
+         }
 
          for (QueryHandler queryHandler : bus.getExtension(QueryHandlerRegistry.class).getHandlers())
          {
