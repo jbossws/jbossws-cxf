@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf.client;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.configuration.Configurer;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 
@@ -59,6 +60,7 @@ import org.jboss.logging.Logger;
  *
  * @author Thomas.Diesler@jboss.com
  * @author Richard.Opalka@jboss.com
+ * @author alessio.soldano@jboss.com
  */
 public class ServiceObjectFactory implements ObjectFactory
 {
@@ -89,8 +91,6 @@ public class ServiceObjectFactory implements ObjectFactory
    {
       try
       {
-         BusFactory.setThreadDefaultBus(null); // cleanup thread locals before constructing Service
-
          Reference ref = (Reference)obj;
 
          // Get the target class name
@@ -98,6 +98,14 @@ public class ServiceObjectFactory implements ObjectFactory
 
          // Unmarshall the UnifiedServiceRef
          UnifiedServiceRefMetaData serviceRef = unmarshallServiceRef(ref);
+
+         //Reset bus before constructing Service
+         BusFactory.setThreadDefaultBus(null);
+         Bus bus = BusFactory.getThreadDefaultBus();
+         //Add extension to configure stub properties using the UnifiedServiceRefMetaData 
+         Configurer configurer = bus.getExtension(Configurer.class);
+         bus.setExtension(new ServiceRefStubPropertyConfigurer(serviceRef, configurer), Configurer.class);
+         
          String serviceRefName = serviceRef.getServiceRefName();
          QName serviceQName = serviceRef.getServiceQName();
 
@@ -151,9 +159,6 @@ public class ServiceObjectFactory implements ObjectFactory
             }
          }
 
-         // Configure the service
-         configureService((Service)target, serviceRef);
-
          if (targetClassName != null && targetClassName.equals(serviceImplClass) == false)
          {
             try
@@ -189,11 +194,9 @@ public class ServiceObjectFactory implements ObjectFactory
 
          if ((serviceRef.getHandlerChain() != null) && (target instanceof Service))
          {
-            Bus bus = BusFactory.getThreadDefaultBus();
             ((Service)target).setHandlerResolver(new HandlerResolverImpl(bus, serviceRef.getHandlerChain(), target.getClass()));
          }
          
-         hackServiceDelegate(target, serviceRef);
          
          return target;
       }
@@ -204,68 +207,6 @@ public class ServiceObjectFactory implements ObjectFactory
       }
    }
    
-   // TODO: ugly hack that should be removed in the future
-   private Object hackServiceDelegate(final Object service, final UnifiedServiceRefMetaData serviceRef) throws Throwable
-   {
-      SecurityManager sm = System.getSecurityManager();
-      if (sm != null)
-      {
-         try
-         {
-            return AccessController.doPrivileged(new PrivilegedExceptionAction<Object>()
-            {
-               public Object run() throws Exception
-               {
-                  Field delegateField = findServiceDelegateField(service.getClass());
-                  if (delegateField != null)
-                  {
-                     delegateField.setAccessible(true);
-                     ServiceDelegate delegate = (ServiceDelegate)delegateField.get(service);
-                     delegateField.set(service, new ServiceRefStubPropertyServiceDelegate(delegate, serviceRef));
-                     return delegate;
-                  } else {
-                     return null;
-                  }
-               }
-            });
-         }
-         catch (PrivilegedActionException e)
-         {
-            throw e.getCause();
-         }
-      }
-      Field delegateField = findServiceDelegateField(service.getClass());
-      if (delegateField != null)
-      {
-         delegateField.setAccessible(true);
-         ServiceDelegate delegate = (ServiceDelegate)delegateField.get(service);
-         delegateField.set(service, new ServiceRefStubPropertyServiceDelegate(delegate, serviceRef));
-         return delegate;
-      } else {
-         return null;
-      }
-   }
-   
-   private static Field findServiceDelegateField(Class<?> clazz)
-   {
-      while (clazz != null)
-      {
-         for (Field f : clazz.getDeclaredFields())
-         {
-            if (f.getType().equals(ServiceDelegate.class))
-               return f;
-         }
-         clazz = clazz.getSuperclass();
-      }
-      return null;
-   }
-
-
-   private void configureService(Service service, UnifiedServiceRefMetaData serviceRef)
-   {
-      log.warn("Service configuration not available in Apache-CXF");
-   }
-
    private UnifiedServiceRefMetaData unmarshallServiceRef(Reference ref) throws ClassNotFoundException, NamingException
    {
       UnifiedServiceRefMetaData sref;
