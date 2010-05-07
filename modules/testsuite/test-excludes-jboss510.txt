@@ -5,9 +5,6 @@ org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*
 org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase.*
 org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
 
-# [CXF-1510] Cannot handle anonymous bare requests
-org/jboss/test/ws/jaxws/anonymous/**
-
 # [CXF-1511] WrappedMessageContext does not implement SOAPMessageContext
 org/jboss/test/ws/jaxws/binding/**
 
