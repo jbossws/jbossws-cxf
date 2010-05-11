@@ -19,7 +19,7 @@
 -->
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
-<properties version="1.0">
+<properties>
   <entry key="soap-javax.wsdl.Port">org.apache.cxf.binding.soap.wsdl11.SoapAddressPlugin</entry>
   <entry key="xml-javax.wsdl.Port">org.apache.cxf.binding.xml.wsdl11.HttpAddressPlugin</entry>
   <entry key="xml-javax.wsdl.Binding">org.apache.cxf.binding.xml.wsdl11.XmlBindingPlugin</entry>

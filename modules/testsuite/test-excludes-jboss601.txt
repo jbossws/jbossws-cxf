@@ -23,9 +23,6 @@ org/jboss/test/ws/jaxws/webfault/**
 # [CXF-2006] RespectBinding feature and not understood required extensibility elements
 org/jboss/test/ws/jaxws/jbws2449/**
 
-# [CXF-2723] Allow configuration of JaxWsClientFactoryBean during port creation
-org/jboss/test/ws/jaxws/cxf/jaxbintros/**
-
 # [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored
 org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
 
