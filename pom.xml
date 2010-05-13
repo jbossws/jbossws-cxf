@@ -62,6 +62,7 @@
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
     <jboss.logging.version>2.2.0.CR1</jboss.logging.version>
+    <jboss.security.spi.version>2.0.4.SP4</jboss.security.spi.version>
     <jaxb.api.version>2.1</jaxb.api.version>
     <jaxb.impl.version>2.1.12</jaxb.impl.version>
     <jaxrpc.api.version>1.1</jaxrpc.api.version>
@@ -373,6 +374,12 @@
         <groupId>org.jboss</groupId>
         <artifactId>jboss-common-core</artifactId>
         <version>${jboss.common.core.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.security</groupId>
+        <artifactId>jboss-security-spi</artifactId>
+        <version>${jboss.security.spi.version}</version>
         <scope>provided</scope>
       </dependency>
       
