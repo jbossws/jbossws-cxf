@@ -97,7 +97,7 @@ public class ServiceObjectFactory implements ObjectFactory
          
          Bus bus;
          //Reset bus before constructing Service
-         BusFactory.setThreadDefaultBus(null);
+         BusFactory.setDefaultBus(null);
          URL cxfConfig = getCXFConfiguration(serviceRef.getVfsRoot());
          if (cxfConfig != null)
          {

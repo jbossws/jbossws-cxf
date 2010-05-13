@@ -33,6 +33,7 @@ import javax.xml.ws.soap.MTOMFeature;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.jaxws.support.JaxWsServiceFactoryBean;
+import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedPortComponentRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedStubPropertyMetaData;
@@ -56,10 +57,6 @@ public class ServiceRefStubPropertyConfigurer implements Configurer
 
    public void configureBean(Object beanInstance)
    {
-      if (beanInstance instanceof JaxWsProxyFactoryBean)
-      {
-         configureJaxWsProxyFactoryBean((JaxWsProxyFactoryBean)beanInstance);
-      }
       if (delegate != null)
       {
          delegate.configureBean(beanInstance);
@@ -68,9 +65,19 @@ public class ServiceRefStubPropertyConfigurer implements Configurer
 
    public void configureBean(String name, Object beanInstance)
    {
-      if (beanInstance instanceof JaxWsProxyFactoryBean)
+      if (name != null && beanInstance instanceof JaxWsProxyFactoryBean)
       {
-         configureJaxWsProxyFactoryBean((JaxWsProxyFactoryBean)beanInstance);
+         QName portQName = null;
+         try
+         {
+            String portName = name.substring(0, name.indexOf(".jaxws-client.proxyFactory"));
+            portQName = QName.valueOf(portName);
+         }
+         catch (Exception e)
+         {
+            Logger.getLogger(this.getClass()).warn("Unable to retrieve port QName from '" + name + "', trying matching port using endpoint interface name only.");
+         }
+         configureJaxWsProxyFactoryBean(portQName, (JaxWsProxyFactoryBean)beanInstance);
       }
       if (delegate != null)
       {
@@ -78,26 +85,14 @@ public class ServiceRefStubPropertyConfigurer implements Configurer
       }
    }
    
-   private synchronized void configureJaxWsProxyFactoryBean(JaxWsProxyFactoryBean proxyFactory)
+   private synchronized void configureJaxWsProxyFactoryBean(QName portQName, JaxWsProxyFactoryBean proxyFactory)
    {
       Class<?> clazz = proxyFactory.getServiceClass();
-      UnifiedPortComponentRefMetaData upcmd = serviceRefMD.getPortComponentRef(clazz != null ? clazz.getName() : null, getServiceName(proxyFactory));
+      UnifiedPortComponentRefMetaData upcmd = serviceRefMD.getPortComponentRef(clazz != null ? clazz.getName() : null, portQName);
       if (upcmd != null)
       {
          setProperties(proxyFactory, upcmd);
          setMTOM((JaxWsServiceFactoryBean)proxyFactory.getServiceFactory(), upcmd);
-      }
-   }
-   
-   private static QName getServiceName(JaxWsProxyFactoryBean proxyFactory)
-   {
-      try
-      {
-         return proxyFactory.getServiceName();
-      }
-      catch (Exception e) //ignore
-      {
-         return null;
       }
    }
    
