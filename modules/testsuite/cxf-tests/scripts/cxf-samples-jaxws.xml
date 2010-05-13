@@ -184,6 +184,23 @@
        </webinf>
     </war>
 
+    <!-- jaxws-samples-wsse-username-authorize -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-username-authorize.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-authorize/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/Service*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/jaxws/*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/SubjectCreatingInterceptor.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/AuthenticationManagerLoader.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-authorize/WEB-INF">
+          <include name="jboss-web.xml"/>
+          <include name="jbossws-cxf.xml"/>
+          <include name="wsdl/*"/>
+       </webinf>
+    </war>
+
     <!-- jaxws-samples-wssePolicy-sign -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wssePolicy-sign.war"

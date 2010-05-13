@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,23 +19,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse;
+package org.jboss.test.ws.jaxws.samples.wsse.jaxws;
 
-import java.io.IOException;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import org.apache.ws.security.WSPasswordCallback;
-
-public class UsernamePasswordCallback implements CallbackHandler
+@XmlRootElement(name = "greetMeResponse", namespace = "http://www.jboss.org/jbossws/ws-extensions/wssecurity")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "greetMeResponse", namespace = "http://www.jboss.org/jbossws/ws-extensions/wssecurity")
+public class GreetMeResponse
 {
-   public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
-   {
-      WSPasswordCallback pc = (WSPasswordCallback)callbacks[0];
-      if ("kermit".equals(pc.getIdentifier()))
-         pc.setPassword("thefrog");
-      else
-         pc.setPassword("wrong password");
-   }
+
+    @XmlElement(name = "return", namespace = "")
+    private String _return;
+
+    public String getReturn()
+    {
+        return this._return;
+    }
+
+    public void setReturn(String _return)
+    {
+        this._return = _return;
+    }
+
 }
