@@ -24,8 +24,11 @@ package org.jboss.wsf.stack.cxf.client;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedPortComponentRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedStubPropertyMetaData;
@@ -49,10 +52,6 @@ public class ServiceRefStubPropertyConfigurer implements Configurer
 
    public void configureBean(Object beanInstance)
    {
-      if (beanInstance instanceof JaxWsProxyFactoryBean)
-      {
-         configureJaxWsProxyFactoryBean((JaxWsProxyFactoryBean)beanInstance);
-      }
       if (delegate != null)
       {
          delegate.configureBean(beanInstance);
@@ -61,9 +60,19 @@ public class ServiceRefStubPropertyConfigurer implements Configurer
 
    public void configureBean(String name, Object beanInstance)
    {
-      if (beanInstance instanceof JaxWsProxyFactoryBean)
+      if (name != null && beanInstance instanceof JaxWsProxyFactoryBean)
       {
-         configureJaxWsProxyFactoryBean((JaxWsProxyFactoryBean)beanInstance);
+         QName portQName = null;
+         try
+         {
+            String portName = name.substring(0, name.indexOf(".jaxws-client.proxyFactory"));
+            portQName = QName.valueOf(portName);
+         }
+         catch (Exception e)
+         {
+            Logger.getLogger(this.getClass()).warn("Unable to retrieve port QName from '" + name + "', trying matching port using endpoint interface name only.");
+         }
+         configureJaxWsProxyFactoryBean(portQName, (JaxWsProxyFactoryBean)beanInstance);
       }
       if (delegate != null)
       {
@@ -71,21 +80,28 @@ public class ServiceRefStubPropertyConfigurer implements Configurer
       }
    }
    
-   private synchronized void configureJaxWsProxyFactoryBean(JaxWsProxyFactoryBean proxyFactory)
+   private synchronized void configureJaxWsProxyFactoryBean(QName portQName, JaxWsProxyFactoryBean proxyFactory)
    {
-      Map<String, Object> properties = new HashMap<String, Object>();
-      for (UnifiedPortComponentRefMetaData pcRef : serviceRefMD.getPortComponentRefs())
+      Class<?> clazz = proxyFactory.getServiceClass();
+      UnifiedPortComponentRefMetaData upcmd = serviceRefMD.getPortComponentRef(clazz != null ? clazz.getName() : null, portQName);
+      if (upcmd != null)
       {
-         String sei = pcRef.getServiceEndpointInterface();
-         if (sei != null && sei.equals(proxyFactory.getServiceClass().getName()))
-         {
-            for (UnifiedStubPropertyMetaData prop : pcRef.getStubProperties())
-            {
-               properties.put(prop.getPropName(), prop.getPropValue());
-            }
-         }
+         setProperties(proxyFactory, upcmd);
       }
-      proxyFactory.setProperties(properties);
+   }
+   
+   private void setProperties(JaxWsProxyFactoryBean proxyFactory, UnifiedPortComponentRefMetaData upcmd)
+   {
+      Map<String, Object> properties = proxyFactory.getProperties();
+      if (properties == null)
+      {
+         properties = new HashMap<String, Object>();
+         proxyFactory.setProperties(properties);
+      }
+      for (UnifiedStubPropertyMetaData prop : upcmd.getStubProperties())
+      {
+         properties.put(prop.getPropName(), prop.getPropValue());
+      }
    }
 
 }

@@ -100,7 +100,7 @@ public class ServiceObjectFactory implements ObjectFactory
          UnifiedServiceRefMetaData serviceRef = unmarshallServiceRef(ref);
 
          //Reset bus before constructing Service
-         BusFactory.setThreadDefaultBus(null);
+         BusFactory.setDefaultBus(null);
          Bus bus = BusFactory.getThreadDefaultBus();
          //Add extension to configure stub properties using the UnifiedServiceRefMetaData 
          Configurer configurer = bus.getExtension(Configurer.class);
