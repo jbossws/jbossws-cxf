@@ -8,9 +8,6 @@ org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**
 org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase.*
 org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
 
-# [CXF-1516] Type inheritance with document/literal/bare
-org/jboss/test/ws/jaxws/jbws1702/**
-
 # [CXF-1517] HTTP bindings for Provider
 org/jboss/test/ws/jaxws/jbws1807/**
 
