@@ -9,7 +9,7 @@
 <!--                                                                        -->
 <!-- ====================================================================== -->
 
-<project basedir="." name="JBossWS-CXF-TP-Installer" default="install">
+<project basedir="." name="JBossWS-CXF-Installer" default="install">
   
   <!-- ================================================================== -->
   <!-- Setup                                                              -->
@@ -20,11 +20,11 @@
   <property name="output.dir" value="${basedir}/output"/>
   <property name="thirdparty.dir" value="${basedir}/deploy/lib"/>
   <property name="deploy.artifacts.dir" value="${basedir}/deploy"/>
-  <property name="jbossws.default.deploy.conf" value="${build.dir}/default-deploy-tp-installer.conf"/>
-  <property name="jbossws.standard.deploy.conf" value="${build.dir}/standard-deploy-tp-installer.conf"/>
-  <property name="jbossws.production.deploy.conf" value="${build.dir}/production-deploy-tp-installer.conf"/>
-  <property name="jbossws.web.deploy.conf" value="${build.dir}/web-deploy-tp-installer.conf"/>
-  <property name="jbossws.all.deploy.conf" value="${build.dir}/all-deploy-tp-installer.conf"/>
+  <property name="jbossws.default.deploy.conf" value="${build.dir}/default-deploy-installer.conf"/>
+  <property name="jbossws.standard.deploy.conf" value="${build.dir}/standard-deploy-installer.conf"/>
+  <property name="jbossws.production.deploy.conf" value="${build.dir}/production-deploy-installer.conf"/>
+  <property name="jbossws.web.deploy.conf" value="${build.dir}/web-deploy-installer.conf"/>
+  <property name="jbossws.all.deploy.conf" value="${build.dir}/all-deploy-installer.conf"/>
   
   <property name="jbossws.integration.target" value="jboss510"/>
   <property name="jboss510.home" value="${basedir}/.."/>
@@ -32,7 +32,7 @@
   
   <import file="${build.dir}/build-setup.xml"/>
   <import file="${build.dir}/build-deploy.xml"/>
-  <import file="${build.dir}/jbossws-tp-installer-macros.xml"/>
+  <import file="${build.dir}/jbossws-installer-macros.xml"/>
   
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
@@ -52,9 +52,7 @@
   
   <!-- dummy targets -->
   <target name="prepare-deploy" depends="init"/>
-  <target name="install" depends="clean, deploy-jboss510" description="Install JBossWS-CXF Tech Preview">
-  	<echo message="-----------------------------------------------------------------------"/>
-  	<echo message=" WARNING: JBossWS-CXF Tech Preview is not meant for production use yet"/>
+  <target name="install" depends="clean, deploy-jboss510" description="Install JBossWS-CXF">
   	<echo message="-----------------------------------------------------------------------"/>
   </target>
 	

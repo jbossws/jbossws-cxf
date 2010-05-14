@@ -724,21 +724,21 @@
     </profile>
 
     <!-- 
-    Name:  tp-installer
-    Descr: Build the CXF Tech Preview Installer  
+    Name:  installer
+    Descr: Build the CXF Installer  
     -->
     <profile>
-      <id>tp-installer</id>
+      <id>installer</id>
       <build>
         <plugins>
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <configuration>
-              <finalName>jbossws-cxf-tp-installer</finalName>
+              <finalName>jbossws-cxf-installer</finalName>
               <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
               <appendAssemblyId>false</appendAssemblyId>
               <descriptors>
-                <descriptor>src/main/scripts/assembly-tp-installer.xml</descriptor>
+                <descriptor>src/main/scripts/assembly-installer.xml</descriptor>
               </descriptors>
             </configuration>
           </plugin>

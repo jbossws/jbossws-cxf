@@ -134,25 +134,25 @@
     </zip>
   </target>
 	  
-  <target name="build-tp-installer" depends="prepare-deploy,os-init" description="Build the CXF Tech Preview Installer">
+  <target name="build-installer" depends="prepare-deploy,os-init" description="Build the CXF stack installer">
 	    
     <echo/>
-    <echo message="${mvn} ${maven.opts} -Ptp-installer package assembly:directory"/>
+    <echo message="${mvn} ${maven.opts} -Pinstaller package assembly:directory"/>
     <echo/>
     
-    <delete dir="${stack.output.dir}/jbossws-cxf-tp-installer"/>
+    <delete dir="${stack.output.dir}/jbossws-cxf-installer"/>
     <exec dir="${basedir}" executable="${mvn}" failonerror="true">
-      <arg line="${maven.opts} -Ptp-installer dependency:tree"/>
+      <arg line="${maven.opts} -Pinstaller dependency:tree"/>
     </exec>
     <exec dir="${basedir}" executable="${mvn}" failonerror="true">
-      <arg line="${maven.opts} -Ptp-installer package assembly:directory"/>
+      <arg line="${maven.opts} -Pinstaller package assembly:directory"/>
     </exec>
   	
-    <zip destfile="${stack.output.dir}/jbossws-cxf-tp-installer.zip">
+    <zip destfile="${stack.output.dir}/jbossws-cxf-installer.zip">
       <zipfileset
-        dir="${stack.output.dir}/jbossws-cxf-tp-installer"
+        dir="${stack.output.dir}/jbossws-cxf-installer"
         includes="build/ deploy/ docs/ tests/ build.xml ant.properties.example"
-        prefix="jbossws-cxf-tp-installer"/>
+        prefix="jbossws-cxf-installer"/>
     </zip>
   </target>
   
