@@ -21,22 +21,16 @@
  */
 package org.jboss.wsf.stack.cxf.security.authentication;
 
-import java.util.Calendar;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.Map;
 
-import java.security.Principal;
-import java.security.acl.Group;
 import javax.security.auth.Subject;
 
-import org.apache.cxf.common.classloader.ClassLoaderUtils;
 import org.apache.cxf.common.security.SimplePrincipal;
 import org.apache.cxf.ws.security.wss4j.AbstractUsernameTokenAuthenticatingInterceptor;
-
 import org.jboss.logging.Logger;
-
 import org.jboss.security.AuthenticationManager;
-
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.invocation.SecurityAdaptor;
@@ -51,9 +45,6 @@ import org.jboss.wsf.spi.invocation.SecurityAdaptorFactory;
 public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticatingInterceptor
 {
    private static final Logger log = Logger.getLogger(SubjectCreatingInterceptor.class);
-   private static final int TIMESTAMP_FRESHNESS_THRESHOLD = 300;
-
-   // private NonceStore nonceStore;
    private SecurityAdaptorFactory secAdaptorFactory;
 
    public SubjectCreatingInterceptor()
@@ -91,7 +82,7 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
       // verify timestamp and nonce if digest
       if (isDigest)
       {
-         verifyUsernameToken(nonce, created);
+         //verifyUsernameToken(nonce, created);
          // CallbackHandler cb = new UsernameTokenCallbackHandler(nonce, created);
          // CallbackHandlerPolicyContextHandler.setCaallbackHandler(cb); 
       }
@@ -124,21 +115,26 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
       return subject;
    }
 
+   /** TODO: JBWS-3028
+   private static final int TIMESTAMP_FRESHNESS_THRESHOLD = 300;
+   private NonceStore nonceStore;
+   
    private void verifyUsernameToken(String nonce, String created)
    {
-//      if (created != null)
-//      {
-//         Calendar cal = SimpleTypeBindings.unmarshalDateTime(created);
-//         Calendar ref = Calendar.getInstance();
-//         ref.add(Calendar.SECOND, -TIMESTAMP_FRESHNESS_THRESHOLD);
-//         if (ref.after(cal))
-//            throw new SecurityException("Request rejected since a stale timestamp has been provided: " + created);
-//      }
-//
-//      if (nonce != null)
-//      {
-//         if (nonceStore.hasNonce(nonce))
-//            throw new SecurityException("Request rejected since a message with the same nonce has been recently received; nonce = " + nonce);
-//      }
+      if (created != null)
+      {
+         Calendar cal = SimpleTypeBindings.unmarshalDateTime(created);
+         Calendar ref = Calendar.getInstance();
+         ref.add(Calendar.SECOND, -TIMESTAMP_FRESHNESS_THRESHOLD);
+         if (ref.after(cal))
+            throw new SecurityException("Request rejected since a stale timestamp has been provided: " + created);
+      }
+
+      if (nonce != null)
+      {
+         if (nonceStore.hasNonce(nonce))
+            throw new SecurityException("Request rejected since a message with the same nonce has been recently received; nonce = " + nonce);
+      }
    }
+   */
 }

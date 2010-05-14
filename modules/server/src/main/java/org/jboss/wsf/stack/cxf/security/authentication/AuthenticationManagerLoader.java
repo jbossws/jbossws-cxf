@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.security.authentication;
 
-import java.util.Hashtable;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
