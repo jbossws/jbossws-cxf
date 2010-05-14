@@ -62,6 +62,24 @@ public final class UsernameAuthorizationTestCase extends JBossWSTest
       setupWsse(proxy, "kermit");
       assertEquals("Secure Hello World!", proxy.sayHello());
    }
+   
+   public void testUnauthenticated() throws Exception
+   {
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
+      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
+      setupWsse(proxy, "foo");
+      try
+      {
+         proxy.sayHello();
+         fail("User foo should not be authenticated.");
+      }
+      catch (Exception ex)
+      {
+         //expected
+      }
+   }
 
    public void testUnauthorized() throws Exception
    {
