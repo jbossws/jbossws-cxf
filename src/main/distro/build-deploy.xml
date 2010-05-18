@@ -38,7 +38,7 @@
 
   <target name="deploy-jboss501" depends="undeploy-jboss501,deploy-structure-jboss50" description="Deploy jbossws to jboss501">
     <fail message="Not available: ${jboss501.available.file}" unless="jboss501.available"/>
-    <copy todir="${jboss501.home}" overwrite="true">
+    <copy todir="${jboss501.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}"/>
     </copy>
     <chmod dir="${jboss501.home}/bin" perm="+x" includes="*.sh"/>
@@ -46,7 +46,11 @@
 
   <target name="undeploy-jboss501" depends="target-jboss501,init" description="Remove jbossws from jboss501">
     <fail message="Not available: ${jboss501.available.file}" unless="jboss501.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss501.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="true" removenativecore="true"/>
+    <macro-undeploy-jbossws targetdir="${jboss501.server}"
+    	                    defaultconf="${jbossws.default.deploy.conf}"
+    	                    defaultserverconf="${jbossws.default.server.deploy.conf}"
+    	                    modifyjbossintegration="true"
+    	                    removenativecore="true"/>
   </target>
 
   <!-- ================================================================== -->
@@ -76,7 +80,7 @@
 
   <target name="deploy-jboss510" depends="undeploy-jboss510,deploy-structure-jboss51" description="Deploy jbossws to jboss510">
     <fail message="Not available: ${jboss510.available.file}" unless="jboss510.available"/>
-    <copy todir="${jboss510.home}" overwrite="true">
+    <copy todir="${jboss510.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}"/>
     </copy>
     <chmod dir="${jboss510.home}/bin" perm="+x" includes="*.sh"/>
@@ -84,7 +88,11 @@
 
   <target name="undeploy-jboss510" depends="target-jboss510,init" description="Remove jbossws from jboss510">
     <fail message="Not available: ${jboss510.available.file}" unless="jboss510.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss510.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="true" removenativecore="true"/>
+    <macro-undeploy-jbossws targetdir="${jboss510.server}"
+    	                    defaultconf="${jbossws.default.deploy.conf}"
+    	                    defaultserverconf="${jbossws.default.server.deploy.conf}"
+    	                    modifyjbossintegration="true"
+  	                        removenativecore="true"/>
   </target>
 
   <!-- ================================================================== -->
@@ -114,7 +122,7 @@
 
   <target name="deploy-jboss600" depends="undeploy-jboss600,deploy-structure-jboss600" description="Deploy jbossws to jboss600">
     <fail message="Not available: ${jboss600.available.file}" unless="jboss600.available"/>
-    <copy todir="${jboss600.home}" overwrite="true">
+    <copy todir="${jboss600.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}"/>
     </copy>
     <chmod dir="${jboss600.home}/bin" perm="+x" includes="*.sh"/>
@@ -122,7 +130,11 @@
 
   <target name="undeploy-jboss600" depends="target-jboss600,init" description="Remove jbossws from jboss600">
     <fail message="Not available: ${jboss600.available.file}" unless="jboss600.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss600.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="true" removenativecore="false" /><!-- [JBWS-2505][JBWS-2895] -->
+    <macro-undeploy-jbossws targetdir="${jboss600.server}"
+    	                    defaultconf="${jbossws.default.deploy.conf}"
+    	                    defaultserverconf="${jbossws.default.server.deploy.conf}"
+    	                    modifyjbossintegration="true"
+    	                    removenativecore="false" /><!-- [JBWS-2505][JBWS-2895] -->
   </target>
 
   <!-- ================================================================== -->
@@ -152,7 +164,7 @@
 
   <target name="deploy-jboss601" depends="undeploy-jboss601,deploy-structure-jboss601" description="Deploy jbossws to jboss601">
     <fail message="Not available: ${jboss601.available.file}" unless="jboss601.available"/>
-    <copy todir="${jboss601.home}" overwrite="true">
+    <copy todir="${jboss601.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}"/>
     </copy>
     <chmod dir="${jboss601.home}/bin" perm="+x" includes="*.sh"/>
@@ -160,21 +172,31 @@
 
   <target name="undeploy-jboss601" depends="target-jboss601,init" description="Remove jbossws from jboss601">
     <fail message="Not available: ${jboss601.available.file}" unless="jboss601.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss601.server}" defaultconf="${jbossws.default.deploy.conf}" modifyjbossintegration="false" removenativecore="false"/><!-- [JBWS-2505][JBWS-2895] -->
+    <macro-undeploy-jbossws targetdir="${jboss601.server}"
+    	                    defaultconf="${jbossws.default.deploy.conf}"
+    	                    defaultserverconf="${jbossws.default.server.deploy.conf}"
+    	                    modifyjbossintegration="false"
+    	                    removenativecore="false"/><!-- [JBWS-2505][JBWS-2895] -->
   </target>
 
   <!-- ================================================================== -->
-  <!-- Create jbossws-deploy.conf                                         -->
+  <!-- Create jbossws-deploy.conf and jbossws-server-deploy.conf          -->
   <!-- ================================================================== -->
 
   <macrodef name="macro-create-deploy-conf">
     <attribute name="deploystructure"/>
     <sequential>
-      <fileset id="jbossws.deploy.fileset" dir="@{deploystructure}" excludes="**/juddi-service.sar/**"/>
-      <property name="jbossws.deploy.fileset" refid="jbossws.deploy.fileset"/>
       <property name="jbossws.deployers.dir" value="@{deploystructure}/server/${jboss.server.instance}/deployers/jbossws.deployer"/>
+      <!-- Create jbossws-deploy.conf -->
+      <fileset id="jbossws.deploy.fileset" dir="@{deploystructure}" excludes="**/server/**"/>
+      <property name="jbossws.deploy.fileset" refid="jbossws.deploy.fileset"/>
       <echo file="${jbossws.deployers.dir}/jbossws-deploy.conf" message="${jbossws.deploy.fileset}"/>
       <replace file="${jbossws.deployers.dir}/jbossws-deploy.conf" token=";" value=" "/>
+      <!-- Create jbossws-server-deploy.conf -->
+      <fileset id="jbossws.server.deploy.fileset" dir="@{deploystructure}/server/${jboss.server.instance}" excludes="**/juddi-service.sar/**"/>
+      <property name="jbossws.server.deploy.fileset" refid="jbossws.server.deploy.fileset"/>
+      <echo file="${jbossws.deployers.dir}/jbossws-server-deploy.conf" message="${jbossws.server.deploy.fileset}"/>
+      <replace file="${jbossws.deployers.dir}/jbossws-server-deploy.conf" token=";" value=" "/>
     </sequential>
   </macrodef>
 

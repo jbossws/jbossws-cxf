@@ -337,6 +337,7 @@
 
   <macrodef name="macro-undeploy-jbossws">
     <attribute name="defaultconf"/>
+    <attribute name="defaultserverconf"/>
     <attribute name="targetdir"/>
     <attribute name="modifyjbossintegration"/>
   	<attribute name="removenativecore"/>
@@ -344,16 +345,19 @@
     <sequential>
       <loadfile property="jbossws.deploy.conf" srcfile="@{targetdir}/deployers/jbossws.deployer/jbossws-deploy.conf" failonerror="false"/>
       <loadfile property="jbossws.deploy.conf" srcfile="@{defaultconf}" failonerror="false"/>
+      <loadfile property="jbossws.server.deploy.conf" srcfile="@{targetdir}/deployers/jbossws.deployer/jbossws-server-deploy.conf" failonerror="false"/>
+      <loadfile property="jbossws.server.deploy.conf" srcfile="@{defaultserverconf}" failonerror="false"/>
 
       <property name="jboss.server.home" value="@{targetdir}"/>
       <property name="jboss.home" value="${jboss.server.home}/../.."/>
       <available property="jboss.undeploy.client" file="${jboss.home}/client"/>
       <fail message="Cannot find ${jboss.home}/client" unless="jboss.undeploy.client"/>
 
-      <delete includeemptydirs="true">
+      <delete includeemptydirs="true" verbose="true">
         <fileset dir="${jboss.server.home}">
           <include name="**/juddi-service.sar/**"/>
           <include name="**/jbossws-console.war/**"/>
+          <include name="**/jbossws.sar/**"/>
         </fileset>
       </delete>
       <antcall target="remove-jboss-integration">
@@ -361,8 +365,11 @@
       </antcall>
 
       <!-- delete content of last deployment -->
-      <delete>
+      <delete verbose="true">
         <fileset dir="${jboss.home}" includes="${jbossws.deploy.conf}"/>
+      </delete>
+      <delete verbose="true">
+        <fileset dir="${jboss.server.home}" includes="${jbossws.server.deploy.conf}"/>
       </delete>
     	
       <!-- [JBWS-2895] jbossws-native-core.jar is not removed by default from JBWS 3.3.0, as it's required for jaxrpc support -->
@@ -377,7 +384,7 @@
   </macrodef>
 
   <target name="remove-jboss-integration" depends="process-jboss-integration" if="fixintegration">
-    <delete>
+    <delete verbose="true">
       <fileset dir="${jboss.server.home}">
         <include name="**/jbossws-jboss*.jar"/>
       </fileset>
@@ -391,7 +398,7 @@
   </target>
 	
   <target name="remove-native-core-from-client-and-common" if="removenativecoreprop">
-    <delete>
+    <delete verbose="true">
       <fileset dir="${jboss.home}/client">
         <include name="**/jbossws-native-core.jar"/>
       </fileset>
