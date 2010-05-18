@@ -342,7 +342,6 @@
   	<attribute name="removenativecore"/>
   	
     <sequential>
-      <loadfile property="jbossws.deploy.conf" srcfile="@{targetdir}/deploy/jbossws.sar/jbossws-deploy.conf" failonerror="false"/>
       <loadfile property="jbossws.deploy.conf" srcfile="@{targetdir}/deployers/jbossws.deployer/jbossws-deploy.conf" failonerror="false"/>
       <loadfile property="jbossws.deploy.conf" srcfile="@{defaultconf}" failonerror="false"/>
 
@@ -353,7 +352,6 @@
 
       <delete includeemptydirs="true">
         <fileset dir="${jboss.server.home}">
-          <include name="**/jbossws.sar/**"/>
           <include name="**/juddi-service.sar/**"/>
           <include name="**/jbossws-console.war/**"/>
         </fileset>
