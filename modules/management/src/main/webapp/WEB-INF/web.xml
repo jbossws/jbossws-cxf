@@ -22,6 +22,30 @@
     <url-pattern>/services/*</url-pattern>
   </servlet-mapping>
 
+   <!-- A security constraint that restricts access
+   <security-constraint>
+     <web-resource-collection>
+       <web-resource-name>ContextServlet</web-resource-name>
+       <description>An example security config that only allows users with the
+         role 'friend' to access the JBossWS console web application
+       </description>
+       <url-pattern>/*</url-pattern>
+     </web-resource-collection>
+     <auth-constraint>
+       <role-name>friend</role-name>
+     </auth-constraint>
+   </security-constraint>
+   -->
+
+   <login-config>
+      <auth-method>BASIC</auth-method>
+      <realm-name>JBossWS Management Console</realm-name>
+   </login-config>
+
+   <security-role>
+      <role-name>friend</role-name>
+   </security-role>
+
   <!-- 
   currently the W3C haven't settled on a media type for WSDL;
   http://www.w3.org/TR/2003/WD-wsdl12-20030303/#ietf-draft
