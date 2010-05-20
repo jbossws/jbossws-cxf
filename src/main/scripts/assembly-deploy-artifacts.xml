@@ -50,6 +50,7 @@
               <include>sun-fi:FastInfoset:jar</include>
               <include>org.apache:xmlsec:jar</include>
               <include>wsdl4j:wsdl4j:jar</include>
+              <include>org.codehaus.woodstox:wstx:jar</include>
             </includes>
           </dependencySet>
           <dependencySet>
@@ -64,13 +65,6 @@
             <useStrictFiltering>true</useStrictFiltering>
             <includes>
               <include>stax:stax-api</include>
-            </includes>
-          </dependencySet>
-          <dependencySet>
-            <outputFileNameMapping>wstx.jar</outputFileNameMapping>
-            <useStrictFiltering>true</useStrictFiltering>
-            <includes>
-              <include>org.codehaus.woodstox:wstx-asl:jar</include>
             </includes>
           </dependencySet>
         </dependencySets>

@@ -146,7 +146,7 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.woodstox</groupId>
-      <artifactId>wstx-asl</artifactId>
+      <artifactId>wstx</artifactId>
     </dependency>
     <dependency>
       <groupId>sun-fi</groupId>
