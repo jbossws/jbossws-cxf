@@ -23,6 +23,10 @@ org/jboss/test/ws/jaxws/jbws2449/**
 # [CXF-2723] Allow configuration of JaxWsClientFactoryBean during port creation
 org/jboss/test/ws/jaxws/cxf/jaxbintros/**
 
+# [CXF-2819] <protocol-bindings>##SOAP12_Binding</protocol-bindings> in
+# handler chain is not correctly matched
+org/jboss/test/ws/jaxws/handlerscope/*TestCase.*
+
 # [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored
 org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
 
@@ -50,9 +54,6 @@ org/jboss/test/ws/jaxws/jbws3022/**
 org/jboss/test/ws/jaxws/jbws3027/**
 org/jboss/test/ws/jaxws/jbws3031/**
 org/jboss/test/ws/jaxws/endpointReference/EndpointReferenceBuilderTestCase.*
-
-# [JBWS-3020]  Investigate why HandlerScopeTestCase fails
-org/jboss/test/ws/jaxws/handlerscope/*TestCase.*
 
 # [JBWS-2987] Review JMS integration
 org/jboss/test/ws/jaxws/samples/jmstransport/**
