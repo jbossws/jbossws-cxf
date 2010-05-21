@@ -141,8 +141,8 @@
       <artifactId>commons-lang</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.geronimo.specs</groupId>
-      <artifactId>geronimo-stax-api_1.0_spec</artifactId>
+      <groupId>stax</groupId>
+      <artifactId>stax-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.santuario</groupId>
@@ -168,6 +168,11 @@
     <dependency>
       <groupId>javax.xml</groupId>
       <artifactId>jaxrpc-api</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>javax.jws</groupId>
+      <artifactId>jsr181-api</artifactId>
     </dependency>
     
     <!-- jboss provided -->
