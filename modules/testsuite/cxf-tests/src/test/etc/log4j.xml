@@ -18,12 +18,9 @@
   <!-- ================================= -->
 
   <!-- A time/date based rolling appender -->
-  <appender name="FILE" class="org.jboss.logging.appender.DailyRollingFileAppender">
+  <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
     <param name="File" value="${log4j.output.dir}/test.log"/>
     <param name="Append" value="true"/>
-
-    <!-- Rollover at midnight each day -->
-    <param name="DatePattern" value="'.'yyyy-MM-dd"/>
 
     <layout class="org.apache.log4j.PatternLayout">
       <!-- The default pattern: Date Priority [Category] Message\n -->
