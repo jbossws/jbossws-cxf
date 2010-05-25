@@ -447,7 +447,7 @@
       </dependency>
       <dependency>
         <groupId>org.codehaus.woodstox</groupId>
-        <artifactId>wstx-asl</artifactId>
+        <artifactId>wstx-lgpl</artifactId>
         <version>${wstx.version}</version>
       </dependency>
       <dependency>

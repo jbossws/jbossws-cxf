@@ -63,7 +63,7 @@
             <outputFileNameMapping>wstx.jar</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <includes>
-              <include>org.codehaus.woodstox:wstx-asl:jar</include>
+              <include>org.codehaus.woodstox:wstx-lgpl:jar</include>
             </includes>
           </dependencySet>
         </dependencySets>
