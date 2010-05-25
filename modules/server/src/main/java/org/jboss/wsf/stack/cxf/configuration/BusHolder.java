@@ -30,7 +30,6 @@ import java.util.List;
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
 import org.apache.cxf.bus.spring.BusApplicationContext;
-import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
@@ -41,6 +40,7 @@ import org.jboss.logging.Logger;
 import org.jboss.ws.Constants;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.spring.handler.NamespaceHandlerResolver;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -166,7 +166,7 @@ public class BusHolder
     */
    protected void createBus(URL location)
    {
-      bus = new SpringBusFactory().createBus();
+      bus = new JBossWSSpringBusFactory().createBus();
       ctx = bus.getExtension(BusApplicationContext.class);
       //Load additional configurations from cxf-servlet.xml
       if (location != null)

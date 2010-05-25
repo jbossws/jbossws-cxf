@@ -47,6 +47,7 @@ import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 
 /**
  * This ServiceObjectFactory reconstructs a javax.xml.ws.Service
@@ -101,7 +102,7 @@ public class ServiceObjectFactory implements ObjectFactory
          URL cxfConfig = getCXFConfiguration(serviceRef.getVfsRoot());
          if (cxfConfig != null)
          {
-            SpringBusFactory busFactory = new SpringBusFactory();
+            SpringBusFactory busFactory = new JBossWSSpringBusFactory();
             bus = busFactory.createBus(cxfConfig);
             BusFactory.setThreadDefaultBus(bus);
          }

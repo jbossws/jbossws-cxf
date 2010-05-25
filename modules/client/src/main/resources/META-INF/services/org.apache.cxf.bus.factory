@@ -1,2 +1,1 @@
-org.apache.cxf.bus.spring.SpringBusFactory
-org.springframework.context.ApplicationContext
+org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory
