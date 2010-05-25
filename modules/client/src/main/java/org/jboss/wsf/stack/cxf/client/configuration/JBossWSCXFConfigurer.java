@@ -21,8 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.client.configuration;
 
-import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
+import org.apache.cxf.configuration.spring.ConfigurerImpl;
 import org.apache.cxf.databinding.DataBinding;
 import org.apache.cxf.frontend.AbstractWSDLBasedEndpointFactory;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
@@ -38,23 +38,25 @@ import org.jboss.wsf.spi.binding.JAXBBindingCustomization;
  * @author alessio.soldano@jboss.com
  * @since 05-Oct-2009
  */
-public class JBossWSCXFConfigurer extends DelegatingConfigurer
+public class JBossWSCXFConfigurer extends ConfigurerImpl
 {
    protected BindingCustomization customization;
 
-   public JBossWSCXFConfigurer(Configurer delegate)
-   {
-      super(delegate);
-   }
-   
-   public JBossWSCXFConfigurer(Configurer delegate, BindingCustomization customization)
-   {
-      super(delegate);
-      this.customization = customization;
-   }
-   
    @Override
-   protected void internalConfigure(Object beanInstance)
+   public void configureBean(Object beanInstance)
+   {
+      customConfigure(beanInstance);
+      super.configureBean(beanInstance);
+   }
+
+   @Override
+   public void configureBean(String name, Object beanInstance)
+   {
+      customConfigure(beanInstance);
+      super.configureBean(name, beanInstance);
+   }
+   
+   protected void customConfigure(Object beanInstance)
    {
       if (beanInstance instanceof AbstractWSDLBasedEndpointFactory)
       {
@@ -85,7 +87,7 @@ public class JBossWSCXFConfigurer extends DelegatingConfigurer
          //customize default databinding (early pulls in ServiceFactory default databinding and configure it, as it's lazily loaded)
          serviceFactory.reset();
          DataBinding serviceFactoryDataBinding = serviceFactory.getDataBinding(true);
-         setBindingCustomization(serviceFactoryDataBinding, customization);
+         configureBindingCustomization(serviceFactoryDataBinding, customization);
          serviceFactory.setDataBinding(serviceFactoryDataBinding);
          //customize user provided databinding (CXF later overrides the ServiceFactory databinding using the user provided one) 
          if (factory.getDataBinding() == null)
@@ -95,7 +97,7 @@ public class JBossWSCXFConfigurer extends DelegatingConfigurer
          }
          else
          {
-            setBindingCustomization(factory.getDataBinding(), customization);
+            configureBindingCustomization(factory.getDataBinding(), customization);
          }
       }
       //add other configurations here below
@@ -115,7 +117,7 @@ public class JBossWSCXFConfigurer extends DelegatingConfigurer
          ReflectionServiceFactoryBean serviceFactory = factory.getServiceFactory();
          serviceFactory.reset();
          DataBinding serviceFactoryDataBinding = serviceFactory.getDataBinding(true);
-         setBindingCustomization(serviceFactoryDataBinding, customization);
+         configureBindingCustomization(serviceFactoryDataBinding, customization);
          serviceFactory.setDataBinding(serviceFactoryDataBinding);
          //customize user provided databinding (CXF later overrides the ServiceFactory databinding using the user provided one) 
          if (factory.getDataBinding() == null)
@@ -125,7 +127,7 @@ public class JBossWSCXFConfigurer extends DelegatingConfigurer
          }
          else
          {
-            setBindingCustomization(factory.getDataBinding(), customization);
+            configureBindingCustomization(factory.getDataBinding(), customization);
          }
       }
       //add other configurations here below
@@ -153,7 +155,7 @@ public class JBossWSCXFConfigurer extends DelegatingConfigurer
    }
    
    @SuppressWarnings("unchecked")
-   protected static void setBindingCustomization(DataBinding db, BindingCustomization customization)
+   protected static void configureBindingCustomization(DataBinding db, BindingCustomization customization)
    {
       //JAXB
       if (customization instanceof JAXBBindingCustomization)
