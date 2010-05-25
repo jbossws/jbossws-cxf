@@ -44,9 +44,12 @@
     <include name="**/neethi.jar"/>
     <include name="**/saaj-api.jar"/>
     <include name="**/saaj-impl.jar"/>
+    <include name="**/spring-aop.jar"/>
+    <include name="**/spring-asm.jar"/>
     <include name="**/spring-beans.jar"/>
     <include name="**/spring-context.jar"/>
     <include name="**/spring-core.jar"/>
+    <include name="**/spring-expression.jar"/>
     <include name="**/spring-jms.jar"/>
     <include name="**/spring-tx.jar"/>
     <include name="**/stax-api.jar"/>
@@ -86,9 +89,12 @@
     <include name="**/neethi.jar"/>
     <include name="**/saaj-api.jar"/>
     <include name="**/saaj-impl.jar"/>
+    <include name="**/spring-aop.jar"/>
+    <include name="**/spring-asm.jar"/>
     <include name="**/spring-beans.jar"/>
     <include name="**/spring-context.jar"/>
     <include name="**/spring-core.jar"/>
+    <include name="**/spring-expression.jar"/>
     <include name="**/spring-jms.jar"/>
     <include name="**/spring-tx.jar"/>
     <include name="**/XmlSchema.jar"/>
