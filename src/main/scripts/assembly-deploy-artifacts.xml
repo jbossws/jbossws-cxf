@@ -22,6 +22,7 @@
             <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <includes>
+              <include>org.jboss.ws.cxf:jbossws-cxf-factories:jar</include>
               <include>org.apache.cxf:cxf-*</include>
               <include>org.apache.cxf.xjcplugins:cxf-*</include>
               <include>javax.xml.bind:jaxb-api:jar</include>
