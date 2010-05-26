@@ -21,11 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
-import org.apache.cxf.configuration.Configurer;
-import org.apache.cxf.frontend.AbstractWSDLBasedEndpointFactory;
-import org.apache.cxf.frontend.ClientProxyFactoryBean;
-import org.apache.cxf.transport.http.HTTPConduit;
-import org.jboss.wsf.stack.cxf.client.configuration.DelegatingConfigurer;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
@@ -35,6 +30,7 @@ import org.springframework.context.ApplicationContext;
  * A JBossWS CXF Configurer to be used on server side
  * 
  * @author alessio.soldano@jboss.com
+ * @author ema@redhat.com
  * @since 31-Mar-2010
  */
 public class JBossWSServerCXFConfigurer extends JBossWSCXFConfigurer
