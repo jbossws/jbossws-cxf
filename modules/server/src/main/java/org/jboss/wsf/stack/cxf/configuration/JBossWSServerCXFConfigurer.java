@@ -50,6 +50,7 @@ public class JBossWSServerCXFConfigurer extends JBossWSCXFConfigurer
       {
          configureEndpoint((EndpointImpl)beanInstance);
       }
+      super.customConfigure(beanInstance);
    }
    
    protected synchronized void configureEndpoint(EndpointImpl endpoint)
