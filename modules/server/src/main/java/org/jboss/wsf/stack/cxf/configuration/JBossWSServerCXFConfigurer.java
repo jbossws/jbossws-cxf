@@ -22,9 +22,14 @@
 package org.jboss.wsf.stack.cxf.configuration;
 
 import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.frontend.AbstractWSDLBasedEndpointFactory;
+import org.apache.cxf.frontend.ClientProxyFactoryBean;
+import org.apache.cxf.transport.http.HTTPConduit;
 import org.jboss.wsf.stack.cxf.client.configuration.DelegatingConfigurer;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
+import org.springframework.context.ApplicationContext;
 
 /**
  * A JBossWS CXF Configurer to be used on server side
@@ -32,30 +37,25 @@ import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
  * @author alessio.soldano@jboss.com
  * @since 31-Mar-2010
  */
-public class JBossWSServerCXFConfigurer extends DelegatingConfigurer
+public class JBossWSServerCXFConfigurer extends JBossWSCXFConfigurer
 {
    private WSDLFilePublisher wsdlPublisher;
 
-   public JBossWSServerCXFConfigurer(Configurer delegate)
+   public JBossWSServerCXFConfigurer(ApplicationContext ctx)
    {
-      super(delegate);
+      setApplicationContext(ctx);
+      
    }
-   
-   public JBossWSServerCXFConfigurer(Configurer delegate, WSDLFilePublisher wsdlPublisher)
-   {
-      super(delegate);
-      this.wsdlPublisher = wsdlPublisher;
-   }
-   
+
    @Override
-   protected void internalConfigure(Object beanInstance)
+   protected void customConfigure(Object beanInstance)
    {
       if (beanInstance instanceof EndpointImpl)
       {
          configureEndpoint((EndpointImpl)beanInstance);
       }
    }
-
+   
    protected synchronized void configureEndpoint(EndpointImpl endpoint)
    {
       //Configure wsdl file publisher

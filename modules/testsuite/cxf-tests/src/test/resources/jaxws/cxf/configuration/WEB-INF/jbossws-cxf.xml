@@ -1,0 +1,30 @@
+<beans xmlns='http://www.springframework.org/schema/beans' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:beans='http://www.springframework.org/schema/beans'
+  xmlns:jaxws='http://cxf.apache.org/jaxws'
+  xsi:schemaLocation='http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://www.w3.org/2006/07/ws-policy http://www.w3.org/2006/07/ws-policy.xsd 
+  http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd'>
+  
+<bean name="{http://org.jboss.ws/jbws3033}EndpointPort.jaxws-endpoint" abstract="true">
+   <property name="inInterceptors">
+      <list>
+          <bean class="org.jboss.test.ws.jaxws.cxf.configuration.ChangeRequestnterceptor"/>
+          <bean class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+      </list>
+   </property>
+   
+   <property name="outInterceptors">
+      <list>
+          <bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+      </list>
+   </property>
+   
+</bean>
+
+<bean id ="logIn" class="org.apache.cxf.interceptor.LoggingInInterceptor">
+</bean>
+
+
+<jaxws:endpoint implementor="org.jboss.test.ws.jaxws.cxf.configuration.EndpointImpl" address="http://@jboss.bind.address@:8080/jaxws-cxf-configuration">
+</jaxws:endpoint>
+
+</beans>

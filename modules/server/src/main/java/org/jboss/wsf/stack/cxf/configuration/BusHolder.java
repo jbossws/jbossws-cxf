@@ -140,9 +140,11 @@ public class BusHolder
    public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher)
    {
       //the JBossWSCXFConfigurer should already be set through cxf-extensions-jbossws.xml
-      JBossWSCXFConfigurer delegate = (JBossWSCXFConfigurer)bus.getExtension(Configurer.class);
-      delegate.setBindingCustomization(customization);
-      return new JBossWSServerCXFConfigurer(delegate, wsdlPublisher);
+      ApplicationContext ctx = bus.getExtension(BusApplicationContext.class);
+      JBossWSServerCXFConfigurer serverConfigurer = new JBossWSServerCXFConfigurer(ctx);
+      serverConfigurer.setBindingCustomization(customization);
+      serverConfigurer.setWsdlPublisher(wsdlPublisher);
+      return serverConfigurer;
    }
    
    /**
