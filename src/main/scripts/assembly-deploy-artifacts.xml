@@ -25,7 +25,6 @@
               <include>org.jboss.ws.cxf:jbossws-cxf-factories:jar</include>
               <include>org.apache.cxf:cxf-*</include>
               <include>org.apache.cxf.xjcplugins:cxf-*</include>
-              <include>javax.xml.bind:jaxb-api:jar</include>
               <include>com.sun.xml.bind:jaxb-impl:jar</include>
               <include>com.sun.xml.bind:jaxb-xjc:jar</include>
               <include>javax.xml:jaxrpc-api:jar</include>
@@ -33,7 +32,6 @@
               <include>org.jboss.ws:jbossws-spi:jar</include>
               <include>junit:junit:jar</include>
               <include>org.apache.neethi:neethi:jar</include>
-              <include>javax.xml.soap:saaj-api:jar</include>
               <include>com.sun.xml.messaging.saaj:saaj-impl:jar</include>
               <include>org.springframework:spring-aop:jar</include>
               <include>org.springframework:spring-asm:jar</include>
@@ -56,7 +54,6 @@
               <include>jboss.jaxbintros:jboss-jaxb-intros</include>
               <include>org.mortbay.jetty:jetty*</include>
               <include>stax:stax-api:jar</include>
-              <include>javax.xml.ws:jaxws-api:jar</include>
               <include>javax.jws:jsr181-api:jar</include>
             </includes>
           </dependencySet>
@@ -67,6 +64,29 @@
               <include>org.codehaus.woodstox:wstx-lgpl:jar</include>
             </includes>
           </dependencySet>
+
+          <dependencySet>
+	    <outputFileNameMapping>jaxb-api.jar</outputFileNameMapping>
+	    <useStrictFiltering>true</useStrictFiltering>
+	    <includes>
+	      <include>org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.2_spec:jar</include>
+	    </includes>
+	  </dependencySet>
+	  <dependencySet>
+	    <outputFileNameMapping>jaxws-api.jar</outputFileNameMapping>
+	    <useStrictFiltering>true</useStrictFiltering>
+	    <includes>
+	      <include>org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.2_spec:jar</include>
+	    </includes>
+	  </dependencySet>
+	  <dependencySet>
+	    <outputFileNameMapping>saaj-api.jar</outputFileNameMapping>
+	    <useStrictFiltering>true</useStrictFiltering>
+	    <includes>
+	      <include>org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar</include>
+	    </includes>
+	  </dependencySet>
+
         </dependencySets>
       </binaries>
     </moduleSet>

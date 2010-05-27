@@ -64,10 +64,10 @@
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
     <jboss.logging.version>2.2.0.CR1</jboss.logging.version>
     <jboss.security.spi.version>2.0.4.SP4</jboss.security.spi.version>
-    <jaxb.api.version>2.1</jaxb.api.version>
-    <jaxb.impl.version>2.1.12</jaxb.impl.version>
+    <jaxb.api.version>1.0.0.Beta1</jaxb.api.version>
+    <jaxb.impl.version>2.2</jaxb.impl.version>
     <jaxrpc.api.version>1.1</jaxrpc.api.version>
-    <jaxws.api.version>2.1-1</jaxws.api.version>
+    <jaxws.api.version>1.0.0.Beta1</jaxws.api.version>
     <jboss.jaxr.version>2.0.1</jboss.jaxr.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <apache.scout.version>1.1.1</apache.scout.version>
@@ -76,7 +76,7 @@
     <commons-lang.version>2.4</commons-lang.version>
     <commons.logging.version>1.1.1</commons.logging.version>
     <log4j.version>1.2.14</log4j.version>
-    <saaj.api.version>1.3</saaj.api.version>
+    <saaj.api.version>1.0.0.Beta1</saaj.api.version>
     <velocity.version>1.5</velocity.version>
     <xmlsec.version>1.4.3</xmlsec.version>
     <wstx.version>3.2.9</wstx.version>
@@ -179,12 +179,26 @@
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-ws-security</artifactId>
         <version>${cxf.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.xml.soap</groupId>
+            <artifactId>saaj-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-bindings-soap</artifactId>
         <version>${cxf.version}</version>
         <exclusions>
+          <exclusion>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.xml.soap</groupId>
+            <artifactId>saaj-api</artifactId>
+          </exclusion>
           <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-activation_1.1_spec</artifactId>
@@ -204,6 +218,10 @@
         <artifactId>cxf-rt-bindings-http</artifactId>
         <version>${cxf.version}</version>
         <exclusions>
+          <exclusion>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
           <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-activation_1.1_spec</artifactId>
@@ -240,6 +258,10 @@
         <version>${cxf.version}</version>
         <exclusions>
           <exclusion>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-annotation_1.0_spec</artifactId>
           </exclusion>
@@ -254,6 +276,10 @@
         <artifactId>cxf-rt-frontend-jaxws</artifactId>
         <version>${cxf.version}</version>
         <exclusions>
+          <exclusion>
+            <groupId>javax.xml.soap</groupId>
+            <artifactId>saaj-api</artifactId>
+          </exclusion>
           <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-activation_1.1_spec</artifactId>
@@ -345,6 +371,14 @@
         <version>${cxf.version}</version>
         <exclusions>
           <exclusion>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.xml.soap</groupId>
+            <artifactId>saaj-api</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-jaxws_2.1_spec</artifactId>
           </exclusion>
@@ -355,6 +389,10 @@
         <artifactId>cxf-tools-wsdlto-core</artifactId>
         <version>${cxf.version}</version>
         <exclusions>
+          <exclusion>
+            <groupId>javax.xml.soap</groupId>
+            <artifactId>saaj-api</artifactId>
+          </exclusion>
           <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-jaxws_2.1_spec</artifactId>
@@ -401,20 +439,14 @@
         <version>${jaxrpc.api.version}</version>
       </dependency>
       <dependency>
-        <groupId>javax.xml.soap</groupId>
-        <artifactId>saaj-api</artifactId>
+        <groupId>org.jboss.spec.javax.xml.soap</groupId>
+        <artifactId>jboss-saaj-api_1.3_spec</artifactId>
         <version>${saaj.api.version}</version>
       </dependency>
       <dependency>
-        <groupId>javax.xml.ws</groupId>
-        <artifactId>jaxws-api</artifactId>
+        <groupId>org.jboss.spec.javax.xml.ws</groupId>
+        <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
         <version>${jaxws.api.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>javax.jws</groupId>
-            <artifactId>jsr181</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>com.sun.xml.fastinfoset</groupId>
@@ -523,8 +555,8 @@
         <version>${log4j.version}</version>
       </dependency>
       <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
+        <groupId>org.jboss.spec.javax.xml.bind</groupId>
+        <artifactId>jboss-jaxb-api_2.2_spec</artifactId>
         <version>${jaxb.api.version}</version>
       </dependency>
       <dependency>
