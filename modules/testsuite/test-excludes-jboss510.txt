@@ -57,6 +57,7 @@ org/jboss/test/ws/jaxws/jbws3008/**
 org/jboss/test/ws/jaxws/jbws3022/**
 org/jboss/test/ws/jaxws/jbws3027/**
 org/jboss/test/ws/jaxws/jbws3031/**
+org/jboss/test/ws/jaxws/jbws3041/**
 
 # [JBWS-2987] Review JMS integration
 org/jboss/test/ws/jaxws/samples/jmstransport/**
