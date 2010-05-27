@@ -72,7 +72,7 @@
   <target name="create-project" depends="validate-settings, configure-project" description="Create a new user project">
     <echo message="A basic webservice project named '${project.name}' has been created in the ${workspace.home} directory."/>
     <echo message="It includes a simple Ant build file and references the required libraries."/>
-    <echo message="Please refer to http://jbws.dyndns.org/mediawiki/index.php?title=JBossWS for the authoritative documentation."/>
+    <echo message="Please refer to http://community.jboss.org/wiki/JBossWS for the authoritative documentation."/>
     <echo message=""/>
     <echo message="If you are an Eclipse user, import the project into Eclipse: right click in "/>
     <echo message="'Package Explorer -> Import...' and select 'General -> Existing Projects into Workspace'."/>
