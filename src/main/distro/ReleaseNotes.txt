@@ -26,21 +26,76 @@ http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.p
 What's new in jbossws-cxf-${project.version}
 ----------------------------------
 
-Bug
-
-    TODO: enumerate
-
 Feature Request
 
-    TODO: enumerate
+    * [JBWS-2895] - Provide JAX-RPC features on top of stacks not having them
+    * [JBWS-2210] - CXF Username Token JAAS integration
+    * [JBWS-2935] - Implement missing JSR-109 v1.2 features
+    * [JBWS-3016] - Install custom configurer to Bus instances created on client side too
+    * [JBWS-3017] - Configure default HTTPConduit
+    * [JBWS-3024] - Implement endorsing support for JBossWS ANT tools
+    * [JBWS-2971] - Write published wsdl to file on deploy
+    * [JBWS-2974] - Eager load of CXF Bus during deployment
+    * [JBWS-2996] - Provide portcomponentlink servlet
+    * [JBWS-2997] - JSR-109 - service-ref mtom configuration through deployment descriptor
+    * [JBWS-2999] - JSR-109 - webservice.xml overrides with jaxws
+    * [JBWS-2650] - Provide a Maven plugin for wsconsume/wsprovide
+    * [JBWS-2793] - Support of SOAP header code generation for implicit headers 
+
+Bug
+
+    * [JBWS-2571] - Mode.INOUT parameter not generated
+    * [JBWS-2778] - java.net.HttpRetryException: cannot retry due to server authentication, in streaming mode 
+    * [JBWS-2844] - CXF JAXWS implementation is not endorsed
+    * [JBWS-3015] - wsdlLocation attribute from @WebServiceClient not considered when building up webservicerefs
+    * [JBWS-3020] - Investigate why HandlerScopeTestCase fails
+    * [JBWS-3025] - Wrong port-component-ref configuration with multiple webservicerefs
+    * [JBWS-3029] - Quote mismatch in JBossWS console index.html
+    * [JBWS-3037] - Fix NPE thrown from logging framework
+    * [JBWS-2970] - InjectionMetaDataDeploymentAspect misuse of EJBContainer.getEnc()
+    * [JBWS-2983] - Fix regressions due to HornetQ update
+    * [JBWS-2984] - Benchmark tests are setting incorrect date
+    * [JBWS-2021] - app-client impl assumes client and server share the same filesystem
+    * [JBWS-2917] - We're using buggy xalan version causing namespaces issues
+    * [JBWS-2963] - JavaDoc inconsistency in WSConsume.java
+    * [JBWS-2875] - Remove jbossws-jbossXYZ.jar files from JBOSS_HOME/client directory
+    * [JBWS-2902] - Fix JAX-WS 2.2 webserviceref clarification
+    * [JBWS-2934] - WebServiceContext injection have to be ThreadLocal aware
 
 Task
 
-    TODO: enumerate
+    * [JBWS-3018] - Upgrade to Apache CXF 2.2.8
+    * [JBWS-3030] - Refactor *-deploy.conf for supporting un-install of CXF stack
+    * [JBWS-3032] - Activate authentication for all HTTP verbs in management console
+    * [JBWS-3033] - Review JBossWSCXFConfigurer and enable to configure by  bean name support
+    * [JBWS-3036] - Clean up thirdparty libs dependencies
+    * [JBWS-3038] - Provide new BusFactory impl allowing for integration customizations of default Bus
+    * [JBWS-2923] - Move out of deployers/jbossws.deployer jars that are not required to be in deployers
+    * [JBWS-2986] - Factor out stack agnostic wsdl file publish procedure to jbossws-common
+    * [JBWS-2988] - Fix dependency on jboss-logging
+    * [JBWS-2995] - Provide custom NamespaceHandlerResolver and simplify handlers configuration
+    * [JBWS-3003] - Fix maven [WARNING] Using platform encoding ...  build is platform dependent!
+    * [JBWS-3005] - Use new Maven repository at repository.jboss.org/nexus
+    * [JBWS-2872] - Enable anonymous tests on CXF stack
+    * [JBWS-2887] - Update to Apache CXF 2.2.6
+    * [JBWS-2948] - Fix regressions due to VFS3 update
+    * [JBWS-2950] - Implement support for JAX-WS 2.2 target in wsconsume tool
+    * [JBWS-2959] - Update obsolete jboss dependencies
+    * [JBWS-2968] - Remove compilation warnings where possible
+    * [JBWS-2758] - Remove support for Java 5
+    * [JBWS-2805] - Investigate the cxf jmx management integration 
+    * [JBWS-2807] - Add the log category for cxf stack. 
+    * [JBWS-2881] - Increase DOMUtils performances optimizing DocumentBuilder creation
+    * [JBWS-2898] - Optimize DocumentBuilderFactory creation using DocumentBuilderFactory.newInstance(String s, ClassLoader c)
+    * [JBWS-2900] - Optimize EntityResolver setup in DOMUtils
+    * [JBWS-2916] - Properly setup deployment classloader
+    * [JBWS-2920] - Review install scripts / container integration to produce jbossws-jaxrpc.deployer
+    * [JBWS-2921] - Isolate factories/services configuration in descriptor only jars
+    * [JBWS-2922] - Add some basic JAX-RPC coverage to jbossws-framework testsuite
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
+    See: https://jira.jboss.org/browse/JBWS-3043
 
 This version of ${project.name} is based on CXF ${cxf.version}
 
