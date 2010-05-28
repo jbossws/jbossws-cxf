@@ -76,6 +76,7 @@
     <commons-lang.version>2.4</commons-lang.version>
     <commons.logging.version>1.1.1</commons.logging.version>
     <log4j.version>1.2.14</log4j.version>
+    <mail.version>1.4.2</mail.version>
     <saaj.api.version>1.0.0.Beta1</saaj.api.version>
     <velocity.version>1.5</velocity.version>
     <xmlsec.version>1.4.3</xmlsec.version>
@@ -553,6 +554,11 @@
         <groupId>apache-log4j</groupId>
         <artifactId>log4j</artifactId>
         <version>${log4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>mail</artifactId>
+        <version>${mail.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.xml.bind</groupId>
