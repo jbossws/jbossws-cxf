@@ -32,14 +32,49 @@
   
   <jaxws:endpoint
     id='ServiceImpl'
-    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-authorize'
-    implementor='org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl'>
+    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-authorize/default-config'
+    implementor='org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl'
+    endpointName="ns:SecurityServicePort"
+    serviceName="ns:SecurityService"
+    xmlns:ns="http://www.jboss.org/jbossws/ws-extensions/wssecurity">
     <jaxws:inInterceptors>
         <ref bean="SecurityContextIn"/>
         <ref bean="AuthorizeIn"/>
         <bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor"/>
     </jaxws:inInterceptors>
   </jaxws:endpoint>
+   
+  <bean id="SecurityContextIn2" class="org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingInterceptor">
+    <constructor-arg>
+      <map>
+        <entry key="action" value="UsernameToken"/> 
+      </map>
+    </constructor-arg>
+    <property name="securityConfigFile" value="login-config.xml"/>
+    <property name="securityDomainName" value="custom"/>
+  </bean>
+ 
+  <util:map id="methodPermissions2">
+     <entry key="sayHello" value="theFriends"/> 
+     <entry key="greetMe" value="theSnoopies"/> 
+  </util:map>
+ 
+  <bean id="AuthorizeIn2" class="org.apache.cxf.interceptor.security.SimpleAuthorizingInterceptor">
+   <property name="methodRolesMap" ref="methodPermissions2"/> 
+  </bean>
   
-  
+  <jaxws:endpoint
+    id='ServiceImpl2'
+    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-authorize/custom-config'
+    implementor='org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl'
+    endpointName="ns:SecurityServicePort2"
+    serviceName="ns:SecurityService"
+    xmlns:ns="http://www.jboss.org/jbossws/ws-extensions/wssecurity">
+    <jaxws:inInterceptors>
+        <ref bean="SecurityContextIn2"/>
+        <ref bean="AuthorizeIn2"/>
+        <bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor"/>
+    </jaxws:inInterceptors>
+  </jaxws:endpoint>  
+    
 </beans>

@@ -64,6 +64,7 @@
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
     <jboss.logging.version>2.2.0.CR1</jboss.logging.version>
     <jboss.security.spi.version>2.0.4.SP4</jboss.security.spi.version>
+    <picketbox.version>3.0.0.Beta5</picketbox.version>
     <jaxb.api.version>1.0.0.Beta1</jaxb.api.version>
     <jaxb.impl.version>2.2</jaxb.impl.version>
     <jaxrpc.api.version>1.1</jaxrpc.api.version>
@@ -82,7 +83,6 @@
     <xmlsec.version>1.4.3</xmlsec.version>
     <wstx.version>3.2.9</wstx.version>
     <spring.version>3.0.1.RELEASE</spring.version>
-
   </properties>
 
 
@@ -541,6 +541,22 @@
         <artifactId>jboss-common-core</artifactId>
         <version>${jboss.common.core.version}</version>
         <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.picketbox</groupId>
+        <artifactId>picketbox-bare</artifactId>
+        <version>${picketbox.version}</version>
+        <scope>provided</scope>
+        <exclusions>
+           <exclusion>
+             <groupId>org.jboss.security</groupId>
+             <artifactId>jboss-security-spi</artifactId>
+           </exclusion>
+           <exclusion>
+             <groupId>org.jboss.security</groupId>
+             <artifactId>jbosssx</artifactId>
+           </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.security</groupId>

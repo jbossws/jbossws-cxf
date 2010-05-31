@@ -54,7 +54,10 @@
  </binding>
   <service name="SecurityService">
     <port name="SecurityServicePort" binding="tns:SecurityServicePortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-authorize"/>
+      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-authorize/default-config"/>
+    </port>
+    <port name="SecurityServicePort2" binding="tns:SecurityServicePortBinding">
+      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-authorize/custom-config"/>
     </port>
   </service>
 </definitions>

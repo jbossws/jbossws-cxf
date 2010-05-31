@@ -208,6 +208,10 @@
       <groupId>org.jboss.security</groupId>
       <artifactId>jboss-security-spi</artifactId>
     </dependency>
+    <dependency>
+        <groupId>org.picketbox</groupId>
+        <artifactId>picketbox-bare</artifactId>
+    </dependency>
     
     <!-- transitve dependencies -->
     <dependency>

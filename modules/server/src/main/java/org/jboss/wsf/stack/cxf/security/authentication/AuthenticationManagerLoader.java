@@ -26,6 +26,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.jboss.security.AuthenticationManager;
+import org.picketbox.factories.SecurityFactory;
 
 /**
  * AuthenticationManager loader
@@ -35,7 +36,7 @@ import org.jboss.security.AuthenticationManager;
  */
 public class AuthenticationManagerLoader
 {
-   public AuthenticationManager getManager()
+   public AuthenticationManager getManagerWithJndi()
    {
       try
       {
@@ -45,7 +46,24 @@ public class AuthenticationManagerLoader
       }
       catch (NamingException ne)
       {
-         throw new SecurityException("Unable to lookup AuthenticationManager");
+         throw new SecurityException("Unable to lookup AuthenticationManager using JNDI");
       }
    }
+   
+   public AuthenticationManager getManager(String securityDomainName)
+   {
+      SecurityFactory.prepare();
+      try
+      { 
+    	 return SecurityFactory.getAuthenticationManager(securityDomainName);
+      }
+      catch (Exception ex) {
+         throw new SecurityException("Unable to get Authentication Manager", ex);
+      }
+      finally 
+      {
+         SecurityFactory.release();
+      }
+   }
+   
 }

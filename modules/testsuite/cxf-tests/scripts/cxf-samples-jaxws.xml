@@ -191,11 +191,12 @@
        <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/wsse/Service*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/jaxws/*.class"/>
-          <include name="org/jboss/test/ws/jaxws/samples/wsse/SubjectCreatingInterceptor.class"/>
-          <include name="org/jboss/test/ws/jaxws/samples/wsse/AuthenticationManagerLoader.class"/>
        </classes>
        <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-authorize/WEB-INF">
           <include name="jboss-web.xml"/>
+          <include name="login-config.xml"/>
+          <include name="users.properties"/>
+          <include name="roles.properties"/>
           <include name="jbossws-cxf.xml"/>
           <include name="wsdl/*"/>
        </webinf>

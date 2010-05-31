@@ -31,10 +31,9 @@ import org.apache.cxf.common.security.SimplePrincipal;
 import org.apache.cxf.ws.security.wss4j.AbstractUsernameTokenAuthenticatingInterceptor;
 import org.jboss.logging.Logger;
 import org.jboss.security.AuthenticationManager;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
-import org.jboss.wsf.spi.invocation.SecurityAdaptor;
-import org.jboss.wsf.spi.invocation.SecurityAdaptorFactory;
+import org.picketbox.config.PicketBoxConfiguration;
+import org.picketbox.exceptions.ConfigurationStreamNullException;
+import org.picketbox.factories.SecurityFactory;
 
 /**
  * Interceptor which authenticates a current principal and populates Subject
@@ -45,8 +44,11 @@ import org.jboss.wsf.spi.invocation.SecurityAdaptorFactory;
 public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticatingInterceptor
 {
    private static final Logger log = Logger.getLogger(SubjectCreatingInterceptor.class);
-   private SecurityAdaptorFactory secAdaptorFactory;
-
+   private static final String DEFAULT_SECURITY_DOMAIN_NAME = "JBossWS";
+   
+   private AuthenticationManagerLoader aml = null;
+   private String securityDomainName = DEFAULT_SECURITY_DOMAIN_NAME;
+   
    public SubjectCreatingInterceptor()
    {
       this(Collections.<String, Object> emptyMap());
@@ -55,17 +57,6 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
    public SubjectCreatingInterceptor(Map<String, Object> properties)
    {
       super(properties);
-      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      secAdaptorFactory = spiProvider.getSPI(SecurityAdaptorFactory.class);
-   }
-
-   @Override
-   public Subject createSubject(String name, String password, boolean isDigest, String nonce, String created)
-   {
-      // Load AuthenticationManager
-      // TODO : use PicketBox API
-
-      AuthenticationManagerLoader aml = null;
       try
       {
          aml = AuthenticationManagerLoader.class.newInstance();
@@ -76,16 +67,21 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
          log.error(msg);
          throw new SecurityException(msg);
       }
+   }
 
-      AuthenticationManager am = aml.getManager();
-
-      // verify timestamp and nonce if digest
-      if (isDigest)
-      {
+   @Override
+   public Subject createSubject(String name, String password, boolean isDigest, String nonce, String created)
+   {
+         
+      AuthenticationManager am = aml.getManager(securityDomainName);
+      
+	  // verify timestamp and nonce if digest
+      //if (isDigest)
+      //{
          //verifyUsernameToken(nonce, created);
          // CallbackHandler cb = new UsernameTokenCallbackHandler(nonce, created);
          // CallbackHandlerPolicyContextHandler.setCaallbackHandler(cb); 
-      }
+      //}
 
       // authenticate and populate Subject
 
@@ -102,19 +98,56 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
          log.error(msg);
          throw new SecurityException(msg);
       }
-
-      // push subject on the thread local storage
-      SecurityAdaptor adaptor = secAdaptorFactory.newSecurityAdapter();
-      adaptor.setPrincipal(principal);
-      adaptor.setCredential(password);
-      adaptor.pushSubjectContext(subject, principal, password);
-
+      
       if (TRACE)
          log.trace("Authenticated, principal=" + name);
 
       return subject;
    }
 
+   /**
+    * Loads a custom configuration file, can be used to add the configuration
+    * for new domains or override the default ones configured by JBoss AS
+    * 
+    * Note : loading a custom configuration file may affect other endpoints running
+    * in the same container instance. Example, if some other endpoint depends on
+    * a default JBossWS security domain and this custom config file overrides JBossWS
+    * then the other endpoint may get affected
+    *  
+    * @param configFilePath location of the custom configuration file
+    */
+   public void setSecurityConfigFile(String configFilePath) 
+   {
+      SecurityFactory.prepare();
+      try
+      { 
+    	 PicketBoxConfiguration idtrustConfig = new PicketBoxConfiguration();
+         idtrustConfig.load(configFilePath);
+      }
+      catch (ConfigurationStreamNullException ex) {
+         throw new SecurityException("Unable to load the configuration file " + configFilePath);
+      } 
+      catch (Exception ex) {
+         throw new SecurityException("Unable to read the configuration file " + configFilePath, ex);
+      }
+      finally 
+      {
+         SecurityFactory.release();
+      }
+   }
+
+   /**
+    * Sets the security domain name. This property has to be set when loading
+    * a custom configuration file. It also can be used to override the default
+    * security domain name (JBossWS)
+    * @param domainName
+    */
+   public void setSecurityDomainName(String domainName) {
+	   securityDomainName = domainName;
+   }
+
+   
+   
    /** TODO: JBWS-3028
    private static final int TIMESTAMP_FRESHNESS_THRESHOLD = 300;
    private NonceStore nonceStore;

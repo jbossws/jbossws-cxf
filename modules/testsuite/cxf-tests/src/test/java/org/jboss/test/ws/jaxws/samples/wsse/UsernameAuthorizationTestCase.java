@@ -46,8 +46,12 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public final class UsernameAuthorizationTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-username-authorize";
-
+   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-username-authorize/default-config";
+   private final String serviceURL2 = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-username-authorize/custom-config";
+   
+   private final QName servicePort = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityServicePort");
+   private final QName servicePort2 = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityServicePort2"); 
+   
    public static Test suite()
    {
       return new JBossWSTestSetup(UsernameAuthorizationTestCase.class, "jaxws-samples-wsse-username-authorize.war");
@@ -55,14 +59,24 @@ public final class UsernameAuthorizationTestCase extends JBossWSTest
 
    public void testAuthorized() throws Exception
    {
-      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
-      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
-      setupWsse(proxy, "kermit");
-      assertEquals("Secure Hello World!", proxy.sayHello());
+	   doTestAuthorized(serviceURL, servicePort, "kermit");
    }
    
+   public void testAuthorizedCustomConfig() throws Exception
+   {
+	  doTestAuthorized(serviceURL2, servicePort2, "theKermit"); 
+   }
+   
+   private void doTestAuthorized(String endpointAddress, QName portName, String userName) throws Exception
+   {
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
+      URL wsdlURL = new URL(endpointAddress + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(portName, ServiceIface.class);
+      setupWsse(proxy, userName);
+      assertEquals("Secure Hello World!", proxy.sayHello());
+   }
+
    public void testUnauthenticated() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
@@ -83,11 +97,21 @@ public final class UsernameAuthorizationTestCase extends JBossWSTest
 
    public void testUnauthorized() throws Exception
    {
+	   doTestUnauthorized(serviceURL, servicePort, "kermit");
+   }
+   
+   public void testUnauthorizedCustomConfig() throws Exception
+   {
+	   doTestUnauthorized(serviceURL2, servicePort2, "theKermit");
+   }
+   
+   private void doTestUnauthorized(String endpointAddress, QName portName, String userName) throws Exception
+   {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      URL wsdlURL = new URL(endpointAddress + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
-      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
-      setupWsse(proxy, "kermit");
+      ServiceIface proxy = (ServiceIface)service.getPort(portName, ServiceIface.class);
+      setupWsse(proxy, userName);
       try
       {
          proxy.greetMe();
@@ -98,7 +122,7 @@ public final class UsernameAuthorizationTestCase extends JBossWSTest
          assertEquals("Unauthorized", ex.getMessage());
       }
    }
-
+   
    private void setupWsse(ServiceIface proxy, String username)
    {
       Client client = ClientProxy.getClient(proxy);
