@@ -20,6 +20,7 @@
   <!-- A time/date based rolling appender -->
   <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
     <param name="File" value="${log4j.output.dir}/test.log"/>
+    <param name="MaxFileSize" value="10MB"/>
     <param name="Append" value="true"/>
 
     <layout class="org.apache.log4j.PatternLayout">
@@ -55,15 +56,31 @@
   </category>
 
   <category name="org.apache.cxf">
-    <priority value="WARN"/>
+    <priority value="DEBUG"/>
   </category>
   
   <category name="org.springframework">
-    <priority value="WARN"/>
+    <priority value="INFO"/>
+  </category>
+  
+  <category name="sun.rmi">
+    <priority value="INFO"/>
+  </category>
+  
+  <category name="com.sun.xml.bind">
+    <priority value="INFO"/>
+  </category>
+  
+  <category name="javax.activation">
+    <priority value="INFO"/>
+  </category>
+  
+  <category name="org.apache.commons">
+    <priority value="INFO"/>
   </category>
   
   <!-- Apache security is verbose --> 
-  <category name="org.apache.xml.security">
+  <category name="org.apache.ws.security">
     <priority value="INFO"/>
   </category>
 
@@ -73,7 +90,7 @@
 
   <root>
     <!--appender-ref ref="CONSOLE"/-->
-    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="FILE"/>
   </root>
 
 </log4j:configuration>
