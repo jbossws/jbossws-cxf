@@ -65,3 +65,6 @@ org/jboss/test/ws/jaxws/samples/jmstransport/**
 # [JBWS-3002] Verify POJO endpoints are shared
 org/jboss/test/ws/jaxws/jbws2486/**
 
+# [JBWS-3028] Complete UsernameToken JAAS integration: PicketBox not available
+# on AS 5.x
+org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationTestCase.*
