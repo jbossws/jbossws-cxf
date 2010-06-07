@@ -25,8 +25,6 @@
     <test.resources.directory>${project.build.directory}/test-resources</test.resources.directory>
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <hibernate.version>3.2.4.sp1</hibernate.version>
-    <asm.version>2.2.3</asm.version>
-    <hornetq.version>2.1.0.BETA3</hornetq.version>
     <jboss.javaee.version>5.0.0.GA</jboss.javaee.version>
   </properties>
 
@@ -473,89 +471,49 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate</artifactId>
-          <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
           <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-aspects</artifactId>
+          <artifactId>jboss-as-depchain</artifactId>
+          <scope>import</scope>
+          <type>pom</type>
           <version>${jboss.version}</version>
           <exclusions>
             <exclusion>
-              <groupId>sun-jaxb</groupId>
-              <artifactId>jaxb-api</artifactId>
+              <groupId>org.jboss.jbossas</groupId>
+              <artifactId>jboss-as-webservices</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-client</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-core</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-factories</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-jaxrpc</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-saaj</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-management</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-resources</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-services</artifactId>
             </exclusion>
           </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-connector</artifactId>
-          <version>${jboss.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.hibernate</groupId>
-              <artifactId>ejb3-persistence</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>javax.xml.soap</groupId>
-              <artifactId>saaj-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>javax.xml.ws</groupId>
-              <artifactId>jaxws-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>jboss.jbossws</groupId>
-              <artifactId>jboss-jaxws</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>sun-jaxb</groupId>
-              <artifactId>jaxb-api</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-ejb3</artifactId>
-          <version>${jboss.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>javax.xml.bind</groupId>
-              <artifactId>jaxb-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>javax.xml.soap</groupId>
-              <artifactId>saaj-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>javax.xml.ws</groupId>
-              <artifactId>jaxws-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>sun-jaxb</groupId>
-              <artifactId>jaxb-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>org.jboss.microcontainer</groupId>
-              <artifactId>jboss-kernel</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-security</artifactId>
-          <version>${jboss.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-system</artifactId>
-          <version>${jboss.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.hornetq</groupId>
-          <artifactId>hornetq-jms-client</artifactId>
-          <version>${hornetq.version}</version>
         </dependency>
       </dependencies>
       <build>
@@ -598,91 +556,53 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate</artifactId>
-          <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
           <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-aspects</artifactId>
+          <artifactId>jboss-as-depchain</artifactId>
+          <scope>import</scope>
+          <type>pom</type>
           <version>${jboss.version}</version>
           <exclusions>
             <exclusion>
-              <groupId>sun-jaxb</groupId>
-              <artifactId>jaxb-api</artifactId>
+              <groupId>org.jboss.jbossas</groupId>
+              <artifactId>jboss-as-webservices</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.cxf</groupId>
+              <artifactId>jbossws-cxf-client</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.cxf</groupId>
+              <artifactId>jbossws-cxf-management</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.cxf</groupId>
+              <artifactId>jbossws-cxf-server</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.cxf</groupId>
+              <artifactId>jbossws-cxf-factories</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.cxf</groupId>
+              <artifactId>jbossws-cxf-resources</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-factories</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-client</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-core</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-services</artifactId>
             </exclusion>
           </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-connector</artifactId>
-          <version>${jboss.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.hibernate</groupId>
-              <artifactId>ejb3-persistence</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>javax.xml.soap</groupId>
-              <artifactId>saaj-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>javax.xml.ws</groupId>
-              <artifactId>jaxws-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>jboss.jbossws</groupId>
-              <artifactId>jboss-jaxws</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>sun-jaxb</groupId>
-              <artifactId>jaxb-api</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-ejb3</artifactId>
-          <version>${jboss.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.microcontainer</groupId>
-              <artifactId>jboss-kernel</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>javax.xml.soap</groupId>
-              <artifactId>saaj-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>javax.xml.ws</groupId>
-              <artifactId>jaxws-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>sun-jaxb</groupId>
-              <artifactId>jaxb-api</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-security</artifactId>
-          <version>${jboss.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-system</artifactId>
-          <version>${jboss.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>sun-jaxb</groupId>
-              <artifactId>jaxb-api</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.hornetq</groupId>
-          <artifactId>hornetq-jms-client</artifactId>
-          <version>${hornetq.version}</version>
         </dependency>
       </dependencies>
       <build>
