@@ -61,4 +61,7 @@ org/jboss/test/ws/jaxws/jbws2486/**
 # [JBWS-3028] Complete UsernameToken JAAS integration: PicketBox not available
 # on AS 5.x
 org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationTestCase.*
+
+# AddressingStatefulTestCase needs to be fixed
+org/jboss/test/ws/jaxws/samples/addressing/AddressingStatefulTestCase.*
  
