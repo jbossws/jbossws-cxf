@@ -28,21 +28,20 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    TODO: enumerate
-
-Feature Request
-
-    TODO: enumerate
+    * [JBWS-3048] - bin-dist does not correctly undeploy previously installed stack
+    * [JBWS-3054] - Custom BusFactory needs to be endorsed
+    * [JBWS-3051] - Regression on wstrust interop tests
 
 Task
 
-    TODO: enumerate
+    * [JBWS-2952] - Fix client logging when running the testsuite with CXF stack
+    * [JBWS-3057] - Upgrade to Apache CXF 2.2.9
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
+    See: https://jira.jboss.org/browse/JBWS-3058
 
-This version of ${project.name} is based on CXF ${cxf.version}
+This version of ${project.name} is based on Apache CXF ${cxf.version}
 
 Enjoy,
 The JBossWS Team
