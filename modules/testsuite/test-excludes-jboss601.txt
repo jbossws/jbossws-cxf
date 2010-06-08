@@ -1,9 +1,6 @@
 # UsernameTestCase requires trustore in jboss-web tomcat configuration
 org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*
 
-# WS-Trust tests require Microsoft WCF endpoint up and running
-org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**
-
 # [CXF-1252] Provider PAYLOAD endpoint expects SOAP Envelope
 org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase.*
 org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
@@ -19,10 +16,6 @@ org/jboss/test/ws/jaxws/webfault/**
 
 # [CXF-2006] RespectBinding feature and not understood required extensibility elements
 org/jboss/test/ws/jaxws/jbws2449/**
-
-# [CXF-2819] <protocol-bindings>##SOAP12_Binding</protocol-bindings> in
-# handler chain is not correctly matched
-org/jboss/test/ws/jaxws/handlerscope/*TestCase.*
 
 # [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored
 org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
