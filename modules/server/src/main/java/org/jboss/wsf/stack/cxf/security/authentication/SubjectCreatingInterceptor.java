@@ -27,10 +27,13 @@ import java.util.Map;
 
 import javax.security.auth.Subject;
 
+import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.common.security.SimplePrincipal;
+import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.ws.security.wss4j.AbstractUsernameTokenAuthenticatingInterceptor;
 import org.jboss.logging.Logger;
 import org.jboss.security.AuthenticationManager;
+import org.jboss.security.SecurityContext;
 import org.picketbox.config.PicketBoxConfiguration;
 import org.picketbox.exceptions.ConfigurationStreamNullException;
 import org.picketbox.factories.SecurityFactory;
@@ -46,8 +49,8 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
    private static final Logger log = Logger.getLogger(SubjectCreatingInterceptor.class);
    private static final String DEFAULT_SECURITY_DOMAIN_NAME = "JBossWS";
    
-   private AuthenticationManagerLoader aml = null;
    private String securityDomainName = DEFAULT_SECURITY_DOMAIN_NAME;
+   private boolean propagateContext;
    
    public SubjectCreatingInterceptor()
    {
@@ -57,34 +60,23 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
    public SubjectCreatingInterceptor(Map<String, Object> properties)
    {
       super(properties);
-      try
-      {
-         aml = AuthenticationManagerLoader.class.newInstance();
-      }
-      catch (Exception ex)
-      {
-         String msg = "AuthenticationManager can not be loaded";
-         log.error(msg);
-         throw new SecurityException(msg);
-      }
    }
 
    @Override
    public Subject createSubject(String name, String password, boolean isDigest, String nonce, String created)
    {
-         
-      AuthenticationManager am = aml.getManager(securityDomainName);
-      
-	  // verify timestamp and nonce if digest
-      //if (isDigest)
-      //{
-         //verifyUsernameToken(nonce, created);
-         // CallbackHandler cb = new UsernameTokenCallbackHandler(nonce, created);
-         // CallbackHandlerPolicyContextHandler.setCaallbackHandler(cb); 
-      //}
+	  //if (isDigest)
+	  //{
+	      //verifyUsernameToken(nonce, created);
+	      // CallbackHandler cb = new UsernameTokenCallbackHandler(nonce, created);
+	      // CallbackHandlerPolicyContextHandler.setCaallbackHandler(cb); 
+	  //}
+	   
+      SecurityContext securityContext = getSecurityContext();
 
       // authenticate and populate Subject
-
+      AuthenticationManager am = securityContext.getAuthenticationManager();
+      
       Principal principal = new SimplePrincipal(name);
       Subject subject = new Subject();
 
@@ -102,9 +94,41 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
       if (TRACE)
          log.trace("Authenticated, principal=" + name);
 
+      if (propagateContext) 
+      {
+	      securityContext.getUtil().createSubjectInfo(principal, password, subject);
+	      PhaseInterceptorChain.getCurrentMessage().setContent(SecurityContext.class, securityContext);
+	      if (TRACE)
+	          log.trace("Security Context has been propagated");
+      }
       return subject;
    }
 
+   @Override
+   public void handleFault(SoapMessage message) {
+	   SecurityContext securityContext = message.getContent(SecurityContext.class);
+	   if (securityContext != null) {
+	       securityContext.setSubjectInfo(null);
+	   } 
+   }
+  
+   private SecurityContext getSecurityContext() {
+	   SecurityFactory.prepare();
+	      
+	   try
+	   { 
+	      return SecurityFactory.establishSecurityContext(securityDomainName);
+	   }
+	   catch (Exception ex) {
+	      throw new SecurityException("Unable to establish Security Context for domain "
+	    		                      + securityDomainName, ex);
+	   }
+	   finally 
+	   {
+	      SecurityFactory.release();
+	   }
+   }
+   
    /**
     * Loads a custom configuration file, can be used to add the configuration
     * for new domains or override the default ones configured by JBoss AS
@@ -145,6 +169,11 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
    public void setSecurityDomainName(String domainName) {
 	   securityDomainName = domainName;
    }
+
+   public void setPropagateContext(boolean propagateContext) {
+       this.propagateContext = propagateContext;
+   }
+
 
    
    

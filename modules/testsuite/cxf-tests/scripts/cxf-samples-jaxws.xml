@@ -201,6 +201,22 @@
           <include name="wsdl/*"/>
        </webinf>
     </war>
+    
+    <!-- jaxws-samples-wsseEJB -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsseEJB.jar">
+        <fileset dir="${tests.output.dir}/test-classes">
+	  <include name="org/jboss/test/ws/jaxws/samples/wsseEJB/EjbEndpointImpl.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsseEJB/EjbEndpoint.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsseEJB/SayHello*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsseEJB/GreetMe*.class"/> 
+          <include name="org/jboss/test/ws/jaxws/samples/wsseEJB/UsernamePasswordCallback.class"/>
+	</fileset>
+
+        <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsseEJB/META-INF">
+	  <include name="jbossws-cxf.xml"/>
+	</metainf>
+
+    </jar>
 
     <!-- jaxws-samples-wssePolicy-sign -->
     <war

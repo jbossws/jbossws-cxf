@@ -1,0 +1,46 @@
+<beans
+  xmlns='http://www.springframework.org/schema/beans'
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xmlns:beans='http://www.springframework.org/schema/beans'
+  xmlns:jaxws='http://cxf.apache.org/jaxws'
+  xmlns:util='http://www.springframework.org/schema/util'
+  xsi:schemaLocation='http://cxf.apache.org/core
+    http://cxf.apache.org/schemas/core.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-2.0.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd'>
+ 
+  <bean id="SecurityContextIn" class="org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingInterceptor">
+    <constructor-arg>
+      <map>
+        <entry key="action" value="UsernameToken"/> 
+      </map>
+    </constructor-arg>
+
+    <property name="propagateContext" value="true"/>
+
+  </bean>
+ 
+  <jaxws:endpoint
+    id='EjbEndpointImpl'
+    address='http://@jboss.bind.address@:8080/jaxws-samples-wsseEJB/EjbEndpoint'
+    implementor='org.jboss.test.ws.jaxws.samples.wsseEJB.EjbEndpointImpl'>
+    <jaxws:invoker>
+      <bean class='org.jboss.wsf.stack.cxf.InvokerEJB3'/>
+    </jaxws:invoker>
+
+    <jaxws:inInterceptors>
+
+        <ref bean="SecurityContextIn"/>
+        <bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor"/>
+
+    </jaxws:inInterceptors>
+
+  </jaxws:endpoint>
+   
+  
+    
+</beans>
