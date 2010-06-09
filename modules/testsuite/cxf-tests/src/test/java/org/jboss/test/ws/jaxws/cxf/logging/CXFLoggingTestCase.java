@@ -21,40 +21,24 @@
  */
 package org.jboss.test.ws.jaxws.cxf.logging;
 
-import java.util.logging.Handler;
 import java.util.logging.Logger;
 
+import org.apache.cxf.common.logging.Log4jLogger;
 import org.apache.cxf.common.logging.LogUtils;
-import org.jboss.wsf.common.logging.JDKLogHandler;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
- * Test redirection of CXF logging on the client side 
+ * Test CXF logging on the client side uses Log4J 
  *
- * @author Thomas.Diesler@jboss.org
- * @since 18-Dec-2007
+ * @author alessio.soldano@jboss.com
+ * @since 09-Jun-2010
  */
 public class CXFLoggingTestCase extends JBossWSTest
 {
    public void testLogging() throws Exception
    {
       Logger log = LogUtils.getL7dLogger(CXFLoggingTestCase.class);
-      assertHandlers(log);
       
-      log = LogUtils.getL7dLogger(CXFLoggingTestCase.class);
-      assertHandlers(log);
-      
-      log.finest("test message");
-   }
-
-   private void assertHandlers(Logger log)
-   {
-      int found = 0;
-      for (Handler handler : log.getHandlers())
-      {
-         if (handler instanceof JDKLogHandler)
-            found++;
-      }
-      assertEquals("Expected one jboss handler", 1, found);
+      assertTrue("Expected an instance of " + Log4jLogger.class, log instanceof Log4jLogger);
    }
 }
