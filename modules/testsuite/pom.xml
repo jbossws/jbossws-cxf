@@ -477,10 +477,12 @@
           <type>pom</type>
           <version>${jboss.version}</version>
           <exclusions>
+            <!-- Exclusion for not depending on the container integration -->
             <exclusion>
               <groupId>org.jboss.jbossas</groupId>
               <artifactId>jboss-as-webservices</artifactId>
             </exclusion>
+            <!-- Exclusions for preventing cyclic dependency on JBossWS-Native (AS 6.0.0.M3) -->
             <exclusion>
               <groupId>org.jboss.ws.native</groupId>
               <artifactId>jbossws-native-client</artifactId>
@@ -513,6 +515,15 @@
               <groupId>org.jboss.ws.native</groupId>
               <artifactId>jbossws-native-services</artifactId>
             </exclusion>
+            <!-- Exclusions for preventing http://www.slf4j.org/codes.html#multiple_bindings -->
+            <exclusion>
+              <groupId>org.jboss.slf4j</groupId>
+              <artifactId>slf4j-jboss-logmanager</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
           </exclusions>
         </dependency>
       </dependencies>
@@ -532,11 +543,8 @@
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss600.home}/lib/endorsed</argLine>
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
-                <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
-                 <!-- Libs below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
+                 <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
                 <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/common/lib/netty.jar</additionalClasspathElement>
               </additionalClasspathElements>
             </configuration>
           </plugin>
@@ -562,10 +570,12 @@
           <type>pom</type>
           <version>${jboss.version}</version>
           <exclusions>
+            <!-- Exclusion for not depending on the container integration -->
             <exclusion>
               <groupId>org.jboss.jbossas</groupId>
               <artifactId>jboss-as-webservices</artifactId>
             </exclusion>
+            <!-- Exclusions for preventing cyclic dependency on JBossWS-CXF (AS 6.0.0) -->
             <exclusion>
               <groupId>org.jboss.ws.cxf</groupId>
               <artifactId>jbossws-cxf-client</artifactId>
@@ -602,6 +612,15 @@
               <groupId>org.jboss.ws.native</groupId>
               <artifactId>jbossws-native-services</artifactId>
             </exclusion>
+            <!-- Exclusions for preventing http://www.slf4j.org/codes.html#multiple_bindings -->
+            <exclusion>
+              <groupId>org.jboss.slf4j</groupId>
+              <artifactId>slf4j-jboss-logmanager</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
           </exclusions>
         </dependency>
       </dependencies>
@@ -621,11 +640,8 @@
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss601.home}/lib/endorsed</argLine>
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
-                <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
-                 <!-- Libs below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
+                 <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
                 <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/common/lib/netty.jar</additionalClasspathElement>
               </additionalClasspathElements>
             </configuration>
           </plugin>
