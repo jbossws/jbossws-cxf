@@ -71,12 +71,12 @@ import org.apache.cxf.message.MessageContentsList;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.service.model.BindingOperationInfo;
-import org.jboss.security.SecurityContext;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.Invocation;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
+import org.jboss.wsf.spi.invocation.SecurityAdaptor;
 
 /**
  * An abstract CXF invoker
@@ -114,11 +114,10 @@ public abstract class AbstractInvoker implements Invoker
          //clear the WebServiceContextImpl's ThreadLocal variable
          WebServiceContextImpl.clear();
          // clear SecurityContext in case it has been propagated
-         SecurityContext sc = exchange.getInMessage().getContent(SecurityContext.class);
-         if (sc != null)
-         {
-        	 sc.setSubjectInfo(null);
-         }
+         SecurityAdaptor adaptor = exchange.getInMessage().getContent(SecurityAdaptor.class);
+  	     if (adaptor != null) {
+  		    //TODO: release the propagated state 
+  	     }
          
       }
 

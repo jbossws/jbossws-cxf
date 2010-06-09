@@ -44,20 +44,19 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Sergey Beryozkin
  *
  */
-public final class UsernameAuthorizationTestCase extends JBossWSTest
+public final class UsernameAuthorizationCustomFileTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-username-authorize/default-config";
-   
-   private final QName servicePort = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityServicePort");
+   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-username-authorize-custom";
+   private final QName servicePort = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityServicePort"); 
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(UsernameAuthorizationTestCase.class, "jaxws-samples-wsse-username-authorize.war");
+      return new JBossWSTestSetup(UsernameAuthorizationCustomFileTestCase.class, "jaxws-samples-wsse-username-authorize-custom.war");
    }
 
-   public void testAuthorized() throws Exception
+   public void testAuthorizedCustomConfig() throws Exception
    {
-	   doTestAuthorized(serviceURL, servicePort, "kermit");
+	  doTestAuthorized(serviceURL, servicePort, "theKermit"); 
    }
    
 private void doTestAuthorized(String endpointAddress, QName portName, String userName) throws Exception
@@ -88,12 +87,12 @@ private void doTestAuthorized(String endpointAddress, QName portName, String use
       }
    }
 
-   public void testUnauthorized() throws Exception
+   public void testUnauthorizedCustomConfig() throws Exception
    {
-	   doTestUnauthorized(serviceURL, servicePort, "kermit");
+	   doTestUnauthorized(serviceURL, servicePort, "theKermit");
    }
    
-   private void doTestUnauthorized(String endpointAddress, QName portName, String userName) throws Exception
+private void doTestUnauthorized(String endpointAddress, QName portName, String userName) throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
       URL wsdlURL = new URL(endpointAddress + "?wsdl");

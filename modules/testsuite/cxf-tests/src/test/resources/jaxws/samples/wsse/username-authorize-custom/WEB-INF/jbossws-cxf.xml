@@ -13,17 +13,13 @@
     http://cxf.apache.org/jaxws
     http://cxf.apache.org/schemas/jaxws.xsd'>
   
-  <bean id="SecurityContextIn" class="org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingInterceptor">
-    <constructor-arg>
-      <map>
-        <entry key="action" value="UsernameToken"/> 
-      </map>
-    </constructor-arg>
+  <bean id="SecurityContextIn" class="org.jboss.test.ws.jaxws.samples.wsse.CustomSubjectCreatingInterceptor">
+    <property name="securityConfigFile" value="login-config.xml"/>
   </bean>
  
   <util:map id="methodPermissions">
-     <entry key="sayHello" value="friend"/> 
-     <entry key="greetMe" value="snoopies"/> 
+     <entry key="sayHello" value="theFriends"/> 
+     <entry key="greetMe" value="theSnoopies"/> 
   </util:map>
  
   <bean id="AuthorizeIn" class="org.apache.cxf.interceptor.security.SimpleAuthorizingInterceptor">
@@ -32,16 +28,13 @@
   
   <jaxws:endpoint
     id='ServiceImpl'
-    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-authorize/default-config'
-    implementor='org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl'
-    endpointName="ns:SecurityServicePort"
-    serviceName="ns:SecurityService"
-    xmlns:ns="http://www.jboss.org/jbossws/ws-extensions/wssecurity">
+    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-authorize-custom'
+    implementor='org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl'>
     <jaxws:inInterceptors>
         <ref bean="SecurityContextIn"/>
         <ref bean="AuthorizeIn"/>
         <bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor"/>
     </jaxws:inInterceptors>
-  </jaxws:endpoint>
-    
+  </jaxws:endpoint>  
+  
 </beans>

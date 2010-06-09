@@ -194,6 +194,22 @@
        </classes>
        <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-authorize/WEB-INF">
           <include name="jboss-web.xml"/>
+          <include name="jbossws-cxf.xml"/>
+          <include name="wsdl/*"/>
+       </webinf>
+    </war>
+    
+    <!-- jaxws-samples-wsse-username-authorize-custom -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-username-authorize-custom.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-authorize-custom/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/Service*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/CustomSubjectCreatingInterceptor.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/jaxws/*.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-authorize-custom/WEB-INF">
+          <include name="jboss-web.xml"/>
           <include name="login-config.xml"/>
           <include name="users.properties"/>
           <include name="roles.properties"/>
@@ -201,7 +217,7 @@
           <include name="wsdl/*"/>
        </webinf>
     </war>
-    
+
     <!-- jaxws-samples-wsseEJB -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsseEJB.jar">
         <fileset dir="${tests.output.dir}/test-classes">
@@ -214,6 +230,7 @@
 
         <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsseEJB/META-INF">
 	  <include name="jbossws-cxf.xml"/>
+          <include name="jboss.xml"/>
 	</metainf>
 
     </jar>

@@ -12,8 +12,6 @@
    
    <servlet-mapping>
       <servlet-name>TestService</servlet-name>
-      <url-pattern>/default-config/*</url-pattern>
+      <url-pattern>/*</url-pattern>
    </servlet-mapping>
-   
- 
 </web-app>
