@@ -98,6 +98,8 @@
                     <property name="tests.resources.dir" value="${basedir}/src/test/resources"/>
                     <property name="tests.output.dir" value="${project.build.directory}"/>
                     <property name="project.version" value="${project.version}"/>
+                    <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml" />
+                    <property name="log4j.output.dir" value="${log4j.output.dir}"/>
                     <ant antfile="scripts/antrun-wsconsume.xml" target="wsconsume"/>
                   </tasks>
                 </configuration>

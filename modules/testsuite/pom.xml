@@ -26,6 +26,7 @@
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <hibernate.version>3.2.4.sp1</hibernate.version>
     <jboss.javaee.version>5.0.0.GA</jboss.javaee.version>
+    <log4j.output.dir>${project.build.directory}</log4j.output.dir>
   </properties>
 
   <!-- Modules -->

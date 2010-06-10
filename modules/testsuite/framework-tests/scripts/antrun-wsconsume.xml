@@ -21,8 +21,14 @@
       </classpath>
     </taskdef>
     
-    <wsconsume wsdl="${tests.resources.dir}/jaxws/complex/META-INF/wsdl/RegistrationService.wsdl" package="org.jboss.test.ws.jaxws.complex" sourcedestdir="${tests.output.dir}/wsconsume/java" destdir="${tests.output.dir}/test-classes" keep="true" verbose="false"/>
-    <wsconsume wsdl="${tests.resources.dir}/jaxws/holder/META-INF/wsdl/HolderService.wsdl" package="org.jboss.test.ws.jaxws.holder" sourcedestdir="${tests.output.dir}/wsconsume/java" destdir="${tests.output.dir}/test-classes" keep="true" verbose="false"/>
+    <wsconsume wsdl="${tests.resources.dir}/jaxws/complex/META-INF/wsdl/RegistrationService.wsdl" package="org.jboss.test.ws.jaxws.complex" sourcedestdir="${tests.output.dir}/wsconsume/java" destdir="${tests.output.dir}/test-classes" keep="true" verbose="false" fork="true">
+        <jvmarg line="-Dlog4j.configuration=file://${log4j.conf}"/>
+        <jvmarg line="-Dlog4j.output.dir=${log4j.output.dir}"/>
+    </wsconsume>
+    <wsconsume wsdl="${tests.resources.dir}/jaxws/holder/META-INF/wsdl/HolderService.wsdl" package="org.jboss.test.ws.jaxws.holder" sourcedestdir="${tests.output.dir}/wsconsume/java" destdir="${tests.output.dir}/test-classes" keep="true" verbose="false" fork="true">
+        <jvmarg line="-Dlog4j.configuration=file://${log4j.conf}"/>
+        <jvmarg line="-Dlog4j.output.dir=${log4j.output.dir}"/>
+    </wsconsume>
   </target>
   
 </project>
