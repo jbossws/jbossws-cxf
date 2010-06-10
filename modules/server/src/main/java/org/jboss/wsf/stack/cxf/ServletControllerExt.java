@@ -55,7 +55,6 @@ import org.jboss.wsf.spi.management.ServerConfigFactory;
 public class ServletControllerExt extends ServletController
 {
    private ServletTransportFactory cxfTransport;
-   private ServletContext servletCtx;
    private Bus bus;
    private ServerConfig serverConfig;
 
@@ -63,7 +62,6 @@ public class ServletControllerExt extends ServletController
    {
       super(cxfTransport, config, servletCtx, bus);
       this.cxfTransport = cxfTransport;
-      this.servletCtx = servletCtx;
       this.bus = bus;
       SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
       serverConfig = spiProvider.getSPI(ServerConfigFactory.class).getServerConfig();
@@ -80,7 +78,6 @@ public class ServletControllerExt extends ServletController
       // Find destination based on request URI
       String requestURI = req.getRequestURI();
       Collection<ServletDestination> destinations = cxfTransport.getDestinations();
-      String exactMatch = null;
       ServletDestination returnValue = null;
       for (ServletDestination destination : destinations)
       {

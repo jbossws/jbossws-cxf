@@ -72,7 +72,6 @@ import org.apache.cxf.service.Service;
 import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.Invocation;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
@@ -83,6 +82,7 @@ import org.jboss.wsf.spi.invocation.SecurityAdaptor;
  * 
  * @author Thomas.Diesler@jboss.org
  * @author richard.opalka@jboss.com
+ * @author alessio.soldano@jboss.com
  * 
  * @see org.apache.cxf.jaxws.AbstractJAXWSMethodInvoker
  */
@@ -145,7 +145,7 @@ public abstract class AbstractInvoker implements Invoker
          }
       }
 
-      Endpoint ep = EndpointAssociation.getEndpoint();
+      Endpoint ep = exchange.get(Endpoint.class);
       InvocationHandler invHandler = ep.getInvocationHandler();
 
       Invocation inv = invHandler.createInvocation();
