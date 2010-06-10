@@ -51,6 +51,10 @@
     <priority value="DEBUG"/>
   </category>
 
+  <category name="org.jboss.wsf">
+    <priority value="DEBUG"/>
+  </category>
+
   <category name="org.jboss.test.ws">
     <priority value="TRACE"/>
   </category>

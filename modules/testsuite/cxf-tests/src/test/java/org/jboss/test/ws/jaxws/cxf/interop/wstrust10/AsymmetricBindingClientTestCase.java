@@ -32,6 +32,7 @@ import junit.framework.Test;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.bus.spring.SpringBusFactory;
+import org.jboss.logging.Logger;
 import org.jboss.test.ws.jaxws.cxf.interop.wstrust10.interopbaseaddress.interop.IPingService;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
@@ -47,6 +48,8 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class AsymmetricBindingClientTestCase extends JBossWSTest
 {
+   private static final Logger log = Logger.getLogger(AsymmetricBindingClientTestCase.class);
+   
    private Bus bus;
    
    public static Test suite()
@@ -90,7 +93,7 @@ public class AsymmetricBindingClientTestCase extends JBossWSTest
    
    private void loadBus(String scenario) throws Exception
    {
-      System.out.println("Loading bus for " + scenario + "...");
+      log.info("Loading bus for " + scenario + "...");
       SpringBusFactory busFactory = new SpringBusFactory();
       URL cxfConfig = getResourceURL("jaxws/cxf/interop/wstrust10/META-INF/" + scenario + "-client-config.xml");
       bus = busFactory.createBus(cxfConfig);
@@ -100,7 +103,7 @@ public class AsymmetricBindingClientTestCase extends JBossWSTest
    @Override
    protected void tearDown() throws Exception
    {
-      System.out.println("... bus teardown");
+      log.info("... bus teardown");
       if (bus != null)
          bus.shutdown(true);
 

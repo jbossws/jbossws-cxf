@@ -56,6 +56,10 @@
     <priority value="TRACE"/>
   </category>
 
+  <category name="org.jboss.test.wsf">
+    <priority value="TRACE"/>
+  </category>
+
   <category name="org.apache.cxf">
     <priority value="INFO"/>
   </category>
