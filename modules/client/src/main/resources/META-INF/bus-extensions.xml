@@ -81,8 +81,5 @@
   <extension class="org.apache.cxf.binding.http.HttpBindingFactory" interface="org.apache.cxf.binding.BindingFactory" deferred="true">
     <namespace>http://apache.org/cxf/binding/http</namespace>
   </extension>
-  <extension class="org.apache.cxf.jaxrs.JAXRSBindingFactory" interface="org.apache.cxf.binding.BindingFactory" deferred="true">
-    <namespace>http://apache.org/cxf/binding/jaxrs</namespace>
-  </extension>
 </extensions>
 
