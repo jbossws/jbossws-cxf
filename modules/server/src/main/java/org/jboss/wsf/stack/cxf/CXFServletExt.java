@@ -63,7 +63,6 @@ public class CXFServletExt extends CXFServlet
    public static final String ENABLE_CXF_MANAGEMENT = "enable.cxf.management";  
    
    protected Endpoint endpoint;
-   protected EndpointRegistry epRegistry;
 
    @Override
    public ServletController createServletController(ServletConfig servletConfig)
@@ -91,7 +90,7 @@ public class CXFServletExt extends CXFServlet
    
    private void updateAvailableBusWithServletInfo(ServletConfig servletConfig)
    {
-      BusHolder holder = endpoint.getAttachment(BusHolder.class);
+      BusHolder holder = endpoint.getService().getDeployment().getAttachment(BusHolder.class);
       //set the bus from deployment into the CXF servlet and assign it to the current thread
       bus = holder.getBus();
       BusFactory.possiblySetDefaultBus(bus);
@@ -108,11 +107,11 @@ public class CXFServletExt extends CXFServlet
    private void initEndpoint(ServletConfig servletConfig)
    {
       SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).getEndpointRegistry();
+      EndpointRegistry epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class).getEndpointRegistry();
 
       ServletContext context = servletConfig.getServletContext();
       String contextPath = context.getContextPath();
-      endpoint = initServiceEndpoint(contextPath);
+      endpoint = initServiceEndpoint(epRegistry, contextPath);
    }
 
    @Override
@@ -121,6 +120,11 @@ public class CXFServletExt extends CXFServlet
       try
       {
          BusFactory.setThreadDefaultBus(getBus());
+         //set the current endpoint into the threadlocal association that is later
+         //used by the EndpointAssociationInterceptor for linking the message exchange
+         //related to this invocation to the proper endpoint serving it (the bus, and
+         //hence the interceptor, can span multiple invocation related to multiple
+         //endpoints)
          EndpointAssociation.setEndpoint(endpoint);
          RequestHandler requestHandler = (RequestHandler)endpoint.getRequestHandler();
          requestHandler.handleHttpRequest(endpoint, req, res, getServletContext());
@@ -138,7 +142,7 @@ public class CXFServletExt extends CXFServlet
 
    /** Initialize the service endpoint
     */
-   private Endpoint initServiceEndpoint(String contextPath)
+   private Endpoint initServiceEndpoint(EndpointRegistry epRegistry, String contextPath)
    {
       if (contextPath.startsWith("/"))
          contextPath = contextPath.substring(1);

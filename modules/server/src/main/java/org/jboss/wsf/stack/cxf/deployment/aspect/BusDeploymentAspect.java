@@ -32,7 +32,6 @@ import org.jboss.wsf.common.integration.WSConstants;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
@@ -93,24 +92,12 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          SecurityActions.setContextClassLoader(origClassLoader);
       }
       
-      for (Endpoint endpoint : dep.getService().getEndpoints())
-      {
-         endpoint.addAttachment(BusHolder.class, holder);
-      }
       dep.addAttachment(BusHolder.class, holder);
    }
 
    @Override
    public void stop(Deployment dep)
    {
-      for (Endpoint endpoint : dep.getService().getEndpoints())
-      {
-         BusHolder holder = endpoint.removeAttachment(BusHolder.class);
-         if (holder != null)
-         {
-            holder.close();
-         }
-      }
       BusHolder holder = dep.removeAttachment(BusHolder.class);
       if (holder != null)
       {

@@ -42,6 +42,7 @@ import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
+import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.spring.handler.NamespaceHandlerResolver;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
@@ -120,6 +121,7 @@ public class BusHolder
       {
          bus.setExtension(configurer, Configurer.class);
       }
+      setInterceptors(bus);
       setSoapTransportFactory(bus, soapTransportFactory);
       setResourceResolver(bus, resolver);
       if (jbossCxfXml != null)
@@ -188,6 +190,13 @@ public class BusHolder
       for (String s : factory.getTransportIds()) {
           registerTransport(factory, s);
       }
+   }
+   
+   protected static void setInterceptors(Bus bus)
+   {
+      //Install the EndpointAssociationInterceptor for linking every message exchange
+      //with the proper spi Endpoint retrieved in CXFServletExt
+      bus.getInInterceptors().add(new EndpointAssociationInterceptor());
    }
    
    protected static void setResourceResolver(Bus bus, ResourceResolver resourceResolver)
