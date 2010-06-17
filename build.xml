@@ -52,6 +52,7 @@
     <mkdir dir="${stack.output.dir}"/>
     <exec dir="${basedir}" executable="${mvn}" failonerror="true">
       <arg value="-Doutput=${stack.output.dir}/effective-settings.xml"/>
+      <arg value="${maven.opts}"/>
       <arg value="help:effective-settings"/>
     </exec>
     <xmlproperty file="${stack.output.dir}/effective-settings.xml" keeproot="false"/>
