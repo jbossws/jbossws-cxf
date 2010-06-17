@@ -218,6 +218,26 @@
        </webinf>
     </war>
 
+    <!-- jaxws-samples-wsse-username-digest -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-username-digest.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-digest/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsseDigest/Service*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsseDigest/MemoryNonceStore.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsseDigest/jaxws/*.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-digest/WEB-INF">
+          <include name="jboss-web.xml"/>
+          <include name="jboss-service.xml"/>
+          <include name="jbossws-cxf.xml"/>
+          <include name="login-config.xml"/>
+          <include name="jbossws-users.properties"/>
+          <include name="jbossws-roles.properties"/>
+          <include name="wsdl/*"/>
+       </webinf>
+    </war>
+
     <!-- jaxws-samples-wsseEJB -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsseEJB.jar">
         <fileset dir="${tests.output.dir}/test-classes">

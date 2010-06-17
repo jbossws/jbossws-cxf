@@ -64,6 +64,8 @@
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
     <jboss.logging.version>2.2.0.CR1</jboss.logging.version>
     <jboss.security.spi.version>2.0.4.SP4</jboss.security.spi.version>
+    <jboss.security.sx.version>2.0.4</jboss.security.sx.version>
+    <jboss.xb.version>2.0.2.Beta7</jboss.xb.version>
     <picketbox.version>3.0.0.Beta5</picketbox.version>
     <jaxb.api.version>1.0.0.Beta1</jaxb.api.version>
     <jaxb.impl.version>2.2</jaxb.impl.version>
@@ -535,6 +537,18 @@
         <groupId>org.jboss</groupId>
         <artifactId>jboss-common-core</artifactId>
         <version>${jboss.common.core.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss</groupId>
+         <artifactId>jbossxb</artifactId>
+         <version>${jboss.xb.version}</version>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.security</groupId>
+        <artifactId>jbosssx</artifactId>
+        <version>${jboss.security.sx.version}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
