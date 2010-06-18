@@ -48,12 +48,12 @@
   </target>
 
   <target name="mvn-settings" depends="os-init">
+    <property name="maven.opts" value=""/>
     <!-- Loads the properties from the effective maven settings -->
     <mkdir dir="${stack.output.dir}"/>
     <exec dir="${basedir}" executable="${mvn}" failonerror="true">
       <arg value="-Doutput=${stack.output.dir}/effective-settings.xml"/>
-      <arg value="${maven.opts}"/>
-      <arg value="help:effective-settings"/>
+      <arg line="${maven.opts} help:effective-settings"/>
     </exec>
     <xmlproperty file="${stack.output.dir}/effective-settings.xml" keeproot="false"/>
     <condition property="jboss501.home" value="${profiles.profile.properties.jboss501.home}">
