@@ -36,7 +36,6 @@ import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.common.security.SimplePrincipal;
 import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.ws.security.wss4j.AbstractUsernameTokenAuthenticatingInterceptor;
-import org.apache.ws.security.WSConstants;
 import org.apache.ws.security.WSSecurityException;
 import org.apache.ws.security.handler.RequestData;
 import org.jboss.logging.Logger;
@@ -67,6 +66,8 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
    private int timestampThreshold = TIMESTAMP_FRESHNESS_THRESHOLD;
    private NonceStore nonceStore; 
    private boolean decodeNonce = true;
+
+   private boolean supportDigestPasswords;
    
    public SubjectCreatingInterceptor()
    {
@@ -91,13 +92,21 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
 
    }
 
-   // TODO : this code has to go to the super class, AbstractUsernameTokenAuthenticatingInterceptor
-   // has a bug to do with handling digests
+   // TODO : this code is a temporarily workaround; AbstractUsernameTokenAuthenticatingInterceptor
+   // has a bug to do with handling digests; RequestData assumes PasswordDigest by default
+   @Override
+   public void setSupportDigestPasswords(boolean support) {
+	   this.supportDigestPasswords = support;
+	   super.setSupportDigestPasswords(support);
+   }
+   
+   // TODO : this code is a temporarily workaround; AbstractUsernameTokenAuthenticatingInterceptor
+   // has a bug to do with handling digests; RequestData assumes PasswordDigest by default 
    @Override
    protected CallbackHandler getCallback(RequestData reqData, int doAction) 
        throws WSSecurityException {
        
-       if ((doAction & WSConstants.UT) != 0 && reqData.getPwType() != WSConstants.PASSWORD_TEXT) {    
+       if (supportDigestPasswords) {    
            return new CallbackHandler() 
            {
 			 @Override
