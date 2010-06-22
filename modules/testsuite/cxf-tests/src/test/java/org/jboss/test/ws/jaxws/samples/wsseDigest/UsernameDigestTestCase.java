@@ -52,7 +52,7 @@ public final class UsernameDigestTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(UsernameDigestTestCase.class, "jaxws-samples-wsse-username-digest.war");
+      return new JBossWSTestSetup(UsernameDigestTestCase.class, "jaxws-samples-wsse-username-digest.sar jaxws-samples-wsse-username-digest.war");
    }
 
    public void testAuthorized() throws Exception

@@ -6,7 +6,7 @@
    <!--  ====================================================================  -->
    <mbean code="org.jboss.security.auth.login.DynamicLoginConfig"
       name="jboss:service=DynamicLoginConfig">
-      <attribute name="AuthConfig">login-config.xml</attribute>
+      <attribute name="AuthConfig">META-INF/login-config.xml</attribute>
       <!-- The service which supports dynamic processing of login-config.xml
          configurations.
       -->

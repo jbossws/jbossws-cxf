@@ -2,14 +2,14 @@
 <!DOCTYPE policy PUBLIC
       "-//JBoss//DTD JBOSS Security Config 3.0//EN"
       "http://www.jboss.org/j2ee/dtd/security_config.dtd">
-<policy> <!-- xmlns="urn:jboss:security-config:5.0"> -->
+<policy> 
     
     <application-policy name="JBossWSDigest">
       <authentication>
         <login-module code="org.jboss.security.auth.spi.UsersRolesLoginModule"
           flag="required">
-          <module-option name="usersProperties">jbossws-users.properties</module-option>
-          <module-option name="rolesProperties">jbossws-roles.properties</module-option>
+          <module-option name="usersProperties">META-INF/jbossws-users.properties</module-option>
+          <module-option name="rolesProperties">META-INF/jbossws-roles.properties</module-option>
           <module-option name="hashAlgorithm">SHA</module-option>
           <module-option name="hashEncoding">BASE64</module-option>
           <module-option name="hashCharset">UTF-8</module-option>
