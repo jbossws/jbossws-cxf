@@ -75,7 +75,6 @@ import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.Invocation;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
-import org.jboss.wsf.spi.invocation.SecurityAdaptor;
 
 /**
  * An abstract CXF invoker
@@ -113,12 +112,6 @@ public abstract class AbstractInvoker implements Invoker
       {
          //clear the WebServiceContextImpl's ThreadLocal variable
          WebServiceContextImpl.clear();
-         // clear SecurityContext in case it has been propagated
-         SecurityAdaptor adaptor = exchange.getInMessage().getContent(SecurityAdaptor.class);
-  	     if (adaptor != null) {
-  		    //TODO: release the propagated state 
-  	     }
-         
       }
 
       return new MessageContentsList(retObj);

@@ -32,9 +32,7 @@ import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
-import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.common.security.SimplePrincipal;
-import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.ws.security.wss4j.AbstractUsernameTokenAuthenticatingInterceptor;
 import org.apache.ws.security.WSSecurityException;
 import org.apache.ws.security.handler.RequestData;
@@ -159,7 +157,9 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
       {
     	  if (isDigest) 
     	  {
-    	     // how do we remove the handler from the thread local storage ?     
+    		  // does not remove the TL entry completely but limits the potential
+    		  // growth to a number of available threads in a container 
+    		  CallbackHandlerPolicyContextHandler.setCallbackHandler(null);     
     	  }
       }
       
@@ -169,11 +169,7 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
       if (propagateContext) 
       {
     	  SecurityAdaptor adaptor = secAdaptorFactory.newSecurityAdapter();
-          adaptor.setPrincipal(principal);
-          adaptor.setCredential(password);
           adaptor.pushSubjectContext(subject, principal, password);
-
-	      PhaseInterceptorChain.getCurrentMessage().setContent(SecurityAdaptor.class, adaptor);
 	      if (TRACE)
 	          log.trace("Security Context has been propagated");
       }
@@ -205,14 +201,6 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
    
    public void setTimestampThreshold(int timestampThreshold) {
    	  this.timestampThreshold = timestampThreshold;
-   }
-
-   @Override
-   public void handleFault(SoapMessage message) {
-	   SecurityAdaptor adaptor = message.getContent(SecurityAdaptor.class);
-	   if (adaptor != null) {
-		   //TODO: release the propagated state 
-	   } 
    }
 
    public void setNonceStore(NonceStore nonceStore) {
