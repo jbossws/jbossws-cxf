@@ -143,8 +143,9 @@ public abstract class AbstractInvoker implements Invoker
 
       Invocation inv = invHandler.createInvocation();
       InvocationContext invContext = inv.getInvocationContext();
-      inv.getInvocationContext().addAttachment(WebServiceContext.class, getWebServiceContext(ctx));
+      invContext.addAttachment(WebServiceContext.class, getWebServiceContext(ctx));
       invContext.addAttachment(MessageContext.class, ctx);
+      invContext.setTargetBean(ep.getAttachment(Object.class)); //JBWS-2486 - JBWS-3002
       inv.setJavaMethod(m);
       inv.setArgs(params);
 
@@ -178,6 +179,14 @@ public abstract class AbstractInvoker implements Invoker
       } catch (Exception e) {
          exchange.getInMessage().put(FaultMode.class, FaultMode.UNCHECKED_APPLICATION_FAULT);
          throw createFault(e, m, paramList, false);
+      }
+      finally
+      {
+         // JBWS-2486
+         if (ep.getAttachment(Object.class) == null)
+         {
+            ep.addAttachment(Object.class, inv.getInvocationContext().getTargetBean());
+         }
       }
 
       return retObj;

@@ -47,8 +47,5 @@ org/jboss/test/ws/jaxws/endpointReference/EndpointReferenceBuilderTestCase.*
 # [JBWS-2987] Review JMS integration
 org/jboss/test/ws/jaxws/samples/jmstransport/**
 
-# [JBWS-3002] Verify POJO endpoints are shared
-org/jboss/test/ws/jaxws/jbws2486/**
-
 # [JBWS-3039] Spring 3 classpath scanning fails on AS 6
 org/jboss/test/ws/jaxws/cxf/webserviceref/WebServiceRefServletTestCase.*
