@@ -32,7 +32,7 @@ import org.jboss.wsf.spi.invocation.EndpointAssociation;
 /**
  * A RECEIVE phase interceptor that sets the @see{org.jboss.wsf.spi.deployment.Endpoint}
  * associated to the current message exchange. This is performed early in the chain,
- * before any thread pool comes into the game, preventing the EndpointAssociation
+ * before any thread pool comes into the game, allowing the EndpointAssociation
  * threadlocal to retrieve the correct Endpoint instance.
  * 
  * @author alessio.soldano@jboss.com
