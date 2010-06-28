@@ -21,6 +21,9 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import org.apache.cxf.frontend.ServerFactoryBean;
+import org.apache.cxf.service.invoker.Invoker;
+import org.jboss.wsf.stack.cxf.AbstractInvoker;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
@@ -50,6 +53,10 @@ public class JBossWSServerCXFConfigurer extends JBossWSCXFConfigurer
       {
          configureEndpoint((EndpointImpl)beanInstance);
       }
+      else if (beanInstance instanceof ServerFactoryBean)
+      {
+         configureServerFactory((ServerFactoryBean)beanInstance);
+      }
       super.customConfigure(beanInstance);
    }
    
@@ -59,6 +66,16 @@ public class JBossWSServerCXFConfigurer extends JBossWSCXFConfigurer
       if (wsdlPublisher != null)
       {
          endpoint.setWsdlPublisher(wsdlPublisher);
+      }
+   }
+   
+   protected synchronized void configureServerFactory(ServerFactoryBean factory)
+   {
+      //propagate serviceBean object (the endpoint target) from the factory to the jbossws custom invoker
+      Invoker invoker = factory.getInvoker();
+      if (invoker instanceof AbstractInvoker)
+      {
+         ((AbstractInvoker)invoker).setTargetBean(factory.getServiceBean());
       }
    }
    

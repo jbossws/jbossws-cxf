@@ -88,6 +88,12 @@ import org.jboss.wsf.spi.invocation.InvocationHandler;
 public abstract class AbstractInvoker implements Invoker
 {
    private static final Object[] NO_ARGS = new Object[]{};
+   private Object targetBean;
+   
+   public void setTargetBean(Object targetBean)
+   {
+      this.targetBean = targetBean;
+   }
    
    public Object invoke(Exchange exchange, Object o)
    {
@@ -145,7 +151,7 @@ public abstract class AbstractInvoker implements Invoker
       InvocationContext invContext = inv.getInvocationContext();
       invContext.addAttachment(WebServiceContext.class, getWebServiceContext(ctx));
       invContext.addAttachment(MessageContext.class, ctx);
-      invContext.setTargetBean(ep.getAttachment(Object.class)); //JBWS-2486 - JBWS-3002
+      invContext.setTargetBean(targetBean != null ? targetBean : ep.getAttachment(Object.class)); //JBWS-2486 - JBWS-3002
       inv.setJavaMethod(m);
       inv.setArgs(params);
 
