@@ -39,7 +39,6 @@ import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
- * Test a CXF endpoint with provided jbossws-cxf.xml 
  *
  * @author alessio.soldano@jboss.com
  * @since 11-Jun-2010

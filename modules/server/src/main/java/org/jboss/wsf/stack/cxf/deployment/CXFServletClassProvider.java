@@ -19,29 +19,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.cxf.endorse;
+package org.jboss.wsf.stack.cxf.deployment;
 
-import org.apache.cxf.BusFactory;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
-import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.spi.deployment.ServletClassProvider;
+import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 
-/**
- * 
- * @author alessio.soldano@jboss.com
- * @since 02-Jun-2010
- *
- */
-public class Helper
+public class CXFServletClassProvider implements ServletClassProvider
 {
-   public static void verify()
+
+   @Override
+   public String getServletClassName()
    {
-      //check BusFactory customization; this is required by the JBWS-CXF Configurer integration (HTTPConduit customization, JAXBIntros, ...)
-      BusFactory factory = BusFactory.newInstance();
-      if (!(factory instanceof JBossWSBusFactory))
-         throw new RuntimeException("Expected " + JBossWSBusFactory.class + " but got " + (factory == null ? null : factory.getClass()));
-      
-      //check the Apache CXF JAXWS implementation is actually used
-      if (!JBossWSTestHelper.isIntegrationCXF())
-         throw new RuntimeException("JAXWS implementation is not properly endorsed!");
+      return SpringUtils.isSpringAvailable() ? "org.jboss.wsf.stack.cxf.CXFServletExt" : "org.jboss.wsf.stack.cxf.CXFNonSpringServletExt";
    }
+
 }

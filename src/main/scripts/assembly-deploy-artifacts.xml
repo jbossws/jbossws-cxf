@@ -33,14 +33,6 @@
               <include>junit:junit:jar</include>
               <include>org.apache.neethi:neethi:jar</include>
               <include>com.sun.xml.messaging.saaj:saaj-impl:jar</include>
-              <include>org.springframework:spring-aop:jar</include>
-              <include>org.springframework:spring-asm:jar</include>
-              <include>org.springframework:spring-beans:jar</include>
-              <include>org.springframework:spring-context:jar</include>
-              <include>org.springframework:spring-core:jar</include>
-              <include>org.springframework:spring-expression:jar</include>
-              <include>org.springframework:spring-jms:jar</include>
-              <include>org.springframework:spring-tx:jar</include>
               <include>wsdl4j:wsdl4j:jar</include>
               <include>org.apache.ws.commons.schema:XmlSchema:jar</include>
               <include>com.sun.xml.fastinfoset:FastInfoset:jar</include>
@@ -87,6 +79,34 @@
 	    </includes>
 	  </dependencySet>
 
+        </dependencySets>
+      </binaries>
+    </moduleSet>
+    <moduleSet>
+      <includes>
+        <include>org.jboss.ws.cxf:jbossws-cxf-client</include>
+        <include>org.jboss.ws.cxf:jbossws-cxf-server</include>
+      </includes>
+      <binaries>
+        <outputDirectory>lib</outputDirectory>
+        <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
+        <unpack>false</unpack>
+        <dependencySets>
+          <dependencySet>
+            <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
+            <useStrictFiltering>true</useStrictFiltering>
+            <scope>provided</scope>
+            <includes>
+              <include>org.springframework:spring-aop:jar</include>
+              <include>org.springframework:spring-asm:jar</include>
+              <include>org.springframework:spring-beans:jar</include>
+              <include>org.springframework:spring-context:jar</include>
+              <include>org.springframework:spring-core:jar</include>
+              <include>org.springframework:spring-expression:jar</include>
+              <include>org.springframework:spring-jms:jar</include>
+              <include>org.springframework:spring-tx:jar</include>
+            </includes>
+          </dependencySet>
         </dependencySets>
       </binaries>
     </moduleSet>

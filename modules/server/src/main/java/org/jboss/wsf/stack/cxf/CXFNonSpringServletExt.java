@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.resource.ResourceManager;
-import org.apache.cxf.transport.servlet.CXFServlet;
+import org.apache.cxf.transport.servlet.CXFNonSpringServlet;
 import org.apache.cxf.transport.servlet.ServletContextResourceResolver;
 import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
@@ -37,25 +37,25 @@ import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.transport.ServletHelper;
 
 /**
- * An extension to the CXF servlet
+ * An extension to the CXFNonSpringServlet
  * 
- * @author Thomas.Diesler@jboss.org
- * @since 21-Apr-2007
+ * @author alessio.soldano@jboss.com
+ * @since 16-Jun-2010
+ *
  */
-public class CXFServletExt extends CXFServlet
+public class CXFNonSpringServletExt extends CXFNonSpringServlet
 {
    protected Endpoint endpoint;
-
+   
    @Override
    public ServletController createServletController(ServletConfig servletConfig)
    {
       ServletTransportFactory stf = (ServletTransportFactory)createServletTransportFactory();
       return new ServletControllerExt(stf, servletConfig, servletConfig.getServletContext(), bus);
    }
-
+   
    @Override
-   public void loadBus(ServletConfig servletConfig) throws ServletException
-   {
+   public void loadBus(ServletConfig servletConfig) throws ServletException {
       //Init the Endpoint
       endpoint = ServletHelper.initEndpoint(servletConfig, getServletName());
       
@@ -81,7 +81,7 @@ public class CXFServletExt extends CXFServlet
       //set the controller in the servlet context now that the bus has been configured in the servlet
       servletConfig.getServletContext().setAttribute(ServletController.class.getName(), getController());
    }
-
+   
    @Override
    protected void invoke(HttpServletRequest req, HttpServletResponse res) throws ServletException
    {

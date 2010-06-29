@@ -19,29 +19,44 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.cxf.endorse;
+package org.jboss.wsf.stack.cxf.client.configuration;
 
-import org.apache.cxf.BusFactory;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
-import org.jboss.wsf.test.JBossWSTestHelper;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.cxf.Bus;
+import org.apache.cxf.bus.CXFBusFactory;
+import org.apache.cxf.bus.extension.ExtensionManagerBus;
+import org.apache.cxf.configuration.Configurer;
 
 /**
  * 
  * @author alessio.soldano@jboss.com
- * @since 02-Jun-2010
+ * @since 16-Jun-2010
  *
  */
-public class Helper
+public class JBossWSNonSpringBusFactory extends CXFBusFactory
 {
-   public static void verify()
-   {
-      //check BusFactory customization; this is required by the JBWS-CXF Configurer integration (HTTPConduit customization, JAXBIntros, ...)
-      BusFactory factory = BusFactory.newInstance();
-      if (!(factory instanceof JBossWSBusFactory))
-         throw new RuntimeException("Expected " + JBossWSBusFactory.class + " but got " + (factory == null ? null : factory.getClass()));
-      
-      //check the Apache CXF JAXWS implementation is actually used
-      if (!JBossWSTestHelper.isIntegrationCXF())
-         throw new RuntimeException("JAXWS implementation is not properly endorsed!");
+   @SuppressWarnings("unchecked")
+   @Override
+   public Bus createBus(Map<Class, Object> extensions, Map<String, Object> properties) {
+      if (extensions == null)
+      {
+         extensions = new HashMap<Class, Object>();
+      }
+      if (!extensions.containsKey(Configurer.class))
+      {
+         extensions.put(Configurer.class, new JBossWSConfigurer(new BeanCustomizer()));
+      }
+
+      Bus bus = new ExtensionManagerBus(extensions, properties);
+      possiblySetDefaultBus(bus);
+      initializeBus(bus);
+      return bus;
+  }
+   
+   @Override
+   protected void initializeBus(Bus bus) {
+      super.initializeBus(bus);
    }
 }

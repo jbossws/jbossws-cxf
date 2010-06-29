@@ -158,6 +158,10 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <failIfNoTests>false</failIfNoTests>
+          <includes>
+            <include>**/*Test.java</include>
+            <include>**/*TestCase.java</include>
+          </includes>
           <systemProperties>
             <property>
               <name>jboss.server.instance</name>
@@ -310,6 +314,51 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+
+    <!--
+    Name:  spring
+    Descr: Add SpringFramework dependencies to test classpath
+    -->
+    <profile>
+      <id>spring</id>
+      <modules>
+        <module>cxf-spring-tests</module>
+      </modules>
+      <dependencies>
+        <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-aop</artifactId>
+        </dependency>
+        <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-asm</artifactId>
+        </dependency>   
+        <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-beans</artifactId>
+        </dependency> 
+        <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-context</artifactId>
+        </dependency> 
+        <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-core</artifactId>
+        </dependency>
+        <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-expression</artifactId>
+        </dependency>   
+        <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-jms</artifactId>
+        </dependency>
+        <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-tx</artifactId>
+        </dependency>      
+      </dependencies>
     </profile>
 
     <!--
@@ -525,6 +574,11 @@
               <groupId>org.slf4j</groupId>
               <artifactId>slf4j-log4j12</artifactId>
             </exclusion>
+            <!-- Exclusion for keeping control over Spring inclusion/exclusion -->
+            <exclusion>
+              <groupId>org.jboss.snowdrop</groupId>
+              <artifactId>jboss-spring-deployer</artifactId>
+            </exclusion>
           </exclusions>
         </dependency>
       </dependencies>
@@ -621,6 +675,11 @@
             <exclusion>
               <groupId>org.slf4j</groupId>
               <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+            <!-- Exclusion for keeping control over Spring inclusion/exclusion -->
+            <exclusion>
+              <groupId>org.jboss.snowdrop</groupId>
+              <artifactId>jboss-spring-deployer</artifactId>
             </exclusion>
           </exclusions>
         </dependency>

@@ -34,7 +34,10 @@ import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
+import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
+import org.jboss.wsf.stack.cxf.configuration.SpringBusHolder;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
+import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.resolver.JBossWSResourceResolver;
 import org.jboss.wsf.stack.cxf.transport.SoapTransportFactoryExt;
 
@@ -50,7 +53,6 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
    @Override
    public void start(Deployment dep)
    {
-      BusHolder holder;
       ClassLoader origClassLoader = SecurityActions.getContextClassLoader();
       try
       {
@@ -59,30 +61,41 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          SecurityActions.setContextClassLoader(dep.getRuntimeClassLoader());
          
          ResourceResolver deploymentResolver = aDep.getResourceResolver();
-
-         URL cxfServletURL = null;
-         try
-         {
-            cxfServletURL = deploymentResolver.resolve("WEB-INF/cxf-servlet.xml");
-         }
-         catch (IOException e)
-         {
-         } //ignore, cxf-servlet.xml is optional, we might even decide not to support this
-
-         holder = BusHolder.create(cxfServletURL);
-
+         org.apache.cxf.resource.ResourceResolver resolver = new JBossWSResourceResolver(deploymentResolver);
          Map<String, String> contextParams = (Map<String, String>)dep.getProperty(WSConstants.STACK_CONTEXT_PARAMS);
-         try
+         String jbosswsCxfXml =  contextParams == null ? null : contextParams.get(BusHolder.PARAM_CXF_BEANS_URL);
+         BusHolder holder = null;
+         
+         if (jbosswsCxfXml != null) // Spring available
          {
-            URL jbossCxfXml = deploymentResolver.resolve(contextParams.get(BusHolder.PARAM_CXF_BEANS_URL));
-            org.apache.cxf.resource.ResourceResolver resolver = new JBossWSResourceResolver(deploymentResolver);
+            URL cxfServletURL = null;
+            try
+            {
+               cxfServletURL = deploymentResolver.resolve("WEB-INF/cxf-servlet.xml");
+            }
+            catch (IOException e)
+            {
+            } //ignore, cxf-servlet.xml is optional, we might even decide not to support this
+   
+            try
+            {
+               holder = new SpringBusHolder(cxfServletURL, deploymentResolver.resolve(jbosswsCxfXml));
+               Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class), new WSDLFilePublisher(aDep));
+               holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
+            }
+            catch (Exception e)
+            {
+               throw new RuntimeException(e); //re-throw, jboss-cxf.xml is required
+            }
+         }
+         else //Spring not available
+         {
+            DDBeans metadata = dep.getAttachment(DDBeans.class);
+            holder = new NonSpringBusHolder(metadata);
             Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class), new WSDLFilePublisher(aDep));
-            holder.configure(jbossCxfXml, new SoapTransportFactoryExt(), resolver, configurer);
+            holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
          }
-         catch (IOException e)
-         {
-            throw new RuntimeException(e); //re-throw, jboss-cxf.xml is required
-         }
+         dep.addAttachment(BusHolder.class, holder);
       }
       finally
       {
@@ -91,10 +104,8 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          BusFactory.setThreadDefaultBus(null);
          SecurityActions.setContextClassLoader(origClassLoader);
       }
-      
-      dep.addAttachment(BusHolder.class, holder);
    }
-
+   
    @Override
    public void stop(Deployment dep)
    {

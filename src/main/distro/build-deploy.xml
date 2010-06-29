@@ -24,7 +24,6 @@
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
       <param name="modifyjbossintegration" value="true"/>
     </antcall>
-    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
   </target>
 
   <!-- ================================================================== -->
@@ -36,7 +35,8 @@
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-jboss501" depends="undeploy-jboss501,deploy-structure-jboss50" description="Deploy jbossws to jboss501">
+  <target name="deploy-jboss501" depends="undeploy-jboss501,deploy-structure-jboss50,check-spring,install-spring" description="Deploy jbossws to jboss501">
+    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
     <fail message="Not available: ${jboss501.available.file}" unless="jboss501.available"/>
     <copy todir="${jboss501.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}"/>
@@ -66,7 +66,6 @@
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
       <param name="modifyjbossintegration" value="true"/>
     </antcall>
-    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
   </target>
 
   <!-- ================================================================== -->
@@ -78,7 +77,8 @@
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-jboss510" depends="undeploy-jboss510,deploy-structure-jboss51" description="Deploy jbossws to jboss510">
+  <target name="deploy-jboss510" depends="undeploy-jboss510,deploy-structure-jboss51,check-spring,install-spring" description="Deploy jbossws to jboss510">
+    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
     <fail message="Not available: ${jboss510.available.file}" unless="jboss510.available"/>
     <copy todir="${jboss510.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}"/>
@@ -108,7 +108,6 @@
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
       <param name="modifyjbossintegration" value="true"/><!-- [JBWS-2505] -->
     </antcall>
-    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
   </target>
 
   <!-- ================================================================== -->
@@ -120,7 +119,8 @@
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-jboss600" depends="undeploy-jboss600,deploy-structure-jboss600" description="Deploy jbossws to jboss600">
+  <target name="deploy-jboss600" depends="undeploy-jboss600,deploy-structure-jboss600,check-spring,install-spring" description="Deploy jbossws to jboss600">
+    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
     <fail message="Not available: ${jboss600.available.file}" unless="jboss600.available"/>
     <copy todir="${jboss600.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}"/>
@@ -150,7 +150,6 @@
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
       <param name="modifyjbossintegration" value="false"/><!-- [JBWS-2505] -->
     </antcall>
-    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
   </target>
 
   <!-- ================================================================== -->
@@ -162,7 +161,8 @@
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-jboss601" depends="undeploy-jboss601,deploy-structure-jboss601" description="Deploy jbossws to jboss601">
+  <target name="deploy-jboss601" depends="undeploy-jboss601,deploy-structure-jboss601,check-spring,install-spring" description="Deploy jbossws to jboss601">
+    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
     <fail message="Not available: ${jboss601.available.file}" unless="jboss601.available"/>
     <copy todir="${jboss601.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}"/>
@@ -177,6 +177,24 @@
     	                    defaultserverconf="${jbossws.default.server.deploy.conf}"
     	                    modifyjbossintegration="false"
     	                    removenativecore="false"/><!-- [JBWS-2505][JBWS-2895] -->
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Spring                                                             -->
+  <!-- ================================================================== -->
+  <target name="check-spring">
+    <condition property="spring-required">
+      <and>
+        <istrue value="${spring}"/>
+      </and>
+    </condition>
+  </target>
+  
+  <target name="install-spring" if="spring-required">
+    <antcall target="deploy-spring" inheritall="false">
+      <param name="installserver" value="${deploy.structure}"/>
+      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
+    </antcall>
   </target>
 
   <!-- ================================================================== -->

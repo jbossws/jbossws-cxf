@@ -45,7 +45,11 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
        <property name="bus" ref="cxf"/>
     </bean>
     
-    <bean id="org.apache.cxf.configuration.Configurer" class="org.jboss.wsf.stack.cxf.client.configuration.JBossWSCXFConfigurer"/>
+    <bean id="org.apache.cxf.configuration.Configurer" class="org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringConfigurer">
+      <property name="customizer">
+        <bean class="org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer"/>
+      </property>
+    </bean>
         
     <bean id="org.apache.cxf.binding.BindingFactoryManager" class="org.apache.cxf.binding.BindingFactoryManagerImpl">
         <property name="mapProvider">

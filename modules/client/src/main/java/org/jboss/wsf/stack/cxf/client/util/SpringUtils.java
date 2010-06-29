@@ -19,29 +19,38 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.cxf.endorse;
-
-import org.apache.cxf.BusFactory;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
-import org.jboss.wsf.test.JBossWSTestHelper;
+package org.jboss.wsf.stack.cxf.client.util;
 
 /**
+ * Utility class for SpringFramework related functions
  * 
  * @author alessio.soldano@jboss.com
- * @since 02-Jun-2010
+ * @since 16-Jun-2010
  *
  */
-public class Helper
+public class SpringUtils
 {
-   public static void verify()
+   /**
+    * Check if Spring is available using the provided classloader
+    * 
+    * @param loader
+    * @return true if Spring libs are available
+    */
+   public static boolean isSpringAvailable(ClassLoader... loaders)
    {
-      //check BusFactory customization; this is required by the JBWS-CXF Configurer integration (HTTPConduit customization, JAXBIntros, ...)
-      BusFactory factory = BusFactory.newInstance();
-      if (!(factory instanceof JBossWSBusFactory))
-         throw new RuntimeException("Expected " + JBossWSBusFactory.class + " but got " + (factory == null ? null : factory.getClass()));
-      
-      //check the Apache CXF JAXWS implementation is actually used
-      if (!JBossWSTestHelper.isIntegrationCXF())
-         throw new RuntimeException("JAXWS implementation is not properly endorsed!");
+      if (loaders == null || loaders.length == 0)
+      {
+         loaders = new ClassLoader[]{Thread.currentThread().getContextClassLoader()};
+      }
+      for (ClassLoader cl : loaders)
+      {
+         try
+         {
+            cl.loadClass("org.springframework.context.ApplicationContext");
+            return true;
+         }
+         catch (Exception e) {} //ignore
+      }
+      return false;
    }
 }

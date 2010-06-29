@@ -44,14 +44,6 @@
     <include name="**/neethi.jar"/>
     <include name="**/saaj-api.jar"/>
     <include name="**/saaj-impl.jar"/>
-    <include name="**/spring-aop.jar"/>
-    <include name="**/spring-asm.jar"/>
-    <include name="**/spring-beans.jar"/>
-    <include name="**/spring-context.jar"/>
-    <include name="**/spring-core.jar"/>
-    <include name="**/spring-expression.jar"/>
-    <include name="**/spring-jms.jar"/>
-    <include name="**/spring-tx.jar"/>
     <include name="**/stax-api.jar"/>
     <include name="**/velocity.jar"/>
     <include name="**/wsdl4j.jar"/>
@@ -90,14 +82,6 @@
     <include name="**/neethi.jar"/>
     <include name="**/saaj-api.jar"/>
     <include name="**/saaj-impl.jar"/>
-    <include name="**/spring-aop.jar"/>
-    <include name="**/spring-asm.jar"/>
-    <include name="**/spring-beans.jar"/>
-    <include name="**/spring-context.jar"/>
-    <include name="**/spring-core.jar"/>
-    <include name="**/spring-expression.jar"/>
-    <include name="**/spring-jms.jar"/>
-    <include name="**/spring-tx.jar"/>
     <include name="**/XmlSchema.jar"/>
     <include name="**/xmlsec.jar"/>
     <include name="**/wsdl4j.jar"/>
@@ -108,6 +92,17 @@
     <include name="**/jbossws-cxf-client*.jar"/>
     <include name="**/jbossws-cxf-factories.jar"/>
     <include name="**/jbossws-cxf-server*.jar"/>
+  </patternset>
+
+  <patternset id="spring.patternset">
+    <include name="**/spring-aop.jar"/>
+    <include name="**/spring-asm.jar"/>
+    <include name="**/spring-beans.jar"/>
+    <include name="**/spring-context.jar"/>
+    <include name="**/spring-core.jar"/>
+    <include name="**/spring-expression.jar"/>
+    <include name="**/spring-jms.jar"/>
+    <include name="**/spring-tx.jar"/>
   </patternset>
 
   <!-- ================================================================== -->
@@ -335,6 +330,29 @@
     <macro-deploy-jbossws-deployers targetdir="${installserver}/deployers/jbossws.deployer/" thirdpartydir="${thirdpartydir}" artifactsdir="${artifactsdir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-jaxrpc-deployers targetdir="${installserver}/deployers/jbossws-jaxrpc.deployer/" artifactsdir="${artifactsdir}" jbossid="${jbossid}"/>
     <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
+  </target>
+
+
+  <!-- ================================================================== -->
+  <!-- Install Spring                                                     -->
+  <!-- ================================================================== -->
+  
+  <macrodef name="macro-install-spring">
+    <attribute name="thirdpartydir"/>
+    <attribute name="targetdir"/>
+    <sequential>
+      <mkdir dir="@{targetdir}"/>
+      <copy todir="@{targetdir}" flatten="true" overwrite="true">
+        <fileset dir="@{thirdpartydir}">
+          <patternset refid="spring.patternset"/>
+        </fileset>
+      </copy>
+    </sequential>
+  </macrodef>
+
+  <target name="deploy-spring">
+  	<macro-install-spring targetdir="${installserver}/client" thirdpartydir="${thirdpartydir}"/>
+  	<macro-install-spring targetdir="${installserver}/common/lib" thirdpartydir="${thirdpartydir}"/>
   </target>
 
   <!-- ================================================================== -->

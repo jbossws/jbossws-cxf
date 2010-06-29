@@ -32,6 +32,7 @@ import org.jboss.wsf.common.integration.WSConstants;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
+import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.metadata.MetadataBuilder;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
@@ -45,7 +46,7 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
 {
    // provide logging
-   private final Logger log = Logger.getLogger(DescriptorDeploymentAspect.class);
+   private static final Logger log = Logger.getLogger(DescriptorDeploymentAspect.class);
 
    private String invokerEJB3;
    private String invokerJSE;
@@ -63,15 +64,23 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
    @Override
    public void start(Deployment dep)
    {
-      URL cxfURL = getCXFConfigFromClassLoader(dep);
-      if (cxfURL == null)
+      if (SpringUtils.isSpringAvailable())
       {
-         cxfURL = getCXFConfigFromDeployment(dep);
+         URL cxfURL = getCXFConfigFromClassLoader(dep);
          if (cxfURL == null)
          {
-            cxfURL = generateCXFConfigFromDeployment(dep);
+            cxfURL = getCXFConfigFromDeployment(dep);
+            if (cxfURL == null)
+            {
+               cxfURL = generateCXFConfigFromDeployment(dep);
+            }
+            putCXFConfigToDeployment(dep, cxfURL);
          }
-         putCXFConfigToDeployment(dep, cxfURL);
+      }
+      else
+      {
+         log.warn("Spring not available, skipping check for user provided jbossws-cxf.xml / cxf.xml configuration files.");
+         generateMetadataFromDeployment(dep);
       }
    }
 
@@ -155,15 +164,25 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
    private URL generateCXFConfigFromDeployment(Deployment dep)
    {
       // Generate the jbossws-cxf.xml descriptor
-      MetadataBuilder builder = new MetadataBuilder();
-      DDBeans dd = builder.build(dep, invokerEJB3, invokerJSE);
-
+      DDBeans dd = generateMetadataFromDeployment(dep);
       URL cxfURL = dd.createFileURL();
       log.info("JBossWS-CXF configuration generated: " + cxfURL);
 
-      dep.addAttachment(DDBeans.class, dd);
 
       return cxfURL;
+   }
+   
+   /**
+    * Generates the jbossws-cxf metadata from the deployment
+    * @param dep
+    * @return
+    */
+   private DDBeans generateMetadataFromDeployment(Deployment dep)
+   {
+      MetadataBuilder builder = new MetadataBuilder();
+      DDBeans dd = builder.build(dep, invokerEJB3, invokerJSE);
+      dep.addAttachment(DDBeans.class, dd);
+      return dd;
    }
 
    /**
