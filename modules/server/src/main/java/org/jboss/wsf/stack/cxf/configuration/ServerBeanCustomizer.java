@@ -21,6 +21,11 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import java.util.List;
+
+import org.apache.cxf.frontend.ServerFactoryBean;
+import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.stack.cxf.AbstractInvoker;
 import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
@@ -33,13 +38,33 @@ import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 public class ServerBeanCustomizer extends BeanCustomizer
 {
    private WSDLFilePublisher wsdlPublisher;
-
+   private List<Endpoint> depEndpoints;
+   
    @Override
    public void customize(Object beanInstance)
    {
       if (beanInstance instanceof EndpointImpl)
       {
          configureEndpoint((EndpointImpl)beanInstance);
+      } 
+      if (beanInstance instanceof ServerFactoryBean)
+      {
+    	 ServerFactoryBean factory = (ServerFactoryBean)beanInstance;
+    	 
+    	 if (factory.getInvoker() instanceof AbstractInvoker)
+    	 {
+    		 ((AbstractInvoker)factory.getInvoker()).setTargetBean(factory.getServiceBean());
+    	 }
+    	 if (depEndpoints != null) 
+     	 {
+     		for (Endpoint depEndpoint : depEndpoints) 
+     	    {
+     		   if (depEndpoint.getTargetBeanClass() == factory.getServiceBean().getClass()) 
+     	       {
+     			   depEndpoint.addAttachment(ServerFactoryBean.class, factory);
+     	       }
+     	    }
+     	 }
       }
       super.customize(beanInstance);
    }
@@ -58,4 +83,9 @@ public class ServerBeanCustomizer extends BeanCustomizer
       this.wsdlPublisher = wsdlPublisher;
    }
 
+   public void setDeploymentEndpoints(List<Endpoint> endpoints) 
+   {
+	   this.depEndpoints = endpoints;
+   }
+   
 }

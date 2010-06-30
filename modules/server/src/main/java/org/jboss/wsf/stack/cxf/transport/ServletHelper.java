@@ -23,20 +23,26 @@ package org.jboss.wsf.stack.cxf.transport;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import javax.management.ObjectName;
+import javax.naming.Context;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.handler.Handler;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.frontend.ServerFactoryBean;
+import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.counters.CounterRepository;
 import org.jboss.wsf.common.ObjectNameFactory;
+import org.jboss.wsf.common.injection.InjectionHelper;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -44,6 +50,7 @@ import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
+import org.jboss.wsf.spi.metadata.injection.InjectionsMetaData;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 
 /**
@@ -92,7 +99,35 @@ public class ServletHelper
          throw new WebServiceException("Cannot obtain endpoint for: " + oname);
       }
 
+      //Inject the EJB and JNDI resources if possible
+      injectServiceAndHandlerResources(endpoint);
+      
+      
       return endpoint;
+   }
+   
+   private static void injectServiceAndHandlerResources(Endpoint endpoint) 
+   {
+	  ServerFactoryBean factory = endpoint.getAttachment(ServerFactoryBean.class);
+	  if (factory != null)
+	  {
+	      InjectionsMetaData metadata = endpoint.getAttachment(InjectionsMetaData.class); 
+		  Context jndiContext = endpoint.getJNDIContext(); 
+		  if (factory.getServiceBean() != null)
+		  {
+	         InjectionHelper.injectResources(factory.getServiceBean(), metadata, jndiContext);
+	         InjectionHelper.callPostConstructMethod(factory.getServiceBean());
+		  }
+		  List<Handler> chain = ((JaxWsEndpointImpl)factory.getServer().getEndpoint()).getJaxwsBinding().getHandlerChain();
+		  if (chain != null)
+		  {
+			  for (Handler handler : chain)
+			  {
+				  InjectionHelper.injectResources(handler, metadata, jndiContext);
+				  InjectionHelper.callPostConstructMethod(handler);
+			  }
+		  }
+	   }
    }
    
    public static void callRequestHandler(HttpServletRequest req, HttpServletResponse res, ServletContext ctx, Bus bus, Endpoint endpoint) throws ServletException

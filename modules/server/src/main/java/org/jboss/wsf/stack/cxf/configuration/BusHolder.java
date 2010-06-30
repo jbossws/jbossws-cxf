@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import java.util.List;
+
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
 import org.apache.cxf.configuration.Configurer;
@@ -30,6 +32,7 @@ import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.DestinationFactoryManager;
 import org.jboss.ws.Constants;
 import org.jboss.wsf.spi.binding.BindingCustomization;
+import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 
@@ -89,9 +92,11 @@ public abstract class BusHolder
     * 
     * @param customization    The binding customization to set in the configurer, if any
     * @param wsdlPublisher    The wsdl file publisher to set in the configurer, if any
+    * @param depEndpoints     The list of deployment endpoints
     * @return                 The new jbossws cxf configurer
     */
-   public abstract Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher);
+   public abstract Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
+		                                             List<Endpoint> depEndpoints);
    
    protected static void setInterceptors(Bus bus)
    {

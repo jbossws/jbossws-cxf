@@ -80,7 +80,8 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
             try
             {
                holder = new SpringBusHolder(cxfServletURL, deploymentResolver.resolve(jbosswsCxfXml));
-               Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class), new WSDLFilePublisher(aDep));
+               Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class), new WSDLFilePublisher(aDep),
+            		                                                 dep.getService().getEndpoints());
                holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
             }
             catch (Exception e)
@@ -92,7 +93,8 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          {
             DDBeans metadata = dep.getAttachment(DDBeans.class);
             holder = new NonSpringBusHolder(metadata);
-            Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class), new WSDLFilePublisher(aDep));
+            Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class), new WSDLFilePublisher(aDep),
+            		                                              dep.getService().getEndpoints());
             holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
          }
          dep.addAttachment(BusHolder.class, holder);

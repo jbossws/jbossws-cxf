@@ -36,6 +36,7 @@ import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.binding.BindingCustomization;
+import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.spring.handler.NamespaceHandlerResolver;
@@ -131,12 +132,14 @@ public class SpringBusHolder extends BusHolder
    }
    
    @Override
-   public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher)
+   public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
+		   List<Endpoint> depEndpoints)
    {
       ApplicationContext ctx = bus.getExtension(BusApplicationContext.class);
       ServerBeanCustomizer customizer = new ServerBeanCustomizer();
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
+      customizer.setDeploymentEndpoints(depEndpoints);
       JBossWSServerSpringConfigurer serverConfigurer = new JBossWSServerSpringConfigurer(ctx);
       serverConfigurer.setCustomizer(customizer);
       return serverConfigurer;

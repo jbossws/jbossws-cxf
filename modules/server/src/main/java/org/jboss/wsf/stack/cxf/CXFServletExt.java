@@ -87,4 +87,6 @@ public class CXFServletExt extends CXFServlet
    {
       ServletHelper.callRequestHandler(req, res, getServletContext(), getBus(), endpoint);
    }
+   
+   
 }

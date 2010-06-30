@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
-import java.io.IOException;
+import java.util.List;
 
 import javax.xml.ws.soap.SOAPBinding;
 
@@ -34,8 +34,9 @@ import org.apache.cxf.transport.ConduitInitiator;
 import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.jboss.wsf.spi.binding.BindingCustomization;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringConfigurer;
+import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringBusFactory;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
@@ -118,11 +119,13 @@ public class NonSpringBusHolder extends BusHolder
    }
    
    @Override
-   public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher)
+   public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
+		                                    List<Endpoint> depEndpoints)
    {
       ServerBeanCustomizer customizer = new ServerBeanCustomizer();
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
+      customizer.setDeploymentEndpoints(depEndpoints);
       return new JBossWSNonSpringConfigurer(customizer);
    }
 
