@@ -34,7 +34,7 @@ import org.apache.cxf.transport.ConduitInitiator;
 import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.jboss.wsf.spi.binding.BindingCustomization;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSConfigurer;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringConfigurer;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringBusFactory;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
@@ -123,7 +123,7 @@ public class NonSpringBusHolder extends BusHolder
       ServerBeanCustomizer customizer = new ServerBeanCustomizer();
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
-      return new JBossWSConfigurer(customizer);
+      return new JBossWSNonSpringConfigurer(customizer);
    }
 
 }

@@ -46,7 +46,7 @@ public class JBossWSNonSpringBusFactory extends CXFBusFactory
       }
       if (!extensions.containsKey(Configurer.class))
       {
-         extensions.put(Configurer.class, new JBossWSConfigurer(new BeanCustomizer()));
+         extensions.put(Configurer.class, new JBossWSNonSpringConfigurer(new BeanCustomizer()));
       }
 
       Bus bus = new ExtensionManagerBus(extensions, properties);

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2009, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,56 +22,16 @@
 package org.jboss.wsf.stack.cxf.client.configuration;
 
 import org.apache.cxf.configuration.Configurer;
-import org.apache.cxf.extension.BusExtension;
 
 /**
- * A CXF configurer that sets JBossWS stuff / customizations / properties etc. in CXF configurable beans
+ * Interface for JBossWS additions to CXF configurer
  *
  * @author alessio.soldano@jboss.com
- * @since 05-Oct-2009
+ * @since 30-Jun-2010
  */
-public class JBossWSConfigurer implements Configurer, BusExtension
+public interface JBossWSConfigurer extends Configurer
 {
-   private BeanCustomizer customizer;
+   public BeanCustomizer getCustomizer();
    
-   public JBossWSConfigurer(BeanCustomizer customizer)
-   {
-      this.customizer = customizer;
-   }
-
-   @Override
-   public void configureBean(Object beanInstance)
-   {
-      customConfigure(beanInstance);
-   }
-
-   @Override
-   public void configureBean(String name, Object beanInstance)
-   {
-      customConfigure(beanInstance);
-   }
-   
-   protected synchronized void customConfigure(Object beanInstance)
-   {
-      if (customizer != null)
-      {
-         customizer.customize(beanInstance);
-      }
-   }
-
-   public BeanCustomizer getCustomizer()
-   {
-      return customizer;
-   }
-
-   public void setCustomizer(BeanCustomizer customizer)
-   {
-      this.customizer = customizer;
-   }
-
-   @Override
-   public Class<?> getRegistrationType()
-   {
-      return Configurer.class;
-   }
+   public void setCustomizer(BeanCustomizer customizer);
 }

@@ -36,7 +36,7 @@ import org.jboss.jaxb.intros.BindingCustomizationFactory;
 import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.binding.JAXBBindingCustomization;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringConfigurer;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSConfigurer;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
@@ -54,7 +54,7 @@ public class JAXBIntroTestCase extends JBossWSTest
 
    private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-jaxbintros/EndpointService";
    private Bus bus;
-   private JBossWSSpringConfigurer configurer;
+   private JBossWSConfigurer configurer;
 
    public static Test suite()
    {
@@ -130,7 +130,7 @@ public class JAXBIntroTestCase extends JBossWSTest
    }
 
    /**
-    * Setup binding customization on client side using the JBossWSCXFConfigurer
+    * Setup binding customization on client side using the JBossWSConfigurer
     *
     * @throws Exception
     */
@@ -141,7 +141,7 @@ public class JAXBIntroTestCase extends JBossWSTest
       BindingCustomizationFactory.populateBindingCustomization(getResourceURL("jaxws/cxf/jaxbintros/META-INF/jaxb-intros.xml").openStream(), jaxbCustomizations);
 
       bus = BusFactory.getThreadDefaultBus();
-      configurer = (JBossWSSpringConfigurer)bus.getExtension(Configurer.class);
+      configurer = (JBossWSConfigurer)bus.getExtension(Configurer.class);
       configurer.getCustomizer().setBindingCustomization(jaxbCustomizations);
    }
    
