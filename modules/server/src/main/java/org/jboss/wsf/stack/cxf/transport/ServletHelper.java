@@ -46,12 +46,14 @@ import org.jboss.wsf.common.injection.InjectionHelper;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
 import org.jboss.wsf.spi.metadata.injection.InjectionsMetaData;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
+import org.jboss.wsf.stack.cxf.metadata.MetadataBuilder;
 
 /**
  * 
@@ -113,7 +115,8 @@ public class ServletHelper
 	  {
 	      InjectionsMetaData metadata = endpoint.getAttachment(InjectionsMetaData.class); 
 		  Context jndiContext = endpoint.getJNDIContext(); 
-		  if (factory.getServiceBean() != null)
+		  if (DeploymentType.JAXWS_EJB3 != endpoint.getProperty(MetadataBuilder.DEPLOYMENT_TYPE_PROPERTY)
+		      && factory.getServiceBean() != null)
 		  {
 	         InjectionHelper.injectResources(factory.getServiceBean(), metadata, jndiContext);
 	         InjectionHelper.callPostConstructMethod(factory.getServiceBean());

@@ -53,6 +53,7 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
  */
 public class MetadataBuilder
 {
+   public static final String DEPLOYMENT_TYPE_PROPERTY = "deployment-type";	
    private static final Logger log = Logger.getLogger(MetadataBuilder.class);
    
    public MetadataBuilder()
@@ -82,6 +83,7 @@ public class MetadataBuilder
 
          log.info("Add " + ddep);
          dd.addEndpoint(ddep);
+         ep.setProperty(DEPLOYMENT_TYPE_PROPERTY, depType);
       }
       return dd;
    }
