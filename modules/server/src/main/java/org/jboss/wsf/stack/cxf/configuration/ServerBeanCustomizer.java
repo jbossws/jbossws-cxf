@@ -38,37 +38,38 @@ import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 public class ServerBeanCustomizer extends BeanCustomizer
 {
    private WSDLFilePublisher wsdlPublisher;
+
    private List<Endpoint> depEndpoints;
-   
+
    @Override
    public void customize(Object beanInstance)
    {
       if (beanInstance instanceof EndpointImpl)
       {
-         configureEndpoint((EndpointImpl)beanInstance);
-      } 
+         configureEndpoint((EndpointImpl) beanInstance);
+      }
       if (beanInstance instanceof ServerFactoryBean)
       {
-    	 ServerFactoryBean factory = (ServerFactoryBean)beanInstance;
-    	 
-    	 if (factory.getInvoker() instanceof AbstractInvoker)
-    	 {
-    		 ((AbstractInvoker)factory.getInvoker()).setTargetBean(factory.getServiceBean());
-    	 }
-    	 if (depEndpoints != null) 
-     	 {
-     		for (Endpoint depEndpoint : depEndpoints) 
-     	    {
-     		   if (depEndpoint.getTargetBeanClass() == factory.getServiceBean().getClass()) 
-     	       {
-     			   depEndpoint.addAttachment(ServerFactoryBean.class, factory);
-     	       }
-     	    }
-     	 }
+         ServerFactoryBean factory = (ServerFactoryBean) beanInstance;
+
+         if (factory.getInvoker() instanceof AbstractInvoker)
+         {
+            ((AbstractInvoker) factory.getInvoker()).setTargetBean(factory.getServiceBean());
+         }
+         if (depEndpoints != null)
+         {
+            for (Endpoint depEndpoint : depEndpoints)
+            {
+               if (depEndpoint.getTargetBeanClass() == factory.getServiceBean().getClass())
+               {
+                  depEndpoint.addAttachment(ServerFactoryBean.class, factory);
+               }
+            }
+         }
       }
       super.customize(beanInstance);
    }
-   
+
    protected void configureEndpoint(EndpointImpl endpoint)
    {
       //Configure wsdl file publisher
@@ -77,15 +78,15 @@ public class ServerBeanCustomizer extends BeanCustomizer
          endpoint.setWsdlPublisher(wsdlPublisher);
       }
    }
-   
+
    public void setWsdlPublisher(WSDLFilePublisher wsdlPublisher)
    {
       this.wsdlPublisher = wsdlPublisher;
    }
 
-   public void setDeploymentEndpoints(List<Endpoint> endpoints) 
+   public void setDeploymentEndpoints(List<Endpoint> endpoints)
    {
-	   this.depEndpoints = endpoints;
+      this.depEndpoints = endpoints;
    }
-   
+
 }

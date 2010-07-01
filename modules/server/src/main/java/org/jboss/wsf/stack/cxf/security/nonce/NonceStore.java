@@ -37,7 +37,7 @@ public interface NonceStore
     * @return True if the provided nonce has been recently put in the store
     */
    public boolean hasNonce(String nonce);
-   
+
    /**
     * Put the given nonce in the store.
     * 

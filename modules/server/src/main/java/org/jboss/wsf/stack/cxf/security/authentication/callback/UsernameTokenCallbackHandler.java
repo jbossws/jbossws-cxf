@@ -40,25 +40,27 @@ import org.jboss.security.auth.callback.MapCallback;
 public class UsernameTokenCallbackHandler implements CallbackHandler
 {
    private String nonce;
+
    private String created;
+
    private boolean decodeNonce;
-   
+
    public UsernameTokenCallbackHandler(String nonce, String created, boolean decodeNonce)
    {
       this.created = created;
       this.nonce = nonce;
       this.decodeNonce = decodeNonce;
    }
-   
+
    public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
    {
       boolean foundCallback = false;
       Callback firstUnknown = null;
       int count = callbacks != null ? callbacks.length : 0;
-      for(int n = 0; n < count; n ++)
+      for (int n = 0; n < count; n++)
       {
          Callback c = callbacks[n];
-         if( c instanceof MapCallback )
+         if (c instanceof MapCallback)
          {
             //set parameters to the MapCallback the UsernameTokenCallback
             //created and set up in the init method
@@ -68,13 +70,13 @@ public class UsernameTokenCallbackHandler implements CallbackHandler
             mc.setInfo(UsernameTokenCallback.DECODE_NONCE, Boolean.valueOf(decodeNonce));
             foundCallback = true;
          }
-         else if( firstUnknown == null )
+         else if (firstUnknown == null)
          {
             firstUnknown = c;
          }
       }
-      if( foundCallback == false )
-         throw new UnsupportedCallbackException(firstUnknown, "Unrecognized Callback");         
+      if (foundCallback == false)
+         throw new UnsupportedCallbackException(firstUnknown, "Unrecognized Callback");
    }
 
 }

@@ -56,17 +56,23 @@ import org.jboss.xb.binding.SimpleTypeBindings;
 public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticatingInterceptor
 {
    private static final Logger log = Logger.getLogger(SubjectCreatingInterceptor.class);
+
    private static final int TIMESTAMP_FRESHNESS_THRESHOLD = 300;
-      
+
    private AuthenticationManagerLoader aml;
+
    private boolean propagateContext;
+
    private SecurityAdaptorFactory secAdaptorFactory;
+
    private int timestampThreshold = TIMESTAMP_FRESHNESS_THRESHOLD;
-   private NonceStore nonceStore; 
+
+   private NonceStore nonceStore;
+
    private boolean decodeNonce = true;
 
    private boolean supportDigestPasswords;
-   
+
    public SubjectCreatingInterceptor()
    {
       this(Collections.<String, Object> emptyMap());
@@ -93,50 +99,54 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
    // TODO : this code is a temporarily workaround; AbstractUsernameTokenAuthenticatingInterceptor
    // has a bug to do with handling digests; RequestData assumes PasswordDigest by default
    @Override
-   public void setSupportDigestPasswords(boolean support) {
-	   this.supportDigestPasswords = support;
-	   super.setSupportDigestPasswords(support);
+   public void setSupportDigestPasswords(boolean support)
+   {
+      this.supportDigestPasswords = support;
+      super.setSupportDigestPasswords(support);
    }
-   
+
    // TODO : this code is a temporarily workaround; AbstractUsernameTokenAuthenticatingInterceptor
    // has a bug to do with handling digests; RequestData assumes PasswordDigest by default 
    @Override
-   protected CallbackHandler getCallback(RequestData reqData, int doAction) 
-       throws WSSecurityException {
-       
-       if (supportDigestPasswords) {    
-           return new CallbackHandler() 
-           {
-			 @Override
-			 public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException 
-			 {
-				// dummy handler
-			 }	       	   
-           };
-       } else {
-           return super.getCallback(reqData, doAction);
-       }
+   protected CallbackHandler getCallback(RequestData reqData, int doAction) throws WSSecurityException
+   {
+
+      if (supportDigestPasswords)
+      {
+         return new CallbackHandler()
+         {
+            @Override
+            public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
+            {
+               // dummy handler
+            }
+         };
+      }
+      else
+      {
+         return super.getCallback(reqData, doAction);
+      }
    }
-   
+
    @Override
    public Subject createSubject(String name, String password, boolean isDigest, String nonce, String created)
    {
-	  if (isDigest) 
-	  { 
-		  verifyUsernameToken(nonce, created);
-		  // It is not possible at the moment to figure out if the digest has been created 
-		  // using the original nonce bytes or the bytes of the (Base64)-encoded nonce, some 
-		  // legacy clients might use the (Base64)-encoded nonce bytes when creating a digest; 
-		  // lets default to true and assume the nonce has been Base-64 encoded, given that 
-		  // WSS4J client Base64-decodes the nonce before creating the digest
-		  
-		  CallbackHandler handler = new UsernameTokenCallbackHandler(nonce, created, decodeNonce);
-	      CallbackHandlerPolicyContextHandler.setCallbackHandler(handler);
-	  }
-	   
-	  // authenticate and populate Subject
+      if (isDigest)
+      {
+         verifyUsernameToken(nonce, created);
+         // It is not possible at the moment to figure out if the digest has been created 
+         // using the original nonce bytes or the bytes of the (Base64)-encoded nonce, some 
+         // legacy clients might use the (Base64)-encoded nonce bytes when creating a digest; 
+         // lets default to true and assume the nonce has been Base-64 encoded, given that 
+         // WSS4J client Base64-decodes the nonce before creating the digest
+
+         CallbackHandler handler = new UsernameTokenCallbackHandler(nonce, created, decodeNonce);
+         CallbackHandlerPolicyContextHandler.setCallbackHandler(handler);
+      }
+
+      // authenticate and populate Subject
       AuthenticationManager am = aml.getManager();
-      
+
       Principal principal = new SimplePrincipal(name);
       Subject subject = new Subject();
 
@@ -144,34 +154,34 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
       if (TRACE)
          log.trace("About to authenticate, using security domain '" + am.getSecurityDomain() + "'");
 
-      try 
+      try
       {
-	      if (am.isValid(principal, password, subject) == false)
-	      {
-	         String msg = "Authentication failed, principal=" + principal.getName();
-	         log.error(msg);
-	         throw new SecurityException(msg);
-	      }
-      } 
-      finally 
-      {
-    	  if (isDigest) 
-    	  {
-    		  // does not remove the TL entry completely but limits the potential
-    		  // growth to a number of available threads in a container 
-    		  CallbackHandlerPolicyContextHandler.setCallbackHandler(null);     
-    	  }
+         if (am.isValid(principal, password, subject) == false)
+         {
+            String msg = "Authentication failed, principal=" + principal.getName();
+            log.error(msg);
+            throw new SecurityException(msg);
+         }
       }
-      
+      finally
+      {
+         if (isDigest)
+         {
+            // does not remove the TL entry completely but limits the potential
+            // growth to a number of available threads in a container 
+            CallbackHandlerPolicyContextHandler.setCallbackHandler(null);
+         }
+      }
+
       if (TRACE)
          log.trace("Authenticated, principal=" + name);
 
-      if (propagateContext) 
+      if (propagateContext)
       {
-    	  SecurityAdaptor adaptor = secAdaptorFactory.newSecurityAdapter();
-          adaptor.pushSubjectContext(subject, principal, password);
-	      if (TRACE)
-	          log.trace("Security Context has been propagated");
+         SecurityAdaptor adaptor = secAdaptorFactory.newSecurityAdapter();
+         adaptor.pushSubjectContext(subject, principal, password);
+         if (TRACE)
+            log.trace("Security Context has been propagated");
       }
       return subject;
    }
@@ -190,25 +200,30 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
       if (nonce != null && nonceStore != null)
       {
          if (nonceStore.hasNonce(nonce))
-            throw new SecurityException("Request rejected since a message with the same nonce has been recently received; nonce = " + nonce);
+            throw new SecurityException(
+                  "Request rejected since a message with the same nonce has been recently received; nonce = " + nonce);
          nonceStore.putNonce(nonce);
       }
    }
 
-   public void setPropagateContext(boolean propagateContext) {
-       this.propagateContext = propagateContext;
-   }
-   
-   public void setTimestampThreshold(int timestampThreshold) {
-   	  this.timestampThreshold = timestampThreshold;
+   public void setPropagateContext(boolean propagateContext)
+   {
+      this.propagateContext = propagateContext;
    }
 
-   public void setNonceStore(NonceStore nonceStore) {
-	  this.nonceStore = nonceStore;
+   public void setTimestampThreshold(int timestampThreshold)
+   {
+      this.timestampThreshold = timestampThreshold;
    }
 
-   public void setDecodeNonce(boolean decodeNonce) {
-	  this.decodeNonce = decodeNonce;
+   public void setNonceStore(NonceStore nonceStore)
+   {
+      this.nonceStore = nonceStore;
+   }
+
+   public void setDecodeNonce(boolean decodeNonce)
+   {
+      this.decodeNonce = decodeNonce;
    }
 
 }

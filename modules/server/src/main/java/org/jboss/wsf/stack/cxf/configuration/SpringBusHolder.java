@@ -55,18 +55,22 @@ import org.springframework.core.io.InputStreamResource;
 public class SpringBusHolder extends BusHolder
 {
    private static final Logger log = Logger.getLogger(BusHolder.class);
+
    private boolean configured = false;
-   protected BusApplicationContext ctx ;
+
+   protected BusApplicationContext ctx;
+
    protected List<GenericApplicationContext> additionalCtx = new LinkedList<GenericApplicationContext>();
+
    protected URL[] additionalLocations;
-   
+
    public SpringBusHolder(URL location, URL... additionalLocations)
    {
       super();
       this.additionalLocations = additionalLocations;
       createBus(location);
    }
-   
+
    /**
     * Creates the Bus using a SpringBusFactory with no specific Spring application context.
     * Then loads additional configurations from the provided location
@@ -93,11 +97,12 @@ public class SpringBusHolder extends BusHolder
       }
       //Force servlet transport to prevent CXF from using Jetty as a transport
       DestinationFactory factory = new ServletTransportFactory(bus);
-      for (String s : factory.getTransportIds()) {
-          registerTransport(factory, s);
+      for (String s : factory.getTransportIds())
+      {
+         registerTransport(factory, s);
       }
    }
-   
+
    /**
     * Update the Bus held by the this instance using the provided parameters.
     * This basically prepares the bus for being used with JBossWS.
@@ -130,10 +135,10 @@ public class SpringBusHolder extends BusHolder
       }
       configured = true;
    }
-   
+
    @Override
    public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
-		   List<Endpoint> depEndpoints)
+         List<Endpoint> depEndpoints)
    {
       ApplicationContext ctx = bus.getExtension(BusApplicationContext.class);
       ServerBeanCustomizer customizer = new ServerBeanCustomizer();
@@ -144,10 +149,12 @@ public class SpringBusHolder extends BusHolder
       serverConfigurer.setCustomizer(customizer);
       return serverConfigurer;
    }
-   
-   protected static GenericApplicationContext loadAdditionalConfig(ApplicationContext ctx, URL locationUrl) throws IOException
+
+   protected static GenericApplicationContext loadAdditionalConfig(ApplicationContext ctx, URL locationUrl)
+         throws IOException
    {
-      if (locationUrl == null) throw new IllegalArgumentException("Cannot load additional config from null location!");
+      if (locationUrl == null)
+         throw new IllegalArgumentException("Cannot load additional config from null location!");
       InputStream is = locationUrl.openStream();
       GenericApplicationContext childCtx = new GenericApplicationContext(ctx);
       XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(childCtx);
@@ -157,7 +164,7 @@ public class SpringBusHolder extends BusHolder
       childCtx.refresh();
       return childCtx;
    }
-   
+
    /**
     * Performs close operations (currently implies destroying additional contexts)
     * 
@@ -171,7 +178,7 @@ public class SpringBusHolder extends BusHolder
       }
       super.close();
    }
-   
+
    @Override
    protected void setBus(Bus bus)
    {

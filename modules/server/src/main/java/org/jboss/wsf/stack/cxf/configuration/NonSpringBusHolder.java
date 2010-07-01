@@ -53,8 +53,9 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 public class NonSpringBusHolder extends BusHolder
 {
    private boolean configured = false;
+
    protected DDBeans metadata;
-   
+
    public NonSpringBusHolder(DDBeans metadata)
    {
       super();
@@ -64,11 +65,12 @@ public class NonSpringBusHolder extends BusHolder
       ExtensionManager em = bus.getExtension(ExtensionManager.class);
       em.activateAllByType(ConduitInitiator.class); //need to activate/register all the beans implementing ConduitInitiator so that does not happen later
       DestinationFactory factory = new ServletTransportFactory(bus);
-      for (String s : factory.getTransportIds()) {
-          registerTransport(factory, s);
+      for (String s : factory.getTransportIds())
+      {
+         registerTransport(factory, s);
       }
    }
-   
+
    /**
     * Update the Bus held by the this instance using the provided parameters.
     * This basically prepares the bus for being used with JBossWS.
@@ -85,11 +87,11 @@ public class NonSpringBusHolder extends BusHolder
          throw new IllegalStateException("Underlying bus is already configured for JBossWS use!");
       }
       super.configure(soapTransportFactory, resolver, configurer);
-      
+
       for (DDEndpoint dde : metadata.getEndpoints())
       {
          EndpointImpl endpoint = new EndpointImpl(bus, newInstance(dde.getImplementor()));
-         endpoint.setInvoker((Invoker)newInstance(dde.getInvoker()));
+         endpoint.setInvoker((Invoker) newInstance(dde.getInvoker()));
          endpoint.setAddress(dde.getAddress());
          endpoint.setEndpointName(dde.getPortName());
          endpoint.setServiceName(dde.getServiceName());
@@ -104,7 +106,7 @@ public class NonSpringBusHolder extends BusHolder
       }
       configured = true;
    }
-   
+
    private static Object newInstance(String className)
    {
       try
@@ -117,10 +119,10 @@ public class NonSpringBusHolder extends BusHolder
          throw new RuntimeException(e);
       }
    }
-   
+
    @Override
    public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
-		                                    List<Endpoint> depEndpoints)
+         List<Endpoint> depEndpoints)
    {
       ServerBeanCustomizer customizer = new ServerBeanCustomizer();
       customizer.setBindingCustomization(customization);

@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package  org.jboss.wsf.stack.cxf.security.authentication.callback;
+package org.jboss.wsf.stack.cxf.security.authentication.callback;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -41,9 +41,11 @@ import org.jboss.security.auth.callback.MapCallback;
 public class UsernameTokenCallback implements DigestCallback
 {
    static final String NONCE = "nonce";
+
    static final String CREATED = "created";
+
    static final String DECODE_NONCE = "decodeNonce";
-   
+
    private MapCallback info;
 
    @SuppressWarnings("unchecked")
@@ -51,7 +53,8 @@ public class UsernameTokenCallback implements DigestCallback
    {
       // Ask for MapCallback to obtain the digest parameters
       info = new MapCallback();
-      Callback[] callbacks = { info };
+      Callback[] callbacks =
+      {info};
       options.put("callbacks", callbacks);
    }
 
@@ -59,15 +62,14 @@ public class UsernameTokenCallback implements DigestCallback
    {
       try
       {
-         String nonce = (String)info.getInfo(NONCE);
+         String nonce = (String) info.getInfo(NONCE);
          if (nonce != null)
          {
-        	Boolean decodeNonce = (Boolean)info.getInfo(DECODE_NONCE); 
-        	byte[] nonceBytes = decodeNonce ? org.jboss.util.Base64.decode(nonce)
-        			                        : nonce.getBytes("UTF-8"); 
+            Boolean decodeNonce = (Boolean) info.getInfo(DECODE_NONCE);
+            byte[] nonceBytes = decodeNonce ? org.jboss.util.Base64.decode(nonce) : nonce.getBytes("UTF-8");
             digest.update(nonceBytes);
          }
-         String created = (String)info.getInfo(CREATED);
+         String created = (String) info.getInfo(CREATED);
          if (created != null)
             digest.update(created.getBytes("UTF-8"));
       }

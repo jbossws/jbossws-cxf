@@ -49,7 +49,7 @@ public class CXFServletExt extends CXFServlet
    @Override
    public ServletController createServletController(ServletConfig servletConfig)
    {
-      ServletTransportFactory stf = (ServletTransportFactory)createServletTransportFactory();
+      ServletTransportFactory stf = (ServletTransportFactory) createServletTransportFactory();
       return new ServletControllerExt(stf, servletConfig, servletConfig.getServletContext(), bus);
    }
 
@@ -58,14 +58,14 @@ public class CXFServletExt extends CXFServlet
    {
       //Init the Endpoint
       endpoint = ServletHelper.initEndpoint(servletConfig, getServletName());
-      
+
       //keep the bus created during deployment and update it with the information coming from the servlet config
       updateAvailableBusWithServletInfo(servletConfig);
-      
+
       //register the InstrumentManagementImpl
       ServletHelper.registerInstrumentManger(bus, getServletContext());
    }
-   
+
    private void updateAvailableBusWithServletInfo(ServletConfig servletConfig)
    {
       BusHolder holder = endpoint.getService().getDeployment().getAttachment(BusHolder.class);
@@ -87,6 +87,5 @@ public class CXFServletExt extends CXFServlet
    {
       ServletHelper.callRequestHandler(req, res, getServletContext(), getBus(), endpoint);
    }
-   
-   
+
 }

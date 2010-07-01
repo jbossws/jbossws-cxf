@@ -41,12 +41,12 @@ public class AuthenticationManagerLoader
       {
          Context ctx = new InitialContext();
          Object obj = ctx.lookup("java:/comp/env/security/securityMgr");
-         return (AuthenticationManager)obj;
+         return (AuthenticationManager) obj;
       }
       catch (NamingException ne)
       {
          throw new SecurityException("Unable to lookup AuthenticationManager using JNDI");
       }
    }
-      
+
 }

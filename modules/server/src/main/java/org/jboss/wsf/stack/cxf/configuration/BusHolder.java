@@ -95,8 +95,8 @@ public abstract class BusHolder
     * @param depEndpoints     The list of deployment endpoints
     * @return                 The new jbossws cxf configurer
     */
-   public abstract Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
-		                                             List<Endpoint> depEndpoints);
+   public abstract Configurer createServerConfigurer(BindingCustomization customization,
+         WSDLFilePublisher wsdlPublisher, List<Endpoint> depEndpoints);
    
    protected static void setInterceptors(Bus bus)
    {

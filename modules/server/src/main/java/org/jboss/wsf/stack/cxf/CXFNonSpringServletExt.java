@@ -46,26 +46,27 @@ import org.jboss.wsf.stack.cxf.transport.ServletHelper;
 public class CXFNonSpringServletExt extends CXFNonSpringServlet
 {
    protected Endpoint endpoint;
-   
+
    @Override
    public ServletController createServletController(ServletConfig servletConfig)
    {
-      ServletTransportFactory stf = (ServletTransportFactory)createServletTransportFactory();
+      ServletTransportFactory stf = (ServletTransportFactory) createServletTransportFactory();
       return new ServletControllerExt(stf, servletConfig, servletConfig.getServletContext(), bus);
    }
-   
+
    @Override
-   public void loadBus(ServletConfig servletConfig) throws ServletException {
+   public void loadBus(ServletConfig servletConfig) throws ServletException
+   {
       //Init the Endpoint
       endpoint = ServletHelper.initEndpoint(servletConfig, getServletName());
-      
+
       //keep the bus created during deployment and update it with the information coming from the servlet config
       updateAvailableBusWithServletInfo(servletConfig);
-      
+
       //register the InstrumentManagementImpl
       ServletHelper.registerInstrumentManger(bus, getServletContext());
    }
-   
+
    private void updateAvailableBusWithServletInfo(ServletConfig servletConfig)
    {
       BusHolder holder = endpoint.getService().getDeployment().getAttachment(BusHolder.class);
@@ -81,7 +82,7 @@ public class CXFNonSpringServletExt extends CXFNonSpringServlet
       //set the controller in the servlet context now that the bus has been configured in the servlet
       servletConfig.getServletContext().setAttribute(ServletController.class.getName(), getController());
    }
-   
+
    @Override
    protected void invoke(HttpServletRequest req, HttpServletResponse res) throws ServletException
    {

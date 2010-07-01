@@ -62,8 +62,8 @@ import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
  */
 public class ServletHelper
 {
-   public static final String ENABLE_CXF_MANAGEMENT = "enable.cxf.management";  
-   
+   public static final String ENABLE_CXF_MANAGEMENT = "enable.cxf.management";
+
    public static Endpoint initEndpoint(ServletConfig servletConfig, String servletName)
    {
       SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
@@ -73,7 +73,7 @@ public class ServletHelper
       String contextPath = context.getContextPath();
       return initServiceEndpoint(epRegistry, contextPath, servletName);
    }
-   
+
    /** Initialize the service endpoint
     */
    private static Endpoint initServiceEndpoint(EndpointRegistry epRegistry, String contextPath, String servletName)
@@ -95,44 +95,46 @@ public class ServletHelper
 
       if (endpoint == null)
       {
-         ObjectName oname = ObjectNameFactory.create(Endpoint.SEPID_DOMAIN + ":" + Endpoint.SEPID_PROPERTY_CONTEXT + "=" + contextPath + ","
-               + Endpoint.SEPID_PROPERTY_ENDPOINT + "=" + servletName);
+         ObjectName oname = ObjectNameFactory.create(Endpoint.SEPID_DOMAIN + ":" + Endpoint.SEPID_PROPERTY_CONTEXT
+               + "=" + contextPath + "," + Endpoint.SEPID_PROPERTY_ENDPOINT + "=" + servletName);
          throw new WebServiceException("Cannot obtain endpoint for: " + oname);
       }
 
       //Inject the EJB and JNDI resources if possible
       injectServiceAndHandlerResources(endpoint);
-      
-      
+
       return endpoint;
    }
-   
-   private static void injectServiceAndHandlerResources(Endpoint endpoint) 
+
+   @SuppressWarnings("unchecked")
+   private static void injectServiceAndHandlerResources(Endpoint endpoint)
    {
-	  ServerFactoryBean factory = endpoint.getAttachment(ServerFactoryBean.class);
-	  if (factory != null)
-	  {
-	      InjectionsMetaData metadata = endpoint.getAttachment(InjectionsMetaData.class); 
-		  Context jndiContext = endpoint.getJNDIContext(); 
-		  if (DeploymentType.JAXWS_EJB3 != endpoint.getService().getDeployment().getType()
-		      && factory.getServiceBean() != null)
-		  {
-	         InjectionHelper.injectResources(factory.getServiceBean(), metadata, jndiContext);
-	         InjectionHelper.callPostConstructMethod(factory.getServiceBean());
-		  }
-		  List<Handler> chain = ((JaxWsEndpointImpl)factory.getServer().getEndpoint()).getJaxwsBinding().getHandlerChain();
-		  if (chain != null)
-		  {
-			  for (Handler handler : chain)
-			  {
-				  InjectionHelper.injectResources(handler, metadata, jndiContext);
-				  InjectionHelper.callPostConstructMethod(handler);
-			  }
-		  }
-	   }
+      ServerFactoryBean factory = endpoint.getAttachment(ServerFactoryBean.class);
+      if (factory != null)
+      {
+         InjectionsMetaData metadata = endpoint.getAttachment(InjectionsMetaData.class);
+         Context jndiContext = endpoint.getJNDIContext();
+         if (DeploymentType.JAXWS_EJB3 != endpoint.getService().getDeployment().getType()
+               && factory.getServiceBean() != null)
+         {
+            InjectionHelper.injectResources(factory.getServiceBean(), metadata, jndiContext);
+            InjectionHelper.callPostConstructMethod(factory.getServiceBean());
+         }
+         List<Handler> chain = ((JaxWsEndpointImpl) factory.getServer().getEndpoint()).getJaxwsBinding()
+               .getHandlerChain();
+         if (chain != null)
+         {
+            for (Handler handler : chain)
+            {
+               InjectionHelper.injectResources(handler, metadata, jndiContext);
+               InjectionHelper.callPostConstructMethod(handler);
+            }
+         }
+      }
    }
-   
-   public static void callRequestHandler(HttpServletRequest req, HttpServletResponse res, ServletContext ctx, Bus bus, Endpoint endpoint) throws ServletException
+
+   public static void callRequestHandler(HttpServletRequest req, HttpServletResponse res, ServletContext ctx, Bus bus,
+         Endpoint endpoint) throws ServletException
    {
       try
       {
@@ -143,7 +145,7 @@ public class ServletHelper
          //hence the interceptor, can span multiple invocation related to multiple
          //endpoints)
          EndpointAssociation.setEndpoint(endpoint);
-         RequestHandler requestHandler = (RequestHandler)endpoint.getRequestHandler();
+         RequestHandler requestHandler = (RequestHandler) endpoint.getRequestHandler();
          requestHandler.handleHttpRequest(endpoint, req, res, ctx);
       }
       catch (IOException ioe)
@@ -156,11 +158,13 @@ public class ServletHelper
          BusFactory.setThreadDefaultBus(null);
       }
    }
-   
+
    public static void registerInstrumentManger(Bus bus, ServletContext svCtx) throws ServletException
    {
       //TODO!! Jim, remove reflection use inside this by providing proper hook in CXF and move this configuration to BusHolder
-      if (svCtx.getInitParameter(ENABLE_CXF_MANAGEMENT) != null && "true".equalsIgnoreCase((String)svCtx.getInitParameter(ENABLE_CXF_MANAGEMENT))) {
+      if (svCtx.getInitParameter(ENABLE_CXF_MANAGEMENT) != null
+            && "true".equalsIgnoreCase((String) svCtx.getInitParameter(ENABLE_CXF_MANAGEMENT)))
+      {
          InstrumentationManagerExtImpl instrumentationManagerImpl = new InstrumentationManagerExtImpl();
          instrumentationManagerImpl.setBus(bus);
          instrumentationManagerImpl.setEnabled(true);
@@ -174,9 +178,11 @@ public class ServletHelper
 
          try
          {
-            Method method = CounterRepository.class.getDeclaredMethod("registerInterceptorsToBus", new Class[] {});
+            Method method = CounterRepository.class.getDeclaredMethod("registerInterceptorsToBus", new Class[]
+            {});
             method.setAccessible(true);
-            method.invoke(couterRepository, new Object[] {});
+            method.invoke(couterRepository, new Object[]
+            {});
          }
          catch (Exception e)
          {
