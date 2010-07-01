@@ -17,6 +17,12 @@ org/jboss/test/ws/jaxws/webfault/**
 # [CXF-2006] RespectBinding feature and not understood required extensibility elements
 org/jboss/test/ws/jaxws/jbws2449/**
 
+# [CXF-2852] JavaToWs requires Spring
+org/jboss/test/ws/jaxws/jbws2528/**
+org/jboss/test/ws/jaxws/jbws2529/**
+org/jboss/test/ws/jaxws/smoke/tools/WSProvideScriptTestCase.*
+org/jboss/test/ws/jaxws/smoke/tools/WSProviderTestCase.*
+
 # [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored
 org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*
 
