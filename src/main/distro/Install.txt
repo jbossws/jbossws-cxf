@@ -25,6 +25,15 @@ Supported configurations of the installer are 'default', 'all' and 'standard'.
 
 	ant -Djboss.server.instance=standard deploy-jboss600
 
+    By default Spring Framework libraries are not installed to application
+server. In order to do that, please add the -Dspring=true property option when
+running the ant script:
+
+        ant -Dspring=true deploy-jboss600
+
+Please note Spring is required for advanced configuration only, whenever users
+want to provide their own jbossws-cxf.xml Spring configuration file.
+
 4.) Execute the samples to verify your installation
 
    'ant tests'
