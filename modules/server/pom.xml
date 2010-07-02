@@ -26,6 +26,10 @@
       <groupId>javax.ejb</groupId>
       <artifactId>ejb-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
     <!-- jbossws dependencies -->
     <dependency>
       <groupId>org.jboss.ws</groupId>
@@ -56,10 +60,6 @@
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-bindings-coloc</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-bindings-corba</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
@@ -333,5 +333,50 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <!--
+    Name:  enforce
+    Descr: Enforce artifact dependencies
+    -->
+    <profile>
+      <id>enforce</id>
+      <activation>
+        <property>
+          <name>!skip-enforce</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>ban-bad-dependencies</id>
+                <goals>
+                  <goal>enforce</goal>
+                </goals>
+                <configuration>
+                  <rules>
+                    <bannedDependencies>
+                      <searchTransitive>true</searchTransitive>
+                      <excludes>
+                        <exclude>org.apache.cxf:cxf-rt-bindings-corba</exclude>
+                        <exclude>org.apache.cxf:cxf-rt-javascript</exclude>
+                        <exclude>org.apache.geronimo.specs</exclude>
+                        <exclude>org.codehaus.jra:jra</exclude>
+                        <exclude>org.slf4j:slf4j-jdk14</exclude>
+                      </excludes>
+                    </bannedDependencies>
+                  </rules>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   
 </project>

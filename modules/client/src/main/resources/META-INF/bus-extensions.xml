@@ -33,10 +33,6 @@
   <extension class="org.apache.cxf.endpoint.EndpointResolverRegistryImpl" interface="org.apache.cxf.endpoint.EndpointResolverRegistry" />
   <extension class="org.apache.cxf.headers.HeaderManagerImpl" interface="org.apache.cxf.headers.HeaderManager" />
   <extension class="org.apache.cxf.catalog.OASISCatalogManager" interface="org.apache.cxf.catalog.OASISCatalogManager" />
-  <extension class="org.apache.cxf.binding.corba.CorbaBindingFactory" deferred="true">
-    <namespace>http://cxf.apache.org/bindings/corba</namespace>
-    <namespace>http://schemas.apache.org/yoko/bindings/corba</namespace>
-  </extension>
   <extension class="org.apache.cxf.binding.soap.SoapBindingFactory" interface="org.apache.cxf.binding.BindingFactory" deferred="true">
     <namespace>http://schemas.xmlsoap.org/soap/</namespace>
     <namespace>http://schemas.xmlsoap.org/wsdl/soap/</namespace>

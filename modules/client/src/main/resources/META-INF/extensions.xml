@@ -20,11 +20,6 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <properties>
-  <entry key="org.apache.cxf.binding.corba-1">javax.wsdl.Binding=org.apache.cxf.binding.corba.wsdl.BindingType</entry>
-  <entry key="org.apache.cxf.binding.corba-2">javax.wsdl.BindingOperation=org.apache.cxf.binding.corba.wsdl.OperationType</entry>
-  <entry key="org.apache.cxf.binding.corba-3">javax.wsdl.Definition=org.apache.cxf.binding.corba.wsdl.TypeMappingType</entry>
-  <entry key="org.apache.cxf.binding.corba-4">javax.wsdl.Port=org.apache.cxf.binding.corba.wsdl.AddressType</entry>
-  <entry key="org.apache.cxf.binding.corba-5">javax.wsdl.Port=org.apache.cxf.binding.corba.wsdl.PolicyType</entry>
   <entry key="org.apache.cxf.bindings.xml-1">javax.wsdl.BindingInput=org.apache.cxf.bindings.xformat.XMLBindingMessageFormat</entry>
   <entry key="org.apache.cxf.bindings.xml-2">javax.wsdl.BindingOutput=org.apache.cxf.bindings.xformat.XMLBindingMessageFormat</entry>
   <entry key="org.apache.cxf.bindings.xml-3">javax.wsdl.Binding=org.apache.cxf.bindings.xformat.XMLFormatBinding</entry>
