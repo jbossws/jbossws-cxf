@@ -33,7 +33,7 @@ public class UsernamePasswordCallback implements CallbackHandler
    public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
    {
       WSPasswordCallback pc = (WSPasswordCallback)callbacks[0];
-      if ("kermit".equals(pc.getIdentifer()))
+      if ("kermit".equals(pc.getIdentifier()))
          pc.setPassword("thefrog");
       else
          pc.setPassword("wrong password");
