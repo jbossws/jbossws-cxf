@@ -82,6 +82,7 @@
     <mail.version>1.4.2</mail.version>
     <saaj.api.version>1.0.0.Beta1</saaj.api.version>
     <velocity.version>1.5</velocity.version>
+    <xerces.version>2.9.1</xerces.version>
     <xmlsec.version>1.4.3</xmlsec.version>
     <wstx.version>3.2.9</wstx.version>
     <spring.version>3.0.1.RELEASE</spring.version>
@@ -351,6 +352,10 @@
         <artifactId>cxf-rt-transports-http</artifactId>
         <version>${cxf.version}</version>
         <exclusions>
+          <exclusion>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-javamail_1.4_spec</artifactId>
+          </exclusion>
           <exclusion>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
@@ -1051,6 +1056,16 @@
          <artifactId>jbossxb</artifactId>
          <version>${jboss.xb.version}</version>
          <scope>provided</scope>
+         <exclusions>
+           <exclusion>
+             <groupId>apache-xerces</groupId> <!-- Deprecated dependency -->
+             <artifactId>xercesImpl</artifactId>
+           </exclusion>
+           <exclusion>
+             <groupId>wutka-dtdparser</groupId> <!-- Deprecated dependency -->
+             <artifactId>dtdparser121</artifactId>
+           </exclusion>
+         </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.security</groupId>
@@ -1080,10 +1095,16 @@
         <version>${jboss.security.spi.version}</version>
         <scope>provided</scope>
       </dependency>
-      
+      <dependency>
+        <groupId>xerces</groupId>
+        <artifactId>xercesImpl</artifactId>
+        <version>${xerces.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
       <!-- transitive dependencies -->
       <dependency>
-        <groupId>apache-log4j</groupId>
+        <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
         <version>${log4j.version}</version>
       </dependency>
