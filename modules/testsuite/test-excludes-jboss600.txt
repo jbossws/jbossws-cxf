@@ -52,6 +52,3 @@ org/jboss/test/ws/jaxws/samples/jmstransport/**
 # [JBWS-3001] Verify @PostConstruct and @PreDestroy annotations support for POJO based endpoints
 org/jboss/test/ws/jaxws/jbws2268/**
 
-# [JBWS-3039] Spring 3 classpath scanning fails on AS 6
-org/jboss/test/ws/jaxws/cxf/webserviceref/WebServiceRefServletTestCase.*
-

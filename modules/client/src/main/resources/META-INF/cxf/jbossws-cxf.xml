@@ -39,7 +39,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
             <list>
                 <bean class="org.apache.cxf.resource.ClasspathResolver"/>
                 <bean class="org.apache.cxf.resource.ClassLoaderResolver"/>
-                <!-- <bean class="org.apache.cxf.bus.spring.BusApplicationContextResourceResolver"/> --> <!-- Restore once JBWS-3039 is solved -->
+                <!-- The following can be commented on AS 6 when not using Spring 3.0.3 or greater; see JBWS-3039 -->
+                <bean class="org.apache.cxf.bus.spring.BusApplicationContextResourceResolver"/>
             </list>
        </property>
        <property name="bus" ref="cxf"/>
