@@ -10,15 +10,15 @@
   <fileSets>
     <fileSet>
       <directory>eclipse/</directory>
-      <outputDirectory>eclipse/</outputDirectory>
+      <outputDirectory>jbossws-cxf-src-dist/eclipse/</outputDirectory>
     </fileSet>
     <fileSet>
       <directory>src/</directory>
-      <outputDirectory>src/</outputDirectory>
+      <outputDirectory>jbossws-cxf-src-dist/src/</outputDirectory>
     </fileSet>
     <fileSet>
       <directory>modules/</directory>
-      <outputDirectory>modules/</outputDirectory>
+      <outputDirectory>jbossws-cxf-src-dist/modules/</outputDirectory>
       <excludes>
         <exclude>**/target/**</exclude>
         <exclude>**/framework-tests/**</exclude>
@@ -26,7 +26,7 @@
     </fileSet>
     <fileSet>
       <directory>modules/testsuite/framework-tests</directory>
-      <outputDirectory>modules/testsuite/framework-tests</outputDirectory>
+      <outputDirectory>jbossws-cxf-src-dist/modules/testsuite/framework-tests</outputDirectory>
       <includes>
         <include>src/test/etc/</include>
         <include>scripts/</include>
@@ -35,7 +35,7 @@
     </fileSet>
     <fileSet>
       <directory></directory>
-      <outputDirectory>/</outputDirectory>
+      <outputDirectory>jbossws-cxf-src-dist/</outputDirectory>
       <includes>
         <include>.classpath</include>
         <include>.project</include>
@@ -55,7 +55,7 @@
       <binaries>
         <dependencySets>
           <dependencySet>
-            <outputDirectory>modules/testsuite/framework-tests/src/test</outputDirectory>
+            <outputDirectory>jbossws-cxf-src-dist/modules/testsuite/framework-tests/src/test</outputDirectory>
             <useStrictFiltering>true</useStrictFiltering>
             <scope>provided</scope>
             <unpack>true</unpack>

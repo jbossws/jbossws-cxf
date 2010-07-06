@@ -11,14 +11,14 @@
     <!-- root -->
     <fileSet>
       <directory>src/main/distro</directory>
-      <outputDirectory>/</outputDirectory>
+      <outputDirectory>jbossws-cxf-bin-dist</outputDirectory>
       <includes>
         <include>build.xml</include>
       </includes>
     </fileSet>
     <fileSet>
       <directory>src/main/distro</directory>
-      <outputDirectory>/</outputDirectory>
+      <outputDirectory>jbossws-cxf-bin-dist</outputDirectory>
       <filtered>true</filtered>
       <includes>
         <include>ant.properties.example</include>
@@ -27,7 +27,7 @@
     <!-- build -->
     <fileSet>
       <directory>src/main/distro</directory>
-      <outputDirectory>build</outputDirectory>
+      <outputDirectory>jbossws-cxf-bin-dist/build</outputDirectory>
       <includes>
         <include>build-deploy.xml</include>
         <include>build-setup.xml</include>
@@ -37,7 +37,7 @@
     </fileSet>
     <fileSet>
       <directory>modules/resources/src/main/resources/resources</directory>
-      <outputDirectory>build</outputDirectory>
+      <outputDirectory>jbossws-cxf-bin-dist/build</outputDirectory>
       <includes>
         <include>deploy.conf</include>
         <include>server-deploy.conf</include>
@@ -47,7 +47,7 @@
     <!-- docs -->
     <fileSet>
       <directory>src/main/distro</directory>
-      <outputDirectory>docs</outputDirectory>
+      <outputDirectory>jbossws-cxf-bin-dist/docs</outputDirectory>
       <filtered>true</filtered>
       <includes>
         <include>Install.txt</include>
@@ -57,13 +57,13 @@
     </fileSet>
     <!-- deploy -->
     <fileSet>
-      <directory>target/deploy-artifacts</directory>
-      <outputDirectory>deploy</outputDirectory>
+      <directory>target/assembly/deploy-artifacts</directory>
+      <outputDirectory>jbossws-cxf-bin-dist/deploy</outputDirectory>
     </fileSet>
     <!-- test etc -->
     <fileSet>
       <directory>modules/testsuite/cxf-tests/src/test</directory>
-      <outputDirectory>tests</outputDirectory>
+      <outputDirectory>jbossws-cxf-bin-dist/tests</outputDirectory>
       <includes>
         <include>etc/**</include>
       </includes>
@@ -71,7 +71,7 @@
     <!-- test excludes -->
     <fileSet>
       <directory>modules/testsuite</directory>
-      <outputDirectory>tests/resources</outputDirectory>
+      <outputDirectory>jbossws-cxf-bin-dist/tests/resources</outputDirectory>
       <includes>
         <include>test-excludes-*.txt</include>
       </includes>
@@ -87,7 +87,7 @@
       <binaries>
         <dependencySets>
           <dependencySet>
-            <outputDirectory>tests</outputDirectory>
+            <outputDirectory>jbossws-cxf-bin-dist/tests</outputDirectory>
             <useStrictFiltering>true</useStrictFiltering>
             <scope>provided</scope>
             <unpack>true</unpack>

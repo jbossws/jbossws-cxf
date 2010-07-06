@@ -14,7 +14,7 @@
         <include>org.jboss.ws.cxf:jbossws-cxf-server</include>
       </includes>
       <binaries>
-        <outputDirectory>lib</outputDirectory>
+        <outputDirectory>deploy-artifacts/lib</outputDirectory>
         <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
         <unpack>false</unpack>
         <dependencySets>
@@ -88,7 +88,7 @@
         <include>org.jboss.ws.cxf:jbossws-cxf-server</include>
       </includes>
       <binaries>
-        <outputDirectory>lib</outputDirectory>
+        <outputDirectory>deploy-artifacts/lib</outputDirectory>
         <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
         <unpack>false</unpack>
         <dependencySets>
@@ -115,13 +115,13 @@
         <include>org.jboss.ws.cxf:jbossws-cxf-management</include>
       </includes>
       <binaries>
-        <outputDirectory>lib</outputDirectory>
+        <outputDirectory>deploy-artifacts/lib</outputDirectory>
         <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
         <includeDependencies>false</includeDependencies>
         <unpack>false</unpack>
         <dependencySets>
           <dependencySet>
-            <outputDirectory>lib</outputDirectory>
+            <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <scope>provided</scope>
@@ -134,7 +134,7 @@
             </includes>
           </dependencySet>
           <dependencySet>
-            <outputDirectory>lib</outputDirectory>
+            <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss501.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <scope>provided</scope>
@@ -144,7 +144,7 @@
             </includes>
           </dependencySet>
           <dependencySet>
-            <outputDirectory>lib</outputDirectory>
+            <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss510.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <scope>provided</scope>
@@ -154,7 +154,7 @@
             </includes>
           </dependencySet>
           <dependencySet>
-            <outputDirectory>lib</outputDirectory>
+            <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss600.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <scope>provided</scope>
@@ -167,7 +167,7 @@
           <!-- START -->
           <!--
           <dependencySet>
-            <outputDirectory>lib</outputDirectory>
+            <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss601.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <scope>provided</scope>
@@ -187,7 +187,7 @@
     <!-- bin -->
     <fileSet>
       <directory>modules/resources/src/main/resources/bin</directory>
-      <outputDirectory>bin</outputDirectory>
+      <outputDirectory>deploy-artifacts/bin</outputDirectory>
       <includes>
         <include>wsconsume.*</include>
         <include>wsprovide.*</include>
@@ -198,7 +198,7 @@
     <!-- resources -->
     <fileSet>
       <directory>modules/server/target/resources</directory>
-      <outputDirectory>resources</outputDirectory>
+      <outputDirectory>deploy-artifacts/resources</outputDirectory>
       <includes>
         <include>jbossws-*/**</include>
       </includes>
@@ -207,7 +207,7 @@
     <!-- management console and port component link servlet -->
     <fileSet>
       <directory>modules/management/target</directory>
-      <outputDirectory>lib</outputDirectory>
+      <outputDirectory>deploy-artifacts/lib</outputDirectory>
       <includes>
         <include>jbossws-cxf-management.war</include>
         <include>jbossws-cxf-management-pcl.war</include>

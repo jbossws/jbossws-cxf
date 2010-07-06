@@ -23,7 +23,7 @@
   <property name="stack.client.dir" value="${stack.modules.dir}/client"/>
   <property name="stack.server.dir" value="${stack.modules.dir}/server"/>
   <property name="stack.resources.dir" value="${stack.dir}/modules/resources/src/main/resources"/>
-  <property name="deploy.artifacts.dir" value="${stack.output.dir}/deploy-artifacts"/>
+  <property name="deploy.artifacts.dir" value="${stack.output.dir}/assembly/deploy-artifacts"/>
 
   <import file="${stack.distro.dir}/build-setup.xml"/>
   <import file="${stack.distro.dir}/build-deploy.xml"/>
@@ -113,8 +113,10 @@
     </exec>
   </target>
   
-  <target name="build-bin-dist" depends="prepare-deploy,os-init" description="Build the binary distribution">
-    
+  <target name="build-bin-dist" depends="prepare,os-init" description="Build the binary distribution">
+
+    <!-- Use a system property to overwrite the empty default value -->
+    <property name="maven.opts" value=""/>
     <echo/>
     <echo message="${mvn} ${maven.opts} -Pbindist package assembly:directory"/>
     <echo/>
@@ -126,14 +128,16 @@
 
     <zip destfile="${stack.output.dir}/jbossws-cxf-bin-dist.zip">
       <zipfileset
-        dir="${stack.output.dir}/jbossws-cxf-bin-dist"
+        dir="${stack.output.dir}/assembly/jbossws-cxf-bin-dist"
         includes="build/ deploy/ docs/ tests/ build.xml ant.properties.example"
         prefix="jbossws-cxf-bin-dist"/>
     </zip>
   </target>
   
-  <target name="build-src-dist" depends="prepare-deploy,os-init" description="Build the source distribution">
+  <target name="build-src-dist" depends="prepare,os-init" description="Build the source distribution">
     
+    <!-- Use a system property to overwrite the empty default value -->
+    <property name="maven.opts" value=""/>
     <echo/>
     <echo message="${mvn} ${maven.opts} -Psrcdist package assembly:directory"/>
     <echo/>
@@ -145,7 +149,7 @@
 
     <zip destfile="${stack.output.dir}/jbossws-cxf-src-dist.zip">
       <zipfileset
-        dir="${stack.output.dir}/jbossws-cxf-src-dist"
+        dir="${stack.output.dir}/assembly/jbossws-cxf-src-dist"
         includes="modules/ src/ eclipse/ build.xml pom.xml profiles.xml.example .classpath .project"
         prefix="jbossws-cxf-src-dist"/>
     </zip>
