@@ -50,6 +50,15 @@
       </fileset>
     </jar>
 
+    <!-- jaxws-cxf-logging -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-logging.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/logging/LoggingFeatureEndpointImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/logging/LoggingInterceptorsEndpointImpl.class"/>
+      	<include name="org/jboss/test/ws/jaxws/cxf/logging/CustomInInterceptor.class"/>
+      </fileset>
+    </jar>
+
     <!-- jaxws-cxf-management -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-management.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/management/WEB-INF/web.xml">
        <classes dir="${tests.output.dir}/test-classes">
