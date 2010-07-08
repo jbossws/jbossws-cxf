@@ -21,6 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.cxf.logging;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -28,6 +31,9 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
+import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -56,7 +62,8 @@ public class MessageLoggingTestCase extends JBossWSTest
       Service service = Service.create(wsdlURL, serviceName);
       QName portQName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingFeatureEndpointPort");
       port = (LoggingEndpoint)service.getPort(portQName, LoggingEndpoint.class);
-      //This is actually just a sample, the test does not actually assert the logs are written for the exchanges message
+      
+      //This is actually just a sample, the test does not actually assert the logs are written on server side for the exchanges message
       //The CXF @Feature on the endpoint ensures exchanged messages are written to the server log
       assertEquals("foo", port.echo("foo"));
    }
@@ -71,4 +78,33 @@ public class MessageLoggingTestCase extends JBossWSTest
       assertEquals("foo", port.echo("foo"));
    }
 
+   public void testClientLogging() throws Exception
+   {
+      URL wsdlURL = new URL(loggingFeatureEndpointURL + "?wsdl");
+      QName serviceName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingFeatureService");
+      
+      Bus bus = BusFactory.newInstance().createBus();
+      try
+      {
+         //install the a LoggingInInterceptor in the bus used for the client
+         LoggingInInterceptor myLoggingInterceptor = new LoggingInInterceptor();
+         OutputStream out = new ByteArrayOutputStream();
+         myLoggingInterceptor.setPrintWriter(new PrintWriter(out, true));
+         bus.getInInterceptors().add(myLoggingInterceptor);
+         BusFactory.setDefaultBus(bus);
+         
+         Service service = Service.create(wsdlURL, serviceName);
+         QName portQName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingFeatureEndpointPort");
+         port = (LoggingEndpoint)service.getPort(portQName, LoggingEndpoint.class);
+         String content = "foo";
+         port.echo(content);
+         String s = out.toString();
+         assertTrue("'" + content + "' not found in captured message: \n" + s, s.contains(content));
+      }
+      finally
+      {
+         bus.shutdown(true);
+      }
+   }
+   
 }
