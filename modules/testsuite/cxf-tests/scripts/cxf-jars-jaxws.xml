@@ -58,6 +58,22 @@
 	</classes>
     </war>
   	
+    <!-- jaxws-samples-wsa -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsa.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsa/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsa/Service*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsa/jaxws/*.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsa/WEB-INF">
+          <include name="jbossws-cxf.xml"/>
+       </webinf>
+       <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/samples/wsa/WEB-INF/wsdl" 
+          prefix="WEB-INF/wsdl"/>
+    </war>
+
     <!-- Please add alphabetically -->
 
   </target>
