@@ -168,7 +168,6 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
       URL cxfURL = dd.createFileURL();
       log.info("JBossWS-CXF configuration generated: " + cxfURL);
 
-
       return cxfURL;
    }
    

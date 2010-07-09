@@ -45,6 +45,9 @@ public class DDBeans
    private List<DDEndpoint> endpoints = new ArrayList<DDEndpoint>();
    // Optional additional beans.
    private List<DDBean> beans = new ArrayList<DDBean>();
+   
+   private List<DDJmsAddressBean> addressBeans = new ArrayList<DDJmsAddressBean>();
+   
    // The derived temp file
    private File tmpFile;
 
@@ -56,6 +59,11 @@ public class DDBeans
    public void addEndpoint(DDEndpoint service)
    {
       endpoints.add(service);
+   }
+   
+   public void addAddress(DDJmsAddressBean addressBean) 
+   {
+      addressBeans.add(addressBean);     
    }
 
    public List<DDBean> getBeans()
@@ -104,9 +112,12 @@ public class DDBeans
             "xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' " +
             "xmlns:beans='http://www.springframework.org/schema/beans' " +
             "xmlns:jaxws='http://cxf.apache.org/jaxws' " +
+            "xmlns:jms='http://cxf.apache.org/transports/jms' " +
             "xmlns:soap='http://cxf.apache.org/bindings/soap' " + 
             "xsi:schemaLocation='http://www.springframework.org/schema/beans " +
             "http://www.springframework.org/schema/beans/spring-beans.xsd " +
+            "http://cxf.apache.org/transports/jms " + 
+            "http://cxf.apache.org/schemas/configuration/jms.xsd " +
             "http://cxf.apache.org/jaxws " +
             "http://cxf.apache.org/schemas/jaxws.xsd'>");
       
@@ -116,6 +127,10 @@ public class DDBeans
       }
       for (DDBean bean : beans)
       {
+         bean.writeTo(writer);
+      }
+      
+      for (DDJmsAddressBean bean : this.addressBeans) {
          bean.writeTo(writer);
       }
       writer.write("</beans>");

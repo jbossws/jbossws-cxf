@@ -15,6 +15,11 @@
       </list>
     </property>
   </bean>
+  
+  <bean name="CXFJMSDescriptorProcessor" class="org.jboss.wsf.stack.cxf.deployment.jms.JMSDescriptorProcessorImpl">
+    <property name="validating">false</property>
+    <property name="descriptorName">jbossws-cxf.xml</property>
+  </bean>
 
   <!-- Installed Record Processors-->
   <bean name="WSMemoryBufferRecorder" class="org.jboss.wsf.framework.management.recording.MemoryBufferRecorder">
@@ -79,6 +84,17 @@
   <bean name="WSCXFBusDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.BusDeploymentAspect">
     <property name="provides">BusHolder</property>
     <property name="requires">ResourceResolver,StackDescriptor</property>
+    <property name="forJaxRpc">false</property>
+  </bean>
+  
+  <!---JMSEndpoints Deployment Aspect--> 
+  <bean name="JMSEndpointDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.JMSEndpointDeploymentAspect">
+    <property name="provides">BusHolder</property>
+    <property name="forJaxRpc">false</property>
+  </bean>
+  
+  <bean name="JMSEndpointRegistryDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.JMSEndpointRegistryDeploymentAspect">
+    <property name="requires">BusHolder</property>
     <property name="forJaxRpc">false</property>
   </bean>
 

@@ -37,9 +37,13 @@ public class DDEndpoint
 {
    //fields mapped to jboss-cxf.xml
    private String id;
+
    private String address;
+
    private String implementor;
+
    private String invoker;
+
    private boolean mtomEnabled;
    private String wsdlLocation;
    private QName portName;
@@ -50,7 +54,6 @@ public class DDEndpoint
    
    private int counter = 0;
 
-   
    public QName getPortName()
    {
       return portName;
@@ -135,7 +138,7 @@ public class DDEndpoint
    {
       this.invoker = invoker;
    }
-   
+
    public void setMtomEnabled(boolean mtomEnabled)
    {
       this.mtomEnabled = mtomEnabled;
@@ -159,7 +162,7 @@ public class DDEndpoint
          writer.write(" wsdlLocation='" + this.wsdlLocation + "'");
       }
       writer.write(">");
-      
+
       if (this.mtomEnabled)
       {
          writer.write("<jaxws:binding>");
@@ -171,7 +174,7 @@ public class DDEndpoint
       {
          writer.write("<jaxws:invoker><bean class='" + this.invoker + "'/></jaxws:invoker>");
       }
-      
+
       writer.write("</jaxws:endpoint>");
    }
    

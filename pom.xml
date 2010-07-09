@@ -81,6 +81,7 @@
     <log4j.version>1.2.14</log4j.version>
     <mail.version>1.4.2</mail.version>
     <saaj.api.version>1.0.0.Beta1</saaj.api.version>
+    <jms.api.version>1.0.0.Beta1</jms.api.version>
     <velocity.version>1.5</velocity.version>
     <xerces.version>2.9.1</xerces.version>
     <xmlsec.version>1.4.3</xmlsec.version>
@@ -1158,6 +1159,11 @@
         <groupId>org.jboss.logging</groupId>
         <artifactId>jboss-logging-spi</artifactId>
         <version>${jboss.logging.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.spec.javax.jms</groupId>
+        <artifactId>jboss-jms-api_1.1_spec</artifactId>
+        <version>${jms.api.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
