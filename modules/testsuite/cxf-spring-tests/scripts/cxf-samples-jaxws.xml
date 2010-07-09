@@ -76,6 +76,19 @@
         </metainf>
     </jar>
   	
+    <!-- jms endpoints sample-->
+    <!-- jms transport from java for as6 -->
+    <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-jmsendpoints-as6.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/samples/jmsendpoints/jmstransport/Organization.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/jmsendpoints/jmstransport/OrganizationJmsEndpoint.class"/>
+      </fileset>
+        <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmsendpoints/META-INF">
+          <include name="hornetq-jms.xml"/> 
+          <include name="jbossws-cxf.xml"/>
+        </metainf>
+    </jar>
+
     <!-- jaxws-samples-wsrm -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsrm.war"
