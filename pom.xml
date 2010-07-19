@@ -73,6 +73,7 @@
     <velocity.version>1.5</velocity.version>
     <xmlsec.version>1.4.3</xmlsec.version>
     <wstx.version>3.2.9</wstx.version>
+    <jaxp.ri.version>1.4.2</jaxp.ri.version>
   </properties>
 
 
@@ -395,6 +396,11 @@
         <groupId>javax.xml.soap</groupId>
         <artifactId>saaj-api</artifactId>
         <version>${saaj.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.parsers</groupId>
+        <artifactId>jaxp-ri</artifactId>
+        <version>${jaxp.ri.version}</version>
       </dependency>
       <dependency>
         <groupId>javax.xml.ws</groupId>
@@ -780,8 +786,8 @@
         </plugins>
       </build>
     </profile>
-    
-    <!-- 
+
+    <!--
     Name:  testsuite
     Descr: Executes the testsuite  
     -->
@@ -792,5 +798,5 @@
       </modules>
     </profile>
   </profiles>
-  
+
 </project>
