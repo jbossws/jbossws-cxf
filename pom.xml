@@ -86,6 +86,7 @@
     <xerces.version>2.9.1</xerces.version>
     <xmlsec.version>1.4.3</xmlsec.version>
     <wstx.version>3.2.9</wstx.version>
+    <jaxp.ri.version>1.4.2</jaxp.ri.version>
     <spring.version>3.0.3.RELEASE</spring.version>
   </properties>
 
@@ -938,6 +939,11 @@
         <groupId>org.jboss.spec.javax.xml.soap</groupId>
         <artifactId>jboss-saaj-api_1.3_spec</artifactId>
         <version>${saaj.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.parsers</groupId>
+        <artifactId>jaxp-ri</artifactId>
+        <version>${jaxp.ri.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.xml.ws</groupId>
