@@ -11,15 +11,6 @@
     <moduleSet>
       <includes>
         <include>org.jboss.ws.cxf:jbossws-cxf-client</include>
-      </includes>
-      <binaries>
-        <outputDirectory>lib</outputDirectory>
-        <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
-        <unpack>false</unpack>
-      </binaries>
-    </moduleSet>
-    <moduleSet>
-      <includes>
         <include>org.jboss.ws.cxf:jbossws-cxf-server</include>
       </includes>
       <binaries>
@@ -31,7 +22,6 @@
             <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
             <useStrictFiltering>true</useStrictFiltering>
             <includes>
-              <include>com.sun.xml.parsers:jaxp-ri:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-factories:jar</include>
               <include>org.apache.cxf:cxf-*</include>
               <include>org.apache.cxf.xjcplugins:cxf-*</include>
@@ -42,7 +32,6 @@
               <include>org.jboss.ws:jbossws-spi:jar</include>
               <include>junit:junit:jar</include>
               <include>org.apache.neethi:neethi:jar</include>
-              <include>com.sun.xml.messaging.saaj:saaj-impl:jar</include>
               <include>wsdl4j:wsdl4j:jar</include>
               <include>org.apache.ws.commons.schema:XmlSchema:jar</include>
               <include>com.sun.xml.fastinfoset:FastInfoset:jar</include>
