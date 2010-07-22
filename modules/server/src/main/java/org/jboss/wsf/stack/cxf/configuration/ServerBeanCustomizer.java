@@ -41,6 +41,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
 
    private List<Endpoint> depEndpoints;
 
+   @SuppressWarnings("unchecked")
    @Override
    public void customize(Object beanInstance)
    {
@@ -60,7 +61,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
          {
             for (Endpoint depEndpoint : depEndpoints)
             {
-               if (depEndpoint.getTargetBeanClass() == factory.getServiceBean().getClass())
+               if (depEndpoint.getTargetBeanClass().isAssignableFrom(factory.getServiceBean().getClass()))
                {
                   depEndpoint.addAttachment(ServerFactoryBean.class, factory);
                }
