@@ -532,6 +532,27 @@
               <groupId>org.jboss.jbossas</groupId>
               <artifactId>jboss-as-webservices</artifactId>
             </exclusion>
+            <!-- Exclusions for preventing cyclic dependency on JBossWS-CXF -->
+            <exclusion>
+              <groupId>org.jboss.ws.cxf</groupId>
+              <artifactId>jbossws-cxf-client</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.cxf</groupId>
+              <artifactId>jbossws-cxf-management</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.cxf</groupId>
+              <artifactId>jbossws-cxf-server</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.cxf</groupId>
+              <artifactId>jbossws-cxf-factories</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.cxf</groupId>
+              <artifactId>jbossws-cxf-resources</artifactId>
+            </exclusion>
             <!-- Exclusions for preventing cyclic dependency on JBossWS-Native -->
             <exclusion>
               <groupId>org.jboss.ws.native</groupId>
