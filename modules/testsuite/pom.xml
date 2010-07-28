@@ -516,7 +516,7 @@
     <profile>
       <id>jboss600</id>
       <properties>
-        <jboss.version>6.0.0.20100429-M3</jboss.version>
+        <jboss.version>6.0.0.20100721-M4</jboss.version>
         <jbossws.integration.target>jboss600</jbossws.integration.target>
       </properties>
       <dependencies>
@@ -532,7 +532,7 @@
               <groupId>org.jboss.jbossas</groupId>
               <artifactId>jboss-as-webservices</artifactId>
             </exclusion>
-            <!-- Exclusions for preventing cyclic dependency on JBossWS-Native (AS 6.0.0.M3) -->
+            <!-- Exclusions for preventing cyclic dependency on JBossWS-Native -->
             <exclusion>
               <groupId>org.jboss.ws.native</groupId>
               <artifactId>jbossws-native-client</artifactId>

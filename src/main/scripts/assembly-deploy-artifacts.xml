@@ -159,7 +159,7 @@
             <scope>provided</scope>
             <unpack>false</unpack>
             <includes>
-              <include>org.jboss.ws:jbossws-jboss600M3:jar</include>
+              <include>org.jboss.ws:jbossws-jboss600M4:jar</include>
             </includes>
           </dependencySet>
           <!-- [JBWS-2505] -->
