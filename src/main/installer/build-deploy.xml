@@ -14,39 +14,45 @@
   <!-- ================================================================== -->
   <!-- Prepare Deployment Structure JBoss-5.1.x                           -->
   <!-- ================================================================== -->
-
-  <target name="deploy-structure-jboss51" depends="prepare-deploy">
-    <delete dir="${deploy.structure}"/>
-  	<!-- all -->
-    <antcall target="deploy-jbossws-cxf51" inheritall="false">
+  
+  <target name="deploy-jbossws-cxf51-all" if="jbossws.all.available">
+     <antcall target="deploy-jbossws-cxf51" inheritall="false" >
       <param name="installserver" value="${deploy.structure}/server/all"/>
       <param name="jbossid" value="jboss510"/>
       <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
     </antcall>
-  	<!-- standard -->
-    <antcall target="deploy-jbossws-cxf51" inheritall="false">
+  </target>
+  
+  <target name="deploy-jbossws-cxf51-standard" if="jbossws.standard.available">
+     <antcall target="deploy-jbossws-cxf51" inheritall="false" >
       <param name="installserver" value="${deploy.structure}/server/standard"/>
       <param name="jbossid" value="jboss510"/>
       <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
     </antcall>
-  	<!-- production -->
-    <antcall target="deploy-jbossws-cxf51" inheritall="false">
+  </target>
+  
+  <target name="deploy-jbossws-cxf51-production" if="jbossws.production.available">
+     <antcall target="deploy-jbossws-cxf51" inheritall="false">
       <param name="installserver" value="${deploy.structure}/server/production"/>
       <param name="jbossid" value="jboss510"/>
       <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
     </antcall>
-  	<!-- web -->
-    <antcall target="deploy-jbossws-cxf51" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/server/web"/>
-      <param name="jbossid" value="jboss510"/>
-      <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-    </antcall>
-  	<!-- default -->
-    <antcall target="deploy-jbossws-cxf51" inheritall="false">
+  </target>
+
+  <target name="deploy-jbossws-cxf51-web" if="jbossws.web.available">
+     <antcall target="deploy-jbossws-cxf51" inheritall="false" >
+       <param name="installserver" value="${deploy.structure}/server/web"/>
+       <param name="jbossid" value="jboss510"/>
+       <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
+       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
+     </antcall>
+  </target>
+
+  <target name="deploy-jbossws-cxf51-default" if="jbossws.default.available">
+     <antcall target="deploy-jbossws-cxf51" inheritall="false">
       <param name="installserver" value="${deploy.structure}/server/default"/>
       <param name="jbossid" value="jboss510"/>
       <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
@@ -54,10 +60,24 @@
     </antcall>
   </target>
 
+  <target name="deploy-structure-jboss51" depends="prepare-deploy">
+    <delete dir="${deploy.structure}"/>
+    <!-- all -->
+    <antcall target="deploy-jbossws-cxf51-all"/>
+    <!-- standard -->
+    <antcall target="deploy-jbossws-cxf51-standard"/>
+    <!-- production -->
+    <antcall target="deploy-jbossws-cxf51-production"/>
+    <!-- web -->
+    <antcall target="deploy-jbossws-cxf51-web"/>
+    <!-- default -->
+    <antcall target="deploy-jbossws-cxf51-default"/>
+ </target>
+
   <!-- ================================================================== -->
   <!-- Deployment JBoss510                                                -->
   <!-- ================================================================== -->
-
+  
   <target name="deploy-jboss510" depends="undeploy-jboss510,deploy-structure-jboss51">
     <fail message="Please make sure you're running this script from $JBOSS_HOME/jbossws-cxf-installer" unless="jboss510.available"/>
     <copy todir="${jboss510.home}" overwrite="true">
@@ -68,11 +88,27 @@
 
   <target name="undeploy-jboss510" depends="init">
     <fail message="Please make sure you're running this script from your $JBOSS_HOME/jbossws-cxf-installer" unless="jboss510.available"/>
+    <antcall target="undeploy-jboss510-all"/> 
+    <antcall target="undeploy-jboss510-production"/> 
+    <antcall target="undeploy-jboss510-web"/> 
+    <antcall target="undeploy-jboss510-standard"/> 
+    <antcall target="undeploy-jboss510-default"/> 
+  </target>
+
+  <target name="undeploy-jboss510-all" if="jbossws.all.available">
     <macro-undeploy-jbossws51 targetdir="${jboss510.home}/server/all/deploy/jbossws.sar" defaultconf="${jbossws.all.deploy.conf}"/>
+  </target>
+  <target name="undeploy-jboss510-production" if="jbossws.production.available">
     <macro-undeploy-jbossws51 targetdir="${jboss510.home}/server/production/deploy/jbossws.sar" defaultconf="${jbossws.production.deploy.conf}"/>
-	<macro-undeploy-jbossws51 targetdir="${jboss510.home}/server/web/deploy/jbossws.sar" defaultconf="${jbossws.web.deploy.conf}"/>
+  </target>
+  <target name="undeploy-jboss510-web" if="jbossws.web.available">
+    <macro-undeploy-jbossws51 targetdir="${jboss510.home}/server/web/deploy/jbossws.sar" defaultconf="${jbossws.web.deploy.conf}"/>
+  </target>
+  <target name="undeploy-jboss510-standard" if="jbossws.standard.available">
     <macro-undeploy-jbossws51 targetdir="${jboss510.home}/server/standard/deploy/jbossws.sar" defaultconf="${jbossws.standard.deploy.conf}"/>
-	<macro-undeploy-jbossws51 targetdir="${jboss510.home}/server/default/deploy/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
+  </target>
+  <target name="undeploy-jboss510-default" if="jbossws.default.available">
+    <macro-undeploy-jbossws51 targetdir="${jboss510.home}/server/default/deploy/jbossws.sar" defaultconf="${jbossws.default.deploy.conf}"/>
   </target>
 
 </project>
