@@ -13,7 +13,7 @@
       <properties>
         <jboss501.home>/home/opalka/svn/jbossas/tags/JBoss_5_0_1_GA/build/output/jboss-5.0.1.GA</jboss501.home>
         <jboss510.home>/home/opalka/svn/jbossas/tags/JBoss_5_1_0_GA/build/output/jboss-5.1.0.GA</jboss510.home>
-        <jboss600.home>/home/opalka/svn/jbossas/tags/6.0.0.20100429-M3/build/target/jboss-6.0.0.20100429-M3</jboss600.home>
+        <jboss600.home>/home/opalka/svn/jbossas/tags/6.0.0.20100721-M4/build/target/6.0.0.20100721-M4</jboss600.home>
         <jboss601.home>/home/opalka/svn/jbossas/trunk/build/output/jboss-6.0.0-SNAPSHOT</jboss601.home>
       </properties>
     </profile>
