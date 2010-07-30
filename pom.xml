@@ -53,7 +53,7 @@
     -->
     <!-- END -->
     <cxf.version>2.2.6</cxf.version>
-    <cxf.spring.version>2.5.6.SEC01</cxf.spring.version>
+    <cxf.spring.version>2.5.6.SEC02</cxf.spring.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>3.1</cxf.asm.version>
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
