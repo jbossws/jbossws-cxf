@@ -14,8 +14,19 @@
   <property name="src.dir" value="${basedir}/src/main/resources"/>
   <property name="dest.dir" value="${basedir}/target/resources"/>
 
-  <target name="main">
+  <target name="check-spring">
+    <condition property="spring-required">
+      <and>
+        <istrue value="${spring}"/>
+      </and>
+    </condition>
+  </target> 
 
+  <target name="main" 
+          depends="check-spring,copy-config-as5,copy-config-as6,copy-config-as6-jms,copy-config-as6-jaxrpc"/>
+
+  <target name="copy-config-as5">
+    
     <copy
       file="${src.dir}/jbossws-cxf-config-as5.xml"
       tofile="${dest.dir}/jbossws-jboss501/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
@@ -26,6 +37,10 @@
       tofile="${dest.dir}/jbossws-jboss510/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
     />
 
+  </target>
+
+  <target name="copy-config-as6" unless="spring-required">
+
     <copy
       file="${src.dir}/jbossws-cxf-config-as6.xml"
       tofile="${dest.dir}/jbossws-jboss600/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
@@ -35,6 +50,25 @@
       file="${src.dir}/jbossws-cxf-config-as6.xml"
       tofile="${dest.dir}/jbossws-jboss601/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
     />
+
+  </target>
+
+  <target name="copy-config-as6-jms" if="spring-required">
+
+    <copy
+      file="${src.dir}/jbossws-cxf-jms-config-as6.xml"
+      tofile="${dest.dir}/jbossws-jboss600/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
+    />
+
+    <copy
+      file="${src.dir}/jbossws-cxf-jms-config-as6.xml"
+      tofile="${dest.dir}/jbossws-jboss601/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
+    />
+
+  </target>
+
+
+  <target name="copy-config-as6-jaxrpc">
 
     <copy
       file="${src.dir}/jbossws-jaxrpc-config-as6.xml"
@@ -47,5 +81,4 @@
     />
 
   </target>
-
 </project>

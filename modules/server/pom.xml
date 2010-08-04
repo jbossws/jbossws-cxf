@@ -333,7 +333,9 @@
             </goals>
             <configuration>
               <tasks>
-                <ant antfile="src/main/scripts/antrun-beans-config.xml" />
+                <ant antfile="src/main/scripts/antrun-beans-config.xml">
+                    <property name="spring" value="${spring}"/>
+                </ant> 
               </tasks>
             </configuration>
           </execution>
@@ -384,6 +386,17 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+
+    <!--
+    Name:  spring
+    Descr: indicates if Spring will be required for deployments to succeed
+    -->
+    <profile>
+      <id>spring</id>
+      <properties>
+        <spring>true</spring>
+      </properties>
     </profile>
   </profiles>
   
