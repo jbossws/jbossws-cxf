@@ -25,7 +25,6 @@ import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
-import org.apache.cxf.feature.Features;
 import org.apache.cxf.interceptor.InInterceptors;
 
 @WebService
@@ -35,7 +34,6 @@ import org.apache.cxf.interceptor.InInterceptors;
    wsdlLocation = "WEB-INF/wsdl/SimpleService.wsdl",
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wsrm"
 )
-@Features(features = "org.apache.cxf.ws.policy.WSPolicyFeature")
 @InInterceptors(interceptors="org.jboss.test.ws.jaxws.samples.wsrm.service.RMCheckInterceptor")
 public class SimpleServiceImpl
 {
