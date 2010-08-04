@@ -34,6 +34,7 @@ import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.transport.ConduitInitiator;
 import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
+import org.apache.cxf.ws.rm.RMManager;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringBusFactory;
@@ -105,7 +106,6 @@ public class NonSpringBusHolder extends BusHolder
             SOAPBinding binding = (SOAPBinding) endpoint.getBinding();
             binding.setMTOMEnabled(true);
          }
-         //TODO!! We need to stop the endpoint on undeployment
       }
       configured = true;
    }
@@ -113,6 +113,13 @@ public class NonSpringBusHolder extends BusHolder
    @Override
    public void close()
    {
+      //Move this stuff to the bus (our own impl)?
+      RMManager rmManager = bus.getExtension(RMManager.class);
+      if (rmManager != null)
+      {
+         rmManager.shutdown();
+      }
+      
       for (EndpointImpl endpoint : endpoints)
       {
          endpoint.stop();
