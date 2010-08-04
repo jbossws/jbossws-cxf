@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.ws.soap.SOAPBinding;
@@ -55,6 +56,7 @@ public class NonSpringBusHolder extends BusHolder
    private boolean configured = false;
 
    protected DDBeans metadata;
+   protected List<EndpointImpl> endpoints = new LinkedList<EndpointImpl>();
 
    public NonSpringBusHolder(DDBeans metadata)
    {
@@ -97,6 +99,7 @@ public class NonSpringBusHolder extends BusHolder
          endpoint.setServiceName(dde.getServiceName());
          endpoint.setWsdlLocation(dde.getWsdlLocation());
          endpoint.publish();
+         endpoints.add(endpoint);
          if (dde.isMtomEnabled())
          {
             SOAPBinding binding = (SOAPBinding) endpoint.getBinding();
@@ -105,6 +108,18 @@ public class NonSpringBusHolder extends BusHolder
          //TODO!! We need to stop the endpoint on undeployment
       }
       configured = true;
+   }
+   
+   @Override
+   public void close()
+   {
+      for (EndpointImpl endpoint : endpoints)
+      {
+         endpoint.stop();
+      }
+      endpoints.clear();
+      bus.shutdown(true);
+      super.close();
    }
 
    private static Object newInstance(String className)
