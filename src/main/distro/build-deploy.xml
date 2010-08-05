@@ -201,7 +201,7 @@
     </antcall>
   </target>
 
-  <target name="install-cxf-jms">
+  <target name="install-cxf-jms" if="spring-required">
     <antcall target="deploy-cxf-jms" inheritall="false">
       <param name="installserver" value="${deploy.structure}"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
