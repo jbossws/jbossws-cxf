@@ -40,6 +40,7 @@ import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.JMSEndpoint;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
+import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 
 /**
  * The DeploymentAspect to register the jms endpoints
@@ -48,71 +49,33 @@ import org.jboss.wsf.spi.management.EndpointRegistryFactory;
  */
 public class JMSEndpointRegistryDeploymentAspect extends JMSDeploymentAspect
 {
-   private EndpointRegistry registry = null;
+   private JMSEndpointRegistryDeploymentAspectDelegate aspect;
+   
+   public JMSEndpointRegistryDeploymentAspect() 
+   {
+      if (SpringUtils.SPRING_AVAILABLE) 
+      {
+         aspect = new JMSEndpointRegistryDeploymentAspectDelegate();
+      }
+   }
+   
+   
    @Override
    public void start(Deployment dep)  
    {
-      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      if (registry == null)
-         registry = spiProvider.getSPI(EndpointRegistryFactory.class).getEndpointRegistry();
-      Bus bus = dep.getAttachment(Bus.class);
-      Map<String, JMSConfiguration> jmsConfigMap = createEndpointJmsConfigMap(bus);
-      for (Endpoint endpoint : dep.getService().getEndpoints()) 
+      if (aspect != null)
       {
-         JMSEndpoint jmsEndpoint = (JMSEndpoint)endpoint;
-         String endpointImplClass = jmsEndpoint.getTargetBeanName();
-         JMSConfiguration jmsConfig = jmsConfigMap.get(endpointImplClass);
-         if (jmsConfig != null) 
-         {  
-            jmsEndpoint.setTargetDestination(jmsConfig.getTargetDestination());
-            jmsEndpoint.setReplyDestination(jmsConfig.getReplyDestination());            
-         }
-         
-         registry.register(jmsEndpoint);
+         aspect.start(dep);
       }
    }
    
    public void stop(Deployment dep)
    {
-      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      if (registry == null)
-         registry = spiProvider.getSPI(EndpointRegistryFactory.class).getEndpointRegistry();
-      for (Endpoint ep : dep.getService().getEndpoints())
+      if (aspect != null)
       {
-         registry.unregister(ep);
+         aspect.stop(dep);
       }
    }
       
-   private Map<String, JMSConfiguration> createEndpointJmsConfigMap(Bus bus) 
-   {
-      Map<String, JMSConfiguration> endpointJmsConfigMap = new java.util.HashMap<String, JMSConfiguration>();
-      ServerRegistry serverRegsitry = bus.getExtension(ServerRegistry.class);
-      for (Server server : serverRegsitry.getServers()) 
-      {
-         Destination destination = server.getDestination();
-         if (destination instanceof JMSDestination) 
-         {
-            JMSConfiguration jmsConfiguration = ((JMSDestination)destination).getJmsConfig();
-            String implClassName = getEndpointClassName(server);
-            if (implClassName != null) 
-            {
-               endpointJmsConfigMap.put(implClassName, jmsConfiguration);
-            }
-         }        
-      }
-      return endpointJmsConfigMap;
-   }
-     
-   private String getEndpointClassName(Server server)
-   {
-      MethodDispatcher methodDispatcher = (SimpleMethodDispatcher) server.getEndpoint().getService().get(
-            MethodDispatcher.class.getName());
-      if (methodDispatcher != null && methodDispatcher instanceof SimpleMethodDispatcher)
-      {
-         Method method = ((SimpleMethodDispatcher)methodDispatcher).getPrimaryMethod(server.getEndpoint().getEndpointInfo().getInterface()
-               .getOperations().iterator().next());
-         return method != null ? method.getDeclaringClass().getName() : null;
-      }
-      return null;
-   }
+   
 }

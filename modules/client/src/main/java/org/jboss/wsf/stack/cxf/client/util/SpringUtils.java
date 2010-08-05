@@ -30,6 +30,13 @@ package org.jboss.wsf.stack.cxf.client.util;
  */
 public class SpringUtils
 {
+   public static final boolean SPRING_AVAILABLE;
+   static 
+   {
+      SPRING_AVAILABLE = 
+         isSpringAvailable(SpringUtils.class.getClassLoader(), 
+                           Thread.currentThread().getContextClassLoader());
+   }
    /**
     * Check if Spring is available using the provided classloader
     * 
@@ -44,6 +51,10 @@ public class SpringUtils
       }
       for (ClassLoader cl : loaders)
       {
+         if (cl == null) 
+         {
+            continue;
+         }
          try
          {
             cl.loadClass("org.springframework.context.ApplicationContext");
