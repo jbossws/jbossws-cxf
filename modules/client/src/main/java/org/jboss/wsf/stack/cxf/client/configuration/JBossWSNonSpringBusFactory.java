@@ -98,6 +98,7 @@ public class JBossWSNonSpringBusFactory extends CXFBusFactory
    private static void initPolicyEngine(PolicyEngineImpl engine, Bus bus)
    {
       engine.setBus(bus);
+      engine.addBusInterceptors(); //required for Apache CXF 2.2.x only, this is automatically done in setBus(..) starting from 2.3
       AssertionBuilderRegistry assertionBuilderRegistry = new AssertionBuilderRegistryImpl();
       bus.setExtension(assertionBuilderRegistry, AssertionBuilderRegistry.class);
       PolicyInterceptorProviderRegistry policyInterceptorProviderRegistry = new PolicyInterceptorProviderRegistryImpl();
