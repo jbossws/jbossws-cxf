@@ -44,7 +44,7 @@ import org.springframework.jms.connection.SingleConnectionFactory;
  */
 public class JMSEndpointDeploymentAspect extends JMSDeploymentAspect
 {  
-private JMSEndpointDeploymentAspectDelegate aspect;
+   private JMSEndpointDeploymentAspectDelegate aspect;
    
    public JMSEndpointDeploymentAspect() 
    {
