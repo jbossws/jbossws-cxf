@@ -86,5 +86,16 @@
     <property name="requires">ResourceResolver,StackDescriptor</property>
     <property name="forJaxRpc">false</property>
   </bean>
- 
+  
+  <!---JMSEndpoints Deployment Aspect--> 
+  <bean name="JMSEndpointDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.JMSEndpointDeploymentAspect">
+    <property name="provides">BusHolder</property>
+    <property name="forJaxRpc">false</property>
+  </bean>
+  
+  <bean name="JMSEndpointRegistryDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.JMSEndpointRegistryDeploymentAspect">
+    <property name="requires">BusHolder</property>
+    <property name="forJaxRpc">false</property>
+  </bean>
+
 </deployment>

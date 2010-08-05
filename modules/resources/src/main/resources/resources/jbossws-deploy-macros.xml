@@ -29,7 +29,6 @@
     <include name="**/commons-collections.jar"/>
     <include name="**/commons-lang.jar"/>
     <include name="**/cxf-*.jar"/>
-    <exclude name="**/cxf-rt-transports-jms.jar"/>
     <include name="**/jaxb-api.jar"/>
     <include name="**/jaxb-impl.jar"/>
     <include name="**/jaxb-xjc.jar"/>
@@ -70,7 +69,6 @@
     <include name="**/asm.jar"/>
     <include name="**/commons-beanutils.jar"/>
     <include name="**/cxf-*.jar"/>
-    <exclude name="**/cxf-rt-transports-jms.jar"/>
     <include name="**/FastInfoset.jar"/>
     <include name="**/jaxrpc-api.jar"/>
     <include name="**/jaxws-api.jar"/>
@@ -103,10 +101,6 @@
     <include name="**/spring-expression.jar"/>
     <include name="**/spring-jms.jar"/>
     <include name="**/spring-tx.jar"/>
-  </patternset>
-
-  <patternset id="cxf.jms.patternset">
-    <include name="**/cxf-rt-transports-jms.jar"/>
   </patternset>
 
   <!-- ================================================================== -->
@@ -357,28 +351,6 @@
   <target name="deploy-spring">
   	<macro-install-spring targetdir="${installserver}/client" thirdpartydir="${thirdpartydir}"/>
   	<macro-install-spring targetdir="${installserver}/common/lib" thirdpartydir="${thirdpartydir}"/>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Install CXF JMS component which depends on Spring                  -->
-  <!-- ================================================================== -->
-  
-  <macrodef name="macro-install-cxf-jms">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-    <sequential>
-      <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{thirdpartydir}">
-          <patternset refid="cxf.jms.patternset"/>
-        </fileset>
-      </copy>
-    </sequential>
-  </macrodef>
-
-  <target name="deploy-cxf-jms">
-  	<macro-install-cxf-jms targetdir="${installserver}/client" thirdpartydir="${thirdpartydir}"/>
-  	<macro-install-cxf-jms targetdir="${installserver}/common/lib" thirdpartydir="${thirdpartydir}"/>
   </target>
 
   <!-- ================================================================== -->
