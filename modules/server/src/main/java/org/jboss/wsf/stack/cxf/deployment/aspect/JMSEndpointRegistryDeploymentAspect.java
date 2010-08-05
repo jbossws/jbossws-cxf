@@ -21,25 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.deployment.aspect;
 
-import java.lang.reflect.Method;
-import java.util.Map;
-
-import org.apache.cxf.Bus;
-import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.endpoint.ServerRegistry;
-import org.apache.cxf.frontend.MethodDispatcher;
-import org.apache.cxf.frontend.SimpleMethodDispatcher;
-import org.apache.cxf.transport.Destination;
-import org.apache.cxf.transport.jms.JMSConfiguration;
-import org.apache.cxf.transport.jms.JMSDestination;
 import org.jboss.wsf.common.integration.JMSDeploymentAspect;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.deployment.JMSEndpoint;
-import org.jboss.wsf.spi.management.EndpointRegistry;
-import org.jboss.wsf.spi.management.EndpointRegistryFactory;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 
 /**

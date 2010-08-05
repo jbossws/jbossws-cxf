@@ -21,21 +21,9 @@
  */
 package org.jboss.wsf.stack.cxf.deployment.aspect;
 
-import java.net.URL;
-
-import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
-import org.apache.cxf.bus.spring.SpringBusFactory;
-import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.endpoint.ServerRegistry;
-import org.apache.cxf.transport.jms.JMSConfiguration;
-import org.apache.cxf.transport.jms.JMSDestination;
 import org.jboss.wsf.common.integration.JMSDeploymentAspect;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.metadata.jms.JMSEndpointsMetaData;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
-import org.jboss.wsf.stack.cxf.configuration.BusHolder;
-import org.springframework.jms.connection.SingleConnectionFactory;
 
 /**
  * To start the jms endpoints
