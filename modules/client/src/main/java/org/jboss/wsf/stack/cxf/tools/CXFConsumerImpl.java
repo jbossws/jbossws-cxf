@@ -214,6 +214,9 @@ public class CXFConsumerImpl extends WSContractConsumer
          stream.println("WSConsume (CXF) does not allow to setup the JAX-WS specification target, using JAX-WS 2.1.");
       }
       
+      //Always generate wrapped style for reference element:CXF-1079
+      args.add("-allowElementReferences");
+      
       // finally the WSDL file
       args.add(wsdl.toString());
 
