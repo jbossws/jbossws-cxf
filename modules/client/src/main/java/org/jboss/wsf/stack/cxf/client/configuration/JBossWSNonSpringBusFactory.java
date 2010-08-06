@@ -123,9 +123,8 @@ public class JBossWSNonSpringBusFactory extends CXFBusFactory
       
       //RM
       RMManager rmManager = new RMManager();
-//      rmManager.initialise();
-//      rmManager.registerListeners();
-      rmManager.setBus(bus);
+      bus.setExtension(rmManager, RMManager.class);
+//      rmManager.init();
       
       //RM Policy
       policyInterceptorProviderRegistry.register(new RMPolicyInterceptorProvider(bus));
