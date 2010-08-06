@@ -29,11 +29,39 @@
   <property name="jbossws.integration.target" value="jboss510"/>
   <property name="jboss510.home" value="${basedir}/.."/>
 	
-  
+  <available property="jbossws.default.available" file="${jboss510.home}/server/default"/>  
+  <available property="jbossws.standard.available" file="${jboss510.home}/server/standard"/>  
+  <available property="jbossws.production.available" file="${jboss510.home}/server/production"/>  
+  <available property="jbossws.web.available" file="${jboss510.home}/server/web"/>  
+  <available property="jbossws.all.available" file="${jboss510.home}/server/all"/>  
+
   <import file="${build.dir}/build-setup.xml"/>
   <import file="${build.dir}/build-deploy.xml"/>
   <import file="${build.dir}/jbossws-installer-macros.xml"/>
   
+
+  <target name="secure-console">
+    <!-- all -->
+    <copy file="build/web.xml" tofile="${jboss510.home}/server/all/deploy/jbossws.sar/jbossws-management.war/WEB-INF/web.xml" overwrite="true"/>
+    <copy file="build/jboss-web.xml" tofile="${jboss510.home}/server/all/deploy/jbossws.sar/jbossws-management.war/WEB-INF/jboss-web.xml" overwrite="true"/>
+    
+    <!-- production -->
+    <copy file="build/web.xml" tofile="${jboss510.home}/server/production/deploy/jbossws.sar/jbossws-management.war/WEB-INF/web.xml" overwrite="true"/>
+    <copy file="build/jboss-web.xml" tofile="${jboss510.home}/server/production/deploy/jbossws.sar/jbossws-management.war/WEB-INF/jboss-web.xml" overwrite="true"/>
+
+    <!-- web -->
+    <copy file="build/web.xml" tofile="${jboss510.home}/server/web/deploy/jbossws.sar/jbossws-management.war/WEB-INF/web.xml" overwrite="true"/>
+    <copy file="build/jboss-web.xml" tofile="${jboss510.home}/server/web/deploy/jbossws.sar/jbossws-management.war/WEB-INF/jboss-web.xml" overwrite="true"/>
+
+    <!-- standard -->
+    <copy file="build/web.xml" tofile="${jboss510.home}/server/standard/deploy/jbossws.sar/jbossws-management.war/WEB-INF/web.xml" overwrite="true"/>
+    <copy file="build/jboss-web.xml" tofile="${jboss510.home}/server/standard/deploy/jbossws.sar/jbossws-management.war/WEB-INF/jboss-web.xml" overwrite="true"/>
+
+    <!-- default -->
+    <copy file="build/web.xml" tofile="${jboss510.home}/server/default/deploy/jbossws.sar/jbossws-management.war/WEB-INF/web.xml" overwrite="true"/>
+    <copy file="build/jboss-web.xml" tofile="${jboss510.home}/server/default/deploy/jbossws.sar/jbossws-management.war/WEB-INF/jboss-web.xml" overwrite="true"/>
+  </target>
+
   <!-- ================================================================== -->
   <!-- Initialization                                                     -->
   <!-- ================================================================== -->
@@ -52,7 +80,12 @@
   
   <!-- dummy targets -->
   <target name="prepare-deploy" depends="init"/>
-  <target name="install" depends="clean, deploy-jboss510" description="Install JBossWS-CXF">
+  <target name="install" depends="clean, deploy-jboss510, secure-console" description="Install JBossWS-CXF">
+  	<echo message="-----------------------------------------------------------------------"/>
+  </target>
+	
+  <!-- copy noauth xml files over to server/<config> dir to disable authentication when "ant noauth" is called -->
+  <target name="install-noauth" depends="clean, deploy-jboss510" description="Install JBossWS-CXF with no authentication">
   	<echo message="-----------------------------------------------------------------------"/>
   </target>
 	

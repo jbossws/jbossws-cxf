@@ -78,8 +78,6 @@
     <!-- <include name="**/jdom.jar"/> -->
     <include name="**/neethi.jar"/>
     <include name="**/saaj-api.jar"/>
-    <include name="**/saaj-impl.jar"/>
-    <include name="**/jaxp-ri.jar"/>
     <include name="**/spring-beans.jar"/>
     <include name="**/spring-context.jar"/>
     <include name="**/spring-core.jar"/>

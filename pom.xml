@@ -17,20 +17,20 @@
   <artifactId>jbossws-cxf</artifactId>
   <packaging>pom</packaging>
   
-  <version>3.1.2.SP7</version>
+  <version>3.1.2-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.0.6.GA</version>
+    <version>1.0.8.GA</version>
   </parent>
   
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-3.1.2.SP7</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-3.1.2.SP7</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/tags/jbossws-cxf-3.1.2.SP7</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/branches/jbossws-cxf-3.1.2</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/branches/jbossws-cxf-3.1.2</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/branches/jbossws-cxf-3.1.2</url>
   </scm>
   
   <!-- Modules -->
@@ -43,17 +43,17 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.common.version>1.1.0.SP6</jbossws.common.version>
-    <jbossws.framework.version>3.1.2.SP8</jbossws.framework.version>
-    <jbossws.spi.version>1.1.2.SP4</jbossws.spi.version>
+    <jbossws.common.version>1.1.0-SNAPSHOT</jbossws.common.version>
+    <jbossws.framework.version>3.1.2-SNAPSHOT</jbossws.framework.version>
+    <jbossws.spi.version>1.1.2-SNAPSHOT</jbossws.spi.version>
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
     <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
     -->
     <!-- END -->
-    <cxf.version>2.2.6</cxf.version>
-    <cxf.spring.version>2.5.6.SEC01</cxf.spring.version>
+    <cxf.version>2.2.6-patch-01</cxf.version>
+    <cxf.spring.version>2.5.6.SEC02</cxf.spring.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>3.1</cxf.asm.version>
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
@@ -73,7 +73,6 @@
     <velocity.version>1.5</velocity.version>
     <xmlsec.version>1.4.3</xmlsec.version>
     <wstx.version>3.2.9</wstx.version>
-    <jaxp.ri.version>1.4.2</jaxp.ri.version>
   </properties>
 
 
@@ -258,6 +257,10 @@
         <version>${cxf.version}</version>
         <exclusions>
           <exclusion>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+            <artifactId>saaj-impl</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-activation_1.1_spec</artifactId>
           </exclusion>
@@ -396,11 +399,6 @@
         <groupId>javax.xml.soap</groupId>
         <artifactId>saaj-api</artifactId>
         <version>${saaj.api.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.xml.parsers</groupId>
-        <artifactId>jaxp-ri</artifactId>
-        <version>${jaxp.ri.version}</version>
       </dependency>
       <dependency>
         <groupId>javax.xml.ws</groupId>
