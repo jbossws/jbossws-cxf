@@ -25,6 +25,8 @@ import java.util.List;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
+import org.apache.cxf.buslifecycle.BusLifeCycleListener;
+import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
@@ -47,6 +49,7 @@ public abstract class BusHolder
 {
    public static final String PARAM_CXF_BEANS_URL = "jbossws.cxf.beans.url";
    protected Bus bus;
+   protected BusHolderLifeCycleListener busHolderListener;
    
    public BusHolder()
    {
@@ -68,6 +71,9 @@ public abstract class BusHolder
     */
    public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer)
    {
+      busHolderListener = new BusHolderLifeCycleListener();
+      bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(busHolderListener);
+      
       if (configurer != null)
       {
          bus.setExtension(configurer, Configurer.class);
@@ -84,7 +90,12 @@ public abstract class BusHolder
     */
    public void close()
    {
-      
+      //call bus shutdown unless the listener tells us shutdown has already been asked
+      if (busHolderListener != null && !busHolderListener.isPreShutdown())
+      {
+         bus.shutdown(true);
+      }
+      busHolderListener = null;
    }
    
    /**
@@ -142,5 +153,33 @@ public abstract class BusHolder
    protected void setBus(Bus bus)
    {
       this.bus = bus;
+   }
+   
+   private class BusHolderLifeCycleListener implements BusLifeCycleListener
+   {
+      private volatile boolean preShutdown = false;
+
+      public boolean isPreShutdown()
+      {
+         return preShutdown;
+      }
+
+      @Override
+      public void initComplete()
+      {
+         //NOOP
+      }
+
+      @Override
+      public void preShutdown()
+      {
+         preShutdown = true;
+      }
+
+      @Override
+      public void postShutdown()
+      {
+         //NOOP
+      }
    }
 }

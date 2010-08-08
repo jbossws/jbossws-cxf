@@ -122,10 +122,13 @@ public class NonSpringBusHolder extends BusHolder
       
       for (EndpointImpl endpoint : endpoints)
       {
-         endpoint.stop();
+         if (endpoint.isPublished())
+         {
+            endpoint.stop();
+         }
       }
       endpoints.clear();
-      bus.shutdown(true);
+      
       super.close();
    }
 
