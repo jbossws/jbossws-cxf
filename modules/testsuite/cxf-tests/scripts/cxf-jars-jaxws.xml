@@ -50,6 +50,13 @@
       </fileset>
     </jar>
 
+    <!-- jaxws-cxf-jbws3098 -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3098.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3098/EndpointOneImpl.class"/>
+      </fileset>
+    </jar>
+
     <!-- jaxws-cxf-logging -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-logging.jar">
       <fileset dir="${tests.output.dir}/test-classes">
