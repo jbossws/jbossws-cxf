@@ -58,6 +58,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws.EndpointImpl
    @Override
    protected void doPublish(String addr)
    {
+      super.getServerFactory().setBlockPostConstruct(true);
       super.doPublish(addr);
       //allow for configuration so that the wsdlPublisher can be set be the JBossWSCXFConfigurer
       configureObject(this);

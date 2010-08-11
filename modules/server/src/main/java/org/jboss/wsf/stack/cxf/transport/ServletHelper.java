@@ -132,6 +132,19 @@ public class ServletHelper
          }
       }
    }
+   
+   public static void callPreDestroy(Endpoint endpoint)
+   {
+      ServerFactoryBean factory = endpoint.getAttachment(ServerFactoryBean.class);
+      if (factory != null)
+      {
+         if (DeploymentType.JAXWS_EJB3 != endpoint.getService().getDeployment().getType()
+               && factory.getServiceBean() != null)
+         {
+            InjectionHelper.callPreDestroyMethod(factory.getServiceBean());
+         }
+      }
+   }
 
    public static void callRequestHandler(HttpServletRequest req, HttpServletResponse res, ServletContext ctx, Bus bus,
          Endpoint endpoint) throws ServletException
