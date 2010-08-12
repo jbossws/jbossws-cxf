@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="MtomService" targetNamespace="http://www.jboss.org/jbossws/ws-extensions/mtom" xmlns:tns="http://www.jboss.org/jbossws/ws-extensions/mtom" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+  <wsdl:types>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.jboss.org/jbossws/ws-extensions/mtom" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.jboss.org/jbossws/ws-extensions/mtom">
+<xsd:element name="sayHello" type="tns:sayHello"/>
+<xsd:complexType name="sayHello">
+<xsd:sequence/>
+</xsd:complexType>
+<xsd:element name="sayHelloResponse" type="tns:sayHelloResponse"/>
+<xsd:complexType name="sayHelloResponse">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="return" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="sayHelloResponse">
+    <wsdl:part name="parameters" element="tns:sayHelloResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayHello">
+    <wsdl:part name="parameters" element="tns:sayHello">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ServiceIface">
+    <wsdl:operation name="sayHello">
+      <wsdl:input name="sayHello" message="tns:sayHello">
+    </wsdl:input>
+      <wsdl:output name="sayHelloResponse" message="tns:sayHelloResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MtomServiceSoapBinding" type="tns:ServiceIface">
+    <wsp:Policy xmlns:wsp="http://www.w3.org/ns/ws-policy"
+	xmlns:mtom="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization">
+	<mtom:OptimizedMimeSerialization />
+    </wsp:Policy>
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sayHello">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sayHello">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sayHelloResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MtomService">
+    <wsdl:port name="MtomServicePort" binding="tns:MtomServiceSoapBinding">
+      <soap:address location="http://localhost:8080/MtomService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
