@@ -180,6 +180,8 @@ public class CXFProviderImpl extends WSContractProvider
          }
          
          args.add("-wrapperbean");
+         
+         args.add("-createxsdimports");
 
          // the SEI
          args.add(endpointClass.getCanonicalName());
