@@ -1,9 +1,6 @@
 # UsernameTestCase requires trustore in jboss-web tomcat configuration
 org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*
 
-# [JBWS-3111] WS-Trust client tests are currently failing due to a regression in CXF 2.2.10
-org/jboss/test/ws/jaxws/cxf/interop/wstrust10/AsymmetricBindingClientTestCase.*
-
 # [CXF-1252] Provider PAYLOAD endpoint expects SOAP Envelope
 org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase.*
 org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*
