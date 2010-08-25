@@ -41,7 +41,7 @@ import org.jboss.logging.Logger;
  * @since 01-Apr-2010
  *
  */
-public class EndpointImpl extends org.apache.cxf.jaxws.EndpointImpl
+public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
 {
    private WSDLFilePublisher wsdlPublisher;
 

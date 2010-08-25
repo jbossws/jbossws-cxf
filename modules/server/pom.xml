@@ -27,8 +27,8 @@
       <artifactId>ejb-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
+      <groupId>org.jboss.spec.javax.servlet</groupId>
+      <artifactId>jboss-servlet-api_3.0_spec</artifactId>
     </dependency>
     <!-- jbossws dependencies -->
     <dependency>
@@ -67,11 +67,11 @@
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-transports-http</artifactId>
+      <artifactId>cxf-rt-management</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-transports-http-jetty</artifactId>
+      <artifactId>cxf-rt-transports-http</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>

@@ -95,7 +95,7 @@ public class SpringBusHolder extends BusHolder
                log.trace("Could not load additional config from location: " + location, e);
          }
       }
-      //Force servlet transport to prevent CXF from using Jetty as a transport
+      //Force servlet transport to prevent CXF from using Jetty or other transports
       DestinationFactory factory = new ServletTransportFactory(bus);
       for (String s : factory.getTransportIds())
       {

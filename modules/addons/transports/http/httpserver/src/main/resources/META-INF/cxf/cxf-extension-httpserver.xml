@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:foo="http://cxf.apache.org/configuration/foo"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
+        
+    <bean class="org.jboss.wsf.stack.cxf.addons.transports.httpserver.HttpServerTransportFactory"
+	  id="org.jboss.wsf.stack.cxf.addons.transports.httpserver.HttpServerTransportFactory"
+    	lazy-init="true">
+        <property name="bus" ref="cxf"/>
+        <property name="transportIds">
+            <list>
+                <value>http://cxf.apache.org/transports/http</value>
+                <value>http://cxf.apache.org/transports/http/configuration</value>
+                <value>http://schemas.xmlsoap.org/wsdl/http</value>
+                <value>http://schemas.xmlsoap.org/wsdl/http/</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

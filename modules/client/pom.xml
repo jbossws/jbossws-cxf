@@ -29,6 +29,11 @@
       <artifactId>jbossws-cxf-factories</artifactId>
       <version>${version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-transports-httpserver</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     
     <!-- CXF dependencies -->
     <dependency>
@@ -55,10 +60,6 @@
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-transports-http</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-transports-http-jetty</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>

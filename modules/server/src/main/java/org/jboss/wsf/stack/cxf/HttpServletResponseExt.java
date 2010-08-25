@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.Locale;
 
 import javax.servlet.ServletOutputStream;
@@ -220,6 +221,21 @@ public class HttpServletResponseExt implements HttpServletResponse
    public void setLocale(Locale loc)
    {
       delegate.setLocale(loc);
+   }
+
+   public String getHeader(String arg0)
+   {
+      return delegate.getHeader(arg0);
+   }
+
+   public Collection<String> getHeaderNames()
+   {
+      return delegate.getHeaderNames();
+   }
+
+   public Collection<String> getHeaders(String arg0)
+   {
+      return delegate.getHeaders(arg0);
    }
    
 }

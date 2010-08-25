@@ -17,4 +17,5 @@
     </cxf:inFaultInterceptors>
   </cxf:bus>
    -->
+  
 </beans>

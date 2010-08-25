@@ -22,8 +22,10 @@
 package org.jboss.wsf.stack.cxf.client.configuration;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
@@ -32,6 +34,7 @@ import javax.xml.namespace.QName;
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.CXFBusFactory;
 import org.apache.cxf.bus.extension.ExtensionManagerBus;
+import org.apache.cxf.configuration.ConfiguredBeanLocator;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.ws.addressing.Names;
 import org.apache.cxf.ws.addressing.policy.AddressingAssertionBuilder;
@@ -75,6 +78,8 @@ public class JBossWSNonSpringBusFactory extends CXFBusFactory
          extensions.put(Configurer.class, new JBossWSNonSpringConfigurer(new BeanCustomizer()));
       }
       
+      extensions.put(ConfiguredBeanLocator.class, new DummyBeanLocator());
+      
       preparePolicyEngine(extensions);
       
       Bus bus = new ExtensionManagerBus(extensions, properties);
@@ -98,11 +103,8 @@ public class JBossWSNonSpringBusFactory extends CXFBusFactory
    private static void initPolicyEngine(PolicyEngineImpl engine, Bus bus)
    {
       engine.setBus(bus);
-      engine.addBusInterceptors(); //required for Apache CXF 2.2.x only, this is automatically done in setBus(..) starting from 2.3
-      AssertionBuilderRegistry assertionBuilderRegistry = new AssertionBuilderRegistryImpl();
-      bus.setExtension(assertionBuilderRegistry, AssertionBuilderRegistry.class);
-      PolicyInterceptorProviderRegistry policyInterceptorProviderRegistry = new PolicyInterceptorProviderRegistryImpl();
-      bus.setExtension(policyInterceptorProviderRegistry, PolicyInterceptorProviderRegistry.class);
+      AssertionBuilderRegistry assertionBuilderRegistry = new AssertionBuilderRegistryImpl(bus);
+      PolicyInterceptorProviderRegistry policyInterceptorProviderRegistry = new PolicyInterceptorProviderRegistryImpl(bus);
       PolicyBuilderImpl policyBuilder = new PolicyBuilderImpl();
       policyBuilder.setBus(bus);
       policyBuilder.setAssertionBuilderRegistry(assertionBuilderRegistry);
@@ -123,7 +125,6 @@ public class JBossWSNonSpringBusFactory extends CXFBusFactory
       
       //RM
       RMManager rmManager = new RMManager();
-      bus.setExtension(rmManager, RMManager.class);
       rmManager.init(bus);
       
       //RM Policy
@@ -152,5 +153,40 @@ public class JBossWSNonSpringBusFactory extends CXFBusFactory
    @Override
    protected void initializeBus(Bus bus) {
       super.initializeBus(bus);
+   }
+   
+   private class DummyBeanLocator implements ConfiguredBeanLocator
+   {
+
+      @Override
+      public List<String> getBeanNamesOfType(Class<?> type)
+      {
+         return Collections.emptyList();
+      }
+
+      @Override
+      public <T> Collection<? extends T> getBeansOfType(Class<T> type)
+      {
+         return Collections.emptyList();
+      }
+
+      @Override
+      public <T> T getBeanOfType(String name, Class<T> type)
+      {
+         return null;
+      }
+
+      @Override
+      public <T> boolean loadBeansOfType(Class<T> type, BeanLoaderListener<T> listener)
+      {
+         return false;
+      }
+
+      @Override
+      public boolean hasConfiguredPropertyValue(String beanName, String propertyName, String value)
+      {
+         return false;
+      }
+      
    }
 }

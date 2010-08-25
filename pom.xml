@@ -41,6 +41,7 @@
     <module>modules/endorsed</module>
     <module>modules/management</module>
     <module>modules/resources</module>
+    <module>modules/addons</module>
   </modules>
   
   <!-- Properties -->
@@ -57,7 +58,7 @@
     <jbossws.jboss601.version>3.2.1.GA</jbossws.jboss601.version>
     -->
     <!-- END -->
-    <cxf.version>2.2.10</cxf.version>
+    <cxf.version>2.3.0-SNAPSHOT</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>2.2.3</cxf.asm.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
@@ -67,6 +68,7 @@
     <jboss.security.sx.version>2.0.4</jboss.security.sx.version>
     <jboss.xb.version>2.0.2.Beta7</jboss.xb.version>
     <picketbox.version>3.0.0.Beta5</picketbox.version>
+    <jaxws-httpserver-httpspi.version>1.0.0-SNAPSHOT</jaxws-httpserver-httpspi.version>
     <jaxb.api.version>1.0.0.Beta1</jaxb.api.version>
     <jaxb.impl.version>2.2</jaxb.impl.version>
     <jaxrpc.api.version>1.1</jaxrpc.api.version>
@@ -170,6 +172,11 @@
       </dependency>
       -->
       <!-- END -->
+      <dependency>
+        <groupId>org.jboss.ws.projects</groupId>
+        <artifactId>jaxws-httpserver-httpspi</artifactId>
+        <version>${jaxws-httpserver-httpspi.version}</version>
+      </dependency>
 
       <!-- provided apis -->
       <dependency>
@@ -312,6 +319,10 @@
           </exclusion>
           <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-javamail_1.4_spec</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-jaxws_2.1_spec</artifactId>
           </exclusion>
           <exclusion>
@@ -354,13 +365,9 @@
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-transports-http</artifactId>
+        <artifactId>cxf-rt-management</artifactId>
         <version>${cxf.version}</version>
         <exclusions>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-javamail_1.4_spec</artifactId>
-          </exclusion>
           <exclusion>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
@@ -390,23 +397,19 @@
             <artifactId>spring-tx</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+             <groupId>org.springframework</groupId>
+             <artifactId>spring-jms</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-transports-http-jetty</artifactId>
+        <artifactId>cxf-rt-transports-http</artifactId>
         <version>${cxf.version}</version>
         <exclusions>
           <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-servlet_2.5_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
+            <artifactId>geronimo-javamail_1.4_spec</artifactId>
           </exclusion>
           <exclusion>
             <groupId>org.springframework</groupId>
@@ -1044,9 +1047,9 @@
         <version>${jsr181.api.version}</version>
       </dependency>
       <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>2.5</version>
+        <groupId>org.jboss.spec.javax.servlet</groupId>
+        <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+        <version>1.0.0.Beta2</version>
       </dependency>
      
       <!-- jboss provided -->
@@ -1168,6 +1171,11 @@
         <groupId>org.jboss.spec.javax.jms</groupId>
         <artifactId>jboss-jms-api_1.1_spec</artifactId>
         <version>${jms.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.easymock</groupId>
+        <artifactId>easymockclassextension</artifactId>
+        <version>2.4</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

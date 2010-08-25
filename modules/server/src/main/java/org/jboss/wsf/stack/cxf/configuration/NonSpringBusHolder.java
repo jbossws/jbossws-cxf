@@ -64,7 +64,7 @@ public class NonSpringBusHolder extends BusHolder
       super();
       this.metadata = metadata;
       bus = new JBossWSNonSpringBusFactory().createBus();
-      //Force servlet transport to prevent CXF from using Jetty as a transport
+      //Force servlet transport to prevent CXF from using Jetty or other transports
       ExtensionManager em = bus.getExtension(ExtensionManager.class);
       em.activateAllByType(ConduitInitiator.class); //need to activate/register all the beans implementing ConduitInitiator so that does not happen later
       DestinationFactory factory = new ServletTransportFactory(bus);
