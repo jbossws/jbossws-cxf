@@ -47,3 +47,5 @@ org/jboss/test/ws/jaxws/samples/jmstransport/**
 # [JBWS-3086] TODO: merge to AS IL trunk once SPI, COMMON and FRAMEWORK are updated there
 org/jboss/test/ws/jaxws/samples/jmsendpoints/**
 
+# [JBAS-8363] Virtual host issue in JBossWeb
+org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*
