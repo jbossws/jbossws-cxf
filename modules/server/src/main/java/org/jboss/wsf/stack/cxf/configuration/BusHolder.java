@@ -71,6 +71,7 @@ public abstract class BusHolder
     */
    public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer)
    {
+      bus.setProperty(org.jboss.wsf.stack.cxf.client.Constants.DEPLOYMENT_BUS, true);
       busHolderListener = new BusHolderLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(busHolderListener);
       

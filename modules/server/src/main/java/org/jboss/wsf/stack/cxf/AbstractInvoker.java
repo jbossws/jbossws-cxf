@@ -54,6 +54,8 @@ import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.MessageContext.Scope;
 import javax.xml.ws.soap.SOAPFaultException;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
 import org.apache.cxf.attachment.AttachmentImpl;
 import org.apache.cxf.binding.soap.SoapFault;
 import org.apache.cxf.binding.soap.SoapMessage;
@@ -156,6 +158,7 @@ public abstract class AbstractInvoker implements Invoker
       inv.setArgs(params);
 
       Object retObj = null;
+      Bus threadBus = BusFactory.getThreadDefaultBus();
       try
       {
          invHandler.invoke(ep, inv);
@@ -188,6 +191,8 @@ public abstract class AbstractInvoker implements Invoker
       }
       finally
       {
+         //make sure the right bus is restored after coming back from the endpoint method
+         BusFactory.setThreadDefaultBus(threadBus);
          // JBWS-2486
          if (ep.getAttachment(Object.class) == null)
          {
