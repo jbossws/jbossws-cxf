@@ -63,6 +63,7 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
       super(b, ei);
       this.factory = factory;
       this.serverEngineFactory = factory.getServerEngineFactory();
+      getAddressValue(ei, true); //generate address if not specified
       this.url = new URL(ei.getAddress());
    }
 
