@@ -47,20 +47,20 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 public final class UsernameDigestTestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-username-digest";
-   
+
    private final QName servicePort = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityServicePort");
-   
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(UsernameDigestTestCase.class, "jaxws-samples-wsse-username-digest.sar jaxws-samples-wsse-username-digest.war");
+      return new JBossWSTestSetup(UsernameDigestTestCase.class, "jaxws-samples-wsse-username-digest-service.sar jaxws-samples-wsse-username-digest.war");
    }
 
    public void testAuthorized() throws Exception
    {
-	   doTestAuthorized(serviceURL, servicePort, "kermit");
+      doTestAuthorized(serviceURL, servicePort, "kermit");
    }
-   
-private void doTestAuthorized(String endpointAddress, QName portName, String userName) throws Exception
+
+   private void doTestAuthorized(String endpointAddress, QName portName, String userName) throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
       URL wsdlURL = new URL(endpointAddress + "?wsdl");
@@ -90,9 +90,9 @@ private void doTestAuthorized(String endpointAddress, QName portName, String use
 
    public void testUnauthorized() throws Exception
    {
-	   doTestUnauthorized(serviceURL, servicePort, "kermit");
+      doTestUnauthorized(serviceURL, servicePort, "kermit");
    }
-   
+
    private void doTestUnauthorized(String endpointAddress, QName portName, String userName) throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
@@ -110,7 +110,7 @@ private void doTestAuthorized(String endpointAddress, QName portName, String use
          assertEquals("Unauthorized", ex.getMessage());
       }
    }
-   
+
    private void setupWsse(ServiceIface proxy, String username)
    {
       Client client = ClientProxy.getClient(proxy);
@@ -125,6 +125,4 @@ private void doTestAuthorized(String endpointAddress, QName portName, String use
       cxfEndpoint.getOutInterceptors().add(wssOut);
       cxfEndpoint.getOutInterceptors().add(new SAAJOutInterceptor());
    }
-
-   
 }

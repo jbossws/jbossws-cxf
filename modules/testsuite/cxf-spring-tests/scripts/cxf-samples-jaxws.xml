@@ -233,7 +233,7 @@
        </webinf>
     </war>
 
-    <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-username-digest.sar">
+    <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-username-digest-service.sar">
       <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-digest/WEB-INF">
         <include name="jboss-service.xml"/>
         <include name="login-config.xml"/>
