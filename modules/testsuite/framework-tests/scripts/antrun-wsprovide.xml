@@ -43,7 +43,7 @@
         sei="@{sei}"
         fork="true"
         genwsdl="true"
-        verbose="true"
+        verbose="false"
         classpath="@{outputDir}/test-classes"
         destdir="@{outputDir}/test-classes/@{destDir}"
         resourcedestdir="@{outputDir}/test-resources/@{resourcesDir}"
