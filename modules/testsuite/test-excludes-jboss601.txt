@@ -33,11 +33,8 @@ org/jboss/test/ws/jaxws/jbws1797/**
 org/jboss/test/ws/jaxws/jbws2937/**
 org/jboss/test/ws/jaxws/jbws2942/**
 org/jboss/test/ws/jaxws/jbws2960/**
-org/jboss/test/ws/jaxws/jbws2991/**
-org/jboss/test/ws/jaxws/jbws3008/**
 org/jboss/test/ws/jaxws/jbws3022/**
 org/jboss/test/ws/jaxws/jbws3031/**
-org/jboss/test/ws/jaxws/jbws3041/**
 org/jboss/test/ws/jaxws/endpointReference/EndpointReferenceBuilderTestCase.*
 org/jboss/test/ws/jaxws/samples/addressing/AddressingStatefulTestCase.*
 
