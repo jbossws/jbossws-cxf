@@ -100,6 +100,7 @@
                     <property name="project.version" value="${project.version}"/>
                     <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml" />
                     <property name="log4j.output.dir" value="${log4j.output.dir}"/>
+                    <property name="jboss.home" value="${jboss.home}"/>
                     <ant antfile="scripts/antrun-wsconsume.xml" target="wsconsume"/>
                   </tasks>
                 </configuration>
@@ -111,7 +112,14 @@
                 </goals>
                 <configuration>
                   <tasks>
+                    <property name="maven.test.classpath" refid="maven.test.classpath"/>
+                    <property name="tests.resources.dir" value="${basedir}/src/test/resources"/>
                     <property name="tests.output.dir" value="${project.build.directory}"/>
+                    <property name="project.version" value="${project.version}"/>
+                    <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml"/>
+                    <property name="log4j.output.dir" value="${log4j.output.dir}"/>
+                    <property name="jboss.home" value="${jboss.home}"/>
+                    <ant antfile="scripts/antrun-wsprovide.xml" target="wsprovide"/>
                     <ant antfile="src/test/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws"/>
                     <ant antfile="src/test/ant-import/build-samples-jaxws.xml" target="build-samples-jaxws"/>
                     <ant antfile="src/test/ant-import/build-samples-jaxrpc.xml" target="build-samples-jaxrpc"/>

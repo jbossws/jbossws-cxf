@@ -8,59 +8,50 @@
 
 <project>
 
-  <target name="wsconsume" description="Consume JAX-WS contracts">
+  <target name="wsprovide" description="Provide JAX-WS contracts">
 
-    <taskdef name="wsconsume" classname="org.jboss.wsf.spi.tools.ant.WSConsumeTask">
+    <taskdef name="wsprovide" classname="org.jboss.wsf.spi.tools.ant.WSProvideTask">
       <classpath>
         <pathelement path="${maven.test.classpath}"/>
       </classpath>
     </taskdef>
 
-    <wsconsume-macro
-      wsdl="${tests.resources.dir}/jaxws/complex/META-INF/wsdl/RegistrationService.wsdl"
-      package="org.jboss.test.ws.jaxws.complex"
-      outputDir="${tests.output.dir}"
+    <wsprovide-macro
+      sei="org.jboss.test.ws.jaxws.jbws2960.AddNumbersImpl"
+      destdir="jaxws/jbws2960"
       jbossHome="${jboss.home}"
+      outputDir="${tests.output.dir}"
       log4jConf="${log4j.conf}"
       loggingDir="${log4j.output.dir}"
-    />
-
-    <wsconsume-macro
-      wsdl="${tests.resources.dir}/jaxws/holder/META-INF/wsdl/HolderService.wsdl"
-      package="org.jboss.test.ws.jaxws.holder"
-      outputDir="${tests.output.dir}"
-      jbossHome="${jboss.home}"
-      log4jConf="${log4j.conf}"
-      loggingDir="${log4j.output.dir}"
+      resourcesDir="jaxws/jbws2960"
     />
 
   </target>
 
-  <macrodef name="wsconsume-macro">
+  <macrodef name="wsprovide-macro">
 
-    <attribute name="wsdl"/>
-    <attribute name="package"/>
-    <attribute name="outputDir"/>
+    <attribute name="sei"/>
+    <attribute name="destDir"/>
     <attribute name="jbossHome"/>
+    <attribute name="outputDir"/>
     <attribute name="log4jConf"/>
     <attribute name="loggingDir"/>
+    <attribute name="resourcesDir"/>
 
     <sequential>
-      <wsconsume
-        wsdl="@{wsdl}"
-        package="@{package}"
-        sourcedestdir="@{outputdir}/wsconsume/java"
-        destdir="@{outputdir}"
-        nocompile="true"
-        keep="true"
-        verbose="false"
-        target="2.2"
+      <wsprovide
+        sei="@{sei}"
         fork="true"
+        genwsdl="true"
+        verbose="true"
+        classpath="@{outputDir}/test-classes"
+        destdir="@{outputDir}/test-classes/@{destDir}"
+        resourcedestdir="@{outputDir}/test-resources/@{resourcesDir}"
       >
         <jvmarg line="-Djava.endorsed.dirs=@{jbossHome}/lib/endorsed"/>
         <jvmarg line="-Dlog4j.configuration=file://@{log4jConf}"/>
         <jvmarg line="-Dlog4j.output.dir=@{loggingDir}"/>
-      </wsconsume>
+      </wsprovide>
     </sequential>
 
   </macrodef>
