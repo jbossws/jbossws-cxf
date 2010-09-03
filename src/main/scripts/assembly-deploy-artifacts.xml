@@ -56,29 +56,20 @@
               <include>org.codehaus.woodstox:wstx-lgpl:jar</include>
             </includes>
           </dependencySet>
-
           <dependencySet>
-	    <outputFileNameMapping>jaxb-api.jar</outputFileNameMapping>
-	    <useStrictFiltering>true</useStrictFiltering>
-	    <includes>
-	      <include>org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.2_spec:jar</include>
-	    </includes>
-	  </dependencySet>
-	  <dependencySet>
-	    <outputFileNameMapping>jaxws-api.jar</outputFileNameMapping>
-	    <useStrictFiltering>true</useStrictFiltering>
-	    <includes>
-	      <include>org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.2_spec:jar</include>
-	    </includes>
-	  </dependencySet>
-	  <dependencySet>
-	    <outputFileNameMapping>saaj-api.jar</outputFileNameMapping>
-	    <useStrictFiltering>true</useStrictFiltering>
-	    <includes>
-	      <include>org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:jar</include>
-	    </includes>
-	  </dependencySet>
-
+            <outputFileNameMapping>jaxb-api.jar</outputFileNameMapping>
+            <useStrictFiltering>true</useStrictFiltering>
+            <includes>
+              <include>org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.2_spec:jar</include>
+            </includes>
+          </dependencySet>
+          <dependencySet>
+            <outputFileNameMapping>jaxws-api.jar</outputFileNameMapping>
+            <useStrictFiltering>true</useStrictFiltering>
+            <includes>
+              <include>org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.2_spec:jar</include>
+            </includes>
+          </dependencySet>
         </dependencySets>
       </binaries>
     </moduleSet>

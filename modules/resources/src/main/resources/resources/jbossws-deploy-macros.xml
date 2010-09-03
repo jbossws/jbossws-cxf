@@ -43,7 +43,6 @@
     <include name="**/jbossws-cxf-transports-httpserver.jar"/>
     <include name="**/jdom.jar"/>
     <include name="**/neethi.jar"/>
-    <include name="**/saaj-api.jar"/>
     <include name="**/stax-api.jar"/>
     <include name="**/velocity.jar"/>
     <include name="**/wsdl4j.jar"/>
@@ -81,7 +80,6 @@
     <include name="**/jbossws-spi.jar"/>
     <include name="**/jdom.jar"/>
     <include name="**/neethi.jar"/>
-    <include name="**/saaj-api.jar"/>
     <include name="**/XmlSchema.jar"/>
     <include name="**/xmlsec.jar"/>
     <include name="**/wsdl4j.jar"/>
