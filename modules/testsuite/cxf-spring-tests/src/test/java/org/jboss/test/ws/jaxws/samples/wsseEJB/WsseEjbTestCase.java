@@ -43,13 +43,12 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Secure EJB endpoint test
- * 
- * 
+ *
  * @author sberyozk@jredhat.com
  */
 public class WsseEjbTestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-samples-wsseEJB/EjbEndpoint";
+   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-samples-wsseEJB/EjbEndpointService/EjbEndpoint";
 
    public static Test suite()
    {
@@ -64,7 +63,6 @@ public class WsseEjbTestCase extends JBossWSTest
       return port;
    }
 
-   
    public void testHello() throws Exception
    {
       EjbEndpoint proxy = getPort();
@@ -77,7 +75,7 @@ public class WsseEjbTestCase extends JBossWSTest
    {
       EjbEndpoint proxy = getPort();
       setupWsse(proxy, "kermit");
-      try 
+      try
       {
           proxy.greetMe();
           fail("Unauthorized exception is expected");
@@ -86,9 +84,6 @@ public class WsseEjbTestCase extends JBossWSTest
       {
           assertEquals("Caller unauthorized", ex.getMessage());
       }
-      
-
-      
    }
 
    private void setupWsse(EjbEndpoint proxy, String username)

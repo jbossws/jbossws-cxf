@@ -39,35 +39,34 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Verifies the Bus is properly configured with Client/Server LifeCycleManager instances
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 08-Aug-2010
- *
  */
 public class ClientServerLifeCycleTestCase extends JBossWSTest
 {
-   private String endpointOneURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3098/EndpointOne";
+   private String endpointOneURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3098/ServiceOne/EndpointOne";
    private String targetNS = "http://org.jboss.ws.jaxws.cxf/jbws3098";
-   
+
    public static Test suite()
    {
       return new JBossWSTestSetup(ClientServerLifeCycleTestCase.class, "jaxws-cxf-jbws3098.jar");
    }
-   
+
    public void testClientLifeCycleManager()
    {
       Bus bus = BusFactory.newInstance().createBus();
       assertNotNull("Cannot find ClientLifeCycleManager impl in current bus", bus.getExtension(ClientLifeCycleManager.class));
       bus.shutdown(true);
    }
-   
+
    public void testServerLifeCycleManager()
    {
       Bus bus = BusFactory.newInstance().createBus();
       assertNotNull("Cannot find ServerLifeCycleManager impl in current bus", bus.getExtension(ServerLifeCycleManager.class));
       bus.shutdown(true);
    }
-   
+
    public void testCustomClientLifeCycleListener() throws Exception
    {
       URL wsdlOneURL = new URL(endpointOneURL + "?wsdl");
@@ -81,7 +80,7 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
       assertEquals(1, listener.getCount());
       assertEquals("Foo", portOne.echo("Foo"));
    }
-   
+
    private class CustomClientLifeCycleListener implements ClientLifeCycleListener
    {
       private volatile int count = 0;
@@ -90,7 +89,7 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
       {
          return count;
       }
-      
+
       @Override
       public void clientCreated(Client client)
       {
@@ -102,6 +101,5 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
       {
          //NOOP
       }
-      
    }
 }

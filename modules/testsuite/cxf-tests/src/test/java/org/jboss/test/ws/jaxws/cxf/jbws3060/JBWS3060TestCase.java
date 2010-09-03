@@ -45,8 +45,8 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS3060TestCase extends JBossWSTest
 {
-   private String endpointOneURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3060/EndpointOne";
-   private String endpointTwoURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3060/EndpointTwo";
+   private String endpointOneURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3060/ServiceOne/EndpointOne";
+   private String endpointTwoURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3060/ServiceTwo/EndpointTwo";
    private String targetNS = "http://org.jboss.ws.jaxws.cxf/jbws3060";
    
    private EndpointOne portOne;

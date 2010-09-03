@@ -39,22 +39,22 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Tests configuration of message exchange logging using API
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 08-Jul-2010
  */
 public class MessageLoggingTestCase extends JBossWSTest
 {
-   private String loggingFeatureEndpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-logging/LoggingFeatureEndpoint";
-   private String loggingInterceptorsEndpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-logging/LoggingInterceptorsEndpoint";
-   
+   private String loggingFeatureEndpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-logging/LoggingFeatureService/LoggingFeatureEndpoint";
+   private String loggingInterceptorsEndpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-logging/LoggingInterceptorsService/LoggingInterceptorsEndpoint";
+
    private LoggingEndpoint port;
 
    public static Test suite()
    {
       return new JBossWSTestSetup(MessageLoggingTestCase.class, "jaxws-cxf-logging.jar");
    }
-   
+
    public void testLoggingFeature() throws Exception
    {
       URL wsdlURL = new URL(loggingFeatureEndpointURL + "?wsdl");
@@ -62,7 +62,7 @@ public class MessageLoggingTestCase extends JBossWSTest
       Service service = Service.create(wsdlURL, serviceName);
       QName portQName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingFeatureEndpointPort");
       port = (LoggingEndpoint)service.getPort(portQName, LoggingEndpoint.class);
-      
+
       //This is actually just a sample, the test does not actually assert the logs are written on server side for the exchanges message
       //The CXF @Feature on the endpoint ensures exchanged messages are written to the server log
       assertEquals("foo", port.echo("foo"));
@@ -82,7 +82,7 @@ public class MessageLoggingTestCase extends JBossWSTest
    {
       URL wsdlURL = new URL(loggingFeatureEndpointURL + "?wsdl");
       QName serviceName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingFeatureService");
-      
+
       Bus bus = BusFactory.newInstance().createBus();
       try
       {
@@ -92,7 +92,7 @@ public class MessageLoggingTestCase extends JBossWSTest
          myLoggingInterceptor.setPrintWriter(new PrintWriter(out, true));
          bus.getInInterceptors().add(myLoggingInterceptor);
          BusFactory.setDefaultBus(bus);
-         
+
          Service service = Service.create(wsdlURL, serviceName);
          QName portQName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingFeatureEndpointPort");
          port = (LoggingEndpoint)service.getPort(portQName, LoggingEndpoint.class);
@@ -106,5 +106,4 @@ public class MessageLoggingTestCase extends JBossWSTest
          bus.shutdown(true);
       }
    }
-   
 }
