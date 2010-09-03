@@ -71,7 +71,7 @@
     <include name="**/cxf-*.jar"/>
     <!-- ws-metadata -->
     <include name="**/jsr181-api.jar"/>
-    <!-- <include name="**/jaxrpc-api.jar"/> -->
+    <include name="**/jaxrpc-api.jar"/>
     <include name="**/jaxws-api.jar"/>
     <include name="**/jbossws-cxf-client*.jar"/>
     <include name="**/jbossws-cxf-server*.jar"/>
