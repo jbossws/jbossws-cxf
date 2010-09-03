@@ -33,7 +33,6 @@
               <include>org.jboss.ws:jbossws-common:jar</include>
               <include>junit:junit:jar</include>
               <include>org.apache.neethi:neethi:jar</include>
-              <include>javax.xml.soap:saaj-api:jar</include>
               <include>org.springframework:spring-beans:jar</include>
               <include>org.springframework:spring-context:jar</include>
               <include>org.springframework:spring-core:jar</include>

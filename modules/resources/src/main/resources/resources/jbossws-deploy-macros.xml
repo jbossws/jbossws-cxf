@@ -43,7 +43,6 @@
     <include name="**/jbossws-spi.jar"/>
     <include name="**/jdom.jar"/>
     <include name="**/neethi.jar"/>
-    <include name="**/saaj-api.jar"/>
     <include name="**/spring-beans.jar"/>
     <include name="**/spring-context.jar"/>
     <include name="**/spring-core.jar"/>
@@ -70,7 +69,6 @@
     <include name="**/jbossws-common.jar"/>
     <include name="**/jbossws-framework.jar"/>
     <include name="**/jbossws-spi.jar"/>
-    <include name="**/saaj-api.jar"/>
   </patternset>
   
   <patternset id="jbossws.service.lib.patternset">
