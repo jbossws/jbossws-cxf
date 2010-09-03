@@ -51,4 +51,6 @@ org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase.*
 
 # [JBWS-3086] This have been merged to AS 600M3 and upstream only
 org/jboss/test/ws/jaxws/samples/jmsendpoints/**
- 
+
+# [JBWS-2957] EJB3 webservices in web archives (fixed on AS 6 series only)
+org/jboss/test/ws/jaxws/jbws2957/**
