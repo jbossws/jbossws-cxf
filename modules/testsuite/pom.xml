@@ -586,6 +586,14 @@
               <groupId>org.jboss.ws.native</groupId>
               <artifactId>jbossws-native-services</artifactId>
             </exclusion>
+            <exclusion>
+              <groupId>jboss.jbossws</groupId>
+              <artifactId>jboss-jaxrpc</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>jboss.jbossws</groupId>
+              <artifactId>jboss-jaxws</artifactId>
+            </exclusion>
             <!-- Exclusions for preventing http://www.slf4j.org/codes.html#multiple_bindings -->
             <exclusion>
               <groupId>org.jboss.slf4j</groupId>
@@ -687,6 +695,14 @@
             <exclusion>
               <groupId>org.jboss.ws.native</groupId>
               <artifactId>jbossws-native-services</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>jboss.jbossws</groupId>
+              <artifactId>jboss-jaxrpc</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>jboss.jbossws</groupId>
+              <artifactId>jboss-jaxws</artifactId>
             </exclusion>
             <!-- Exclusions for preventing http://www.slf4j.org/codes.html#multiple_bindings -->
             <exclusion>
