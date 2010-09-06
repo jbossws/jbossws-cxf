@@ -33,7 +33,6 @@ org/jboss/test/ws/jaxws/jbws1797/**
 org/jboss/test/ws/jaxws/jbws2942/**
 org/jboss/test/ws/jaxws/jbws3022/**
 org/jboss/test/ws/jaxws/jbws3031/**
-org/jboss/test/ws/jaxws/endpointReference/EndpointReferenceBuilderTestCase.*
 org/jboss/test/ws/jaxws/samples/addressing/AddressingStatefulTestCase.*
 
 # [JBWS-2987] Review JMS integration
