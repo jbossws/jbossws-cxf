@@ -40,7 +40,7 @@
   </bean>
 
   <bean name="WSNativeUnifiedMetaDataDeploymentAspect" class="org.jboss.wsf.stack.jbws.UnifiedMetaDataDeploymentAspect">
-    <property name="requires">ContainerMetaData, URLPattern, VFSRoot, JAXBIntros</property>
+    <property name="requires">ContainerMetaData, URLPattern, EndpointAddress, VFSRoot, JAXBIntros</property>
     <property name="provides">UnifiedMetaDataModel</property>
     <property name="forJaxWs">false</property>
   </bean>
