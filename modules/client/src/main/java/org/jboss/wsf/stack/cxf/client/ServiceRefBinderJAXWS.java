@@ -39,6 +39,8 @@ import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.WebServiceRefs;
+import javax.xml.ws.soap.Addressing;
+import javax.xml.ws.soap.AddressingFeature;
 
 import org.jboss.logging.Logger;
 import org.jboss.util.naming.Util;
@@ -65,11 +67,15 @@ public class ServiceRefBinderJAXWS implements ServiceRefBinder
 
       // Build the list of @WebServiceRef relevant annotations
       List<WebServiceRef> wsrefList = new ArrayList<WebServiceRef>();
+      Addressing addressing = null;
 
       if (anElement != null)
       {
          for (Annotation an : anElement.getAnnotations())
          {
+            if (an instanceof Addressing)
+               addressing = (Addressing)an;
+            
             if (an instanceof WebServiceRef)
                wsrefList.add((WebServiceRef)an);
 
@@ -80,6 +86,22 @@ public class ServiceRefBinderJAXWS implements ServiceRefBinder
                   wsrefList.add(aux);
             }
          }
+      }
+
+      if (addressing != null)
+      {
+         if (addressing.enabled())
+            serviceRef.setAddressingEnabled();
+         
+         if (addressing.required())
+            serviceRef.setAddressingRequired();
+         
+         if (addressing.responses() == AddressingFeature.Responses.ANONYMOUS)
+            serviceRef.setAddressingResponses("ANONYMOUS");
+         else if (addressing.responses() == AddressingFeature.Responses.NON_ANONYMOUS)
+            serviceRef.setAddressingResponses("NON_ANONYMOUS");
+         else 
+            serviceRef.setAddressingResponses("ALL");
       }
 
       // Use the single @WebServiceRef
@@ -121,7 +143,7 @@ public class ServiceRefBinderJAXWS implements ServiceRefBinder
       String serviceImplClass = null;
 
       // #1 Use the explicit @WebServiceRef.value
-      if (wsref != null && wsref.value() != Object.class && wsref.value() != Service.class)
+      if (wsref != null && wsref.value() != Service.class)
          serviceImplClass = wsref.value().getName();
 
       // #2 Use the target ref type
