@@ -32,3 +32,5 @@ org/jboss/test/ws/jaxws/jbws1797/**
 # [JBWS-2987] Review JMS integration
 org/jboss/test/ws/jaxws/samples/jmstransport/**
 
+# [JBAS-8403] excluding test until jboss-web.xml override is fixed
+org/jboss/test/ws/jaxws/jbws3123/JBWS3123TestCase.*

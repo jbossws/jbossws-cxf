@@ -53,3 +53,6 @@ org/jboss/test/ws/jaxws/samples/jmsendpoints/**
 
 # [JBWS-2957] EJB3 webservices in web archives (fixed on AS 6 series only)
 org/jboss/test/ws/jaxws/jbws2957/**
+
+# [JBAS-8403] excluding test until jboss-web.xml override is fixed
+org/jboss/test/ws/jaxws/jbws3123/JBWS3123TestCase.*
