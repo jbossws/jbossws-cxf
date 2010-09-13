@@ -29,6 +29,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.Name;
@@ -37,9 +39,11 @@ import javax.naming.RefAddr;
 import javax.naming.Reference;
 import javax.naming.spi.ObjectFactory;
 import javax.xml.namespace.QName;
+import javax.xml.ws.RespectBindingFeature;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.soap.AddressingFeature;
+import javax.xml.ws.soap.MTOMFeature;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
@@ -138,13 +142,10 @@ public class ServiceObjectFactory implements ObjectFactory
          if (Service.class.isAssignableFrom(serviceClass) == false)
             throw new IllegalArgumentException("WebServiceRef type '" + serviceClass + "' is not assignable to javax.xml.ws.Service");
 
-         // Receives either a javax.xml.ws.Service or a dynamic proxy
-         Object target;
-
-         // configure addressing
-         AddressingFeature addressingFeature = null;
+         List<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
+         
+         // configure @Addressing feature
          if (serviceRef.isAddressingEnabled()) {
-            final boolean enabled = serviceRef.isAddressingEnabled();
             final boolean required = serviceRef.isAddressingRequired();
             final String refResponses = serviceRef.getAddressingResponses();
             AddressingFeature.Responses responses = AddressingFeature.Responses.ALL;
@@ -152,19 +153,31 @@ public class ServiceObjectFactory implements ObjectFactory
                responses = AddressingFeature.Responses.ANONYMOUS;
             if ("NON_ANONYMOUS".equals(refResponses))
                responses = AddressingFeature.Responses.NON_ANONYMOUS;
-            addressingFeature = new AddressingFeature(enabled, required, responses);
+            
+            features.add(new AddressingFeature(true, required, responses));
          }
 
-         // Get the URL to the wsdl
-         URL wsdlURL = serviceRef.getWsdlLocation();
+         // configure @MTOM feature
+         if (serviceRef.isMtomEnabled()) {
+            features.add(new MTOMFeature(true, serviceRef.getMtomThreshold()));
+         }
 
+         // configure @RespectBinding feature
+         if (serviceRef.isRespectBindingEnabled()) {
+            features.add(new RespectBindingFeature(true));
+         }
+
+         // Receives either a javax.xml.ws.Service or a dynamic proxy
+         Object target;
+         URL wsdlURL = serviceRef.getWsdlLocation();
+         WebServiceFeature[] wsFeatures = features.size() == 0 ? null : features.toArray(new WebServiceFeature[] {});
          // Generic javax.xml.ws.Service
          if (serviceClass == Service.class)
          {
             if (wsdlURL != null)
             {
-               if (addressingFeature != null) {
-                  target = Service.create(wsdlURL, serviceQName, new WebServiceFeature[] { addressingFeature });
+               if (wsFeatures != null) {
+                  target = Service.create(wsdlURL, serviceQName, wsFeatures);
                } else {
                   target = Service.create(wsdlURL, serviceQName);
                }
@@ -179,9 +192,9 @@ public class ServiceObjectFactory implements ObjectFactory
          {
             if (wsdlURL != null)
             {
-               if (addressingFeature != null) {
+               if (wsFeatures != null) {
                   Constructor ctor = serviceClass.getConstructor(new Class[] { URL.class, QName.class, WebServiceFeature[].class });
-                  target = ctor.newInstance(new Object[] { wsdlURL, serviceQName, new WebServiceFeature[] { addressingFeature } });
+                  target = ctor.newInstance(new Object[] { wsdlURL, serviceQName, wsFeatures });
                } else {
                   Constructor ctor = serviceClass.getConstructor(new Class[] { URL.class, QName.class });
                   target = ctor.newInstance(new Object[] { wsdlURL, serviceQName });
@@ -189,9 +202,9 @@ public class ServiceObjectFactory implements ObjectFactory
             }
             else
             {
-               if (addressingFeature != null) {
+               if (wsFeatures != null) {
                   Constructor ctor = serviceClass.getConstructor(new Class[] { WebServiceFeature[].class });
-                  target = ctor.newInstance(new Object[] { new WebServiceFeature[] { addressingFeature } });
+                  target = ctor.newInstance(new Object[] { wsFeatures });
                } else {
                   target = (Service)serviceClass.newInstance();
                }

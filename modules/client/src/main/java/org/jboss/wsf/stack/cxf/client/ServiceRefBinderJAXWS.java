@@ -35,12 +35,14 @@ import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.Referenceable;
 import javax.xml.namespace.QName;
+import javax.xml.ws.RespectBinding;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.WebServiceRefs;
 import javax.xml.ws.soap.Addressing;
 import javax.xml.ws.soap.AddressingFeature;
+import javax.xml.ws.soap.MTOM;
 
 import org.jboss.logging.Logger;
 import org.jboss.util.naming.Util;
@@ -67,17 +69,33 @@ public class ServiceRefBinderJAXWS implements ServiceRefBinder
 
       // Build the list of @WebServiceRef relevant annotations
       List<WebServiceRef> wsrefList = new ArrayList<WebServiceRef>();
-      Addressing addressing = null;
+      Addressing addressingAnnotation = null;
+      MTOM mtomAnnotation = null;
+      RespectBinding respectBindingAnnotation = null;
 
       if (anElement != null)
       {
          for (Annotation an : anElement.getAnnotations())
          {
-            if (an instanceof Addressing)
-               addressing = (Addressing)an;
+            if (an instanceof Addressing) {
+               addressingAnnotation = (Addressing)an;
+               continue;
+            }
             
-            if (an instanceof WebServiceRef)
+            if (an instanceof MTOM) {
+               mtomAnnotation = (MTOM)an;
+               continue;
+            }
+            
+            if (an instanceof RespectBinding) {
+               respectBindingAnnotation = (RespectBinding)an;
+               continue;
+            }
+            
+            if (an instanceof WebServiceRef) {
                wsrefList.add((WebServiceRef)an);
+               continue;
+            }
 
             if (an instanceof WebServiceRefs)
             {
@@ -88,20 +106,29 @@ public class ServiceRefBinderJAXWS implements ServiceRefBinder
          }
       }
 
-      if (addressing != null)
+      if (addressingAnnotation != null)
       {
-         if (addressing.enabled())
+         if (addressingAnnotation.enabled())
             serviceRef.setAddressingEnabled();
          
-         if (addressing.required())
+         if (addressingAnnotation.required())
             serviceRef.setAddressingRequired();
          
-         if (addressing.responses() == AddressingFeature.Responses.ANONYMOUS)
+         if (addressingAnnotation.responses() == AddressingFeature.Responses.ANONYMOUS)
             serviceRef.setAddressingResponses("ANONYMOUS");
-         else if (addressing.responses() == AddressingFeature.Responses.NON_ANONYMOUS)
+         else if (addressingAnnotation.responses() == AddressingFeature.Responses.NON_ANONYMOUS)
             serviceRef.setAddressingResponses("NON_ANONYMOUS");
          else 
             serviceRef.setAddressingResponses("ALL");
+      }
+      
+      if ((mtomAnnotation != null) && mtomAnnotation.enabled()) {
+         serviceRef.setMtomEnabled();
+         serviceRef.setMtomThreshold(mtomAnnotation.threshold());
+      }
+
+      if ((respectBindingAnnotation != null) && respectBindingAnnotation.enabled()) {
+         serviceRef.setRespectBindingEnabled();
       }
 
       // Use the single @WebServiceRef
