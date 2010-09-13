@@ -37,6 +37,7 @@ import javax.naming.InitialContext;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
 import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSTest;
@@ -109,6 +110,8 @@ public class JMSEndpointsTestCase extends JBossWSTest
 
       TextMessage message = session.createTextMessage(reqMessage);
       message.setJMSReplyTo(resQueue);
+      message.setStringProperty(JMSSpecConstants.CONTENTTYPE_FIELD, "text/xml");
+      message.setStringProperty(JMSSpecConstants.REQUESTURI_FIELD, "/foo");
 
       waitForResponse = true;
 
