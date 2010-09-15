@@ -30,6 +30,13 @@
       </classes>
     </war>
   	
+    <!-- jaxws-cxf-gzip -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-gzip.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/gzip/HelloWorld*.class"/>
+      </fileset>
+    </jar>
+
     <!-- jaxws-cxf-jaxbintros -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jaxbintros.jar">
       <fileset dir="${tests.output.dir}/test-classes">
