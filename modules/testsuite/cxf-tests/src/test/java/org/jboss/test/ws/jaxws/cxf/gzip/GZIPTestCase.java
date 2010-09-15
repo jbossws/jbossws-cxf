@@ -25,6 +25,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -38,6 +40,10 @@ import org.apache.cxf.bus.CXFBusImpl;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.helpers.CastUtils;
+import org.apache.cxf.helpers.HttpHeaderHelper;
+import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.message.Message;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transport.http.gzip.GZIPFeature;
 import org.apache.cxf.transport.http.gzip.GZIPInInterceptor;
@@ -102,7 +108,7 @@ public class GZIPTestCase extends JBossWSTest
       //enable Accept gzip, otherwise the server will not try to reply using gzip
       policy.setAcceptEncoding("gzip;q=1.0, identity; q=0.5, *;q=0");
       //add interceptor for decoding gzip message
-      client.getInInterceptors().add(new GZIPInInterceptor());
+      client.getInInterceptors().add(new GZIPEnforcingInInterceptor());
       assertEquals("foo", port.echo("foo"));
    }
    
@@ -135,7 +141,7 @@ public class GZIPTestCase extends JBossWSTest
          outInterceptor.setThreshold(1024*1024); // 1MB -> no gzip on request
          bus.getOutInterceptors().add(outInterceptor);
          //add interceptor for decoding gzip message
-         bus.getInInterceptors().add(new GZIPInInterceptor());
+         bus.getInInterceptors().add(new GZIPEnforcingInInterceptor());
          BusFactory.setDefaultBus(bus);
          HelloWorld port = getPort();
          assertEquals("foo", port.echo("foo"));
@@ -185,5 +191,28 @@ public class GZIPTestCase extends JBossWSTest
       }
       return port;
    }
-
+   
+   /**
+    * A test extension of the GZIPInInterceptor that requires all received messages to be gzip encoded
+    *
+    */
+   private class GZIPEnforcingInInterceptor extends GZIPInInterceptor
+   {
+      @Override
+      public void handleMessage(Message message) throws Fault
+      {
+         Map<String, List<String>> protocolHeaders = CastUtils.cast((Map<?, ?>) message.get(Message.PROTOCOL_HEADERS));
+         if (protocolHeaders != null)
+         {
+            List<String> contentEncoding = HttpHeaderHelper.getHeader(protocolHeaders,
+                  HttpHeaderHelper.CONTENT_ENCODING);
+            if (contentEncoding != null && (contentEncoding.contains("gzip") || contentEncoding.contains("x-gzip")))
+            {
+               super.handleMessage(message);
+               return;
+            }
+         }
+         throw new RuntimeException("Content-Encoding gzip not found!");
+      }
+   }
 }
