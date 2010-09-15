@@ -27,12 +27,12 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.WebServiceContext;
 
-import org.apache.cxf.feature.Features;
+import org.apache.cxf.annotations.Logging;
 import org.jboss.logging.Logger;
 
 @WebService(name = "LoggingFeatureEndpoint", targetNamespace = "http://logging.cxf.jaxws.ws.test.jboss.org/", serviceName = "LoggingFeatureService")
 @Stateless
-@Features(features = "org.apache.cxf.feature.LoggingFeature")
+@Logging
 public class LoggingFeatureEndpointImpl
 {
    @Resource
