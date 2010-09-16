@@ -24,6 +24,7 @@ package org.jboss.wsf.stack.cxf.configuration;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.SOAPBinding;
 
 import org.apache.cxf.binding.soap.SoapTransportFactory;
@@ -99,6 +100,7 @@ public class NonSpringBusHolder extends BusHolder
          endpoint.setEndpointName(dde.getPortName());
          endpoint.setServiceName(dde.getServiceName());
          endpoint.setWsdlLocation(dde.getWsdlLocation());
+         setHandlers(endpoint, dde.getHandlers());
          endpoint.publish();
          endpoints.add(endpoint);
          if (dde.isMtomEnabled())
@@ -108,6 +110,20 @@ public class NonSpringBusHolder extends BusHolder
          }
       }
       configured = true;
+   }
+   
+   @SuppressWarnings("rawtypes")
+   private static void setHandlers(EndpointImpl endpoint, List<String> handlers)
+   {
+      if (handlers != null && !handlers.isEmpty())
+      {
+         List<Handler> handlerInstances = new LinkedList<Handler>();
+         for (String handler : handlers)
+         {
+            handlerInstances.add((Handler)newInstance(handler));
+         }
+         endpoint.setHandlers(handlerInstances);
+      }
    }
    
    @Override

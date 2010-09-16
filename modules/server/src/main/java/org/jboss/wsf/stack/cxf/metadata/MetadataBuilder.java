@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.metadata;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -35,8 +37,11 @@ import org.jboss.logging.Logger;
 import org.jboss.wsf.common.JavaUtils;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
+import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
 import org.jboss.wsf.spi.metadata.webservices.PortComponentMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebserviceDescriptionMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebservicesFactory;
@@ -136,7 +141,31 @@ public class MetadataBuilder
                      endpoint.setServiceName(portComp.getWsdlService());
                   }
                   
-                  //TODO implement handler chain override
+                  //HandlerChain contributions
+                  UnifiedHandlerChainsMetaData chainWrapper = portComp.getHandlerChains();
+                  if (chainWrapper != null)
+                  {
+                     List<String> handlers = new LinkedList<String>();
+                     for (UnifiedHandlerChainMetaData handlerChain : chainWrapper.getHandlerChains())
+                     {
+                        if (handlerChain.getPortNamePattern() != null || handlerChain.getProtocolBindings() != null
+                              || handlerChain.getServiceNamePattern() != null)
+                        {
+                           log.warn("PortNamePattern, ServiceNamePattern and ProtocolBindings filters not supported; adding handlers anyway.");
+                        }
+                        for (UnifiedHandlerMetaData uhmd : handlerChain.getHandlers())
+                        {
+                           if (log.isDebugEnabled())
+                              log.debug("Contribute handler from webservices.xml: " + uhmd.getHandlerName());
+                           if (uhmd.getInitParams() != null && !uhmd.getInitParams().isEmpty())
+                           {
+                              log.warn("Init params not supported.");
+                           }
+                           handlers.add(uhmd.getHandlerClass());
+                        }
+                     }
+                     endpoint.setHandlers(handlers);
+                  }
 
                   // MTOM settings
                   if (portComp.isEnableMtom())

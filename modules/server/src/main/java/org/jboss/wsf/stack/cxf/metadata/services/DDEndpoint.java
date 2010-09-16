@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf.metadata.services;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -48,6 +49,8 @@ public class DDEndpoint
    private String wsdlLocation;
    private QName portName;
    private QName serviceName;
+   
+   private List<String> handlers;
    
    //additional fields
    private Class<?> epClass;
@@ -128,6 +131,11 @@ public class DDEndpoint
    {
       return invoker;
    }
+   
+   public List<String> getHandlers()
+   {
+      return handlers;
+   }
 
    public boolean isMtomEnabled()
    {
@@ -137,6 +145,11 @@ public class DDEndpoint
    public void setInvoker(String invoker)
    {
       this.invoker = invoker;
+   }
+   
+   public void setHandlers(List<String> handlers)
+   {
+      this.handlers = handlers;
    }
 
    public void setMtomEnabled(boolean mtomEnabled)
@@ -173,6 +186,16 @@ public class DDEndpoint
       if (this.invoker != null)
       {
          writer.write("<jaxws:invoker><bean class='" + this.invoker + "'/></jaxws:invoker>");
+      }
+      
+      if (this.handlers != null && !this.handlers.isEmpty())
+      {
+         writer.write("<jaxws:handlers>");
+         for (String handler : this.handlers)
+         {
+            writer.write("<bean class='" + handler + "'/>");
+         }
+         writer.write("</jaxws:handlers>");
       }
 
       writer.write("</jaxws:endpoint>");
