@@ -1,9 +1,6 @@
 # UsernameTestCase requires trustore in jboss-web tomcat configuration
 org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*
 
-# [CXF-1517] HTTP bindings for Provider
-org/jboss/test/ws/jaxws/jbws1807/**
-
 # [CXF-1519] Explicitly set the namespace of a WebFault
 org/jboss/test/ws/jaxws/jbws1904/**
 
