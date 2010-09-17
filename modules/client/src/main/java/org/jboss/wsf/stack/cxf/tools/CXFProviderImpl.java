@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.tools;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.PrintStream;
 import java.net.URL;
@@ -28,9 +29,10 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.cxf.tools.java2ws.JavaToWS;
 import org.jboss.ws.tools.io.NullPrintStream;
-import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.spi.tools.WSContractProvider;
 import org.w3c.dom.Element;
 
@@ -253,7 +255,7 @@ public class CXFProviderImpl extends WSContractProvider
          +    "</log4j:configuration>";
       try
       {
-         Element element = DOMUtils.parse(xmlConfig);
+         Element element = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(xmlConfig.getBytes("UTF-8"))).getDocumentElement();
          org.apache.log4j.xml.DOMConfigurator.configure(element);
       }
       catch (Exception e)
