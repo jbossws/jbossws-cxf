@@ -185,8 +185,8 @@
     http://jira.codehaus.org/browse/MASSEMBLY-317
     -->
     <dependency>
-      <groupId>javax.xml</groupId>
-      <artifactId>jaxrpc-api</artifactId>
+      <groupId>org.jboss.spec.javax.xml.rpc</groupId>
+      <artifactId>jboss-jaxrpc-api_1.1_spec</artifactId>
     </dependency>
     
     <dependency>

@@ -71,7 +71,7 @@
     <jaxws-httpserver-httpspi.version>1.0.0-SNAPSHOT</jaxws-httpserver-httpspi.version>
     <jaxb.api.version>1.0.0.Beta1</jaxb.api.version>
     <jaxb.impl.version>2.2</jaxb.impl.version>
-    <jaxrpc.api.version>1.1</jaxrpc.api.version>
+    <jaxrpc.api.version>1.0.0.Beta1</jaxrpc.api.version>
     <jaxws.api.version>1.0.0.Beta1</jaxws.api.version>
     <jboss.jaxr.version>2.0.1</jboss.jaxr.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
@@ -937,8 +937,8 @@
       </dependency>
 
       <dependency>
-        <groupId>javax.xml</groupId>
-        <artifactId>jaxrpc-api</artifactId>
+        <groupId>org.jboss.spec.javax.xml.rpc</groupId>
+        <artifactId>jboss-jaxrpc-api_1.1_spec</artifactId>
         <version>${jaxrpc.api.version}</version>
       </dependency>
       <dependency>
