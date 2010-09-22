@@ -211,7 +211,8 @@ public class CXFConsumerImpl extends WSContractConsumer
       // Always set the target
       if (target != null)
       {
-         stream.println("WSConsume (CXF) does not allow to setup the JAX-WS specification target, using JAX-WS 2.1.");
+         stream.println("WSConsume (CXF) does not allow to setup the JAX-WS specification target, using the currently " +
+         		"configured JAX-WS version (check your JVM version and/or endorsed libs)");
       }
       
       //Always generate wrapped style for reference element:CXF-1079
