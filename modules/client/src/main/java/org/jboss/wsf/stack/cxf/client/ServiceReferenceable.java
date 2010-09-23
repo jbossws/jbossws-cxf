@@ -86,4 +86,13 @@ public class ServiceReferenceable implements Referenceable
       }
       return baos.toByteArray();
    }
+   
+   public String toString() {
+      final StringBuilder sb = new StringBuilder();
+      sb.append("\n").append(getClass().getName());
+      sb.append("\n serviceImplClass=" + serviceImplClass);
+      sb.append("\n targetClassName=" + targetClassName);
+      sb.append("\n serviceRef=" + this.serviceRef);
+      return sb.toString();
+   }
 }

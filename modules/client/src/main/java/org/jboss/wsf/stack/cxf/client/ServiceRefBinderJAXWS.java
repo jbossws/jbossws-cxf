@@ -106,31 +106,6 @@ public class ServiceRefBinderJAXWS implements ServiceRefBinder
          }
       }
 
-      if (addressingAnnotation != null)
-      {
-         if (addressingAnnotation.enabled())
-            serviceRef.setAddressingEnabled();
-         
-         if (addressingAnnotation.required())
-            serviceRef.setAddressingRequired();
-         
-         if (addressingAnnotation.responses() == AddressingFeature.Responses.ANONYMOUS)
-            serviceRef.setAddressingResponses("ANONYMOUS");
-         else if (addressingAnnotation.responses() == AddressingFeature.Responses.NON_ANONYMOUS)
-            serviceRef.setAddressingResponses("NON_ANONYMOUS");
-         else 
-            serviceRef.setAddressingResponses("ALL");
-      }
-      
-      if ((mtomAnnotation != null) && mtomAnnotation.enabled()) {
-         serviceRef.setMtomEnabled();
-         serviceRef.setMtomThreshold(mtomAnnotation.threshold());
-      }
-
-      if ((respectBindingAnnotation != null) && respectBindingAnnotation.enabled()) {
-         serviceRef.setRespectBindingEnabled();
-      }
-
       // Use the single @WebServiceRef
       if (wsrefList.size() == 1)
       {
@@ -250,6 +225,22 @@ public class ServiceRefBinderJAXWS implements ServiceRefBinder
          {
             WSFException.rethrow("Cannot extract service QName for target service", e);
          }
+      }
+
+      if (addressingAnnotation != null)
+      {
+         serviceRef.setAddressingEnabled(addressingAnnotation.enabled());
+         serviceRef.setAddressingRequired(addressingAnnotation.required());
+         serviceRef.setAddressingResponses(addressingAnnotation.responses().toString());
+      }
+      
+      if (mtomAnnotation != null) {
+         serviceRef.setMtomEnabled(mtomAnnotation.enabled());
+         serviceRef.setMtomThreshold(mtomAnnotation.threshold());
+      }
+
+      if (respectBindingAnnotation != null) {
+         serviceRef.setRespectBindingEnabled(respectBindingAnnotation.enabled());
       }
 
       // Do not use rebind, the binding should be unique

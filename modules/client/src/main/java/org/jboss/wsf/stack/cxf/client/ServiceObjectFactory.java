@@ -28,6 +28,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,12 +53,13 @@ import org.apache.cxf.configuration.Configurer;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedPortComponentRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 
 /**
  * This ServiceObjectFactory reconstructs a javax.xml.ws.Service
- * for a given WSDL when the webservice client does a JNDI lookup
+ * for a given WSDL when the webservice client does a JNDI lookup.
  *
  * @see ServiceReferenceable
  *
@@ -89,185 +91,358 @@ public class ServiceObjectFactory implements ObjectFactory
     * @see javax.naming.spi.NamingManager#getObjectInstance
     * @see javax.naming.spi.NamingManager#getURLContext
     */
-   @SuppressWarnings(value="unchecked")
-   public Object getObjectInstance(Object obj, Name name, Context nameCtx, Hashtable environment) throws Exception
+   @SuppressWarnings(value = "unchecked")
+   public Object getObjectInstance(final Object obj, final Name name, final Context nameCtx, final Hashtable environment)
+         throws Exception
    {
       try
       {
-         Reference ref = (Reference)obj;
-
-         // Get the target class name
-         String targetClassName = (String)ref.get(ServiceReferenceable.TARGET_CLASS_NAME).getContent();
-
-         // Unmarshall the UnifiedServiceRef
-         UnifiedServiceRefMetaData serviceRef = unmarshallServiceRef(ref);
-         
-         Bus bus;
-         //Reset bus before constructing Service
-         BusFactory.setDefaultBus(null);
-         URL cxfConfig = getCXFConfiguration(serviceRef.getVfsRoot());
-         if (cxfConfig != null)
+         // references
+         final Reference ref = (Reference) obj;
+         final UnifiedServiceRefMetaData serviceRef = unmarshallServiceRef(ref);
+         // class names
+         final String serviceImplClass = this.getServiceClassName(ref, serviceRef);
+         final String targetClassName = this.getTargetClassName(ref, serviceRef, serviceImplClass);
+         // class instances
+         final Class<?> serviceClass = this.getClass(serviceImplClass);
+         final Class<?> targetClass = this.getClass(targetClassName);
+         // construct service
+         final Bus bus = this.getBus(serviceRef);
+         final Service serviceInstance = this.instantiateService(serviceRef, serviceClass);
+         if (serviceRef.getHandlerChain() != null)
          {
-            SpringBusFactory busFactory = new JBossWSSpringBusFactory();
-            bus = busFactory.createBus(cxfConfig);
-            BusFactory.setThreadDefaultBus(bus);
+            serviceInstance.setHandlerResolver(new HandlerResolverImpl(bus, serviceRef.getHandlerChain(),
+                  serviceInstance.getClass()));
          }
-         else
+         // construct port
+         final boolean instantiatePort = targetClassName != null && !targetClassName.equals(serviceImplClass);
+         if (instantiatePort)
          {
-            bus = BusFactory.getThreadDefaultBus();
+            final QName portQName = this.getPortQName(targetClassName, serviceImplClass, serviceRef);
+            final WebServiceFeature[] portFeatures = this.getFeatures(targetClassName, serviceImplClass, serviceRef);
+
+            return instantiatePort(serviceClass, targetClass, serviceInstance, portQName, portFeatures);
          }
 
-         //Add extension to configure stub properties using the UnifiedServiceRefMetaData 
-         Configurer configurer = bus.getExtension(Configurer.class);
-         bus.setExtension(new ServiceRefStubPropertyConfigurer(serviceRef, configurer), Configurer.class);
-         
-         String serviceRefName = serviceRef.getServiceRefName();
-         QName serviceQName = serviceRef.getServiceQName();
-
-         String serviceImplClass = serviceRef.getServiceImplClass();
-         if (serviceImplClass == null)
-            serviceImplClass = (String)ref.get(ServiceReferenceable.SERVICE_IMPL_CLASS).getContent();
-
-         // If the target defaults to javax.xml.ws.Service, use the service as the target
-         if (Service.class.getName().equals(targetClassName))
-            targetClassName = serviceImplClass;
-
-         log.debug("getObjectInstance [name=" + serviceRefName + ",service=" + serviceImplClass + ",target=" + targetClassName + "]");
-
-         // Load the service class
-         ClassLoader ctxLoader = Thread.currentThread().getContextClassLoader();
-         Class serviceClass = ctxLoader.loadClass(serviceImplClass);
-         Class targetClass = (targetClassName != null ? ctxLoader.loadClass(targetClassName) : null);
-
-         if (Service.class.isAssignableFrom(serviceClass) == false)
-            throw new IllegalArgumentException("WebServiceRef type '" + serviceClass + "' is not assignable to javax.xml.ws.Service");
-
-         List<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
-         
-         // configure @Addressing feature
-         if (serviceRef.isAddressingEnabled()) {
-            final boolean required = serviceRef.isAddressingRequired();
-            final String refResponses = serviceRef.getAddressingResponses();
-            AddressingFeature.Responses responses = AddressingFeature.Responses.ALL;
-            if ("ANONYMOUS".equals(refResponses))
-               responses = AddressingFeature.Responses.ANONYMOUS;
-            if ("NON_ANONYMOUS".equals(refResponses))
-               responses = AddressingFeature.Responses.NON_ANONYMOUS;
-            
-            features.add(new AddressingFeature(true, required, responses));
-         }
-
-         // configure @MTOM feature
-         if (serviceRef.isMtomEnabled()) {
-            features.add(new MTOMFeature(true, serviceRef.getMtomThreshold()));
-         }
-
-         // configure @RespectBinding feature
-         if (serviceRef.isRespectBindingEnabled()) {
-            features.add(new RespectBindingFeature(true));
-         }
-
-         // Receives either a javax.xml.ws.Service or a dynamic proxy
-         Object target;
-         URL wsdlURL = serviceRef.getWsdlLocation();
-         WebServiceFeature[] wsFeatures = features.size() == 0 ? null : features.toArray(new WebServiceFeature[] {});
-         // Generic javax.xml.ws.Service
-         if (serviceClass == Service.class)
-         {
-            if (wsdlURL != null)
-            {
-               if (wsFeatures != null) {
-                  target = Service.create(wsdlURL, serviceQName, wsFeatures);
-               } else {
-                  target = Service.create(wsdlURL, serviceQName);
-               }
-            }
-            else
-            {
-               throw new IllegalArgumentException("Cannot create generic javax.xml.ws.Service without wsdlLocation: " + serviceRefName);
-            }
-         }
-         // Generated javax.xml.ws.Service subclass
-         else
-         {
-            if (wsdlURL != null)
-            {
-               if (wsFeatures != null) {
-                  Constructor ctor = serviceClass.getConstructor(new Class[] { URL.class, QName.class, WebServiceFeature[].class });
-                  target = ctor.newInstance(new Object[] { wsdlURL, serviceQName, wsFeatures });
-               } else {
-                  Constructor ctor = serviceClass.getConstructor(new Class[] { URL.class, QName.class });
-                  target = ctor.newInstance(new Object[] { wsdlURL, serviceQName });
-               }
-            }
-            else
-            {
-               if (wsFeatures != null) {
-                  Constructor ctor = serviceClass.getConstructor(new Class[] { WebServiceFeature[].class });
-                  target = ctor.newInstance(new Object[] { wsFeatures });
-               } else {
-                  target = (Service)serviceClass.newInstance();
-               }
-            }
-         }
-
-         if (targetClassName != null && targetClassName.equals(serviceImplClass) == false)
-         {
-            try
-            {
-               Object port = null;
-               if (serviceClass != Service.class)
-               {
-                  for (Method method : serviceClass.getDeclaredMethods())
-                  {
-                     String methodName = method.getName();
-                     Class retType = method.getReturnType();
-                     if (methodName.startsWith("get") && targetClass.isAssignableFrom(retType))
-                     {
-                        port = method.invoke(target, new Object[0]);
-                        target = port;
-                        break;
-                     }
-                  }
-               }
-
-               if (port == null)
-               {
-                  Method method = serviceClass.getMethod("getPort", new Class[] { Class.class });
-                  port = method.invoke(target, new Object[] { targetClass });
-                  target = port;
-               }
-            }
-            catch (InvocationTargetException ex)
-            {
-               throw ex.getTargetException();
-            }
-         }
-
-         if ((serviceRef.getHandlerChain() != null) && (target instanceof Service))
-         {
-            ((Service)target).setHandlerResolver(new HandlerResolverImpl(bus, serviceRef.getHandlerChain(), target.getClass()));
-         }
-         
-         
-         return target;
+         return serviceInstance;
       }
-      catch (Throwable ex)
+      catch (Exception ex)
       {
          WSFException.rethrow("Cannot create service", ex);
-         return null;
       }
+
+      return null;
    }
-   
-   private UnifiedServiceRefMetaData unmarshallServiceRef(Reference ref) throws ClassNotFoundException, NamingException
+
+   private Class<?> getClass(final String className) throws ClassNotFoundException
    {
-      UnifiedServiceRefMetaData sref;
-      RefAddr refAddr = ref.get(ServiceReferenceable.SERVICE_REF_META_DATA);
-      ByteArrayInputStream bais = new ByteArrayInputStream((byte[])refAddr.getContent());
+      if (className != null)
+      {
+         return Thread.currentThread().getContextClassLoader().loadClass(className);
+      }
+
+      return null;
+   }
+
+   private Bus getBus(final UnifiedServiceRefMetaData serviceRefMD)
+   {
+      final Bus bus;
+      // Always reset bus before constructing Service
+      BusFactory.setDefaultBus(null);
+
+      final URL cxfConfig = this.getCXFConfiguration(serviceRefMD.getVfsRoot());
+      if (cxfConfig != null)
+      {
+         final SpringBusFactory busFactory = new JBossWSSpringBusFactory();
+         bus = busFactory.createBus(cxfConfig);
+         BusFactory.setThreadDefaultBus(bus);
+      }
+      else
+      {
+         bus = BusFactory.getThreadDefaultBus();
+      }
+
+      //Add extension to configure stub properties using the UnifiedServiceRefMetaData 
+      Configurer configurer = bus.getExtension(Configurer.class);
+      bus.setExtension(new ServiceRefStubPropertyConfigurer(serviceRefMD, configurer), Configurer.class);
+
+      return bus;
+   }
+
+   private String getServiceClassName(final Reference ref, final UnifiedServiceRefMetaData serviceRefMD)
+   {
+      String serviceClassName = serviceRefMD.getServiceImplClass();
+      if (serviceClassName == null)
+         serviceClassName = (String) ref.get(ServiceReferenceable.SERVICE_IMPL_CLASS).getContent();
+
+      return serviceClassName;
+   }
+
+   private String getTargetClassName(final Reference ref, final UnifiedServiceRefMetaData serviceRefMD,
+         final String serviceImplClass)
+   {
+      String targetClassName = serviceRefMD.getServiceRefType();
+      if (targetClassName == null)
+         targetClassName = (String) ref.get(ServiceReferenceable.TARGET_CLASS_NAME).getContent();
+
+      if (Service.class.getName().equals(targetClassName))
+         targetClassName = serviceImplClass;
+
+      return targetClassName;
+   }
+
+   private Object instantiatePort(final Class<?> serviceClass, final Class<?> targetClass, final Service target,
+         final QName portQName, final WebServiceFeature[] features) throws NoSuchMethodException,
+         InstantiationException, IllegalAccessException, InvocationTargetException
+   {
+      Object retVal = null;
+
+      Object port = null;
+      if (serviceClass != Service.class)
+      {
+         for (Method method : serviceClass.getDeclaredMethods())
+         {
+            String methodName = method.getName();
+            Class<?> retType = method.getReturnType();
+            if (methodName.startsWith("get") && targetClass.isAssignableFrom(retType))
+            {
+               port = method.invoke(target, new Object[0]);
+               retVal = port;
+               break;
+            }
+         }
+      }
+
+      if (port == null)
+      {
+         Method method = getMethodFor(portQName, features, serviceClass);
+         Object[] args = getArgumentsFor(portQName, features, targetClass);
+         port = method.invoke(target, args);
+         retVal = port;
+      }
+
+      return retVal;
+   }
+
+   private Service instantiateService(final UnifiedServiceRefMetaData serviceRefMD, final Class<?> serviceClass)
+         throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
+   {
+      final WebServiceFeature[] features = getFeatures(serviceRefMD);
+      final URL wsdlURL = serviceRefMD.getWsdlLocation();
+      final QName serviceQName = serviceRefMD.getServiceQName();
+
+      Service target = null;
+      if (serviceClass == Service.class)
+      {
+         // Generic javax.xml.ws.Service
+         if (wsdlURL != null)
+         {
+            if (features != null)
+            {
+               target = Service.create(wsdlURL, serviceQName, features);
+            }
+            else
+            {
+               target = Service.create(wsdlURL, serviceQName);
+            }
+         }
+         else
+         {
+            throw new IllegalArgumentException("Cannot create generic javax.xml.ws.Service without wsdlLocation: "
+                  + serviceRefMD);
+         }
+      }
+      else
+      {
+         // Generated javax.xml.ws.Service subclass
+         if (wsdlURL != null)
+         {
+            if (features != null)
+            {
+               Constructor<?> ctor = serviceClass.getConstructor(new Class[]
+               {URL.class, QName.class, WebServiceFeature[].class});
+               target = (Service) ctor.newInstance(new Object[]
+               {wsdlURL, serviceQName, features});
+            }
+            else
+            {
+               Constructor<?> ctor = serviceClass.getConstructor(new Class[]
+               {URL.class, QName.class});
+               target = (Service) ctor.newInstance(new Object[]
+               {wsdlURL, serviceQName});
+            }
+         }
+         else
+         {
+            if (features != null)
+            {
+               Constructor<?> ctor = serviceClass.getConstructor(new Class[]
+               {WebServiceFeature[].class});
+               target = (Service) ctor.newInstance(new Object[]
+               {features});
+            }
+            else
+            {
+               target = (Service) serviceClass.newInstance();
+            }
+         }
+      }
+
+      return target;
+   }
+
+   private WebServiceFeature[] getFeatures(final String targetClassName, final String serviceClassName,
+         final UnifiedServiceRefMetaData serviceRefMD)
+   {
+      if (targetClassName != null && !targetClassName.equals(serviceClassName))
+      {
+         final Collection<UnifiedPortComponentRefMetaData> portComponentRefs = serviceRefMD.getPortComponentRefs();
+         for (final UnifiedPortComponentRefMetaData portComponentRefMD : portComponentRefs)
+         {
+            if (targetClassName.equals(portComponentRefMD.getServiceEndpointInterface()))
+            {
+               return getFeatures(portComponentRefMD);
+            }
+         }
+      }
+
+      return null;
+   }
+
+   private QName getPortQName(final String targetClassName, final String serviceClassName,
+         final UnifiedServiceRefMetaData serviceRefMD)
+   {
+      if (targetClassName != null && !targetClassName.equals(serviceClassName))
+      {
+         final Collection<UnifiedPortComponentRefMetaData> portComponentRefs = serviceRefMD.getPortComponentRefs();
+         for (final UnifiedPortComponentRefMetaData portComponentRefMD : portComponentRefs)
+         {
+            if (targetClassName.equals(portComponentRefMD.getServiceEndpointInterface()))
+            {
+               return portComponentRefMD.getPortQName();
+            }
+         }
+      }
+
+      return null;
+   }
+
+   private Method getMethodFor(final QName portQName, final WebServiceFeature[] features, final Class<?> serviceClass)
+         throws NoSuchMethodException
+   {
+      if ((portQName == null) && (features == null))
+         return serviceClass.getMethod("getPort", new Class[]
+         {Class.class});
+      if ((portQName != null) && (features == null))
+         return serviceClass.getMethod("getPort", new Class[]
+         {QName.class, Class.class});
+      if ((portQName == null) && (features != null))
+         return serviceClass.getMethod("getPort", new Class[]
+         {Class.class, WebServiceFeature[].class});
+      if ((portQName != null) && (features != null))
+         return serviceClass.getMethod("getPort", new Class[]
+         {QName.class, Class.class, WebServiceFeature[].class});
+
+      throw new IllegalStateException();
+   }
+
+   private Object[] getArgumentsFor(final QName portQName, final WebServiceFeature[] features,
+         final Class<?> targetClass) throws NoSuchMethodException
+   {
+      if ((portQName == null) && (features == null))
+         return new Object[]
+         {targetClass};
+      if ((portQName != null) && (features == null))
+         return new Object[]
+         {portQName, targetClass};
+      if ((portQName == null) && (features != null))
+         return new Object[]
+         {targetClass, features};
+      if ((portQName != null) && (features != null))
+         return new Object[]
+         {portQName, targetClass, features};
+
+      throw new IllegalStateException();
+   }
+
+   private WebServiceFeature[] getFeatures(final UnifiedServiceRefMetaData serviceRef)
+   {
+      List<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
+
+      // configure @Addressing feature
+      if (serviceRef.isAddressingEnabled())
+      {
+         final boolean required = serviceRef.isAddressingRequired();
+         final String refResponses = serviceRef.getAddressingResponses();
+         AddressingFeature.Responses responses = AddressingFeature.Responses.ALL;
+         if ("ANONYMOUS".equals(refResponses))
+            responses = AddressingFeature.Responses.ANONYMOUS;
+         if ("NON_ANONYMOUS".equals(refResponses))
+            responses = AddressingFeature.Responses.NON_ANONYMOUS;
+
+         features.add(new AddressingFeature(true, required, responses));
+      }
+
+      // configure @MTOM feature
+      if (serviceRef.isMtomEnabled())
+      {
+         features.add(new MTOMFeature(true, serviceRef.getMtomThreshold()));
+      }
+
+      // configure @RespectBinding feature
+      if (serviceRef.isRespectBindingEnabled())
+      {
+         features.add(new RespectBindingFeature(true));
+      }
+
+      WebServiceFeature[] wsFeatures = features.size() == 0 ? null : features.toArray(new WebServiceFeature[]
+      {});
+      return wsFeatures;
+   }
+
+   private WebServiceFeature[] getFeatures(final UnifiedPortComponentRefMetaData portComponentRefMD)
+   {
+      List<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
+      // configure @Addressing feature
+      if (portComponentRefMD.isAddressingEnabled())
+      {
+         final boolean required = portComponentRefMD.isAddressingRequired();
+         final String refResponses = portComponentRefMD.getAddressingResponses();
+         AddressingFeature.Responses responses = AddressingFeature.Responses.ALL;
+         if ("ANONYMOUS".equals(refResponses))
+            responses = AddressingFeature.Responses.ANONYMOUS;
+         if ("NON_ANONYMOUS".equals(refResponses))
+            responses = AddressingFeature.Responses.NON_ANONYMOUS;
+
+         features.add(new AddressingFeature(true, required, responses));
+      }
+
+      // configure @MTOM feature
+      if (portComponentRefMD.isMtomEnabled())
+      {
+         features.add(new MTOMFeature(true, portComponentRefMD.getMtomThreshold()));
+      }
+
+      // configure @RespectBinding feature
+      if (portComponentRefMD.isRespectBindingEnabled())
+      {
+         features.add(new RespectBindingFeature(true));
+      }
+
+      return features.size() == 0 ? null : features.toArray(new WebServiceFeature[]
+      {});
+   }
+
+   private UnifiedServiceRefMetaData unmarshallServiceRef(final Reference ref) throws ClassNotFoundException,
+         NamingException
+   {
+      final UnifiedServiceRefMetaData sref;
+      final RefAddr refAddr = ref.get(ServiceReferenceable.SERVICE_REF_META_DATA);
+      final ByteArrayInputStream bais = new ByteArrayInputStream((byte[]) refAddr.getContent());
       try
       {
          ObjectInputStream ois = new ObjectInputStream(bais);
-         sref = (UnifiedServiceRefMetaData)ois.readObject();
+         sref = (UnifiedServiceRefMetaData) ois.readObject();
          ois.close();
       }
       catch (IOException e)
@@ -275,33 +450,30 @@ public class ServiceObjectFactory implements ObjectFactory
          throw new NamingException("Cannot unmarshall service ref meta data, cause: " + e.toString());
       }
 
-      /* Verify it. There is some know coinstraints
-      if(sref.getServiceQName() == null)
-         throw new IllegalArgumentException("ServiceQName may not be null. " +
-           "Specify a service QName in the <service-ref> declaration, or thorugh the @WebServiceClient annotation.");
-      */
-
       return sref;
    }
-   
-   public URL getCXFConfiguration(UnifiedVirtualFile vfsRoot)
+
+   private URL getCXFConfiguration(final UnifiedVirtualFile vfsRoot)
    {
       URL url = null;
       try
       {
          url = vfsRoot.findChild("WEB-INF/jbossws-cxf.xml").toURL();
       }
-      catch (Exception e) {}
-      
+      catch (Exception e)
+      {
+      }
+
       if (url == null)
       {
          try
          {
             url = vfsRoot.findChild("META-INF/jbossws-cxf.xml").toURL();
          }
-         catch (Exception e) {}
+         catch (Exception e)
+         {
+         }
       }
       return url;
    }
 }
-
