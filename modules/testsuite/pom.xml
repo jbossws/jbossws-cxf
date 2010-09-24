@@ -516,7 +516,7 @@
     <profile>
       <id>jboss600</id>
       <properties>
-        <jboss.version>6.0.0.20100721-M4</jboss.version>
+        <jboss.version>6.0.0.20100911-M5</jboss.version>
         <jbossws.integration.target>jboss600</jbossws.integration.target>
       </properties>
       <dependencies>

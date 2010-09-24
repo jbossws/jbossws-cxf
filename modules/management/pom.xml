@@ -61,7 +61,7 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss600M4</artifactId>
+      <artifactId>jbossws-jboss600M5</artifactId>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
