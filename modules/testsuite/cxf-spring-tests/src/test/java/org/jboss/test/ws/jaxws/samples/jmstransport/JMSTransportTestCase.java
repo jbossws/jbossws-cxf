@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.jmstransport;
 
+import java.io.PrintWriter;
 import java.net.URL;
 
 import javax.jms.Message;
@@ -39,7 +40,16 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
+import junit.framework.TestSuite;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.apache.cxf.interceptor.LoggingOutInterceptor;
+import org.apache.cxf.jaxws.ServiceImpl;
+import org.jboss.test.ws.jaxws.samples.jmsendpoints.jmstransport.JMSEndpointsTestCase;
 import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSTest;
@@ -55,9 +65,18 @@ public class JMSTransportTestCase extends JBossWSTest
 {
    private static boolean waitForResponse;
    
-   public static Test suite() throws Exception
+   public static Test suite() throws Exception 
    {
-      return new JBossWSTestSetup(JMSTransportTestCase.class, isHornetQAvailable() ? "jaxws-samples-jmstransport-as6.sar" : "jaxws-samples-jmstransport.sar");
+		if (isHornetQAvailable()) 
+		{
+			return new JBossWSTestSetup(JMSTransportTestCase.class,
+					"jaxws-samples-jmstransport-as6.sar, jaxws-samples-jmstransport.war");
+		} 
+		else 
+		{
+			return new TestSuite();
+		}
+      
    }
 
    private static boolean isHornetQAvailable()
@@ -74,15 +93,16 @@ public class JMSTransportTestCase extends JBossWSTest
       }
    }
 
-  public void testJMSEndpointPort() throws Exception
+   public void testJMSEndpointPort() throws Exception
    {
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-jmstransport?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/samples/jmstransport", "OrganizationService");
       QName portName = new QName("http://org.jboss.ws/samples/jmstransport", "JmsEndpointPort");
-      
       Service service = Service.create(wsdlURL, serviceName);
       Organization port = service.getPort(portName, Organization.class);
-      
+      Client c = ClientProxy.getClient(port);
+      c.getInInterceptors().add(new LoggingInInterceptor(new PrintWriter(System.out)));
+      c.getOutInterceptors().add(new LoggingOutInterceptor(new PrintWriter(System.out))); 
       String res = port.getContactInfo("mafia");
       assertEquals("The 'mafia' boss is currently out of office, please call again.", res);
    }
@@ -177,4 +197,5 @@ public class JMSTransportTestCase extends JBossWSTest
          }
       }
    }
+  
 }

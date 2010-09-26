@@ -35,7 +35,9 @@ import javax.management.ObjectName;
 import javax.naming.InitialContext;
 
 import junit.framework.Test;
+import junit.framework.TestSuite;
 
+import org.jboss.test.ws.jaxws.samples.jmsendpoints.jmstransport.JMSEndpointsTestCase;
 import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSTest;
@@ -50,10 +52,19 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 public class FromJavaJMSTransportTestCase extends JBossWSTest
 {
    private static boolean waitForResponse;
-   
-   public static Test suite() throws Exception
+
+   public static Test suite() throws Exception 
    {
-      return new JBossWSTestSetup(FromJavaJMSTransportTestCase.class, isHornetQAvailable() ? "jaxws-fromjava-jmstransport-as6.sar" : "jaxws-fromjava-jmstransport.sar");
+		if (isHornetQAvailable()) 
+		{
+			return new JBossWSTestSetup(FromJavaJMSTransportTestCase.class,
+					"jaxws-fromjava-jmsendpoints-as6.jar");
+		} 
+		else 
+		{
+			return new TestSuite();
+		}
+      
    }
    
    private static boolean isHornetQAvailable()

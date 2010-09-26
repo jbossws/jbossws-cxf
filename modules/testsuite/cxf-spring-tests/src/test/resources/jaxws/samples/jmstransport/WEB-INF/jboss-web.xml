@@ -4,4 +4,5 @@
 
 <jboss-web>
     <context-root>/jaxws-samples-jmstransport</context-root>
+    <depends>org.hornetq:name="RequestQueue",module=JMS,type=Queue</depends>
 </jboss-web>

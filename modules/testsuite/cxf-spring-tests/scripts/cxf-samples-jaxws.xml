@@ -29,52 +29,24 @@
           <include name="jboss-web.xml"/>
        </webinf>
     </war>
-    <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-jmstransport.sar">
-      <fileset dir="${tests.output.dir}/test-libs">
-        <include name="jaxws-samples-jmstransport.war"/>
-      </fileset>
-        <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/META-INF">
-          <include name="jboss-service.xml"/>   
-        </metainf>
-    </jar>
+  	
     <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-jmstransport-as6.sar">
-      <fileset dir="${tests.output.dir}/test-libs">
-        <include name="jaxws-samples-jmstransport.war"/>
-      </fileset>
-        <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/META-INF">
+        <fileset dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/META-INF">
           <include name="hornetq-jms.xml"/>   
-        </metainf>
+        </fileset>
+    </jar>
+  	  
+    <jar jarfile="${tests.output.dir}/test-libs/jaxws-fromjava-jmsendpoints-as6.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/samples/jmstransport/Organization.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/jmstransport/OrganizationJmsImpl.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/fromjava/META-INF">
+        <include name="hornetq-jms.xml"/> 
+        <include name="jbossws-cxf.xml"/>
+      </metainf>
     </jar>
   	
-    <!-- jaxws-fromjava-jmstransport -->
-    <war
-       warfile="${tests.output.dir}/test-libs/jaxws-fromjava-jmstransport.war"
-       webxml="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/fromjava/WEB-INF/web.xml">
-       <classes dir="${tests.output.dir}/test-classes">
-          <include name="org/jboss/test/ws/jaxws/samples/jmstransport/Organization.class"/>
-          <include name="org/jboss/test/ws/jaxws/samples/jmstransport/OrganizationJmsImpl.class"/>
-       </classes>
-       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/fromjava/WEB-INF">
-          <include name="jbossws-cxf.xml"/>
-          <include name="jboss-web.xml"/>
-       </webinf>
-    </war>
-    <jar jarfile="${tests.output.dir}/test-libs/jaxws-fromjava-jmstransport.sar">
-      <fileset dir="${tests.output.dir}/test-libs">
-        <include name="jaxws-fromjava-jmstransport.war"/>
-      </fileset>
-        <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/META-INF">
-          <include name="jboss-service.xml"/>   
-        </metainf>
-    </jar>  	
-    <jar jarfile="${tests.output.dir}/test-libs/jaxws-fromjava-jmstransport-as6.sar">
-      <fileset dir="${tests.output.dir}/test-libs">
-        <include name="jaxws-fromjava-jmstransport.war"/>
-      </fileset>
-        <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/META-INF">
-          <include name="hornetq-jms.xml"/>   
-        </metainf>
-    </jar>
   	
     <!-- jms endpoints sample-->
     <!-- jms transport from java for as6 -->
