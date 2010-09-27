@@ -42,14 +42,10 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
-import org.apache.cxf.jaxws.ServiceImpl;
-import org.jboss.test.ws.jaxws.samples.jmsendpoints.jmstransport.JMSEndpointsTestCase;
 import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSTest;
@@ -197,5 +193,5 @@ public class JMSTransportTestCase extends JBossWSTest
          }
       }
    }
-  
+
 }

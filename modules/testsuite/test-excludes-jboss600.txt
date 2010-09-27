@@ -19,9 +19,6 @@ org/jboss/test/ws/jaxws/jbws1283/**
 # [JBWS-2397] Fix jbws1797 testcase
 org/jboss/test/ws/jaxws/jbws1797/**
 
-# [JBWS-2987] Review JMS integration
-org/jboss/test/ws/jaxws/samples/jmstransport/**
-
 # [JBAS-8363] Virtual host issue in JBossWeb
 org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*
 

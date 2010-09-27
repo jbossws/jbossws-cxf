@@ -25,16 +25,10 @@ import java.net.URL;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.bus.spring.SpringBusFactory;
-import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.endpoint.ServerRegistry;
-import org.apache.cxf.transport.jms.JMSConfiguration;
-import org.apache.cxf.transport.jms.JMSDestination;
 import org.jboss.wsf.common.integration.JMSDeploymentAspect;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.metadata.jms.JMSEndpointsMetaData;
-import org.jboss.wsf.stack.cxf.configuration.BusHolder;
-import org.springframework.jms.connection.SingleConnectionFactory;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 
 /**
  * To start the jms endpoints
@@ -42,9 +36,7 @@ import org.springframework.jms.connection.SingleConnectionFactory;
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
 public class JMSEndpointDeploymentAspectDelegate extends JMSDeploymentAspect
-{  
-   private BusHolder busHolder = null;   
-   
+{      
    @Override
    public void start(Deployment dep)  
    {
@@ -58,8 +50,7 @@ public class JMSEndpointDeploymentAspectDelegate extends JMSDeploymentAspect
          try
          {
             SecurityActions.setContextClassLoader(dep.getRuntimeClassLoader());
-            SpringBusFactory bf = new SpringBusFactory();
-            Bus bus = bf.createBus(url);
+            Bus bus = new JBossWSSpringBusFactory().createBus(url);
             dep.addAttachment(Bus.class, bus);
          }
          catch (Exception e)
@@ -71,6 +62,7 @@ public class JMSEndpointDeploymentAspectDelegate extends JMSDeploymentAspect
          finally
          {
             BusFactory.setDefaultBus(null);
+            BusFactory.setThreadDefaultBus(null);
             SecurityActions.setContextClassLoader(origClassLoader);
          }
       }
@@ -80,44 +72,10 @@ public class JMSEndpointDeploymentAspectDelegate extends JMSDeploymentAspect
    public void stop(Deployment dep)
    {
       log.debug("Undeploying jms endpoints in " + dep.getSimpleName());
-      if (busHolder != null && busHolder.getBus() != null)
+      if (dep.getAttachment(Bus.class) != null)
       {
-         //CXF uses WrappedConnectionFactory to create "jmsListener". DefaultMessageListenerContainer.shutdown() can not colse all the jms connections.  
-         //We need to explicitly call detroy() to close connection. This should be fixed in CXF side.
-         SingleConnectionFactory connectionFactory = null;
-         Server jmsServer = null;
-         ServerRegistry serRegistry = busHolder.getBus().getExtension(ServerRegistry.class);
-         for (Server server : serRegistry.getServers())
-         {
-            if (server.getDestination() != null && server.getDestination() instanceof JMSDestination)
-            {
-               JMSDestination jmsDestination = (JMSDestination) server.getDestination();
-               JMSConfiguration jmsConfig = jmsDestination.getJmsConfig();
-               if (jmsConfig.getWrappedConnectionFactory() != null
-                     && jmsConfig.getWrappedConnectionFactory() instanceof SingleConnectionFactory)
-               {
-                  connectionFactory = (SingleConnectionFactory) jmsConfig
-                        .getWrappedConnectionFactory();
-                  jmsServer = server;
-               }
-
-            }
-            
-         }
-         
-         if (jmsServer != null) 
-         {
-             jmsServer.stop();   
-         }
-               
-         if (connectionFactory != null) 
-         {
-            connectionFactory.destroy();
-         }
-         //TODO:Remove above code after fix CXF-2788
-         //close LifecycleListener if exists
-         busHolder.getBus().shutdown(false);
-         busHolder.close();
+         Bus bus = dep.getAttachment(Bus.class);
+         bus.shutdown(false);
       }
    }
 }

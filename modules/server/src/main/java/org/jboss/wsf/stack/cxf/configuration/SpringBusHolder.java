@@ -176,6 +176,7 @@ public class SpringBusHolder extends BusHolder
       {
          gac.destroy();
       }
+      ctx.destroy();
       super.close();
    }
 
