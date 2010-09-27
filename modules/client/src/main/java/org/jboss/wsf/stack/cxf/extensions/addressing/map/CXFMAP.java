@@ -110,10 +110,19 @@ public class CXFMAP implements MAP
       if (relatesTo != null)
       {
          String type = relatesTo.getRelationshipType();
+         QName relatesToType;
          int index = type.indexOf("}");
-         String ns = type.substring(1, index + 1);
-         String name = type.substring(index + 1);
-         return builder.newRelatesTo(relatesTo.getValue(), new QName(ns, name));
+         if (index == -1)
+         {
+            relatesToType = new QName(type);
+         }
+         else
+         {
+            String ns = type.substring(1, index + 1);
+            String name = type.substring(index + 1);
+            relatesToType = new QName(ns, name);
+         }
+         return builder.newRelatesTo(relatesTo.getValue(), relatesToType);
       }
       else
       {
