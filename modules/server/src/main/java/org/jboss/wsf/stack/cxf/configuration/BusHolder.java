@@ -91,7 +91,11 @@ public abstract class BusHolder
     */
    public void close()
    {
-      bus.shutdown(true);
+      //call bus shutdown unless the listener tells us shutdown has already been asked
+      if (busHolderListener == null || !busHolderListener.isPreShutdown())
+      {
+         bus.shutdown(true);
+      }
       busHolderListener = null;
    }
    
