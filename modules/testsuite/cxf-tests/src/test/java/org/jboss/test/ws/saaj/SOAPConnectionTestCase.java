@@ -46,7 +46,7 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class SOAPConnectionTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8081/saaj-soap-connection/SaajService";
+   private final String serviceURL = "http://" + getServerHost() + ":8080/saaj-soap-connection/SaajService";
 	
    public static Test suite()
    {
