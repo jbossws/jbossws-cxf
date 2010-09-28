@@ -121,9 +121,25 @@
           dir="${tests.output.dir}/test-resources/jaxws/samples/wsrm/WEB-INF/wsdl" 
           prefix="WEB-INF/wsdl"/>
     </war>
-  	
+  
+    <!-- saaj-soap-connection -->
+    <war
+       warfile="${tests.output.dir}/test-libs/saaj-soap-connection.war"
+       webxml="${tests.output.dir}/test-resources/saaj/cxf/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/saaj/ServiceImpl.class"/>
+          <include name="org/jboss/test/ws/saaj/ServiceIface.class"/>
+          <include name="org/jboss/test/ws/saaj/InputStreamDataSource.class"/>
+       </classes>
+       <zipfileset
+          dir="${tests.output.dir}/test-resources/saaj/cxf/WEB-INF/wsdl" 
+          prefix="WEB-INF/wsdl"/>
+    </war>
+
+	
     <!-- Please add alphabetically -->
 
+    
   </target>
 
 </project>
