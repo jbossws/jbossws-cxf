@@ -25,11 +25,13 @@ import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
 import javax.xml.soap.SOAPException;
 
-public class SOAPConnectionFactoryImpl extends SOAPConnectionFactory {
+public class SOAPConnectionFactoryImpl extends SOAPConnectionFactory 
+{
 
-    @Override
-    public SOAPConnection createConnection() throws SOAPException {
-        return new SOAPConnectionImpl();
-    }
+   @Override
+   public SOAPConnection createConnection() throws SOAPException 
+   {
+      return new SOAPConnectionImpl();
+   }
 
 }

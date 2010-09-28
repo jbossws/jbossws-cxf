@@ -53,116 +53,138 @@ import org.apache.cxf.transport.ConduitInitiatorManager;
 import org.apache.cxf.transport.MessageObserver;
 import org.apache.cxf.transport.http.HTTPConduit;
 
-public class SOAPConnectionImpl extends SOAPConnection {
+public class SOAPConnectionImpl extends SOAPConnection 
+{
 
     @SuppressWarnings("unchecked")
     @Override
-    public SOAPMessage call(SOAPMessage msgOut, Object addressObject) throws SOAPException {
+    public SOAPMessage call(SOAPMessage msgOut, Object addressObject) throws SOAPException 
+    {
+       String address = getAddress(addressObject);
+       ConduitInitiator ci = getConduitInitiator(address);
         
-        String address = getAddress(addressObject);
-        ConduitInitiator ci = getConduitInitiator(address);
         
+       // create a new Message and Exchange
+       EndpointInfo info = new EndpointInfo();
+       info.setAddress(address);
+       Message outMessage = new MessageImpl();
+       Exchange exch = new ExchangeImpl();
+       outMessage.setExchange(exch);
         
-        // create a new Message and Exchange
-        EndpointInfo info = new EndpointInfo();
-        info.setAddress(address);
-        Message outMessage = new MessageImpl();
-        Exchange exch = new ExchangeImpl();
-        outMessage.setExchange(exch);
-        
-        // sent SOAPMessage
-        try {
-            final Conduit c = ci.getConduit(info);
+       // sent SOAPMessage
+       try 
+       {
+          final Conduit c = ci.getConduit(info);
             
         
-            Map<String, List<String>> outHeaders = new HashMap<String, List<String>>();
-            for (Iterator it = msgOut.getMimeHeaders().getAllHeaders(); it.hasNext();) {
-                MimeHeader mimeHeader = (MimeHeader)it.next();
-                if ("Content-Type".equals(mimeHeader.getName())) {
-                    outMessage.put(Message.CONTENT_TYPE, mimeHeader.getValue());
-                }
+          Map<String, List<String>> outHeaders = new HashMap<String, List<String>>();
+          for (Iterator it = msgOut.getMimeHeaders().getAllHeaders(); it.hasNext();) 
+          {
+             MimeHeader mimeHeader = (MimeHeader)it.next();
+             if ("Content-Type".equals(mimeHeader.getName())) 
+             {
+                outMessage.put(Message.CONTENT_TYPE, mimeHeader.getValue());
+             }
                 
-                // disable the chunked encoding if requested
-                if ("Transfer-Encoding".equals(mimeHeader.getName())
-                    && "disabled".equals(mimeHeader.getValue())
-                    && c instanceof HTTPConduit) {
-                    ((HTTPConduit)c).getClient().setAllowChunking(false);
-                    continue;
-                }
+             // disable the chunked encoding if requested
+             if ("Transfer-Encoding".equals(mimeHeader.getName())
+                 && "disabled".equals(mimeHeader.getValue())
+                 && c instanceof HTTPConduit) 
+             {
+                ((HTTPConduit)c).getClient().setAllowChunking(false);
+                continue;
+             }
                 
-                List<String> values = outHeaders.get(mimeHeader.getName());
-                if (values == null) {
-                    values = new ArrayList<String>();
-                    outHeaders.put(mimeHeader.getName(), values);
+             List<String> values = outHeaders.get(mimeHeader.getName());
+             if (values == null) 
+             {
+                values = new ArrayList<String>();
+                outHeaders.put(mimeHeader.getName(), values);
+             } 
+             values.add(mimeHeader.getValue());
+          }
+          outMessage.put(Message.HTTP_REQUEST_METHOD, "POST");
+          outMessage.put(Message.PROTOCOL_HEADERS, outHeaders);
+          c.prepare(outMessage);
+            
+          OutputStream outs = outMessage.getContent(OutputStream.class);
+          msgOut.writeTo(outs);
+            
+          c.setMessageObserver(new MessageObserver() {
+             public void onMessage(Message inMessage) 
+             {
+                LoadingByteArrayOutputStream bout = new LoadingByteArrayOutputStream();
+                try 
+                {
+                   IOUtils.copy(inMessage.getContent(InputStream.class), bout);
+                   inMessage.getExchange().put(InputStream.class, bout.createInputStream());
+                        
+                   Map<String, List<String>> inHeaders = 
+                      (Map<String, List<String>>)inMessage.get(Message.PROTOCOL_HEADERS);
+                        
+                   inMessage.getExchange().put(Message.PROTOCOL_HEADERS, inHeaders);
+                   c.close(inMessage);
                 } 
-                values.add(mimeHeader.getValue());
-            }
-            outMessage.put(Message.HTTP_REQUEST_METHOD, "POST");
-            outMessage.put(Message.PROTOCOL_HEADERS, outHeaders);
-            c.prepare(outMessage);
-            
-            OutputStream outs = outMessage.getContent(OutputStream.class);
-            msgOut.writeTo(outs);
-            
-            c.setMessageObserver(new MessageObserver() {
-                public void onMessage(Message inMessage) {
-                    LoadingByteArrayOutputStream bout = new LoadingByteArrayOutputStream();
-                    try {
-                        IOUtils.copy(inMessage.getContent(InputStream.class), bout);
-                        inMessage.getExchange().put(InputStream.class, bout.createInputStream());
-                        
-                        Map<String, List<String>> inHeaders = 
-                            (Map<String, List<String>>)inMessage.get(Message.PROTOCOL_HEADERS);
-                        
-                        inMessage.getExchange().put(Message.PROTOCOL_HEADERS, inHeaders);
-                        c.close(inMessage);
-                    } catch (IOException e) {
-                        //ignore
-                    }
+                catch (IOException e) 
+                {
+                   //ignore
                 }
-            });
+             }
+          });
             
-            c.close(outMessage);
-        } catch (Exception ex) {
-            throw new SOAPException("SOAPMessage can not be sent", ex);
-        }    
+          c.close(outMessage);
+       } 
+       catch (Exception ex) 
+       {
+          throw new SOAPException("SOAPMessage can not be sent", ex);
+       }    
 
-        // read SOAPMessage        
-        try {
-            InputStream ins = exch.get(InputStream.class);
-            Map<String, List<String>> inHeaders = 
-                (Map<String, List<String>>)exch.get(Message.PROTOCOL_HEADERS);
+       // read SOAPMessage        
+       try 
+       {
+          InputStream ins = exch.get(InputStream.class);
+          Map<String, List<String>> inHeaders = 
+             (Map<String, List<String>>)exch.get(Message.PROTOCOL_HEADERS);
             
-            MimeHeaders mimeHeaders = new MimeHeaders();
-            if (inHeaders != null) {
-                for (Map.Entry<String, List<String>> entry : inHeaders.entrySet()) {
-                    if (entry.getValue() != null) {
-                        for (String value : entry.getValue()) {
-                            mimeHeaders.addHeader(entry.getKey(), value);
-                        }
-                    }
+          MimeHeaders mimeHeaders = new MimeHeaders();
+          if (inHeaders != null) 
+          {
+             for (Map.Entry<String, List<String>> entry : inHeaders.entrySet()) 
+             {
+                if (entry.getValue() != null) 
+                {
+                   for (String value : entry.getValue()) 
+                   {
+                      mimeHeaders.addHeader(entry.getKey(), value);
+                   }
                 }
-            }
+             }
+          }
             
-            MessageFactory msgFac = MessageFactory.newInstance();
-            return msgFac.createMessage(mimeHeaders, ins);
-        } catch (Exception ex) {    
-            throw new SOAPException("SOAPMessage can not be read", ex);
-        }
+          MessageFactory msgFac = MessageFactory.newInstance();
+          return msgFac.createMessage(mimeHeaders, ins);
+       } 
+       catch (Exception ex) 
+       {    
+          throw new SOAPException("SOAPMessage can not be read", ex);
+       }
         
         
     }
 
     @Override
-    public void close() throws SOAPException {
+    public void close() throws SOAPException 
+    {
         // complete
     }
 
-    private String getAddress(Object addressObject) throws SOAPException {
-        if (addressObject instanceof URL || addressObject instanceof String) {
-            return addressObject.toString();
-        }
-        throw new SOAPException("Address object of type " + addressObject.getClass().getName()
+    private String getAddress(Object addressObject) throws SOAPException 
+    {
+       if (addressObject instanceof URL || addressObject instanceof String) 
+       {
+          return addressObject.toString();
+       }
+       throw new SOAPException("Address object of type " + addressObject.getClass().getName()
                                 + " is not supported");
     }
     
