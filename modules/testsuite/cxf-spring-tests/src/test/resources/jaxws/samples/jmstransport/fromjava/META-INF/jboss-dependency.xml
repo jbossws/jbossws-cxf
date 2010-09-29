@@ -1,0 +1,4 @@
+<dependency xmlns="urn:jboss:dependency:1.0">
+  <item>org.hornetq:name="RequestQueue",module=JMS,type=Queue</item>
+  <item>org.hornetq:name="ResponseQueue",module=JMS,type=Queue</item>
+</dependency>
