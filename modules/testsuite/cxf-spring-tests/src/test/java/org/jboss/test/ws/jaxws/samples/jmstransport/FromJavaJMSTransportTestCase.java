@@ -58,7 +58,7 @@ public class FromJavaJMSTransportTestCase extends JBossWSTest
 		if (isHornetQAvailable()) 
 		{
 			return new JBossWSTestSetup(FromJavaJMSTransportTestCase.class,
-					"jaxws-fromjava-jmsendpoints-as6.jar");
+					"hornetq-fromjava-jmsendpoints-as6.sar, jaxws-fromjava-jmsendpoints-as6.jar");
 		} 
 		else 
 		{

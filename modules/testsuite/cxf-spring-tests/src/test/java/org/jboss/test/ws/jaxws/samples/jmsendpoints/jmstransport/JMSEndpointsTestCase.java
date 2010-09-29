@@ -56,7 +56,7 @@ public class JMSEndpointsTestCase extends JBossWSTest
    public static Test suite() throws Exception
    {
       if (isHornetQAvailable()) {
-         return new JBossWSTestSetup(JMSEndpointsTestCase.class, "jaxws-samples-jmsendpoints-as6.jar");
+         return new JBossWSTestSetup(JMSEndpointsTestCase.class, "hornetq-jmsendpoints-as6.sar, jaxws-samples-jmsendpoints-as6.jar");
       } else {
          return new TestSuite();
       }

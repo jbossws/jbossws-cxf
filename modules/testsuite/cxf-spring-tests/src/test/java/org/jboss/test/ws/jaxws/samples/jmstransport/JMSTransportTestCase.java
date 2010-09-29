@@ -66,7 +66,7 @@ public class JMSTransportTestCase extends JBossWSTest
 		if (isHornetQAvailable()) 
 		{
 			return new JBossWSTestSetup(JMSTransportTestCase.class,
-					"jaxws-samples-jmstransport-as6.sar, jaxws-samples-jmstransport.war");
+					"hornetq-samples-jmstransport-as6.sar, jaxws-samples-jmstransport.war");
 		} 
 		else 
 		{
