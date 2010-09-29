@@ -28,7 +28,7 @@ import javax.xml.ws.soap.Addressing;
 (
    portName = "AddressingServicePort",
    serviceName = "AddressingService",
-   wsdlLocation = "WEB-INF/wsdl/AddressingService.wsdl",
+//   wsdlLocation = "WEB-INF/wsdl/AddressingService.wsdl", //do not provide the wsdl and let the endpoint publish the proper one with addressing policy
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wsaddressing",
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsa.ServiceIface"
 )

@@ -23,6 +23,7 @@ package org.jboss.test.ws.jaxws.samples.wsa;
 
 import java.net.URL;
 import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.AddressingFeature;
 
@@ -44,13 +45,37 @@ public final class AddressingTestCase extends JBossWSTest
       return new JBossWSTestSetup(AddressingTestCase.class, "jaxws-samples-wsa.war");
    }
 
-   public void test() throws Exception
+   /**
+    * This tests the invocation using the local copy of the service contract; that does not have any ws-addressing
+    * policy, so the addressing feature needs to be explicitly provided.
+    * 
+    * @throws Exception
+    */
+   public void testUsingLocalContract() throws Exception
+   {
+      // construct proxy
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsaddressing", "AddressingService");
+      URL wsdlURL = getResourceURL("jaxws/samples/wsa/WEB-INF/wsdl/AddressingService.wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class, new AddressingFeature());
+      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+      // invoke method
+      assertEquals("Hello World!", proxy.sayHello());
+   }
+   
+   /**
+    * This tests the invocation using the service contract published by the endpoint. That should have the
+    * ws-addressing policy in it, hence no need to explicitly configure addressing, the policy engine takes care of that.
+    * 
+    * @throws Exception
+    */
+   public void testUsingContractFromDeployedEndpoint() throws Exception
    {
       // construct proxy
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsaddressing", "AddressingService");
       URL wsdlURL = new URL(serviceURL + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
-      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class, new AddressingFeature());
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       // invoke method
       assertEquals("Hello World!", proxy.sayHello());
    }
