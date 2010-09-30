@@ -21,13 +21,21 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsa;
 
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
+import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.AddressingFeature;
 
 import junit.framework.Test;
+
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.endpoint.ClientImpl;
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -60,7 +68,7 @@ public final class AddressingTestCase extends JBossWSTest
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class, new AddressingFeature());
       ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
       // invoke method
-      assertEquals("Hello World!", proxy.sayHello());
+      assertEquals("Hello World!", proxy.sayHello("World"));
    }
    
    /**
@@ -77,7 +85,46 @@ public final class AddressingTestCase extends JBossWSTest
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       // invoke method
-      assertEquals("Hello World!", proxy.sayHello());
+      assertEquals("Hello World!", proxy.sayHello("World"));
    }
+   
+   /**
+    * This shows the usage of decoupled-endpoint for getting back response on a new http connection.
+    * The CXF client basically creates a destination listening at the provided decoupled endpoint address, using the
+    * configured http transport factory. The client gets back a HTTP 202 accept response message immediately after
+    * the call to the server, then once the actual response comes back to the decoupled endpoint, the client is
+    * notified and returns control to the application code.
+    * 
+    * @throws Exception
+    */
+   public void testDecoupledEndpointForLongLastingProcessingOfInvocations() throws Exception
+   {
+      // construct proxy
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsaddressing", "AddressingService");
+      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
+      
+      Client client = ClientProxy.getClient(proxy);
+      HTTPConduit conduit = (HTTPConduit)client.getConduit();
+      HTTPClientPolicy policy = conduit.getClient();
+      //set low connection and receive timeouts to ensure the http client can't keep the connection open till the response is received
+      policy.setConnectionTimeout(5000); //5 secs
+      policy.setReceiveTimeout(10000); //10 secs
+      //please note you might want to set the synchronous timeout for long waits, as CXF ClientImpl would simply drop waiting for the response after that (default 60 secs)
+//      ((ClientImpl)client).setSynchronousTimeout(value);
+      
+      try {
+         proxy.sayHello("Sleepy"); //this takes at least 30 secs
+         fail("Timeout exception expected");
+      } catch (WebServiceException e) {
+         assertTrue(e.getCause() instanceof SocketTimeoutException);
+      }
+      
+      policy.setDecoupledEndpoint("http://localhost:18181/jaxws-samples-wsa/decoupled-endpoint");
+      String response = proxy.sayHello("Sleepy"); //this takes at least 30 secs... but now the client doesn't time out
+      assertEquals("Hello Sleepy!", response);
+   }
+   
    
 }

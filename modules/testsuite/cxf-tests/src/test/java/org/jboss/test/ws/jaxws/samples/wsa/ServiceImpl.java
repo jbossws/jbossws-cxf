@@ -24,6 +24,8 @@ package org.jboss.test.ws.jaxws.samples.wsa;
 import javax.jws.WebService;
 import javax.xml.ws.soap.Addressing;
 
+import org.apache.log4j.Logger;
+
 @WebService
 (
    portName = "AddressingServicePort",
@@ -35,8 +37,23 @@ import javax.xml.ws.soap.Addressing;
 @Addressing(enabled=true, required=true)
 public class ServiceImpl implements ServiceIface
 {
-   public String sayHello()
+   private Logger log = Logger.getLogger(this.getClass());
+   
+   public String sayHello(String name)
    {
-      return "Hello World!";
+      if ("Sleepy".equals(name))
+      {
+         try
+         {
+            log.info("Sleeping...");
+            Thread.sleep(30 * 1000);
+            log.info("...end of sleeping.");
+         }
+         catch (Exception e)
+         {
+            throw new RuntimeException(e);
+         }
+      }
+      return "Hello " + name + "!";
    }
 }

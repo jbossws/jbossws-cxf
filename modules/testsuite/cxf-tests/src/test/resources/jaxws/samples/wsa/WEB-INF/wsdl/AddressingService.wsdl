@@ -4,7 +4,9 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.jboss.org/jbossws/ws-extensions/wsaddressing" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.jboss.org/jbossws/ws-extensions/wsaddressing">
 <xsd:element name="sayHello" type="tns:sayHello"/>
 <xsd:complexType name="sayHello">
-<xsd:sequence/>
+<xsd:sequence>
+<xsd:element minOccurs="0" name="name" type="xsd:string"/>
+</xsd:sequence>
 </xsd:complexType>
 <xsd:element name="sayHelloResponse" type="tns:sayHelloResponse"/>
 <xsd:complexType name="sayHelloResponse">
