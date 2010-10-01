@@ -107,24 +107,32 @@ public class ServiceObjectFactory implements ObjectFactory
          final Class<?> serviceClass = this.getClass(serviceImplClass);
          final Class<?> targetClass = this.getClass(targetClassName);
          // construct service
-         final Bus bus = this.getBus(serviceRef);
-         final Service serviceInstance = this.instantiateService(serviceRef, serviceClass);
-         if (serviceRef.getHandlerChain() != null)
+         BusFactory.setDefaultBus(null);
+         try
          {
-            serviceInstance.setHandlerResolver(new HandlerResolverImpl(bus, serviceRef.getHandlerChain(),
-                  serviceInstance.getClass()));
+            final Bus bus = this.createNewBus(serviceRef);
+            final Service serviceInstance = this.instantiateService(serviceRef, serviceClass);
+            if (serviceRef.getHandlerChain() != null)
+            {
+               serviceInstance.setHandlerResolver(new HandlerResolverImpl(bus, serviceRef.getHandlerChain(),
+                     serviceInstance.getClass()));
+            }
+            // construct port
+            final boolean instantiatePort = targetClassName != null && !targetClassName.equals(serviceImplClass);
+            if (instantiatePort)
+            {
+               final QName portQName = this.getPortQName(targetClassName, serviceImplClass, serviceRef);
+               final WebServiceFeature[] portFeatures = this.getFeatures(targetClassName, serviceImplClass, serviceRef);
+
+               return instantiatePort(serviceClass, targetClass, serviceInstance, portQName, portFeatures);
+            }
+
+            return serviceInstance;
          }
-         // construct port
-         final boolean instantiatePort = targetClassName != null && !targetClassName.equals(serviceImplClass);
-         if (instantiatePort)
+         finally 
          {
-            final QName portQName = this.getPortQName(targetClassName, serviceImplClass, serviceRef);
-            final WebServiceFeature[] portFeatures = this.getFeatures(targetClassName, serviceImplClass, serviceRef);
-
-            return instantiatePort(serviceClass, targetClass, serviceInstance, portQName, portFeatures);
+            BusFactory.setDefaultBus(null);
          }
-
-         return serviceInstance;
       }
       catch (Exception ex)
       {
@@ -144,11 +152,10 @@ public class ServiceObjectFactory implements ObjectFactory
       return null;
    }
 
-   private Bus getBus(final UnifiedServiceRefMetaData serviceRefMD)
+   private Bus createNewBus(final UnifiedServiceRefMetaData serviceRefMD)
    {
       final Bus bus;
       // Always reset bus before constructing Service
-      BusFactory.setDefaultBus(null);
 
       final URL cxfConfig = this.getCXFConfiguration(serviceRefMD.getVfsRoot());
       if (cxfConfig != null)
