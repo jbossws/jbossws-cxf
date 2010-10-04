@@ -55,11 +55,16 @@ import org.apache.cxf.transport.http.HTTPConduit;
 
 public class SOAPConnectionImpl extends SOAPConnection 
 {
+   private boolean closed = false;
 
     @SuppressWarnings("unchecked")
     @Override
     public SOAPMessage call(SOAPMessage msgOut, Object addressObject) throws SOAPException 
     {
+       if (closed) {
+          throw new SOAPException("Cannot send messages using a previously closed connection!");
+       }
+       
        String address = getAddress(addressObject);
        ConduitInitiator ci = getConduitInitiator(address);
         
@@ -175,7 +180,11 @@ public class SOAPConnectionImpl extends SOAPConnection
     @Override
     public void close() throws SOAPException 
     {
-        // complete
+       if (this.closed)
+       {
+          throw new SOAPException("Connection already closed!");
+       }
+       this.closed = true;
     }
 
     private String getAddress(Object addressObject) throws SOAPException 
