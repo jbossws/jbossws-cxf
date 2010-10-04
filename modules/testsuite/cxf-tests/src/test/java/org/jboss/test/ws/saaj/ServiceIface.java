@@ -32,4 +32,7 @@ public interface ServiceIface
 {
    @WebMethod
    String sayHello();
+   
+   @WebMethod
+   String greetMe();
 }

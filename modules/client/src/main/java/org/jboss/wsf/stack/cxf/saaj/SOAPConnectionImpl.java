@@ -58,13 +58,10 @@ public class SOAPConnectionImpl extends SOAPConnection
 {
    private boolean closed = false;
 
-    @SuppressWarnings("unchecked")
     @Override
     public SOAPMessage call(SOAPMessage msgOut, Object addressObject) throws SOAPException 
     {
-       if (closed) {
-          throw new SOAPException("Cannot send messages using a previously closed connection!");
-       }
+       checkClosed();
        
        String address = getAddress(addressObject);
        ConduitInitiator ci = getConduitInitiator(address);
@@ -84,7 +81,7 @@ public class SOAPConnectionImpl extends SOAPConnection
             
         
           Map<String, List<String>> outHeaders = new HashMap<String, List<String>>();
-          for (Iterator it = msgOut.getMimeHeaders().getAllHeaders(); it.hasNext();) 
+          for (Iterator<?> it = msgOut.getMimeHeaders().getAllHeaders(); it.hasNext();) 
           {
              MimeHeader mimeHeader = (MimeHeader)it.next();
              if ("Content-Type".equals(mimeHeader.getName())) 
@@ -116,27 +113,7 @@ public class SOAPConnectionImpl extends SOAPConnection
           OutputStream outs = outMessage.getContent(OutputStream.class);
           msgOut.writeTo(outs);
             
-          c.setMessageObserver(new MessageObserver() {
-             public void onMessage(Message inMessage) 
-             {
-                LoadingByteArrayOutputStream bout = new LoadingByteArrayOutputStream();
-                try 
-                {
-                   IOUtils.copy(inMessage.getContent(InputStream.class), bout);
-                   inMessage.getExchange().put(InputStream.class, bout.createInputStream());
-                        
-                   Map<String, List<String>> inHeaders = 
-                      (Map<String, List<String>>)inMessage.get(Message.PROTOCOL_HEADERS);
-                        
-                   inMessage.getExchange().put(Message.PROTOCOL_HEADERS, inHeaders);
-                   c.close(inMessage);
-                } 
-                catch (IOException e) 
-                {
-                   //ignore
-                }
-             }
-          });
+          c.setMessageObserver(createMessageObserver(c));
             
           c.close(outMessage);
        } 
@@ -146,52 +123,44 @@ public class SOAPConnectionImpl extends SOAPConnection
        }    
 
        // read SOAPMessage        
+       return readSoapMessage(exch); 
+    }
+    
+    @Override
+    public SOAPMessage get(Object addressObject) throws SOAPException 
+    {
+       checkClosed();
+       
+       String address = getAddress(addressObject);
+       ConduitInitiator ci = getConduitInitiator(address);
+        
+        
+       // create a new Message and Exchange
+       EndpointInfo info = new EndpointInfo();
+       info.setAddress(address);
+       Message outMessage = new MessageImpl();
+       Exchange exch = new ExchangeImpl();
+       outMessage.setExchange(exch);
+        
+       // sent GET request
        try 
        {
-          InputStream ins = exch.get(InputStream.class);
-          Map<String, List<String>> inHeaders = 
-             (Map<String, List<String>>)exch.get(Message.PROTOCOL_HEADERS);
+          final Conduit c = ci.getConduit(info);
             
-          MimeHeaders mimeHeaders = new MimeHeaders();
-          if (inHeaders != null) 
-          {
-             for (Map.Entry<String, List<String>> entry : inHeaders.entrySet()) 
-             {
-                if (entry.getValue() != null) 
-                {
-                   for (String value : entry.getValue()) 
-                   {
-                      mimeHeaders.addHeader(entry.getKey(), value);
-                   }
-                }
-             }
-          }
+          outMessage.put(Message.HTTP_REQUEST_METHOD, "GET");
+          c.prepare(outMessage);
             
-         //if inputstream is empty, no need to build
-         if (ins.markSupported())
-         {
-            ins.mark(1);
-            final int bytesRead = ins.read(new byte[1]);
-            ins.reset();
-            if (bytesRead == -1)
-            {
-               return null;
-            }
-         }
-         else if (ins.available() == 0)
-         {
-            return null;
-         }
-
-          MessageFactory msgFac = MessageFactory.newInstance(SOAPConstants.DYNAMIC_SOAP_PROTOCOL);
-          return msgFac.createMessage(mimeHeaders, ins);
+          c.setMessageObserver(createMessageObserver(c));
+            
+          c.close(outMessage);
        } 
        catch (Exception ex) 
-       {    
-          throw new SOAPException("SOAPMessage can not be read", ex);
-       }
-        
-        
+       {
+          throw new SOAPException("GET request can not be sent", ex);
+       }    
+
+       // read SOAPMessage
+       return readSoapMessage(exch);
     }
 
     @Override
@@ -214,27 +183,119 @@ public class SOAPConnectionImpl extends SOAPConnection
                                 + " is not supported");
     }
     
-    private ConduitInitiator getConduitInitiator(String address) throws SOAPException {
-        
-        ConduitInitiator ci = null;
-        try {
-            Bus bus = BusFactory.getThreadDefaultBus(true);
-            ConduitInitiatorManager mgr = bus.getExtension(ConduitInitiatorManager.class);
+    private ConduitInitiator getConduitInitiator(String address) throws SOAPException 
+    {
+       ConduitInitiator ci = null;
+       try 
+       {
+          Bus bus = BusFactory.getThreadDefaultBus(true);
+          ConduitInitiatorManager mgr = bus.getExtension(ConduitInitiatorManager.class);
             
-            if (address.startsWith("http")) {
-                ci = mgr.getConduitInitiator("http://cxf.apache.org/transports/http");
-            } 
-            if (ci == null) {
-                ci = mgr.getConduitInitiatorForUri(address);
-            }
+          if (address.startsWith("http")) 
+          {
+             ci = mgr.getConduitInitiator("http://cxf.apache.org/transports/http");
+          } 
+          if (ci == null) 
+          {
+             ci = mgr.getConduitInitiatorForUri(address);
+          }
             
-        } catch (Exception ex) {
-            throw new SOAPException("No ConduitInitiator is available for " + address, ex);
-        }
+       } 
+       catch (Exception ex) 
+       {
+          throw new SOAPException("No ConduitInitiator is available for " + address, ex);
+       }
         
-        if (ci == null) {
-            throw new SOAPException("No ConduitInitiator is available for " + address);
-        }
-        return ci;
+       if (ci == null) 
+       {
+          throw new SOAPException("No ConduitInitiator is available for " + address);
+       }
+       return ci;
     }
+
+    @SuppressWarnings("unchecked")
+    private MessageObserver createMessageObserver(final Conduit c)
+    {
+       return new MessageObserver() 
+       {
+           public void onMessage(Message inMessage) 
+           {
+              LoadingByteArrayOutputStream bout = new LoadingByteArrayOutputStream();
+              try 
+              {
+                 IOUtils.copy(inMessage.getContent(InputStream.class), bout);
+                 inMessage.getExchange().put(InputStream.class, bout.createInputStream());
+                       
+                 Map<String, List<String>> inHeaders = 
+                    (Map<String, List<String>>)inMessage.get(Message.PROTOCOL_HEADERS);
+                       
+                 inMessage.getExchange().put(Message.PROTOCOL_HEADERS, inHeaders);
+                 c.close(inMessage);
+              } 
+              catch (IOException e) 
+              {
+                 //ignore
+              }
+           }
+       };
+    }
+    
+    @SuppressWarnings("unchecked")
+    private SOAPMessage readSoapMessage(Exchange exch) throws SOAPException
+    {
+       // read SOAPMessage        
+       try 
+       {
+          InputStream ins = exch.get(InputStream.class);
+          
+          Map<String, List<String>> inHeaders = 
+             (Map<String, List<String>>)exch.get(Message.PROTOCOL_HEADERS);
+             
+          MimeHeaders mimeHeaders = new MimeHeaders();
+          if (inHeaders != null) 
+          {
+             for (Map.Entry<String, List<String>> entry : inHeaders.entrySet()) 
+             {
+                if (entry.getValue() != null) 
+                {
+                   for (String value : entry.getValue()) 
+                   {
+                      mimeHeaders.addHeader(entry.getKey(), value);
+                   }
+                }
+             }
+          }
+          
+          //if inputstream is empty, no need to build
+          if (ins.markSupported())
+          {
+             ins.mark(1);
+             final int bytesRead = ins.read(new byte[1]);
+             ins.reset();
+             if (bytesRead == -1)
+             {
+                return null;
+             }
+          }
+          else if (ins.available() == 0)
+          {
+             return null;
+          }
+
+          MessageFactory msgFac = MessageFactory.newInstance(SOAPConstants.DYNAMIC_SOAP_PROTOCOL);
+          return msgFac.createMessage(mimeHeaders, ins);
+       } 
+       catch (Exception ex) 
+       {    
+          throw new SOAPException("SOAPMessage can not be read", ex);
+       }
+    }
+    
+    private void checkClosed() throws SOAPException 
+    {
+    	if (closed) {
+           throw new SOAPException("Cannot send messages using a previously closed connection!");
+        }   	
+    }
+    
 }

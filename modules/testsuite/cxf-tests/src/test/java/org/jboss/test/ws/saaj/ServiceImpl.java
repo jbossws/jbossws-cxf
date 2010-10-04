@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.saaj;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -111,6 +112,30 @@ public class ServiceImpl implements ServiceIface
 	  }
 	   
       return "Hello World!";
+   }
+   
+   public String greetMe()
+   {
+	  try 
+	  {
+	     Map<String, DataHandler> outDataHandlers = CastUtils.cast(
+	        (Map<?, ?>)context.getMessageContext().get(MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS));
+  
+	     final char[] content = new char[16 * 1024];
+	     Arrays.fill(content, 'A');
+	       
+	     DataHandler handler = new DataHandler(
+            new InputStreamDataSource(new ByteArrayInputStream(new String(content).getBytes()), 
+            		"text/plain", "1"));
+         outDataHandlers.put("1", handler);
+         
+	  }
+	  catch (Exception ex)
+	  {
+		  throw new RuntimeException(ex);
+	  }
+	   
+      return "Greetings";
    }
    
 }

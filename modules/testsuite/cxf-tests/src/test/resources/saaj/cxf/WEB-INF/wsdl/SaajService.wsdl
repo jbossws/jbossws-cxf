@@ -12,6 +12,18 @@
 <xsd:element minOccurs="0" name="return" type="xsd:string"/>
 </xsd:sequence>
 </xsd:complexType>
+
+<xsd:element name="greetMe" type="tns:greetMe"/>
+<xsd:complexType name="greetMe">
+<xsd:sequence/>
+</xsd:complexType>
+<xsd:element name="greetMeResponse" type="tns:greetMeResponse"/>
+<xsd:complexType name="greetMeResponse">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="return" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+
 </xsd:schema>
   </wsdl:types>
   <wsdl:message name="sayHelloResponse">
@@ -22,6 +34,16 @@
     <wsdl:part name="parameters" element="tns:sayHello">
     </wsdl:part>
   </wsdl:message>
+
+  <wsdl:message name="greetMeResponse">
+    <wsdl:part name="parameters" element="tns:greetMeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="greetMe">
+    <wsdl:part name="parameters" element="tns:greetMe">
+    </wsdl:part>
+  </wsdl:message>
+
   <wsdl:portType name="ServiceIface">
     <wsdl:operation name="sayHello">
       <wsdl:input name="sayHello" message="tns:sayHello">
@@ -29,15 +51,32 @@
       <wsdl:output name="sayHelloResponse" message="tns:sayHelloResponse">
     </wsdl:output>
     </wsdl:operation>
+
+    <wsdl:operation name="greetMe">
+      <wsdl:input name="greetMe" message="tns:greetMe">
+    </wsdl:input>
+      <wsdl:output name="greetMeResponse" message="tns:greetMeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+
   </wsdl:portType>
   <wsdl:binding name="SaajServiceSoapBinding" type="tns:ServiceIface">
-    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/wsdl/http/"/>
     <wsdl:operation name="sayHello">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="sayHello">
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="sayHelloResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="greetMe">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="greetMe">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="greetMeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>

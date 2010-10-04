@@ -46,21 +46,37 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class SOAPConnectionTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/saaj-soap-connection/SaajService";
-	
    public static Test suite()
    {
       return new JBossWSTestSetup(SOAPConnectionTestCase.class, "saaj-soap-connection.war");
    }
 
-   public void testSoapConnectionWithoutChunkedEncoding() throws Exception
+   public void testSoapConnectionPostWithoutChunkedEncoding() throws Exception
    {
 	  doTestSoapConnection(true);  
    }
    
-   public void testSoapConnectionWithChunkedEncoding() throws Exception
+   public void testSoapConnectionPostWithChunkedEncoding() throws Exception
    {
-	   doTestSoapConnection(false);
+	  doTestSoapConnection(false);
+   }
+   
+   // TODO: ignore until CXF 2.3 update to AbstractHttpDestination makes it into JBoss repos
+   public void ignoreTestSoapConnectionGet() throws Exception
+   {
+	   final String serviceURL = "http://" + getServerHost() + ":8080/saaj-soap-connection/greetMe";
+	   SOAPConnectionFactory conFac = SOAPConnectionFactory.newInstance();
+       
+       SOAPConnection con = conFac.createConnection();
+       URL endpoint = new URL(serviceURL);
+       SOAPMessage response = con.get(endpoint); 
+       QName greetMeResp = new QName("http://www.jboss.org/jbossws/saaj", "greetMeResponse");
+       
+       Iterator<?> sayHiRespIterator = response.getSOAPBody().getChildElements(greetMeResp);
+       SOAPElement soapElement = (SOAPElement)sayHiRespIterator.next();
+       assertNotNull(soapElement);
+       
+       assertEquals(1, response.countAttachments());
    }
    
    private void doTestSoapConnection(boolean disableChunking) throws Exception
@@ -94,6 +110,9 @@ public class SOAPConnectionTestCase extends JBossWSTest
        msg.saveChanges();
        
        SOAPConnection con = conFac.createConnection();
+       
+       final String serviceURL = "http://" + getServerHost() + ":8080/saaj-soap-connection";
+       
        URL endpoint = new URL(serviceURL);
        SOAPMessage response = con.call(msg, endpoint); 
        QName sayHiResp = new QName("http://www.jboss.org/jbossws/saaj", "sayHelloResponse");
