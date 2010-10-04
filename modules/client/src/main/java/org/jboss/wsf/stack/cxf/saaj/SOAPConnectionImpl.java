@@ -35,6 +35,7 @@ import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeader;
 import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPConnection;
+import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
@@ -166,7 +167,7 @@ public class SOAPConnectionImpl extends SOAPConnection
              }
           }
             
-          MessageFactory msgFac = MessageFactory.newInstance();
+          MessageFactory msgFac = MessageFactory.newInstance(SOAPConstants.DYNAMIC_SOAP_PROTOCOL);
           return msgFac.createMessage(mimeHeaders, ins);
        } 
        catch (Exception ex) 
