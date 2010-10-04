@@ -167,6 +167,22 @@ public class SOAPConnectionImpl extends SOAPConnection
              }
           }
             
+         //if inputstream is empty, no need to build
+         if (ins.markSupported())
+         {
+            ins.mark(1);
+            final int bytesRead = ins.read(new byte[1]);
+            ins.reset();
+            if (bytesRead == -1)
+            {
+               return null;
+            }
+         }
+         else if (ins.available() == 0)
+         {
+            return null;
+         }
+
           MessageFactory msgFac = MessageFactory.newInstance(SOAPConstants.DYNAMIC_SOAP_PROTOCOL);
           return msgFac.createMessage(mimeHeaders, ins);
        } 
