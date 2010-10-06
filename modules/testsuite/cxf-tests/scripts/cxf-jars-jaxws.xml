@@ -22,6 +22,28 @@
 
     <mkdir dir="${tests.output.dir}/test-libs"/>
 
+    <!-- jaxws-cxf-bus -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-bus.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/Endpoint.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/EndpointImpl.class"/>
+      </fileset>
+    </jar>
+    <!-- jaxws-cxf-bus-ejb3-client -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-bus-ejb3-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/Endpoint.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/EndpointService.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/EJB3Client.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/EJB3ClientRemoteInterface.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/AbstractClient.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/BusTestException.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/bus/META-INF">
+        <include name="**/*" />
+      </metainf>
+    </jar>
+  	
     <!-- jaxws-cxf-endorse -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-endorse.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/endorse/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
