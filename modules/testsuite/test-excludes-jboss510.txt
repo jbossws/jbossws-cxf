@@ -46,3 +46,5 @@ org/jboss/test/ws/jaxws/jbws2957/**
 
 # [JBWS-3123] @WebServiceRef support for annotation driven servlets (fixed on AS 6 series only)
 org/jboss/test/ws/jaxws/jbws3123/**
+org/jboss/test/ws/jaxws/jbws3134/AddrFeaturesViaAnn/**
+
