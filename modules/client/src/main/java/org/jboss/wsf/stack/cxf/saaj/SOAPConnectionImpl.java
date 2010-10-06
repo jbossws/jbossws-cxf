@@ -188,7 +188,12 @@ public class SOAPConnectionImpl extends SOAPConnection
        ConduitInitiator ci = null;
        try 
        {
-          Bus bus = BusFactory.getThreadDefaultBus(true);
+          //do not use getThreadDefaultBus(true) in order to avoid getting the default bus
+          Bus bus = BusFactory.getThreadDefaultBus(false);
+          if (bus == null)
+          {
+             bus = BusFactory.newInstance().createBus();
+          }
           ConduitInitiatorManager mgr = bus.getExtension(ConduitInitiatorManager.class);
             
           if (address.startsWith("http")) 
