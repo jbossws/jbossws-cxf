@@ -33,6 +33,7 @@ import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
+import org.jboss.wsf.stack.cxf.config.CXFInitializer;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
 import org.jboss.wsf.stack.cxf.configuration.SpringBusHolder;
@@ -54,6 +55,8 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
    @Override
    public void start(Deployment dep)
    {
+      //ensure the default bus has been set on the server, then proceed
+      CXFInitializer.waitForDefaultBusAvailability();
       //synchronize as this assumes nothing deals with the BusFactory threadlocals associated with the system daemon
       //thread doing the deployments, iow multiple concurrent deployment are not supported in this deployment aspect
       synchronized (this)

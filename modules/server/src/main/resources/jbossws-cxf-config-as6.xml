@@ -2,6 +2,9 @@
 
 <deployment xmlns="urn:jboss:bean-deployer:2.0">
   
+  <!-- CXF initializer, starts default bus, etc. -->
+  <bean name="CXFInitializer" class="org.jboss.wsf.stack.cxf.config.CXFInitializer" />
+  
   <!-- The registry for web service endpoints -->
   <bean name="WSEndpointRegistry" class="org.jboss.wsf.framework.management.ManagedEndpointRegistry">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>

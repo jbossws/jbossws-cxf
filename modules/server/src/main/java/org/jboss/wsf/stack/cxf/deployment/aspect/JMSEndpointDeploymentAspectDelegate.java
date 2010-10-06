@@ -29,6 +29,7 @@ import org.jboss.wsf.common.integration.JMSDeploymentAspect;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.metadata.jms.JMSEndpointsMetaData;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
+import org.jboss.wsf.stack.cxf.config.CXFInitializer;
 
 /**
  * To start the jms endpoints
@@ -40,6 +41,8 @@ public class JMSEndpointDeploymentAspectDelegate extends JMSDeploymentAspect
    @Override
    public void start(Deployment dep)  
    {
+      //ensure the default bus has been set on the server, then proceed
+      CXFInitializer.waitForDefaultBusAvailability();
       //TODO:handler JAXBIntro  
       if (dep.getAttachment(JMSEndpointsMetaData.class) != null)
       {

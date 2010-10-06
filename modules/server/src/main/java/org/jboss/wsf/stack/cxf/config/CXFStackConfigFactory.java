@@ -23,7 +23,6 @@ package org.jboss.wsf.stack.cxf.config;
 
 import org.jboss.wsf.spi.management.StackConfig;
 import org.jboss.wsf.spi.management.StackConfigFactory;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 
 /**
  * 
@@ -45,7 +44,6 @@ class CXFStackConfig implements StackConfig
 
    public String getImplementationTitle()
    {
-      JBossWSBusFactory.initializeDefaultBus();
       return getClass().getPackage().getImplementationTitle();
    }
 
