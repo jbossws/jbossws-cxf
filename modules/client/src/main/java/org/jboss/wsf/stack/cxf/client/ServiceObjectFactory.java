@@ -106,10 +106,11 @@ public class ServiceObjectFactory implements ObjectFactory
          // class instances
          final Class<?> serviceClass = this.getClass(serviceImplClass);
          final Class<?> targetClass = this.getClass(targetClassName);
-         // construct service
-         BusFactory.setDefaultBus(null);
+         // clean thread local bus before constructing Service
+         BusFactory.setThreadDefaultBus(null);
          try
          {
+            // construct service
             final Bus bus = this.createNewBus(serviceRef);
             final Service serviceInstance = this.instantiateService(serviceRef, serviceClass);
             if (serviceRef.getHandlerChain() != null)
@@ -131,7 +132,7 @@ public class ServiceObjectFactory implements ObjectFactory
          }
          finally 
          {
-            BusFactory.setDefaultBus(null);
+            BusFactory.setThreadDefaultBus(null);
          }
       }
       catch (Exception ex)
@@ -155,8 +156,6 @@ public class ServiceObjectFactory implements ObjectFactory
    private Bus createNewBus(final UnifiedServiceRefMetaData serviceRefMD)
    {
       final Bus bus;
-      // Always reset bus before constructing Service
-
       final URL cxfConfig = this.getCXFConfiguration(serviceRefMD.getVfsRoot());
       if (cxfConfig != null)
       {
@@ -166,7 +165,8 @@ public class ServiceObjectFactory implements ObjectFactory
       }
       else
       {
-         bus = BusFactory.getThreadDefaultBus();
+         Bus threadBus = BusFactory.getThreadDefaultBus(false);
+         bus = threadBus != null ? threadBus : BusFactory.newInstance().createBus();
       }
 
       //Add extension to configure stub properties using the UnifiedServiceRefMetaData 

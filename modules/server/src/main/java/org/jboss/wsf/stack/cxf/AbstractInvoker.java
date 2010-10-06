@@ -158,7 +158,7 @@ public abstract class AbstractInvoker implements Invoker
       inv.setArgs(params);
 
       Object retObj = null;
-      Bus threadBus = BusFactory.getThreadDefaultBus();
+      Bus threadBus = BusFactory.getThreadDefaultBus(false);
       try
       {
          invHandler.invoke(ep, inv);

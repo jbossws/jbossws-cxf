@@ -62,7 +62,6 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          try
          {
             //start cleaning the BusFactory thread locals
-            BusFactory.setDefaultBus(null);
             BusFactory.setThreadDefaultBus(null);
 
             ArchiveDeployment aDep = (ArchiveDeployment) dep;
@@ -112,7 +111,6 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          finally
          {
             //clean threadlocals in BusFactory and restore the original classloader
-            BusFactory.setDefaultBus(null);
             BusFactory.setThreadDefaultBus(null);
             SecurityActions.setContextClassLoader(origClassLoader);
          }

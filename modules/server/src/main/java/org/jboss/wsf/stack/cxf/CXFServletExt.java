@@ -69,9 +69,9 @@ public class CXFServletExt extends CXFServlet
    private void updateAvailableBusWithServletInfo(ServletConfig servletConfig)
    {
       BusHolder holder = endpoint.getService().getDeployment().getAttachment(BusHolder.class);
-      //set the bus from deployment into the CXF servlet and assign it to the current thread
+      //set the bus from deployment into the CXF servlet and assign it to the current thread (do not touch the default bus!)
       bus = holder.getBus();
-      BusFactory.possiblySetDefaultBus(bus);
+      BusFactory.setThreadDefaultBus(bus);
       //update the resource manager adding the ServletContextResourceResolver that was to be added by CXF servlet
       ResourceManager resourceManager = bus.getExtension(ResourceManager.class);
       resourceManager.addResourceResolver(new ServletContextResourceResolver(servletConfig.getServletContext()));

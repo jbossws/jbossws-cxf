@@ -61,7 +61,6 @@ public class JMSEndpointDeploymentAspectDelegate extends JMSDeploymentAspect
 
          finally
          {
-            BusFactory.setDefaultBus(null);
             BusFactory.setThreadDefaultBus(null);
             SecurityActions.setContextClassLoader(origClassLoader);
          }

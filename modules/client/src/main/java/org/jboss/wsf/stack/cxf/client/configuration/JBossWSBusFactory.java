@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.jboss.logging.Logger;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 
 /**
@@ -101,18 +102,27 @@ public class JBossWSBusFactory extends BusFactory
    }
 
    /** JBossWSNonSpringBusFactory methods **/
-   @SuppressWarnings("unchecked")
+   @SuppressWarnings("rawtypes")
    public Bus createBus(Map<Class, Object> extensions)
    {
       return getNonSpringBusFactory().createBus(extensions);
    }
 
-   @SuppressWarnings("unchecked")
+   @SuppressWarnings("rawtypes")
    public Bus createBus(Map<Class, Object> extensions, Map<String, Object> properties)
    {
       return getNonSpringBusFactory().createBus(extensions, properties);
    }
 
+   /**
+    * Makes sure the default bus is initialized
+    */
+   public static void initializeDefaultBus()
+   {
+      long i = System.currentTimeMillis();
+      getDefaultBus();
+      Logger.getLogger(JBossWSBusFactory.class).info("Time taken for initializeDefaultBus: " + (System.currentTimeMillis() - i));
+   }
    
    public JBossWSSpringBusFactory getSpringBusFactory()
    {

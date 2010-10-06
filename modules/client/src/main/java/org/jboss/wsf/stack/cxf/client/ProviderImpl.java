@@ -21,10 +21,15 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
+import java.net.URL;
+
+import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceFeature;
+import javax.xml.ws.spi.ServiceDelegate;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.jaxws.ServiceImpl;
 import org.jboss.logging.Logger;
 
 /**
@@ -49,5 +54,36 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          bus = BusFactory.newInstance().createBus();
       }
       return super.createEndpointImpl(bus, bindingId, implementor, features);
+   }
+   
+   @SuppressWarnings("rawtypes")
+   @Override
+   public ServiceDelegate createServiceDelegate(URL url, QName qname, Class cls)
+   {
+      //we override this method to prevent using the default bus when the current
+      //thread is not already associated to a bus. In those situations we create
+      //a new bus from scratch instead and link that to the thread.
+      Bus bus = BusFactory.getThreadDefaultBus(false);
+      if (bus == null)
+      {
+         bus = BusFactory.newInstance().createBus(); //this also set thread local bus internally as it's not set yet
+      }
+      return new ServiceImpl(bus, url, qname, cls);
+   }
+
+   @SuppressWarnings("rawtypes")
+   @Override
+   public ServiceDelegate createServiceDelegate(URL wsdlDocumentLocation, QName serviceName, Class serviceClass,
+         WebServiceFeature... features)
+   {
+      //we override this method to prevent using the default bus when the current
+      //thread is not already associated to a bus. In those situations we create
+      //a new bus from scratch instead and link that to the thread.
+      Bus bus = BusFactory.getThreadDefaultBus(false);
+      if (bus == null)
+      {
+         bus = BusFactory.newInstance().createBus(); //this also set thread local bus internally as it's not set yet 
+      }
+      return super.createServiceDelegate(wsdlDocumentLocation, serviceName, serviceClass, features);
    }
 }
