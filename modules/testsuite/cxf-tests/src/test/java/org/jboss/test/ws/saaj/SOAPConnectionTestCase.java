@@ -61,7 +61,6 @@ public class SOAPConnectionTestCase extends JBossWSTest
 	  doTestSoapConnection(false);
    }
    
-   // TODO: ignore until CXF 2.3 update to AbstractHttpDestination makes it into JBoss repos
    public void testSoapConnectionGet() throws Exception
    {
 	   final String serviceURL = "http://" + getServerHost() + ":8080/saaj-soap-connection/greetMe";
