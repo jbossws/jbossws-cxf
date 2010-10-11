@@ -41,8 +41,8 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  *
- * @author alessio.soldano@jboss.com
- * @since 11-Jun-2010
+ * @author sberyozk@redhat.com
+ * 
  */
 public class SOAPConnectionTestCase extends JBossWSTest
 {
