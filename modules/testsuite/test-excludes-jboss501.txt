@@ -42,6 +42,3 @@ org/jboss/test/ws/jaxws/samples/jmsendpoints/**
 
 # [JBWS-2957] EJB3 webservices in web archives (fixed on AS 6 series only)
 org/jboss/test/ws/jaxws/jbws2957/**
-
-# [JBWS-3084] Enable control of chunked encoding when using SOAPConnection
-org/jboss/test/ws/saaj/**
