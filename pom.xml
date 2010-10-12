@@ -69,7 +69,7 @@
     <jboss.security.sx.version>2.0.4</jboss.security.sx.version>
     <jboss.xb.version>2.0.2.Beta7</jboss.xb.version>
     <picketbox.version>3.0.0.Beta5</picketbox.version>
-    <jaxws-httpserver-httpspi.version>1.0.0-SNAPSHOT</jaxws-httpserver-httpspi.version>
+    <jaxws-httpserver-httpspi.version>1.0.0.GA</jaxws-httpserver-httpspi.version>
     <jaxb.api.version>1.0.0.Beta1</jaxb.api.version>
     <jaxb.impl.version>2.2</jaxb.impl.version>
     <jaxrpc.api.version>1.0.0.Beta1</jaxrpc.api.version>
