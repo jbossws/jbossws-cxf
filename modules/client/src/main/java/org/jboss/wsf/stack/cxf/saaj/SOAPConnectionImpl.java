@@ -146,6 +146,11 @@ public class SOAPConnectionImpl extends SOAPConnection
        try 
        {
           final Conduit c = ci.getConduit(info);
+          
+          if (c instanceof HTTPConduit)
+          {
+             ((HTTPConduit)c).getClient().setAutoRedirect(true);
+          }
             
           outMessage.put(Message.HTTP_REQUEST_METHOD, "GET");
           c.prepare(outMessage);
