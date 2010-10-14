@@ -28,8 +28,8 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Test a CXF endpoint with provided jbossws-cxf.xml 
@@ -44,7 +44,7 @@ public class DescriptorJSETestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(DescriptorJSETestCase.class, "jaxws-cxf-descriptor.war");
+      return new JBossWSCXFTestSetup(DescriptorJSETestCase.class, "jaxws-cxf-descriptor.war");
    }
 
    public void testLegalAccess() throws Exception

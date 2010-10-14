@@ -22,13 +22,15 @@
 package org.jboss.test.ws.jaxws.samples.wsrm.client;
 
 import java.net.URL;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
+
 import org.jboss.test.ws.jaxws.samples.wsrm.generated.SimpleService;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.wsf.test.JBossWSTest;
 
 /**
  * Client invoking web service using WS-RM
@@ -42,7 +44,7 @@ public final class SimpleServiceTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(SimpleServiceTestCase.class, "jaxws-samples-wsrm.war,jaxws-samples-wsrm-client.jar");
+      return new JBossWSCXFTestSetup(SimpleServiceTestCase.class, "jaxws-samples-wsrm.war,jaxws-samples-wsrm-client.jar");
    }
 
    @Override

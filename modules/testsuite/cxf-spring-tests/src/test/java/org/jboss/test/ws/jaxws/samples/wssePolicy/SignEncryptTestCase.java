@@ -31,8 +31,8 @@ import javax.xml.ws.soap.SOAPFaultException;
 import junit.framework.Test;
 
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * WS-Security Policy sign & encrypt test case
@@ -46,7 +46,7 @@ public final class SignEncryptTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(SignEncryptTestCase.class, "jaxws-samples-wssePolicy-sign-encrypt-client.jar jaxws-samples-wssePolicy-sign-encrypt.war");
+      return new JBossWSCXFTestSetup(SignEncryptTestCase.class, "jaxws-samples-wssePolicy-sign-encrypt-client.jar jaxws-samples-wssePolicy-sign-encrypt.war");
    }
 
    public void test() throws Exception

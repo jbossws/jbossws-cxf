@@ -37,7 +37,7 @@ import javax.xml.soap.SOAPMessage;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 
 /**
  *
@@ -48,7 +48,7 @@ public class SOAPConnectionTestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSTestSetup(SOAPConnectionTestCase.class, "saaj-soap-connection.war");
+      return new JBossWSCXFTestSetup(SOAPConnectionTestCase.class, "saaj-soap-connection.war");
    }
 
    public void testSoapConnectionPostWithoutChunkedEncoding() throws Exception

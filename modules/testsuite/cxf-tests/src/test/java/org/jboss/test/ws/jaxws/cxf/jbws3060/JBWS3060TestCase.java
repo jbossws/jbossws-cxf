@@ -35,8 +35,8 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  *
@@ -54,7 +54,7 @@ public class JBWS3060TestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS3060TestCase.class, "jaxws-cxf-jbws3060.jar");
+      return new JBossWSCXFTestSetup(JBWS3060TestCase.class, "jaxws-cxf-jbws3060.jar");
    }
 
    public void testAccess() throws Exception

@@ -35,8 +35,8 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * WS-Security username authorization test case
@@ -52,7 +52,7 @@ public final class UsernameAuthorizationTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(UsernameAuthorizationTestCase.class, "jaxws-samples-wsse-username-authorize.war");
+      return new JBossWSCXFTestSetup(UsernameAuthorizationTestCase.class, "jaxws-samples-wsse-username-authorize.war");
    }
 
    public void testAuthorized() throws Exception

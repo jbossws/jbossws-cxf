@@ -37,8 +37,8 @@ import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.binding.JAXBBindingCustomization;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSConfigurer;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 
 /**
@@ -58,7 +58,7 @@ public class JAXBIntroTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(JAXBIntroTestCase.class, "jaxws-cxf-jaxbintros.jar");
+      return new JBossWSCXFTestSetup(JAXBIntroTestCase.class, "jaxws-cxf-jaxbintros.jar");
    }
 
    public void testWSDLAccess() throws Exception

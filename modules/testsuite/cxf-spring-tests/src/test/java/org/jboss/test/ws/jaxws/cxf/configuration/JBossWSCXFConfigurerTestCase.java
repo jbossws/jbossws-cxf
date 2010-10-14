@@ -28,8 +28,8 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * To test configure bean by name auto wire
@@ -43,7 +43,7 @@ public class JBossWSCXFConfigurerTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBossWSCXFConfigurerTestCase.class, "jaxws-cxf-configuration.war");
+      return new JBossWSCXFTestSetup(JBossWSCXFConfigurerTestCase.class, "jaxws-cxf-configuration.war");
    }
    
    //JBWS-3033

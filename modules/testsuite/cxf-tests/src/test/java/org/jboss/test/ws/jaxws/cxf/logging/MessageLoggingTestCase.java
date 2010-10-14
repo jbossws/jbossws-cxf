@@ -34,8 +34,8 @@ import junit.framework.Test;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Tests configuration of message exchange logging using API
@@ -52,7 +52,7 @@ public class MessageLoggingTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(MessageLoggingTestCase.class, "jaxws-cxf-logging.jar");
+      return new JBossWSCXFTestSetup(MessageLoggingTestCase.class, "jaxws-cxf-logging.jar");
    }
 
    public void testLoggingFeature() throws Exception
@@ -91,7 +91,7 @@ public class MessageLoggingTestCase extends JBossWSTest
          OutputStream out = new ByteArrayOutputStream();
          myLoggingInterceptor.setPrintWriter(new PrintWriter(out, true));
          bus.getInInterceptors().add(myLoggingInterceptor);
-         BusFactory.setDefaultBus(bus);
+         BusFactory.setThreadDefaultBus(bus);
 
          Service service = Service.create(wsdlURL, serviceName);
          QName portQName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingFeatureEndpointPort");

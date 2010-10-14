@@ -29,8 +29,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.common.DOMUtils;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 
 /**
@@ -46,7 +46,7 @@ public class BasicRPCTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(BasicRPCTestCase.class, "jaxws-cxf-wsrm-basic-rpc.war,jaxws-cxf-wsrm-basic-client.jar");
+      return new JBossWSCXFTestSetup(BasicRPCTestCase.class, "jaxws-cxf-wsrm-basic-rpc.war,jaxws-cxf-wsrm-basic-client.jar");
    }
 
    public void testWSDLAccess() throws Exception

@@ -25,8 +25,8 @@ import javax.naming.InitialContext;
 
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * A test case that verifies Bus references do not leak into EJB3 clients 
@@ -39,7 +39,7 @@ public class EJB3ClientBusTestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSTestSetup(EJB3ClientBusTestCase.class, "jaxws-cxf-bus.jar");
+      return new JBossWSCXFTestSetup(EJB3ClientBusTestCase.class, "jaxws-cxf-bus.jar");
    }
    
    public void testSingleDeploy() throws Exception

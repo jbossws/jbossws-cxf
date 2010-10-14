@@ -21,6 +21,11 @@
       <version>${version}</version>
     </dependency>
     <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-specific-tests</artifactId>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.picketbox</groupId>
       <artifactId>picketbox-bare</artifactId>
       <scope>test</scope>

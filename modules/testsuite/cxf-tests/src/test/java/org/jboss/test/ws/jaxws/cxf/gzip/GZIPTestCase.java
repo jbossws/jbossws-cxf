@@ -23,22 +23,17 @@ package org.jboss.test.ws.jaxws.cxf.gzip;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.bus.CXFBusImpl;
 import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.helpers.HttpHeaderHelper;
@@ -49,8 +44,8 @@ import org.apache.cxf.transport.http.gzip.GZIPFeature;
 import org.apache.cxf.transport.http.gzip.GZIPInInterceptor;
 import org.apache.cxf.transport.http.gzip.GZIPOutInterceptor;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * 
@@ -66,7 +61,7 @@ public class GZIPTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(GZIPTestCase.class, "jaxws-cxf-gzip.jar");
+      return new JBossWSCXFTestSetup(GZIPTestCase.class, "jaxws-cxf-gzip.jar");
    }
    
    public void testGZIPUsingFeatureOnBus() throws Exception
@@ -74,7 +69,7 @@ public class GZIPTestCase extends JBossWSTest
       Bus bus = BusFactory.newInstance().createBus();
       try
       {
-         BusFactory.setDefaultBus(bus);
+         BusFactory.setThreadDefaultBus(bus);
          
          GZIPFeature gzipFeature = new GZIPFeature();
          gzipFeature.setThreshold(0);
@@ -142,7 +137,7 @@ public class GZIPTestCase extends JBossWSTest
          bus.getOutInterceptors().add(outInterceptor);
          //add interceptor for decoding gzip message
          bus.getInInterceptors().add(new GZIPEnforcingInInterceptor());
-         BusFactory.setDefaultBus(bus);
+         BusFactory.setThreadDefaultBus(bus);
          HelloWorld port = getPort();
          assertEquals("foo", port.echo("foo"));
       }
@@ -161,7 +156,7 @@ public class GZIPTestCase extends JBossWSTest
          GZIPOutInterceptor outInterceptor = new GZIPOutInterceptor();
          outInterceptor.setThreshold(1024*1024); // 1MB -> no gzip on request
          bus.getOutInterceptors().add(outInterceptor);
-         BusFactory.setDefaultBus(bus);
+         BusFactory.setThreadDefaultBus(bus);
          HelloWorld port = getPort();
          try
          {

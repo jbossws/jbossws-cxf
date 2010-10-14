@@ -8,14 +8,14 @@ import javax.naming.InitialContext;
 
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 public class CXFManagementTestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSTestSetup(CXFManagementTestCase.class, "jaxws-cxf-management.war");
+      return new JBossWSCXFTestSetup(CXFManagementTestCase.class, "jaxws-cxf-management.war");
    }
    
    public void testJMXBean() throws Exception {

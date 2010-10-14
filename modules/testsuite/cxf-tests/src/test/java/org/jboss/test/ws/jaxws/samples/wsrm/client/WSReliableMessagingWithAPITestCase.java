@@ -28,9 +28,9 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.test.ws.jaxws.samples.wsrm.generated.SimpleService;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Client invoking web service with WS-RM and using no xml descriptor
@@ -46,7 +46,7 @@ public final class WSReliableMessagingWithAPITestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(WSReliableMessagingWithAPITestCase.class, "jaxws-samples-wsrm-api.war");
+      return new JBossWSCXFTestSetup(WSReliableMessagingWithAPITestCase.class, "jaxws-samples-wsrm-api.war");
    }
 
    @Override

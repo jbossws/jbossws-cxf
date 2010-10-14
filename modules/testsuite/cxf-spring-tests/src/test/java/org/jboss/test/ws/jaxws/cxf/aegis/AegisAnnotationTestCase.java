@@ -27,8 +27,8 @@ import junit.framework.Test;
 
 import org.apache.cxf.aegis.databinding.AegisDatabinding;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 public class AegisAnnotationTestCase extends JBossWSTest
 {
@@ -36,7 +36,7 @@ public class AegisAnnotationTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(AegisAnnotationTestCase.class, "jaxws-aegis-annotation.war");
+      return new JBossWSCXFTestSetup(AegisAnnotationTestCase.class, "jaxws-aegis-annotation.war");
    }
 
    public void testAccessAnnotation() throws Exception

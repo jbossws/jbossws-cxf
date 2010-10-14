@@ -22,13 +22,11 @@
 package org.jboss.test.ws.jaxws.samples.wsseEJB;
 
 import java.net.URL;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceException;
 
 import junit.framework.Test;
 
@@ -37,9 +35,8 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
-
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Secure EJB endpoint test
@@ -52,7 +49,7 @@ public class WsseEjbTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(WsseEjbTestCase.class, "jaxws-samples-wsseEJB.jar");
+      return new JBossWSCXFTestSetup(WsseEjbTestCase.class, "jaxws-samples-wsseEJB.jar");
    }
 
    private EjbEndpoint getPort() throws Exception

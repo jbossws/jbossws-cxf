@@ -23,6 +23,7 @@ package org.jboss.test.ws.jaxws.samples.wsa;
 
 import java.net.SocketTimeoutException;
 import java.net.URL;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
@@ -32,12 +33,11 @@ import javax.xml.ws.soap.AddressingFeature;
 import junit.framework.Test;
 
 import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.endpoint.ClientImpl;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Client invoking web service using WS-Addressing
@@ -50,7 +50,7 @@ public final class AddressingTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(AddressingTestCase.class, "jaxws-samples-wsa.war");
+      return new JBossWSCXFTestSetup(AddressingTestCase.class, "jaxws-samples-wsa.war");
    }
 
    /**

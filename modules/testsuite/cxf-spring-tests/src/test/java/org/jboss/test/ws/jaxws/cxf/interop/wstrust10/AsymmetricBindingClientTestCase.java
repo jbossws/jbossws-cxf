@@ -34,8 +34,8 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.jboss.logging.Logger;
 import org.jboss.test.ws.jaxws.cxf.interop.wstrust10.interopbaseaddress.interop.IPingService;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * WS-Trust 1.0 - Asymmetric binding interop test case
@@ -54,7 +54,7 @@ public class AsymmetricBindingClientTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(AsymmetricBindingClientTestCase.class, "jaxws-cxf-interop-wstrust10-client.jar");
+      return new JBossWSCXFTestSetup(AsymmetricBindingClientTestCase.class, "jaxws-cxf-interop-wstrust10-client.jar");
    }
    
    public void testScenario9() throws Exception
@@ -97,7 +97,7 @@ public class AsymmetricBindingClientTestCase extends JBossWSTest
       SpringBusFactory busFactory = new SpringBusFactory();
       URL cxfConfig = getResourceURL("jaxws/cxf/interop/wstrust10/META-INF/" + scenario + "-client-config.xml");
       bus = busFactory.createBus(cxfConfig);
-      BusFactory.setDefaultBus(bus);
+      BusFactory.setThreadDefaultBus(bus);
    }
    
    @Override

@@ -27,8 +27,8 @@ import java.net.URL;
 
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Test required endorsing when using the CXF stack
@@ -42,7 +42,7 @@ public class EndorseTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(EndorseTestCase.class, "jaxws-cxf-endorse.war");
+      return new JBossWSCXFTestSetup(EndorseTestCase.class, "jaxws-cxf-endorse.war");
    }
    
    public void testClientSide()

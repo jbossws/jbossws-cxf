@@ -30,8 +30,8 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Test @javax.xml.ws.WebServiceref with a custom CXF jaxws:client
@@ -46,7 +46,7 @@ public class WebServiceRefServletTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(WebServiceRefServletTestCase.class, "jaxws-cxf-webserviceref.war");
+      return new JBossWSCXFTestSetup(WebServiceRefServletTestCase.class, "jaxws-cxf-webserviceref.war");
    }
 
    public void testDynamicProxy() throws Exception

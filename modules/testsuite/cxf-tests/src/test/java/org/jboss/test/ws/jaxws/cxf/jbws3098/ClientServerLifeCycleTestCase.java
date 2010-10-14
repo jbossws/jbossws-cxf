@@ -34,8 +34,8 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.ClientLifeCycleListener;
 import org.apache.cxf.endpoint.ClientLifeCycleManager;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Verifies the Bus is properly configured with Client/Server LifeCycleManager instances
@@ -50,7 +50,7 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(ClientServerLifeCycleTestCase.class, "jaxws-cxf-jbws3098.jar");
+      return new JBossWSCXFTestSetup(ClientServerLifeCycleTestCase.class, "jaxws-cxf-jbws3098.jar");
    }
 
    public void testClientLifeCycleManager()

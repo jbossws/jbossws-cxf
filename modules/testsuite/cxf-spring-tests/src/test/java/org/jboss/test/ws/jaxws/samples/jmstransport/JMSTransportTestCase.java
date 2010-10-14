@@ -48,9 +48,9 @@ import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.common.ObjectNameFactory;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * The test for cxf jms transport
@@ -65,7 +65,7 @@ public class JMSTransportTestCase extends JBossWSTest
    {
 		if (isHornetQAvailable()) 
 		{
-			return new JBossWSTestSetup(JMSTransportTestCase.class,
+			return new JBossWSCXFTestSetup(JMSTransportTestCase.class,
 					"hornetq-samples-jmstransport-as6.sar, jaxws-samples-jmstransport.war");
 		} 
 		else 

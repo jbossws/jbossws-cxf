@@ -30,8 +30,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * WS-Security Policy username test case
@@ -48,7 +48,7 @@ public final class UsernameTestCase extends JBossWSTest
       System.setProperty("javax.net.ssl.trustStore", "/dati/truststore_abc");
       System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
       System.setProperty("javax.net.ssl.trustStoreType", "jks");
-      return new JBossWSTestSetup(UsernameTestCase.class, "jaxws-samples-wssePolicy-username.war");
+      return new JBossWSCXFTestSetup(UsernameTestCase.class, "jaxws-samples-wssePolicy-username.war");
    }
 
    public void test() throws Exception

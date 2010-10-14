@@ -40,9 +40,9 @@ import junit.framework.TestSuite;
 import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
 import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.common.ObjectNameFactory;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * The test for cxf jms transport packaged in a jar file and deployed with jbossws-cxf.xml
@@ -56,7 +56,7 @@ public class JMSEndpointsTestCase extends JBossWSTest
    public static Test suite() throws Exception
    {
       if (isHornetQAvailable()) {
-         return new JBossWSTestSetup(JMSEndpointsTestCase.class, "hornetq-jmsendpoints-as6.sar, jaxws-samples-jmsendpoints-as6.jar");
+         return new JBossWSCXFTestSetup(JMSEndpointsTestCase.class, "hornetq-jmsendpoints-as6.sar, jaxws-samples-jmsendpoints-as6.jar");
       } else {
          return new TestSuite();
       }

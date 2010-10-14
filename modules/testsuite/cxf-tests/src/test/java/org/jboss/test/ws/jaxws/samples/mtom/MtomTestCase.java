@@ -29,10 +29,11 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
+
 import org.apache.cxf.helpers.IOUtils;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 /**
@@ -46,7 +47,7 @@ public final class MtomTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(MtomTestCase.class, "jaxws-samples-mtom.war");
+      return new JBossWSCXFTestSetup(MtomTestCase.class, "jaxws-samples-mtom.war");
    }
 
    public void testMtomWithProxy() throws Exception
