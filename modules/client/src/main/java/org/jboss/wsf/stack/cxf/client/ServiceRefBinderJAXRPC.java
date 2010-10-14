@@ -35,7 +35,7 @@ import org.jboss.wsf.spi.serviceref.ServiceRefBinder;
  */
 public class ServiceRefBinderJAXRPC implements ServiceRefBinder
 {
-   public void setupServiceRef(Context encCtx, String encName, AnnotatedElement anElement, UnifiedServiceRefMetaData serviceRef, ClassLoader loader) throws NamingException
+   public void setupServiceRef(Context encCtx, String encName, UnifiedServiceRefMetaData serviceRef, ClassLoader loader) throws NamingException
    {
       throw new IllegalArgumentException("Deployed stack does not support JAX-RPC service-ref deployments");
    }
