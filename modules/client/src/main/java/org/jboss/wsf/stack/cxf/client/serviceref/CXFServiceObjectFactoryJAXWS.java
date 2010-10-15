@@ -62,15 +62,15 @@ import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
  * This ServiceObjectFactory reconstructs a javax.xml.ws.Service
  * for a given WSDL when the webservice client does a JNDI lookup.
  *
- * @see ServiceReferenceable
+ * @see CXFServiceReferenceableJAXWS
  *
  * @author Thomas.Diesler@jboss.com
  * @author Richard.Opalka@jboss.com
  * @author alessio.soldano@jboss.com
  */
-public class ServiceObjectFactory implements ObjectFactory
+public class CXFServiceObjectFactoryJAXWS implements ObjectFactory
 {
-   protected final Logger log = Logger.getLogger(ServiceObjectFactory.class);
+   protected final Logger log = Logger.getLogger(CXFServiceObjectFactoryJAXWS.class);
 
    /**
     * Creates an object using the location or reference information specified.
@@ -181,7 +181,7 @@ public class ServiceObjectFactory implements ObjectFactory
    {
       String serviceClassName = serviceRefMD.getServiceImplClass();
       if (serviceClassName == null)
-         serviceClassName = (String) ref.get(ServiceReferenceable.SERVICE_IMPL_CLASS).getContent();
+         serviceClassName = (String) ref.get(CXFServiceReferenceableJAXWS.SERVICE_IMPL_CLASS).getContent();
 
       return serviceClassName;
    }
@@ -191,7 +191,7 @@ public class ServiceObjectFactory implements ObjectFactory
    {
       String targetClassName = serviceRefMD.getServiceRefType();
       if (targetClassName == null)
-         targetClassName = (String) ref.get(ServiceReferenceable.TARGET_CLASS_NAME).getContent();
+         targetClassName = (String) ref.get(CXFServiceReferenceableJAXWS.TARGET_CLASS_NAME).getContent();
 
       if (Service.class.getName().equals(targetClassName))
          targetClassName = serviceImplClass;
@@ -445,7 +445,7 @@ public class ServiceObjectFactory implements ObjectFactory
          NamingException
    {
       final UnifiedServiceRefMetaData sref;
-      final RefAddr refAddr = ref.get(ServiceReferenceable.SERVICE_REF_META_DATA);
+      final RefAddr refAddr = ref.get(CXFServiceReferenceableJAXWS.SERVICE_REF_META_DATA);
       final ByteArrayInputStream bais = new ByteArrayInputStream((byte[]) refAddr.getContent());
       try
       {
