@@ -21,20 +21,22 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
-import org.jboss.wsf.spi.serviceref.ServiceRefBinder;
-import org.jboss.wsf.spi.serviceref.ServiceRefBinderFactory;
-import org.jboss.wsf.spi.serviceref.ServiceRefHandler.Type;
+import javax.naming.Referenceable;
+
+import org.jboss.wsf.common.serviceref.AbstractServiceRefBinderJAXRPC;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 
 /**
- * Binds a JAXWS Service object in the client's ENC
+ * Binds a JAXRPC Service object to the client's ENC.
  *
- * @author Thomas.Diesler@jboss.com
- * @since 06-Dec-2007
+ * @author Thomas.Diesler@jboss.org
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public class ServiceRefBinderFactoryImpl implements ServiceRefBinderFactory
+public final class CXFServiceRefBinderJAXRPC extends AbstractServiceRefBinderJAXRPC
 {
-   public ServiceRefBinder newServiceRefBinder(Type type)
+   @Override
+   protected Referenceable createReferenceable(final UnifiedServiceRefMetaData serviceRefUMDM)
    {
-      return (type == Type.JAXRPC ? new CXFServiceRefBinderJAXRPC() : new CXFServiceRefBinderJAXWS());
+      throw new IllegalArgumentException("CXF does not support JAX-RPC");
    }
 }

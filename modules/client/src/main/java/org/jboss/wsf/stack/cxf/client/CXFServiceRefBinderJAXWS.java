@@ -21,22 +21,23 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
-import java.lang.reflect.AnnotatedElement;
+import javax.naming.Referenceable;
 
-import javax.naming.Context;
-import javax.naming.NamingException;
-
+import org.jboss.wsf.common.serviceref.AbstractServiceRefBinderJAXWS;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
-import org.jboss.wsf.spi.serviceref.ServiceRefBinder;
 
 /**
- * @author Thomas.Diesler@jboss.com
- * @since 06-Dec-2007
+ * Binds a JAXWS Service object to the client's ENC.
+ *
+ * @author Thomas.Diesler@jboss.org
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public class ServiceRefBinderJAXRPC implements ServiceRefBinder
+public final class CXFServiceRefBinderJAXWS extends AbstractServiceRefBinderJAXWS
 {
-   public void setupServiceRef(Context encCtx, String encName, AnnotatedElement ignored, UnifiedServiceRefMetaData serviceRef, ClassLoader loader) throws NamingException
+   @Override
+   protected Referenceable createReferenceable(final String serviceImplClass, final String targetClassName,
+         final UnifiedServiceRefMetaData serviceRefUMDM)
    {
-      throw new IllegalArgumentException("Deployed stack does not support JAX-RPC service-ref deployments");
+      return new ServiceReferenceable(serviceImplClass, targetClassName, serviceRefUMDM);
    }
 }
