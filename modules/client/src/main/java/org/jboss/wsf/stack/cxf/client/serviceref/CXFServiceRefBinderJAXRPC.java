@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.client;
+package org.jboss.wsf.stack.cxf.client.serviceref;
 
 import javax.naming.Referenceable;
 
@@ -32,7 +32,7 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
  * @author Thomas.Diesler@jboss.org
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public final class CXFServiceRefBinderJAXRPC extends AbstractServiceRefBinderJAXRPC
+final class CXFServiceRefBinderJAXRPC extends AbstractServiceRefBinderJAXRPC
 {
    @Override
    protected Referenceable createReferenceable(final UnifiedServiceRefMetaData serviceRefUMDM)

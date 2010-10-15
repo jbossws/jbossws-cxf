@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.client;
+package org.jboss.wsf.stack.cxf.client.serviceref;
 
 import org.jboss.wsf.spi.serviceref.ServiceRefBinder;
 import org.jboss.wsf.spi.serviceref.ServiceRefBinderFactory;
@@ -29,12 +29,16 @@ import org.jboss.wsf.spi.serviceref.ServiceRefHandler.Type;
  * Binds a JAXWS Service object in the client's ENC
  *
  * @author Thomas.Diesler@jboss.com
- * @since 06-Dec-2007
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public class ServiceRefBinderFactoryImpl implements ServiceRefBinderFactory
+public final class CXFServiceRefBinderFactoryImpl implements ServiceRefBinderFactory
 {
-   public ServiceRefBinder newServiceRefBinder(Type type)
+   private static final ServiceRefBinder JAXRPC_BINDER = new CXFServiceRefBinderJAXRPC();
+
+   private static final ServiceRefBinder JAXWS_BINDER = new CXFServiceRefBinderJAXWS();
+
+   public ServiceRefBinder newServiceRefBinder(final Type type)
    {
-      return (type == Type.JAXRPC ? new CXFServiceRefBinderJAXRPC() : new CXFServiceRefBinderJAXWS());
+      return type == Type.JAXRPC ? JAXRPC_BINDER : JAXWS_BINDER;
    }
 }
