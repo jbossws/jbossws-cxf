@@ -44,12 +44,12 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedStubPropertyMetaData;
  * @author alessio.soldano@jboss.com
  * @since 21-Jul-2009
  */
-public class ServiceRefStubPropertyConfigurer implements Configurer
+final class CXFServiceRefStubPropertyConfigurer implements Configurer
 {
    private UnifiedServiceRefMetaData serviceRefMD;
    private Configurer delegate;
 
-   public ServiceRefStubPropertyConfigurer(UnifiedServiceRefMetaData serviceRefMD, Configurer delegate)
+   public CXFServiceRefStubPropertyConfigurer(UnifiedServiceRefMetaData serviceRefMD, Configurer delegate)
    {
       this.serviceRefMD = serviceRefMD;
       this.delegate = delegate;
@@ -98,7 +98,7 @@ public class ServiceRefStubPropertyConfigurer implements Configurer
    
    private void setMTOM(JaxWsServiceFactoryBean serviceFactoryBean, UnifiedPortComponentRefMetaData upcmd)
    {
-      if (upcmd.getEnableMTOM())
+      if (upcmd.isMtomEnabled())
       {
          List<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
          List<WebServiceFeature> prevFeatures = serviceFactoryBean.getWsFeatures();

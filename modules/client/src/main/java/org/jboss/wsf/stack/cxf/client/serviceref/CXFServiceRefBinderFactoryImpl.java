@@ -26,7 +26,7 @@ import org.jboss.wsf.spi.serviceref.ServiceRefBinderFactory;
 import org.jboss.wsf.spi.serviceref.ServiceRefHandler.Type;
 
 /**
- * Binds a JAXWS Service object in the client's ENC
+ * Binds either JAXRPC or JAXWS Service object in the client's ENC.
  *
  * @author Thomas.Diesler@jboss.com
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>

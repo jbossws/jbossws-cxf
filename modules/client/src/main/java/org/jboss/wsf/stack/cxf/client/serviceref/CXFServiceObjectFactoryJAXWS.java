@@ -55,7 +55,6 @@ import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedPortComponentRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
-import org.jboss.wsf.stack.cxf.client.HandlerResolverImpl;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 
 /**
@@ -116,7 +115,7 @@ public class CXFServiceObjectFactoryJAXWS implements ObjectFactory
             final Service serviceInstance = this.instantiateService(serviceRef, serviceClass);
             if (serviceRef.getHandlerChain() != null)
             {
-               serviceInstance.setHandlerResolver(new HandlerResolverImpl(bus, serviceRef.getHandlerChain(),
+               serviceInstance.setHandlerResolver(new CXFHandlerResolverImpl(bus, serviceRef.getHandlerChain(),
                      serviceInstance.getClass()));
             }
             // construct port
@@ -172,7 +171,7 @@ public class CXFServiceObjectFactoryJAXWS implements ObjectFactory
 
       //Add extension to configure stub properties using the UnifiedServiceRefMetaData 
       Configurer configurer = bus.getExtension(Configurer.class);
-      bus.setExtension(new ServiceRefStubPropertyConfigurer(serviceRefMD, configurer), Configurer.class);
+      bus.setExtension(new CXFServiceRefStubPropertyConfigurer(serviceRefMD, configurer), Configurer.class);
 
       return bus;
    }

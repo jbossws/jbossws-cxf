@@ -38,7 +38,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.client;
+package org.jboss.wsf.stack.cxf.client.serviceref;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,10 +77,10 @@ import org.w3c.dom.Node;
  * Handler resolver for CXF integration
  * @author richard.opalka@jboss.com
  */
-public final class HandlerResolverImpl extends HandlerChainBuilder implements HandlerResolver
+final class CXFHandlerResolverImpl extends HandlerChainBuilder implements HandlerResolver
 {
    
-   private static final Logger log = Logger.getLogger(HandlerResolverImpl.class);
+   private static final Logger log = Logger.getLogger(CXFHandlerResolverImpl.class);
    private final Map<PortInfo, List<Handler>> handlerMap = new HashMap<PortInfo, List<Handler>>();
    private final String handlerFile;
    private static JAXBContext context;
@@ -88,7 +88,7 @@ public final class HandlerResolverImpl extends HandlerChainBuilder implements Ha
    private final ClassLoader classLoader;
    private final Bus bus;
 
-   public HandlerResolverImpl(Bus bus, String handlerFile, Class<?> clazz)
+   public CXFHandlerResolverImpl(Bus bus, String handlerFile, Class<?> clazz)
    {
       super();
       this.handlerFile = handlerFile;
@@ -127,7 +127,6 @@ public final class HandlerResolverImpl extends HandlerChainBuilder implements Ha
            ResourceManager resourceManager = bus.getExtension(ResourceManager.class);
            List<ResourceResolver> resolvers = resourceManager.getResourceResolvers();
            resourceManager = new DefaultResourceManager(resolvers);
-//           resourceManager.addResourceResolver(new WebContextEntriesResourceResolver());
            ResourceInjector injector = new ResourceInjector(resourceManager);
            injector.inject(handler);
            injector.construct(handler);
@@ -362,7 +361,6 @@ public final class HandlerResolverImpl extends HandlerChainBuilder implements Ha
               .unmarshal(el, PortComponentHandlerType.class).getValue();
           chain.addAll(buildHandlerChain(pt, classLoader));
       } catch (JAXBException e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
       }
   }
