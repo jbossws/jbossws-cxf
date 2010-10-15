@@ -59,7 +59,7 @@ public class ServiceRefBinderJAXWS implements ServiceRefBinder
    // logging support
    private static Logger log = Logger.getLogger(ServiceRefBinderJAXWS.class);
 
-   public void setupServiceRef(Context encCtx, String encName, UnifiedServiceRefMetaData serviceRef, ClassLoader loader)
+   public void setupServiceRef(Context encCtx, String encName, AnnotatedElement ignored, UnifiedServiceRefMetaData serviceRef, ClassLoader loader)
          throws NamingException
    {
       WebServiceRef wsref = null;
