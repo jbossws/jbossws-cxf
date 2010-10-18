@@ -29,13 +29,12 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 /**
  * Binds a JAXRPC Service object to the client's ENC.
  *
- * @author Thomas.Diesler@jboss.org
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
 final class CXFServiceRefBinderJAXRPC extends AbstractServiceRefBinderJAXRPC
 {
    @Override
-   protected Referenceable createReferenceable(final UnifiedServiceRefMetaData serviceRefUMDM)
+   protected Referenceable createJAXRPCReferenceable(final UnifiedServiceRefMetaData serviceRefUMDM)
    {
       throw new IllegalArgumentException("CXF does not support JAX-RPC");
    }

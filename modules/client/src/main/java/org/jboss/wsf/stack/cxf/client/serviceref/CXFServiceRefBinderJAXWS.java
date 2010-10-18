@@ -29,13 +29,12 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 /**
  * Binds a JAXWS Service object to the client's ENC.
  *
- * @author Thomas.Diesler@jboss.org
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
 final class CXFServiceRefBinderJAXWS extends AbstractServiceRefBinderJAXWS
 {
    @Override
-   protected Referenceable createReferenceable(final String serviceImplClass, final String targetClassName,
+   protected Referenceable createJAXWSReferenceable(final String serviceImplClass, final String targetClassName,
          final UnifiedServiceRefMetaData serviceRefUMDM)
    {
       return new CXFServiceReferenceableJAXWS(serviceImplClass, targetClassName, serviceRefUMDM);
