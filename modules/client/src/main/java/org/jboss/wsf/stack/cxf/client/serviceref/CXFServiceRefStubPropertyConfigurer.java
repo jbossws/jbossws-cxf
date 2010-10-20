@@ -28,6 +28,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceFeature;
+import javax.xml.ws.soap.AddressingFeature;
 import javax.xml.ws.soap.MTOMFeature;
 
 import org.apache.cxf.configuration.Configurer;
@@ -98,17 +99,32 @@ final class CXFServiceRefStubPropertyConfigurer implements Configurer
    
    private void setMTOM(JaxWsServiceFactoryBean serviceFactoryBean, UnifiedPortComponentRefMetaData upcmd)
    {
+      List<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
+      List<WebServiceFeature> prevFeatures = serviceFactoryBean.getWsFeatures();
+      if (prevFeatures != null)
+      {
+         features.addAll(prevFeatures);
+      }
+
       if (upcmd.isMtomEnabled())
       {
-         List<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
-         List<WebServiceFeature> prevFeatures = serviceFactoryBean.getWsFeatures();
-         if (prevFeatures != null)
+         if (upcmd.getMtomThreshold() > 0) 
          {
-            features.addAll(prevFeatures);
+            features.add(new MTOMFeature(true, upcmd.getMtomThreshold()));
+         } 
+         else 
+         {
+            features.add(new MTOMFeature(true));
          }
-         features.add(new MTOMFeature(true));
-         serviceFactoryBean.setWsFeatures(features);
       }
+      
+      if (upcmd.isAddressingEnabled())
+      {
+         features.add(new AddressingFeature(true, upcmd.isAddressingRequired()));
+      }
+      
+      serviceFactoryBean.setWsFeatures(features);
+      
    }
    
    private void setProperties(JaxWsProxyFactoryBean proxyFactory, UnifiedPortComponentRefMetaData upcmd)

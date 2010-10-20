@@ -168,12 +168,27 @@ public class MetadataBuilder
                   }
 
                   // MTOM settings
-                  if (portComp.isEnableMtom())
+                  if (portComp.isMtomEnabled())
                   {
                      log.debug("Enabling MTOM");
                      endpoint.setMtomEnabled(true);
+                     endpoint.setMtomThreshold(portComp.getMtomThreshold());
                   }
                   
+                  //Addressing
+                  if (portComp.isAddressingEnabled()) 
+                  {
+                      log.debug("Enabling Addressing");
+                      endpoint.setAddressingEnabled(true);
+                      endpoint.setAddressingRequired(portComp.isAddressingRequired());
+                      endpoint.setAddressingResponses(portComp.getAddressingResponses());
+                  }
+                  //RespectBinding
+                  if (portComp.isRespectBindingEnabled()) 
+                  {
+                      log.debug("RepectBinging...");
+                      endpoint.setRespectBindingEnabled(true);
+                  }
                   //wsdlLocation override
                   String wsdlFile = portComp.getWebserviceDescription().getWsdlFile();
                   if (wsdlFile != null)

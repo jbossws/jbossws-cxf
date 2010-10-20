@@ -46,6 +46,17 @@ public class DDEndpoint
    private String invoker;
 
    private boolean mtomEnabled;
+   
+   private int mtomThreshold;
+   
+   private boolean addressingEnabled;
+   
+   private boolean addressingRequired;
+   
+   private String addressingResponses;
+   
+   private boolean respectBindingEnabled;
+   
    private String wsdlLocation;
    private QName portName;
    private QName serviceName;
@@ -157,6 +168,50 @@ public class DDEndpoint
       this.mtomEnabled = mtomEnabled;
    }
 
+   public void setMtomThreshold(final int mtomThreshold)
+   {
+      this.mtomThreshold = mtomThreshold;
+   }
+   
+   public int getMtomThreshold() {
+      return this.mtomThreshold;
+   }
+   
+   public void setRespectBindingEnabled(final boolean respectBindingEnabled) {
+      this.respectBindingEnabled = respectBindingEnabled;
+   }
+   
+   public boolean isRespectBindingEnabled() {
+      return this.respectBindingEnabled;
+   }
+   
+   
+   public void setAddressingEnabled(final boolean addressingEnabled) {
+      this.addressingEnabled = addressingEnabled;
+   }
+   
+   public boolean isAddressingEnabled() {
+      return this.addressingEnabled;
+   }
+
+   public void setAddressingRequired(final boolean addressingRequired) {
+      this.addressingRequired = addressingRequired;
+   }
+   
+   public boolean isAddressingRequired() {
+      return this.addressingRequired;
+   }
+   
+   public void setAddressingResponses(final String responsesTypes)
+   {
+      this.addressingResponses = responsesTypes;
+   }
+   
+   public String getAddressingResponses() {
+      return this.addressingResponses;
+   }
+   
+   
    public void writeTo(Writer writer) throws IOException
    {
       writer.write("<jaxws:endpoint id='" + this.id + "'");
