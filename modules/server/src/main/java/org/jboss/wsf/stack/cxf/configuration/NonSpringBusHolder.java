@@ -106,7 +106,6 @@ public class NonSpringBusHolder extends BusHolder
          {
             WSAddressingFeature addressingFeature = new WSAddressingFeature();
             addressingFeature.setAddressingRequired(dde.isAddressingRequired());
-            //endpoint.get
             endpoint.getFeatures().add(addressingFeature);
          }
          endpoint.publish();
@@ -115,7 +114,6 @@ public class NonSpringBusHolder extends BusHolder
          {
             SOAPBinding binding = (SOAPBinding) endpoint.getBinding();
             binding.setMTOMEnabled(true);
-            
          }
       }
       configured = true;
