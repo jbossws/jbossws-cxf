@@ -93,11 +93,11 @@ final class CXFServiceRefStubPropertyConfigurer implements Configurer
       if (upcmd != null)
       {
          setProperties(proxyFactory, upcmd);
-         setMTOM((JaxWsServiceFactoryBean)proxyFactory.getServiceFactory(), upcmd);
+         setWSFeature((JaxWsServiceFactoryBean)proxyFactory.getServiceFactory(), upcmd);
       }
    }
    
-   private void setMTOM(JaxWsServiceFactoryBean serviceFactoryBean, UnifiedPortComponentRefMetaData upcmd)
+   private void setWSFeature(JaxWsServiceFactoryBean serviceFactoryBean, UnifiedPortComponentRefMetaData upcmd)
    {
       List<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
       List<WebServiceFeature> prevFeatures = serviceFactoryBean.getWsFeatures();
