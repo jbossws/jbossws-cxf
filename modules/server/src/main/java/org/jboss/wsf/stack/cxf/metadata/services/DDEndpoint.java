@@ -231,6 +231,12 @@ public class DDEndpoint
       }
       writer.write(">");
 
+      if (this.addressingEnabled) {
+         writer.write("<jaxws:features>");         
+         writer.write("<wsa:addressing addressingRequired='" + this.addressingRequired + "'/>");
+         writer.write("</jaxws:features>");
+      }
+      
       if (this.mtomEnabled)
       {
          writer.write("<jaxws:binding>");
