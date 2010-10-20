@@ -120,7 +120,13 @@ final class CXFServiceRefStubPropertyConfigurer implements Configurer
       
       if (upcmd.isAddressingEnabled())
       {
-         features.add(new AddressingFeature(true, upcmd.isAddressingRequired()));
+         final String refResponses = upcmd.getAddressingResponses();
+         AddressingFeature.Responses responses = AddressingFeature.Responses.ALL;
+         if ("ANONYMOUS".equals(refResponses))
+            responses = AddressingFeature.Responses.ANONYMOUS;
+         if ("NON_ANONYMOUS".equals(refResponses))
+            responses = AddressingFeature.Responses.NON_ANONYMOUS;
+         features.add(new AddressingFeature(true, upcmd.isAddressingRequired(), responses));
       }
       
       serviceFactoryBean.setWsFeatures(features);
