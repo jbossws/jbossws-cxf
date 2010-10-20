@@ -32,6 +32,8 @@ import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.DestinationFactoryManager;
+import org.apache.cxf.ws.policy.PolicyEngine;
+import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
 import org.jboss.ws.Constants;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -82,6 +84,12 @@ public abstract class BusHolder
       setInterceptors(bus);
       setSoapTransportFactory(bus, soapTransportFactory);
       setResourceResolver(bus, resolver);
+      
+      //set MaximalAlternativeSelector on server side [JBWS-3149]
+      if (bus.getExtension(PolicyEngine.class) != null) 
+      {
+         bus.getExtension(PolicyEngine.class).setAlternativeSelector(new MaximalAlternativeSelector());
+      }
    }
    
    

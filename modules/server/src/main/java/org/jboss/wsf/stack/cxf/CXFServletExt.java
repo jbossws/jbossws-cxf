@@ -32,8 +32,6 @@ import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.transport.servlet.ServletContextResourceResolver;
 import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
-import org.apache.cxf.ws.policy.PolicyEngine;
-import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.transport.ServletHelper;
@@ -42,6 +40,8 @@ import org.jboss.wsf.stack.cxf.transport.ServletHelper;
  * An extension to the CXF servlet
  * 
  * @author Thomas.Diesler@jboss.org
+ * @author alessio.soldano@jboss.com
+ * 
  * @since 21-Apr-2007
  */
 public class CXFServletExt extends CXFServlet
@@ -66,12 +66,6 @@ public class CXFServletExt extends CXFServlet
 
       //register the InstrumentManagementImpl
       ServletHelper.registerInstrumentManger(bus, getServletContext());
-      
-      //set MaximalAlternativeSelecltor
-      if (bus.getExtension(PolicyEngine.class) != null) 
-      {
-         bus.getExtension(PolicyEngine.class).setAlternativeSelector(new MaximalAlternativeSelector());
-      }
    }
 
    private void updateAvailableBusWithServletInfo(ServletConfig servletConfig)

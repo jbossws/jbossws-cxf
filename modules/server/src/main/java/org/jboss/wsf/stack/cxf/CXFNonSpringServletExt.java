@@ -32,8 +32,6 @@ import org.apache.cxf.transport.servlet.CXFNonSpringServlet;
 import org.apache.cxf.transport.servlet.ServletContextResourceResolver;
 import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
-import org.apache.cxf.ws.policy.PolicyEngine;
-import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.transport.ServletHelper;
@@ -68,11 +66,6 @@ public class CXFNonSpringServletExt extends CXFNonSpringServlet
       //register the InstrumentManagementImpl
       ServletHelper.registerInstrumentManger(bus, getServletContext());
       
-      //set MaximalAlternativeSelecltor
-      if (bus.getExtension(PolicyEngine.class) != null) 
-      {
-         bus.getExtension(PolicyEngine.class).setAlternativeSelector(new MaximalAlternativeSelector());
-      }
    }
 
    private void updateAvailableBusWithServletInfo(ServletConfig servletConfig)
