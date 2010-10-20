@@ -30,8 +30,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * WS-Security Policy sign test case
@@ -45,7 +45,7 @@ public final class SignTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(SignTestCase.class, "jaxws-samples-wssePolicy-sign-client.jar jaxws-samples-wssePolicy-sign.war");
+      return new JBossWSCXFTestSetup(SignTestCase.class, "jaxws-samples-wssePolicy-sign-client.jar jaxws-samples-wssePolicy-sign.war");
    }
 
    public void test() throws Exception
