@@ -70,10 +70,10 @@
     <jboss.xb.version>2.0.2.Beta7</jboss.xb.version>
     <picketbox.version>3.0.0.Beta5</picketbox.version>
     <jaxws-httpserver-httpspi.version>1.0.0.GA</jaxws-httpserver-httpspi.version>
-    <jaxb.api.version>1.0.0.Beta1</jaxb.api.version>
+    <jaxb.api.version>1.0.0.Final</jaxb.api.version>
     <jaxb.impl.version>2.2</jaxb.impl.version>
-    <jaxrpc.api.version>1.0.0.Beta1</jaxrpc.api.version>
-    <jaxws.api.version>1.0.0.Beta1</jaxws.api.version>
+    <jaxrpc.api.version>1.0.0.Final</jaxrpc.api.version>
+    <jaxws.api.version>1.0.0.Final</jaxws.api.version>
     <jboss.jaxr.version>2.0.1</jboss.jaxr.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <apache.scout.version>1.1.1</apache.scout.version>
@@ -83,8 +83,8 @@
     <commons.logging.version>1.1.1</commons.logging.version>
     <log4j.version>1.2.14</log4j.version>
     <mail.version>1.4.2</mail.version>
-    <saaj.api.version>1.0.0.Beta1</saaj.api.version>
-    <jms.api.version>1.0.0.Beta1</jms.api.version>
+    <saaj.api.version>1.0.0.Final</saaj.api.version>
+    <jms.api.version>1.0.0.Final</jms.api.version>
     <velocity.version>1.5</velocity.version>
     <xerces.version>2.9.1</xerces.version>
     <xmlsec.version>1.4.3</xmlsec.version>
