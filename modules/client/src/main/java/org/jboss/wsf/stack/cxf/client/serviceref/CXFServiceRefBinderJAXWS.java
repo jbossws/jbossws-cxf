@@ -34,9 +34,8 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 final class CXFServiceRefBinderJAXWS extends AbstractServiceRefBinderJAXWS
 {
    @Override
-   protected Referenceable createJAXWSReferenceable(final String serviceImplClass, final String targetClassName,
-         final UnifiedServiceRefMetaData serviceRefUMDM)
+   protected Referenceable createJAXWSReferenceable(final UnifiedServiceRefMetaData serviceRefUMDM)
    {
-      return new CXFServiceReferenceableJAXWS(serviceImplClass, targetClassName, serviceRefUMDM);
+      return new CXFServiceReferenceableJAXWS(serviceRefUMDM);
    }
 }
