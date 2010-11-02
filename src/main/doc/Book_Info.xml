@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE bookinfo PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [ ]>
+
+<bookinfo>
+<title>JBossWS-CXF Guide</title>
+	<subtitle>JBoss Web Services with Apache CXF based stack</subtitle>
+	<productname>JBossWS-CXF</productname>
+	<!-- <pubdate>Nov 2010</pubdate> -->
+	<abstract>
+		<para>This book is the guide to JBoss Web Services with Apache CXF based stack. It covers information, details and usage of JBossWS-CXF stack, as well as some tutorials / examples.</para>
+	</abstract>
+	<!-- <subtitle>Authors</subtitle>-->
+	<xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</bookinfo>

@@ -1197,6 +1197,25 @@
            </dependency>
          </dependencies> 
       </plugin>
+      <plugin>
+        <groupId>org.jboss.maven.plugins</groupId>
+        <artifactId>maven-jdocbook-plugin</artifactId>
+        <version>2.1.2</version>
+        <extensions>true</extensions>
+        <dependencies>
+          <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jbossorg-docbook-xslt</artifactId>
+            <version>1.1.0</version>
+          </dependency>
+          <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jbossorg-jdocbook-style</artifactId>
+            <version>1.0.0</version>
+            <type>jdocbook-style</type>
+          </dependency>
+        </dependencies>
+      </plugin>
      </plugins>
   </pluginManagement>
 
@@ -1277,6 +1296,49 @@
                 <descriptor>src/main/scripts/assembly-deploy-artifacts.xml</descriptor>
                 <descriptor>src/main/scripts/assembly-bin-dist.xml</descriptor>
               </descriptors>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.jboss.maven.plugins</groupId>
+            <artifactId>maven-jdocbook-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>resources</goal>
+                  <goal>generate</goal>
+                </goals>
+                <phase>package</phase>
+              </execution>
+            </executions>
+            <configuration>
+              <sourceDocumentName>JBossWS-CXF.xml</sourceDocumentName>
+              <sourceDirectory>src/main/doc</sourceDirectory>
+              <imageResource>
+                <directory>src/main/doc</directory>
+                <includes>
+                  <include>images/*</include>
+                </includes>
+              </imageResource>
+              <formats>
+                <!--format>
+                  <formatName>pdf</formatName>
+                  <stylesheetResource>classpath:/xslt/org/jboss/pdf.xsl</stylesheetResource>
+                  <finalName>JBossWS-CXF_Guide.pdf</finalName>
+                </format-->
+                <format>
+                  <formatName>html</formatName>
+                  <stylesheetResource>classpath:/xslt/org/jboss/xhtml.xsl</stylesheetResource>
+                  <finalName>index.html</finalName>
+                </format>
+                <format>
+                  <formatName>html_single</formatName>
+                  <stylesheetResource>classpath:/xslt/org/jboss/xhtml-single.xsl</stylesheetResource>
+                  <finalName>index.html</finalName>
+                </format>
+              </formats>
+              <options>
+                <xincludeSupported>true</xincludeSupported>
+              </options>
             </configuration>
           </plugin>
         </plugins>

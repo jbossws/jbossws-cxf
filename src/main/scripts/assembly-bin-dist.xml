@@ -55,6 +55,10 @@
         <include>JBossORG-EULA.txt</include>
       </includes>
     </fileSet>
+    <fileSet>
+      <directory>target/docbook/publish</directory>
+      <outputDirectory>jbossws-cxf-bin-dist/docs</outputDirectory>
+    </fileSet>
     <!-- deploy -->
     <fileSet>
       <directory>target/assembly/deploy-artifacts</directory>

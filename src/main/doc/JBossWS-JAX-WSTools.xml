@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><chapter id="chap_JBossWS-JAX-WSTools"><title>JBossWS-JAX-WSTools</title><para>The JAX-WS tools provided by JBossWS can be used in a variety of ways. First we will look at server-side development strategies, and then proceed to the client.</para><para/><section id="JBossWS-JAX-WSTools_Server_side"><title>Server side</title><para>When developing a Web Service Endpoint (the server-side) you have the option of starting from Java (bottom-up development), or from the abstact contract (WSDL) that defines your service (top-down development). If this is a new service (no existing contract), the bottom-up approach is the fastest route; you only need to add a few annotations to your classes to get a service up and running. However, if you are developing a service with an already defined contract, it is far simpler to use the top-down approach, since the provided tool will generate the annotated code for you.</para><para>Bottom-up use cases:</para><itemizedlist><listitem><para> Exposing an already existing EJB3 bean as a Web Service </para></listitem><listitem><para> Providing a new service, and you want the contract to be generated for you </para></listitem></itemizedlist><para>Top-down use cases:</para><itemizedlist><listitem><para> Replacing the implementation of an existing Web Service, and you can't break compatibility with older clients </para></listitem><listitem><para> Exposing a service that conforms to a contract specified by a third party (e.g. a vender that calls you back using an already defined protocol). </para></listitem><listitem><para> Creating a service that adheres to the XML Schema and WSDL you developed by hand up front </para></listitem></itemizedlist><para>The following JAX-WS command line tools are included in JBossWS:</para><informaltable><tgroup cols="2"><colspec colnum="1" colname="col1"/><colspec colnum="2" colname="col2"/><thead><row><entry> Command </entry><entry> Description </entry></row></thead><tbody><row><entry><para><link linkend="chap_JBossWS-wsprovide">JBossWS - wsprovide</link></para></entry><entry>Generates JAX-WS portable artifacts, and provides the abstract contract. Used for bottom-up development.</entry></row><row><entry><para><link linkend="chap_JBossWS-wsconsume">JBossWS - wsconsume</link></para></entry><entry>Consumes the abstract contract (WSDL and Schema files), and produces artifacts for both a server and client. Used for top-down and client development</entry></row><row><entry><para><link linkend="chap_JBossWS-wsrunclient">JBossWS - wsrunclient</link></para></entry><entry>Executes a Java client (has a main method) using the JBossWS classpath.</entry></row></tbody></tgroup></informaltable><section id="JBossWS-JAX-WSTools_BottomUp_Using_wsprovide"><title>Bottom-Up (Using wsprovide)</title><para>The bottom-up strategy involves developing the Java code for your service, and then annotating it using JAX-WS annotations. These annotations can be used to customize the contract that is generated for your service. For example, you can change the operation name to map to anything you like. However, all of the annotations have sensible defaults, so only the @WebService annotation is required.</para><para>This can be as simple as creating a single class:</para><screen xml:space="preserve"><emphasis role="bold">package</emphasis> echo;
+ 
+@javax.jws.WebService
+<emphasis role="bold">public</emphasis> <emphasis role="bold">class</emphasis> Echo
+{
+   <emphasis role="bold">public</emphasis> String echo(String input)
+   {
+      <emphasis role="bold">return</emphasis> input;
+   }
+}
+</screen><para>A JSE or EJB3 deployment can be built using this class, and it is the only Java code needed to deploy on JBossWS. The WSDL, and all other Java artifacts called "wrapper classes" will be generated for you at deploy time. This actually goes beyond the JAX-WS specification, which requires that wrapper classes be generated using an offline tool. The reason for this requirement is purely a vender implementation problem, and since we do not believe in burdening a developer with a bunch of additional steps, we generate these as well. However, if you want your deployment to be portable to other application servers, you will unfortunately need to use a tool and add the generated classes to your deployment.</para><para>This is the primary purpose of the <link linkend="chap_JBossWS-wsprovide">JBossWS - wsprovide</link>tool, to generate portable JAX-WS artifacts. Additionally, it can be used to "provide" the abstract contract (WSDL file) for your service. This can be obtained by invoking <link linkend="chap_JBossWS-wsprovide">JBossWS - wsprovide</link> using the "-w" option:</para><screen xml:space="preserve">$ javac -d . -classpath jboss-jaxws.jar Echo.java
+$ wsprovide -w echo.Echo
+Generating WSDL:
+EchoService.wsdl
+Writing Classes:
+echo/jaxws/Echo.class
+echo/jaxws/EchoResponse.class
+</screen><para>Inspecting the WSDL reveals a service called EchoService:</para><screen xml:space="preserve">&lt;service name='EchoService'&gt;&lt;port binding='tns:EchoBinding' name='EchoPort'&gt;
+  &lt;soap:address location='REPLACE_WITH_ACTUAL_URL'/&gt;&lt;/port&gt;
+&lt;/service&gt;
+</screen><para>As expected, this service defines one operation, "echo":</para><screen xml:space="preserve">&lt;portType name='Echo'&gt;&lt;operation name='echo' parameterOrder='echo'&gt;
+  &lt;input message='tns:Echo_echo'/&gt;
+  &lt;output message='tns:Echo_echoResponse'/&gt;&lt;/operation&gt;
+&lt;/portType&gt;
+</screen><note><para><para><emphasis><emphasis role="bold">Note</emphasis></emphasis></para><para><emphasis>Remember that <emphasis role="bold">when deploying on JBossWS you do not need to run this tool.</emphasis> You only need it for generating portable artifacts and/or the abstract contract for your service.</emphasis></para></para></note><para>Let's create a POJO endpoint for deployment on JBoss AS. A simple web.xml needs to be created:</para><screen xml:space="preserve">&lt;web-app xmlns="<ulink url="http://java.sun.com/xml/ns/j2ee">http://java.sun.com/xml/ns/j2ee</ulink>"
+  xmlns:xsi="<ulink url="http://www.w3.org/2001/XMLSchema-instance">http://www.w3.org/2001/XMLSchema-instance</ulink>"
+  xsi:schemaLocation="<ulink url="http://java.sun.com/xml/ns/j2ee">http://java.sun.com/xml/ns/j2ee</ulink> <ulink url="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd</ulink>"
+  version="2.4"&gt;
+
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;Echo&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;echo.Echo&lt;/servlet-class&gt;
+  &lt;/servlet&gt;
+
+  &lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;Echo&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/Echo&lt;/url-pattern&gt;
+  &lt;/servlet-mapping&gt;
+&lt;/web-app&gt;
+</screen><para>The web.xml and the single class can now be used to create a war:</para><screen xml:space="preserve">$ mkdir -p WEB-INF/classes
+$ cp -rp echo WEB-INF/classes/
+$ cp web.xml WEB-INF
+$ jar cvf echo.war WEB-INF
+added manifest
+adding: WEB-INF/(in = 0) (out= 0)(stored 0%)
+adding: WEB-INF/classes/(in = 0) (out= 0)(stored 0%)
+adding: WEB-INF/classes/echo/(in = 0) (out= 0)(stored 0%)
+adding: WEB-INF/classes/echo/Echo.class(in = 340) (out= 247)(deflated 27%)
+adding: WEB-INF/web.xml(in = 576) (out= 271)(deflated 52%)
+</screen><para>The war can then be deployed:</para><screen xml:space="preserve">cp echo.war /usr/local/jboss-4.2.0.GA-ejb3/server/default/deploy
+</screen><para>This will internally invoke <link linkend="chap_JBossWS-wsprovide">JBossWS - wsprovide</link>, which will generate the WSDL. If deployment was successful, and you are using the default settings, it should be available here: <ulink url="http://localhost:8080/echo/Echo?wsdl">http://localhost:8080/echo/Echo?wsdl</ulink></para><para>For a portable JAX-WS deployment, the wrapper classes generated earlier could be added to the deployment.</para></section>
+<section id="JBossWS-JAX-WSTools_TopDown_Using_wsconsume"><title>Top-Down (Using wsconsume)</title><para>The top-down development strategy begins with the abstract contract for the service, which includes the WSDL file and zero or more schema files. The <link linkend="chap_JBossWS-wsconsume">JBossWS - wsconsume</link> tool is then used to consume this contract, and produce annotated Java classes (and optionally sources) that define it.</para><note><para><para><emphasis role="bold">Note</emphasis></para><para>wsconsume seems to have a problem with symlinks on unix systems</para></para></note><para>Using the WSDL file from the bottom-up example, a new Java implementation that adheres to this service can be generated. The "-k" option is passed to <link linkend="chap_JBossWS-wsconsume">JBossWS - wsconsume</link> to preserve the Java source files that are generated, instead of providing just classes:</para><screen xml:space="preserve"> 
+$ wsconsume -k EchoService.wsdl
+echo/Echo.java
+echo/EchoResponse.java
+echo/EchoService.java
+echo/Echo_Type.java
+echo/ObjectFactory.java
+echo/package-info.java
+echo/Echo.java
+echo/EchoResponse.java
+echo/EchoService.java
+echo/Echo_Type.java
+echo/ObjectFactory.java
+echo/package-info.java
+</screen><para>The following table shows the purpose of each generated file:</para><informaltable><tgroup cols="2"><colspec colnum="1" colname="col1"/><colspec colnum="2" colname="col2"/><thead><row><entry> File </entry><entry> Purpose </entry></row></thead><tbody><row><entry>Echo.java</entry><entry>Service Endpoint Interface</entry></row><row><entry>Echo_Type.java</entry><entry>Wrapper bean for request message</entry></row><row><entry>EchoResponse.java</entry><entry>Wrapper bean for response message</entry></row><row><entry>ObjectFactory.java</entry><entry>JAXB XML Registry</entry></row><row><entry>package-info.java</entry><entry>Holder for JAXB package annotations</entry></row><row><entry>EchoService.java</entry><entry>Used only by JAX-WS clients</entry></row></tbody></tgroup></informaltable><para>Examining the Service Endpoint Interface reveals annotations that are more explicit than in the class written by hand in the bottom-up example, however, these evaluate to the same contract:</para><screen xml:space="preserve">@WebService(name = "Echo", targetNamespace = "http://echo/")
+<emphasis role="bold">public</emphasis> <emphasis role="bold">interface</emphasis> Echo {
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "echo", targetNamespace = "http://echo/", className = "echo.Echo_Type")
+    @ResponseWrapper(localName = "echoResponse", targetNamespace = "http://echo/", className = "echo.EchoResponse")
+    <emphasis role="bold">public</emphasis> String echo(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0);
+ 
+}
+</screen><para>The only missing piece (besides the packaging) is the implementation class, which can now be written, using the above interface.</para><screen xml:space="preserve"><emphasis role="bold">package</emphasis> echo;
+ 
+@javax.jws.WebService(endpointInterface="echo.Echo")
+<emphasis role="bold">public</emphasis> <emphasis role="bold">class</emphasis> EchoImpl <emphasis role="bold">implements</emphasis> Echo
+{
+   <emphasis role="bold">public</emphasis> String echo(String arg0)
+   {
+      <emphasis role="bold">return</emphasis> arg0;
+   }
+}
+</screen></section>
+</section>
+<section id="JBossWS-JAX-WSTools_Client_Side"><title>Client Side</title><para>Before going to detail on the client-side it is important to understand the decoupling concept that is central to Web Services. Web Services are not the best fit for internal RPC, even though they can be used in this way. There are much better technologies for this (CORBA, and RMI for example). Web Services were designed specifically for interoperable coarse-grained correspondence. There is no expectation or guarantee that any party participating in a Web Service interaction will be at any particular location, running on any particular OS, or written in any particular programming language. So because of this, it is important to clearly separate client and server implementations. The only thing they should have in common is the abstract contract definition. If, for whatever reason, your software does not adhere to this principal, then you should not be using Web Services. For the above reasons, the <emphasis><emphasis role="bold">recommended methodology for developing a client is</emphasis></emphasis> to follow <emphasis><emphasis role="bold">the top-down approach</emphasis></emphasis>, even if the client is running on the same server.</para><para>Let's repeat the process of the top-down section, although using the deployed WSDL, instead of the one generated offline by <link linkend="chap_JBossWS-wsprovide">JBossWS - wsprovide</link>. The reason why we do this is just to get the right value for soap:address. This value must be computed at deploy time, since it is based on container configuration specifics. You could of course edit the WSDL file yourself, although you need to ensure that the path is correct.</para><para>Offline version:</para><screen xml:space="preserve">&lt;service name='EchoService'&gt;
+  &lt;port binding='tns:EchoBinding' name='EchoPort'&gt;
+   &lt;soap:address location='REPLACE_WITH_ACTUAL_URL'/&gt;
+  &lt;/port&gt;&lt;/service&gt;
+</screen><para>Online version:</para><screen xml:space="preserve">&lt;service name="EchoService"&gt;
+  &lt;port binding="tns:EchoBinding" name="EchoPort"&gt;
+    &lt;soap:address location="<ulink url="http://localhost.localdomain:8080/echo/Echo">http://localhost.localdomain:8080/echo/Echo</ulink>"/&gt;
+  &lt;/port&gt;
+&lt;/service&gt;
+</screen><para>Using the online deployed version with <link linkend="chap_JBossWS-wsconsume">JBossWS - wsconsume</link>:</para><screen xml:space="preserve">$ wsconsume -k http://localhost:8080/echo/Echo?wsdl
+echo/Echo.java
+echo/EchoResponse.java
+echo/EchoService.java
+echo/Echo_Type.java
+echo/ObjectFactory.java
+echo/package-info.java
+echo/Echo.java
+echo/EchoResponse.java
+echo/EchoService.java
+echo/Echo_Type.java
+echo/ObjectFactory.java
+echo/package-info.java
+</screen><para>The one class that was not examined in the top-down section, was EchoService.java. Notice how it stores the location the WSDL was obtained from.</para><screen xml:space="preserve">@WebServiceClient(name = "EchoService", targetNamespace = "http://echo/", wsdlLocation = "http://localhost:8080/echo/Echo?wsdl")
+<emphasis role="bold">public</emphasis> <emphasis role="bold">class</emphasis> EchoService <emphasis role="bold">extends</emphasis> Service
+{
+    <emphasis role="bold">private</emphasis> <emphasis role="bold">final</emphasis> <emphasis role="bold">static</emphasis> URL ECHOSERVICE_WSDL_LOCATION;
+ 
+    <emphasis role="bold">static</emphasis> {
+        URL url = <emphasis role="bold">null</emphasis>;
+        <emphasis role="bold">try</emphasis> {
+            url = <emphasis role="bold">new</emphasis> URL("http://localhost:8080/echo/Echo?wsdl");
+        } <emphasis role="bold">catch</emphasis> (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        ECHOSERVICE_WSDL_LOCATION = url;
+    }
+ 
+    <emphasis role="bold">public</emphasis> EchoService(URL wsdlLocation, QName serviceName) {
+        <emphasis role="bold">super</emphasis>(wsdlLocation, serviceName);
+    }
+ 
+    <emphasis role="bold">public</emphasis> EchoService() {
+        <emphasis role="bold">super</emphasis>(ECHOSERVICE_WSDL_LOCATION, <emphasis role="bold">new</emphasis> QName("http://echo/", "EchoService"));
+    }
+ 
+    @WebEndpoint(name = "EchoPort")
+    <emphasis role="bold">public</emphasis> Echo getEchoPort() {
+        <emphasis role="bold">return</emphasis> (Echo)super.getPort(<emphasis role="bold">new</emphasis> QName("http://echo/", "EchoPort"), Echo.class);
+    }
+}
+</screen><para>As you can see, this generated class extends the main client entry point in JAX-WS, javax.xml.ws.Service. While you can use Service directly, this is far simpler since it provides the configuration info for you. The only method we really care about is the getEchoPort() method, which returns an instance of our Service Endpoint Interface. Any WS operation can then be called by just invoking a method on the returned interface.</para><note><para><para><emphasis><emphasis role="bold">Note</emphasis></emphasis></para><para><emphasis>It's not recommended to refer to a remote WSDL URL in a production application. This causes network I/O every time you instantiate the Service Object. Instead, use the tool on a saved local copy, or use the URL version of the constructor to provide a new WSDL location.</emphasis></para></para></note><para>All that is left to do, is write and compile the client:</para><screen xml:space="preserve"><emphasis role="bold">import</emphasis> echo.*;
+ 
+<emphasis role="bold">public</emphasis> <emphasis role="bold">class</emphasis> EchoClient
+{
+   <emphasis role="bold">public</emphasis> <emphasis role="bold">static</emphasis> <emphasis role="bold">void</emphasis> main(String args[])
+   {
+      <emphasis role="bold">if</emphasis> (args.length != 1)
+      {
+         System.err.println("usage: EchoClient &lt;message&gt;");
+         System.exit(1);
+      }
+       
+      EchoService service = <emphasis role="bold">new</emphasis> EchoService();
+      Echo echo = service.getEchoPort();
+      System.out.println("Server said: " + echo.echo(args[0]));
+   }}
+</screen><para>It can then be easily executed using the <link linkend="chap_JBossWS-wsrunclient">JBossWS - wsrunclient</link> tool. This is just a convenience tool that invokes java with the needed classpath:</para><screen xml:space="preserve">$ wsrunclient EchoClient 'Hello World!'
+Server said: Hello World!
+</screen><para>It is easy to change the endpoint address of your operation at runtime, setting the ENDPOINT_ADDRESS_PROPERTY as shown below:</para><screen xml:space="preserve">...
+      EchoService service = <emphasis role="bold">new</emphasis> EchoService();
+      Echo echo = service.getEchoPort();
+ 
+      /* Set NEW Endpoint Location */
+      String endpointURL = "http://NEW_ENDPOINT_URL";
+      BindingProvider bp = (BindingProvider)echo;
+      bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpointURL);
+ 
+      System.out.println("Server said: " + echo.echo(args[0]));
+...
+</screen></section>
+<section id="JBossWS-JAX-WSTools_Commandline_Maven_Plugin_and_Ant_Task_Reference"><title>Command-line, Maven Plugin and Ant Task Reference</title><itemizedlist><listitem><para> <link linkend="chap_JBossWS-wsconsume">JBossWS - wsconsume</link> reference page </para></listitem><listitem><para> <link linkend="chap_JBossWS-wsprovide">JBossWS - wsprovide</link> reference page </para></listitem><listitem><para> <link linkend="chap_JBossWS-wsrunclient">JBossWS - wsrunclient</link> reference page</para></listitem></itemizedlist></section>
+<section id="JBossWS-JAX-WSTools_JAXWS_binding_customization"><title>JAX-WS binding customization</title><para>An introduction to binding customizations:</para><itemizedlist><listitem><para> <ulink url="http://java.sun.com/webservices/docs/2.0/jaxws/customizations.html">http://java.sun.com/webservices/docs/2.0/jaxws/customizations.html</ulink> </para></listitem><listitem><para> <ulink url="https://jax-ws.dev.java.net/source/browse/jax-ws/guide/docs/wsdl-customization.xsd?rev=1.2&amp;view=log">binding schema</ulink> </para></listitem><listitem><para> <ulink url="https://jax-ws.dev.java.net/nonav/guide/customizations/">xnsdoc</ulink> </para></listitem></itemizedlist><para>The schema for the binding customization files can be found here:</para><itemizedlist><listitem><para> <ulink url="https://jax-ws.dev.java.net/source/browse/jax-ws/guide/docs/wsdl-customization.xsd?rev=1.2&amp;view=log">https://jax-ws.dev.java.net/source/browse/jax-ws/guide/docs/wsdl-customization.xsd?rev=1.2&amp;view=log</ulink> </para></listitem></itemizedlist></section>
+</chapter>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+<book>
+  
+<xi:include href="Book_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<part id="Main documentation">
+   <title>Main Documentation</title>
+   <partintro>
+      <para>
+        JBossWS-CXF is basically the JBoss Web Service integration with Apache CXF stack. This way additional JBoss features and customizations are added on top of already
+        existing Apache CXF functionalities. In particular the integration provides technologies for allowing the JBoss Application Server to support JavaEE requirements
+        in terms of Web Services functionalities.
+      </para>
+      <para>
+        Below you find the essential documentation on the current JBossWS-CXF release. That covers a quick start, a full user guide and tooling. You can read more on
+        JBoss Web Service Framework on the JBossWS Wiki at <ulink url="http://community.jboss.org/wiki/JBossWS">http://community.jboss.org/wiki/JBossWS</ulink>.
+      </para>
+      <para>
+        Please note, the wiki also offers a <ulink url="http://www.jboss.org/community/docs/DOC-13531">Guided Tour</ulink> along the JBossWS documentation, for those who
+        don't know where to start from when dealing with webservices in general.
+      </para>
+   </partintro>
+   <xi:include href="JBossWS-QuickStart.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="JBossWS-UserGuide.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" /> <!-- remove WSF stuff from generated page -->
+   <xi:include href="JBossWS-StackCXFUserGuide.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="JBossWS-JAX-WSTools.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="JBossWS-wsconsume.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="JBossWS-wsprovide.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="JBossWS-wsrunclient.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</part>
+
+
+<part id="Additional documentation">
+   <title>Additional documentation</title>
+   <partintro>
+      <para>
+        This section of the book provides documentation on common additional user requirements, like enabling authentication, securing the transport, etc.
+      </para>
+   </partintro>
+   <xi:include href="JBossWS-Authentication.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="JBossWS-Securetransport.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="JBossWS-Endpointmanagement.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="JBossWS-Recordsmanagement.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</part>
+
+
+<part id="Samples, Tutorials, references">
+   <title>Samples &amp; Tutorials</title>
+   <partintro>
+      <para>
+        Below you find few tutorials on WS-* technologies usage as well as a brief list of reference links and the list of supported JAX-WS annotations.
+      </para>
+   </partintro>
+   <xi:include href="JBossWS-CXFWS-Addressingtutorial.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="JBossWS-CXFWS-ReliableMessagingtutorial.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="JBossWS-CXFJMStransporttutorial.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="JBossWS-Articlesandspecs.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="JBossWS-JAX-WSAnnotations.xml" encoding="UTF-8" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</part>
+
+</book>

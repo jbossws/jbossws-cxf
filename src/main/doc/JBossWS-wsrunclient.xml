@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><chapter id="chap_JBossWS-wsrunclient"><title>JBossWS-wsrunclient</title><para>wsrunclient is a command line tool that invokes a JBossWS JAX-WS Web Service client. It builds the correct classpath and endorsed libs for you. Feel free to use the code for this script to make your own shell scripts. It is open source after all.</para><section><title>Usage</title><screen xml:space="preserve"> wsrunclient [-classpath &lt;additional class path&gt;] &lt;java-main-class&gt; [arguments...]
+</screen></section>
+<section><title>Examples</title><para>Invoking a standalone JAX-WS client:</para><screen xml:space="preserve">wsrunclient echo.EchoClient</screen><para>Invoking a standalone JAX-WS client that uses external jars:</para><screen xml:space="preserve">wsrunclient -classpath jar1.jar:jar2.jar echo.EchoClient
+
+</screen></section>
+</chapter>

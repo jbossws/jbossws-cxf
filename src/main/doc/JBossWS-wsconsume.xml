@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><chapter id="chap_JBossWS-wsconsume"><title>JBossWS-wsconsume</title><para>wsconsume is a command line tool and ant task that "consumes" the abstract contract (WSDL file) and produces portable JAX-WS service and client artifacts. For a more detailed overview, see <ulink url="http://community.jboss.org/docs/DOC-13544#TopDown_Using_wsconsume">"Using wsconsume"</ulink>.</para><para/><section id="JBossWS-wsconsume_Command_Line_Tool"><title>Command Line Tool</title><para>The command line tool has the following usage:</para><screen xml:space="preserve">usage: wsconsume [options] &lt;wsdl-url&gt;
+options: 
+  -h, --help                  Show this help message
+  -b, --binding=&lt;file&gt;        One or more JAX-WS or JAXB binding files
+  -k, --keep                  Keep/Generate Java source
+  -c  --catalog=&lt;file&gt;        Oasis XML Catalog file for entity resolution
+  -p  --package=&lt;name&gt;        The target package for generated source
+  -w  --wsdlLocation=&lt;loc&gt;    Value to use for @WebServiceClient.wsdlLocation
+  -o, --output=&lt;directory&gt;    The directory to put generated artifacts
+  -s, --source=&lt;directory&gt;    The directory to put Java source
+  -t, --target=&lt;2.0|2.1|2.2&gt;  The JAX-WS specification target
+  -q, --quiet                 Be somewhat more quiet
+  -v, --verbose               Show full exception stack traces
+  -l, --load-consumer         Load the consumer and exit (debug utility)
+  -e, --extension             Enable SOAP 1.2 binding extension
+  -a, --additionalHeaders     Enables processing of implicit SOAP headers</screen><para> </para><para><emphasis role="bold">Note</emphasis> : The wsdlLocation is used when creating the Service to be used by clients and will be added to the @WebServiceClient annotation, for an endpoint implementation based on the generated service endpoint interface you will need to manually add the wsdlLocation to the @WebService annotation on your web service implementation and not the service endpoint interface.</para><section id="JBossWS-wsconsume_Examples"><title>Examples</title><para>Generate artifacts in Java class form only:</para><screen xml:space="preserve">wsconsume Example.wsdl
+</screen><para>Generate source and class files:</para><screen xml:space="preserve">wsconsume -k Example.wsdl
+</screen><para>Generate source and class files in a custom directory:</para><screen xml:space="preserve">wsconsume -k -o custom Example.wsdl
+</screen><para>Generate source and class files in the org.foo package:</para><screen xml:space="preserve">wsconsume -k -p org.foo Example.wsdl
+</screen><para>Generate source and class files using multiple binding files:</para><screen xml:space="preserve">wsconsume -k -b wsdl-binding.xml -b schema1-binding.xml -b schema2-binding.xml</screen></section>
+</section>
+<section id="JBossWS-wsconsume_Maven_Plugin"><title>Maven Plugin</title><para>The wsconsume tools is included in the <emphasis role="bold">org.jboss.ws.plugins:maven-jaxws-tools-plugin</emphasis> plugin. The plugin has two goals for running the tool, <emphasis>wsconsume</emphasis> and <emphasis>wsconsume-test</emphasis>, which basically do the same during different maven build phases (the former triggers the sources generation during <emphasis>generate-sources</emphasis> phase, the latter during the <emphasis>generate-test-sources</emphasis> one).</para><para>The wsconsume plugin has the following parameters:</para><informaltable><tgroup cols="3"><colspec colnum="1" colname="col1"/><colspec colnum="2" colname="col2"/><colspec colnum="3" colname="col3"/><thead><row><entry>Attribute</entry><entry>Description</entry><entry>Default </entry></row></thead><tbody><row><entry>bindingFiles</entry><entry>JAXWS or JAXB binding file</entry><entry>true</entry></row><row><entry>classpathElements</entry><entry><para>Each classpathElement provides a</para><para>library file to be added to classpath</para></entry><entry><para>${project.compileClasspathElements}</para><para>or</para><para>${project.testClasspathElements}</para></entry></row><row><entry>catalog</entry><entry>Oasis XML Catalog file for entity resolution</entry><entry>none</entry></row><row><entry>targetPackage</entry><entry>The target Java package for generated code.</entry><entry>generated</entry></row><row><entry>bindingFiles</entry><entry>One or more JAX-WS or JAXB binding file</entry><entry>none</entry></row><row><entry>wsdlLocation</entry><entry>Value to use for @WebServiceClient.wsdlLocation</entry><entry>generated</entry></row><row><entry>outputDirectory</entry><entry>The output directory for generated artifacts.</entry><entry><para>${project.build.outputDirectory}</para><para>or</para><para>${project.build.testOutputDirectory}</para></entry></row><row><entry>sourceDirectory</entry><entry>The output directory for Java source.</entry><entry>${project.build.directory}/wsconsume/java</entry></row><row><entry>verbose</entry><entry>Enables more informational output about command progress.</entry><entry>false</entry></row><row><entry>wsdls</entry><entry>The WSDL files or URLs to consume</entry><entry>n/a</entry></row><row><entry>extension</entry><entry>Enable SOAP 1.2 binding extension.</entry><entry>false</entry></row></tbody></tgroup></informaltable><section id="JBossWS-wsconsume_Examples_187752"><title>Examples</title><para>You can use wsconsume in your own project build simply referencing the <emphasis>maven-jaxws-tools-plugin</emphasis> in the configured plugins in your pom.xml file.</para><para>The following example makes the plugin consume the test.wsdl file and generate SEI and wrappers' java sources. The generated sources are then compiled together with the other project classes.</para><screen xml:space="preserve">&lt;build&gt;
+  &lt;plugins&gt;
+    &lt;plugin&gt;
+      &lt;groupId&gt;org.jboss.ws.plugins&lt;/groupId&gt;
+      &lt;artifactId&gt;maven-jaxws-tools-plugin&lt;/artifactId&gt;
+      &lt;version&gt;1.0.0.GA&lt;/version&gt;
+      &lt;configuration&gt;
+        &lt;wsdls&gt;
+          &lt;wsdl&gt;${basedir}/test.wsdl&lt;/wsdl&gt;
+        &lt;/wsdls&gt;
+      &lt;/configuration&gt;
+      &lt;executions&gt;
+        &lt;execution&gt;
+          &lt;goals&gt;
+            &lt;goal&gt;wsconsume&lt;/goal&gt;
+          &lt;/goals&gt;
+        &lt;/execution&gt;
+      &lt;/executions&gt;
+    &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/build&gt;
+</screen><para> </para><para>You can also specify multiple wsdl files, as well as force the target package, enable SOAP 1.2 binding and turn the tool's verbose mode on:</para><para> </para><screen xml:space="preserve">&lt;build&gt;
+  &lt;plugins&gt;
+    &lt;plugin&gt;
+      &lt;groupId&gt;org.jboss.ws.plugins&lt;/groupId&gt;
+      &lt;artifactId&gt;maven-jaxws-tools-plugin&lt;/artifactId&gt;
+      &lt;version&gt;1.0.0.GA&lt;/version&gt;
+      &lt;configuration&gt;
+        &lt;wsdls&gt;
+          &lt;wsdl&gt;${basedir}/test.wsdl&lt;/wsdl&gt;
+          &lt;wsdl&gt;${basedir}/test2.wsdl&lt;/wsdl&gt;
+        &lt;/wsdls&gt;
+        &lt;targetPackage&gt;foo.bar&lt;/targetPackage&gt;
+        &lt;extension&gt;true&lt;/extension&gt;
+        &lt;verbose&gt;true&lt;/verbose&gt;
+      &lt;/configuration&gt;
+      &lt;executions&gt;
+        &lt;execution&gt;
+          &lt;goals&gt;
+            &lt;goal&gt;wsconsume&lt;/goal&gt;
+          &lt;/goals&gt;
+        &lt;/execution&gt;
+      &lt;/executions&gt;
+    &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/build&gt;
+</screen><para> </para><para>Finally, if the wsconsume invocation is required for consuming a wsdl to be used in your testsuite only, you might want to use the <emphasis>wsconsume-test</emphasis> goal as follows:</para><para> </para><screen xml:space="preserve">&lt;build&gt;
+  &lt;plugins&gt;
+    &lt;plugin&gt;
+      &lt;groupId&gt;org.jboss.ws.plugins&lt;/groupId&gt;
+      &lt;artifactId&gt;maven-jaxws-tools-plugin&lt;/artifactId&gt;
+      &lt;version&gt;1.0.0.GA&lt;/version&gt;
+      &lt;configuration&gt;
+        &lt;wsdls&gt;
+          &lt;wsdl&gt;${basedir}/test.wsdl&lt;/wsdl&gt;
+        &lt;/wsdls&gt;
+      &lt;/configuration&gt;
+      &lt;executions&gt;
+        &lt;execution&gt;
+          &lt;goals&gt;
+            &lt;goal&gt;wsconsume-test&lt;/goal&gt;
+          &lt;/goals&gt;
+        &lt;/execution&gt;
+      &lt;/executions&gt;
+    &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/build&gt;
+</screen></section>
+</section>
+<section id="JBossWS-wsconsume_Ant_Task"><title>Ant Task</title><note><para><para><emphasis><emphasis role="bold">Note</emphasis></emphasis></para><para><emphasis>With 2.0.GA the task was renamed to org.jboss.wsf.spi.tools.ant.WSConsumeTask. Also put streamBuffer.jar and stax-ex.jar in the classpath of the ant task to generate the appropriate artefacts. Both jar files are in the jbossws lib directory. For jbossws-native-2.0.3.GA these files are not automatically installed if you run jboss-deployXX.</emphasis></para></para></note><para>The wsconsume ant task has the following attributes:</para><informaltable><tgroup cols="3"><colspec colnum="1" colname="col1"/><colspec colnum="2" colname="col2"/><colspec colnum="3" colname="col3"/><thead><row><entry>Attribute</entry><entry>Description</entry><entry>Default </entry></row></thead><tbody><row><entry>fork</entry><entry>Whether or not to run the generation task in a separate VM.</entry><entry>true</entry></row><row><entry>keep</entry><entry>Keep/Enable Java source code generation.</entry><entry>false</entry></row><row><entry>catalog</entry><entry>Oasis XML Catalog file for entity resolution</entry><entry>none</entry></row><row><entry>package</entry><entry>The target Java package for generated code.</entry><entry>generated</entry></row><row><entry>binding</entry><entry>A JAX-WS or JAXB binding file</entry><entry>none</entry></row><row><entry>wsdlLocation</entry><entry>Value to use for @WebServiceClient.wsdlLocation</entry><entry>generated</entry></row><row><entry>destdir</entry><entry>The output directory for generated artifacts.</entry><entry>"output"</entry></row><row><entry>sourcedestdir</entry><entry>The output directory for Java source.</entry><entry>value of destdir</entry></row><row><entry>target</entry><entry>The JAX-WS specification target. Allowed values are 2.0, 2.1 and 2.2</entry><entry/></row><row><entry>verbose</entry><entry>Enables more informational output about command progress.</entry><entry>false</entry></row><row><entry>wsdl</entry><entry>The WSDL file or URL</entry><entry>n/a</entry></row><row><entry>extension</entry><entry>Enable SOAP 1.2 binding extension.</entry><entry><para>false</para></entry></row><row><entry>additionalHeaders</entry><entry>Enables processing of implicit SOAP headers</entry><entry>false</entry></row></tbody></tgroup></informaltable><para><emphasis role="bold">Note</emphasis> : The wsdlLocation is used when creating the Service to be used by clients and will be added to the @WebServiceClient annotation, for an endpoint implementation based on the generated service endpoint interface you will need to manually add the wsdlLocation to the @WebService annotation on your web service implementation and not the service endpoint interface.</para><para> </para><para>Also, the following nested elements are supported:</para><informaltable><tgroup cols="3"><colspec colnum="1" colname="col1"/><colspec colnum="2" colname="col2"/><colspec colnum="3" colname="col3"/><thead><row><entry>Element</entry><entry>Description</entry><entry>Default </entry></row></thead><tbody><row><entry>binding</entry><entry>A JAXWS or JAXB binding file</entry><entry>none</entry></row><row><entry>jvmarg</entry><entry>Allows setting of custom jvm arguments</entry><entry/></row></tbody></tgroup></informaltable><para> </para><section id="JBossWS-wsconsume_Examples_184359"><title>Examples</title><para>Generate JAX-WS source and classes in a separate JVM with separate directories, a custom wsdl location attribute, and a list of binding files from foo.wsdl:</para><screen xml:space="preserve">&lt;wsconsume 
+  fork="true"
+  verbose="true"
+  destdir="output"
+  sourcedestdir="gen-src"
+  keep="true"
+  wsdllocation="handEdited.wsdl" 
+  wsdl="foo.wsdl"&gt;
+  &lt;binding dir="binding-files" includes="*.xml" excludes="bad.xml"/&gt;
+&lt;/wsconsume&gt;</screen></section>
+</section>
+<section id="JBossWS-wsconsume_Related_information"><title>Related information</title><itemizedlist><listitem><para> <ulink url="http://java.sun.com/webservices/docs/2.0/jaxws/customizations.html">JAX-WS binding customization</ulink> </para></listitem></itemizedlist></section>
+</chapter>
