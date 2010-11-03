@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,18 +23,18 @@ package org.jboss.wsf.stack.cxf.client.serviceref;
 
 import javax.naming.Referenceable;
 
-import org.jboss.wsf.common.serviceref.AbstractServiceRefBinderJAXWS;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
+import org.jboss.wsf.spi.serviceref.ServiceRefBinder;
 
 /**
  * Binds a JAXWS Service object to the client's ENC.
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-final class CXFServiceRefBinderJAXWS extends AbstractServiceRefBinderJAXWS
+final class CXFServiceRefBinderJAXWS implements ServiceRefBinder
 {
    @Override
-   protected Referenceable createJAXWSReferenceable(final UnifiedServiceRefMetaData serviceRefUMDM)
+   public Referenceable createReferenceable(final UnifiedServiceRefMetaData serviceRefUMDM)
    {
       return new CXFServiceReferenceableJAXWS(serviceRefUMDM);
    }
