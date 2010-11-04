@@ -42,3 +42,6 @@ org/jboss/test/ws/jaxws/samples/jmsendpoints/**
 
 # [JBWS-2957] EJB3 webservices in web archives (fixed on AS 6 series only)
 org/jboss/test/ws/jaxws/jbws2957/**
+
+# [JBWS-3140] mtom, wsaddressing support in webservices.xml; jboss-metadata-common doesn't support this metadata by in AS501
+org/jboss/test/ws/jaxws/jbws3140/**
