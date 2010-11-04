@@ -106,6 +106,7 @@ public class NonSpringBusHolder extends BusHolder
          {
             WSAddressingFeature addressingFeature = new WSAddressingFeature();
             addressingFeature.setAddressingRequired(dde.isAddressingRequired());
+            addressingFeature.setResponses(dde.getAddressingResponses());
             endpoint.getFeatures().add(addressingFeature);
          }
          endpoint.publish();
