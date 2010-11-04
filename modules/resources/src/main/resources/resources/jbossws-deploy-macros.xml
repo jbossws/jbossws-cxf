@@ -169,6 +169,16 @@
           <patternset refid="jbossws.client.patternset"/>
         </fileset>
       </copy>
+      <condition property="patch.jboss.metadata" value="true">
+        <or>
+          <equals arg1="${jbossid}" arg2="jboss501"/>
+          <equals arg1="${jbossid}" arg2="jboss510"/>
+        </or>
+      </condition>
+      <antcall target="modify-jboss-metadata">
+        <param name="targetdir" value="@{targetdir}"/>
+        <param name="thirdpartydir" value="@{thirdpartydir}"/>
+      </antcall>
     </sequential>
   </macrodef>
 
@@ -187,6 +197,16 @@
           <include name="**/jbossws-${jbossid}.jar"/>
         </fileset>
       </copy>
+      <condition property="patch.jboss.metadata" value="true">
+        <or>
+          <equals arg1="${jbossid}" arg2="jboss501"/>
+          <equals arg1="${jbossid}" arg2="jboss510"/>
+        </or>
+      </condition>
+      <antcall target="modify-jboss-metadata">
+        <param name="targetdir" value="@{targetdir}"/>
+        <param name="thirdpartydir" value="@{thirdpartydir}"/>
+      </antcall>
     </sequential>
   </macrodef>
 
@@ -437,6 +457,19 @@
         <istrue value="${modifyjbossintegration}"/>
       </and>
     </condition>
+  </target>
+
+  <target name="modify-jboss-metadata" if="patch.jboss.metadata">
+    <sequential>
+      <copy
+        tofile="${targetdir}/jboss-metadata.jar"
+        failonerror="false"
+        overwrite="true">
+        <fileset dir="${thirdpartydir}">
+          <include name="**/jbossws-${jbossid}-metadata.jar"/>
+        </fileset>
+      </copy>
+    </sequential>
   </target>
 
 </project>
