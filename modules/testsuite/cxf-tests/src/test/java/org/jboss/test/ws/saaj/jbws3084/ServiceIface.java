@@ -19,20 +19,17 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.saaj;
+package org.jboss.test.ws.saaj.jbws3084;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
-@WebService
-(
-   targetNamespace = "http://www.jboss.org/jbossws/saaj"
-)
+@WebService(targetNamespace = "http://www.jboss.org/jbossws/saaj")
 public interface ServiceIface
 {
    @WebMethod
    String sayHello();
-   
+
    @WebMethod
    String greetMe();
 }
