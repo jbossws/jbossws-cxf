@@ -22,6 +22,7 @@
 package org.jboss.test.ws.saaj.jbws3084;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,9 +35,7 @@ import javax.jws.WebService;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
-import org.apache.cxf.helpers.CastUtils;
-import org.apache.cxf.helpers.IOUtils;
-import org.apache.cxf.helpers.LoadingByteArrayOutputStream;
+import org.jboss.wsf.common.IOUtils;
 
 @WebService(portName = "SaajServicePort", serviceName = "SaajService", wsdlLocation = "WEB-INF/wsdl/SaajService.wsdl", targetNamespace = "http://www.jboss.org/jbossws/saaj", endpointInterface = "org.jboss.test.ws.saaj.jbws3084.ServiceIface")
 public class ServiceImpl implements ServiceIface
@@ -44,10 +43,11 @@ public class ServiceImpl implements ServiceIface
    @Resource
    private WebServiceContext context;
 
+   @SuppressWarnings("unchecked")
    public String sayHello()
    {
-      Map<String, List<String>> reqHeaders = CastUtils.cast((Map<?, ?>) context.getMessageContext().get(
-            MessageContext.HTTP_REQUEST_HEADERS));
+      Map<String, List<String>> reqHeaders = (Map<String, List<String>>) context.getMessageContext().get(
+            MessageContext.HTTP_REQUEST_HEADERS);
 
       boolean chunkedEncodingDisabled = reqHeaders.get("transfer-encoding-disabled") != null;
 
@@ -70,8 +70,8 @@ public class ServiceImpl implements ServiceIface
          {
             throw new RuntimeException("Unexpected Transfer-Encoding header");
          }
-         Map<String, List<String>> respHeaders = CastUtils.cast((Map<?, ?>) context.getMessageContext().get(
-               MessageContext.HTTP_RESPONSE_HEADERS));
+         Map<String, List<String>> respHeaders = (Map<String, List<String>>) context.getMessageContext().get(
+               MessageContext.HTTP_RESPONSE_HEADERS);
          if (respHeaders == null)
          {
             respHeaders = new HashMap<String, List<String>>();
@@ -80,11 +80,11 @@ public class ServiceImpl implements ServiceIface
          respHeaders.put("Transfer-Encoding-Disabled", Arrays.asList("true"));
       }
 
-      Map<String, DataHandler> dataHandlers = CastUtils.cast((Map<?, ?>) context.getMessageContext().get(
-            MessageContext.INBOUND_MESSAGE_ATTACHMENTS));
+      Map<String, DataHandler> dataHandlers = (Map<String, DataHandler>) context.getMessageContext().get(
+            MessageContext.INBOUND_MESSAGE_ATTACHMENTS);
 
-      Map<String, DataHandler> outDataHandlers = CastUtils.cast((Map<?, ?>) context.getMessageContext().get(
-            MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS));
+      Map<String, DataHandler> outDataHandlers = (Map<String, DataHandler>) context.getMessageContext().get(
+            MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS);
 
       int index = 0;
       try
@@ -92,11 +92,11 @@ public class ServiceImpl implements ServiceIface
          for (Map.Entry<String, DataHandler> entry : dataHandlers.entrySet())
          {
             InputStream is = entry.getValue().getInputStream();
-            LoadingByteArrayOutputStream bous = new LoadingByteArrayOutputStream();
-            IOUtils.copy(is, bous);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            IOUtils.copyStream(baos, is);
             String name = Integer.toString(index++);
-            DataHandler handler = new DataHandler(new InputStreamDataSource(bous.createInputStream(), "text/plain",
-                  name));
+            DataHandler handler = new DataHandler(new InputStreamDataSource(
+                  new ByteArrayInputStream(baos.toByteArray()), "text/plain", name));
             outDataHandlers.put(name, handler);
          }
       }
@@ -108,12 +108,13 @@ public class ServiceImpl implements ServiceIface
       return "Hello World!";
    }
 
+   @SuppressWarnings("unchecked")
    public String greetMe()
    {
       try
       {
-         Map<String, DataHandler> outDataHandlers = CastUtils.cast((Map<?, ?>) context.getMessageContext().get(
-               MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS));
+         Map<String, DataHandler> outDataHandlers = (Map<String, DataHandler>) context.getMessageContext().get(
+               MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS);
 
          final char[] content = new char[16 * 1024];
          Arrays.fill(content, 'A');
