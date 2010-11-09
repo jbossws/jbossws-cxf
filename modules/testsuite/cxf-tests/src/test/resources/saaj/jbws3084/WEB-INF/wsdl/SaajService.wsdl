@@ -1,76 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="SaajService" targetNamespace="http://www.jboss.org/jbossws/saaj" xmlns:tns="http://www.jboss.org/jbossws/saaj" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
   <wsdl:types>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.jboss.org/jbossws/saaj" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.jboss.org/jbossws/saaj">
-<xsd:element name="sayHello" type="tns:sayHello"/>
-<xsd:complexType name="sayHello">
-<xsd:sequence/>
-</xsd:complexType>
-<xsd:element name="sayHelloResponse" type="tns:sayHelloResponse"/>
-<xsd:complexType name="sayHelloResponse">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="return" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-
-<xsd:element name="greetMe" type="tns:greetMe"/>
-<xsd:complexType name="greetMe">
-<xsd:sequence/>
-</xsd:complexType>
-<xsd:element name="greetMeResponse" type="tns:greetMeResponse"/>
-<xsd:complexType name="greetMeResponse">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="return" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-
-</xsd:schema>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.jboss.org/jbossws/saaj" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.jboss.org/jbossws/saaj">
+      <xsd:element name="greetMe" type="tns:greetMe"/>
+      <xsd:complexType name="greetMe">
+        <xsd:sequence/>
+      </xsd:complexType>
+      <xsd:element name="greetMeResponse" type="tns:greetMeResponse"/>
+      <xsd:complexType name="greetMeResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="return" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="sayHelloResponse">
-    <wsdl:part name="parameters" element="tns:sayHelloResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="sayHello">
-    <wsdl:part name="parameters" element="tns:sayHello">
-    </wsdl:part>
-  </wsdl:message>
 
   <wsdl:message name="greetMeResponse">
-    <wsdl:part name="parameters" element="tns:greetMeResponse">
-    </wsdl:part>
+    <wsdl:part name="parameters" element="tns:greetMeResponse"/>
   </wsdl:message>
+
   <wsdl:message name="greetMe">
-    <wsdl:part name="parameters" element="tns:greetMe">
-    </wsdl:part>
+    <wsdl:part name="parameters" element="tns:greetMe"/>
   </wsdl:message>
 
   <wsdl:portType name="ServiceIface">
-    <wsdl:operation name="sayHello">
-      <wsdl:input name="sayHello" message="tns:sayHello">
-    </wsdl:input>
-      <wsdl:output name="sayHelloResponse" message="tns:sayHelloResponse">
-    </wsdl:output>
-    </wsdl:operation>
-
     <wsdl:operation name="greetMe">
-      <wsdl:input name="greetMe" message="tns:greetMe">
-    </wsdl:input>
-      <wsdl:output name="greetMeResponse" message="tns:greetMeResponse">
-    </wsdl:output>
+      <wsdl:input name="greetMe" message="tns:greetMe"/>
+      <wsdl:output name="greetMeResponse" message="tns:greetMeResponse"/>
     </wsdl:operation>
-
   </wsdl:portType>
+
   <wsdl:binding name="SaajServiceSoapBinding" type="tns:ServiceIface">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/wsdl/http/"/>
-    <wsdl:operation name="sayHello">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="sayHello">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="sayHelloResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="greetMe">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="greetMe">
@@ -81,9 +43,11 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
+
   <wsdl:service name="SaajService">
     <wsdl:port name="SaajServicePort" binding="tns:SaajServiceSoapBinding">
       <soap:address location="http://localhost:8080/SaajService"/>
     </wsdl:port>
   </wsdl:service>
+
 </wsdl:definitions>
