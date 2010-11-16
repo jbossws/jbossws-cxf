@@ -19,23 +19,5 @@ org/jboss/test/ws/jaxws/jbws1283/**
 # [JBWS-2397] Fix jbws1797 testcase
 org/jboss/test/ws/jaxws/jbws1797/**
 
-# [JBWS-3140] mtom, wsaddressing support in webservices.xml; jboss-metadata-common doesn't support this metadata by in AS600
-org/jboss/test/ws/jaxws/jbws3140/**
-
 # [JBAS-8363] Virtual host issue in JBossWeb
 org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*
-
-# TODO: remove these excludes once AS 600 RC1 is out
-org/jboss/test/ws/jaxws/cxf/bus/EJB3ClientBusTestCase.*
-**/jaxrpc/**
-**/serviceref/**
-**/webserviceref/**
-org/jboss/test/ws/jaxws/smoke/tools/WSRunClientTestCase.*
-org/jboss/test/ws/jaxws/jbws1841/JBWS1841TestCase.*
-org/jboss/test/ws/jaxws/samples/advanced/retail/RetailSampleTestCase.*
-org/jboss/test/ws/jaxws/jbws2307/JBWS2307MTOMTestCase.*
-org/jboss/test/ws/jaxws/jbws1581/JBWS1581WarTestCase.*
-org/jboss/test/ws/jaxws/samples/webservicerefsec/WebServiceRefSecTestCase.*
-org/jboss/test/ws/jaxws/jbws2307/JBWS2307TestCase.*
-org/jboss/test/ws/jaxws/jbws2527/JBWS2527TestCase.*
-org/jboss/test/ws/jaxws/jbws1581/JBWS1581EarTestCase.*

@@ -106,7 +106,7 @@
       <param name="jbossid" value="${jbossws.integration.target}"/>
       <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="modifyjbossintegration" value="true"/><!-- [JBWS-2505] -->
+      <param name="modifyjbossintegration" value="false"/><!-- [JBWS-2505] -->
     </antcall>
   </target>
 
@@ -133,7 +133,7 @@
     <macro-undeploy-jbossws targetdir="${jboss600.server}"
     	                    defaultconf="${jbossws.default.deploy.conf}"
     	                    defaultserverconf="${jbossws.default.server.deploy.conf}"
-    	                    modifyjbossintegration="true"
+    	                    modifyjbossintegration="false"
     	                    removenativecore="false" /><!-- [JBWS-2505][JBWS-2895] -->
   </target>
 

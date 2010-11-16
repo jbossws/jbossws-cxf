@@ -296,6 +296,9 @@
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss510</outputDirectory>
                 </artifactItem>
+                <!-- JBWS-2505 -->
+                <!-- START -->
+                <!--
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
                   <artifactId>jbossws-jboss600M5</artifactId>
@@ -304,9 +307,6 @@
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss600</outputDirectory>
                 </artifactItem>
-                <!-- JBWS-2505 -->
-                <!-- START -->
-                <!--
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
                   <artifactId>jbossws-jboss600x</artifactId>
