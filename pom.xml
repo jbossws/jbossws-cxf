@@ -18,7 +18,7 @@
   <packaging>pom</packaging>
   <description>JBossWS CXF stack</description>
   
-  <version>3.4.0-SNAPSHOT</version>
+  <version>3.4.1-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
@@ -46,15 +46,15 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.spi.version>1.4.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>1.4.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.framework.version>3.4.0-SNAPSHOT</jbossws.framework.version>
-    <jbossws.jboss501.version>3.4.0-SNAPSHOT</jbossws.jboss501.version>
-    <jbossws.jboss510.version>3.4.0-SNAPSHOT</jbossws.jboss510.version>
+    <jbossws.spi.version>1.4.1-SNAPSHOT</jbossws.spi.version>
+    <jbossws.common.version>1.4.1-SNAPSHOT</jbossws.common.version>
+    <jbossws.framework.version>3.4.1-SNAPSHOT</jbossws.framework.version>
+    <jbossws.jboss501.version>3.4.1-SNAPSHOT</jbossws.jboss501.version>
+    <jbossws.jboss510.version>3.4.1-SNAPSHOT</jbossws.jboss510.version>
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
-    <jbossws.jboss600M5.version>3.4.0-SNAPSHOT</jbossws.jboss600M5.version>
+    <jbossws.jboss600M5.version>3.4.1-SNAPSHOT</jbossws.jboss600M5.version>
     <jbossws.jboss601.version>3.2.1.GA</jbossws.jboss601.version>
     -->
     <!-- END -->
