@@ -73,7 +73,7 @@ public class JMSEndpointDeploymentAspectDelegate extends JMSDeploymentAspect
    @Override
    public void stop(Deployment dep)
    {
-      log.debug("Undeploying jms endpoints in " + dep.getSimpleName());
+      log.debugf("Undeploying jms endpoints in %s", dep.getSimpleName());
       if (dep.getAttachment(Bus.class) != null)
       {
          Bus bus = dep.getAttachment(Bus.class);

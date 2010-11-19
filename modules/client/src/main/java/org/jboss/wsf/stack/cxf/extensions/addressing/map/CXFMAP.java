@@ -32,7 +32,6 @@ import org.apache.cxf.ws.addressing.AttributedURIType;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.ReferenceParametersType;
 import org.apache.cxf.ws.addressing.RelatesToType;
-import org.jboss.logging.Logger;
 import org.jboss.wsf.common.addressing.MAP;
 import org.jboss.wsf.common.addressing.MAPBuilder;
 import org.jboss.wsf.common.addressing.MAPEndpoint;
@@ -51,8 +50,6 @@ import org.w3c.dom.Element;
  */
 public class CXFMAP implements MAP
 {
-   private static final Logger log = Logger.getLogger(CXFMAP.class);
-
    /**
     * the wrapped instance which this class delegates to
     */
