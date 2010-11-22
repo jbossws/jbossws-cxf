@@ -186,12 +186,12 @@ public class AddressRewritingEndpointInfo extends EndpointInfo
             }
          }
          String urlStr = uriScheme + "://" + host + port + path;
-         log.debugf("Rewritten new candidate service endpoint address '%s' to '%s'", s, urlStr);
+         log.debug("Rewritten new candidate service endpoint address '" + s + "' to '" + urlStr + "'");
          return urlStr;
       }
       catch (Exception e)
       {
-         log.debugf("Invalid url provided, using it without rewriting: %s", s);
+         log.debug("Invalid url provided, using it without rewriting: " + s);
          return s;
       }
    }

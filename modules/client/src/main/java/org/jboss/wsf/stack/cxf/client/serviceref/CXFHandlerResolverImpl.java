@@ -81,7 +81,6 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
 {
    
    private static final Logger log = Logger.getLogger(CXFHandlerResolverImpl.class);
-   @SuppressWarnings("rawtypes")
    private final Map<PortInfo, List<Handler>> handlerMap = new HashMap<PortInfo, List<Handler>>();
    private final String handlerFile;
    private static JAXBContext context;
@@ -98,7 +97,6 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       this.bus = bus;
    }
    
-   @SuppressWarnings("rawtypes")
    public List<Handler> getHandlerChain(PortInfo portInfo)
    {
       List<Handler> handlerChain = handlerMap.get(portInfo);
@@ -124,7 +122,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
     * the case where no injections were requested, the runtime MUST invoke the
     * method carrying a javax.annotation .PostConstruct annotation, if present.
     */
-   private void configHandler(@SuppressWarnings("rawtypes") Handler handler) {
+   private void configHandler(Handler handler) {
        if (handler != null) {
            ResourceManager resourceManager = bus.getExtension(ResourceManager.class);
            List<ResourceResolver> resolvers = resourceManager.getResourceResolvers();
@@ -140,7 +138,6 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       return this.getInputStream(this.handlerFile, this.clazz);
    }
    
-   @SuppressWarnings("rawtypes")
    public List<Handler> createHandlerChain(PortInfo portInfo, QName portQName, QName serviceQName, String bindingID) {
       List<Handler> chain = new ArrayList<Handler>();
       InputStream is = getInputStream();
@@ -155,6 +152,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          if (!"http://java.sun.com/xml/ns/javaee".equals(el.getNamespaceURI()) 
                || !"handler-chains".equals(el.getLocalName())) {
 
+            String xml = XMLUtils.toString(el);
             throw new WebServiceException("{http://java.sun.com/xml/ns/javaee}handler-chains element expected");
          }
          chain = new ArrayList<Handler>();
@@ -165,6 +163,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
                if (!el.getNamespaceURI().equals("http://java.sun.com/xml/ns/javaee") 
                      || !el.getLocalName().equals("handler-chain")) {
 
+                  String xml = XMLUtils.toString(el);
                   throw new WebServiceException("{http://java.sun.com/xml/ns/javaee}handler-chain element expected");
                }
                processHandlerChainElement(el, chain, portQName, serviceQName, bindingID);
@@ -187,7 +186,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       return sortHandlers(chain);
    }
 
-   private void processHandlerChainElement(Element el, @SuppressWarnings("rawtypes") List<Handler> chain,
+   private void processHandlerChainElement(Element el, List<Handler> chain,
          QName portQName, QName serviceQName, String bindingID) {
       Node node = el.getFirstChild();
       while (node != null) {
@@ -270,7 +269,6 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       return true;
    }
 
-   @SuppressWarnings("rawtypes")
    public List<Handler> sortHandlers(List<Handler> handlers) {
 
       List<LogicalHandler> logicalHandlers = new ArrayList<LogicalHandler>();
@@ -293,8 +291,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
    private InputStream getInputStream(String filename, Class<?> wsClass)
    {
       URL fileURL = null;
-      if (log.isDebugEnabled())
-         log.debug("processHandlerChain [" + filename + "] on: " + wsClass.getName());
+      log.debug("processHandlerChain [" + filename + "] on: " + wsClass.getName());
 
       // Try the filename as URL
       try
@@ -324,11 +321,8 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       // Try the filename as Resource
       if (fileURL == null)
       {
-         if (log.isDebugEnabled())
-         {
-            log.debug(wsClass.getProtectionDomain().getCodeSource());
-            log.debug(wsClass.getClassLoader());
-         }
+         log.debug(wsClass.getProtectionDomain().getCodeSource());
+         log.debug(wsClass.getClassLoader());
          fileURL = wsClass.getClassLoader().getResource(filename);
       }
 
@@ -360,7 +354,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       }
    }
    
-   private void processHandlerElement(Element el, @SuppressWarnings("rawtypes") List<Handler> chain) {
+   private void processHandlerElement(Element el, List<Handler> chain) {
       try {
           JAXBContext ctx = getContextForPortComponentHandlerType();
           PortComponentHandlerType pt = ctx.createUnmarshaller()
