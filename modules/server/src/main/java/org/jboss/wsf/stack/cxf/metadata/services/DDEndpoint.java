@@ -232,8 +232,13 @@ public class DDEndpoint
       writer.write(">");
 
       if (this.addressingEnabled) {
+    	 String responses = "";
+    	 if (this.addressingResponses != null) 
+    	 {
+    		 responses = " responses='" + addressingResponses + "'"; 
+    	 }
          writer.write("<jaxws:features>");         
-         writer.write("<wsa:addressing addressingRequired='" + this.addressingRequired + "'/>");
+         writer.write("<wsa:addressing addressingRequired='" + this.addressingRequired + "'" + responses + "/>");
          writer.write("</jaxws:features>");
       }
       
@@ -243,7 +248,19 @@ public class DDEndpoint
          writer.write("<soap:soapBinding mtomEnabled='" + this.mtomEnabled + "'/>");
          writer.write("</jaxws:binding>");
       }
-
+      
+      //So far we only support standard JAXBDataBinding mtom threshold configuration
+      
+      if (this.mtomEnabled) 
+      {
+          writer.write("<jaxws:dataBinding>");
+          writer.write("<bean class='org.apache.cxf.jaxb.JAXBDataBinding'>");
+          writer.write("<property name='mtomEnabled' value='true'/>");
+          writer.write("<property name='mtomThreshold' value='" + this.mtomThreshold + "'/>");
+          writer.write("</bean>");
+          writer.write("</jaxws:dataBinding>");
+      }
+     
       if (this.invoker != null)
       {
          writer.write("<jaxws:invoker><bean class='" + this.invoker + "'/></jaxws:invoker>");

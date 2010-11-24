@@ -119,6 +119,8 @@ public class DDBeans
             "http://www.springframework.org/schema/beans/spring-beans.xsd " +
             "http://cxf.apache.org/transports/jms " + 
             "http://cxf.apache.org/schemas/configuration/jms.xsd " +
+            "http://cxf.apache.org/bindings/soap " + 
+            "http://cxf.apache.org/schemas/configuration/soap.xsd " + 
             "http://cxf.apache.org/jaxws " +
             "http://cxf.apache.org/schemas/jaxws.xsd'>");
       
