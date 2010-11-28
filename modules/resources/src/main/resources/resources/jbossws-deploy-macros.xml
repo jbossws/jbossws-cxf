@@ -36,6 +36,7 @@
     <include name="**/jaxws-api.jar"/>
     <include name="**/jaxws-httpserver-httpspi.jar"/>
     <include name="**/jsr181-api.jar"/>
+    <include name="**/jbossws-api.jar"/>
     <include name="**/jbossws-common.jar"/>
     <include name="**/jbossws-cxf-client*.jar"/>
     <include name="**/jbossws-framework.jar"/>
@@ -75,6 +76,7 @@
     <include name="**/jaxws-httpserver-httpspi.jar"/>
     <include name="**/jsr181-api.jar"/>
     <include name="**/jboss-jaxb-intros.jar"/>
+    <include name="**/jbossws-api.jar"/>
     <include name="**/jbossws-common.jar"/>
     <include name="**/jbossws-framework.jar"/>
     <include name="**/jbossws-spi.jar"/>

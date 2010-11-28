@@ -119,6 +119,7 @@
   		<pathelement location="${jboss.client}/jaxb-impl.jar"/>
   		<pathelement location="${jboss.client}/jaxb-xjc.jar"/>
   		<pathelement location="${jboss.client}/jaxws-api.jar"/>
+  		<pathelement location="${jboss.client}/jbossws-api.jar"/>
   		<pathelement location="${jboss.client}/jbossws-common.jar"/>
   		<pathelement location="${jboss.client}/jbossws-spi.jar"/>
   		<pathelement location="${jboss.client}/jbossws-cxf-client.jar"/>
