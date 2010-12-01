@@ -67,6 +67,10 @@ public class CXFServletExt extends CXFServlet
 {
    public static final String PARAM_CXF_BEANS_URL = "jbossws.cxf.beans.url";
 
+   private static final String CHILD_CONTEXT_ATTRIBUTE = "jbossws.cxf.childCtx";
+   private static final String BUS_ATTRIBUTE = "jbossws.cxf.bus";
+   private static final String CONTROLLER_ATTRIBUTE = "jbossws.cxf.controller";
+
    private static Logger log = Logger.getLogger(CXFServletExt.class);
 
    protected Endpoint endpoint;
@@ -78,7 +82,7 @@ public class CXFServletExt extends CXFServlet
    {
       super.init(servletConfig);
    }
-   
+
    @Override
    public ServletController createServletController(ServletConfig servletConfig)
    {
@@ -89,24 +93,44 @@ public class CXFServletExt extends CXFServlet
    @Override
    public void loadBus(ServletConfig servletConfig) throws ServletException
    {
-      super.loadBus(servletConfig);
-
       ServletContext svCtx = getServletContext();
-      ApplicationContext appCtx = (ApplicationContext)svCtx.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT");
+      synchronized (svCtx)
+      {
+         Bus bus = (Bus)svCtx.getAttribute(BUS_ATTRIBUTE);
+         if (bus != null)
+         {
+            this.bus = bus;
+            controller = (ServletController)svCtx.getAttribute(CONTROLLER_ATTRIBUTE);
+         }
+         else
+         {
+            super.loadBus(servletConfig);
+            bus = getBus();
+            svCtx.setAttribute(BUS_ATTRIBUTE, bus);
+            svCtx.setAttribute(CONTROLLER_ATTRIBUTE, getController());
+            svCtx.setAttribute(ServletController.class.getName(), getController());
+         }
 
-      Bus bus = getBus();
-      //Install our SoapTransportFactory to allow for proper soap address rewrite
-      DestinationFactoryManager dfm = bus.getExtension(DestinationFactoryManager.class);
-      SoapTransportFactory factory = new SoapTransportFactoryExt();
-      factory.setBus(bus);
-      dfm.registerDestinationFactory(Constants.NS_SOAP11, factory);
-      dfm.registerDestinationFactory(Constants.NS_SOAP12, factory);
+         ApplicationContext appCtx = (ApplicationContext)svCtx.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT");
 
-      //Init the Endpoint
-      initEndpoint(servletConfig);
-            
-      //Load additional configurations
-      loadAdditionalConfigExt(appCtx, servletConfig);
+         //Install our SoapTransportFactory to allow for proper soap address rewrite
+         DestinationFactoryManager dfm = bus.getExtension(DestinationFactoryManager.class);
+         SoapTransportFactory factory = new SoapTransportFactoryExt();
+         factory.setBus(bus);
+         dfm.registerDestinationFactory(Constants.NS_SOAP11, factory);
+         dfm.registerDestinationFactory(Constants.NS_SOAP12, factory);
+
+         //Init the Endpoint
+         initEndpoint(servletConfig);
+
+         childCtx = (GenericApplicationContext)svCtx.getAttribute(CHILD_CONTEXT_ATTRIBUTE);
+         if (childCtx == null)
+         {
+            //Load additional configurations
+            loadAdditionalConfigExt(appCtx, servletConfig);
+            svCtx.setAttribute(CHILD_CONTEXT_ATTRIBUTE, childCtx);
+         }
+      }
    }
 
    private void initEndpoint(ServletConfig servletConfig)
@@ -117,15 +141,13 @@ public class CXFServletExt extends CXFServlet
       ServletContext context = servletConfig.getServletContext();
       String contextPath = context.getContextPath();
       endpoint = initServiceEndpoint(contextPath);
-      
+
       //Install the JBossWS resource resolver
       ResourceResolver resourceResolver = endpoint.getAttachment(ResourceResolver.class);
       if (resourceResolver != null)
       {
          bus.getExtension(ResourceManager.class).addResourceResolver(resourceResolver);
       }
-      
-      context.setAttribute(ServletController.class.getName(), getController());
    }
 
    private void loadAdditionalConfigExt(ApplicationContext ctx, ServletConfig servletConfig) throws ServletException
@@ -151,7 +173,7 @@ public class CXFServletExt extends CXFServlet
          childCtx.refresh();
       }
    }
-   
+
    @Override
    protected void invoke(HttpServletRequest req, HttpServletResponse res) throws ServletException
    {
@@ -177,7 +199,10 @@ public class CXFServletExt extends CXFServlet
    public void destroy()
    {
       if (childCtx != null)
+      {
          childCtx.destroy();
+         childCtx = null;
+      }
 
       super.destroy();
    }
