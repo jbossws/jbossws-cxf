@@ -23,23 +23,18 @@ package org.jboss.wsf.stack.cxf.deployment.jms;
 
 import java.net.URL;
 
-import org.jboss.wsf.spi.metadata.jms.JMSDescriptorProcessor;
-import org.jboss.xb.binding.ObjectModelFactory;
+import org.jboss.wsf.spi.metadata.jms.JMSDescriptorParser;
+import org.jboss.wsf.spi.metadata.jms.JMSEndpointsMetaData;
 
 /**
  * JMS descriptor processor implementation.
  * 
  * @author <a href="ropalka@redhat.com">Richard Opalka</a>
  */
-@Deprecated
-public final class JMSDescriptorProcessorImpl implements JMSDescriptorProcessor
+public final class JMSDescriptorParserImpl implements JMSDescriptorParser
 {
    private String descriptorName;
-   private boolean isValidating;
    
-   /* (non-Javadoc)
-    * @see org.jboss.wsf.spi.metadata.DescriptorProcessor#getDescriptorName()
-    */
    @Override
    public String getDescriptorName()
    {
@@ -55,32 +50,9 @@ public final class JMSDescriptorProcessorImpl implements JMSDescriptorProcessor
       this.descriptorName = descriptorName;
    }
 
-   /* (non-Javadoc)
-    * @see org.jboss.wsf.spi.metadata.DescriptorProcessor#getFactory(java.net.URL)
-    */
-   public ObjectModelFactory getFactory(final URL url)
-   {
-      if (url == null)
-         throw new IllegalArgumentException("URL cannot be null");
-      
-      return new JMSEndpointsFactory(url);
-   }
-
-   /* (non-Javadoc)
-    * @see org.jboss.wsf.spi.metadata.DescriptorProcessor#isValidating()
-    */
    @Override
-   public boolean isValidating()
+   public JMSEndpointsMetaData parse(URL url)
    {
-      return this.isValidating;
-   }
-
-   /**
-    * Invoked via MC.
-    * @param isValidating
-    */
-   public void setValidating(final boolean isValidating)
-   {
-      this.isValidating = isValidating;
+      return JMSEndpointsFactory.load(url);
    }
 }

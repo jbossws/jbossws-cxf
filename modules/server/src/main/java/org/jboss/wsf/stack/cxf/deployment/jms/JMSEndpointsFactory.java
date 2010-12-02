@@ -21,11 +21,16 @@
  */
 package org.jboss.wsf.stack.cxf.deployment.jms;
 
+import java.io.InputStream;
 import java.net.URL;
+
+import javax.xml.ws.WebServiceException;
 
 import org.jboss.wsf.spi.metadata.jms.JMSEndpointMetaData;
 import org.jboss.wsf.spi.metadata.jms.JMSEndpointsMetaData;
 import org.jboss.xb.binding.ObjectModelFactory;
+import org.jboss.xb.binding.Unmarshaller;
+import org.jboss.xb.binding.UnmarshallerFactory;
 import org.jboss.xb.binding.UnmarshallingContext;
 import org.xml.sax.Attributes;
 
@@ -41,6 +46,35 @@ public class JMSEndpointsFactory implements ObjectModelFactory
    public JMSEndpointsFactory(URL descriptorURL)
    {
       this.descriptorURL = descriptorURL;
+   }
+   
+   public static JMSEndpointsMetaData load(URL url)
+   {
+      InputStream is = null;
+      try
+      {
+         is = url.openStream();
+         Unmarshaller unmarshaller = UnmarshallerFactory.newInstance().newUnmarshaller();
+         ObjectModelFactory factory = new JMSEndpointsFactory(url);
+         return (JMSEndpointsMetaData) unmarshaller.unmarshal(is, factory, null);
+      }
+      catch (Exception e)
+      {
+         throw new WebServiceException(e);
+      }
+      finally
+      {
+         if (is != null)
+         {
+            try
+            {
+               is.close();
+            }
+            catch (Exception e)
+            {
+            } //ignore
+         }
+      }
    }
 
    /**
