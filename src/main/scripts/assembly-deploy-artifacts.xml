@@ -32,7 +32,6 @@
               <include>org.jboss.ws:jbossws-api:jar</include>
               <include>org.jboss.ws:jbossws-common:jar</include>
               <include>org.jboss.ws:jbossws-spi:jar</include>
-              <include>junit:junit:jar</include>
               <include>org.apache.neethi:neethi:jar</include>
               <include>wsdl4j:wsdl4j:jar</include>
               <include>org.apache.ws.commons.schema:XmlSchema:jar</include>
