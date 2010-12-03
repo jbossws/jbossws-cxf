@@ -21,13 +21,17 @@
  */
 package org.jboss.test.ws.jaxws.cxf.descriptor;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import java.io.PrintWriter;
 
-@WebService(name = "DescriptorEndpoint", targetNamespace = "http://org.jboss.ws.jaxws.cxf/descriptor", serviceName = "DescriptorService")
-@SOAPBinding(style = SOAPBinding.Style.RPC)
-public interface DescriptorEndpoint
-{
-   String echo(String input);
-   String getInBoundLog();
+import org.apache.cxf.interceptor.LoggingInInterceptor;
+
+public class TestLoggingInInterceptor extends LoggingInInterceptor {
+
+	public static java.io.StringWriter stringWriter = new java.io.StringWriter();
+
+	public TestLoggingInInterceptor() {
+		super();
+		this.setPrintWriter(new PrintWriter(stringWriter));
+	}
+
 }
