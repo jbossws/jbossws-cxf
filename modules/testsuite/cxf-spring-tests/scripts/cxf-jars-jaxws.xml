@@ -64,11 +64,7 @@
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-descriptor.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/descriptor/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/cxf/descriptor/DescriptorEndpointImpl.class"/>
-      	<include name="org/jboss/test/ws/jaxws/cxf/descriptor/TestLoggingInInterceptor.class"/>
       </classes>
-      <classes dir="${tests.output.dir}/test-resources/jaxws/cxf/descriptor/">
-         <include name="cxf.xml"/>
-      </classes>     	
       <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/descriptor/WEB-INF">
         <include name="jbossws-cxf.xml"/>
       </webinf>

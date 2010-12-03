@@ -46,10 +46,4 @@ public class DescriptorEndpointImpl
 
       return input;
    }
-   
-   @WebMethod
-   public String getInBoundLog()
-   {
-      return new String(TestLoggingInInterceptor.stringWriter.getBuffer());
-   }
 }

@@ -66,13 +66,16 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
    {
       if (SpringUtils.isSpringAvailable())
       {
-         URL cxfURL = getCXFConfigFromDeployment(dep);
+         URL cxfURL = getCXFConfigFromClassLoader(dep);
          if (cxfURL == null)
          {
-            cxfURL = generateCXFConfigFromDeployment(dep);
+            cxfURL = getCXFConfigFromDeployment(dep);
+            if (cxfURL == null)
+            {
+               cxfURL = generateCXFConfigFromDeployment(dep);
+            }
+            putCXFConfigToDeployment(dep, cxfURL);
          }
-         putCXFConfigToDeployment(dep, cxfURL);
-
       }
       else
       {
@@ -90,7 +93,23 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
          dd.destroyFileURL();
       }
    }
-  
+   
+   /**
+    * Looks for <b>cxf.xml</b> in classloader 
+    * @param dep deployment which initial classloader will be used
+    * @return <b>cxf.xml URL</b> or <b>null</b> if not found
+    */
+   private URL getCXFConfigFromClassLoader(Deployment dep)
+   {
+      ClassLoader initCL = dep.getInitialClassLoader();
+      URL cxfURL = initCL.getResource("cxf.xml");
+      if (cxfURL != null)
+      {
+         log.info("CXF configuration found: " + cxfURL);
+      }
+      return cxfURL;
+   }
+   
    /**
     * Looks for <b>jbossws-cxf.xml</b> in:
     * <ul>
