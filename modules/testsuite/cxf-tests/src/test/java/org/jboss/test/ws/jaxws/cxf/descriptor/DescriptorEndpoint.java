@@ -29,4 +29,5 @@ import javax.jws.soap.SOAPBinding;
 public interface DescriptorEndpoint
 {
    String echo(String input);
+   String getInBoundLog();
 }

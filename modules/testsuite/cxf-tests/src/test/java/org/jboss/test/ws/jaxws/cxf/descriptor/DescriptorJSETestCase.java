@@ -57,5 +57,9 @@ public class DescriptorJSETestCase extends JBossWSTest
 
       Object retObj = port.echo("Hello");
       assertEquals("Hello", retObj);
+      
+      //JBPAPP-5494/JBWS-3174: test the cxf.xml is loaded
+      String serverInBoundLog = port.getInBoundLog();
+      assertTrue(serverInBoundLog.length() > 0);
    }
 }
