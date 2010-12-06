@@ -114,12 +114,6 @@ public class ServletHelper
       {
          InjectionsMetaData metadata = endpoint.getAttachment(InjectionsMetaData.class);
          Context jndiContext = endpoint.getJNDIContext();
-         if (DeploymentType.JAXWS_EJB3 != endpoint.getService().getDeployment().getType()
-               && factory.getServiceBean() != null)
-         {
-            InjectionHelper.injectResources(factory.getServiceBean(), metadata, jndiContext);
-            InjectionHelper.callPostConstructMethod(factory.getServiceBean());
-         }
          List<Handler> chain = ((JaxWsEndpointImpl) factory.getServer().getEndpoint()).getJaxwsBinding()
                .getHandlerChain();
          if (chain != null)
