@@ -18,7 +18,7 @@
   <packaging>pom</packaging>
   <description>JBossWS CXF stack</description>
   
-  <version>3.4.1-SNAPSHOT</version>
+  <version>3.4.1.CR1</version>
   
   <!-- Parent -->
   <parent>
@@ -29,9 +29,9 @@
   
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/trunk</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/trunk</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/trunk</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-3.4.1.CR1</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-3.4.1.CR1</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/tags/jbossws-cxf-3.4.1.CR1</url>
   </scm>
   
   <!-- Modules -->
@@ -46,11 +46,11 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.spi.version>1.4.1-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>1.4.1-SNAPSHOT</jbossws.common.version>
-    <jbossws.framework.version>3.4.1-SNAPSHOT</jbossws.framework.version>
-    <jbossws.jboss501.version>3.4.1-SNAPSHOT</jbossws.jboss501.version>
-    <jbossws.jboss510.version>3.4.1-SNAPSHOT</jbossws.jboss510.version>
+    <jbossws.spi.version>1.4.1.CR4</jbossws.spi.version>
+    <jbossws.common.version>1.4.1.CR4</jbossws.common.version>
+    <jbossws.framework.version>3.4.1.CR1</jbossws.framework.version>
+    <jbossws.jboss501.version>3.4.0.Beta2</jbossws.jboss501.version>
+    <jbossws.jboss510.version>3.4.0.Beta2</jbossws.jboss510.version>
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
@@ -58,7 +58,7 @@
     <jbossws.jboss601.version>3.2.1.GA</jbossws.jboss601.version>
     -->
     <!-- END -->
-    <cxf.version>2.3.1-SNAPSHOT</cxf.version>
+    <cxf.version>2.3.0</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>2.2.3</cxf.asm.version>
     <cxf.xjcplugins.version>2.3.0</cxf.xjcplugins.version>
@@ -127,11 +127,6 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss501-metadata</artifactId>
-        <version>${jbossws.jboss501.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss501</artifactId>
         <version>${jbossws.jboss501.version}</version>
         <classifier>resources</classifier>
@@ -140,11 +135,6 @@
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss510</artifactId>
-        <version>${jbossws.jboss510.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss510-metadata</artifactId>
         <version>${jbossws.jboss510.version}</version>
       </dependency>
       <dependency>

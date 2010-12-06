@@ -35,7 +35,6 @@ import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.transport.ConduitInitiator;
 import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
-import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.rm.RMManager;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -102,13 +101,6 @@ public class NonSpringBusHolder extends BusHolder
          endpoint.setServiceName(dde.getServiceName());
          endpoint.setWsdlLocation(dde.getWsdlLocation());
          setHandlers(endpoint, dde.getHandlers());
-         if (dde.isAddressingEnabled()) 
-         {
-            WSAddressingFeature addressingFeature = new WSAddressingFeature();
-            addressingFeature.setAddressingRequired(dde.isAddressingRequired());
-            addressingFeature.setResponses(dde.getAddressingResponses());
-            endpoint.getFeatures().add(addressingFeature);
-         }
          endpoint.publish();
          endpoints.add(endpoint);
          if (dde.isMtomEnabled())
