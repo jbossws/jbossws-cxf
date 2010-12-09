@@ -28,10 +28,7 @@ org/jboss/test/ws/jaxws/endpointReference/EndpointReferenceBuilderTestCase.*
 # [JBWS-2895] JAX-RPC available from AS 6.0.0.M3
 org/jboss/test/ws/jaxrpc/**
 
-# [JBWS-2945] JAX-WS 2.2 implementation not yet available for CXF stack
-org/jboss/test/ws/jaxws/samples/addressing/AddressingStatefulTestCase.*
-
-# [JBWS-2987] Review JMS integration
+# [JBWS-2987] Review JMS integration (fixed on AS6 only)
 org/jboss/test/ws/jaxws/samples/jmstransport/**
 
 # [JBWS-3028] Complete UsernameToken JAAS integration: PicketBox not available on AS 5.x
