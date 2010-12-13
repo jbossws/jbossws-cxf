@@ -45,3 +45,6 @@ org/jboss/test/ws/jaxws/jbws2957/**
 
 # [JBWS-3140] mtom, wsaddressing support in webservices.xml; jboss-metadata-common doesn't support this metadata by in AS510
 org/jboss/test/ws/jaxws/jbws3140/**
+
+# Seems MSFT interop. endpoints are down :(
+org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**
