@@ -168,6 +168,10 @@
               <value>${jboss.server.instance}</value>
             </property>
             <property>
+              <name>jboss.bind.address</name>
+              <value>${jboss.bind.address}</value>
+            </property>
+            <property>
               <name>java.naming.provider.url</name>
               <value>jnp://${jboss.bind.address}:1099</value>
             </property>
