@@ -1,7 +1,19 @@
 #!/bin/sh
 
-DIRNAME=`dirname $0`
-PROGNAME=`basename $0`
+# Extract the directory and the program name
+# takes care of symlinks
+PRG="$0"
+while [ -h "$PRG" ] ; do
+  ls=`ls -ld "$PRG"`
+  link=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$link" : '/.*' > /dev/null; then
+    PRG="$link"
+  else
+    PRG="`dirname "$PRG"`/$link"
+  fi
+done
+DIRNAME=`dirname "$PRG"`
+PROGNAME=`basename "$PRG"`
 
 if [ $# -eq 0 ]; then
     echo "$PROGNAME is a command line tool that invokes a JBossWS JAX-WS Web Service client."
