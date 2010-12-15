@@ -38,6 +38,7 @@ import org.jboss.ws.Constants;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
+import org.jboss.wsf.stack.cxf.interceptor.EnableOneWayDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 
 /**
@@ -123,6 +124,7 @@ public abstract class BusHolder
       //Install the EndpointAssociationInterceptor for linking every message exchange
       //with the proper spi Endpoint retrieved in CXFServletExt
       bus.getInInterceptors().add(new EndpointAssociationInterceptor());
+      bus.getInInterceptors().add(new EnableOneWayDecoupledFaultInterceptor());
    }
    
    protected static void setResourceResolver(Bus bus, ResourceResolver resourceResolver)
