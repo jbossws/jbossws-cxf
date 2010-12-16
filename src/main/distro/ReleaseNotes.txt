@@ -26,21 +26,22 @@ http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.p
 What's new in jbossws-cxf-${project.version}
 ----------------------------------
 
-Bug
-
-    TODO: enumerate
-
 Feature Request
 
-    TODO: enumerate
+    * [JBWS-3139] - Ensure IPv6 Compatibility
+    * [JBWS-3161] - Distinguish between @Addressing(enabled=false) and no @Addressing annotation
+    * [JBWS-3181] - Add support for symlinked bin/*.sh files
 
 Task
 
-    TODO: enumerate
+    * [JBWS-2896] - Fix unguarded calls to Logger.debug()
+    * [JBWS-3171] - Fix WebServiceContext injection into EJB3 beans
+    * [JBWS-3177] - Provide CDI Integration Points
+    * [JBWS-3179] - InvocationHandlerJAXWS is responsible for endpoint injections & lifecycle 
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
+    See: https://issues.jboss.org/browse/JBWS-3189
 
 This version of ${project.name} is based on Apache CXF ${cxf.version}
 
