@@ -50,6 +50,27 @@ The JBossWS Team
 Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 --------------------
+jbossws-cxf-3.4.1.GA
+--------------------
+
+Feature Request
+
+    * [JBWS-3139] - Ensure IPv6 Compatibility
+    * [JBWS-3161] - Distinguish between @Addressing(enabled=false) and no @Addressing annotation
+    * [JBWS-3181] - Add support for symlinked bin/*.sh files
+
+Task
+
+    * [JBWS-2896] - Fix unguarded calls to Logger.debug()
+    * [JBWS-3171] - Fix WebServiceContext injection into EJB3 beans
+    * [JBWS-3177] - Provide CDI Integration Points
+    * [JBWS-3179] - InvocationHandlerJAXWS is responsible for endpoint injections & lifecycle 
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3189
+
+--------------------
 jbossws-cxf-3.4.0.GA
 --------------------
 
