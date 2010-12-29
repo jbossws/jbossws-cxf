@@ -154,7 +154,7 @@ public class CXFConsumerImpl extends WSContractConsumer
          sourceDir = outputDir;
       }
       
-      if (sourceDir != null)
+      if (sourceDir != null && generateSource)
       {
          if (!sourceDir.exists() && !sourceDir.mkdirs())
             throw new IllegalStateException("Could not make directory: " + sourceDir.getName());
@@ -194,8 +194,16 @@ public class CXFConsumerImpl extends WSContractConsumer
          throw new IllegalStateException("Could not make directory: " + outputDir.getName());
 
       // Always add the output directory and the wsdl location
-      args.add("-classdir");
-      args.add(outputDir.getAbsolutePath());
+      if (!nocompile)
+      {
+         args.add("-classdir");
+         args.add(outputDir.getAbsolutePath());
+      }
+      if (nocompile && !generateSource)
+      {
+         args.add("-d");
+         args.add(outputDir.getAbsolutePath());
+      }
 
       // Always set the target
       if (target != null)
