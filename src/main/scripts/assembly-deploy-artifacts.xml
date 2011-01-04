@@ -130,59 +130,9 @@
               <include>juddi:juddi:jar</include>
             </includes>
           </dependencySet>
-          <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <outputFileNameMapping>jbossws-jboss501.${module.extension}</outputFileNameMapping>
-            <useStrictFiltering>true</useStrictFiltering>
-            <scope>provided</scope>
-            <unpack>false</unpack>
-            <includes>
-              <include>org.jboss.ws:jbossws-jboss501:jar</include>
-            </includes>
-          </dependencySet>
-          <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <outputFileNameMapping>jbossws-jboss501-metadata.${module.extension}</outputFileNameMapping>
-            <useStrictFiltering>true</useStrictFiltering>
-            <scope>provided</scope>
-            <unpack>false</unpack>
-            <includes>
-              <include>org.jboss.ws:jbossws-jboss501-metadata:jar</include>
-            </includes>
-          </dependencySet>
-          <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <outputFileNameMapping>jbossws-jboss510.${module.extension}</outputFileNameMapping>
-            <useStrictFiltering>true</useStrictFiltering>
-            <scope>provided</scope>
-            <unpack>false</unpack>
-            <includes>
-              <include>org.jboss.ws:jbossws-jboss510:jar</include>
-            </includes>
-          </dependencySet>
-          <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <outputFileNameMapping>jbossws-jboss510-metadata.${module.extension}</outputFileNameMapping>
-            <useStrictFiltering>true</useStrictFiltering>
-            <scope>provided</scope>
-            <unpack>false</unpack>
-            <includes>
-              <include>org.jboss.ws:jbossws-jboss510-metadata:jar</include>
-            </includes>
-          </dependencySet>
           <!-- [JBWS-2505] -->
           <!-- START -->
           <!--
-          <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <outputFileNameMapping>jbossws-jboss600.${module.extension}</outputFileNameMapping>
-            <useStrictFiltering>true</useStrictFiltering>
-            <scope>provided</scope>
-            <unpack>false</unpack>
-            <includes>
-              <include>org.jboss.ws:jbossws-jboss600M5:jar</include>
-            </includes>
-          </dependencySet>
           <dependencySet>
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <outputFileNameMapping>jbossws-jboss601.${module.extension}</outputFileNameMapping>

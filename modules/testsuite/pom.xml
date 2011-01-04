@@ -366,161 +366,13 @@
     </profile>
 
     <!--
-    Name:  jboss501
-    Descr: JBoss-5.0.1 specific options
-    -->
-    <profile>
-      <id>jboss501</id>
-      <properties>
-        <jboss.version>5.0.1.GA</jboss.version>
-        <jbossws.integration.target>jboss501</jbossws.integration.target>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate</artifactId>
-          <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-ejb3</artifactId>
-          <version>${jboss.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.security</groupId>
-              <artifactId>jbosssx</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>javax.xml.bind</groupId>
-              <artifactId>jaxb-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>sun-jaxb</groupId>
-              <artifactId>jaxb-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>sun-jaxws</groupId>
-              <artifactId>jaxws-api</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-security</artifactId>
-          <version>${jboss.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.javaee</groupId>
-          <artifactId>jboss-javaee</artifactId>
-          <version>${jboss.javaee.version}</version>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
-              <testExcludeFile>../test-excludes-jboss501.txt</testExcludeFile>
-              <compilerArgument>-Djava.endorsed.dirs=${jboss501.home}/lib/endorsed</compilerArgument>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss501.home}/lib/endorsed</argLine>
-              <!-- TODO: replace with maven dependencies -->
-              <additionalClasspathElements>
-                <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
-                 <!-- Libs below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
-                <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/common/lib/netty.jar</additionalClasspathElement>
-              </additionalClasspathElements>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!--
-    Name:  jboss510
-    Descr: JBoss-5.1.0 specific options
-    -->
-    <profile>
-      <id>jboss510</id>
-      <properties>
-        <jboss.version>5.1.0.GA</jboss.version>
-        <jbossws.integration.target>jboss510</jbossws.integration.target>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate</artifactId>
-          <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-ejb3</artifactId>
-          <version>${jboss.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>javax.xml.bind</groupId>
-              <artifactId>jaxb-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>sun-jaxb</groupId>
-              <artifactId>jaxb-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>sun-jaxws</groupId>
-              <artifactId>jaxws-api</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-security</artifactId>
-          <version>${jboss.version}</version>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            
-            <configuration>
-              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
-              <testExcludeFile>../test-excludes-jboss510.txt</testExcludeFile>
-              <compilerArgument>-Djava.endorsed.dirs=${jboss510.home}/lib/endorsed</compilerArgument>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss510.home}/lib/endorsed</argLine>
-              <!-- TODO: replace with maven dependencies -->
-              <additionalClasspathElements>
-                <additionalClasspathElement>${jboss.home}/client/jbossall-client.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/common/lib/jboss-ejb3-core.jar</additionalClasspathElement>
-                 <!-- Libs below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
-                <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
-                <additionalClasspathElement>${jboss.home}/common/lib/netty.jar</additionalClasspathElement>
-              </additionalClasspathElements>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!--
     Name:  jboss600
     Descr: JBoss-6.0.0 specific options
     -->
     <profile>
       <id>jboss600</id>
       <properties>
-        <jboss.version>6.0.0.20101110-CR1</jboss.version>
+        <jboss.version>6.0.0.Final</jboss.version>
         <jbossws.integration.target>jboss600</jbossws.integration.target>
       </properties>
       <dependencies>
@@ -647,7 +499,7 @@
     <profile>
       <id>jboss601</id>
       <properties>
-        <jboss.version>6.0.0-SNAPSHOT</jboss.version>
+        <jboss.version>6.0.1-SNAPSHOT</jboss.version>
         <jbossws.integration.target>jboss601</jbossws.integration.target>
       </properties>
       <dependencies>

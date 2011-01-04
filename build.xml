@@ -56,12 +56,6 @@
       <arg line="${maven.opts} help:effective-settings"/>
     </exec>
     <xmlproperty file="${stack.output.dir}/effective-settings.xml" keeproot="false"/>
-    <condition property="jboss501.home" value="${profiles.profile.properties.jboss501.home}">
-      <isset property="profiles.profile.properties.jboss501.home"/>
-    </condition>
-    <condition property="jboss510.home" value="${profiles.profile.properties.jboss510.home}">
-      <isset property="profiles.profile.properties.jboss510.home"/>
-    </condition>
     <condition property="jboss600.home" value="${profiles.profile.properties.jboss600.home}">
       <isset property="profiles.profile.properties.jboss600.home"/>
     </condition>
@@ -71,14 +65,10 @@
 
     <!-- Loads the properties from the user profile -->
     <xmlproperty file="${basedir}/profiles.xml" keeproot="false"/>
-    <property name="jboss501.home" value="${profiles.profile.properties.jboss501.home}"/>
-    <property name="jboss510.home" value="${profiles.profile.properties.jboss510.home}"/>
     <property name="jboss600.home" value="${profiles.profile.properties.jboss600.home}"/>
     <property name="jboss601.home" value="${profiles.profile.properties.jboss601.home}"/>
 
     <echo/>
-    <echo message="jboss501.home=${jboss501.home}"/>
-    <echo message="jboss510.home=${jboss510.home}"/>
     <echo message="jboss600.home=${jboss600.home}"/>
     <echo message="jboss601.home=${jboss601.home}"/>
   </target>

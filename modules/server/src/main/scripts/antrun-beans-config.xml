@@ -17,16 +17,6 @@
   <target name="main">
 
     <copy
-      file="${src.dir}/jbossws-cxf-config-as5.xml"
-      tofile="${dest.dir}/jbossws-jboss501/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
-    />
-
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as5.xml"
-      tofile="${dest.dir}/jbossws-jboss510/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
-    />
-
-    <copy
       file="${src.dir}/jbossws-cxf-config-as6.xml"
       tofile="${dest.dir}/jbossws-jboss600/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
     />
