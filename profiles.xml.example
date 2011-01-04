@@ -11,7 +11,7 @@
         </property>
       </activation>
       <properties>
-        <jboss600.home>/home/opalka/svn/jbossas/tags/6.0.0.Final/build/target/jboss-6.0.0.Final/jboss600.home>
+        <jboss600.home>/home/opalka/svn/jbossas/tags/6.0.0.Final/build/target/jboss-6.0.0.Final</jboss600.home>
         <jboss601.home>/home/opalka/svn/jbossas/trunk/build/output/jboss-6.0.1-SNAPSHOT</jboss601.home>
       </properties>
     </profile>
