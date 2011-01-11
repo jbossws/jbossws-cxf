@@ -42,10 +42,6 @@
       <artifactId>jbossws-common</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-framework</artifactId>
-    </dependency>
-    <dependency>
       <groupId>javax.ejb</groupId>
       <artifactId>ejb-api</artifactId>
     </dependency>
@@ -353,7 +349,7 @@
         <dependency>
            <groupId>org.springframework</groupId>
            <artifactId>spring-expression</artifactId>
-        </dependency>   
+        </dependency>
         <dependency>
            <groupId>org.springframework</groupId>
            <artifactId>spring-jms</artifactId>
@@ -361,7 +357,7 @@
         <dependency>
            <groupId>org.springframework</groupId>
            <artifactId>spring-tx</artifactId>
-        </dependency>      
+        </dependency>
       </dependencies>
     </profile>
 

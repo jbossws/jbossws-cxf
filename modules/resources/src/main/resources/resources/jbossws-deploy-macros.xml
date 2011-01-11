@@ -39,7 +39,6 @@
     <include name="**/jbossws-api.jar"/>
     <include name="**/jbossws-common.jar"/>
     <include name="**/jbossws-cxf-client*.jar"/>
-    <include name="**/jbossws-framework.jar"/>
     <include name="**/jbossws-spi.jar"/>
     <include name="**/jbossws-cxf-transports-httpserver.jar"/>
     <include name="**/jdom.jar"/>
@@ -78,7 +77,6 @@
     <include name="**/jboss-jaxb-intros.jar"/>
     <include name="**/jbossws-api.jar"/>
     <include name="**/jbossws-common.jar"/>
-    <include name="**/jbossws-framework.jar"/>
     <include name="**/jbossws-spi.jar"/>
     <include name="**/jdom.jar"/>
     <include name="**/neethi.jar"/>

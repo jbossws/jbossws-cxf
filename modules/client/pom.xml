@@ -277,9 +277,9 @@
                <classpathLayoutType>custom</classpathLayoutType> 
                <!--a bug in http://jira.codehaus.org/browse/MJAR-118, this needs to be reviewed(remove one $) when maven jar plugin is updated-->
                <customClasspathLayout>$${artifact.artifactId}.$${artifact.extension}</customClasspathLayout>
-	    </manifest>         
+            </manifest>
             <manifestEntries>
-              <Class-Path>jbossws-framework.jar jaxws-api.jar jboss-logging.jar jboss-logging-spi.jar jboss-logging-log4j.jar jcl-over-slf4j.jar slf4j-api.jar slf4j-jboss-logging.jar stax-api.jar wstx.jar wstx-lgpl.jar</Class-Path>
+              <Class-Path>jaxws-api.jar jboss-logging.jar jboss-logging-spi.jar jboss-logging-log4j.jar jcl-over-slf4j.jar slf4j-api.jar slf4j-jboss-logging.jar stax-api.jar wstx.jar wstx-lgpl.jar</Class-Path>
             </manifestEntries>
           </archive>
         </configuration>

@@ -20,11 +20,6 @@
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-framework</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-framework</artifactId>
       <classifier>testsuite</classifier>
       <scope>provided</scope>
       <type>zip</type>
