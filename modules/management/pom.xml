@@ -29,12 +29,9 @@
       <scope>provided</scope>
       <type>zip</type>
     </dependency>
-    <!-- [JBWS-2505] -->
-    <!-- START -->
-    <!--
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-jboss600M5</artifactId>
+      <artifactId>jbossws-jboss600</artifactId>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -47,6 +44,9 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <!-- [JBWS-2505] -->
+    <!-- START -->
+    <!--
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-jboss600x</artifactId>
