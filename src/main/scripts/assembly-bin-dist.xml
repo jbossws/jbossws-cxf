@@ -82,7 +82,7 @@
     </fileSet>
   </fileSets>
   
-  <!-- framework tests -->
+  <!-- shared tests -->
   <moduleSets>
     <moduleSet>
       <includes>
@@ -96,7 +96,7 @@
             <scope>provided</scope>
             <unpack>true</unpack>
             <includes>
-              <include>*:jbossws-framework:zip:testsuite</include>
+              <include>*:jbossws-shared-testsuite:zip</include>
             </includes>
             <unpackOptions>
               <includes>

@@ -19,8 +19,7 @@
     -->
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-framework</artifactId>
-      <classifier>testsuite</classifier>
+      <artifactId>jbossws-shared-testsuite</artifactId>
       <scope>provided</scope>
       <type>zip</type>
     </dependency>

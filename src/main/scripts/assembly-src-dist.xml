@@ -21,12 +21,12 @@
       <outputDirectory>jbossws-cxf-src-dist/modules/</outputDirectory>
       <excludes>
         <exclude>**/target/**</exclude>
-        <exclude>**/framework-tests/**</exclude>
+        <exclude>**/shared-tests/**</exclude>
       </excludes>
     </fileSet>
     <fileSet>
-      <directory>modules/testsuite/framework-tests</directory>
-      <outputDirectory>jbossws-cxf-src-dist/modules/testsuite/framework-tests</outputDirectory>
+      <directory>modules/testsuite/shared-tests</directory>
+      <outputDirectory>jbossws-cxf-src-dist/modules/testsuite/shared-tests</outputDirectory>
       <includes>
         <include>src/test/etc/</include>
         <include>scripts/</include>
@@ -46,7 +46,7 @@
     </fileSet>
   </fileSets>
   
-  <!-- framework tests -->
+  <!-- shared tests -->
   <moduleSets>
     <moduleSet>
       <includes>
@@ -55,12 +55,12 @@
       <binaries>
         <dependencySets>
           <dependencySet>
-            <outputDirectory>jbossws-cxf-src-dist/modules/testsuite/framework-tests/src/test</outputDirectory>
+            <outputDirectory>jbossws-cxf-src-dist/modules/testsuite/shared-tests/src/test</outputDirectory>
             <useStrictFiltering>true</useStrictFiltering>
             <scope>provided</scope>
             <unpack>true</unpack>
             <includes>
-              <include>*:jbossws-framework:zip:testsuite</include>
+              <include>*:jbossws-shared-testsuite:zip</include>
             </includes>
             <unpackOptions>
               <includes>

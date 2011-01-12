@@ -32,7 +32,7 @@
   <!-- Modules -->
   <modules>
     <module>cxf-tests</module>
-    <module>framework-tests</module>
+    <module>shared-tests</module>
   </modules>
 
   <!-- Dependencies -->

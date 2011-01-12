@@ -48,7 +48,7 @@
   <properties>
     <jbossws.spi.version>2.0.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>2.0.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.framework.version>4.0.0-SNAPSHOT</jbossws.framework.version>
+    <jbossws.shared.testsuite.version>4.0.0-SNAPSHOT</jbossws.shared.testsuite.version>
     <jbossws.jboss600.version>4.0.0-SNAPSHOT</jbossws.jboss600.version>
     <!-- JBWS-2505 -->
     <!-- START -->
@@ -108,9 +108,8 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-framework</artifactId>
-        <version>${jbossws.framework.version}</version>
-        <classifier>testsuite</classifier>
+        <artifactId>jbossws-shared-testsuite</artifactId>
+        <version>${jbossws.shared.testsuite.version}</version>
         <type>zip</type>
       </dependency>
       <dependency>

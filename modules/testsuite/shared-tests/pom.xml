@@ -2,8 +2,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <name>JBoss Web Services - Stack CXF Framework Tests</name>
-  <artifactId>jbossws-cxf-framework-tests</artifactId>
+  <name>JBoss Web Services - Stack Agnostic Tests</name>
+  <artifactId>jbossws-cxf-shared-tests</artifactId>
   <packaging>jar</packaging>
 
   <!-- Parent -->
@@ -18,8 +18,7 @@
   <dependencies>
     <dependency>
       <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-framework</artifactId>
-      <classifier>testsuite</classifier>
+      <artifactId>jbossws-shared-testsuite</artifactId>
       <type>zip</type>
     </dependency>
   </dependencies>
@@ -73,8 +72,7 @@
                   <artifactItems>
                     <artifactItem>
                       <groupId>org.jboss.ws</groupId>
-                      <artifactId>jbossws-framework</artifactId>
-                      <classifier>testsuite</classifier>
+                      <artifactId>jbossws-shared-testsuite</artifactId>
                       <type>zip</type>
                     </artifactItem>
                   </artifactItems>
