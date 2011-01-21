@@ -58,8 +58,8 @@
     <!-- END -->
     <cxf.version>2.3.2</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
-    <cxf.asm.version>2.2.3</cxf.asm.version>
-    <cxf.xjcplugins.version>2.3.0</cxf.xjcplugins.version>
+    <cxf.asm.version>3.3</cxf.asm.version>
+    <cxf.xjcplugins.version>2.3.2</cxf.xjcplugins.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
     <jboss.logging.version>2.2.0.CR1</jboss.logging.version>
@@ -87,7 +87,7 @@
     <xerces.version>2.9.1</xerces.version>
     <xmlsec.version>1.4.3</xmlsec.version>
     <wstx.version>3.2.9</wstx.version>
-    <spring.version>3.0.3.RELEASE</spring.version>
+    <spring.version>3.0.5.RELEASE</spring.version>
   </properties>
 
 
