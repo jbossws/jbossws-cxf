@@ -33,7 +33,6 @@ import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
-import org.jboss.wsf.stack.cxf.config.CXFInitializer;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
 import org.jboss.wsf.stack.cxf.configuration.SpringBusHolder;
@@ -52,72 +51,72 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
 {
    
    @SuppressWarnings("unchecked")
-   @Override
-   public void start(Deployment dep)
+   protected void startDeploymentBus(Deployment dep)
    {
-      //ensure the default bus has been set on the server, then proceed
-      CXFInitializer.waitForDefaultBusAvailability();
-      //synchronize as this assumes nothing deals with the BusFactory threadlocals associated with the system daemon
-      //thread doing the deployments, iow multiple concurrent deployment are not supported in this deployment aspect
-      synchronized (this)
+      ClassLoader origClassLoader = SecurityActions.getContextClassLoader();
+      try
       {
-         ClassLoader origClassLoader = SecurityActions.getContextClassLoader();
-         try
+         //start cleaning the BusFactory thread locals
+         BusFactory.setThreadDefaultBus(null);
+
+         ArchiveDeployment aDep = (ArchiveDeployment) dep;
+         //set the runtime classloader (pointing to the deployment unit) to allow CXF accessing to the classes
+         SecurityActions.setContextClassLoader(dep.getRuntimeClassLoader());
+
+         ResourceResolver deploymentResolver = aDep.getResourceResolver();
+         org.apache.cxf.resource.ResourceResolver resolver = new JBossWSResourceResolver(deploymentResolver);
+         Map<String, String> contextParams = (Map<String, String>) dep.getProperty(WSConstants.STACK_CONTEXT_PARAMS);
+         String jbosswsCxfXml = contextParams == null ? null : contextParams.get(BusHolder.PARAM_CXF_BEANS_URL);
+         BusHolder holder = null;
+
+         if (jbosswsCxfXml != null) // Spring available
          {
-            //start cleaning the BusFactory thread locals
-            BusFactory.setThreadDefaultBus(null);
-
-            ArchiveDeployment aDep = (ArchiveDeployment) dep;
-            //set the runtime classloader (pointing to the deployment unit) to allow CXF accessing to the classes
-            SecurityActions.setContextClassLoader(dep.getRuntimeClassLoader());
-
-            ResourceResolver deploymentResolver = aDep.getResourceResolver();
-            org.apache.cxf.resource.ResourceResolver resolver = new JBossWSResourceResolver(deploymentResolver);
-            Map<String, String> contextParams = (Map<String, String>) dep.getProperty(WSConstants.STACK_CONTEXT_PARAMS);
-            String jbosswsCxfXml = contextParams == null ? null : contextParams.get(BusHolder.PARAM_CXF_BEANS_URL);
-            BusHolder holder = null;
-
-            if (jbosswsCxfXml != null) // Spring available
+            URL cxfServletURL = null;
+            try
             {
-               URL cxfServletURL = null;
-               try
-               {
-                  cxfServletURL = deploymentResolver.resolve("WEB-INF/cxf-servlet.xml");
-               }
-               catch (IOException e)
-               {
-               } //ignore, cxf-servlet.xml is optional, we might even decide not to support this
-
-               try
-               {
-                  holder = new SpringBusHolder(cxfServletURL, deploymentResolver.resolve(jbosswsCxfXml));
-                  Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
-                        new WSDLFilePublisher(aDep), dep.getService().getEndpoints());
-                  holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
-               }
-               catch (Exception e)
-               {
-                  throw new RuntimeException(e); //re-throw, jboss-cxf.xml is required
-               }
+               cxfServletURL = deploymentResolver.resolve("WEB-INF/cxf-servlet.xml");
             }
-            else
-            //Spring not available
+            catch (IOException e)
             {
-               DDBeans metadata = dep.getAttachment(DDBeans.class);
-               holder = new NonSpringBusHolder(metadata);
+            } //ignore, cxf-servlet.xml is optional, we might even decide not to support this
+
+            try
+            {
+               holder = new SpringBusHolder(cxfServletURL, deploymentResolver.resolve(jbosswsCxfXml));
                Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
                      new WSDLFilePublisher(aDep), dep.getService().getEndpoints());
                holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
             }
-            dep.addAttachment(BusHolder.class, holder);
+            catch (Exception e)
+            {
+               throw new RuntimeException(e); //re-throw, jboss-cxf.xml is required
+            }
          }
-         finally
+         else
+         //Spring not available
          {
-            //clean threadlocals in BusFactory and restore the original classloader
-            BusFactory.setThreadDefaultBus(null);
-            SecurityActions.setContextClassLoader(origClassLoader);
+            DDBeans metadata = dep.getAttachment(DDBeans.class);
+            holder = new NonSpringBusHolder(metadata);
+            Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
+                  new WSDLFilePublisher(aDep), dep.getService().getEndpoints());
+            holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
          }
+         dep.addAttachment(BusHolder.class, holder);
       }
+      finally
+      {
+         //clean threadlocals in BusFactory and restore the original classloader
+         BusFactory.setThreadDefaultBus(null);
+         SecurityActions.setContextClassLoader(origClassLoader);
+      }
+   }
+   
+   @Override
+   public void start(Deployment dep)
+   {
+      //Ask for the default bus to make sure it's created before the deployment classloader is set
+      BusFactory.getDefaultBus();
+      this.startDeploymentBus(dep);
    }
    
    @Override

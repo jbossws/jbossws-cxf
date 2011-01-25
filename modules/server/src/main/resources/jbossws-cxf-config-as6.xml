@@ -88,7 +88,7 @@
     <property name="forJaxRpc">false</property>
   </bean>
   
-  <bean name="WSCXFBusDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.BusDeploymentAspect">
+  <bean name="WSCXFBusDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.SynchronizedBusDeploymentAspect">
     <property name="provides">BusHolder</property>
     <property name="requires">ResourceResolver,StackDescriptor</property>
     <property name="forJaxRpc">false</property>
