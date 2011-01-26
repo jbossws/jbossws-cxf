@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ JBoss, Home of Professional Open Source.
+  ~ Copyright 2011, Red Hat, Inc., and individual contributors
+  ~ as indicated by the @author tags. See the copyright.txt file in the
+  ~ distribution for a full listing of individual contributors.
+  ~
+  ~ This is free software; you can redistribute it and/or modify it
+  ~ under the terms of the GNU Lesser General Public License as
+  ~ published by the Free Software Foundation; either version 2.1 of
+  ~ the License, or (at your option) any later version.
+  ~
+  ~ This software is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this software; if not, write to the Free
+  ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+  ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+  -->
+
+<deploymentAspects xmlns="urn:jboss:ws:deployment:aspects:1.0">
+  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.ResourceResolverDeploymentAspect" priority="4"/>
+  <deploymentAspect class="org.jboss.wsf.framework.deployment.ContextPropertiesDeploymentAspect" priority="5">
+    <property name="contextProperties" class="java.util.HashMap">
+      <map keyClass="java.lang.String" valueClass="java.lang.String">
+        <entry>
+          <key>stack.transport.class.provider</key>
+          <value>org.jboss.wsf.stack.cxf.deployment.CXFServletClassProvider</value>
+        </entry>
+      </map>
+    </property>
+  </deploymentAspect>
+  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.DescriptorDeploymentAspect" priority="13">
+    <property name="invokerEJB3" class="java.lang.String">org.jboss.wsf.stack.cxf.InvokerEJB3</property>
+    <property name="invokerJSE" class="java.lang.String">org.jboss.wsf.stack.cxf.InvokerJSE</property>
+  </deploymentAspect>
+  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.BusDeploymentAspect" priority="15"/>
+</deploymentAspects>

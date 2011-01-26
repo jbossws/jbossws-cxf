@@ -36,6 +36,11 @@
       tofile="${dest.dir}/jbossws-jaxrpc-jboss601/jbossws.beans/META-INF/stack-specific-jboss-beans.xml"
     />
 
+    <copy
+      file="${src.dir}/jbossws-cxf-config-as7.xml"
+      tofile="${dest.dir}/jbossws-jboss700/jbossws.beans/META-INF/deployment-aspects.xml"
+    />
+
   </target>
 
 </project>
