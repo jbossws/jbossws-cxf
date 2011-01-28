@@ -40,23 +40,29 @@
   <import file="${build.dir}/jbossws-installer-macros.xml"/>
   
 
-  <target name="secure-console">
+  <target name="secure-console" depends="secure-all,secure-web,secure-production,secure-standard,secure-default"/>
+
+  <target name="secure-all" if="jbossws.all.available">
     <!-- all -->
     <copy file="build/web.xml" tofile="${jboss510.home}/server/all/deploy/jbossws.sar/jbossws-management.war/WEB-INF/web.xml" overwrite="true"/>
     <copy file="build/jboss-web.xml" tofile="${jboss510.home}/server/all/deploy/jbossws.sar/jbossws-management.war/WEB-INF/jboss-web.xml" overwrite="true"/>
-    
+  </target>
+  <target name="secure-production"  if="jbossws.production.available">
     <!-- production -->
     <copy file="build/web.xml" tofile="${jboss510.home}/server/production/deploy/jbossws.sar/jbossws-management.war/WEB-INF/web.xml" overwrite="true"/>
     <copy file="build/jboss-web.xml" tofile="${jboss510.home}/server/production/deploy/jbossws.sar/jbossws-management.war/WEB-INF/jboss-web.xml" overwrite="true"/>
-
+  </target>
+  <target name="secure-web" if="jbossws.web.available">
     <!-- web -->
     <copy file="build/web.xml" tofile="${jboss510.home}/server/web/deploy/jbossws.sar/jbossws-management.war/WEB-INF/web.xml" overwrite="true"/>
     <copy file="build/jboss-web.xml" tofile="${jboss510.home}/server/web/deploy/jbossws.sar/jbossws-management.war/WEB-INF/jboss-web.xml" overwrite="true"/>
-
+  </target>
+  <target name="secure-standard" if="jbossws.standard.available"> 
     <!-- standard -->
     <copy file="build/web.xml" tofile="${jboss510.home}/server/standard/deploy/jbossws.sar/jbossws-management.war/WEB-INF/web.xml" overwrite="true"/>
     <copy file="build/jboss-web.xml" tofile="${jboss510.home}/server/standard/deploy/jbossws.sar/jbossws-management.war/WEB-INF/jboss-web.xml" overwrite="true"/>
-
+  </target>
+  <target name="secure-default" if="jbossws.default.available">
     <!-- default -->
     <copy file="build/web.xml" tofile="${jboss510.home}/server/default/deploy/jbossws.sar/jbossws-management.war/WEB-INF/web.xml" overwrite="true"/>
     <copy file="build/jboss-web.xml" tofile="${jboss510.home}/server/default/deploy/jbossws.sar/jbossws-management.war/WEB-INF/jboss-web.xml" overwrite="true"/>
