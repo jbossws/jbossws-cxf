@@ -52,12 +52,11 @@
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-client</artifactId>
-      <version>${version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
     <!-- JAXR samples -->
@@ -375,7 +374,7 @@
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-depchain</artifactId>
-          <scope>import</scope>
+          <scope>test</scope>
           <type>pom</type>
           <version>${jboss.version}</version>
           <exclusions>
@@ -468,8 +467,6 @@
           <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
-              <testExcludeFile>../test-excludes-jboss600.txt</testExcludeFile>
               <compilerArgument>-Djava.endorsed.dirs=${jboss600.home}/lib/endorsed</compilerArgument>
             </configuration>
           </plugin>
@@ -482,6 +479,34 @@
                  <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
                 <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
               </additionalClasspathElements>
+              <excludes>
+                <!-- # UsernameTestCase requires trustore in jboss-web tomcat configuration-->
+                <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
+
+                <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
+                <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
+
+                <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
+                <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
+
+                <!--# [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored-->
+                <exclude>org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*</exclude>
+
+                <!--# [JBWS-2561] XOP request not properly inlined-->
+                <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
+
+                <!--# [JBWS-2480] Soap attachments are dropped on server response-->
+                <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
+
+                <!--# [JBWS-2397] Fix jbws1797 testcase-->
+                <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
+
+                <!--# [JBAS-8363] Virtual host issue in JBossWeb-->
+                <exclude>org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*</exclude>
+
+                <!--# Seems MSFT interop. endpoints are down :(-->
+                <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
+              </excludes>
             </configuration>
           </plugin>
         </plugins>
@@ -578,8 +603,6 @@
           <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
-              <testExcludeFile>../test-excludes-jboss601.txt</testExcludeFile>
               <compilerArgument>-Djava.endorsed.dirs=${jboss601.home}/lib/endorsed</compilerArgument>
             </configuration>
           </plugin>
@@ -592,6 +615,34 @@
                  <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
                 <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
               </additionalClasspathElements>
+              <excludes>
+                 <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
+
+                 <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
+
+                 <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
+
+                 <!--# [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored-->
+                 <exclude>org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*</exclude>
+
+                 <!--# [JBWS-2561] XOP request not properly inlined-->
+                 <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
+
+                 <!--# [JBWS-2480] Soap attachments are dropped on server response-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
+
+                 <!--# [JBWS-2397] Fix jbws1797 testcase-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
+
+                 <!--# [JBAS-8363] Virtual host issue in JBossWeb-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*</exclude>
+
+                 <!--# Seems MSFT interop. endpoints are down :(-->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
+              </excludes>
             </configuration>
           </plugin>
         </plugins>

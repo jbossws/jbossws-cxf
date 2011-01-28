@@ -24,7 +24,7 @@
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.0.9.GA</version>
+    <version>1.0.10-SNAPSHOT</version>
   </parent>
   
   <!-- Source Control Management -->
@@ -39,7 +39,6 @@
     <module>modules/server</module>
     <module>modules/client</module>
     <module>modules/endorsed</module>
-    <module>modules/management</module>
     <module>modules/resources</module>
     <module>modules/addons</module>
   </modules>
@@ -1146,6 +1145,14 @@
         <artifactId>easymockclassextension</artifactId>
         <version>2.4</version>
       </dependency>
+
+     <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+     </dependency>
+
     </dependencies>
   </dependencyManagement>
   
@@ -1210,7 +1217,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-2</version>
         <configuration>
           <finalName>assembly</finalName>
           <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
@@ -1235,7 +1241,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.0-beta-8</version>
         <configuration>
           <scmCommentPrefix>[${jira.issue}] :</scmCommentPrefix>
           <autoVersionSubmodules>true</autoVersionSubmodules>
@@ -1246,95 +1251,12 @@
   
   <!-- Profiles -->
   <profiles>
-    <!-- 
-    Name:  bindist
-    Descr: Build the binary distribution  
-    -->
+
     <profile>
-      <id>bindist</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <configuration>
-              <finalName>assembly</finalName>
-              <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
-              <appendAssemblyId>false</appendAssemblyId>
-              <descriptors>
-                <descriptor>src/main/scripts/assembly-deploy-artifacts.xml</descriptor>
-                <descriptor>src/main/scripts/assembly-bin-dist.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.jboss.maven.plugins</groupId>
-            <artifactId>maven-jdocbook-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>resources</goal>
-                  <goal>generate</goal>
-                </goals>
-                <phase>package</phase>
-              </execution>
-            </executions>
-            <configuration>
-              <sourceDocumentName>JBossWS-CXF.xml</sourceDocumentName>
-              <sourceDirectory>src/main/doc</sourceDirectory>
-              <imageResource>
-                <directory>src/main/doc</directory>
-                <includes>
-                  <include>images/*</include>
-                </includes>
-              </imageResource>
-              <formats>
-                <!--format>
-                  <formatName>pdf</formatName>
-                  <stylesheetResource>classpath:/xslt/org/jboss/pdf.xsl</stylesheetResource>
-                  <finalName>JBossWS-CXF_Guide.pdf</finalName>
-                </format-->
-                <format>
-                  <formatName>html</formatName>
-                  <stylesheetResource>classpath:/xslt/org/jboss/xhtml.xsl</stylesheetResource>
-                  <finalName>index.html</finalName>
-                </format>
-                <format>
-                  <formatName>html_single</formatName>
-                  <stylesheetResource>classpath:/xslt/org/jboss/xhtml-single.xsl</stylesheetResource>
-                  <finalName>index.html</finalName>
-                </format>
-              </formats>
-              <options>
-                <xincludeSupported>true</xincludeSupported>
-              </options>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <!-- 
-    Name:  srcdist
-    Descr: Build the source distribution  
-    -->
-    <profile>
-      <id>srcdist</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <configuration>
-              <finalName>assembly</finalName>
-              <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
-              <appendAssemblyId>false</appendAssemblyId>
-              <descriptors>
-                <descriptor>src/main/scripts/assembly-deploy-artifacts.xml</descriptor>
-                <descriptor>src/main/scripts/assembly-src-dist.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
+      <id>dist</id>
+      <modules>
+         <module>modules/dist</module>
+      </modules>
     </profile>
 
     <!--

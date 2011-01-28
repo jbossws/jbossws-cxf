@@ -1,0 +1,304 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <name>JBoss Web Services - Stack CXF Distrubiton</name>
+  <artifactId>jbossws-cxf-dist</artifactId>
+  <packaging>pom</packaging>
+  <version>4.0.0-SNAPSHOT</version>
+  
+  <parent>
+    <groupId>org.jboss.ws.cxf</groupId>
+    <artifactId>jbossws-cxf</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <properties>
+  </properties>
+
+   <modules>
+        <module>management</module>
+    </modules>
+
+  <dependencies>
+      <dependency>
+         <groupId>org.jboss.ws.cxf</groupId>
+         <artifactId>jbossws-cxf-client</artifactId> 
+         <version>${project.version}</version>          
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.ws.cxf</groupId>
+         <artifactId>jbossws-cxf-transports-httpserver</artifactId>
+         <version>${project.version}</version>     
+      </dependency>
+
+
+      <dependency>
+         <groupId>org.jboss.ws.cxf</groupId>
+         <artifactId>jbossws-cxf-server</artifactId>
+         <version>${project.version}</version>     
+      </dependency>
+
+      <!--test-suite-->
+      <dependency>
+         <groupId>org.jboss.ws</groupId>
+         <artifactId>jbossws-shared-testsuite</artifactId>
+         <type>zip</type>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- Spring -->
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aop</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-asm</artifactId>
+      </dependency>   
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-beans</artifactId>
+      </dependency> 
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context</artifactId>
+      </dependency> 
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-core</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-expression</artifactId>
+      </dependency>   
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-tx</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-jms</artifactId>
+      </dependency>
+
+      <!--juddi-->
+      <dependency>
+        <groupId>org.jboss.jaxr</groupId>
+        <artifactId>juddi-service</artifactId>
+        <type>sar</type>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>apache-scout</groupId>
+        <artifactId>scout</artifactId>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>juddi</groupId>
+        <artifactId>juddi</artifactId>
+        <scope>provided</scope>
+      </dependency>
+    
+    <!--jboss600-->
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-jboss600</artifactId>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.xml.bind</groupId>
+          <artifactId>jaxb-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>sun-jaxb</groupId>
+          <artifactId>jaxb-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!--junit-->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+      </dependency>
+    </dependencies>
+ 
+    <build>
+      <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>distribution-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>assembly</finalName>
+                            <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/scripts/assembly-deploy-artifacts.xml</descriptor>
+                            </descriptors>
+                            <tarLongFileMode>gnu</tarLongFileMode>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.4</version>
+                <dependencies>
+                  <dependency>
+                    <groupId>org.apache.ant</groupId>
+                    <artifactId>ant-trax</artifactId>
+                    <version>1.8.0</version>
+                  </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>generate-exclude-file</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="${basedir}/target/exclude-file" />
+                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss600.txt">
+                                    <param name="targetName" expression="jboss600" />
+                                </xslt>
+                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss601.txt">
+                                    <param name="targetName" expression="jboss601" />
+                                </xslt>                       
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+     </plugins>
+    </build>
+
+    <profiles>
+   <!-- 
+    Name:  bindist
+    Descr: Build the binary distribution  
+    -->
+    <profile>
+      <id>bindist</id>
+      <activation>
+        <property>
+          <name>bindist</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <inherited>false</inherited>
+            <groupId>org.jboss.maven.plugins</groupId>
+            <artifactId>maven-jdocbook-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>resources</goal>
+                  <goal>generate</goal>
+                </goals>
+                <phase>prepare-package</phase>
+              </execution>
+            </executions>
+            <configuration>
+              <sourceDocumentName>JBossWS-CXF.xml</sourceDocumentName>
+              <sourceDirectory>${basedir}/src/main/doc</sourceDirectory>
+              <imageResource>
+                <directory>${basedir}/src/main/doc</directory>
+                <includes>
+                  <include>images/*</include>
+                </includes>
+              </imageResource>
+              <formats>
+                <!--format>
+                  <formatName>pdf</formatName>
+                  <stylesheetResource>classpath:/xslt/org/jboss/pdf.xsl</stylesheetResource>
+                  <finalName>JBossWS-CXF_Guide.pdf</finalName>
+                </format-->
+                <format>
+                  <formatName>html</formatName>
+                  <stylesheetResource>classpath:/xslt/org/jboss/xhtml.xsl</stylesheetResource>
+                  <finalName>index.html</finalName>
+                </format>
+                <format>
+                  <formatName>html_single</formatName>
+                  <stylesheetResource>classpath:/xslt/org/jboss/xhtml-single.xsl</stylesheetResource>
+                  <finalName>index.html</finalName>
+                </format>
+              </formats>
+              <options>
+                <xincludeSupported>true</xincludeSupported>
+              </options>
+            </configuration>
+          </plugin>
+          <plugin>
+             <artifactId>maven-assembly-plugin</artifactId>
+             <executions>
+                 <execution>
+                   <id>distribution-package</id>
+                  <configuration>
+                       <finalName>assembly</finalName>
+                       <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
+                       <appendAssemblyId>false</appendAssemblyId>
+                       <descriptors>
+                          <descriptor>src/main/scripts/assembly-deploy-artifacts.xml</descriptor>
+                          <descriptor>src/main/scripts/assembly-bin-dist.xml</descriptor>
+                       </descriptors>
+                  </configuration>
+                </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!-- 
+    Name:  srcdist
+    Descr: Build the source distribution  
+    -->
+    <profile>
+      <id>srcdist</id>
+      <activation>
+        <property>
+          <name>srcdist</name>
+        </property>
+      </activation>
+
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+             <executions>
+                 <execution>
+                   <id>distribution-package</id>
+                  <configuration>
+                       <finalName>assembly</finalName>
+                       <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
+                       <appendAssemblyId>false</appendAssemblyId>
+                       <descriptors>
+                          <descriptor>src/main/scripts/assembly-deploy-artifacts.xml</descriptor>
+                          <descriptor>src/main/scripts/assembly-src-dist.xml</descriptor>
+                       </descriptors>
+                  </configuration>
+                </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    </profiles>
+</project>

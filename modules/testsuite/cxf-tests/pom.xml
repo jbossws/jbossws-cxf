@@ -18,7 +18,7 @@
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-server</artifactId>
-      <version>${version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.picketbox</groupId>

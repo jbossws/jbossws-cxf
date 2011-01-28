@@ -36,7 +36,7 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>modules/resources/src/main/resources/resources</directory>
+      <directory>../resources/src/main/resources/resources</directory>
       <outputDirectory>jbossws-cxf-bin-dist/build</outputDirectory>
       <includes>
         <include>deploy.conf</include>
@@ -66,7 +66,7 @@
     </fileSet>
     <!-- test etc -->
     <fileSet>
-      <directory>modules/testsuite/cxf-tests/src/test</directory>
+      <directory>../testsuite/cxf-tests/src/test</directory>
       <outputDirectory>jbossws-cxf-bin-dist/tests</outputDirectory>
       <includes>
         <include>etc/**</include>
@@ -74,27 +74,20 @@
     </fileSet>
     <!-- test excludes -->
     <fileSet>
-      <directory>modules/testsuite</directory>
+      <directory>target/exclude-file</directory>
       <outputDirectory>jbossws-cxf-bin-dist/tests/resources</outputDirectory>
       <includes>
         <include>test-excludes-*.txt</include>
       </includes>
     </fileSet>
   </fileSets>
-  
-  <!-- shared tests -->
-  <moduleSets>
-    <moduleSet>
-      <includes>
-        <include>org.jboss.ws.cxf:jbossws-cxf-management</include>
-      </includes>
-      <binaries>
-        <dependencySets>
-          <dependencySet>
+
+   <dependencySets> 
+         <dependencySet>
             <outputDirectory>jbossws-cxf-bin-dist/tests</outputDirectory>
             <useStrictFiltering>true</useStrictFiltering>
-            <scope>provided</scope>
             <unpack>true</unpack>
+            <scope>test</scope>
             <includes>
               <include>*:jbossws-shared-testsuite:zip</include>
             </includes>
@@ -117,10 +110,7 @@
                 <include>resources/saaj/**</include>
               </includes>
             </unpackOptions>
-          </dependencySet>
-        </dependencySets>
-      </binaries>
-    </moduleSet>
-  </moduleSets>
-  
+            <useProjectArtifact>false</useProjectArtifact>
+         </dependencySet>
+   </dependencySets>
 </assembly>

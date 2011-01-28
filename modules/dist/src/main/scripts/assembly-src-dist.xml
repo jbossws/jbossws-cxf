@@ -9,15 +9,15 @@
   
   <fileSets>
     <fileSet>
-      <directory>eclipse/</directory>
+      <directory>../../eclipse/</directory>
       <outputDirectory>jbossws-cxf-src-dist/eclipse/</outputDirectory>
     </fileSet>
     <fileSet>
-      <directory>src/</directory>
+      <directory>../../src/</directory>
       <outputDirectory>jbossws-cxf-src-dist/src/</outputDirectory>
     </fileSet>
     <fileSet>
-      <directory>modules/</directory>
+      <directory>../</directory>
       <outputDirectory>jbossws-cxf-src-dist/modules/</outputDirectory>
       <excludes>
         <exclude>**/target/**</exclude>
@@ -25,7 +25,7 @@
       </excludes>
     </fileSet>
     <fileSet>
-      <directory>modules/testsuite/shared-tests</directory>
+      <directory>../testsuite/shared-tests</directory>
       <outputDirectory>jbossws-cxf-src-dist/modules/testsuite/shared-tests</outputDirectory>
       <includes>
         <include>src/test/etc/</include>
@@ -34,43 +34,32 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory></directory>
+      <directory>../../</directory>
       <outputDirectory>jbossws-cxf-src-dist/</outputDirectory>
       <includes>
         <include>.classpath</include>
         <include>.project</include>
         <include>build.xml</include>
         <include>pom.xml</include>
-        <include>profiles.xml.example</include>
       </includes>
     </fileSet>
   </fileSets>
-  
-  <!-- shared tests -->
-  <moduleSets>
-    <moduleSet>
+
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>jbossws-cxf-src-dist/modules/testsuite/shared-tests/src/test</outputDirectory>
+      <useStrictFiltering>true</useStrictFiltering>
+      <scope>test</scope>
+      <unpack>true</unpack>
       <includes>
-        <include>org.jboss.ws.cxf:jbossws-cxf-management</include>
+        <include>*:jbossws-shared-testsuite:zip</include>
       </includes>
-      <binaries>
-        <dependencySets>
-          <dependencySet>
-            <outputDirectory>jbossws-cxf-src-dist/modules/testsuite/shared-tests/src/test</outputDirectory>
-            <useStrictFiltering>true</useStrictFiltering>
-            <scope>provided</scope>
-            <unpack>true</unpack>
-            <includes>
-              <include>*:jbossws-shared-testsuite:zip</include>
-            </includes>
-            <unpackOptions>
-              <includes>
-                <include>**/*</include>
-              </includes>
-            </unpackOptions>
-          </dependencySet>
-        </dependencySets>
-      </binaries>
-    </moduleSet>
-  </moduleSets>
-  
+      <unpackOptions>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </unpackOptions>
+      <useProjectArtifact>false</useProjectArtifact>
+    </dependencySet>
+  </dependencySets> 
 </assembly>
