@@ -47,11 +47,12 @@
   </target>
 
   <target name="mvn-settings" depends="os-init">
+    <!-- Use a system property to overwrite the empty default value -->
+    <property name="maven.opts" value=""/>
     <!-- Loads the properties from the effective maven settings -->
     <mkdir dir="${stack.output.dir}"/>
     <exec dir="${basedir}" executable="${mvn}" failonerror="true">
-      <arg value="-Doutput=${stack.output.dir}/effective-settings.xml"/>
-      <arg value="help:effective-settings"/>
+      <arg line="${maven.opts} -Doutput=${stack.output.dir}/effective-settings.xml help:effective-settings"/>
     </exec>
     <xmlproperty file="${stack.output.dir}/effective-settings.xml" keeproot="false"/>
     <condition property="jboss510.home" value="${profiles.profile.properties.jboss510.home}">
