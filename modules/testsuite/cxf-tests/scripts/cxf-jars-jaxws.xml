@@ -72,6 +72,20 @@
       </metainf>
     </jar>
 
+    <!-- saaj-soap-connection -->
+    <war
+       warfile="${tests.output.dir}/test-libs/saaj-soap-connection.war"
+       webxml="${tests.output.dir}/test-resources/saaj/jbws3084/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/saaj/jbws3084/ServiceImpl.class"/>
+          <include name="org/jboss/test/ws/saaj/jbws3084/ServiceIface.class"/>
+          <include name="org/jboss/test/ws/saaj/jbws3084/InputStreamDataSource.class"/>
+       </classes>
+       <zipfileset
+          dir="${tests.output.dir}/test-resources/saaj/jbws3084/WEB-INF/wsdl" 
+          prefix="WEB-INF/wsdl"/>
+    </war>
+
     <!-- Please add alphabetically -->
 
   </target>
