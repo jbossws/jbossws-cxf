@@ -33,6 +33,12 @@
          <version>${project.version}</version>     
       </dependency>
 
+      <dependency>
+         <groupId>org.jboss.ws.cxf</groupId>
+         <artifactId>jbossws-cxf-resources</artifactId>
+         <version>${project.version}</version>
+         <classifier>jboss700</classifier>     
+      </dependency>
 
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>

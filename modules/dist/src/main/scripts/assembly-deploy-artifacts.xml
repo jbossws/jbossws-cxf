@@ -25,6 +25,15 @@
       </includes>
     </fileSet>
     
+    <!-- module.xml files -->
+    <fileSet>
+      <directory>../resources/src/main/resources/modules</directory>
+      <outputDirectory>deploy-artifacts/modules</outputDirectory>
+      <includes>
+        <include>**/module.xml</include>
+      </includes>
+    </fileSet>
+    
     <!-- management console and port component link servlet -->
     <fileSet>
       <directory>./management/target</directory>

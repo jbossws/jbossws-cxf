@@ -32,6 +32,7 @@
 
   <property name="jbossws.default.deploy.conf" value="${stack.resources.dir}/resources/deploy.conf"/>
   <property name="jbossws.default.server.deploy.conf" value="${stack.resources.dir}/resources/server-deploy.conf"/>
+  <property name="jbossws.default.modules.conf" value="${stack.resources.dir}/resources/modules-deploy.conf"/>
   <property name="target.properties.file" value="${basedir}/target.properties"/>
 
   <!-- ================================================================== -->
@@ -63,23 +64,30 @@
     <condition property="jboss601.home" value="${profiles.profile.properties.jboss601.home}">
       <isset property="profiles.profile.properties.jboss601.home"/>
     </condition>
-
-   <fail message="jboss home not set, use jboss601.home=value or jboss600.home=value to set">
-    <condition>
-     <and>
-      <not>
-        <isset property="jboss601.home"/>
-      </not>
-      <not>
-        <isset property="jboss600.home"/>
-      </not>
-     </and>
+    <condition property="jboss700.home" value="${profiles.profile.properties.jboss700.home}">
+      <isset property="profiles.profile.properties.jboss700.home"/>
     </condition>
-   </fail>
+
+    <fail message="jboss home not set, use jboss601.home=value, jboss600.home=value or jboss700.home=value to set">
+     <condition>
+      <and>
+       <not>
+         <isset property="jboss601.home"/>
+       </not>
+       <not>
+         <isset property="jboss600.home"/>
+       </not>
+       <not>
+         <isset property="jboss700.home"/>
+       </not>
+      </and>
+     </condition>
+    </fail>
 
     <echo/>
     <echo message="jboss600.home=${jboss600.home}"/>
     <echo message="jboss601.home=${jboss601.home}"/>
+    <echo message="jboss700.home=${jboss700.home}"/>
   </target>
 
   <target name="init" depends="mvn-settings,prepare,os-init">

@@ -24,6 +24,7 @@
   <property name="deploy.artifacts.dir" value="${basedir}/deploy"/>
   <property name="jbossws.default.deploy.conf" value="${build.dir}/deploy.conf"/>
   <property name="jbossws.default.server.deploy.conf" value="${build.dir}/server-deploy.conf"/>
+  <property name="jbossws.default.modules.conf" value="${build.dir}/modules-deploy.conf"/>
   <property name="target.properties.file" value="${basedir}/target.properties"/>
   
   <!-- Check if ant.properties is available -->

@@ -35,11 +35,15 @@
     <property name="jboss601.server.deploy" value="${jboss601.server}/deploy"/>
     <property name="jboss601.server.deployers" value="${jboss601.server}/deployers"/>
 
+    <property name="jboss700.modules" value="${jboss700.home}/modules"/>
+
     <property name="jboss600.available.file" value="${jboss600.client}/jboss-client.jar"/>
     <property name="jboss601.available.file" value="${jboss601.client}/jboss-client.jar"/>
+    <property name="jboss700.available.file" value="${jboss700.home}/jboss-modules.jar"/>
 
     <available property="jboss600.available" file="${jboss600.available.file}"/>
     <available property="jboss601.available" file="${jboss601.available.file}"/>
+    <available property="jboss700.available" file="${jboss700.available.file}"/>
 
     <tstamp>
       <format property="build.id" pattern="yyyyMMddHHmm"/>

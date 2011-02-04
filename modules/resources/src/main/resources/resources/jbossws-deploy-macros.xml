@@ -318,6 +318,85 @@
   </target>
 
   <!-- ================================================================== -->
+  <!-- Modules                                                            -->
+  <!-- ================================================================== -->
+	
+  <macrodef name="macro-deploy-jbossws-modules">
+    <attribute name="thirdpartydir"/>
+    <attribute name="targetdir"/>
+  	<sequential>
+      <!-- libraries -->
+      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-client/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jbossws-cxf-client.jar"/>
+        </fileset>
+      </copy>
+     <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-server/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jbossws-cxf-server.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-factories/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jbossws-cxf-factories.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-transports-httpserver/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jbossws-cxf-transports-httpserver.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/apache/cxf//main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/cxf-*.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/jboss/ws/api/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jbossws-api.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/jboss/ws/common/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jbossws-common.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/jboss/ws/spi/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jbossws-spi.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/apache/neethi/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/neethi.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/apache/ws/commons/xmlschema/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/XmlSchema.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/jboss/as/webservices/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jbossws-cxf-resources.jar"/>
+        </fileset>
+      </copy>
+      <!-- module.xml files -->
+      <installModules targetDir="@{targetdir}">
+        <fileset dir="@{thirdpartydir}/modules">
+          <include name="**/module.xml"/>
+          <exclude name="**/jboss/as/webservices/**/module.xml"/>
+        </fileset>
+      </installModules>
+      <copy toDir="@{targetdir}">
+        <fileset dir="@{thirdpartydir}/modules">
+          <include name="**/jboss/as/webservices/**/module.xml"/>
+        </fileset>
+      </copy>
+    </sequential>
+  </macrodef>
+
+  <!-- ================================================================== -->
   <!-- Deploy JBossWS                                                     -->
   <!-- ================================================================== -->
 
@@ -351,6 +430,11 @@
     <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
   </target>
 
+  <target name="deploy-jbossws-cxf-modules">
+    <fail message="installserver must be specified" unless="installserver"/>
+    <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
+    <macro-deploy-jbossws-modules targetdir="${installserver}/modules" thirdpartydir="${thirdpartydir}"/>
+  </target>
 
   <!-- ================================================================== -->
   <!-- Install Spring                                                     -->
@@ -377,6 +461,29 @@
   <!-- ================================================================== -->
   <!-- Undeploy JBossWS                                                   -->
   <!-- ================================================================== -->
+
+  <macrodef name="macro-undeploy-jbossws-modules">
+    <attribute name="defaultmodulesconf"/>
+    <attribute name="targetdir"/>
+  	
+    <sequential>
+      <loadfile property="jbossws.modules.conf" srcfile="@{targetdir}/modules/org/jboss/as/webservices/jbossws-modules.conf" failonerror="false"/>
+      <loadfile property="jbossws.modules.conf" srcfile="@{defaultmodulesconf}" failonerror="false"/>
+
+      <property name="jboss.modules" value="@{targetdir}/modules"/>
+
+      <delete includeemptydirs="true" verbose="true">
+        <fileset dir="${jboss.modules}">
+          <include name="**/org/jboss/as/webservices/main/jbossws-cxf-resources-*"/>
+        </fileset>
+      </delete>
+
+      <!-- delete content of last deployment -->
+      <delete verbose="true">
+        <fileset dir="${jboss.modules}" includes="${jbossws.modules.conf}"/>
+      </delete>
+    </sequential>
+  </macrodef>
 
   <macrodef name="macro-undeploy-jbossws">
     <attribute name="defaultconf"/>
