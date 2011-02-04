@@ -5,8 +5,9 @@
 # Optional JBoss Home
 jboss600.home=@jboss600.home@
 jboss601.home=@jboss601.home@
+jboss700.home=@jboss700.home@
 
-# The JBoss server under test. This can be [jboss600|jboss601]
+# The JBoss server under test. This can be [jboss600|jboss601|jboss700]
 jbossws.integration.target=jboss601
 
 # The JBoss settings

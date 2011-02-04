@@ -102,11 +102,11 @@
   <target name="deploy-structure-jboss700" depends="prepare-deploy">
     <delete dir="${deploy.structure}"/>
   	
-  	<path id="jbossws-common.path">
+    <path id="jbossws-common.path">
       <fileset dir="${deploy.artifacts.dir}">
         <include name="**/jbossws-common.jar"/>
       </fileset>
-  	</path>
+    </path>
     <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jbossws-common.path"/>
   	
     <antcall target="deploy-jbossws-cxf-modules" inheritall="false">
@@ -132,7 +132,7 @@
       </fileset>
     </copy>
     <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
-  	<installModules targetDir="${jboss700.home}/modules">
+    <installModules targetDir="${jboss700.home}/modules">
       <fileset dir="${deploy.structure}/modules">
         <include name="**/jboss/as/webservices/**/module.xml"/>
       </fileset>

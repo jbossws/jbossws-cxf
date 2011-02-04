@@ -324,7 +324,7 @@
   <macrodef name="macro-deploy-jbossws-modules">
     <attribute name="thirdpartydir"/>
     <attribute name="targetdir"/>
-  	<sequential>
+    <sequential>
       <!-- libraries -->
       <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-client/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
