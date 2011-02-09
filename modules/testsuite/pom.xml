@@ -728,11 +728,11 @@
                   <testExcludes>
                     <!-- AS7 compilation excludes -->
                     <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
-                    <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
+                    <!-- EJB3 client API dependencies -->
                     <exclude>org/jboss/test/ws/jaxws/jbws944/**</exclude>
-                    <exclude>org/jboss/test/ws/jaxws/samples/webserviceref*/**</exclude>
-                    <exclude>org/jboss/test/ws/jaxws/endpointReference/**</exclude>
-                    <exclude>org/jboss/test/ws/jaxws/jaxbcust/**</exclude>
+                    <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
+                    <exclude>org/jboss/test/ws/jaxws/samples/webservicerefsec/**</exclude>
+                    <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
                   </testExcludes>
                 </configuration>
                 <goals>
@@ -784,11 +784,11 @@
 
                  <!--# not yet supported on AS7 -->
                  <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
+                 <!-- EJB3 client API dependencies -->
                  <exclude>org/jboss/test/ws/jaxws/jbws944/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/webserviceref*/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/endpointReference/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jaxbcust/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/webservicerefsec/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
               </excludes>
             </configuration>
           </plugin>
