@@ -61,7 +61,7 @@
     <cxf.xjcplugins.version>2.3.2</cxf.xjcplugins.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
-    <jboss.logging.version>2.2.0.CR1</jboss.logging.version>
+    <jboss.logging.version>3.0.0.Beta3</jboss.logging.version>
     <jboss.security.spi.version>2.0.4.SP4</jboss.security.spi.version>
     <jboss.security.sx.version>2.0.4</jboss.security.sx.version>
     <jboss.xb.version>2.0.2.Beta7</jboss.xb.version>
@@ -1127,12 +1127,7 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.logging</groupId>
-        <artifactId>jboss-logging-log4j</artifactId>
-        <version>${jboss.logging.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.logging</groupId>
-        <artifactId>jboss-logging-spi</artifactId>
+        <artifactId>jboss-logging</artifactId>
         <version>${jboss.logging.version}</version>
       </dependency>
       <dependency>
