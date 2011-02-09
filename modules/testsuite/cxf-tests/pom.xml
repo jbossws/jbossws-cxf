@@ -14,7 +14,14 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   
- 
+  <dependencies>
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-server</artifactId>
+      <version>${version}</version>
+    </dependency>
+  </dependencies>
+
   <!-- Profiles -->
   <profiles>
     

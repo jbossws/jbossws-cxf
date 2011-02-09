@@ -19,34 +19,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.security.authentication;
+package org.jboss.test.ws.jaxws.samples.wsseDigest;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.jws.WebService;
 
-import org.jboss.security.AuthenticationManager;
-
-/**
- * AuthenticationManager loader
- * 
- * @author Sergey Beryozkin
- *
- */
-public class AuthenticationManagerLoader
+@WebService
+(
+   serviceName = "SecurityService",
+   wsdlLocation = "WEB-INF/wsdl/SecurityService.wsdl",
+   targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecurity",
+   endpointInterface = "org.jboss.test.ws.jaxws.samples.wsseDigest.ServiceIface"
+)
+public class ServiceImpl implements ServiceIface
 {
-   public AuthenticationManager getManager()
+   public String sayHello()
    {
-      try
-      {
-         Context ctx = new InitialContext();
-         Object obj = ctx.lookup("java:/comp/env/security/securityMgr");
-         return (AuthenticationManager)obj;
-      }
-      catch (NamingException ne)
-      {
-         throw new SecurityException("Unable to lookup AuthenticationManager using JNDI");
-      }
+      return "Secure Hello World!";
    }
-      
+   public String greetMe()
+   {
+      return "Greetings!";
+   }
 }

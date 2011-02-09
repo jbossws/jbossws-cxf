@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,34 +19,43 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.security.authentication;
+package org.jboss.test.ws.jaxws.samples.wsseEJB;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.Stateless;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 
-import org.jboss.security.AuthenticationManager;
+import org.jboss.ejb3.annotation.SecurityDomain;
+import org.jboss.logging.Logger;
 
-/**
- * AuthenticationManager loader
- * 
- * @author Sergey Beryozkin
- *
- */
-public class AuthenticationManagerLoader
+
+@Stateless(name = "EjbEndpoint")
+@WebService
+(
+   name = "EjbEndpoint",
+   serviceName = "EjbEndpointService",
+   targetNamespace = "http://org.jboss.ws/wsseEJB"
+)
+@SecurityDomain("JBossWS")
+public class EjbEndpointImpl
 {
-   public AuthenticationManager getManager()
+   // Provide logging
+   private static Logger log = Logger.getLogger(EjbEndpointImpl.class);
+
+   @WebMethod
+   @RolesAllowed("friend")
+   public String sayHello()
    {
-      try
-      {
-         Context ctx = new InitialContext();
-         Object obj = ctx.lookup("java:/comp/env/security/securityMgr");
-         return (AuthenticationManager)obj;
-      }
-      catch (NamingException ne)
-      {
-         throw new SecurityException("Unable to lookup AuthenticationManager using JNDI");
-      }
+      log.info("Saying hello");
+      return "hello";
    }
-      
+
+   @WebMethod
+   @RolesAllowed("snoopies")
+   public String greetMe()
+   {
+      log.info("Greeting");
+      return "greetings";
+   }
 }

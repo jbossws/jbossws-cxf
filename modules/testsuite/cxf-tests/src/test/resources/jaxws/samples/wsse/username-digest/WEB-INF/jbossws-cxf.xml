@@ -13,12 +13,16 @@
     http://cxf.apache.org/jaxws
     http://cxf.apache.org/schemas/jaxws.xsd'>
   
+  <bean id="nonceStore" class="org.jboss.test.ws.jaxws.samples.wsseDigest.MemoryNonceStore"/>
+
   <bean id="SecurityContextIn" class="org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingInterceptor">
     <constructor-arg>
       <map>
         <entry key="action" value="UsernameToken"/> 
       </map>
     </constructor-arg>
+    <property name="nonceStore" ref="nonceStore"/>
+    <property name="supportDigestPasswords" value="true"/>
   </bean>
  
   <util:map id="methodPermissions">
@@ -32,8 +36,8 @@
   
   <jaxws:endpoint
     id='ServiceImpl'
-    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-authorize/default-config'
-    implementor='org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl'
+    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-digest'
+    implementor='org.jboss.test.ws.jaxws.samples.wsseDigest.ServiceImpl'
     endpointName="ns:SecurityServicePort"
     serviceName="ns:SecurityService"
     xmlns:ns="http://www.jboss.org/jbossws/ws-extensions/wssecurity">
@@ -41,6 +45,9 @@
         <ref bean="SecurityContextIn"/>
         <ref bean="AuthorizeIn"/>
         <bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor"/>
+<!--
+        <bean class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+-->
     </jaxws:inInterceptors>
   </jaxws:endpoint>
     

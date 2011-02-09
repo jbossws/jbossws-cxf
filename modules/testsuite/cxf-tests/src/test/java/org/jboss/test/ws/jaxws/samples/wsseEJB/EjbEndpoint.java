@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,34 +19,20 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.security.authentication;
+package org.jboss.test.ws.jaxws.samples.wsseEJB;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebResult;
+import javax.jws.WebService;
 
-import org.jboss.security.AuthenticationManager;
-
-/**
- * AuthenticationManager loader
- * 
- * @author Sergey Beryozkin
- *
- */
-public class AuthenticationManagerLoader
+@WebService(name = "EjbEndpoint", targetNamespace = "http://org.jboss.ws/wsseEJB")
+public interface EjbEndpoint
 {
-   public AuthenticationManager getManager()
-   {
-      try
-      {
-         Context ctx = new InitialContext();
-         Object obj = ctx.lookup("java:/comp/env/security/securityMgr");
-         return (AuthenticationManager)obj;
-      }
-      catch (NamingException ne)
-      {
-         throw new SecurityException("Unable to lookup AuthenticationManager using JNDI");
-      }
-   }
-      
+
+   @WebMethod
+   public String sayHello();
+
+   @WebMethod
+   public String greetMe();
 }

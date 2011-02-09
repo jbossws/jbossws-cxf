@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,34 +19,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.security.authentication;
+package org.jboss.test.ws.jaxws.samples.wsseEJB;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import java.io.IOException;
 
-import org.jboss.security.AuthenticationManager;
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.UnsupportedCallbackException;
+import org.apache.ws.security.WSPasswordCallback;
 
-/**
- * AuthenticationManager loader
- * 
- * @author Sergey Beryozkin
- *
- */
-public class AuthenticationManagerLoader
+public class UsernamePasswordCallback implements CallbackHandler
 {
-   public AuthenticationManager getManager()
+   public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
    {
-      try
-      {
-         Context ctx = new InitialContext();
-         Object obj = ctx.lookup("java:/comp/env/security/securityMgr");
-         return (AuthenticationManager)obj;
-      }
-      catch (NamingException ne)
-      {
-         throw new SecurityException("Unable to lookup AuthenticationManager using JNDI");
-      }
+      WSPasswordCallback pc = (WSPasswordCallback)callbacks[0];
+      if ("kermit".equals(pc.getIdentifier()))
+         pc.setPassword("thefrog");
+      else if ("theKermit".equals(pc.getIdentifier()))
+          pc.setPassword("thefrog2");
+      else
+         pc.setPassword("wrong password");
    }
-      
 }

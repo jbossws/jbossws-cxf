@@ -25,7 +25,6 @@ import javax.jws.WebService;
 
 @WebService
 (
-   portName = "SecurityServicePort",
    serviceName = "SecurityService",
    wsdlLocation = "WEB-INF/wsdl/SecurityService.wsdl",
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecurity",

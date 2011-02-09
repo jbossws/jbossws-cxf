@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse;
+package org.jboss.test.ws.jaxws.samples.wsseDigest;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -44,15 +44,15 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Sergey Beryozkin
  *
  */
-public final class UsernameAuthorizationTestCase extends JBossWSTest
+public final class UsernameDigestTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-username-authorize/default-config";
+   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-username-digest";
    
    private final QName servicePort = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityServicePort");
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(UsernameAuthorizationTestCase.class, "jaxws-samples-wsse-username-authorize.war");
+      return new JBossWSTestSetup(UsernameDigestTestCase.class, "jaxws-samples-wsse-username-digest.sar jaxws-samples-wsse-username-digest.war");
    }
 
    public void testAuthorized() throws Exception
@@ -119,10 +119,12 @@ private void doTestAuthorized(String endpointAddress, QName portName, String use
       Map<String, Object> outProps = new HashMap<String, Object>();
       outProps.put("action", "UsernameToken");
       outProps.put("user", username);
-      outProps.put("passwordType", "PasswordText");
-      outProps.put("passwordCallbackClass", "org.jboss.test.ws.jaxws.samples.wsse.UsernamePasswordCallback");
+      outProps.put("passwordType", "PasswordDigest");
+      outProps.put("passwordCallbackClass",   "org.jboss.test.ws.jaxws.samples.wsseDigest.UsernamePasswordCallback");
       WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps); //request
       cxfEndpoint.getOutInterceptors().add(wssOut);
       cxfEndpoint.getOutInterceptors().add(new SAAJOutInterceptor());
    }
+
+   
 }

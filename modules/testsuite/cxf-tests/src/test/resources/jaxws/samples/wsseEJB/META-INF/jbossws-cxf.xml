@@ -12,36 +12,35 @@
     http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
     http://cxf.apache.org/jaxws
     http://cxf.apache.org/schemas/jaxws.xsd'>
-  
+ 
   <bean id="SecurityContextIn" class="org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingInterceptor">
     <constructor-arg>
       <map>
         <entry key="action" value="UsernameToken"/> 
       </map>
     </constructor-arg>
+
+    <property name="propagateContext" value="true"/>
+
   </bean>
  
-  <util:map id="methodPermissions">
-     <entry key="sayHello" value="friend"/> 
-     <entry key="greetMe" value="snoopies"/> 
-  </util:map>
- 
-  <bean id="AuthorizeIn" class="org.apache.cxf.interceptor.security.SimpleAuthorizingInterceptor">
-   <property name="methodRolesMap" ref="methodPermissions"/> 
-  </bean>
-  
   <jaxws:endpoint
-    id='ServiceImpl'
-    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-authorize/default-config'
-    implementor='org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl'
-    endpointName="ns:SecurityServicePort"
-    serviceName="ns:SecurityService"
-    xmlns:ns="http://www.jboss.org/jbossws/ws-extensions/wssecurity">
+    id='EjbEndpointImpl'
+    address='http://@jboss.bind.address@:8080/jaxws-samples-wsseEJB/EjbEndpoint'
+    implementor='org.jboss.test.ws.jaxws.samples.wsseEJB.EjbEndpointImpl'>
+    <jaxws:invoker>
+      <bean class='org.jboss.wsf.stack.cxf.InvokerEJB3'/>
+    </jaxws:invoker>
+
     <jaxws:inInterceptors>
+
         <ref bean="SecurityContextIn"/>
-        <ref bean="AuthorizeIn"/>
         <bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor"/>
+
     </jaxws:inInterceptors>
+
   </jaxws:endpoint>
+   
+  
     
 </beans>

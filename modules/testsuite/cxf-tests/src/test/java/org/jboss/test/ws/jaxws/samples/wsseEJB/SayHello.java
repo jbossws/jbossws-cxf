@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2006, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,34 +19,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.security.authentication;
+package org.jboss.test.ws.jaxws.samples.wsseEJB;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
-import org.jboss.security.AuthenticationManager;
-
-/**
- * AuthenticationManager loader
- * 
- * @author Sergey Beryozkin
- *
- */
-public class AuthenticationManagerLoader
-{
-   public AuthenticationManager getManager()
-   {
-      try
-      {
-         Context ctx = new InitialContext();
-         Object obj = ctx.lookup("java:/comp/env/security/securityMgr");
-         return (AuthenticationManager)obj;
-      }
-      catch (NamingException ne)
-      {
-         throw new SecurityException("Unable to lookup AuthenticationManager using JNDI");
-      }
-   }
-      
-}
+@XmlRootElement(name = "sayHello", namespace = "http://www.jboss.ws/wsseEJB")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "sayHello", namespace = "http://www.jboss.ws/wsseEJB")
+public class SayHello {}
