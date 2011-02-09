@@ -44,3 +44,4 @@ org/jboss/test/ws/jaxws/handlerscope/*TestCase.*
 
 # Seems MSFT interop. endpoints are down :(
 org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**
+

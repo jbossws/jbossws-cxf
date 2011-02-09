@@ -160,6 +160,10 @@
       <groupId>sun-fi</groupId>
       <artifactId>FastInfoset</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.security</groupId>
+      <artifactId>jboss-security-spi</artifactId>
+    </dependency>
     
     <!-- transitve dependencies -->
     <dependency>

@@ -33,7 +33,7 @@ public class ServerUsernamePasswordCallback implements CallbackHandler
    public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
    {
       WSPasswordCallback pc = (WSPasswordCallback)callbacks[0];
-      if (!("kermit".equals(pc.getIdentifer()) && "thefrog".equals(pc.getPassword())))
-         throw new SecurityException("User '" + pc.getIdentifer() + "' with password '" + pc.getPassword() + "' not allowed.");
+      if (!("kermit".equals(pc.getIdentifier()) && "thefrog".equals(pc.getPassword())))
+         throw new SecurityException("User '" + pc.getIdentifier() + "' with password '" + pc.getPassword() + "' not allowed.");
    }
 }
