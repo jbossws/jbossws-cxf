@@ -19,7 +19,7 @@
 -->
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
-<properties version="1.0">
+<properties>
   <entry key="UniqueBodyValidator">org.apache.cxf.tools.wsdlto.frontend.jaxws.validator.UniqueBodyValidator</entry>
   <entry key="WrapperStyleNameCollisionValidator">org.apache.cxf.tools.wsdlto.frontend.jaxws.validator.WrapperStyleNameCollisionValidator</entry>
   <entry key="XMLFormatValidator">org.apache.cxf.binding.xml.XMLFormatValidator</entry>
