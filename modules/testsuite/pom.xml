@@ -55,6 +55,11 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-factories</artifactId>
+      <version>4.0.0.Alpha1</version><!-- TODO: think out how to remove this temporary hack -->
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
@@ -131,46 +136,39 @@
       </testResource>
     </testResources>
     <plugins>
-       <plugin>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-              <!--execution>
-                <id>unpack-shared-tests</id>
-                <phase>generate-sources</phase>
-                <goals>
-                  <goal>unpack</goal>
-                </goals>
-                <configuration>
-                  <artifactItems>
-                    <artifactItem>
-                      <groupId>org.jboss.ws</groupId>
-                      <artifactId>jbossws-shared-testsuite</artifactId>
-                      <type>zip</type>
-                      <overWrite>true</overWrite>
-                      <outputDirectory>src/test</outputDirectory>
-                    </artifactItem>
-                  </artifactItems>
-                </configuration>
-              </execution-->
-              <execution>
-                <id>create-endorsed-dir</id>
-                <phase>generate-sources</phase>
-                <goals>
-                  <goal>copy</goal>
-                </goals>
-                <configuration>
-                  <artifactItems>
-                  <artifactItem>
-                    <groupId>org.jboss.spec.javax.xml.ws</groupId>
-                    <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
-                    <type>jar</type>
-                    <overWrite>true</overWrite>
-                    <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-                    </artifactItem>
-                  </artifactItems>
-                </configuration>
-              </execution>
-            </executions>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>create-endorsed-dir</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.jboss.spec.javax.xml.ws</groupId>
+                  <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.spec.javax.xml.bind</groupId>
+                  <artifactId>jboss-jaxb-api_2.2_spec</artifactId>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.ws.cxf</groupId>
+                  <artifactId>jbossws-cxf-factories</artifactId>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -740,7 +738,7 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss700.home}/lib/endorsed</argLine>
+              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                  <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
