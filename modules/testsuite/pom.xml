@@ -57,7 +57,7 @@
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-factories</artifactId>
-      <version>4.0.0.Alpha1</version><!-- TODO: think out how to remove this temporary hack -->
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -159,14 +159,31 @@
                   <type>jar</type>
                   <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
                 </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.ws.cxf</groupId>
-                  <artifactId>jbossws-cxf-factories</artifactId>
-                  <type>jar</type>
-                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-                </artifactItem>
               </artifactItems>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin> <!-- This copies jbossws-cxf-factories jar to endorsed dir before the integration-tests are run -->
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-factories-jar</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>${basedir}/../endorsed/target/</directory>
+                  <includes>
+                    <include>jbossws-cxf-factories-${project.version}.jar</include>
+                  </includes>
+                </resource>
+              </resources>              
+            </configuration> 
           </execution>
         </executions>
       </plugin>
@@ -191,86 +208,99 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
+          <skip>true</skip>
           <failIfNoTests>false</failIfNoTests>
-          <includes>
-            <include>**/*Test.java</include>
-            <include>**/*TestCase.java</include>
-          </includes>
-          <systemProperties>
-            <property>
-              <name>jboss.server.instance</name>
-              <value>${jboss.server.instance}</value>
-            </property>
-            <property>
-              <name>jboss.bind.address</name>
-              <value>${jboss.bind.address}</value>
-            </property>
-            <property>
-              <name>java.naming.provider.url</name>
-              <value>jnp://${jboss.bind.address}:1099</value>
-            </property>
-            <property>
-              <name>java.protocol.handler.pkgs</name>
-              <value>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</value>
-            </property>
-            <property>
-              <name>jboss.home</name>
-              <value>${jboss.home}</value>
-            </property>
-            <property>
-              <name>jbossws.integration.target</name>
-              <value>${jbossws.integration.target}</value>
-            </property>
-            <property>
-              <name>test.disable.deployment</name>
-              <value>false</value>
-            </property>
-            <property>
-              <name>log4j.output.dir</name>
-              <value>${project.build.directory}</value>
-            </property>
-            <property>
-              <name>org.jboss.ws.wsse.keyStore</name>
-              <value>${test.resources.directory}/jaxws/samples/wssecurity/wsse.keystore</value>
-            </property>
-            <property>
-              <name>org.jboss.ws.wsse.trustStore</name>
-              <value>${test.resources.directory}/jaxws/samples/wssecurity/wsse.truststore</value>
-            </property>
-            <property>
-              <name>org.jboss.ws.wsse.keyStorePassword</name>
-              <value>jbossws</value>
-            </property>
-            <property>
-              <name>org.jboss.ws.wsse.trustStorePassword</name>
-              <value>jbossws</value>
-            </property>
-            <property>
-              <name>org.jboss.ws.wsse.keyStoreType</name>
-              <value>jks</value>
-            </property>
-            <property>
-              <name>org.jboss.ws.wsse.trustStoreType</name>
-              <value>jks</value>
-            </property>
-            <property>
-              <name>test.archive.directory</name>
-              <value>${test.archive.directory}</value>
-            </property>
-            <property>
-              <name>test.classes.directory</name>
-              <value>${test.classes.directory}</value>
-            </property>
-            <property>
-              <name>test.resources.directory</name>
-              <value>${test.resources.directory}</value>
-            </property>
-            <property>
-              <name>wsdl.publish.location</name>
-              <value>${wsdl.publish.location}</value>
-            </property>
-          </systemProperties>
         </configuration>
+        <executions>
+          <execution>
+            <id>integration-tests</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <skip>false</skip>
+              <includes>
+                <include>**/*Test.java</include>
+                <include>**/*TestCase.java</include>
+              </includes>
+              <systemProperties>
+                <property>
+                  <name>jboss.server.instance</name>
+                  <value>${jboss.server.instance}</value>
+                </property>
+                <property>
+                  <name>jboss.bind.address</name>
+                  <value>${jboss.bind.address}</value>
+                </property>
+                <property>
+                  <name>java.naming.provider.url</name>
+                  <value>jnp://${jboss.bind.address}:1099</value>
+                </property>
+                <property>
+                  <name>java.protocol.handler.pkgs</name>
+                  <value>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</value>
+                </property>
+                <property>
+                  <name>jboss.home</name>
+                  <value>${jboss.home}</value>
+                </property>
+                <property>
+                  <name>jbossws.integration.target</name>
+                  <value>${jbossws.integration.target}</value>
+                </property>
+                <property>
+                  <name>test.disable.deployment</name>
+                  <value>false</value>
+                </property>
+                <property>
+                  <name>log4j.output.dir</name>
+                  <value>${project.build.directory}</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.wsse.keyStore</name>
+                  <value>${test.resources.directory}/jaxws/samples/wssecurity/wsse.keystore</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.wsse.trustStore</name>
+                  <value>${test.resources.directory}/jaxws/samples/wssecurity/wsse.truststore</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.wsse.keyStorePassword</name>
+                  <value>jbossws</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.wsse.trustStorePassword</name>
+                  <value>jbossws</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.wsse.keyStoreType</name>
+                  <value>jks</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.wsse.trustStoreType</name>
+                  <value>jks</value>
+                </property>
+                <property>
+                  <name>test.archive.directory</name>
+                  <value>${test.archive.directory}</value>
+                </property>
+                <property>
+                  <name>test.classes.directory</name>
+                  <value>${test.classes.directory}</value>
+                </property>
+                <property>
+                  <name>test.resources.directory</name>
+                  <value>${test.resources.directory}</value>
+                </property>
+                <property>
+                  <name>wsdl.publish.location</name>
+                  <value>${wsdl.publish.location}</value>
+                </property>
+              </systemProperties>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

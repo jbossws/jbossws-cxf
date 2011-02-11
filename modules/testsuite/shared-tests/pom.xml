@@ -21,6 +21,12 @@
       <artifactId>jbossws-shared-testsuite</artifactId>
       <type>zip</type>
     </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <!-- Plugins -->
@@ -81,6 +87,24 @@
                   </artifactItems>
                 </configuration>
               </execution>
+              <execution> <!-- This is used by WSRunClientTestCase -->
+                <id>copy-junit</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>junit</groupId>
+                      <artifactId>junit</artifactId>
+                      <type>jar</type>
+                      <outputDirectory>${basedir}/target/junit-libs</outputDirectory>
+                      <destFileName>junit.jar</destFileName>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
             </executions>
           </plugin>
           <plugin>
@@ -125,26 +149,6 @@
                     <ant antfile="src/test/ant-import/build-samples-jaxrpc.xml" target="build-samples-jaxrpc"/>
                   </tasks>
                 </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <configuration>
-              <finalName>junit-libs</finalName>
-              <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
-              <appendAssemblyId>false</appendAssemblyId>
-              <descriptors>
-                <descriptor>scripts/assembly-junit-artifacts.xml</descriptor>
-              </descriptors>
-            </configuration>
-            <executions>
-              <execution>
-                <id>make-assembly</id>
-                <phase>validate</phase>
-                <goals>
-                  <goal>directory-inline</goal>
-                </goals>
               </execution>
             </executions>
           </plugin>
