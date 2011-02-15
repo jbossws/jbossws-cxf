@@ -868,6 +868,11 @@
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3098/ClientServerLifeCycleTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/logging/**</exclude>
 
+                 <!-- # [JBWS-3219] unexpected element 'security-domain' encountered -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2307/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2527/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1702/**</exclude>
+
                  <!-- JAXRPC deployments -->
                  <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
               </excludes>
