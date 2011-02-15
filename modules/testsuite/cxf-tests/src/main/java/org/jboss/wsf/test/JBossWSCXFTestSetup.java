@@ -25,7 +25,7 @@ import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 public class JBossWSCXFTestSetup extends JBossWSTestSetup
