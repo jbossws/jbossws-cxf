@@ -813,6 +813,63 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/webservicerefsec/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
+
+                 <!-- EJB3 endpoint deployments -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1422/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1446/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1505/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1556/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1566/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1581/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1665/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1694/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1799/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1815/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1822/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1841/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1845/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1872/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1969/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2000/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2074/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2183/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2218/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2241/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2257/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2630/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2634/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2701/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2934/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2937/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2957/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2999/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws3026/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/benchmark/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/endpointReference/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/context/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/eardeployment/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/exception/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/jaxbintros/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/advanced/retail/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/swaref/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/serviceref/**/*EJBTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/webservice/**/*EJB3TestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**/*EJB3TestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/management/recording/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/cxf/bus/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/cxf/gzip/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jaxbintros/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3060/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3098/ClientServerLifeCycleTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/**</exclude>
+
+                 <!-- JAXRPC deployments -->
+                 <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
               </excludes>
             </configuration>
           </plugin>
