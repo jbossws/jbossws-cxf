@@ -875,7 +875,7 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/serviceref/**/*EJBTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/webservice/**/*EJB3TestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**/*EJB3TestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/management/recording/**</exclude>
+                 <exclude>org/jboss/test/ws/management/recording/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/bus/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/gzip/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/jaxbintros/**</exclude>
