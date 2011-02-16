@@ -895,6 +895,9 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws2150/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/serviceref/**</exclude>
                  
+                 <!-- JAXR not available -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
+                 
                  <!-- JAXRPC deployments -->
                  <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
               </excludes>
