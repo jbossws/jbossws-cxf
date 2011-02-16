@@ -735,6 +735,11 @@
           <artifactId>mail</artifactId>
         </dependency>
         <dependency>
+          <groupId>org.jboss.naming</groupId>
+          <artifactId>jnp-client</artifactId>
+          <version>5.0.5.Final</version>
+        </dependency>
+        <dependency>
           <groupId>org.jboss</groupId>
           <artifactId>jboss-common-core</artifactId>
           <exclusions>
@@ -883,6 +888,13 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws2527/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1702/**</exclude>
 
+                 <!-- # [JBWS-3221] JMX dependent tests -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/management/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1178/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1190/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2150/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/serviceref/**</exclude>
+                 
                  <!-- JAXRPC deployments -->
                  <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
               </excludes>
