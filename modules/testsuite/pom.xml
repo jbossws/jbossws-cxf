@@ -903,8 +903,34 @@
                  <exclude>org/jboss/test/ws/jaxws/smoke/tools/*ScriptTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/smoke/tools/WSRunClientTestCase*</exclude>
                  
+                 <!-- # [JBWS-3223] proper CL for WEB & EJBs to include WS functionality -->
+                 <exclude>org/jboss/test/ws/jaxws/endpoint/EndpointTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/cxf/endorse/**</exclude>
+
                  <!-- # [JBWS-3225] jbossws console not yet available -->
                  <exclude>org/jboss/test/ws/console/**</exclude>
+                 
+                 <!-- # [JBWS-3226] jboss-service.xml not matching AS7 format -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1854/**</exclude>
+
+                 <!-- # [JBWS-3227] handles config file not found on classpath -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws3034/**</exclude>
+
+                 <!-- # [JBWS-3228] seems we need to use woodstox for WS endpoints? -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
+
+                 <!-- # [JBWS-3229] DOMUtils issue on test classpath - probably missing xercesImpl on CP? -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2960/**</exclude>
+
+                 <!-- # [JBWS-3230] WS RM namespace issue -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsrm/client/WSReliableMessagingWithAPITestCase*</exclude>
+
+                 <!-- # [JBWS-3231] not satisfied policy alternatives -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/mtom/MtomTestCase*</exclude>
+
+                 <!-- # [JBAS-8871] AS7 undeployment issue -->
+                 <exclude>org/jboss/test/ws/saaj/jbws3084/**</exclude>
                  
                  <!-- # [JBAS-8891] Parse issue on web.xml -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3140/**</exclude>
