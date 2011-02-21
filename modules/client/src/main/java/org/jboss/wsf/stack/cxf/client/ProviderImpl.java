@@ -32,6 +32,7 @@ import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
 import javax.xml.namespace.QName;
+import javax.xml.ws.Endpoint;
 import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.spi.ServiceDelegate;
 
@@ -70,6 +71,38 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             bus = BusFactory.newInstance().createBus();
          }
          return super.createEndpointImpl(bus, bindingId, implementor, features);
+      }
+      finally
+      {
+         if (origClassLoader != null)
+            setContextClassLoader(origClassLoader);
+      }
+   }
+   
+   @Override
+   public Endpoint createEndpoint(String bindingId, Object implementor) {
+      ClassLoader origClassLoader = null;
+      try
+      {
+         origClassLoader = checkAndFixContextClassLoader();
+         return super.createEndpoint(bindingId, implementor);
+      }
+      finally
+      {
+         if (origClassLoader != null)
+            setContextClassLoader(origClassLoader);
+      }
+   }
+   
+   @Override
+   public Endpoint createEndpoint(String bindingId,
+         Object implementor,
+         WebServiceFeature ... features) {
+      ClassLoader origClassLoader = null;
+      try
+      {
+         origClassLoader = checkAndFixContextClassLoader();
+         return super.createEndpoint(bindingId, implementor, features);
       }
       finally
       {
