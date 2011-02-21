@@ -175,15 +175,15 @@
             </goals>
             <configuration>
               <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-              <resources>          
+              <resources>
                 <resource>
                   <directory>${basedir}/../endorsed/target/</directory>
                   <includes>
                     <include>jbossws-cxf-factories-${project.version}.jar</include>
                   </includes>
                 </resource>
-              </resources>              
-            </configuration> 
+              </resources>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -894,7 +894,7 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws1190/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2150/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/serviceref/**</exclude>
-                 
+
                  <!-- # [JBWS-3222] Script tests -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2528/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2529/**</exclude>
@@ -902,14 +902,14 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws2593/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/smoke/tools/*ScriptTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/smoke/tools/WSRunClientTestCase*</exclude>
-                 
+
                  <!-- # [JBWS-3223] proper CL for WEB & EJBs to include WS functionality -->
                  <exclude>org/jboss/test/ws/jaxws/endpoint/EndpointTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/endorse/**</exclude>
 
                  <!-- # [JBWS-3225] jbossws console not yet available -->
                  <exclude>org/jboss/test/ws/console/**</exclude>
-                 
+
                  <!-- # [JBWS-3226] jboss-service.xml not matching AS7 format -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1854/**</exclude>
 
@@ -929,15 +929,12 @@
                  <!-- # [JBWS-3231] not satisfied policy alternatives -->
                  <exclude>org/jboss/test/ws/jaxws/samples/mtom/MtomTestCase*</exclude>
 
-                 <!-- # [JBAS-8871] AS7 undeployment issue -->
-                 <exclude>org/jboss/test/ws/saaj/jbws3084/**</exclude>
-                 
-                 <!-- # [JBAS-8891] Parse issue on web.xml -->
+                 <!-- # [JBWS-3232] javax.naming.NameNotFoundException: Name 'service' not found in context 'env' -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3140/**</exclude>
-                 
+
                  <!-- JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
-                 
+
                  <!-- JAXRPC deployments -->
                  <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
               </excludes>
