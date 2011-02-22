@@ -29,10 +29,16 @@ import java.security.PrivilegedAction;
 import java.security.SecureClassLoader;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.concurrent.Executor;
 
 import javax.xml.namespace.QName;
+import javax.xml.transform.Source;
+import javax.xml.ws.Binding;
 import javax.xml.ws.Endpoint;
+import javax.xml.ws.EndpointReference;
 import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.spi.ServiceDelegate;
 
@@ -41,6 +47,7 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
+import org.w3c.dom.Element;
 
 /**
  * A custom javax.xml.ws.spi.Provider implementation
@@ -76,7 +83,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       try
       {
          origClassLoader = checkAndFixContextClassLoader();
-         return super.createEndpoint(bindingId, implementor);
+         return new DelegateEndpointImpl(super.createEndpoint(bindingId, implementor));
       }
       finally
       {
@@ -93,7 +100,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       try
       {
          origClassLoader = checkAndFixContextClassLoader();
-         return super.createEndpoint(bindingId, implementor, features);
+         return new DelegateEndpointImpl(super.createEndpoint(bindingId, implementor, features));
       }
       finally
       {
@@ -101,7 +108,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             setContextClassLoader(origClassLoader);
       }
    }
-   
+
    @SuppressWarnings("rawtypes")
    @Override
    public ServiceDelegate createServiceDelegate(URL url, QName qname, Class cls)
@@ -232,6 +239,125 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
                return null;
             }
          });
+      }
+   }
+   
+   /**
+    * A javax.xml.ws.Endpoint implementation delegating to a provided one
+    * that sets the TCCL before doing publish.
+    * 
+    */
+   private static final class DelegateEndpointImpl extends Endpoint
+   {
+      private Endpoint delegate;
+      
+      public DelegateEndpointImpl(Endpoint delegate)
+      {
+         this.delegate = delegate;
+      }
+      
+      @Override
+      public Binding getBinding()
+      {
+         return delegate.getBinding();
+      }
+
+      @Override
+      public Object getImplementor()
+      {
+         return delegate.getImplementor();
+      }
+
+      @Override
+      public void publish(String address)
+      {
+         ClassLoader origClassLoader = null;
+         try
+         {
+            origClassLoader = checkAndFixContextClassLoader();
+            delegate.publish(address);
+         }
+         finally
+         {
+            if (origClassLoader != null)
+               setContextClassLoader(origClassLoader);
+         }
+      }
+
+      @Override
+      public void publish(Object serverContext)
+      {
+         ClassLoader origClassLoader = null;
+         try
+         {
+            origClassLoader = checkAndFixContextClassLoader();
+            delegate.publish(serverContext);
+         }
+         finally
+         {
+            if (origClassLoader != null)
+               setContextClassLoader(origClassLoader);
+         }
+      }
+
+      @Override
+      public void stop()
+      {
+         delegate.stop();
+      }
+
+      @Override
+      public boolean isPublished()
+      {
+         return delegate.isPublished();
+      }
+
+      @Override
+      public List<Source> getMetadata()
+      {
+         return delegate.getMetadata();
+      }
+
+      @Override
+      public void setMetadata(List<Source> metadata)
+      {
+         delegate.setMetadata(metadata);
+      }
+
+      @Override
+      public Executor getExecutor()
+      {
+         return delegate.getExecutor();
+      }
+
+      @Override
+      public void setExecutor(Executor executor)
+      {
+         delegate.setExecutor(executor);
+      }
+
+      @Override
+      public Map<String, Object> getProperties()
+      {
+         return delegate.getProperties();
+      }
+
+      @Override
+      public void setProperties(Map<String, Object> properties)
+      {
+         delegate.setProperties(properties);
+      }
+
+      @Override
+      public EndpointReference getEndpointReference(Element... referenceParameters)
+      {
+         return delegate.getEndpointReference(referenceParameters);
+      }
+
+      @Override
+      public <T extends EndpointReference> T getEndpointReference(Class<T> clazz, Element... referenceParameters)
+      {
+         return delegate.getEndpointReference(clazz, referenceParameters);
       }
    }
 
