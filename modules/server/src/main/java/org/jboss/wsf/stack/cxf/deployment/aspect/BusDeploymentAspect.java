@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
+import javax.xml.ws.spi.Provider;
+
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.Configurer;
 import org.jboss.wsf.common.integration.AbstractDeploymentAspect;
@@ -33,6 +35,7 @@ import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
 import org.jboss.wsf.stack.cxf.configuration.SpringBusHolder;
@@ -114,8 +117,12 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
    @Override
    public void start(Deployment dep)
    {
-      //Ask for the default bus to make sure it's created before the deployment classloader is set
-      BusFactory.getDefaultBus();
+      //Make sure the default bus is created and set for client side usage
+      //(i.e. no server side integration contribution in it)
+      if (BusFactory.getDefaultBus(false) == null)
+      {
+         JBossWSBusFactory.getDefaultBus(Provider.provider().getClass().getClassLoader());
+      }
       this.startDeploymentBus(dep);
    }
    

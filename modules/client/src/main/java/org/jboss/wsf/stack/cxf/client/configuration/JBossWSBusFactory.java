@@ -130,4 +130,27 @@ public class JBossWSBusFactory extends BusFactory
       }
       return nonSpringBusFactory;
    }
+   
+   /**
+    * Gets (and internally sets) the default bus after having set the thread
+    * context class loader to the provided one (which affects the Bus
+    * construction if it's not been created yet). The former thread context
+    * class loader is restored before returning to the caller.
+    * 
+    * @param contextClassLoader
+    * @return the default bus
+    */
+   public static Bus getDefaultBus(ClassLoader contextClassLoader)
+   {
+      ClassLoader origClassLoader = SecurityActions.getContextClassLoader();
+      try
+      {
+         SecurityActions.setContextClassLoader(contextClassLoader);
+         return BusFactory.getDefaultBus();
+      }
+      finally
+      {
+         SecurityActions.setContextClassLoader(origClassLoader);
+      }
+   }
 }
