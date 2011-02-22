@@ -13,14 +13,14 @@ import org.jboss.wsf.test.JBossWSTest;
 
 public class CXFManagementTestCase extends JBossWSTest
 {
+
    public static Test suite()
    {
       return new JBossWSCXFTestSetup(CXFManagementTestCase.class, "jaxws-cxf-management.war");
    }
-   
+
    public void testJMXBean() throws Exception {
-      InitialContext context = new InitialContext();
-      MBeanServerConnection server = (MBeanServerConnection)context.lookup("jmx/invoker/RMIAdaptor");
+      MBeanServerConnection server = getServer();
       ObjectName name = new ObjectName("org.apache.cxf:*");
       Set cxfBeans = server.queryMBeans(name, null);
       assertTrue(cxfBeans.size() > 0); 
