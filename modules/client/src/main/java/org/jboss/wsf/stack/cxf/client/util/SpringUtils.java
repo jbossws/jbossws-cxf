@@ -35,7 +35,7 @@ public class SpringUtils
    {
       SPRING_AVAILABLE = 
          isSpringAvailable(SpringUtils.class.getClassLoader(), 
-                           Thread.currentThread().getContextClassLoader());
+                           SecurityActions.getContextClassLoader());
    }
    /**
     * Check if Spring is available using the provided classloader
@@ -47,7 +47,7 @@ public class SpringUtils
    {
       if (loaders == null || loaders.length == 0)
       {
-         loaders = new ClassLoader[]{Thread.currentThread().getContextClassLoader()};
+         loaders = new ClassLoader[]{SecurityActions.getContextClassLoader()};
       }
       for (ClassLoader cl : loaders)
       {
