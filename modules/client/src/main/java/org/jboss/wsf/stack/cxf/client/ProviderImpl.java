@@ -40,6 +40,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.jboss.logging.Logger;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 
 /**
  * A custom javax.xml.ws.spi.Provider implementation
@@ -59,24 +60,14 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    protected org.apache.cxf.jaxws.EndpointImpl createEndpointImpl(Bus bus, String bindingId, Object implementor,
          WebServiceFeature... features)
    {
-      ClassLoader origClassLoader = null;
-      try
+      Boolean db = (Boolean)bus.getProperty(Constants.DEPLOYMENT_BUS);
+      if (db != null && db)
       {
-         origClassLoader = checkAndFixContextClassLoader();
-         Boolean db = (Boolean)bus.getProperty(Constants.DEPLOYMENT_BUS);
-         if (db != null && db)
-         {
-            Logger.getLogger(ProviderImpl.class).info(
-                  "Cannot use the bus associated to the current deployment for starting a new endpoint, creating a new bus...");
-            bus = BusFactory.newInstance().createBus();
-         }
-         return super.createEndpointImpl(bus, bindingId, implementor, features);
+         Logger.getLogger(ProviderImpl.class).info(
+               "Cannot use the bus associated to the current deployment for starting a new endpoint, creating a new bus...");
+         bus = BusFactory.newInstance().createBus();
       }
-      finally
-      {
-         if (origClassLoader != null)
-            setContextClassLoader(origClassLoader);
-      }
+      return super.createEndpointImpl(bus, bindingId, implementor, features);
    }
    
    @Override
@@ -176,7 +167,21 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       }
       catch (Exception e)
       {
-         setContextClassLoader(new DelegateClassLoader(ProviderImpl.class.getClassLoader(), origClassLoader));
+         //[JBWS-3223] On AS7 the TCCL that's set for basic (non-ws-endpoint) servlet/ejb3
+         //apps doesn't have visibility on any WS implementation class, so Apache CXF
+         //can't load its components through it - we need to change the TCCL using
+         //the classloader that has been used to load this javax.xml.ws.spi.Provider impl.
+         ClassLoader clientClassLoader = ProviderImpl.class.getClassLoader();
+         
+         //first ensure the default bus is loaded through the client classloader only
+         //(no deployment classloader contribution)
+         if (BusFactory.getDefaultBus(false) == null)
+         {
+            JBossWSBusFactory.getDefaultBus(clientClassLoader);
+         }
+         //then setup a new TCCL having visibility over both the client path (JBossWS
+         //client module on AS7) and the the former TCCL (i.e. the deployment classloader)
+         setContextClassLoader(new DelegateClassLoader(clientClassLoader, origClassLoader));
          return origClassLoader;
       }
       return null;
