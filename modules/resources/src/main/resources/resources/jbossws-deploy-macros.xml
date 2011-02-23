@@ -326,7 +326,7 @@
     <attribute name="targetdir"/>
     <sequential>
       <!-- libraries -->
-      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-client/main" flatten="false" overwrite="true">
+      <copy todir="@{targetdir}/org/jboss/ws/jaxws-client/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-cxf-client.jar"/>
         </fileset>
