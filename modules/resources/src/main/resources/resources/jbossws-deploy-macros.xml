@@ -331,6 +331,11 @@
           <include name="**/jbossws-cxf-client.jar"/>
         </fileset>
       </copy>
+      <copy todir="@{targetdir}/org/jboss/ws/jaxws-httpserver-httpspi/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jaxws-httpserver-httpspi.jar"/>
+        </fileset>
+     </copy>
      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-server/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-cxf-server.jar"/>
@@ -474,12 +479,12 @@
 
       <delete includeemptydirs="true" verbose="true">
         <fileset dir="${jboss.modules}">
-          <include name="**/org/jboss/as/webservices/main/jbossws-cxf-resources-*"/>
+          <include name="**/org/jboss/as/webservices/main/jbossws-*-resources*"/>
         </fileset>
       </delete>
 
       <!-- delete content of last deployment -->
-      <delete verbose="true">
+      <delete includeemptydirs="true" verbose="true">
         <fileset dir="${jboss.modules}" includes="${jbossws.modules.conf}"/>
       </delete>
     </sequential>
