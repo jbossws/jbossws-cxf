@@ -79,15 +79,16 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    
    @Override
    public Endpoint createEndpoint(String bindingId, Object implementor) {
-      ClassLoader origClassLoader = null;
+      ClassLoader origClassLoader = getContextClassLoader();
+      boolean restoreTCCL = false;
       try
       {
-         origClassLoader = checkAndFixContextClassLoader();
+         restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
          return new DelegateEndpointImpl(super.createEndpoint(bindingId, implementor));
       }
       finally
       {
-         if (origClassLoader != null)
+         if (restoreTCCL)
             setContextClassLoader(origClassLoader);
       }
    }
@@ -96,15 +97,16 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    public Endpoint createEndpoint(String bindingId,
          Object implementor,
          WebServiceFeature ... features) {
-      ClassLoader origClassLoader = null;
+      ClassLoader origClassLoader = getContextClassLoader();
+      boolean restoreTCCL = false;
       try
       {
-         origClassLoader = checkAndFixContextClassLoader();
+         restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
          return new DelegateEndpointImpl(super.createEndpoint(bindingId, implementor, features));
       }
       finally
       {
-         if (origClassLoader != null)
+         if (restoreTCCL)
             setContextClassLoader(origClassLoader);
       }
    }
@@ -113,10 +115,11 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    @Override
    public ServiceDelegate createServiceDelegate(URL url, QName qname, Class cls)
    {
-      ClassLoader origClassLoader = null;
+      ClassLoader origClassLoader = getContextClassLoader();
+      boolean restoreTCCL = false;
       try
       {
-         origClassLoader = checkAndFixContextClassLoader();
+         restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
          //we override this method to prevent using the default bus when the current
          //thread is not already associated to a bus. In those situations we create
          //a new bus from scratch instead and link that to the thread.
@@ -129,7 +132,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       }
       finally
       {
-         if (origClassLoader != null)
+         if (restoreTCCL)
             setContextClassLoader(origClassLoader);
       }
    }
@@ -139,10 +142,11 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    public ServiceDelegate createServiceDelegate(URL wsdlDocumentLocation, QName serviceName, Class serviceClass,
          WebServiceFeature... features)
    {
-      ClassLoader origClassLoader = null;
+      ClassLoader origClassLoader = getContextClassLoader();
+      boolean restoreTCCL = false;
       try
       {
-         origClassLoader = checkAndFixContextClassLoader();
+         restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
          //we override this method to prevent using the default bus when the current
          //thread is not already associated to a bus. In those situations we create
          //a new bus from scratch instead and link that to the thread.
@@ -155,7 +159,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       }
       finally
       {
-         if (origClassLoader != null)
+         if (restoreTCCL)
             setContextClassLoader(origClassLoader);
       }
    }
@@ -163,11 +167,10 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    /**
     * Ensure the current context classloader can load this ProviderImpl class.
     * 
-    * @return The original classloader or null if it's not been changed
+    * @return true if the TCCL has been changed, false otherwise
     */
-   private static ClassLoader checkAndFixContextClassLoader()
+   static boolean checkAndFixContextClassLoader(ClassLoader origClassLoader)
    {
-      ClassLoader origClassLoader = getContextClassLoader();
       try
       {
          origClassLoader.loadClass(ProviderImpl.class.getName());
@@ -189,9 +192,9 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          //then setup a new TCCL having visibility over both the client path (JBossWS
          //client module on AS7) and the the former TCCL (i.e. the deployment classloader)
          setContextClassLoader(new DelegateClassLoader(clientClassLoader, origClassLoader));
-         return origClassLoader;
+         return true;
       }
-      return null;
+      return false;
    }
 
    /**
@@ -247,7 +250,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
     * that sets the TCCL before doing publish.
     * 
     */
-   private static final class DelegateEndpointImpl extends Endpoint
+   static final class DelegateEndpointImpl extends Endpoint
    {
       private Endpoint delegate;
       
@@ -271,15 +274,16 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       @Override
       public void publish(String address)
       {
-         ClassLoader origClassLoader = null;
+         ClassLoader origClassLoader = getContextClassLoader();
+         boolean restoreTCCL = false;
          try
          {
-            origClassLoader = checkAndFixContextClassLoader();
+            restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
             delegate.publish(address);
          }
          finally
          {
-            if (origClassLoader != null)
+            if (restoreTCCL)
                setContextClassLoader(origClassLoader);
          }
       }
@@ -287,15 +291,16 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       @Override
       public void publish(Object serverContext)
       {
-         ClassLoader origClassLoader = null;
+         ClassLoader origClassLoader = getContextClassLoader();
+         boolean restoreTCCL = false;
          try
          {
-            origClassLoader = checkAndFixContextClassLoader();
+            restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
             delegate.publish(serverContext);
          }
          finally
          {
-            if (origClassLoader != null)
+            if (restoreTCCL)
                setContextClassLoader(origClassLoader);
          }
       }
@@ -361,7 +366,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       }
    }
 
-   private static final class DelegateClassLoader extends SecureClassLoader
+   static final class DelegateClassLoader extends SecureClassLoader
    {
       private ClassLoader delegate;
 
@@ -411,7 +416,10 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          final ArrayList<Enumeration<URL>> foundResources = new ArrayList<Enumeration<URL>>();
 
          foundResources.add(delegate.getResources(name));
-         foundResources.add(parent.getResources(name));
+         if (parent != null)
+         {
+            foundResources.add(parent.getResources(name));
+         }
 
          return new Enumeration<URL>()
          {

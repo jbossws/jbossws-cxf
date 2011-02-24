@@ -222,6 +222,13 @@
       <groupId>org.jboss.logging</groupId>
       <artifactId>jboss-logging</artifactId>
     </dependency>
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -278,6 +285,12 @@
               <Class-Path>jaxws-api.jar jboss-logging.jar jboss-logging-spi.jar jboss-logging-log4j.jar jcl-over-slf4j.jar slf4j-api.jar slf4j-jboss-logging.jar stax-api.jar wstx.jar wstx-lgpl.jar</Class-Path>
             </manifestEntries>
           </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <failIfNoTests>false</failIfNoTests>
         </configuration>
       </plugin>
     </plugins>
