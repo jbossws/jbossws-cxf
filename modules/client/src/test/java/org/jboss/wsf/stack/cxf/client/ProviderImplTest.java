@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
@@ -53,6 +54,41 @@ public class ProviderImplTest extends TestCase
       assertTrue(providerImpl instanceof ProviderImpl);
    }
    
+   public void testGetProviderWithCustomClassLoaderIsBackwardCompatibility()
+   {
+      ClassLoader tccl = Thread.currentThread().getContextClassLoader();
+      try
+      {
+         //overwrite the TCCL so that no Provider configuration is specified,
+         //hence the JAXWS RI default is tried (given this test is run
+         //out of container); this verifies the additions due to JBEE-75 and
+         //JBWS-3223 are backward compatible.
+         TestClassLoader cl = new TestClassLoader();
+         Thread.currentThread().setContextClassLoader(cl);
+         try
+         {
+            Provider.provider();
+            fail("Exception due to class not found expected!");
+         }
+         catch (Exception e)
+         {
+            //check the default ProviderImpl was being looked up given no configuration was provided
+            List<String> list = cl.getLoadClassRequests();
+            assertTrue(list.contains("com.sun.xml.internal.ws.spi.ProviderImpl"));
+            assertEquals(1, list.size());
+         }
+      }
+      finally
+      {
+         Thread.currentThread().setContextClassLoader(tccl);
+      }
+   }
+   
+   /**
+    * This verifies that the ProviderImpl::checkAndFixContextClassLoader does not
+    * affect the current TCCL when the ProviderImpl class can be loaded and
+    * created an instance of by that classloader.
+    */
    public void testCheckAndFixContextClassLoaderWithDefaultMavenClassLoader()
    {
       ClassLoader tccl = Thread.currentThread().getContextClassLoader();
@@ -69,6 +105,11 @@ public class ProviderImplTest extends TestCase
       }
    }
    
+   /**
+    * This verifies that the ProviderImpl::checkAndFixContextClassLoader sets
+    * a new DelegateClassLoader (able to load ProviderImpl) as TCCL when the
+    * TCCL is not set.
+    */
    public void testCheckAndFixContextClassLoaderWithNullClassLoader()
    {
       ClassLoader orig = Thread.currentThread().getContextClassLoader();
@@ -88,6 +129,11 @@ public class ProviderImplTest extends TestCase
       }
    }
    
+   /**
+    * This verifies that the ProviderImpl::checkAndFixContextClassLoader sets
+    * a new DelegateClassLoader (able to load ProviderImpl) as TCCL when the
+    * ProviderImpl class can't be loaded and created an instance of by that TCCL
+    */
    public void testCheckAndFixContextClassLoaderWithTestClassLoader()
    {
       ClassLoader orig = Thread.currentThread().getContextClassLoader();
@@ -108,6 +154,11 @@ public class ProviderImplTest extends TestCase
       }
    }
    
+   /**
+    * This verifies that DelegateEndpointImpl delegates to the Apache
+    * CXF EndpointImpl after having properly setup the TCCL so that it
+    * can load and create instances of the ProviderImpl class.
+    */
    public void testEndpointImplPublishCorrectlySetsTCCL()
    {
       ClassLoader orig = Thread.currentThread().getContextClassLoader();
@@ -151,6 +202,8 @@ public class ProviderImplTest extends TestCase
    
    private static final class TestClassLoader extends ClassLoader
    {
+      private List<String> loadClassRequests = new LinkedList<String>();
+      
       public TestClassLoader()
       {
          super(null);
@@ -159,7 +212,13 @@ public class ProviderImplTest extends TestCase
       @Override
       public Class<?> loadClass(final String className) throws ClassNotFoundException
       {
+         loadClassRequests.add(className);
          throw new ClassNotFoundException("TestClassLoader does not load anything!");
+      }
+      
+      public List<String> getLoadClassRequests()
+      {
+         return this.loadClassRequests;
       }
    }
    
