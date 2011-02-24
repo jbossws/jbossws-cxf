@@ -3,13 +3,9 @@
 #
 
 # Optional JBoss Home
-jboss501.home=@jboss501.home@
-jboss510.home=@jboss510.home@
-jboss600.home=@jboss600.home@
-jboss601.home=@jboss601.home@
+jboss600.home=@jboss601.home@
 
-# The JBoss server under test. This can be [jboss501|jboss510|jboss600|jboss601]
-jbossws.integration.target=jboss510
+jbossws.integration.target=jboss600
 
 # The JBoss settings
 jboss.server.instance=default
