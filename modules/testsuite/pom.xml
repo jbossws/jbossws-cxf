@@ -895,8 +895,7 @@
                  <exclude>org/jboss/test/ws/jaxws/smoke/tools/*ScriptTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/smoke/tools/WSRunClientTestCase*</exclude>
 
-                 <!-- # [JBWS-3223] proper CL for WEB & EJBs to include WS functionality -->
-                 <exclude>org/jboss/test/ws/jaxws/endpoint/EndpointTestCase*</exclude>
+                 <!-- # [JBWS-3236] Ensure JBossWSBusFactory is built properly on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/endorse/**</exclude>
 
                  <!-- # [JBWS-3225] jbossws console not yet available -->
