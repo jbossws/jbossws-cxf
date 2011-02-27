@@ -21,9 +21,14 @@
  */
 package org.jboss.test.ws.jaxws.cxf.endorse;
 
+import javax.xml.namespace.QName;
+import javax.xml.transform.Source;
+import javax.xml.ws.Service;
+import javax.xml.ws.Service.Mode;
+import javax.xml.ws.soap.SOAPBinding;
+
 import org.apache.cxf.BusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
-import org.jboss.wsf.test.JBossWSTestHelper;
 
 /**
  * 
@@ -41,7 +46,20 @@ public class Helper
          throw new RuntimeException("Expected " + JBossWSBusFactory.class + " but got " + (factory == null ? null : factory.getClass()));
       
       //check the Apache CXF JAXWS implementation is actually used
-      if (!JBossWSTestHelper.isIntegrationCXF())
+      Object obj = getImplementationObject();
+      if (!obj.getClass().getName().contains("cxf"))
          throw new RuntimeException("JAXWS implementation is not properly endorsed!");
+   }
+   
+   private static Object getImplementationObject()
+   {
+      Service service = Service.create(new QName("dummyService"));
+      Object obj = service.getHandlerResolver();
+      if (obj == null)
+      {
+         service.addPort(new QName("dummyPort"), SOAPBinding.SOAP11HTTP_BINDING, "http://dummy-address");
+         obj = service.createDispatch(new QName("dummyPort"), Source.class, Mode.PAYLOAD);
+      }
+      return obj;
    }
 }
