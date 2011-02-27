@@ -356,13 +356,35 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       @Override
       public EndpointReference getEndpointReference(Element... referenceParameters)
       {
-         return delegate.getEndpointReference(referenceParameters);
+         ClassLoader origClassLoader = getContextClassLoader();
+         boolean restoreTCCL = false;
+         try
+         {
+            restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
+            return delegate.getEndpointReference(referenceParameters);
+         }
+         finally
+         {
+            if (restoreTCCL)
+               setContextClassLoader(origClassLoader);
+         }
       }
 
       @Override
       public <T extends EndpointReference> T getEndpointReference(Class<T> clazz, Element... referenceParameters)
       {
-         return delegate.getEndpointReference(clazz, referenceParameters);
+         ClassLoader origClassLoader = getContextClassLoader();
+         boolean restoreTCCL = false;
+         try
+         {
+            restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
+            return delegate.getEndpointReference(clazz, referenceParameters);
+         }
+         finally
+         {
+            if (restoreTCCL)
+               setContextClassLoader(origClassLoader);
+         }
       }
    }
 
