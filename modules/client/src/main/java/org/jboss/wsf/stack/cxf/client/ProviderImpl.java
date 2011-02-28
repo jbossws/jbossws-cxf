@@ -84,6 +84,14 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       try
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
+         //we override this method to prevent using the default bus when the current
+         //thread is not already associated to a bus. In those situations we create
+         //a new bus from scratch instead and link that to the thread.
+         Bus bus = BusFactory.getThreadDefaultBus(false);
+         if (bus == null)
+         {
+            bus = BusFactory.newInstance().createBus(); //this also set thread local bus internally as it's not set yet
+         }
          return new DelegateEndpointImpl(super.createEndpoint(bindingId, implementor));
       }
       finally
@@ -102,6 +110,14 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       try
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
+         //we override this method to prevent using the default bus when the current
+         //thread is not already associated to a bus. In those situations we create
+         //a new bus from scratch instead and link that to the thread.
+         Bus bus = BusFactory.getThreadDefaultBus(false);
+         if (bus == null)
+         {
+            bus = BusFactory.newInstance().createBus(); //this also set thread local bus internally as it's not set yet
+         }
          return new DelegateEndpointImpl(super.createEndpoint(bindingId, implementor, features));
       }
       finally
