@@ -23,8 +23,9 @@
   -->
 
 <deploymentAspects xmlns="urn:jboss:ws:deployment:aspects:1.0">
-  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.ResourceResolverDeploymentAspect" priority="4"/>
-  <deploymentAspect class="org.jboss.wsf.framework.deployment.ContextPropertiesDeploymentAspect" priority="5">
+
+  <deploymentAspect class="org.jboss.wsf.framework.deployment.ContextPropertiesDeploymentAspect">
+    <property name="provides" class="java.lang.String">ContextProperties</property>
     <property name="contextProperties" class="java.util.HashMap">
       <map keyClass="java.lang.String" valueClass="java.lang.String">
         <entry>
@@ -33,10 +34,67 @@
         </entry>
       </map>
     </property>
+    <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
-  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.DescriptorDeploymentAspect" priority="13">
+
+  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.DescriptorDeploymentAspect">
+    <property name="requires" class="java.lang.String">EndpointAddress,JAXBIntros</property>
+    <property name="provides" class="java.lang.String">StackDescriptor</property>
     <property name="invokerEJB3" class="java.lang.String">org.jboss.wsf.stack.cxf.InvokerEJB3</property>
     <property name="invokerJSE" class="java.lang.String">org.jboss.wsf.stack.cxf.InvokerJSE</property>
+    <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
-  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.BusDeploymentAspect" priority="15"/>
+
+  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.ResourceResolverDeploymentAspect">
+    <!--property name="requires" class="java.lang.String">JmsEndpointAddress</property--> <!-- TODO: why this requires, investigate? -->
+    <property name="provides" class="java.lang.String">ResourceResolver</property>
+    <property name="forJaxRpc" class="boolean">false</property>
+  </deploymentAspect>
+
+  <deploymentAspect class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
+    <property name="requires" class="java.lang.String">ContainerMetaData</property>
+    <property name="provides" class="java.lang.String">StackEndpointHandler</property>
+    <property name="forJaxRpc" class="boolean">false</property>
+  </deploymentAspect>
+
+  <deploymentAspect class="org.jboss.wsf.framework.deployment.JAXBIntroDeploymentAspect">
+    <property name="provides" class="java.lang.String">JAXBIntros</property>
+    <property name="forJaxRpc" class="boolean">false</property>
+  </deploymentAspect>
+
+  <!--deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.SynchronizedBusDeploymentAspect"--> <!-- TODO: investigate why? -->
+  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.BusDeploymentAspect">
+    <property name="provides" class="java.lang.String">BusHolder</property>
+    <property name="requires" class="java.lang.String">ResourceResolver,StackDescriptor</property>
+    <property name="forJaxRpc" class="boolean">false</property>
+  </deploymentAspect>
+
+  <!--
+
+  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.JMSEndpointDeploymentAspect">
+    <property name="provides" class="java.lang.String">BusHolder</property>
+    <property name="forJaxRpc" class="boolean">false</property>
+  </deploymentAspect>
+
+  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.JMSEndpointRegistryDeploymentAspect">
+    <property name="requires" class="java.lang.String">BusHolder</property>
+    <property name="forJaxRpc" class="boolean">false</property>
+  </deploymentAspect>
+
+  <deploymentAspect class="org.jboss.wsf.framework.deployment.EndpointRecordProcessorDeploymentAspect">
+    <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
+    <property name="requires" class="java.lang.String">RegisteredEndpoint</property>
+    <property name="provides" class="java.lang.String">EndpointRecordProcessors</property>
+    <property name="processors">
+      <list class="java.util.ArrayList" elementClass="org.jboss.wsf.spi.management.recording.RecordProcessor">
+        <inject bean="WSMemoryBufferRecorder"/>
+        <inject bean="WSLogRecorder"/>
+      </list>
+    </property>
+    <property name="forJaxRpc" class="boolean">false</property>
+  </deploymentAspect>
+
+  -->
+
 </deploymentAspects>
+

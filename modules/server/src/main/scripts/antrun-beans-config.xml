@@ -38,7 +38,7 @@
 
     <copy
       file="${src.dir}/jbossws-cxf-config-as7.xml"
-      tofile="${dest.dir}/jbossws-jboss700/jbossws.beans/META-INF/deployment-aspects.xml"
+      tofile="${dest.dir}/jbossws-jboss700/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
     />
 
   </target>
