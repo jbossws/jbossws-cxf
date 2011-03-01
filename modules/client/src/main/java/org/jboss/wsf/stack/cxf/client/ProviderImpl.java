@@ -40,6 +40,7 @@ import javax.xml.ws.Binding;
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.EndpointReference;
 import javax.xml.ws.WebServiceFeature;
+import javax.xml.ws.spi.Invoker;
 import javax.xml.ws.spi.ServiceDelegate;
 
 import org.apache.cxf.Bus;
@@ -84,14 +85,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       try
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
-         //we override this method to prevent using the default bus when the current
-         //thread is not already associated to a bus. In those situations we create
-         //a new bus from scratch instead and link that to the thread.
-         Bus bus = BusFactory.getThreadDefaultBus(false);
-         if (bus == null)
-         {
-            bus = BusFactory.newInstance().createBus(); //this also set thread local bus internally as it's not set yet
-         }
+         setValidThreadDefaultBus();
          return new DelegateEndpointImpl(super.createEndpoint(bindingId, implementor));
       }
       finally
@@ -110,15 +104,26 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       try
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
-         //we override this method to prevent using the default bus when the current
-         //thread is not already associated to a bus. In those situations we create
-         //a new bus from scratch instead and link that to the thread.
-         Bus bus = BusFactory.getThreadDefaultBus(false);
-         if (bus == null)
-         {
-            bus = BusFactory.newInstance().createBus(); //this also set thread local bus internally as it's not set yet
-         }
+         setValidThreadDefaultBus();
          return new DelegateEndpointImpl(super.createEndpoint(bindingId, implementor, features));
+      }
+      finally
+      {
+         if (restoreTCCL)
+            setContextClassLoader(origClassLoader);
+      }
+   }
+   
+   @Override
+   public Endpoint createEndpoint(String bindingId, Class<?> implementorClass,
+         Invoker invoker, WebServiceFeature ... features) {
+      ClassLoader origClassLoader = getContextClassLoader();
+      boolean restoreTCCL = false;
+      try
+      {
+         restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
+         setValidThreadDefaultBus();
+         return new DelegateEndpointImpl(super.createEndpoint(bindingId, implementorClass, invoker, features));
       }
       finally
       {
@@ -136,14 +141,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       try
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
-         //we override this method to prevent using the default bus when the current
-         //thread is not already associated to a bus. In those situations we create
-         //a new bus from scratch instead and link that to the thread.
-         Bus bus = BusFactory.getThreadDefaultBus(false);
-         if (bus == null)
-         {
-            bus = BusFactory.newInstance().createBus(); //this also set thread local bus internally as it's not set yet
-         }
+         Bus bus = setValidThreadDefaultBus();
          return new ServiceImpl(bus, url, qname, cls);
       }
       finally
@@ -163,14 +161,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       try
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
-         //we override this method to prevent using the default bus when the current
-         //thread is not already associated to a bus. In those situations we create
-         //a new bus from scratch instead and link that to the thread.
-         Bus bus = BusFactory.getThreadDefaultBus(false);
-         if (bus == null)
-         {
-            bus = BusFactory.newInstance().createBus(); //this also set thread local bus internally as it's not set yet 
-         }
+         setValidThreadDefaultBus();
          return super.createServiceDelegate(wsdlDocumentLocation, serviceName, serviceClass, features);
       }
       finally
@@ -211,6 +202,19 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          return true;
       }
       return false;
+   }
+   
+   static Bus setValidThreadDefaultBus()
+   {
+      //we need to prevent using the default bus when the current
+      //thread is not already associated to a bus. In those situations we create
+      //a new bus from scratch instead and link that to the thread.
+      Bus bus = BusFactory.getThreadDefaultBus(false);
+      if (bus == null)
+      {
+         bus = BusFactory.newInstance().createBus(); //this also set thread local bus internally as it's not set yet 
+      }
+      return bus;
    }
 
    /**
