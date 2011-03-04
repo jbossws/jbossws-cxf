@@ -300,6 +300,97 @@
               </systemProperties>
             </configuration>
           </execution>
+          
+          <execution>
+            <id>forked-integration-tests</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <forkMode>pertest</forkMode>
+              <skip>false</skip>
+              <includes>
+                <include>**/smoke/tools/**/*TestForked.java</include>
+                <include>**/smoke/tools/**/*TestCaseForked.java</include>
+              </includes>
+              <systemProperties>
+                <property>
+                  <name>jboss.server.instance</name>
+                  <value>${jboss.server.instance}</value>
+                </property>
+                <property>
+                  <name>jboss.bind.address</name>
+                  <value>${jboss.bind.address}</value>
+                </property>
+                <property>
+                  <name>java.naming.provider.url</name>
+                  <value>jnp://${jboss.bind.address}:1099</value>
+                </property>
+                <property>
+                  <name>java.protocol.handler.pkgs</name>
+                  <value>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</value>
+                </property>
+                <property>
+                  <name>jboss.home</name>
+                  <value>${jboss.home}</value>
+                </property>
+                <property>
+                  <name>jbossws.integration.target</name>
+                  <value>${jbossws.integration.target}</value>
+                </property>
+                <property>
+                  <name>test.disable.deployment</name>
+                  <value>false</value>
+                </property>
+                <property>
+                  <name>log4j.output.dir</name>
+                  <value>${project.build.directory}</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.wsse.keyStore</name>
+                  <value>${test.resources.directory}/jaxws/samples/wssecurity/wsse.keystore</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.wsse.trustStore</name>
+                  <value>${test.resources.directory}/jaxws/samples/wssecurity/wsse.truststore</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.wsse.keyStorePassword</name>
+                  <value>jbossws</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.wsse.trustStorePassword</name>
+                  <value>jbossws</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.wsse.keyStoreType</name>
+                  <value>jks</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.wsse.trustStoreType</name>
+                  <value>jks</value>
+                </property>
+                <property>
+                  <name>test.archive.directory</name>
+                  <value>${test.archive.directory}</value>
+                </property>
+                <property>
+                  <name>test.classes.directory</name>
+                  <value>${test.classes.directory}</value>
+                </property>
+                <property>
+                  <name>test.resources.directory</name>
+                  <value>${test.resources.directory}</value>
+                </property>
+                <property>
+                  <name>wsdl.publish.location</name>
+                  <value>${wsdl.publish.location}</value>
+                </property>
+              </systemProperties>
+            </configuration>
+          </execution>
+          
         </executions>
       </plugin>
     </plugins>
