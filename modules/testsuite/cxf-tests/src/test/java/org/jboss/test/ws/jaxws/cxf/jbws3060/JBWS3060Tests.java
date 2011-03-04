@@ -33,9 +33,6 @@ import java.util.concurrent.Future;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
@@ -43,7 +40,7 @@ import org.jboss.wsf.test.JBossWSTest;
  * @author alessio.soldano@jboss.com
  * @since 11-Jun-2010
  */
-public class JBWS3060TestCase extends JBossWSTest
+public abstract class JBWS3060Tests extends JBossWSTest //*Tests does not match the configured surefire filter on test classes' names
 {
    private String endpointOneURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3060/ServiceOne/EndpointOne";
    private String endpointTwoURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3060/ServiceTwo/EndpointTwo";
@@ -51,11 +48,8 @@ public class JBWS3060TestCase extends JBossWSTest
    
    private EndpointOne portOne;
    private EndpointTwo portTwo;
-
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(JBWS3060TestCase.class, "jaxws-cxf-jbws3060.jar");
-   }
+   
+   protected int defaultSize = 30;
 
    public void testAccess() throws Exception
    {
@@ -83,7 +77,7 @@ public class JBWS3060TestCase extends JBossWSTest
    private void runConcurrentTests(boolean oneway) throws Exception
    {
       initPorts();
-      final int size = 30;
+      final int size = defaultSize;
       int count1 = portOne.getCount();
       int count2 = portTwo.getCount();
       ExecutorService es = Executors.newFixedThreadPool(size*2);

@@ -61,7 +61,7 @@ public class GZIPTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(GZIPTestCase.class, "jaxws-cxf-gzip.jar");
+      return new JBossWSCXFTestSetup(GZIPTestCase.class, "jaxws-cxf-gzip.war");
    }
    
    public void testGZIPUsingFeatureOnBus() throws Exception

@@ -19,22 +19,21 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.cxf.jbws3098;
+package org.jboss.test.ws.jaxws.cxf.jbws3060;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import junit.framework.Test;
 
-import org.jboss.logging.Logger;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 
-@WebService(name = "EndpointOne", targetNamespace = "http://org.jboss.ws.jaxws.cxf/jbws3098", serviceName = "ServiceOne")
-@SOAPBinding(style = SOAPBinding.Style.RPC)
-public class EndpointOneImpl
+/**
+ *
+ * @author alessio.soldano@jboss.com
+ * @since 11-Jun-2010
+ */
+public class JBWS3060EJB3TestCase extends JBWS3060Tests
 {
-   @WebMethod
-   public String echo(String input)
+   public static Test suite()
    {
-      Logger.getLogger(this.getClass()).info("echo: " + input);
-      return input;
+      return new JBossWSCXFTestSetup(JBWS3060EJB3TestCase.class, "jaxws-cxf-jbws3060.jar");
    }
 }

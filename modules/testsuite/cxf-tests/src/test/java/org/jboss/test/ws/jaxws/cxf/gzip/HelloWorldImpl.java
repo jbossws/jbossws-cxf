@@ -21,7 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.cxf.gzip;
 
-import javax.ejb.Stateless;
 import javax.jws.WebService;
 
 import org.apache.cxf.annotations.GZIP;
@@ -33,7 +32,6 @@ import org.apache.cxf.annotations.GZIP;
    targetNamespace = "http://org.jboss.ws/jaxws/cxf/gzip"
 )
 @GZIP(threshold = 0)
-@Stateless
 public class HelloWorldImpl implements HelloWorld
 {
    public String echo(String input)

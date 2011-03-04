@@ -50,7 +50,7 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(ClientServerLifeCycleTestCase.class, "jaxws-cxf-jbws3098.jar");
+      return new JBossWSCXFTestSetup(ClientServerLifeCycleTestCase.class, "jaxws-cxf-jbws3098.war");
    }
 
    public void testClientLifeCycleManager()

@@ -71,11 +71,11 @@
     </war>
 
     <!-- jaxws-cxf-gzip -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-gzip.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-gzip.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/gzip/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/cxf/gzip/HelloWorld*.class"/>
-      </fileset>
-    </jar>
+      </classes>
+    </war>
 
     <!-- jaxws-cxf-jaxbintros -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jaxbintros.jar">
@@ -96,13 +96,19 @@
         <include name="org/jboss/test/ws/jaxws/cxf/jbws3060/EndpointTwoImpl.class"/>
       </fileset>
     </jar>
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3060.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jbws3060/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3060/EndpointOneImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3060/EndpointTwoImpl.class"/>
+      </classes>
+    </war>
 
     <!-- jaxws-cxf-jbws3098 -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3098.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3098.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jbws3098/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/cxf/jbws3098/EndpointOneImpl.class"/>
-      </fileset>
-    </jar>
+      </classes>
+    </war>
 
     <!-- jaxws-cxf-logging -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-logging.jar">
