@@ -1279,6 +1279,18 @@
     </profile>
 
     <!--
+    Name:  jboss700
+    Descr: JBoss-7.0.0 specific options
+    -->
+    <profile>
+      <id>jboss700</id>
+      <properties>
+        <jbossws.integration.target>jboss700</jbossws.integration.target>
+        <jboss.home>${jboss700.home}</jboss.home>
+      </properties>
+    </profile>
+
+    <!--
     Name:  smoketest
     Descr: Executes the smoke tests
     -->
