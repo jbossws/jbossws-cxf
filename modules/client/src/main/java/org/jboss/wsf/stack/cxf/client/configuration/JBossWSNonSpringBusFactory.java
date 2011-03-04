@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.client.configuration;
 
+import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -54,6 +55,7 @@ import org.apache.cxf.ws.policy.mtom.MTOMPolicyInterceptorProvider;
 import org.apache.cxf.ws.rm.RMManager;
 import org.apache.cxf.ws.rm.policy.RMAssertionBuilder;
 import org.apache.cxf.ws.rm.policy.RMPolicyInterceptorProvider;
+import org.jboss.wsf.stack.cxf.client.ProviderImpl;
 
 /**
  * 
@@ -77,7 +79,10 @@ public class JBossWSNonSpringBusFactory extends CXFBusFactory
       
       preparePolicyEngine(extensions);
       
-      Bus bus = new ExtensionManagerBus(extensions, properties);
+      //Explicitly ask for the ProviderImpl.class.getClassLoader() to be used for getting
+      //cxf bus extensions (as that classloader is the jaxws-client module one which 'sees' all
+      //extensions, unless different dependencies are explicitly set)
+      Bus bus = new ExtensionManagerBus(extensions, properties, ProviderImpl.class.getClassLoader());
 
       initPolicyEngine((PolicyEngineImpl)extensions.get(PolicyEngine.class), bus);
       

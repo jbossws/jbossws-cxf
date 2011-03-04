@@ -185,9 +185,11 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       catch (Exception e)
       {
          //[JBWS-3223] On AS7 the TCCL that's set for basic (non-ws-endpoint) servlet/ejb3
-         //apps doesn't have visibility on any WS implementation class, so Apache CXF
-         //can't load its components through it - we need to change the TCCL using
-         //the classloader that has been used to load this javax.xml.ws.spi.Provider impl.
+         //apps doesn't have visibility on any WS implementation class, nor on any class
+         //coming from dependencies provided in the ws modules only. This means for instance
+         //the JAXBContext is not going to find a context impl, etc.
+         //In general, we need to change the TCCL using the classloader that has been used
+         //to load this javax.xml.ws.spi.Provider impl, which is the jaxws-client module.
          ClassLoader clientClassLoader = ProviderImpl.class.getClassLoader();
          
          //first ensure the default bus is loaded through the client classloader only
@@ -197,7 +199,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             JBossWSBusFactory.getDefaultBus(clientClassLoader);
          }
          //then setup a new TCCL having visibility over both the client path (JBossWS
-         //client module on AS7) and the the former TCCL (i.e. the deployment classloader)
+         //jaxws-client module on AS7) and the the former TCCL (i.e. the deployment classloader)
          setContextClassLoader(new DelegateClassLoader(clientClassLoader, origClassLoader));
          return true;
       }
