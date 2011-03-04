@@ -875,7 +875,7 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/webservice/**/*EJB3TestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**/*EJB3TestCase*</exclude>
                  <exclude>org/jboss/test/ws/management/recording/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/cxf/bus/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/cxf/bus/*EJB3*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/gzip/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/jaxbintros/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3060/**</exclude>
@@ -894,9 +894,6 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws2593/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/smoke/tools/*ScriptTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/smoke/tools/WSRunClientTestCase*</exclude>
-
-                 <!-- # [JBWS-3236] Ensure JBossWSBusFactory is built properly on AS7 -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/endorse/**</exclude>
 
                  <!-- # [JBWS-3225] jbossws console not yet available -->
                  <exclude>org/jboss/test/ws/console/**</exclude>
