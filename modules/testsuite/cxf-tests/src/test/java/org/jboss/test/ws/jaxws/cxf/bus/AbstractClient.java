@@ -43,22 +43,67 @@ import org.apache.cxf.BusFactory;
  * @since 05-Oct-2010
  *
  */
-public abstract class AbstractClient
+public class AbstractClient
 {
-   public abstract void testBusCreation() throws BusTestException;
+   public static void testBusCreation() throws BusTestException
+   {
+      Bus initialDefaultBus = BusFactory.getDefaultBus(false);
+      Bus initialThreadBus = BusFactory.getThreadDefaultBus(false);
+      BusFactory factory = BusFactory.newInstance();
+      Bus bus = factory.createBus();
+      assert (bus != null);
+      if (initialThreadBus == null) //if the thread bus was not set before, it should now be
+      {
+         checkThreadBus(bus);
+      }
+      checkDefaultBus(initialDefaultBus);
+      BusFactory.setThreadDefaultBus(initialThreadBus);
+      checkThreadBus(initialThreadBus);
+      checkDefaultBus(initialDefaultBus);
+   }
    
-   public abstract void testSOAPConnection(String host) throws BusTestException, Exception;
+   public static void testSOAPConnection(String host) throws BusTestException, Exception
+   {
+      Bus initialDefaultBus = BusFactory.getDefaultBus(false);
+      Bus initialThreadBus = BusFactory.getThreadDefaultBus(false);
+      //first call... the thread bus is reused if not null, otherwise a new one is created
+      performSOAPCall(getEndpointURL(host));
+      checkDefaultBus(initialDefaultBus);
+      if (initialThreadBus != null)
+      {
+         checkThreadBus(initialThreadBus);
+      }
+      else
+      {
+         initialThreadBus = BusFactory.getThreadDefaultBus(false);
+      }
+      //second call...
+      performSOAPCall(getEndpointURL(host));
+      checkThreadBus(initialThreadBus);
+      checkDefaultBus(initialDefaultBus);
+   }
    
-   public abstract void testWebServiceRef() throws BusTestException;
+   public static void testWebServiceRef(Endpoint port) throws BusTestException
+   {
+      Bus initialDefaultBus = BusFactory.getDefaultBus(false);
+      Bus initialThreadBus = BusFactory.getThreadDefaultBus(false);
+      checkThreadBus(initialThreadBus); //this can probably be relaxed as below
+      checkDefaultBus(initialDefaultBus);
+   }
    
-   public abstract void testWebServiceClient(String host) throws BusTestException, Exception;
+   public static void testWebServiceClient(String host) throws BusTestException, Exception
+   {
+      Bus initialDefaultBus = BusFactory.getDefaultBus(false);
+      performInvocation(getEndpointURL(host));
+      checkDefaultBus(initialDefaultBus);
+   }
    
-   protected String getEndpointURL(String host)
+   protected static String getEndpointURL(String host)
    {
       return "http://" + host + ":8080/jaxws-cxf-bus/EndpointService/Endpoint";
    }
    
-   protected void performSOAPCall(String endpointAddress) throws SOAPException, MalformedURLException
+   protected static void performSOAPCall(String endpointAddress) throws SOAPException, MalformedURLException
    {
       SOAPFactory soapFac = SOAPFactory.newInstance();
       MessageFactory msgFac = MessageFactory.newInstance();
@@ -73,13 +118,13 @@ public abstract class AbstractClient
       assert (response != null);
    }
    
-   protected void performInvocation(Endpoint endpoint)
+   protected static void performInvocation(Endpoint endpoint)
    {
       String result = endpoint.echo("Alessio");
       assert ("Alessio".equals(result));
    }
    
-   protected void performInvocation(String endpointUrl) throws MalformedURLException
+   protected static void performInvocation(String endpointUrl) throws MalformedURLException
    {
       URL wsdlURL = new URL(endpointUrl + "?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/bus", "EndpointService");
@@ -89,7 +134,7 @@ public abstract class AbstractClient
       performInvocation(endpoint);
    }
 
-   protected void checkDefaultBus(Bus expectedDefaultBus) throws BusTestException
+   protected static void checkDefaultBus(Bus expectedDefaultBus) throws BusTestException
    {
       Bus bus = BusFactory.getDefaultBus(false);
       if (bus != expectedDefaultBus)
@@ -98,7 +143,7 @@ public abstract class AbstractClient
       }
    }
    
-   protected void checkThreadBus(Bus expectedThreadBus) throws BusTestException
+   protected static void checkThreadBus(Bus expectedThreadBus) throws BusTestException
    {
       Bus bus = BusFactory.getThreadDefaultBus(false);
       if (bus != expectedThreadBus)

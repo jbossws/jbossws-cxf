@@ -21,14 +21,12 @@
  */
 package org.jboss.test.ws.jaxws.cxf.bus;
 
-import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import org.jboss.logging.Logger;
 
 @WebService(name = "Endpoint", serviceName = "EndpointService", targetNamespace = "http://org.jboss.ws/bus")
-@Stateless
 public class EndpointImpl
 {
    // Provide logging

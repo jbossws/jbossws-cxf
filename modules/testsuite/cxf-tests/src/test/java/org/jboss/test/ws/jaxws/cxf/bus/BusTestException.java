@@ -23,6 +23,8 @@ package org.jboss.test.ws.jaxws.cxf.bus;
 
 public class BusTestException extends Exception
 {
+   private static final long serialVersionUID = 1L;
+
    public BusTestException(String message)
    {
       super(message);

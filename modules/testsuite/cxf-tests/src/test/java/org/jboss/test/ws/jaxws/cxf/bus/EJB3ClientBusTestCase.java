@@ -39,7 +39,7 @@ public class EJB3ClientBusTestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(EJB3ClientBusTestCase.class, "jaxws-cxf-bus.jar");
+      return new JBossWSCXFTestSetup(EJB3ClientBusTestCase.class, "jaxws-cxf-bus.war");
    }
    
    public void testSingleDeploy() throws Exception

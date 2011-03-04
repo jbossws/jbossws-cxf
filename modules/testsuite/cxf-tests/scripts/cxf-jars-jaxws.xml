@@ -23,12 +23,12 @@
     <mkdir dir="${tests.output.dir}/test-libs"/>
 
     <!-- jaxws-cxf-bus -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-bus.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-bus.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/bus/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/cxf/bus/Endpoint.class"/>
         <include name="org/jboss/test/ws/jaxws/cxf/bus/EndpointImpl.class"/>
-      </fileset>
-    </jar>
+      </classes>
+    </war>
     <!-- jaxws-cxf-bus-ejb3-client -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-bus-ejb3-client.jar">
       <fileset dir="${tests.output.dir}/test-classes">
@@ -40,10 +40,26 @@
         <include name="org/jboss/test/ws/jaxws/cxf/bus/BusTestException.class"/>
       </fileset>
       <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/bus/META-INF">
-        <include name="**/*" />
+        <include name="wsdl/**/*" />
       </metainf>
     </jar>
   	
+    <!-- jaxws-cxf-bus-servlet-client -->
+    <war destfile="${tests.output.dir}/test-libs/jaxws-cxf-bus-servlet-client.war"
+    	manifest="${tests.output.dir}/test-resources/jaxws/cxf/bus/META-INF/MANIFEST.MF"
+    	webxml="${tests.output.dir}/test-resources/jaxws/cxf/bus/WEB-INF-client/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/Endpoint.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/EndpointService.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/ServletClient.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/AbstractClient.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/BusTestException.class"/>
+      </classes>
+      <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/cxf/bus/WEB-INF-client/wsdl" 
+          prefix="WEB-INF/wsdl"/>
+    </war>
+
     <!-- jaxws-cxf-endorse -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-endorse.war"
   	  manifest="${tests.output.dir}/test-resources/jaxws/cxf/endorse/META-INF/MANIFEST.MF"
