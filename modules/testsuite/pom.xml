@@ -662,6 +662,9 @@
 
                 <!--# Seems MSFT interop. endpoints are down :(-->
                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
+
+                <!-- # [JBWS-3205] JDKLogManager not used -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -798,6 +801,9 @@
 
                  <!--# Seems MSFT interop. endpoints are down :(-->
                  <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
+
+                 <!-- # [JBWS-3205] JDKLogManager not used -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -983,6 +989,9 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws2593/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/smoke/tools/*ScriptTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/smoke/tools/WSRunClientTestCase*</exclude>
+
+                 <!-- # [JBWS-3205] JDKLogManager not used -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
 
                  <!-- # [JBWS-3225] jbossws console not yet available -->
                  <exclude>org/jboss/test/ws/console/**</exclude>
