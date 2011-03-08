@@ -53,6 +53,11 @@
         <equals arg1="${jbossws.integration.target}" arg2="jboss601"/>
       </or>
     </condition>
+    <condition property="jbossws.integration.jboss70" value="true">
+      <or>
+        <equals arg1="${jbossws.integration.target}" arg2="jboss700"/>
+      </or>
+    </condition>
     
     <property name="deploy.structure" value="${output.dir}/deploy-${jbossws.integration.target}"/>
     <property name="excludesfile" value="${tests.dir}/resources/test-excludes-${jbossws.integration.target}.txt"/>
@@ -63,6 +68,7 @@
     <path id="ws.stack.classpath">
       <fileset dir="${thirdparty.dir}">
         <exclude name="**/jbossws-jboss*.jar"/>
+        <exclude name="**/jboss-as-webservices-tests-integration.jar"/>
       </fileset>
     </path>
     

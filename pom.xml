@@ -55,6 +55,7 @@
     <jbossws.jboss601.version>3.2.1.GA</jbossws.jboss601.version>
     -->
     <!-- END -->
+    <jboss700.version>7.0.0.Alpha2-SNAPSHOT</jboss700.version>
     <cxf.version>2.3.4-SNAPSHOT</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>3.3</cxf.asm.version>
@@ -122,6 +123,11 @@
         <version>${jbossws.jboss600.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.as</groupId>
+        <artifactId>jboss-as-webservices-tests-integration</artifactId>
+        <version>${jboss700.version}</version>
       </dependency>
       <!-- JBWS-2505 -->
       <!-- START -->
