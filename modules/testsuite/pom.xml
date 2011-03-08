@@ -970,12 +970,14 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/swaref/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/webservice/**/*EJB3TestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/webservice/**/EJB3Bean*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**/*EJB3TestCase*</exclude>
                  <exclude>org/jboss/test/ws/management/recording/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/bus/*EJB3*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/jaxbintros/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3060/*EJB3*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/logging/**</exclude>
+                 <exclude>org/jboss/test/ws/projectGenerator/**</exclude>
 
                  <!-- # [JBWS-3219] unexpected element 'security-domain' encountered -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2307/**</exclude>
