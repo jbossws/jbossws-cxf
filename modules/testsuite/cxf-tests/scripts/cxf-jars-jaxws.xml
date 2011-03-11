@@ -92,8 +92,8 @@
     <!-- jaxws-cxf-jbws3060 -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3060.jar">
       <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/jbws3060/EndpointOneImpl.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/jbws3060/EndpointTwoImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3060/EndpointOneEJB3Impl.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3060/EndpointTwoEJB3Impl.class"/>
       </fileset>
     </jar>
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3060.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jbws3060/WEB-INF/web.xml">

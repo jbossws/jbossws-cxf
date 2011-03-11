@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3060;
 
+import javax.ejb.Stateless;
 import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -30,7 +31,8 @@ import org.jboss.logging.Logger;
 
 @WebService(name = "EndpointOne", targetNamespace = "http://org.jboss.ws.jaxws.cxf/jbws3060", serviceName = "ServiceOne")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-public class EndpointOneImpl
+@Stateless
+public class EndpointOneEJB3Impl
 {
    private volatile static int count = 0;
    

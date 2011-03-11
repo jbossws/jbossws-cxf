@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3060;
 
+import javax.ejb.Stateless;
 import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -28,25 +29,26 @@ import javax.jws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
 
-@WebService(name = "EndpointOne", targetNamespace = "http://org.jboss.ws.jaxws.cxf/jbws3060", serviceName = "ServiceOne")
+@WebService(name = "EndpointTwo", targetNamespace = "http://org.jboss.ws.jaxws.cxf/jbws3060", serviceName = "ServiceTwo")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-public class EndpointOneImpl
+@Stateless
+public class EndpointTwoEJB3Impl
 {
    private volatile static int count = 0;
    
    @WebMethod
-   public String echo(String input)
+   public String sayHello(String input)
    {
-      Logger.getLogger(this.getClass()).info("echo: " + input);
+      Logger.getLogger(this.getClass()).info("sayHello: " + input);
       count++;
-      return input;
+      return "Hi " + input;
    }
    
    @WebMethod
    @Oneway
-   public void echoOneWay(String input)
+   public void sayHelloOneWay(String input)
    {
-      Logger.getLogger(this.getClass()).info("echoOneWay: " + input);
+      Logger.getLogger(this.getClass()).info("sayHelloOneWay: " + input);
       count++;
    }
    
