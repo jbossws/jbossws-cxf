@@ -102,7 +102,7 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
       {
          throw new Fault(e);
       }
-      engine.addHandler(addr, new Handler(this));
+      engine.addHandler(addr, new Handler(this, Thread.currentThread().getContextClassLoader()));
    }
 
    /**
@@ -124,16 +124,21 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
    class Handler extends HttpHandlerImpl implements HttpHandler
    {
 
-      public Handler(JAXWSHttpSpiDestination destination)
+      private ClassLoader classLoader;
+
+      public Handler(JAXWSHttpSpiDestination destination, ClassLoader classLoader)
       {
          super(destination);
+         this.classLoader = classLoader;
       }
 
       @Override
       public void handle(HttpExchange ex) throws IOException
       {
+         ClassLoader origClassLoader = Thread.currentThread().getContextClassLoader();
          try
          {
+            Thread.currentThread().setContextClassLoader(this.classLoader);
             this.handle(new HttpExchangeDelegate(ex));
          }
          catch (Exception e)
@@ -147,6 +152,10 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
             {
                throw new RuntimeException(e);
             }
+         }
+         finally
+         {
+            Thread.currentThread().setContextClassLoader(origClassLoader);
          }
       }
    }

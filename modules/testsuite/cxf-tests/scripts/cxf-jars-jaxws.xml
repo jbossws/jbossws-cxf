@@ -70,6 +70,15 @@
       </classes>
     </war>
 
+    <!-- jaxws-cxf-endpoint -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-endpoint.war"
+      webxml="${tests.output.dir}/test-resources/jaxws/cxf/endpoint/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/endpoint/TestServlet.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/endpoint/HelloWorld*.class"/>
+      </classes>
+    </war>
+
     <!-- jaxws-cxf-gzip -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-gzip.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/gzip/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
