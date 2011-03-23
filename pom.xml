@@ -56,7 +56,7 @@
     -->
     <!-- END -->
     <jboss700.version>7.0.0.Beta2-SNAPSHOT</jboss700.version>
-    <cxf.version>2.3.4-SNAPSHOT</cxf.version>
+    <cxf.version>2.3.3-patch-01</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>3.3</cxf.asm.version>
     <cxf.xjcplugins.version>2.3.2</cxf.xjcplugins.version>
