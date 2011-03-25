@@ -49,8 +49,8 @@ public class JBossWSCXFTestSetup extends JBossWSTestSetup
    
    @Override
    protected void setUp() throws Exception {
-      super.setUp();
       defaultBus = BusFactory.getDefaultBus(false);
+      super.setUp();
    }
    
    @Override

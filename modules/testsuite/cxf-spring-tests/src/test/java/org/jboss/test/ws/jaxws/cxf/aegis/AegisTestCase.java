@@ -27,8 +27,8 @@ import junit.framework.Test;
 
 import org.apache.cxf.aegis.databinding.AegisDatabinding;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 public class AegisTestCase extends JBossWSTest
 {
@@ -36,7 +36,7 @@ public class AegisTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(AegisTestCase.class, "jaxws-aegis.war");
+      return new JBossWSCXFTestSetup(AegisTestCase.class, "jaxws-aegis.war");
    }
 
    public void testAccess() throws Exception
@@ -46,9 +46,10 @@ public class AegisTestCase extends JBossWSTest
       proxyFactory.setServiceClass(AegisGroupQuery.class);
       proxyFactory.setAddress(endpointURL);
       AegisGroupQuery query = (AegisGroupQuery)proxyFactory.create();
+      @SuppressWarnings("unchecked")
       Map<Integer, String> members =  query.getMembers();
-      this.assertEquals(2, members.size());
-      this.assertEquals(true, members.containsKey(2));
+      assertEquals(2, members.size());
+      assertEquals(true, members.containsKey(2));
    }
 
 }

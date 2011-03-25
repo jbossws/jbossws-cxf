@@ -38,8 +38,8 @@ import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * WS-Security sign & encrypt test case
@@ -53,7 +53,7 @@ public final class SignEncryptTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSTestSetup(SignEncryptTestCase.class, "jaxws-samples-wsse-sign-encrypt-client.jar jaxws-samples-wsse-sign-encrypt.war");
+      return new JBossWSCXFTestSetup(SignEncryptTestCase.class, "jaxws-samples-wsse-sign-encrypt-client.jar jaxws-samples-wsse-sign-encrypt.war");
    }
 
    public void test() throws Exception
