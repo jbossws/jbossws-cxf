@@ -34,6 +34,7 @@ import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
+import org.apache.ws.security.WSSConfig;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -133,6 +134,20 @@ public class SpringBusHolder extends BusHolder
             }
          }
       }
+      //try early configuration of xmlsec engine through WSS4J to avoid doing this
+      //later when the TCCL won't have visibility over the xmlsec internals
+      try
+      {
+         WSSConfig.getNewInstance();
+      }
+      catch (Exception e)
+      {
+         log.warn("Could not early initialize security engine!");
+         if (log.isTraceEnabled())
+         {
+            log.trace("Error while getting default WSSConfig: ", e);
+         }
+      }
       configured = true;
    }
 
@@ -159,7 +174,7 @@ public class SpringBusHolder extends BusHolder
       GenericApplicationContext childCtx = new GenericApplicationContext(ctx);
       XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(childCtx);
       reader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_XSD);
-      reader.setNamespaceHandlerResolver(new NamespaceHandlerResolver());
+      reader.setNamespaceHandlerResolver(new NamespaceHandlerResolver(SecurityActions.getContextClassLoader()));
       reader.loadBeanDefinitions(new InputStreamResource(is));
       childCtx.refresh();
       return childCtx;

@@ -36,6 +36,7 @@ import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
+import org.jboss.wsf.stack.cxf.client.util.DelegateClassLoader;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
 import org.jboss.wsf.stack.cxf.configuration.SpringBusHolder;
@@ -63,8 +64,6 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          BusFactory.setThreadDefaultBus(null);
 
          ArchiveDeployment aDep = (ArchiveDeployment) dep;
-         //set the runtime classloader (pointing to the deployment unit) to allow CXF accessing to the classes
-         SecurityActions.setContextClassLoader(dep.getRuntimeClassLoader());
 
          ResourceResolver deploymentResolver = aDep.getResourceResolver();
          org.apache.cxf.resource.ResourceResolver resolver = new JBossWSResourceResolver(deploymentResolver);
@@ -72,6 +71,8 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          String jbosswsCxfXml = contextParams == null ? null : contextParams.get(BusHolder.PARAM_CXF_BEANS_URL);
          BusHolder holder = null;
 
+         //set the runtime classloader (pointing to the deployment unit) to allow CXF accessing to the classes
+         SecurityActions.setContextClassLoader(dep.getRuntimeClassLoader());
          if (jbosswsCxfXml != null) // Spring available
          {
             URL cxfServletURL = null;
@@ -113,6 +114,8 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          SecurityActions.setContextClassLoader(origClassLoader);
       }
    }
+   
+   
    
    @Override
    public void start(Deployment dep)

@@ -62,6 +62,7 @@ public class NamespaceHandlerResolver extends DefaultNamespaceHandlerResolver
    public NamespaceHandlerResolver(ClassLoader classLoader)
    {
       super(classLoader);
+      this.loader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
    }
 
    public NamespaceHandlerResolver(ClassLoader classLoader, String handlerMappingsLocation)

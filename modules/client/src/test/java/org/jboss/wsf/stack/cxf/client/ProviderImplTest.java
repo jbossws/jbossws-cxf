@@ -34,8 +34,8 @@ import javax.xml.ws.spi.Provider;
 
 import junit.framework.TestCase;
 
-import org.jboss.wsf.stack.cxf.client.ProviderImpl.DelegateClassLoader;
 import org.jboss.wsf.stack.cxf.client.ProviderImpl.DelegateEndpointImpl;
+import org.jboss.wsf.stack.cxf.client.util.DelegateClassLoader;
 import org.w3c.dom.Element;
 
 /**

@@ -391,6 +391,7 @@
         <fileset dir="@{thirdpartydir}/modules">
           <include name="**/module.xml"/>
           <exclude name="**/jboss/as/webservices/**/module.xml"/>
+          <exclude name="**/spring/**/module.xml"/>
         </fileset>
       </installModules>
       <copy toDir="@{targetdir}">
@@ -445,6 +446,25 @@
   <!-- Install Spring                                                     -->
   <!-- ================================================================== -->
   
+  <macrodef name="macro-install-spring-modules">
+    <attribute name="thirdpartydir"/>
+    <attribute name="targetdir"/>
+    <sequential>
+      <!-- libraries -->
+      <copy todir="@{targetdir}/org/springframework/spring/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/spring-*.jar"/>
+        </fileset>
+      </copy>
+      <!-- module.xml files -->
+      <installModules targetDir="@{targetdir}">
+        <fileset dir="@{thirdpartydir}/modules">
+          <include name="**/spring/**/module.xml"/>
+        </fileset>
+      </installModules>
+    </sequential>
+  </macrodef>
+
   <macrodef name="macro-install-spring">
     <attribute name="thirdpartydir"/>
     <attribute name="targetdir"/>
@@ -461,6 +481,12 @@
   <target name="deploy-spring">
   	<macro-install-spring targetdir="${installserver}/client" thirdpartydir="${thirdpartydir}"/>
   	<macro-install-spring targetdir="${installserver}/common/lib" thirdpartydir="${thirdpartydir}"/>
+  </target>
+
+  <target name="deploy-spring-module">
+  	<fail message="installserver must be specified" unless="installserver"/>
+    <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
+  	<macro-install-spring-modules targetdir="${installserver}/modules" thirdpartydir="${thirdpartydir}"/>
   </target>
 
   <!-- ================================================================== -->
