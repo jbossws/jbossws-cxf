@@ -1008,10 +1008,6 @@
                  <!-- # [JBWS-3227] handles config file not found on classpath -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3034/**</exclude>
 
-                 <!-- # [JBWS-3228] seems we need to use woodstox for WS endpoints? -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
-
                  <!-- # [JBWS-3229] DOMUtils issue on test classpath - probably missing xercesImpl on CP? -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2960/**</exclude>
 
