@@ -23,29 +23,29 @@ package org.jboss.test.ws.jaxws.cxf.endpoint;
 
 import javax.jws.WebService;
 
-
-@WebService
-(
-   serviceName = "HelloWorldService",
-   endpointInterface = "org.jboss.test.ws.jaxws.cxf.endpoint.HelloWorld",
-   targetNamespace = "http://org.jboss.ws/jaxws/cxf/endpoint"
-)
+@WebService(serviceName = "HelloWorldService", endpointInterface = "org.jboss.test.ws.jaxws.cxf.endpoint.HelloWorld", targetNamespace = "http://org.jboss.ws/jaxws/cxf/endpoint")
 public class HelloWorldImpl implements HelloWorld
 {
-    private ClassLoader _deploymentClassLoader;
+   private ClassLoader _deploymentClassLoader;
 
-    public HelloWorldImpl(ClassLoader classloader)
-    {
-        _deploymentClassLoader = classloader;
-    }
+   public HelloWorldImpl(ClassLoader classloader)
+   {
+      _deploymentClassLoader = classloader;
+   }
 
-    public String getClassLoader()
-    {
-        return Thread.currentThread().getContextClassLoader().toString();
-    }
+   public String getClassLoader()
+   {
+      ClassLoader cl = Thread.currentThread().getContextClassLoader();
+      //JBWS-3223
+      //use check on class to avoid dependency declaration in MANIFEST for AS7
+      if (cl.getClass().getName().equals("org.jboss.wsf.stack.cxf.client.util.DelegateClassLoader")) {
+         cl = cl.getParent();
+      }
+      return cl.toString() + cl.hashCode();
+   }
 
-    public String getDeploymentClassLoader()
-    {
-        return _deploymentClassLoader.toString();
-    }
+   public String getDeploymentClassLoader()
+   {
+      return _deploymentClassLoader.toString() + _deploymentClassLoader.hashCode();
+   }
 }
