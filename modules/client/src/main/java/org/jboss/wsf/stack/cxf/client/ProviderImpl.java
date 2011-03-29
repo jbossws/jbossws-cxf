@@ -32,6 +32,7 @@ import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 import javax.xml.ws.Binding;
 import javax.xml.ws.Endpoint;
+import javax.xml.ws.EndpointContext;
 import javax.xml.ws.EndpointReference;
 import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.spi.Invoker;
@@ -402,6 +403,20 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             if (restoreTCCL)
                setContextClassLoader(origClassLoader);
          }
+      }
+
+      @Override
+      //jaxws2.2 api
+      public void setEndpointContext(EndpointContext ctxt)
+      {
+         delegate.setEndpointContext(ctxt);
+      }
+      
+      @Override
+      //jaxws2.2 api
+      public void publish(javax.xml.ws.spi.http.HttpContext context)
+      {
+         delegate.publish(context);
       }
    }
 
