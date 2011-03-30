@@ -45,10 +45,10 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.spi.version>2.0.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>2.0.0-SNAPSHOT</jbossws.common.version>
+    <jbossws.spi.version>2.0.0.Alpha2</jbossws.spi.version>
+    <jbossws.common.version>2.0.0.Alpha4</jbossws.common.version>
     <jbossws.shared.testsuite.version>4.0.0-SNAPSHOT</jbossws.shared.testsuite.version>
-    <jbossws.jboss600.version>4.0.0-SNAPSHOT</jbossws.jboss600.version>
+    <jbossws.jboss600.version>4.0.0.Alpha1</jbossws.jboss600.version>
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
