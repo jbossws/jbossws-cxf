@@ -85,6 +85,19 @@
         <include name="org/jboss/test/ws/jaxws/cxf/gzip/HelloWorld*.class"/>
       </classes>
     </war>
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-gzip-client.war"
+    	manifest="${tests.output.dir}/test-resources/jaxws/cxf/gzip/META-INF/MANIFEST.MF"
+    	needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/gzip/Helper.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/gzip/GZIPEnforcingInInterceptor.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/gzip/HelloWorld.class"/>
+      </classes>
+      <classes dir="${tests.output.dir}/classes">
+        <include name="org/jboss/wsf/test/TestServlet.class"/>
+        <include name="org/jboss/wsf/test/ClientHelper.class"/>
+      </classes>
+    </war>
 
     <!-- jaxws-cxf-jaxbintros -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jaxbintros.jar">
