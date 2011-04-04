@@ -55,7 +55,7 @@
     <jbossws.jboss601.version>3.2.1.GA</jbossws.jboss601.version>
     -->
     <!-- END -->
-    <jboss700.version>7.0.0.Beta2-SNAPSHOT</jboss700.version>
+    <jboss700.version>7.0.0.Beta2</jboss700.version>
     <cxf.version>2.3.3-patch-01</cxf.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>3.3</cxf.asm.version>
