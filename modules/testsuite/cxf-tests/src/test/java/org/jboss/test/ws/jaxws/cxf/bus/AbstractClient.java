@@ -96,6 +96,26 @@ public class AbstractClient
       Bus initialDefaultBus = BusFactory.getDefaultBus(false);
       performInvocation(getEndpointURL(host));
       checkDefaultBus(initialDefaultBus);
+      //check client usage does not rely on default bus when no thread bus is set
+      Bus threadBus = BusFactory.getThreadDefaultBus(false);
+      try
+      {
+         BusFactory.setThreadDefaultBus(null);
+         performInvocation(getEndpointURL(host));
+         Bus newThreadBus = BusFactory.getThreadDefaultBus(false);
+         if (newThreadBus == initialDefaultBus)
+         {
+            throw new BusTestException("Thread bus set to former default bus " + initialDefaultBus + " instead of a new bus!"); 
+         }
+         else if (newThreadBus == threadBus)
+         {
+            throw new BusTestException("Thread bus set to former thread bus " + threadBus + " (which is also default) instead of a new bus!"); 
+         }
+      }
+      finally
+      {
+         BusFactory.setThreadDefaultBus(threadBus);
+      }
    }
    
    protected static String getEndpointURL(String host)
@@ -110,7 +130,7 @@ public class AbstractClient
       SOAPConnectionFactory conFac = SOAPConnectionFactory.newInstance();
       SOAPMessage msg = msgFac.createMessage();
       SOAPConnection con = conFac.createConnection();
-      QName echo = new QName("http://org.jboss.ws.jaxws.cxf/bus", "echo");
+      QName echo = new QName("http://org.jboss.ws/bus", "echo");
       SOAPElement element = soapFac.createElement(echo);
       element.addTextNode("John");
       msg.getSOAPBody().addChildElement(element);
