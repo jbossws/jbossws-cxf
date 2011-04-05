@@ -62,6 +62,7 @@
   
   <patternset id="jbossws.lib.endorsed.patternset">
     <include name="**/jaxb-api.jar"/>
+    <include name="**/jbossws-cxf-factories.jar"/>
   </patternset>
   
   <patternset id="jbossws.server.lib.patternset">
@@ -78,6 +79,7 @@
     <include name="**/jaxrpc-api.jar"/>
     <include name="**/jaxws-api.jar"/>
     <include name="**/jbossws-cxf-client*.jar"/>
+    <include name="**/jbossws-cxf-factories.jar"/>
     <include name="**/jbossws-cxf-server*.jar"/>
     <include name="**/jdom.jar"/>
     <include name="**/neethi.jar"/>
@@ -93,7 +95,7 @@
     <include name="**/XmlSchema.jar"/>
     <include name="**/FastInfoset.jar"/>
   </patternset>
-  
+
   <!-- ================================================================== -->
   <!-- Deploy Bin                                                         -->
   <!-- ================================================================== -->
