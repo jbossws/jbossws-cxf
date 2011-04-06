@@ -937,6 +937,7 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws1694/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1799/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1815/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1822/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1841/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1845/**</exclude>
