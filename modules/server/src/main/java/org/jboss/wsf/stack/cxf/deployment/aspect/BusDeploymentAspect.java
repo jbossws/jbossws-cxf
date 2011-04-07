@@ -72,7 +72,7 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          BusHolder holder = null;
 
          //set the runtime classloader (pointing to the deployment unit) to allow CXF accessing to the classes
-         SecurityActions.setContextClassLoader(dep.getRuntimeClassLoader());
+         SecurityActions.setContextClassLoader(new DelegateClassLoader(dep.getRuntimeClassLoader(), origClassLoader));
          if (jbosswsCxfXml != null) // Spring available
          {
             URL cxfServletURL = null;
