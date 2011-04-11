@@ -71,7 +71,10 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          String jbosswsCxfXml = contextParams == null ? null : contextParams.get(BusHolder.PARAM_CXF_BEANS_URL);
          BusHolder holder = null;
 
-         //set the runtime classloader (pointing to the deployment unit) to allow CXF accessing to the classes
+         //set the runtime classloader (pointing to the deployment unit) to allow CXF accessing to the classes;
+         //use origClassLoader (which on AS7 is set to ASIL aggregation module's classloader by TCCLDeploymentProcessClassLoader) as
+         //parent to make sure user provided libs in the deployment do no mess up the WS endpoint's deploy if they duplicates
+         //libraries already available on the application server modules.
          SecurityActions.setContextClassLoader(new DelegateClassLoader(dep.getRuntimeClassLoader(), origClassLoader));
          if (jbosswsCxfXml != null) // Spring available
          {
