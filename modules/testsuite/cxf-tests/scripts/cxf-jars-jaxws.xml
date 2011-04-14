@@ -84,6 +84,9 @@
       <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/cxf/gzip/HelloWorld*.class"/>
       </classes>
+      <manifest>
+        <attribute name="Dependencies" value="org.apache.cxf"/>
+      </manifest>
     </war>
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-gzip-client.war"
     	manifest="${tests.output.dir}/test-resources/jaxws/cxf/gzip/META-INF/MANIFEST.MF"

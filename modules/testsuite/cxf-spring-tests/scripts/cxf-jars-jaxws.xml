@@ -34,6 +34,9 @@
        <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/aegis/jaxws/WEB-INF/">
           <include name="jbossws-cxf.xml"/>
        </webinf>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.cxf"/>
+       </manifest>
     </war>
     
     <war
@@ -44,6 +47,9 @@
           <include name="org/jboss/test/ws/jaxws/cxf/aegis/AegisAnnotationGroupQueryImpl.class"/>
           <include name="org/jboss/test/ws/jaxws/cxf/aegis/Member.class"/>
        </classes>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.cxf"/>
+       </manifest>
     </war>
   	
   	<!-- jaxws-cxf-configuration -->
@@ -58,6 +64,9 @@
        <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/configuration/WEB-INF">
           <include name="jbossws-cxf.xml"/>
        </webinf>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.cxf"/>
+       </manifest>
     </war>
 
     <!-- jaxws-cxf-descriptor -->
@@ -72,6 +81,9 @@
       <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/descriptor/WEB-INF">
         <include name="jbossws-cxf.xml"/>
       </webinf>
+      <manifest>
+        <attribute name="Dependencies" value="org.apache.cxf"/>
+      </manifest>
     </war>
 
     <!-- jaxws-cxf-interop-wstrust10-client -->

@@ -73,10 +73,14 @@ import org.apache.cxf.message.MessageContentsList;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.service.model.BindingOperationInfo;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.Invocation;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
+import org.jboss.wsf.spi.invocation.WebServiceContextFactory;
 
 /**
  * An abstract CXF invoker
@@ -91,6 +95,7 @@ public abstract class AbstractInvoker implements Invoker
 {
    private static final Object[] NO_ARGS = new Object[]{};
    private Object targetBean;
+   private WebServiceContextFactory contextFactory;
    
    public void setTargetBean(Object targetBean)
    {
@@ -326,6 +331,17 @@ public abstract class AbstractInvoker implements Invoker
       {
          ctx.put(key.getKey(), key.getValue(), Scope.HANDLER);
       }
+   }
+   
+   protected WebServiceContextFactory getWebServiceContextFactory()
+   {
+      if (contextFactory == null)
+      {
+         ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
+         SPIProvider spiProvider = SPIProviderResolver.getInstance(cl).getProvider();
+         contextFactory = spiProvider.getSPI(WebServiceContextFactory.class, cl);
+      }
+      return contextFactory;
    }
 
 }

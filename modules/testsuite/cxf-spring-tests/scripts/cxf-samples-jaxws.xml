@@ -108,6 +108,9 @@
           <include name="bob.jks" />
           <include name="bob.properties" />
        </zipfileset>
+       <manifest>
+        <attribute name="Dependencies" value="org.apache.ws.security"/>
+      </manifest>
     </war>
 
     <!-- jaxws-samples-wsse-sign-client -->
@@ -135,6 +138,9 @@
           <include name="bob.jks" />
           <include name="bob.properties" />
        </zipfileset>
+       <manifest>
+        <attribute name="Dependencies" value="org.apache.ws.security"/>
+      </manifest>
     </war>
 
     <!-- jaxws-samples-wsse-sign-encrypt-client -->
@@ -158,6 +164,9 @@
           <include name="jbossws-cxf.xml"/>
           <include name="wsdl/*"/>
        </webinf>
+       <manifest>
+        <attribute name="Dependencies" value="org.apache.ws.security"/>
+      </manifest>
     </war>
 
     <!-- jaxws-samples-wsse-username-authorize -->
@@ -260,6 +269,9 @@
           <include name="bob.jks" />
           <include name="bob.properties" />
        </zipfileset>
+       <manifest>
+        <attribute name="Dependencies" value="org.apache.ws.security"/>
+      </manifest>
     </war>
 
     <!-- jaxws-samples-wssePolicy-sign-client -->
@@ -287,6 +299,9 @@
           <include name="bob.jks" />
           <include name="bob.properties" />
        </zipfileset>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.ws.security"/>
+       </manifest>
     </war>
 
     <!-- jaxws-samples-wssePolicy-sign-encrypt-client -->
@@ -310,6 +325,9 @@
           <include name="jbossws-cxf.xml"/>
           <include name="wsdl/*"/>
        </webinf>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.ws.security"/>
+       </manifest>
     </war>
 
     <!-- Please add alphabetically -->

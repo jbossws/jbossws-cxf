@@ -24,10 +24,7 @@ package org.jboss.wsf.stack.cxf;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.invocation.InvocationType;
-import org.jboss.wsf.spi.invocation.WebServiceContextFactory;
 
 /**
  * An CXF invoker for JSE
@@ -40,8 +37,6 @@ public class InvokerJSE extends AbstractInvoker
 {
    protected WebServiceContext getWebServiceContext(MessageContext msgCtx)
    {
-      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      WebServiceContextFactory contextFactory = spiProvider.getSPI(WebServiceContextFactory.class);
-      return contextFactory.newWebServiceContext(InvocationType.JAXWS_JSE, msgCtx);
+      return getWebServiceContextFactory().newWebServiceContext(InvocationType.JAXWS_JSE, msgCtx);
    }
 }

@@ -41,6 +41,7 @@ import org.apache.cxf.transports.http.QueryHandler;
 import org.apache.cxf.transports.http.QueryHandlerRegistry;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.management.EndpointMetrics;
 import org.jboss.wsf.spi.management.ServerConfig;
@@ -63,8 +64,9 @@ public class ServletControllerExt extends ServletController
       super(cxfTransport, config, servletCtx, bus);
       this.cxfTransport = cxfTransport;
       this.bus = bus;
-      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      serverConfig = spiProvider.getSPI(ServerConfigFactory.class).getServerConfig();
+      ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
+      SPIProvider spiProvider = SPIProviderResolver.getInstance(cl).getProvider();
+      serverConfig = spiProvider.getSPI(ServerConfigFactory.class, cl).getServerConfig();
    }
    
    /**

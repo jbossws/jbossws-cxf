@@ -21,7 +21,10 @@
  */
 package org.jboss.wsf.stack.cxf;
 
+import java.io.IOException;
+
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +36,7 @@ import org.apache.cxf.transport.servlet.ServletContextResourceResolver;
 import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.ServletDelegate;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.transport.ServletHelper;
 
@@ -44,7 +48,7 @@ import org.jboss.wsf.stack.cxf.transport.ServletHelper;
  * 
  * @since 21-Apr-2007
  */
-public class CXFServletExt extends CXFServlet
+public class CXFServletExt extends CXFServlet implements ServletDelegate
 {
    protected Endpoint endpoint;
 
@@ -95,6 +99,46 @@ public class CXFServletExt extends CXFServlet
    {
       ServletHelper.callPreDestroy(endpoint);
    }
-   
 
+   @Override
+   public void doHead(HttpServletRequest request, HttpServletResponse response, ServletContext context)
+         throws ServletException, IOException
+   {
+      this.doHead(request, response);
+   }
+
+   @Override
+   public void doGet(HttpServletRequest request, HttpServletResponse response, ServletContext context)
+         throws ServletException, IOException
+   {
+      this.doGet(request, response);
+   }
+
+   @Override
+   public void doPost(HttpServletRequest request, HttpServletResponse response, ServletContext context)
+         throws ServletException, IOException
+   {
+      this.doPost(request, response);
+   }
+
+   @Override
+   public void doPut(HttpServletRequest request, HttpServletResponse response, ServletContext context)
+         throws ServletException, IOException
+   {
+      this.doPut(request, response);
+   }
+
+   @Override
+   public void doDelete(HttpServletRequest request, HttpServletResponse response, ServletContext context)
+         throws ServletException, IOException
+   {
+      this.doDelete(request, response);
+   }
+
+   @Override
+   public void service(HttpServletRequest request, HttpServletResponse response, ServletContext context)
+         throws ServletException, IOException
+   {
+      this.service(request, response);
+   }
 }
