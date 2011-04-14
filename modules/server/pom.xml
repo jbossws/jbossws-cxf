@@ -142,7 +142,7 @@
       <artifactId>jboss-jaxrpc-api_1.1_spec</artifactId>
     </dependency>
     <dependency>
-      <groupId>stax</groupId>
+      <groupId>javax.xml.stream</groupId>
       <artifactId>stax-api</artifactId>
     </dependency>
     <dependency>
