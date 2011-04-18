@@ -20,7 +20,7 @@
       wsdl="${tests.resources.dir}/jaxws/complex/META-INF/wsdl/RegistrationService.wsdl"
       package="org.jboss.test.ws.jaxws.complex"
       outputDir="${tests.output.dir}"
-      jbossHome="${jboss.home}"
+      endorsedDir="${endorsed.dir}"
       log4jConf="${log4j.conf}"
       loggingDir="${log4j.output.dir}"
     />
@@ -29,7 +29,7 @@
       wsdl="${tests.resources.dir}/jaxws/holder/META-INF/wsdl/HolderService.wsdl"
       package="org.jboss.test.ws.jaxws.holder"
       outputDir="${tests.output.dir}"
-      jbossHome="${jboss.home}"
+      endorsedDir="${endorsed.dir}"
       log4jConf="${log4j.conf}"
       loggingDir="${log4j.output.dir}"
     />
@@ -41,7 +41,7 @@
     <attribute name="wsdl"/>
     <attribute name="package"/>
     <attribute name="outputDir"/>
-    <attribute name="jbossHome"/>
+    <attribute name="endorsedDir"/>
     <attribute name="log4jConf"/>
     <attribute name="loggingDir"/>
 
@@ -57,7 +57,7 @@
         target="2.2"
         fork="true"
       >
-        <jvmarg line="-Djava.endorsed.dirs=@{jbossHome}/lib/endorsed"/>
+        <jvmarg line="-Djava.endorsed.dirs=@{endorsedDir}"/>
         <jvmarg line="-Dlog4j.configuration=file://@{log4jConf}"/>
         <jvmarg line="-Dlog4j.output.dir=@{loggingDir}"/>
       </wsconsume>
