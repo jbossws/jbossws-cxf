@@ -27,7 +27,7 @@
     <main-class name="org.jboss.wsf.spi.tools.cmd.WSConsume"/>
 
     <dependencies>
-        <module name="org.jboss.ws.common"/>
+        <module name="org.jboss.ws.tools.common"/>
     </dependencies>
 
 </module>
