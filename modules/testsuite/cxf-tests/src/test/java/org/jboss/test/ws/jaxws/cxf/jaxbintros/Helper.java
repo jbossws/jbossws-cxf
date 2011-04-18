@@ -123,7 +123,8 @@ public class Helper implements ClientHelper
       }
       BindingCustomizationFactory.populateBindingCustomization(jaxbIntroUrl.openStream(), jaxbCustomizations);
 
-      Bus bus = BusFactory.getThreadDefaultBus();
+      Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
       JBossWSConfigurer configurer = (JBossWSConfigurer)bus.getExtension(Configurer.class);
       configurer.getCustomizer().setBindingCustomization(jaxbCustomizations);
       return bus;
