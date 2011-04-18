@@ -24,7 +24,7 @@
       <scope>provided</scope>
       <type>zip</type>
     </dependency>
-</dependencies>
+  </dependencies>
 
   <build>
     <plugins>

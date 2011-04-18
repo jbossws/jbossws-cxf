@@ -38,6 +38,7 @@
     <include name="**/jsr181-api.jar"/>
     <include name="**/jbossws-api.jar"/>
     <include name="**/jbossws-common.jar"/>
+    <include name="**/jbossws-common-tools.jar"/>
     <include name="**/jbossws-cxf-client*.jar"/>
     <include name="**/jbossws-spi.jar"/>
     <include name="**/jbossws-cxf-transports-httpserver.jar"/>
@@ -364,6 +365,11 @@
       <copy todir="@{targetdir}/org/jboss/ws/common/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-common.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/jboss/ws/tools/common/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jbossws-common-tools.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/spi/main" flatten="false" overwrite="true">

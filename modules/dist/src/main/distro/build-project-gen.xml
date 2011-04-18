@@ -22,7 +22,7 @@
    	</filterset>
   	
   	<path id="jbws-ant.path">
-  		<pathelement location="${thirdparty.dir}/jbossws-common.jar" />
+  		<pathelement location="${thirdparty.dir}/jbossws-common-tools.jar" />
   	</path>
   	<taskdef name="pathFixer" classname="org.jboss.ws.tools.ant.FixPathTask" classpathref="jbws-ant.path"/>
   	<taskdef name="eclipseClasspathGenerator" classname="org.jboss.ws.tools.ant.EclipseClasspathTask" classpathref="jbws-ant.path"/>

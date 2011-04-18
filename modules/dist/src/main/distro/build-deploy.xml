@@ -104,7 +104,7 @@
   	
     <path id="jbossws-common.path">
       <fileset dir="${deploy.artifacts.dir}">
-        <include name="**/jbossws-common.jar"/>
+        <include name="**/jbossws-common-tools.jar"/>
       </fileset>
     </path>
     <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jbossws-common.path"/>
