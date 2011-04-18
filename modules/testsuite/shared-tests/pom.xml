@@ -152,6 +152,29 @@
               </execution>
             </executions>
           </plugin>
+          <plugin> <!-- This copies jbossws-cxf-factories jar to endorsed dir before the integration-tests are run -->
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-factories-jar</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${basedir}/../../endorsed/target/</directory>
+                      <includes>
+                        <include>jbossws-cxf-factories-${project.version}.jar</include>
+                      </includes>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
     </profile>
