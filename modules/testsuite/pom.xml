@@ -968,7 +968,6 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/context/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/eardeployment/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/exception/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/jaxbintros/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/advanced/retail/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/swaref/**</exclude>
@@ -977,7 +976,6 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**/*EJB3TestCase*</exclude>
                  <exclude>org/jboss/test/ws/management/recording/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/bus/*EJB3*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jaxbintros/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3060/*EJB3*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/logging/**</exclude>
                  <exclude>org/jboss/test/ws/projectGenerator/**</exclude>
