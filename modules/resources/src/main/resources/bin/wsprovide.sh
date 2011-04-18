@@ -155,4 +155,4 @@ fi
    -Dlog4j.configuration=log4j.xml \
    -Djava.endorsed.dirs="$JBOSS_ENDORSED_DIRS" \
    -classpath "$WSPROVIDE_CLASSPATH" \
-   org.jboss.wsf.spi.tools.cmd.WSProvide "$@"
+   org.jboss.ws.tools.cmd.WSProvide "$@"

@@ -144,4 +144,4 @@ fi
    -Dlog4j.configuration=log4j.xml \
    -Djava.endorsed.dirs="$JBOSS_ENDORSED_DIRS" \
    -classpath "$WSCONSUME_CLASSPATH" \
-   org.jboss.wsf.spi.tools.cmd.WSConsume "$@"
+   org.jboss.ws.tools.cmd.WSConsume "$@"

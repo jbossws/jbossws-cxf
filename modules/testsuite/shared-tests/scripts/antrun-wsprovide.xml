@@ -10,7 +10,7 @@
 
   <target name="wsprovide" description="Provide JAX-WS contracts">
 
-    <taskdef name="wsprovide" classname="org.jboss.wsf.spi.tools.ant.WSProvideTask">
+    <taskdef name="wsprovide" classname="org.jboss.ws.tools.ant.WSProvideTask">
       <classpath>
         <pathelement path="${maven.test.classpath}"/>
       </classpath>

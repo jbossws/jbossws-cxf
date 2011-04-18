@@ -10,7 +10,7 @@
 
   <target name="wsconsume" description="Consume JAX-WS contracts">
 
-    <taskdef name="wsconsume" classname="org.jboss.wsf.spi.tools.ant.WSConsumeTask">
+    <taskdef name="wsconsume" classname="org.jboss.ws.tools.ant.WSConsumeTask">
       <classpath>
         <pathelement path="${maven.test.classpath}"/>
       </classpath>
