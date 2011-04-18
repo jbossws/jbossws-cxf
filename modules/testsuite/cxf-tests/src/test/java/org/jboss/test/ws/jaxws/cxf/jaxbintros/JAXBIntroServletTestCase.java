@@ -21,18 +21,14 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jaxbintros;
 
-import java.net.MalformedURLException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Iterator;
-
-import javax.xml.namespace.QName;
 
 import junit.framework.Test;
 
-import org.jboss.wsf.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.w3c.dom.Element;
 
 /**
  * Test the JAXBIntroduction features.
@@ -42,45 +38,14 @@ import org.w3c.dom.Element;
  *
  * @author alessio.soldano@jboss.com
  */
-public class JAXBIntroTestCase extends JBossWSTest
+public class JAXBIntroServletTestCase extends JBossWSTest
 {
-
-   private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-jaxbintros/EndpointService";
-   private Helper helper;
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JAXBIntroTestCase.class, "jaxws-cxf-jaxbintros.jar");
-   }
-
-   public void testWSDLAccess() throws Exception
-   {
-      URL wsdlURL = new URL(endpointAddress + "?wsdl");
-      Element wsdl = DOMUtils.parse(wsdlURL.openStream());
-      assertNotNull(wsdl);
-      Iterator<Element> it = DOMUtils.getChildElements(wsdl, new QName("http://www.w3.org/2001/XMLSchema","attribute"), true);
-      boolean attributeFound = false;
-      while (it.hasNext())
-      {
-         Element el = it.next();
-         if ("string".equals(el.getAttribute("name")))
-         {
-            attributeFound = true;
-         }
-      }
-      assertTrue("<xs:attribute name=\"string\" ..> not found in wsdl", attributeFound);
+      return new JBossWSCXFTestSetup(JAXBIntroServletTestCase.class, "jaxws-cxf-jaxbintros.jar, jaxws-cxf-jaxbintros-client.war");
    }
    
-   private Helper getHelper() throws MalformedURLException
-   {
-      if (helper == null)
-      {
-         helper = new Helper(endpointAddress);
-         helper.setJAXBIntroURL(getResourceURL("jaxws/cxf/jaxbintros/META-INF/jaxb-intros.xml"));
-      }
-      return helper;
-   }
-
    /**
     * Both client and server side use plain UserType class but have jaxbintros in place to deal with customizations
     *
@@ -88,7 +53,7 @@ public class JAXBIntroTestCase extends JBossWSTest
     */
    public void testEndpoint() throws Exception
    {
-      assertTrue(getHelper().testEndpoint());
+      assertEquals("1", runTestInContainer("testEndpoint"));
    }
 
    /**
@@ -98,6 +63,15 @@ public class JAXBIntroTestCase extends JBossWSTest
     */
    public void testAnnotatedUserEndpoint() throws Exception
    {
-      assertTrue(getHelper().testAnnotatedUserEndpoint());
+      assertEquals("1", runTestInContainer("testAnnotatedUserEndpoint"));
+   }
+   
+   private String runTestInContainer(String test) throws Exception
+   {
+      URL url = new URL("http://" + getServerHost()
+            + ":8080/jaxws-cxf-jaxbintros-client?path=/jaxws-cxf-jaxbintros/EndpointService&method=" + test
+            + "&helper=" + Helper.class.getName());
+      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+      return br.readLine();
    }
 }
