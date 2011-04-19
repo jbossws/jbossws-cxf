@@ -49,7 +49,7 @@
     <include name="**/wsdl4j.jar"/>
     <include name="**/wss4j.jar"/>
     <include name="**/wstx.jar"/>
-    <include name="**/XmlSchema.jar"/>
+    <include name="**/xmlschema-core.jar"/>
     <include name="**/FastInfoset.jar"/>
     <include name="**/wstx.jar"/>
   </patternset>
@@ -81,7 +81,7 @@
     <include name="**/jbossws-spi.jar"/>
     <include name="**/jdom.jar"/>
     <include name="**/neethi.jar"/>
-    <include name="**/XmlSchema.jar"/>
+    <include name="**/xmlschema-core.jar"/>
     <include name="**/xmlsec.jar"/>
     <include name="**/wsdl4j.jar"/>
     <include name="**/wss4j.jar"/>
@@ -384,7 +384,7 @@
       </copy>
       <copy todir="@{targetdir}/org/apache/ws/commons/xmlschema/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/XmlSchema.jar"/>
+          <include name="**/xmlschema-core.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/as/webservices/main" flatten="false" overwrite="true">

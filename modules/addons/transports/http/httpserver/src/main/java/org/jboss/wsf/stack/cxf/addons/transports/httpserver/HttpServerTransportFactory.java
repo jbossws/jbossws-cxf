@@ -32,7 +32,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.transport.Destination;
 import org.apache.cxf.transport.DestinationFactory;
-import org.apache.cxf.transport.http.AbstractHTTPTransportFactory;
+import org.apache.cxf.transport.http.HTTPTransportFactory;
 
 /**
  * A Destination/Transport factory for the JDK6 httpserver
@@ -41,7 +41,7 @@ import org.apache.cxf.transport.http.AbstractHTTPTransportFactory;
  * @since 19-Aug-2010
  *
  */
-public class HttpServerTransportFactory extends AbstractHTTPTransportFactory implements DestinationFactory
+public class HttpServerTransportFactory extends HTTPTransportFactory implements DestinationFactory
 {
    private Map<String, HttpServerDestination> destinations = new ConcurrentHashMap<String, HttpServerDestination>();
    
@@ -99,7 +99,7 @@ public class HttpServerTransportFactory extends AbstractHTTPTransportFactory imp
       HttpServerDestination destination = addr == null ? null : destinations.get(addr);
       if (destination == null)
       {
-         destination = new HttpServerDestination(getBus(), this, endpointInfo);
+         destination = new HttpServerDestination(getBus(), this.registry, this, endpointInfo);
          destinations.put(endpointInfo.getAddress(), destination);
          configure(destination);
          destination.finalizeConfig();

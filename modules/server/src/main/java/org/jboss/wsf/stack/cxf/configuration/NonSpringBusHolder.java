@@ -34,7 +34,10 @@ import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.transport.ConduitInitiator;
 import org.apache.cxf.transport.DestinationFactory;
-import org.apache.cxf.transport.servlet.ServletTransportFactory;
+import org.apache.cxf.transport.http.HTTPTransportFactory;
+import org.apache.cxf.transport.http.HttpDestinationFactory;
+import org.apache.cxf.transport.servlet.ServletDestinationFactory;
+//import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.rm.RMManager;
 import org.jboss.wsf.spi.binding.BindingCustomization;
@@ -67,13 +70,16 @@ public class NonSpringBusHolder extends BusHolder
       this.metadata = metadata;
       bus = new JBossWSNonSpringBusFactory().createBus();
       //Force servlet transport to prevent CXF from using Jetty or other transports
-      ExtensionManager em = bus.getExtension(ExtensionManager.class);
-      em.activateAllByType(ConduitInitiator.class); //need to activate/register all the beans implementing ConduitInitiator so that does not happen later
-      DestinationFactory factory = new ServletTransportFactory(bus);
-      for (String s : factory.getTransportIds())
-      {
-         registerTransport(factory, s);
-      }
+      new HTTPTransportFactory(bus);
+      bus.setExtension(new ServletDestinationFactory(), HttpDestinationFactory.class);
+//      //Force servlet transport to prevent CXF from using Jetty or other transports
+//      ExtensionManager em = bus.getExtension(ExtensionManager.class);
+//      em.activateAllByType(ConduitInitiator.class); //need to activate/register all the beans implementing ConduitInitiator so that does not happen later
+//      DestinationFactory factory = new ServletTransportFactory(bus);
+//      for (String s : factory.getTransportIds())
+//      {
+//         registerTransport(factory, s);
+//      }
    }
 
    /**

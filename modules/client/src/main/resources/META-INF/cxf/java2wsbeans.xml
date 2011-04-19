@@ -17,16 +17,12 @@
   specific language governing permissions and limitations
   under the License.
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-<bean id='JaxwsServiceBuilderBean' class='org.apache.cxf.jaxws.JaxwsServiceBuilder' scope="prototype" />
-<bean id='SimpleServiceBuilderBean' class='org.apache.cxf.simple.SimpleServiceBuilder' scope="prototype" />
-
-<bean id='JaxbDatabindingBean' class="org.apache.cxf.jaxb.JAXBDataBinding" scope="prototype"/>
-<bean id='AegisDatabindingBean' class="org.apache.cxf.aegis.databinding.AegisDatabinding" scope="prototype" />
-
-
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="JaxbDatabindingBean" class="org.apache.cxf.jaxb.JAXBDataBinding" scope="prototype" />
+  <bean id="XmlbeansDatabindingBean" class="org.apache.cxf.xmlbeans.XmlBeansDataBinding" scope="prototype" />
+  <bean id="SdoDatabindingBean" class="org.apache.cxf.sdo.SDODataBinding" scope="prototype" />
+  <bean id="JaxwsServiceBuilderBean" class="org.apache.cxf.jaxws.JaxwsServiceBuilder" scope="prototype" />
+  <bean id="SimpleServiceBuilderBean" class="org.apache.cxf.simple.SimpleServiceBuilder" scope="prototype" />
+  <bean id="AegisDatabindingBean" class="org.apache.cxf.aegis.databinding.AegisDatabinding" scope="prototype" />
 </beans>
+

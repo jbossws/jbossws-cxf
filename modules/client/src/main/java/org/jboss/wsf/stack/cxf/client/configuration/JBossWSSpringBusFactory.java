@@ -22,16 +22,16 @@
 package org.jboss.wsf.stack.cxf.client.configuration;
 
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.spring.BusApplicationContext;
 import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
-import org.apache.cxf.common.logging.LogUtils;
-import org.springframework.beans.BeansException;
+//import org.apache.cxf.common.logging.LogUtils;
+//import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -44,7 +44,7 @@ import org.springframework.context.ApplicationContext;
  */
 public class JBossWSSpringBusFactory extends SpringBusFactory
 {
-   private static final Logger LOG = LogUtils.getL7dLogger(JBossWSSpringBusFactory.class);
+//   private static final Logger LOG = LogUtils.getL7dLogger(JBossWSSpringBusFactory.class);
 
    public JBossWSSpringBusFactory()
    {
@@ -59,75 +59,88 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
    @Override
    public Bus createBus(String cfgFiles[], boolean includeDefaults)
    {
-      try
-      {
-         return finishCreatingBus(createApplicationContext(cfgFiles, includeDefaults));
-      }
-      catch (BeansException ex)
-      {
-         LogUtils.log(LOG, Level.WARNING, "APP_CONTEXT_CREATION_FAILED_MSG", ex, (Object[]) null);
-         throw new RuntimeException(ex);
-      }
+//      try
+//      {
+//         return finishCreatingBus(createApplicationContext(cfgFiles, includeDefaults));
+//      }
+//      catch (BeansException ex)
+//      {
+//         LogUtils.log(LOG, Level.WARNING, "APP_CONTEXT_CREATION_FAILED_MSG", ex, (Object[]) null);
+//         throw new RuntimeException(ex);
+//      }
+      Bus bus = super.createBus(cfgFiles, includeDefaults);
+      finalizeBusCreation(bus);
+      return bus;
    }
 
    @Override
    public Bus createBus(URL[] urls, boolean includeDefaults)
    {
-      try
-      {
-         return finishCreatingBus(new JBossWSBusApplicationContext(urls, includeDefaults, getApplicationContext()));
-      }
-      catch (BeansException ex)
-      {
-         LogUtils.log(LOG, Level.WARNING, "APP_CONTEXT_CREATION_FAILED_MSG", ex, (Object[]) null);
-         throw new RuntimeException(ex);
-      }
-   }
-
-   private Bus finishCreatingBus(BusApplicationContext bac)
-   {
-      final Bus bus = (Bus) bac.getBean(Bus.DEFAULT_BUS_ID);
-
-      bus.setExtension(bac, BusApplicationContext.class);
-
-      possiblySetDefaultBus(bus);
-
-      initializeBus(bus);
-
-      registerAppContextLifeCycleListener(bus, bac);
+//      try
+//      {
+//         return finishCreatingBus(new JBossWSBusApplicationContext(urls, includeDefaults, getApplicationContext()));
+//      }
+//      catch (BeansException ex)
+//      {
+//         LogUtils.log(LOG, Level.WARNING, "APP_CONTEXT_CREATION_FAILED_MSG", ex, (Object[]) null);
+//         throw new RuntimeException(ex);
+//      }
+      Bus bus = super.createBus(urls, includeDefaults);
+      finalizeBusCreation(bus);
       return bus;
    }
-
-   private BusApplicationContext createApplicationContext(String cfgFiles[], boolean includeDefaults)
+   
+   private static void finalizeBusCreation(Bus bus)
    {
-      try
-      {
-         return new JBossWSBusApplicationContext(cfgFiles, includeDefaults, getApplicationContext());
-      }
-      catch (BeansException ex)
-      {
-         LogUtils.log(LOG, Level.WARNING, "INITIAL_APP_CONTEXT_CREATION_FAILED_MSG", ex, (Object[]) null);
-         ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
-         if (contextLoader != BusApplicationContext.class.getClassLoader())
-         {
-            Thread.currentThread().setContextClassLoader(BusApplicationContext.class.getClassLoader());
-            try
-            {
-               return new JBossWSBusApplicationContext(cfgFiles, includeDefaults, getApplicationContext());
-            }
-            finally
-            {
-               Thread.currentThread().setContextClassLoader(contextLoader);
-            }
-         }
-         else
-         {
-            throw ex;
-         }
-      }
+      //TODO!! also set our custom configurer
+      BusApplicationContext bac = bus.getExtension(BusApplicationContext.class);
+      registerAppContextLifeCycleListener(bus, bac);
    }
 
-   void registerAppContextLifeCycleListener(final Bus bus, final BusApplicationContext bac)
+//   private Bus finishCreatingBus(BusApplicationContext bac)
+//   {
+//      final Bus bus = (Bus) bac.getBean(Bus.DEFAULT_BUS_ID);
+//
+//      bus.setExtension(bac, BusApplicationContext.class);
+//
+//      possiblySetDefaultBus(bus);
+//
+//      initializeBus(bus);
+//
+//      registerAppContextLifeCycleListener(bus, bac);
+//      return bus;
+//   }
+//
+//   private BusApplicationContext createApplicationContext(String cfgFiles[], boolean includeDefaults)
+//   {
+//      try
+//      {
+//         return new JBossWSBusApplicationContext(cfgFiles, includeDefaults, getApplicationContext());
+//      }
+//      catch (BeansException ex)
+//      {
+//         LogUtils.log(LOG, Level.WARNING, "INITIAL_APP_CONTEXT_CREATION_FAILED_MSG", ex, (Object[]) null);
+//         ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
+//         if (contextLoader != BusApplicationContext.class.getClassLoader())
+//         {
+//            Thread.currentThread().setContextClassLoader(BusApplicationContext.class.getClassLoader());
+//            try
+//            {
+//               return new JBossWSBusApplicationContext(cfgFiles, includeDefaults, getApplicationContext());
+//            }
+//            finally
+//            {
+//               Thread.currentThread().setContextClassLoader(contextLoader);
+//            }
+//         }
+//         else
+//         {
+//            throw ex;
+//         }
+//      }
+//   }
+
+   static void registerAppContextLifeCycleListener(final Bus bus, final BusApplicationContext bac)
    {
       BusLifeCycleManager lm = bus.getExtension(BusLifeCycleManager.class);
       if (null != lm)

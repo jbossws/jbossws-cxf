@@ -57,10 +57,10 @@
     -->
     <!-- END -->
     <jboss700.version>7.0.0.Beta3-SNAPSHOT</jboss700.version>
-    <cxf.version>2.3.4</cxf.version>
+    <cxf.version>2.4.0</cxf.version>
     <cxf.asm.version>3.3</cxf.asm.version>
     <cxf.xjcplugins.version>2.3.2</cxf.xjcplugins.version>
-    <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
+    <fastinfoset.api.version>1.2.9</fastinfoset.api.version>
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
     <jboss.logging.version>3.0.0.Beta3</jboss.logging.version>
     <jboss.security.spi.version>2.0.4.SP4</jboss.security.spi.version>
@@ -86,7 +86,7 @@
     <jms.api.version>1.0.0.Final</jms.api.version>
     <velocity.version>1.5</velocity.version>
     <xerces.version>2.9.1</xerces.version>
-    <xmlsec.version>1.4.3</xmlsec.version>
+    <xmlsec.version>1.4.4</xmlsec.version>
     <wstx.version>3.2.9</wstx.version>
     <spring.version>3.0.5.RELEASE</spring.version>
   </properties>

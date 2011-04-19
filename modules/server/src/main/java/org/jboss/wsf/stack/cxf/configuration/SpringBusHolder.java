@@ -33,7 +33,10 @@ import org.apache.cxf.bus.spring.BusApplicationContext;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.DestinationFactory;
-import org.apache.cxf.transport.servlet.ServletTransportFactory;
+import org.apache.cxf.transport.http.HTTPTransportFactory;
+import org.apache.cxf.transport.http.HttpDestinationFactory;
+import org.apache.cxf.transport.servlet.ServletDestinationFactory;
+//import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.apache.ws.security.WSSConfig;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.binding.BindingCustomization;
@@ -97,11 +100,14 @@ public class SpringBusHolder extends BusHolder
          }
       }
       //Force servlet transport to prevent CXF from using Jetty or other transports
-      DestinationFactory factory = new ServletTransportFactory(bus);
-      for (String s : factory.getTransportIds())
-      {
-         registerTransport(factory, s);
-      }
+      new HTTPTransportFactory(bus);
+      bus.setExtension(new ServletDestinationFactory(), HttpDestinationFactory.class);
+//      //Force servlet transport to prevent CXF from using Jetty or other transports
+//      DestinationFactory factory = new ServletTransportFactory(bus);
+//      for (String s : factory.getTransportIds())
+//      {
+//         registerTransport(factory, s);
+//      }
    }
 
    /**

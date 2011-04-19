@@ -30,6 +30,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.service.model.EndpointInfo;
+import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.transport.http_jaxws_spi.HttpHandlerImpl;
 import org.apache.cxf.transport.http_jaxws_spi.JAXWSHttpSpiDestination;
 import org.jboss.ws.httpserver_httpspi.HttpExchangeDelegate;
@@ -58,9 +59,9 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
    private HttpServerEngine engine;
    private URL url;
 
-   public HttpServerDestination(Bus b, HttpServerTransportFactory factory, EndpointInfo ei) throws IOException
+   public HttpServerDestination(Bus b, DestinationRegistry registry, HttpServerTransportFactory factory, EndpointInfo ei) throws IOException
    {
-      super(b, ei);
+      super(b, registry, ei);
       this.factory = factory;
       this.serverEngineFactory = factory.getServerEngineFactory();
       getAddressValue(ei, true); //generate address if not specified
@@ -73,12 +74,19 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
       return LOG;
    }
 
-   public void finalizeConfig() throws IOException
+   public void finalizeConfig()
    {
       engine = serverEngineFactory.retrieveHttpServerEngine(url.getPort());
       if (engine == null)
       {
-         engine = serverEngineFactory.createHttpServerEngine(url.getHost(), url.getPort(), url.getProtocol());
+         try
+         {
+            engine = serverEngineFactory.createHttpServerEngine(url.getHost(), url.getPort(), url.getProtocol());
+         }
+         catch (IOException e)
+         {
+            throw new RuntimeException(e);
+         }
       }
       if (!url.getProtocol().equals(engine.getProtocol()))
       {

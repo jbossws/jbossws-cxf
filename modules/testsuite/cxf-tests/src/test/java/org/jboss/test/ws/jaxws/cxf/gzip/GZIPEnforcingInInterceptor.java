@@ -28,7 +28,7 @@ import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.helpers.HttpHeaderHelper;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
-import org.apache.cxf.transport.http.gzip.GZIPInInterceptor;
+import org.apache.cxf.transport.common.gzip.GZIPInInterceptor;
 
 public class GZIPEnforcingInInterceptor extends GZIPInInterceptor
 {
