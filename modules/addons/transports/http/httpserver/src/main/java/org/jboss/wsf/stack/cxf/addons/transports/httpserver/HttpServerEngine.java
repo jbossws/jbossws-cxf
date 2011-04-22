@@ -131,7 +131,6 @@ public class HttpServerEngine
       }
       else
       {
-         System.out.println("******* " + factory + " ****** handlerCount="+handlerCount);
          LOG.log(Level.WARNING, "FAILED_TO_SHUTDOWN_ENGINE_MSG", port);
       }
    }
