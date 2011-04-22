@@ -140,7 +140,10 @@ public class HttpServerEngineFactory implements BusLifeCycleListener
       HttpServerEngine[] engines = portMap.values().toArray(new HttpServerEngine[0]);
       for (HttpServerEngine engine : engines)
       {
-         engine.shutdown();
+         if (engine.getBus() == getBus())
+         {
+            engine.shutdown();
+         }
       }
    }
 

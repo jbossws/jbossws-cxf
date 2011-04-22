@@ -54,16 +54,14 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
 
    private static final long serialVersionUID = 1L;
 
-   private HttpServerTransportFactory factory;
    private HttpServerEngineFactory serverEngineFactory;
    private HttpServerEngine engine;
    private URL url;
 
-   public HttpServerDestination(Bus b, DestinationRegistry registry, HttpServerTransportFactory factory, EndpointInfo ei) throws IOException
+   public HttpServerDestination(Bus b, DestinationRegistry registry, EndpointInfo ei) throws IOException
    {
       super(b, registry, ei);
-      this.factory = factory;
-      this.serverEngineFactory = factory.getServerEngineFactory();
+      this.serverEngineFactory = getServerEngineFactory();
       getAddressValue(ei, true); //generate address if not specified
       this.url = new URL(ei.getAddress());
    }
@@ -94,6 +92,19 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
                + engine.getProtocol() + "\" for \"" + url + "\"");
       }
    }
+   
+   protected HttpServerEngineFactory getServerEngineFactory()
+   {
+      HttpServerEngineFactory serverEngineFactory = getBus().getExtension(HttpServerEngineFactory.class);
+      // If it's not there, then create it and register it.
+      // Spring may override it later, but we need it here for default
+      // with no spring configuration.
+      if (serverEngineFactory == null)
+      {
+         serverEngineFactory = new HttpServerEngineFactory(bus);
+      }
+      return serverEngineFactory;
+   }
 
    /**
     * Activate receipt of incoming messages.
@@ -120,13 +131,6 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
    {
       LOG.log(Level.FINE, "Deactivating receipt of incoming messages");
       engine.removeHandler(endpointInfo.getAddress());
-   }
-
-   @Override
-   public void shutdown()
-   {
-      factory.removeDestination(endpointInfo);
-      super.shutdown();
    }
 
    class Handler extends HttpHandlerImpl implements HttpHandler
