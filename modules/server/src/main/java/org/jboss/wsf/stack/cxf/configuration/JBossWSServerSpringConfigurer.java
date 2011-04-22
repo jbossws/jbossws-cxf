@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.configuration.spring.ConfigurerImpl;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringConfigurer;
 import org.springframework.context.ApplicationContext;
 
@@ -33,8 +35,12 @@ import org.springframework.context.ApplicationContext;
  */
 public class JBossWSServerSpringConfigurer extends JBossWSSpringConfigurer
 {
-   public JBossWSServerSpringConfigurer(ApplicationContext ctx)
+   public JBossWSServerSpringConfigurer(Configurer delegate, ApplicationContext ctx)
    {
-      setApplicationContext(ctx);
+      super(delegate);
+      if (delegate instanceof ConfigurerImpl)
+      {
+         ((ConfigurerImpl)delegate).setApplicationContext(ctx);
+      }
    }
 }

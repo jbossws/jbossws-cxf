@@ -159,7 +159,7 @@ public class SpringBusHolder extends BusHolder
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
       customizer.setDeploymentEndpoints(depEndpoints);
-      JBossWSServerSpringConfigurer serverConfigurer = new JBossWSServerSpringConfigurer(ctx);
+      JBossWSServerSpringConfigurer serverConfigurer = new JBossWSServerSpringConfigurer(bus.getExtension(Configurer.class), ctx);
       serverConfigurer.setCustomizer(customizer);
       return serverConfigurer;
    }

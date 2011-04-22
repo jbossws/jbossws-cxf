@@ -21,30 +21,37 @@
  */
 package org.jboss.wsf.stack.cxf.client.configuration;
 
-import org.apache.cxf.configuration.spring.ConfigurerImpl;
+import org.apache.cxf.configuration.Configurer;
 
 /**
- * A CXF configurer (Spring based) that sets JBossWS stuff / customizations / properties etc. in CXF configurable beans
+ * A CXF delegate configurer that sets JBossWS stuff / customizations / properties etc. in CXF configurable beans
+ * (to be used for Spring based bus)
  *
  * @author alessio.soldano@jboss.com
  * @since 05-Oct-2009
  */
-public class JBossWSSpringConfigurer extends ConfigurerImpl implements JBossWSConfigurer
+public class JBossWSSpringConfigurer implements JBossWSConfigurer
 {
    private BeanCustomizer customizer;
+   private Configurer delegate;
+   
+   public JBossWSSpringConfigurer(Configurer delegate)
+   {
+      this.delegate = delegate;
+   }
 
    @Override
    public void configureBean(Object beanInstance)
    {
       customConfigure(beanInstance);
-      super.configureBean(beanInstance);
+      delegate.configureBean(beanInstance);
    }
 
    @Override
    public void configureBean(String name, Object beanInstance)
    {
       customConfigure(beanInstance);
-      super.configureBean(name, beanInstance);
+      delegate.configureBean(name, beanInstance);
    }
    
    protected synchronized void customConfigure(Object beanInstance)
