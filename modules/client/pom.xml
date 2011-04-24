@@ -282,7 +282,7 @@
                <customClasspathLayout>$${artifact.artifactId}.$${artifact.extension}</customClasspathLayout>
             </manifest>
             <manifestEntries>
-              <Class-Path>jaxws-api.jar jboss-logging.jar jboss-logging-spi.jar jboss-logging-log4j.jar jcl-over-slf4j.jar slf4j-api.jar slf4j-jboss-logging.jar stax-api.jar wstx.jar wstx-lgpl.jar</Class-Path>
+              <Class-Path>jbossws-common-tools.jar jaxws-api.jar jboss-logging.jar jboss-logging-spi.jar jboss-logging-log4j.jar jcl-over-slf4j.jar slf4j-api.jar slf4j-jboss-logging.jar stax-api.jar wstx.jar wstx-lgpl.jar</Class-Path>
             </manifestEntries>
           </archive>
         </configuration>
