@@ -42,6 +42,7 @@ import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.spring.handler.NamespaceHandlerResolver;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -159,7 +160,9 @@ public class SpringBusHolder extends BusHolder
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
       customizer.setDeploymentEndpoints(depEndpoints);
-      JBossWSServerSpringConfigurer serverConfigurer = new JBossWSServerSpringConfigurer(bus.getExtension(Configurer.class), ctx);
+      Configurer orig = bus.getExtension(Configurer.class);
+      JBossWSSpringConfigurer serverConfigurer = (orig instanceof JBossWSSpringConfigurer) ? (JBossWSSpringConfigurer)orig : new JBossWSSpringConfigurer(orig);
+      serverConfigurer.setApplicationContext(ctx);
       serverConfigurer.setCustomizer(customizer);
       return serverConfigurer;
    }

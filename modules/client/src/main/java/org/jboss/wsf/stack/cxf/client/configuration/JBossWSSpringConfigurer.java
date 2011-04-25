@@ -22,6 +22,11 @@
 package org.jboss.wsf.stack.cxf.client.configuration;
 
 import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.configuration.spring.ConfigurerImpl;
+import org.apache.cxf.extension.BusExtension;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 /**
  * A CXF delegate configurer that sets JBossWS stuff / customizations / properties etc. in CXF configurable beans
@@ -30,7 +35,7 @@ import org.apache.cxf.configuration.Configurer;
  * @author alessio.soldano@jboss.com
  * @since 05-Oct-2009
  */
-public class JBossWSSpringConfigurer implements JBossWSConfigurer
+public class JBossWSSpringConfigurer implements JBossWSConfigurer, ApplicationContextAware, BusExtension
 {
    private BeanCustomizer customizer;
    private Configurer delegate;
@@ -54,6 +59,14 @@ public class JBossWSSpringConfigurer implements JBossWSConfigurer
       delegate.configureBean(name, beanInstance);
    }
    
+   public void addApplicationContext(ApplicationContext ctx)
+   {
+      if (delegate instanceof ConfigurerImpl)
+      {
+         ((ConfigurerImpl)delegate).addApplicationContext(ctx);
+      }
+   }
+   
    protected synchronized void customConfigure(Object beanInstance)
    {
       if (customizer != null)
@@ -70,5 +83,24 @@ public class JBossWSSpringConfigurer implements JBossWSConfigurer
    public void setCustomizer(BeanCustomizer customizer)
    {
       this.customizer = customizer;
+   }
+
+   @Override
+   public Class<?> getRegistrationType()
+   {
+      if (delegate instanceof BusExtension)
+      {
+         return ((BusExtension)delegate).getRegistrationType();
+      }
+      throw new RuntimeException("Delegate is not a BusExtension instance: " + delegate);
+   }
+
+   @Override
+   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
+   {
+      if (delegate instanceof ApplicationContextAware)
+      {
+         ((ApplicationContextAware)delegate).setApplicationContext(applicationContext);
+      }
    }
 }
