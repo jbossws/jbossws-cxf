@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2009, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -24,9 +24,8 @@ package org.jboss.wsf.stack.cxf.transport;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.wsdl.Port;
-
 import org.apache.cxf.binding.soap.SoapTransportFactory;
+import org.apache.cxf.binding.soap.jms.interceptor.SoapJMSConstants;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
 import org.apache.cxf.service.model.BindingInfo;
 import org.apache.cxf.service.model.EndpointInfo;
@@ -50,22 +49,22 @@ import org.jboss.wsf.spi.management.ServerConfigFactory;
 public class SoapTransportFactoryExt extends SoapTransportFactory
 {
    private ServerConfig serverConfig;
-   
-   @SuppressWarnings("unchecked")
-   public EndpointInfo createEndpointInfo(ServiceInfo serviceInfo, BindingInfo b, Port port)
+
+   @Override
+   public EndpointInfo createEndpointInfo(ServiceInfo serviceInfo, BindingInfo b, List<?> ees)
    {
       String transportURI = "http://schemas.xmlsoap.org/wsdl/soap/";
       if (b instanceof SoapBindingInfo)
       {
-         SoapBindingInfo sbi = (SoapBindingInfo)b;
+         SoapBindingInfo sbi = (SoapBindingInfo) b;
          transportURI = sbi.getTransportURI();
       }
       ServerConfig config = getServerConfig();
       EndpointInfo info = new AddressRewritingEndpointInfo(serviceInfo, transportURI, config);
-      if (port != null)
+
+      if (ees != null)
       {
-         List ees = port.getExtensibilityElements();
-         for (Iterator itr = ees.iterator(); itr.hasNext();)
+         for (@SuppressWarnings("rawtypes")Iterator itr = ees.iterator(); itr.hasNext();)
          {
             Object extensor = itr.next();
 
@@ -75,6 +74,10 @@ public class SoapTransportFactoryExt extends SoapTransportFactory
 
                info.addExtensor(sa);
                info.setAddress(sa.getLocationURI());
+               if (isJMSSpecAddress(sa.getLocationURI()))
+               {
+                  info.setTransportId(SoapJMSConstants.SOAP_JMS_SPECIFICIATION_TRANSPORTID);
+               }
             }
             else
             {
@@ -82,9 +85,15 @@ public class SoapTransportFactoryExt extends SoapTransportFactory
             }
          }
       }
+
       return info;
    }
-   
+
+   private boolean isJMSSpecAddress(String address)
+   {
+      return address != null && address.startsWith("jms:") && !"jms://".equals(address);
+   }
+
    private ServerConfig getServerConfig()
    {
       if (serverConfig == null)

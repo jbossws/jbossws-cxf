@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -36,17 +36,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
-//import org.apache.cxf.BusFactory;
+import org.apache.cxf.frontend.WSDLGetInterceptor;
 import org.apache.cxf.service.model.EndpointInfo;
-//import org.apache.cxf.transport.Destination;
 import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.DestinationFactoryManager;
 import org.apache.cxf.transport.http.AbstractHTTPDestination;
 import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.transport.http.HTTPTransportFactory;
-//import org.apache.cxf.transport.http.HttpDestinationFactory;
-//import org.apache.cxf.transport.servlet.ServletController;
-//import org.apache.cxf.transport.servlet.ServletDestination;
 import org.apache.cxf.transports.http.QueryHandler;
 import org.apache.cxf.transports.http.QueryHandlerRegistry;
 import org.jboss.util.NotImplementedException;
@@ -78,12 +74,6 @@ public class RequestHandlerImpl implements RequestHandler
 
    public void handleHttpRequest(Endpoint ep, HttpServletRequest req, HttpServletResponse res, ServletContext context) throws ServletException, IOException
    {
-//      ServletControllerExt controller = (ServletControllerExt)context.getAttribute(ServletController.class.getName());
-//      if (controller == null)
-//         throw new IllegalStateException("Cannot obtain servlet controller");
-//
-//      controller.invoke(req, res, ep);
-      
       Bus bus = ep.getService().getDeployment().getAttachment(BusHolder.class).getBus();
       AbstractHTTPDestination dest = findDestination(req, bus);
       
@@ -207,10 +197,8 @@ public class RequestHandlerImpl implements RequestHandler
          String ctxUri = req.getRequestURI();
          String baseUri = req.getRequestURL().toString() + "?" + req.getQueryString();
          EndpointInfo endpointInfo = dest.getEndpointInfo();
-         if (ServerConfig.UNDEFINED_HOSTNAME.equals(serverConfig.getWebServiceHost()))
-         {
-            endpointInfo.setProperty("autoRewriteSoapAddress", true);
-         }
+         endpointInfo.setProperty(WSDLGetInterceptor.AUTO_REWRITE_ADDRESS,
+               ServerConfig.UNDEFINED_HOSTNAME.equals(serverConfig.getWebServiceHost()));
 
          for (QueryHandler queryHandler : bus.getExtension(QueryHandlerRegistry.class).getHandlers())
          {
