@@ -18,7 +18,7 @@
   <packaging>pom</packaging>
   <description>JBossWS CXF stack</description>
   
-  <version>4.0.0-SNAPSHOT</version>
+  <version>4.0.0.Alpha5-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
