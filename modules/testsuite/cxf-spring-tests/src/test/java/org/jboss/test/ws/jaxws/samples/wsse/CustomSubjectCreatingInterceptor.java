@@ -21,7 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse;
 
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingInterceptor;
 import org.picketbox.config.PicketBoxConfiguration;
 import org.picketbox.exceptions.ConfigurationStreamNullException;
@@ -39,7 +41,7 @@ public class CustomSubjectCreatingInterceptor extends SubjectCreatingInterceptor
    
    public CustomSubjectCreatingInterceptor()
    {
-      super(Collections.<String, Object> singletonMap("action", "UsernameToken"));
+      super(getInitMap());
    }
 
    public void setSecurityConfigFile(String configFilePath) 
@@ -62,5 +64,10 @@ public class CustomSubjectCreatingInterceptor extends SubjectCreatingInterceptor
       }
    }
 
-   
+   private static Map<String, Object> getInitMap()
+   {
+      Map<String, Object> map = new HashMap<String, Object>();
+      map.put("action", "UsernameToken");
+      return map;
+   }
 }

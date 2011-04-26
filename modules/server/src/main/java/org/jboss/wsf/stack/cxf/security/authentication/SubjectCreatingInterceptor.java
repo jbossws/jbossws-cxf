@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.security.auth.Subject;
@@ -69,7 +70,7 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
 
    public SubjectCreatingInterceptor()
    {
-      this(Collections.<String, Object> emptyMap());
+      this(new HashMap<String, Object>());
    }
 
    public SubjectCreatingInterceptor(Map<String, Object> properties)
