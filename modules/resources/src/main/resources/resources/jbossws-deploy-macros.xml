@@ -382,7 +382,7 @@
           <include name="**/neethi.jar"/>
         </fileset>
       </copy>
-      <copy todir="@{targetdir}/org/apache/ws/commons/xmlschema/main" flatten="false" overwrite="true">
+      <copy todir="@{targetdir}/org/apache/ws/xmlschema/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/xmlschema-core.jar"/>
         </fileset>
