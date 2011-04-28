@@ -31,6 +31,7 @@ import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.common.logging.LogUtils;
+import org.apache.cxf.configuration.Configurer;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
@@ -56,6 +57,11 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
       super(context);
    }
 
+   /**
+    * We override the Apache CXF method to skip the checks on cxf.xml conf file as that would prevent
+    * creating a Spring version of the bus when the jbossws-cxf.xml is available; generally speaking
+    * the JBossWS-CXF integration requires a Spring bus to be created by Spring bus factories.
+    */
    @Override
    public Bus createBus(String cfgFiles[], boolean includeDefaults)
    {
@@ -75,7 +81,7 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
    {
       try
       {
-         return finishCreatingBus(new JBossWSBusApplicationContext(urls, includeDefaults, getApplicationContext()));
+         return finishCreatingBus(new BusApplicationContext(urls, includeDefaults, getApplicationContext()));
       }
       catch (BeansException ex)
       {
@@ -89,6 +95,8 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
       final Bus bus = (Bus) bac.getBean(Bus.DEFAULT_BUS_ID);
 
       bus.setExtension(bac, BusApplicationContext.class);
+      
+      setConfigurer(bus);
 
       possiblySetDefaultBus(bus);
 
@@ -102,7 +110,7 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
    {
       try
       {
-         return new JBossWSBusApplicationContext(cfgFiles, includeDefaults, getApplicationContext());
+         return new BusApplicationContext(cfgFiles, includeDefaults, getApplicationContext());
       }
       catch (BeansException ex)
       {
@@ -113,7 +121,7 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
             Thread.currentThread().setContextClassLoader(BusApplicationContext.class.getClassLoader());
             try
             {
-               return new JBossWSBusApplicationContext(cfgFiles, includeDefaults, getApplicationContext());
+               return new BusApplicationContext(cfgFiles, includeDefaults, getApplicationContext());
             }
             finally
             {
@@ -125,6 +133,13 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
             throw ex;
          }
       }
+   }
+   
+   private void setConfigurer(Bus bus)
+   {
+      JBossWSSpringConfigurer configurer = new JBossWSSpringConfigurer(bus.getExtension(Configurer.class));
+      configurer.setCustomizer(new BeanCustomizer());
+      bus.setExtension(configurer, Configurer.class);
    }
 
    void registerAppContextLifeCycleListener(final Bus bus, final BusApplicationContext bac)

@@ -32,7 +32,25 @@ under the License.
       <generator name="ServiceGenerator" />
     </generators>
   </frontend>
+  <frontend name="jaxws21" package="org.apache.cxf.tools.wsdlto.frontend.jaxws" profile="JAXWSProfile">
+    <container name="JAXWS21Container" toolspec="jaxws-toolspec.xml" />
+    <processor name="WSDLToJavaProcessor" package="org.apache.cxf.tools.wsdlto.frontend.jaxws.processor" />
+    <builder name="JAXWSDefinitionBuilder" package="org.apache.cxf.tools.wsdlto.frontend.jaxws.wsdl11" />
+    <generators package="org.apache.cxf.tools.wsdlto.frontend.jaxws.generators">
+      <generator name="AntGenerator" />
+      <generator name="ClientGenerator" />
+      <generator name="FaultGenerator" />
+      <generator name="ImplGenerator" />
+      <generator name="SEIGenerator" />
+      <generator name="ServerGenerator" />
+      <generator name="JAXWS21ServiceGenerator" />
+    </generators>
+  </frontend>
   <databinding name="jaxb" package="org.apache.cxf.tools.wsdlto.databinding.jaxb" profile="JAXBDataBinding" />
   <databinding name="xmlbeans" package="org.apache.cxf.xmlbeans.tools" profile="XMLBeansToolingDataBinding" />
+  <databinding name="jibx" package="org.apache.cxf.jibx.tools" profile="JibxToolingDataBinding" />
+  <databinding name="sdo" package="org.apache.cxf.sdo.tools" profile="SDODatabinding" />
+  <databinding name="sdo-dynamic" package="org.apache.cxf.sdo.tools" profile="SDODatabinding" />
+  <databinding name="sdo-static" package="org.apache.cxf.sdo.tools" profile="SDODatabinding" />
 </plugin>
 

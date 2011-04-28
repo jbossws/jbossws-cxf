@@ -61,7 +61,7 @@
               <include>org.jboss.ws:jbossws-spi:jar</include>
               <include>org.apache.neethi:neethi:jar</include>
               <include>wsdl4j:wsdl4j:jar</include>
-              <include>org.apache.ws.commons.schema:XmlSchema:jar</include>
+              <include>org.apache.ws.xmlschema:xmlschema-core:jar</include>
               <include>com.sun.xml.fastinfoset:FastInfoset:jar</include>
               <include>org.apache.ws.security:wss4j:jar</include>
               <include>org.apache.santuario:xmlsec:jar</include>

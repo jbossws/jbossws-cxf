@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,22 +19,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.configuration;
+package org.jboss.wsf.stack.cxf.addons.transports.httpserver;
 
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringConfigurer;
-import org.springframework.context.ApplicationContext;
+import java.io.IOException;
+
+import org.apache.cxf.Bus;
+import org.apache.cxf.common.injection.NoJSR250Annotations;
+import org.apache.cxf.service.model.EndpointInfo;
+import org.apache.cxf.transport.http.AbstractHTTPDestination;
+import org.apache.cxf.transport.http.DestinationRegistry;
+import org.apache.cxf.transport.http.HttpDestinationFactory;
+
 
 /**
- * A JBossWS CXF Configurer (Spring based) to be used on server side
+ * Factory for HttpServerDestination
  * 
  * @author alessio.soldano@jboss.com
- * @author ema@redhat.com
- * @since 31-Mar-2010
+ * @since 22-Apr-2011
+ *
  */
-public class JBossWSServerSpringConfigurer extends JBossWSSpringConfigurer
+@NoJSR250Annotations()
+public class HttpServerDestinationFactory implements HttpDestinationFactory
 {
-   public JBossWSServerSpringConfigurer(ApplicationContext ctx)
+   @Override
+   public AbstractHTTPDestination createDestination(EndpointInfo endpointInfo, Bus bus, DestinationRegistry registry)
+         throws IOException
    {
-      setApplicationContext(ctx);
+      return new HttpServerDestination(bus, registry, endpointInfo);
    }
 }

@@ -49,6 +49,11 @@ public class RMCheckInterceptor extends AbstractPhaseInterceptor<Message>
    
    public void handleMessage(Message message) throws Fault
    {
+      String method = (String)message.get(Message.HTTP_REQUEST_METHOD);
+      if (!method.equals("POST"))
+      {
+         return;
+      }
       StringBuilder sb = new StringBuilder();
       InputStream is = message.getContent(InputStream.class);
       if (is != null)

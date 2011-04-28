@@ -30,6 +30,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.service.model.EndpointInfo;
+import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.transport.http_jaxws_spi.HttpHandlerImpl;
 import org.apache.cxf.transport.http_jaxws_spi.JAXWSHttpSpiDestination;
 import org.jboss.ws.httpserver_httpspi.HttpExchangeDelegate;
@@ -53,16 +54,14 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
 
    private static final long serialVersionUID = 1L;
 
-   private HttpServerTransportFactory factory;
    private HttpServerEngineFactory serverEngineFactory;
    private HttpServerEngine engine;
    private URL url;
 
-   public HttpServerDestination(Bus b, HttpServerTransportFactory factory, EndpointInfo ei) throws IOException
+   public HttpServerDestination(Bus b, DestinationRegistry registry, EndpointInfo ei) throws IOException
    {
-      super(b, ei);
-      this.factory = factory;
-      this.serverEngineFactory = factory.getServerEngineFactory();
+      super(b, registry, ei);
+      this.serverEngineFactory = getServerEngineFactory();
       getAddressValue(ei, true); //generate address if not specified
       this.url = new URL(ei.getAddress());
    }
@@ -73,18 +72,38 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
       return LOG;
    }
 
-   public void finalizeConfig() throws IOException
+   public void finalizeConfig()
    {
       engine = serverEngineFactory.retrieveHttpServerEngine(url.getPort());
       if (engine == null)
       {
-         engine = serverEngineFactory.createHttpServerEngine(url.getHost(), url.getPort(), url.getProtocol());
+         try
+         {
+            engine = serverEngineFactory.createHttpServerEngine(url.getHost(), url.getPort(), url.getProtocol());
+         }
+         catch (IOException e)
+         {
+            throw new RuntimeException(e);
+         }
       }
       if (!url.getProtocol().equals(engine.getProtocol()))
       {
          throw new IllegalStateException("Port " + engine.getPort() + " is configured with wrong protocol \""
                + engine.getProtocol() + "\" for \"" + url + "\"");
       }
+   }
+   
+   protected HttpServerEngineFactory getServerEngineFactory()
+   {
+      HttpServerEngineFactory serverEngineFactory = getBus().getExtension(HttpServerEngineFactory.class);
+      // If it's not there, then create it and register it.
+      // Spring may override it later, but we need it here for default
+      // with no spring configuration.
+      if (serverEngineFactory == null)
+      {
+         serverEngineFactory = new HttpServerEngineFactory(bus);
+      }
+      return serverEngineFactory;
    }
 
    /**
@@ -112,13 +131,6 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
    {
       LOG.log(Level.FINE, "Deactivating receipt of incoming messages");
       engine.removeHandler(endpointInfo.getAddress());
-   }
-
-   @Override
-   public void shutdown()
-   {
-      factory.removeDestination(endpointInfo);
-      super.shutdown();
    }
 
    class Handler extends HttpHandlerImpl implements HttpHandler

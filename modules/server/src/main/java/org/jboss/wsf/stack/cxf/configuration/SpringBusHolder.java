@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -32,13 +32,14 @@ import org.apache.cxf.binding.soap.SoapTransportFactory;
 import org.apache.cxf.bus.spring.BusApplicationContext;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.resource.ResourceResolver;
-import org.apache.cxf.transport.DestinationFactory;
-import org.apache.cxf.transport.servlet.ServletTransportFactory;
+import org.apache.cxf.transport.http.HttpDestinationFactory;
+import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.apache.ws.security.WSSConfig;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.spring.handler.NamespaceHandlerResolver;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -96,12 +97,8 @@ public class SpringBusHolder extends BusHolder
                log.trace("Could not load additional config from location: " + location, e);
          }
       }
-      //Force servlet transport to prevent CXF from using Jetty or other transports
-      DestinationFactory factory = new ServletTransportFactory(bus);
-      for (String s : factory.getTransportIds())
-      {
-         registerTransport(factory, s);
-      }
+      //Force servlet transport to prevent CXF from using Jetty / http server or other transports
+      bus.setExtension(new ServletDestinationFactory(), HttpDestinationFactory.class);
    }
 
    /**
@@ -160,7 +157,9 @@ public class SpringBusHolder extends BusHolder
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
       customizer.setDeploymentEndpoints(depEndpoints);
-      JBossWSServerSpringConfigurer serverConfigurer = new JBossWSServerSpringConfigurer(ctx);
+      Configurer orig = bus.getExtension(Configurer.class);
+      JBossWSSpringConfigurer serverConfigurer = (orig instanceof JBossWSSpringConfigurer) ? (JBossWSSpringConfigurer)orig : new JBossWSSpringConfigurer(orig);
+      serverConfigurer.setApplicationContext(ctx);
       serverConfigurer.setCustomizer(customizer);
       return serverConfigurer;
    }

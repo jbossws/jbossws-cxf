@@ -73,6 +73,7 @@ public class ServletHelper
 
       ServletContext context = servletConfig.getServletContext();
       String contextPath = context.getContextPath();
+      context.setAttribute(ServletConfig.class.getName(), servletConfig);
       return initServiceEndpoint(epRegistry, contextPath, servletName);
    }
 

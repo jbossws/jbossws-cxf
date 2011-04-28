@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -29,12 +29,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.resource.ResourceManager;
-import org.apache.cxf.transport.servlet.CXFNonSpringServlet;
+import org.apache.cxf.transport.servlet.AbstractHTTPServlet;
 import org.apache.cxf.transport.servlet.ServletContextResourceResolver;
-import org.apache.cxf.transport.servlet.ServletController;
-import org.apache.cxf.transport.servlet.ServletTransportFactory;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.ServletDelegate;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
@@ -47,19 +46,18 @@ import org.jboss.wsf.stack.cxf.transport.ServletHelper;
  * @since 16-Jun-2010
  *
  */
-public class CXFNonSpringServletExt extends CXFNonSpringServlet implements ServletDelegate
+public class CXFNonSpringServletExt extends AbstractHTTPServlet implements ServletDelegate
 {
    protected Endpoint endpoint;
+   protected Bus bus;
 
    @Override
-   public ServletController createServletController(ServletConfig servletConfig)
-   {
-      ServletTransportFactory stf = (ServletTransportFactory) createServletTransportFactory();
-      return new ServletControllerExt(stf, servletConfig, servletConfig.getServletContext(), bus);
+   public void init(ServletConfig sc) throws ServletException {
+       super.init(sc);
+       loadBus(sc);
    }
 
-   @Override
-   public void loadBus(ServletConfig servletConfig) throws ServletException
+   protected void loadBus(ServletConfig servletConfig) throws ServletException
    {
       //Init the Endpoint
       endpoint = ServletHelper.initEndpoint(servletConfig, getServletName());
@@ -69,7 +67,6 @@ public class CXFNonSpringServletExt extends CXFNonSpringServlet implements Servl
 
       //register the InstrumentManagementImpl
       ServletHelper.registerInstrumentManger(bus, getServletContext());
-      
    }
 
    private void updateAvailableBusWithServletInfo(ServletConfig servletConfig)
@@ -81,17 +78,12 @@ public class CXFNonSpringServletExt extends CXFNonSpringServlet implements Servl
       //update the resource manager adding the ServletContextResourceResolver that was to be added by CXF servlet
       ResourceManager resourceManager = bus.getExtension(ResourceManager.class);
       resourceManager.addResourceResolver(new ServletContextResourceResolver(servletConfig.getServletContext()));
-      replaceDestinationFactory();
-      //set up the ServletController as the CXF servlet would have done
-      controller = createServletController(servletConfig);
-      //set the controller in the servlet context now that the bus has been configured in the servlet
-      servletConfig.getServletContext().setAttribute(ServletController.class.getName(), getController());
    }
 
    @Override
    protected void invoke(HttpServletRequest req, HttpServletResponse res) throws ServletException
    {
-      ServletHelper.callRequestHandler(req, res, getServletContext(), getBus(), endpoint);
+      ServletHelper.callRequestHandler(req, res, getServletContext(), bus, endpoint);
    }
    
    @Override

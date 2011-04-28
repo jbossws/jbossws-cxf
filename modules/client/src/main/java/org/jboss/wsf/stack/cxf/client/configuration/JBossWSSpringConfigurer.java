@@ -21,30 +21,50 @@
  */
 package org.jboss.wsf.stack.cxf.client.configuration;
 
+import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.configuration.spring.ConfigurerImpl;
+import org.apache.cxf.extension.BusExtension;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 /**
- * A CXF configurer (Spring based) that sets JBossWS stuff / customizations / properties etc. in CXF configurable beans
+ * A CXF delegate configurer that sets JBossWS stuff / customizations / properties etc. in CXF configurable beans
+ * (to be used for Spring based bus)
  *
  * @author alessio.soldano@jboss.com
  * @since 05-Oct-2009
  */
-public class JBossWSSpringConfigurer extends ConfigurerImpl implements JBossWSConfigurer
+public class JBossWSSpringConfigurer implements JBossWSConfigurer, ApplicationContextAware, BusExtension
 {
    private BeanCustomizer customizer;
+   private Configurer delegate;
+   
+   public JBossWSSpringConfigurer(Configurer delegate)
+   {
+      this.delegate = delegate;
+   }
 
    @Override
    public void configureBean(Object beanInstance)
    {
       customConfigure(beanInstance);
-      super.configureBean(beanInstance);
+      delegate.configureBean(beanInstance);
    }
 
    @Override
    public void configureBean(String name, Object beanInstance)
    {
       customConfigure(beanInstance);
-      super.configureBean(name, beanInstance);
+      delegate.configureBean(name, beanInstance);
+   }
+   
+   public void addApplicationContext(ApplicationContext ctx)
+   {
+      if (delegate instanceof ConfigurerImpl)
+      {
+         ((ConfigurerImpl)delegate).addApplicationContext(ctx);
+      }
    }
    
    protected synchronized void customConfigure(Object beanInstance)
@@ -63,5 +83,24 @@ public class JBossWSSpringConfigurer extends ConfigurerImpl implements JBossWSCo
    public void setCustomizer(BeanCustomizer customizer)
    {
       this.customizer = customizer;
+   }
+
+   @Override
+   public Class<?> getRegistrationType()
+   {
+      if (delegate instanceof BusExtension)
+      {
+         return ((BusExtension)delegate).getRegistrationType();
+      }
+      throw new RuntimeException("Delegate is not a BusExtension instance: " + delegate);
+   }
+
+   @Override
+   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
+   {
+      if (delegate instanceof ApplicationContextAware)
+      {
+         ((ApplicationContextAware)delegate).setApplicationContext(applicationContext);
+      }
    }
 }

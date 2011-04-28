@@ -22,9 +22,10 @@
 package org.jboss.wsf.stack.cxf.spring.parser;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
 import org.apache.cxf.bus.spring.BusWiringBeanFactoryPostProcessor;
+import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.jaxws.spring.EndpointDefinitionParser;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -63,9 +64,13 @@ public class JaxwsEndpointDefinitionParser extends EndpointDefinitionParser
       {
          if (getBus() == null)
          {
-            Bus bus = BusFactory.getThreadDefaultBus();
-            BusWiringBeanFactoryPostProcessor.updateBusReferencesInContext(bus, ctx);
+            Bus bus = BusWiringBeanFactoryPostProcessor.addDefaultBus(ctx);
             setBus(bus);
+            Configurer configurer = bus.getExtension(Configurer.class);
+            if (configurer instanceof JBossWSSpringConfigurer)
+            {
+               ((JBossWSSpringConfigurer) configurer).addApplicationContext(ctx);
+            }
          }
       }
    }
