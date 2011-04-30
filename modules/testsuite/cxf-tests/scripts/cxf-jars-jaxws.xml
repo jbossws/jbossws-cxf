@@ -207,6 +207,84 @@
           dir="${tests.output.dir}/test-resources/jaxws/samples/wsrm/WEB-INF/wsdl" 
           prefix="WEB-INF/wsdl"/>
     </war>
+  	
+    <!-- jaxws-samples-wsse-policy-sign -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/Service*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/KeystorePasswordCallback.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign/WEB-INF">
+          <include name="jaxws-endpoint-config.xml"/>
+          <include name="wsdl/*"/>
+       </webinf>
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign/WEB-INF" prefix="WEB-INF/classes">
+          <include name="bob.jks" />
+          <include name="bob.properties" />
+       </zipfileset>
+       <manifest>
+        <attribute name="Dependencies" value="org.apache.ws.security"/>
+      </manifest>
+    </war>
+
+    <!-- jaxws-samples-wsse-policy-sign-client -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-client.jar">
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign/META-INF">
+        <include name="alice.properties" />
+        <include name="alice.jks" />
+      </metainf>
+    </jar>
+
+    <!-- jaxws-samples-wsse-policy-sign-encrypt -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-encrypt.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign-encrypt/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/Service*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/KeystorePasswordCallback.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign-encrypt/WEB-INF">
+          <include name="jaxws-endpoint-config.xml"/>
+          <include name="wsdl/*"/>
+       </webinf>
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign-encrypt/WEB-INF" prefix="WEB-INF/classes">
+          <include name="bob.jks" />
+          <include name="bob.properties" />
+       </zipfileset>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.ws.security"/>
+       </manifest>
+    </war>
+
+    <!-- jaxws-samples-wsse-policy-sign-encrypt-client -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-encrypt-client.jar">
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign-encrypt/META-INF">
+        <include name="alice.properties" />
+        <include name="alice.jks" />
+      </metainf>
+    </jar>
+
+    <!-- jaxws-samples-wsse-policy-username -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/username/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/Service*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/ServerUsernamePasswordCallback.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/username/WEB-INF">
+          <include name="jaxws-endpoint-config.xml"/>
+          <include name="wsdl/*"/>
+       </webinf>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.ws.security"/>
+       </manifest>
+    </war>
 
     <!-- saaj-soap-connection -->
     <war
