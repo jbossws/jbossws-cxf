@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.metadata;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
@@ -35,10 +37,14 @@ import javax.xml.ws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
 import org.jboss.wsf.common.JavaUtils;
+import org.jboss.wsf.spi.annotation.EndpointConfig;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
+import org.jboss.wsf.spi.metadata.config.ConfigRoot;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
@@ -145,26 +151,7 @@ public class MetadataBuilder
                   UnifiedHandlerChainsMetaData chainWrapper = portComp.getHandlerChains();
                   if (chainWrapper != null)
                   {
-                     List<String> handlers = new LinkedList<String>();
-                     for (UnifiedHandlerChainMetaData handlerChain : chainWrapper.getHandlerChains())
-                     {
-                        if (handlerChain.getPortNamePattern() != null || handlerChain.getProtocolBindings() != null
-                              || handlerChain.getServiceNamePattern() != null)
-                        {
-                           log.warn("PortNamePattern, ServiceNamePattern and ProtocolBindings filters not supported; adding handlers anyway.");
-                        }
-                        for (UnifiedHandlerMetaData uhmd : handlerChain.getHandlers())
-                        {
-                           if (log.isDebugEnabled())
-                              log.debug("Contribute handler from webservices.xml: " + uhmd.getHandlerName());
-                           if (uhmd.getInitParams() != null && !uhmd.getInitParams().isEmpty())
-                           {
-                              log.warn("Init params not supported.");
-                           }
-                           handlers.add(uhmd.getHandlerClass());
-                        }
-                     }
-                     endpoint.setHandlers(handlers);
+                     endpoint.setHandlers(convertEndpointHandlers(chainWrapper.getHandlerChains()));
                   }
 
                   // MTOM settings
@@ -203,6 +190,33 @@ public class MetadataBuilder
       }
    }
    
+   private List<String> convertEndpointHandlers(List<UnifiedHandlerChainMetaData> handlerChains)
+   {
+      List<String> handlers = new LinkedList<String>();
+      if (handlerChains != null)
+      {
+         for (UnifiedHandlerChainMetaData handlerChain : handlerChains)
+         {
+            if (handlerChain.getPortNamePattern() != null || handlerChain.getProtocolBindings() != null
+                  || handlerChain.getServiceNamePattern() != null)
+            {
+               log.warn("PortNamePattern, ServiceNamePattern and ProtocolBindings filters not supported; adding handlers anyway.");
+            }
+            for (UnifiedHandlerMetaData uhmd : handlerChain.getHandlers())
+            {
+               if (log.isDebugEnabled())
+                  log.debug("Contribute handler from webservices.xml: " + uhmd.getHandlerName());
+               if (uhmd.getInitParams() != null && !uhmd.getInitParams().isEmpty())
+               {
+                  log.warn("Init params not supported.");
+               }
+               handlers.add(uhmd.getHandlerClass());
+            }
+         }
+      }
+      return handlers;
+   }
+   
    protected DDEndpoint createDDEndpoint(Class<?> sepClass, ArchiveDeployment dep, Endpoint ep)
    {
       WebService anWebService = sepClass.getAnnotation(WebService.class);
@@ -226,6 +240,8 @@ public class MetadataBuilder
       String portName = (anWebService != null) ? anWebService.portName() : anWebServiceProvider.portName();
       if (portName.length() == 0)
          portName = name + "Port";
+      
+      EndpointConfig epConfig = sepClass.getAnnotation(EndpointConfig.class);
 
       if (anWebService != null && anWebService.endpointInterface().length() > 0)
       {
@@ -250,8 +266,12 @@ public class MetadataBuilder
          if (seiAnnotation.portName().length() > 0 || seiAnnotation.serviceName().length() > 0 || seiAnnotation.endpointInterface().length() > 0)
             throw new RuntimeException("@WebService cannot have attribute 'portName', 'serviceName', 'endpointInterface' on: " + seiName);
 
+         if (epConfig == null)
+         {
+            epConfig = seiClass.getAnnotation(EndpointConfig.class);
+         }
       }
-
+      
       DDEndpoint result = new DDEndpoint();
       
       result.setId(ep.getShortName());
@@ -261,15 +281,46 @@ public class MetadataBuilder
       result.setEpClass(seiClass != null ? seiClass : sepClass);
       result.setPortName(new QName(serviceNS, portName));
       result.setServiceName(new QName(serviceNS, serviceName));
+      if (epConfig != null)
+      {
+         configureEndpoint(dep, result, epConfig.configFile(), epConfig.configName());
+      }
 
       return result;
    }
    
-   
+   /**
+    * Configures the endpoint definition according to the specified jaxws configuration
+    * (provided through @EndpointConfig annotation). The specified config file is looked
+    * for in the deployment. If it's not found, the specified config is searched in the
+    * global server endpoint configurations.
+    * 
+    * @param ep
+    * @param configFile
+    * @param configName
+    */
+   private void configureEndpoint(ArchiveDeployment dep, DDEndpoint ep, String configFile, String configName)
+   {
+      UnifiedVirtualFile vf = null;
+      try
+      {
+         vf = dep.getRootFile().findChild(configFile);
+         ConfigRoot config = ConfigMetaDataParser.parse(vf.toURL());
+         org.jboss.wsf.spi.metadata.config.EndpointConfig epConfig = config.getEndpointConfigByName(configName);
+         ep.setPreHandlers(convertEndpointHandlers(epConfig.getPreHandlerChains()));
+         ep.setPostHandlers(convertEndpointHandlers(epConfig.getPostHandlerChains()));
+         ep.setProperties(epConfig.getProperties());
+      }
+      catch (IOException e)
+      {
+         throw new RuntimeException("Could not find " + configFile);
+      }
+      //TODO!! use default endpoint configuration as a fallback
+   }
    
    /**
     * Extracts the typeNS given the package name
-    * Algorithm is based on the one specified in JAWS v2.0 spec
+    * Algorithm is based on the one specified in JAXWS v2.0 spec
     */
    private static String getTypeNamespace(String packageName)
    {

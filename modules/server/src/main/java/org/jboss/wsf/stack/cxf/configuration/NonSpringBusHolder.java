@@ -21,8 +21,10 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.SOAPBinding;
@@ -94,6 +96,12 @@ public class NonSpringBusHolder extends BusHolder
          endpoint.setServiceName(dde.getServiceName());
          endpoint.setWsdlLocation(dde.getWsdlLocation());
          setHandlers(endpoint, dde.getHandlers());
+         if (dde.getProperties() != null)
+         {
+            Map<String, Object> props = new HashMap<String, Object>();
+            props.putAll(dde.getProperties());
+            endpoint.setProperties(props);
+         }
          if (dde.isAddressingEnabled()) 
          {
             WSAddressingFeature addressingFeature = new WSAddressingFeature();

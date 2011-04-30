@@ -24,6 +24,7 @@ package org.jboss.wsf.stack.cxf.metadata.services;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -58,10 +59,18 @@ public class DDEndpoint
    private boolean respectBindingEnabled;
    
    private String wsdlLocation;
+   
    private QName portName;
+   
    private QName serviceName;
    
    private List<String> handlers;
+   
+   private List<String> preHandlers;
+   
+   private List<String> postHandlers;
+   
+   private Map<String, String> properties;
    
    //additional fields
    private Class<?> epClass;
@@ -148,6 +157,16 @@ public class DDEndpoint
       return handlers;
    }
 
+   public List<String> getPreHandlers()
+   {
+      return preHandlers;
+   }
+
+   public List<String> getPostHandlers()
+   {
+      return postHandlers;
+   }
+
    public boolean isMtomEnabled()
    {
       return mtomEnabled;
@@ -161,6 +180,16 @@ public class DDEndpoint
    public void setHandlers(List<String> handlers)
    {
       this.handlers = handlers;
+   }
+
+   public void setPreHandlers(List<String> preHandlers)
+   {
+      this.preHandlers = preHandlers;
+   }
+
+   public void setPostHandlers(List<String> postHandlers)
+   {
+      this.postHandlers = postHandlers;
    }
 
    public void setMtomEnabled(boolean mtomEnabled)
@@ -211,6 +240,15 @@ public class DDEndpoint
       return this.addressingResponses;
    }
    
+   public Map<String, String> getProperties()
+   {
+      return properties;
+   }
+
+   public void setProperties(Map<String, String> properties)
+   {
+      this.properties = properties;
+   }   
    
    public void writeTo(Writer writer) throws IOException
    {
@@ -270,11 +308,33 @@ public class DDEndpoint
       if (this.handlers != null && !this.handlers.isEmpty())
       {
          writer.write("<jaxws:handlers>");
+         for (String handler : this.preHandlers)
+         {
+            writer.write("<bean class='" + handler + "'/>");
+         }
          for (String handler : this.handlers)
          {
             writer.write("<bean class='" + handler + "'/>");
          }
+         for (String handler : this.postHandlers)
+         {
+            writer.write("<bean class='" + handler + "'/>");
+         }
          writer.write("</jaxws:handlers>");
+      }
+      
+      if (this.properties != null && !this.properties.isEmpty())
+      {
+         writer.write("<jaxws:properties>");
+         for (String key : this.properties.keySet())
+         {
+            String value = this.properties.get(key);
+            if (value != null)
+            {
+               writer.write("<entry key='" + key + "' value='" + value + "'/>");
+            }
+         }
+         writer.write("</jaxws:properties>");
       }
 
       writer.write("</jaxws:endpoint>");

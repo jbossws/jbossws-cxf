@@ -146,11 +146,6 @@ public abstract class BusHolder
       }
    }
 
-   protected void registerTransport(DestinationFactory factory, String namespace)
-   {
-      bus.getExtension(DestinationFactoryManager.class).registerDestinationFactory(namespace, factory);
-   }
-
    /**
     * Return the hold bus
     * 
