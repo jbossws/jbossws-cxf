@@ -95,7 +95,7 @@ public class NonSpringBusHolder extends BusHolder
          endpoint.setEndpointName(dde.getPortName());
          endpoint.setServiceName(dde.getServiceName());
          endpoint.setWsdlLocation(dde.getWsdlLocation());
-         setHandlers(endpoint, dde.getHandlers());
+         setHandlers(endpoint, dde);
          if (dde.getProperties() != null)
          {
             Map<String, Object> props = new HashMap<String, Object>();
@@ -121,14 +121,27 @@ public class NonSpringBusHolder extends BusHolder
    }
    
    @SuppressWarnings("rawtypes")
-   private static void setHandlers(EndpointImpl endpoint, List<String> handlers)
+   private static void setHandlers(EndpointImpl endpoint, DDEndpoint dde)
    {
-      if (handlers != null && !handlers.isEmpty())
+      List<String> handlers = new LinkedList<String>();
+      if (dde.getPreHandlers() != null)
+      {
+         handlers.addAll(dde.getPreHandlers());
+      }
+      if (dde.getHandlers() != null)
+      {
+         handlers.addAll(dde.getHandlers());
+      }
+      if (dde.getPostHandlers() != null)
+      {
+         handlers.addAll(dde.getPostHandlers());
+      }
+      if (!handlers.isEmpty())
       {
          List<Handler> handlerInstances = new LinkedList<Handler>();
          for (String handler : handlers)
          {
-            handlerInstances.add((Handler)newInstance(handler));
+            handlerInstances.add((Handler) newInstance(handler));
          }
          endpoint.setHandlers(handlerInstances);
       }

@@ -308,17 +308,26 @@ public class DDEndpoint
       if (this.handlers != null && !this.handlers.isEmpty())
       {
          writer.write("<jaxws:handlers>");
-         for (String handler : this.preHandlers)
+         if (this.preHandlers != null)
          {
-            writer.write("<bean class='" + handler + "'/>");
+            for (String handler : this.preHandlers)
+            {
+               writer.write("<bean class='" + handler + "'/>");
+            }
          }
-         for (String handler : this.handlers)
+         if (this.handlers != null)
          {
-            writer.write("<bean class='" + handler + "'/>");
+            for (String handler : this.handlers)
+            {
+               writer.write("<bean class='" + handler + "'/>");
+            }
          }
-         for (String handler : this.postHandlers)
+         if (this.postHandlers != null)
          {
-            writer.write("<bean class='" + handler + "'/>");
+            for (String handler : this.postHandlers)
+            {
+               writer.write("<bean class='" + handler + "'/>");
+            }
          }
          writer.write("</jaxws:handlers>");
       }
