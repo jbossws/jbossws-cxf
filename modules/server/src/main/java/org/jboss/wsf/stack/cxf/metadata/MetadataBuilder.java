@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,7 +22,6 @@
 package org.jboss.wsf.stack.cxf.metadata;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
@@ -315,7 +314,7 @@ public class MetadataBuilder
       {
          throw new RuntimeException("Could not find " + configFile);
       }
-      //TODO!! use default endpoint configuration as a fallback
+      //TODO [JBWS-3286] use default endpoint configuration as a fallback
    }
    
    /**
