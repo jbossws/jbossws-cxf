@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -91,7 +91,7 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
             {
                holder = new SpringBusHolder(cxfServletURL, deploymentResolver.resolve(jbosswsCxfXml));
                Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
-                     new WSDLFilePublisher(aDep), dep.getService().getEndpoints());
+                     new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile());
                holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
             }
             catch (Exception e)
@@ -105,7 +105,7 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
             DDBeans metadata = dep.getAttachment(DDBeans.class);
             holder = new NonSpringBusHolder(metadata);
             Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
-                  new WSDLFilePublisher(aDep), dep.getService().getEndpoints());
+                  new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile());
             holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
          }
          dep.addAttachment(BusHolder.class, holder);

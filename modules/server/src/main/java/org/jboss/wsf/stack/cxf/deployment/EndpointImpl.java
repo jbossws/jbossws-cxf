@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,8 +22,13 @@
 package org.jboss.wsf.stack.cxf.deployment;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
+import javax.xml.ws.handler.Handler;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
@@ -32,6 +37,9 @@ import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
 import org.apache.cxf.service.Service;
 import org.jboss.logging.Logger;
+import org.jboss.wsf.spi.metadata.config.CommonConfig;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
 
 /**
  * An extension of @see org.apache.cxf.jaxws.EndpointImpl for dealing with
@@ -44,6 +52,7 @@ import org.jboss.logging.Logger;
 public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
 {
    private WSDLFilePublisher wsdlPublisher;
+   private CommonConfig config;
 
    public EndpointImpl(Object implementor)
    {
@@ -62,8 +71,140 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
       super.doPublish(addr);
       //allow for configuration so that the wsdlPublisher can be set be the JBossWSCXFConfigurer
       configureObject(this);
+      sortConfigHandlers();
       //publish the wsdl to data/wsdl
       publishContractToFilesystem();
+   }
+
+   /**
+    * Sets the JAXWS endpoint config for the current endpoint. This is called by configurer when
+    * org.apache.cxf.jaxws.EndpointImpl#getServer(..) executes 'configureObject(this)'
+    * 
+    */
+   public void setEndpointConfig(CommonConfig config)
+   {
+      if (this.config == null)
+      {
+         this.config = config;
+         //setup using provided configuration
+         Map<String, String> epConfProps = config.getProperties();
+         if (!epConfProps.isEmpty())
+         {
+            if (getProperties() == null)
+            {
+               Map<String, Object> props = new HashMap<String, Object>();
+               props.putAll(epConfProps);
+               setProperties(props);
+            }
+            else
+            {
+               getProperties().putAll(epConfProps);
+            }
+         }
+         @SuppressWarnings("rawtypes")
+         List<Handler> handlers = convertToHandlers(config.getPreHandlerChains());
+         handlers.addAll(convertToHandlers(config.getPostHandlerChains()));
+         if (!handlers.isEmpty())
+         {
+            if (getHandlers() != null)
+            {
+               handlers.addAll(getHandlers());
+            }
+            setHandlers(handlers);
+         }
+      }
+   }
+   
+   @SuppressWarnings("rawtypes")
+   protected List<Handler> convertToHandlers(List<UnifiedHandlerChainMetaData> handlerChains)
+   {
+      List<Handler> handlers = new LinkedList<Handler>();
+      if (handlerChains != null && !handlerChains.isEmpty())
+      {
+         for (UnifiedHandlerChainMetaData handlerChain : handlerChains)
+         {
+            if (handlerChain.getPortNamePattern() != null || handlerChain.getProtocolBindings() != null
+                  || handlerChain.getServiceNamePattern() != null)
+            {
+               Logger.getLogger(this.getClass()).warn("PortNamePattern, ServiceNamePattern and ProtocolBindings filters not supported; adding handlers anyway.");
+            }
+            for (UnifiedHandlerMetaData uhmd : handlerChain.getHandlers())
+            {
+               if (uhmd.getInitParams() != null && !uhmd.getInitParams().isEmpty())
+               {
+                  Logger.getLogger(this.getClass()).warn("Init params not supported.");
+               }
+               Object h = newInstance(uhmd.getHandlerClass());
+               if (h instanceof Handler)
+               {
+                  handlers.add((Handler)h);
+               }
+               else
+               {
+                  throw new RuntimeException(h + " is not a JAX-WS Handler instance!");
+               }
+            }
+         }
+      }
+      return handlers;
+   }
+   
+   private static Object newInstance(String className)
+   {
+      try
+      {
+         Class<?> clazz = SecurityActions.getContextClassLoader().loadClass(className);
+         return clazz.newInstance();
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
+   }
+   
+   /**
+    * JBWS-3282: sort handlers -> [PRE][ENDPOINT][POST]
+    * This is required after endpoint.doPublish() as that processes @HandlerChain
+    * and adds endpoint handlers after those specified before publishing
+    * (including post ones, if any).
+    */
+   @SuppressWarnings("rawtypes")
+   protected void sortConfigHandlers()
+   {
+      if (config != null)
+      {
+         //we need to move POST handlers to the end of the list
+         if (config.getPostHandlerChains() != null)
+         {
+            List<String> postHandlerNames = new LinkedList<String>();
+            for (UnifiedHandlerChainMetaData uhcm : config.getPostHandlerChains())
+            {
+               for (UnifiedHandlerMetaData uhm : uhcm.getHandlers())
+               {
+                  postHandlerNames.add(uhm.getHandlerClass());
+               }
+            }
+            if (!postHandlerNames.isEmpty())
+            {
+               List<Handler> newHandlers = new LinkedList<Handler>();
+               List<Handler> postHandlers = new LinkedList<Handler>();
+               List<Handler> handlers = getBinding().getHandlerChain();
+               for (Handler h : handlers)
+               {
+                  if (postHandlerNames.contains(h.getClass().getName()))
+                  {
+                     postHandlers.add(h);
+                  }
+                  else
+                  {
+                     newHandlers.add(h);
+                  }
+               }
+               newHandlers.addAll(postHandlers);
+               getBinding().setHandlerChain(newHandlers);
+            }
+         }
+      }
    }
 
    /**
@@ -102,7 +243,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
          configurer.configureBean(instance);
       }
    }
-   
+
    @Override
    public String getBeanName()
    {

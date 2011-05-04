@@ -66,10 +66,6 @@ public class DDEndpoint
    
    private List<String> handlers;
    
-   private List<String> preHandlers;
-   
-   private List<String> postHandlers;
-   
    private Map<String, String> properties;
    
    //additional fields
@@ -157,16 +153,6 @@ public class DDEndpoint
       return handlers;
    }
 
-   public List<String> getPreHandlers()
-   {
-      return preHandlers;
-   }
-
-   public List<String> getPostHandlers()
-   {
-      return postHandlers;
-   }
-
    public boolean isMtomEnabled()
    {
       return mtomEnabled;
@@ -180,16 +166,6 @@ public class DDEndpoint
    public void setHandlers(List<String> handlers)
    {
       this.handlers = handlers;
-   }
-
-   public void setPreHandlers(List<String> preHandlers)
-   {
-      this.preHandlers = preHandlers;
-   }
-
-   public void setPostHandlers(List<String> postHandlers)
-   {
-      this.postHandlers = postHandlers;
    }
 
    public void setMtomEnabled(boolean mtomEnabled)
@@ -308,26 +284,9 @@ public class DDEndpoint
       if (this.handlers != null && !this.handlers.isEmpty())
       {
          writer.write("<jaxws:handlers>");
-         if (this.preHandlers != null)
+         for (String handler : this.handlers)
          {
-            for (String handler : this.preHandlers)
-            {
-               writer.write("<bean class='" + handler + "'/>");
-            }
-         }
-         if (this.handlers != null)
-         {
-            for (String handler : this.handlers)
-            {
-               writer.write("<bean class='" + handler + "'/>");
-            }
-         }
-         if (this.postHandlers != null)
-         {
-            for (String handler : this.postHandlers)
-            {
-               writer.write("<bean class='" + handler + "'/>");
-            }
+            writer.write("<bean class='" + handler + "'/>");
          }
          writer.write("</jaxws:handlers>");
       }

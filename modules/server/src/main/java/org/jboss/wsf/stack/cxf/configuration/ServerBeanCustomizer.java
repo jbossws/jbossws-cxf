@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,10 +21,15 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
+import org.jboss.wsf.spi.annotation.EndpointConfig;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
+import org.jboss.wsf.spi.metadata.config.ConfigRoot;
 import org.jboss.wsf.stack.cxf.AbstractInvoker;
 import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
@@ -40,7 +45,9 @@ public class ServerBeanCustomizer extends BeanCustomizer
    private WSDLFilePublisher wsdlPublisher;
 
    private List<Endpoint> depEndpoints;
-
+   
+   private UnifiedVirtualFile deploymentRoot;
+   
    @SuppressWarnings("unchecked")
    @Override
    public void customize(Object beanInstance)
@@ -78,6 +85,32 @@ public class ServerBeanCustomizer extends BeanCustomizer
       {
          endpoint.setWsdlPublisher(wsdlPublisher);
       }
+      //Configure according to the specified jaxws endpoint configuration
+      if (!endpoint.isPublished()) //before publishing, we set the jaxws conf
+      {
+         Object implementor = endpoint.getImplementor();
+         EndpointConfig epConfig = implementor.getClass().getAnnotation(EndpointConfig.class);
+         if (epConfig != null)
+         {
+            String configFile = epConfig.configFile();
+            try
+            {
+               UnifiedVirtualFile vf = deploymentRoot.findChild(configFile);
+               ConfigRoot config = ConfigMetaDataParser.parse(vf.toURL());
+               endpoint.setEndpointConfig(config.getEndpointConfigByName(epConfig.configName()));
+            }
+            catch (IOException e)
+            {
+               throw new RuntimeException("Could not find " + configFile);
+            }
+            //TODO [JBWS-3286] use default endpoint configuration as a fallback
+         }
+      }
+   }
+   
+   public void setDeploymentRoot(UnifiedVirtualFile deploymentRoot)
+   {
+      this.deploymentRoot = deploymentRoot;
    }
 
    public void setWsdlPublisher(WSDLFilePublisher wsdlPublisher)
@@ -89,5 +122,4 @@ public class ServerBeanCustomizer extends BeanCustomizer
    {
       this.depEndpoints = endpoints;
    }
-
 }

@@ -37,6 +37,7 @@ import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
 import org.jboss.ws.Constants;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.interceptor.EnableOneWayDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
@@ -117,7 +118,7 @@ public abstract class BusHolder
     * @return                 The new jbossws cxf configurer
     */
    public abstract Configurer createServerConfigurer(BindingCustomization customization,
-         WSDLFilePublisher wsdlPublisher, List<Endpoint> depEndpoints);
+         WSDLFilePublisher wsdlPublisher, List<Endpoint> depEndpoints, UnifiedVirtualFile root);
    
    protected static void setInterceptors(Bus bus)
    {

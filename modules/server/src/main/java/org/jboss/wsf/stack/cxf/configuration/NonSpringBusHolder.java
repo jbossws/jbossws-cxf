@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -39,6 +39,7 @@ import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.rm.RMManager;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringBusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
@@ -123,20 +124,8 @@ public class NonSpringBusHolder extends BusHolder
    @SuppressWarnings("rawtypes")
    private static void setHandlers(EndpointImpl endpoint, DDEndpoint dde)
    {
-      List<String> handlers = new LinkedList<String>();
-      if (dde.getPreHandlers() != null)
-      {
-         handlers.addAll(dde.getPreHandlers());
-      }
-      if (dde.getHandlers() != null)
-      {
-         handlers.addAll(dde.getHandlers());
-      }
-      if (dde.getPostHandlers() != null)
-      {
-         handlers.addAll(dde.getPostHandlers());
-      }
-      if (!handlers.isEmpty())
+      List<String> handlers = dde.getHandlers();
+      if (handlers != null && !handlers.isEmpty())
       {
          List<Handler> handlerInstances = new LinkedList<Handler>();
          for (String handler : handlers)
@@ -173,7 +162,7 @@ public class NonSpringBusHolder extends BusHolder
    {
       try
       {
-         Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
+         Class<?> clazz = SecurityActions.getContextClassLoader().loadClass(className);
          return clazz.newInstance();
       }
       catch (Exception e)
@@ -184,12 +173,13 @@ public class NonSpringBusHolder extends BusHolder
 
    @Override
    public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
-         List<Endpoint> depEndpoints)
+         List<Endpoint> depEndpoints, UnifiedVirtualFile root)
    {
       ServerBeanCustomizer customizer = new ServerBeanCustomizer();
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
       customizer.setDeploymentEndpoints(depEndpoints);
+      customizer.setDeploymentRoot(root);
       return new JBossWSNonSpringConfigurer(customizer);
    }
 

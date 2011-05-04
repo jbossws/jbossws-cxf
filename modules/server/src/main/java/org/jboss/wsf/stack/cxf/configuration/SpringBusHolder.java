@@ -38,6 +38,7 @@ import org.apache.ws.security.WSSConfig;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
@@ -59,7 +60,7 @@ public class SpringBusHolder extends BusHolder
    private static final Logger log = Logger.getLogger(BusHolder.class);
 
    private boolean configured = false;
-
+   
    protected BusApplicationContext ctx;
 
    protected List<GenericApplicationContext> additionalCtx = new LinkedList<GenericApplicationContext>();
@@ -150,13 +151,14 @@ public class SpringBusHolder extends BusHolder
 
    @Override
    public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
-         List<Endpoint> depEndpoints)
+         List<Endpoint> depEndpoints, UnifiedVirtualFile root)
    {
       ApplicationContext ctx = bus.getExtension(BusApplicationContext.class);
       ServerBeanCustomizer customizer = new ServerBeanCustomizer();
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
       customizer.setDeploymentEndpoints(depEndpoints);
+      customizer.setDeploymentRoot(root);
       Configurer orig = bus.getExtension(Configurer.class);
       JBossWSSpringConfigurer serverConfigurer = (orig instanceof JBossWSSpringConfigurer) ? (JBossWSSpringConfigurer)orig : new JBossWSSpringConfigurer(orig);
       serverConfigurer.setApplicationContext(ctx);
