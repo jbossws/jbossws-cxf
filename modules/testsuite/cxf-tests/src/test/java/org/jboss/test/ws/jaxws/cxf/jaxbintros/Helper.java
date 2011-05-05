@@ -30,8 +30,8 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.Configurer;
 import org.jboss.jaxb.intros.BindingCustomizationFactory;
-import org.jboss.wsf.spi.binding.BindingCustomization;
-import org.jboss.wsf.spi.binding.JAXBBindingCustomization;
+import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.ws.api.binding.JAXBBindingCustomization;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSConfigurer;
 import org.jboss.wsf.test.ClientHelper;
 

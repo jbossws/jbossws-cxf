@@ -29,9 +29,9 @@ import javax.xml.ws.spi.Provider;
 
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.Configurer;
+import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.wsf.common.integration.AbstractDeploymentAspect;
 import org.jboss.wsf.common.integration.WSConstants;
-import org.jboss.wsf.spi.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.ResourceResolver;

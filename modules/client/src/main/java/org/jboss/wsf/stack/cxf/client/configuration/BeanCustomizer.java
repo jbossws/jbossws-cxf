@@ -28,8 +28,8 @@ import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.apache.cxf.jaxb.JAXBDataBinding;
 import org.apache.cxf.service.factory.ReflectionServiceFactoryBean;
 import org.apache.cxf.transport.http.HTTPConduit;
-import org.jboss.wsf.spi.binding.BindingCustomization;
-import org.jboss.wsf.spi.binding.JAXBBindingCustomization;
+import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.ws.api.binding.JAXBBindingCustomization;
 
 /**
  * 

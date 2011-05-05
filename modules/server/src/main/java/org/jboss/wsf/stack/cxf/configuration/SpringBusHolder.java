@@ -36,7 +36,7 @@ import org.apache.cxf.transport.http.HttpDestinationFactory;
 import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.apache.ws.security.WSSConfig;
 import org.jboss.logging.Logger;
-import org.jboss.wsf.spi.binding.BindingCustomization;
+import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;

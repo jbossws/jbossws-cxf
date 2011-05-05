@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
-import org.jboss.wsf.spi.annotation.EndpointConfig;
+import org.jboss.ws.api.annotation.EndpointConfig;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
