@@ -30,11 +30,11 @@ import org.apache.cxf.ws.addressing.AddressingConstants;
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.AttributedURIType;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
-import org.jboss.wsf.common.addressing.MAP;
-import org.jboss.wsf.common.addressing.MAPBuilder;
-import org.jboss.wsf.common.addressing.MAPConstants;
-import org.jboss.wsf.common.addressing.MAPEndpoint;
-import org.jboss.wsf.common.addressing.MAPRelatesTo;
+import org.jboss.ws.api.addressing.MAP;
+import org.jboss.ws.api.addressing.MAPBuilder;
+import org.jboss.ws.api.addressing.MAPConstants;
+import org.jboss.ws.api.addressing.MAPEndpoint;
+import org.jboss.ws.api.addressing.MAPRelatesTo;
 
 /**
  * MAPBuilder is a helper used to create objects used with class MAP. This is the JBossWS CXF

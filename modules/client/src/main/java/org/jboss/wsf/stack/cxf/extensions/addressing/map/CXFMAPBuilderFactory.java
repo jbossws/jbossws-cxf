@@ -21,8 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.extensions.addressing.map;
 
-import org.jboss.wsf.common.addressing.MAPBuilder;
-import org.jboss.wsf.common.addressing.MAPBuilderFactory;
+import org.jboss.ws.api.addressing.MAPBuilder;
+import org.jboss.ws.api.addressing.MAPBuilderFactory;
 
 /**
  * 

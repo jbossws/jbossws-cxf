@@ -26,7 +26,7 @@ import java.util.List;
 
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.ReferenceParametersType;
-import org.jboss.wsf.common.addressing.MAPEndpoint;
+import org.jboss.ws.api.addressing.MAPEndpoint;
 import org.w3c.dom.Element;
 
 /**

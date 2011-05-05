@@ -23,7 +23,7 @@ package org.jboss.wsf.stack.cxf.extensions.addressing.map;
 
 import org.apache.cxf.ws.addressing.AddressingConstants;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
-import org.jboss.wsf.common.addressing.MAPConstants;
+import org.jboss.ws.api.addressing.MAPConstants;
 
 /**
  * MAPConstants is a wrapper which works with class MAP. This is the JBossWS CXF version.

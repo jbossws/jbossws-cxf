@@ -23,7 +23,7 @@ package org.jboss.wsf.stack.cxf.extensions.addressing.map;
 
 import javax.xml.namespace.QName;
 
-import org.jboss.wsf.common.addressing.MAPRelatesTo;
+import org.jboss.ws.api.addressing.MAPRelatesTo;
 
 /**
  * MAPRelationship is a wrapper class which works with class MAP. This is the JBossWS CXF implementation.
