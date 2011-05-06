@@ -30,7 +30,7 @@ import java.util.List;
 import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.wsdlto.WSDLToJava;
 import org.jboss.ws.tools.io.NullPrintStream;
-import org.jboss.wsf.spi.tools.WSContractConsumer;
+import org.jboss.ws.api.tools.WSContractConsumer;
 
 /**
  * A WSContractConsumer for CXF stack

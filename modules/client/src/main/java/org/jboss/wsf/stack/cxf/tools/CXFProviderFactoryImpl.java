@@ -21,8 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.tools;
 
-import org.jboss.wsf.spi.tools.WSContractProvider;
-import org.jboss.wsf.spi.tools.WSContractProviderFactory;
+import org.jboss.ws.api.tools.WSContractProvider;
+import org.jboss.ws.api.tools.WSContractProviderFactory;
 
 /**
  * A WSContractProviderFactory for the CXF stack

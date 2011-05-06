@@ -33,7 +33,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.cxf.tools.java2ws.JavaToWS;
 import org.jboss.ws.tools.io.NullPrintStream;
-import org.jboss.wsf.spi.tools.WSContractProvider;
+import org.jboss.ws.api.tools.WSContractProvider;
 import org.w3c.dom.Element;
 
 /**

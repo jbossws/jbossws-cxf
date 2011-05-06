@@ -21,8 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.tools;
 
-import org.jboss.wsf.spi.tools.WSContractConsumer;
-import org.jboss.wsf.spi.tools.WSContractConsumerFactory;
+import org.jboss.ws.api.tools.WSContractConsumer;
+import org.jboss.ws.api.tools.WSContractConsumerFactory;
 
 /**
  * A WSContractConsumerFactory for CXF stack
