@@ -42,7 +42,7 @@ import org.apache.cxf.wsdl.WSDLManager;
 import org.apache.cxf.wsdl11.ServiceWSDLBuilder;
 import org.jboss.logging.Logger;
 import org.jboss.util.NotImplementedException;
-import org.jboss.ws.core.utils.AbstractWSDLFilePublisher;
+import org.jboss.ws.common.utils.AbstractWSDLFilePublisher;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.w3c.dom.Document;
 

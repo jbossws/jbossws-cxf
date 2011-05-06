@@ -32,8 +32,8 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.cxf.tools.java2ws.JavaToWS;
-import org.jboss.ws.tools.io.NullPrintStream;
 import org.jboss.ws.api.tools.WSContractProvider;
+import org.jboss.ws.common.utils.NullPrintStream;
 import org.w3c.dom.Element;
 
 /**
