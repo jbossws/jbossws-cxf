@@ -24,7 +24,7 @@
 
 <deploymentAspects xmlns="urn:jboss:ws:deployment:aspects:1.0">
 
-  <deploymentAspect class="org.jboss.wsf.framework.deployment.ContextPropertiesDeploymentAspect">
+  <deploymentAspect class="org.jboss.ws.common.deployment.ContextPropertiesDeploymentAspect">
     <property name="provides" class="java.lang.String">ContextProperties</property>
     <property name="contextProperties" class="java.util.HashMap">
       <map keyClass="java.lang.String" valueClass="java.lang.String">
@@ -51,13 +51,13 @@
     <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 
-  <deploymentAspect class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
+  <deploymentAspect class="org.jboss.ws.common.deployment.EndpointHandlerDeploymentAspect">
     <property name="requires" class="java.lang.String">ContainerMetaData</property>
     <property name="provides" class="java.lang.String">StackEndpointHandler</property>
     <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 
-  <deploymentAspect class="org.jboss.wsf.framework.deployment.JAXBIntroDeploymentAspect">
+  <deploymentAspect class="org.jboss.ws.common.deployment.JAXBIntroDeploymentAspect">
     <property name="provides" class="java.lang.String">JAXBIntros</property>
     <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
@@ -81,7 +81,7 @@
     <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 
-  <deploymentAspect class="org.jboss.wsf.framework.deployment.EndpointRecordProcessorDeploymentAspect">
+  <deploymentAspect class="org.jboss.ws.common.deployment.EndpointRecordProcessorDeploymentAspect">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
     <property name="requires" class="java.lang.String">RegisteredEndpoint</property>
     <property name="provides" class="java.lang.String">EndpointRecordProcessors</property>

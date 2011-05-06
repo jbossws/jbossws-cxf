@@ -38,8 +38,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
-import org.jboss.wsf.common.DOMUtils;
-import org.jboss.wsf.common.ObjectNameFactory;
+import org.jboss.ws.common.DOMUtils;
+import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;

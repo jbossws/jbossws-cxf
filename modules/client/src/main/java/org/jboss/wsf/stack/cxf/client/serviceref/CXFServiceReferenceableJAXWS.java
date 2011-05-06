@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.client.serviceref;
 
-import org.jboss.wsf.common.serviceref.AbstractServiceReferenceableJAXWS;
+import org.jboss.ws.common.serviceref.AbstractServiceReferenceableJAXWS;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 
 /**

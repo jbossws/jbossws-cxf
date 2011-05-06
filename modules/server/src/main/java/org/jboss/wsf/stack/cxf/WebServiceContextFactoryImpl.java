@@ -24,8 +24,8 @@ package org.jboss.wsf.stack.cxf;
 import javax.xml.ws.handler.MessageContext;
 
 import org.apache.cxf.jaxws.context.WebServiceContextImpl;
-import org.jboss.wsf.common.invocation.WebServiceContextEJB;
-import org.jboss.wsf.common.invocation.WebServiceContextJSE;
+import org.jboss.ws.common.invocation.WebServiceContextEJB;
+import org.jboss.ws.common.invocation.WebServiceContextJSE;
 import org.jboss.wsf.spi.invocation.ExtensibleWebServiceContext;
 import org.jboss.wsf.spi.invocation.InvocationType;
 import org.jboss.wsf.spi.invocation.WebServiceContextFactory;

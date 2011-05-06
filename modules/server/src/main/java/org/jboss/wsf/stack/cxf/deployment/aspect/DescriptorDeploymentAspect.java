@@ -27,8 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.logging.Logger;
-import org.jboss.wsf.common.integration.AbstractDeploymentAspect;
-import org.jboss.wsf.common.integration.WSConstants;
+import org.jboss.ws.common.integration.AbstractDeploymentAspect;
+import org.jboss.ws.common.integration.WSConstants;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
@@ -170,7 +170,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
     *
     * @param dep webservice deployment
     * @param cxfURL CXF DD URL
-    * @see org.jboss.wsf.common.integration.WSConstants.STACK_CONTEXT_PARAMS
+    * @see org.jboss.ws.common.integration.WSConstants.STACK_CONTEXT_PARAMS
     */
    @SuppressWarnings("unchecked")
    private void putCXFConfigToDeployment(Deployment dep, URL cxfURL)

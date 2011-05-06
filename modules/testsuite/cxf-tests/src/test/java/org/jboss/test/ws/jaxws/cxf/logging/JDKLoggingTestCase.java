@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.cxf.logging;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
-import org.jboss.wsf.common.logging.JDKLogHandler;
+import org.jboss.ws.common.logging.JDKLogHandler;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**

@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.wsf.spi.deployment.WSFDeploymentException;
-import org.jboss.wsf.common.IOUtils;
+import org.jboss.ws.common.IOUtils;
 
 /**
  * Metadata model for cxf.xml 

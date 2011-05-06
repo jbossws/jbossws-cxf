@@ -25,7 +25,7 @@ import java.net.URL;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.jboss.wsf.common.integration.JMSDeploymentAspect;
+import org.jboss.ws.common.integration.JMSDeploymentAspect;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.metadata.jms.JMSEndpointsMetaData;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;

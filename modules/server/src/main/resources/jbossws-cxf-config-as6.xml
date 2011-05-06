@@ -6,12 +6,12 @@
   <bean name="CXFInitializer" class="org.jboss.wsf.stack.cxf.config.CXFInitializer" />
   
   <!-- The registry for web service endpoints -->
-  <bean name="WSEndpointRegistry" class="org.jboss.wsf.framework.management.ManagedEndpointRegistry">
+  <bean name="WSEndpointRegistry" class="org.jboss.ws.common.management.ManagedEndpointRegistry">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
   </bean>
 
   <!-- Logging redirector -->
-  <bean name="JDKLogRedirector" class="org.jboss.wsf.common.logging.JDKLogRedirector">
+  <bean name="JDKLogRedirector" class="org.jboss.ws.common.logging.JDKLogRedirector">
     <property name="namespaces">
       <list class="java.util.LinkedList" elementClass="java.lang.String">
         <value>org.apache.cxf</value>
@@ -20,7 +20,7 @@
   </bean>
   
   <!-- This should actually be in the stack-agnostic config file, it's here to avoid installing a CI -->
-  <bean name="WSDescriptorParser" class="org.jboss.wsf.framework.deployment.WebservicesDescriptorParserImpl">
+  <bean name="WSDescriptorParser" class="org.jboss.ws.common.deployment.WebservicesDescriptorParserImpl">
     <property name="descriptorName">webservices.xml</property>
   </bean>
   
@@ -29,15 +29,15 @@
   </bean>
   
   <!-- Installed Record Processors-->
-  <bean name="WSMemoryBufferRecorder" class="org.jboss.wsf.framework.management.recording.MemoryBufferRecorder">
+  <bean name="WSMemoryBufferRecorder" class="org.jboss.ws.common.monitoring.MemoryBufferRecorder">
     <property name="recording">false</property>
   </bean>
-  <bean name="WSLogRecorder" class="org.jboss.wsf.framework.management.recording.LogRecorder">
+  <bean name="WSLogRecorder" class="org.jboss.ws.common.monitoring.LogRecorder">
     <property name="recording">false</property>
   </bean>
 
   <!-- The stack specific deployment aspects -->
-  <bean name="WSCXFContextPropertiesDeploymentAspect" class="org.jboss.wsf.framework.deployment.ContextPropertiesDeploymentAspect">
+  <bean name="WSCXFContextPropertiesDeploymentAspect" class="org.jboss.ws.common.deployment.ContextPropertiesDeploymentAspect">
     <property name="provides">ContextProperties</property>
     <property name="contextProperties">
       <map keyClass="java.lang.String" valueClass="java.lang.String">
@@ -64,13 +64,13 @@
     <property name="forJaxRpc">false</property>
   </bean>
 
-  <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
+  <bean name="WSCXFEndpointHandlerDeploymentAspect" class="org.jboss.ws.common.deployment.EndpointHandlerDeploymentAspect">
     <property name="requires">ContainerMetaData</property>
     <property name="provides">StackEndpointHandler</property>
     <property name="forJaxRpc">false</property>
   </bean>
 
-  <bean name="WSCXFEndpointRecordProcessorDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointRecordProcessorDeploymentAspect">
+  <bean name="WSCXFEndpointRecordProcessorDeploymentAspect" class="org.jboss.ws.common.deployment.EndpointRecordProcessorDeploymentAspect">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
     <property name="requires">RegisteredEndpoint</property>
     <property name="provides">EndpointRecordProcessors</property>
@@ -83,7 +83,7 @@
     <property name="forJaxRpc">false</property>
   </bean>
 
-  <bean name="WSCXFJAXBIntroDeploymentAspect" class="org.jboss.wsf.framework.deployment.JAXBIntroDeploymentAspect">
+  <bean name="WSCXFJAXBIntroDeploymentAspect" class="org.jboss.ws.common.deployment.JAXBIntroDeploymentAspect">
     <property name="provides">JAXBIntros</property>
     <property name="forJaxRpc">false</property>
   </bean>

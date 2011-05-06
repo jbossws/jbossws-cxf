@@ -8,7 +8,7 @@
 
   <servlet>
     <servlet-name>ContextServlet</servlet-name>
-    <servlet-class>org.jboss.wsf.framework.management.ContextServlet</servlet-class>
+    <servlet-class>org.jboss.ws.common.management.ContextServlet</servlet-class>
   </servlet>
 
   <servlet>

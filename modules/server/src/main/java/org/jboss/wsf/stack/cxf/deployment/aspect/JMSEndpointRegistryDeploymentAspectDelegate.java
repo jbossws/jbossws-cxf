@@ -32,7 +32,7 @@ import org.apache.cxf.frontend.SimpleMethodDispatcher;
 import org.apache.cxf.transport.Destination;
 import org.apache.cxf.transport.jms.JMSConfiguration;
 import org.apache.cxf.transport.jms.JMSDestination;
-import org.jboss.wsf.common.integration.JMSDeploymentAspect;
+import org.jboss.ws.common.integration.JMSDeploymentAspect;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployment.Deployment;

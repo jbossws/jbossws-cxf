@@ -3,7 +3,7 @@
 <deployment xmlns="urn:jboss:bean-deployer:2.0">
 
   <!-- The stack specific deployment aspects -->
-  <bean name="WSNativeContextPropertiesDeploymentAspect" class="org.jboss.wsf.framework.deployment.ContextPropertiesDeploymentAspect">
+  <bean name="WSNativeContextPropertiesDeploymentAspect" class="org.jboss.ws.common.deployment.ContextPropertiesDeploymentAspect">
     <property name="provides">ContextProperties, StackDescriptor</property>
     <property name="contextProperties">
       <map keyClass="java.lang.String" valueClass="java.lang.String">
@@ -22,7 +22,7 @@
     <property name="forJaxWs">false</property>
   </bean>
 
-  <bean name="WSNativeEndpointHandlerDeploymentAspect" class="org.jboss.wsf.framework.deployment.EndpointHandlerDeploymentAspect">
+  <bean name="WSNativeEndpointHandlerDeploymentAspect" class="org.jboss.ws.common.deployment.EndpointHandlerDeploymentAspect">
     <property name="requires">ContainerMetaData</property>
     <property name="provides">StackEndpointHandler</property>
     <property name="forJaxWs">false</property>
