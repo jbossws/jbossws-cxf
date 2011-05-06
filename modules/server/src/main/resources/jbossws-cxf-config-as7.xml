@@ -86,7 +86,7 @@
     <property name="requires" class="java.lang.String">RegisteredEndpoint</property>
     <property name="provides" class="java.lang.String">EndpointRecordProcessors</property>
     <property name="processors">
-      <list class="java.util.ArrayList" elementClass="org.jboss.wsf.spi.management.recording.RecordProcessor">
+      <list class="java.util.ArrayList" elementClass="org.jboss.ws.api.monitoring.RecordProcessor">
         <inject bean="WSMemoryBufferRecorder"/>
         <inject bean="WSLogRecorder"/>
       </list>
