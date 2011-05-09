@@ -59,6 +59,11 @@
          <type>zip</type>
         <scope>test</scope>
       </dependency>
+      <dependency>
+         <groupId>org.jboss.ws</groupId>
+         <artifactId>jbossws-shared-testsuite</artifactId>
+        <scope>test</scope>
+      </dependency>
 
       <!-- Spring -->
       <dependency>
