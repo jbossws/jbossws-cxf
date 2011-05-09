@@ -33,7 +33,8 @@ public class ServerUsernamePasswordCallback implements CallbackHandler
    public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
    {
       WSPasswordCallback pc = (WSPasswordCallback)callbacks[0];
-      if (!("kermit".equals(pc.getIdentifier()) && "thefrog".equals(pc.getPassword())))
-         throw new SecurityException("User '" + pc.getIdentifier() + "' with password '" + pc.getPassword() + "' not allowed.");
+      //this CallbackHandler is meant for use with WSS4J 1.6, see http://ws.apache.org/wss4j/wss4j16.html
+      if ("kermit".equals(pc.getIdentifier()))
+         pc.setPassword("thefrog");
    }
 }
