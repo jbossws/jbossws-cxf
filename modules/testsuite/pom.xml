@@ -46,6 +46,10 @@
       <artifactId>jbossws-common-tools</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-shared-testsuite</artifactId>
+    </dependency>
+    <dependency>
       <groupId>gnu-getopt</groupId>
       <artifactId>getopt</artifactId>
       <version>1.0.13</version>
@@ -633,7 +637,7 @@
           <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-              <compilerArgument>-Djava.endorsed.dirs=${jboss600.home}/lib/endorsed</compilerArgument>
+              <compilerArgument>-Djava.endorsed.dirs=${jboss600.home}/lib/endorsed -Dorg.jboss.wsf.spi.deployer.Deployer=org.jboss.wsf.test.DeployerJBoss6</compilerArgument>
             </configuration>
           </plugin>
           <plugin>
