@@ -41,7 +41,7 @@
   </binding>
   <service name="SecurityService">
     <port name="SecurityServicePort" binding="tns:SecurityServicePortBinding">
-      <soap:address location="https://@jboss.bind.address@:8443/jaxws-samples-wssePolicy-username"/>
+      <soap:address location="https://@jboss.bind.address@:8443/jaxws-samples-wsse-policy-username"/>
     </port>
   </service>
   

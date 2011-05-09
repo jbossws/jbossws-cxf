@@ -48,7 +48,7 @@ public final class UsernameTestCase extends JBossWSTest
       System.setProperty("javax.net.ssl.trustStore", "/dati/truststore_abc");
       System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
       System.setProperty("javax.net.ssl.trustStoreType", "jks");
-      return new JBossWSCXFTestSetup(UsernameTestCase.class, "jaxws-samples-wssePolicy-username.war");
+      return new JBossWSCXFTestSetup(UsernameTestCase.class, "jaxws-samples-wsse-policy-username.war");
    }
 
    public void test() throws Exception
@@ -82,6 +82,6 @@ public final class UsernameTestCase extends JBossWSTest
    private void setupWsse(ServiceIface proxy, String username)
    {
       ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.USERNAME, username);
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, "org.jboss.test.ws.jaxws.samples.wssePolicy.UsernamePasswordCallback");
+      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, "org.jboss.test.ws.jaxws.samples.wsse.policy.UsernamePasswordCallback");
    }
 }
