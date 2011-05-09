@@ -95,8 +95,6 @@
         <include name="org/jboss/test/ws/jaxws/cxf/gzip/Helper.class"/>
         <include name="org/jboss/test/ws/jaxws/cxf/gzip/GZIPEnforcingInInterceptor.class"/>
         <include name="org/jboss/test/ws/jaxws/cxf/gzip/HelloWorld.class"/>
-      </classes>
-      <classes dir="${tests.output.dir}/classes">
         <include name="org/jboss/wsf/test/TestServlet.class"/>
         <include name="org/jboss/wsf/test/ClientHelper.class"/>
       </classes>
@@ -121,14 +119,12 @@
         <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/UserType.class"/>
         <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/AnnotatedUserEndpoint.class"/>
         <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/AnnotatedUserType.class"/>
+        <include name="org/jboss/wsf/test/TestServlet.class"/>
+        <include name="org/jboss/wsf/test/ClientHelper.class"/>
       	<include name="test-resources/jaxws/cxf/jaxbintros/META-INF/jaxb-intros.xml"/>
       </classes>
       <classes dir="${tests.output.dir}/test-resources/jaxws/cxf/jaxbintros/META-INF">
         <include name="jaxb-intros.xml"/>
-      </classes>
-      <classes dir="${tests.output.dir}/classes">
-        <include name="org/jboss/wsf/test/TestServlet.class"/>
-        <include name="org/jboss/wsf/test/ClientHelper.class"/>
       </classes>
       <manifest>
         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services"/>

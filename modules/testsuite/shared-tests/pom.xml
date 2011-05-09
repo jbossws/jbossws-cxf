@@ -87,24 +87,6 @@
                   </artifactItems>
                 </configuration>
               </execution>
-              <execution> <!-- This is used by WSRunClientTestCase -->
-                <id>copy-junit</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>copy</goal>
-                </goals>
-                <configuration>
-                  <artifactItems>
-                    <artifactItem>
-                      <groupId>junit</groupId>
-                      <artifactId>junit</artifactId>
-                      <type>jar</type>
-                      <outputDirectory>${basedir}/target/junit-libs</outputDirectory>
-                      <destFileName>junit.jar</destFileName>
-                    </artifactItem>
-                  </artifactItems>
-                </configuration>
-              </execution>
             </executions>
           </plugin>
           <plugin>
