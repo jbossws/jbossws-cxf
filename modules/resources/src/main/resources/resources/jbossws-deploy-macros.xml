@@ -34,7 +34,7 @@
     <include name="**/jaxb-xjc.jar"/>
     <include name="**/jaxrpc-api.jar"/>
     <include name="**/jaxws-api.jar"/>
-    <include name="**/jaxws-httpserver-httpspi.jar"/>
+    <include name="**/jaxws-jboss-httpserver-httpspi.jar"/>
     <include name="**/jsr181-api.jar"/>
     <include name="**/jbossws-api.jar"/>
     <include name="**/jbossws-common.jar"/>
@@ -73,7 +73,7 @@
     <include name="**/FastInfoset.jar"/>
     <include name="**/jaxrpc-api.jar"/>
     <include name="**/jaxws-api.jar"/>
-    <include name="**/jaxws-httpserver-httpspi.jar"/>
+    <include name="**/jaxws-jboss-httpserver-httpspi.jar"/>
     <include name="**/jsr181-api.jar"/>
     <include name="**/jboss-jaxb-intros.jar"/>
     <include name="**/jbossws-api.jar"/>
@@ -332,9 +332,9 @@
           <include name="**/jbossws-cxf-client.jar"/>
         </fileset>
       </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/jaxws-httpserver-httpspi/main" flatten="false" overwrite="true">
+      <copy todir="@{targetdir}/org/jboss/ws/jaxws-jboss-httpserver-httpspi/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jaxws-httpserver-httpspi.jar"/>
+          <include name="**/jaxws-jboss-httpserver-httpspi.jar"/>
         </fileset>
      </copy>
      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-server/main" flatten="false" overwrite="true">

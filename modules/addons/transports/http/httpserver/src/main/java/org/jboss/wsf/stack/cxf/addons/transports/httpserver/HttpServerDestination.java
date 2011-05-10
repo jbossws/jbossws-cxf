@@ -35,8 +35,8 @@ import org.apache.cxf.transport.http_jaxws_spi.HttpHandlerImpl;
 import org.apache.cxf.transport.http_jaxws_spi.JAXWSHttpSpiDestination;
 import org.jboss.ws.httpserver_httpspi.HttpExchangeDelegate;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+import org.jboss.com.sun.net.httpserver.HttpExchange;
+import org.jboss.com.sun.net.httpserver.HttpHandler;
 
 /**
  * HTTP destination to be used with the JDK6 httpserver; this extends the

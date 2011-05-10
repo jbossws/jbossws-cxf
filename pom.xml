@@ -67,7 +67,7 @@
     <jboss.security.sx.version>2.0.4</jboss.security.sx.version>
     <jboss.xb.version>2.0.2.Beta7</jboss.xb.version>
     <picketbox.version>3.0.0.Beta5</picketbox.version>
-    <jaxws-httpserver-httpspi.version>1.0.0.GA</jaxws-httpserver-httpspi.version>
+    <jaxws-jboss-httpserver-httpspi.version>1.0.0.GA</jaxws-jboss-httpserver-httpspi.version>
     <jaxb.api.version>1.0.0.Final</jaxb.api.version>
     <jaxb.impl.version>2.2</jaxb.impl.version>
     <jaxrpc.api.version>1.0.0.Final</jaxrpc.api.version>
@@ -162,8 +162,8 @@
       <!-- END -->
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
-        <artifactId>jaxws-httpserver-httpspi</artifactId>
-        <version>${jaxws-httpserver-httpspi.version}</version>
+        <artifactId>jaxws-jboss-httpserver-httpspi</artifactId>
+        <version>${jaxws-jboss-httpserver-httpspi.version}</version>
       </dependency>
 
       <!-- provided apis -->
@@ -1179,19 +1179,6 @@
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>3.8.1</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-shared-testsuite</artifactId>
-        <version>${jbossws.shared.testsuite.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-shared-testsuite</artifactId>
-        <version>${jbossws.shared.testsuite.version}</version>
-        <type>zip</type>
         <scope>test</scope>
       </dependency>
     </dependencies>

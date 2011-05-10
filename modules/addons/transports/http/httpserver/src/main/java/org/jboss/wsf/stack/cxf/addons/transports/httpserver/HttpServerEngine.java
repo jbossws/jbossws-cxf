@@ -30,8 +30,8 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.common.logging.LogUtils;
 import org.jboss.ws.httpserver_httpspi.PathUtils;
 
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
+import org.jboss.com.sun.net.httpserver.HttpHandler;
+import org.jboss.com.sun.net.httpserver.HttpServer;
 
 /**
  * A server engine that internally uses the JDK6 httpserver
@@ -40,7 +40,6 @@ import com.sun.net.httpserver.HttpServer;
  * @since 19-Aug-2010
  *
  */
-@SuppressWarnings("restriction")
 public class HttpServerEngine
 {
    private static final Logger LOG = LogUtils.getL7dLogger(HttpServerEngine.class);

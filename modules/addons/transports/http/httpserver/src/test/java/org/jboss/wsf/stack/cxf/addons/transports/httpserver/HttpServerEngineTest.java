@@ -119,8 +119,7 @@ public class HttpServerEngineTest extends TestCase {
       }
    }
 
-   @SuppressWarnings("restriction")
-   private class MyTestHandler implements com.sun.net.httpserver.HttpHandler
+   private class MyTestHandler implements org.jboss.com.sun.net.httpserver.HttpHandler
    {
       volatile int count;
 
@@ -130,7 +129,7 @@ public class HttpServerEngineTest extends TestCase {
       }
       
       @Override
-      public void handle(com.sun.net.httpserver.HttpExchange exchange) throws IOException {
+      public void handle(org.jboss.com.sun.net.httpserver.HttpExchange exchange) throws IOException {
          count++;
          exchange.sendResponseHeaders(200, 0);
          OutputStream os = exchange.getResponseBody();
