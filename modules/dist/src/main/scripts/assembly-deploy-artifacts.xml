@@ -52,6 +52,7 @@
             <includes>
               <include>org.jboss.ws.cxf:*</include>
               <include>org.jboss.ws.projects:jaxws-jboss-httpserver-httpspi:jar</include>
+              <include>org.jboss.com.sun.httpserver:httpserver:jar</include>
               <include>org.apache.cxf:cxf-*</include>
               <include>org.apache.cxf.xjcplugins:cxf-*</include>
               <include>com.sun.xml.bind:jaxb-impl:jar</include>
