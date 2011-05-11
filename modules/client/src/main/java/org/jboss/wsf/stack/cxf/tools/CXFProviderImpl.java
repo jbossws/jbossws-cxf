@@ -21,7 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.tools;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.PrintStream;
 import java.net.URL;
@@ -29,12 +28,9 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.apache.cxf.tools.java2ws.JavaToWS;
 import org.jboss.ws.api.tools.WSContractProvider;
 import org.jboss.ws.common.utils.NullPrintStream;
-import org.w3c.dom.Element;
 
 /**
  * A WSContractProvider for the CXF stack
@@ -101,7 +97,6 @@ public class CXFProviderImpl extends WSContractProvider
    {
       try
       {
-         initLog4j();
          provide(loader.loadClass(endpointClass));
       }
       catch (ClassNotFoundException e)
@@ -234,33 +229,5 @@ public class CXFProviderImpl extends WSContractProvider
       }
 
       return cp;
-   }
-
-   /**
-    * cxf java2ws tool requires log4j configuration;this method will configure log4j when running in command line and avoid the log4j not configure error.
-    */
-   private void initLog4j() {
-      //TODO: look at if it is possible to set jboss LoggerRepository 
-      String xmlConfig = "<log4j:configuration xmlns:log4j=\"http://jakarta.apache.org/log4j/\" debug=\"false\">"
-         +   "<appender name=\"CONSOLE\" class=\"org.apache.log4j.ConsoleAppender\">"
-         +      "<param name=\"Threshold\" value=\"WARN\"/>"
-         +      "<param name=\"Target\" value=\"System.out\"/>"
-         +      "<layout class=\"org.apache.log4j.PatternLayout\">"
-         +        " <param name=\"ConversionPattern\" value=\"%d %-5p [%c] (%t) %m%n\"/>"
-         +      "</layout>"
-         +    "</appender>"
-         +    "<root>" 
-         +       "<appender-ref ref=\"CONSOLE\"/>" 
-         +	  "</root>"    
-         +    "</log4j:configuration>";
-      try
-      {
-         Element element = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(xmlConfig.getBytes("UTF-8"))).getDocumentElement();
-         org.apache.log4j.xml.DOMConfigurator.configure(element);
-      }
-      catch (Exception e)
-      {
-         //ignore
-      }
    }
 }
