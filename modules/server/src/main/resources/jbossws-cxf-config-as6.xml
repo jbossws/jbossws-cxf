@@ -42,8 +42,8 @@
     <property name="contextProperties">
       <map keyClass="java.lang.String" valueClass="java.lang.String">
         <entry>
-          <key>stack.transport.class.provider</key>
-          <value>org.jboss.wsf.stack.cxf.deployment.CXFServletClassProvider</value>
+          <key>stack.transport.class</key>
+          <value>org.jboss.wsf.stack.cxf.CXFServletExt</value>
         </entry>
       </map>
     </property>
