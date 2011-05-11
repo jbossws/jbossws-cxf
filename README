@@ -1,0 +1,1 @@
+Due to implicit dependency on jbossws-native for jaxrpc functionalities, you need to deploy the corresponding (4.0.0.Beta1) jbossws-native release to JBoss AS 6 before deploying this version of jbossws-cxf and successfully run testsuites.
