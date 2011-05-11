@@ -51,10 +51,33 @@ public class JBossWSCXFTestSetup extends JBossWSTestSetup
    protected void setUp() throws Exception {
       defaultBus = BusFactory.getDefaultBus(false);
       super.setUp();
+      Bus threadBus = BusFactory.getThreadDefaultBus(false);
+      if (threadBus != null)
+      {
+         ClassLoader busLoader = threadBus.getExtension(ClassLoader.class);
+         ClassLoader origLoader = this.getOriginalClassLoader();
+         //overwrite the ClassLoader extension with the new TCCL, to allow CXF seeing the client side archives
+         if (busLoader != null && busLoader == origLoader)
+         {
+            threadBus.setExtension(Thread.currentThread().getContextClassLoader(), ClassLoader.class);
+         }
+      }
    }
    
    @Override
    protected void tearDown() throws Exception {
+      Bus threadBus = BusFactory.getThreadDefaultBus(false);
+      if (threadBus != null)
+      {
+         ClassLoader busLoader = threadBus.getExtension(ClassLoader.class);
+         ClassLoader origLoader = this.getOriginalClassLoader();
+         //restore the ClassLoader extension to the orig loader
+         if (busLoader != null && busLoader == Thread.currentThread().getContextClassLoader())
+         {
+            threadBus.setExtension(origLoader, ClassLoader.class);
+         }
+      }
+      
       try
       {
          Bus afterTestsDefaultBus = BusFactory.getDefaultBus(false);
