@@ -988,7 +988,7 @@
                  <exclude>org/jboss/test/ws/projectGenerator/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/wsseEJB/WsseEjbTestCase*</exclude>
 
-                 <!-- # [JBWS-3219] unexpected element 'security-domain' encountered -->
+                 <!-- # [JBWS-3219] unexpected element 'port-qname' encountered -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2307/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2527/**</exclude>
 
