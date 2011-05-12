@@ -991,7 +991,6 @@
                  <!-- # [JBWS-3219] unexpected element 'security-domain' encountered -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2307/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2527/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws1702/**</exclude>
 
                  <!-- # [JBWS-3205] JDKLogManager not used -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
