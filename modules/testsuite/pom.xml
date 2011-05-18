@@ -1000,9 +1000,11 @@
 
                  <!-- # [JBWS-3226] jboss-service.xml not matching AS7 format -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1854/**</exclude>
+
+                 <!-- # [JBWS-3257] No class available with name 'org.jboss.security.plugins.JaasSecurityDomain' -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsseDigest/UsernameDigestTestCase*</exclude>
 
-                 <!-- # [JBWS-3227] handles config file not found on classpath -->
+                 <!-- # [JBWS-3227] handlers config file not found on classpath -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3034/**</exclude>
 
                  <!-- # [JBWS-3232] javax.naming.NameNotFoundException: Name 'service' not found in context 'env' -->
