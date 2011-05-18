@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,25 +21,22 @@
  */
 package org.jboss.wsf.stack.cxf.security.authentication;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
 
+import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.common.security.SimplePrincipal;
+import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.ws.security.wss4j.AbstractUsernameTokenAuthenticatingInterceptor;
 import org.jboss.logging.Logger;
-import org.jboss.security.AuthenticationManager;
 import org.jboss.security.auth.callback.CallbackHandlerPolicyContextHandler;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
-import org.jboss.wsf.spi.invocation.SecurityAdaptor;
-import org.jboss.wsf.spi.invocation.SecurityAdaptorFactory;
+import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.security.SecurityDomainContext;
 import org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallbackHandler;
 import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
 import org.jboss.xb.binding.SimpleTypeBindings;
@@ -48,6 +45,7 @@ import org.jboss.xb.binding.SimpleTypeBindings;
  * Interceptor which authenticates a current principal and populates Subject
  * 
  * @author Sergey Beryozkin
+ * @author alessio.soldano@jboss.com
  *
  */
 public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticatingInterceptor
@@ -56,17 +54,15 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
 
    private static final int TIMESTAMP_FRESHNESS_THRESHOLD = 300;
 
-   private AuthenticationManagerLoader aml;
-
    private boolean propagateContext;
-
-   private SecurityAdaptorFactory secAdaptorFactory;
 
    private int timestampThreshold = TIMESTAMP_FRESHNESS_THRESHOLD;
 
    private NonceStore nonceStore;
 
    private boolean decodeNonce = true;
+   
+   private ThreadLocal<SecurityDomainContext> sdc = new ThreadLocal<SecurityDomainContext>();
 
    public SubjectCreatingInterceptor()
    {
@@ -76,19 +72,23 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
    public SubjectCreatingInterceptor(Map<String, Object> properties)
    {
       super(properties);
+   }
+
+   @Override
+   public void handleMessage(SoapMessage msg) throws Fault {
+      Endpoint ep = msg.getExchange().get(Endpoint.class);
+      sdc.set(ep.getSecurityDomainContext());
       try
       {
-         aml = AuthenticationManagerLoader.class.newInstance();
+         super.handleMessage(msg);
       }
-      catch (Exception ex)
+      finally
       {
-         String msg = "AuthenticationManager can not be loaded";
-         log.error(msg);
-         throw new SecurityException(msg);
+         if (sdc != null)
+         {
+            sdc.remove();
+         }
       }
-      SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      secAdaptorFactory = spiProvider.getSPI(SecurityAdaptorFactory.class);
-
    }
 
    @Override
@@ -108,18 +108,19 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
       }
 
       // authenticate and populate Subject
-      AuthenticationManager am = aml.getManager();
+      
 
       Principal principal = new SimplePrincipal(name);
       Subject subject = new Subject();
 
+      SecurityDomainContext ctx = sdc.get();
       boolean TRACE = log.isTraceEnabled();
       if (TRACE)
-         log.trace("About to authenticate, using security domain '" + am.getSecurityDomain() + "'");
+         log.trace("About to authenticate, using security domain '" + ctx.getSecurityDomain() + "'");
 
       try
       {
-         if (am.isValid(principal, password, subject) == false)
+         if (ctx.isValid(principal, password, subject) == false)
          {
             String msg = "Authentication failed, principal=" + principal.getName();
             log.error(msg);
@@ -141,8 +142,7 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
 
       if (propagateContext)
       {
-         SecurityAdaptor adaptor = secAdaptorFactory.newSecurityAdapter();
-         adaptor.pushSubjectContext(subject, principal, password);
+         ctx.pushSubjectContext(subject, principal, password);
          if (TRACE)
             log.trace("Security Context has been propagated");
       }
