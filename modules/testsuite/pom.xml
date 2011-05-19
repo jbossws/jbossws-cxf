@@ -1021,9 +1021,6 @@
                  <!-- # [JBWS-3234] JNDI over RMI not available on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/serviceref/**</exclude>
 
-                 <!-- # [JBWS-3248] Unable to lookup AuthenticationManager using JNDI -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationTestCase*</exclude>
-
                  <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase*</exclude>
 
