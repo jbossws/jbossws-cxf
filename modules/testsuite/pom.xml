@@ -895,6 +895,8 @@
                     <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
                     <!-- @SecurityDomain missing -->
                     <exclude>org/jboss/test/ws/jaxws/samples/wsseEJB/EjbEndpointImpl*</exclude>
+                    <!-- # [JBWS-2941] HTTP Proxy authentication for JBossWS Web Service clients -->
+                    <exclude>org/jboss/test/ws/jaxws/cxf/httpproxy/**</exclude>
                   </testExcludes>
                 </configuration>
                 <goals>
@@ -1032,6 +1034,9 @@
 
                  <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase*</exclude>
+
+                 <!-- # [JBWS-2941] HTTP Proxy authentication for JBossWS Web Service clients -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/httpproxy/**</exclude>
 
                  <!-- JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>

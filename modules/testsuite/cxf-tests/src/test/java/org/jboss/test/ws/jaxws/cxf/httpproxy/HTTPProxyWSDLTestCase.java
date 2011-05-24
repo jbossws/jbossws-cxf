@@ -1,0 +1,162 @@
+/*
+ * JBoss, Home of Professional Open Source.
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * as indicated by the @author tags. See the copyright.txt file in the
+ * distribution for a full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package org.jboss.test.ws.jaxws.cxf.httpproxy;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+import java.net.URL;
+import java.util.HashMap;
+
+import junit.framework.Test;
+
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.wsf.test.JBossWSTest;
+import org.littleshoot.proxy.DefaultHttpProxyServer;
+import org.littleshoot.proxy.HttpFilter;
+import org.littleshoot.proxy.HttpProxyServer;
+import org.littleshoot.proxy.ProxyAuthorizationHandler;
+
+public class HTTPProxyWSDLTestCase extends JBossWSTest
+{
+   private static final int PROXY_PORT = 19385;
+   private static final String ENDPOINT_PATH = "/jaxws-cxf-httpproxy/HelloWorldService/HelloWorldImpl";
+   private static final String PROXY_USER = "foo";
+   private static final String PROXY_PWD = "bar";
+   private HttpProxyServer proxyServer;
+
+   public static Test suite()
+   {
+      return new JBossWSCXFTestSetup(HTTPProxyWSDLTestCase.class, "jaxws-cxf-httpproxy.war");
+   }
+
+   public void testWSDLHttpProxy() throws Exception
+   {
+      setProxySystemProperties();
+      try
+      {
+         Authenticator.setDefault(new ProxyAuthenticator(PROXY_USER, PROXY_PWD));
+         String endpointAddress = "http://unreachable-testWSDLHttpProxy" + ENDPOINT_PATH;
+         StringBuffer sb = readContent(new URL(endpointAddress + "?wsdl"));
+         assertTrue(sb.toString().contains("wsdl:definitions name=\"HelloWorldService\""));
+      }
+      finally
+      {
+         Authenticator.setDefault(null);
+      }
+   }
+
+   public void testWSDLNoHttpProxy() throws Exception
+   {
+      clearProxySystemProperties();
+      String endpointAddress = "http://unreachable-testWSDLNoHttpProxy" + ENDPOINT_PATH;
+      try
+      {
+         readContent(new URL(endpointAddress + "?wsdl"));
+         fail("Request expected to fail without http proxy");
+      }
+      catch (Exception e)
+      {
+         assertTrue(e.getMessage().contains("unreachable-testWSDLNoHttpProxy"));
+      }
+   }
+   
+   @Override
+   protected void setUp() throws Exception
+   {
+      proxyServer = new DefaultHttpProxyServer(PROXY_PORT, new HashMap<String, HttpFilter>(),
+            getServerHost() + ":8080", null, null);
+      ProxyAuthorizationHandler authorizationHandler = new ProxyAuthorizationHandler()
+      {
+
+         @Override
+         public boolean authenticate(String user, String pwd)
+         {
+            return (PROXY_USER.equals(user) && PROXY_PWD.equals(pwd));
+         }
+      };
+      proxyServer.addProxyAuthenticationHandler(authorizationHandler);
+      proxyServer.start();
+   }
+
+   @Override
+   protected void tearDown() throws Exception
+   {
+      if (proxyServer != null)
+      {
+         proxyServer.stop();
+      }
+      clearProxySystemProperties();
+   }
+   
+   private static void setProxySystemProperties()
+   {
+      System.getProperties().setProperty("http.proxyHost", getServerHost());
+      System.getProperties().setProperty("http.proxyPort", String.valueOf(PROXY_PORT));
+   }
+   
+   private static void clearProxySystemProperties()
+   {
+      System.clearProperty("http.proxyHost");
+      System.clearProperty("http.proxyPort");
+   }
+   
+   private static StringBuffer readContent(URL url) throws Exception
+   {
+      StringBuffer sb = new StringBuffer();
+      InputStream is = null;
+      try
+      {
+         is = url.openConnection().getInputStream();
+         BufferedReader in = new BufferedReader(new InputStreamReader(is));
+         String line;
+         while ((line = in.readLine()) != null)
+         {
+            sb.append(line);
+            sb.append("\n");
+         }
+      }
+      finally
+      {
+         if (is != null) is.close();
+      }
+      return sb;
+   }
+   
+   private static class ProxyAuthenticator extends Authenticator
+   {
+      private String user, password;
+
+      public ProxyAuthenticator(String user, String password)
+      {
+         this.user = user;
+         this.password = password;
+      }
+
+      protected PasswordAuthentication getPasswordAuthentication()
+      {
+         return new PasswordAuthentication(user, password.toCharArray());
+      }
+   }
+}
