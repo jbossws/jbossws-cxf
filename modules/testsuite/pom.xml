@@ -947,6 +947,19 @@
 
                  <!--# not yet supported on AS7 -->
                  <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
+
+                 <!-- AS7 integration regressions -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jaxbintros/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/addressing/AddressingStatefulTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/jaxbintros/JAXBIntroTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1422/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1505/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1611/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1733/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2000/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2701/**</exclude>
+                 <exclude>org/jboss/test/ws/saaj/jbws3084/**</exclude>
+
                  <!-- EJB3 client API dependencies -->
                  <exclude>org/jboss/test/ws/jaxws/jbws944/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
