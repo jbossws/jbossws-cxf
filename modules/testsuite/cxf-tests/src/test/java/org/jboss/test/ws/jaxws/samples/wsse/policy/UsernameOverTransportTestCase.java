@@ -34,18 +34,21 @@ import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
- * WS-Security Policy username test case
+ * WS-Security Policy username test case (using secure transport)
  *
  * @author alessio.soldano@jboss.com
  * @since 29-Apr-2011
  */
-public final class UsernameTestCase extends JBossWSTest
+public final class UsernameOverTransportTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-unsecure-transport";
+   private final String serviceURL = "https://" + getServerHost() + ":8443/jaxws-samples-wsse-policy-username";
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(UsernameTestCase.class, "jaxws-samples-wsse-policy-username-unsecure-transport.war");
+      System.setProperty("javax.net.ssl.trustStore", "/dati/truststore_abc");
+      System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+      System.setProperty("javax.net.ssl.trustStoreType", "jks");
+      return new JBossWSCXFTestSetup(UsernameOverTransportTestCase.class, "jaxws-samples-wsse-policy-username.war");
    }
 
    public void test() throws Exception
