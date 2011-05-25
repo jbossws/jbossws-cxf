@@ -647,6 +647,21 @@
             <configuration>
               <compilerArgument>-Djava.endorsed.dirs=${jboss600.home}/lib/endorsed</compilerArgument>
             </configuration>
+            <executions>
+              <execution>
+                <id>default-testCompile</id>
+                <phase>test-compile</phase>
+                <configuration>
+                  <testExcludes>
+                    <!-- # [JBWS-2941] HTTP Proxy authentication for JBossWS Web Service clients -->
+                    <exclude>org/jboss/test/ws/jaxws/cxf/httpproxy/**</exclude>
+                  </testExcludes>
+                </configuration>
+                <goals>
+                  <goal>testCompile</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
@@ -787,6 +802,21 @@
             <configuration>
               <compilerArgument>-Djava.endorsed.dirs=${jboss601.home}/lib/endorsed</compilerArgument>
             </configuration>
+            <executions>
+              <execution>
+                <id>default-testCompile</id>
+                <phase>test-compile</phase>
+                <configuration>
+                  <testExcludes>
+                    <!-- # [JBWS-2941] HTTP Proxy authentication for JBossWS Web Service clients -->
+                    <exclude>org/jboss/test/ws/jaxws/cxf/httpproxy/**</exclude>
+                  </testExcludes>
+                </configuration>
+                <goals>
+                  <goal>testCompile</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
