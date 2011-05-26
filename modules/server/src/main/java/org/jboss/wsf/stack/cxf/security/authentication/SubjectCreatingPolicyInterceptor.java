@@ -21,43 +21,37 @@
  */
 package org.jboss.wsf.stack.cxf.security.authentication;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.security.auth.Subject;
 
-import org.apache.cxf.binding.soap.SoapMessage;
+import org.apache.cxf.common.security.UsernameToken;
 import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.ws.security.wss4j.AbstractUsernameTokenAuthenticatingInterceptor;
+import org.apache.cxf.interceptor.security.AbstractUsernameTokenInInterceptor;
+import org.apache.cxf.message.Message;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
 import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
 
 /**
  * Interceptor which authenticates a current principal and populates Subject
+ * To be used for policy-first scenarios
  * 
- * @author Sergey Beryozkin
  * @author alessio.soldano@jboss.com
- *
+ * @since 26-May-2011
  */
-public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticatingInterceptor
+public class SubjectCreatingPolicyInterceptor extends AbstractUsernameTokenInInterceptor
 {
    private ThreadLocal<SecurityDomainContext> sdc = new ThreadLocal<SecurityDomainContext>();
    
    private SubjectCreator helper = new SubjectCreator();
-
-   public SubjectCreatingInterceptor()
+   
+   public SubjectCreatingPolicyInterceptor()
    {
-      this(new HashMap<String, Object>());
-   }
-
-   public SubjectCreatingInterceptor(Map<String, Object> properties)
-   {
-      super(properties);
+      super();
+      helper.setPropagateContext(true);
    }
 
    @Override
-   public void handleMessage(SoapMessage msg) throws Fault {
+   public void handleMessage(Message msg) throws Fault {
       Endpoint ep = msg.getExchange().get(Endpoint.class);
       sdc.set(ep.getSecurityDomainContext());
       try
@@ -74,9 +68,10 @@ public class SubjectCreatingInterceptor extends AbstractUsernameTokenAuthenticat
    }
 
    @Override
-   public Subject createSubject(String name, String password, boolean isDigest, String nonce, String created)
+   protected Subject createSubject(UsernameToken token)
    {
-      return helper.createSubject(sdc.get(), name, password, isDigest, nonce, created);
+      return helper.createSubject(sdc.get(), token.getName(), token.getPassword(), token.isHashed(), token.getNonce(),
+            token.getCreatedTime());
    }
 
    public void setPropagateContext(boolean propagateContext)
