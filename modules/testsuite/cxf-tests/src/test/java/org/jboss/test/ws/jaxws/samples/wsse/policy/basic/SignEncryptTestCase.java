@@ -19,13 +19,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
 import java.net.URL;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
+import javax.xml.ws.soap.SOAPFaultException;
 
 import junit.framework.Test;
 
@@ -34,18 +35,18 @@ import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
- * WS-Security Policy username test case
+ * WS-Security Policy sign & encrypt test case
  *
  * @author alessio.soldano@jboss.com
  * @since 29-Apr-2011
  */
-public final class UsernameTestCase extends JBossWSTest
+public final class SignEncryptTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-unsecure-transport";
-
+   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-sign-encrypt";
+   
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(UsernameTestCase.class, "jaxws-samples-wsse-policy-username-unsecure-transport.war");
+      return new JBossWSCXFTestSetup(SignEncryptTestCase.class, "jaxws-samples-wsse-policy-sign-encrypt-client.jar jaxws-samples-wsse-policy-sign-encrypt.war");
    }
 
    public void test() throws Exception
@@ -54,31 +55,23 @@ public final class UsernameTestCase extends JBossWSTest
       URL wsdlURL = new URL(serviceURL + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
-      setupWsse(proxy, "kermit");
-      assertEquals("Secure Hello World!", proxy.sayHello());
-   }
-
-   public void testWrongPassword() throws Exception
-   {
-      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
-      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
-      setupWsse(proxy, "snoopy");
+      setupWsse(proxy);
       try
       {
-         proxy.sayHello();
-         fail("User snoopy shouldn't be authenticated.");
+         assertEquals("Secure Hello World!", proxy.sayHello());
       }
-      catch (Exception e)
+      catch (SOAPFaultException e)
       {
-         //OK
+         throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
       }
    }
-
-   private void setupWsse(ServiceIface proxy, String username)
+   
+   private void setupWsse(ServiceIface proxy)
    {
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.USERNAME, username);
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, "org.jboss.test.ws.jaxws.samples.wsse.policy.UsernamePasswordCallback");
+      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, new KeystorePasswordCallback());
+      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.SIGNATURE_USERNAME, "alice");
+      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.ENCRYPT_USERNAME, "bob");
    }
 }

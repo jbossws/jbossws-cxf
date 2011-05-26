@@ -19,14 +19,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
 import java.net.URL;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
-import javax.xml.ws.soap.SOAPFaultException;
 
 import junit.framework.Test;
 
@@ -35,18 +34,18 @@ import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
- * WS-Security Policy sign & encrypt test case
+ * WS-Security Policy sign test case
  *
  * @author alessio.soldano@jboss.com
  * @since 29-Apr-2011
  */
-public final class SignEncryptTestCase extends JBossWSTest
+public final class SignTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-sign-encrypt";
-   
+   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-sign";
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(SignEncryptTestCase.class, "jaxws-samples-wsse-policy-sign-encrypt-client.jar jaxws-samples-wsse-policy-sign-encrypt.war");
+      return new JBossWSCXFTestSetup(SignTestCase.class, "jaxws-samples-wsse-policy-sign-client.jar jaxws-samples-wsse-policy-sign.war");
    }
 
    public void test() throws Exception
@@ -56,22 +55,14 @@ public final class SignEncryptTestCase extends JBossWSTest
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy);
-      try
-      {
-         assertEquals("Secure Hello World!", proxy.sayHello());
-      }
-      catch (SOAPFaultException e)
-      {
-         throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
-      }
+      assertEquals("Secure Hello World!", proxy.sayHello());
    }
-   
+
    private void setupWsse(ServiceIface proxy)
    {
       ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, new KeystorePasswordCallback());
       ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      //workaround CXF requiring this even if no encryption is configured
       ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.SIGNATURE_USERNAME, "alice");
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.ENCRYPT_USERNAME, "bob");
    }
 }

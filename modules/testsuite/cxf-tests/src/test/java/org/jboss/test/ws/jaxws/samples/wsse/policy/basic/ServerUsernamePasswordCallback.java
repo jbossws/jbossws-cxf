@@ -19,25 +19,22 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
-import javax.jws.WebService;
+import java.io.IOException;
 
-import org.jboss.ws.api.annotation.EndpointConfig;
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.UnsupportedCallbackException;
+import org.apache.ws.security.WSPasswordCallback;
 
-@WebService
-(
-   portName = "SecurityServicePort",
-   serviceName = "SecurityService",
-   wsdlLocation = "WEB-INF/wsdl/SecurityService.wsdl",
-   targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy",
-   endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.ServiceIface"
-)
-@EndpointConfig(configFile = "WEB-INF/jaxws-endpoint-config.xml", configName = "Custom WS-Security Endpoint")
-public class ServiceImpl implements ServiceIface
+public class ServerUsernamePasswordCallback implements CallbackHandler
 {
-   public String sayHello()
+   public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
    {
-      return "Secure Hello World!";
+      WSPasswordCallback pc = (WSPasswordCallback)callbacks[0];
+      //this CallbackHandler is meant for use with WSS4J 1.6, see http://ws.apache.org/wss4j/wss4j16.html
+      if ("kermit".equals(pc.getIdentifier()))
+         pc.setPassword("thefrog");
    }
 }

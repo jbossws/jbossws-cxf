@@ -675,7 +675,7 @@
               <excludes>
                 <!-- # UsernameTestCase requires trustore in jboss-web tomcat configuration-->
                 <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/UsernameOverTransportTestCase.*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase.*</exclude>
 
                 <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
                 <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
@@ -830,7 +830,7 @@
               <excludes>
                  <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/UsernameOverTransportTestCase.*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase.*</exclude>
 
                  <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
@@ -947,7 +947,7 @@
               <excludes>
                  <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/UsernameOverTransportTestCase.*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase.*</exclude>
 
                  <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>

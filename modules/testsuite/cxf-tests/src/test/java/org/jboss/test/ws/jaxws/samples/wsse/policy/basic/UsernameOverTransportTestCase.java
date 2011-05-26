@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
 import java.net.URL;
 
@@ -34,18 +34,21 @@ import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
- * WS-Security Policy sign test case
+ * WS-Security Policy username test case (using secure transport)
  *
  * @author alessio.soldano@jboss.com
  * @since 29-Apr-2011
  */
-public final class SignTestCase extends JBossWSTest
+public final class UsernameOverTransportTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-sign";
+   private final String serviceURL = "https://" + getServerHost() + ":8443/jaxws-samples-wsse-policy-username";
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(SignTestCase.class, "jaxws-samples-wsse-policy-sign-client.jar jaxws-samples-wsse-policy-sign.war");
+      System.setProperty("javax.net.ssl.trustStore", "/dati/truststore_abc");
+      System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+      System.setProperty("javax.net.ssl.trustStoreType", "jks");
+      return new JBossWSCXFTestSetup(UsernameOverTransportTestCase.class, "jaxws-samples-wsse-policy-username.war");
    }
 
    public void test() throws Exception
@@ -54,15 +57,31 @@ public final class SignTestCase extends JBossWSTest
       URL wsdlURL = new URL(serviceURL + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
-      setupWsse(proxy);
+      setupWsse(proxy, "kermit");
       assertEquals("Secure Hello World!", proxy.sayHello());
    }
 
-   private void setupWsse(ServiceIface proxy)
+   public void testWrongPassword() throws Exception
    {
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, new KeystorePasswordCallback());
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
-      //workaround CXF requiring this even if no encryption is configured
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
+      setupWsse(proxy, "snoopy");
+      try
+      {
+         proxy.sayHello();
+         fail("User snoopy shouldn't be authenticated.");
+      }
+      catch (Exception e)
+      {
+         //OK
+      }
+   }
+
+   private void setupWsse(ServiceIface proxy, String username)
+   {
+      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.USERNAME, username);
+      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, "org.jboss.test.ws.jaxws.samples.wsse.policy.basic.UsernamePasswordCallback");
    }
 }

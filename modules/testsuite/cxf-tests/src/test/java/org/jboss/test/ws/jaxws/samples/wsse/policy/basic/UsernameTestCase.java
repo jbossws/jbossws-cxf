@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
 import java.net.URL;
 
@@ -34,21 +34,18 @@ import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
- * WS-Security Policy username test case (using secure transport)
+ * WS-Security Policy username test case
  *
  * @author alessio.soldano@jboss.com
  * @since 29-Apr-2011
  */
-public final class UsernameOverTransportTestCase extends JBossWSTest
+public final class UsernameTestCase extends JBossWSTest
 {
-   private final String serviceURL = "https://" + getServerHost() + ":8443/jaxws-samples-wsse-policy-username";
+   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-unsecure-transport";
 
    public static Test suite()
    {
-      System.setProperty("javax.net.ssl.trustStore", "/dati/truststore_abc");
-      System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
-      System.setProperty("javax.net.ssl.trustStoreType", "jks");
-      return new JBossWSCXFTestSetup(UsernameOverTransportTestCase.class, "jaxws-samples-wsse-policy-username.war");
+      return new JBossWSCXFTestSetup(UsernameTestCase.class, "jaxws-samples-wsse-policy-username-unsecure-transport.war");
    }
 
    public void test() throws Exception
@@ -82,6 +79,6 @@ public final class UsernameOverTransportTestCase extends JBossWSTest
    private void setupWsse(ServiceIface proxy, String username)
    {
       ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.USERNAME, username);
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, "org.jboss.test.ws.jaxws.samples.wsse.policy.UsernamePasswordCallback");
+      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, "org.jboss.test.ws.jaxws.samples.wsse.policy.basic.UsernamePasswordCallback");
    }
 }
