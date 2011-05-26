@@ -35,7 +35,7 @@
     </operation>
   </portType>
   <binding name="SecurityServicePortBinding" type="tns:ServiceIface">
-    <wsp:PolicyReference URI="#SecurityServiceUsernameUnsecureTransportPolicy"/>
+    <wsp:PolicyReference URI="#SecurityServiceUsernameHashPasswordPolicy"/>
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
     <operation name="sayHello">
       <soap:operation soapAction=""/>
@@ -58,18 +58,18 @@
   </binding>
   <service name="SecurityService">
     <port name="SecurityServicePort" binding="tns:SecurityServicePortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-jaas"/>
+      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-jaas-digest"/>
     </port>
   </service>
   
-  <wsp:Policy wsu:Id="SecurityServiceUsernameUnsecureTransportPolicy">
+  <wsp:Policy wsu:Id="SecurityServiceUsernameHashPasswordPolicy">
         <wsp:ExactlyOne>
             <wsp:All>
                 <sp:SupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
                     <wsp:Policy>
                         <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
                             <wsp:Policy>
-                                <sp:WssUsernameToken10/>
+                                <sp:HashPassword/>
                             </wsp:Policy>
                         </sp:UsernameToken>
                     </wsp:Policy>
