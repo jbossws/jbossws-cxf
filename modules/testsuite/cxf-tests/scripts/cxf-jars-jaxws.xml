@@ -360,6 +360,23 @@
       </metainf>
     </jar>
 
+    <!-- jaxws-samples-wsse-policy-username-jaas-ejb -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username-jaas-ejb.jar">
+       <fileset dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/EJB*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/ServiceIface.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
+       </fileset>
+       <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/jaas/ejb/META-INF">
+          <include name="wsdl/*"/>
+          <include name="jboss.xml"/>
+          <include name="jaxws-endpoint-config.xml"/>
+       </metainf>
+       <manifest>
+          <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+       </manifest>
+    </jar>
+
     <!-- saaj-soap-connection -->
     <war
        warfile="${tests.output.dir}/test-libs/saaj-soap-connection.war"
