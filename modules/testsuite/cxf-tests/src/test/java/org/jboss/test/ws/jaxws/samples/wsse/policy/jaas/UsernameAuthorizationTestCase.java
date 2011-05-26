@@ -34,7 +34,8 @@ import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
- * WS-Security Policy username test case leveraging JAAS container integration
+ * WS-Security Policy username test case leveraging JAAS container integration.
+ * WS-SecurityPolicy 1.2 used for policies in the included wsdl contract .
  *
  * @author alessio.soldano@jboss.com
  * @since 26-May-2011

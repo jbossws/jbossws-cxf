@@ -4,11 +4,9 @@
 		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 		xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 		xmlns="http://schemas.xmlsoap.org/wsdl/"
-		xmlns:wsp="http://www.w3.org/ns/ws-policy" 
+		xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" 
         xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
-        xmlns:wsaws="http://www.w3.org/2005/08/addressing" 
-        xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy" 
-        xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy">
+        xmlns:wsaws="http://www.w3.org/2005/08/addressing">
   <types>
     <xsd:schema>
       <xsd:import namespace="http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy" schemaLocation="SecurityService_schema1.xsd"/>
@@ -67,9 +65,9 @@
   <wsp:Policy wsu:Id="SecurityServiceUsernameUnsecureTransportPolicy">
         <wsp:ExactlyOne>
             <wsp:All>
-                <sp:SupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                <sp:SupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
                     <wsp:Policy>
-                        <sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                        <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
                             <wsp:Policy>
                                 <sp:WssUsernameToken10/>
                             </wsp:Policy>
