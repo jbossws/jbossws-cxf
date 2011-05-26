@@ -220,17 +220,17 @@
     <!-- jaxws-samples-wsse-policy-sign -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign.war"
-       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign/WEB-INF/web.xml">
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/sign/WEB-INF/web.xml">
        <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/Service*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/KeystorePasswordCallback.class"/>
        </classes>
-       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign/WEB-INF">
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/sign/WEB-INF">
           <include name="jaxws-endpoint-config.xml"/>
           <include name="wsdl/*"/>
        </webinf>
-       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign/WEB-INF" prefix="WEB-INF/classes">
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/sign/WEB-INF" prefix="WEB-INF/classes">
           <include name="bob.jks" />
           <include name="bob.properties" />
        </zipfileset>
@@ -241,7 +241,7 @@
 
     <!-- jaxws-samples-wsse-policy-sign-client -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-client.jar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign/META-INF">
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/sign/META-INF">
         <include name="alice.properties" />
         <include name="alice.jks" />
       </metainf>
@@ -250,17 +250,17 @@
     <!-- jaxws-samples-wsse-policy-sign-encrypt -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-encrypt.war"
-       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign-encrypt/WEB-INF/web.xml">
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/sign-encrypt/WEB-INF/web.xml">
        <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/Service*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/KeystorePasswordCallback.class"/>
        </classes>
-       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign-encrypt/WEB-INF">
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/sign-encrypt/WEB-INF">
           <include name="jaxws-endpoint-config.xml"/>
           <include name="wsdl/*"/>
        </webinf>
-       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign-encrypt/WEB-INF" prefix="WEB-INF/classes">
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/sign-encrypt/WEB-INF" prefix="WEB-INF/classes">
           <include name="bob.jks" />
           <include name="bob.properties" />
        </zipfileset>
@@ -271,7 +271,7 @@
 
     <!-- jaxws-samples-wsse-policy-sign-encrypt-client -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-encrypt-client.jar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/sign-encrypt/META-INF">
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/sign-encrypt/META-INF">
         <include name="alice.properties" />
         <include name="alice.jks" />
       </metainf>
@@ -280,13 +280,13 @@
     <!-- jaxws-samples-wsse-policy-username-unsecure-transport -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username-unsecure-transport.war"
-       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/username-unsecure-transport/WEB-INF/web.xml">
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/username-unsecure-transport/WEB-INF/web.xml">
        <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/Service*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/ServerUsernamePasswordCallback.class"/>
        </classes>
-       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/username-unsecure-transport/WEB-INF">
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/username-unsecure-transport/WEB-INF">
           <include name="jaxws-endpoint-config.xml"/>
           <include name="wsdl/*"/>
        </webinf>
@@ -298,13 +298,13 @@
     <!-- jaxws-samples-wsse-policy-username -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username.war"
-       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/username/WEB-INF/web.xml">
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/username/WEB-INF/web.xml">
        <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/Service*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/ServerUsernamePasswordCallback.class"/>
        </classes>
-       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/username/WEB-INF">
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/username/WEB-INF">
           <include name="jaxws-endpoint-config.xml"/>
           <include name="wsdl/*"/>
        </webinf>
