@@ -35,11 +35,20 @@ import org.jboss.ws.api.annotation.EndpointConfig;
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.ServiceIface"
 )
 @EndpointConfig(configFile = "WEB-INF/jaxws-endpoint-config.xml", configName = "Custom WS-Security Endpoint")
-@InInterceptors(interceptors = "org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor") //be sure to have dependency on org.apache.cxf module when on AS7 
+//be sure to have dependency on org.apache.cxf module when on AS7, otherwise Apache CXF annotations are ignored 
+@InInterceptors(interceptors = {
+      "org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor",
+      "org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.POJOEndpointAuthorizationInterceptor"}
+)
 public class ServiceImpl implements ServiceIface
 {
    public String sayHello()
    {
       return "Secure Hello World!";
+   }
+   
+   public String greetMe()
+   {
+      return "Greetings!";
    }
 }

@@ -320,6 +320,7 @@
        <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/Service*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/POJOEndpointAuthorizationInterceptor.class"/>
        </classes>
        <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/jaas/auth/WEB-INF">
           <include name="jaxws-endpoint-config.xml"/>

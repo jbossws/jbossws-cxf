@@ -14,5 +14,19 @@
       <xs:element name="return" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
+  
+  <xs:element name="greetMe" type="tns:greetMe"/>
+
+  <xs:element name="greetMeResponse" type="tns:greetMeResponse"/>
+
+  <xs:complexType name="greetMe">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="greetMeResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
 </xs:schema>
 

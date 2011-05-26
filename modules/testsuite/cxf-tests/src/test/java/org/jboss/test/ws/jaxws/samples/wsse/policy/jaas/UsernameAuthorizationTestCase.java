@@ -58,7 +58,7 @@ public final class UsernameAuthorizationTestCase extends JBossWSTest
       assertEquals("Secure Hello World!", proxy.sayHello());
    }
 
-   public void testWrongPassword() throws Exception
+   public void testUnauthenticated() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
       URL wsdlURL = new URL(serviceURL + "?wsdl");
@@ -73,6 +73,24 @@ public final class UsernameAuthorizationTestCase extends JBossWSTest
       catch (Exception e)
       {
          //OK
+      }
+   }
+   
+   public void testUnauthorized() throws Exception
+   {
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
+      setupWsse(proxy, "kermit");
+      try
+      {
+         proxy.greetMe();
+         fail("User kermit shouldn't be authorized to call greetMe().");
+      }
+      catch (Exception e)
+      {
+         assertEquals("Unauthorized", e.getMessage());
       }
    }
 

@@ -21,18 +21,34 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.jaas;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import java.util.HashMap;
+import java.util.Map;
 
-@WebService
-(
-   targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy"
-)
-public interface ServiceIface
+import org.apache.cxf.interceptor.security.SimpleAuthorizingInterceptor;
+
+
+/**
+ * A custom interceptor for method-level POJO endpoint authorization 
+ * 
+ * @author alessio.soldano@jboss.com
+ * @since 26-May-2011
+ *
+ */
+public class POJOEndpointAuthorizationInterceptor extends SimpleAuthorizingInterceptor
 {
-   @WebMethod
-   String sayHello();
    
-   @WebMethod
-   String greetMe();
+   public POJOEndpointAuthorizationInterceptor()
+   {
+      super();
+      readRoles();
+   }
+   
+   private void readRoles()
+   {
+      //just an example, this might read from a configuration file or such
+      Map<String, String> roles = new HashMap<String, String>();
+      roles.put("sayHello", "friend");
+      roles.put("greetMe", "snoppies");
+      setMethodRolesMap(roles);
+   }
 }
