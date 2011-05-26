@@ -313,6 +313,24 @@
        </manifest>
     </war>
 
+    <!-- jaxws-samples-wsse-policy-username-jaas -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username-jaas.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/jaas/auth/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/Service*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/jaas/auth/WEB-INF">
+          <include name="jaxws-endpoint-config.xml"/>
+          <include name="jboss-web.xml"/>
+          <include name="wsdl/*"/>
+       </webinf>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+       </manifest>
+    </war>
+
     <!-- saaj-soap-connection -->
     <war
        warfile="${tests.output.dir}/test-libs/saaj-soap-connection.war"
