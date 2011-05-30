@@ -29,10 +29,13 @@
     </resources>
 
     <dependencies>
+        <module name="asm.asm" />
         <module name="javax.api" />
         <module name="javax.annotation.api" />
+        <module name="javax.jms.api" />
         <module name="javax.jws.api" />
         <module name="javax.mail.api" />
+        <module name="javax.resource.api" />
         <module name="javax.servlet.api" />
         <module name="javax.wsdl4j.api" />
         <module name="javax.xml.bind.api" services="import"/>
