@@ -31,18 +31,14 @@ import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.jms.TextMessage;
-import javax.management.ObjectName;
 import javax.naming.InitialContext;
 
 import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
 import org.jboss.ws.common.DOMUtils;
-import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
 
 /**
  * The test for cxf jms transport packaged in a jar file and deployed with jbossws-cxf.xml
@@ -55,25 +51,8 @@ public class JMSEndpointsTestCase extends JBossWSTest
 
    public static Test suite() throws Exception
    {
-      if (isHornetQAvailable()) {
-         return new JBossWSCXFTestSetup(JMSEndpointsTestCase.class, "hornetq-jmsendpoints-as6.sar, jaxws-samples-jmsendpoints-as6.jar");
-      } else {
-         return new TestSuite();
-      }
-   }
-
-   public static boolean isHornetQAvailable()
-   {
-      try
-      {
-         ObjectName oname = ObjectNameFactory.create("jboss.system:type=Server");
-         String jbossVersion = (String)getServer().getAttribute(oname, "VersionNumber");
-         return JBossWSTestHelper.isTargetJBoss6() && !jbossVersion.contains("M2");
-      }
-      catch (Exception e)
-      {
-         return false;
-      }
+      return new JBossWSCXFTestSetup(JMSEndpointsTestCase.class,
+            "hornetq-jmsendpoints-as6.sar, jaxws-samples-jmsendpoints-as6.jar");
    }
 
    public void testMessagingClient() throws Exception

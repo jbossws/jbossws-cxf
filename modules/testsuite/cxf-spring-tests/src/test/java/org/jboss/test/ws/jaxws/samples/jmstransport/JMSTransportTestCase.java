@@ -34,23 +34,19 @@ import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.jms.TextMessage;
-import javax.management.ObjectName;
 import javax.naming.InitialContext;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.jboss.ws.common.DOMUtils;
-import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
 
 /**
  * The test for cxf jms transport
@@ -61,32 +57,10 @@ public class JMSTransportTestCase extends JBossWSTest
 {
    private static boolean waitForResponse;
    
-   public static Test suite() throws Exception 
+   public static Test suite() throws Exception
    {
-		if (isHornetQAvailable()) 
-		{
-			return new JBossWSCXFTestSetup(JMSTransportTestCase.class,
-					"hornetq-samples-jmstransport-as6.sar, jaxws-samples-jmstransport.war");
-		} 
-		else 
-		{
-			return new TestSuite();
-		}
-      
-   }
-
-   private static boolean isHornetQAvailable()
-   {
-      try
-      {
-         ObjectName oname = ObjectNameFactory.create("jboss.system:type=Server");
-         String jbossVersion = (String)getServer().getAttribute(oname, "VersionNumber");
-         return JBossWSTestHelper.isTargetJBoss6() && !jbossVersion.contains("M2");
-      }
-      catch (Exception e)
-      {
-         return false;
-      }
+      return new JBossWSCXFTestSetup(JMSTransportTestCase.class,
+            "hornetq-samples-jmstransport-as6.sar, jaxws-samples-jmstransport.war");
    }
 
    public void testJMSEndpointPort() throws Exception

@@ -31,17 +31,12 @@ import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.jms.TextMessage;
-import javax.management.ObjectName;
 import javax.naming.InitialContext;
 
 import junit.framework.Test;
-import junit.framework.TestSuite;
 
-import org.jboss.test.ws.jaxws.samples.jmsendpoints.jmstransport.JMSEndpointsTestCase;
 import org.jboss.ws.common.DOMUtils;
-import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -53,34 +48,12 @@ public class FromJavaJMSTransportTestCase extends JBossWSTest
 {
    private static boolean waitForResponse;
 
-   public static Test suite() throws Exception 
+   public static Test suite() throws Exception
    {
-		if (isHornetQAvailable()) 
-		{
-			return new JBossWSTestSetup(FromJavaJMSTransportTestCase.class,
-					"hornetq-fromjava-jmsendpoints-as6.sar, jaxws-fromjava-jmsendpoints-as6.jar");
-		} 
-		else 
-		{
-			return new TestSuite();
-		}
-      
+      return new JBossWSTestSetup(FromJavaJMSTransportTestCase.class,
+            "hornetq-fromjava-jmsendpoints-as6.sar, jaxws-fromjava-jmsendpoints-as6.jar");
    }
    
-   private static boolean isHornetQAvailable()
-   {
-      try
-      {
-         ObjectName oname = ObjectNameFactory.create("jboss.system:type=Server");
-         String jbossVersion = (String)getServer().getAttribute(oname, "VersionNumber");
-         return JBossWSTestHelper.isTargetJBoss6() && !jbossVersion.contains("M2");
-      }
-      catch (Exception e)
-      {
-         return false;
-      }
-   }
-
    public void testMessagingClient() throws Exception
    {
       String reqMessage =
