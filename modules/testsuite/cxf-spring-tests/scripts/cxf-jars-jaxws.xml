@@ -92,6 +92,55 @@
         <include name="**/*" />
       </metainf>
     </jar>
+
+    <!-- jaxws-cxf-jms-api -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-api-as6.war"
+    	needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jms/TestServlet.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld*.class"/>
+      </classes>
+      <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF-as6/wsdl" 
+          prefix="WEB-INF/classes/META-INF/wsdl"/>
+    </war>
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-api-as7.war"
+    	needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jms/TestServlet.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld*.class"/>
+      </classes>
+      <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF-as7/wsdl" 
+          prefix="WEB-INF/classes/META-INF/wsdl"/>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq"/>
+      </manifest>
+    </war>
+  	
+    <!-- jaxws-jms-api-client -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-api-as6-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld*.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF-as6">
+        <include name="wsdl/**/*" />
+        <include name="jboss-dependency.xml"/>
+      </metainf>
+    </jar>
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-api-as7-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld*.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF-as7">
+        <include name="wsdl/**/*" />
+      </metainf>
+    </jar>
+    <jar jarfile="${tests.output.dir}/test-libs/hornetq-testqueue-as6.sar">
+      <fileset dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF-as6">
+        <include name="hornetq-jms.xml"/>   
+      </fileset>
+    </jar>
   	
     <!-- jaxws-cxf-webserviceref -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-webserviceref.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/webserviceref/WEB-INF/web.xml">
