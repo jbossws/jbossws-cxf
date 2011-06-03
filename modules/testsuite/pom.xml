@@ -1058,6 +1058,9 @@
                  <!-- # [JBWS-2941] HTTP Proxy authentication for JBossWS Web Service clients -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/httpproxy/**</exclude>
 
+                 <!-- # [JBWS-3306] No XPathFactory implementation found by a JAXWS client on AS7 -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/exception/ExceptionServletTestCase*</exclude>
+
                  <!-- JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
 
