@@ -989,16 +989,12 @@
                  <!-- EJB3 endpoint deployments -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1446/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws1556/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1566/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1581/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws1694/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws1799/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1815/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1822/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1841/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws1845/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1872/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2074/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2218/**</exclude>
