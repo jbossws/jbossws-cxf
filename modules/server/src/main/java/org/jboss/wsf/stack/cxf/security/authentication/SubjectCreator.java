@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf.security.authentication;
 
 import java.security.Principal;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
@@ -30,6 +31,8 @@ import javax.security.auth.callback.CallbackHandler;
 import org.apache.cxf.common.security.SimplePrincipal;
 import org.jboss.logging.Logger;
 import org.jboss.security.auth.callback.CallbackHandlerPolicyContextHandler;
+import org.jboss.ws.common.utils.DelegateClassLoader;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
 import org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallbackHandler;
 import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
@@ -84,11 +87,21 @@ public class SubjectCreator
 
       try
       {
-         if (ctx.isValid(principal, password, subject) == false)
+         ClassLoader tccl = SecurityActions.getContextClassLoader();
+         //allow PicketBox to see jbossws modules' classes
+         SecurityActions.setContextClassLoader(new DelegateClassLoader(ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader(), tccl));
+         try
          {
-            String msg = "Authentication failed, principal=" + principal.getName();
-            log.error(msg);
-            throw new SecurityException(msg);
+            if (ctx.isValid(principal, password, subject) == false)
+            {
+               String msg = "Authentication failed, principal=" + principal.getName();
+               log.error(msg);
+               throw new SecurityException(msg);
+            }
+         }
+         finally
+         {
+            SecurityActions.setContextClassLoader(tccl);
          }
       }
       finally
