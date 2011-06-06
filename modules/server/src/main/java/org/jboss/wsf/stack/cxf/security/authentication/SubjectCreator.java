@@ -36,7 +36,6 @@ import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
 import org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallbackHandler;
 import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
-import org.jboss.xb.binding.SimpleTypeBindings;
 
 /**
  * Creates Subject instances after having authenticated / authorized the provided
@@ -130,7 +129,7 @@ public class SubjectCreator
    {
       if (created != null)
       {
-         Calendar cal = SimpleTypeBindings.unmarshalDateTime(created);
+         Calendar cal = unmarshalDateTime(created);
          Calendar ref = Calendar.getInstance();
          ref.add(Calendar.SECOND, -timestampThreshold);
          if (ref.after(cal))
@@ -164,6 +163,149 @@ public class SubjectCreator
    public void setDecodeNonce(boolean decodeNonce)
    {
       this.decodeNonce = decodeNonce;
+   }
+   
+   private static Calendar unmarshalDateTime(String value)
+   {
+      Calendar cal = Calendar.getInstance();
+      cal.clear();
+
+      int timeInd = parseDate(value, 0, cal);
+      if (value.charAt(timeInd) != 'T')
+      {
+         throw new IllegalArgumentException(
+               "DateTime value does not follow the format '[-]yyyy-mm-ddThh:mm:ss[.s+][timezone]': expected 'T' but got "
+                     + value.charAt(timeInd));
+      }
+
+      int tzStart = parseTime(value, timeInd + 1, cal);
+
+      TimeZone tz = null;
+      if (value.length() > tzStart)
+      {
+         tz = parseTimeZone(value, tzStart);
+      }
+
+      if (tz != null)
+      {
+         cal.setTimeZone(tz);
+      }
+
+      return cal;
+   }
+
+   private static int parseDate(String value, int start, Calendar cal)
+   {
+      if (value.charAt(start) == '-')
+      {
+         ++start;
+      }
+
+      if (!Character.isDigit(value.charAt(start)))
+      {
+         throw new IllegalArgumentException("Date value does not follow the format '-'? yyyy '-' mm '-' dd: " + value);
+      }
+
+      int nextToken = value.indexOf('-', start);
+      if (nextToken == -1 || nextToken - start < 4)
+      {
+         throw new IllegalArgumentException("Date value does not follow the format '-'? yyyy '-' mm '-' dd: " + value);
+      }
+
+      int year = Integer.parseInt(value.substring(start, nextToken));
+
+      start = nextToken + 1;
+      nextToken = value.indexOf('-', start);
+      if (nextToken == -1 || nextToken - start < 2)
+      {
+         throw new IllegalArgumentException("Date value does not follow the format '-'? yyyy '-' mm '-' dd: " + value);
+      }
+
+      int month = Integer.parseInt(value.substring(start, nextToken));
+
+      start = nextToken + 1;
+      nextToken += 3;
+      int day = Integer.parseInt(value.substring(start, nextToken));
+
+      cal.set(Calendar.YEAR, year);
+      cal.set(Calendar.MONTH, month - 1);
+      cal.set(Calendar.DAY_OF_MONTH, day);
+
+      return nextToken;
+   }
+
+   private static int parseTime(String value, int start, Calendar cal)
+   {
+      if (value.charAt(start + 2) != ':' || value.charAt(start + 5) != ':')
+      {
+         throw new IllegalArgumentException("Time value does not follow the format 'hh:mm:ss.[s+]': " + value);
+      }
+
+      int hh = Integer.parseInt(value.substring(start, start + 2));
+      int mm = Integer.parseInt(value.substring(start + 3, start + 5));
+      int ss = Integer.parseInt(value.substring(start + 6, start + 8));
+
+      int millis = 0;
+
+      int x = start + 8;
+
+      if (value.length() > x && value.charAt(x) == '.')
+      {
+         int mul = 100;
+         for (x += 1; x < value.length(); x++)
+         {
+            char c = value.charAt(x);
+
+            if (Character.isDigit(c))
+            {
+               if (mul != 0)
+               {
+                  millis += Character.digit(c, 10) * mul;
+                  mul = (mul == 1) ? 0 : mul / 10;
+               }
+            }
+            else
+            {
+               break;
+            }
+         }
+      }
+
+      cal.set(Calendar.HOUR_OF_DAY, hh);
+      cal.set(Calendar.MINUTE, mm);
+      cal.set(Calendar.SECOND, ss);
+      cal.set(Calendar.MILLISECOND, millis);
+
+      return x;
+   }
+
+   private static TimeZone parseTimeZone(String value, int start)
+   {
+      TimeZone tz;
+      if (value.charAt(start) == '+' || (value.charAt(start) == '-'))
+      {
+         if (value.length() - start == 6 && Character.isDigit(value.charAt(start + 1))
+               && Character.isDigit(value.charAt(start + 2)) && value.charAt(start + 3) == ':'
+               && Character.isDigit(value.charAt(start + 4)) && Character.isDigit(value.charAt(start + 5)))
+         {
+            tz = TimeZone.getTimeZone("GMT" + value.substring(start));
+         }
+         else
+         {
+            throw new NumberFormatException("Timezone value does not follow the format ([+/-]HH:MM): "
+                  + value.substring(start));
+         }
+      }
+      else if (value.charAt(start) == 'Z')
+      {
+         tz = TimeZone.getTimeZone("GMT");
+      }
+      else
+      {
+         throw new NumberFormatException("Timezone value does not follow the format ([+/-]HH:MM): "
+               + value.substring(start));
+      }
+      return tz;
    }
 
 }
