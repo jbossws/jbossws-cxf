@@ -94,6 +94,7 @@
             <unpackOptions>
               <includes>
                 <include>ant-import/**</include>
+                <include>java/org/jboss/test/helper/**</include>
                 <include>java/org/jboss/test/ws/console/**</include>
                 <include>java/org/jboss/test/ws/jaxrpc/samples/**</include>
                 <include>java/org/jboss/test/ws/jaxws/samples/**</include>
