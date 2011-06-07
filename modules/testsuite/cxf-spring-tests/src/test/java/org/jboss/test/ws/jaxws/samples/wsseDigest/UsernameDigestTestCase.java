@@ -35,6 +35,7 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
+import org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallback;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -52,7 +53,30 @@ public final class UsernameDigestTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(UsernameDigestTestCase.class, "jaxws-samples-wsse-username-digest-service.sar jaxws-samples-wsse-username-digest.war");
+      JBossWSCXFTestSetup testSetup;
+      if (!isTargetJBoss6())
+      {
+         testSetup = new JBossWSCXFTestSetup(UsernameDigestTestCase.class, "jaxws-samples-wsse-username-digest.war");
+         Map<String, String> authenticationOptions = new HashMap<String, String>();
+         authenticationOptions.put("usersProperties",
+               getResourceFile("jaxws/samples/wsse/username-digest/WEB-INF/jbossws-users.properties").getAbsolutePath());
+         authenticationOptions.put("rolesProperties",
+               getResourceFile("jaxws/samples/wsse/username-digest/WEB-INF/jbossws-roles.properties").getAbsolutePath());
+         authenticationOptions.put("hashAlgorithm", "SHA");
+         authenticationOptions.put("hashEncoding", "BASE64");
+         authenticationOptions.put("hashCharset", "UTF-8");
+         authenticationOptions.put("hashUserPassword", "false");
+         authenticationOptions.put("hashStorePassword", "true");
+         authenticationOptions.put("storeDigestCallback", UsernameTokenCallback.class.getName());
+         authenticationOptions.put("unauthenticatedIdentity", "anonymous");
+         testSetup.addSecurityDomainRequirement("JBossWSDigest", authenticationOptions);
+      }
+      else
+      {
+         testSetup = new JBossWSCXFTestSetup(UsernameDigestTestCase.class,
+            "jaxws-samples-wsse-username-digest-service.sar jaxws-samples-wsse-username-digest.war");
+      }
+      return testSetup;
    }
 
    public void testAuthorized() throws Exception
