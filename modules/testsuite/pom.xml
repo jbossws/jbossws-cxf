@@ -26,6 +26,8 @@
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <hibernate.version>3.2.4.sp1</hibernate.version>
     <jboss.javaee.version>5.0.0.GA</jboss.javaee.version>
+    <org.littleshoot.littleproxy.version>0.4</org.littleshoot.littleproxy.version>
+    <org.slf4j.version>1.5.6</org.slf4j.version>
     <log4j.output.dir>${project.build.directory}</log4j.output.dir>
   </properties>
 
@@ -115,7 +117,7 @@
     <dependency>
       <groupId>org.littleshoot</groupId>
       <artifactId>littleproxy</artifactId>
-      <version>0.4</version>
+      <version>${org.littleshoot.littleproxy.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -127,6 +129,12 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${org.slf4j.version}</version>
+    </dependency>
+
   </dependencies>
 
   <!-- Build -->
