@@ -979,6 +979,10 @@
                  <!--# [JBAS-8363] Virtual host issue in JBossWeb-->
                  <exclude>org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*</exclude>
 
+                 <!-- # [JBAS-9188] Implement support for nested EJBs & WARs in .sar archives -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1854/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/jmstransport/**</exclude>
+
                  <!--# Seems MSFT interop. endpoints are down :(-->
                  <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
 
@@ -1012,24 +1016,16 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws2630/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2634/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2934/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2937/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2957/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2999/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws3026/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/benchmark/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/endpointReference/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/context/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/eardeployment/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/eardeployment/WSDLPublishTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/exception/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/advanced/retail/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/swaref/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/webservice/**/*EJB3TestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/webservice/**/EJB3Bean*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**/*EJB3TestCase*</exclude>
                  <exclude>org/jboss/test/ws/management/recording/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/bus/*EJB3*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3060/*EJB3*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/logging/**</exclude>
                  <exclude>org/jboss/test/ws/projectGenerator/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/wsseEJB/WsseEjbTestCase*</exclude>
@@ -1044,9 +1040,6 @@
 
                  <!-- # [JBWS-3225] jbossws console not yet available -->
                  <exclude>org/jboss/test/ws/console/**</exclude>
-
-                 <!-- # [JBAS-9188] Implement support for nested EJBs & WARs in .sar archives -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1854/**</exclude>
 
                  <!-- # [JBWS-3227] handlers config file not found on classpath -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3034/**</exclude>
