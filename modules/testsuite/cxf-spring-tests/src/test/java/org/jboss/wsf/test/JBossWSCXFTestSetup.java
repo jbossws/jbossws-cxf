@@ -36,10 +36,20 @@ public class JBossWSCXFTestSetup extends JBossWSTestSetup
    {
       super(testClass, archiveList);
    }
+   
+   public JBossWSCXFTestSetup(Class<?> testClass, String archiveList, boolean requiresDefaultSecurityDomain)
+   {
+      super(testClass, archiveList, requiresDefaultSecurityDomain);
+   }
 
    public JBossWSCXFTestSetup(Test test, String archiveList)
    {
       super(test, archiveList);
+   }
+   
+   public JBossWSCXFTestSetup(Test test, String archiveList, boolean requiresDefaultSecurityDomain)
+   {
+      super(test, archiveList, requiresDefaultSecurityDomain);
    }
 
    public JBossWSCXFTestSetup(Test test)

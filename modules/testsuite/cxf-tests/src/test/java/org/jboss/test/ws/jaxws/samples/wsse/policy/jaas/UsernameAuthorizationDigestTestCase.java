@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.samples.wsse.policy.jaas;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -30,6 +32,7 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallback;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -46,8 +49,30 @@ public final class UsernameAuthorizationDigestTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(UsernameAuthorizationDigestTestCase.class,
+      JBossWSCXFTestSetup testSetup;
+      if (!isTargetJBoss6())
+      {
+         testSetup = new JBossWSCXFTestSetup(UsernameAuthorizationDigestTestCase.class, "jaxws-samples-wsse-policy-username-jaas-digest.war");
+         Map<String, String> authenticationOptions = new HashMap<String, String>();
+         authenticationOptions.put("usersProperties",
+               getResourceFile("jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties").getAbsolutePath());
+         authenticationOptions.put("rolesProperties",
+               getResourceFile("jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties").getAbsolutePath());
+         authenticationOptions.put("hashAlgorithm", "SHA");
+         authenticationOptions.put("hashEncoding", "BASE64");
+         authenticationOptions.put("hashCharset", "UTF-8");
+         authenticationOptions.put("hashUserPassword", "false");
+         authenticationOptions.put("hashStorePassword", "true");
+         authenticationOptions.put("storeDigestCallback", UsernameTokenCallback.class.getName());
+         authenticationOptions.put("unauthenticatedIdentity", "anonymous");
+         testSetup.addSecurityDomainRequirement("JBossWSDigest", authenticationOptions);
+      }
+      else
+      {
+         testSetup = new JBossWSCXFTestSetup(UsernameAuthorizationDigestTestCase.class,
             "jaxws-samples-wsse-policy-username-jaas-digest-service.sar jaxws-samples-wsse-policy-username-jaas-digest.war");
+      }
+      return testSetup;
    }
    
    public void test() throws Exception

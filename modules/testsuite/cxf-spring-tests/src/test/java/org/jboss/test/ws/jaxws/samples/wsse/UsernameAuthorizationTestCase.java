@@ -52,7 +52,7 @@ public final class UsernameAuthorizationTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(UsernameAuthorizationTestCase.class, "jaxws-samples-wsse-username-authorize.war");
+      return new JBossWSCXFTestSetup(UsernameAuthorizationTestCase.class, "jaxws-samples-wsse-username-authorize.war", !isTargetJBoss6());
    }
 
    public void testAuthorized() throws Exception
