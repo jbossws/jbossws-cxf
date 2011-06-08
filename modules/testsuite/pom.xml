@@ -393,6 +393,14 @@
                   <value>${project.build.directory}</value>
                 </property>
                 <property>
+                  <name>org.jboss.ws.testsuite.securityDomain.users.propfile</name>
+                  <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.testsuite.securityDomain.roles.propfile</name>
+                  <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
+                </property>
+                <property>
                   <name>org.jboss.ws.wsse.keyStore</name>
                   <value>${test.resources.directory}/jaxws/samples/wssecurity/wsse.keystore</value>
                 </property>
