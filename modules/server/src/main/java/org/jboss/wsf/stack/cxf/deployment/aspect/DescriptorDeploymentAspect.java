@@ -76,7 +76,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
       }
       else
       {
-         log.warn("Spring not available, skipping check for user provided jbossws-cxf.xml / cxf.xml configuration files.");
+         log.info("Spring not available, skipping check for user provided jbossws-cxf.xml / cxf.xml configuration files.");
          generateMetadataFromDeployment(dep);
       }
    }
