@@ -38,7 +38,7 @@ public class HelloWorldImpl implements HelloWorld
       ClassLoader cl = Thread.currentThread().getContextClassLoader();
       //JBWS-3223
       //use check on class to avoid dependency declaration in MANIFEST for AS7
-      if (cl.getClass().getName().equals("org.jboss.wsf.stack.cxf.client.util.DelegateClassLoader")) {
+      if (cl.getClass().getName().equals("org.jboss.ws.common.utils.DelegateClassLoader")) {
          cl = cl.getParent();
       }
       return cl.toString() + cl.hashCode();

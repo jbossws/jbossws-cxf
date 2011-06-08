@@ -42,8 +42,8 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.jboss.logging.Logger;
+import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
-import org.jboss.wsf.stack.cxf.client.util.DelegateClassLoader;
 import org.w3c.dom.Element;
 
 /**
