@@ -37,6 +37,8 @@ import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
 import org.apache.cxf.service.Service;
 import org.jboss.logging.Logger;
+import org.jboss.ws.common.utils.DelegateClassLoader;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.metadata.config.CommonConfig;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
@@ -135,13 +137,16 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
                   Logger.getLogger(this.getClass()).warn("Init params not supported.");
                }
                Object h = newInstance(uhmd.getHandlerClass());
-               if (h instanceof Handler)
+               if (h != null)
                {
-                  handlers.add((Handler)h);
-               }
-               else
-               {
-                  throw new RuntimeException(h + " is not a JAX-WS Handler instance!");
+                  if (h instanceof Handler)
+                  {
+                     handlers.add((Handler)h);
+                  }
+                  else
+                  {
+                     throw new RuntimeException(h + " is not a JAX-WS Handler instance!");
+                  }
                }
             }
          }
@@ -153,12 +158,15 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
    {
       try
       {
-         Class<?> clazz = SecurityActions.getContextClassLoader().loadClass(className);
+         ClassLoader loader = new DelegateClassLoader(ClassLoaderProvider.getDefaultProvider()
+               .getServerIntegrationClassLoader(), SecurityActions.getContextClassLoader());
+         Class<?> clazz = loader.loadClass(className);
          return clazz.newInstance();
       }
       catch (Exception e)
       {
-         throw new RuntimeException(e);
+         Logger.getLogger(EndpointImpl.class).warnf(e, "Could not add handler '%s' as part of endpoint configuration", className);
+         return null;
       }
    }
    
