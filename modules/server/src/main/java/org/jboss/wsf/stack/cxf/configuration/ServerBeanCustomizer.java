@@ -26,8 +26,13 @@ import java.util.List;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
 import org.jboss.ws.api.annotation.EndpointConfig;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.wsf.spi.management.ServerConfigFactory;
 import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
 import org.jboss.wsf.spi.metadata.config.ConfigRoot;
 import org.jboss.wsf.stack.cxf.AbstractInvoker;
@@ -42,6 +47,8 @@ import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
  */
 public class ServerBeanCustomizer extends BeanCustomizer
 {
+   private static ServerConfig serverConfig;
+   
    private WSDLFilePublisher wsdlPublisher;
 
    private List<Endpoint> depEndpoints;
@@ -90,22 +97,60 @@ public class ServerBeanCustomizer extends BeanCustomizer
       {
          Object implementor = endpoint.getImplementor();
          EndpointConfig epConfig = implementor.getClass().getAnnotation(EndpointConfig.class);
+         
+         String configName = org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG;
+         String configFile = null;
          if (epConfig != null)
          {
-            String configFile = epConfig.configFile();
+            if (!epConfig.configName().isEmpty())
+            {
+               configName = epConfig.configName();
+            }
+            if (!epConfig.configFile().isEmpty())
+            {
+               configFile = epConfig.configFile();
+            }
+         }
+
+         if (configFile == null)
+         {
+            //use endpoint configs from AS domain
+            ServerConfig sc = getServerConfig();
+            for (org.jboss.wsf.spi.metadata.config.EndpointConfig config : sc.getEndpointConfigs())
+            {
+               if (config.getConfigName().equals(configName))
+               {
+                  endpoint.setEndpointConfig(config);
+                  break;
+               }
+            }
+         }
+         else
+         {
+            //look for provided endpoint config file
             try
             {
                UnifiedVirtualFile vf = deploymentRoot.findChild(configFile);
                ConfigRoot config = ConfigMetaDataParser.parse(vf.toURL());
-               endpoint.setEndpointConfig(config.getEndpointConfigByName(epConfig.configName()));
+               endpoint.setEndpointConfig(config.getEndpointConfigByName(configName));
             }
             catch (IOException e)
             {
-               throw new RuntimeException("Could not find " + configFile);
+               throw new RuntimeException("Could not read from config file: " + configFile);
             }
-            //TODO [JBWS-3286] use default endpoint configuration as a fallback
          }
       }
+   }
+   
+   private static synchronized ServerConfig getServerConfig()
+   {
+      if (serverConfig == null)
+      {
+         final ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
+         SPIProvider spiProvider = SPIProviderResolver.getInstance(cl).getProvider();
+         serverConfig = spiProvider.getSPI(ServerConfigFactory.class, cl).getServerConfig();
+      }
+      return serverConfig;
    }
    
    public void setDeploymentRoot(UnifiedVirtualFile deploymentRoot)
