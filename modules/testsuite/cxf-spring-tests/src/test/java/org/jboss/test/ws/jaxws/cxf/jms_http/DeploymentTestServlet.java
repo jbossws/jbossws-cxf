@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.cxf.jms;
+package org.jboss.test.ws.jaxws.cxf.jms_http;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,14 +30,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Endpoint;
 import javax.xml.ws.Service;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 
 @WebServlet(name = "TestServlet", urlPatterns = "/*")
-public class TestServlet extends HttpServlet
+public class DeploymentTestServlet extends HttpServlet
 {
    private static final long serialVersionUID = 1L;
 
@@ -47,24 +46,24 @@ public class TestServlet extends HttpServlet
       try
       {
          boolean result;
-         URL wsdlUrl = Thread.currentThread().getContextClassLoader()
-               .getResource("META-INF/wsdl/HelloWorldService.wsdl");
+         URL wsdlUrl = Thread.currentThread().getContextClassLoader().getResource("META-INF/wsdl/HelloWorldService.wsdl");
          //start a new bus to avoid affecting the one that could already be assigned to this thread
          Bus bus = BusFactory.newInstance().createBus();
          BusFactory.setThreadDefaultBus(bus);
-         Object implementor = new HelloWorldImpl();
-         Endpoint ep = Endpoint.publish("jms:queue:testQueue", implementor);
          try
          {
             QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
-
             Service service = Service.create(wsdlUrl, serviceName);
+            
+            //JMS test
             HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
             result = "Hi".equals(proxy.echo("Hi"));
+            //HTTP test
+            HelloWorld httpProxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HttpHelloWorldImplPort"), HelloWorld.class);
+            result = result && "(http) Hi".equals(httpProxy.echo("Hi"));
          }
          finally
          {
-            ep.stop();
             bus.shutdown(true);
          }
          res.getWriter().print(result);

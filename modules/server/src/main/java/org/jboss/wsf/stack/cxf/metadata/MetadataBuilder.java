@@ -39,6 +39,7 @@ import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.HttpEndpoint;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
@@ -73,14 +74,17 @@ public class MetadataBuilder
       {
          DDEndpoint ddep = createDDEndpoint(ep.getTargetBeanClass(), (ArchiveDeployment)dep, ep);
 
-         if (depType == DeploymentType.JAXWS_EJB3)
+         if (ep instanceof HttpEndpoint)
          {
-            ddep.setInvoker(invokerEJB3);
-         }
-
-         if (depType == DeploymentType.JAXWS_JSE)
-         {
-            ddep.setInvoker(invokerJSE);
+            if (depType == DeploymentType.JAXWS_EJB3)
+            {
+               ddep.setInvoker(invokerEJB3);
+            }
+   
+            if (depType == DeploymentType.JAXWS_JSE)
+            {
+               ddep.setInvoker(invokerJSE);
+            }
          }
 
          processWSDDContribution(ddep, (ArchiveDeployment)dep);

@@ -68,7 +68,7 @@
       <soap:address location="jms:queue:testQueue"/>
     </wsdl:port>
     <wsdl:port binding="tns:HttpHelloWorldServiceSoapBinding" name="HttpHelloWorldImplPort">
-      <soap:address location="http://host:port"/><!-- will be rewritten at deploy time -->
+      <soap:address location="http://localhost:8080/jaxws-cxf-jms-http-deployment"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

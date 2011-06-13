@@ -728,6 +728,11 @@
 
                 <!-- # [JBWS-3205] JDKLogManager not used -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
+
+                <!-- # [JBWS-3125] SOAP over JMS 1.0 deployment support available on AS 7 only -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/**</exclude>
+
               </excludes>
             </configuration>
           </plugin>
@@ -877,6 +882,11 @@
 
                  <!-- # [JBWS-3205] JDKLogManager not used -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
+
+                 <!-- # [JBWS-3125] SOAP over JMS 1.0 deployment support available on AS 7 only -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/**</exclude>
+
               </excludes>
             </configuration>
           </plugin>

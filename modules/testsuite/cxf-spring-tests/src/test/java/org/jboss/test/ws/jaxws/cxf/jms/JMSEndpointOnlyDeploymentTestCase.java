@@ -26,7 +26,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Endpoint;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
@@ -35,50 +34,37 @@ import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
- * Test case for publishing a JMS (SOAP-over-JMS 1.0) endpoint through API 
+ * Test case for deploying an archive with a JMS (SOAP-over-JMS 1.0) endpoint only 
  *
  * @author alessio.soldano@jboss.com
- * @since 29-Apr-2011
+ * @since 10-Jun-2011
  */
-public final class JMSEndpointAPITestCase extends JBossWSTest
+public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      if (isTargetJBoss6()) {
-         return new JBossWSCXFTestSetup(JMSEndpointAPITestCase.class, "hornetq-testqueue-as6.sar,jaxws-cxf-jms-api-as6-client.jar,jaxws-cxf-jms-api-as6.war");
-      } else {
-         return new JBossWSCXFTestSetup(JMSEndpointAPITestCase.class, "jaxws-cxf-jms-api-as7-client.jar,jaxws-cxf-jms-api-as7.war");
-      }
+      return new JBossWSCXFTestSetup(JMSEndpointOnlyDeploymentTestCase.class, "jaxws-cxf-jms-only-deployment-test-servlet.war,jaxws-cxf-jms-only-deployment.jar");
    }
    
-   public void testServerSide() throws Exception
+   public void testJMSEndpointServerSide() throws Exception
    {
-      final String asSuffix = isTargetJBoss6() ? "as6" : "as7";
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-api-" + asSuffix);
+      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-only-deployment-test-servlet");
       BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
       assertEquals("true", br.readLine());
    }
    
-   public void testClientSide() throws Exception
+   public void testJMSEndpointClientSide() throws Exception
    {
-      if (!isTargetJBoss6()) {
+      if (!isTargetJBoss6())
+      {
          System.out.println("FIXME: can't lookup ConnectionFactory, remote JNDI binding not available yet on AS7");
          return;
       }
       URL wsdlUrl = Thread.currentThread().getContextClassLoader().getResource("META-INF/wsdl/HelloWorldService.wsdl");
-      Object implementor = new HelloWorldImpl();
-      Endpoint ep = Endpoint.publish("jms:queue:testQueue", implementor);
-      try
-      {
-         QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
-         
-         Service service = Service.create(wsdlUrl, serviceName);
-         HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
-         assertEquals("Hi", proxy.echo("Hi"));
-      }
-      finally
-      {
-         ep.stop();
-      }
+      QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
+
+      Service service = Service.create(wsdlUrl, serviceName);
+      HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
+      assertEquals("Hi", proxy.echo("Hi"));
    }
 }

@@ -142,6 +142,63 @@
       </fileset>
     </jar>
   	
+    <!-- jaxws-jms-only-deployment -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-only-deployment.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld*.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF-as7">
+        <include name="wsdl/**/*" />
+      </metainf>
+      <manifest>
+        <attribute name="Dependencies" value="org.hornetq"/>
+      </manifest>
+    </jar>
+  	
+    <!-- jaxws-jms-http-deployment -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-http-deployment.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jms_http/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jms_http/HelloWorld*.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jms_http/HttpHelloWorld*.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/jms_http/WEB-INF">
+        <include name="wsdl/**"/>
+      </webinf>
+      <manifest>
+        <attribute name="Dependencies" value="org.hornetq"/>
+      </manifest>
+    </war>
+  	
+    <!-- jaxws-jms-only-deployment-test-servlet -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-only-deployment-test-servlet.war"
+    	needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jms/DeploymentTestServlet.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld.class"/>
+      </classes>
+      <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF-as7/wsdl" 
+          prefix="WEB-INF/classes/META-INF/wsdl"/>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq"/>
+      </manifest>
+    </war>
+  	
+    <!-- jaxws-jms-http-deployment-test-servlet -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-http-deployment-test-servlet.war"
+    	needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jms_http/DeploymentTestServlet.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jms_http/HelloWorld.class"/>
+      </classes>
+      <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/cxf/jms_http/WEB-INF/wsdl" 
+          prefix="WEB-INF/classes/META-INF/wsdl"/>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq"/>
+      </manifest>
+    </war>
+  	
     <!-- jaxws-cxf-webserviceref -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-webserviceref.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/webserviceref/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
