@@ -24,10 +24,6 @@
     <property name="descriptorName">webservices.xml</property>
   </bean>
   
-  <bean name="CXFJMSDescriptorParser" class="org.jboss.wsf.stack.cxf.deployment.jms.JMSDescriptorParserImpl">
-    <property name="descriptorName">jbossws-cxf.xml</property>
-  </bean>
-  
   <!-- Installed Record Processors-->
   <bean name="WSMemoryBufferRecorder" class="org.jboss.ws.common.monitoring.MemoryBufferRecorder">
     <property name="recording">false</property>
@@ -94,15 +90,4 @@
     <property name="forJaxRpc">false</property>
   </bean>
   
-  <!---JMSEndpoints Deployment Aspect--> 
-  <bean name="JMSEndpointDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.JMSEndpointDeploymentAspect">
-    <property name="provides">BusHolder</property>
-    <property name="forJaxRpc">false</property>
-  </bean>
-  
-  <bean name="JMSEndpointRegistryDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.JMSEndpointRegistryDeploymentAspect">
-    <property name="requires">BusHolder</property>
-    <property name="forJaxRpc">false</property>
-  </bean>
-
 </deployment>

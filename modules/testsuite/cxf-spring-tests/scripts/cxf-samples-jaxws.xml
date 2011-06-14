@@ -35,44 +35,6 @@
        </webinf>
     </war>
   	
-  	<!-- jms transport from java for as6 -->
-  	
-    <jar jarfile="${tests.output.dir}/test-libs/hornetq-fromjava-jmsendpoints-as6.sar">
-        <fileset dir="${tests.output.dir}/test-resources/jaxws/samples/jmsendpoints/META-INF">
-          <include name="hornetq-jms.xml"/>   
-        </fileset>
-    </jar>
-  	
-    <jar jarfile="${tests.output.dir}/test-libs/jaxws-fromjava-jmsendpoints-as6.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/samples/jmstransport/Organization.class"/>
-        <include name="org/jboss/test/ws/jaxws/samples/jmstransport/OrganizationJmsImpl.class"/>
-      </fileset>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmstransport/fromjava/META-INF">
-        <include name="jbossws-cxf.xml"/>
-      	<include name="jboss-dependency.xml"/>
-      </metainf>
-    </jar>
-    	
-    <!-- jms endpoints sample-->
-     	
-    <jar jarfile="${tests.output.dir}/test-libs/hornetq-jmsendpoints-as6.sar">
-        <fileset dir="${tests.output.dir}/test-resources/jaxws/samples/jmsendpoints/META-INF">
-          <include name="hornetq-jms.xml"/>   
-        </fileset>
-    </jar>
-  	
-    <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-jmsendpoints-as6.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/samples/jmsendpoints/jmstransport/Organization.class"/>
-        <include name="org/jboss/test/ws/jaxws/samples/jmsendpoints/jmstransport/OrganizationJmsEndpoint.class"/>
-      </fileset>
-        <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/jmsendpoints/META-INF">
-          <include name="jbossws-cxf.xml"/>
-          <include name="jboss-dependency.xml"/>
-        </metainf>
-    </jar>
-
     <!-- jaxws-samples-wsrm -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsrm.war"

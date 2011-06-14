@@ -70,17 +70,6 @@
   </deploymentAspect>
 
   <!--
-
-  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.JMSEndpointDeploymentAspect">
-    <property name="provides" class="java.lang.String">BusHolder</property>
-    <property name="forJaxRpc" class="boolean">false</property>
-  </deploymentAspect>
-
-  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.JMSEndpointRegistryDeploymentAspect">
-    <property name="requires" class="java.lang.String">BusHolder</property>
-    <property name="forJaxRpc" class="boolean">false</property>
-  </deploymentAspect>
-
   <deploymentAspect class="org.jboss.ws.common.deployment.EndpointRecordProcessorDeploymentAspect">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
     <property name="requires" class="java.lang.String">RegisteredEndpoint</property>
