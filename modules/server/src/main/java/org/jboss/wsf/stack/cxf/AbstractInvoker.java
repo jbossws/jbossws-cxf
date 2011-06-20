@@ -235,7 +235,10 @@ public abstract class AbstractInvoker implements Invoker
   }
 
 
-   protected abstract WebServiceContext getWebServiceContext(MessageContext msgCtx);
+   protected WebServiceContext getWebServiceContext(MessageContext msgCtx)
+   {
+      return getWebServiceContextFactory().newWebServiceContext(msgCtx);
+   }
 
    protected Map<String, Object> removeHandlerProperties(WrappedMessageContext ctx)
    {
@@ -333,7 +336,7 @@ public abstract class AbstractInvoker implements Invoker
       }
    }
    
-   protected WebServiceContextFactory getWebServiceContextFactory()
+   protected synchronized WebServiceContextFactory getWebServiceContextFactory()
    {
       if (contextFactory == null)
       {

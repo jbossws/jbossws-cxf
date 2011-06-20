@@ -21,10 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf;
 
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
-
-import org.jboss.wsf.spi.invocation.InvocationType;
 
 /**
  * An XFire invoker for EJB3
@@ -35,8 +31,5 @@ import org.jboss.wsf.spi.invocation.InvocationType;
  */
 public class InvokerEJB3 extends AbstractInvoker
 {
-   protected WebServiceContext getWebServiceContext(MessageContext msgCtx)
-   {
-      return getWebServiceContextFactory().newWebServiceContext(InvocationType.JAXWS_EJB3, msgCtx);
-   }
+   // TODO: remove this class
 }

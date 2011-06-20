@@ -21,10 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf;
 
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
-
-import org.jboss.wsf.spi.invocation.InvocationType;
 
 /**
  * An CXF invoker for JSE
@@ -35,8 +31,5 @@ import org.jboss.wsf.spi.invocation.InvocationType;
  */
 public class InvokerJSE extends AbstractInvoker
 {
-   protected WebServiceContext getWebServiceContext(MessageContext msgCtx)
-   {
-      return getWebServiceContextFactory().newWebServiceContext(InvocationType.JAXWS_JSE, msgCtx);
-   }
+   // TODO: remove this class
 }
