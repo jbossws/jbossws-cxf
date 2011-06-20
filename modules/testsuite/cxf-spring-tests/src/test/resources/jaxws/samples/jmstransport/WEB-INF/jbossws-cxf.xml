@@ -9,11 +9,7 @@
 
   <import resource="classpath:META-INF/cxf/cxf-extension-jms.xml"/>    
 	<jaxws:endpoint id='SOAPQueryService'
-		implementor='org.jboss.test.ws.jaxws.samples.jmstransport.OrganizationHttpEndpoint'
-                >
-		<jaxws:invoker>
-			<bean class='org.jboss.wsf.stack.cxf.InvokerJSE'/>
-		</jaxws:invoker>
+		implementor='org.jboss.test.ws.jaxws.samples.jmstransport.OrganizationHttpEndpoint'>
 	</jaxws:endpoint>
 
 	<jaxws:endpoint id='JMSQueryService'

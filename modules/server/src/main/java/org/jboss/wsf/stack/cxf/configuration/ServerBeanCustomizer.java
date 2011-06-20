@@ -35,7 +35,7 @@ import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.management.ServerConfigFactory;
 import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
 import org.jboss.wsf.spi.metadata.config.ConfigRoot;
-import org.jboss.wsf.stack.cxf.AbstractInvoker;
+import org.jboss.wsf.stack.cxf.CXFInvoker;
 import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
@@ -67,9 +67,9 @@ public class ServerBeanCustomizer extends BeanCustomizer
       {
          ServerFactoryBean factory = (ServerFactoryBean) beanInstance;
 
-         if (factory.getInvoker() instanceof AbstractInvoker)
+         if (factory.getInvoker() instanceof CXFInvoker)
          {
-            ((AbstractInvoker) factory.getInvoker()).setTargetBean(factory.getServiceBean());
+            ((CXFInvoker) factory.getInvoker()).setTargetBean(factory.getServiceBean());
          }
          if (depEndpoints != null)
          {

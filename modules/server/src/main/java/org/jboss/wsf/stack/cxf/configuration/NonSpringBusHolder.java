@@ -40,6 +40,7 @@ import org.apache.cxf.ws.rm.RMManager;
 import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.stack.cxf.CXFInvoker;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringBusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
@@ -91,7 +92,7 @@ public class NonSpringBusHolder extends BusHolder
       for (DDEndpoint dde : metadata.getEndpoints())
       {
          EndpointImpl endpoint = new EndpointImpl(bus, newInstance(dde.getImplementor()));
-         endpoint.setInvoker((Invoker) newInstance(dde.getInvoker()));
+         endpoint.setInvoker(new CXFInvoker());
          endpoint.setAddress(dde.getAddress());
          endpoint.setEndpointName(dde.getPortName());
          endpoint.setServiceName(dde.getServiceName());
