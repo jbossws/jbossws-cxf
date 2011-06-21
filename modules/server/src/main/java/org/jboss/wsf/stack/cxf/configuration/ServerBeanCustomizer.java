@@ -96,6 +96,13 @@ public class ServerBeanCustomizer extends BeanCustomizer
       if (!endpoint.isPublished()) //before publishing, we set the jaxws conf
       {
          Object implementor = endpoint.getImplementor();
+
+         // setup our invoker for http endpoints if invoker is not configured in jbossws-cxf.xml DD
+         boolean isHttpEndpoint = (endpoint.getAddress().substring(0, 5).toLowerCase().startsWith("http"));
+         if ((endpoint.getInvoker() == null) && isHttpEndpoint) 
+         {
+            endpoint.setInvoker(new JBossWSInvoker());
+         }
          EndpointConfig epConfig = implementor.getClass().getAnnotation(EndpointConfig.class);
          
          String configName = org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG;
