@@ -98,7 +98,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
          Object implementor = endpoint.getImplementor();
 
          // setup our invoker for http endpoints if invoker is not configured in jbossws-cxf.xml DD
-         boolean isHttpEndpoint = (endpoint.getAddress().substring(0, 5).toLowerCase().startsWith("http"));
+         boolean isHttpEndpoint = endpoint.getAddress() != null && endpoint.getAddress().substring(0, 5).toLowerCase().startsWith("http");
          if ((endpoint.getInvoker() == null) && isHttpEndpoint) 
          {
             endpoint.setInvoker(new JBossWSInvoker());
