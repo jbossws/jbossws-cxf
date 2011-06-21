@@ -40,8 +40,6 @@
   <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.DescriptorDeploymentAspect">
     <property name="requires" class="java.lang.String">EndpointAddress,JAXBIntros</property>
     <property name="provides" class="java.lang.String">StackDescriptor</property>
-    <property name="invokerEJB3" class="java.lang.String">org.jboss.wsf.stack.cxf.InvokerEJB3</property>
-    <property name="invokerJSE" class="java.lang.String">org.jboss.wsf.stack.cxf.InvokerJSE</property>
     <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 

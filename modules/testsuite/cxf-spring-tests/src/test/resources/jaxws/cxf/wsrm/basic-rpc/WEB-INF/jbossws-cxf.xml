@@ -16,7 +16,7 @@
   
   <jaxws:endpoint id='TestService' address='http://@jboss.bind.address@:8080/jaxws-cxf-wsrm-basic-rpc' implementor='org.jboss.test.ws.jaxws.cxf.wsrm.BasicRPCEndpointImpl'>
     <jaxws:invoker>
-      <bean class='org.jboss.wsf.stack.cxf.InvokerJSE'/>
+      <bean class='org.jboss.wsf.stack.cxf.JBossWSInvoker'/>
     </jaxws:invoker>
     <jaxws:features>
       <p:policies>

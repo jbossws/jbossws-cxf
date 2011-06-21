@@ -16,7 +16,7 @@
   
   <jaxws:endpoint id='RMService' address='http://@jboss.bind.address@:8080/jaxws-cxf-wsrm-basic-doc' implementor='org.jboss.test.ws.jaxws.cxf.wsrm.BasicDocEndpointImpl'>
     <jaxws:invoker>
-      <bean class='org.jboss.wsf.stack.cxf.InvokerJSE'/>
+      <bean class='org.jboss.wsf.stack.cxf.JBossWSInvoker'/>
     </jaxws:invoker>
     <jaxws:features>
       <p:policies>

@@ -27,7 +27,7 @@
     address='http://@jboss.bind.address@:8080/jaxws-samples-wsseEJB/EjbEndpointService/EjbEndpoint'
     implementor='org.jboss.test.ws.jaxws.samples.wsseEJB.EjbEndpointImpl'>
     <jaxws:invoker>
-      <bean class='org.jboss.wsf.stack.cxf.InvokerEJB3'/>
+      <bean class='org.jboss.wsf.stack.cxf.JBossWSInvoker'/>
     </jaxws:invoker>
     <jaxws:inInterceptors>
         <ref bean="SecurityContextIn"/>

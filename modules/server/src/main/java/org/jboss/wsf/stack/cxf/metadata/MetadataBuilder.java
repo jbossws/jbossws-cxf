@@ -47,6 +47,7 @@ import org.jboss.wsf.spi.metadata.webservices.PortComponentMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebserviceDescriptionMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebservicesFactory;
 import org.jboss.wsf.spi.metadata.webservices.WebservicesMetaData;
+import org.jboss.wsf.stack.cxf.JBossWSInvoker;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
@@ -66,9 +67,8 @@ public class MetadataBuilder
       
    }
    
-   public DDBeans build(Deployment dep, String invokerEJB3, String invokerJSE)
+   public DDBeans build(Deployment dep)
    {
-      DeploymentType depType = dep.getType();
       DDBeans dd = new DDBeans();
       for (Endpoint ep : dep.getService().getEndpoints())
       {
@@ -76,17 +76,8 @@ public class MetadataBuilder
 
          if (ep instanceof HttpEndpoint)
          {
-            if (depType == DeploymentType.JAXWS_EJB3)
-            {
-               ddep.setInvoker(invokerEJB3);
-            }
-   
-            if (depType == DeploymentType.JAXWS_JSE)
-            {
-               ddep.setInvoker(invokerJSE);
-            }
+            ddep.setInvoker(JBossWSInvoker.class.getName());
          }
-
          processWSDDContribution(ddep, (ArchiveDeployment)dep);
 
          log.info("Add " + ddep);

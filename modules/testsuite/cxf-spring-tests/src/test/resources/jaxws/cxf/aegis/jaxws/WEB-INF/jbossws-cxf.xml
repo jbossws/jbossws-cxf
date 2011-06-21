@@ -20,7 +20,7 @@
 			<ref bean='aegis-service-factory' />
 		</jaxws:serviceFactory>
 		<jaxws:invoker>
-			<bean class='org.jboss.wsf.stack.cxf.InvokerJSE' />
+			<bean class='org.jboss.wsf.stack.cxf.JBossWSInvoker' />
 		</jaxws:invoker>
 	</jaxws:endpoint>
 
