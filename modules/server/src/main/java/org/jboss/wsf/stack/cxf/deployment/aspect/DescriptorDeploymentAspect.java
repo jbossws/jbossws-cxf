@@ -48,6 +48,19 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
    // provide logging
    private static final Logger log = Logger.getLogger(DescriptorDeploymentAspect.class);
 
+   private String invokerEJB3;
+   private String invokerJSE;
+
+   public void setInvokerEJB3(String invokerEJB3)
+   {
+      this.invokerEJB3 = invokerEJB3;
+   }
+
+   public void setInvokerJSE(String invokerJSE)
+   {
+      this.invokerJSE = invokerJSE;
+   }
+   
    @Override
    public void start(Deployment dep)
    {
@@ -147,7 +160,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
    private DDBeans generateMetadataFromDeployment(Deployment dep)
    {
       MetadataBuilder builder = new MetadataBuilder();
-      DDBeans dd = builder.build(dep);
+      DDBeans dd = builder.build(dep, invokerEJB3, invokerJSE);
       dep.addAttachment(DDBeans.class, dd);
       return dd;
    }

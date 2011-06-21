@@ -44,6 +44,8 @@ public class DDEndpoint
 
    private String implementor;
 
+   private String invoker;
+
    private boolean mtomEnabled;
    
    private int mtomThreshold;
@@ -141,6 +143,11 @@ public class DDEndpoint
       this.epClass = epClass;
    }
 
+   public String getInvoker()
+   {
+      return invoker;
+   }
+   
    public List<String> getHandlers()
    {
       return handlers;
@@ -151,6 +158,11 @@ public class DDEndpoint
       return mtomEnabled;
    }
 
+   public void setInvoker(String invoker)
+   {
+      this.invoker = invoker;
+   }
+   
    public void setHandlers(List<String> handlers)
    {
       this.handlers = handlers;
@@ -264,6 +276,11 @@ public class DDEndpoint
         }
        
 
+      if (this.invoker != null)
+      {
+         writer.write("<jaxws:invoker><bean class='" + this.invoker + "'/></jaxws:invoker>");
+      }
+      
       if (this.handlers != null && !this.handlers.isEmpty())
       {
          writer.write("<jaxws:handlers>");
@@ -304,6 +321,7 @@ public class DDEndpoint
       str.append("\n id=" + this.id);
       str.append("\n address=" + this.address);
       str.append("\n implementor=" + this.implementor);
+      str.append("\n invoker=" + this.invoker);
       str.append("\n serviceName=" + this.serviceName);
       str.append("\n portName=" + this.portName);
       str.append("\n wsdlLocation=" + this.wsdlLocation);

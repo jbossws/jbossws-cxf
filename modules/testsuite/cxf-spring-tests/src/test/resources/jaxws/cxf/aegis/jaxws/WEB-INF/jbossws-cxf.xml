@@ -19,6 +19,9 @@
 		<jaxws:serviceFactory>
 			<ref bean='aegis-service-factory' />
 		</jaxws:serviceFactory>
+		<jaxws:invoker>
+			<bean class='org.jboss.wsf.stack.cxf.InvokerJSE' />
+		</jaxws:invoker>
 	</jaxws:endpoint>
 
 </beans>

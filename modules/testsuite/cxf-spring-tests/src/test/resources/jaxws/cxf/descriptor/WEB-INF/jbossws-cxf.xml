@@ -6,6 +6,11 @@
   
   <jaxws:endpoint id='TestService' address='http://@jboss.bind.address@:8080/jaxws-cxf-descriptor'
     implementor='org.jboss.test.ws.jaxws.cxf.descriptor.DescriptorEndpointImpl'>
+    
+    <jaxws:invoker>
+      <bean class='org.jboss.wsf.stack.cxf.InvokerJSE'/>
+    </jaxws:invoker>
+    
   </jaxws:endpoint>
   
 </beans>

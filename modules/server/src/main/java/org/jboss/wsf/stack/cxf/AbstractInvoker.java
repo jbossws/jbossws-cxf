@@ -91,7 +91,7 @@ import org.jboss.wsf.spi.invocation.WebServiceContextFactory;
  * 
  * @see org.apache.cxf.jaxws.AbstractJAXWSMethodInvoker
  */
-public final class CXFInvoker implements Invoker
+public abstract class AbstractInvoker implements Invoker
 {
    private static final Object[] NO_ARGS = new Object[]{};
    private Object targetBean;
@@ -336,7 +336,7 @@ public final class CXFInvoker implements Invoker
       }
    }
    
-   protected WebServiceContextFactory getWebServiceContextFactory()
+   protected synchronized WebServiceContextFactory getWebServiceContextFactory()
    {
       if (contextFactory == null)
       {
