@@ -1072,6 +1072,9 @@
                  <!-- # [JBWS-3306] No XPathFactory implementation found by a JAXWS client on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/exception/ExceptionServletTestCase*</exclude>
 
+                 <!-- # [JBWS-3321] Enhance ModelDA to generate compatible PathElements -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/descriptor/DescriptorJSETestCase*</exclude>
+
                  <!-- JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
 
