@@ -215,6 +215,9 @@
        <zipfileset
           dir="${tests.output.dir}/test-resources/jaxws/samples/wsrm/WEB-INF/wsdl" 
           prefix="WEB-INF/wsdl"/>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.cxf"/>
+       </manifest>
     </war>
   	
     <!-- jaxws-samples-wsse-policy-sign -->
