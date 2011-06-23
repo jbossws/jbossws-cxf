@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.WebServiceFeature;
@@ -35,6 +36,7 @@ import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.jaxws.support.JaxWsServiceFactoryBean;
 import org.jboss.logging.Logger;
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedPortComponentRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedStubPropertyMetaData;
@@ -47,6 +49,7 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedStubPropertyMetaData;
  */
 final class CXFServiceRefStubPropertyConfigurer implements Configurer
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(CXFServiceRefStubPropertyConfigurer.class);
    private UnifiedServiceRefMetaData serviceRefMD;
    private Configurer delegate;
 
@@ -75,8 +78,8 @@ final class CXFServiceRefStubPropertyConfigurer implements Configurer
             portQName = QName.valueOf(portName);
          }
          catch (Exception e)
-         {
-            Logger.getLogger(this.getClass()).warn("Unable to retrieve port QName from '" + name + "', trying matching port using endpoint interface name only.");
+         {            
+            Logger.getLogger(this.getClass()).warn(BundleUtils.getMessage(bundle, "UNABLE_TO_RETRIEVE_PORT_QNAME", name));
          }
          configureJaxWsProxyFactoryBean(portQName, (JaxWsProxyFactoryBean)beanInstance);
       }

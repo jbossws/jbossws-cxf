@@ -24,6 +24,7 @@ package org.jboss.wsf.stack.cxf.extensions.addressing.map;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.xml.namespace.QName;
 
@@ -36,6 +37,7 @@ import org.jboss.ws.api.addressing.MAP;
 import org.jboss.ws.api.addressing.MAPBuilder;
 import org.jboss.ws.api.addressing.MAPEndpoint;
 import org.jboss.ws.api.addressing.MAPRelatesTo;
+import org.jboss.ws.api.util.BundleUtils;
 import org.w3c.dom.Element;
 
 /**
@@ -50,6 +52,7 @@ import org.w3c.dom.Element;
  */
 public class CXFMAP implements MAP
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(CXFMAP.class);
    /**
     * the wrapped instance which this class delegates to
     */
@@ -153,7 +156,7 @@ public class CXFMAP implements MAP
          }
          else
          {
-            throw new IllegalArgumentException("Unsupported MAPEndpoint: " + epref);
+            throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "UNSUPPORTED_MAPENDPOINT",  epref));
          }
       }
       else
@@ -200,7 +203,7 @@ public class CXFMAP implements MAP
          }
          else
          {
-            throw new IllegalArgumentException("Unsupported MAPEndpoint: " + epref);
+            throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "UNSUPPORTED_MAPENDPOINT",  epref));
          }
       }
       else
@@ -219,7 +222,7 @@ public class CXFMAP implements MAP
          }
          else
          {
-            throw new IllegalArgumentException("Unsupported MAPEndpoint: " + epref);
+            throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "UNSUPPORTED_MAPENDPOINT",  epref));
          }
       }
       else
@@ -259,7 +262,7 @@ public class CXFMAP implements MAP
    public void initializeAsDestination(MAPEndpoint epref)
    {
       if (epref == null)
-         throw new IllegalArgumentException("Invalid null endpoint reference");
+         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "INVALID_NULL_ENDPOINT_REFERENCE"));
 
       if (epref instanceof CXFMAPEndpoint)
       {
@@ -267,7 +270,7 @@ public class CXFMAP implements MAP
       }
       else
       {
-         throw new IllegalArgumentException("Unsupported MAPEndpoint: " + epref);
+         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "UNSUPPORTED_MAPENDPOINT",  epref));
       }
    }
 
@@ -290,7 +293,7 @@ public class CXFMAP implements MAP
    {
       if (!(map instanceof CXFMAP))
       {
-         throw new IllegalArgumentException("Unsupported MAP: " + map);
+         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "UNSUPPORTED_MAP",  map));
       }
       AddressingProperties addressingProperties = ((CXFMAP)map).implementation;
 
@@ -302,7 +305,7 @@ public class CXFMAP implements MAP
    {
       if (!(map instanceof CXFMAP))
       {
-         throw new IllegalArgumentException("Unsupported MAP: " + map);
+         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "UNSUPPORTED_MAP",  map));
       }
       AddressingProperties addressingProperties = ((CXFMAP)map).implementation;
 

@@ -41,6 +41,8 @@
 package org.jboss.wsf.stack.cxf.client.serviceref;
 
 import java.io.File;
+import java.util.ResourceBundle;
+import org.jboss.ws.api.util.BundleUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -79,6 +81,7 @@ import org.w3c.dom.Node;
  */
 final class CXFHandlerResolverImpl extends HandlerChainBuilder implements HandlerResolver
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(CXFHandlerResolverImpl.class);
    
    private static final Logger log = Logger.getLogger(CXFHandlerResolverImpl.class);
    @SuppressWarnings("rawtypes")
@@ -147,7 +150,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       try {
 
          if (is == null) {
-            throw new WebServiceException("Handler config file not found: " + handlerFile);
+            throw new WebServiceException(BundleUtils.getMessage(bundle, "HANDLER_CONFIG_FILE_NOT_FOUND",  handlerFile));
          }
 
          Document doc = XMLUtils.parse(is);
@@ -155,7 +158,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          if (!"http://java.sun.com/xml/ns/javaee".equals(el.getNamespaceURI()) 
                || !"handler-chains".equals(el.getLocalName())) {
 
-            throw new WebServiceException("{http://java.sun.com/xml/ns/javaee}handler-chains element expected");
+            throw new WebServiceException(BundleUtils.getMessage(bundle, "HANDLER_CHAINS_ELEMENT_EXPECTED"));
          }
          chain = new ArrayList<Handler>();
          Node node = el.getFirstChild();
@@ -165,7 +168,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
                if (!el.getNamespaceURI().equals("http://java.sun.com/xml/ns/javaee") 
                      || !el.getLocalName().equals("handler-chain")) {
 
-                  throw new WebServiceException("{http://java.sun.com/xml/ns/javaee}handler-chain element expected");
+                  throw new WebServiceException(BundleUtils.getMessage(bundle, "HANDLER_CHAINS_ELEMENT_EXPECTED"));
                }
                processHandlerChainElement(el, chain, portQName, serviceQName, bindingID);
             }
@@ -174,7 +177,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       } catch (WebServiceException e) {
          throw e;
       } catch (Exception e) {
-         throw new WebServiceException("No handler chain found", e);
+         throw new WebServiceException(BundleUtils.getMessage(bundle, "NO_HANDLER_CHAIN_FOUND"),  e);
       }
       finally
       {
@@ -197,7 +200,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
             el = (Element)cur;
             if (!el.getNamespaceURI().equals("http://java.sun.com/xml/ns/javaee")) {
                String xml = XMLUtils.toString(el);
-               throw new WebServiceException("Invalid element in handler: " + xml);
+               throw new WebServiceException(BundleUtils.getMessage(bundle, "INVALID_ELEMENT_IN_HANDLER",  xml));
             }
             String name = el.getLocalName();
             if ("port-name-pattern".equals(name)) {
@@ -249,7 +252,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          return true;
       }
       if (!namePattern.contains(":")) {
-         throw new WebServiceException("Not a qname pattern: " + namePattern);
+         throw new WebServiceException(BundleUtils.getMessage(bundle, "NOT_A_QNAME_PATTERN",  namePattern));
       }
       String localPart = namePattern.substring(namePattern.indexOf(':') + 1,
             namePattern.length());
@@ -348,7 +351,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       }
 
       if (fileURL == null)
-         throw new WebServiceException("Cannot resolve handler file '" + filename + "' on " + wsClass.getName());
+         throw new WebServiceException(BundleUtils.getMessage(bundle, "CANNOT_RESOLVE_HANDLER_FILE", new Object[]{ filename, wsClass.getName()}));
 
       try
       {

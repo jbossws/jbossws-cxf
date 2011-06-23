@@ -27,9 +27,11 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.apache.cxf.tools.java2ws.JavaToWS;
 import org.jboss.ws.api.tools.WSContractProvider;
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.utils.NullPrintStream;
 
 /**
@@ -40,6 +42,7 @@ import org.jboss.ws.common.utils.NullPrintStream;
  */
 public class CXFProviderImpl extends WSContractProvider
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(CXFProviderImpl.class);
    private ClassLoader loader;
    private boolean generateWsdl;
    private boolean extension;
@@ -101,7 +104,7 @@ public class CXFProviderImpl extends WSContractProvider
       }
       catch (ClassNotFoundException e)
       {
-         throw new IllegalArgumentException("Class not found: " + endpointClass);
+         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "CLASS_NOT_FOUND",  endpointClass));
       }
    }
 
@@ -130,14 +133,14 @@ public class CXFProviderImpl extends WSContractProvider
          if (sourceDir != null)
          {
             if (!sourceDir.exists() && !sourceDir.mkdirs())
-               throw new IllegalStateException("Could not make directory: " + sourceDir.getName());
+               throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  sourceDir.getName()));
 
             args.add("-s");
             args.add(sourceDir.getAbsolutePath());
          }
 
          if (!outputDir.exists() && !outputDir.mkdirs())
-            throw new IllegalStateException("Could not make directory: " + outputDir.getName());
+            throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  outputDir.getName()));
 
          args.add("-classdir");
          args.add(outputDir.getAbsolutePath());
@@ -145,7 +148,7 @@ public class CXFProviderImpl extends WSContractProvider
          if (resourceDir != null)
          {
             if (!resourceDir.exists() && !resourceDir.mkdirs())
-               throw new IllegalStateException("Could not make directory: " + resourceDir.getName());
+               throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  resourceDir.getName()));
             args.add("-d");
             args.add(resourceDir.getAbsolutePath());
          }

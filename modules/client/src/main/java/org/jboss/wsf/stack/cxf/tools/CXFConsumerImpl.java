@@ -26,10 +26,12 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.wsdlto.WSDLToJava;
 import org.jboss.ws.api.tools.WSContractConsumer;
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.utils.NullPrintStream;
 
 /**
@@ -40,6 +42,7 @@ import org.jboss.ws.common.utils.NullPrintStream;
  */
 public class CXFConsumerImpl extends WSContractConsumer
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(CXFConsumerImpl.class);
    private List<File> bindingFiles = null;
    private File catalog = null;
    private boolean extension;
@@ -168,7 +171,7 @@ public class CXFConsumerImpl extends WSContractConsumer
       if (sourceDir != null && generateSource)
       {
          if (!sourceDir.exists() && !sourceDir.mkdirs())
-            throw new IllegalStateException("Could not make directory: " + sourceDir.getName());
+            throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  sourceDir.getName()));
 
          args.add("-d");
          args.add(sourceDir.getAbsolutePath());
@@ -202,7 +205,7 @@ public class CXFConsumerImpl extends WSContractConsumer
       }
 
       if (!outputDir.exists() && !outputDir.mkdirs())
-         throw new IllegalStateException("Could not make directory: " + outputDir.getName());
+         throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  outputDir.getName()));
 
       // Always add the output directory and the wsdl location
       if (!nocompile)
