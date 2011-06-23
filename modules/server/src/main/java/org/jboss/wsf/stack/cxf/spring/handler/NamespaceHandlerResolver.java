@@ -25,8 +25,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import org.jboss.logging.Logger;
+import org.jboss.ws.api.util.BundleUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.xml.DefaultNamespaceHandlerResolver;
@@ -46,6 +48,7 @@ import org.springframework.util.ClassUtils;
  */
 public class NamespaceHandlerResolver extends DefaultNamespaceHandlerResolver
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(NamespaceHandlerResolver.class);
    public static final String JBOSSWS_HANDLER_MAPPINGS_LOCATION = "META-INF/jbossws.spring.handlers";
 
    private static final Logger logger = Logger.getLogger(NamespaceHandlerResolver.class);
@@ -107,8 +110,8 @@ public class NamespaceHandlerResolver extends DefaultNamespaceHandlerResolver
             Class<?> handlerClass = ClassUtils.forName(className, this.loader);
             if (!NamespaceHandler.class.isAssignableFrom(handlerClass))
             {
-               throw new FatalBeanException("Class [" + className + "] for namespace [" + namespaceUri
-                     + "] does not implement the [" + NamespaceHandler.class.getName() + "] interface");
+               throw new FatalBeanException(BundleUtils.getMessage(bundle, "NOT_IMPLEMENT_NSHANDLER_INTERFACE", 
+                     new Object[]{className, namespaceUri, NamespaceHandler.class.getName()}));
             }
             NamespaceHandler namespaceHandler = (NamespaceHandler) BeanUtils.instantiateClass(handlerClass);
             namespaceHandler.init();
@@ -117,13 +120,13 @@ public class NamespaceHandlerResolver extends DefaultNamespaceHandlerResolver
          }
          catch (ClassNotFoundException ex)
          {
-            throw new FatalBeanException("NamespaceHandler class [" + className + "] for namespace [" + namespaceUri
-                  + "] not found", ex);
+            throw new FatalBeanException(BundleUtils.getMessage(bundle, "NSHANDLER_CLASS_NOT_FOUND", 
+                  new Object[]{className, namespaceUri}), ex);
          }
          catch (LinkageError err)
          {
-            throw new FatalBeanException("Invalid NamespaceHandler class [" + className + "] for namespace ["
-                  + namespaceUri + "]: problem with handler class file or dependent class", err);
+            throw new FatalBeanException(BundleUtils.getMessage(bundle, "INVALID_NAMESPACEHANDLER_CLASS",  
+                  new Object[]{className, namespaceUri} ), err);
          }
       }
    }

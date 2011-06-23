@@ -24,6 +24,7 @@ package org.jboss.wsf.stack.cxf.transport;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.management.ObjectName;
 import javax.naming.Context;
@@ -41,13 +42,14 @@ import org.apache.cxf.frontend.ServerFactoryBean;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.counters.CounterRepository;
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.ws.common.injection.InjectionHelper;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
-import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
+import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
@@ -63,6 +65,7 @@ import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
  */
 public class ServletHelper
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(ServletHelper.class);
    public static final String ENABLE_CXF_MANAGEMENT = "enable.cxf.management";
 
    public static Endpoint initEndpoint(ServletConfig servletConfig, String servletName)
@@ -100,7 +103,7 @@ public class ServletHelper
       {
          ObjectName oname = ObjectNameFactory.create(Endpoint.SEPID_DOMAIN + ":" + Endpoint.SEPID_PROPERTY_CONTEXT
                + "=" + contextPath + "," + Endpoint.SEPID_PROPERTY_ENDPOINT + "=" + servletName);
-         throw new WebServiceException("Cannot obtain endpoint for: " + oname);
+         throw new WebServiceException(BundleUtils.getMessage(bundle, "CANNOT_OBTAIN_ENDPOINT",  oname));
       }
 
       //Inject the EJB and JNDI resources if possible

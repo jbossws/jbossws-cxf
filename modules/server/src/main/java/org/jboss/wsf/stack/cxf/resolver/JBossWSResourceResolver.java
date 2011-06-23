@@ -24,9 +24,11 @@ package org.jboss.wsf.stack.cxf.resolver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ResourceBundle;
 
 import org.apache.cxf.resource.ResourceResolver;
 import org.jboss.logging.Logger;
+import org.jboss.ws.api.util.BundleUtils;
 
 /**
  * A CXF resource resolver that uses the JBossWS spi resource resolver,
@@ -39,6 +41,7 @@ import org.jboss.logging.Logger;
  */
 public class JBossWSResourceResolver implements ResourceResolver
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(JBossWSResourceResolver.class);
    private static Logger log = Logger.getLogger(JBossWSResourceResolver.class);
    private org.jboss.wsf.spi.deployment.ResourceResolver resolver;
    
@@ -58,7 +61,7 @@ public class JBossWSResourceResolver implements ResourceResolver
          }
          catch (IOException ioe)
          {
-            log.warn("Cannot open stream for resource: " + resourcePath);
+            log.warn(BundleUtils.getMessage(bundle, "CANNOT_OPEN_STREAM_FOR_RESOURCE",  resourcePath));
          }
       }
       return null;
@@ -73,7 +76,7 @@ public class JBossWSResourceResolver implements ResourceResolver
       }
       catch (IOException ioe)
       {
-        log.warn("Cannot resolve resource: " + resourcePath);
+        log.warn(BundleUtils.getMessage(bundle, "CANNOT_RESOLVE_RESOURCE",  resourcePath));
       }
       if (url != null && resourceType.isInstance(url))
       {

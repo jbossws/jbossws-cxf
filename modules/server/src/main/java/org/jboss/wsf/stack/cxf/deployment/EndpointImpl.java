@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.handler.Handler;
@@ -37,6 +38,7 @@ import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
 import org.apache.cxf.service.Service;
 import org.jboss.logging.Logger;
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.metadata.config.CommonConfig;
@@ -53,6 +55,7 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
  */
 public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(EndpointImpl.class);
    private WSDLFilePublisher wsdlPublisher;
    private CommonConfig config;
 
@@ -128,13 +131,13 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
             if (handlerChain.getPortNamePattern() != null || handlerChain.getProtocolBindings() != null
                   || handlerChain.getServiceNamePattern() != null)
             {
-               Logger.getLogger(this.getClass()).warn("PortNamePattern, ServiceNamePattern and ProtocolBindings filters not supported; adding handlers anyway.");
+               Logger.getLogger(this.getClass()).warn(BundleUtils.getMessage(bundle, "FILTERS_NOT_SUPPORTED"));
             }
             for (UnifiedHandlerMetaData uhmd : handlerChain.getHandlers())
             {
                if (uhmd.getInitParams() != null && !uhmd.getInitParams().isEmpty())
                {
-                  Logger.getLogger(this.getClass()).warn("Init params not supported.");
+                  Logger.getLogger(this.getClass()).warn(BundleUtils.getMessage(bundle, "INIT_PARAMS_NOT_SUPPORTED"));
                }
                Object h = newInstance(uhmd.getHandlerClass());
                if (h != null)
@@ -145,7 +148,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
                   }
                   else
                   {
-                     throw new RuntimeException(h + " is not a JAX-WS Handler instance!");
+                     throw new RuntimeException(BundleUtils.getMessage(bundle, "NOT_HANDLER_INSTANCE", h));
                   }
                }
             }
@@ -165,7 +168,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
       }
       catch (Exception e)
       {
-         Logger.getLogger(EndpointImpl.class).warnf(e, "Could not add handler '%s' as part of endpoint configuration", className);
+         Logger.getLogger(EndpointImpl.class).warnf(e, BundleUtils.getMessage(bundle, "CAN_NOT_ADD_HANDLER" , className));
          return null;
       }
    }
@@ -234,12 +237,12 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
          }
          catch (IOException ioe)
          {
-            throw new RuntimeException("Error while publishing wsdl for service " + service.getName(), ioe);
+            throw new RuntimeException(BundleUtils.getMessage(bundle, "PUBLISHING_WSDL_ERROR",  service.getName()),  ioe);
          }
       }
       else
       {
-         Logger.getLogger(this.getClass()).warn("WSDLPublisher not configured, unable to publish contract!");
+         Logger.getLogger(this.getClass()).warn(BundleUtils.getMessage(bundle, "UNABLE_TO_PUBLISH_CONTRACT"));
       }
    }
 

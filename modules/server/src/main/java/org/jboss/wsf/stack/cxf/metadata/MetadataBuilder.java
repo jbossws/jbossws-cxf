@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf.metadata;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -34,10 +35,10 @@ import javax.xml.ws.soap.MTOM;
 import javax.xml.ws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.JavaUtils;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.HttpEndpoint;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
@@ -60,6 +61,7 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
  */
 public class MetadataBuilder
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(MetadataBuilder.class);
    private static final Logger log = Logger.getLogger(MetadataBuilder.class);
    
    public MetadataBuilder()
@@ -189,7 +191,7 @@ public class MetadataBuilder
             if (handlerChain.getPortNamePattern() != null || handlerChain.getProtocolBindings() != null
                   || handlerChain.getServiceNamePattern() != null)
             {
-               log.warn("PortNamePattern, ServiceNamePattern and ProtocolBindings filters not supported; adding handlers anyway.");
+               log.warn(BundleUtils.getMessage(bundle, "FILTERS_NOT_SUPPORTED"));
             }
             for (UnifiedHandlerMetaData uhmd : handlerChain.getHandlers())
             {
@@ -197,7 +199,7 @@ public class MetadataBuilder
                   log.debug("Contribute handler from webservices.xml: " + uhmd.getHandlerName());
                if (uhmd.getInitParams() != null && !uhmd.getInitParams().isEmpty())
                {
-                  log.warn("Init params not supported.");
+                  log.warn(BundleUtils.getMessage(bundle, "INIT_PARAMS_NOT_SUPPORTED"));
                }
                handlers.add(uhmd.getHandlerClass());
             }
@@ -235,7 +237,7 @@ public class MetadataBuilder
          seiName = anWebService.endpointInterface();
          ClassLoader runtimeClassLoader = dep.getRuntimeClassLoader();
          if(null == runtimeClassLoader)
-            throw new IllegalArgumentException("Runtime loader cannot be null");
+            throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "RUNTIME_LOADER_CANNOT_BE_NULL"));
          
          try
          {
@@ -243,15 +245,15 @@ public class MetadataBuilder
          }
          catch (ClassNotFoundException cnfe)
          {
-            throw new RuntimeException("Cannot load service endpoint interface class!", cnfe);
+            throw new RuntimeException(BundleUtils.getMessage(bundle, "CANNOT_LOAD_SEI_CLASS"),  cnfe);
          }
          WebService seiAnnotation = seiClass.getAnnotation(WebService.class);
 
          if (seiAnnotation == null)
-            throw new RuntimeException("Interface does not have a @WebService annotation: " + seiName);
+            throw new RuntimeException(BundleUtils.getMessage(bundle, "WEBSERVICE_ANNOTATION_NOT_FOUND",  seiName));
 
          if (seiAnnotation.portName().length() > 0 || seiAnnotation.serviceName().length() > 0 || seiAnnotation.endpointInterface().length() > 0)
-            throw new RuntimeException("@WebService cannot have attribute 'portName', 'serviceName', 'endpointInterface' on: " + seiName);
+            throw new RuntimeException(BundleUtils.getMessage(bundle, "ATTRIBUTES_NOT_FOUND",  seiName));
 
       }
       

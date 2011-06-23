@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
@@ -42,6 +43,7 @@ import org.apache.cxf.wsdl.WSDLManager;
 import org.apache.cxf.wsdl11.ServiceWSDLBuilder;
 import org.jboss.logging.Logger;
 import org.jboss.util.NotImplementedException;
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.utils.AbstractWSDLFilePublisher;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.w3c.dom.Document;
@@ -55,6 +57,7 @@ import org.w3c.dom.Document;
  */
 public class WSDLFilePublisher extends AbstractWSDLFilePublisher
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(WSDLFilePublisher.class);
    private static final Logger log = Logger.getLogger(WSDLFilePublisher.class);
    
    public WSDLFilePublisher(ArchiveDeployment dep)
@@ -92,7 +95,7 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
          }
          else
          {
-            throw new NotImplementedException("WSDL-2.0 imports");
+            throw new NotImplementedException(BundleUtils.getMessage(bundle, "WSDL20_NOT_SUPPORTED"));
          }
       }
       catch (RuntimeException rte)
@@ -101,7 +104,7 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
       }
       catch (Exception e)
       {
-         throw new RuntimeException("Cannot publish wsdl to: " + wsdlFile, e);
+         throw new RuntimeException(BundleUtils.getMessage(bundle, "CANNOT_PUBLISH_WSDL",  wsdlFile),  e);
       }
    }
    
@@ -147,7 +150,7 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
    {
       if (wsdlLocation == null && serviceName == null)
       {
-         log.warn("Cannot get wsdl publish location for null wsdl location and serviceName!");
+         log.warn(BundleUtils.getMessage(bundle, "CANNOT_GET_PUBLISH_LOCATION"));
          return null;
       }
 

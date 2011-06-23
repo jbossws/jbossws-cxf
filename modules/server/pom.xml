@@ -262,6 +262,12 @@
         <targetPath>.</targetPath>
         <directory>src/main/resources/jbossws-cxf-server.jar</directory>
       </resource>
+      <resource>
+        <directory>src/main/java</directory>
+         <includes>
+          <include>**/*.properties</include>
+         </includes>
+      </resource>
     </resources>
     <plugins>
       <plugin>

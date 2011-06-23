@@ -21,10 +21,12 @@
  */
 package org.jboss.wsf.stack.cxf.config;
 
+import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.cxf.BusFactory;
 import org.jboss.logging.Logger;
+import org.jboss.ws.api.util.BundleUtils;
 
 
 /**
@@ -36,6 +38,7 @@ import org.jboss.logging.Logger;
  */
 public class CXFInitializer
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(CXFInitializer.class);
    private static Logger logger = Logger.getLogger(CXFInitializer.class);
    private static CountDownLatch defaultBusCDL = new CountDownLatch(1);
    
@@ -64,7 +67,7 @@ public class CXFInitializer
       }
       catch (InterruptedException e)
       {
-         logger.error("Interrupted while waiting for default bus to be set!");
+         logger.error(BundleUtils.getMessage(bundle, "INTERRUPTED"));
          throw new RuntimeException(e);
       }
    }

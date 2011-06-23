@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.SOAPBinding;
@@ -38,6 +39,7 @@ import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.rm.RMManager;
 import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringBusFactory;
@@ -57,6 +59,7 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
  */
 public class NonSpringBusHolder extends BusHolder
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(NonSpringBusHolder.class);
    private boolean configured = false;
 
    protected DDBeans metadata;
@@ -84,7 +87,7 @@ public class NonSpringBusHolder extends BusHolder
    {
       if (configured)
       {
-         throw new IllegalStateException("Underlying bus is already configured for JBossWS use!");
+         throw new IllegalStateException(BundleUtils.getMessage(bundle, "BUS_IS_ALREADY_CONFIGURED"));
       }
       super.configure(soapTransportFactory, resolver, configurer);
 

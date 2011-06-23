@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
@@ -37,6 +38,7 @@ import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.apache.ws.security.WSSConfig;
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
@@ -57,6 +59,7 @@ import org.springframework.core.io.InputStreamResource;
  */
 public class SpringBusHolder extends BusHolder
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(SpringBusHolder.class);
    private static final Logger log = Logger.getLogger(BusHolder.class);
 
    private boolean configured = false;
@@ -115,7 +118,7 @@ public class SpringBusHolder extends BusHolder
    {
       if (configured)
       {
-         throw new IllegalStateException("Underlying bus is already configured for JBossWS use!");
+         throw new IllegalStateException(BundleUtils.getMessage(bundle, "BUS_IS_ALREADY_CONFIGURED"));
       }
       super.configure(soapTransportFactory, resolver, configurer);
       if (additionalLocations != null)
@@ -128,7 +131,7 @@ public class SpringBusHolder extends BusHolder
             }
             catch (IOException e)
             {
-               throw new RuntimeException("Unable to load configuration from " + jbossCxfXml, e);
+               throw new RuntimeException(BundleUtils.getMessage(bundle, "UNABLE_TO_LOAD_CONFIGURATION",  jbossCxfXml),  e);
             }
          }
       }
@@ -140,7 +143,7 @@ public class SpringBusHolder extends BusHolder
       }
       catch (Exception e)
       {
-         log.warn("Could not early initialize security engine!");
+         log.warn(BundleUtils.getMessage(bundle, "COULD_NOT_INITIALIZE_SECURITY_ENGINE"));
          if (log.isTraceEnabled())
          {
             log.trace("Error while getting default WSSConfig: ", e);
@@ -170,7 +173,7 @@ public class SpringBusHolder extends BusHolder
          throws IOException
    {
       if (locationUrl == null)
-         throw new IllegalArgumentException("Cannot load additional config from null location!");
+         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "CANNOT_LOAD_ADDITIONAL_CONFIG"));
       InputStream is = locationUrl.openStream();
       GenericApplicationContext childCtx = new GenericApplicationContext(ctx);
       XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(childCtx);

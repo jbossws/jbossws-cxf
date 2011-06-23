@@ -25,8 +25,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.jboss.logging.Logger;
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.integration.AbstractDeploymentAspect;
 import org.jboss.ws.common.integration.WSConstants;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
@@ -45,6 +47,7 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
  */
 public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(DescriptorDeploymentAspect.class);
    // provide logging
    private static final Logger log = Logger.getLogger(DescriptorDeploymentAspect.class);
 
@@ -105,7 +108,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
       else
       {
          // only POJO and EJB3 deployments are supported
-         throw new IllegalStateException("Unsupported deployment type: " + depType);
+         throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNSUPPORTED_DEPLOYMENT_TYPE",  depType));
       }
 
       URL cxfURL = null;

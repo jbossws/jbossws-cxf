@@ -27,6 +27,7 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.ResourceBundle;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -46,6 +47,7 @@ import org.apache.cxf.transport.http.HTTPTransportFactory;
 import org.apache.cxf.transports.http.QueryHandler;
 import org.apache.cxf.transports.http.QueryHandlerRegistry;
 import org.jboss.util.NotImplementedException;
+import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -64,6 +66,7 @@ import org.jboss.wsf.stack.cxf.configuration.BusHolder;
  */
 public class RequestHandlerImpl implements RequestHandler
 {
+   private static final ResourceBundle bundle = BundleUtils.getBundle(RequestHandlerImpl.class);
    private ServerConfig serverConfig;
    
    RequestHandlerImpl()
@@ -125,7 +128,7 @@ public class RequestHandlerImpl implements RequestHandler
       DestinationRegistry destRegistry = getDestinationRegistryFromBus(bus);
       if (destRegistry == null)
       {
-         throw new ServletException("Cannot obtain DestinationRegistry!");
+         throw new ServletException(BundleUtils.getMessage(bundle, "CANNOT_OBTAIN_REGISTRY"));
       }
       Collection<AbstractHTTPDestination> destinations = destRegistry.getDestinations();
       AbstractHTTPDestination returnValue = null;
@@ -158,7 +161,7 @@ public class RequestHandlerImpl implements RequestHandler
       }
 
       if (returnValue == null)
-         throw new ServletException("Cannot obtain destination for: " + requestURI);
+         throw new ServletException(BundleUtils.getMessage(bundle, "CANNOT_OBTAIN_DESTINATION",  requestURI));
       
       return returnValue;
    }
@@ -173,7 +176,7 @@ public class RequestHandlerImpl implements RequestHandler
               return transportFactory.getRegistry();
           }
       } catch (BusException e) {
-          throw new ServletException("Cannot get DestinationFactory for http transport!");
+          throw new ServletException(BundleUtils.getMessage(bundle, "CANNOT_GET_DESTINATIONFACTORY"));
       }
       return null;
   }
