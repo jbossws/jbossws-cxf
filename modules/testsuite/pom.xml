@@ -1046,10 +1046,6 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/wsseEJB/WsseEjbTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationEJBTestCase*</exclude>
 
-                 <!-- # [JBWS-3219] unexpected element 'port-qname' encountered -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2307/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2527/**</exclude>
-
                  <!-- # [JBWS-3205] JDKLogManager not used -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
 
@@ -1073,6 +1069,8 @@
 
                  <!-- @WebServiceRef not implemented yet on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/webserviceref/WebServiceRefServletTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2307/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2527/**</exclude>
 
                  <!-- JMS endpoint functionalities to be restored on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
