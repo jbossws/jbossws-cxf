@@ -1017,27 +1017,19 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/webservicerefsec/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
 
-                 <!-- EJB3 endpoint deployments -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws1446/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws1566/**</exclude>
+                 <!-- TODO: Unexpected element 'class-loading' encountered -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1581/**</exclude>
+
+                 <!-- EJB3 endpoint deployments -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1815/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1841/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws1872/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2074/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2218/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2241/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2257/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2630/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2634/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2934/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2957/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2999/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws3026/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/advanced/retail/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**/*EJB3TestCase*</exclude>
                  <exclude>org/jboss/test/ws/management/recording/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/bus/*EJB3*</exclude>
@@ -1067,10 +1059,15 @@
                  <!-- JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
 
-                 <!-- @WebServiceRef not implemented yet on AS7 -->
+                 <!-- @WebServiceRef / webserviceref not implemented / ready yet on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/webserviceref/WebServiceRefServletTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2307/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2527/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/advanced/retail/**</exclude>
+
+                 <!-- [AS7-1101][JBWS-3322] -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2957/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2999/**</exclude>
 
                  <!-- JMS endpoint functionalities to be restored on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
