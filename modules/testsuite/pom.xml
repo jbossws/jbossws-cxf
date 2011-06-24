@@ -1033,7 +1033,6 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**/*EJB3TestCase*</exclude>
                  <exclude>org/jboss/test/ws/management/recording/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/bus/*EJB3*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/**</exclude>
                  <exclude>org/jboss/test/ws/projectGenerator/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/wsseEJB/WsseEjbTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationEJBTestCase*</exclude>

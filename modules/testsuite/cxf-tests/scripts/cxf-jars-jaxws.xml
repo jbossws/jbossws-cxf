@@ -172,6 +172,9 @@
         <include name="org/jboss/test/ws/jaxws/cxf/logging/LoggingInterceptorsEndpointImpl.class"/>
       	<include name="org/jboss/test/ws/jaxws/cxf/logging/CustomInInterceptor.class"/>
       </fileset>
+      <manifest>
+        <attribute name="Dependencies" value="org.apache.cxf"/>
+      </manifest>
     </jar>
 
     <!-- jaxws-cxf-management -->
