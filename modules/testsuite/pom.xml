@@ -1069,9 +1069,6 @@
                  <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase*</exclude>
 
-                 <!-- # [JBWS-3306] No XPathFactory implementation found by a JAXWS client on AS7 -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/exception/ExceptionServletTestCase*</exclude>
-
                  <!-- JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
 
