@@ -920,6 +920,11 @@
           <version>5.0.5.Final</version>
         </dependency>
         <dependency>
+          <groupId>org.jboss.ejb3</groupId>
+          <artifactId>jboss-ejb3-ext-api</artifactId>
+          <version>2.0.0-beta-1</version>
+        </dependency>
+        <dependency>
           <groupId>org.jboss</groupId>
           <artifactId>jboss-common-core</artifactId>
           <exclusions>
@@ -950,10 +955,6 @@
                     <!-- EJB3 client API dependencies -->
                     <exclude>org/jboss/test/ws/jaxws/jbws944/**</exclude>
                     <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
-                    <exclude>org/jboss/test/ws/jaxws/samples/webservicerefsec/**</exclude>
-                    <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
-                    <!-- @SecurityDomain missing -->
-                    <exclude>org/jboss/test/ws/jaxws/samples/wsseEJB/EjbEndpointImpl*</exclude>
                   </testExcludes>
                 </configuration>
                 <goals>
