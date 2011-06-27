@@ -1009,14 +1009,10 @@
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
 
-                 <!--# not yet supported on AS7 -->
-                 <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
-
                  <!-- EJB3 client API dependencies -->
                  <exclude>org/jboss/test/ws/jaxws/jbws944/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/webservicerefsec/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/**</exclude>
 
                  <!-- TODO: Unexpected element 'class-loading' encountered -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1581/**</exclude>
