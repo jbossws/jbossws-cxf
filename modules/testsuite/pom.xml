@@ -1026,7 +1026,6 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws2630/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2634/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws3026/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**/*EJB3TestCase*</exclude>
                  <exclude>org/jboss/test/ws/management/recording/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/bus/*EJB3*</exclude>
