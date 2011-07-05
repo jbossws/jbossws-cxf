@@ -49,7 +49,7 @@ public class WsseEjbTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(WsseEjbTestCase.class, "jaxws-samples-wsseEJB.jar");
+      return new JBossWSCXFTestSetup(WsseEjbTestCase.class, "jaxws-samples-wsseEJB.jar", !isTargetJBoss6());
    }
 
    private EjbEndpoint getPort() throws Exception
