@@ -901,7 +901,7 @@
     <profile>
       <id>jboss700</id>
       <properties>
-        <jboss.version>7.0.0.Beta4-SNAPSHOT</jboss.version>
+        <jboss.version>7.0.0.CR2-SNAPSHOT</jboss.version>
         <jbossws.integration.target>jboss700</jbossws.integration.target>
       </properties>
       <dependencies>
@@ -1064,7 +1064,7 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws2957/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2999/**</exclude>
 
-                 <!-- JMS endpoint functionalities to be restored on AS7 -->
+                 <!-- Former JMS endpoint functionalities replaced by SOAP-over-JMS on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
 
                  <!-- JAXRPC deployments -->
