@@ -7,7 +7,14 @@
 	<!-- set global properties for this build -->
 	<property name="project.name" value="@projectName@" />
 	<property name="dist.dir" value="dist" />
-	<property name="deploy.dir" value="${project.jboss.home}/server/${project.jboss.conf}/deploy" />
+
+	<condition property="deploy.dir" value="${project.jboss.home}/server/${project.jboss.conf}/deploy">
+		<available file="${project.jboss.home}/server" type="dir"/>
+	</condition>
+	<condition property="deploy.dir" value="${project.jboss.home}/${project.jboss.conf}/deployments">
+		<available file="${project.jboss.home}/${project.jboss.conf}" type="dir"/>
+	</condition>
+
 	<property name="output.dir" value="output" />
 	<property name="src.main.dir" value="src/main/java" />
 	<property name="resources.main.dir" value="src/main/resources" />
@@ -57,13 +64,23 @@
 
 	<target name="deploy" depends="dist" description="Deploy to JBoss AS">
 		<fail unless="project.jboss.home">project.jboss.home not set</fail>
+                <delete quiet="true">
+			<fileset dir="${deploy.dir}">
+				<include name="${project.name}.${project.type}.undeployed"/>
+			</fileset>
+                </delete>
 		<copy todir="${deploy.dir}" file="${dist.dir}/${project.name}.${project.type}" />
 	</target>
 
 	<target name="undeploy" description="Undeploy from JBoss AS">
 		<fail unless="project.jboss.home">project.jboss.home not set</fail>
 		<fail unless="project.jboss.conf">project.jboss.conf not set</fail>
-		<delete file="${deploy.dir}/${project.name}.${project.type}" />
+		<fail unless="project.name">project.name not set</fail>
+		<delete>
+			<fileset dir="${deploy.dir}">
+				<include name="${project.name}.${project.type}*"/>
+			</fileset>
+                </delete>
 	</target>
 
 </project>

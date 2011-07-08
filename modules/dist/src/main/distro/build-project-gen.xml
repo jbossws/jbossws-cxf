@@ -97,8 +97,41 @@
       </condition>
     </fail>
   </target>
+
+  <target name="configure-project" depends="configure-project-6,configure-project-7">
+  </target>
   
-  <target name="configure-project">
+  <target name="configure-project-7" if="jbossws.integration.jboss70">
+    <mkdir dir="${project.home}/src/main/java"/>
+    <mkdir dir="${project.home}/src/main/resources"/>
+    <copy tofile="${project.home}/build.xml" file="${basedir}/build/user-project-build.xml">
+      <filterset refid="project"/>
+    </copy>
+    <copy tofile="${project.home}/build.properties" file="${basedir}/user-project.properties"/>
+  	<path id="project.classpath">
+                <fileset dir="${jboss.home}/modules/org/apache/cxf/main/">
+                  <include name="*.jar"/>
+                </fileset>
+                <fileset dir="${jboss.home}/modules/javax/xml/bind/api/main/">
+                  <include name="*.jar"/>
+                </fileset>
+                <fileset dir="${jboss.home}/modules/com/sun/xml/bind/main/">
+                  <include name="*.jar"/>
+                </fileset>
+                <fileset dir="${jboss.home}/modules/org/jboss/ws">
+                  <include name="**/*.jar"/>
+                </fileset>
+                <fileset dir="${jboss.home}/modules/javax/jws/api/main/">
+                  <include name="*.jar"/>
+                </fileset>
+  		<path refid="integration.target.javac.classpath" />
+	</path>
+  	<eclipseClasspathGenerator pathId="project.classpath" outputFile="${project.home}/.classpath" srcPath="src/main/java" srcOutput="bin/main" />
+  	<eclipseProjectGenerator projectName="${project.name}" outputFile="${project.home}/.project" />
+  	<pathWriter pathId="project.classpath" outputFile="${project.home}/libraries.xml" variables="project.jboss.home" />
+  </target>
+
+  <target name="configure-project-6" if="jbossws.integration.jboss60">
     <mkdir dir="${project.home}/src/main/java"/>
     <mkdir dir="${project.home}/src/main/resources"/>
     <copy tofile="${project.home}/build.xml" file="${basedir}/build/user-project-build.xml">
