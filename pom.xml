@@ -57,7 +57,7 @@
     <jbossws.jboss601.version>3.2.1.GA</jbossws.jboss601.version>
     -->
     <!-- END -->
-    <jboss700.version>7.0.0.CR2-SNAPSHOT</jboss700.version>
+    <jboss700.version>7.0.0.Final</jboss700.version>
     <cxf.version>2.4.1</cxf.version>
     <cxf.asm.version>3.3</cxf.asm.version>
     <cxf.xjcplugins.version>2.3.2</cxf.xjcplugins.version>
@@ -1303,13 +1303,25 @@
 
     <!--
     Name:  jboss700
-    Descr: JBoss-7.0.0 specific options
+    Descr: JBoss-7.0.0.Final specific options
     -->
     <profile>
       <id>jboss700</id>
       <properties>
         <jbossws.integration.target>jboss700</jbossws.integration.target>
         <jboss.home>${jboss700.home}</jboss.home>
+      </properties>
+    </profile>
+
+    <!--
+    Name:  jboss710
+    Descr: JBoss-7.1.0 specific options
+    -->
+    <profile>
+      <id>jboss710</id>
+      <properties>
+        <jbossws.integration.target>jboss710</jbossws.integration.target>
+        <jboss.home>${jboss710.home}</jboss.home>
       </properties>
     </profile>
 

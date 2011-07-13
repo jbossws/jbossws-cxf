@@ -896,13 +896,196 @@
 
     <!--
     Name:  jboss700
-    Descr: JBoss-7.0.0 specific options
+    Descr: JBoss-7.0.0.Final specific options
     -->
     <profile>
       <id>jboss700</id>
       <properties>
-        <jboss.version>7.0.0.CR2-SNAPSHOT</jboss.version>
+        <jboss.version>7.0.0.Final</jboss.version>
         <jbossws.integration.target>jboss700</jbossws.integration.target>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.as</groupId>
+          <artifactId>jboss-as-webservices-tests-integration</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>javax.mail</groupId>
+          <artifactId>mail</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.naming</groupId>
+          <artifactId>jnp-client</artifactId>
+          <version>5.0.5.Final</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ejb3</groupId>
+          <artifactId>jboss-ejb3-ext-api</artifactId>
+          <version>2.0.0-beta-1</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss</groupId>
+          <artifactId>jboss-common-core</artifactId>
+          <exclusions>
+              <exclusion>
+                  <groupId>org.jboss.logging</groupId>
+                  <artifactId>jboss-logging-spi</artifactId>
+              </exclusion>
+          </exclusions>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <compilerArguments>
+                <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+              </compilerArguments>
+            </configuration>
+            <executions>
+              <execution>
+                <id>default-testCompile</id>
+                <phase>test-compile</phase>
+                <configuration>
+                  <testExcludes>
+                    <!-- AS7 compilation excludes -->
+                    <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
+                    <!-- EJB3 client API dependencies -->
+                    <exclude>org/jboss/test/ws/jaxws/jbws944/**</exclude>
+                    <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
+                  </testExcludes>
+                </configuration>
+                <goals>
+                  <goal>testCompile</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
+              <!-- TODO: replace with maven dependencies -->
+              <additionalClasspathElements>
+                 <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
+                <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
+              </additionalClasspathElements>
+              <excludes>
+                 <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase.*</exclude>
+
+                 <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
+
+                 <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
+
+                 <!--# [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored-->
+                 <exclude>org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*</exclude>
+
+                 <!--# [JBWS-2561] XOP request not properly inlined-->
+                 <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
+
+                 <!--# [JBWS-2480] Soap attachments are dropped on server response-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
+
+                 <!--# [JBWS-2397] Fix jbws1797 testcase-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
+
+                 <!--# [JBAS-8363] Virtual host issue in JBossWeb-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*</exclude>
+
+                 <!-- # [JBAS-9188] Implement support for nested EJBs & WARs in .sar archives -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1854/**</exclude>
+
+                 <!--# Seems MSFT interop. endpoints are down :(-->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
+
+                 <!-- ////////////////////////// -->
+                 <!-- AS7 integration exclusions -->
+                 <!-- ////////////////////////// -->
+
+                 <!-- TODO: Injections support for WS components -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2074/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2634/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws3026/**</exclude>
+
+                 <!-- @WebServiceRef / webserviceref not implemented / ready yet on AS7 -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/webserviceref/WebServiceRefServletTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2307/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2527/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/advanced/retail/**</exclude>
+
+                 <!-- TODO: EJB3 DD driven deployments -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1841/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2241/**</exclude>
+
+                 <!-- TODO: JMX client to AS7 server -->
+                 <exclude>org/jboss/test/ws/management/recording/**</exclude>
+
+                 <!-- TODO: will we support wars bundled in jars on AS7? -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2630/**</exclude>
+
+                 <!-- [AS7-1101][JBWS-3322] -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/webservicerefsec/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2957/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2999/**</exclude>
+
+                 <!-- # [JBWS-3232] javax.naming.NameNotFoundException: Name 'service' not found in context 'env' -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws3140/**</exclude>
+
+                 <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
+
+                 <!-- # [JBWS-3234] JNDI over RMI not available on AS7 -->
+                 <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws944/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/serviceref/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1581/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/cxf/bus/*EJB3*</exclude>
+
+                 <!-- TODO: investigate -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1815/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsseEJB/WsseEjbTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationEJBTestCase*</exclude>
+
+                 <!-- # [JBWS-3205] JDKLogManager not used -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
+
+                 <!-- # [JBWS-3225] jbossws console not yet available -->
+                 <exclude>org/jboss/test/ws/console/**</exclude>
+
+                 <!-- # [JBWS-3227] handlers config file not found on classpath -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws3034/**</exclude>
+
+                 <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase*</exclude>
+
+                 <!-- JAXR not available -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
+
+                 <!-- Former JMS endpoint functionalities replaced by SOAP-over-JMS on AS7 -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+    Name:  jboss710
+    Descr: JBoss-7.1.0 specific options
+    -->
+    <profile>
+      <id>jboss710</id>
+      <properties>
+        <jboss.version>7.1.0.Alpha1-SNAPSHOT</jboss.version>
+        <jbossws.integration.target>jboss710</jbossws.integration.target>
       </properties>
       <dependencies>
         <dependency>

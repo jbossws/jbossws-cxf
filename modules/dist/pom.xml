@@ -194,7 +194,10 @@
                                 </xslt>                       
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss700.txt">
                                     <param name="targetName" expression="jboss700" />
-                                </xslt>                       
+                                </xslt>
+                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss710.txt">
+                                    <param name="targetName" expression="jboss710" />
+                                </xslt>                         
                             </tasks>
                         </configuration>
                         <goals>
