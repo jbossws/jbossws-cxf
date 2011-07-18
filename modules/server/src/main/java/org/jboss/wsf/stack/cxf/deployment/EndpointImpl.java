@@ -27,9 +27,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.handler.Handler;
+import javax.xml.ws.http.HTTPBinding;
+import javax.xml.ws.soap.SOAPBinding;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
@@ -58,6 +61,15 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
    private static final ResourceBundle bundle = BundleUtils.getBundle(EndpointImpl.class);
    private WSDLFilePublisher wsdlPublisher;
    private CommonConfig config;
+   
+   private static Map<String, String> bindingIDs = new HashMap<String, String>();
+   static {
+      bindingIDs.put(SOAPBinding.SOAP11HTTP_BINDING, "##SOAP11_HTTP");
+      bindingIDs.put(SOAPBinding.SOAP12HTTP_BINDING, "##SOAP12_HTTP");
+      bindingIDs.put(SOAPBinding.SOAP11HTTP_MTOM_BINDING, "##SOAP11_HTTP_MTOM");
+      bindingIDs.put(SOAPBinding.SOAP12HTTP_MTOM_BINDING, "##SOAP12_HTTP_MTOM");
+      bindingIDs.put(HTTPBinding.HTTP_BINDING, "##XML_HTTP");
+   }
 
    public EndpointImpl(Object implementor)
    {
@@ -76,7 +88,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
       super.doPublish(addr);
       //allow for configuration so that the wsdlPublisher can be set be the JBossWSCXFConfigurer
       configureObject(this);
-      sortConfigHandlers();
+      setupConfigHandlers();
       //publish the wsdl to data/wsdl
       publishContractToFilesystem();
    }
@@ -106,17 +118,9 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
                getProperties().putAll(epConfProps);
             }
          }
-         @SuppressWarnings("rawtypes")
-         List<Handler> handlers = convertToHandlers(config.getPreHandlerChains());
-         handlers.addAll(convertToHandlers(config.getPostHandlerChains()));
-         if (!handlers.isEmpty())
-         {
-            if (getHandlers() != null)
-            {
-               handlers.addAll(getHandlers());
-            }
-            setHandlers(handlers);
-         }
+         //handlers config is done later, as when this methods is called getBinding() can't
+         //be used without messing with the servlet destinations due to the endpoint address
+         //not having been rewritten yet.
       }
    }
    
@@ -126,35 +130,50 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
       List<Handler> handlers = new LinkedList<Handler>();
       if (handlerChains != null && !handlerChains.isEmpty())
       {
+         final String protocolBinding = bindingIDs.get(getBinding().getBindingID());
          for (UnifiedHandlerChainMetaData handlerChain : handlerChains)
          {
-            if (handlerChain.getPortNamePattern() != null || handlerChain.getProtocolBindings() != null
-                  || handlerChain.getServiceNamePattern() != null)
+            if (handlerChain.getPortNamePattern() != null || handlerChain.getServiceNamePattern() != null)
             {
                Logger.getLogger(this.getClass()).warn(BundleUtils.getMessage(bundle, "FILTERS_NOT_SUPPORTED"));
             }
-            for (UnifiedHandlerMetaData uhmd : handlerChain.getHandlers())
-            {
-               if (uhmd.getInitParams() != null && !uhmd.getInitParams().isEmpty())
+            if (matchProtocolBinding(protocolBinding, handlerChain.getProtocolBindings())) {
+               for (UnifiedHandlerMetaData uhmd : handlerChain.getHandlers())
                {
-                  Logger.getLogger(this.getClass()).warn(BundleUtils.getMessage(bundle, "INIT_PARAMS_NOT_SUPPORTED"));
-               }
-               Object h = newInstance(uhmd.getHandlerClass());
-               if (h != null)
-               {
-                  if (h instanceof Handler)
+                  if (uhmd.getInitParams() != null && !uhmd.getInitParams().isEmpty())
                   {
-                     handlers.add((Handler)h);
+                     Logger.getLogger(this.getClass()).warn(BundleUtils.getMessage(bundle, "INIT_PARAMS_NOT_SUPPORTED"));
                   }
-                  else
+                  Object h = newInstance(uhmd.getHandlerClass());
+                  if (h != null)
                   {
-                     throw new RuntimeException(BundleUtils.getMessage(bundle, "NOT_HANDLER_INSTANCE", h));
+                     if (h instanceof Handler)
+                     {
+                        handlers.add((Handler)h);
+                     }
+                     else
+                     {
+                        throw new RuntimeException(BundleUtils.getMessage(bundle, "NOT_HANDLER_INSTANCE", h));
+                     }
                   }
                }
             }
          }
       }
       return handlers;
+   }
+   
+   private static boolean matchProtocolBinding(String currentProtocolBinding, String handlerChainProtocolBindings) {
+      if (handlerChainProtocolBindings == null)
+         return true;
+      List<String> protocolBindings = new LinkedList<String>();
+      if (handlerChainProtocolBindings != null) {
+         StringTokenizer st = new StringTokenizer(handlerChainProtocolBindings, " ", false);
+         while (st.hasMoreTokens()) {
+            protocolBindings.add(st.nextToken());
+         }
+      }
+      return protocolBindings.contains(currentProtocolBinding);
    }
    
    private static Object newInstance(String className)
@@ -173,50 +192,17 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
       }
    }
    
-   /**
-    * JBWS-3282: sort handlers -> [PRE][ENDPOINT][POST]
-    * This is required after endpoint.doPublish() as that processes @HandlerChain
-    * and adds endpoint handlers after those specified before publishing
-    * (including post ones, if any).
-    */
    @SuppressWarnings("rawtypes")
-   protected void sortConfigHandlers()
+   protected void setupConfigHandlers()
    {
-      if (config != null)
-      {
-         //we need to move POST handlers to the end of the list
-         if (config.getPostHandlerChains() != null)
-         {
-            List<String> postHandlerNames = new LinkedList<String>();
-            for (UnifiedHandlerChainMetaData uhcm : config.getPostHandlerChains())
-            {
-               for (UnifiedHandlerMetaData uhm : uhcm.getHandlers())
-               {
-                  postHandlerNames.add(uhm.getHandlerClass());
-               }
-            }
-            if (!postHandlerNames.isEmpty())
-            {
-               List<Handler> newHandlers = new LinkedList<Handler>();
-               List<Handler> postHandlers = new LinkedList<Handler>();
-               List<Handler> handlers = getBinding().getHandlerChain();
-               for (Handler h : handlers)
-               {
-                  if (postHandlerNames.contains(h.getClass().getName()))
-                  {
-                     postHandlers.add(h);
-                  }
-                  else
-                  {
-                     newHandlers.add(h);
-                  }
-               }
-               newHandlers.addAll(postHandlers);
-               getBinding().setHandlerChain(newHandlers);
-            }
-         }
+      if (config != null) {
+         List<Handler> handlers = convertToHandlers(config.getPreHandlerChains()); //PRE
+         handlers.addAll(getBinding().getHandlerChain()); //ENDPOINT
+         handlers.addAll(convertToHandlers(config.getPostHandlerChains())); //POST
+         getBinding().setHandlerChain(handlers);
       }
    }
+
 
    /**
     * Publish the contract to a file using the configured wsdl publisher
