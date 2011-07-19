@@ -1041,7 +1041,7 @@
                  <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher -->
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
 
-                 <!-- # [JBWS-3234] JNDI over RMI not available on AS7 -->
+                 <!-- # [AS7-1338] Remote JNDI support for AS7 -->
                  <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws944/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/serviceref/**</exclude>
