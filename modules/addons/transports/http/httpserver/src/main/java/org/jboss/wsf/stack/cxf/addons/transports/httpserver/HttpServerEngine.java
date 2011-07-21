@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf.addons.transports.httpserver;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -90,6 +91,7 @@ public class HttpServerEngine
          try
          {
             server = HttpServer.create(isa, BACKLOG);
+            server.setExecutor(Executors.newCachedThreadPool());
             server.start();
          }
          catch (IOException e)
