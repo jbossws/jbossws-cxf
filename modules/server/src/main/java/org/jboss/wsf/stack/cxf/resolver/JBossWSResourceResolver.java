@@ -76,7 +76,8 @@ public class JBossWSResourceResolver implements ResourceResolver
       }
       catch (IOException ioe)
       {
-        log.warn(BundleUtils.getMessage(bundle, "CANNOT_RESOLVE_RESOURCE",  resourcePath));
+         if (log.isDebugEnabled())
+            log.debug(BundleUtils.getMessage(bundle, "CANNOT_RESOLVE_RESOURCE",  resourcePath));
       }
       if (url != null && resourceType.isInstance(url))
       {
