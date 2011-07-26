@@ -42,6 +42,9 @@ import org.apache.cxf.frontend.ServerFactoryBean;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.counters.CounterRepository;
+import org.apache.cxf.management.interceptor.ResponseTimeMessageInInterceptor;
+import org.apache.cxf.management.interceptor.ResponseTimeMessageInvokerInterceptor;
+import org.apache.cxf.management.interceptor.ResponseTimeMessageOutInterceptor;
 import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.ws.common.injection.InjectionHelper;
@@ -174,7 +177,6 @@ public class ServletHelper
 
    public static void registerInstrumentManger(Bus bus, ServletContext svCtx) throws ServletException
    {
-      //TODO!! Jim, remove reflection use inside this by providing proper hook in CXF and move this configuration to BusHolder
       if (svCtx.getInitParameter(ENABLE_CXF_MANAGEMENT) != null
             && "true".equalsIgnoreCase((String) svCtx.getInitParameter(ENABLE_CXF_MANAGEMENT)))
       {
@@ -188,19 +190,17 @@ public class ServletHelper
          //attach couterRepository
          CounterRepository couterRepository = new CounterRepository();
          couterRepository.setBus(bus);
+         
+         
+         ResponseTimeMessageInInterceptor in = new ResponseTimeMessageInInterceptor();
+         ResponseTimeMessageInvokerInterceptor invoker = new ResponseTimeMessageInvokerInterceptor();
+         ResponseTimeMessageOutInterceptor out = new ResponseTimeMessageOutInterceptor();
+         
+         bus.getInInterceptors().add(in);
+         bus.getInInterceptors().add(invoker);
+         bus.getOutInterceptors().add(out);
+         bus.setExtension(couterRepository, CounterRepository.class); 
 
-         try
-         {
-            Method method = CounterRepository.class.getDeclaredMethod("registerInterceptorsToBus", new Class[]
-            {});
-            method.setAccessible(true);
-            method.invoke(couterRepository, new Object[]
-            {});
-         }
-         catch (Exception e)
-         {
-            throw new ServletException(e);
-         }
       }
    }
 }
