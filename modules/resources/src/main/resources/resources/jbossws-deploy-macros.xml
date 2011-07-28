@@ -384,6 +384,11 @@
           <include name="**/neethi.jar"/>
         </fileset>
       </copy>
+      <copy todir="@{targetdir}/org/apache/ws/security/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/wss4j.jar"/>
+        </fileset>
+      </copy>
       <copy todir="@{targetdir}/org/apache/ws/xmlschema/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/xmlschema-core.jar"/>
