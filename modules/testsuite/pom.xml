@@ -1036,7 +1036,7 @@
                  <!-- TODO: will we support wars bundled in jars on AS7? -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2630/**</exclude>
 
-                 <!-- [AS7-1101][JBWS-3322] -->
+                 <!-- [AS7-1101][JBWS-3322], fixed on AS 7.0.1 & above -->
                  <exclude>org/jboss/test/ws/jaxws/samples/webservicerefsec/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2957/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2999/**</exclude>
@@ -1211,6 +1211,7 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws2307/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2527/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/advanced/retail/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/webservicerefsec/**</exclude>
 
                  <!-- TODO: EJB3 DD driven deployments -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
@@ -1222,11 +1223,6 @@
 
                  <!-- TODO: will we support wars bundled in jars on AS7? -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2630/**</exclude>
-
-                 <!-- [AS7-1101][JBWS-3322] -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/webservicerefsec/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2957/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2999/**</exclude>
 
                  <!-- # [JBWS-3232] javax.naming.NameNotFoundException: Name 'service' not found in context 'env' -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3140/**</exclude>
