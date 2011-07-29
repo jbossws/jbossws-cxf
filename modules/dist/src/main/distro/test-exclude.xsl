@@ -4,8 +4,13 @@
   <xsl:param name="targetName"/>
   <xsl:output method="text"/>
   <xsl:template match="/">
-    <xsl:for-each select="//m:profile[m:id=$targetName]/m:build/m:plugins/m:plugin[m:artifactId='maven-surefire-plugin']//m:exclude">
-      <xsl:value-of select="."/><xsl:text>&#10;</xsl:text>
+    <xsl:for-each select="//m:profile[m:id=$targetName]/m:build/m:plugins/m:plugin[m:artifactId='maven-surefire-plugin']//m:excludes">
+      <xsl:for-each select="m:exclude|comment()">
+        <xsl:if test="self::comment()">
+          <xsl:text>#</xsl:text>
+        </xsl:if>
+        <xsl:value-of select="."/><xsl:text>&#10;</xsl:text>
+      </xsl:for-each>
     </xsl:for-each>
   </xsl:template>
 </xsl:stylesheet> 
