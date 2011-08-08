@@ -39,7 +39,8 @@ fi
 #JAVA_OPTS="-classic -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y $JAVA_OPTS"
 
 # Setup JBoss sepecific properties
-JAVA_OPTS="$JAVA_OPTS"
+# Force use of IPv4 stack
+JAVA_OPTS="$JAVA_OPTS -Djava.net.preferIPv4Stack=true" 
 
 # Setup the java endorsed dirs
 JBOSS_ENDORSED_DIRS="$JBOSS_HOME/lib/endorsed"

@@ -80,5 +80,8 @@ set WSCONSUME_CLASSPATH=%WSCONSUME_CLASSPATH%;%JBOSS_HOME%/client/XmlSchema.jar
 set WSCONSUME_CLASSPATH=%WSCONSUME_CLASSPATH%;%JBOSS_HOME%/client/xml-resolver.jar
 set WSCONSUME_CLASSPATH=%WSCONSUME_CLASSPATH%;%JBOSS_HOME%/client/wsdl4j.jar
 
+rem Force use of IPv4 stack
+set JAVA_OPTS=%JAVA_OPTS% -Djava.net.preferIPv4Stack=true
+
 rem Execute the command
 "%JAVA%" %JAVA_OPTS% -Djava.endorsed.dirs="%JBOSS_ENDORSED_DIRS%" -classpath "%WSCONSUME_CLASSPATH%" org.jboss.wsf.spi.tools.cmd.WSConsume %*

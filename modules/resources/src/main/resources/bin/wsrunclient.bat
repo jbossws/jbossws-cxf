@@ -107,6 +107,9 @@ set WSRUNCLIENT_CLASSPATH=%WSRUNCLIENT_CLASSPATH%;%JBOSS_HOME%/client/xml-resolv
 set WSRUNCLIENT_CLASSPATH=%WSRUNCLIENT_CLASSPATH%;%JBOSS_HOME%/client/wsdl4j.jar
 set WSRUNCLIENT_CLASSPATH=%WSRUNCLIENT_CLASSPATH%;%JBOSS_HOME%/client/wstx.jar
 
+rem Force use of IPv4 stack
+set JAVA_OPTS=%JAVA_OPTS% -Djava.net.preferIPv4Stack=true
+
 rem Execute the command
 "%JAVA%" %JAVA_OPTS% -Djava.endorsed.dirs="%JBOSS_ENDORSED_DIRS%" -classpath "%WSRUNCLIENT_CLASSPATH%" %ARGS%
 :EOF
