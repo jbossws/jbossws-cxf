@@ -17,7 +17,7 @@
   <artifactId>jbossws-cxf</artifactId>
   <packaging>pom</packaging>
   
-  <version>3.1.2-SNAPSHOT</version>
+  <version>3.1.2.SP9</version>
   
   <!-- Parent -->
   <parent>
@@ -28,9 +28,9 @@
   
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/branches/jbossws-cxf-3.1.2</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/branches/jbossws-cxf-3.1.2</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/branches/jbossws-cxf-3.1.2</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-3.1.2.SP9</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-3.1.2.SP9</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/tags/jbossws-cxf-3.1.2.SP9</url>
   </scm>
   
   <!-- Modules -->
@@ -44,16 +44,16 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.common.version>1.1.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.framework.version>3.1.2-SNAPSHOT</jbossws.framework.version>
-    <jbossws.spi.version>1.1.2-SNAPSHOT</jbossws.spi.version>
+    <jbossws.common.version>1.1.0.SP8</jbossws.common.version>
+    <jbossws.framework.version>3.1.2.SP10</jbossws.framework.version>
+    <jbossws.spi.version>1.1.2.SP7</jbossws.spi.version>
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
     <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
     -->
     <!-- END -->
-    <cxf.version>2.2.12-patch-02-SNAPSHOT</cxf.version>
+    <cxf.version>2.2.12-patch-02</cxf.version>
     <cxf.spring.version>2.5.6.SEC02</cxf.spring.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>3.1</cxf.asm.version>
@@ -63,7 +63,7 @@
     <jboss.security.sx.version>2.0.4</jboss.security.sx.version>
     <jboss.xb.version>2.0.2.Beta7</jboss.xb.version>
     <jaxb.api.version>2.1</jaxb.api.version>
-    <jaxb.impl.version>2.1.12.patch01</jaxb.impl.version>
+    <jaxb.impl.version>2.1.12.patch02</jaxb.impl.version>
     <jaxrpc.api.version>1.1</jaxrpc.api.version>
     <jaxws.api.version>2.1.3</jaxws.api.version>
     <juddi.version>2.0.1</juddi.version>
