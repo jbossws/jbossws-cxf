@@ -118,11 +118,26 @@
         <artifactId>juddi</artifactId>
         <scope>provided</scope>
       </dependency>
-    
-      <!--jboss600-->
+
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss600</artifactId>
+        <scope>provided</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>sun-jaxb</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss610</artifactId>
         <scope>provided</scope>
         <exclusions>
           <exclusion>
@@ -189,8 +204,8 @@
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss600.txt">
                                     <param name="targetName" expression="jboss600" />
                                 </xslt>
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss601.txt">
-                                    <param name="targetName" expression="jboss601" />
+                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss610.txt">
+                                    <param name="targetName" expression="jboss610" />
                                 </xslt>                       
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss700.txt">
                                     <param name="targetName" expression="jboss700" />

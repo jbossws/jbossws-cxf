@@ -28,23 +28,23 @@
     <property name="jboss600.server.deploy" value="${jboss600.server}/deploy"/>
     <property name="jboss600.server.deployers" value="${jboss600.server}/deployers"/>
 
-    <property name="jboss601.lib" value="${jboss601.home}/lib"/>
-    <property name="jboss601.client" value="${jboss601.home}/client"/>
-    <property name="jboss601.server" value="${jboss601.home}/server/${jboss.server.instance}"/>
-    <property name="jboss601.server.lib" value="${jboss601.home}/common/lib"/>
-    <property name="jboss601.server.deploy" value="${jboss601.server}/deploy"/>
-    <property name="jboss601.server.deployers" value="${jboss601.server}/deployers"/>
+    <property name="jboss610.lib" value="${jboss610.home}/lib"/>
+    <property name="jboss610.client" value="${jboss610.home}/client"/>
+    <property name="jboss610.server" value="${jboss610.home}/server/${jboss.server.instance}"/>
+    <property name="jboss610.server.lib" value="${jboss610.home}/common/lib"/>
+    <property name="jboss610.server.deploy" value="${jboss610.server}/deploy"/>
+    <property name="jboss610.server.deployers" value="${jboss610.server}/deployers"/>
 
     <property name="jboss700.modules" value="${jboss700.home}/modules"/>
     <property name="jboss710.modules" value="${jboss710.home}/modules"/>
 
     <property name="jboss600.available.file" value="${jboss600.client}/jboss-client.jar"/>
-    <property name="jboss601.available.file" value="${jboss601.client}/jboss-client.jar"/>
+    <property name="jboss610.available.file" value="${jboss610.client}/jboss-client.jar"/>
     <property name="jboss700.available.file" value="${jboss700.home}/jboss-modules.jar"/>
     <property name="jboss710.available.file" value="${jboss710.home}/jboss-modules.jar"/>
 
     <available property="jboss600.available" file="${jboss600.available.file}"/>
-    <available property="jboss601.available" file="${jboss601.available.file}"/>
+    <available property="jboss610.available" file="${jboss610.available.file}"/>
     <available property="jboss700.available" file="${jboss700.available.file}"/>
     <available property="jboss710.available" file="${jboss710.available.file}"/>   
 

@@ -61,8 +61,8 @@
     <condition property="jboss600.home" value="${profiles.profile.properties.jboss600.home}">
       <isset property="profiles.profile.properties.jboss600.home"/>
     </condition>
-    <condition property="jboss601.home" value="${profiles.profile.properties.jboss601.home}">
-      <isset property="profiles.profile.properties.jboss601.home"/>
+    <condition property="jboss610.home" value="${profiles.profile.properties.jboss610.home}">
+      <isset property="profiles.profile.properties.jboss610.home"/>
     </condition>
     <condition property="jboss700.home" value="${profiles.profile.properties.jboss700.home}">
       <isset property="profiles.profile.properties.jboss700.home"/>
@@ -72,14 +72,14 @@
     </condition>
 
 
-    <fail message="jboss home not set, use jboss601.home=value, jboss600.home=value, jboss700.home=value or jboss710.home=value to set">
+    <fail message="jboss home not set, use jboss600.home=value, jboss610.home=value, jboss700.home=value or jboss710.home=value to set">
      <condition>
       <and>
        <not>
-         <isset property="jboss601.home"/>
+         <isset property="jboss600.home"/>
        </not>
        <not>
-         <isset property="jboss600.home"/>
+         <isset property="jboss610.home"/>
        </not>
        <not>
          <isset property="jboss700.home"/>
@@ -93,7 +93,7 @@
 
     <echo/>
     <echo message="jboss600.home=${jboss600.home}"/>
-    <echo message="jboss601.home=${jboss601.home}"/>
+    <echo message="jboss610.home=${jboss610.home}"/>
     <echo message="jboss700.home=${jboss700.home}"/>
     <echo message="jboss710.home=${jboss710.home}"/>
   </target>

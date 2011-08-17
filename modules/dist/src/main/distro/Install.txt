@@ -14,20 +14,20 @@ In order to install JBossWS the following steps are necessary:
 3.) Execute one of the following
 
 	ant deploy-jboss600
-	ant deploy-jboss601
+	ant deploy-jboss610
 
     By default the SOAP stack will be installed to 'default' configuration.
 If users want to install SOAP stack to different JBossAS configuration then
 they have to specify -Djboss.server.instance=foo JVM property.
 Supported configurations of the installer are 'default', 'all' and 'standard'.
 
-	ant -Djboss.server.instance=standard deploy-jboss600
+	ant -Djboss.server.instance=standard deploy-jboss610
 
     By default Spring Framework libraries are not installed to application
 server. In order to do that, please add the -Dspring=true property option when
 running the ant script:
 
-        ant -Dspring=true deploy-jboss600
+        ant -Dspring=true deploy-jboss610
 
 Please note Spring is required for advanced configuration only, whenever users
 want to provide their own jbossws-cxf.xml Spring configuration file.

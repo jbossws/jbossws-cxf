@@ -290,41 +290,19 @@
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/resources/jbossws-jboss600</outputDirectory>
                 </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- JBWS-2505 -->
-      <!-- START -->
-      <!--
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>org.jboss.ws:jbossws-jboss*:zip:resources</artifactItems>
-              <artifactItems>
                 <artifactItem>
                   <groupId>org.jboss.ws</groupId>
-                  <artifactId>jbossws-jboss600x</artifactId>
-                  <version>${jbossws.jboss601.version}</version>
+                  <artifactId>jbossws-jboss610</artifactId>
+                  <version>${jbossws.jboss610.version}</version>
                   <classifier>resources</classifier>
                   <type>zip</type>
-                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss601</outputDirectory>
+                  <outputDirectory>${project.build.directory}/resources/jbossws-jboss610</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
         </executions>
       </plugin>
-      -->
-      <!-- END -->
       <!-- http://jira.codehaus.org/browse/MANTRUN-89 -->
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>

@@ -744,20 +744,20 @@
     </profile>
 
     <!--
-    Name:  jboss601
-    Descr: JBoss-6.0.1 specific options
+    Name:  jboss610
+    Descr: JBoss-6.1.0 specific options
     -->
     <profile>
-      <id>jboss601</id>
+      <id>jboss610</id>
       <properties>
-        <jboss.version>6.0.1-SNAPSHOT</jboss.version>
-        <jbossws.integration.target>jboss601</jbossws.integration.target>
+        <jboss.version>6.1.0.Final</jboss.version>
+        <jbossws.integration.target>jboss610</jbossws.integration.target>
       </properties>
       <dependencies>
         <dependency>
           <groupId>org.jboss.jbossas</groupId>
           <artifactId>jboss-as-depchain</artifactId>
-          <scope>import</scope>
+          <scope>test</scope>
           <type>pom</type>
           <version>${jboss.version}</version>
           <exclusions>
@@ -766,7 +766,7 @@
               <groupId>org.jboss.jbossas</groupId>
               <artifactId>jboss-as-webservices</artifactId>
             </exclusion>
-            <!-- Exclusions for preventing cyclic dependency on JBossWS-CXF (AS 6.0.0) -->
+            <!-- Exclusions for preventing cyclic dependency on JBossWS-CXF -->
             <exclusion>
               <groupId>org.jboss.ws.cxf</groupId>
               <artifactId>jbossws-cxf-client</artifactId>
@@ -787,10 +787,7 @@
               <groupId>org.jboss.ws.cxf</groupId>
               <artifactId>jbossws-cxf-resources</artifactId>
             </exclusion>
-            <exclusion>
-              <groupId>org.jboss.ws.native</groupId>
-              <artifactId>jbossws-native-factories</artifactId>
-            </exclusion>
+            <!-- Exclusions for preventing cyclic dependency on JBossWS-Native -->
             <exclusion>
               <groupId>org.jboss.ws.native</groupId>
               <artifactId>jbossws-native-client</artifactId>
@@ -798,6 +795,26 @@
             <exclusion>
               <groupId>org.jboss.ws.native</groupId>
               <artifactId>jbossws-native-core</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-factories</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-jaxrpc</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-saaj</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-management</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.ws.native</groupId>
+              <artifactId>jbossws-native-resources</artifactId>
             </exclusion>
             <exclusion>
               <groupId>org.jboss.ws.native</groupId>
@@ -833,7 +850,7 @@
           <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-              <compilerArgument>-Djava.endorsed.dirs=${jboss601.home}/lib/endorsed</compilerArgument>
+              <compilerArgument>-Djava.endorsed.dirs=${jboss610.home}/lib/endorsed</compilerArgument>
             </configuration>
             <executions>
               <execution>
@@ -848,50 +865,50 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss601.home}/lib/endorsed</argLine>
+              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss610.home}/lib/endorsed -Dorg.jboss.wsf.spi.deployer.Deployer=org.jboss.wsf.test.DeployerJBoss6</argLine>
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                  <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
                 <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
               </additionalClasspathElements>
               <excludes>
-                 <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase.*</exclude>
+                <!-- # UsernameTestCase requires trustore in jboss-web tomcat configuration-->
+                <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase.*</exclude>
 
-                 <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
+                <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
+                <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
 
-                 <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
+                <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
+                <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
 
-                 <!--# [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored-->
-                 <exclude>org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*</exclude>
+                <!--# [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored-->
+                <exclude>org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*</exclude>
 
-                 <!--# [JBWS-2561] XOP request not properly inlined-->
-                 <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
+                <!--# [JBWS-2561] XOP request not properly inlined-->
+                <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
 
-                 <!--# [JBWS-2480] Soap attachments are dropped on server response-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
+                <!--# [JBWS-2480] Soap attachments are dropped on server response-->
+                <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
 
-                 <!--# [JBWS-2397] Fix jbws1797 testcase-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
+                <!--# [JBWS-2397] Fix jbws1797 testcase-->
+                <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
 
-                 <!--# [JBAS-8363] Virtual host issue in JBossWeb-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*</exclude>
+                <!--# [JBAS-8363] Virtual host issue in JBossWeb-->
+                <exclude>org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*</exclude>
 
-                 <!--# Seems MSFT interop. endpoints are down :(-->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
+                <!--# Seems MSFT interop. endpoints are down :(-->
+                <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
 
-                 <!-- # [JBWS-3205] JDKLogManager not used -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
+                <!-- # [JBWS-3205] JDKLogManager not used -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
 
-                 <!-- # [JBWS-3125] SOAP over JMS 1.0 deployment support available on AS 7 only -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/**</exclude>
+                <!-- # [JBWS-3125] SOAP over JMS 1.0 deployment support available on AS 7 only -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/**</exclude>
 
-                 <!-- # [AS7-1322] Implemented on AS 7.0.1 or greater only -->
-                 <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
+                <!-- # [AS7-1322] Implemented on AS 7.0.1 or greater only -->
+                <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
 
               </excludes>
             </configuration>
