@@ -130,6 +130,20 @@
         <attribute name="Dependencies" value="org.apache.ws.security"/>
       </manifest>
     </war>
+    <war warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-username-client.war"
+    	needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/UsernameHelper.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/UsernamePasswordCallback.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/ServiceIface.class"/>
+      	<include name="org/jboss/test/ws/jaxws/samples/wsse/jaxws/*.class"/>
+        <include name="org/jboss/wsf/test/TestServlet.class"/>
+        <include name="org/jboss/wsf/test/ClientHelper.class"/>
+      </classes>
+      <manifest>
+        <attribute name="Dependencies" value="org.apache.ws.security,org.jboss.ws.cxf.jbossws-cxf-client services"/>
+      </manifest>
+    </war>
 
     <!-- jaxws-samples-wsse-username-authorize -->
     <war
