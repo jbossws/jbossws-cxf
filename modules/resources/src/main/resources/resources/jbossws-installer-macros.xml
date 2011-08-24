@@ -55,7 +55,7 @@
   </patternset>
   
   <patternset id="jbossws.lib.endorsed.patternset">
-    <include name="**/nothing-to-deploy"/>
+    <include name="**/jbossws-cxf-factories.jar"/>
   </patternset>
   
   <patternset id="jbossws.server.lib.patternset">
@@ -75,6 +75,7 @@
     <include name="**/jaxws-api.jar"/>
     <include name="**/jbossws-cxf-client*.jar"/>
     <include name="**/jbossws-cxf-server*.jar"/>
+    <include name="**/jbossws-cxf-factories.jar"/>
     <!-- <include name="**/jdom.jar"/> -->
     <include name="**/neethi.jar"/>
     <include name="**/spring-beans.jar"/>
