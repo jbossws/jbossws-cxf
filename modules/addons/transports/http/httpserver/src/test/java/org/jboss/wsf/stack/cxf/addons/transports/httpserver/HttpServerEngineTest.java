@@ -25,27 +25,34 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.configuration.spring.ConfigurerImpl;
+import org.apache.cxf.service.model.EndpointInfo;
 import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMocksControl;
 
 /**
  * Tests for HttpServerEngine
  * 
+ * @author Magesh Kumar B <mageshbk@jboss.com> (C) 2011 Red Hat Inc.
  * @author alessio.soldano@jboss.com
  * @since 20-Aug-2010
  *
  */
 public class HttpServerEngineTest extends TestCase {
 
+    private static final int THREAD_COUNT = 50;
     private Bus bus;
     private IMocksControl control;
     private HttpServerEngineFactory factory;
+    private static List<HttpServerEngine> servers = Collections.synchronizedList(new ArrayList<HttpServerEngine>());
 
     
    public void setUp() throws Exception
@@ -80,6 +87,39 @@ public class HttpServerEngineTest extends TestCase {
 //      factory.destroyForPort(9235);
       
       control.verify();
+   }
+
+   public void testMultiThreaded()
+   {
+      Thread threads[] = new Thread[THREAD_COUNT];
+      int i = 0;
+      // Initialize the threads
+      for (i = 0; i < THREAD_COUNT; i++)
+      {
+         threads[i] = new Thread(new FactoryInvoker());
+      }
+      // Start the threads
+      for (i = 0; i < THREAD_COUNT; i++)
+      {
+         threads[i].start();
+      }
+      // Wait for all threads to complete
+      while (servers.size() != THREAD_COUNT) {
+         try
+         {
+            Thread.sleep(100);
+         }
+         catch (InterruptedException ie)
+         {
+            // Ignore
+         }
+      }
+
+      HttpServerEngine sharedEngine = servers.get(0);
+      for (HttpServerEngine engine : servers)
+      {
+         assertEquals(sharedEngine, engine);
+      }
    }
 
    public void testHandler() throws Exception
@@ -139,4 +179,37 @@ public class HttpServerEngineTest extends TestCase {
       }
    }
 
+   private class FactoryInvoker implements Runnable
+   {
+      private HttpServerEngineFactory _factory;
+
+      FactoryInvoker()
+      {
+         _factory = new HttpServerEngineFactory(null);
+      }
+
+      public void run()
+      {
+         HttpServerEngine engine = null;
+         try
+         {
+            // Delay makes sure the try blocks are initialized before calling createHttpServerEngine,
+            // enhances the chance to enter the createHttpServerEngine simultaneously.
+            try
+            {
+               Thread.sleep(10);
+            }
+            catch (InterruptedException ie)
+            {
+               // Ignore
+            }
+            engine = _factory.createHttpServerEngine("127.0.0.1", 18001, "http");
+         }
+         catch (Exception e)
+         {
+            e.printStackTrace();
+         }
+         servers.add(engine);
+      }
+   }
 }

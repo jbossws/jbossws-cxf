@@ -36,7 +36,8 @@ import org.apache.cxf.common.logging.LogUtils;
 
 /**
  * A server engine factory for the JDK6-based httpserver engine
- * 
+ *
+ * @author Magesh Kumar B <mageshbk@jboss.com> (C) 2011 Red Hat Inc.
  * @author alessio.soldano@jboss.com
  * @since 19-Aug-2010
  *
@@ -85,24 +86,33 @@ public class HttpServerEngineFactory implements BusLifeCycleListener
     */
    public synchronized HttpServerEngine retrieveHttpServerEngine(int port)
    {
-      return portMap.get(port);
+      HttpServerEngine engine = null;
+      synchronized(portMap)
+      {
+         engine = portMap.get(port);
+      }
+      return engine;
    }
 
    public synchronized HttpServerEngine createHttpServerEngine(String host, int port, String protocol)
          throws IOException
    {
       LOG.fine("Creating HttpServer Engine for port " + port + ".");
-      HttpServerEngine ref = retrieveHttpServerEngine(port);
-      if (null == ref)
+      HttpServerEngine ref = null;
+      synchronized(portMap)
       {
-         ref = new HttpServerEngine(this, bus, host, port);
-         portMap.put(port, ref);
-      }
-      // checking the protocol    
-      if (!protocol.equals(ref.getProtocol()))
-      {
-         throw new IOException("Protocol mismatch for port " + port + ": " + "engine's protocol is "
+         ref = retrieveHttpServerEngine(port);
+         if (null == ref)
+         {
+            ref = new HttpServerEngine(this, bus, host, port);
+            portMap.put(port, ref);
+         }
+         // checking the protocol    
+         if (!protocol.equals(ref.getProtocol()))
+         {
+            throw new IOException("Protocol mismatch for port " + port + ": " + "engine's protocol is "
                + ref.getProtocol() + ", the url protocol is " + protocol);
+         }
       }
       return ref;
    }
@@ -112,17 +122,20 @@ public class HttpServerEngineFactory implements BusLifeCycleListener
     */
    public synchronized void destroyForPort(int port)
    {
-      HttpServerEngine ref = portMap.remove(port);
-      if (ref != null)
+      synchronized(portMap)
       {
-         LOG.fine("Stopping HttpServer Engine on port " + port + ".");
-         try
+         HttpServerEngine ref = portMap.remove(port);
+         if (ref != null)
          {
-            ref.stop();
-         }
-         catch (Exception e)
-         {
-            LOG.log(Level.WARNING, "", e);
+            LOG.fine("Stopping HttpServer Engine on port " + port + ".");
+            try
+            {
+               ref.stop();
+            }
+            catch (Exception e)
+            {
+               LOG.log(Level.WARNING, "", e);
+            }
          }
       }
    }
