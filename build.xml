@@ -119,12 +119,12 @@
     <property name="maven.opts" value=""/>
     
     <echo/>
-    <echo message="${mvn} ${maven.opts} -Pdist install"/>
+    <echo message="${mvn} ${maven.opts} -Pdist -Dno-testsuite install"/>
     <echo/>
     
     <delete dir="${deploy.artifacts.dir}"/>
     <exec dir="${basedir}" executable="${mvn}" failonerror="true">
-      <arg line="${maven.opts} -Pdist install"/>
+      <arg line="${maven.opts} -Pdist -Dno-testsuite install"/>
     </exec>
   </target>
   
@@ -133,12 +133,12 @@
     <!-- Use a system property to overwrite the empty default value -->
     <property name="maven.opts" value=""/>
     <echo/>
-    <echo message="${mvn} ${maven.opts} -Pdist -Dbindist install"/>
+    <echo message="${mvn} ${maven.opts} -Pdist -Dbindist -Dno-testsuite install"/>
     <echo/>
     
     <delete dir="${dist.output.dir}/jbossws-cxf-bin-dist"/>
     <exec dir="${basedir}" executable="${mvn}" failonerror="true">
-      <arg line="${maven.opts} -Pdist -Dbindist install"/>
+      <arg line="${maven.opts} -Pdist -Dbindist -Dno-testsuite install"/>
     </exec>
 
     <zip destfile="${stack.output.dir}/jbossws-cxf-bin-dist.zip">
@@ -154,12 +154,12 @@
     <!-- Use a system property to overwrite the empty default value -->
     <property name="maven.opts" value=""/>
     <echo/>
-    <echo message="${mvn} ${maven.opts} -Pdist -Dsrcdist install"/>
+    <echo message="${mvn} ${maven.opts} -Pdist -Dsrcdist -Dno-testsuite install"/>
     <echo/>
     
     <delete dir="${dist.output.dir}/jbossws-cxf-src-dist"/>
     <exec dir="${basedir}" executable="${mvn}" failonerror="true">
-      <arg line="${maven.opts} -Pdist -Dsrcdist install"/>
+      <arg line="${maven.opts} -Pdist -Dsrcdist -Dno-testsuite install"/>
     </exec>
 
     <zip destfile="${stack.output.dir}/jbossws-cxf-src-dist.zip">

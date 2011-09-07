@@ -1273,6 +1273,11 @@
     -->
     <profile>
       <id>jboss600</id>
+      <activation>
+        <property>
+          <name>jboss600.home</name>
+        </property>
+      </activation>
       <properties>
         <jbossws.integration.target>jboss600</jbossws.integration.target>
         <jboss.home>${jboss600.home}</jboss.home>
@@ -1285,6 +1290,11 @@
     -->
     <profile>
       <id>jboss610</id>
+      <activation>
+        <property>
+          <name>jboss610.home</name>
+        </property>
+      </activation>
       <properties>
         <jbossws.integration.target>jboss610</jbossws.integration.target>
         <jboss.home>${jboss610.home}</jboss.home>
@@ -1297,6 +1307,11 @@
     -->
     <profile>
       <id>jboss700</id>
+      <activation>
+        <property>
+          <name>jboss700.home</name>
+        </property>
+      </activation>
       <properties>
         <jbossws.integration.target>jboss700</jbossws.integration.target>
         <jboss.home>${jboss700.home}</jboss.home>
@@ -1309,6 +1324,11 @@
     -->
     <profile>
       <id>jboss710</id>
+      <activation>
+        <property>
+          <name>jboss710.home</name>
+        </property>
+      </activation>
       <properties>
         <jbossws.integration.target>jboss710</jbossws.integration.target>
         <jboss.home>${jboss710.home}</jboss.home>
@@ -1344,6 +1364,11 @@
     -->
     <profile>
       <id>testsuite</id>
+      <activation>
+        <property>
+          <name>!no-testsuite</name>
+        </property>
+      </activation>
       <modules>
         <module>modules/testsuite</module>
       </modules>
