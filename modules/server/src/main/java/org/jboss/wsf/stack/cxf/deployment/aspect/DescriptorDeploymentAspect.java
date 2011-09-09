@@ -31,9 +31,9 @@ import org.jboss.logging.Logger;
 import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.integration.AbstractDeploymentAspect;
 import org.jboss.ws.common.integration.WSConstants;
+import org.jboss.ws.common.integration.WSHelper;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.metadata.MetadataBuilder;
@@ -92,15 +92,14 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
     */
    private URL getCXFConfigFromDeployment(Deployment dep)
    {
-      DeploymentType depType = dep.getType();
       
       String metadir;
-      if (depType == DeploymentType.JAXWS_EJB3)
+      if (WSHelper.isJaxwsEjbDeployment(dep))
       {
          // expected resource location for EJB3 deployments
          metadir = "META-INF";
       }
-      else if (depType == DeploymentType.JAXWS_JSE)
+      if (WSHelper.isJaxwsJseDeployment(dep))
       {
          // expected resource location for POJO deployments
          metadir = "WEB-INF";
@@ -108,7 +107,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
       else
       {
          // only POJO and EJB3 deployments are supported
-         throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNSUPPORTED_DEPLOYMENT_TYPE",  depType));
+         throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNSUPPORTED_DEPLOYMENT_TYPE"));
       }
 
       URL cxfURL = null;
