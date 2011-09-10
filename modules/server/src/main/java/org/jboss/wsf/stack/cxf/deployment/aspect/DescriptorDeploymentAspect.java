@@ -21,6 +21,11 @@
  */
 package org.jboss.wsf.stack.cxf.deployment.aspect;
 
+import static org.jboss.wsf.spi.deployment.DeploymentType.JAXRPC;
+import static org.jboss.ws.common.integration.WSHelper.isJaxwsEjbDeployment;
+import static org.jboss.ws.common.integration.WSHelper.isJaxwsJseDeployment;
+import static org.jboss.ws.common.integration.WSHelper.isJaxrpcDeployment;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -31,7 +36,6 @@ import org.jboss.logging.Logger;
 import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.integration.AbstractDeploymentAspect;
 import org.jboss.ws.common.integration.WSConstants;
-import org.jboss.ws.common.integration.WSHelper;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
@@ -92,22 +96,21 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
     */
    private URL getCXFConfigFromDeployment(Deployment dep)
    {
-      
-      String metadir;
-      if (WSHelper.isJaxwsEjbDeployment(dep))
+      if (isJaxrpcDeployment(dep))
+      {
+         throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNSUPPORTED_DEPLOYMENT_TYPE",  JAXRPC));
+      }
+      String metadir = null;
+      if (isJaxwsEjbDeployment(dep))
       {
          // expected resource location for EJB3 deployments
          metadir = "META-INF";
       }
-      if (WSHelper.isJaxwsJseDeployment(dep))
+      if (isJaxwsJseDeployment(dep))
       {
          // expected resource location for POJO deployments
+         // if EJBs are bundled in WARs, we default to WEB-INF
          metadir = "WEB-INF";
-      }
-      else
-      {
-         // only POJO and EJB3 deployments are supported
-         throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNSUPPORTED_DEPLOYMENT_TYPE"));
       }
 
       URL cxfURL = null;

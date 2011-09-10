@@ -21,8 +21,9 @@
  */
 package org.jboss.wsf.stack.cxf.transport;
 
+import static org.jboss.ws.common.integration.WSHelper.isJaxwsJseEndpoint;
+
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -52,7 +53,6 @@ import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.deployment.Endpoint.EndpointType;
 import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
@@ -141,7 +141,7 @@ public class ServletHelper
       ServerFactoryBean factory = endpoint.getAttachment(ServerFactoryBean.class);
       if (factory != null)
       {
-         if (EndpointType.JAXWS_EJB3 != endpoint.getType() && factory.getServiceBean() != null)
+         if (isJaxwsJseEndpoint(endpoint) && factory.getServiceBean() != null)
          {
             InjectionHelper.callPreDestroyMethod(factory.getServiceBean());
          }
