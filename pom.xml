@@ -19,20 +19,20 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>4.0.0-SNAPSHOT</version>
+  <version>4.0.0.Beta4</version>
   
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>1.0.10.Alpha2</version>
   </parent>
   
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/trunk</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/trunk</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/trunk</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.0.0.Beta4</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.0.0.Beta4</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/tags/jbossws-cxf-4.0.0.Beta4</url>
   </scm>
   
   <!-- Modules -->
@@ -46,15 +46,15 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.spi.version>2.0.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>2.0.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.common.tools.version>1.0.0-SNAPSHOT</jbossws.common.tools.version>
-    <jbossws.shared.testsuite.version>4.0.0-SNAPSHOT</jbossws.shared.testsuite.version>
+    <jbossws.spi.version>2.0.0.Beta9</jbossws.spi.version>
+    <jbossws.common.version>2.0.0.Beta8</jbossws.common.version>
+    <jbossws.common.tools.version>1.0.0.Beta1</jbossws.common.tools.version>
+    <jbossws.shared.testsuite.version>4.0.0.Beta3</jbossws.shared.testsuite.version>
     <jbossws.jboss600.version>4.0.0-SNAPSHOT</jbossws.jboss600.version>
     <jbossws.jboss610.version>4.0.0-SNAPSHOT</jbossws.jboss610.version>
     <jbossws.jboss700.version>4.0.0-SNAPSHOT</jbossws.jboss700.version>
     <jboss700.version>7.0.0.Final</jboss700.version>
-    <cxf.version>2.4.3-SNAPSHOT</cxf.version>
+    <cxf.version>2.4.1</cxf.version>
     <cxf.asm.version>3.3</cxf.asm.version>
     <cxf.xjcplugins.version>2.3.2</cxf.xjcplugins.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
