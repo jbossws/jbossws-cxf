@@ -151,6 +151,22 @@
         </exclusions>
       </dependency>
 
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss700</artifactId>
+        <scope>provided</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>sun-jaxb</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
       <!--junit-->
       <dependency>
         <groupId>junit</groupId>

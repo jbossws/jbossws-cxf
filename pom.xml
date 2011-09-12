@@ -52,6 +52,7 @@
     <jbossws.shared.testsuite.version>4.0.0-SNAPSHOT</jbossws.shared.testsuite.version>
     <jbossws.jboss600.version>4.0.0-SNAPSHOT</jbossws.jboss600.version>
     <jbossws.jboss610.version>4.0.0-SNAPSHOT</jbossws.jboss610.version>
+    <jbossws.jboss700.version>4.0.0-SNAPSHOT</jbossws.jboss700.version>
     <jboss700.version>7.0.0.Final</jboss700.version>
     <cxf.version>2.4.3-SNAPSHOT</cxf.version>
     <cxf.asm.version>3.3</cxf.asm.version>
@@ -146,6 +147,11 @@
         <version>${jbossws.jboss610.version}</version>
         <classifier>resources</classifier>
         <type>zip</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss700</artifactId>
+        <version>${jbossws.jboss700.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.as</groupId>
