@@ -47,10 +47,10 @@
   <target name="undeploy-jboss600" depends="target-jboss600,init" description="Remove jbossws from jboss600">
     <fail message="Not available: ${jboss600.available.file}" unless="jboss600.available"/>
     <macro-undeploy-jbossws targetdir="${jboss600.server}"
-    	                    defaultconf="${jbossws.default.deploy.conf}"
-    	                    defaultserverconf="${jbossws.default.server.deploy.conf}"
-    	                    modifyjbossintegration="true"
-    	                    removenativecore="false" /><!-- [JBWS-2505][JBWS-2895] -->
+                            defaultconf="${jbossws.default.deploy.conf}"
+                            defaultserverconf="${jbossws.default.server.deploy.conf}"
+                            modifyjbossintegration="true"
+                            removenativecore="false" /><!-- [JBWS-2505][JBWS-2895] -->
   </target>
 
   <!-- ================================================================== -->
@@ -89,29 +89,30 @@
   <target name="undeploy-jboss610" depends="target-jboss610,init" description="Remove jbossws from jboss610">
     <fail message="Not available: ${jboss610.available.file}" unless="jboss610.available"/>
     <macro-undeploy-jbossws targetdir="${jboss610.server}"
-    	                    defaultconf="${jbossws.default.deploy.conf}"
-    	                    defaultserverconf="${jbossws.default.server.deploy.conf}"
-    	                    modifyjbossintegration="true"
-    	                    removenativecore="false"/><!-- [JBWS-2505][JBWS-2895] -->
+                            defaultconf="${jbossws.default.deploy.conf}"
+                            defaultserverconf="${jbossws.default.server.deploy.conf}"
+                            modifyjbossintegration="true"
+                            removenativecore="false"/><!-- [JBWS-2505][JBWS-2895] -->
   </target>
-	
+
   <!-- ================================================================== -->
   <!-- Prepare Deployment Structure JBoss-7.0.0                           -->
   <!-- ================================================================== -->
 
   <target name="deploy-structure-jboss700" depends="prepare-deploy">
     <delete dir="${deploy.structure}"/>
-  	
+
     <path id="jbossws-common.path">
       <fileset dir="${deploy.artifacts.dir}">
         <include name="**/jbossws-common-tools.jar"/>
       </fileset>
     </path>
     <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jbossws-common.path"/>
-  	
+
     <antcall target="deploy-jbossws-cxf-modules" inheritall="false">
       <param name="installserver" value="${deploy.structure}"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
+      <param name="jbossid" value="${jbossws.integration.target}"/>
     </antcall>
   </target>
 
@@ -150,17 +151,18 @@
 
   <target name="deploy-structure-jboss710" depends="prepare-deploy">
     <delete dir="${deploy.structure}"/>
-  	
+
     <path id="jbossws-common.path">
       <fileset dir="${deploy.artifacts.dir}">
         <include name="**/jbossws-common-tools.jar"/>
       </fileset>
     </path>
     <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jbossws-common.path"/>
-  	
+
     <antcall target="deploy-jbossws-cxf-modules" inheritall="false">
       <param name="installserver" value="${deploy.structure}"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
+      <param name="jbossid" value="${jbossws.integration.target}"/>
     </antcall>
   </target>
 
@@ -193,7 +195,6 @@
     <macro-undeploy-jbossws-modules targetdir="${jboss710.home}" defaultmodulesconf="${jbossws.default.modules.conf}"/>
   </target>
 
-
   <!-- ================================================================== -->
   <!-- Spring                                                             -->
   <!-- ================================================================== -->
@@ -204,7 +205,7 @@
       </and>
     </condition>
   </target>
-  
+
   <target name="install-spring" if="spring-required">
     <antcall target="deploy-spring" inheritall="false">
       <param name="installserver" value="${deploy.structure}"/>

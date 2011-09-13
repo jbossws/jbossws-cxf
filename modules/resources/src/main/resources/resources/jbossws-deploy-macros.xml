@@ -327,6 +327,7 @@
   <macrodef name="macro-deploy-jbossws-modules">
     <attribute name="thirdpartydir"/>
     <attribute name="targetdir"/>
+    <attribute name="jbossid"/>
     <sequential>
       <!-- libraries -->
       <copy todir="@{targetdir}/org/jboss/ws/jaxws-client/main" flatten="false" overwrite="true">
@@ -397,7 +398,7 @@
       <copy todir="@{targetdir}/org/jboss/as/webservices/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-cxf-resources.jar"/>
-          <include name="**/jbossws-jboss700.jar"/>
+          <include name="**/jbossws-@{jbossid}.jar"/>
         </fileset>
       </copy>
       <!-- module.xml files -->
@@ -453,7 +454,7 @@
   <target name="deploy-jbossws-cxf-modules">
     <fail message="installserver must be specified" unless="installserver"/>
     <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
-    <macro-deploy-jbossws-modules targetdir="${installserver}/modules" thirdpartydir="${thirdpartydir}"/>
+    <macro-deploy-jbossws-modules targetdir="${installserver}/modules" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
   </target>
 
   <!-- ================================================================== -->
