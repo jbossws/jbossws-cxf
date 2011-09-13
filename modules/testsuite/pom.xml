@@ -1129,6 +1129,12 @@
           <groupId>org.jboss.as</groupId>
           <artifactId>jboss-as-webservices-tests-integration</artifactId>
           <version>${jboss.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.as</groupId>
+              <artifactId>jboss-as-transactions</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>javax.mail</groupId>
