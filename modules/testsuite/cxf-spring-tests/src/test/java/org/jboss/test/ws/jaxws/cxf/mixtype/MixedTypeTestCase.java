@@ -33,7 +33,7 @@ import org.jboss.wsf.test.JBossWSTest;
 
 public class MixedTypeTestCase extends JBossWSTest
 {
-   private final String endpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-mixtype";
+   private final String endpointURL = "http://" + getServerHost() + ":8080/mixtype/jaxws-cxf-mixtype";
    private final String ejbEndpointURL = "http://" + getServerHost() + ":8080/mixtype/EJBServiceOne/EJBEndpointOne";
 
    private String targetNS = "http://org.jboss.ws.jaxws.cxf/mixtype";
@@ -45,14 +45,12 @@ public class MixedTypeTestCase extends JBossWSTest
 
    public void testEndpoint() throws Exception
    {
-      
       URL wsdlOneURL = new URL(endpointURL + "?wsdl");
       QName serviceOneName = new QName(targetNS, "ServiceOne");
       Service serviceOne = Service.create(wsdlOneURL, serviceOneName);
-      EndpointOne endpoint = (EndpointOne)serviceOne.getPort(EndpointOne.class);
+      EndpointOne endpoint = (EndpointOne)serviceOne.getPort(new QName(targetNS, "EndpointOnePort"), EndpointOne.class);
       assertEquals("mixedType", endpoint.echo("mixedType"));
-      
-      
+      assertEquals(1, endpoint.getCount());
    }
    
    public void testEJBEndpoint() throws Exception
@@ -60,8 +58,9 @@ public class MixedTypeTestCase extends JBossWSTest
       URL wsdlOneURL = new URL(ejbEndpointURL + "?wsdl");
       QName serviceOneName = new QName(targetNS, "EJBServiceOne");
       Service serviceOne = Service.create(wsdlOneURL, serviceOneName);
-      EndpointOne endpoint = (EndpointOne)serviceOne.getPort(EndpointOne.class);
+      EndpointOne endpoint = (EndpointOne)serviceOne.getPort(new QName(targetNS, "EJBEndpointOnePort"), EndpointOne.class);
       assertEquals("mixedType", endpoint.echo("mixedType"));
+      assertEquals(1, endpoint.getCount());
    }
 
  
