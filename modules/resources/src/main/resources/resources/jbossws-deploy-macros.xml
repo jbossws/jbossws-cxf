@@ -511,6 +511,7 @@
   <macrodef name="macro-undeploy-jbossws-modules">
     <attribute name="defaultmodulesconf"/>
     <attribute name="targetdir"/>
+  	<attribute name="modifyjbossintegration"/>
   	
     <sequential>
       <loadfile property="jbossws.modules.conf" srcfile="@{targetdir}/modules/org/jboss/as/webservices/jbossws-modules.conf" failonerror="false"/>
@@ -521,9 +522,11 @@
       <delete includeemptydirs="true" verbose="true">
         <fileset dir="${jboss.modules}">
           <include name="**/org/jboss/as/webservices/main/jbossws-*-resources*"/>
-          <include name="**/org/jboss/as/webservices/main/*7.0.0.Final*"/>
         </fileset>
       </delete>
+      <antcall target="remove-jboss-integration-module">
+        <param name="modifyjbossintegration" value="@{modifyjbossintegration}"/>
+      </antcall>
 
       <!-- delete content of last deployment -->
       <delete includeemptydirs="true" verbose="true">
@@ -594,6 +597,14 @@
     </delete>
   </target>
 	
+  <target name="remove-jboss-integration-module" depends="process-jboss-integration" if="fixintegration">
+    <delete verbose="true">
+      <fileset dir="${jboss.modules}">
+        <include name="**/org/jboss/as/webservices/main/jboss-as-webservices-server-integration*"/>
+      </fileset>
+    </delete>
+  </target>
+		
   <target name="remove-native-core-from-client-and-common" if="removenativecoreprop">
     <delete verbose="true">
       <fileset dir="${jboss.home}/client">

@@ -142,7 +142,7 @@
 
   <target name="undeploy-jboss700" depends="target-jboss700,init" description="Remove jbossws from jboss700">
     <fail message="Not available: ${jboss700.available.file}" unless="jboss700.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${jboss700.home}" defaultmodulesconf="${jbossws.default.modules.conf}"/>
+    <macro-undeploy-jbossws-modules targetdir="${jboss700.home}" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
   </target>
 
   <!-- ================================================================== -->
@@ -192,7 +192,7 @@
 
   <target name="undeploy-jboss710" depends="target-jboss710,init" description="Remove jbossws from jboss710">
     <fail message="Not available: ${jboss710.available.file}" unless="jboss710.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${jboss710.home}" defaultmodulesconf="${jbossws.default.modules.conf}"/>
+    <macro-undeploy-jbossws-modules targetdir="${jboss710.home}" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
   </target>
 
   <!-- ================================================================== -->
