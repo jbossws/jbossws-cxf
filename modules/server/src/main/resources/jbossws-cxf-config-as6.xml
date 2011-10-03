@@ -64,6 +64,12 @@
     <property name="forJaxRpc">false</property>
   </bean>
 
+  <bean name="WSCXFInstanceProviderDeploymentAspect" class="org.jboss.wsf.stack.cxf.deployment.aspect.CXFInstanceProviderDeploymentAspect">
+    <property name="requires">ContainerMetaData,BusHolder</property>
+    <property name="provides">StackInstanceProvider</property>
+    <property name="forJaxRpc">false</property>
+  </bean>
+
   <bean name="WSCXFEndpointRecordProcessorDeploymentAspect" class="org.jboss.ws.common.deployment.EndpointRecordProcessorDeploymentAspect">
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
     <property name="requires">RegisteredEndpoint</property>

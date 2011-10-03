@@ -119,6 +119,7 @@ public class ServletHelper
    private static void injectServiceAndHandlerResources(Endpoint endpoint)
    {
       ServerFactoryBean factory = endpoint.getAttachment(ServerFactoryBean.class);
+      if (factory == null) throw new UnsupportedOperationException(); // TODO: move injection to ASIL
       if (factory != null)
       {
          InjectionsMetaData metadata = endpoint.getAttachment(InjectionsMetaData.class);
@@ -129,8 +130,9 @@ public class ServletHelper
          {
             for (Handler handler : chain)
             {
-               InjectionHelper.injectResources(handler, metadata, jndiContext);
-               InjectionHelper.callPostConstructMethod(handler);
+               final Object handlerInstance = endpoint.getInstanceProvider().getInstance(handler.getClass().getName());
+               InjectionHelper.injectResources(handlerInstance, metadata, jndiContext);
+               InjectionHelper.callPostConstructMethod(handlerInstance);
             }
          }
       }
@@ -143,7 +145,8 @@ public class ServletHelper
       {
          if (isJaxwsJseEndpoint(endpoint) && factory.getServiceBean() != null)
          {
-            InjectionHelper.callPreDestroyMethod(factory.getServiceBean());
+            final Object epInstance = endpoint.getInstanceProvider().getInstance(factory.getServiceBean().getClass().getName());
+            InjectionHelper.callPreDestroyMethod(epInstance);
          }
       }
    }

@@ -55,6 +55,12 @@
     <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 
+  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.CXFInstanceProviderDeploymentAspect">
+    <property name="requires" class="java.lang.String">ContainerMetaData,BusHolder</property>
+    <property name="provides" class="java.lang.String">StackInstanceProvider</property>
+    <property name="forJaxRpc" class="boolean">false</property>
+  </deploymentAspect>
+
   <deploymentAspect class="org.jboss.ws.common.deployment.JAXBIntroDeploymentAspect">
     <property name="provides" class="java.lang.String">JAXBIntros</property>
     <property name="forJaxRpc" class="boolean">false</property>

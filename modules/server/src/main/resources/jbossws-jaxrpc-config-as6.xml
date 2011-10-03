@@ -28,6 +28,12 @@
     <property name="forJaxWs">false</property>
   </bean>
 
+  <bean name="WSNativeInstanceProviderDeploymentAspect" class="org.jboss.wsf.stack.jbws.NativeInstanceProviderDeploymentAspect">
+    <property name="requires">ContainerMetaData</property>
+    <property name="provides">StackInstanceProvider</property>
+    <property name="forJaxWs">false</property>
+  </bean>
+
   <bean name="WSNativePublishContractDeploymentAspect" class="org.jboss.wsf.stack.jbws.PublishContractDeploymentAspect">
     <property name="requires">UnifiedMetaDataModel, JAXBIntros</property>
     <property name="provides">PublishedContract</property>
