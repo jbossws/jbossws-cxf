@@ -1151,6 +1151,57 @@
               </exclusion>
           </exclusions>
         </dependency>
+        <dependency>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+          <scope>test</scope>
+          <exclusions>
+              <exclusion>
+                  <groupId>xml-apis</groupId>
+                  <artifactId>xml-apis</artifactId>
+              </exclusion>
+          </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss</groupId>
+          <artifactId>jbossxb</artifactId>
+          <version>${jboss.xb.version}</version>
+          <scope>test</scope>
+          <exclusions>
+            <exclusion>
+              <groupId>apache-xerces</groupId>
+              <artifactId>xml-apis</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>apache-xerces</groupId>
+              <artifactId>xercesImpl</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>jboss</groupId>
+              <artifactId>jboss-common-core</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.logging</groupId>
+              <artifactId>jboss-logging-spi</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.logging</groupId>
+              <artifactId>jboss-logging-log4j</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>sun-jaxb</groupId>
+              <artifactId>jaxb-api</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>xml-apis</groupId>
+              <artifactId>xml-apis</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>wutka-dtdparser</groupId>
+               <artifactId>dtdparser121</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
       </dependencies>
       <build>
         <plugins>
@@ -1167,8 +1218,6 @@
                 <phase>test-compile</phase>
                 <configuration>
                   <testExcludes>
-                    <!-- AS7 compilation excludes -->
-                    <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
                     <!-- EJB3 client API dependencies -->
                     <exclude>org/jboss/test/ws/jaxws/jbws944/**</exclude>
                     <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
@@ -1186,8 +1235,11 @@
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
-                 <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
-                <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
+                <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
+                <!-- JBossWS Native Core version available on 710 -->
+                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.0-SNAPSHOT.jar</additionalClasspathElement>
+                <!-- JBossWS Native Core version overwritte by jbossws-native stack install -->
+                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core.jar</additionalClasspathElement>
               </additionalClasspathElements>
               <excludes>
                  <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
@@ -1249,7 +1301,6 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
 
                  <!-- # [JBWS-3234] JNDI over RMI not available on AS7 -->
-                 <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws944/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/serviceref/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1581/**</exclude>
@@ -1275,6 +1326,20 @@
 
                  <!-- JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
+                 
+                 <!-- appclient not available for JAXRPC clients -->
+                 <exclude>org/jboss/test/ws/jaxrpc/samples/docstyle/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxrpc/samples/exception/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxrpc/samples/handler/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxrpc/samples/jsr109ejb/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxrpc/samples/jsr109pojo/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxrpc/samples/message/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxrpc/samples/mtom/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxrpc/samples/oneway/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxrpc/samples/rpcstyle/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxrpc/samples/secureejb/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxrpc/samples/serviceref/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxrpc/samples/swa/**</exclude>
 
                  <!-- Former JMS endpoint functionalities replaced by SOAP-over-JMS on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
