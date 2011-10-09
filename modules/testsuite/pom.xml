@@ -1237,7 +1237,7 @@
               <additionalClasspathElements>
                 <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
                 <!-- JBossWS Native Core version available on 710 -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.0-SNAPSHOT.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.0.Beta2.jar</additionalClasspathElement>
                 <!-- JBossWS Native Core version overwritte by jbossws-native stack install -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core.jar</additionalClasspathElement>
               </additionalClasspathElements>
