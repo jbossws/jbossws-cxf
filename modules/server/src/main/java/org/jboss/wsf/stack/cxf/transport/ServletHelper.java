@@ -130,7 +130,7 @@ public class ServletHelper
          {
             for (Handler handler : chain)
             {
-               final Object handlerInstance = endpoint.getInstanceProvider().getInstance(handler.getClass().getName());
+               final Object handlerInstance = endpoint.getInstanceProvider().getInstance(handler.getClass().getName()).getValue();
                InjectionHelper.injectResources(handlerInstance, metadata, jndiContext);
                InjectionHelper.callPostConstructMethod(handlerInstance);
             }
@@ -145,7 +145,7 @@ public class ServletHelper
       {
          if (isJaxwsJseEndpoint(endpoint) && factory.getServiceBean() != null)
          {
-            final Object epInstance = endpoint.getInstanceProvider().getInstance(factory.getServiceBean().getClass().getName());
+            final Object epInstance = endpoint.getInstanceProvider().getInstance(factory.getServiceBean().getClass().getName()).getValue();
             InjectionHelper.callPreDestroyMethod(epInstance);
          }
       }

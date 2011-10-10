@@ -32,7 +32,9 @@ import javax.xml.ws.handler.Handler;
 import org.apache.cxf.frontend.ServerFactoryBean;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.ws.common.deployment.ReferenceFactory;
 import org.jboss.wsf.spi.deployment.InstanceProvider;
+import org.jboss.wsf.spi.deployment.Reference;
 
 /**
  * CXF instance provider.
@@ -43,18 +45,18 @@ public final class CXFInstanceProvider implements InstanceProvider {
 
     private static final ResourceBundle bundle = BundleUtils.getBundle(CXFInstanceProvider.class);
     private final ServerFactoryBean factory;
-    private final Map<String, Object> cache = new HashMap<String, Object>();
+    private final Map<String, Reference> cache = new HashMap<String, Reference>();
 
     public CXFInstanceProvider(final ServerFactoryBean factory) {
         this.factory = factory;
     }
 
-    public synchronized Object getInstance(final String className) {
-        Object instance = cache.get(className);
+    public synchronized Reference getInstance(final String className) {
+        Reference instance = cache.get(className);
         if (instance == null) {
             final Object serviceBean = factory.getServiceBean();
             if (className.equals(factory.getServiceBean().getClass().getName())) {
-                cache.put(className, instance = serviceBean);
+                cache.put(className, instance = ReferenceFactory.newUninitializedReference(serviceBean));
             }
             if (instance == null)
             {
@@ -62,7 +64,7 @@ public final class CXFInstanceProvider implements InstanceProvider {
                 if (chain != null) {
                     for (Handler handler : chain) {
                         if (className.equals(handler.getClass().getName())) {
-                            cache.put(className, instance = handler);
+                            cache.put(className, instance = ReferenceFactory.newUninitializedReference(handler));
                         }
                     }
                 }
