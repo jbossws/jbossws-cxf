@@ -62,7 +62,7 @@
     <jboss.logging.version>3.0.0.Beta5</jboss.logging.version>
     <jboss.security.spi.version>2.0.4.SP4</jboss.security.spi.version>
     <jboss.security.sx.version>2.0.4</jboss.security.sx.version>
-    <jboss.xb.version>2.0.2.Beta7</jboss.xb.version>
+    <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <picketbox.version>3.0.0.Beta5</picketbox.version>
     <jaxws-jboss-httpserver-httpspi.version>1.0.0.GA</jaxws-jboss-httpserver-httpspi.version>
     <httpserver.version>1.0.0.Beta1</httpserver.version>
