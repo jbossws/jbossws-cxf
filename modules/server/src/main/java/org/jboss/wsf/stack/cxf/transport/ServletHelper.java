@@ -53,6 +53,7 @@ import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.Reference;
 import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
@@ -130,9 +131,13 @@ public class ServletHelper
          {
             for (Handler handler : chain)
             {
-               final Object handlerInstance = endpoint.getInstanceProvider().getInstance(handler.getClass().getName()).getValue();
-               InjectionHelper.injectResources(handlerInstance, metadata, jndiContext);
-               InjectionHelper.callPostConstructMethod(handlerInstance);
+               final Reference handlerReference = endpoint.getInstanceProvider().getInstance(handler.getClass().getName());
+               if (!handlerReference.isInitialized()) {
+                   final Object handlerInstance = handlerReference.getValue();
+                   InjectionHelper.injectResources(handlerInstance, metadata, jndiContext);
+                   InjectionHelper.callPostConstructMethod(handlerInstance);
+                   handlerReference.setInitialized();
+               }
             }
          }
       }
