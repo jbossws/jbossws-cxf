@@ -19,20 +19,20 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>4.0.0.Beta6</version>
+  <version>4.0.0-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.0.10.Alpha2</version>
+    <version>1.0.10-SNAPSHOT</version>
   </parent>
   
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.0.0.Beta6</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.0.0.Beta6</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/tags/jbossws-cxf-4.0.0.Beta6</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/trunk</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/trunk</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/trunk</url>
   </scm>
   
   <!-- Modules -->
@@ -46,10 +46,10 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.spi.version>2.0.0.Beta11</jbossws.spi.version>
-    <jbossws.common.version>2.0.0.Beta11</jbossws.common.version>
-    <jbossws.common.tools.version>1.0.0.Beta1</jbossws.common.tools.version>
-    <jbossws.shared.testsuite.version>4.0.0.Beta5</jbossws.shared.testsuite.version>
+    <jbossws.spi.version>2.0.0-SNAPSHOT</jbossws.spi.version>
+    <jbossws.common.version>2.0.0-SNAPSHOT</jbossws.common.version>
+    <jbossws.common.tools.version>1.0.0-SNAPSHOT</jbossws.common.tools.version>
+    <jbossws.shared.testsuite.version>4.0.0-SNAPSHOT</jbossws.shared.testsuite.version>
     <jbossws.jboss600.version>4.0.0-SNAPSHOT</jbossws.jboss600.version>
     <jbossws.jboss610.version>4.0.0-SNAPSHOT</jbossws.jboss610.version>
     <jbossws.jboss700.version>4.0.0-SNAPSHOT</jbossws.jboss700.version>
