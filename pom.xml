@@ -54,7 +54,7 @@
     <jbossws.jboss610.version>4.0.0-SNAPSHOT</jbossws.jboss610.version>
     <jbossws.jboss700.version>4.0.0-SNAPSHOT</jbossws.jboss700.version>
     <jboss700.version>7.0.0.Final</jboss700.version>
-    <cxf.version>2.4.3-SNAPSHOT</cxf.version>
+    <cxf.version>2.4.3</cxf.version>
     <cxf.asm.version>3.3</cxf.asm.version>
     <cxf.xjcplugins.version>2.3.2</cxf.xjcplugins.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
