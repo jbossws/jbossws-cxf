@@ -58,8 +58,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>javax.ejb</groupId>
-      <artifactId>ejb-api</artifactId>
+      <groupId>org.jboss.spec.javax.ejb</groupId>
+      <artifactId>jboss-ejb-api_3.1_spec</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.jws</groupId>
@@ -193,6 +193,12 @@
                 <artifactItem>
                   <groupId>org.jboss.spec.javax.xml.bind</groupId>
                   <artifactId>jboss-jaxb-api_2.2_spec</artifactId>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.spec.javax.ejb</groupId>
+                  <artifactId>jboss-ejb-api_3.1_spec</artifactId>
                   <type>jar</type>
                   <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
                 </artifactItem>
@@ -676,7 +682,7 @@
           <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-              <compilerArgument>-Djava.endorsed.dirs=${jboss600.home}/lib/endorsed</compilerArgument>
+              <compilerArgument>-Djava.endorsed.dirs=${project.build.directory}/endorsed</compilerArgument>
             </configuration>
             <executions>
               <execution>
@@ -691,14 +697,14 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss600.home}/lib/endorsed -Dorg.jboss.wsf.spi.deployer.Deployer=org.jboss.wsf.test.DeployerJBoss6</argLine>
+              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed -Dorg.jboss.wsf.spi.deployer.Deployer=org.jboss.wsf.test.DeployerJBoss6</argLine>
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                  <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
                 <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
               </additionalClasspathElements>
               <excludes>
-                <!-- # UsernameTestCase requires trustore in jboss-web tomcat configuration-->
+                <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
                 <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase.*</exclude>
 
@@ -726,19 +732,21 @@
                 <!--# Seems MSFT interop. endpoints are down :(-->
                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
 
-                <!-- # [JBWS-3205] JDKLogManager not used -->
+                <!--# [JBWS-3205] JDKLogManager not used -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
 
-                <!-- # [JBWS-3125] SOAP over JMS 1.0 deployment support available on AS 7 only -->
+                <!--# [JBWS-3125] SOAP over JMS 1.0 deployment support available on AS 7 only -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/**</exclude>
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/**</exclude>
 
-                <!-- # [AS7-1322] Implemented on AS 7.0.1 or greater only -->
+                <!--# [AS7-1322] Implemented on AS 7.0.1 or greater only -->
                 <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
 
-                <!-- [JBWS-3367][AS7-1605] fixed since AS 7.1 -->
-                <exclude>org/jboss/test/ws/jaxws/jbws3367/**</exclude>
+                <!--# [JBWS-3026] fixed since AS 7.1 -->
+                <exclude>org/jboss/test/ws/jaxws/jbws3026/**</exclude>
 
+                <!--# [JBWS-3367][AS7-1605] fixed since AS 7.1 -->
+                <exclude>org/jboss/test/ws/jaxws/jbws3367/**</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -853,7 +861,7 @@
           <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-              <compilerArgument>-Djava.endorsed.dirs=${jboss610.home}/lib/endorsed</compilerArgument>
+              <compilerArgument>-Djava.endorsed.dirs=${project.build.directory}/endorsed</compilerArgument>
             </configuration>
             <executions>
               <execution>
@@ -868,14 +876,14 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${jboss610.home}/lib/endorsed -Dorg.jboss.wsf.spi.deployer.Deployer=org.jboss.wsf.test.DeployerJBoss6</argLine>
+              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed -Dorg.jboss.wsf.spi.deployer.Deployer=org.jboss.wsf.test.DeployerJBoss6</argLine>
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                  <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
                 <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
               </additionalClasspathElements>
               <excludes>
-                <!-- # UsernameTestCase requires trustore in jboss-web tomcat configuration-->
+                <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
                 <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase.*</exclude>
 
@@ -903,19 +911,21 @@
                 <!--# Seems MSFT interop. endpoints are down :(-->
                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
 
-                <!-- # [JBWS-3205] JDKLogManager not used -->
+                <!--# [JBWS-3205] JDKLogManager not used -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
 
-                <!-- # [JBWS-3125] SOAP over JMS 1.0 deployment support available on AS 7 only -->
+                <!--# [JBWS-3125] SOAP over JMS 1.0 deployment support available on AS 7 only -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/**</exclude>
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/**</exclude>
 
-                <!-- # [AS7-1322] Implemented on AS 7.0.1 or greater only -->
+                <!--# [AS7-1322] Implemented on AS 7.0.1 or greater only -->
                 <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
 
-                <!-- [JBWS-3367][AS7-1605] fixed since AS 7.1 -->
-                <exclude>org/jboss/test/ws/jaxws/jbws3367/**</exclude>
+                <!--# [JBWS-3026] fixed since AS 7.1 -->
+                <exclude>org/jboss/test/ws/jaxws/jbws3026/**</exclude>
 
+                <!--# [JBWS-3367][AS7-1605] fixed since AS 7.1 -->
+                <exclude>org/jboss/test/ws/jaxws/jbws3367/**</exclude>
               </excludes>
             </configuration>
           </plugin>

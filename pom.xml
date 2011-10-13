@@ -54,6 +54,7 @@
     <jbossws.jboss610.version>4.0.0-SNAPSHOT</jbossws.jboss610.version>
     <jbossws.jboss700.version>4.0.0-SNAPSHOT</jbossws.jboss700.version>
     <jboss700.version>7.0.0.Final</jboss700.version>
+    <ejb.api.version>1.0.1.Final</ejb.api.version>
     <cxf.version>2.4.3</cxf.version>
     <cxf.asm.version>3.3</cxf.asm.version>
     <cxf.xjcplugins.version>2.3.2</cxf.xjcplugins.version>
@@ -164,14 +165,6 @@
         <version>${jaxws-jboss-httpserver-httpspi.version}</version>
       </dependency>
 
-      <!-- provided apis -->
-      <dependency>
-        <groupId>javax.ejb</groupId>
-        <artifactId>ejb-api</artifactId>
-        <version>3.0</version>
-        <scope>provided</scope>
-      </dependency>
-      
       <!-- CXF dependencies -->
       <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -940,6 +933,11 @@
         <groupId>org.jboss.spec.javax.xml.ws</groupId>
         <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
         <version>${jaxws.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.spec.javax.ejb</groupId>
+        <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+        <version>${ejb.api.version}</version>
       </dependency>
       <dependency>
         <groupId>com.sun.xml.fastinfoset</groupId>
