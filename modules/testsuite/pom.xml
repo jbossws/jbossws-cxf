@@ -1296,6 +1296,9 @@
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
 
+                 <!-- # [JBWS-3232][JBMETA-339] waiting for jboss metadata beta14 release -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws3140/**</exclude>
+
                  <!-- TODO: EJB3 DD driven deployments -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1841/**</exclude>
@@ -1306,9 +1309,6 @@
 
                  <!-- TODO: will we support wars bundled in jars on AS7? -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2630/**</exclude>
-
-                 <!-- # [JBWS-3232] javax.naming.NameNotFoundException: Name 'service' not found in context 'env' -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws3140/**</exclude>
 
                  <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher -->
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
