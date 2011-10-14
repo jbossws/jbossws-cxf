@@ -1296,15 +1296,6 @@
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
 
-                 <!-- [JBWS-3367][AS7-1605] fixed since AS 7.1 -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws3367/**</exclude>
-
-                 <!-- TODO: Injections support for WS components -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2074/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2634/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws3026/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/enventry/*JSETestCase*</exclude> <!-- [AS7-1407] affects this test -->
-
                  <!-- TODO: EJB3 DD driven deployments -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1841/**</exclude>
@@ -1348,7 +1339,7 @@
 
                  <!-- JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
-                 
+
                  <!-- appclient not available for JAXRPC clients -->
                  <exclude>org/jboss/test/ws/jaxrpc/samples/docstyle/**</exclude>
                  <exclude>org/jboss/test/ws/jaxrpc/samples/exception/**</exclude>
