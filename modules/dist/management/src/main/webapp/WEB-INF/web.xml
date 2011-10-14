@@ -15,11 +15,21 @@
     <servlet-class>org.jboss.ws.common.management.ContextServlet</servlet-class>
   </servlet>
 
+  <servlet>
+    <servlet-name>PortComponentLinkServlet</servlet-name>
+    <servlet-class>org.jboss.ws.core.server.PortComponentLinkServlet</servlet-class>
+  </servlet>
+  
   <!-- now the mappings -->
   
   <servlet-mapping>
     <servlet-name>ContextServlet</servlet-name>
     <url-pattern>/services/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>PortComponentLinkServlet</servlet-name>
+    <url-pattern>/pclink</url-pattern>
   </servlet-mapping>
 
    <!-- A security constraint that restricts access
@@ -45,7 +55,7 @@
    <security-role>
       <role-name>friend</role-name>
    </security-role>
-
+  
   <!-- 
   currently the W3C haven't settled on a media type for WSDL;
   http://www.w3.org/TR/2003/WD-wsdl12-20030303/#ietf-draft

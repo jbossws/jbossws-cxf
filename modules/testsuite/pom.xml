@@ -1328,9 +1328,6 @@
                  <!-- # [JBWS-3205] JDKLogManager not used -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
 
-                 <!-- # [JBWS-3225] jbossws console not yet available -->
-                 <exclude>org/jboss/test/ws/console/**</exclude>
-
                  <!-- # [JBWS-3227] handlers config file not found on classpath -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3034/**</exclude>
 
