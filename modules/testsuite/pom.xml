@@ -1296,8 +1296,11 @@
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
 
-                 <!-- # [JBWS-3232][JBMETA-339] waiting for jboss metadata beta14 release -->
+                 <!-- # [JBWS-3232][JBMETA-339] waiting for jboss metadata Beta14 release -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3140/**</exclude>
+
+                 <!-- # [JBWS-3227][MODULES-109] waiting for jboss modules 1.0.3.GA release -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws3034/**</exclude>
 
                  <!-- TODO: EJB3 DD driven deployments -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
@@ -1327,9 +1330,6 @@
 
                  <!-- # [JBWS-3205] JDKLogManager not used -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
-
-                 <!-- # [JBWS-3227] handlers config file not found on classpath -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws3034/**</exclude>
 
                  <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase*</exclude>
