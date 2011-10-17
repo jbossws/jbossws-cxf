@@ -10,15 +10,6 @@
     <property name="mbeanServer"><inject bean="WSMBeanServerLocator" property="mbeanServer"/></property>
   </bean>
 
-  <!-- Logging redirector -->
-  <bean name="JDKLogRedirector" class="org.jboss.ws.common.logging.JDKLogRedirector">
-    <property name="namespaces">
-      <list class="java.util.LinkedList" elementClass="java.lang.String">
-        <value>org.apache.cxf</value>
-      </list>
-    </property>
-  </bean>
-  
   <!-- This should actually be in the stack-agnostic config file, it's here to avoid installing a CI -->
   <bean name="WSDescriptorParser" class="org.jboss.ws.common.deployment.WebservicesDescriptorParserImpl">
     <property name="descriptorName">webservices.xml</property>
