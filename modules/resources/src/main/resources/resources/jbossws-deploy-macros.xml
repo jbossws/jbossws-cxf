@@ -254,23 +254,6 @@
   </macrodef>
 
   <!-- ================================================================== -->
-  <!-- Deploy JBossWS Console + PortComponentLink servlet                 -->
-  <!-- ================================================================== -->
-
-  <macrodef name="macro-deploy-jbossws-jaxrpc-deployment">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-    <sequential>
-      <mkdir dir="@{targetdir}"/>
-      <unzip dest="@{targetdir}">
-        <fileset dir="@{thirdpartydir}">
-          <include name="**/jbossws-cxf-management-pcl.war"/>
-        </fileset>
-      </unzip>
-    </sequential>
-  </macrodef>
-
-  <!-- ================================================================== -->
   <!-- Deploy Deployers                                                   -->
   <!-- ================================================================== -->
 
@@ -445,7 +428,7 @@
     <macro-deploy-jbossws-lib targetdir="${installserver}/../../lib" thirdpartydir="${thirdpartydir}"/>
     <macro-deploy-jbossws-endorsed targetdir="${installserver}/../../lib/endorsed" thirdpartydir="${thirdpartydir}"/>
     <macro-deploy-jbossws-server-lib targetdir="${installserver}/../../common/lib" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-jaxrpc-deployment targetdir="${installserver}/deploy/jbossws-console.war" thirdpartydir="${thirdpartydir}"/>
+    <macro-deploy-jbossws-deployment targetdir="${installserver}/deploy/jbossws-console.war" thirdpartydir="${thirdpartydir}"/>
     <macro-deploy-jbossws-deployers targetdir="${installserver}/deployers/jbossws.deployer/" thirdpartydir="${thirdpartydir}" artifactsdir="${artifactsdir}" jbossid="${jbossid}"/>
     <macro-deploy-jbossws-jaxrpc-deployers targetdir="${installserver}/deployers/jbossws-jaxrpc.deployer/" artifactsdir="${artifactsdir}" jbossid="${jbossid}"/>
     <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
