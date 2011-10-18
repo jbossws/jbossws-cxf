@@ -1296,9 +1296,6 @@
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
 
-                 <!-- # [JBWS-3227][MODULES-109] waiting for jboss modules 1.0.3.GA release -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws3034/**</exclude>
-
                  <!-- TODO: EJB3 DD driven deployments -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1841/**</exclude>
@@ -1324,9 +1321,6 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws1815/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/wsseEJB/WsseEjbTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationEJBTestCase*</exclude>
-
-                 <!-- # [JBWS-3205] JDKLogManager not used -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
 
                  <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase*</exclude>
