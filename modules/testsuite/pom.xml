@@ -1320,7 +1320,6 @@
                  <exclude>org/jboss/test/ws/jaxws/cxf/bus/*EJB3*</exclude>
 
                  <!-- TODO: investigate -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsseEJB/WsseEjbTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationEJBTestCase*</exclude>
 
                  <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->

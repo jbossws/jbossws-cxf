@@ -79,7 +79,14 @@ public class WsseEjbTestCase extends JBossWSTest
       }
       catch (Exception ex)
       {
-          assertEquals("Caller unauthorized", ex.getMessage());
+          if (isTargetJBoss6())
+          {
+             assertEquals("Caller unauthorized", ex.getMessage());
+          }
+          else
+          {
+             assertTrue(ex.getMessage().contains("EjbEndpoint is not allowed"));
+          }
       }
    }
 
