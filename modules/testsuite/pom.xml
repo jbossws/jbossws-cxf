@@ -1293,6 +1293,9 @@
                  <!-- # Seems MSFT interop. endpoints are down :(-->
                  <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
 
+                 <!-- Former JMS endpoint functionalities replaced by SOAP-over-JMS on AS7 -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
+
                  <!-- ////////////////////////// -->
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
@@ -1339,9 +1342,6 @@
                  <exclude>org/jboss/test/ws/jaxrpc/samples/secureejb/**</exclude>
                  <exclude>org/jboss/test/ws/jaxrpc/samples/serviceref/**</exclude>
                  <exclude>org/jboss/test/ws/jaxrpc/samples/swa/**</exclude>
-
-                 <!-- Former JMS endpoint functionalities replaced by SOAP-over-JMS on AS7 -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
 
               </excludes>
             </configuration>
