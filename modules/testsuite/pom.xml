@@ -1286,10 +1286,11 @@
                  <!--# [JBAS-8363] Virtual host issue in JBossWeb-->
                  <exclude>org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*</exclude>
 
-                 <!-- # [JBAS-9188] Implement support for nested EJBs & WARs in .sar archives -->
+                 <!--# [JBAS-9188] On AS7 We don't support nested EJB & WAR archives neither in .sar nor in .jar archives -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1854/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2630/**</exclude>
 
-                 <!--# Seems MSFT interop. endpoints are down :(-->
+                 <!-- # Seems MSFT interop. endpoints are down :(-->
                  <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
 
                  <!-- ////////////////////////// -->
@@ -1306,9 +1307,6 @@
 
                  <!-- TODO: JMX client to AS7 server -->
                  <exclude>org/jboss/test/ws/management/recording/CustomRecordProcessorTestCase*</exclude>
-
-                 <!-- TODO: will we support wars bundled in jars on AS7? -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2630/**</exclude>
 
                  <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher -->
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
