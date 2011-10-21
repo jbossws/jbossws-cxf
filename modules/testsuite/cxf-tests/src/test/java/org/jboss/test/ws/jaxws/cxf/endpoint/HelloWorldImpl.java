@@ -27,6 +27,8 @@ import javax.jws.WebService;
 public class HelloWorldImpl implements HelloWorld
 {
    private ClassLoader _deploymentClassLoader;
+   
+   public HelloWorldImpl() {}
 
    public HelloWorldImpl(ClassLoader classloader)
    {
