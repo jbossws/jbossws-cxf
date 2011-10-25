@@ -747,6 +747,9 @@
 
                 <!--# [JBWS-3367][AS7-1605] fixed since AS 7.1 -->
                 <exclude>org/jboss/test/ws/jaxws/jbws3367/**</exclude>
+
+                <!--# [JBWS-3276] fixed since AS 7.1 -->
+                <exclude>org/jboss/test/ws/jaxws/jbws3276/**</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -926,6 +929,9 @@
 
                 <!--# [JBWS-3367][AS7-1605] fixed since AS 7.1 -->
                 <exclude>org/jboss/test/ws/jaxws/jbws3367/**</exclude>
+
+                <!--# [JBWS-3276] fixed since AS 7.1 -->
+                <exclude>org/jboss/test/ws/jaxws/jbws3276/**</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -1049,6 +1055,9 @@
 
                  <!-- [JBWS-3367][AS7-1605] fixed since AS 7.1 -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3367/**</exclude>
+
+                 <!-- [JBWS-3276] fixed since AS 7.1 -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws3276/**</exclude>
 
                  <!-- TODO: Injections support for WS components -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2074/**</exclude>
@@ -1301,6 +1310,9 @@
                  <!-- ////////////////////////// -->
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
+
+                 <!-- waiting for AS7 upstream -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws3276/**</exclude>
 
                  <!-- TODO: EJB3 DD driven deployments -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
