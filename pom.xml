@@ -57,7 +57,7 @@
     <ejb.api.version>1.0.1.Final</ejb.api.version>
     <cxf.version>2.4.4-SNAPSHOT</cxf.version>
     <cxf.asm.version>3.3</cxf.asm.version>
-    <cxf.xjcplugins.version>2.3.2</cxf.xjcplugins.version>
+    <cxf.xjcplugins.version>2.4.0</cxf.xjcplugins.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
     <jboss.logging.version>3.0.0.Beta5</jboss.logging.version>
@@ -765,45 +765,6 @@
       <dependency>
         <groupId>org.apache.cxf.xjcplugins</groupId>
         <artifactId>cxf-xjc-boolean</artifactId>
-        <version>${cxf.xjcplugins.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.cxf.xjcplugins</groupId>
-        <artifactId>cxf-xjc-bug671</artifactId>
         <version>${cxf.xjcplugins.version}</version>
         <exclusions>
           <exclusion>
