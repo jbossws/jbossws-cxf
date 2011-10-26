@@ -72,7 +72,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
          {
             DDBeans dd = generateMetadataFromDeployment(dep);
             cxfURL = dd.createFileURL();
-            log.info("JBossWS-CXF configuration generated: " + cxfURL);
+            log.debug("JBossWS-CXF configuration generated: " + cxfURL);
          }
       }
       if (cxfURL == null)
@@ -81,7 +81,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
       }
       else
       {
-         log.info("Actual configuration from file: " + cxfURL);
+         log.debug("Actual configuration from file: " + cxfURL);
          putCXFConfigToDeployment(dep, cxfURL);
       }
    }
@@ -130,7 +130,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
          // get resource URL
          ArchiveDeployment archDep = (ArchiveDeployment)dep;
          cxfURL = archDep.getResourceResolver().resolve(metadir + "/" + Constants.JBOSSWS_CXF_SPRING_DD);
-         log.info("JBossWS-CXF configuration found: " + cxfURL);
+         log.debug("JBossWS-CXF configuration found: " + cxfURL);
       }
       catch (IOException ignore)
       {
