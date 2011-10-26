@@ -1273,6 +1273,8 @@
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.0.Beta3.jar</additionalClasspathElement>
                 <!-- JBossWS Native Core version overwritte by jbossws-native stack install -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core.jar</additionalClasspathElement>
+                <!-- JBossWS Native Core version specified through system property -->
+                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/${jbossws-native-core.filename}</additionalClasspathElement>
               </additionalClasspathElements>
               <excludes>
                  <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
