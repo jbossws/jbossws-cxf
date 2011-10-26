@@ -1313,9 +1313,6 @@
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
 
-                 <!-- waiting for AS7 upstream -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws3276/**</exclude>
-
                  <!-- TODO: EJB3 DD driven deployments -->
                  <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1841/**</exclude>
