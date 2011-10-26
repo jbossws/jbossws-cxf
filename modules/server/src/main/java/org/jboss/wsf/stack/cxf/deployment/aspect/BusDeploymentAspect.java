@@ -76,7 +76,7 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          //parent to make sure user provided libs in the deployment do no mess up the WS endpoint's deploy if they duplicates
          //libraries already available on the application server modules.
          SecurityActions.setContextClassLoader(new DelegateClassLoader(dep.getRuntimeClassLoader(), origClassLoader));
-         if (jbosswsCxfXml != null) // Spring available
+         if (jbosswsCxfXml != null) // Spring available and jbossws-cxf.xml provided
          {
             URL cxfServletURL = null;
             try
@@ -100,7 +100,7 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
             }
          }
          else
-         //Spring not available
+         //Spring not available or jbossws-cxf.xml not provided
          {
             DDBeans metadata = dep.getAttachment(DDBeans.class);
             holder = new NonSpringBusHolder(metadata);

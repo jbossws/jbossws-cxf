@@ -38,6 +38,7 @@ import org.jboss.ws.common.integration.AbstractDeploymentAspect;
 import org.jboss.ws.common.integration.WSConstants;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.metadata.MetadataBuilder;
@@ -51,6 +52,8 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
  */
 public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
 {
+   private static final boolean PREFER_SPRING_DESCRIPTOR_GENERATION = Boolean.getBoolean("org.jboss.ws.cxf.prefer_spring_descriptor_generation");
+   
    private static final ResourceBundle bundle = BundleUtils.getBundle(DescriptorDeploymentAspect.class);
    // provide logging
    private static final Logger log = Logger.getLogger(DescriptorDeploymentAspect.class);
@@ -58,20 +61,28 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
    @Override
    public void start(Deployment dep)
    {
+      URL cxfURL = null;
       if (SpringUtils.isSpringAvailable())
       {
-         URL cxfURL = getCXFConfigFromDeployment(dep);
-         if (cxfURL == null)
+         //only try reading jbossws-cxf.xml if Spring available...
+         cxfURL = getCXFConfigFromDeployment(dep);
+         //... but do not generate it if it's not provided
+         //or unless it's explicitly required to be generated
+         if (cxfURL == null && PREFER_SPRING_DESCRIPTOR_GENERATION)
          {
-            cxfURL = generateCXFConfigFromDeployment(dep);
+            DDBeans dd = generateMetadataFromDeployment(dep);
+            cxfURL = dd.createFileURL();
+            log.info("JBossWS-CXF configuration generated: " + cxfURL);
          }
-         putCXFConfigToDeployment(dep, cxfURL);
-
+      }
+      if (cxfURL == null)
+      {
+         generateMetadataFromDeployment(dep);
       }
       else
       {
-         log.debug("Spring not available, skipping check for user provided jbossws-cxf.xml / cxf.xml configuration files.");
-         generateMetadataFromDeployment(dep);
+         log.info("Actual configuration from file: " + cxfURL);
+         putCXFConfigToDeployment(dep, cxfURL);
       }
    }
 
@@ -118,7 +129,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
       {
          // get resource URL
          ArchiveDeployment archDep = (ArchiveDeployment)dep;
-         cxfURL = archDep.getResourceResolver().resolve(metadir + "/jbossws-cxf.xml");
+         cxfURL = archDep.getResourceResolver().resolve(metadir + "/" + Constants.JBOSSWS_CXF_SPRING_DD);
          log.info("JBossWS-CXF configuration found: " + cxfURL);
       }
       catch (IOException ignore)
@@ -130,22 +141,8 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
    }
    
    /**
-    * Generated CXF descriptor from deployment
-    * @param dep deployment
-    * @return CXF descriptor URL
-    */
-   private URL generateCXFConfigFromDeployment(Deployment dep)
-   {
-      // Generate the jbossws-cxf.xml descriptor
-      DDBeans dd = generateMetadataFromDeployment(dep);
-      URL cxfURL = dd.createFileURL();
-      log.info("JBossWS-CXF configuration generated: " + cxfURL);
-
-      return cxfURL;
-   }
-   
-   /**
     * Generates the jbossws-cxf metadata from the deployment
+    * and attaches it the deployment
     * @param dep
     * @return
     */

@@ -31,4 +31,5 @@ package org.jboss.wsf.stack.cxf.client;
 public class Constants
 {
    public static final String DEPLOYMENT_BUS = "deployment-bus";
+   public static final String JBOSSWS_CXF_SPRING_DD = "jbossws-cxf.xml";
 }

@@ -94,7 +94,8 @@ public class NonSpringBusHolder extends BusHolder
       for (DDEndpoint dde : metadata.getEndpoints())
       {
          EndpointImpl endpoint = new EndpointImpl(bus, newInstance(dde.getImplementor()));
-         endpoint.setInvoker((Invoker) newInstance(dde.getInvoker()));
+         if (dde.getInvoker() != null)
+            endpoint.setInvoker((Invoker) newInstance(dde.getInvoker()));
          endpoint.setAddress(dde.getAddress());
          endpoint.setEndpointName(dde.getPortName());
          endpoint.setServiceName(dde.getServiceName());
