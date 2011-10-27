@@ -86,7 +86,10 @@ public class SpringBusHolder extends BusHolder
     */
    protected void createBus(URL location)
    {
-      bus = new JBossWSSpringBusFactory().createBus();
+      //use createBus(URL[] urls) method instead of createBus() to bypass
+      //the cxf/jbossws-cxf check on actual need for spring bus (we know
+      //it's required here as we have the jbossws-cxf.xml descriptor)
+      bus = new JBossWSSpringBusFactory().createBus((URL[])null);
       ctx = bus.getExtension(BusApplicationContext.class);
       //Load additional configurations from cxf-servlet.xml
       if (location != null)

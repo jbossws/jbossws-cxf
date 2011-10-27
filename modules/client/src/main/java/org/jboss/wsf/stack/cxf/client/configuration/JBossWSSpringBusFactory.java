@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -34,6 +34,7 @@ import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.configuration.Configurer;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
 
 /**
  * A JBossWS version of @see{org.apache.cxf.bus.spring.SpringBusFactory} that
@@ -46,6 +47,8 @@ import org.springframework.context.ApplicationContext;
 public class JBossWSSpringBusFactory extends SpringBusFactory
 {
    private static final Logger LOG = LogUtils.getL7dLogger(JBossWSSpringBusFactory.class);
+   
+   private boolean customContextProvided = false;
 
    public JBossWSSpringBusFactory()
    {
@@ -55,18 +58,27 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
    public JBossWSSpringBusFactory(ApplicationContext context)
    {
       super(context);
+      this.customContextProvided = (context != null);
    }
 
    /**
-    * We override the Apache CXF method to skip the checks on cxf.xml conf file as that would prevent
-    * creating a Spring version of the bus when the jbossws-cxf.xml is available; generally speaking
-    * the JBossWS-CXF integration requires a Spring bus to be created by Spring bus factories.
+    * This overrides the Apache CXF method to delegate to
+    * @see{org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringBusFactory}
+    * when there's no need for a Spring bus.
     */
    @Override
    public Bus createBus(String cfgFiles[], boolean includeDefaults)
    {
       try
       {
+         String userCfgFile = System.getProperty(Configurer.USER_CFG_FILE_PROPERTY_NAME);
+         String sysCfgFileUrl = System.getProperty(Configurer.USER_CFG_FILE_PROPERTY_URL);
+         Resource r = BusApplicationContext.findResource(Configurer.DEFAULT_USER_CFG_FILE);
+         if (!customContextProvided && userCfgFile == null && cfgFiles == null && sysCfgFileUrl == null
+               && (r == null || !r.exists()) && includeDefaults)
+         {
+            return new JBossWSNonSpringBusFactory().createBus();
+         }
          return finishCreatingBus(createApplicationContext(cfgFiles, includeDefaults));
       }
       catch (BeansException ex)
