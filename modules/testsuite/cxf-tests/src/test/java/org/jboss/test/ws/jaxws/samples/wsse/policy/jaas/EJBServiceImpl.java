@@ -28,6 +28,7 @@ import javax.jws.WebService;
 
 import org.apache.cxf.interceptor.InInterceptors;
 import org.jboss.logging.Logger;
+import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.ws.api.annotation.EndpointConfig;
 
 
@@ -40,6 +41,7 @@ import org.jboss.ws.api.annotation.EndpointConfig;
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy",
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.ServiceIface"
 )
+@SecurityDomain("JBossWS")
 @EndpointConfig(configFile = "META-INF/jaxws-endpoint-config.xml", configName = "Custom WS-Security Endpoint")
 //be sure to have dependency on org.apache.cxf module when on AS7, otherwise Apache CXF annotations are ignored 
 @InInterceptors(interceptors = {"org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor"})

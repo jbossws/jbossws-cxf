@@ -91,7 +91,8 @@ public class UsernameAuthorizationEJBTestCase extends JBossWSTest
       catch (Exception e)
       {
          assertNotNull(e.getMessage());
-         assertTrue(e.getMessage().toLowerCase().contains("unauthorized"));
+         String msg = e.getMessage().toLowerCase();
+         assertTrue(msg.contains("unauthorized") || msg.contains("not allowed"));
       }
    }
    
