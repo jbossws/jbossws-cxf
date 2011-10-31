@@ -11,8 +11,11 @@
   </bean>
 
   <!-- This should actually be in the stack-agnostic config file, it's here to avoid installing a CI -->
-  <bean name="WSDescriptorParser" class="org.jboss.ws.common.deployment.WebservicesDescriptorParserImpl">
+  <bean name="WSWebservicesDescriptorParser" class="org.jboss.ws.common.deployment.WebservicesDescriptorParserImpl">
     <property name="descriptorName">webservices.xml</property>
+  </bean>
+  <bean name="WSJBossWebservicesDescriptorParser" class="org.jboss.ws.common.deployment.JBossWebservicesDescriptorParserImpl">
+    <property name="descriptorName">jboss-webservices.xml</property>
   </bean>
   
   <!-- Installed Record Processors-->
