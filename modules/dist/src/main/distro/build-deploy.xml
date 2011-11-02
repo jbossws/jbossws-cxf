@@ -217,6 +217,7 @@
     <antcall target="deploy-spring-module" inheritall="false">
       <param name="installserver" value="${deploy.structure}"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
+      <param name="jbossid" value="${jbossws.integration.target}"/>
     </antcall>
   </target>
 
