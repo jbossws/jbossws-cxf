@@ -1347,9 +1347,6 @@
                  <exclude>org/jboss/test/ws/jaxrpc/samples/mtom/**</exclude>
                  <exclude>org/jboss/test/ws/jaxrpc/samples/swa/**</exclude>
 
-                 <!-- TODO: investigate saaj impl selection -->
-                 <exclude>org/jboss/test/ws/jaxrpc/samples/handler/**</exclude>
-
               </excludes>
             </configuration>
           </plugin>
