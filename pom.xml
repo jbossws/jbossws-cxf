@@ -60,17 +60,17 @@
     <cxf.xjcplugins.version>2.4.0</cxf.xjcplugins.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
     <jboss.common.core.version>2.2.16.GA</jboss.common.core.version>
-    <jboss.logging.version>3.0.0.Beta5</jboss.logging.version>
+    <jboss.logging.version>3.1.0.Beta3</jboss.logging.version>
     <jboss.security.spi.version>2.0.4.SP4</jboss.security.spi.version>
     <jboss.security.sx.version>2.0.4</jboss.security.sx.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
-    <picketbox.version>3.0.0.Beta5</picketbox.version>
+    <picketbox.version>4.0.6.Beta1</picketbox.version>
     <jaxws-jboss-httpserver-httpspi.version>1.0.0.GA</jaxws-jboss-httpserver-httpspi.version>
     <httpserver.version>1.0.0.Beta1</httpserver.version>
     <jaxb.api.version>1.0.0.Final</jaxb.api.version>
     <jaxb.impl.version>2.2</jaxb.impl.version>
     <jaxrpc.api.version>1.0.0.Final</jaxrpc.api.version>
-    <jaxws.api.version>2.0.0.Alpha1</jaxws.api.version>
+    <jaxws.api.version>2.0.0.Final</jaxws.api.version>
     <jboss.jaxr.version>2.0.3</jboss.jaxr.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <apache.scout.version>1.1.1</apache.scout.version>
