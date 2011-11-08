@@ -1271,7 +1271,7 @@
                 <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
                 <!-- JBossWS Native Core version available on 710 -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.0.Beta3.jar</additionalClasspathElement>
-                <!-- JBossWS Native Core version overwritte by jbossws-native stack install -->
+                <!-- JBossWS Native Core version overwritten by jbossws-native stack install -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core.jar</additionalClasspathElement>
                 <!-- JBossWS Native Core version specified through system property -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/${jbossws-native-core.filename}</additionalClasspathElement>
@@ -1343,7 +1343,7 @@
                  <exclude>org/jboss/test/ws/jaxrpc/samples/serviceref/ServiceRefClientTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxrpc/samples/serviceref/ServiceRefEJBTestCase*</exclude>
 
-                 <!-- TODO: investigate jaxrpc attachments -->
+                 <!-- [AS7-2550] javax.activation.api module needs access to jbossws-native data content handlers -->
                  <exclude>org/jboss/test/ws/jaxrpc/samples/mtom/**</exclude>
                  <exclude>org/jboss/test/ws/jaxrpc/samples/swa/**</exclude>
 
