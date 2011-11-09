@@ -53,11 +53,11 @@
         <equals arg1="${jbossws.integration.target}" arg2="jboss610"/>
       </or>
     </condition>
-    <condition property="jbossws.integration.jboss70" value="true">
-      <or>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss700"/>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss710"/>
-      </or>
+    <condition property="jbossws.integration.jboss700" value="true">
+      <equals arg1="${jbossws.integration.target}" arg2="jboss700"/>
+    </condition>
+    <condition property="jbossws.integration.jboss710" value="true">
+      <equals arg1="${jbossws.integration.target}" arg2="jboss710"/>
     </condition>
     
     <property name="deploy.structure" value="${output.dir}/deploy-${jbossws.integration.target}"/>
