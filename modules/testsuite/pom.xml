@@ -1343,10 +1343,6 @@
                  <exclude>org/jboss/test/ws/jaxrpc/samples/serviceref/ServiceRefClientTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxrpc/samples/serviceref/ServiceRefEJBTestCase*</exclude>
 
-                 <!-- [AS7-2550] javax.activation.api module needs access to jbossws-native data content handlers -->
-                 <exclude>org/jboss/test/ws/jaxrpc/samples/mtom/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxrpc/samples/swa/**</exclude>
-
               </excludes>
             </configuration>
           </plugin>
