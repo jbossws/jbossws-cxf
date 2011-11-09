@@ -28,6 +28,13 @@
   	<taskdef name="eclipseClasspathGenerator" classname="org.jboss.ws.tools.ant.EclipseClasspathTask" classpathref="jbws-ant.path"/>
   	<taskdef name="eclipseProjectGenerator" classname="org.jboss.ws.tools.ant.EclipseProjectTask" classpathref="jbws-ant.path"/>
   	<taskdef name="pathWriter" classname="org.jboss.ws.tools.ant.PathWriterTask" classpathref="jbws-ant.path"/>
+  	
+    <condition property="jbossws.integration.jboss7" value="true">
+      <or>
+        <equals arg1="${jbossws.integration.jboss700}" arg2="true"/>
+        <equals arg1="${jbossws.integration.jboss710}" arg2="true"/>
+      </or>
+    </condition>
   </target>
 
   <target name="setup-new-project" depends="init-project-properties" description="Prompt for settings and setup configuration for a new user project">
@@ -101,7 +108,7 @@
   <target name="configure-project" depends="configure-project-6,configure-project-7">
   </target>
   
-  <target name="configure-project-7" if="jbossws.integration.jboss70">
+  <target name="configure-project-7" if="jbossws.integration.jboss7"> <!-- variable defined above -->
     <mkdir dir="${project.home}/src/main/java"/>
     <mkdir dir="${project.home}/src/main/resources"/>
     <copy tofile="${project.home}/build.xml" file="${basedir}/build/user-project-build.xml">
