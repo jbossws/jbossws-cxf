@@ -1314,7 +1314,6 @@
                  <!-- ////////////////////////// -->
 
                  <!-- TODO: EJB3 DD driven deployments -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1813/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1841/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2241/**</exclude>
 
@@ -1337,8 +1336,6 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
 
                  <!-- TODO: JSR109 w/ jaxrpc, remote JNDI support -->
-                 <exclude>org/jboss/test/ws/jaxrpc/samples/jsr109ejb/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxrpc/samples/jsr109pojo/**</exclude>
                  <exclude>org/jboss/test/ws/jaxrpc/samples/secureejb/**</exclude>
                  <exclude>org/jboss/test/ws/jaxrpc/samples/serviceref/ServiceRefClientTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxrpc/samples/serviceref/ServiceRefEJBTestCase*</exclude>
