@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,19 +21,37 @@
  */
 package org.jboss.test.ws.jaxws.cxf.mixtype;
 
+
 import javax.jws.Oneway;
+import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-@WebService(targetNamespace = "http://org.jboss.ws.jaxws.cxf/mixtype")
+import org.jboss.logging.Logger;
+
+@WebService(targetNamespace = "http://org.jboss.ws.jaxws.cxf/mixtype", serviceName = "ServiceOne", portName ="EndpointTwoPort", endpointInterface = "org.jboss.test.ws.jaxws.cxf.mixtype.EndpointOne")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-public interface EndpointOne
+public class EndpointTwoImpl extends EndpointOneImpl
 {
-   String echo(String input);
+   @WebMethod
+   public String echo(String input)
+   {
+      Logger.getLogger(this.getClass()).info("echo: " + input);
+      return super.echo(input);
+   }
    
+   @WebMethod
    @Oneway
-   void echoOneWay(String input);
+   public void echoOneWay(String input)
+   {
+      Logger.getLogger(this.getClass()).info("echoOneWay: " + input);
+      super.echoOneWay(input);
+   }
    
-   int getCount();
+   @WebMethod
+   public int getCount()
+   {
+      return super.getCount();
+   }
 }
 

@@ -22,7 +22,6 @@
 package org.jboss.test.ws.jaxws.cxf.mixtype;
 
 import java.net.URL;
-import java.util.Iterator;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -35,7 +34,8 @@ import org.jboss.wsf.test.JBossWSTest;
 public class MixedTypeTestCase extends JBossWSTest
 {
    private final String endpointURL = "http://" + getServerHost() + ":8080/mixtype/ServiceOne/EndpointOne";
-   private final String ejbEndpointURL = "http://" + getServerHost() + ":8080/mixtype/EJBServiceOne/EJBEndpointOne";
+   private final String endpoint2URL = "http://" + getServerHost() + ":8080/mixtype/ServiceOne/EndpointTwo";
+   private final String ejbEndpointURL = "http://" + getServerHost() + ":8080/mixtype/EJBServiceOne/EndpointOneEJB3Impl";
 
    private String targetNS = "http://org.jboss.ws.jaxws.cxf/mixtype";
    
@@ -46,24 +46,36 @@ public class MixedTypeTestCase extends JBossWSTest
 
    public void testEndpoint() throws Exception
    {
-      
       URL wsdlOneURL = new URL(endpointURL + "?wsdl");
       QName serviceOneName = new QName(targetNS, "ServiceOne");
-      Service serviceOne = Service.create(wsdlOneURL, serviceOneName);
-      EndpointOne endpoint = (EndpointOne)serviceOne.getPort(new QName(targetNS, "EndpointOnePort"), EndpointOne.class);
+      Service service = Service.create(wsdlOneURL, serviceOneName);
+      EndpointOne endpoint = (EndpointOne)service.getPort(new QName(targetNS, "EndpointOnePort"), EndpointOne.class);
+      int initialCount = endpoint.getCount();
       assertEquals("mixedType", endpoint.echo("mixedType"));
-      assertEquals(1, endpoint.getCount());
+      assertEquals(1, endpoint.getCount() - initialCount);
    }
    
    public void testEJBEndpoint() throws Exception
    {
       URL wsdlOneURL = new URL(ejbEndpointURL + "?wsdl");
       QName serviceOneName = new QName(targetNS, "EJBServiceOne");
-      Service serviceOne = Service.create(wsdlOneURL, serviceOneName);
-      EndpointOne endpoint = (EndpointOne)serviceOne.getPort(new QName(targetNS, "EJBEndpointOnePort"), EndpointOne.class);
+      Service service = Service.create(wsdlOneURL, serviceOneName);
+      EndpointOne endpoint = (EndpointOne)service.getPort(new QName(targetNS, "EJBEndpointOnePort"), EndpointOne.class);
+      int initialCount = endpoint.getCount();
       assertEquals("mixedType", endpoint.echo("mixedType"));
-      assertEquals(1, endpoint.getCount());
+      assertEquals(5, endpoint.getCount() - initialCount);
    }
 
+   public void testEndpoint2() throws Exception
+   {
+      //verify everything works with an endpoint extending another one impl
+      URL wsdlOneURL = new URL(endpoint2URL + "?wsdl");
+      QName serviceOneName = new QName(targetNS, "ServiceOne");
+      Service service = Service.create(wsdlOneURL, serviceOneName);
+      EndpointOne endpoint = (EndpointOne)service.getPort(new QName(targetNS, "EndpointTwoPort"), EndpointOne.class);
+      int initialCount = endpoint.getCount();
+      assertEquals("mixedType", endpoint.echo("mixedType"));
+      assertEquals(1, endpoint.getCount() - initialCount);
+   }
  
 }

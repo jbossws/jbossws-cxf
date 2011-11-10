@@ -58,7 +58,6 @@ public class ServerBeanCustomizer extends BeanCustomizer
    
    private UnifiedVirtualFile deploymentRoot;
    
-   @SuppressWarnings("unchecked")
    @Override
    public void customize(Object beanInstance)
    {
@@ -78,7 +77,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
          {
             for (Endpoint depEndpoint : depEndpoints)
             {
-               if (depEndpoint.getTargetBeanClass().isAssignableFrom(factory.getServiceBean().getClass()))
+               if (depEndpoint.getTargetBeanClass().getName().equals(factory.getServiceBean().getClass().getName()))
                {
                   depEndpoint.addAttachment(ServerFactoryBean.class, factory);
                }

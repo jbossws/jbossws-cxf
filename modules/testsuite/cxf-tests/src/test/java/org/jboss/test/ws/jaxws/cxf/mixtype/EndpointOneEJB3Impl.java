@@ -29,10 +29,10 @@ import javax.jws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
 
-@WebService(name = "EJBEndpointOne", targetNamespace = "http://org.jboss.ws.jaxws.cxf/mixtype", serviceName = "EJBServiceOne")
+@WebService(targetNamespace = "http://org.jboss.ws.jaxws.cxf/mixtype", serviceName = "EJBServiceOne", portName ="EJBEndpointOnePort", endpointInterface = "org.jboss.test.ws.jaxws.cxf.mixtype.EndpointOne")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 @Stateless
-public class EndpointOneEJB3Impl
+public class EndpointOneEJB3Impl implements EndpointOne
 {
    private volatile static int count = 0;
    
@@ -40,7 +40,7 @@ public class EndpointOneEJB3Impl
    public String echo(String input)
    {
       Logger.getLogger(this.getClass()).info("echo: " + input);
-      count++;
+      count = count + 5;
       return input;
    }
    
@@ -49,7 +49,7 @@ public class EndpointOneEJB3Impl
    public void echoOneWay(String input)
    {
       Logger.getLogger(this.getClass()).info("echoOneWay: " + input);
-      count++;
+      count = count + 5;
    }
    
    @WebMethod

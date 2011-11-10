@@ -29,9 +29,9 @@ import javax.jws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
 
-@WebService(name = "EndpointOne", targetNamespace = "http://org.jboss.ws.jaxws.cxf/mixtype", serviceName = "ServiceOne")
+@WebService(targetNamespace = "http://org.jboss.ws.jaxws.cxf/mixtype", serviceName = "ServiceOne", portName ="EndpointOnePort", endpointInterface = "org.jboss.test.ws.jaxws.cxf.mixtype.EndpointOne")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-public class EndpointOneImpl
+public class EndpointOneImpl implements EndpointOne
 {
    private volatile static int count = 0;
    
