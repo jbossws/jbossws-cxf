@@ -254,7 +254,13 @@
         </property>
       </activation>
       <dependencies>
-        <!--Libraries required for running binary distro testsuite and not available on server-->
+        <!-- Libraries required for running binary distro testsuite and not available on server-->
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss700</artifactId>
+          <classifier>tests-integration</classifier>
+          <scope>provided</scope>
+        </dependency>
         <dependency>
           <groupId>org.jboss.as</groupId>
           <artifactId>jboss-as-webservices-tests-integration</artifactId>

@@ -946,7 +946,7 @@
     <profile>
       <id>jboss700</id>
       <properties>
-        <jboss.version>7.0.0.Final</jboss.version>
+        <jboss.version>${jboss700.version}</jboss.version>
         <jbossws.integration.target>jboss700</jbossws.integration.target>
       </properties>
       <dependencies>
