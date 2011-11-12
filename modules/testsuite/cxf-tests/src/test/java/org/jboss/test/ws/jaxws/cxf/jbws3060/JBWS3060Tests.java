@@ -84,8 +84,8 @@ public abstract class JBWS3060Tests extends JBossWSTest //*Tests does not match 
       List<Callable<Boolean>> callables = new ArrayList<Callable<Boolean>>(size*2);
       for (int i = 0; i < size; i++)
       {
-         callables.add(new CallableOne(portOne, oneway));
-         callables.add(new CallableTwo(portTwo, oneway));
+         callables.add(new CallableOne(portOne, oneway, i));
+         callables.add(new CallableTwo(portTwo, oneway, i));
       }
       List<Future<Boolean>> futures = es.invokeAll(callables);
       for (Future<Boolean> f : futures)
@@ -113,16 +113,18 @@ public abstract class JBWS3060Tests extends JBossWSTest //*Tests does not match 
    {
       private EndpointOne port;
       private boolean oneway;
+      private int seqNum;
       
-      public CallableOne(EndpointOne port, boolean oneway)
+      public CallableOne(EndpointOne port, boolean oneway, int seqNum)
       {
          this.port = port;
          this.oneway = oneway;
+         this.seqNum = seqNum;
       }
       
       public Boolean call() throws Exception
       {
-         String arg = "Foo";
+         String arg = "Foo" + seqNum;
          if (oneway)
          {
             port.echoOneWay(arg);
@@ -140,16 +142,18 @@ public abstract class JBWS3060Tests extends JBossWSTest //*Tests does not match 
    {
       private EndpointTwo port;
       private boolean oneway;
+      private int seqNum;
       
-      public CallableTwo(EndpointTwo port, boolean oneway)
+      public CallableTwo(EndpointTwo port, boolean oneway, int seqNum)
       {
          this.port = port;
          this.oneway = oneway;
+         this.seqNum = seqNum;
       }
       
       public Boolean call() throws Exception
       {
-         String arg = "John";
+         String arg = "John" + seqNum;
          if (oneway)
          {
             port.sayHelloOneWay(arg);

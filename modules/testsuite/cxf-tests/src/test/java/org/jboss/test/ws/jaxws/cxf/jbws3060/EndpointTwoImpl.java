@@ -21,6 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3060;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -32,13 +34,13 @@ import org.jboss.logging.Logger;
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public class EndpointTwoImpl
 {
-   private volatile static int count = 0;
+   private static AtomicInteger count = new AtomicInteger(0);
    
    @WebMethod
    public String sayHello(String input)
    {
       Logger.getLogger(this.getClass()).info("sayHello: " + input);
-      count++;
+      count.incrementAndGet();
       return "Hi " + input;
    }
    
@@ -47,12 +49,12 @@ public class EndpointTwoImpl
    public void sayHelloOneWay(String input)
    {
       Logger.getLogger(this.getClass()).info("sayHelloOneWay: " + input);
-      count++;
+      count.incrementAndGet();
    }
    
    @WebMethod
    public int getCount()
    {
-      return count;
+      return count.get();
    }
 }

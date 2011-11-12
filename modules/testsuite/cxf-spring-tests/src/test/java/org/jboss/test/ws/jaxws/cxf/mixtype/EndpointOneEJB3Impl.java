@@ -21,6 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.cxf.mixtype;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.ejb.Stateless;
 import javax.jws.Oneway;
 import javax.jws.WebMethod;
@@ -34,13 +36,13 @@ import org.jboss.logging.Logger;
 @Stateless
 public class EndpointOneEJB3Impl
 {
-   private volatile static int count = 0;
+   private static AtomicInteger count = new AtomicInteger(0);
    
    @WebMethod
    public String echo(String input)
    {
       Logger.getLogger(this.getClass()).info("echo: " + input);
-      count++;
+      count.incrementAndGet();
       return input;
    }
    
@@ -49,13 +51,13 @@ public class EndpointOneEJB3Impl
    public void echoOneWay(String input)
    {
       Logger.getLogger(this.getClass()).info("echoOneWay: " + input);
-      count++;
+      count.incrementAndGet();
    }
    
    @WebMethod
    public int getCount()
    {
-      return count;
+      return count.get();
    }
 }
 

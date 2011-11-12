@@ -37,10 +37,4 @@ public class JBWS3060ServletTestCase extends JBWS3060Tests
       return new JBossWSCXFTestSetup(JBWS3060ServletTestCase.class, "jaxws-cxf-jbws3060.war");
    }
    
-   @Override
-   protected void setUp() throws Exception {
-      System.out.println("FIXME: JBWS3060ServletTestCase temporarly running with limited concurrency, investigate load issue.");
-      this.defaultSize = 10;
-   }
-   
 }

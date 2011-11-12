@@ -28,13 +28,13 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import junit.framework.TestCase;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.configuration.spring.ConfigurerImpl;
-import org.apache.cxf.service.model.EndpointInfo;
 import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMocksControl;
 
@@ -135,8 +135,8 @@ public class HttpServerEngineTest extends TestCase {
       engine.addHandler(urlStr2, handler2);
       pingServer(new URL(urlStr1));
       pingServer(new URL(urlStr2));
-      assertEquals(1, handler1.count);
-      assertEquals(1, handler2.count);
+      assertEquals(1, handler1.count.get());
+      assertEquals(1, handler2.count.get());
       engine.removeHandler(urlStr1);
       engine.removeHandler(urlStr2);
       engine.shutdown();
@@ -161,7 +161,7 @@ public class HttpServerEngineTest extends TestCase {
 
    private class MyTestHandler implements org.jboss.com.sun.net.httpserver.HttpHandler
    {
-      volatile int count;
+      AtomicInteger count = new AtomicInteger(0);
 
       public MyTestHandler()
       {
@@ -170,7 +170,7 @@ public class HttpServerEngineTest extends TestCase {
       
       @Override
       public void handle(org.jboss.com.sun.net.httpserver.HttpExchange exchange) throws IOException {
-         count++;
+         count.incrementAndGet();
          exchange.sendResponseHeaders(200, 0);
          OutputStream os = exchange.getResponseBody();
          os.write("Hello".getBytes());
