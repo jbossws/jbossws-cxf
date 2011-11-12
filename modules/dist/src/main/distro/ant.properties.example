@@ -15,7 +15,11 @@ jbossws.integration.target=jboss610
 jboss.server.instance=default
 jboss.bind.address=localhost
 
-# JBoss JMX invoker authentication
+# JBoss Management console authentication (AS 7.1.x)
+jbossws.deployer.authentication.username=admin
+jbossws.deployer.authentication.password=admin
+
+# JBoss JMX invoker authentication (AS 6 / AS 7.0.x)
 #jmx.authentication.username=admin
 #jmx.authentication.password=admin
 
