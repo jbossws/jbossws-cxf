@@ -92,6 +92,9 @@ public abstract class JBWS3060Tests extends JBossWSTest //*Tests does not match 
       {
          assertTrue(f.get());
       }
+      if (oneway) {
+         Thread.sleep(3000);
+      }
       assertEquals(size, portOne.getCount() - count1);
       assertEquals(size, portTwo.getCount() - count2);
    }
