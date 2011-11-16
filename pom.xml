@@ -53,7 +53,11 @@
     <jbossws.jboss600.version>4.0.0-SNAPSHOT</jbossws.jboss600.version>
     <jbossws.jboss610.version>4.0.0-SNAPSHOT</jbossws.jboss610.version>
     <jbossws.jboss700.version>4.0.0-SNAPSHOT</jbossws.jboss700.version>
+    <jbossws.jboss701.version>4.0.0-SNAPSHOT</jbossws.jboss701.version>
+    <jbossws.jboss702.version>4.0.0-SNAPSHOT</jbossws.jboss702.version>
     <jboss700.version>7.0.0.Final</jboss700.version>
+    <jboss701.version>7.0.1.Final</jboss701.version>
+    <jboss702.version>7.0.2.Final</jboss702.version>
     <jboss710.version>7.1.0.Alpha2-SNAPSHOT</jboss710.version>
     <ejb.api.version>1.0.1.Final</ejb.api.version>
     <cxf.version>2.4.4</cxf.version>
@@ -159,6 +163,28 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss700</artifactId>
         <version>${jbossws.jboss700.version}</version>
+        <classifier>tests-integration</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss701</artifactId>
+        <version>${jbossws.jboss701.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss701</artifactId>
+        <version>${jbossws.jboss701.version}</version>
+        <classifier>tests-integration</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss702</artifactId>
+        <version>${jbossws.jboss702.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss702</artifactId>
+        <version>${jbossws.jboss702.version}</version>
         <classifier>tests-integration</classifier>
       </dependency>
       <dependency>
@@ -1272,6 +1298,30 @@
       <properties>
         <jbossws.integration.target>jboss700</jbossws.integration.target>
         <jboss.home>${jboss700.home}</jboss.home>
+      </properties>
+    </profile>
+
+    <!--
+    Name:  jboss701
+    Descr: JBoss-7.0.1.Final specific options
+    -->
+    <profile>
+      <id>jboss701</id>
+      <properties>
+        <jbossws.integration.target>jboss701</jbossws.integration.target>
+        <jboss.home>${jboss701.home}</jboss.home>
+      </properties>
+    </profile>
+
+    <!--
+    Name:  jboss702
+    Descr: JBoss-7.0.2.Final specific options
+    -->
+    <profile>
+      <id>jboss702</id>
+      <properties>
+        <jbossws.integration.target>jboss702</jbossws.integration.target>
+        <jboss.home>${jboss702.home}</jboss.home>
       </properties>
     </profile>
 

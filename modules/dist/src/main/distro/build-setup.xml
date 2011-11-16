@@ -41,11 +41,15 @@
     <property name="jboss600.available.file" value="${jboss600.client}/jboss-client.jar"/>
     <property name="jboss610.available.file" value="${jboss610.client}/jboss-client.jar"/>
     <property name="jboss700.available.file" value="${jboss700.home}/jboss-modules.jar"/>
+    <property name="jboss701.available.file" value="${jboss701.home}/jboss-modules.jar"/>
+    <property name="jboss702.available.file" value="${jboss702.home}/jboss-modules.jar"/>
     <property name="jboss710.available.file" value="${jboss710.home}/jboss-modules.jar"/>
 
     <available property="jboss600.available" file="${jboss600.available.file}"/>
     <available property="jboss610.available" file="${jboss610.available.file}"/>
     <available property="jboss700.available" file="${jboss700.available.file}"/>
+    <available property="jboss701.available" file="${jboss701.available.file}"/>
+    <available property="jboss702.available" file="${jboss702.available.file}"/>
     <available property="jboss710.available" file="${jboss710.available.file}"/>   
 
     <tstamp>

@@ -44,6 +44,8 @@
             <configuration>
               <excludes>
                 <exclude>**/jbossws-jboss700/**</exclude>
+                <exclude>**/jbossws-jboss701/**</exclude>
+                <exclude>**/jbossws-jboss702/**</exclude>
               </excludes>
             </configuration>
           </execution>
@@ -54,6 +56,24 @@
             <configuration>
               <classifier>jboss700</classifier>
               <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss700/jbossws.beans</classesDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>jboss701</id>
+            <goals><goal>jar</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>jboss701</classifier>
+              <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss701/jbossws.beans</classesDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>jboss702</id>
+            <goals><goal>jar</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>jboss702</classifier>
+              <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss702/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
         </executions>
