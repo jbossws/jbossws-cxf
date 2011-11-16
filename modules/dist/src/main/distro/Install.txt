@@ -25,7 +25,7 @@ configuration. If users want to install SOAP stack to different JBossAS
 configuration then they can specify -Djboss.server.instance=foo JVM property.
 Supported configurations of the installer are 'default', 'all' and 'standard'.
 
-	ant -Djboss.server.instance=standard deploy-jboss700
+	ant -Djboss.server.instance=standard deploy-jboss610
 
     By default Spring Framework libraries are not installed to application
 server. In order to do that, please add the -Dspring=true property option when
