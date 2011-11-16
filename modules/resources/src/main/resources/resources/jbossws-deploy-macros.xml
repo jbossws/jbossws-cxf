@@ -452,6 +452,9 @@
     <fail message="installserver must be specified" unless="installserver"/>
     <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
     <macro-deploy-jbossws-modules targetdir="${installserver}/modules" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}" modules-jbossid="${modules-jbossid}"/>
+  </target>
+	
+  <target name="deploy-jbossws-management-console">
     <macro-deploy-jbossws-deployment targetdir="${installserver}/standalone/deployments/jbossws-console.war" thirdpartydir="${thirdpartydir}"/>
     <touch file="${installserver}/standalone/deployments/jbossws-console.war.dodeploy"/>
   </target>
