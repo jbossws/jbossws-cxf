@@ -126,7 +126,7 @@
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-jboss700" depends="undeploy-jboss700,deploy-structure-jboss70x,check-spring,install-spring-module" description="Deploy jbossws to jboss700">
+  <target name="deploy-jboss700" depends="undeploy-jboss700,deploy-structure-jboss70x,check-spring,install-spring-module70x" description="Deploy jbossws to jboss700">
     <fail message="Not available: ${jboss700.available.file}" unless="jboss700.available"/>
     <copy todir="${jboss700.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
@@ -155,7 +155,7 @@
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-jboss701" depends="undeploy-jboss701,deploy-structure-jboss70x,check-spring,install-spring-module" description="Deploy jbossws to jboss701">
+  <target name="deploy-jboss701" depends="undeploy-jboss701,deploy-structure-jboss70x,check-spring,install-spring-module70x" description="Deploy jbossws to jboss701">
     <fail message="Not available: ${jboss701.available.file}" unless="jboss701.available"/>
     <copy todir="${jboss701.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
@@ -184,7 +184,7 @@
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-jboss702" depends="undeploy-jboss702,deploy-structure-jboss70x,check-spring,install-spring-module" description="Deploy jbossws to jboss702">
+  <target name="deploy-jboss702" depends="undeploy-jboss702,deploy-structure-jboss70x,check-spring,install-spring-module70x" description="Deploy jbossws to jboss702">
     <fail message="Not available: ${jboss702.available.file}" unless="jboss702.available"/>
     <copy todir="${jboss702.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
@@ -235,7 +235,7 @@
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-jboss710" depends="undeploy-jboss710,deploy-structure-jboss710,check-spring,install-spring-module" description="Deploy jbossws to jboss710">
+  <target name="deploy-jboss710" depends="undeploy-jboss710,deploy-structure-jboss710,check-spring,install-spring-module71x" description="Deploy jbossws to jboss710">
     <fail message="Not available: ${jboss710.available.file}" unless="jboss710.available"/>
     <copy todir="${jboss710.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
@@ -273,11 +273,19 @@
     </antcall>
   </target>
 
-  <target name="install-spring-module" if="spring-required">
+  <target name="install-spring-module70x" if="spring-required">
     <antcall target="deploy-spring-module" inheritall="false">
       <param name="installserver" value="${deploy.structure}"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="jbossid" value="${jbossws.integration.target}"/>
+      <param name="modules-jbossid" value="jboss700"/>
+    </antcall>
+  </target>
+
+  <target name="install-spring-module71x" if="spring-required">
+    <antcall target="deploy-spring-module" inheritall="false">
+      <param name="installserver" value="${deploy.structure}"/>
+      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
+      <param name="modules-jbossid" value="jboss710"/>
     </antcall>
   </target>
 

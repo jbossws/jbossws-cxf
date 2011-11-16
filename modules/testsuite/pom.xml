@@ -1256,6 +1256,7 @@
                  <exclude>org/jboss/test/ws/jaxws/enventry/*JSETestCase*</exclude>
 
                  <!-- @WebServiceRef / webserviceref not implemented / ready yet on AS7.0.x -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/webserviceref/WebServiceRefServletTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2307/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2527/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/advanced/retail/**</exclude>
@@ -1443,6 +1444,7 @@
                  <exclude>org/jboss/test/ws/jaxws/enventry/*JSETestCase*</exclude>
 
                  <!-- @WebServiceRef / webserviceref not implemented / ready yet on AS7.0.x -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/webserviceref/WebServiceRefServletTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2307/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2527/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/advanced/retail/**</exclude>

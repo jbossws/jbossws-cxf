@@ -450,7 +450,7 @@
   <macrodef name="macro-install-spring-modules">
     <attribute name="thirdpartydir"/>
     <attribute name="targetdir"/>
-  	<attribute name="jbossid"/>
+  	<attribute name="modules-jbossid"/>
     <sequential>
       <!-- libraries -->
       <copy todir="@{targetdir}/org/springframework/spring/main" flatten="false" overwrite="true">
@@ -460,7 +460,7 @@
       </copy>
       <!-- module.xml files -->
       <installModules targetDir="@{targetdir}">
-        <fileset dir="@{thirdpartydir}/modules/@{jbossid}">
+        <fileset dir="@{thirdpartydir}/modules/@{modules-jbossid}">
           <include name="**/spring/**/module.xml"/>
         </fileset>
       </installModules>
@@ -488,7 +488,7 @@
   <target name="deploy-spring-module">
   	<fail message="installserver must be specified" unless="installserver"/>
     <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
-  	<macro-install-spring-modules targetdir="${installserver}/modules" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}"/>
+  	<macro-install-spring-modules targetdir="${installserver}/modules" thirdpartydir="${thirdpartydir}" modules-jbossid="${modules-jbossid}"/>
   </target>
 
   <!-- ================================================================== -->
