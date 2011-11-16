@@ -732,9 +732,6 @@
                 <!--# Seems MSFT interop. endpoints are down :(-->
                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
 
-                <!--# [JBWS-3205] JDKLogManager not used -->
-                <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
-
                 <!--# [JBWS-3125] SOAP over JMS 1.0 deployment support available on AS 7 only -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/**</exclude>
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/**</exclude>
@@ -913,9 +910,6 @@
 
                 <!--# Seems MSFT interop. endpoints are down :(-->
                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
-
-                <!--# [JBWS-3205] JDKLogManager not used -->
-                <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
 
                 <!--# [JBWS-3125] SOAP over JMS 1.0 deployment support available on AS 7 only -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/**</exclude>
@@ -1100,9 +1094,6 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws1581/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/bus/*EJB3*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1815/**</exclude>
-
-                 <!-- # [JBWS-3205] JDKLogManager not used -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
 
                  <!-- # [JBWS-3225] jbossws console not yet available -->
                  <exclude>org/jboss/test/ws/console/**</exclude>
@@ -1289,9 +1280,6 @@
                  <exclude>org/jboss/test/ws/jaxws/cxf/bus/*EJB3*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1815/**</exclude>
 
-                 <!-- # [JBWS-3205] JDKLogManager not used -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
-
                  <!-- # [JBWS-3225] jbossws console not yet available -->
                  <exclude>org/jboss/test/ws/console/**</exclude>
 
@@ -1476,9 +1464,6 @@
                  <exclude>org/jboss/test/ws/jaxws/jbws1581/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/bus/*EJB3*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws1815/**</exclude>
-
-                 <!-- # [JBWS-3205] JDKLogManager not used -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/logging/JDKLoggingTestCase*</exclude>
 
                  <!-- # [JBWS-3225] jbossws console not yet available -->
                  <exclude>org/jboss/test/ws/console/**</exclude>
