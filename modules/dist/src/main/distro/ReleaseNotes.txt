@@ -28,15 +28,147 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    TODO: enumerate
+    * [JBWS-3088] - Failures/regressions with WSTF Scenario 3 (JAXWS + WSA) intreop tests on AS trunk/CXF and AS 6.0.0.M3/Native
+    * [JBWS-3193] - JBossWS-CXF - 'nocompile' and 'source' option for wsconsume (command line) generates .java files into output directory not source directory
+    * [JBWS-3198] - EPR's address is NOT used  for invocations on the endpoint when the dispatchImpl is created with EPR
+    * [JBWS-3247] - Endpoint TCCL is not updated after the enclosing deployment is redeployed
+    * [JBWS-3260] - modifySOAPAddress = true ends up rewriting WSDLS for WebServiceClient code as well
+    * [JBWS-3270] - AS7 org.jboss.as.webservices:main module should not have any stack specific dependencies
+    * [JBWS-3199] - AbstractServerConfig.toIPv6URLFormat throws java.net.UnknownHostException
+    * [JBWS-3201] - WSConsume does not generate operation fault in WSDL when the WS method throws java.lang.Exception.
+    * [JBWS-3269] - WSA implementation does not throw wsa:InvalidCardinality exception when there is a greater than expected number of the specified header.
+    * [JBWS-3292] - IllegalArgumentException: wrong number of arguments with jbossws-cxf Dispatch/Provider service
+    * [JBWS-3298] - CXF throws java.lang.UnsupportedOperationException when a OneWay webservice is invoked via HTTP
+    * [JBWS-3305] - CXF wrongly assumes that code using WSA must be employing a request-reply exchange
+    * [JBWS-3304] - XTS testsuite failures/regressions due to JBWS-CXF upgrades in AS7
+    * [JBWS-3306] - No XPathFactory implementation found by a JAXWS client on AS7
+    * [JBWS-3321] - Enhance ModelDeploymentAspect to generate compatible PathElements
+    * [JBWS-3325] - Endpoints created through Endpoint.publish execute tasks sequentially
+    * [JBWS-3322] - Ensure proper creation of WebMD for EJBs present in web archive.
+    * [JBWS-3332] - wsdl-port modification in subsystem webservices throws error and prevent AS 7 from stat. wsdl-secure-port does not break the startup
+    * [JBWS-3336] - Errata files not properly created by hudson jobs
+    * [JBWS-3337] - Fix ThreadLocalAwareWebServiceContext singleton de/serialization
+    * [JBWS-3338] - Distinguish between @Addressing(enabled=false) and no @Addressing annotation also for port component refs
+    * [JBWS-3341] - AS7 org.jboss.ws.cxf.jbossws-cxf-client module do not export wsdl4j api
+    * [JBWS-3347] - Endpoints created through Endpoint.publish throws Address already in use: bind
+    * [JBWS-3355] - Launch of *.sh scripts from path with space does not work
+    * [JBWS-3288] - Double slash in published endpoint address
+    * [JBWS-3360] - Fix WS ref deserialization process - consider TCCL when instantiating classes.
+    * [JBWS-3205] - java.lang.StackOverflowError on binary distro due to org.jboss.wsf.common.logging.JDKLogManager
+    * [JBWS-3275] - AddressingFeature required Client should throw exception when the wsa header is missing in the inbound message 
+    * [JBWS-3354] - CXF does not set the correct host when viewing WSDLs that are published with JAXWS API
+    * [JBWS-3356] - Fix PostConstruct & PreDestroy implementation for JAXWS endpoints & handlers
+    * [JBWS-3357] - Implement support for lookup mechanism for JAXWS endpoints & handlers
+    * [JBWS-3367] - EJB3 endpoints in war archive should follow context root override rules
+    * [JBWS-3368] - jbossws-cxf-4.0.0.Beta6 : jaxws-benchmark-datatypes-pojo.war deployment on AS7 fails
+    * [JBWS-3371] - Implement better SEI -> EJB View translation algorithm
+    * [JBWS-3384] - Missing dependency in module "org.jboss.ws.jaxws-client"
+
+
+Enhancement
+
+    * [JBWS-3318] - InvocationHandlerEJB3 cannot rely on EJB3 security impl. details
+    * [JBWS-3319] - Unify CXF InvokerJSE & InvokerEJB3 invokers.
+    * [JBWS-3329] - Implement protocol binding filtering for handlers coming from endpoint configuration
 
 Feature Request
 
-    TODO: enumerate
+    * [JBWS-3265] - Isolate deployment classloader from ws server integration
+    * [JBWS-3272] - Upgrade to Apache CXF 2.4
+    * [JBWS-3282] - Extend jbossws jaxws endpoint configuration (@EndpointConfig) to jbossws-cxf stack
+    * [JBWS-2791] - Register the jms endpoint into endpoint registry in cxf stack 
+    * [JBWS-2941] - HTTP Proxy authentication for JBossWS Web Service clients
+    * [JBWS-3125] - SOAP over JMS 1.0 support
+    * [JBWS-3137] - Support deploying http and jms endpoint in one deployment
+    * [JBWS-3296] - Provide abstraction for picketbox/jboss-security AuthenticationManager and AuthorizationManager
+    * [JBWS-3302] - Enable WS-Security UT JAAS integration for policy-first scenarios
+    * [JBWS-3343] - Support for both EJB3 and POJO WS endpoints in war archives
+    * [JBWS-3286] - Add jaxws-endpoint-configuration to AS7 domain
+    * [JBWS-3115] - Clean dependencies on jbossws-spi
+    * [JBWS-3276] - Implement support for POJO endpoints with no web.xml in archive
 
 Task
 
-    TODO: enumerate
+    * [JBWS-3080] - Update build for supporting Maven 3
+    * [JBWS-3186] - Upgrade to Apache CXF 2.3.4
+    * [JBWS-3206] - Modify deployment scripts for supporting AS 7
+    * [JBWS-3207] - Remote deployment support for testsuite against AS 7
+    * [JBWS-3208] - Add AS7 jobs to Hudson
+    * [JBWS-3210] - Configure testsuite against JBoss AS7
+    * [JBWS-3223] - Runtime ws client classloader setup on AS7
+    * [JBWS-3224] - Review the jbossws-spi ServiceLoader to allow for passing a classloader in
+    * [JBWS-3236] - Ensure JBossWSBusFactory is built properly on AS7
+    * [JBWS-3238] - Rewrite jaxws tools tests to run in fork mode
+    * [JBWS-3254] - Add the missed  jaxws2.2 methods  in DelegateEndpointImpl
+    * [JBWS-3266] - Update stax-api dependency
+    * [JBWS-3273] - Move ANT & command line tools abstraction from jbossws-common.jar to jbossws-common-tools.jar
+    * [JBWS-3284] - Add WS-SecurityPolicy testcases without Spring descriptors
+    * [JBWS-3135] - WSTF Scenario 3 - Asynch 02 test case failure
+    * [JBWS-3136] - WSTF Scenario 3 - Asynch 03/04 tests case failure
+    * [JBWS-3169] - Remove spi dependency on JBossXB
+    * [JBWS-3185] - WSTF Scenario 3 - Asynch 05/06/07/08 tests case failure
+    * [JBWS-3217] - JBossWS SPI - NoClassDefFoundError: org/jboss/logging/Logger
+    * [JBWS-3218] - Don't use apache logger, use jboss one
+    * [JBWS-3221] - Enable JMX tests
+    * [JBWS-3222] - Resuscitate JBossWS command line tools on AS7
+    * [JBWS-3226] - AS7 jboss-service.xml parsing problem
+    * [JBWS-3229] - Fix testsuite built to provide proper endorse dir setup to wsprovide/wsconsume Ant tasks (AS7)
+    * [JBWS-3231] - policy alternatives can not be satisfied
+    * [JBWS-3245] - AS7 RemoteDeployer have to always undeploy deployed archives
+    * [JBWS-3274] - Restore jaxbintros functionalities on AS7
+    * [JBWS-3283] - Provide a stax based parser of jaxws endpoint config descriptors
+    * [JBWS-3289] - Refactor packages to be in sync. with new abstractions
+    * [JBWS-2709] - Review JBossWS public api and provide javadoc
+    * [JBWS-3105] - Review and fix JBossWS maven dependencies
+    * [JBWS-3248] - Unable to lookup AuthenticationManager using JNDI - AS7
+    * [JBWS-3264] - Don't use log4j configuration classes in our CXF tools - identify possible workarounds
+    * [JBWS-3271] - Allow both Native & CXF stacks to use their own SAAJ implementation on AS7
+    * [JBWS-3279] - Unify CXFServletExt and CXFNonSpringServletExt
+    * [JBWS-3301] - Allow WRAPPED style code generation for "wrapper elements" with xsd:extension 
+    * [JBWS-3303] - Upgrade to Apache CXF 2.4.1
+    * [JBWS-3307] - Remove dependency on JBossXB
+    * [JBWS-3309] - Set default JAXB impl when importing org.jboss.ws.cxf.jbossws-cxf-client AS7 module
+    * [JBWS-3310] - Avoid deployment of useless client archives when running JBossWS testsuite
+    * [JBWS-3312] - Cleanup previously deprecated spi methods
+    * [JBWS-3230] - Could not find any reference to namespace 'http://schemas.xmlsoap.org/ws/2005/02/rm'
+    * [JBWS-3240] - Rewrite tests relying on $JBOSS_HOME/server/default/tmp/jbossws folder existence
+    * [JBWS-3257] - No class available with name 'org.jboss.security.plugins.JaasSecurityDomain'
+    * [JBWS-3316] - i18n logging message
+    * [JBWS-3323] - Get rid of WebServiceDeclaration & WebServiceDeployment SPI abstractions
+    * [JBWS-3326] - Restore project generator against AS7
+    * [JBWS-3330] - Restore RecordProcessor functionalities on AS7
+    * [JBWS-3219] - Unexpected element 'port-qname' encountered
+    * [JBWS-3215] - Review the way testsuite is run using Maven
+    * [JBWS-3333] - Upgrade to Apache CXF 2.4.2
+    * [JBWS-3334] - Rewrite DD driven injection tests.
+    * [JBWS-3348] - Get rid of org.jboss.ws.backward_compatible_context_creator property
+    * [JBWS-3346] - Add EndpointType
+    * [JBWS-3349] - Refactor stack agnostic DepoymentAspects to deploy EJB3 webservice in a war file 
+    * [JBWS-3350] - Change AS7 Integraiton layer to build and deploy EJB3 endpoint  in a war file
+    * [JBWS-3351] - Change AS6 Integraiton layer to build and deploy EJB3 endpoint  in a war file
+    * [JBWS-3328] - Restore @WebServiceRef functionalities on AS7
+    * [JBWS-3366] - Initial restore of JAX-RPC functionalities on AS 7
+    * [JBWS-3352] - Refactor and enable related tests 
+    * [JBWS-3363] - Provide SPI hooks to obtain instances of handlers & endpoints from underlying stacks
+    * [JBWS-2338] - Review JBossWS SPI abstractions and interfaces
+    * [JBWS-2436] - Look for eventual optimizations when scanning classes
+    * [JBWS-3120] - Resuscitate Virtual host feature on AS 7 series
+    * [JBWS-3216] - Investigate & fix test failures against AS7
+    * [JBWS-3280] - Avoid building Spring Bus when deployment has no spring descriptor
+    * [JBWS-3340] - Upgrade to Apache CXF 2.4.3
+    * [JBWS-3358] - Restore @EJB & @Resource injection on JAXWS components on AS7
+    * [JBWS-3369] - Fix AS7 jaxrpc classloading issues
+    * [JBWS-3374] - Remove cxf-xjc-bug671 dependency and move to cxf-xjc utils 2.4.0
+    * [JBWS-3375] - Restore JAXRPC EJB integration on AS7
+    * [JBWS-3379] - Upgrade to Apache CXF 2.4.4
+    * [JBWS-3381] - Support latest AS 7.0.x target container
+    * [JBWS-3382] - Add AS7 RemoteDeployer to jbossws container integration
+    * [JBWS-3225] - Resuscitate JBossWS console
+    * [JBWS-3227] - handlers configuration file not found on classpath
+    * [JBWS-3232] - javax.naming.NameNotFoundException: Name 'service' not found in context 'env'
+    * [JBWS-3364] - Refactor injections on JAXWS components from common to ASIL
+    * [JBWS-3376] - Introduce jboss-webservices.xml DD
+    * [JBWS-3385] - Enable Remote EJB JNDI support in our test suite
 
 Errata
 
