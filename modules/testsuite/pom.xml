@@ -1675,9 +1675,6 @@
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
 
-                 <!-- waiting for pull request to be merged upstream -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2241/**</exclude>
-
                  <!-- TODO: JMX client to AS7 server -->
                  <exclude>org/jboss/test/ws/management/recording/CustomRecordProcessorTestCase*</exclude>
 
