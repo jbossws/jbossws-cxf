@@ -1671,19 +1671,17 @@
                  <!-- Former JMS endpoint functionalities replaced by SOAP-over-JMS on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
 
-                 <!-- # JMX disabled in AS 7.1: https://github.com/jbossas/jboss-as/commit/aa50c9a8509644f7c060ffe4a2d16ce564157e3c -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/management/CXFManagementTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/management/recording/MemoryBufferRecorderTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws1190/JBWS1190TestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2150/JBWS2150TestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws1178/JBWS1178TestCase*</exclude>
-
                  <!-- ////////////////////////// -->
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
 
-                 <!-- TODO: JMX client to AS7 server -->
+                 <!-- # [JBWS-3388] Rewrite JMX based tests -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/management/CXFManagementTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/management/recording/MemoryBufferRecorderTestCase*</exclude>
                  <exclude>org/jboss/test/ws/management/recording/CustomRecordProcessorTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1190/JBWS1190TestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws2150/JBWS2150TestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws1178/JBWS1178TestCase*</exclude>
 
                  <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher -->
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
