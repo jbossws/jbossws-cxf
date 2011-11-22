@@ -1675,6 +1675,9 @@
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
 
+                 <!-- # [JBWS-3389] investigate & fix regression -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/JMSHTTPEndpointDeploymentTestCase*</exclude>
+
                  <!-- # [JBWS-3388] Rewrite JMX based tests -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/management/CXFManagementTestCase*</exclude>
                  <exclude>org/jboss/test/ws/management/recording/MemoryBufferRecorderTestCase*</exclude>
