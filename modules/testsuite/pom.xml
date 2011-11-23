@@ -1520,6 +1520,12 @@
           <groupId>org.jboss</groupId>
           <artifactId>jboss-ejb-client</artifactId>
           <version>1.0.0.Beta6</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.remoting3</groupId>
+              <artifactId>jboss-remoting</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.jboss.naming</groupId>
