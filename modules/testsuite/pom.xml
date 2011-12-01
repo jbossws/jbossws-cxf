@@ -1525,6 +1525,10 @@
               <groupId>org.jboss.remoting3</groupId>
               <artifactId>jboss-remoting</artifactId>
             </exclusion>
+            <exclusion>
+              <groupId>org.jboss.xnio</groupId>
+              <artifactId>xnio-api</artifactId>
+            </exclusion>
           </exclusions>
         </dependency>
         <dependency>
