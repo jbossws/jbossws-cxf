@@ -49,7 +49,8 @@ public class EJB3ClientBusTestCase extends JBossWSTest
       {
          String host = getServerHost();
          InitialContext iniCtx = getInitialContext();
-         EJB3ClientRemoteInterface ejb3Remote = (EJB3ClientRemoteInterface)iniCtx.lookup("/EJB3Client/remote");
+         Object obj = iniCtx.lookup(isTargetJBoss6() ? "/EJB3Client/remote" : "ejb:/jaxws-cxf-bus-ejb3-client//EJB3Client!" + EJB3ClientRemoteInterface.class.getName());
+         EJB3ClientRemoteInterface ejb3Remote = (EJB3ClientRemoteInterface)obj;
          ejb3Remote.testBusCreation();
          ejb3Remote.testSOAPConnection(host);
          ejb3Remote.testWebServiceClient(host);
