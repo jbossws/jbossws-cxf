@@ -1708,6 +1708,7 @@
                  <!-- # TODO: remote JNDI support (non EJB objects) -->
                  <exclude>org/jboss/test/ws/jaxrpc/samples/secureejb/**</exclude>
                  <exclude>org/jboss/test/ws/jaxrpc/samples/serviceref/ServiceRefEJBTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws944/**</exclude>
 
               </excludes>
             </configuration>
