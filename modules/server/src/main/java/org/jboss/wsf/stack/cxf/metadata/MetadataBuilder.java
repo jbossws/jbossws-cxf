@@ -105,7 +105,7 @@ public class MetadataBuilder
    
    private void processWSDDContribution(DDEndpoint endpoint, ArchiveDeployment dep)
    {
-      WebservicesMetaData webservices = WebservicesFactory.loadFromVFSRoot(dep.getRootFile());
+      WebservicesMetaData webservices = dep.getAttachment(WebservicesMetaData.class);
       if (webservices != null)
       {
          for (WebserviceDescriptionMetaData wsDesc : webservices.getWebserviceDescriptions())
