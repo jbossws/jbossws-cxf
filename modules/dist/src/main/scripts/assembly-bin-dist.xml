@@ -80,6 +80,23 @@
         <include>test-excludes-*.txt</include>
       </includes>
     </fileSet>
+    <!-- Stack specific tests -->
+    <fileSet>
+      <directory>../testsuite/cxf-tests/src/test</directory>
+      <outputDirectory>jbossws-cxf-bin-dist/tests</outputDirectory>
+      <includes>
+        <include>java/org/jboss/test/ws/jaxws/samples/**</include>
+        <include>java/org/jboss/wsf/test/**</include>
+        <include>resources/jaxws/samples/**</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../testsuite/cxf-tests/scripts</directory>
+      <outputDirectory>jbossws-cxf-bin-dist/tests/ant-import</outputDirectory>
+      <includes>
+        <include>cxf-samples-jars-jaxws.xml</include>
+      </includes>
+    </fileSet>
   </fileSets>
 
    <dependencySets> 
@@ -95,14 +112,12 @@
               <includes>
                 <include>ant-import/**</include>
                 <include>java/org/jboss/test/helper/**</include>
-                <include>java/org/jboss/test/ws/console/**</include>
                 <include>java/org/jboss/test/ws/jaxrpc/samples/**</include>
                 <include>java/org/jboss/test/ws/jaxws/samples/**</include>
                 <include>java/org/jboss/test/ws/jaxws/smoke/**</include>
                 <include>java/org/jboss/test/ws/management/**</include>
                 <include>java/org/jboss/test/ws/projectGenerator/**</include>
                 <include>java/org/jboss/test/ws/saaj/**</include>
-                <include>resources/console/**</include>
                 <include>resources/jaxrpc/samples/**</include>
                 <include>resources/jaxws/samples/**</include>
                 <include>resources/jaxws/smoke/**</include>

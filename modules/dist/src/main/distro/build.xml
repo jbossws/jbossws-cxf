@@ -105,6 +105,7 @@
   <target name="tests-jars" depends="tests-compile,tests-copy-resources">
     <ant antfile="${tests.dir}/ant-import/build-samples-jaxws.xml" target="build-samples-jaxws" inheritall="true"/>
     <ant antfile="${tests.dir}/ant-import/build-samples-jaxrpc.xml" target="build-samples-jaxrpc" inheritall="true"/>
+    <ant antfile="${tests.dir}/ant-import/cxf-samples-jars-jaxws.xml" target="build-jars-jaxws" inheritall="true"/>
   </target>
   
   <target name="tests-main" depends="tests-jars" description="Build the test deployments."/>
