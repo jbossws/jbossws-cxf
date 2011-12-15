@@ -1113,6 +1113,9 @@
                  <!-- # [AS7-1322] Implemented on AS 7.1.0 or greater only -->
                  <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
 
+                 <!-- # [AS7-2961] Fixed on AS 7.1.0 or greater only -->
+                 <exclude>org/jboss/test/ws/jaxws/as2961/AS2961TestCase*</exclude>
+
               </excludes>
             </configuration>
           </plugin>
@@ -1298,6 +1301,9 @@
                  <!-- # [AS7-1322] Implemented on AS 7.1.0 or greater only -->
                  <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
 
+                 <!-- # [AS7-2961] Fixed on AS 7.1.0 or greater only -->
+                 <exclude>org/jboss/test/ws/jaxws/as2961/AS2961TestCase*</exclude>
+
               </excludes>
             </configuration>
           </plugin>
@@ -1482,6 +1488,9 @@
 
                  <!-- # [AS7-1322] Implemented on AS 7.1.0 or greater only -->
                  <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
+
+                 <!-- # [AS7-2961] Fixed on AS 7.1.0 or greater only -->
+                 <exclude>org/jboss/test/ws/jaxws/as2961/AS2961TestCase*</exclude>
 
               </excludes>
             </configuration>
