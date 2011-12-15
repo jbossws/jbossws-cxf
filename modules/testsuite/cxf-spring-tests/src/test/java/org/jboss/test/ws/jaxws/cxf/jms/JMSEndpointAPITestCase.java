@@ -44,24 +44,19 @@ public final class JMSEndpointAPITestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      if (isTargetJBoss6()) {
-         return new JBossWSCXFTestSetup(JMSEndpointAPITestCase.class, "hornetq-testqueue-as6.sar,jaxws-cxf-jms-api-as6-client.jar,jaxws-cxf-jms-api-as6.war");
-      } else {
-         return new JBossWSCXFTestSetup(JMSEndpointAPITestCase.class, "jaxws-cxf-jms-api-as7-client.jar,jaxws-cxf-jms-api-as7.war");
-      }
+      return new JBossWSCXFTestSetup(JMSEndpointAPITestCase.class, "jaxws-cxf-jms-api-as7-client.jar,jaxws-cxf-jms-api-as7.war");
    }
    
    public void testServerSide() throws Exception
    {
-      final String asSuffix = isTargetJBoss6() ? "as6" : "as7";
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-api-" + asSuffix);
+      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-api-as7");
       BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
       assertEquals("true", br.readLine());
    }
    
    public void testClientSide() throws Exception
    {
-      if (!isTargetJBoss6()) {
+      if (isTargetJBoss7()) {
          System.out.println("FIXME: can't lookup ConnectionFactory, remote JNDI binding not available yet on AS7");
          return;
       }

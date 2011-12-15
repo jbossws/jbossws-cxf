@@ -33,7 +33,6 @@
   <property name="dist.output.dir" value="${dist.dir}/target"/>
   <property name="stack.output.dir" value="${stack.dir}/target"/>
   <property name="stack.modules.dir" value="${stack.dir}/modules"/>
-  <property name="stack.management.dir" value="${stack.modules.dir}/management"/>
   <property name="stack.client.dir" value="${stack.modules.dir}/client"/>
   <property name="stack.server.dir" value="${stack.modules.dir}/server"/>
   <property name="stack.resources.dir" value="${stack.dir}/modules/resources/src/main/resources"/>
@@ -43,8 +42,6 @@
   <import file="${dist.distro.dir}/build-deploy.xml"/>
   <import file="${stack.resources.dir}/resources/jbossws-deploy-macros.xml"/>
 
-  <property name="jbossws.default.deploy.conf" value="${stack.resources.dir}/resources/deploy.conf"/>
-  <property name="jbossws.default.server.deploy.conf" value="${stack.resources.dir}/resources/server-deploy.conf"/>
   <property name="jbossws.default.modules.conf" value="${stack.resources.dir}/resources/modules-deploy.conf"/>
   <property name="target.properties.file" value="${basedir}/target.properties"/>
 
@@ -71,12 +68,6 @@
       <arg line="${maven.opts} help:effective-settings"/>
     </exec>
     <xmlproperty file="${dist.output.dir}/effective-settings.xml" keeproot="false"/>
-    <condition property="jboss600.home" value="${profiles.profile.properties.jboss600.home}">
-      <isset property="profiles.profile.properties.jboss600.home"/>
-    </condition>
-    <condition property="jboss610.home" value="${profiles.profile.properties.jboss610.home}">
-      <isset property="profiles.profile.properties.jboss610.home"/>
-    </condition>
     <condition property="jboss700.home" value="${profiles.profile.properties.jboss700.home}">
       <isset property="profiles.profile.properties.jboss700.home"/>
     </condition>
@@ -91,15 +82,9 @@
     </condition>
 
 
-    <fail message="jboss home not set, use jboss600.home=value, jboss610.home=value, jboss700.home=value, jboss701.home=value, jboss702.home=value or jboss710.home=value to set">
+    <fail message="jboss home not set, use jboss700.home=value, jboss701.home=value, jboss702.home=value or jboss710.home=value to set">
      <condition>
       <and>
-       <not>
-         <isset property="jboss600.home"/>
-       </not>
-       <not>
-         <isset property="jboss610.home"/>
-       </not>
        <not>
          <isset property="jboss700.home"/>
        </not>
@@ -117,8 +102,6 @@
     </fail>
 
     <echo/>
-    <echo message="jboss600.home=${jboss600.home}"/>
-    <echo message="jboss610.home=${jboss610.home}"/>
     <echo message="jboss700.home=${jboss700.home}"/>
     <echo message="jboss701.home=${jboss701.home}"/>
     <echo message="jboss702.home=${jboss702.home}"/>

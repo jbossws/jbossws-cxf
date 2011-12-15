@@ -387,15 +387,6 @@
        </manifest>
     </war>
 
-    <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username-jaas-digest-service.sar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF">
-        <include name="jboss-service.xml"/>
-        <include name="login-config.xml"/>
-        <include name="jbossws-users.properties"/>
-        <include name="jbossws-roles.properties"/>
-      </metainf>
-    </jar>
-
     <!-- jaxws-samples-wsse-policy-username-jaas-ejb -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username-jaas-ejb.jar">
        <fileset dir="${tests.output.dir}/test-classes">

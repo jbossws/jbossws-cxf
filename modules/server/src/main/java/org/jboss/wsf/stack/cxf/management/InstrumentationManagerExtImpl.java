@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
@@ -50,9 +49,9 @@ public class InstrumentationManagerExtImpl extends InstrumentationManagerImpl
 
       if (mbeanServer == null)
       {
-         for (Iterator i = MBeanServerFactory.findMBeanServer(null).iterator(); i.hasNext();)
+         for (Iterator<MBeanServer> i = MBeanServerFactory.findMBeanServer(null).iterator(); i.hasNext();)
          {
-            mbeanServer = (MBeanServer)i.next();
+            mbeanServer = i.next();
             if (mbeanServer.getClass().getName().startsWith("org.jboss"))
             {
                break;

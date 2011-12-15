@@ -49,7 +49,7 @@ public class WsseEjbTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(WsseEjbTestCase.class, "jaxws-samples-wsseEJB.jar", !isTargetJBoss6());
+      return new JBossWSCXFTestSetup(WsseEjbTestCase.class, "jaxws-samples-wsseEJB.jar", true);
    }
 
    private EjbEndpoint getPort() throws Exception
@@ -79,14 +79,7 @@ public class WsseEjbTestCase extends JBossWSTest
       }
       catch (Exception ex)
       {
-          if (isTargetJBoss6())
-          {
-             assertEquals("Caller unauthorized", ex.getMessage());
-          }
-          else
-          {
-             assertTrue(ex.getMessage().contains("EjbEndpoint is not allowed"));
-          }
+         assertTrue(ex.getMessage().contains("EjbEndpoint is not allowed"));
       }
    }
 

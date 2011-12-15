@@ -24,208 +24,6 @@
 
 <project>
 
-  <!--
-  These patterns should be common for all supported containers.
-  -->
-  <patternset id="jbossws.bin.patternset">
-    <include name="**/wsconsume.bat"/>
-    <include name="**/wsconsume.sh"/>
-    <include name="**/wsprovide.bat"/>
-    <include name="**/wsprovide.sh"/>
-    <include name="**/wsrunclient.bat"/>
-    <include name="**/wsrunclient.sh"/>
-  </patternset>
-
-  <patternset id="jbossws.client.patternset">
-    <include name="**/asm.jar"/>
-    <include name="**/commons-beanutils.jar"/>
-    <include name="**/commons-collections.jar"/>
-    <include name="**/commons-lang.jar"/>
-    <include name="**/cxf-*.jar"/>
-    <include name="**/jaxb-api.jar"/>
-    <include name="**/jaxb-impl.jar"/>
-    <include name="**/jaxb-xjc.jar"/>
-    <include name="**/jaxrpc-api.jar"/>
-    <include name="**/jaxws-api.jar"/>
-    <include name="**/jaxws-jboss-httpserver-httpspi.jar"/>
-    <include name="**/httpserver.jar"/>
-    <include name="**/jsr181-api.jar"/>
-    <include name="**/jbossws-api.jar"/>
-    <include name="**/jbossws-common.jar"/>
-    <include name="**/jbossws-common-tools.jar"/>
-    <include name="**/jbossws-cxf-client*.jar"/>
-    <include name="**/jbossws-spi.jar"/>
-    <include name="**/jbossws-cxf-transports-httpserver.jar"/>
-    <include name="**/jdom.jar"/>
-    <include name="**/neethi.jar"/>
-    <include name="**/stax-api.jar"/>
-    <include name="**/velocity.jar"/>
-    <include name="**/wsdl4j.jar"/>
-    <include name="**/wss4j.jar"/>
-    <include name="**/wstx.jar"/>
-    <include name="**/xmlschema-core.jar"/>
-    <include name="**/FastInfoset.jar"/>
-    <include name="**/wstx.jar"/>
-  </patternset>
-
-  <patternset id="jbossws.lib.patternset">
-    <include name="**/jaxb-impl.jar"/>
-    <include name="**/wstx.jar"/>
-  </patternset>
-
-  <patternset id="jbossws.lib.endorsed.patternset">
-    <include name="**/jaxb-api.jar"/>
-    <include name="**/jaxws-api.jar"/>
-    <include name="**/stax-api.jar"/>
-    <include name="**/jbossws-cxf-factories.jar"/>
-  </patternset>
-
-  <patternset id="jbossws.server.lib.patternset">
-    <include name="**/asm.jar"/>
-    <include name="**/commons-beanutils.jar"/>
-    <include name="**/cxf-*.jar"/>
-    <include name="**/FastInfoset.jar"/>
-    <include name="**/jaxrpc-api.jar"/>
-    <include name="**/jaxws-api.jar"/>
-    <include name="**/jaxws-jboss-httpserver-httpspi.jar"/>
-    <include name="**/httpserver.jar"/>
-    <include name="**/jsr181-api.jar"/>
-    <include name="**/jboss-jaxb-intros.jar"/>
-    <include name="**/jbossws-api.jar"/>
-    <include name="**/jbossws-common.jar"/>
-    <include name="**/jbossws-spi.jar"/>
-    <include name="**/jdom.jar"/>
-    <include name="**/neethi.jar"/>
-    <include name="**/xmlschema-core.jar"/>
-    <include name="**/xmlsec.jar"/>
-    <include name="**/wsdl4j.jar"/>
-    <include name="**/wss4j.jar"/>
-  </patternset>
-
-  <patternset id="jbossws.service.lib.patternset">
-    <include name="**/jbossws-cxf-transports-httpserver.jar"/>
-    <include name="**/jbossws-cxf-client*.jar"/>
-    <include name="**/jbossws-cxf-factories.jar"/>
-    <include name="**/jbossws-cxf-server*.jar"/>
-  </patternset>
-
-  <patternset id="spring.patternset">
-    <include name="**/spring-aop.jar"/>
-    <include name="**/spring-asm.jar"/>
-    <include name="**/spring-beans.jar"/>
-    <include name="**/spring-context.jar"/>
-    <include name="**/spring-core.jar"/>
-    <include name="**/spring-expression.jar"/>
-    <include name="**/spring-jms.jar"/>
-    <include name="**/spring-tx.jar"/>
-  </patternset>
-
-  <!-- ================================================================== -->
-  <!-- Deploy Bin                                                         -->
-  <!-- ================================================================== -->
-
-  <macrodef name="macro-deploy-jbossws-bin">
-    <attribute name="artifactsdir"/>
-    <attribute name="targetdir"/>
-    <sequential>
-      <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{artifactsdir}/bin">
-          <patternset refid="jbossws.bin.patternset"/>
-        </fileset>
-      </copy>
-    </sequential>
-  </macrodef>
-
-  <!-- ================================================================== -->
-  <!-- Deploy Lib                                                         -->
-  <!-- ================================================================== -->
-
-  <macrodef name="macro-deploy-jbossws-lib">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-    <sequential>
-      <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{thirdpartydir}">
-          <patternset refid="jbossws.lib.patternset"/>
-        </fileset>
-      </copy>
-    </sequential>
-  </macrodef>
-
-  <!-- ================================================================== -->
-  <!-- Deploy Lib Endorsed                                                -->
-  <!-- ================================================================== -->
-
-  <macrodef name="macro-deploy-jbossws-endorsed">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-    <sequential>
-      <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{thirdpartydir}">
-          <patternset refid="jbossws.lib.endorsed.patternset"/>
-        </fileset>
-      </copy>
-    </sequential>
-  </macrodef>
-
-  <!-- ================================================================== -->
-  <!-- Deploy Client                                                      -->
-  <!-- ================================================================== -->
-
-  <macrodef name="macro-deploy-jbossws-client">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-    <sequential>
-      <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{thirdpartydir}">
-          <patternset refid="jbossws.client.patternset"/>
-        </fileset>
-      </copy>
-      <condition property="patch.jboss.metadata" value="true">
-        <or>
-          <equals arg1="${jbossid}" arg2="jboss501"/>
-          <equals arg1="${jbossid}" arg2="jboss510"/>
-        </or>
-      </condition>
-      <antcall target="modify-jboss-metadata">
-        <param name="targetdir" value="@{targetdir}"/>
-        <param name="thirdpartydir" value="@{thirdpartydir}"/>
-      </antcall>
-    </sequential>
-  </macrodef>
-
-  <!-- ================================================================== -->
-  <!-- Deploy Server Lib                                                  -->
-  <!-- ================================================================== -->
-
-  <macrodef name="macro-deploy-jbossws-server-lib">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-    <sequential>
-      <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{thirdpartydir}">
-          <patternset refid="jbossws.server.lib.patternset"/>
-          <include name="**/jbossws-${jbossid}.jar"/>
-        </fileset>
-      </copy>
-      <condition property="patch.jboss.metadata" value="true">
-        <or>
-          <equals arg1="${jbossid}" arg2="jboss501"/>
-          <equals arg1="${jbossid}" arg2="jboss510"/>
-        </or>
-      </condition>
-      <antcall target="modify-jboss-metadata">
-        <param name="targetdir" value="@{targetdir}"/>
-        <param name="thirdpartydir" value="@{thirdpartydir}"/>
-      </antcall>
-    </sequential>
-  </macrodef>
-
   <!-- ================================================================== -->
   <!-- Deploy JUDDI Service                                               -->
   <!-- ================================================================== -->
@@ -248,73 +46,6 @@
       </copy>
     </sequential>
   </macrodef>
-
-  <!-- ================================================================== -->
-  <!-- Deploy JBossWS Console                                             -->
-  <!-- ================================================================== -->
-
-  <macrodef name="macro-deploy-jbossws-deployment">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-    <sequential>
-      <mkdir dir="@{targetdir}"/>
-      <unzip dest="@{targetdir}">
-        <fileset dir="@{thirdpartydir}">
-          <include name="**/jbossws-cxf-management.war"/>
-        </fileset>
-      </unzip>
-    </sequential>
-  </macrodef>
-
-  <!-- ================================================================== -->
-  <!-- Deploy Deployers                                                   -->
-  <!-- ================================================================== -->
-
-  <macrodef name="macro-deploy-jbossws-deployers">
-    <attribute name="thirdpartydir"/>
-    <attribute name="artifactsdir"/>
-    <attribute name="targetdir"/>
-    <attribute name="jbossid"/>
-    <sequential>
-      <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{thirdpartydir}">
-          <patternset refid="jbossws.service.lib.patternset"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}">
-        <fileset dir="@{artifactsdir}/resources/jbossws-@{jbossid}/jbossws.beans">
-          <include name="META-INF/**"/>
-        </fileset>
-      </copy>
-      <antcall target="modify-jboss-integration">
-        <param name="targetdir" value="@{targetdir}"/>
-      </antcall>
-    </sequential>
-  </macrodef>
-
-  <macrodef name="macro-deploy-jbossws-jaxrpc-deployers">
-    <attribute name="artifactsdir"/>
-    <attribute name="targetdir"/>
-    <attribute name="jbossid"/>
-    <sequential>
-      <copy todir="@{targetdir}">
-        <fileset dir="@{artifactsdir}/resources/jbossws-jaxrpc-@{jbossid}/jbossws.beans">
-          <include name="META-INF/**"/>
-        </fileset>
-      </copy>
-    </sequential>
-  </macrodef>
-
-  <target name="modify-jboss-integration" depends="process-jboss-integration" if="fixintegration">
-    <sequential>
-      <copy todir="${targetdir}/META-INF" flatten="true" overwrite="true">
-        <fileset dir="${artifactsdir}/resources/jbossws-${jbossid}/jbossws-jboss.deployer">
-          <include name="**/stack-agnostic-jboss-beans.xml"/>
-        </fileset>
-      </copy>
-    </sequential>
-  </target>
 
   <!-- ================================================================== -->
   <!-- Modules                                                            -->
@@ -425,29 +156,6 @@
     <fail message="modifyjbossintegration must be specified" unless="modifyjbossintegration"/>
   </target>
 
-  <target name="deploy-jbossws-cxf" depends="check-parameters">
-    <macro-deploy-jbossws-bin targetdir="${installserver}/../../bin" artifactsdir="${artifactsdir}"/>
-    <macro-deploy-jbossws-client targetdir="${installserver}/../../client" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-lib targetdir="${installserver}/../../lib" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-endorsed targetdir="${installserver}/../../lib/endorsed" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-server-lib targetdir="${installserver}/../../common/lib" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-deployment targetdir="${installserver}/deploy/jbossws-console.war" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-deployers targetdir="${installserver}/deployers/jbossws.deployer/" thirdpartydir="${thirdpartydir}" artifactsdir="${artifactsdir}" jbossid="${jbossid}"/>
-    <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
-  </target>
-
-  <target name="deploy-jbossws-cxf-with-jaxrpc" depends="check-parameters">
-    <macro-deploy-jbossws-bin targetdir="${installserver}/../../bin" artifactsdir="${artifactsdir}"/>
-    <macro-deploy-jbossws-client targetdir="${installserver}/../../client" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-lib targetdir="${installserver}/../../lib" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-endorsed targetdir="${installserver}/../../lib/endorsed" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-server-lib targetdir="${installserver}/../../common/lib" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-deployment targetdir="${installserver}/deploy/jbossws-console.war" thirdpartydir="${thirdpartydir}"/>
-    <macro-deploy-jbossws-deployers targetdir="${installserver}/deployers/jbossws.deployer/" thirdpartydir="${thirdpartydir}" artifactsdir="${artifactsdir}" jbossid="${jbossid}"/>
-    <macro-deploy-jbossws-jaxrpc-deployers targetdir="${installserver}/deployers/jbossws-jaxrpc.deployer/" artifactsdir="${artifactsdir}" jbossid="${jbossid}"/>
-    <macro-deploy-juddi-sar targetdir="${installserver}/deploy/juddi-service.sar" thirdpartydir="${thirdpartydir}"/>
-  </target>
-
   <target name="deploy-jbossws-cxf-modules">
     <fail message="installserver must be specified" unless="installserver"/>
     <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
@@ -477,24 +185,6 @@
       </installModules>
     </sequential>
   </macrodef>
-
-  <macrodef name="macro-install-spring">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-    <sequential>
-      <mkdir dir="@{targetdir}"/>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{thirdpartydir}">
-          <patternset refid="spring.patternset"/>
-        </fileset>
-      </copy>
-    </sequential>
-  </macrodef>
-
-  <target name="deploy-spring">
-  	<macro-install-spring targetdir="${installserver}/client" thirdpartydir="${thirdpartydir}"/>
-  	<macro-install-spring targetdir="${installserver}/common/lib" thirdpartydir="${thirdpartydir}"/>
-  </target>
 
   <target name="deploy-spring-module">
   	<fail message="installserver must be specified" unless="installserver"/>
@@ -533,68 +223,6 @@
     </sequential>
   </macrodef>
 
-  <macrodef name="macro-undeploy-jbossws">
-    <attribute name="defaultconf"/>
-    <attribute name="defaultserverconf"/>
-    <attribute name="targetdir"/>
-    <attribute name="modifyjbossintegration"/>
-  	<attribute name="removenativecore"/>
-  	
-    <sequential>
-      <loadfile property="jbossws.deploy.conf" srcfile="@{targetdir}/deployers/jbossws.deployer/jbossws-deploy.conf" failonerror="false"/>
-      <loadfile property="jbossws.deploy.conf" srcfile="@{defaultconf}" failonerror="false"/>
-      <loadfile property="jbossws.server.deploy.conf" srcfile="@{targetdir}/deployers/jbossws.deployer/jbossws-server-deploy.conf" failonerror="false"/>
-      <loadfile property="jbossws.server.deploy.conf" srcfile="@{defaultserverconf}" failonerror="false"/>
-
-      <property name="jboss.server.home" value="@{targetdir}"/>
-      <property name="jboss.home" value="${jboss.server.home}/../.."/>
-      <available property="jboss.undeploy.client" file="${jboss.home}/client"/>
-      <fail message="Cannot find ${jboss.home}/client" unless="jboss.undeploy.client"/>
-
-      <delete includeemptydirs="true" verbose="true">
-        <fileset dir="${jboss.server.home}">
-          <include name="**/juddi-service.sar/**"/>
-          <include name="**/jbossws-console.war/**"/>
-          <include name="**/jbossws.sar/**"/>
-        </fileset>
-      </delete>
-      <antcall target="remove-jboss-integration">
-        <param name="modifyjbossintegration" value="@{modifyjbossintegration}"/>
-      </antcall>
-
-      <!-- delete content of last deployment -->
-      <delete verbose="true">
-        <fileset dir="${jboss.home}" includes="${jbossws.deploy.conf}"/>
-      </delete>
-      <delete verbose="true">
-        <fileset dir="${jboss.server.home}" includes="${jbossws.server.deploy.conf}"/>
-      </delete>
-    	
-      <!-- [JBWS-2895] jbossws-native-core.jar is not removed by default from JBWS 3.3.0, as it's required for jaxrpc support -->
-      <condition property="removenativecoreprop">
-        <and>
-          <istrue value="@{removenativecore}"/>
-        </and>
-      </condition>
-      <antcall target="remove-native-core-from-client-and-common"/>
-      
-    </sequential>
-  </macrodef>
-
-  <target name="remove-jboss-integration" depends="process-jboss-integration" if="fixintegration">
-    <delete verbose="true">
-      <fileset dir="${jboss.server.home}">
-        <include name="**/jbossws-jboss*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/client">
-        <include name="**/jbossws-jboss*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/common">
-        <include name="**/jbossws-jboss*.jar"/>
-      </fileset>
-    </delete>
-  </target>
-	
   <target name="remove-jboss-integration-module" depends="process-jboss-integration" if="fixintegration">
     <delete verbose="true">
       <fileset dir="${jboss.modules}">
@@ -603,36 +231,12 @@
     </delete>
   </target>
 		
-  <target name="remove-native-core-from-client-and-common" if="removenativecoreprop">
-    <delete verbose="true">
-      <fileset dir="${jboss.home}/client">
-        <include name="**/jbossws-native-core.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/common">
-        <include name="**/jbossws-native-core.jar"/>
-      </fileset>
-    </delete>
-  </target>
-
   <target name="process-jboss-integration">
     <condition property="fixintegration">
       <and>
         <istrue value="${modifyjbossintegration}"/>
       </and>
     </condition>
-  </target>
-
-  <target name="modify-jboss-metadata" if="patch.jboss.metadata">
-    <sequential>
-      <copy
-        tofile="${targetdir}/jboss-metadata.jar"
-        failonerror="false"
-        overwrite="true">
-        <fileset dir="${thirdpartydir}">
-          <include name="**/jbossws-${jbossid}-metadata.jar"/>
-        </fileset>
-      </copy>
-    </sequential>
   </target>
 
 </project>

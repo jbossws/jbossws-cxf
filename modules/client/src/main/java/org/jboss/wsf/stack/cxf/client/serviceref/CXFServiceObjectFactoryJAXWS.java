@@ -32,6 +32,7 @@ import org.apache.cxf.configuration.Configurer;
 import org.jboss.ws.common.serviceref.AbstractServiceObjectFactoryJAXWS;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
+import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 
 /**
@@ -96,7 +97,7 @@ public final class CXFServiceObjectFactoryJAXWS extends AbstractServiceObjectFac
       URL url = null;
       try
       {
-         url = vfsRoot.findChild("WEB-INF/jbossws-cxf.xml").toURL();
+         url = vfsRoot.findChild("WEB-INF/" + Constants.JBOSSWS_CXF_SPRING_DD).toURL();
       }
       catch (Exception e)
       {
@@ -106,7 +107,7 @@ public final class CXFServiceObjectFactoryJAXWS extends AbstractServiceObjectFac
       {
          try
          {
-            url = vfsRoot.findChild("META-INF/jbossws-cxf.xml").toURL();
+            url = vfsRoot.findChild("META-INF/" + Constants.JBOSSWS_CXF_SPRING_DD).toURL();
          }
          catch (Exception e)
          {

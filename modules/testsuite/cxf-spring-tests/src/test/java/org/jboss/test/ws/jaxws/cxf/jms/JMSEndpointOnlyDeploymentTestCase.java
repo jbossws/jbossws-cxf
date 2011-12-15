@@ -55,7 +55,7 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
    
    public void testJMSEndpointClientSide() throws Exception
    {
-      if (!isTargetJBoss6())
+      if (isTargetJBoss7())
       {
          System.out.println("FIXME: can't lookup ConnectionFactory, remote JNDI binding not available yet on AS7");
          return;

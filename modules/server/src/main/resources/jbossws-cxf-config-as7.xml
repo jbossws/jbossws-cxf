@@ -44,7 +44,6 @@
   </deploymentAspect>
 
   <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.ResourceResolverDeploymentAspect">
-    <!--property name="requires" class="java.lang.String">JmsEndpointAddress</property--> <!-- TODO: why this requires, investigate? -->
     <property name="provides" class="java.lang.String">ResourceResolver</property>
     <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
@@ -66,7 +65,6 @@
     <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 
-  <!--deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.SynchronizedBusDeploymentAspect"--> <!-- TODO: investigate why? -->
   <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.BusDeploymentAspect">
     <property name="provides" class="java.lang.String">BusHolder</property>
     <property name="requires" class="java.lang.String">ResourceResolver,StackDescriptor</property>

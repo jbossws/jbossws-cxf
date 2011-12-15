@@ -45,7 +45,7 @@ public class UsernameAuthorizationEJBTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(UsernameAuthorizationEJBTestCase.class, "jaxws-samples-wsse-policy-username-jaas-ejb.jar", !isTargetJBoss6());
+      return new JBossWSCXFTestSetup(UsernameAuthorizationEJBTestCase.class, "jaxws-samples-wsse-policy-username-jaas-ejb.jar", true);
    }
 
    public void test() throws Exception

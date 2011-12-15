@@ -46,7 +46,7 @@ public final class UsernameAuthorizationTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(UsernameAuthorizationTestCase.class, "jaxws-samples-wsse-policy-username-jaas.war", !isTargetJBoss6());
+      return new JBossWSCXFTestSetup(UsernameAuthorizationTestCase.class, "jaxws-samples-wsse-policy-username-jaas.war", true);
    }
    
    public void test() throws Exception

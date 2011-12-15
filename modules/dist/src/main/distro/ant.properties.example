@@ -3,25 +3,22 @@
 #
 
 # Optional JBoss Home
-jboss600.home=@jboss600.home@
-jboss610.home=@jboss610.home@
 jboss700.home=@jboss700.home@
 jboss701.home=@jboss701.home@
 jboss702.home=@jboss702.home@
 jboss710.home=@jboss710.home@
 
-# The JBoss server under test. This can be [jboss600|jboss610|jboss700|jboss701|jboss702|jboss710]
+# The JBoss server under test. This can be [jboss700|jboss701|jboss702|jboss710]
 jbossws.integration.target=jboss700
 
 # The JBoss settings
-jboss.server.instance=default
 jboss.bind.address=localhost
 
 # JBoss Management console authentication (AS 7.1.x)
 jbossws.deployer.authentication.username=admin
 jbossws.deployer.authentication.password=admin
 
-# JBoss JMX invoker authentication (AS 6 / AS 7.0.x)
+# JBoss JMX invoker authentication (AS 7.0.x)
 #jmx.authentication.username=admin
 #jmx.authentication.password=admin
 

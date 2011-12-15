@@ -16,10 +16,6 @@
   <properties>
   </properties>
 
-   <modules>
-        <module>management</module>
-    </modules>
-
   <dependencies>
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>
@@ -135,38 +131,6 @@
 
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss600</artifactId>
-        <scope>provided</scope>
-        <exclusions>
-          <exclusion>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>sun-jaxb</groupId>
-            <artifactId>jaxb-api</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss610</artifactId>
-        <scope>provided</scope>
-        <exclusions>
-          <exclusion>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>sun-jaxb</groupId>
-            <artifactId>jaxb-api</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss700</artifactId>
         <scope>provided</scope>
         <exclusions>
@@ -263,12 +227,6 @@
                         <configuration>
                             <tasks>
                                 <mkdir dir="${basedir}/target/exclude-file" />
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss600.txt">
-                                    <param name="targetName" expression="jboss600" />
-                                </xslt>
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss610.txt">
-                                    <param name="targetName" expression="jboss610" />
-                                </xslt>                       
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss700.txt">
                                     <param name="targetName" expression="jboss700" />
                                 </xslt>

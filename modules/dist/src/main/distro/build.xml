@@ -35,8 +35,6 @@
   <property name="tests.dir" value="${basedir}/tests"/>
   <property name="tests.output.dir" value="${output.dir}"/>
   <property name="deploy.artifacts.dir" value="${basedir}/deploy"/>
-  <property name="jbossws.default.deploy.conf" value="${build.dir}/deploy.conf"/>
-  <property name="jbossws.default.server.deploy.conf" value="${build.dir}/server-deploy.conf"/>
   <property name="jbossws.default.modules.conf" value="${build.dir}/modules-deploy.conf"/>
   <property name="target.properties.file" value="${basedir}/target.properties"/>
   
@@ -60,12 +58,6 @@
     <fail message="jbossws.integration.target not set" unless="jbossws.integration.target"/>
     <echo message="integration.target=${jbossws.integration.target}"/>
     
-    <condition property="jbossws.integration.jboss60" value="true">
-      <or>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss600"/>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss610"/>
-      </or>
-    </condition>
     <condition property="jbossws.integration.jboss700" value="true">
       <or>
         <equals arg1="${jbossws.integration.target}" arg2="jboss700"/>

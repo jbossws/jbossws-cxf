@@ -25,90 +25,6 @@
 <project>
 
   <!-- ================================================================== -->
-  <!-- Prepare Deployment Structure JBoss-6.0.0                           -->
-  <!-- ================================================================== -->
-
-  <target name="deploy-structure-jboss600" depends="prepare-deploy">
-    <delete dir="${deploy.structure}"/>
-    <antcall target="deploy-jbossws-cxf-with-jaxrpc" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/server/${jboss.server.instance}"/>
-      <param name="jbossid" value="${jbossws.integration.target}"/>
-      <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="modifyjbossintegration" value="true"/><!-- [JBWS-2505] -->
-    </antcall>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Deployment JBoss600                                                -->
-  <!-- ================================================================== -->
-
-  <target name="target-jboss600">
-    <property name="jbossws.integration.target" value="jboss600"/>
-    <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
-  </target>
-
-  <target name="deploy-jboss600" depends="undeploy-jboss600,deploy-structure-jboss600,check-spring,install-spring" description="Deploy jbossws to jboss600">
-    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
-    <fail message="Not available: ${jboss600.available.file}" unless="jboss600.available"/>
-    <copy todir="${jboss600.home}" overwrite="true" verbose="true">
-      <fileset dir="${deploy.structure}"/>
-    </copy>
-    <chmod dir="${jboss600.home}/bin" perm="+x" includes="*.sh"/>
-  </target>
-
-  <target name="undeploy-jboss600" depends="target-jboss600,init" description="Remove jbossws from jboss600">
-    <fail message="Not available: ${jboss600.available.file}" unless="jboss600.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss600.server}"
-                            defaultconf="${jbossws.default.deploy.conf}"
-                            defaultserverconf="${jbossws.default.server.deploy.conf}"
-                            modifyjbossintegration="true"
-                            removenativecore="false" /><!-- [JBWS-2505][JBWS-2895] -->
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Prepare Deployment Structure JBoss-6.1.0                           -->
-  <!-- ================================================================== -->
-
-  <target name="deploy-structure-jboss610" depends="prepare-deploy">
-    <delete dir="${deploy.structure}"/>
-    <antcall target="deploy-jbossws-cxf-with-jaxrpc" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/server/${jboss.server.instance}"/>
-      <param name="jbossid" value="${jbossws.integration.target}"/>
-      <param name="artifactsdir" value="${deploy.artifacts.dir}"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="modifyjbossintegration" value="true"/><!-- [JBWS-2505] -->
-    </antcall>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Deployment JBoss610                                                -->
-  <!-- ================================================================== -->
-
-  <target name="target-jboss610">
-    <property name="jbossws.integration.target" value="jboss610"/>
-    <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
-  </target>
-
-  <target name="deploy-jboss610" depends="undeploy-jboss610,deploy-structure-jboss610,check-spring,install-spring" description="Deploy jbossws to jboss610">
-    <macro-create-deploy-conf deploystructure="${deploy.structure}"/>
-    <fail message="Not available: ${jboss610.available.file}" unless="jboss610.available"/>
-    <copy todir="${jboss610.home}" overwrite="true" verbose="true">
-      <fileset dir="${deploy.structure}"/>
-    </copy>
-    <chmod dir="${jboss610.home}/bin" perm="+x" includes="*.sh"/>
-  </target>
-
-  <target name="undeploy-jboss610" depends="target-jboss610,init" description="Remove jbossws from jboss610">
-    <fail message="Not available: ${jboss610.available.file}" unless="jboss610.available"/>
-    <macro-undeploy-jbossws targetdir="${jboss610.server}"
-                            defaultconf="${jbossws.default.deploy.conf}"
-                            defaultserverconf="${jbossws.default.server.deploy.conf}"
-                            modifyjbossintegration="true"
-                            removenativecore="false"/><!-- [JBWS-2505][JBWS-2895] -->
-  </target>
-
-  <!-- ================================================================== -->
   <!-- Prepare Deployment Structure JBoss-7.0.x                           -->
   <!-- ================================================================== -->
 
@@ -279,13 +195,6 @@
     </condition>
   </target>
 
-  <target name="install-spring" if="spring-required">
-    <antcall target="deploy-spring" inheritall="false">
-      <param name="installserver" value="${deploy.structure}"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-    </antcall>
-  </target>
-
   <target name="install-spring-module70x" if="spring-required">
     <antcall target="deploy-spring-module" inheritall="false">
       <param name="installserver" value="${deploy.structure}"/>
@@ -301,26 +210,5 @@
       <param name="modules-jbossid" value="jboss710"/>
     </antcall>
   </target>
-
-  <!-- ================================================================== -->
-  <!-- Create jbossws-deploy.conf and jbossws-server-deploy.conf          -->
-  <!-- ================================================================== -->
-
-  <macrodef name="macro-create-deploy-conf">
-    <attribute name="deploystructure"/>
-    <sequential>
-      <property name="jbossws.deployers.dir" value="@{deploystructure}/server/${jboss.server.instance}/deployers/jbossws.deployer"/>
-      <!-- Create jbossws-deploy.conf -->
-      <fileset id="jbossws.deploy.fileset" dir="@{deploystructure}" excludes="**/server/**"/>
-      <property name="jbossws.deploy.fileset" refid="jbossws.deploy.fileset"/>
-      <echo file="${jbossws.deployers.dir}/jbossws-deploy.conf" message="${jbossws.deploy.fileset}"/>
-      <replace file="${jbossws.deployers.dir}/jbossws-deploy.conf" token=";" value=" "/>
-      <!-- Create jbossws-server-deploy.conf -->
-      <fileset id="jbossws.server.deploy.fileset" dir="@{deploystructure}/server/${jboss.server.instance}" excludes="**/juddi-service.sar/**"/>
-      <property name="jbossws.server.deploy.fileset" refid="jbossws.server.deploy.fileset"/>
-      <echo file="${jbossws.deployers.dir}/jbossws-server-deploy.conf" message="${jbossws.server.deploy.fileset}"/>
-      <replace file="${jbossws.deployers.dir}/jbossws-server-deploy.conf" token=";" value=" "/>
-    </sequential>
-  </macrodef>
 
 </project>

@@ -213,27 +213,11 @@
           <include name="jboss-web.xml"/>
           <include name="jbossws-cxf.xml"/>
           <include name="wsdl/*"/>
-          <!-- if these files deployed in war then it works ok on AS 6.0 but not on 5.1
-          <include name="jboss-service.xml"/>
-          <include name="login-config.xml"/>
-          <include name="jbossws-users.properties"/>
-          <include name="jbossws-roles.properties"/>
-          --> 
-          
        </webinf>
        <manifest>
           <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-server"/>
        </manifest>
     </war>
-
-    <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-username-digest-service.sar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-digest/WEB-INF">
-        <include name="jboss-service.xml"/>
-        <include name="login-config.xml"/>
-        <include name="jbossws-users.properties"/>
-        <include name="jbossws-roles.properties"/>
-      </metainf>
-    </jar>
 
     <!-- jaxws-samples-wsseEJB -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsseEJB.jar">

@@ -54,28 +54,20 @@ public final class UsernameDigestTestCase extends JBossWSTest
    public static Test suite()
    {
       JBossWSCXFTestSetup testSetup;
-      if (!isTargetJBoss6())
-      {
-         testSetup = new JBossWSCXFTestSetup(UsernameDigestTestCase.class, "jaxws-samples-wsse-username-digest.war");
-         Map<String, String> authenticationOptions = new HashMap<String, String>();
-         authenticationOptions.put("usersProperties",
-               getResourceFile("jaxws/samples/wsse/username-digest/WEB-INF/jbossws-users.properties").getAbsolutePath());
-         authenticationOptions.put("rolesProperties",
-               getResourceFile("jaxws/samples/wsse/username-digest/WEB-INF/jbossws-roles.properties").getAbsolutePath());
-         authenticationOptions.put("hashAlgorithm", "SHA");
-         authenticationOptions.put("hashEncoding", "BASE64");
-         authenticationOptions.put("hashCharset", "UTF-8");
-         authenticationOptions.put("hashUserPassword", "false");
-         authenticationOptions.put("hashStorePassword", "true");
-         authenticationOptions.put("storeDigestCallback", UsernameTokenCallback.class.getName());
-         authenticationOptions.put("unauthenticatedIdentity", "anonymous");
-         testSetup.addSecurityDomainRequirement("JBossWSDigest", authenticationOptions);
-      }
-      else
-      {
-         testSetup = new JBossWSCXFTestSetup(UsernameDigestTestCase.class,
-            "jaxws-samples-wsse-username-digest-service.sar jaxws-samples-wsse-username-digest.war");
-      }
+      testSetup = new JBossWSCXFTestSetup(UsernameDigestTestCase.class, "jaxws-samples-wsse-username-digest.war");
+      Map<String, String> authenticationOptions = new HashMap<String, String>();
+      authenticationOptions.put("usersProperties",
+            getResourceFile("jaxws/samples/wsse/username-digest/WEB-INF/jbossws-users.properties").getAbsolutePath());
+      authenticationOptions.put("rolesProperties",
+            getResourceFile("jaxws/samples/wsse/username-digest/WEB-INF/jbossws-roles.properties").getAbsolutePath());
+      authenticationOptions.put("hashAlgorithm", "SHA");
+      authenticationOptions.put("hashEncoding", "BASE64");
+      authenticationOptions.put("hashCharset", "UTF-8");
+      authenticationOptions.put("hashUserPassword", "false");
+      authenticationOptions.put("hashStorePassword", "true");
+      authenticationOptions.put("storeDigestCallback", UsernameTokenCallback.class.getName());
+      authenticationOptions.put("unauthenticatedIdentity", "anonymous");
+      testSetup.addSecurityDomainRequirement("JBossWSDigest", authenticationOptions);
       return testSetup;
    }
 
