@@ -25,6 +25,8 @@ import static org.jboss.wsf.spi.deployment.DeploymentType.JAXRPC;
 import static org.jboss.ws.common.integration.WSHelper.isJaxwsEjbDeployment;
 import static org.jboss.ws.common.integration.WSHelper.isJaxwsJseDeployment;
 import static org.jboss.ws.common.integration.WSHelper.isJaxrpcDeployment;
+import static org.jboss.ws.common.integration.WSHelper.isJseDeployment;
+import static org.jboss.ws.common.integration.WSHelper.isWarArchive;
 
 import java.io.IOException;
 import java.net.URL;
@@ -112,16 +114,16 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
          throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNSUPPORTED_DEPLOYMENT_TYPE",  JAXRPC));
       }
       String metadir = null;
-      if (isJaxwsEjbDeployment(dep))
-      {
-         // expected resource location for EJB3 deployments
-         metadir = "META-INF";
-      }
-      if (isJaxwsJseDeployment(dep))
+      if (isJseDeployment(dep) || isWarArchive(dep))
       {
          // expected resource location for POJO deployments
          // if EJBs are bundled in WARs, we default to WEB-INF
          metadir = "WEB-INF";
+      }
+      else
+      {
+         // expected resource location for EJB3 deployments
+         metadir = "META-INF";
       }
 
       URL cxfURL = null;
