@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.management.ObjectName;
-import javax.naming.Context;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -58,7 +57,6 @@ import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
-import org.jboss.wsf.spi.metadata.injection.InjectionsMetaData;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 
 /**
@@ -124,8 +122,6 @@ public class ServletHelper
       endpoint.getInstanceProvider().getInstance(endpoint.getTargetBeanName());
       if (factory != null)
       {
-         InjectionsMetaData metadata = endpoint.getAttachment(InjectionsMetaData.class);
-         Context jndiContext = endpoint.getJNDIContext();
          List<Handler> chain = ((JaxWsEndpointImpl) factory.getServer().getEndpoint()).getJaxwsBinding()
                .getHandlerChain();
          if (chain != null)
@@ -135,7 +131,6 @@ public class ServletHelper
                final Reference handlerReference = endpoint.getInstanceProvider().getInstance(handler.getClass().getName());
                if (!handlerReference.isInitialized()) {
                    final Object handlerInstance = handlerReference.getValue();
-                   InjectionHelper.injectResources(handlerInstance, metadata, jndiContext);
                    InjectionHelper.callPostConstructMethod(handlerInstance);
                    handlerReference.setInitialized();
                }
