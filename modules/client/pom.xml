@@ -18,7 +18,15 @@
     <!-- jbossws dependencies -->
     <dependency>
       <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-common-tools</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>

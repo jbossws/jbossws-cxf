@@ -59,6 +59,7 @@
   
   <!-- Properties -->
   <properties>
+    <jbossws.api.version>1.0.0-SNAPSHOT</jbossws.api.version>
     <jbossws.spi.version>2.0.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>2.0.0-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.0.0-SNAPSHOT</jbossws.common.tools.version>
@@ -122,6 +123,11 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-common-tools</artifactId>
         <version>${jbossws.common.tools.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-api</artifactId>
+        <version>${jbossws.api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
