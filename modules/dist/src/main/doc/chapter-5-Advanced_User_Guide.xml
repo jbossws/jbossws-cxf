@@ -384,7 +384,7 @@ public static void setThreadDefaultBus(Bus bus)</programlisting>
     </section>
     <section id="sid-3866793">
       
-      <title>Addressing</title>
+      <title>WS-Addressing</title>
       <para>
         JBoss Web Services inherits full WS-Addressing capabilities from the underlying Apache CXF implementation. Apache CXF provides support for 2004-08 and
         <ulink url="http://www.w3.org/TR/ws-addr-core/">1.0</ulink>
@@ -465,7 +465,7 @@ public static void setThreadDefaultBus(Bus bus)</programlisting>
       </section>
       <section id="sid-3866793_WS-Addressing-WSAddressingPolicy">
         
-        <title>Addressing Policy</title>
+        <title>WS-Addressing Policy</title>
         <para>The WS-Addressing support is also perfectly integrated with the Apache CXF WS-Policy engine.</para>
         <para>
           This basically means that the WSDL contract generation for code-first endpoint deployment is policy-aware: users can annotate endpoints with the
@@ -575,10 +575,10 @@ proxy.sayHello("World");</programlisting>
     </section>
     <section id="sid-3866795">
       
-      <title>Security</title>
+      <title>WS-Security</title>
       <section id="sid-3866795_WS-Security-">
         
-        <title>Security overview</title>
+        <title>WS-Security overview</title>
         <para>
           WS-Security provides the means to secure your services beyond transport level protocols such as
           <emphasis role="italics">HTTPS</emphasis>
@@ -664,7 +664,7 @@ proxy.sayHello("World");</programlisting>
           <para>Recent versions of Apache CXF, however, introduced support for WS-Security Policy, which aims at moving most of the security configuration into the service contract (through policies), so that clients can easily be configured almost completely automatically from that. This way users do not need to manually deal with configuring / installing the required interceptors; the Apache CXF WS-Policy engine internally takes care of that instead.</para>
           <section id="sid-3866795_WS-Security-WSSecurityPolicysupport">
             
-            <title>Security Policy support</title>
+            <title>WS-Security Policy support</title>
             <para>
               WS-SecurityPolicy describes the actions that are required to securely communicate with a service advertised in a given WSDL contract. The WSDL bindings / operations reference WS-Policy fragments with the security requirements to interact with the service. The
               <ulink url="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/ws-securitypolicy.html">WS-SecurityPolicy specification</ulink>
@@ -1668,7 +1668,7 @@ public class UsernamePasswordCallback implements CallbackHandler
     </section>
     <section id="sid-3866797">
       
-      <title>Reliable Messaging</title>
+      <title>WS-Reliable Messaging</title>
       <para>
         JBoss Web Services inherits full WS-Reliable Messaging capabilities from the  underlying Apache CXF implementation. At the time of writing, Apache CXF provides support for the
         <ulink url="http://schemas.xmlsoap.org/ws/2005/02/rm/">WS-Reliable Messaging 1.0</ulink>

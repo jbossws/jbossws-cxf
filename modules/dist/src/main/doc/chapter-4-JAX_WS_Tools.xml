@@ -722,7 +722,7 @@ ${project.build.testOutputDirectory}</para>
     &lt;plugin&gt;
       &lt;groupId&gt;org.jboss.ws.plugins&lt;/groupId&gt;
       &lt;artifactId&gt;maven-jaxws-tools-plugin&lt;/artifactId&gt;
-      &lt;version&gt;1.0.0.GA&lt;/version&gt;
+      &lt;version&gt;1.1.0.GA&lt;/version&gt;
       &lt;configuration&gt;
         &lt;wsdls&gt;
           &lt;wsdl&gt;${basedir}/test.wsdl&lt;/wsdl&gt;
@@ -746,7 +746,7 @@ ${project.build.testOutputDirectory}</para>
     &lt;plugin&gt;
       &lt;groupId&gt;org.jboss.ws.plugins&lt;/groupId&gt;
       &lt;artifactId&gt;maven-jaxws-tools-plugin&lt;/artifactId&gt;
-      &lt;version&gt;1.0.0.GA&lt;/version&gt;
+      &lt;version&gt;1.1.0.GA&lt;/version&gt;
       &lt;configuration&gt;
        &lt;wsdls&gt;
         &lt;wsdl&gt;${basedir}/test.wsdl&lt;/wsdl&gt;
@@ -778,7 +778,7 @@ ${project.build.testOutputDirectory}</para>
     &lt;plugin&gt;
       &lt;groupId&gt;org.jboss.ws.plugins&lt;/groupId&gt;
       &lt;artifactId&gt;maven-jaxws-tools-plugin&lt;/artifactId&gt;
-      &lt;version&gt;1.0.0.GA&lt;/version&gt;
+      &lt;version&gt;1.1.0.GA&lt;/version&gt;
       &lt;configuration&gt;
         &lt;wsdls&gt;
           &lt;wsdl&gt;${basedir}/test.wsdl&lt;/wsdl&gt;
@@ -795,6 +795,33 @@ ${project.build.testOutputDirectory}</para>
   &lt;/plugins&gt;
 &lt;/build&gt;</programlisting>
           </informalexample>
+          <para>
+            Plugin stack dependencyThe plugin itself does not have an explicit dependency to a JBossWS stack, as it's meant for being used with implementations of any supported version of the
+            <emphasis role="italics">JBossWS SPI</emphasis>
+            . So the user is expected to set a dependency in his own
+            <code>pom.xml</code>
+            to the desired
+            <emphasis role="italics">JBossWS</emphasis>
+            stack version. The plugin will rely on the that for using the proper tooling.
+          </para>
+          <informalexample>
+            <programlisting>&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.jboss.ws.cxf&lt;/groupId&gt;
+    &lt;artifactId&gt;jbossws-cxf-client&lt;/artifactId&gt;
+    &lt;version&gt;4.0.0.GA&lt;/version&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;</programlisting>
+          </informalexample>
+          <tip>
+            <para>
+              Be careful when using this plugin with the Maven War Plugin as that include any project dependency into the generated application war archive. You might want to set
+              <code>&lt;scope&gt;provided&lt;/scope&gt;</code>
+              for the
+              <emphasis role="italics">JBossWS</emphasis>
+              stack dependency to avoid that.
+            </para>
+          </tip>
         </section>
       </section>
       <section id="sid-3866762_wsconsume-AntTask">
@@ -1242,7 +1269,7 @@ ${project.build.testOutputDirectory}</para>
     &lt;plugin&gt;
       &lt;groupId&gt;org.jboss.ws.plugins&lt;/groupId&gt;
       &lt;artifactId&gt;maven-jaxws-tools-plugin&lt;/artifactId&gt;
-      &lt;version&gt;@pom.version@&lt;/version&gt;
+      &lt;version&gt;1.1.0.GA&lt;/version&gt;
       &lt;configuration&gt;
         &lt;verbose&gt;true&lt;/verbose&gt;
         &lt;endpointClass&gt;org.jboss.test.ws.plugins.tools.wsprovide.TestEndpoint&lt;/endpointClass&gt;
@@ -1266,7 +1293,7 @@ ${project.build.testOutputDirectory}</para>
     &lt;plugin&gt;
       &lt;groupId&gt;org.jboss.ws.plugins&lt;/groupId&gt;
       &lt;artifactId&gt;maven-jaxws-tools-plugin&lt;/artifactId&gt;
-      &lt;version&gt;@pom.version@&lt;/version&gt;
+      &lt;version&gt;1.1.0.GA&lt;/version&gt;
       &lt;configuration&gt;
         &lt;verbose&gt;true&lt;/verbose&gt;
         &lt;endpointClass&gt;org.jboss.test.ws.plugins.tools.wsprovide.TestEndpoint2&lt;/endpointClass&gt;
@@ -1283,6 +1310,33 @@ ${project.build.testOutputDirectory}</para>
   &lt;/plugins&gt;
 &lt;/build&gt;</programlisting>
           </informalexample>
+          <para>
+            Plugin stack dependencyThe plugin itself does not have an explicit dependency to a JBossWS stack, as it's meant for being used with implementations of any supported version of the
+            <emphasis role="italics">JBossWS SPI</emphasis>
+            . So the user is expected to set a dependency in his own
+            <code>pom.xml</code>
+            to the desired
+            <emphasis role="italics">JBossWS</emphasis>
+            stack version. The plugin will rely on the that for using the proper tooling.
+          </para>
+          <informalexample>
+            <programlisting>&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.jboss.ws.cxf&lt;/groupId&gt;
+    &lt;artifactId&gt;jbossws-cxf-client&lt;/artifactId&gt;
+    &lt;version&gt;4.0.0.GA&lt;/version&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;</programlisting>
+          </informalexample>
+          <tip>
+            <para>
+              Be careful when using this plugin with the Maven War Plugin as that include any project dependency into the generated application war archive. You might want to set
+              <code>&lt;scope&gt;provided&lt;/scope&gt;</code>
+              for the
+              <emphasis role="italics">JBossWS</emphasis>
+              stack dependency to avoid that.
+            </para>
+          </tip>
         </section>
       </section>
       <section id="sid-3866758_wsprovide-AntTask">
