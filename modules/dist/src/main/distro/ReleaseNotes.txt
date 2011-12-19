@@ -28,19 +28,20 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    TODO: enumerate
-
-Feature Request
-
-    TODO: enumerate
+    * [JBWS-3398] - MetadataBuilder does not re-use WebserviceMetadata parsed into AS integration layer
 
 Task
 
-    TODO: enumerate
+    * [JBWS-3281] - Create a migration guide to JBossWS 4.0 / AS 7 integration
+    * [JBWS-3373] - port component link servlet on AS7
+    * [JBWS-3389] - Fix org.jboss.test.ws.jaxws.cxf.jms_http.JMSHTTPEndpointDeploymentTestCase regression
+    * [JBWS-3393] - Remove support for AS6 as target container
+    * [JBWS-3399] - Add WS-* samples into JBossWS-CXF binary distribution
+    * [JBWS-3401] - Support deployment of EJB3 endpoints bundled in war archives referencing WSDL that is importing XML schema(s)
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
+    See: https://issues.jboss.org/browse/JBWS-3403
 
 This version of ${project.name} is based on Apache CXF ${cxf.version}
 
