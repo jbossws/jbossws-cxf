@@ -325,6 +325,7 @@
                 <directory>${basedir}/src/main/doc</directory>
                 <includes>
                   <include>images/*</include>
+                  <include>author/**</include>
                 </includes>
               </imageResource>
               <formats>
@@ -338,11 +339,11 @@
                   <stylesheetResource>classpath:/xslt/org/jboss/xhtml.xsl</stylesheetResource>
                   <finalName>index.html</finalName>
                 </format>
-                <format>
+                <!-- <format>
                   <formatName>html_single</formatName>
                   <stylesheetResource>classpath:/xslt/org/jboss/xhtml-single.xsl</stylesheetResource>
                   <finalName>index.html</finalName>
-                </format>
+                </format> -->
               </formats>
               <options>
                 <xincludeSupported>true</xincludeSupported>
