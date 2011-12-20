@@ -32,7 +32,7 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>4.0.0-SNAPSHOT</version>
+  <version>4.0.1-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
@@ -59,14 +59,14 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.api.version>1.0.0-SNAPSHOT</jbossws.api.version>
-    <jbossws.spi.version>2.0.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>2.0.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.common.tools.version>1.0.0-SNAPSHOT</jbossws.common.tools.version>
-    <jbossws.shared.testsuite.version>4.0.0-SNAPSHOT</jbossws.shared.testsuite.version>
-    <jbossws.jboss700.version>4.0.0-SNAPSHOT</jbossws.jboss700.version>
-    <jbossws.jboss701.version>4.0.0-SNAPSHOT</jbossws.jboss701.version>
-    <jbossws.jboss702.version>4.0.0-SNAPSHOT</jbossws.jboss702.version>
+    <jbossws.api.version>1.0.1-SNAPSHOT</jbossws.api.version>
+    <jbossws.spi.version>2.0.1-SNAPSHOT</jbossws.spi.version>
+    <jbossws.common.version>2.0.1-SNAPSHOT</jbossws.common.version>
+    <jbossws.common.tools.version>1.0.0.GA</jbossws.common.tools.version>
+    <jbossws.shared.testsuite.version>4.0.1-SNAPSHOT</jbossws.shared.testsuite.version>
+    <jbossws.jboss700.version>4.0.0.GA</jbossws.jboss700.version>
+    <jbossws.jboss701.version>4.0.0.GA</jbossws.jboss701.version>
+    <jbossws.jboss702.version>4.0.0.GA</jbossws.jboss702.version>
     <jboss700.version>7.0.0.Final</jboss700.version>
     <jboss701.version>7.0.1.Final</jboss701.version>
     <jboss702.version>7.0.2.Final</jboss702.version>
