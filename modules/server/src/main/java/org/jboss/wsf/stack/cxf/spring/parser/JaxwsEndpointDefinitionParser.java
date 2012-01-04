@@ -50,6 +50,8 @@ public class JaxwsEndpointDefinitionParser extends EndpointDefinitionParser
    public static class JBossWSSpringEndpointImpl extends EndpointImpl implements ApplicationContextAware
    {
 
+      boolean checkBlockConstruct;
+       
       public JBossWSSpringEndpointImpl(Object implementor)
       {
          super((Bus)null, implementor);
@@ -60,8 +62,15 @@ public class JaxwsEndpointDefinitionParser extends EndpointDefinitionParser
          super(bus, implementor);
       }
 
+      public void setCheckBlockConstruct(Boolean b) {
+          checkBlockConstruct = b;
+      }
+      
       public void setApplicationContext(ApplicationContext ctx) throws BeansException
       {
+         if (checkBlockConstruct) {
+             setBlocking(ctx, this);
+         }
          if (getBus() == null)
          {
             Bus bus = BusWiringBeanFactoryPostProcessor.addDefaultBus(ctx);
