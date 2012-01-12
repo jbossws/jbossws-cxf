@@ -49,24 +49,43 @@ import org.jboss.wsf.stack.cxf.transport.SoapTransportFactoryExt;
  * A deployment aspect that creates the CXF Bus early and attaches it to the endpoints (wrapped in a BusHolder)
  *
  * @author alessio.soldano@jboss.com
- * @since 25-Mar-2010
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-public class BusDeploymentAspect extends AbstractDeploymentAspect
+public final class BusDeploymentAspect extends AbstractDeploymentAspect
 {
    
-   @SuppressWarnings("unchecked")
-   protected void startDeploymentBus(Deployment dep)
+   @Override
+   public void start(final Deployment dep)
    {
+      if (BusFactory.getDefaultBus(false) == null)
+      {
+         //Make sure the default bus is created and set for client side usage
+         //(i.e. no server side integration contribution in it)
+         JBossWSBusFactory.getDefaultBus(Provider.provider().getClass().getClassLoader());
+      }
+      startDeploymentBus(dep);
+   }
+   
+   @Override
+   public void stop(final Deployment dep)
+   {
+      final BusHolder holder = dep.removeAttachment(BusHolder.class);
+      if (holder != null)
+      {
+         holder.close();
+      }
+   }
+
+   @SuppressWarnings("unchecked")
+   private void startDeploymentBus(final Deployment dep)
+   {
+      BusFactory.setThreadDefaultBus(null);
       ClassLoader origClassLoader = SecurityActions.getContextClassLoader();
       try
       {
-         //start cleaning the BusFactory thread locals
-         BusFactory.setThreadDefaultBus(null);
-
-         ArchiveDeployment aDep = (ArchiveDeployment) dep;
-
-         ResourceResolver deploymentResolver = aDep.getResourceResolver();
-         org.apache.cxf.resource.ResourceResolver resolver = new JBossWSResourceResolver(deploymentResolver);
+         final ArchiveDeployment aDep = (ArchiveDeployment) dep;
+         final ResourceResolver deploymentResolver = aDep.getResourceResolver();
+         final org.apache.cxf.resource.ResourceResolver resolver = new JBossWSResourceResolver(deploymentResolver);
          Map<String, String> contextParams = (Map<String, String>) dep.getProperty(WSConstants.STACK_CONTEXT_PARAMS);
          String jbosswsCxfXml = contextParams == null ? null : contextParams.get(BusHolder.PARAM_CXF_BEANS_URL);
          BusHolder holder = null;
@@ -76,69 +95,40 @@ public class BusDeploymentAspect extends AbstractDeploymentAspect
          //parent to make sure user provided libs in the deployment do no mess up the WS endpoint's deploy if they duplicates
          //libraries already available on the application server modules.
          SecurityActions.setContextClassLoader(new DelegateClassLoader(dep.getRuntimeClassLoader(), origClassLoader));
-         if (jbosswsCxfXml != null) // Spring available and jbossws-cxf.xml provided
+         if (jbosswsCxfXml != null)
          {
-            URL cxfServletURL = null;
-            try
-            {
-               cxfServletURL = deploymentResolver.resolve("WEB-INF/cxf-servlet.xml");
-            }
-            catch (IOException e)
-            {
-            } //ignore, cxf-servlet.xml is optional, we might even decide not to support this
-
-            try
-            {
-               holder = new SpringBusHolder(cxfServletURL, deploymentResolver.resolve(jbosswsCxfXml));
-               Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
-                     new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile());
-               holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
-            }
-            catch (Exception e)
-            {
-               throw new RuntimeException(e); //re-throw, jboss-cxf.xml is required
-            }
+            // Spring available and jbossws-cxf.xml provided
+            final URL cxfServletUrl = getResourceUrl(deploymentResolver, "WEB-INF/cxf-servlet.xml", false); // TODO: decide not to support this?
+            final URL jbosswsCxfUrl = getResourceUrl(deploymentResolver, jbosswsCxfXml, true);
+            holder = new SpringBusHolder(cxfServletUrl, jbosswsCxfUrl);
          }
          else
-         //Spring not available or jbossws-cxf.xml not provided
          {
+            // Spring not available or jbossws-cxf.xml not provided
             DDBeans metadata = dep.getAttachment(DDBeans.class);
             holder = new NonSpringBusHolder(metadata);
-            Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
-                  new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile());
-            holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
          }
+         Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class), new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile());
+         holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
          dep.addAttachment(BusHolder.class, holder);
       }
       finally
       {
-         //clean threadlocals in BusFactory and restore the original classloader
          BusFactory.setThreadDefaultBus(null);
          SecurityActions.setContextClassLoader(origClassLoader);
       }
    }
-   
-   
-   
-   @Override
-   public void start(Deployment dep)
-   {
-      //Make sure the default bus is created and set for client side usage
-      //(i.e. no server side integration contribution in it)
-      if (BusFactory.getDefaultBus(false) == null)
-      {
-         JBossWSBusFactory.getDefaultBus(Provider.provider().getClass().getClassLoader());
-      }
-      this.startDeploymentBus(dep);
+
+   private static URL getResourceUrl(final ResourceResolver resolver, final String resourcePath, final boolean fail) {
+       try {
+           return resolver.resolve(resourcePath);
+       } catch (final IOException e) {
+           if (fail) {
+               throw new RuntimeException(e);
+           } else {
+               return null;
+           }
+       }
    }
    
-   @Override
-   public void stop(Deployment dep)
-   {
-      BusHolder holder = dep.removeAttachment(BusHolder.class);
-      if (holder != null)
-      {
-         holder.close();
-      }
-   }
 }
