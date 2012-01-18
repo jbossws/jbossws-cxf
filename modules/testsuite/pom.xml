@@ -1351,10 +1351,6 @@
                  <exclude>org/jboss/test/ws/jaxrpc/samples/secureejb/**</exclude>
                  <exclude>org/jboss/test/ws/jaxrpc/samples/serviceref/ServiceRefEJBTestCase*</exclude>
 
-
-                 <!-- # [AS7-3324] waiting for pull request  -->
-                 <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
-
               </excludes>
             </configuration>
           </plugin>
