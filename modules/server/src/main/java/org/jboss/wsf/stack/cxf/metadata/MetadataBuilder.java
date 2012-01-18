@@ -21,8 +21,10 @@
  */
 package org.jboss.wsf.stack.cxf.metadata;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.StringTokenizer;
@@ -266,7 +268,11 @@ public class MetadataBuilder
       result.setEpClass(seiClass != null ? seiClass : sepClass);
       result.setPortName(new QName(serviceNS, portName));
       result.setServiceName(new QName(serviceNS, serviceName));
-
+      Map<String, Object> props = new HashMap<String, Object>();
+      for (String k : ep.getProperties()) {
+         props.put(k, ep.getProperty(k));
+      }
+      result.setProperties(props);
       return result;
    }
    

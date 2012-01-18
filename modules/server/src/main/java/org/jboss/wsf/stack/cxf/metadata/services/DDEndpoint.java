@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf.metadata.services;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +67,7 @@ public class DDEndpoint
    
    private List<String> handlers;
    
-   private Map<String, String> properties;
+   private Map<String, Object> properties;
    
    //additional fields
    private Class<?> epClass;
@@ -216,12 +217,12 @@ public class DDEndpoint
       return this.addressingResponses;
    }
    
-   public Map<String, String> getProperties()
+   public Map<String, Object> getProperties()
    {
       return properties;
    }
 
-   public void setProperties(Map<String, String> properties)
+   public void setProperties(Map<String, Object> properties)
    {
       this.properties = properties;
    }   
@@ -296,7 +297,8 @@ public class DDEndpoint
          writer.write("<jaxws:properties>");
          for (String key : this.properties.keySet())
          {
-            String value = this.properties.get(key);
+            Object value = this.properties.get(key);
+            //TODO implement proper mapping of mapType (http://www.springframework.org/schema/beans/spring-beans.xsd)
             if (value != null)
             {
                writer.write("<entry key='" + key + "' value='" + value + "'/>");
@@ -326,6 +328,23 @@ public class DDEndpoint
       str.append("\n portName=" + this.portName);
       str.append("\n wsdlLocation=" + this.wsdlLocation);
       str.append("\n mtomEnabled=" + this.mtomEnabled);
+      if (this.handlers != null && !this.handlers.isEmpty()) {
+         str.append("\n handlers=[");
+         for (Iterator<String> it = this.handlers.iterator(); it.hasNext();) {
+            str.append(it.next());
+            str.append(it.hasNext() ? "," : "]");
+         }
+      }
+      if (this.properties != null && !this.properties.isEmpty())
+      {
+         str.append("\n properties=[");
+         for (Iterator<String> it = this.properties.keySet().iterator(); it.hasNext();)
+         {
+            final String p = it.next();
+            str.append(p + " -> " + this.properties.get(p));
+            str.append(it.hasNext() ? "," : "]");
+         }
+      }
       return str.toString();
    }
 }
