@@ -63,7 +63,7 @@ public class ServletClientBusTestCase extends JBossWSTest
          retStr = br.readLine();
          assertEquals("OK testSOAPConnection", retStr);
          
-         if (isTargetJBoss71()) {
+         if (!isTargetJBoss70()) {
             url = new URL(TARGET_ENDPOINT_ADDRESS + "?method=testWebServiceRef");
             br = new BufferedReader(new InputStreamReader(url.openStream()));
             retStr = br.readLine();
