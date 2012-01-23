@@ -51,6 +51,8 @@ public class ServletClientBusTestCase extends JBossWSTest
       deploy("jaxws-cxf-bus-servlet-client.war");
       try
       {
+         
+         
          URL url = new URL(TARGET_ENDPOINT_ADDRESS + "?method=testBusCreation");
          BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
          String retStr = br.readLine();
@@ -61,10 +63,12 @@ public class ServletClientBusTestCase extends JBossWSTest
          retStr = br.readLine();
          assertEquals("OK testSOAPConnection", retStr);
          
-         url = new URL(TARGET_ENDPOINT_ADDRESS + "?method=testWebServiceRef");
-         br = new BufferedReader(new InputStreamReader(url.openStream()));
-         retStr = br.readLine();
-         assertEquals("OK testWebServiceRef", retStr);
+         if (isTargetJBoss71()) {
+            url = new URL(TARGET_ENDPOINT_ADDRESS + "?method=testWebServiceRef");
+            br = new BufferedReader(new InputStreamReader(url.openStream()));
+            retStr = br.readLine();
+            assertEquals("OK testWebServiceRef", retStr);
+         }
          
          url = new URL(TARGET_ENDPOINT_ADDRESS + "?method=testWebServiceClient&host=" + getServerHost());
          br = new BufferedReader(new InputStreamReader(url.openStream()));

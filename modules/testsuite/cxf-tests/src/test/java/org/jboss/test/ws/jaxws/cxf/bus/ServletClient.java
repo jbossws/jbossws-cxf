@@ -42,8 +42,8 @@ public class ServletClient extends HttpServlet
 {
    private static final long serialVersionUID = 1L;
 
-//   @WebServiceRef(value = EndpointService.class, type = Endpoint.class, wsdlLocation = "WEB-INF/wsdl/Endpoint.wsdl")
-//   public Endpoint port;
+   @WebServiceRef(value = EndpointService.class, type = Endpoint.class, wsdlLocation = "WEB-INF/wsdl/Endpoint.wsdl")
+   public Endpoint port;
    
    @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
@@ -95,8 +95,7 @@ public class ServletClient extends HttpServlet
 
    public void testWebServiceRef() throws BusTestException
    {
-      System.out.println("FIXME: @WebServiceRef not working yet on AS7");
-//      AbstractClient.testWebServiceRef(port);
+      AbstractClient.testWebServiceRef(port);
    }
 
    public void testWebServiceClient(String host) throws BusTestException, Exception
