@@ -86,9 +86,27 @@ public class AbstractClient
    public static void testWebServiceRef(Endpoint port) throws BusTestException
    {
       Bus initialDefaultBus = BusFactory.getDefaultBus(false);
-      Bus initialThreadBus = BusFactory.getThreadDefaultBus(false);
-      checkThreadBus(initialThreadBus); //this can probably be relaxed as below
+      performInvocation(port);
       checkDefaultBus(initialDefaultBus);
+      Bus threadBus = BusFactory.getThreadDefaultBus(false);
+      try
+      {
+         BusFactory.setThreadDefaultBus(null);
+         performInvocation(port);
+         Bus newThreadBus = BusFactory.getThreadDefaultBus(false);
+         if (newThreadBus == initialDefaultBus)
+         {
+            throw new BusTestException("Thread bus set to former default bus " + initialDefaultBus + " instead of a new bus!"); 
+         }
+         else if (newThreadBus == threadBus)
+         {
+            throw new BusTestException("Thread bus set to former thread bus " + threadBus + " (which is also default) instead of a new bus!"); 
+         }
+      }
+      finally
+      {
+         BusFactory.setThreadDefaultBus(threadBus);
+      }
    }
    
    public static void testWebServiceClient(String host) throws BusTestException, Exception
