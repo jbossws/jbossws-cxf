@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -86,22 +86,21 @@ public class AbstractClient
    public static void testWebServiceRef(Endpoint port) throws BusTestException
    {
       Bus initialDefaultBus = BusFactory.getDefaultBus(false);
-      performInvocation(port);
-      checkDefaultBus(initialDefaultBus);
       Bus threadBus = BusFactory.getThreadDefaultBus(false);
+      performInvocation(port); //does not change anything to the bus, as the port is already created when injecting serviceref
+      checkDefaultBus(initialDefaultBus);
+      checkThreadBus(threadBus);
       try
       {
          BusFactory.setThreadDefaultBus(null);
-         performInvocation(port);
-         Bus newThreadBus = BusFactory.getThreadDefaultBus(false);
-         if (newThreadBus == initialDefaultBus)
-         {
-            throw new BusTestException("Thread bus set to former default bus " + initialDefaultBus + " instead of a new bus!"); 
-         }
-         else if (newThreadBus == threadBus)
-         {
-            throw new BusTestException("Thread bus set to former thread bus " + threadBus + " (which is also default) instead of a new bus!"); 
-         }
+         performInvocation(port); //does not change anything to the bus, as the port is already created when injecting serviceref
+         checkDefaultBus(initialDefaultBus);
+         checkThreadBus(null);
+         BusFactory factory = BusFactory.newInstance();
+         Bus bus = factory.createBus(); //internally sets the thread bus
+         performInvocation(port); //does not change anything to the bus, as the port is already created when injecting serviceref
+         checkDefaultBus(initialDefaultBus);
+         checkThreadBus(bus);
       }
       finally
       {
@@ -118,8 +117,9 @@ public class AbstractClient
       Bus threadBus = BusFactory.getThreadDefaultBus(false);
       try
       {
+         final String url = getEndpointURL(host);
          BusFactory.setThreadDefaultBus(null);
-         performInvocation(getEndpointURL(host));
+         performInvocation(url); //goes through ServiceDelegate which sets the thread bus if it's null
          Bus newThreadBus = BusFactory.getThreadDefaultBus(false);
          if (newThreadBus == initialDefaultBus)
          {
@@ -127,8 +127,11 @@ public class AbstractClient
          }
          else if (newThreadBus == threadBus)
          {
-            throw new BusTestException("Thread bus set to former thread bus " + threadBus + " (which is also default) instead of a new bus!"); 
+            throw new BusTestException("Thread bus set to former thread bus " + threadBus + " instead of a new bus!"); 
          }
+         performInvocation(url);
+         checkThreadBus(newThreadBus); //the thread bus is not changed as it's not null
+         checkDefaultBus(initialDefaultBus);
       }
       finally
       {
