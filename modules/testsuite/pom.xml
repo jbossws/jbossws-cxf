@@ -1323,9 +1323,6 @@
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
 
-                 <!-- # [JBWS-3419] waiting for pull request -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1190/JBWS1190TestCase*</exclude>
-
                  <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher -->
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
 
