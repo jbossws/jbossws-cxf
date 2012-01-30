@@ -56,10 +56,10 @@ public class AbstractClient
       {
          checkThreadBus(bus);
       }
-      checkDefaultBus(initialDefaultBus);
+      checkDefaultBus(initialDefaultBus != null ? initialDefaultBus : bus); //on JBossWS 3.x series integration, the default bus is set if null
       BusFactory.setThreadDefaultBus(initialThreadBus);
       checkThreadBus(initialThreadBus);
-      checkDefaultBus(initialDefaultBus);
+      checkDefaultBus(initialDefaultBus != null ? initialDefaultBus : bus);
    }
    
    public static void testSOAPConnection(String host) throws BusTestException, Exception
