@@ -702,6 +702,53 @@ ${project.build.testOutputDirectory}</para>
                   <para>false</para>
                 </entry>
               </row>
+              <row>
+                <entry>
+                  <para>argLine</para>
+                </entry>
+                <entry>
+                  <para>
+                    An optional additional argline to be used when running in fork mode;
+                    
+                    can be used to set endorse dir, enable debugging, etc.
+                    
+                    
+                    <emphasis role="strong">
+                      <emphasis role="italics">Example</emphasis>
+                    </emphasis>
+                    
+                    <code>&lt;argLine&gt;-Djava.endorsed.dirs=...&lt;/argLine&gt;</code>
+                  </para>
+                </entry>
+                <entry>
+                  <para>none</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>fork</para>
+                </entry>
+                <entry>
+                  <para>
+                    Whether or not to run the generation task in a separate VM.
+                    
+                  </para>
+                </entry>
+                <entry>
+                  <para>false</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>target</para>
+                </entry>
+                <entry>
+                  <para>A preference for the JAX-WS specification target</para>
+                </entry>
+                <entry>
+                  <para>Depends on the underlying stack and endorsed dirs if any</para>
+                </entry>
+              </row>
             </tbody>
           </tgroup>
         </informaltable>
