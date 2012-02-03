@@ -27,7 +27,6 @@ import java.util.List;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
 import org.apache.cxf.binding.soap.jms.interceptor.SoapJMSConstants;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
-import org.apache.cxf.interceptor.OneWayProcessorInterceptor;
 import org.apache.cxf.service.model.BindingInfo;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
@@ -86,10 +85,6 @@ public class SoapTransportFactoryExt extends SoapTransportFactory
             }
          }
       }
-      // [AS7-3581] make sure @Oneway annotated webservice methods are executed
-      // in the same thread associated with current servlet to ensure that manual
-      // JNDI lookups are visible to the @OneWay method body
-      info.setProperty(OneWayProcessorInterceptor.USE_ORIGINAL_THREAD, Boolean.TRUE); 
 
       return info;
    }

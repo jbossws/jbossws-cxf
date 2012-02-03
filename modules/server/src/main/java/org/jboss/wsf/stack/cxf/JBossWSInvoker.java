@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -73,6 +73,7 @@ import org.apache.cxf.message.MessageContentsList;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.service.model.BindingOperationInfo;
+import org.jboss.ws.api.util.ServiceLoader;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
@@ -80,6 +81,7 @@ import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.Invocation;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
+import org.jboss.wsf.spi.invocation.NamespaceContextSelectorWrapperFactory;
 import org.jboss.wsf.spi.invocation.WebServiceContextFactory;
 
 /**
@@ -96,6 +98,13 @@ public final class JBossWSInvoker implements Invoker
    private static final Object[] NO_ARGS = new Object[]{};
    private Object targetBean;
    private WebServiceContextFactory contextFactory;
+   private NamespaceContextSelectorWrapperFactory nsCtxSelectorFactory;
+   
+   public JBossWSInvoker() {
+      ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
+      nsCtxSelectorFactory = (NamespaceContextSelectorWrapperFactory) ServiceLoader.loadService(
+            NamespaceContextSelectorWrapperFactory.class.getName(), null, cl);
+   }
    
    public void setTargetBean(Object targetBean)
    {
@@ -110,6 +119,7 @@ public final class JBossWSInvoker implements Invoker
       Map<String, Object> handlerScopedStuff = removeHandlerProperties(ctx);
 
       WebServiceContextImpl.setMessageContext(ctx);
+      setNamespaceContextSelector(exchange);
 
       Object retObj = null;
       try
@@ -125,6 +135,8 @@ public final class JBossWSInvoker implements Invoker
       {
          //clear the WebServiceContextImpl's ThreadLocal variable
          WebServiceContextImpl.clear();
+         //also cleanup namespace context selector
+         clearNamespaceContextSelector(exchange);
       }
 
       return new MessageContentsList(retObj);
@@ -336,6 +348,21 @@ public final class JBossWSInvoker implements Invoker
       }
    }
    
+   protected void setNamespaceContextSelector(Exchange exchange) {
+      if (exchange.isOneWay() && nsCtxSelectorFactory != null)
+      {
+         nsCtxSelectorFactory.getWrapper().setCurrentThreadSelector(exchange);
+      }
+   }
+   
+   protected void clearNamespaceContextSelector(Exchange exchange)
+   {
+      if (exchange.isOneWay() && nsCtxSelectorFactory != null)
+      {
+         nsCtxSelectorFactory.getWrapper().clearCurrentThreadSelector(exchange);
+      }
+   }
+   
    protected synchronized WebServiceContextFactory getWebServiceContextFactory()
    {
       if (contextFactory == null)
@@ -346,5 +373,5 @@ public final class JBossWSInvoker implements Invoker
       }
       return contextFactory;
    }
-
+   
 }

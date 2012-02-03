@@ -40,6 +40,7 @@ import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.interceptor.EnableOneWayDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
+import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 
 /**
  * A wrapper of the Bus for performing most of the configurations required on it by JBossWS
@@ -125,6 +126,7 @@ public abstract class BusHolder
       //with the proper spi Endpoint retrieved in CXFServletExt
       bus.getInInterceptors().add(new EndpointAssociationInterceptor());
       bus.getInInterceptors().add(new EnableOneWayDecoupledFaultInterceptor());
+      bus.getInInterceptors().add(new NsCtxSelectorStoreInterceptor());
    }
    
    protected static void setResourceResolver(Bus bus, ResourceResolver resourceResolver)
