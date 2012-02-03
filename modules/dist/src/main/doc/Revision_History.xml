@@ -6,7 +6,7 @@
     <revhistory>
       <revision>
         <revnumber>4.0.0</revnumber>
-        <date>Mon Dec 19 2012</date>
+        <date>Mon Dec 19 2011</date>
         <author>
           <firstname>Alessio</firstname>
           <surname>Soldano</surname>
@@ -15,6 +15,20 @@
         <revdescription>
           <simplelist>
             <member>JBossWS-CXF 4.0.0 documentation</member>
+          </simplelist>
+        </revdescription>
+      </revision>
+      <revision>
+        <revnumber>4.0.1</revnumber>
+        <date>Fri Feb 03 2012</date>
+        <author>
+          <firstname>Alessio</firstname>
+          <surname>Soldano</surname>
+          <email>alessio.soldano@jboss.com</email>
+        </author>
+        <revdescription>
+          <simplelist>
+            <member>JBossWS-CXF 4.0.1 documentation</member>
           </simplelist>
         </revdescription>
       </revision>

@@ -670,7 +670,7 @@ proxy.sayHello("World");</programlisting>
               <ulink url="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/ws-securitypolicy.html">WS-SecurityPolicy specification</ulink>
               allows for specifying things like asymmetric/symmetric keys, using   transports (https) for encryption, which parts/headers to encrypt or   sign, whether to sign then encrypt or encrypt then sign, whether to   include timestamps, whether to use derived keys, etc.
             </para>
-            <para>However some mandatory configuration elements are not covered by WS-SecurityPolicy, basically because they're not meant to be public / part of the published endpoint contract; those include things such as keystore locations, usernames and passwords, etc. Apache CXF allows configuring these elements either through Spring xml descriptors or using the client API. Below is the list of supported configuration properties:</para>
+            <para>However some mandatory configuration elements are not covered by WS-SecurityPolicy, basically because they're not meant to be public / part of the published endpoint contract; those include things such as keystore locations, usernames and passwords, etc. Apache CXF allows configuring these elements either through Spring xml descriptors or using the client API / annotations. Below is the list of supported configuration properties:</para>
             <informaltable>
               <tgroup cols="2">
                 <thead>
@@ -833,11 +833,39 @@ public class ServiceImpl implements ServiceIface
 }</programlisting>
           </informalexample>
         </section>
+        <section id="sid-3866795_WS-Security-ApacheCXFannotations">
+          
+          <title>Apache CXF annotations</title>
+          <para>
+            The JBossWS configuration additions allow for a descriptor approach to the WS-Security Policy engine configuration. If you prefer to provide the same information through an annotation approach, you can leverage the Apache CXF
+            <code>@org.apache.cxf.annotations.EndpointProperties</code>
+            annotation:
+          </para>
+          <informalexample>
+            <programlisting>@WebService(
+   ...
+)
+@EndpointProperties(value = {
+      @EndpointProperty(key = "ws-security.signature.properties", value = "bob.properties"),
+      @EndpointProperty(key = "ws-security.encryption.properties", value = "bob.properties"),
+      @EndpointProperty(key = "ws-security.signature.username", value = "bob"),
+      @EndpointProperty(key = "ws-security.encryption.username", value = "alice"),
+      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.basic.KeystorePasswordCallback")
+      }
+)
+public class ServiceImpl implements ServiceIface {
+   ...
+}</programlisting>
+          </informalexample>
+        </section>
       </section>
       <section id="sid-3866795_WS-Security-Examples">
         
         <title>Examples</title>
         <para>In this section some sample of WS-Security service endpoints and clients are provided. Please note they're only meant as tutorials; you should really careful isolate the ws-security policies / assertion that best suite your security needs before going to production environment.</para>
+        <warning>
+          <para>The following sections provide directions and examples on understanding some of the configuration options for WS-Security engine. Please note the implementor remains responsible for assessing the application requirements and choosing the most suitable security policy for them.</para>
+        </warning>
         <section id="sid-3866795_WS-Security-Signatureandencryption">
           
           <title>Signature and encryption</title>
@@ -1189,6 +1217,18 @@ org.apache.ws.security.crypto.merlin.keystore.alias=alice
 org.apache.ws.security.crypto.merlin.file=META-INF/alice.jks</programlisting>
             </informalexample>
             <para>The Apache CXF WS-Policy engine will digest the security requirements in the contract and ensure a valid secure communication is in place for interacting with the server endpoint.</para>
+          </section>
+          <section id="sid-3866795_WS-Security-Endpointservingmultipleclients">
+            
+            <title>Endpoint serving multiple clients</title>
+            <para>
+              The server side configuration described above implies the endpoint is configured for serving a given client which a service agreement has been established for. In some real world scenarios though, the same server might be expected to be able to deal with (including decrypting and encrypting) messages coming from and being sent to multiple clients. Apache CXF supports that through the
+              <code>useReqSigCert</code>
+              value for the
+              <code>ws-security.encryption.username</code>
+              configuration parameter.
+            </para>
+            <para>Of course the referenced server side keystore then needs to contain the public key of all the clients that are expected to be served.</para>
           </section>
         </section>
         <section id="sid-3866795_WS-Security-Authenticationandauthorization">

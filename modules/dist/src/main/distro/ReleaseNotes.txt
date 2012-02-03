@@ -28,19 +28,29 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    TODO: enumerate
+    * [JBWS-3262] - Fix JBWS1582TestCase for CXF stack.
+    * [JBWS-3413] - java.xml.ws.spi.Provider resolution is JVM implementation specific
+    * [JBWS-3414] - DeploymentAspectManagerImpl does not properly deal with deployment failures
+    * [JBWS-3421] - EndpointRegistryDeploymentAspect can't properly deal with AS7 domain reloads
 
-Feature Request
+Feature Request / Enhancement
 
-    TODO: enumerate
+    * [JBWS-3408] - maven-jaxws-tools-plugin <target> option is undocumented
+    * [JBWS-3420] - Enhance deployment performance by simplifying connector conf retrieval
 
 Task
 
-    TODO: enumerate
+    * [JBWS-3388] - Switch to remoting-jmx for tests using JMX to connect to the server
+    * [JBWS-3395] - Avoid CXFInstanceProvider thowing NPE when the endpoint ServiceBean is not available
+    * [JBWS-3410] - Upgrade to Apache CXF 2.4.6
+    * [JBWS-3412] - Add WS-Security Policy (sign+encrypt) testcase with multiple clients support
+    * [JBWS-3419] - Restore managed endpoint registry
+    * [JBWS-3422] - Review and enable passing serviceref/webserviceref tests
+    * [JBWS-3425] - Upgrade to JAXB 2.2.4
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
+    See: https://issues.jboss.org/browse/JBWS-3427
 
 This version of ${project.name} is based on Apache CXF ${cxf.version}
 
