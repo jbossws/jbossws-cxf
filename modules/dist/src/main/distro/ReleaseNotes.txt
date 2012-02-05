@@ -7,8 +7,8 @@ Version: jbossws-cxf-${project.version}
 Release Notes
 =============
 
-The project home page (http://www.jboss.org/jbossws) and the community wiki
-(http://www.jboss.org/community/wiki/JBossWS) are usually good starting points.
+The project home page (http://www.jboss.org/jbossws) and the official documentation
+(https://docs.jboss.org/author/display/JBWS) are usually good starting points.
 They contain the User Guide and Quick Start instructions.
 
 A list of examples that accompany the UserGuide can be found in the tests directory
@@ -18,10 +18,10 @@ If you have any questions, please post to the JBossWS User Forum
 http://www.jboss.org/index.html?module=bb&op=viewforum&f=276
 
 For details see the change log.
-http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel
+https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Achangelog-panel
 
 For issues that are scheduled for future versions see the road map.
-http://jira.jboss.com/jira/browse/JBWS?report=com.atlassian.jira.plugin.system.project:roadmap-panel
+https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
 
 What's new in jbossws-cxf-${project.version}
 ----------------------------------
