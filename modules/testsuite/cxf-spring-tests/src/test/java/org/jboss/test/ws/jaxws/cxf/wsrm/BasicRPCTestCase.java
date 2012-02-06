@@ -54,8 +54,6 @@ public class BasicRPCTestCase extends JBossWSTest
       URL wsdlURL = new URL(endpointURL + "?wsdl");
       Element wsdl = DOMUtils.parse(wsdlURL.openStream());
       assertNotNull(wsdl);
-
-      System.out.println("FIXME: [CXF-1310] Generated WSDL for an WS-RM endpoint does not contain RM policies");
    }
 
    public void testClient() throws Exception
