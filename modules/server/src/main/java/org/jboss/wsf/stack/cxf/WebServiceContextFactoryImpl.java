@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -24,8 +24,8 @@ package org.jboss.wsf.stack.cxf;
 import javax.xml.ws.handler.MessageContext;
 
 import org.apache.cxf.jaxws.context.WebServiceContextImpl;
-import org.jboss.ws.common.invocation.WebServiceContextAdapter;
 import org.jboss.wsf.spi.invocation.ExtensibleWebServiceContext;
+import org.jboss.wsf.spi.invocation.WebServiceContextDelegate;
 import org.jboss.wsf.spi.invocation.WebServiceContextFactory;
 
 /**
@@ -39,6 +39,6 @@ public class WebServiceContextFactoryImpl extends WebServiceContextFactory
    @Override
    public ExtensibleWebServiceContext newWebServiceContext(MessageContext messageContext)
    {
-      return new WebServiceContextAdapter(new WebServiceContextImpl(messageContext));
+      return new WebServiceContextDelegate(new WebServiceContextImpl(messageContext));
    }
 }
