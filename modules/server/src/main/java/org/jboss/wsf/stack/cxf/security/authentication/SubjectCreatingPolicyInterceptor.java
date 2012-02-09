@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,12 +21,22 @@
  */
 package org.jboss.wsf.stack.cxf.security.authentication;
 
+import java.security.Principal;
+import java.security.acl.Group;
+
 import javax.security.auth.Subject;
 
+import org.apache.cxf.common.security.SecurityToken;
+import org.apache.cxf.common.security.TokenType;
 import org.apache.cxf.common.security.UsernameToken;
 import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.interceptor.security.AbstractUsernameTokenInInterceptor;
+import org.apache.cxf.interceptor.security.DefaultSecurityContext;
 import org.apache.cxf.message.Message;
+import org.apache.cxf.phase.AbstractPhaseInterceptor;
+import org.apache.cxf.phase.Phase;
+import org.apache.cxf.security.SecurityContext;
+import org.apache.ws.security.WSUsernameTokenPrincipal;
+import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
 import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
@@ -38,40 +48,98 @@ import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
  * @author alessio.soldano@jboss.com
  * @since 26-May-2011
  */
-public class SubjectCreatingPolicyInterceptor extends AbstractUsernameTokenInInterceptor
+public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<Message>
 {
-   private ThreadLocal<SecurityDomainContext> sdc = new ThreadLocal<SecurityDomainContext>();
-   
+   private static Logger LOG = Logger.getLogger(SubjectCreatingPolicyInterceptor.class);
+
    private SubjectCreator helper = new SubjectCreator();
-   
+
    public SubjectCreatingPolicyInterceptor()
    {
-      super();
+      super(Phase.PRE_INVOKE);
       helper.setPropagateContext(true);
    }
 
    @Override
-   public void handleMessage(Message msg) throws Fault {
-      Endpoint ep = msg.getExchange().get(Endpoint.class);
-      sdc.set(ep.getSecurityDomainContext());
+   public void handleMessage(Message message) throws Fault
+   {
+      Endpoint ep = message.getExchange().get(Endpoint.class);
+      SecurityDomainContext sdc = ep.getSecurityDomainContext();
+      SecurityContext context = message.get(SecurityContext.class);
+      if (context == null || context.getUserPrincipal() == null)
+      {
+         reportSecurityException("User Principal is not available on the current message");
+      }
+
+      SecurityToken token = message.get(SecurityToken.class);
+      Subject subject = null;
+      if (token != null)
+      {
+         //Try authenticating using SecurityToken info
+         if (token.getTokenType() != TokenType.UsernameToken)
+         {
+            reportSecurityException("Unsupported token type " + token.getTokenType().toString());
+         }
+         UsernameToken ut = (UsernameToken) token;
+         subject = createSubject(sdc, ut.getName(), ut.getPassword(), ut.isHashed(), ut.getNonce(), ut.getCreatedTime());
+
+      }
+      else
+      {
+         //Try authenticating using WSS4J internal info (previously set into SecurityContext by WSS4JInInterceptor)
+         Principal p = context.getUserPrincipal();
+         if (!(p instanceof WSUsernameTokenPrincipal)) {
+            reportSecurityException("Could not get subject info neither from Security Token in the current message nor directly from computed SecurityContext");
+         }
+         WSUsernameTokenPrincipal up = (WSUsernameTokenPrincipal) p;
+         subject = createSubject(sdc, up.getName(), up.getPassword(), up.isPasswordDigest(), up.getNonce(), up.getCreatedTime());
+      }
+
+      Principal principal = getPrincipal(context.getUserPrincipal(), subject);
+      message.put(SecurityContext.class, createSecurityContext(principal, subject));
+   }
+
+   private Subject createSubject(SecurityDomainContext sdc, String name, String password, boolean isDigest, String nonce, String creationTime)
+   {
+      Subject subject = null;
       try
       {
-         super.handleMessage(msg);
+         subject = helper.createSubject(sdc, name, password, isDigest, nonce, creationTime);
       }
-      finally
+      catch (Exception ex)
       {
-         if (sdc != null)
-         {
-            sdc.remove();
-         }
+         reportSecurityException("Failed Authentication : Subject has not been created, " + ex.getMessage());
+      }
+      if (subject == null || subject.getPrincipals().size() == 0)
+      {
+         reportSecurityException("Failed Authentication : Invalid Subject");
+      }
+      return subject;
+   }
+
+   protected Principal getPrincipal(Principal originalPrincipal, Subject subject)
+   {
+      Principal[] ps = subject.getPrincipals().toArray(new Principal[]
+      {});
+      if (ps != null && ps.length > 0 && !(ps[0] instanceof Group))
+      {
+         return ps[0];
+      }
+      else
+      {
+         return originalPrincipal;
       }
    }
 
-   @Override
-   protected Subject createSubject(UsernameToken token)
+   protected SecurityContext createSecurityContext(Principal p, Subject subject)
    {
-      return helper.createSubject(sdc.get(), token.getName(), token.getPassword(), token.isHashed(), token.getNonce(),
-            token.getCreatedTime());
+      return new DefaultSecurityContext(p, subject);
+   }
+
+   protected void reportSecurityException(String errorMessage)
+   {
+      LOG.error(errorMessage); //TODO i18n
+      throw new SecurityException(errorMessage);
    }
 
    public void setPropagateContext(boolean propagateContext)
