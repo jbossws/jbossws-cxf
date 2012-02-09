@@ -115,6 +115,10 @@ public class AddressRewritingEndpointInfo extends EndpointInfo
    
    protected boolean isRewriteRequired(String address, String previousAddress)
    {
+      //JBWS-3297:rewrite is only needed when previousAddress(from wsdl) is different with the published wsdl
+      if (address.equals(previousAddress)) {
+         return false;
+      }
       //check config prop forcing address rewrite
       if (serverConfig.isModifySOAPAddress())
       {
