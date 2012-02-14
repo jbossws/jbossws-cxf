@@ -167,6 +167,55 @@
       </metainf>
     </jar>
 
+    <!-- jaxws-samples-wsse-policy-trust -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trust.war" needxmlfile='false'>
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/ServiceIface.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/ServiceImpl.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/ServerCallbackHandler.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
+          <include name="wsdl/Security*"/>
+       </webinf>
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF" prefix="WEB-INF/classes">
+          <include name="servicestore.jks" />
+          <include name="serviceKeystore.properties" />
+       </zipfileset>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+       </manifest>
+    </war>
+
+    <!-- jaxws-samples-wsse-policy-trust-sts -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trust-sts.war" needxmlfile='false'>
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/SampleSTS.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/STSCallbackHandler.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
+          <include name="wsdl/ws-trust*"/>
+          <include name="jboss-web.xml"/>
+       </webinf>
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF" prefix="WEB-INF/classes">
+          <include name="stsstore.jks" />
+          <include name="stsKeystore.properties" />
+       </zipfileset>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+       </manifest>
+    </war>
+
+    <!-- jaxws-samples-wsse-policy-trust-client -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trust-client.jar">
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/META-INF">
+        <include name="clientKeystore.properties" />
+        <include name="clientstore.jks" />
+      </metainf>
+    </jar>
+
     <!-- jaxws-samples-wsse-policy-username-unsecure-transport -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username-unsecure-transport.war"
