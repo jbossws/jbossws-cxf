@@ -110,6 +110,10 @@
       <artifactId>cxf-tools-wsdlto-frontend-jaxws</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.apache.cxf.services.sts</groupId>
+      <artifactId>cxf-services-sts-core</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.cxf.xjcplugins</groupId>
       <artifactId>cxf-xjc-boolean</artifactId>
     </dependency>
