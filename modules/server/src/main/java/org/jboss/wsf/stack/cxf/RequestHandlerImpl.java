@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
-import org.apache.cxf.frontend.WSDLGetInterceptor;
+import org.apache.cxf.frontend.WSDLGetUtils;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.transport.DestinationFactoryManager;
@@ -200,7 +200,7 @@ public class RequestHandlerImpl implements RequestHandler
          String ctxUri = req.getRequestURI();
          String baseUri = req.getRequestURL().toString() + "?" + req.getQueryString();
          EndpointInfo endpointInfo = dest.getEndpointInfo();
-         endpointInfo.setProperty(WSDLGetInterceptor.AUTO_REWRITE_ADDRESS,
+         endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS,
                ServerConfig.UNDEFINED_HOSTNAME.equals(serverConfig.getWebServiceHost()));
 
          for (QueryHandler queryHandler : bus.getExtension(QueryHandlerRegistry.class).getHandlers())
