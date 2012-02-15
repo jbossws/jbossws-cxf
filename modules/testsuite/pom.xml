@@ -705,6 +705,9 @@
                  <!-- # [JBWS-3232] javax.naming.NameNotFoundException: Name 'service' not found in context 'env' -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3140/**</exclude>
 
+                 <!-- # [JBWS-3434] Apache CXF STS integration available on AS 7.1 only -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
+
                  <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher -->
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/**</exclude>
 
@@ -854,6 +857,9 @@
 
                  <!--# Seems MSFT interop. endpoints are down :(-->
                  <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
+
+                 <!-- # [JBWS-3434] Apache CXF STS integration available on AS 7.1 only -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
 
                  <!-- ////////////////////////// -->
                  <!-- AS7 integration exclusions -->
@@ -1037,6 +1043,9 @@
 
                  <!--# Seems MSFT interop. endpoints are down :(-->
                  <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
+
+                 <!-- # [JBWS-3434] Apache CXF STS integration available on AS 7.1 only -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
 
                  <!-- ////////////////////////// -->
                  <!-- AS7 integration exclusions -->
