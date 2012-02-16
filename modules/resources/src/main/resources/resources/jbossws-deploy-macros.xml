@@ -113,6 +113,11 @@
           <include name="**/neethi.jar"/>
         </fileset>
       </copy>
+      <copy todir="@{targetdir}/org/apache/santuario/xmlsec/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/xmlsec.jar"/>
+        </fileset>
+      </copy>
       <copy todir="@{targetdir}/org/apache/ws/security/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/wss4j.jar"/>
