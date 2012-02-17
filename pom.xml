@@ -98,6 +98,7 @@
     <log4j.version>1.2.14</log4j.version>
     <mail.version>1.4.2</mail.version>
     <neethi.version>3.0.1</neethi.version>
+    <opensaml.version>2.5.1-1</opensaml.version>
     <saaj.api.version>1.0.0.Final</saaj.api.version>
     <stax.api.version>1.0-2</stax.api.version>
     <jms.api.version>1.0.0.Final</jms.api.version>
@@ -966,6 +967,12 @@
         <groupId>org.apache.ws.security</groupId>
         <artifactId>wss4j</artifactId>
         <version>${wss4j.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.opensaml</groupId>
+            <artifactId>opensaml</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.codehaus.woodstox</groupId>
@@ -981,6 +988,82 @@
         <groupId>org.jboss.com.sun.httpserver</groupId>
         <artifactId>httpserver</artifactId>
         <version>${httpserver.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.opensaml</groupId>
+        <artifactId>opensaml</artifactId>
+        <version>${opensaml.version}</version>
+        <scope>provided</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>velocity</groupId>
+            <artifactId>velocity</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>org.owasp.esapi</groupId>
+              <artifactId>esapi</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>log4j-over-slf4j</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>jcl-over-slf4j</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>jul-to-slf4j</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>org.bouncycastle</groupId>
+              <artifactId>bcprov-ext-jdk15</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>org.bouncycastle</groupId>
+              <artifactId>bcprov-jdk15</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>ca.juliusdavies</groupId>
+              <artifactId>not-yet-commons-ssl</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>net.jcip</groupId>
+              <artifactId>jcip-annotations</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>xml-resolver</groupId>
+              <artifactId>xml-resolver</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>xerces</groupId>
+              <artifactId>xercesImpl</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>xml-apis</groupId>
+              <artifactId>xml-apis</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>xalan</groupId>
+              <artifactId>xalan</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>commons-codec</groupId>
+              <artifactId>commons-codec</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>commons-httpclient</groupId>
+              <artifactId>commons-httpclient</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>commons-lang</groupId>
+              <artifactId>commons-lang</artifactId>
+          </exclusion>
+          <exclusion>
+              <groupId>commons-collections</groupId>
+              <artifactId>commons-collections</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <!-- Spring -->
       <dependency>

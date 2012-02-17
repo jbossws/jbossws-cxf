@@ -49,7 +49,6 @@
         <module name="org.apache.ws.xmlschema" />
         <module name="org.apache.ws.security" />
         <module name="org.apache.santuario.xmlsec" />
-        <module name="org.opensaml" />
         <module name="org.springframework.spring" optional="true"/>
     </dependencies>
 </module>

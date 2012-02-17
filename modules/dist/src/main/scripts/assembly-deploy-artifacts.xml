@@ -47,9 +47,6 @@
               <include>com.sun.xml.fastinfoset:FastInfoset:jar</include>
               <include>org.apache.ws.security:wss4j:jar</include>
               <include>org.apache.santuario:xmlsec:jar</include>
-              <include>org.opensaml:open*:jar</include>
-              <include>org.opensaml:xmltooling:jar</include>
-              <include>joda-time:joda-time:jar</include>
               <include>asm:asm:jar</include>
               <include>apache-velocity:velocity:jar</include>
               <include>commons-collections:commons-collections:jar</include>
@@ -78,6 +75,9 @@
               <include>org.jboss.jaxr:juddi-service:sar</include>
               <include>apache-scout:scout:jar</include>
               <include>juddi:juddi:jar</include>
+              <include>org.opensaml:open*:jar</include>
+              <include>org.opensaml:xmltooling:jar</include>
+              <include>joda-time:joda-time:jar</include>
               <include>org.jboss.ws:jbossws-common-tools:jar</include>
               <include>org.jboss.ws:jbossws-jboss700:jar</include>
               <include>org.jboss.ws:jbossws-jboss701:jar</include>

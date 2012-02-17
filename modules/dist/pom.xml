@@ -129,6 +129,13 @@
         <scope>provided</scope>
       </dependency>
 
+      <!-- OpenSAML -->
+      <dependency>
+        <groupId>org.opensaml</groupId>
+        <artifactId>opensaml</artifactId>
+        <scope>provided</scope>
+      </dependency>
+
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss700</artifactId>
