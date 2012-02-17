@@ -135,6 +135,7 @@
       <!-- copy etc files -->
       <testResource>
         <directory>src/test/etc</directory>
+        <filtering>true</filtering>
       </testResource>
       <!-- copy handler definitions -->
       <testResource>
@@ -265,10 +266,6 @@
                   <value>${jboss.bind.address}</value>
                 </property>
                 <property>
-                  <name>java.naming.provider.url</name>
-                  <value>jnp://${jboss.bind.address}:1099</value>
-                </property>
-                <property>
                   <name>java.protocol.handler.pkgs</name>
                   <value>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</value>
                 </property>
@@ -357,10 +354,6 @@
                 <property>
                   <name>jboss.bind.address</name>
                   <value>${jboss.bind.address}</value>
-                </property>
-                <property>
-                  <name>java.naming.provider.url</name>
-                  <value>jnp://${jboss.bind.address}:1099</value>
                 </property>
                 <property>
                   <name>java.protocol.handler.pkgs</name>
@@ -1157,11 +1150,6 @@
               <artifactId>xnio-api</artifactId>
             </exclusion>
           </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.naming</groupId>
-          <artifactId>jnp-client</artifactId>
-          <version>5.0.5.Final</version>
         </dependency>
         <dependency>
           <groupId>org.jboss.ejb3</groupId>
