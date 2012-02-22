@@ -43,19 +43,9 @@
             <phase>package</phase>
             <configuration>
               <excludes>
-                <exclude>**/jbossws-jboss700/**</exclude>
                 <exclude>**/jbossws-jboss701/**</exclude>
                 <exclude>**/jbossws-jboss702/**</exclude>
               </excludes>
-            </configuration>
-          </execution>
-          <execution>
-            <id>jboss700</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>jboss700</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss700/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
           <execution>
