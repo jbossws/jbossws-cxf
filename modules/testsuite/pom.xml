@@ -1407,6 +1407,62 @@
         <surefire.default-mgmt-serurity.args> </surefire.default-mgmt-serurity.args>
       </properties>
     </profile>
+
+    <profile>
+      <id>noprepare</id>
+      <activation>
+        <property>
+          <name>!noprepare</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>appclient-patch</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <!-- TODO: I didn't find way how to reference project root directory in maven :( -->
+                  <!-- The ${basedir} value changes depending in which directory the build is executed. -->
+                  <tasks>
+                    <echo message="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"/>
+                    <echo message="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"/>
+                    <echo message="XXXXX patching appclient 1-st attempt XXXXX"/>
+                    <echo message="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"/>
+                    <echo message="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"/>
+                    <copy
+                      file="${basedir}/../src/test/resources/${jbossws.integration.target}/appclient.xml"
+                      tofile="${jboss.home}/appclient/configuration/appclient.xml"
+                      failonerror="false"
+                      verbose="true"
+                      overwrite="true"
+                    />
+                    <echo message="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"/>
+                    <echo message="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"/>
+                    <echo message="XXXXX patching appclient 2-nd attempt XXXXX"/>
+                    <echo message="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"/>
+                    <echo message="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"/>
+                    <copy
+                      file="${basedir}/src/test/resources/${jbossws.integration.target}/appclient.xml"
+                      tofile="${jboss.home}/appclient/configuration/appclient.xml"
+                      failonerror="false"
+                      verbose="true"
+                      overwrite="true"
+                    />
+                  </tasks>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
   </profiles>
 
 </project>
