@@ -1084,10 +1084,10 @@
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                 <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
-                <!-- JBossWS Native Core version available on 710 -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.1.GA.jar</additionalClasspathElement>
                 <!-- JBossWS Native Core version overwritten by jbossws-native stack install -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core.jar</additionalClasspathElement>
+                <!-- JBossWS Native Core version available on 710 -->
+                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.1.GA.jar</additionalClasspathElement>
                 <!-- JBossWS Native Core version specified through system property -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/${jbossws-native-core.filename}</additionalClasspathElement>
               </additionalClasspathElements>
@@ -1306,10 +1306,10 @@
               <!-- TODO: replace with maven dependencies -->
               <additionalClasspathElements>
                 <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
-                <!-- JBossWS Native Core version available on 711 -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.1.GA.jar</additionalClasspathElement>
                 <!-- JBossWS Native Core version overwritten by jbossws-native stack install -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core.jar</additionalClasspathElement>
+                <!-- JBossWS Native Core version available on 711 -->
+                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.1.GA.jar</additionalClasspathElement>
                 <!-- JBossWS Native Core version specified through system property -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/${jbossws-native-core.filename}</additionalClasspathElement>
               </additionalClasspathElements>
