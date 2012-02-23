@@ -158,11 +158,11 @@
     </interfaces>
 
     <socket-binding-group name="standard-sockets" default-interface="public">
-        <socket-binding name="jacorb" port="3528"/>
-        <socket-binding name="jacorb-ssl" port="3529"/>
+        <socket-binding name="jacorb" port="13528"/>
+        <socket-binding name="jacorb-ssl" port="13529"/>
         <socket-binding name="remoting" port="4448"/>
-        <socket-binding name="txn-recovery-environment" port="4712"/>
-        <socket-binding name="txn-status-manager" port="4713"/>
+        <socket-binding name="txn-recovery-environment" port="14712"/>
+        <socket-binding name="txn-status-manager" port="14713"/>
     </socket-binding-group>
 
 </server>
