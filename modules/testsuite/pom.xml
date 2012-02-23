@@ -1292,8 +1292,6 @@
                 <configuration>
                   <testExcludes>
                     <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
-                    <!-- EJB3 client API dependencies -->
-                    <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/WebServiceRefClientTestCase*</exclude>
                   </testExcludes>
                 </configuration>
                 <goals>
@@ -1346,18 +1344,11 @@
                  <!-- AS7 integration exclusions -->
                  <!-- ////////////////////////// -->
 
-                 <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher // also see compile exclude above -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/WebServiceRefClientTestCase*</exclude>
-
                  <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase*</exclude>
 
                  <!-- # TODO: JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
-
-                 <!-- # TODO: appclient -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefClientTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxrpc/samples/serviceref/ServiceRefClientTestCase*</exclude>
 
                  <!-- # TODO: remote JNDI support (non EJB objects) -->
                  <exclude>org/jboss/test/ws/jaxrpc/samples/secureejb/**</exclude>
