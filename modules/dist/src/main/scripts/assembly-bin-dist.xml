@@ -90,6 +90,11 @@
         <include>resources/jaxws/samples/**</include>
       </includes>
     </fileSet>
+    <!-- Appclient patches -->
+    <fileSet>
+      <directory>../testsuite/src/test/resources/</directory>
+      <outputDirectory>jbossws-cxf-bin-dist/tests/etc/appclient</outputDirectory>
+    </fileSet>
     <fileSet>
       <directory>../testsuite/cxf-tests/scripts</directory>
       <outputDirectory>jbossws-cxf-bin-dist/tests/ant-import</outputDirectory>
