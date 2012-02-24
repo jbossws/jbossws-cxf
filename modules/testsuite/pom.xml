@@ -1349,10 +1349,6 @@
 
                  <!-- # TODO: JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
-
-                 <!-- # TODO: remote JNDI support (non EJB objects) -->
-                 <exclude>org/jboss/test/ws/jaxrpc/samples/secureejb/**</exclude>
-
               </excludes>
             </configuration>
           </plugin>
