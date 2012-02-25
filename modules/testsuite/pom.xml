@@ -664,10 +664,6 @@
                  <!-- # [JBWS-3434] Apache CXF STS integration available on AS 7.1 only -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
 
-                 <!-- ////////////////////////// -->
-                 <!-- AS7 integration exclusions -->
-                 <!-- ////////////////////////// -->
-
                  <!-- [JBWS-3367][AS7-1605] fixed since AS 7.1 -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3367/**</exclude>
 
@@ -849,10 +845,6 @@
 
                  <!-- # [JBWS-3434] Apache CXF STS integration available on AS 7.1 only -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
-
-                 <!-- ////////////////////////// -->
-                 <!-- AS7 integration exclusions -->
-                 <!-- ////////////////////////// -->
 
                  <!-- [JBWS-3367][AS7-1605] fixed since AS 7.1 -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3367/**</exclude>
@@ -1120,10 +1112,6 @@
                  <!-- Former JMS endpoint functionalities replaced by SOAP-over-JMS on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
 
-                 <!-- ////////////////////////// -->
-                 <!-- AS7 integration exclusions -->
-                 <!-- ////////////////////////// -->
-
                  <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher // also see compile exclude above -->
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/WebServiceRefClientTestCase*</exclude>
 
@@ -1340,12 +1328,11 @@
                  <!-- Former JMS endpoint functionalities replaced by SOAP-over-JMS on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
 
-                 <!-- ////////////////////////// -->
-                 <!-- AS7 integration exclusions -->
-                 <!-- ////////////////////////// -->
-
                  <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase*</exclude>
+
+                 <!-- # [JBWS-3444] WebServiceRefClientTestCase causes Hudson job to hang -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/WebServiceRefClientTestCase*</exclude>
 
                  <!-- # TODO: JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
