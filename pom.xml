@@ -66,6 +66,7 @@
     <jbossws.shared.testsuite.version>4.0.2-SNAPSHOT</jbossws.shared.testsuite.version>
     <jbossws.jboss701.version>4.0.1.GA</jbossws.jboss701.version>
     <jbossws.jboss702.version>4.0.1.GA</jbossws.jboss702.version>
+    <jbossws.jboss710.version>4.0.2-SNAPSHOT</jbossws.jboss710.version>
     <jboss701.version>7.0.1.Final</jboss701.version>
     <jboss702.version>7.0.2.Final</jboss702.version>
     <jboss710.version>7.1.0.Final</jboss710.version>
@@ -169,12 +170,21 @@
         <version>${jbossws.jboss702.version}</version>
         <classifier>tests-integration</classifier>
       </dependency>
-      <!-- TODO Move dependency below to jboss711.version and add dependency on org.jboss.ws:jbossws-jboss710:${jbossws.jboss710.version}
-           when 710 container integration is needed and created -->
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss710</artifactId>
+        <version>${jbossws.jboss710.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss710</artifactId>
+        <version>${jbossws.jboss710.version}</version>
+        <classifier>tests-integration</classifier>
+      </dependency>
       <dependency>
         <groupId>org.jboss.as</groupId>
         <artifactId>jboss-as-webservices-tests-integration</artifactId>
-        <version>${jboss710.version}</version>
+        <version>${jboss711.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>

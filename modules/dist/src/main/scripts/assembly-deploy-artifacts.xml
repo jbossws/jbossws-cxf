@@ -77,6 +77,7 @@
               <include>org.jboss.ws:jbossws-common-tools:jar</include>
               <include>org.jboss.ws:jbossws-jboss701:jar</include>
               <include>org.jboss.ws:jbossws-jboss702:jar</include>
+              <include>org.jboss.ws:jbossws-jboss710:jar</include>
               <include>org.jboss.as:jboss-as-webservices-tests-integration:jar</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
@@ -100,6 +101,17 @@
             <unpack>false</unpack>           
             <includes>
               <include>org.jboss.ws:jbossws-jboss702:jar:*:tests-integration</include>
+            </includes>
+            <outputFileNameMapping>${artifact.artifactId}${dashClassifier}.${artifact.extension}</outputFileNameMapping>
+            <scope>provided</scope>
+            <useProjectArtifact>false</useProjectArtifact>
+          </dependencySet>
+
+         <dependencySet>
+            <outputDirectory>deploy-artifacts/lib</outputDirectory>
+            <unpack>false</unpack>           
+            <includes>
+              <include>org.jboss.ws:jbossws-jboss710:jar:*:tests-integration</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}${dashClassifier}.${artifact.extension}</outputFileNameMapping>
             <scope>provided</scope>
