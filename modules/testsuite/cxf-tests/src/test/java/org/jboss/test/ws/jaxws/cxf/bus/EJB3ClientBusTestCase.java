@@ -45,10 +45,11 @@ public class EJB3ClientBusTestCase extends JBossWSTest
    public void testSingleDeploy() throws Exception
    {
       deploy("jaxws-cxf-bus-ejb3-client.jar");
+      InitialContext iniCtx = null;
       try
       {
          String host = getServerHost();
-         InitialContext iniCtx = getInitialContext();
+         iniCtx = getServerInitialContext();
          Object obj = iniCtx.lookup("ejb:/jaxws-cxf-bus-ejb3-client//EJB3Client!" + EJB3ClientRemoteInterface.class.getName());
          EJB3ClientRemoteInterface ejb3Remote = (EJB3ClientRemoteInterface)obj;
          ejb3Remote.testBusCreation();
@@ -60,6 +61,10 @@ public class EJB3ClientBusTestCase extends JBossWSTest
       }
       finally
       {
+         if (iniCtx != null)
+         {
+            iniCtx.close();
+         }
          undeploy("jaxws-cxf-bus-ejb3-client.jar");
       }
    }
