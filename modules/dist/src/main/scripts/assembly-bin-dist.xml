@@ -120,6 +120,7 @@
                 <include>java/org/jboss/test/ws/jaxrpc/samples/**</include>
                 <include>java/org/jboss/test/ws/jaxws/samples/**</include>
                 <include>java/org/jboss/test/ws/jaxws/smoke/**</include>
+                <include>java/org/jboss/test/ws/appclient/**</include>
                 <include>java/org/jboss/test/ws/management/**</include>
                 <include>java/org/jboss/test/ws/projectGenerator/**</include>
                 <include>java/org/jboss/test/ws/saaj/**</include>
