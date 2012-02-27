@@ -28,7 +28,9 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.bus.CXFBusFactory;
 import org.apache.cxf.bus.extension.ExtensionManagerBus;
 import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.ws.security.policy.custom.AlgorithmSuiteLoader;
 import org.jboss.wsf.stack.cxf.client.ProviderImpl;
+import org.jboss.wsf.stack.cxf.extensions.security.DefaultAlgorithmSuiteLoader;
 
 /**
  * 
@@ -48,6 +50,9 @@ public class JBossWSNonSpringBusFactory extends CXFBusFactory
       if (!extensions.containsKey(Configurer.class))
       {
          extensions.put(Configurer.class, new JBossWSNonSpringConfigurer(new BeanCustomizer()));
+      }
+      if (!extensions.containsKey(AlgorithmSuiteLoader.class)) {
+         extensions.put(AlgorithmSuiteLoader.class, new DefaultAlgorithmSuiteLoader());
       }
       
       //Explicitly ask for the ProviderImpl.class.getClassLoader() to be used for getting
