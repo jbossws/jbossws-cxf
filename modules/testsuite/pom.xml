@@ -1168,7 +1168,7 @@
         <dependency>
           <groupId>org.jboss</groupId>
           <artifactId>jboss-ejb-client</artifactId>
-          <version>1.0.2.Final</version>
+          <version>1.0.3.Final</version>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.remoting3</groupId>
@@ -1254,13 +1254,13 @@
         <dependency>
           <groupId>org.jboss.remoting3</groupId>
           <artifactId>remoting-jmx</artifactId>
-          <version>1.0.0.Final</version>
+          <version>1.0.1.Final</version>
           <scope>test</scope>
         </dependency>
         <dependency>
           <groupId>org.jboss.remoting3</groupId>
           <artifactId>jboss-remoting</artifactId>
-          <version>3.2.1.GA</version>
+          <version>3.2.2.GA</version>
           <scope>test</scope>
         </dependency>
       </dependencies>
