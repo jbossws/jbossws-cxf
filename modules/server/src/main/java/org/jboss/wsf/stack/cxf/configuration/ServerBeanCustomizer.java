@@ -75,9 +75,10 @@ public class ServerBeanCustomizer extends BeanCustomizer
          }
          if (depEndpoints != null)
          {
+            final String targetBeanName = factory.getServiceBean().getClass().getName();
             for (Endpoint depEndpoint : depEndpoints)
             {
-               if (depEndpoint.getTargetBeanClass().getName().equals(factory.getServiceBean().getClass().getName()))
+               if (depEndpoint.getTargetBeanClass().getName().equals(targetBeanName))
                {
                   depEndpoint.addAttachment(ServerFactoryBean.class, factory);
                }
