@@ -76,10 +76,14 @@
   </target>
   
   <target name="tests-init" depends="init,tests-classpath">
-    
+    <!-- JBossWS jars first to override META-INF/services declarations duplicated in CXF jars (alternative is using endorsing) -->
     <path id="ws.stack.classpath">
       <fileset dir="${thirdparty.dir}">
+      	<include name="**/jbossws*.jar"/>
         <exclude name="**/jbossws-jboss*.jar"/>
+      </fileset>
+      <fileset dir="${thirdparty.dir}">
+        <exclude name="**/jbossws*.jar"/>
         <exclude name="**/jboss-as-webservices-tests-integration.jar"/>
       </fileset>
     </path>

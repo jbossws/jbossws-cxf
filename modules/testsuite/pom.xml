@@ -716,9 +716,6 @@
                  <!-- JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
 
-                 <!-- Former JMS endpoint functionalities replaced by SOAP-over-JMS on AS7 -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
-
                  <!-- # [AS7-1322] Implemented on AS 7.1.0 or greater only -->
                  <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
 
@@ -894,9 +891,6 @@
 
                  <!-- JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
-
-                 <!-- Former JMS endpoint functionalities replaced by SOAP-over-JMS on AS7 -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
 
                  <!-- # [AS7-1322] Implemented on AS 7.1.0 or greater only -->
                  <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
@@ -1105,9 +1099,6 @@
 
                  <!-- # Seems MSFT interop. endpoints are down :(-->
                  <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
-
-                 <!-- Former JMS endpoint functionalities replaced by SOAP-over-JMS on AS7 -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
 
                  <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher // also see compile exclude above -->
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/WebServiceRefClientTestCase*</exclude>
@@ -1321,9 +1312,6 @@
 
                  <!-- # Seems MSFT interop. endpoints are down :(-->
                  <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
-
-                 <!-- Former JMS endpoint functionalities replaced by SOAP-over-JMS on AS7 -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/**/jmstransport/**</exclude>
 
                  <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase*</exclude>
