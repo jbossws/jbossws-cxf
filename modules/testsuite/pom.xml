@@ -658,9 +658,6 @@
                  <!--# [JBAS-8363] Virtual host issue in JBossWeb-->
                  <exclude>org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*</exclude>
 
-                 <!--# Seems MSFT interop. endpoints are down :(-->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
-
                  <!-- # [JBWS-3434] Apache CXF STS integration available on AS 7.1 only -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
 
@@ -836,9 +833,6 @@
 
                  <!--# [JBAS-8363] Virtual host issue in JBossWeb-->
                  <exclude>org/jboss/test/ws/jaxws/jbws981/JBWS981TestCase.*</exclude>
-
-                 <!--# Seems MSFT interop. endpoints are down :(-->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
 
                  <!-- # [JBWS-3434] Apache CXF STS integration available on AS 7.1 only -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
@@ -1100,9 +1094,6 @@
                  <!--# [JBWS-2397] Fix jbws1797 testcase-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
 
-                 <!-- # Seems MSFT interop. endpoints are down :(-->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
-
                  <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher // also see compile exclude above -->
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/WebServiceRefClientTestCase*</exclude>
 
@@ -1312,9 +1303,6 @@
 
                  <!--# [JBWS-2397] Fix jbws1797 testcase-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
-
-                 <!-- # Seems MSFT interop. endpoints are down :(-->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
 
                  <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase*</exclude>
