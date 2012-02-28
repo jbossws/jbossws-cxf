@@ -40,6 +40,7 @@ import org.apache.cxf.annotations.EndpointProperty;
       @EndpointProperty(key = "ws-security.encryption.properties", value = "bob2.properties"),
       @EndpointProperty(key = "ws-security.signature.username", value = "bob"),
       @EndpointProperty(key = "ws-security.encryption.username", value = "useReqSigCert"),
+      @EndpointProperty(key = "requireSignedEncryptedDataElements", value = "true"),
       @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.basic.KeystorePasswordCallback")
       }
 )
