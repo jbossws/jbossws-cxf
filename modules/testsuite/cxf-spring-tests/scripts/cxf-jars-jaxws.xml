@@ -102,14 +102,6 @@
       </manifest>
     </war>
 
-    <!-- jaxws-cxf-interop-wstrust10-client -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-interop-wstrust10-client.jar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/interop/wstrust10/META-INF">
-        <include name="**/*" />
-      </metainf>
-    </jar>
-
-    <!-- jaxws-cxf-mixtype -->
     <!-- jaxws-cxf-mixtype-->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-mixtype.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/mixtype/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
