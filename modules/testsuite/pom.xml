@@ -25,7 +25,7 @@
     <test.resources.directory>${project.build.directory}/test-resources</test.resources.directory>
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <org.littleshoot.littleproxy.version>0.4</org.littleshoot.littleproxy.version>
-    <org.slf4j.version>1.5.6</org.slf4j.version>
+    <org.slf4j.version>1.6.1</org.slf4j.version>
     <log4j.output.dir>${project.build.directory}</log4j.output.dir>
   </properties>
 
@@ -953,7 +953,7 @@
         <dependency>
           <groupId>org.jboss.ejb3</groupId>
           <artifactId>jboss-ejb3-ext-api</artifactId>
-          <version>2.0.0-beta-1</version>
+          <version>2.0.0</version>
         </dependency>
         <dependency>
           <groupId>javassist</groupId>
@@ -1165,7 +1165,7 @@
         <dependency>
           <groupId>org.jboss.ejb3</groupId>
           <artifactId>jboss-ejb3-ext-api</artifactId>
-          <version>2.0.0-beta-1</version>
+          <version>2.0.0</version>
         </dependency>
         <dependency>
           <groupId>javassist</groupId>
