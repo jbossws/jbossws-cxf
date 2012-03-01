@@ -122,7 +122,7 @@
       <artifactId>cxf-xjc-ts</artifactId>
     </dependency>
     <dependency>
-      <groupId>apache-velocity</groupId>
+      <groupId>org.apache.velocity</groupId>
       <artifactId>velocity</artifactId>
     </dependency>
     <dependency>
