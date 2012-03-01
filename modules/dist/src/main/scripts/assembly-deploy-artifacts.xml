@@ -30,7 +30,10 @@
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <unpack>false</unpack>
             <includes>
-              <include>org.jboss.ws.cxf:*</include>
+              <include>org.jboss.ws.cxf:jbossws-cxf-client:jar</include>
+              <include>org.jboss.ws.cxf:jbossws-cxf-factories:jar</include>
+              <include>org.jboss.ws.cxf:jbossws-cxf-server:jar</include>
+              <include>org.jboss.ws.cxf:jbossws-cxf-transports-httpserver:jar</include>
               <include>org.jboss.ws.projects:jaxws-jboss-httpserver-httpspi:jar</include>
               <include>org.jboss.com.sun.httpserver:httpserver:jar</include>
               <include>org.apache.cxf:cxf-*</include>
@@ -75,12 +78,21 @@
               <include>apache-scout:scout:jar</include>
               <include>juddi:juddi:jar</include>
               <include>org.jboss.ws:jbossws-common-tools:jar</include>
-              <include>org.jboss.ws:jbossws-jboss701:jar</include>
-              <include>org.jboss.ws:jbossws-jboss702:jar</include>
-              <include>org.jboss.ws:jbossws-jboss710:jar</include>
+              <include>org.jboss.ws:jbossws-jboss*:jar</include>
               <include>org.jboss.as:jboss-as-webservices-tests-integration:jar</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+            <scope>provided</scope>
+            <useProjectArtifact>false</useProjectArtifact>
+         </dependencySet>
+         
+         <dependencySet>
+            <outputDirectory>deploy-artifacts/lib</outputDirectory>
+            <unpack>false</unpack>           
+            <includes>
+              <include>org.jboss.ws:jbossws-jboss*:jar:*:tests-integration</include>
+            </includes>
+            <outputFileNameMapping>${artifact.artifactId}${dashClassifier}.${artifact.extension}</outputFileNameMapping>
             <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>
          </dependencySet>
@@ -89,34 +101,11 @@
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <unpack>false</unpack>           
             <includes>
-              <include>org.jboss.ws:jbossws-jboss701:jar:*:tests-integration</include>
+              <include>org.jboss.ws.cxf:jbossws-cxf-resources:jar:*:jboss*</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}${dashClassifier}.${artifact.extension}</outputFileNameMapping>
-            <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>
-          </dependencySet>
-
-         <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>           
-            <includes>
-              <include>org.jboss.ws:jbossws-jboss702:jar:*:tests-integration</include>
-            </includes>
-            <outputFileNameMapping>${artifact.artifactId}${dashClassifier}.${artifact.extension}</outputFileNameMapping>
-            <scope>provided</scope>
-            <useProjectArtifact>false</useProjectArtifact>
-          </dependencySet>
-
-         <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>           
-            <includes>
-              <include>org.jboss.ws:jbossws-jboss710:jar:*:tests-integration</include>
-            </includes>
-            <outputFileNameMapping>${artifact.artifactId}${dashClassifier}.${artifact.extension}</outputFileNameMapping>
-            <scope>provided</scope>
-            <useProjectArtifact>false</useProjectArtifact>
-          </dependencySet>
+         </dependencySet>
 
          <dependencySet>
             <outputDirectory>deploy-artifacts/lib</outputDirectory>

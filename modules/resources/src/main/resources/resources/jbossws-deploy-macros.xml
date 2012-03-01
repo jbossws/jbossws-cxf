@@ -130,7 +130,7 @@
       </copy>
       <copy todir="@{targetdir}/org/jboss/as/webservices/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-resources.jar"/>
+          <include name="**/jbossws-cxf-resources-@{jbossid}.jar"/>
           <include name="**/jbossws-@{jbossid}.jar"/>
         </fileset>
       </copy>
