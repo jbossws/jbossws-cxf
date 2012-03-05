@@ -54,10 +54,6 @@ Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export,foo.bar</progr
           <programlisting>Dependencies: com.sun.xml.bind services export</programlisting>
         </informalexample>
       </section>
-    </section>
-    <section id="sid-4784150_JBossModules-">
-      
-      <title/>
       <section id="sid-4784150_JBossModules-UsingApacheCXF">
         
         <title>Using Apache CXF</title>
@@ -71,10 +67,14 @@ Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export,foo.bar</progr
         </informalexample>
         <para>However, please note that would not come with any JBossWS-CXF customizations nor additional extensions. For this reason, and generally speaking for simplifying user configuration, a client side aggregation module is available with all the WS dependencies users might need.</para>
       </section>
+      <section id="sid-4784150_JBossModules-ClientsideWSaggregationmodule">
+        
+        <title>Client side WS aggregation module</title>
+      </section>
     </section>
-    <section id="sid-4784150_JBossModules-ClientsideWSaggregationmodule">
+    <section id="sid-4784150_JBossModules-">
       
-      <title>Client side WS aggregation module</title>
+      <title/>
       <para>Whenever you simply want to use all the JBoss Web Services  feature/functionalities, you can set a dependency to the convenient  client module.</para>
       <informalexample>
         <programlisting>Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export</programlisting>
@@ -115,6 +115,20 @@ Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export,foo.bar</progr
           <emphasis role="italics">org.springframework.spring</emphasis>
           module. So either create that manually in the application server or use the JBossWS-CXF installation scripts for doing that.
         </para>
+      </section>
+      <section id="sid-4784150_JBossModules-Annotationscanning">
+        
+        <title>Annotation scanning</title>
+        <para>
+          The application server uses an annotation index for detecting JAX-WS endpoints in user deployments. When declaring WS endpoints whose class belongs to a different module (for instance referring that in the
+          <code>web.xml</code>
+          descriptor), be sure to have an
+          <code>annotations</code>
+          type dependency in place. Without that, your endpoints would simply be ignored as they won't appear as annotated classes to the webservices subsystem.
+        </para>
+        <informalexample>
+          <programlisting>Dependencies: org.foo annotations</programlisting>
+        </informalexample>
       </section>
     </section>
   </chapter>

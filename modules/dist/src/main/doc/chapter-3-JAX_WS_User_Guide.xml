@@ -360,7 +360,7 @@ publicclass TestEndpointService extends Service
         <section id="sid-3866716_JAX-WSUserGuide-WebServiceRefcustomization">
           
           <title>WebServiceRef customization</title>
-          <para>Starting from jboss-5.0.x we offer a number of overrides and extensions to the WebServiceRef annotation. These include</para>
+          <para>We offer a number of overrides and extensions to the WebServiceRef annotation. These include</para>
           <itemizedlist>
             <listitem>
               <para>define the port that should be used to resolve a container-managed port</para>
@@ -409,8 +409,9 @@ publicclass TestEndpointService extends Service
           </informalexample>
           <para>
             For details please see
-            <emphasis role="italics">service-ref_5_0.dtd</emphasis>
-            in the jboss docs directory.
+            <emphasis role="italics">
+              <ulink url="http://www.jboss.org/j2ee/dtd/service-ref_5_0.dtd">service-ref_5_0.dtd</ulink>
+            </emphasis>
           </para>
         </section>
       </section>
