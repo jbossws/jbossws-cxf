@@ -49,6 +49,39 @@ The JBossWS Team
 
 Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+--------------------
+jbossws-cxf-4.0.2.GA
+--------------------
+
+Bug
+
+    * [JBWS-3297] - javax.xml.ws.service getport not generate correct wsdl url
+    * [JBWS-3362] - no schemaimport for swaref in generated wsdl
+    * [JBWS-3424] - CXF does not return status code 202 when Oneway webservice is invoked via HTTP
+    * [JBWS-3430] - SubjectCreatingPolicyInterceptor does not perform authentication for CXF SecurityContext principals
+    * [JBWS-3431] - JBossWS-CXF integration hides Apache CXF WebServiceContext::getUserPrincipal implementation
+    * [JBWS-3432] - WebservicesFactory can't parse webservices.xml with javaee:descriptionGroup references
+    * [JBWS-3440] - wsconsume chokes on wsdl containing element referring its schema
+
+Feature Request
+
+    * [JBWS-3439] - Upgrade to Apache WSS4J 1.6.5 and Santuario 1.5.1
+
+Task
+
+    * [JBWS-3436] - Set Apache WSS4J and Santuario direct dependencies
+    * [JBWS-3442] - Verify dependencies are up to date
+    * [JBWS-3447] - Properly set classpath for valid JAXWS Provider resolution in binary distro testsuite
+    * [JBWS-3437] - WS Refs have to keep classloader reference
+    * [JBWS-3438] - JAX-RPC generated proxies have to be de/serializable
+    * [JBWS-3444] - Review and rewrite appclient tests
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3449
+
+This version of JBoss Web Services - Stack CXF Distrubiton is based on Apache CXF 2.4.6
+
 
 --------------------
 jbossws-cxf-4.0.1.GA
