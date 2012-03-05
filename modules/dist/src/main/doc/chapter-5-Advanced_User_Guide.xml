@@ -38,7 +38,7 @@
         <title>Server configuration options</title>
         <para>The configuration options are part of the webservices subsystem section of the JBoss Application Server 7 domain model.</para>
         <informalexample>
-          <programlisting>&lt;subsystem xmlns="urn:jboss:domain:webservices:1.0" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
+          <programlisting>&lt;subsystem xmlns="urn:jboss:domain:webservices:1.1" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
   xmlns:jaxwsconfig="urn:jboss:jbossws-jaxws-config:4.0"&gt;
   &lt;wsdl-host&gt;localhost&lt;/wsdl-host&gt;
   &lt;modify-wsdl-address&gt;true&lt;/modify-wsdl-address&gt;
@@ -68,12 +68,12 @@
           When the application server is bound to multiple addresses or non-trivial real-world network architectures cause request for different external addresses to hit the same endpoint, a static rewrite of the soap:address may not be enough. JBossWS allows for both the soap:address in the wsdl and the wsdl address in the console to be rewritten with the host use in the client request. This way, users always get the right wsdl address assuming they're connecting to an instance having the endpoint they're looking for. To trigger this behaviour, the
           <emphasis role="italics">jbossws.undefined.host</emphasis>
           value has to be specified for the
-          <emphasis role="italics">webServiceHost</emphasis>
-          attribute.
+          <emphasis role="italics">wsdl-host</emphasis>
+          element.
         </para>
         <informalexample>
-          <programlisting>&lt;property name="webServiceHost"&gt;jbossws.undefined.host&lt;/property&gt;
-&lt;property name="modifySOAPAddress"&gt;true&lt;/property&gt;</programlisting>
+          <programlisting>&lt;wsdl-host&gt;jbossws.undefined.host&lt;/wsdl-host&gt;
+&lt;modify-wsdl-address&gt;true&lt;/modify-wsdl-address&gt;</programlisting>
         </informalexample>
         <para>Of course, when a confidential transport address is required, the addresses are always rewritten using https protocol and the port currently configured for the https/ssl connector.</para>
       </section>
