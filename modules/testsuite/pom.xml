@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf</artifactId>
-    <version>4.0.2-SNAPSHOT</version>
+    <version>4.0.2.GA</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
@@ -1286,7 +1286,7 @@
                 <!-- JBossWS Native Core version overwritten by jbossws-native stack install -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core.jar</additionalClasspathElement>
                 <!-- JBossWS Native Core version available on 711 -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.1.GA.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.2.GA.jar</additionalClasspathElement>
                 <!-- JBossWS Native Core version specified through system property -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/${jbossws-native-core.filename}</additionalClasspathElement>
               </additionalClasspathElements>
