@@ -49,7 +49,7 @@ public class JBossWSBusFactory extends BusFactory
    @Override
    public Bus createBus()
    {
-      if (SpringUtils.isSpringAvailable())
+      if (isSpringAvailable())
       {
          return getSpringBusFactory().createBus();
       }
@@ -57,6 +57,13 @@ public class JBossWSBusFactory extends BusFactory
       {
          return getNonSpringBusFactory().createBus();
       }
+   }
+   
+   private boolean isSpringAvailable() {
+      // Spring is available iff:
+      // 1) TCCL has Spring classes
+      // 2) the SpringBusFactory has already been loaded or the defining classloader can load that
+      return (SpringUtils.isSpringAvailable() && (springBusFactory != null || SpringUtils.isSpringAvailable(this.getClass().getClassLoader())));
    }
    
    /** JBossWSSpringBusFactory methods **/
