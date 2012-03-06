@@ -72,7 +72,7 @@
     <jboss710.version>7.1.0.Final</jboss710.version>
     <jboss711.version>7.1.1.Final-SNAPSHOT</jboss711.version>
     <ejb.api.version>1.0.1.Final</ejb.api.version>
-    <cxf.version>2.5.2</cxf.version>
+    <cxf.version>2.5.3-SNAPSHOT</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
     <cxf.xjcplugins.version>2.4.0</cxf.xjcplugins.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
