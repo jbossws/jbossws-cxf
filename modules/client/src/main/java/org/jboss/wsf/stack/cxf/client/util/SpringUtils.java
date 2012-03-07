@@ -30,13 +30,6 @@ package org.jboss.wsf.stack.cxf.client.util;
  */
 public class SpringUtils
 {
-   public static final boolean SPRING_AVAILABLE;
-   static 
-   {
-      SPRING_AVAILABLE = 
-         isSpringAvailable(SpringUtils.class.getClassLoader(), 
-                           SecurityActions.getContextClassLoader());
-   }
    /**
     * Check if Spring is available using the provided classloader
     * 

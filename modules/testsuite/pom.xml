@@ -1147,7 +1147,16 @@
               <groupId>org.jboss.remoting3</groupId>
               <artifactId>jboss-remoting</artifactId>
             </exclusion>
+            <exclusion>
+              <groupId>org.jboss</groupId>
+              <artifactId>jboss-remote-naming</artifactId>
+            </exclusion>
           </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss</groupId>
+          <artifactId>jboss-remote-naming</artifactId>
+          <version>1.0.1.Final</version>
         </dependency>
         <dependency>
           <groupId>javax.mail</groupId>
@@ -1156,7 +1165,7 @@
         <dependency>
           <groupId>org.jboss</groupId>
           <artifactId>jboss-ejb-client</artifactId>
-          <version>1.0.3.Final</version>
+          <version>1.0.4.Final</version>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.remoting3</groupId>
@@ -1286,7 +1295,7 @@
                 <!-- JBossWS Native Core version overwritten by jbossws-native stack install -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core.jar</additionalClasspathElement>
                 <!-- JBossWS Native Core version available on 711 -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.1.GA.jar</additionalClasspathElement>
+                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.2.GA.jar</additionalClasspathElement>
                 <!-- JBossWS Native Core version specified through system property -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/${jbossws-native-core.filename}</additionalClasspathElement>
               </additionalClasspathElements>
