@@ -1141,7 +1141,16 @@
               <groupId>org.jboss.remoting3</groupId>
               <artifactId>jboss-remoting</artifactId>
             </exclusion>
+            <exclusion>
+              <groupId>org.jboss</groupId>
+              <artifactId>jboss-remote-naming</artifactId>
+            </exclusion>
           </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss</groupId>
+          <artifactId>jboss-remote-naming</artifactId>
+          <version>1.0.1.Final</version>
         </dependency>
         <dependency>
           <groupId>javax.mail</groupId>
