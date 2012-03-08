@@ -26,7 +26,7 @@ import javax.jws.WebService;
 @WebService
 (
    portName = "HelloWorldImplPort",
-   serviceName = "HelloWorldService",
+   serviceName = "HelloWorldServiceLocal",
    wsdlLocation = "META-INF/wsdl/HelloWorldService.wsdl",
    endpointInterface = "org.jboss.test.ws.jaxws.cxf.jms.HelloWorld",
    targetNamespace = "http://org.jboss.ws/jaxws/cxf/jms"

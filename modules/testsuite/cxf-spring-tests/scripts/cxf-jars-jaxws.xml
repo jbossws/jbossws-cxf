@@ -129,17 +129,7 @@
       </manifest>
     </war>
   	
-    <!-- jaxws-jms-api-client -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-api-as7-client.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld*.class"/>
-      </fileset>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF-as7">
-        <include name="wsdl/**/*" />
-      </metainf>
-    </jar>
-  	
-    <!-- jaxws-jms-only-deployment -->
+    <!-- jaxws-cxf-jms-only-deployment -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-only-deployment.jar">
       <fileset dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld*.class"/>
@@ -152,7 +142,7 @@
       </manifest>
     </jar>
   	
-    <!-- jaxws-jms-http-deployment -->
+    <!-- jaxws-cxf-jms-http-deployment -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-http-deployment.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jms_http/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/cxf/jms_http/HelloWorld*.class"/>
@@ -166,7 +156,7 @@
       </manifest>
     </war>
   	
-    <!-- jaxws-jms-only-deployment-test-servlet -->
+    <!-- jaxws-cxf-jms-only-deployment-test-servlet -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-only-deployment-test-servlet.war"
     	needxmlfile='false'>
       <classes dir="${tests.output.dir}/test-classes">
@@ -181,7 +171,7 @@
       </manifest>
     </war>
   	
-    <!-- jaxws-jms-http-deployment-test-servlet -->
+    <!-- jaxws-cxf-jms-http-deployment-test-servlet -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-http-deployment-test-servlet.war"
     	needxmlfile='false'>
       <classes dir="${tests.output.dir}/test-classes">

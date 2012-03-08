@@ -24,12 +24,18 @@ package org.jboss.test.ws.jaxws.cxf.jms_http;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Properties;
 
+import javax.naming.Context;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.transport.jms.JMSConduit;
+import org.apache.cxf.transport.jms.JNDIConfiguration;
+import org.jboss.test.ws.jaxws.cxf.jms.HelloWorld;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -55,16 +61,12 @@ public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
    
    public void testJMSEndpointClientSide() throws Exception
    {
-      if (isTargetJBoss7())
-      {
-         System.out.println("FIXME: can't lookup ConnectionFactory, remote JNDI binding not available yet on AS7");
-         return;
-      }
-      URL wsdlUrl = Thread.currentThread().getContextClassLoader().getResource("META-INF/wsdl/HelloWorldService.wsdl");
+      URL wsdlUrl = getResourceURL("jaxws/cxf/jms_http/WEB-INF/wsdl/HelloWorldService.wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
 
       Service service = Service.create(wsdlUrl, serviceName);
       HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
+      setupProxy(proxy);
       assertEquals("Hi", proxy.echo("Hi"));
    }
    
@@ -76,5 +78,17 @@ public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
       Service service = Service.create(wsdlUrl, serviceName);
       HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HttpHelloWorldImplPort"), HelloWorld.class);
       assertEquals("(http) Hi", proxy.echo("Hi"));
+   }
+   
+   private void setupProxy(HelloWorld proxy) {
+      final String user = "guest";
+      final String pwd = "pass";
+      JMSConduit conduit = (JMSConduit)ClientProxy.getClient(proxy).getConduit();
+      JNDIConfiguration jndiConfig = conduit.getJmsConfig().getJndiConfig();
+      jndiConfig.setConnectionUserName(user);
+      jndiConfig.setConnectionPassword(pwd);
+      Properties props = conduit.getJmsConfig().getJndiTemplate().getEnvironment();
+      props.put(Context.SECURITY_PRINCIPAL, user);
+      props.put(Context.SECURITY_CREDENTIALS, pwd);
    }
 }

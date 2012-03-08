@@ -52,11 +52,12 @@ public class DeploymentTestServlet extends HttpServlet
          BusFactory.setThreadDefaultBus(bus);
          try
          {
-            QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
-            Service service = Service.create(wsdlUrl, serviceName);
+            Service service = Service.create(wsdlUrl, new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService"));
+            //HelloWorldServiceLocal service references local connection factory (for in-VM use)
+            Service serviceLocal = Service.create(wsdlUrl, new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldServiceLocal"));
             
             //JMS test
-            HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
+            HelloWorld proxy = (HelloWorld) serviceLocal.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
             result = "Hi".equals(proxy.echo("Hi"));
             //HTTP test
             HelloWorld httpProxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HttpHelloWorldImplPort"), HelloWorld.class);

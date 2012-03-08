@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -52,7 +52,8 @@ public class DeploymentTestServlet extends HttpServlet
          BusFactory.setThreadDefaultBus(bus);
          try
          {
-            QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
+            //HelloWorldServiceLocal service references local connection factory (for in-VM use)
+            QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldServiceLocal");
             Service service = Service.create(wsdlUrl, serviceName);
             
             //JMS test
