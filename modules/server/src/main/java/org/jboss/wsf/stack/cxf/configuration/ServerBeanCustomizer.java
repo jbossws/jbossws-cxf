@@ -65,7 +65,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
       {
          configureEndpoint((EndpointImpl) beanInstance);
       }
-      else if (beanInstance instanceof ServerFactoryBean)
+      if (beanInstance instanceof ServerFactoryBean)
       {
          ServerFactoryBean factory = (ServerFactoryBean) beanInstance;
 

@@ -179,7 +179,7 @@ public class NonSpringBusHolder extends BusHolder
    public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
          List<Endpoint> depEndpoints, UnifiedVirtualFile root)
    {
-      ServerBeanCustomizer customizer = createBeanCustomizer();
+      ServerBeanCustomizer customizer = new ServerBeanCustomizer();
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
       customizer.setDeploymentEndpoints(depEndpoints);

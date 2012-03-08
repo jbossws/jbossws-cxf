@@ -37,8 +37,6 @@ import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.ws.common.Constants;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
-import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
-import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.interceptor.EnableOneWayDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
@@ -54,7 +52,6 @@ import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 public abstract class BusHolder
 {
    public static final String PARAM_CXF_BEANS_URL = "jbossws.cxf.beans.url";
-   private static boolean springAvailable = SpringUtils.isSpringAvailable(BusHolder.class.getClassLoader());
    protected Bus bus;
    protected BusHolderLifeCycleListener busHolderListener;
    
@@ -149,19 +146,6 @@ public abstract class BusHolder
          dfm.registerDestinationFactory(Constants.NS_SOAP11, factory);
          dfm.registerDestinationFactory(Constants.NS_SOAP12, factory);
       }
-   }
-   
-   /**
-    * Create a new instance of server side BeanCustomizer, the actual type depending on
-    * Spring being available in the BusHolder defining classloader; please note that given
-    * both CXF and JBWS prefer non-Spring Bus factories when Spring is not actually needed
-    * (even if available), the choice of the BeanCustomizer to use is unrelated to the
-    * current BusHolder type.
-    * 
-    * @return a ServerBeanCustomizer instance
-    */
-   protected static ServerBeanCustomizer createBeanCustomizer() {
-      return !springAvailable ? new ServerBeanCustomizer() : new SpringServerBeanCustomizer();
    }
 
    /**

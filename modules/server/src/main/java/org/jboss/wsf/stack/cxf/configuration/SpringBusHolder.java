@@ -160,7 +160,7 @@ public class SpringBusHolder extends BusHolder
          List<Endpoint> depEndpoints, UnifiedVirtualFile root)
    {
       ApplicationContext ctx = bus.getExtension(BusApplicationContext.class);
-      ServerBeanCustomizer customizer = createBeanCustomizer();
+      ServerBeanCustomizer customizer = new ServerBeanCustomizer();
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
       customizer.setDeploymentEndpoints(depEndpoints);
