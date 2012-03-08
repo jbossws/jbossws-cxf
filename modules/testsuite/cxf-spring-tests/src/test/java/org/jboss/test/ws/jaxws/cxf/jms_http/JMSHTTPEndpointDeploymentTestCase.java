@@ -62,6 +62,11 @@ public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
    
    public void testJMSEndpointClientSide() throws Exception
    {
+      if (isTargetJBoss70()) {
+         System.out.println("FIXME: can't lookup remote ConnectionFactory, remote JNDI binding not available yet on AS 7.0.x");
+         return;
+      }
+      
       URL wsdlUrl = getResourceURL("jaxws/cxf/jms_http/WEB-INF/wsdl/HelloWorldService.wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
 

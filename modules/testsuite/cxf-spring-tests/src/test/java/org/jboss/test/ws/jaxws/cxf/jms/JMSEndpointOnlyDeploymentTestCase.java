@@ -75,6 +75,10 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
    
    public void testJMSEndpointClientSide() throws Exception
    {
+      if (isTargetJBoss70()) {
+         System.out.println("FIXME: can't lookup remote ConnectionFactory, remote JNDI binding not available yet on AS 7.0.x");
+         return;
+      }
       URL wsdlUrl = getResourceURL("jaxws/cxf/jms/META-INF-as7/wsdl/HelloWorldService.wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
 
@@ -90,6 +94,11 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
    
    public void testMessagingClient() throws Exception
    {
+      if (isTargetJBoss70()) {
+         System.out.println("FIXME: can't lookup remote ConnectionFactory, remote JNDI binding not available yet on AS 7.0.x");
+         return;
+      }
+      
       String reqMessage =
          "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
          "  <soap:Body>" +
