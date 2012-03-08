@@ -38,6 +38,7 @@ import org.apache.cxf.transport.jms.JNDIConfiguration;
 import org.jboss.test.ws.jaxws.cxf.jms.HelloWorld;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 
 /**
  * Test case for deploying an archive with a JMS (SOAP-over-JMS 1.0) and a HTTP endpoints 
@@ -67,7 +68,15 @@ public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
       Service service = Service.create(wsdlUrl, serviceName);
       HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
       setupProxy(proxy);
-      assertEquals("Hi", proxy.echo("Hi"));
+      try {
+         assertEquals("Hi", proxy.echo("Hi"));
+      } catch (Exception e) {
+         if (e.getMessage().contains("Authentication failed")) {
+            System.out.println("This test requires an user with 'guest' role to be available on the application server; " +
+            		"please ensure that then specify user and password using -Dtest.username=\"foo\" -Dtest.password=\"bar\".");
+         }
+         throw e;
+      }
    }
    
    public void testHTTPEndpointClientSide() throws Exception
@@ -81,14 +90,12 @@ public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
    }
    
    private void setupProxy(HelloWorld proxy) {
-      final String user = "guest";
-      final String pwd = "pass";
       JMSConduit conduit = (JMSConduit)ClientProxy.getClient(proxy).getConduit();
       JNDIConfiguration jndiConfig = conduit.getJmsConfig().getJndiConfig();
-      jndiConfig.setConnectionUserName(user);
-      jndiConfig.setConnectionPassword(pwd);
+      jndiConfig.setConnectionUserName(JBossWSTestHelper.getTestUsername());
+      jndiConfig.setConnectionPassword(JBossWSTestHelper.getTestPassword());
       Properties props = conduit.getJmsConfig().getJndiTemplate().getEnvironment();
-      props.put(Context.SECURITY_PRINCIPAL, user);
-      props.put(Context.SECURITY_CREDENTIALS, pwd);
+      props.put(Context.SECURITY_PRINCIPAL, JBossWSTestHelper.getTestUsername());
+      props.put(Context.SECURITY_CREDENTIALS, JBossWSTestHelper.getTestPassword());
    }
 }

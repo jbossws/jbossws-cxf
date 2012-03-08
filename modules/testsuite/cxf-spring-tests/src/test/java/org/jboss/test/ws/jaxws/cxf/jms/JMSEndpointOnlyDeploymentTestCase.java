@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -49,6 +49,7 @@ import org.apache.cxf.transport.jms.JNDIConfiguration;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 
 /**
  * Test case for deploying an archive with a JMS (SOAP-over-JMS 1.0) endpoint only 
@@ -80,7 +81,11 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
       Service service = Service.create(wsdlUrl, serviceName);
       HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
       setupProxy(proxy);
-      assertEquals("Hi", proxy.echo("Hi"));
+      try {
+         assertEquals("Hi", proxy.echo("Hi"));
+      } catch (Exception e) {
+         rethrowAndHandleAuthWarning(e);
+      }
    }
    
    public void testMessagingClient() throws Exception
@@ -106,14 +111,19 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
       Properties env = new Properties();
       env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
       env.put(Context.PROVIDER_URL, "remote://" + getServerHost() + ":4447");
-      env.put(Context.SECURITY_PRINCIPAL, "guest");
-      env.put(Context.SECURITY_CREDENTIALS, "pass");
-      InitialContext context = new InitialContext(env);
+      env.put(Context.SECURITY_PRINCIPAL, JBossWSTestHelper.getTestUsername());
+      env.put(Context.SECURITY_CREDENTIALS, JBossWSTestHelper.getTestPassword());
+      InitialContext context = null;
+      try {
+         context = new InitialContext(env);
+      } catch (Exception e) {
+         rethrowAndHandleAuthWarning(e);
+      }
       QueueConnectionFactory connectionFactory = (QueueConnectionFactory)context.lookup("jms/RemoteConnectionFactory");
       Queue reqQueue = (Queue)context.lookup("jms/queue/test");
       Queue resQueue = (Queue)context.lookup("jms/queue/test");
 
-      QueueConnection con = connectionFactory.createQueueConnection("guest", "pass");
+      QueueConnection con = connectionFactory.createQueueConnection(JBossWSTestHelper.getTestUsername(), JBossWSTestHelper.getTestPassword());
       QueueSession session = con.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
       QueueReceiver receiver = session.createReceiver(resQueue);
       ResponseListener responseListener = new ResponseListener();
@@ -168,14 +178,21 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
    }
    
    private void setupProxy(HelloWorld proxy) {
-      final String user = "guest";
-      final String pwd = "pass";
       JMSConduit conduit = (JMSConduit)ClientProxy.getClient(proxy).getConduit();
       JNDIConfiguration jndiConfig = conduit.getJmsConfig().getJndiConfig();
-      jndiConfig.setConnectionUserName(user);
-      jndiConfig.setConnectionPassword(pwd);
+      jndiConfig.setConnectionUserName(JBossWSTestHelper.getTestUsername());
+      jndiConfig.setConnectionPassword(JBossWSTestHelper.getTestPassword());
       Properties props = conduit.getJmsConfig().getJndiTemplate().getEnvironment();
-      props.put(Context.SECURITY_PRINCIPAL, user);
-      props.put(Context.SECURITY_CREDENTIALS, pwd);
+      props.put(Context.SECURITY_PRINCIPAL, JBossWSTestHelper.getTestUsername());
+      props.put(Context.SECURITY_CREDENTIALS, JBossWSTestHelper.getTestPassword());
+   }
+   
+   private static void rethrowAndHandleAuthWarning(Exception e) throws Exception {
+      final String msg = "Authentication failed";
+      if (e.getMessage().contains(msg) || e.getCause().getMessage().contains(msg)) {
+         System.out.println("This test requires an user with 'guest' role to be available on the application server; " +
+                 "please ensure that then specify user and password using -Dtest.username=\"foo\" -Dtest.password=\"bar\".");
+      }
+      throw e;
    }
 }

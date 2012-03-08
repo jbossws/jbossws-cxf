@@ -330,6 +330,14 @@
                   <value>${test.resources.directory}</value>
                 </property>
                 <property>
+                  <name>test.username</name>
+                  <value>${test.username}</value>
+                </property>
+                <property>
+                  <name>test.password</name>
+                  <value>${test.password}</value>
+                </property>
+                <property>
                   <name>wsdl.publish.location</name>
                   <value>${wsdl.publish.location}</value>
                 </property>
@@ -1252,6 +1260,18 @@
           <groupId>org.jboss.remoting3</groupId>
           <artifactId>jboss-remoting</artifactId>
           <version>3.2.2.GA</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.hornetq</groupId>
+          <artifactId>hornetq-jms</artifactId>
+          <version>2.2.11.Final</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.hornetq</groupId>
+          <artifactId>hornetq-core</artifactId>
+          <version>2.2.11.Final</version>
           <scope>test</scope>
         </dependency>
       </dependencies>
