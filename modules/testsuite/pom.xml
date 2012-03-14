@@ -386,7 +386,11 @@
                 </property>
                 <property>
                   <name>log4j.output.dir</name>
-                  <value>${project.build.directory}</value>
+                  <value>${log4j.output.dir}</value>
+                </property>
+                <property>
+                  <name>appclient.output.dir</name>
+                  <value>${appclient.output.dir}</value>
                 </property>
                 <property>
                   <name>org.jboss.ws.testsuite.securityDomain.users.propfile</name>
