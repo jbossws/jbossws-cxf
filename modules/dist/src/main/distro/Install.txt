@@ -13,16 +13,13 @@ In order to install JBossWS the following steps are necessary:
 2.) Modify the target container location in ant.properties
 3.) Execute one of the following
 
-	ant deploy-jboss701
-	ant deploy-jboss702
-	ant deploy-jboss710
 	ant deploy-jboss711
 
     By default Spring Framework libraries are not installed to application
 server. In order to do that, please add the -Dspring=true property option when
 running the ant script:
 
-        ant -Dspring=true deploy-jboss710
+        ant -Dspring=true deploy-jboss711
 
 Please note Spring is required for advanced configuration only, whenever users
 want to provide their own jbossws-cxf.xml Spring configuration file.

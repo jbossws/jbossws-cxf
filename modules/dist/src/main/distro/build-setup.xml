@@ -33,17 +33,10 @@
     <!-- Load jbossws.integration.target properties -->
     <property file="${target.properties.file}"/>
 
-    <property name="jboss700.modules" value="${jboss700.home}/modules"/>
     <property name="jboss710.modules" value="${jboss710.home}/modules"/>
 
-    <property name="jboss701.available.file" value="${jboss701.home}/jboss-modules.jar"/>
-    <property name="jboss702.available.file" value="${jboss702.home}/jboss-modules.jar"/>
-    <property name="jboss710.available.file" value="${jboss710.home}/jboss-modules.jar"/>
     <property name="jboss711.available.file" value="${jboss711.home}/jboss-modules.jar"/>
 
-    <available property="jboss701.available" file="${jboss701.available.file}"/>
-    <available property="jboss702.available" file="${jboss702.available.file}"/>
-    <available property="jboss710.available" file="${jboss710.available.file}"/>   
     <available property="jboss711.available" file="${jboss711.available.file}"/>   
 
     <tstamp>
