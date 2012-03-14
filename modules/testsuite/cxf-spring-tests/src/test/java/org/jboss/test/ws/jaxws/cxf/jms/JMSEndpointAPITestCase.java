@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -25,10 +25,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.Endpoint;
-import javax.xml.ws.Service;
-
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
@@ -44,7 +40,7 @@ public final class JMSEndpointAPITestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JMSEndpointAPITestCase.class, "jaxws-cxf-jms-api-as7-client.jar,jaxws-cxf-jms-api-as7.war");
+      return new JBossWSCXFTestSetup(JMSEndpointAPITestCase.class, "jaxws-cxf-jms-api-as7.war");
    }
    
    public void testServerSide() throws Exception
@@ -54,26 +50,4 @@ public final class JMSEndpointAPITestCase extends JBossWSTest
       assertEquals("true", br.readLine());
    }
    
-   public void testClientSide() throws Exception
-   {
-      if (isTargetJBoss7()) {
-         System.out.println("FIXME: can't lookup ConnectionFactory, remote JNDI binding not available yet on AS7");
-         return;
-      }
-      URL wsdlUrl = Thread.currentThread().getContextClassLoader().getResource("META-INF/wsdl/HelloWorldService.wsdl");
-      Object implementor = new HelloWorldImpl();
-      Endpoint ep = Endpoint.publish("jms:queue:testQueue", implementor);
-      try
-      {
-         QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
-         
-         Service service = Service.create(wsdlUrl, serviceName);
-         HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
-         assertEquals("Hi", proxy.echo("Hi"));
-      }
-      finally
-      {
-         ep.stop();
-      }
-   }
 }

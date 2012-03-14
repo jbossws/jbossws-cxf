@@ -24,14 +24,21 @@ package org.jboss.test.ws.jaxws.cxf.jms_http;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Properties;
 
+import javax.naming.Context;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.transport.jms.JMSConduit;
+import org.apache.cxf.transport.jms.JNDIConfiguration;
+import org.jboss.test.ws.jaxws.cxf.jms.HelloWorld;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 
 /**
  * Test case for deploying an archive with a JMS (SOAP-over-JMS 1.0) and a HTTP endpoints 
@@ -55,17 +62,26 @@ public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
    
    public void testJMSEndpointClientSide() throws Exception
    {
-      if (isTargetJBoss7())
-      {
-         System.out.println("FIXME: can't lookup ConnectionFactory, remote JNDI binding not available yet on AS7");
+      if (isTargetJBoss70()) {
+         System.out.println("FIXME: can't lookup remote ConnectionFactory, remote JNDI binding not available yet on AS 7.0.x");
          return;
       }
-      URL wsdlUrl = Thread.currentThread().getContextClassLoader().getResource("META-INF/wsdl/HelloWorldService.wsdl");
+      
+      URL wsdlUrl = getResourceURL("jaxws/cxf/jms_http/WEB-INF/wsdl/HelloWorldService.wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
 
       Service service = Service.create(wsdlUrl, serviceName);
       HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
-      assertEquals("Hi", proxy.echo("Hi"));
+      setupProxy(proxy);
+      try {
+         assertEquals("Hi", proxy.echo("Hi"));
+      } catch (Exception e) {
+         if (e.getMessage().contains("Authentication failed")) {
+            System.out.println("This test requires an user with 'guest' role to be available on the application server; " +
+            		"please ensure that then specify user and password using -Dtest.username=\"foo\" -Dtest.password=\"bar\".");
+         }
+         throw e;
+      }
    }
    
    public void testHTTPEndpointClientSide() throws Exception
@@ -76,5 +92,15 @@ public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
       Service service = Service.create(wsdlUrl, serviceName);
       HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HttpHelloWorldImplPort"), HelloWorld.class);
       assertEquals("(http) Hi", proxy.echo("Hi"));
+   }
+   
+   private void setupProxy(HelloWorld proxy) {
+      JMSConduit conduit = (JMSConduit)ClientProxy.getClient(proxy).getConduit();
+      JNDIConfiguration jndiConfig = conduit.getJmsConfig().getJndiConfig();
+      jndiConfig.setConnectionUserName(JBossWSTestHelper.getTestUsername());
+      jndiConfig.setConnectionPassword(JBossWSTestHelper.getTestPassword());
+      Properties props = conduit.getJmsConfig().getJndiTemplate().getEnvironment();
+      props.put(Context.SECURITY_PRINCIPAL, JBossWSTestHelper.getTestUsername());
+      props.put(Context.SECURITY_CREDENTIALS, JBossWSTestHelper.getTestPassword());
    }
 }

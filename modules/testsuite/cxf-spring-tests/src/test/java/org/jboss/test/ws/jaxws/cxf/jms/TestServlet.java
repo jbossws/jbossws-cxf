@@ -56,7 +56,8 @@ public class TestServlet extends HttpServlet
          Endpoint ep = Endpoint.publish("jms:queue:testQueue", implementor);
          try
          {
-            QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
+            //use HelloWorldServiceLocal service which has local connection factory references (we're running on the same JVM here)
+            QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldServiceLocal");
 
             Service service = Service.create(wsdlUrl, serviceName);
             HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
