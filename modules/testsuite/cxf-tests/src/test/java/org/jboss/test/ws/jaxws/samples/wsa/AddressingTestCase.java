@@ -121,7 +121,7 @@ public final class AddressingTestCase extends JBossWSTest
          assertTrue(e.getCause() instanceof SocketTimeoutException);
       }
       
-      policy.setDecoupledEndpoint("http://localhost:18181/jaxws-samples-wsa/decoupled-endpoint");
+      policy.setDecoupledEndpoint("http://" + getServerHost() + ":18181/jaxws-samples-wsa/decoupled-endpoint");
       String response = proxy.sayHello("Sleepy"); //this takes at least 30 secs... but now the client doesn't time out
       assertEquals("Hello Sleepy!", response);
    }
