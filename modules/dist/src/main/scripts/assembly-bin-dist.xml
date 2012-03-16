@@ -31,8 +31,6 @@
       <includes>
         <include>build-deploy.xml</include>
         <include>build-setup.xml</include>
-        <include>build-project-gen.xml</include>
-        <include>user-project-build.xml</include>
       </includes>
     </fileSet>
     <fileSet>
@@ -122,13 +120,11 @@
                 <include>java/org/jboss/test/ws/jaxws/smoke/**</include>
                 <include>java/org/jboss/test/ws/appclient/**</include>
                 <include>java/org/jboss/test/ws/management/**</include>
-                <include>java/org/jboss/test/ws/projectGenerator/**</include>
                 <include>java/org/jboss/test/ws/saaj/**</include>
                 <include>resources/jaxrpc/samples/**</include>
                 <include>resources/jaxws/samples/**</include>
                 <include>resources/jaxws/smoke/**</include>
                 <include>resources/management/**</include>
-                <include>resources/projectGenerator/**</include>
                 <include>resources/saaj/**</include>
               </includes>
             </unpackOptions>

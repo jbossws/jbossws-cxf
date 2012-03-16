@@ -62,7 +62,7 @@
     <jbossws.api.version>1.0.0.GA</jbossws.api.version>
     <jbossws.spi.version>2.0.4-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>2.0.3-SNAPSHOT</jbossws.common.version>
-    <jbossws.common.tools.version>1.0.0.GA</jbossws.common.tools.version>
+    <jbossws.common.tools.version>1.0.1-SNAPSHOT</jbossws.common.tools.version>
     <jbossws.shared.testsuite.version>4.0.3-SNAPSHOT</jbossws.shared.testsuite.version>
     <jboss711.version>7.1.1.Final</jboss711.version> <!-- replace with the EAP6 snapshot version -->
     <ejb.api.version>1.0.1.Final</ejb.api.version>
