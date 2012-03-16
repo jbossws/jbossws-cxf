@@ -59,10 +59,10 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.api.version>1.0.1-SNAPSHOT</jbossws.api.version>
+    <jbossws.api.version>1.0.0.GA</jbossws.api.version>
     <jbossws.spi.version>2.1.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>2.1.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.common.tools.version>1.0.0.GA</jbossws.common.tools.version>
+    <jbossws.common.tools.version>1.1.0-SNAPSHOT</jbossws.common.tools.version>
     <jbossws.shared.testsuite.version>4.1.0-SNAPSHOT</jbossws.shared.testsuite.version>
     <jbossws.jboss701.version>4.0.1.GA</jbossws.jboss701.version>
     <jbossws.jboss702.version>4.0.1.GA</jbossws.jboss702.version>
