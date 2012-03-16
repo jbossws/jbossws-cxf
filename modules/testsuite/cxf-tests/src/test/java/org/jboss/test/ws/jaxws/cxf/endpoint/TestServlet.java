@@ -24,8 +24,6 @@ package org.jboss.test.ws.jaxws.cxf.endpoint;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.Endpoint;
 
 /**
@@ -38,7 +36,12 @@ public class TestServlet extends HttpServlet
     @Override
     public void init(ServletConfig config) throws ServletException
     {
-        String serviceURL = "http://localhost:18080/HelloWorldService";
+        String hostName = System.getProperty("jboss.bind.address", "localhost");
+        if (hostName.startsWith(":"))
+        {
+           hostName = "[" + hostName + "]";
+        }
+        String serviceURL = "http://" + hostName + ":18080/HelloWorldService";
         _endpoint = Endpoint.publish(serviceURL, new HelloWorldImpl(Thread.currentThread().getContextClassLoader()));
     }
 
@@ -47,5 +50,4 @@ public class TestServlet extends HttpServlet
     {
         _endpoint.stop();
     }
-
 }

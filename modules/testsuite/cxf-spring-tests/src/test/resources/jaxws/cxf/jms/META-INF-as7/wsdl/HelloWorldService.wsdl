@@ -65,7 +65,7 @@
   <wsdl:service name="HelloWorldService">
     <soapjms:jndiConnectionFactoryName>java:jms/RemoteConnectionFactory</soapjms:jndiConnectionFactoryName>
     <soapjms:jndiInitialContextFactory>org.jboss.naming.remote.client.InitialContextFactory</soapjms:jndiInitialContextFactory>
-    <soapjms:jndiURL>remote://localhost:4447</soapjms:jndiURL>
+    <soapjms:jndiURL>remote://@jboss.bind.address@:4447</soapjms:jndiURL>
     <wsdl:port binding="tns:HelloWorldServiceSoapBinding" name="HelloWorldImplPort">
       <soap:address location="jms:queue:testQueue"/>
     </wsdl:port>
