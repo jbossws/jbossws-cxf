@@ -75,7 +75,8 @@
     <log4j.version>1.2.14</log4j.version>
     <saaj.api.version>1.3</saaj.api.version>
     <velocity.version>1.5</velocity.version>
-    <xmlsec.version>1.4.3</xmlsec.version>
+    <xmlsec.version>1.5.1</xmlsec.version>
+    <wss4j.version>1.5.12-patch-01-SNAPSHOT</wss4j.version>
     <wstx.version>3.2.9</wstx.version>
   </properties>
 
@@ -436,9 +437,20 @@
         <version>${cxf.stax.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.apache</groupId>
+        <groupId>org.apache.santuario</groupId>
         <artifactId>xmlsec</artifactId>
         <version>${xmlsec.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.ws.security</groupId>
+        <artifactId>wss4j</artifactId>
+        <version>${wss4j.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.opensaml</groupId>
+            <artifactId>opensaml</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.codehaus.woodstox</groupId>
@@ -611,6 +623,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-2</version>
         <configuration>
           <finalName>deploy-artifacts</finalName>
           <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>

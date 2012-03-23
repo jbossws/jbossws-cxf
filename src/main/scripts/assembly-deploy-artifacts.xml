@@ -45,7 +45,7 @@
               <include>commons-collections:commons-collections:jar</include>
               <include>commons-lang:commons-lang:jar</include>
               <include>sun-fi:FastInfoset:jar</include>
-              <include>org.apache:xmlsec:jar</include>
+              <include>org.apache.santuario:xmlsec:jar</include>
               <include>wsdl4j:wsdl4j:jar</include>
               <include>org.codehaus.woodstox:wstx:jar</include>
             </includes>
