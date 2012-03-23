@@ -33,7 +33,7 @@
          <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-resources</artifactId>
          <version>${project.version}</version>
-         <classifier>jboss711</classifier>     
+         <classifier>jboss712</classifier>     
       </dependency>
 
       <dependency>
@@ -165,8 +165,8 @@
                         <configuration>
                             <tasks>
                                 <mkdir dir="${basedir}/target/exclude-file" />
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss711.txt">
-                                    <param name="targetName" expression="jboss711" />
+                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss712.txt">
+                                    <param name="targetName" expression="jboss712" />
                                 </xslt>                         
                             </tasks>
                         </configuration>

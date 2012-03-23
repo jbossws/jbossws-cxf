@@ -68,21 +68,21 @@
       <arg line="${maven.opts} help:effective-settings"/>
     </exec>
     <xmlproperty file="${dist.output.dir}/effective-settings.xml" keeproot="false"/>
-    <condition property="jboss711.home" value="${profiles.profile.properties.jboss711.home}">
+    <condition property="jboss712.home" value="${profiles.profile.properties.jboss712.home}">
       <isset property="profiles.profile.properties.jboss711.home"/>
     </condition>
 
 
-    <fail message="jboss home not set, use jboss711.home=value to set">
+    <fail message="jboss home not set, use jboss712.home=value to set">
      <condition>
       <not>
-        <isset property="jboss711.home"/>
+        <isset property="jboss712.home"/>
       </not>
      </condition>
     </fail>
 
     <echo/>
-    <echo message="jboss711.home=${jboss711.home}"/>
+    <echo message="jboss712.home=${jboss712.home}"/>
   </target>
 
   <target name="init" depends="mvn-settings,prepare,os-init">

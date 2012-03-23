@@ -573,14 +573,14 @@
     </profile>
 
     <!--
-    Name:  jboss711
-    Descr: JBoss-7.1.1 specific options
+    Name:  jboss712
+    Descr: JBoss-7.1.2 specific options
     -->
     <profile>
-      <id>jboss711</id>
+      <id>jboss712</id>
       <properties>
-        <jboss.version>${jboss711.version}</jboss.version>
-        <jbossws.integration.target>jboss711</jbossws.integration.target>
+        <jboss.version>${jboss712.version}</jboss.version>
+        <jbossws.integration.target>jboss712</jbossws.integration.target>
       </properties>
       <dependencies>
         <dependency>
@@ -755,7 +755,7 @@
                 <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
                 <!-- JBossWS Native Core version overwritten by jbossws-native stack install -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core.jar</additionalClasspathElement>
-                <!-- JBossWS Native Core version available on 711 -->
+                <!-- JBossWS Native Core version available on 712 -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.2.GA.jar</additionalClasspathElement>
                 <!-- JBossWS Native Core version specified through system property -->
                 <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/${jbossws-native-core.filename}</additionalClasspathElement>

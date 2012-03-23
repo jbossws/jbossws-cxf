@@ -43,12 +43,12 @@
             <phase>package</phase>
           </execution>
           <execution>
-            <id>jboss711</id>
+            <id>jboss712</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>
             <configuration>
-              <classifier>jboss711</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss711/jbossws.beans</classesDirectory>
+              <classifier>jboss712</classifier>
+              <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss712/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
         </executions>

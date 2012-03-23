@@ -47,32 +47,32 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- Deployment jboss711                                                -->
+  <!-- Deployment jboss712                                                -->
   <!-- ================================================================== -->
 
-  <target name="target-jboss711">
-    <property name="jbossws.integration.target" value="jboss711"/>
+  <target name="target-jboss712">
+    <property name="jbossws.integration.target" value="jboss712"/>
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-jboss711" depends="undeploy-jboss711,deploy-structure-jboss71x,check-spring,install-spring-module71x" description="Deploy jbossws to jboss711">
-    <fail message="Not available: ${jboss711.available.file}" unless="jboss711.available"/>
-    <copy todir="${jboss711.home}" overwrite="true" verbose="true">
+  <target name="deploy-jboss712" depends="undeploy-jboss712,deploy-structure-jboss71x,check-spring,install-spring-module71x" description="Deploy jbossws to jboss712">
+    <fail message="Not available: ${jboss712.available.file}" unless="jboss712.available"/>
+    <copy todir="${jboss712.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
         <exclude name="**/jboss/as/webservices/**/module.xml"/>
       </fileset>
     </copy>
     <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
-    <installModules targetDir="${jboss711.home}/modules">
+    <installModules targetDir="${jboss712.home}/modules">
       <fileset dir="${deploy.structure}/modules">
         <include name="**/jboss/as/webservices/**/module.xml"/>
       </fileset>
     </installModules>
   </target>
 
-  <target name="undeploy-jboss711" depends="target-jboss711,init" description="Remove jbossws from jboss711">
-    <fail message="Not available: ${jboss711.available.file}" unless="jboss711.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${jboss711.home}" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
+  <target name="undeploy-jboss712" depends="target-jboss712,init" description="Remove jbossws from jboss712">
+    <fail message="Not available: ${jboss712.available.file}" unless="jboss712.available"/>
+    <macro-undeploy-jbossws-modules targetdir="${jboss712.home}" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
   </target>
 
   <!-- ================================================================== -->
