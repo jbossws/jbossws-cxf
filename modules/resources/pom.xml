@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf</artifactId>
-    <version>4.1.0-SNAPSHOT</version>
+    <version>4.0.3.GA</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
@@ -41,33 +41,6 @@
             <id>all</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>
-          </execution>
-          <execution>
-            <id>jboss702</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>jboss702</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss702/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>jboss710</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>jboss710</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss710/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>jboss711</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>jboss711</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss711/jbossws.beans</classesDirectory>
-            </configuration>
           </execution>
           <execution>
             <id>jboss712</id>

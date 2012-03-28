@@ -32,7 +32,7 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>4.1.0-SNAPSHOT</version>
+  <version>4.0.3.GA</version>
   
   <!-- Parent -->
   <parent>
@@ -43,9 +43,9 @@
   
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/trunk</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/trunk</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/trunk</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.0.3.GA</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.0.3.GA</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/tags/jbossws-cxf-4.0.3.GA</url>
   </scm>
   
   <!-- Modules -->
@@ -60,20 +60,13 @@
   <!-- Properties -->
   <properties>
     <jbossws.api.version>1.0.0.GA</jbossws.api.version>
-    <jbossws.spi.version>2.1.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>2.1.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.common.tools.version>1.1.0-SNAPSHOT</jbossws.common.tools.version>
-    <jbossws.shared.testsuite.version>4.1.0-SNAPSHOT</jbossws.shared.testsuite.version>
-    <jbossws.jboss701.version>4.0.1.GA</jbossws.jboss701.version>
-    <jbossws.jboss702.version>4.0.1.GA</jbossws.jboss702.version>
-    <jbossws.jboss710.version>4.0.2.GA</jbossws.jboss710.version>
-    <jbossws.jboss711.version>4.1.0-SNAPSHOT</jbossws.jboss711.version>
-    <jboss702.version>7.0.2.Final</jboss702.version>
-    <jboss710.version>7.1.0.Final</jboss710.version>
-    <jboss711.version>7.1.1.Final</jboss711.version>
-    <jboss712.version>7.1.2.Final-SNAPSHOT</jboss712.version>
+    <jbossws.spi.version>2.0.3.GA</jbossws.spi.version>
+    <jbossws.common.version>2.0.3.GA</jbossws.common.version>
+    <jbossws.common.tools.version>1.0.1.GA</jbossws.common.tools.version>
+    <jbossws.shared.testsuite.version>4.0.3.GA</jbossws.shared.testsuite.version>
+    <jboss712.version>7.1.2.Final-SNAPSHOT</jboss712.version> <!-- replace with the EAP6 snapshot version -->
     <ejb.api.version>1.0.1.Final</ejb.api.version>
-    <cxf.version>2.5.3-SNAPSHOT</cxf.version>
+    <cxf.version>2.4.6</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
     <cxf.xjcplugins.version>2.4.0</cxf.xjcplugins.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
@@ -83,7 +76,7 @@
     <jboss.security.sx.version>2.0.4</jboss.security.sx.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <picketbox.version>4.0.6.Beta1</picketbox.version>
-    <jaxws-jboss-httpserver-httpspi.version>1.0.2-SNAPSHOT</jaxws-jboss-httpserver-httpspi.version>
+    <jaxws-jboss-httpserver-httpspi.version>1.0.1.GA</jaxws-jboss-httpserver-httpspi.version>
     <httpserver.version>1.0.0.Final</httpserver.version>
     <jaxb.api.version>1.0.3.Final</jaxb.api.version>
     <jaxb.impl.version>2.2.4</jaxb.impl.version>
@@ -99,7 +92,6 @@
     <log4j.version>1.2.16</log4j.version>
     <mail.version>1.4.4</mail.version>
     <neethi.version>3.0.1</neethi.version>
-    <opensaml.version>2.5.1-1</opensaml.version>
     <saaj.api.version>1.0.1.Final</saaj.api.version>
     <stax.api.version>1.0-2</stax.api.version>
     <jms.api.version>1.0.0.Final</jms.api.version>
@@ -149,39 +141,6 @@
         <version>${jbossws.shared.testsuite.version}</version>
         <type>zip</type>
         <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss702</artifactId>
-        <version>${jbossws.jboss702.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss702</artifactId>
-        <version>${jbossws.jboss702.version}</version>
-        <classifier>tests-integration</classifier>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss710</artifactId>
-        <version>${jbossws.jboss710.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss710</artifactId>
-        <version>${jbossws.jboss710.version}</version>
-        <classifier>tests-integration</classifier>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss711</artifactId>
-        <version>${jbossws.jboss711.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss711</artifactId>
-        <version>${jbossws.jboss711.version}</version>
-        <classifier>tests-integration</classifier>
       </dependency>
       <dependency>
         <groupId>org.jboss.as</groupId>
@@ -663,11 +622,6 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>org.apache.cxf.services.sts</groupId>
-        <artifactId>cxf-services-sts-core</artifactId>
-        <version>${cxf.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-tools-wsdlto-core</artifactId>
         <version>${cxf.version}</version>
@@ -968,12 +922,6 @@
         <groupId>org.apache.ws.security</groupId>
         <artifactId>wss4j</artifactId>
         <version>${wss4j.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.opensaml</groupId>
-            <artifactId>opensaml</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.codehaus.woodstox</groupId>
@@ -989,82 +937,6 @@
         <groupId>org.jboss.com.sun.httpserver</groupId>
         <artifactId>httpserver</artifactId>
         <version>${httpserver.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.opensaml</groupId>
-        <artifactId>opensaml</artifactId>
-        <version>${opensaml.version}</version>
-        <scope>provided</scope>
-        <exclusions>
-          <exclusion>
-            <groupId>velocity</groupId>
-            <artifactId>velocity</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>org.owasp.esapi</groupId>
-              <artifactId>esapi</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>log4j-over-slf4j</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>jcl-over-slf4j</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>jul-to-slf4j</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>org.bouncycastle</groupId>
-              <artifactId>bcprov-ext-jdk15</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>org.bouncycastle</groupId>
-              <artifactId>bcprov-jdk15</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>ca.juliusdavies</groupId>
-              <artifactId>not-yet-commons-ssl</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>net.jcip</groupId>
-              <artifactId>jcip-annotations</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>xml-resolver</groupId>
-              <artifactId>xml-resolver</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>xerces</groupId>
-              <artifactId>xercesImpl</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>xml-apis</groupId>
-              <artifactId>xml-apis</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>xalan</groupId>
-              <artifactId>xalan</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>commons-codec</groupId>
-              <artifactId>commons-codec</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>commons-httpclient</groupId>
-              <artifactId>commons-httpclient</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>commons-lang</groupId>
-              <artifactId>commons-lang</artifactId>
-          </exclusion>
-          <exclusion>
-              <groupId>commons-collections</groupId>
-              <artifactId>commons-collections</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <!-- Spring -->
       <dependency>
@@ -1354,44 +1226,8 @@
     </profile>
 
     <!--
-    Name:  jboss702
-    Descr: JBoss-7.0.2.Final specific options
-    -->
-    <profile>
-      <id>jboss702</id>
-      <properties>
-        <jbossws.integration.target>jboss702</jbossws.integration.target>
-        <jboss.home>${jboss702.home}</jboss.home>
-      </properties>
-    </profile>
-
-    <!--
-    Name:  jboss710
-    Descr: JBoss-7.1.0 specific options
-    -->
-    <profile>
-      <id>jboss710</id>
-      <properties>
-        <jbossws.integration.target>jboss710</jbossws.integration.target>
-        <jboss.home>${jboss710.home}</jboss.home>
-      </properties>
-    </profile>
-
-    <!--
     Name:  jboss711
     Descr: JBoss-7.1.1 specific options
-    -->
-    <profile>
-      <id>jboss711</id>
-      <properties>
-        <jbossws.integration.target>jboss711</jbossws.integration.target>
-        <jboss.home>${jboss711.home}</jboss.home>
-      </properties>
-    </profile>
-
-    <!--
-    Name:  jboss712
-    Descr: JBoss-7.1.2 specific options
     -->
     <profile>
       <id>jboss712</id>

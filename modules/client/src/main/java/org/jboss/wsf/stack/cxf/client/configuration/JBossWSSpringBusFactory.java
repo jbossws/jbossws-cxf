@@ -32,6 +32,8 @@ import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.ws.security.policy.custom.AlgorithmSuiteLoader;
+import org.jboss.wsf.stack.cxf.extensions.security.DefaultAlgorithmSuiteLoader;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -110,6 +112,10 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
       
       setConfigurer(bus);
       
+      if (bus.getExtension(AlgorithmSuiteLoader.class) == null) {
+         bus.setExtension(new DefaultAlgorithmSuiteLoader(), AlgorithmSuiteLoader.class);
+      }
+
       possiblySetDefaultBus(bus);
 
       initializeBus(bus);

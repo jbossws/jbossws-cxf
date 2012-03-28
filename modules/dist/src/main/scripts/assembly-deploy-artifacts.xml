@@ -37,7 +37,6 @@
               <include>org.jboss.ws.projects:jaxws-jboss-httpserver-httpspi:jar</include>
               <include>org.jboss.com.sun.httpserver:httpserver:jar</include>
               <include>org.apache.cxf:cxf-*</include>
-              <include>org.apache.cxf.services.sts:cxf-services-sts-core:jar</include>
               <include>org.apache.cxf.xjcplugins:cxf-*</include>
               <include>com.sun.xml.bind:jaxb-impl:jar</include>
               <include>com.sun.xml.bind:jaxb-xjc:jar</include>
@@ -78,9 +77,6 @@
               <include>org.jboss.jaxr:juddi-service:sar</include>
               <include>apache-scout:scout:jar</include>
               <include>juddi:juddi:jar</include>
-              <include>org.opensaml:open*:jar</include>
-              <include>org.opensaml:xmltooling:jar</include>
-              <include>joda-time:joda-time:jar</include>
               <include>org.jboss.ws:jbossws-common-tools:jar</include>
               <include>org.jboss.ws:jbossws-jboss*:jar</include>
               <include>org.jboss.as:jboss-as-webservices-tests-integration:jar</include>
@@ -90,17 +86,6 @@
             <useProjectArtifact>false</useProjectArtifact>
          </dependencySet>
          
-         <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>           
-            <includes>
-              <include>org.jboss.ws:jbossws-jboss*:jar:*:tests-integration</include>
-            </includes>
-            <outputFileNameMapping>${artifact.artifactId}${dashClassifier}.${artifact.extension}</outputFileNameMapping>
-            <scope>provided</scope>
-            <useProjectArtifact>false</useProjectArtifact>
-         </dependencySet>
-
          <dependencySet>
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <unpack>false</unpack>           

@@ -128,14 +128,6 @@
           <include name="**/xmlschema-core.jar"/>
         </fileset>
       </copy>
-      <copy todir="@{targetdir}/org/opensaml/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/opensaml.jar"/>
-          <include name="**/openws.jar"/>
-          <include name="**/joda-time.jar"/>
-          <include name="**/xmltooling.jar"/>
-        </fileset>
-      </copy>
       <copy todir="@{targetdir}/org/jboss/as/webservices/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-cxf-resources-@{jbossid}.jar"/>

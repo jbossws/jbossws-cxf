@@ -4,12 +4,11 @@
   <name>JBoss Web Services - Stack CXF Distribution</name>
   <artifactId>jbossws-cxf-dist</artifactId>
   <packaging>pom</packaging>
-  <version>4.1.0-SNAPSHOT</version>
   
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf</artifactId>
-    <version>4.1.0-SNAPSHOT</version>
+    <version>4.0.3.GA</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
@@ -27,27 +26,6 @@
          <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-transports-httpserver</artifactId>
          <version>${project.version}</version>     
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.ws.cxf</groupId>
-         <artifactId>jbossws-cxf-resources</artifactId>
-         <version>${project.version}</version>
-         <classifier>jboss702</classifier>     
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.ws.cxf</groupId>
-         <artifactId>jbossws-cxf-resources</artifactId>
-         <version>${project.version}</version>
-         <classifier>jboss710</classifier>     
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.ws.cxf</groupId>
-         <artifactId>jbossws-cxf-resources</artifactId>
-         <version>${project.version}</version>
-         <classifier>jboss711</classifier>     
       </dependency>
 
       <dependency>
@@ -136,42 +114,6 @@
         <scope>provided</scope>
       </dependency>
 
-      <!-- OpenSAML -->
-      <dependency>
-        <groupId>org.opensaml</groupId>
-        <artifactId>opensaml</artifactId>
-        <scope>provided</scope>
-      </dependency>
-
-      <!-- Container integrations -->
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss702</artifactId>
-        <scope>provided</scope>
-        <exclusions>
-          <exclusion>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>sun-jaxb</groupId>
-            <artifactId>jaxb-api</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss710</artifactId>
-        <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss711</artifactId>
-        <scope>provided</scope>
-      </dependency>
-
       <!--junit-->
       <dependency>
         <groupId>junit</groupId>
@@ -222,15 +164,6 @@
                         <configuration>
                             <tasks>
                                 <mkdir dir="${basedir}/target/exclude-file" />
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss702.txt">
-                                    <param name="targetName" expression="jboss702" />
-                                </xslt>
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss710.txt">
-                                    <param name="targetName" expression="jboss710" />
-                                </xslt>                         
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss711.txt">
-                                    <param name="targetName" expression="jboss711" />
-                                </xslt>                         
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss712.txt">
                                     <param name="targetName" expression="jboss712" />
                                 </xslt>                         
@@ -260,24 +193,6 @@
       </activation>
       <dependencies>
         <!-- Libraries required for running binary distro testsuite and not available on server-->
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss702</artifactId>
-          <classifier>tests-integration</classifier>
-          <scope>provided</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss710</artifactId>
-          <classifier>tests-integration</classifier>
-          <scope>provided</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss711</artifactId>
-          <classifier>tests-integration</classifier>
-          <scope>provided</scope>
-        </dependency>
         <dependency>
           <groupId>org.jboss.as</groupId>
           <artifactId>jboss-as-webservices-tests-integration</artifactId>
