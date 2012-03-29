@@ -741,6 +741,9 @@
                  <!-- # [AS7-3581] Fixed on AS 7.1.0 or greater only -->
                  <exclude>org/jboss/test/ws/jaxws/as3581/AS3581TestCase*</exclude>
 
+                 <!-- # The following tests need to be fixed on Apache CXF side. They were fixed in Native. -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws3124/**</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -965,6 +968,9 @@
                  <!-- # TODO: remote JNDI support (non EJB objects) -->
                  <exclude>org/jboss/test/ws/jaxrpc/samples/secureejb/**</exclude>
 
+                 <!-- # The following tests need to be fixed on Apache CXF side. They were fixed in Native. -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws3124/**</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -1185,6 +1191,10 @@
 
                  <!-- # TODO: JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
+
+                 <!-- # The following tests need to be fixed on Apache CXF side. They were fixed in Native. -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws3124/**</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -1405,6 +1415,10 @@
 
                  <!-- # TODO: JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
+
+                 <!-- # The following tests need to be fixed on Apache CXF side. They were fixed in Native. -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/jbws3124/**</exclude>
               </excludes>
             </configuration>
           </plugin>
