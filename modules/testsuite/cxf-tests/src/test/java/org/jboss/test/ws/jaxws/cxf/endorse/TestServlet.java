@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -41,8 +41,18 @@ public class TestServlet extends HttpServlet
    @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
    {
-      String inStr = req.getParameter("echo");
-      Helper.verify();
-      res.getWriter().print(inStr);
+      String expectedProvider = req.getParameter("provider");
+      StringBuilder out = new StringBuilder();
+      try {
+         Helper.verifyCXF();
+         Helper.verifyJaxWsSpiProvider(expectedProvider);
+         out.append("OK");
+      } catch (Throwable t) {
+         t.printStackTrace();
+         out.append(t.getClass().getName());
+         out.append(": ");
+         out.append(t.getMessage());
+      }
+      res.getWriter().print(out.toString());
    }
 }

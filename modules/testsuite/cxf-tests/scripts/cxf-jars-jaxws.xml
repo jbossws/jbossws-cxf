@@ -88,7 +88,17 @@
         <include name="org/jboss/test/ws/jaxws/cxf/endorse/Helper.class"/>
       </classes>
     </war>
-
+  	
+    <!-- jaxws-cxf-endorse-no-export -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-endorse-no-export.war"
+      manifest="${tests.output.dir}/test-resources/jaxws/cxf/endorse/META-INF/MANIFEST.MF-no-export"
+      webxml="${tests.output.dir}/test-resources/jaxws/cxf/endorse/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/endorse/TestServlet.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/endorse/Helper.class"/>
+      </classes>
+    </war>
+  	
     <!-- jaxws-cxf-endpoint -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-endpoint.war"
       webxml="${tests.output.dir}/test-resources/jaxws/cxf/endpoint/WEB-INF/web.xml">

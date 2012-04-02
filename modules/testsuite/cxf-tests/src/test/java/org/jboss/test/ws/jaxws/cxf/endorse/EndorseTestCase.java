@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -27,6 +27,7 @@ import java.net.URL;
 
 import junit.framework.Test;
 
+import org.jboss.wsf.stack.cxf.client.ProviderImpl;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -38,23 +39,29 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public class EndorseTestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-cxf-endorse";
-
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(EndorseTestCase.class, "jaxws-cxf-endorse.war");
+      return new JBossWSCXFTestSetup(EndorseTestCase.class, "jaxws-cxf-endorse.war,jaxws-cxf-endorse-no-export.war");
    }
    
    public void testClientSide()
    {
-      Helper.verify();
+      Helper.verifyCXF();
    }
 
    public void testServerSide() throws Exception
    {
-      URL url = new URL(TARGET_ENDPOINT_ADDRESS + "?echo=HelloWorld");
+      runServerTest(new URL("http://" + getServerHost() + ":8080/jaxws-cxf-endorse?provider=" + ProviderImpl.class.getName()));
+   }
+   
+   public void testServerSideNoExport() throws Exception
+   {
+      runServerTest(new URL("http://" + getServerHost() + ":8080/jaxws-cxf-endorse-no-export?provider=" + ProviderImpl.class.getName()));
+   }
+   
+   private static void runServerTest(URL url) throws Exception {
       BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
       String retStr = br.readLine();
-      assertEquals("HelloWorld", retStr);
+      assertEquals("OK", retStr);
    }
 }

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -26,6 +26,7 @@ import javax.xml.transform.Source;
 import javax.xml.ws.Service;
 import javax.xml.ws.Service.Mode;
 import javax.xml.ws.soap.SOAPBinding;
+import javax.xml.ws.spi.Provider;
 
 import org.apache.cxf.BusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
@@ -38,7 +39,7 @@ import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
  */
 public class Helper
 {
-   public static void verify()
+   public static void verifyCXF()
    {
       //check BusFactory customization; this is required by the JBWS-CXF Configurer integration (HTTPConduit customization, JAXBIntros, ...)
       BusFactory factory = BusFactory.newInstance();
@@ -61,5 +62,14 @@ public class Helper
          obj = service.createDispatch(new QName("dummyPort"), Source.class, Mode.PAYLOAD);
       }
       return obj;
+   }
+   
+   public static void verifyJaxWsSpiProvider(String expectedProviderClass)
+   {
+      Provider provider = Provider.provider();
+      String clazz = provider.getClass().getName();
+      if (!clazz.equals(expectedProviderClass)) {
+         throw new RuntimeException("Expected " + expectedProviderClass + " but got " + clazz);
+      }
    }
 }
