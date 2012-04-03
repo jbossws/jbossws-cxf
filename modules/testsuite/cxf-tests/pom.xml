@@ -14,6 +14,12 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   
+  <properties>
+    <!-- This is used for test archives embedding Spring and is intentionally different from the
+         version specified in the jbossws-cxf main pom.xml to test there're no classloading clashes -->
+    <test.spring.version>3.0.3.RELEASE</test.spring.version>
+  </properties>
+  
   <dependencies>
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
@@ -95,6 +101,49 @@
                   </resources>
                 </configuration>
               </execution>
+            </executions>
+          </plugin>
+          <plugin> <!-- This downloads and copies some Spring libs into target/spring to be later picked up and included in some test jars -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+            	<execution>
+            		<id>copy-spring</id>
+            		<phase>process-test-resources</phase>
+            		<goals>
+            			<goal>copy</goal>
+            		</goals>
+            		<configuration>
+            			<artifactItems>
+            				<artifactItem>
+            					<groupId>org.springframework</groupId>
+            					<artifactId>spring-asm</artifactId>
+            					<version>${test.spring.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.springframework</groupId>
+            					<artifactId>spring-beans</artifactId>
+            					<version>${test.spring.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.springframework</groupId>
+            					<artifactId>spring-context</artifactId>
+            					<version>${test.spring.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.springframework</groupId>
+            					<artifactId>spring-core</artifactId>
+            					<version>${test.spring.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.springframework</groupId>
+            					<artifactId>spring-expression</artifactId>
+            					<version>${test.spring.version}</version>
+            				</artifactItem>
+            			</artifactItems>
+            			<outputDirectory>target/spring</outputDirectory>
+            		</configuration>
+            	</execution>
             </executions>
           </plugin>
         </plugins>

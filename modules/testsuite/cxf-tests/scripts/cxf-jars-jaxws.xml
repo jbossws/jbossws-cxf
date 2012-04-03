@@ -225,6 +225,31 @@
        </webinf>
     </war>
 
+    <!-- jaxws-cxf-spring -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-spring.war" needxmlfile='false'>
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/cxf/spring/Endpoint*.class"/>
+       </classes>
+    </war>
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-spring-client.war" needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/spring/Helper*.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/spring/Endpoint.class"/>
+      	<include name="org/jboss/test/ws/jaxws/cxf/spring/Foo.class"/>
+        <include name="org/jboss/wsf/test/TestServlet.class"/>
+        <include name="org/jboss/wsf/test/ClientHelper.class"/>
+      </classes>
+      <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/cxf/spring/" 
+          prefix="WEB-INF/classes/"/>
+      <zipfileset
+          dir="${tests.output.dir}/spring/" 
+          prefix="WEB-INF/lib/"/>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services"/>
+      </manifest>
+    </war>
+  	
     <!-- saaj-soap-connection -->
     <war
        warfile="${tests.output.dir}/test-libs/saaj-soap-connection.war"
