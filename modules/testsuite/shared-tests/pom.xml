@@ -140,7 +140,7 @@
                 <configuration>
                   <tasks>
                     <copy
-                      file="${project.parent.build.directory}/../src/test/resources/${jbossws.integration.target}/appclient-ws.xml"
+                      file="${project.build.directory}/../../src/test/resources/${jbossws.integration.target}/appclient-ws.xml"
                       tofile="${jboss.home}/appclient/configuration/appclient-ws.xml"
                       failonerror="false"
                       verbose="true"
