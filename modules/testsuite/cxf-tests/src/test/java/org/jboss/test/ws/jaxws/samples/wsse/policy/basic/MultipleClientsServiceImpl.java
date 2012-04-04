@@ -22,7 +22,6 @@
 package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
 import javax.jws.WebService;
-import javax.servlet.annotation.WebServlet;
 
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
@@ -44,7 +43,6 @@ import org.apache.cxf.annotations.EndpointProperty;
       @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.basic.KeystorePasswordCallback")
       }
 )
-@WebServlet(name = "TestServlet", urlPatterns = "/*")
 public class MultipleClientsServiceImpl implements ServiceIface
 {
    public String sayHello()

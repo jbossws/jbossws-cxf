@@ -26,7 +26,6 @@ import javax.jws.WebService;
 import javax.servlet.annotation.WebServlet;
 
 @WebService(name = "Endpoint", serviceName = "EndpointService", targetNamespace = "http://org.jboss.ws/spring", endpointInterface = "org.jboss.test.ws.jaxws.cxf.spring.Endpoint")
-@WebServlet(name = "WSServlet", urlPatterns = "/*")
 public class EndpointImpl implements Endpoint
 {
    @WebMethod

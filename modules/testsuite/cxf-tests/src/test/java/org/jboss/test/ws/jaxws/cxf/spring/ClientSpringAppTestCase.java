@@ -71,7 +71,7 @@ public final class ClientSpringAppTestCase extends JBossWSTest
 
    private String runTestInContainer(String test, String helper) throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-spring-client?path=/jaxws-cxf-spring&method="
+      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-spring-client?path=/jaxws-cxf-spring/EndpointService&method="
             + test + "&helper=" + helper);
       BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
       return br.readLine();

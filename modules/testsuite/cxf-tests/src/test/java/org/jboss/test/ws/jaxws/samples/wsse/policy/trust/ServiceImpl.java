@@ -22,7 +22,6 @@
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
 import javax.jws.WebService;
-import javax.servlet.annotation.WebServlet;
 
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
@@ -41,7 +40,6 @@ import org.apache.cxf.annotations.EndpointProperty;
       @EndpointProperty(key = "ws-security.encryption.properties", value = "serviceKeystore.properties"),
       @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.ServerCallbackHandler")      
 })
-@WebServlet(name = "ServiceImplServlet", urlPatterns = "/*")
 public class ServiceImpl implements ServiceIface
 {
    public String sayHello()

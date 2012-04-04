@@ -43,7 +43,7 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public final class MultipleClientsSignEncryptTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-sign-encrypt-mc";
+   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-sign-encrypt-mc/SecurityService";
    
    public static Test suite()
    {

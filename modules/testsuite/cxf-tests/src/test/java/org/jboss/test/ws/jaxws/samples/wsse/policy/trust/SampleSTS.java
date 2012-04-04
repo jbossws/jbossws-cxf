@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.servlet.annotation.WebServlet;
 import javax.xml.ws.WebServiceProvider;
 
 import org.apache.cxf.annotations.EndpointProperties;
@@ -50,7 +49,6 @@ import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
       @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.STSCallbackHandler")      
 })
 @InInterceptors(interceptors = {"org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor"})
-@WebServlet(name = "SampleSTSServlet", urlPatterns = "/*")
 public class SampleSTS extends SecurityTokenServiceProvider
 {
    public SampleSTS() throws Exception
@@ -65,7 +63,7 @@ public class SampleSTS extends SecurityTokenServiceProvider
       
       List<ServiceMBean> services = new LinkedList<ServiceMBean>();
       StaticService service = new StaticService();
-      service.setEndpoints(Arrays.asList("http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust", "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust"));
+      service.setEndpoints(Arrays.asList("http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService", "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService"));
       services.add(service);
       
       TokenIssueOperation issueOperation = new TokenIssueOperation();
