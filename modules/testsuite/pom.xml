@@ -741,6 +741,9 @@
                  <!-- # [AS7-3581] Fixed on AS 7.1.0 or greater only -->
                  <exclude>org/jboss/test/ws/jaxws/as3581/AS3581TestCase*</exclude>
 
+                 <!-- # [JBWS-3478] Issues with logging dependencies on AS 7.0.x -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/spring/ClientSpringAppTestCase*</exclude>
+
                  <!-- # The following tests need to be fixed on Apache CXF side. They were fixed in Native. -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws3124/**</exclude>
