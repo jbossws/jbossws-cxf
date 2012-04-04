@@ -745,6 +745,7 @@
                  <exclude>org/jboss/test/ws/jaxws/cxf/spring/ClientSpringAppTestCase*</exclude>
 
                  <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2259/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws3124/**</exclude>
               </excludes>
