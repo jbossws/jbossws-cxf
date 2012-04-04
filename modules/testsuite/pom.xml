@@ -744,7 +744,7 @@
                  <!-- # [JBWS-3478] Issues with logging dependencies on AS 7.0.x -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/spring/ClientSpringAppTestCase*</exclude>
 
-                 <!-- # The following tests need to be fixed on Apache CXF side. They were fixed in Native. -->
+                 <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws3124/**</exclude>
               </excludes>
@@ -971,7 +971,7 @@
                  <!-- # TODO: remote JNDI support (non EJB objects) -->
                  <exclude>org/jboss/test/ws/jaxrpc/samples/secureejb/**</exclude>
 
-                 <!-- # The following tests need to be fixed on Apache CXF side. They were fixed in Native. -->
+                 <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws3124/**</exclude>
               </excludes>
@@ -1195,7 +1195,7 @@
                  <!-- # TODO: JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
 
-                 <!-- # The following tests need to be fixed on Apache CXF side. They were fixed in Native. -->
+                 <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws3124/**</exclude>
               </excludes>
@@ -1423,7 +1423,7 @@
                  <!-- # TODO: JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
 
-                 <!-- # The following tests need to be fixed on Apache CXF side. They were fixed in Native. -->
+                 <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws3124/**</exclude>
               </excludes>
