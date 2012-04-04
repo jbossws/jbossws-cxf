@@ -74,11 +74,17 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
       Service serviceOne = Service.create(wsdlOneURL, serviceOneName);
       Bus bus = BusFactory.getThreadDefaultBus(false);
       CustomClientLifeCycleListener listener = new CustomClientLifeCycleListener();
-      bus.getExtension(ClientLifeCycleManager.class).registerListener(listener);
-      assertEquals(0, listener.getCount());
-      EndpointOne portOne = (EndpointOne)serviceOne.getPort(EndpointOne.class);
-      assertEquals(1, listener.getCount());
-      assertEquals("Foo", portOne.echo("Foo"));
+      ClientLifeCycleManager mgr = bus.getExtension(ClientLifeCycleManager.class);
+      try {
+         mgr.registerListener(listener);
+         assertEquals(0, listener.getCount());
+         EndpointOne portOne = (EndpointOne)serviceOne.getPort(EndpointOne.class);
+         assertEquals(1, listener.getCount());
+         assertEquals("Foo", portOne.echo("Foo"));
+      } finally {
+         mgr.unRegisterListener(listener);
+      }
+      
    }
 
    private class CustomClientLifeCycleListener implements ClientLifeCycleListener
