@@ -157,6 +157,18 @@
             <groupId>sun-jaxb</groupId>
             <artifactId>jaxb-api</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>org.jboss.as</groupId>
+            <artifactId>jboss-as-controller-client</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jboss.as</groupId>
+            <artifactId>jboss-as-security</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-river</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
 
@@ -164,12 +176,40 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss710</artifactId>
         <scope>provided</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.jboss.as</groupId>
+            <artifactId>jboss-as-controller-client</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jboss.as</groupId>
+            <artifactId>jboss-as-security</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-river</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss711</artifactId>
         <scope>provided</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.jboss.as</groupId>
+            <artifactId>jboss-as-controller-client</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jboss.as</groupId>
+            <artifactId>jboss-as-security</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-river</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <!--junit-->

@@ -584,9 +584,9 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.jboss.as</groupId>
-          <artifactId>jboss-as-webservices-tests-integration</artifactId>
-          <version>${jboss.version}</version>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss702</artifactId>
+          <classifier>tests-integration</classifier>
         </dependency>
         <dependency>
           <groupId>javax.mail</groupId>
@@ -767,9 +767,9 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.jboss.as</groupId>
-          <artifactId>jboss-as-webservices-tests-integration</artifactId>
-          <version>${jboss.version}</version>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss710</artifactId>
+          <classifier>tests-integration</classifier>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.as</groupId>
@@ -994,9 +994,9 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.jboss.as</groupId>
-          <artifactId>jboss-as-webservices-tests-integration</artifactId>
-          <version>${jboss.version}</version>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss711</artifactId>
+          <classifier>tests-integration</classifier>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.as</groupId>
