@@ -365,6 +365,7 @@
               <includes>
                 <include>**/smoke/tools/**/*TestForked.java</include>
                 <include>**/smoke/tools/**/*TestCaseForked.java</include>
+                <include>**/jbws2150/**/*TestCaseForked.java</include>
               </includes>
               <systemProperties>
                 <property>
