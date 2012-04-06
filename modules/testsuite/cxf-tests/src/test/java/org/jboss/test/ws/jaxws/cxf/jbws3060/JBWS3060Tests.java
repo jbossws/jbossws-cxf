@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -42,14 +42,16 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public abstract class JBWS3060Tests extends JBossWSTest //*Tests does not match the configured surefire filter on test classes' names
 {
-   private String endpointOneURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3060/ServiceOne/EndpointOne";
-   private String endpointTwoURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3060/ServiceTwo/EndpointTwo";
    private String targetNS = "http://org.jboss.ws.jaxws.cxf/jbws3060";
    
    private EndpointOne portOne;
    private EndpointTwo portTwo;
    
    protected int defaultSize = 30;
+   
+   protected abstract String getEndpointOneURL();
+
+   protected abstract String getEndpointTwoURL();
 
    public void testAccess() throws Exception
    {
@@ -101,12 +103,12 @@ public abstract class JBWS3060Tests extends JBossWSTest //*Tests does not match 
    
    private void initPorts() throws MalformedURLException
    {
-      URL wsdlOneURL = new URL(endpointOneURL + "?wsdl");
+      URL wsdlOneURL = new URL(getEndpointOneURL() + "?wsdl");
       QName serviceOneName = new QName(targetNS, "ServiceOne");
       Service serviceOne = Service.create(wsdlOneURL, serviceOneName);
       portOne = (EndpointOne)serviceOne.getPort(EndpointOne.class);
       
-      URL wsdlTwoURL = new URL(endpointTwoURL + "?wsdl");
+      URL wsdlTwoURL = new URL(getEndpointTwoURL() + "?wsdl");
       QName serviceTwoName = new QName(targetNS, "ServiceTwo");
       Service serviceTwo = Service.create(wsdlTwoURL, serviceTwoName);
       portTwo = (EndpointTwo)serviceTwo.getPort(EndpointTwo.class);

@@ -177,7 +177,7 @@
         <attribute name="Dependencies" value="org.jboss.logging"/>
       </manifest>
     </jar>
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3060.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jbws3060/WEB-INF/web.xml">
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3060-jse.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jbws3060/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/cxf/jbws3060/EndpointOneImpl.class"/>
         <include name="org/jboss/test/ws/jaxws/cxf/jbws3060/EndpointTwoImpl.class"/>
