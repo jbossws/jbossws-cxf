@@ -13,13 +13,21 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-server</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
   <!-- plugins -->
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
-          <execution>
+          <execution> <!-- TODO Move this stuff to 'server' to avoid needing the jbossws-cxf-server dependency above -->
             <phase>prepare-package</phase>
             <goals>
               <goal>run</goal>
