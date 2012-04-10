@@ -264,6 +264,9 @@
                 <include>**/*Test.java</include>
                 <include>**/*TestCase.java</include>
               </includes>
+              <parallel>classes</parallel>
+              <threadCount>1</threadCount>
+              <perCoreThreadCount>true</perCoreThreadCount>
               <systemProperties>
                 <property>
                   <name>jboss.bind.address</name>
