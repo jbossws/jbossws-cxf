@@ -36,11 +36,11 @@ import org.jboss.wsf.test.JBossWSTest;
  * @author alessio.soldano@jboss.com
  * @since 29-Apr-2011
  */
-public final class JMSEndpointAPITestCase extends JBossWSTest
+public final class JMSEndpointAPITestCaseForked extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JMSEndpointAPITestCase.class, "jaxws-cxf-jms-api-as7.war");
+      return new JBossWSCXFTestSetup(JMSEndpointAPITestCaseForked.class, "jaxws-cxf-jms-api-as7.war");
    }
    
    public void testServerSide() throws Exception

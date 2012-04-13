@@ -46,11 +46,11 @@ import org.jboss.wsf.test.JBossWSTestHelper;
  * @author alessio.soldano@jboss.com
  * @since 10-Jun-2011
  */
-public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
+public final class JMSHTTPEndpointDeploymentTestCaseForked extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JMSHTTPEndpointDeploymentTestCase.class, "jaxws-cxf-jms-http-deployment-test-servlet.war,jaxws-cxf-jms-http-deployment.war");
+      return new JBossWSCXFTestSetup(JMSHTTPEndpointDeploymentTestCaseForked.class, "jaxws-cxf-jms-http-deployment-test-servlet.war,jaxws-cxf-jms-http-deployment.war");
    }
    
    public void testJMSEndpointServerSide() throws Exception

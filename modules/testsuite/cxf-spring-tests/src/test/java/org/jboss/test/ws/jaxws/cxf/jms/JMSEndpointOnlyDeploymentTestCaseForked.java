@@ -57,13 +57,13 @@ import org.jboss.wsf.test.JBossWSTestHelper;
  * @author alessio.soldano@jboss.com
  * @since 10-Jun-2011
  */
-public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
+public class JMSEndpointOnlyDeploymentTestCaseForked extends JBossWSTest
 {
    private static boolean waitForResponse;
    
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JMSEndpointOnlyDeploymentTestCase.class, "jaxws-cxf-jms-only-deployment-test-servlet.war,jaxws-cxf-jms-only-deployment.jar");
+      return new JBossWSCXFTestSetup(JMSEndpointOnlyDeploymentTestCaseForked.class, "jaxws-cxf-jms-only-deployment-test-servlet.war,jaxws-cxf-jms-only-deployment.jar");
    }
    
    public void testJMSEndpointServerSide() throws Exception
