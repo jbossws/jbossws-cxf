@@ -97,6 +97,7 @@
     <jms.api.version>1.0.0.Final</jms.api.version>
     <velocity.version>1.6.3</velocity.version>
     <xerces.version>2.9.1</xerces.version>
+    <xmlschema.version>2.0.2</xmlschema.version>
     <xmlsec.version>1.5.1</xmlsec.version>
     <wss4j.version>1.6.5</wss4j.version>
     <wstx.version>3.2.9</wstx.version>
@@ -1051,6 +1052,11 @@
         <groupId>javax.mail</groupId>
         <artifactId>mail</artifactId>
         <version>${mail.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.ws.xmlschema</groupId>
+        <artifactId>xmlschema-core</artifactId>
+        <version>${xmlschema.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.neethi</groupId>
