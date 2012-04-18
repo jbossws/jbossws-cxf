@@ -85,7 +85,7 @@
     <jaxws-jboss-httpserver-httpspi.version>1.0.2-SNAPSHOT</jaxws-jboss-httpserver-httpspi.version>
     <httpserver.version>1.0.0.Final</httpserver.version>
     <jaxb.api.version>1.0.3.Final</jaxb.api.version>
-    <jaxb.impl.version>2.2.4</jaxb.impl.version>
+    <jaxb.impl.version>2.2.5</jaxb.impl.version>
     <jaxrpc.api.version>1.0.0.Final</jaxrpc.api.version>
     <jaxws.api.version>2.0.0.Final</jaxws.api.version>
     <jboss.jaxr.version>2.0.3</jboss.jaxr.version>
