@@ -76,9 +76,11 @@
   
   <target name="tests-init" depends="init,tests-classpath">
     <!-- JBossWS jars first to override META-INF/services declarations duplicated in CXF jars (alternative is using endorsing) -->
+    <!-- Avoid including jbossws-native-services.jar, we just need and want jbossws-native-core for jaxrpc tests -->
     <path id="ws.stack.classpath">
       <fileset dir="${thirdparty.dir}">
       	<include name="**/jbossws*.jar"/>
+        <exclude name="**/jbossws-native-services.jar"/>
         <exclude name="**/jbossws-jboss*.jar"/>
       </fileset>
       <fileset dir="${thirdparty.dir}">

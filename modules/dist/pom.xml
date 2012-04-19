@@ -69,6 +69,16 @@
          <scope>provided</scope>
       </dependency>
 
+      <dependency>
+         <groupId>org.jboss.ws.native</groupId>
+         <artifactId>jbossws-native-core</artifactId>
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.ws.native</groupId>
+         <artifactId>jbossws-native-services</artifactId>
+      </dependency>
+
       <!--test-suite-->
       <dependency>
          <groupId>org.jboss.ws</groupId>

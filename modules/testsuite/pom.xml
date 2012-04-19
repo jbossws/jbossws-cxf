@@ -78,6 +78,11 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.jboss.ws.native</groupId>
+      <artifactId>jbossws-native-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
@@ -651,11 +656,6 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
-              <!-- TODO: replace with maven dependencies -->
-              <additionalClasspathElements>
-                 <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
-                <additionalClasspathElement>${jboss.home}/common/lib/jbossws-native-core.jar</additionalClasspathElement>
-              </additionalClasspathElements>
               <excludes>
                  <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
@@ -931,16 +931,6 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
-              <!-- TODO: replace with maven dependencies -->
-              <additionalClasspathElements>
-                <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
-                <!-- JBossWS Native Core version overwritten by jbossws-native stack install -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core.jar</additionalClasspathElement>
-                <!-- JBossWS Native Core version available on 710 -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.1.GA.jar</additionalClasspathElement>
-                <!-- JBossWS Native Core version specified through system property -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/${jbossws-native-core.filename}</additionalClasspathElement>
-              </additionalClasspathElements>
               <excludes>
                  <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
@@ -1165,16 +1155,6 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
-              <!-- TODO: replace with maven dependencies -->
-              <additionalClasspathElements>
-                <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
-                <!-- JBossWS Native Core version overwritten by jbossws-native stack install -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core.jar</additionalClasspathElement>
-                <!-- JBossWS Native Core version available on 711 -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.2.GA.jar</additionalClasspathElement>
-                <!-- JBossWS Native Core version specified through system property -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/${jbossws-native-core.filename}</additionalClasspathElement>
-              </additionalClasspathElements>
               <excludes>
                  <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
@@ -1389,16 +1369,6 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
-              <!-- TODO: replace with maven dependencies -->
-              <additionalClasspathElements>
-                <!-- Lib below required just for jaxrpc tests; listed here to prevent CXF stack from depending on Native stack -->
-                <!-- JBossWS Native Core version overwritten by jbossws-native stack install -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core.jar</additionalClasspathElement>
-                <!-- JBossWS Native Core version available on 712 -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/jbossws-native-core-4.0.2.GA.jar</additionalClasspathElement>
-                <!-- JBossWS Native Core version specified through system property -->
-                <additionalClasspathElement>${jboss.home}/modules/org/jboss/ws/native/jbossws-native-core/main/${jbossws-native-core.filename}</additionalClasspathElement>
-              </additionalClasspathElements>
               <excludes>
                  <!--# UsernameTestCase requires trustore in jboss-web tomcat configuration-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
