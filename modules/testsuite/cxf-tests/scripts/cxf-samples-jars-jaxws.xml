@@ -178,6 +178,22 @@
         <include name="alice.jks" />
       </metainf>
     </jar>
+    <war warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-encrypt-client.war" needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/wsf/test/ClientHelper.class"/>
+        <include name="org/jboss/wsf/test/TestServlet.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignEncryptHelper.class"/>
+      	<include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/ServiceIface.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/KeystorePasswordCallback.class"/>
+      </classes>
+      <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/sign-encrypt" prefix="WEB-INF/classes">
+          <include name="META-INF/alice.properties" />
+          <include name="META-INF/alice.jks" />
+      </zipfileset>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services, org.apache.ws.security"/>
+      </manifest>
+    </war>
 
     <!-- jaxws-samples-wsse-policy-sign-encrypt-mc-client -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-encrypt-mc-client.jar">

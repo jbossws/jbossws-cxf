@@ -37,8 +37,7 @@
       <directory>../resources/src/main/resources/resources</directory>
       <outputDirectory>jbossws-cxf-bin-dist/build</outputDirectory>
       <includes>
-        <include>deploy.conf</include>
-        <include>server-deploy.conf</include>
+        <include>modules-deploy.conf</include>
         <include>jbossws-deploy-macros.xml</include>
       </includes>
     </fileSet>

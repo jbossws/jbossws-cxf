@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,16 +21,12 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
-import javax.xml.ws.soap.SOAPFaultException;
 
 import junit.framework.Test;
 
-import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -46,32 +42,24 @@ public final class SignEncryptTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(SignEncryptTestCase.class, "jaxws-samples-wsse-policy-sign-encrypt-client.jar jaxws-samples-wsse-policy-sign-encrypt.war");
-   }
-
-   public void test() throws Exception
-   {
-      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
-      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
-      setupWsse(proxy);
-      try
-      {
-         assertEquals("Secure Hello World!", proxy.sayHello());
-      }
-      catch (SOAPFaultException e)
-      {
-         throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
-      }
+      return new JBossWSCXFTestSetup(SignEncryptTestCase.class,
+            "jaxws-samples-wsse-policy-sign-encrypt-client.jar " +
+            "jaxws-samples-wsse-policy-sign-encrypt-client.war " +
+            "jaxws-samples-wsse-policy-sign-encrypt.war");
    }
    
-   private void setupWsse(ServiceIface proxy)
+   public void testClientSide() throws Exception
    {
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, new KeystorePasswordCallback());
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.SIGNATURE_USERNAME, "alice");
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.ENCRYPT_USERNAME, "bob");
+      SignEncryptHelper helper = new SignEncryptHelper();
+      helper.setTargetEndpoint(serviceURL);
+      assertTrue(helper.testSignEncrypt());
+   }
+   
+   public void testServerSide() throws Exception
+   {
+      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-sign-encrypt-client?" +
+      		"path=/jaxws-samples-wsse-policy-sign-encrypt&method=testSignEncrypt&helper=" + SignEncryptHelper.class.getName());
+      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+      assertEquals("1", br.readLine());
    }
 }
