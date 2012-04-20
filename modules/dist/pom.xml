@@ -270,7 +270,7 @@
                         <id>generate-exclude-file</id>
                         <phase>validate</phase>
                         <configuration>
-                            <tasks>
+                            <target>
                                 <mkdir dir="${basedir}/target/exclude-file" />
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss702.txt">
                                     <param name="targetName" expression="jboss702" />
@@ -284,7 +284,7 @@
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss712.txt">
                                     <param name="targetName" expression="jboss712" />
                                 </xslt>                         
-                            </tasks>
+                            </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>

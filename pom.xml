@@ -1345,12 +1345,12 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <echo />
                 <echo message="profile=${jbossws.integration.target}" />
                 <echo message="jboss.home=${jboss.home}" />
                 <echo />
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>

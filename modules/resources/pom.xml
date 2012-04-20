@@ -33,11 +33,11 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <ant antfile="src/main/scripts/zip-other-configs.xml">
                   <property name="project.build.finalName" value="${project.build.finalName}" />
                 </ant>
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>

@@ -91,12 +91,12 @@
                   <goal>run</goal>
                 </goals>
                 <configuration>
-                  <tasks>
+                  <target>
                     <property name="tests.output.dir" value="${project.build.directory}"/>
                     <property name="tests.resources.dir" value="${basedir}/src/test/resources"/>
                     <ant antfile="scripts/cxf-jars-jaxws.xml" target="build-jars-jaxws"/>
                     <ant antfile="scripts/cxf-samples-jaxws.xml" target="build-samples-jaxws"/>
-                  </tasks>
+                  </target>
                 </configuration>
               </execution>
             </executions>

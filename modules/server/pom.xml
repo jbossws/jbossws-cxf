@@ -280,9 +280,9 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <ant antfile="src/main/scripts/antrun-beans-config.xml" />
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>
