@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,9 +21,14 @@
  */
 package org.jboss.test.ws.jaxws.cxf.httpproxy;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.Authenticator;
 import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -57,6 +62,7 @@ public class HTTPProxyTestCase extends JBossWSTest
    private static int proxyPort = 19387;
    private static final String PROXY_USER = "foo";
    private static final String PROXY_PWD = "bar";
+   private static final String ENDPOINT_PATH = "/jaxws-cxf-httpproxy/HelloWorldService/HelloWorldImpl";
    private HttpProxyServer proxyServer;
 
    public static Test suite()
@@ -206,4 +212,72 @@ public class HTTPProxyTestCase extends JBossWSTest
       System.clearProperty("http.proxyPort");
    }
 
+   public void testWSDLHttpProxy() throws Exception
+   {
+      setProxySystemProperties();
+      try
+      {
+         Authenticator.setDefault(new ProxyAuthenticator(PROXY_USER, PROXY_PWD));
+         String endpointAddress = "http://unreachable-testWSDLHttpProxy" + ENDPOINT_PATH;
+         StringBuffer sb = readContent(new URL(endpointAddress + "?wsdl"));
+         assertTrue(sb.toString().contains("wsdl:definitions name=\"HelloWorldService\""));
+      }
+      finally
+      {
+         Authenticator.setDefault(null);
+      }
+   }
+
+   public void testWSDLNoHttpProxy() throws Exception
+   {
+      clearProxySystemProperties();
+      String endpointAddress = "http://unreachable-testWSDLNoHttpProxy" + ENDPOINT_PATH;
+      try
+      {
+         readContent(new URL(endpointAddress + "?wsdl"));
+         fail("Request expected to fail without http proxy");
+      }
+      catch (Exception e)
+      {
+         assertTrue(e.getMessage().contains("unreachable-testWSDLNoHttpProxy"));
+      }
+   }
+   
+   private static StringBuffer readContent(URL url) throws Exception
+   {
+      StringBuffer sb = new StringBuffer();
+      InputStream is = null;
+      try
+      {
+         is = url.openConnection().getInputStream();
+         BufferedReader in = new BufferedReader(new InputStreamReader(is));
+         String line;
+         while ((line = in.readLine()) != null)
+         {
+            sb.append(line);
+            sb.append("\n");
+         }
+      }
+      finally
+      {
+         if (is != null) is.close();
+      }
+      return sb;
+   }
+   
+   private static class ProxyAuthenticator extends Authenticator
+   {
+      private String user, password;
+
+      public ProxyAuthenticator(String user, String password)
+      {
+         this.user = user;
+         this.password = password;
+      }
+
+      protected PasswordAuthentication getPasswordAuthentication()
+      {
+         return new PasswordAuthentication(user, password.toCharArray());
+      }
+   }
 }
