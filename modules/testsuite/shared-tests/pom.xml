@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <name>JBoss Web Services - Stack Agnostic Tests</name>
@@ -10,7 +9,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf-testsuite</artifactId>
-    <version>4.0.4-SNAPSHOT</version>
+    <version>4.0.5-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -99,14 +98,14 @@
                 </goals>
                 <configuration>
                   <tasks>
-                    <property name="maven.test.classpath" refid="maven.test.classpath"/>
-                    <property name="tests.resources.dir" value="${basedir}/src/test/resources"/>
-                    <property name="tests.output.dir" value="${project.build.directory}"/>
-                    <property name="project.version" value="${project.version}"/>
+                    <property name="maven.test.classpath" refid="maven.test.classpath" />
+                    <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
+                    <property name="tests.output.dir" value="${project.build.directory}" />
+                    <property name="project.version" value="${project.version}" />
                     <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml" />
-                    <property name="log4j.output.dir" value="${log4j.output.dir}"/>
-                    <property name="endorsed.dir" value="${project.build.directory}/endorsed"/>
-                    <ant antfile="scripts/antrun-wsconsume.xml" target="wsconsume"/>
+                    <property name="log4j.output.dir" value="${log4j.output.dir}" />
+                    <property name="endorsed.dir" value="${project.build.directory}/endorsed" />
+                    <ant antfile="scripts/antrun-wsconsume.xml" target="wsconsume" />
                   </tasks>
                 </configuration>
               </execution>
@@ -117,17 +116,17 @@
                 </goals>
                 <configuration>
                   <tasks>
-                    <property name="maven.test.classpath" refid="maven.test.classpath"/>
-                    <property name="tests.resources.dir" value="${basedir}/src/test/resources"/>
-                    <property name="tests.output.dir" value="${project.build.directory}"/>
-                    <property name="project.version" value="${project.version}"/>
-                    <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml"/>
-                    <property name="log4j.output.dir" value="${log4j.output.dir}"/>
-                    <property name="endorsed.dir" value="${project.build.directory}/endorsed"/>
-                    <ant antfile="scripts/antrun-wsprovide.xml" target="wsprovide"/>
-                    <ant antfile="src/test/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws"/>
-                    <ant antfile="src/test/ant-import/build-samples-jaxws.xml" target="build-samples-jaxws"/>
-                    <ant antfile="src/test/ant-import/build-samples-jaxrpc.xml" target="build-samples-jaxrpc"/>
+                    <property name="maven.test.classpath" refid="maven.test.classpath" />
+                    <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
+                    <property name="tests.output.dir" value="${project.build.directory}" />
+                    <property name="project.version" value="${project.version}" />
+                    <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml" />
+                    <property name="log4j.output.dir" value="${log4j.output.dir}" />
+                    <property name="endorsed.dir" value="${project.build.directory}/endorsed" />
+                    <ant antfile="scripts/antrun-wsprovide.xml" target="wsprovide" />
+                    <ant antfile="src/test/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws" />
+                    <ant antfile="src/test/ant-import/build-samples-jaxws.xml" target="build-samples-jaxws" />
+                    <ant antfile="src/test/ant-import/build-samples-jaxrpc.xml" target="build-samples-jaxrpc" />
                   </tasks>
                 </configuration>
               </execution>
@@ -139,13 +138,7 @@
                 </goals>
                 <configuration>
                   <tasks>
-                    <copy
-                      file="${project.parent.build.directory}/../src/test/resources/${jbossws.integration.target}/appclient-ws.xml"
-                      tofile="${jboss.home}/appclient/configuration/appclient-ws.xml"
-                      failonerror="false"
-                      verbose="true"
-                      overwrite="true"
-                    />
+                    <copy file="${project.parent.build.directory}/../src/test/resources/${jbossws.integration.target}/appclient-ws.xml" tofile="${jboss.home}/appclient/configuration/appclient-ws.xml" failonerror="false" verbose="true" overwrite="true" />
                   </tasks>
                 </configuration>
               </execution>

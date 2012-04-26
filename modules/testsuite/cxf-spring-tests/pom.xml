@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
   <name>JBoss Web Services - Stack CXF Spring Tests</name>
@@ -10,7 +9,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf-testsuite</artifactId>
-    <version>4.0.4-SNAPSHOT</version>
+    <version>4.0.5-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   
@@ -92,10 +91,10 @@
                 </goals>
                 <configuration>
                   <tasks>
-                    <property name="tests.output.dir" value="${project.build.directory}"/>
-                    <property name="tests.resources.dir" value="${basedir}/src/test/resources"/>
-                    <ant antfile="scripts/cxf-jars-jaxws.xml" target="build-jars-jaxws"/>
-                    <ant antfile="scripts/cxf-samples-jaxws.xml" target="build-samples-jaxws"/>
+                    <property name="tests.output.dir" value="${project.build.directory}" />
+                    <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
+                    <ant antfile="scripts/cxf-jars-jaxws.xml" target="build-jars-jaxws" />
+                    <ant antfile="scripts/cxf-samples-jaxws.xml" target="build-samples-jaxws" />
                   </tasks>
                 </configuration>
               </execution>
