@@ -34,10 +34,7 @@
       <module name="org.apache.commons.logging" />
       <module name="org.apache.santuario.xmlsec" />
       <module name="org.apache.xalan" />
-      <!--
-        Optional dependency on OpenSAML which is used by Apache WSS4J for providing WS-Trust / SAML functionalities;
-        the export="true" flag can be replaced by having additional org.opensaml dependency in org.apache.cxf module.  
-       -->
-      <module name="org.opensaml" optional="true" export="true" />
+      <module name="org.joda.time" />
+      <module name="org.opensaml" />
     </dependencies>
 </module>

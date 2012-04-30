@@ -83,7 +83,6 @@
               <include>juddi:juddi:jar</include>
               <include>org.opensaml:open*:jar</include>
               <include>org.opensaml:xmltooling:jar</include>
-              <include>joda-time:joda-time:jar</include>
               <include>org.jboss.ws:jbossws-common-tools:jar</include>
               <include>org.jboss.ws:jbossws-jboss*:jar</include>
               <include>org.jboss.as:jboss-as-webservices-tests-integration:jar</include>
