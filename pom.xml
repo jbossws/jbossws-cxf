@@ -101,6 +101,7 @@
     <neethi.version>3.0.1</neethi.version>
     <opensaml.version>2.5.1-1</opensaml.version>
     <saaj.api.version>1.0.1.Final</saaj.api.version>
+    <servlet.api.version>1.0.1.Final</servlet.api.version>
     <stax.api.version>1.0-2</stax.api.version>
     <jms.api.version>1.0.0.Final</jms.api.version>
     <velocity.version>1.6.3</velocity.version>
@@ -1163,7 +1164,7 @@
       <dependency>
         <groupId>org.jboss.spec.javax.servlet</groupId>
         <artifactId>jboss-servlet-api_3.0_spec</artifactId>
-        <version>1.0.0.Beta2</version>
+        <version>${servlet.api.version}</version>
       </dependency>
      
       <!-- jboss provided -->
