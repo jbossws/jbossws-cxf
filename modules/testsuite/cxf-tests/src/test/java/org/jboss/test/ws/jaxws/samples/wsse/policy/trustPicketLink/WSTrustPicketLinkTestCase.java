@@ -33,8 +33,6 @@ import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.configuration.security.AuthorizationPolicy;
-import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
@@ -62,7 +60,7 @@ public final class WSTrustPicketLinkTestCase extends JBossWSTest
       authenticationOptions.put("rolesProperties",
             getResourceFile("jaxws/samples/wsse/policy/trust/WEB-INF/jbossws-roles.properties").getAbsolutePath());
       authenticationOptions.put("unauthenticatedIdentity", "anonymous");
-      testSetup.addSecurityDomainRequirement("JBossWS-trustPicketLink-sts", authenticationOptions);
+      testSetup.addSecurityDomainRequirement("JBossWS-trust-sts", authenticationOptions);
       return testSetup;
    }
 
@@ -95,27 +93,21 @@ public final class WSTrustPicketLinkTestCase extends JBossWSTest
       ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
       ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
       STSClient stsClient = new STSClient(bus);
+      //override STS location from service WSDL contract, as the same endpoint is used for the WSTrustTestCase too (which uses Apache CXF STS impl)
       stsClient.setWsdlLocation(stsURL + "?wsdl");
       stsClient.setServiceQName(new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTS"));
       stsClient.setEndpointQName(new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTSPort"));
       Map<String, Object> props = stsClient.getProperties();
-//      props.put(SecurityConstants.USERNAME, "alice");
-//      props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-//      props.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-//      props.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
+      
+      props.put(SecurityConstants.USERNAME, "alice");
+      props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
+      props.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
+      
       props.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
       props.put(SecurityConstants.STS_TOKEN_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
 
-      //set http basic auth to workaround PicketLink STS requiring username to be set in context; this needs to be performed in a CXF specific way,
-      //as the CXF STSClient does not support setting up basic auth by simple BindingProvider.USERNAME_PROPERTY/USERNAME_PASSWORD setup
-      HTTPConduit conduit = (HTTPConduit)stsClient.getClient().getConduit();
-      AuthorizationPolicy authPolicy = new AuthorizationPolicy();
-      authPolicy.setAuthorizationType("BASIC");
-      authPolicy.setUserName("alice");
-      authPolicy.setPassword("clarinet");
-      conduit.setAuthorization(authPolicy);
-      
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
    }
 }

@@ -27,6 +27,9 @@ import javax.xml.ws.ServiceMode;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.WebServiceProvider;
 
+import org.apache.cxf.annotations.EndpointProperties;
+import org.apache.cxf.annotations.EndpointProperty;
+import org.apache.cxf.interceptor.InInterceptors;
 import org.picketlink.identity.federation.core.wstrust.PicketLinkSTS;
 
 /**
@@ -38,6 +41,13 @@ import org.picketlink.identity.federation.core.wstrust.PicketLinkSTS;
  */
 @WebServiceProvider(serviceName = "PicketLinkSTS", portName = "PicketLinkSTSPort", targetNamespace = "urn:picketlink:identity-federation:sts", wsdlLocation = "WEB-INF/wsdl/PicketLinkSTS.wsdl")
 @ServiceMode(value = Service.Mode.MESSAGE)
+//be sure to have dependency on org.apache.cxf module when on AS7, otherwise Apache CXF annotations are ignored 
+@EndpointProperties(value = {
+      @EndpointProperty(key = "ws-security.signature.username", value = "mystskey"),
+      @EndpointProperty(key = "ws-security.signature.properties", value = "stsKeystore.properties"),
+      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trustPicketLink.STSCallbackHandler")      
+})
+@InInterceptors(interceptors = {"org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor"})
 public class PicketLinkSTService extends PicketLinkSTS 
 {
    @Resource
