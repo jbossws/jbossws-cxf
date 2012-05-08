@@ -258,14 +258,14 @@
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trustPicketLink-sts.war" needxmlfile='false'>
        <classes dir="${tests.output.dir}/test-classes">
-          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trustPicketLink/PicketLinkSTService.class"/>
-          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trustPicketLink/STSCallbackHandler.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/PicketLinkSTService.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/STSCallbackHandler.class"/>
        </classes>
-       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trustPicketLink/WEB-INF">
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
           <include name="wsdl/PicketLinkSTS.wsdl"/>
           <include name="jboss-web.xml"/>
        </webinf>
-       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trustPicketLink/WEB-INF" prefix="WEB-INF/classes">
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF" prefix="WEB-INF/classes">
           <include name="stsstore.jks" />
           <include name="picketlink-sts.xml" />
           <include name="stsKeystore.properties" />

@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy.trustPicketLink;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
 import javax.annotation.Resource;
 import javax.xml.ws.Service;
@@ -45,7 +45,7 @@ import org.picketlink.identity.federation.core.wstrust.PicketLinkSTS;
 @EndpointProperties(value = {
       @EndpointProperty(key = "ws-security.signature.username", value = "mystskey"),
       @EndpointProperty(key = "ws-security.signature.properties", value = "stsKeystore.properties"),
-      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trustPicketLink.STSCallbackHandler")      
+      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.STSCallbackHandler")      
 })
 @InInterceptors(interceptors = {"org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor"})
 public class PicketLinkSTService extends PicketLinkSTS 

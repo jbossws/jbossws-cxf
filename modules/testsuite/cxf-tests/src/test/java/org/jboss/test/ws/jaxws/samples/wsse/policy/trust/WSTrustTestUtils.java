@@ -19,72 +19,41 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy.trustPicketLink;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
-
-import junit.framework.Test;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
-import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 
 /**
- * WS-Trust test case using PicketLink implementation of STS
+ * Some client util methods for WS-Trust testcases 
  *
  * @author alessio.soldano@jboss.com
- * @since 30-Apr-2012
+ * @since 08-May-2012
  */
-public final class WSTrustPicketLinkTestCase extends JBossWSTest
+public class WSTrustTestUtils
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trust/SecurityService";
-   private final String stsURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trustPicketLink-sts/PicketLinkSTS";
-
-   public static Test suite()
-   {
-      //deploy client, STS and service; start a security domain to be used by the STS for authenticating client
-      JBossWSCXFTestSetup testSetup = new JBossWSCXFTestSetup(
-            WSTrustPicketLinkTestCase.class, "jaxws-samples-wsse-policy-trust-client.jar jaxws-samples-wsse-policy-trustPicketLink-sts.war jaxws-samples-wsse-policy-trust.war", true);
+   public static JBossWSCXFTestSetup getTestSetup(Class<?> testClass, String archives) {
+      JBossWSCXFTestSetup testSetup = new JBossWSCXFTestSetup(testClass, archives);
       Map<String, String> authenticationOptions = new HashMap<String, String>();
       authenticationOptions.put("usersProperties",
-            getResourceFile("jaxws/samples/wsse/policy/trust/WEB-INF/jbossws-users.properties").getAbsolutePath());
+            JBossWSTestHelper.getResourceFile("jaxws/samples/wsse/policy/trust/WEB-INF/jbossws-users.properties").getAbsolutePath());
       authenticationOptions.put("rolesProperties",
-            getResourceFile("jaxws/samples/wsse/policy/trust/WEB-INF/jbossws-roles.properties").getAbsolutePath());
+            JBossWSTestHelper.getResourceFile("jaxws/samples/wsse/policy/trust/WEB-INF/jbossws-roles.properties").getAbsolutePath());
       authenticationOptions.put("unauthenticatedIdentity", "anonymous");
       testSetup.addSecurityDomainRequirement("JBossWS-trust-sts", authenticationOptions);
       return testSetup;
    }
-
-   public void test() throws Exception
-   {
-      Bus bus = BusFactory.newInstance().createBus();
-      try
-      {
-         BusFactory.setThreadDefaultBus(bus);
-         
-         QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-         URL wsdlURL = new URL(serviceURL + "?wsdl");
-         Service service = Service.create(wsdlURL, serviceName);
-         ServiceIface proxy = (ServiceIface) service.getPort(ServiceIface.class);
-         setupWsse(proxy, bus);
-         assertEquals("WS-Trust Hello World!", proxy.sayHello());
-      }
-      finally
-      {
-         bus.shutdown(true);
-      }
-   }
-
-   private void setupWsse(ServiceIface proxy, Bus bus) throws Exception
+   
+   public static void setupWsse(ServiceIface proxy, Bus bus, String stsWsdlLocation, QName stsService, QName stsPort)
    {
       Map<String, Object> ctx = ((BindingProvider) proxy).getRequestContext();
       ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
@@ -93,21 +62,17 @@ public final class WSTrustPicketLinkTestCase extends JBossWSTest
       ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
       ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
       STSClient stsClient = new STSClient(bus);
-      //override STS location from service WSDL contract, as the same endpoint is used for the WSTrustTestCase too (which uses Apache CXF STS impl)
-      stsClient.setWsdlLocation(stsURL + "?wsdl");
-      stsClient.setServiceQName(new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTS"));
-      stsClient.setEndpointQName(new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTSPort"));
+      stsClient.setWsdlLocation(stsWsdlLocation);
+      stsClient.setServiceQName(stsService);
+      stsClient.setEndpointQName(stsPort);
       Map<String, Object> props = stsClient.getProperties();
-      
       props.put(SecurityConstants.USERNAME, "alice");
       props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
       props.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
-      
       props.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
       props.put(SecurityConstants.STS_TOKEN_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
-
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
    }
 }

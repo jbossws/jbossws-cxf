@@ -33,25 +33,23 @@ import org.apache.cxf.BusFactory;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
- * WS-Trust test case
- * This is basically the Apache CXF STS demo (from distribution samples)
- * ported to jbossws-cxf for running over JBoss Application Server.
+ * WS-Trust test case using PicketLink implementation of STS
  *
  * @author alessio.soldano@jboss.com
- * @since 08-Feb-2012
+ * @since 30-Apr-2012
  */
-public class WSTrustTestCase extends JBossWSTest
+public final class WSTrustPicketLinkTestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trust/SecurityService";
-   private final String stsURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trust-sts/SecurityTokenService";
+   private final String stsURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trustPicketLink-sts/PicketLinkSTS";
 
    public static Test suite()
    {
       //deploy client, STS and service; start a security domain to be used by the STS for authenticating client
-      return WSTrustTestUtils.getTestSetup(WSTrustTestCase.class,
-            "jaxws-samples-wsse-policy-trust-client.jar jaxws-samples-wsse-policy-trust-sts.war jaxws-samples-wsse-policy-trust.war");
+      return WSTrustTestUtils.getTestSetup(WSTrustPicketLinkTestCase.class,
+            "jaxws-samples-wsse-policy-trust-client.jar jaxws-samples-wsse-policy-trustPicketLink-sts.war jaxws-samples-wsse-policy-trust.war");
    }
-   
+
    public void test() throws Exception
    {
       Bus bus = BusFactory.newInstance().createBus();
@@ -64,8 +62,8 @@ public class WSTrustTestCase extends JBossWSTest
          Service service = Service.create(wsdlURL, serviceName);
          ServiceIface proxy = (ServiceIface) service.getPort(ServiceIface.class);
          
-         final QName stsServiceName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "SecurityTokenService");
-         final QName stsPortName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "UT_Port");
+         final QName stsServiceName = new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTS");
+         final QName stsPortName = new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTSPort");
          WSTrustTestUtils.setupWsse(proxy, bus, stsURL + "?wsdl", stsServiceName, stsPortName);
          
          assertEquals("WS-Trust Hello World!", proxy.sayHello());
