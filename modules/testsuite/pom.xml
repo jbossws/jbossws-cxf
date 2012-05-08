@@ -749,6 +749,9 @@
                  <!-- # [JBWS-3478] Issues with logging dependencies on AS 7.0.x -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/spring/ClientSpringAppTestCase*</exclude>
 
+                 <!-- # [JBWS-3493] WS-Trust tests w/ PicketLink STS require PL 2.1.2.Final or greater -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trustPicketLink/**</exclude>
+
                  <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2259/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
@@ -956,6 +959,9 @@
 
                  <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase*</exclude>
+
+                 <!-- # [JBWS-3493] WS-Trust tests w/ PicketLink STS require PL 2.1.2.Final or greater -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trustPicketLink/**</exclude>
 
                  <!-- # TODO: JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
@@ -1178,6 +1184,9 @@
                  <!-- # [JBWS-3249] Restore UsernameAuthorizationCustomFileTestCase on AS7 -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/UsernameAuthorizationCustomFileTestCase*</exclude>
 
+                 <!-- # [JBWS-3493] WS-Trust tests w/ PicketLink STS require PL 2.1.2.Final or greater -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trustPicketLink/**</exclude>
+
                  <!-- # TODO: JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
 
@@ -1395,6 +1404,9 @@
                  <!-- # [JBWS-3475] SOAP-over-JMS tests require test queue on target AS -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/jms/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/**</exclude>
+                 
+                 <!-- # [JBWS-3493] WS-Trust tests w/ PicketLink STS require PL 2.1.2.Final or greater -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trustPicketLink/**</exclude>
 
                  <!-- # TODO: JAXR not available -->
                  <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>

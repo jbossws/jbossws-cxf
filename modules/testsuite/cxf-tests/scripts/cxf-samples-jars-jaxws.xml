@@ -254,6 +254,26 @@
       </metainf>
     </jar>
 
+    <!-- jaxws-samples-wsse-policy-trustPicketLink-sts -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trustPicketLink-sts.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trustPicketLink/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trustPicketLink/PicketLinkSTService.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trustPicketLink/WEB-INF">
+          <include name="wsdl/PicketLinkSTS.wsdl"/>
+          <include name="jboss-web.xml"/> <!-- workaround -->
+       </webinf>
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trustPicketLink/WEB-INF" prefix="WEB-INF/classes">
+          <include name="stsstore.jks" />
+          <include name="picketlink-sts.xml" />
+       </zipfileset>
+       <manifest>
+       	<attribute name="Dependencies" value="org.picketlink"/>
+       </manifest>
+    </war>
+
     <!-- jaxws-samples-wsse-policy-username-unsecure-transport -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username-unsecure-transport.war"
