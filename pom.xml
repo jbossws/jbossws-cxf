@@ -82,7 +82,7 @@
     <jboss.security.spi.version>2.0.4.SP4</jboss.security.spi.version>
     <jboss.security.sx.version>2.0.4</jboss.security.sx.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
-    <picketbox.version>4.0.6.Beta1</picketbox.version>
+    <picketlink.version>2.1.1.Final</picketlink.version>
     <jaxws-jboss-httpserver-httpspi.version>1.0.2-SNAPSHOT</jaxws-jboss-httpserver-httpspi.version>
     <httpserver.version>1.0.0.Final</httpserver.version>
     <jaxb.api.version>1.0.3.Final</jaxb.api.version>
@@ -1181,22 +1181,6 @@
         <scope>provided</scope>
       </dependency>
       <dependency>
-        <groupId>org.picketbox</groupId>
-        <artifactId>picketbox-bare</artifactId>
-        <version>${picketbox.version}</version>
-        <scope>provided</scope>
-        <exclusions>
-           <exclusion>
-             <groupId>org.jboss.security</groupId>
-             <artifactId>jboss-security-spi</artifactId>
-           </exclusion>
-           <exclusion>
-             <groupId>org.jboss.security</groupId>
-             <artifactId>jbosssx</artifactId>
-           </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
         <groupId>org.jboss.security</groupId>
         <artifactId>jboss-security-spi</artifactId>
         <version>${jboss.security.spi.version}</version>
@@ -1281,6 +1265,14 @@
         <groupId>org.easymock</groupId>
         <artifactId>easymockclassextension</artifactId>
         <version>2.4</version>
+      </dependency>
+      
+      <!-- Other test dependencies -->
+      <dependency>
+        <groupId>org.picketlink</groupId>
+        <artifactId>picketlink-core</artifactId>
+        <version>${picketlink.version}</version>
+        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
