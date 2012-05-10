@@ -64,14 +64,14 @@
     <jbossws.common.version>2.1.0-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.1.0-SNAPSHOT</jbossws.common.tools.version>
     <jbossws.shared.testsuite.version>4.1.0-SNAPSHOT</jbossws.shared.testsuite.version>
-    <jbossws.jboss702.version>4.1.0-SNAPSHOT</jbossws.jboss702.version>
     <jbossws.jboss710.version>4.1.0-SNAPSHOT</jbossws.jboss710.version>
     <jbossws.jboss711.version>4.1.0-SNAPSHOT</jbossws.jboss711.version>
+    <jbossws.jboss712.version>4.1.0-SNAPSHOT</jbossws.jboss712.version>
     <jbossws.native.version>4.1.0-SNAPSHOT</jbossws.native.version>
-    <jboss702.version>7.0.2.Final</jboss702.version>
     <jboss710.version>7.1.0.Final</jboss710.version>
     <jboss711.version>7.1.1.Final</jboss711.version>
-    <jboss712.version>7.1.2.Final-SNAPSHOT</jboss712.version>
+    <jboss712.version>7.1.2.Final</jboss712.version>
+    <jboss720.version>7.2.0.Alpha1-SNAPSHOT</jboss720.version>
     <ejb.api.version>1.0.1.Final</ejb.api.version>
     <cxf.version>2.5.3</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
@@ -153,17 +153,6 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss702</artifactId>
-        <version>${jbossws.jboss702.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss702</artifactId>
-        <version>${jbossws.jboss702.version}</version>
-        <classifier>tests-integration</classifier>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss710</artifactId>
         <version>${jbossws.jboss710.version}</version>
       </dependency>
@@ -182,12 +171,23 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss711</artifactId>
         <version>${jbossws.jboss711.version}</version>
+        <classifier>tests-integration</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss712</artifactId>
+        <version>${jbossws.jboss712.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss712</artifactId>
+        <version>${jbossws.jboss712.version}</version>
         <classifier>tests-integration</classifier>
       </dependency>
       <dependency>
         <groupId>org.jboss.as</groupId>
         <artifactId>jboss-as-webservices-tests-integration</artifactId>
-        <version>${jboss712.version}</version>
+        <version>${jboss720.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
@@ -1363,18 +1363,6 @@
     </profile>
 
     <!--
-    Name:  jboss702
-    Descr: JBoss-7.0.2.Final specific options
-    -->
-    <profile>
-      <id>jboss702</id>
-      <properties>
-        <jbossws.integration.target>jboss702</jbossws.integration.target>
-        <jboss.home>${jboss702.home}</jboss.home>
-      </properties>
-    </profile>
-
-    <!--
     Name:  jboss710
     Descr: JBoss-7.1.0 specific options
     -->
@@ -1407,6 +1395,18 @@
       <properties>
         <jbossws.integration.target>jboss712</jbossws.integration.target>
         <jboss.home>${jboss712.home}</jboss.home>
+      </properties>
+    </profile>
+
+    <!--
+    Name:  jboss720
+    Descr: JBoss-7.2.0 specific options
+    -->
+    <profile>
+      <id>jboss720</id>
+      <properties>
+        <jbossws.integration.target>jboss720</jbossws.integration.target>
+        <jboss.home>${jboss720.home}</jboss.home>
       </properties>
     </profile>
 

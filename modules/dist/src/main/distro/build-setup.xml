@@ -33,18 +33,15 @@
     <!-- Load jbossws.integration.target properties -->
     <property file="${target.properties.file}"/>
 
-    <property name="jboss700.modules" value="${jboss700.home}/modules"/>
-    <property name="jboss710.modules" value="${jboss710.home}/modules"/>
-
-    <property name="jboss702.available.file" value="${jboss702.home}/jboss-modules.jar"/>
     <property name="jboss710.available.file" value="${jboss710.home}/jboss-modules.jar"/>
     <property name="jboss711.available.file" value="${jboss711.home}/jboss-modules.jar"/>
     <property name="jboss712.available.file" value="${jboss712.home}/jboss-modules.jar"/>
+    <property name="jboss720.available.file" value="${jboss720.home}/jboss-modules.jar"/>
 
-    <available property="jboss702.available" file="${jboss702.available.file}"/>
     <available property="jboss710.available" file="${jboss710.available.file}"/>   
     <available property="jboss711.available" file="${jboss711.available.file}"/>   
     <available property="jboss712.available" file="${jboss712.available.file}"/>   
+    <available property="jboss720.available" file="${jboss720.available.file}"/>
 
     <tstamp>
       <format property="build.id" pattern="yyyyMMddHHmm"/>

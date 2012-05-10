@@ -55,9 +55,7 @@ public class EJB3ClientBusTestCase extends JBossWSTest
          ejb3Remote.testBusCreation();
          ejb3Remote.testSOAPConnection(host);
          ejb3Remote.testWebServiceClient(host);
-         if (!isTargetJBoss70()) {
-            ejb3Remote.testWebServiceRef();
-         }
+         ejb3Remote.testWebServiceRef();
       }
       finally
       {
