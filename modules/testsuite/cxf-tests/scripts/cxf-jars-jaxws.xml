@@ -250,6 +250,14 @@
       </manifest>
     </war>
   	
+    <!-- jaxws-cxf-wsmex -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-wsmex.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/wsmex/Endpoint.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/wsmex/EndpointBean.class"/>
+      </fileset>
+    </jar>
+  	
     <!-- saaj-soap-connection -->
     <war
        warfile="${tests.output.dir}/test-libs/saaj-soap-connection.war"
