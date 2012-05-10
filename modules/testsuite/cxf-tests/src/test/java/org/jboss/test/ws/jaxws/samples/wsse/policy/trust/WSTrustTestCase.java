@@ -52,6 +52,11 @@ public class WSTrustTestCase extends JBossWSTest
             "jaxws-samples-wsse-policy-trust-client.jar jaxws-samples-wsse-policy-trust-sts.war jaxws-samples-wsse-policy-trust.war");
    }
    
+   /**
+    * WS-Trust test with the STS information programmatically provided
+    * 
+    * @throws Exception
+    */
    public void test() throws Exception
    {
       Bus bus = BusFactory.newInstance().createBus();
@@ -66,7 +71,39 @@ public class WSTrustTestCase extends JBossWSTest
          
          final QName stsServiceName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "SecurityTokenService");
          final QName stsPortName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "UT_Port");
-         WSTrustTestUtils.setupWsse(proxy, bus, stsURL + "?wsdl", stsServiceName, stsPortName);
+         WSTrustTestUtils.setupWsseAndSTSClient(proxy, bus, stsURL + "?wsdl", stsServiceName, stsPortName);
+         
+         assertEquals("WS-Trust Hello World!", proxy.sayHello());
+      }
+      finally
+      {
+         bus.shutdown(true);
+      }
+   }
+   
+   /**
+    * WS-Trust test with the STS information coming from EPR specified in service endpoint contract policy
+    * 
+    * @throws Exception
+    */
+   public void testUsingEPR() throws Exception
+   {
+      if (true) {
+         System.out.println("FIXME: [CXF-4304] Complete WSA support for STS client configuration via EPR");
+         return;
+      }
+      
+      Bus bus = BusFactory.newInstance().createBus();
+      try
+      {
+         BusFactory.setThreadDefaultBus(bus);
+         
+         final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+         final URL wsdlURL = new URL(serviceURL + "?wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         ServiceIface proxy = (ServiceIface) service.getPort(ServiceIface.class);
+         
+         WSTrustTestUtils.setupWsse(proxy, bus);
          
          assertEquals("WS-Trust Hello World!", proxy.sayHello());
       }

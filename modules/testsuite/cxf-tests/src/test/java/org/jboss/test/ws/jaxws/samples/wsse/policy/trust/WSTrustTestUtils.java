@@ -53,7 +53,7 @@ public class WSTrustTestUtils
       return testSetup;
    }
    
-   public static void setupWsse(ServiceIface proxy, Bus bus, String stsWsdlLocation, QName stsService, QName stsPort)
+   public static void setupWsseAndSTSClient(ServiceIface proxy, Bus bus, String stsWsdlLocation, QName stsService, QName stsPort)
    {
       Map<String, Object> ctx = ((BindingProvider) proxy).getRequestContext();
       ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
@@ -62,9 +62,11 @@ public class WSTrustTestUtils
       ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
       ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
       STSClient stsClient = new STSClient(bus);
-      stsClient.setWsdlLocation(stsWsdlLocation);
-      stsClient.setServiceQName(stsService);
-      stsClient.setEndpointQName(stsPort);
+      if (stsWsdlLocation != null) {
+         stsClient.setWsdlLocation(stsWsdlLocation);
+         stsClient.setServiceQName(stsService);
+         stsClient.setEndpointQName(stsPort);
+      }
       Map<String, Object> props = stsClient.getProperties();
       props.put(SecurityConstants.USERNAME, "alice");
       props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
@@ -74,5 +76,27 @@ public class WSTrustTestUtils
       props.put(SecurityConstants.STS_TOKEN_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
+   }
+   
+   public static void setupWsse(ServiceIface proxy, Bus bus)
+   {
+      Map<String, Object> ctx = ((BindingProvider) proxy).getRequestContext();
+      ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
+      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
+      ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.USERNAME), "alice");
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.CALLBACK_HANDLER), new ClientCallbackHandler());
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_USERNAME), "mystskey");
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USERNAME), "myclientkey");
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO), "true");
+   }
+   
+   private static String appendIssuedTokenSuffix(String prop)
+   {
+      return prop + ".it";
    }
 }

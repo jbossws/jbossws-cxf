@@ -64,7 +64,7 @@ public final class WSTrustPicketLinkTestCase extends JBossWSTest
          
          final QName stsServiceName = new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTS");
          final QName stsPortName = new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTSPort");
-         WSTrustTestUtils.setupWsse(proxy, bus, stsURL + "?wsdl", stsServiceName, stsPortName);
+         WSTrustTestUtils.setupWsseAndSTSClient(proxy, bus, stsURL + "?wsdl", stsServiceName, stsPortName);
          
          assertEquals("WS-Trust Hello World!", proxy.sayHello());
       }
