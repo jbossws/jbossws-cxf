@@ -93,6 +93,7 @@
     <mail.version>1.4.4</mail.version>
     <neethi.version>3.0.1</neethi.version>
     <saaj.api.version>1.0.1.Final</saaj.api.version>
+    <servlet.api.version>1.0.1.Final</servlet.api.version>
     <stax.api.version>1.0-2</stax.api.version>
     <jms.api.version>1.0.0.Final</jms.api.version>
     <velocity.version>1.6.3</velocity.version>
@@ -997,7 +998,7 @@
       <dependency>
         <groupId>org.jboss.spec.javax.servlet</groupId>
         <artifactId>jboss-servlet-api_3.0_spec</artifactId>
-        <version>1.0.0.Beta2</version>
+        <version>${servlet.api.version}</version>
       </dependency>
      
       <!-- jboss provided -->
@@ -1186,29 +1187,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <finalName>assembly</finalName>
-          <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
-          <appendAssemblyId>false</appendAssemblyId>
-          <!--
-            Cannot bind to lifecycle with multiple modules
-            http://jira.codehaus.org/browse/MASSEMBLY-319
-          <executions>
-            <execution>
-              <id>build-deploy-artifacts</id>
-              <phase>package</phase>
-              <goals>
-                <goal>directory-inline</goal>
-              </goals>
-            </execution>
-          </executions-->
-          <descriptors>
-            <descriptor>src/main/scripts/assembly-deploy-artifacts.xml</descriptor>
-          </descriptors>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
