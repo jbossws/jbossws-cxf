@@ -93,6 +93,7 @@ public class WSTrustTestUtils
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USERNAME), "myclientkey");
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO), "true");
+      ctx.put("ws-security.sts.disable-wsmex-call-using-epr-address", "true");
    }
    
    private static String appendIssuedTokenSuffix(String prop)
