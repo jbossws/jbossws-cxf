@@ -14,7 +14,6 @@
         <include>jbossws-*/**</include>
       </includes>
     </fileSet>
-    
     <!-- module.xml files -->
     <fileSet>
       <directory>../resources/src/main/resources/modules</directory>
@@ -23,7 +22,6 @@
         <include>**/module.xml</include>
       </includes>
     </fileSet>
-    
   </fileSets>
 
     <dependencySets>
@@ -63,12 +61,12 @@
               <include>javax.jws:jsr181-api:jar</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
-            <useProjectArtifact>false</useProjectArtifact>            
+            <useProjectArtifact>false</useProjectArtifact>
         </dependencySet>
 
          <dependencySet>
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>           
+            <unpack>false</unpack>
             <includes>
               <include>org.springframework:spring-aop:jar</include>
               <include>org.springframework:spring-asm:jar</include>
@@ -90,12 +88,13 @@
             <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>
          </dependencySet>
-         
+
          <dependencySet>
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>           
+            <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws:jbossws-jboss*:jar:*:tests-integration</include>
+              <include>org.jboss.as:jboss-as-webservices-tests-integration:jar</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}${dashClassifier}.${artifact.extension}</outputFileNameMapping>
             <scope>provided</scope>
@@ -104,7 +103,7 @@
 
          <dependencySet>
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>           
+            <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws.cxf:jbossws-cxf-resources:jar:*:jboss*</include>
             </includes>
@@ -114,7 +113,7 @@
 
          <dependencySet>
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>           
+            <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws:jbossws-shared-testsuite:jar</include>
             </includes>
@@ -170,6 +169,6 @@
             <scope>test</scope>
             <useProjectArtifact>false</useProjectArtifact>
          </dependencySet>
+
     </dependencySets>
-  
 </assembly>
