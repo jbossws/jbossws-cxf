@@ -318,16 +318,57 @@
       <build>
         <plugins>
           <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <!-- http://jira.codehaus.org/browse/MCOMPILER-72 -->
-              <testExcludeFile>../test-excludes-jboss510.txt</testExcludeFile>
-            </configuration>
-          </plugin>
-          <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <argLine>${surefire.jvm.args} -Djava.endorsed.dirs=${jboss510.home}/lib/endorsed</argLine>
+              <excludes>
+                <!-- # UsernameTestCase requires trustore in jboss-web tomcat configuration -->
+                <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
+
+                <!-- # [CXF-1252] Provider PAYLOAD endpoint expects SOAP Envelope -->
+                <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase.*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderPayloadTestCase.*</exclude>
+
+                <!-- # [CXF-1511] WrappedMessageContext does not implement SOAPMessageContext -->
+                <exclude>org/jboss/test/ws/jaxws/binding/**</exclude>
+
+                <!-- # [CXF-1517] HTTP bindings for Provider -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1807/**</exclude>
+
+                <!-- # [CXF-1519] Explicitly set the namespace of a WebFault -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
+
+                <!-- # [CXF-1521] Exception handling with @WebFault annotation -->
+                <exclude>org/jboss/test/ws/jaxws/webfault/**</exclude>
+
+                <!-- # [CXF-2006] RespectBinding feature and not understood required extensibility elements -->
+                <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
+
+                <!-- # [EJBTHREE-1152] service-ref in ejb-jar.xml is ignored -->
+                <exclude>org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefEJBTestCase.*</exclude>
+
+                <!-- # [JBWS-2596] Resource injection in jaxws endpoints and handlers -->
+                <exclude>org/jboss/test/ws/jaxws/jbws2074/**</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws2634/**</exclude>
+
+                <!-- # [JBWS-2561] XOP request not properly inlined -->
+                <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
+
+                <!-- # [JBWS-2571] Mode.INOUT parameter not generated -->
+                <exclude>org/jboss/test/ws/jaxws/holder/**</exclude>
+
+                <!-- # [JBWS-2480] Soap attachments are dropped on server response -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
+
+                <!-- # [JBWS-2397] Fix jbws1797 testcase -->
+                <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
+
+                <!-- # [JBWS-3020]  Investigate why HandlerScopeTestCase fails -->
+                <exclude>org/jboss/test/ws/jaxws/handlerscope/*TestCase.*</exclude>
+
+                <!-- # Seems MSFT interop. endpoints are down :( -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
+              </excludes>
             </configuration>
           </plugin>
         </plugins>

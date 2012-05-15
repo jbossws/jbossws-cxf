@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.0.8.GA</version>
+    <version>1.0.8.SP1</version>
   </parent>
   
   <!-- Source Control Management -->
