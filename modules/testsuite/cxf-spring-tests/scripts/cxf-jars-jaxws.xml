@@ -114,6 +114,24 @@
        </webinf>
     </war>
 
+    <!-- jaxws-cxf-jbws-3497-->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3497.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jbws3497/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3497/Endpoint*.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/jbws3497/WEB-INF">
+        <include name="jbossws-cxf.xml"/>
+      </webinf>
+      <zipfileset
+        dir="${tests.output.dir}/test-resources/jaxws/cxf/jbws3497/WEB-INF" 
+        prefix="WEB-INF/classes">
+        <include name="cxf.xml"/>
+      </zipfileset>
+      <manifest>
+        <attribute name="Dependencies" value="org.apache.cxf"/>
+      </manifest>
+    </war>
+
     <!-- jaxws-cxf-jms-api -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-api-as7.war"
     	needxmlfile='false'>

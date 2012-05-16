@@ -1,0 +1,11 @@
+<beans xmlns='http://www.springframework.org/schema/beans' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:beans='http://www.springframework.org/schema/beans'
+  xmlns:jaxws='http://cxf.apache.org/jaxws'
+  xsi:schemaLocation='http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://www.w3.org/2006/07/ws-policy http://www.w3.org/2006/07/ws-policy.xsd 
+  http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd'>
+  
+  <jaxws:endpoint id='EJBEndpointService' address='http://@jboss.bind.address@:8080/jaxws-cxf-jbws3497/ServiceOne/EndpointOne'
+    implementor='org.jboss.test.ws.jaxws.cxf.jbws3497.EndpointOneImpl'>
+  </jaxws:endpoint>
+  
+</beans>
