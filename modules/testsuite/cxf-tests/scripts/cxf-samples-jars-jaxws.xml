@@ -242,7 +242,7 @@
           <include name="stsKeystore.properties" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf.impl"/> <!-- cxf impl required to extend STS impl -->
        </manifest>
     </war>
 
@@ -326,7 +326,7 @@
           <include name="wsdl/*"/>
        </webinf>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
        </manifest>
     </war>
 
@@ -345,7 +345,7 @@
           <include name="wsdl/*"/>
        </webinf>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
        </manifest>
     </war>
 

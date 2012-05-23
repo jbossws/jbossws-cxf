@@ -23,8 +23,8 @@ package org.jboss.test.ws.jaxws.samples.wsrm.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
-import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.Message;
@@ -61,7 +61,7 @@ public class RMCheckInterceptor extends AbstractPhaseInterceptor<Message>
          CachedOutputStream bos = new CachedOutputStream();
          try
          {
-            IOUtils.copy(is, bos);
+            copy(is, bos, 4096);
             bos.flush();
             is.close();
             message.setContent(InputStream.class, bos.getInputStream());
@@ -78,6 +78,34 @@ public class RMCheckInterceptor extends AbstractPhaseInterceptor<Message>
          throw new Fault("Could not find any reference to namespace '" + RM_NS + "' in handled message.",
                java.util.logging.Logger.getLogger(RMCheckInterceptor.class.getName()));
       }
+   }
+
+   public static int copy(final InputStream input, final OutputStream output, int bufferSize) throws IOException
+   {
+      int avail = input.available();
+      if (avail > 262144)
+      {
+         avail = 262144;
+      }
+      if (avail > bufferSize)
+      {
+         bufferSize = avail;
+      }
+      final byte[] buffer = new byte[bufferSize];
+      int n = 0;
+      n = input.read(buffer);
+      int total = 0;
+      while (-1 != n)
+      {
+         if (n == 0)
+         {
+            throw new IOException("0 bytes read in violation of InputStream.read(byte[])");
+         }
+         output.write(buffer, 0, n);
+         total += n;
+         n = input.read(buffer);
+      }
+      return total;
    }
 
 }

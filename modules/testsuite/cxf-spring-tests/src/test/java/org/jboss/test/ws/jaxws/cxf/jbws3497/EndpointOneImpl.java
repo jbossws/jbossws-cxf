@@ -32,7 +32,6 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.ConfiguredBeanLocator;
 import org.apache.cxf.workqueue.AutomaticWorkQueue;
-import org.apache.cxf.workqueue.AutomaticWorkQueueImpl;
 import org.jboss.logging.Logger;
 
 @WebService(name = "EndpointOne", targetNamespace = "http://org.jboss.ws.jaxws.cxf/jbws3497", serviceName = "ServiceOne")
@@ -46,9 +45,20 @@ public class EndpointOneImpl
    {
       Bus bus = BusFactory.getThreadDefaultBus(false);
       ConfiguredBeanLocator locator = bus.getExtension(ConfiguredBeanLocator.class);
-      AutomaticWorkQueueImpl queue = (AutomaticWorkQueueImpl)locator.getBeanOfType("cxf.default.workqueue", AutomaticWorkQueue.class);
-      if (queue.getMaxSize() != 10) {
-         throw new RuntimeException("Expected max queue size '10' but got '" + queue.getMaxSize() + "'!");
+      AutomaticWorkQueue queue = locator.getBeanOfType("cxf.default.workqueue", AutomaticWorkQueue.class);
+      //this is just a verification of a workaround, so going the dirty way...
+      Long qs = null;
+      try
+      {
+         qs = (Long) queue.getClass().getMethod("getMaxSize").invoke(queue);
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
+      if (qs != 10)
+      {
+         throw new RuntimeException("Expected max queue size '10' but got '" + qs + "'!");
       }
       Logger.getLogger(this.getClass()).info("echo: " + input);
       count.incrementAndGet();

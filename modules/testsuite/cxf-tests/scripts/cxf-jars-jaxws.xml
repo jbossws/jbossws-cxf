@@ -202,7 +202,7 @@
       	<include name="org/jboss/test/ws/jaxws/cxf/logging/CustomInInterceptor.class"/>
       </fileset>
       <manifest>
-        <attribute name="Dependencies" value="org.apache.cxf"/>
+        <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
       </manifest>
     </jar>
 
