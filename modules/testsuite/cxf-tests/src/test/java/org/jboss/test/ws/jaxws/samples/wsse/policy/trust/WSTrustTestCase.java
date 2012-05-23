@@ -88,11 +88,6 @@ public class WSTrustTestCase extends JBossWSTest
     */
    public void testUsingEPR() throws Exception
    {
-      if (true) {
-         System.out.println("FIXME: [CXF-4304] Complete WSA support for STS client configuration via EPR");
-         return;
-      }
-      
       Bus bus = BusFactory.newInstance().createBus();
       try
       {
