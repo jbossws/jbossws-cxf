@@ -26,7 +26,7 @@ import java.net.URL;
 
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
-import org.apache.cxf.tools.common.extensions.soap.SoapAddress;
+import org.apache.cxf.binding.soap.wsdl.extensions.SoapAddress;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.management.ServerConfig;
 

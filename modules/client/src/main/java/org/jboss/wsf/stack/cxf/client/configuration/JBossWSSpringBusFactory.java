@@ -118,7 +118,7 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
       return bus;
    }
 
-   private BusApplicationContext createApplicationContext(String cfgFiles[], boolean includeDefaults)
+   protected BusApplicationContext createApplicationContext(String cfgFiles[], boolean includeDefaults)
    {
       try
       {

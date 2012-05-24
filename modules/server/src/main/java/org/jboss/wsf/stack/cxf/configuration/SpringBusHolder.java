@@ -24,6 +24,7 @@ package org.jboss.wsf.stack.cxf.configuration;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -31,6 +32,7 @@ import java.util.ResourceBundle;
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
 import org.apache.cxf.bus.spring.BusApplicationContext;
+import org.apache.cxf.configuration.ConfiguredBeanLocator;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.http.HttpDestinationFactory;
@@ -67,6 +69,7 @@ public class SpringBusHolder extends BusHolder
    protected BusApplicationContext ctx;
 
    protected List<GenericApplicationContext> additionalCtx = new LinkedList<GenericApplicationContext>();
+   private ConfiguredBeanLocator delegatingBeanLocator;
 
    protected URL[] additionalLocations;
 
@@ -90,13 +93,16 @@ public class SpringBusHolder extends BusHolder
       //the cxf/jbossws-cxf check on actual need for spring bus (we know
       //it's required here as we have the jbossws-cxf.xml descriptor)
       bus = new JBossWSSpringBusFactory().createBus((URL[])null);
+      ConfiguredBeanLocator delegate = bus.getExtension(ConfiguredBeanLocator.class);
+      delegatingBeanLocator = new DelegatingBeanLocator(additionalCtx, delegate);
+      bus.setExtension(delegatingBeanLocator, ConfiguredBeanLocator.class);
       ctx = bus.getExtension(BusApplicationContext.class);
       //Load additional configurations from cxf-servlet.xml
       if (location != null)
       {
          try
          {
-            additionalCtx.add(loadAdditionalConfig(ctx, location));
+            loadAdditionalConfig(ctx, location);
          }
          catch (IOException e)
          {
@@ -130,7 +136,7 @@ public class SpringBusHolder extends BusHolder
          {
             try
             {
-               additionalCtx.add(loadAdditionalConfig(ctx, jbossCxfXml));
+               loadAdditionalConfig(ctx, jbossCxfXml);
             }
             catch (IOException e)
             {
@@ -172,13 +178,14 @@ public class SpringBusHolder extends BusHolder
       return serverConfigurer;
    }
 
-   protected static GenericApplicationContext loadAdditionalConfig(ApplicationContext ctx, URL locationUrl)
+   protected GenericApplicationContext loadAdditionalConfig(ApplicationContext ctx, URL locationUrl)
          throws IOException
    {
       if (locationUrl == null)
          throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "CANNOT_LOAD_ADDITIONAL_CONFIG"));
       InputStream is = locationUrl.openStream();
       GenericApplicationContext childCtx = new GenericApplicationContext(ctx);
+      additionalCtx.add(childCtx);
       XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(childCtx);
       reader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_XSD);
       reader.setNamespaceHandlerResolver(new NamespaceHandlerResolver(SecurityActions.getContextClassLoader()));
@@ -207,4 +214,51 @@ public class SpringBusHolder extends BusHolder
       super.setBus(bus);
       ctx = (bus.getExtension(BusApplicationContext.class));
    }
+
+   private static class DelegatingBeanLocator implements ConfiguredBeanLocator {
+	   
+	   private final ConfiguredBeanLocator delegate;
+	   private final List<GenericApplicationContext> contexts;
+	   
+	   private DelegatingBeanLocator(final List<GenericApplicationContext> contexts, final ConfiguredBeanLocator delegate) {
+	       this.delegate = delegate;
+	       this.contexts = contexts;
+	   }
+
+	   @Override
+	   public List<String> getBeanNamesOfType(Class<?> arg0) {
+		   return delegate.getBeanNamesOfType(arg0);
+	   }
+
+	   // TODO: hack for WSPolicyFeature local reference resolver :(
+	   @Override
+	   public <T> T getBeanOfType(String arg0, Class<T> arg1) {
+		   for (final GenericApplicationContext ctx : contexts) {
+			   if (ctx.containsBean(arg0)) {
+				   return ctx.getBean(arg0, arg1);
+			   }
+		   }
+		   return delegate.getBeanOfType(arg0, arg1);
+	   }
+
+	   @Override
+	   public <T> Collection<? extends T> getBeansOfType(Class<T> arg0) {
+		   return delegate.getBeansOfType(arg0);
+	   }
+
+	   @Override
+	   public boolean hasBeanOfName(String arg0) {
+		   return delegate.hasBeanOfName(arg0);
+	   }
+
+	   @Override
+	   public boolean hasConfiguredPropertyValue(String arg0, String arg1, String arg2) {
+		   return delegate.hasConfiguredPropertyValue(arg0, arg1, arg2);
+	   }
+
+	   @Override
+	   public <T> boolean loadBeansOfType(Class<T> arg0, BeanLoaderListener<T> arg1) {
+		   return delegate.loadBeansOfType(arg0, arg1);
+	   }
+    }
 }

@@ -38,12 +38,11 @@ import org.jboss.wsf.stack.cxf.client.ProviderImpl;
  */
 public class JBossWSNonSpringBusFactory extends CXFBusFactory
 {
-   @SuppressWarnings("rawtypes")
    @Override
-   public Bus createBus(Map<Class, Object> extensions, Map<String, Object> properties) {
+   public Bus createBus(Map<Class<?>, Object> extensions, Map<String, Object> properties) {
       if (extensions == null)
       {
-         extensions = new HashMap<Class, Object>();
+         extensions = new HashMap<Class<?>, Object>();
       }
       if (!extensions.containsKey(Configurer.class))
       {

@@ -73,7 +73,7 @@
     <jboss712.version>7.1.2.Final</jboss712.version>
     <jboss720.version>7.2.0.Alpha1-SNAPSHOT</jboss720.version>
     <ejb.api.version>1.0.1.Final</ejb.api.version>
-    <cxf.version>2.5.4-SNAPSHOT</cxf.version>
+    <cxf.version>2.6.1-SNAPSHOT</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
     <cxf.xjcplugins.version>2.4.0</cxf.xjcplugins.version>
     <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
@@ -109,7 +109,7 @@
     <xmlsec.version>1.5.1</xmlsec.version>
     <wss4j.version>1.6.5</wss4j.version>
     <wstx.version>3.2.9</wstx.version>
-    <spring.version>3.0.6.RELEASE</spring.version>
+    <spring.version>3.0.7.RELEASE</spring.version>
   </properties>
 
 
@@ -235,21 +235,6 @@
           <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-annotation_1.0_spec</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-bindings-http</artifactId>
-        <version>${cxf.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.codehaus.jra</groupId>
-            <artifactId>jra</artifactId>
           </exclusion>
         </exclusions>
       </dependency>

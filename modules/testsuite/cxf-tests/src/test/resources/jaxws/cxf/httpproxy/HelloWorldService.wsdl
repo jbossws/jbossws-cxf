@@ -45,7 +45,7 @@
   </wsdl:binding>
   <wsdl:service name="HelloWorldService">
     <wsdl:port binding="tns:HelloWorldServiceSoapBinding" name="HelloWorldImplPort">
-      <soap:address location="INVALID"/>
+      <soap:address location="http://unreachable-testHttpProxyUsingHTTPClientPolicy/jaxws-cxf-httpproxy/HelloWorldService/HelloWorldImpl"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

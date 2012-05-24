@@ -108,14 +108,12 @@ public class JBossWSBusFactory extends BusFactory
    }
 
    /** JBossWSNonSpringBusFactory methods **/
-   @SuppressWarnings("rawtypes")
-   public Bus createBus(Map<Class, Object> extensions)
+   public Bus createBus(Map<Class<?>, Object> extensions)
    {
       return getNonSpringBusFactory().createBus(extensions);
    }
 
-   @SuppressWarnings("rawtypes")
-   public Bus createBus(Map<Class, Object> extensions, Map<String, Object> properties)
+   public Bus createBus(Map<Class<?>, Object> extensions, Map<String, Object> properties)
    {
       return getNonSpringBusFactory().createBus(extensions, properties);
    }
