@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,7 +21,9 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
@@ -31,12 +33,17 @@ import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.DestinationFactoryManager;
+import org.apache.cxf.workqueue.AutomaticWorkQueue;
+import org.apache.cxf.workqueue.AutomaticWorkQueueImpl;
+import org.apache.cxf.workqueue.WorkQueueManager;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
 import org.jboss.ws.api.binding.BindingCustomization;
-import org.jboss.ws.common.Constants;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
+import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.interceptor.EnableOneWayDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
@@ -72,8 +79,9 @@ public abstract class BusHolder
     * @param soapTransportFactory   The SoapTransportFactory to configure, if any
     * @param resolver               The ResourceResolver to configure, if any
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
+    * @param dep                    The current JBossWS-SPI Deployment
     */
-   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer)
+   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer, Deployment dep)
    {
       bus.setProperty(org.jboss.wsf.stack.cxf.client.Constants.DEPLOYMENT_BUS, true);
       busHolderListener = new BusHolderLifeCycleListener();
@@ -91,6 +99,11 @@ public abstract class BusHolder
       if (bus.getExtension(PolicyEngine.class) != null) 
       {
          bus.getExtension(PolicyEngine.class).setAlternativeSelector(new MaximalAlternativeSelector());
+      }
+      
+      if (dep != null)
+      {
+         setAdditionalWorkQueues(bus, dep.getAttachment(JBossWebservicesMetaData.class));
       }
    }
    
@@ -143,11 +156,70 @@ public abstract class BusHolder
       {
          DestinationFactoryManager dfm = bus.getExtension(DestinationFactoryManager.class);
          factory.setBus(bus);
-         dfm.registerDestinationFactory(Constants.NS_SOAP11, factory);
-         dfm.registerDestinationFactory(Constants.NS_SOAP12, factory);
+         dfm.registerDestinationFactory(org.jboss.ws.common.Constants.NS_SOAP11, factory);
+         dfm.registerDestinationFactory(org.jboss.ws.common.Constants.NS_SOAP12, factory);
+      }
+   }
+   
+   /**
+    * Adds work queues parsing simple values of properties in jboss-webservices.xml:
+    *   cxf.queue.<queue-name>.<parameter> = value
+    * e.g.
+    *   cxf.queue.default.maxQueueSize = 500
+    * 
+    * See constants in {@link org.jboss.wsf.stack.cxf.client.Constants}.
+    * 
+    * @param bus
+    * @param wsmd
+    */
+   protected static void setAdditionalWorkQueues(Bus bus, JBossWebservicesMetaData wsmd)
+   {
+      if (wsmd != null) {
+         Map<String, String> props = wsmd.getProperties();
+         if (props != null && !props.isEmpty()) {
+            Map<String, Map<String, String>> queuesMap = new HashMap<String, Map<String,String>>();
+            for (final String k : props.keySet()) {
+               if (k.startsWith(Constants.CXF_QUEUE_PREFIX)) {
+                  String sk = k.substring(Constants.CXF_QUEUE_PREFIX.length());
+                  int i = sk.indexOf(".");
+                  if (i > 0) {
+                     String queueName = sk.substring(0, i);
+                     String queueProp = sk.substring(i+1);
+                     Map<String, String> m = queuesMap.get(queueName);
+                     if (m == null) {
+                        m = new HashMap<String, String>();
+                        queuesMap.put(queueName, m);
+                     }
+                     m.put(queueProp, props.get(k));
+                  }
+               }
+            }
+            WorkQueueManager mgr = bus.getExtension(WorkQueueManager.class);
+            for (String queueName : queuesMap.keySet()) {
+               AutomaticWorkQueue q = createWorkQueue(queueName, queuesMap.get(queueName));
+               mgr.addNamedWorkQueue(queueName, q);
+            }
+         }
       }
    }
 
+   private static AutomaticWorkQueue createWorkQueue(String name, Map<String, String> props) {
+      int mqs = parseInt(props.get(Constants.CXF_QUEUE_MAX_QUEUE_SIZE_PROP), 256);
+      int initialThreads = parseInt(props.get(Constants.CXF_QUEUE_INITIAL_THREADS_PROP), 0);
+      int highWaterMark = parseInt(props.get(Constants.CXF_QUEUE_HIGH_WATER_MARK_PROP), 25);
+      int lowWaterMark = parseInt(props.get(Constants.CXF_QUEUE_LOW_WATER_MARK_PROP), 5);
+      long dequeueTimeout = parseLong(props.get(Constants.CXF_QUEUE_DEQUEUE_TIMEOUT_PROP), 2 * 60 * 1000L);
+      return new AutomaticWorkQueueImpl(mqs, initialThreads, highWaterMark, lowWaterMark, dequeueTimeout, name);
+   }
+
+   private static int parseInt(String prop, int defaultValue) {
+      return prop != null ? Integer.parseInt(prop) : defaultValue;
+   }
+   
+   private static long parseLong(String prop, long defaultValue) {
+      return prop != null ? Long.parseLong(prop) : defaultValue;
+   }
+   
    /**
     * Return the hold bus
     * 

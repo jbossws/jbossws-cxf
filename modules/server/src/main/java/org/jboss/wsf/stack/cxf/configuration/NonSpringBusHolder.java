@@ -40,6 +40,7 @@ import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.rm.RMManager;
 import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringBusFactory;
@@ -83,13 +84,13 @@ public class NonSpringBusHolder extends BusHolder
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     */
    @Override
-   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer)
+   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer, Deployment dep)
    {
       if (configured)
       {
          throw new IllegalStateException(BundleUtils.getMessage(bundle, "BUS_IS_ALREADY_CONFIGURED"));
       }
-      super.configure(soapTransportFactory, resolver, configurer);
+      super.configure(soapTransportFactory, resolver, configurer, dep);
 
       for (DDEndpoint dde : metadata.getEndpoints())
       {
