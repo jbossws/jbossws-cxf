@@ -59,7 +59,7 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.attachment.AttachmentImpl;
 import org.apache.cxf.binding.soap.SoapFault;
 import org.apache.cxf.binding.soap.SoapMessage;
-import org.apache.cxf.frontend.MethodDispatcher;
+import org.apache.cxf.service.invoker.MethodDispatcher;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.interceptor.Fault;
