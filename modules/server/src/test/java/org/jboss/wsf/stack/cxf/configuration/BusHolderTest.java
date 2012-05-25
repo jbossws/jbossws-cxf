@@ -65,7 +65,7 @@ public class BusHolderTest extends TestCase
       Deployment dep = new TestDeployment();
       if (alternative != null) {
          JBossWebservicesMetaData wsmd = new JBossWebservicesMetaData(null);
-         wsmd.setProperty(Constants.CXF_POLICY_ALTERNATIVE_SELECTOR, alternative);
+         wsmd.setProperty(Constants.CXF_POLICY_ALTERNATIVE_SELECTOR_PROP, alternative);
          dep.addAttachment(JBossWebservicesMetaData.class, wsmd);
       }
       BusHolder holder = new NonSpringBusHolder(new DDBeans());

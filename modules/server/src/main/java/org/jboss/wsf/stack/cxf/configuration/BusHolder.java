@@ -203,7 +203,7 @@ public abstract class BusHolder
       //default to MaximalAlternativeSelector on server side [JBWS-3149]
       AlternativeSelector selector = new MaximalAlternativeSelector();
       if (props != null && !props.isEmpty()) {
-         String className = props.get(Constants.CXF_POLICY_ALTERNATIVE_SELECTOR);
+         String className = props.get(Constants.CXF_POLICY_ALTERNATIVE_SELECTOR_PROP);
          if (className != null) {
             try {
                Class<?> clazz = Class.forName(className);
