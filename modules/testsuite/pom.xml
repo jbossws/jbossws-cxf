@@ -762,6 +762,9 @@
 
                  <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
                  <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
+                 
+                 <!--# [JBWS-3503] Enable this after find out how to easily generate client classpath in as7-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1666/**</exclude>
 
                  <!--# [JBWS-2561] XOP request not properly inlined-->
                  <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
