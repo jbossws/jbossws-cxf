@@ -58,6 +58,10 @@ public class ServerBeanCustomizer extends BeanCustomizer
    
    private UnifiedVirtualFile deploymentRoot;
    
+   private String epConfigName;
+   
+   private String epConfigFile;
+   
    @Override
    public void customize(Object beanInstance)
    {
@@ -106,22 +110,34 @@ public class ServerBeanCustomizer extends BeanCustomizer
          {
             endpoint.setInvoker(new JBossWSInvoker());
          }
-         EndpointConfig epConfig = implementor.getClass().getAnnotation(EndpointConfig.class);
          
+         // ** Endpoint configuration setup **
+         // 1) default values
          String configName = org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG;
          String configFile = null;
-         if (epConfig != null)
+         // 2) annotation contribution
+         EndpointConfig epConfigAnn = implementor.getClass().getAnnotation(EndpointConfig.class);
+         if (epConfigAnn != null)
          {
-            if (!epConfig.configName().isEmpty())
+            if (!epConfigAnn.configName().isEmpty())
             {
-               configName = epConfig.configName();
+               configName = epConfigAnn.configName();
             }
-            if (!epConfig.configFile().isEmpty())
+            if (!epConfigAnn.configFile().isEmpty())
             {
-               configFile = epConfig.configFile();
+               configFile = epConfigAnn.configFile();
             }
          }
-
+         // 3) descriptor overrides (jboss-webservices.xml or web.xml)
+         if (epConfigName != null && !epConfigName.isEmpty())
+         {
+            configName = epConfigName;
+         }
+         if (epConfigFile != null && !epConfigFile.isEmpty())
+         {
+            configFile = epConfigFile;
+         }
+         // 4) setup of configuration
          if (configFile == null)
          {
             //use endpoint configs from AS domain
@@ -177,4 +193,15 @@ public class ServerBeanCustomizer extends BeanCustomizer
    {
       this.depEndpoints = endpoints;
    }
+   
+   public void setEpConfigName(String epConfigName)
+   {
+      this.epConfigName = epConfigName;
+   }
+
+   public void setEpConfigFile(String epConfigFile)
+   {
+      this.epConfigFile = epConfigFile;
+   }
+
 }

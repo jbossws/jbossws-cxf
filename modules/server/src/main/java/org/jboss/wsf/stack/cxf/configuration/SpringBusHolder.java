@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -166,7 +166,7 @@ public class SpringBusHolder extends BusHolder
 
    @Override
    public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
-         List<Endpoint> depEndpoints, UnifiedVirtualFile root)
+         List<Endpoint> depEndpoints, UnifiedVirtualFile root, String epConfigName, String epConfigFile)
    {
       ApplicationContext ctx = bus.getExtension(BusApplicationContext.class);
       ServerBeanCustomizer customizer = new ServerBeanCustomizer();
@@ -174,6 +174,8 @@ public class SpringBusHolder extends BusHolder
       customizer.setWsdlPublisher(wsdlPublisher);
       customizer.setDeploymentEndpoints(depEndpoints);
       customizer.setDeploymentRoot(root);
+      customizer.setEpConfigFile(epConfigFile);
+      customizer.setEpConfigName(epConfigName);
       Configurer orig = bus.getExtension(Configurer.class);
       JBossWSSpringConfigurer serverConfigurer = (orig instanceof JBossWSSpringConfigurer) ? (JBossWSSpringConfigurer)orig : new JBossWSSpringConfigurer(orig);
       serverConfigurer.setApplicationContext(ctx);

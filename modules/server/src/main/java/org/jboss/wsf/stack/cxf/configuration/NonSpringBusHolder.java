@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -179,13 +179,15 @@ public class NonSpringBusHolder extends BusHolder
 
    @Override
    public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
-         List<Endpoint> depEndpoints, UnifiedVirtualFile root)
+         List<Endpoint> depEndpoints, UnifiedVirtualFile root, String epConfigName, String epConfigFile)
    {
       ServerBeanCustomizer customizer = new ServerBeanCustomizer();
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
       customizer.setDeploymentEndpoints(depEndpoints);
       customizer.setDeploymentRoot(root);
+      customizer.setEpConfigFile(epConfigFile);
+      customizer.setEpConfigName(epConfigName);
       return new JBossWSNonSpringConfigurer(customizer);
    }
 

@@ -126,10 +126,12 @@ public abstract class BusHolder
     * @param customization    The binding customization to set in the configurer, if any
     * @param wsdlPublisher    The wsdl file publisher to set in the configurer, if any
     * @param depEndpoints     The list of deployment endpoints
+    * @param epConfigName     The endpoint configuration name, if any
+    * @param epConfigFile     The endpoint configuration file, if any
     * @return                 The new jbossws cxf configurer
     */
    public abstract Configurer createServerConfigurer(BindingCustomization customization,
-         WSDLFilePublisher wsdlPublisher, List<Endpoint> depEndpoints, UnifiedVirtualFile root);
+         WSDLFilePublisher wsdlPublisher, List<Endpoint> depEndpoints, UnifiedVirtualFile root, String epConfigName, String epConfigFile);
    
    protected static void setInterceptors(Bus bus)
    {
