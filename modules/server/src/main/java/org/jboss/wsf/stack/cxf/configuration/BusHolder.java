@@ -40,7 +40,6 @@ import org.apache.cxf.ws.policy.AlternativeSelector;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
 import org.jboss.ws.api.binding.BindingCustomization;
-import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
@@ -80,9 +79,9 @@ public abstract class BusHolder
     * @param soapTransportFactory   The SoapTransportFactory to configure, if any
     * @param resolver               The ResourceResolver to configure, if any
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
-    * @param dep                    The current JBossWS-SPI Deployment
+    * @param wsmd                   The current JBossWebservicesMetaData, if any
     */
-   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer, Deployment dep)
+   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd)
    {
       bus.setProperty(org.jboss.wsf.stack.cxf.client.Constants.DEPLOYMENT_BUS, true);
       busHolderListener = new BusHolderLifeCycleListener();
@@ -96,7 +95,7 @@ public abstract class BusHolder
       setSoapTransportFactory(bus, soapTransportFactory);
       setResourceResolver(bus, resolver);
       
-      Map<String, String> props = getJBossWebservicesMetaDataProperties(dep);
+      Map<String, String> props = (wsmd == null) ? null : wsmd.getProperties();
       
       if (bus.getExtension(PolicyEngine.class) != null) 
       {
@@ -216,16 +215,6 @@ public abstract class BusHolder
       return selector;
    }
    
-   private static Map<String, String> getJBossWebservicesMetaDataProperties(Deployment dep) {
-      if (dep != null) {
-         JBossWebservicesMetaData wsmd = dep.getAttachment(JBossWebservicesMetaData.class);
-         if (wsmd != null) {
-            return wsmd.getProperties();
-         }
-      }
-      return null;
-   }
-
    private static AutomaticWorkQueue createWorkQueue(String name, Map<String, String> props) {
       int mqs = parseInt(props.get(Constants.CXF_QUEUE_MAX_QUEUE_SIZE_PROP), 256);
       int initialThreads = parseInt(props.get(Constants.CXF_QUEUE_INITIAL_THREADS_PROP), 0);

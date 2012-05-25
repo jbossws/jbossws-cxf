@@ -36,6 +36,7 @@ import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
+import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
@@ -110,7 +111,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          }
          Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
                new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile());
-         holder.configure(new SoapTransportFactoryExt(), resolver, configurer, dep);
+         holder.configure(new SoapTransportFactoryExt(), resolver, configurer, dep.getAttachment(JBossWebservicesMetaData.class));
          dep.addAttachment(BusHolder.class, holder);
       }
       finally

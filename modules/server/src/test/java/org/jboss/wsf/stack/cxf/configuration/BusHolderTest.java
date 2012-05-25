@@ -26,11 +26,6 @@ import junit.framework.TestCase;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.FirstAlternativeSelector;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
-import org.jboss.wsf.spi.deployment.AbstractExtensible;
-import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.DeploymentState;
-import org.jboss.wsf.spi.deployment.DeploymentType;
-import org.jboss.wsf.spi.deployment.Service;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
@@ -62,89 +57,18 @@ public class BusHolderTest extends TestCase
    }
    
    private static String setupPropertyAndGetAlternativeSelector(String alternative) {
-      Deployment dep = new TestDeployment();
+      JBossWebservicesMetaData wsmd = null;
       if (alternative != null) {
-         JBossWebservicesMetaData wsmd = new JBossWebservicesMetaData(null);
+         wsmd = new JBossWebservicesMetaData(null);
          wsmd.setProperty(Constants.CXF_POLICY_ALTERNATIVE_SELECTOR_PROP, alternative);
-         dep.addAttachment(JBossWebservicesMetaData.class, wsmd);
       }
       BusHolder holder = new NonSpringBusHolder(new DDBeans());
       try {
-         holder.configure(null, null, null, dep);
+         holder.configure(null, null, null, wsmd);
          return holder.getBus().getExtension(PolicyEngine.class).getAlternativeSelector().getClass().getName();
       } finally {
          holder.close();
       }
-   }
-   
-   private static class TestDeployment extends AbstractExtensible implements Deployment {
-
-      @Override
-      public String getSimpleName()
-      {
-         return null;
-      }
-
-      @Override
-      public void setSimpleName(String name)
-      {
-      }
-
-      @Override
-      public ClassLoader getInitialClassLoader()
-      {
-         return null;
-      }
-
-      @Override
-      public void setInitialClassLoader(ClassLoader loader)
-      {
-      }
-
-      @Override
-      public ClassLoader getRuntimeClassLoader()
-      {
-         return null;
-      }
-
-      @Override
-      public void setRuntimeClassLoader(ClassLoader loader)
-      {
-      }
-
-      @Override
-      public DeploymentType getType()
-      {
-         return null;
-      }
-
-      @Override
-      public void setType(DeploymentType type)
-      {
-      }
-
-      @Override
-      public DeploymentState getState()
-      {
-         return null;
-      }
-
-      @Override
-      public void setState(DeploymentState type)
-      {
-      }
-
-      @Override
-      public Service getService()
-      {
-         return null;
-      }
-
-      @Override
-      public void setService(Service service)
-      {
-      }
-      
    }
 
 }

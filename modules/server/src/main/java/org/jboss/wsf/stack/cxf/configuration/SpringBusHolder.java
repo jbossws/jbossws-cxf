@@ -41,9 +41,9 @@ import org.apache.ws.security.WSSConfig;
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.ws.api.util.BundleUtils;
-import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
@@ -123,15 +123,16 @@ public class SpringBusHolder extends BusHolder
     * @param resolver               The ResourceResolver to configure, if any
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     * @param dep                    The current JBossWS-SPI Deployment
+    * @param wsmd                   The current JBossWebservicesMetaData, if any
     */
    @Override
-   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer, Deployment dep)
+   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd)
    {
       if (configured)
       {
          throw new IllegalStateException(BundleUtils.getMessage(bundle, "BUS_IS_ALREADY_CONFIGURED"));
       }
-      super.configure(soapTransportFactory, resolver, configurer, dep);
+      super.configure(soapTransportFactory, resolver, configurer, wsmd);
       if (additionalLocations != null)
       {
          for (URL jbossCxfXml : additionalLocations)
