@@ -39,4 +39,5 @@ public class Constants
    public static final String CXF_QUEUE_HIGH_WATER_MARK_PROP = "highWaterMark";
    public static final String CXF_QUEUE_LOW_WATER_MARK_PROP = "lowWaterMark";
    public static final String CXF_QUEUE_DEQUEUE_TIMEOUT_PROP = "dequeueTimeout";
+   public static final String CXF_POLICY_ALTERNATIVE_SELECTOR = "cxf.policy.alternativeSelector";
 }

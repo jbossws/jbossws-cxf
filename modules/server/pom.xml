@@ -215,7 +215,7 @@
       <artifactId>xercesImpl</artifactId>
     </dependency>
     
-    <!-- transitve dependencies -->
+    <!-- transitive dependencies -->
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
@@ -252,6 +252,12 @@
       <groupId>org.jboss.jaxr</groupId>
       <artifactId>juddi-service</artifactId>
       <type>sar</type>
+    </dependency>
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   

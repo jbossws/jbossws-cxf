@@ -36,6 +36,7 @@ import org.apache.cxf.transport.DestinationFactoryManager;
 import org.apache.cxf.workqueue.AutomaticWorkQueue;
 import org.apache.cxf.workqueue.AutomaticWorkQueueImpl;
 import org.apache.cxf.workqueue.WorkQueueManager;
+import org.apache.cxf.ws.policy.AlternativeSelector;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
 import org.jboss.ws.api.binding.BindingCustomization;
@@ -95,16 +96,14 @@ public abstract class BusHolder
       setSoapTransportFactory(bus, soapTransportFactory);
       setResourceResolver(bus, resolver);
       
-      //set MaximalAlternativeSelector on server side [JBWS-3149]
+      Map<String, String> props = getJBossWebservicesMetaDataProperties(dep);
+      
       if (bus.getExtension(PolicyEngine.class) != null) 
       {
-         bus.getExtension(PolicyEngine.class).setAlternativeSelector(new MaximalAlternativeSelector());
+         bus.getExtension(PolicyEngine.class).setAlternativeSelector(getAlternativeSelector(props));
       }
       
-      if (dep != null)
-      {
-         setAdditionalWorkQueues(bus, dep.getAttachment(JBossWebservicesMetaData.class));
-      }
+      setAdditionalWorkQueues(bus, props);
    }
    
    
@@ -172,35 +171,59 @@ public abstract class BusHolder
     * @param bus
     * @param wsmd
     */
-   protected static void setAdditionalWorkQueues(Bus bus, JBossWebservicesMetaData wsmd)
+   protected static void setAdditionalWorkQueues(Bus bus, Map<String, String> props)
    {
-      if (wsmd != null) {
-         Map<String, String> props = wsmd.getProperties();
-         if (props != null && !props.isEmpty()) {
-            Map<String, Map<String, String>> queuesMap = new HashMap<String, Map<String,String>>();
-            for (final String k : props.keySet()) {
-               if (k.startsWith(Constants.CXF_QUEUE_PREFIX)) {
-                  String sk = k.substring(Constants.CXF_QUEUE_PREFIX.length());
-                  int i = sk.indexOf(".");
-                  if (i > 0) {
-                     String queueName = sk.substring(0, i);
-                     String queueProp = sk.substring(i+1);
-                     Map<String, String> m = queuesMap.get(queueName);
-                     if (m == null) {
-                        m = new HashMap<String, String>();
-                        queuesMap.put(queueName, m);
-                     }
-                     m.put(queueProp, props.get(k));
+      if (props != null && !props.isEmpty()) {
+         Map<String, Map<String, String>> queuesMap = new HashMap<String, Map<String,String>>();
+         for (final String k : props.keySet()) {
+            if (k.startsWith(Constants.CXF_QUEUE_PREFIX)) {
+               String sk = k.substring(Constants.CXF_QUEUE_PREFIX.length());
+               int i = sk.indexOf(".");
+               if (i > 0) {
+                  String queueName = sk.substring(0, i);
+                  String queueProp = sk.substring(i+1);
+                  Map<String, String> m = queuesMap.get(queueName);
+                  if (m == null) {
+                     m = new HashMap<String, String>();
+                     queuesMap.put(queueName, m);
                   }
+                  m.put(queueProp, props.get(k));
                }
             }
-            WorkQueueManager mgr = bus.getExtension(WorkQueueManager.class);
-            for (String queueName : queuesMap.keySet()) {
-               AutomaticWorkQueue q = createWorkQueue(queueName, queuesMap.get(queueName));
-               mgr.addNamedWorkQueue(queueName, q);
+         }
+         WorkQueueManager mgr = bus.getExtension(WorkQueueManager.class);
+         for (String queueName : queuesMap.keySet()) {
+            AutomaticWorkQueue q = createWorkQueue(queueName, queuesMap.get(queueName));
+            mgr.addNamedWorkQueue(queueName, q);
+         }
+      }
+   }
+   
+   private static AlternativeSelector getAlternativeSelector(Map<String, String> props) {
+      //default to MaximalAlternativeSelector on server side [JBWS-3149]
+      AlternativeSelector selector = new MaximalAlternativeSelector();
+      if (props != null && !props.isEmpty()) {
+         String className = props.get(Constants.CXF_POLICY_ALTERNATIVE_SELECTOR);
+         if (className != null) {
+            try {
+               Class<?> clazz = Class.forName(className);
+               selector = (AlternativeSelector)clazz.newInstance();
+            } catch (Exception e) {
+               
             }
          }
       }
+      return selector;
+   }
+   
+   private static Map<String, String> getJBossWebservicesMetaDataProperties(Deployment dep) {
+      if (dep != null) {
+         JBossWebservicesMetaData wsmd = dep.getAttachment(JBossWebservicesMetaData.class);
+         if (wsmd != null) {
+            return wsmd.getProperties();
+         }
+      }
+      return null;
    }
 
    private static AutomaticWorkQueue createWorkQueue(String name, Map<String, String> props) {
