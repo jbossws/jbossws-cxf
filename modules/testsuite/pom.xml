@@ -81,25 +81,6 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- JAXR samples -->
-    <dependency>
-      <groupId>apache-scout</groupId>
-      <artifactId>scout</artifactId>
-      <version>${apache.scout.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>juddi</groupId>
-      <artifactId>juddi</artifactId>
-      <version>${juddi.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.jaxr</groupId>
-      <artifactId>juddi-saaj</artifactId>
-      <version>${jboss.jaxr.version}</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
@@ -730,20 +711,6 @@
                 <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
               </compilerArguments>
             </configuration>
-            <executions>
-              <execution>
-                <id>default-testCompile</id>
-                <phase>test-compile</phase>
-                <configuration>
-                  <testExcludes>
-                    <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
-                  </testExcludes>
-                </configuration>
-                <goals>
-                  <goal>testCompile</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
@@ -788,9 +755,6 @@
                  <!-- # [JBWS-3475] SOAP-over-JMS tests require test queue on target AS -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/jms/**</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/**</exclude>
-
-                 <!-- # TODO: JAXR not available -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/jaxr/**</exclude>
 
                  <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>

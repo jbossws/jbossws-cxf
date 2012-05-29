@@ -75,9 +75,6 @@
               <include>org.springframework:spring-expression:jar</include>
               <include>org.springframework:spring-jms:jar</include>
               <include>org.springframework:spring-tx:jar</include>
-              <include>org.jboss.jaxr:juddi-service:sar</include>
-              <include>apache-scout:scout:jar</include>
-              <include>juddi:juddi:jar</include>
               <include>org.jboss.ws:jbossws-common-tools:jar</include>
               <include>org.jboss.ws:jbossws-jboss*:jar</include>
               <include>org.jboss.as:jboss-as-webservices-tests-integration:jar</include>
