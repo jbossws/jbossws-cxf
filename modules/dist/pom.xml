@@ -125,27 +125,6 @@
          <groupId>org.springframework</groupId>
          <artifactId>spring-jms</artifactId>
       </dependency>
-
-      <!--juddi-->
-      <dependency>
-        <groupId>org.jboss.jaxr</groupId>
-        <artifactId>juddi-service</artifactId>
-        <type>sar</type>
-        <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>apache-scout</groupId>
-        <artifactId>scout</artifactId>
-        <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>juddi</groupId>
-        <artifactId>juddi</artifactId>
-        <scope>provided</scope>
-      </dependency>
-
       <!-- OpenSAML -->
       <dependency>
         <groupId>org.opensaml</groupId>

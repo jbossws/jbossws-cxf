@@ -25,32 +25,9 @@
 <project>
 
   <!-- ================================================================== -->
-  <!-- Deploy JUDDI Service                                               -->
-  <!-- ================================================================== -->
-
-  <macrodef name="macro-deploy-juddi-sar">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-    <sequential>
-      <mkdir dir="@{targetdir}"/>
-      <unzip dest="@{targetdir}">
-        <fileset dir="@{thirdpartydir}">
-          <include name="**/juddi-service.sar"/>
-        </fileset>
-      </unzip>
-      <copy todir="@{targetdir}" flatten="true" overwrite="true">
-        <fileset dir="@{thirdpartydir}">
-          <include name="**/juddi.jar"/>
-          <include name="**/scout.jar"/>
-        </fileset>
-      </copy>
-    </sequential>
-  </macrodef>
-
-  <!-- ================================================================== -->
   <!-- Modules                                                            -->
   <!-- ================================================================== -->
-	
+
   <macrodef name="macro-deploy-jbossws-modules">
     <attribute name="thirdpartydir"/>
     <attribute name="targetdir"/>

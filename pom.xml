@@ -89,10 +89,7 @@
     <jaxb.impl.version>2.2.5</jaxb.impl.version>
     <jaxrpc.api.version>1.0.0.Final</jaxrpc.api.version>
     <jaxws.api.version>2.0.0.Final</jaxws.api.version>
-    <jboss.jaxr.version>2.0.3</jboss.jaxr.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
-    <apache.scout.version>1.1.1</apache.scout.version>
-    <juddi.version>0.9RC4</juddi.version>
     <commons-collections.version>3.2.1</commons-collections.version>
     <commons-lang.version>2.4</commons-lang.version>
     <commons.logging.version>1.1.1</commons.logging.version>
@@ -1219,22 +1216,6 @@
         <groupId>com.sun.xml.bind</groupId>
         <artifactId>jaxb-xjc</artifactId>
         <version>${jaxb.impl.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.jaxr</groupId>
-        <artifactId>juddi-service</artifactId>
-        <version>${jboss.jaxr.version}</version>
-        <type>sar</type>
-      </dependency>
-      <dependency>
-        <groupId>apache-scout</groupId>
-        <artifactId>scout</artifactId>
-        <version>${apache.scout.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>juddi</groupId>
-        <artifactId>juddi</artifactId>
-        <version>${juddi.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-logging</groupId>

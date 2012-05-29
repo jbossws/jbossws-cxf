@@ -249,12 +249,6 @@
       <artifactId>jboss-jms-api_1.1_spec</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.jaxr</groupId>
-      <artifactId>juddi-service</artifactId>
-      <type>sar</type>
-    </dependency>
-    
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
