@@ -23,16 +23,10 @@ package org.jboss.wsf.stack.cxf.deployment;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.StringTokenizer;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.handler.Handler;
-import javax.xml.ws.http.HTTPBinding;
-import javax.xml.ws.soap.SOAPBinding;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
@@ -42,11 +36,8 @@ import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
 import org.apache.cxf.service.Service;
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.util.BundleUtils;
-import org.jboss.ws.common.utils.DelegateClassLoader;
-import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
+import org.jboss.ws.common.configuration.ConfigHelper;
 import org.jboss.wsf.spi.metadata.config.CommonConfig;
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
 
 /**
  * An extension of @see org.apache.cxf.jaxws.EndpointImpl for dealing with
@@ -62,15 +53,6 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
    private WSDLFilePublisher wsdlPublisher;
    private CommonConfig config;
    
-   private static Map<String, String> bindingIDs = new HashMap<String, String>();
-   static {
-      bindingIDs.put(SOAPBinding.SOAP11HTTP_BINDING, "##SOAP11_HTTP");
-      bindingIDs.put(SOAPBinding.SOAP12HTTP_BINDING, "##SOAP12_HTTP");
-      bindingIDs.put(SOAPBinding.SOAP11HTTP_MTOM_BINDING, "##SOAP11_HTTP_MTOM");
-      bindingIDs.put(SOAPBinding.SOAP12HTTP_MTOM_BINDING, "##SOAP12_HTTP_MTOM");
-      bindingIDs.put(HTTPBinding.HTTP_BINDING, "##XML_HTTP");
-   }
-
    public EndpointImpl(Object implementor)
    {
       super(implementor);
@@ -124,82 +106,11 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
       }
    }
    
-   @SuppressWarnings("rawtypes")
-   protected List<Handler> convertToHandlers(List<UnifiedHandlerChainMetaData> handlerChains)
-   {
-      List<Handler> handlers = new LinkedList<Handler>();
-      if (handlerChains != null && !handlerChains.isEmpty())
-      {
-         final String protocolBinding = bindingIDs.get(getBinding().getBindingID());
-         for (UnifiedHandlerChainMetaData handlerChain : handlerChains)
-         {
-            if (handlerChain.getPortNamePattern() != null || handlerChain.getServiceNamePattern() != null)
-            {
-               Logger.getLogger(this.getClass()).warn(BundleUtils.getMessage(bundle, "FILTERS_NOT_SUPPORTED"));
-            }
-            if (matchProtocolBinding(protocolBinding, handlerChain.getProtocolBindings())) {
-               for (UnifiedHandlerMetaData uhmd : handlerChain.getHandlers())
-               {
-                  if (uhmd.getInitParams() != null && !uhmd.getInitParams().isEmpty())
-                  {
-                     Logger.getLogger(this.getClass()).warn(BundleUtils.getMessage(bundle, "INIT_PARAMS_NOT_SUPPORTED"));
-                  }
-                  Object h = newInstance(uhmd.getHandlerClass());
-                  if (h != null)
-                  {
-                     if (h instanceof Handler)
-                     {
-                        handlers.add((Handler)h);
-                     }
-                     else
-                     {
-                        throw new RuntimeException(BundleUtils.getMessage(bundle, "NOT_HANDLER_INSTANCE", h));
-                     }
-                  }
-               }
-            }
-         }
-      }
-      return handlers;
-   }
-   
-   private static boolean matchProtocolBinding(String currentProtocolBinding, String handlerChainProtocolBindings) {
-      if (handlerChainProtocolBindings == null)
-         return true;
-      List<String> protocolBindings = new LinkedList<String>();
-      if (handlerChainProtocolBindings != null) {
-         StringTokenizer st = new StringTokenizer(handlerChainProtocolBindings, " ", false);
-         while (st.hasMoreTokens()) {
-            protocolBindings.add(st.nextToken());
-         }
-      }
-      return protocolBindings.contains(currentProtocolBinding);
-   }
-   
-   private static Object newInstance(String className)
-   {
-      try
-      {
-         ClassLoader loader = new DelegateClassLoader(ClassLoaderProvider.getDefaultProvider()
-               .getServerIntegrationClassLoader(), SecurityActions.getContextClassLoader());
-         Class<?> clazz = loader.loadClass(className);
-         return clazz.newInstance();
-      }
-      catch (Exception e)
-      {
-         Logger.getLogger(EndpointImpl.class).warnf(e, BundleUtils.getMessage(bundle, "CAN_NOT_ADD_HANDLER" , className));
-         return null;
-      }
-   }
-   
-   @SuppressWarnings("rawtypes")
    protected void setupConfigHandlers()
    {
       if (config != null) {
-         List<Handler> handlers = convertToHandlers(config.getPreHandlerChains()); //PRE
-         handlers.addAll(getBinding().getHandlerChain()); //ENDPOINT
-         handlers.addAll(convertToHandlers(config.getPostHandlerChains())); //POST
-         getBinding().setHandlerChain(handlers);
+         ConfigHelper helper = new ConfigHelper();
+         helper.setupConfigHandlers(getBinding(), config);
       }
    }
 
