@@ -32,20 +32,20 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>4.1.0-SNAPSHOT</version>
+  <version>4.1.0.Beta1</version>
   
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0.GA</version>
   </parent>
   
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/trunk</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/trunk</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/trunk</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.1.0.Beta1</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.1.0.Beta1</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/tags/jbossws-cxf-4.1.0.Beta1</url>
   </scm>
   
   <!-- Modules -->
@@ -59,15 +59,15 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.api.version>1.0.1-SNAPSHOT</jbossws.api.version>
-    <jbossws.spi.version>2.1.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>2.1.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.common.tools.version>1.1.0-SNAPSHOT</jbossws.common.tools.version>
-    <jbossws.shared.testsuite.version>4.1.0-SNAPSHOT</jbossws.shared.testsuite.version>
-    <jbossws.jboss710.version>4.1.0-SNAPSHOT</jbossws.jboss710.version>
-    <jbossws.jboss711.version>4.1.0-SNAPSHOT</jbossws.jboss711.version>
-    <jbossws.jboss712.version>4.1.0-SNAPSHOT</jbossws.jboss712.version>
-    <jbossws.native.version>4.1.0-SNAPSHOT</jbossws.native.version>
+    <jbossws.api.version>1.0.1.Beta1</jbossws.api.version>
+    <jbossws.spi.version>2.1.0.Beta1</jbossws.spi.version>
+    <jbossws.common.version>2.1.0.Beta1</jbossws.common.version>
+    <jbossws.common.tools.version>1.0.1.GA</jbossws.common.tools.version>
+    <jbossws.shared.testsuite.version>4.1.0.Beta1</jbossws.shared.testsuite.version>
+    <jbossws.jboss710.version>4.1.0.Beta1</jbossws.jboss710.version>
+    <jbossws.jboss711.version>4.1.0.Beta1</jbossws.jboss711.version>
+    <jbossws.jboss712.version>4.1.0.Beta1</jbossws.jboss712.version>
+    <jbossws.native.version>4.1.0.Beta1</jbossws.native.version>
     <jboss710.version>7.1.0.Final</jboss710.version>
     <jboss711.version>7.1.1.Final</jboss711.version>
     <jboss712.version>7.1.2.Final</jboss712.version>
@@ -83,7 +83,7 @@
     <jboss.security.sx.version>2.0.4</jboss.security.sx.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <picketlink.version>2.1.1.Final</picketlink.version>
-    <jaxws-jboss-httpserver-httpspi.version>1.0.2-SNAPSHOT</jaxws-jboss-httpserver-httpspi.version>
+    <jaxws-jboss-httpserver-httpspi.version>1.0.1.GA</jaxws-jboss-httpserver-httpspi.version>
     <httpserver.version>1.0.0.Final</httpserver.version>
     <jaxb.api.version>1.0.3.Final</jaxb.api.version>
     <jaxb.impl.version>2.2.5</jaxb.impl.version>
