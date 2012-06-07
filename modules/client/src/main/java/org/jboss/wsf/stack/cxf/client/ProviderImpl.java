@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -31,18 +31,30 @@ import java.util.concurrent.Executor;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 import javax.xml.ws.Binding;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.EndpointContext;
 import javax.xml.ws.EndpointReference;
+import javax.xml.ws.WebServiceException;
 import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.spi.Invoker;
 import javax.xml.ws.spi.ServiceDelegate;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.ServiceImpl;
+import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.jboss.logging.Logger;
+import org.jboss.ws.common.configuration.ConfigHelper;
 import org.jboss.ws.common.utils.DelegateClassLoader;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
+import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.wsf.spi.management.ServerConfigFactory;
+import org.jboss.wsf.spi.metadata.config.ClientConfig;
+import org.jboss.wsf.stack.cxf.client.configuration.HandlerChainSortInterceptor;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.w3c.dom.Element;
 
@@ -60,6 +72,16 @@ import org.w3c.dom.Element;
  */
 public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
 {
+   private static final boolean inContainer;
+   private static ServerConfig serverConfig;
+   
+   static {
+      //a trick for verifying if running in-container (AS7): the jbossws-cxf and cxf classes come from different
+      //(module) classloader on AS7, while out-of-container they are coming from the same flat classloader;
+      //this is used as an optimization to avoid looking for ServerConfig when running out-of-container
+      inContainer = ProviderImpl.class.getClassLoader() != org.apache.cxf.jaxws22.spi.ProviderImpl.class.getClassLoader();
+   }
+   
    @Override
    protected org.apache.cxf.jaxws.EndpointImpl createEndpointImpl(Bus bus, String bindingId, Object implementor,
          WebServiceFeature... features)
@@ -138,7 +160,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
          Bus bus = setValidThreadDefaultBus();
-         return new ServiceImpl(bus, url, qname, cls);
+         return new JBossWSServiceImpl(bus, url, qname, cls);
       }
       finally
       {
@@ -157,8 +179,13 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       try
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
-         setValidThreadDefaultBus();
-         return super.createServiceDelegate(wsdlDocumentLocation, serviceName, serviceClass, features);
+         Bus bus = setValidThreadDefaultBus();
+         for (WebServiceFeature f : features) {
+             if (!f.getClass().getName().startsWith("javax.xml.ws")) {
+                 throw new WebServiceException("Unknown feature error: " + f.getClass().getName());
+             }
+         }
+         return new JBossWSServiceImpl(bus, wsdlDocumentLocation, serviceName, serviceClass, features);
       }
       finally
       {
@@ -418,6 +445,49 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       {
          delegate.publish(context);
       }
+   }
+   
+   /**
+    * An extension of the org.apache.cxf.jaxws.ServiceImpl allowing for
+    * setting JBossWS client default config handlers.
+    *
+    */
+   static final class JBossWSServiceImpl extends ServiceImpl {
+      
+      public JBossWSServiceImpl(Bus b, URL url, QName name, Class<?> cls, WebServiceFeature ... f) {
+         super(b, url, name, cls, f);
+      }
+      
+      protected <T> T createPort(QName portName, EndpointReferenceType epr, Class<T> serviceEndpointInterface, 
+            WebServiceFeature... features) {
+         T port = super.createPort(portName, epr, serviceEndpointInterface, features);
+         Binding binding = ((BindingProvider)port).getBinding();
+         ClientProxy.getClient(port).getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
+         if (inContainer) {
+            ServerConfig sc = getServerConfig();
+            if (sc != null) {
+               for (ClientConfig config : sc.getClientConfigs()) {
+                  if (config.getConfigName().equals(ClientConfig.STANDARD_CLIENT_CONFIG)) {
+                     ConfigHelper helper = new ConfigHelper();
+                     helper.setupConfigHandlers(binding, config);
+                  }
+               }
+            }
+         }
+         return port;
+      }
+      
+   }
+   
+   private static synchronized ServerConfig getServerConfig()
+   {
+      if (serverConfig == null)
+      {
+         final ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
+         SPIProvider spiProvider = SPIProviderResolver.getInstance(cl).getProvider();
+         serverConfig = spiProvider.getSPI(ServerConfigFactory.class, cl).getServerConfig();
+      }
+      return serverConfig;
    }
 
 }
