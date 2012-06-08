@@ -83,7 +83,7 @@
     <jboss.security.sx.version>2.0.4</jboss.security.sx.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <picketlink.version>2.1.1.Final</picketlink.version>
-    <jaxws-jboss-httpserver-httpspi.version>1.0.2-SNAPSHOT</jaxws-jboss-httpserver-httpspi.version>
+    <jaxws-jboss-httpserver-httpspi.version>1.0.1.GA</jaxws-jboss-httpserver-httpspi.version>
     <httpserver.version>1.0.0.Final</httpserver.version>
     <jaxb.api.version>1.0.3.Final</jaxb.api.version>
     <jaxb.impl.version>2.2.5</jaxb.impl.version>
