@@ -178,6 +178,7 @@ public final class JBossWSInvoker implements Invoker
       Bus threadBus = BusFactory.getThreadDefaultBus(false);
       try
       {
+         BusFactory.setThreadDefaultBus(null);
          invHandler.invoke(ep, inv);
          retObj = inv.getReturnValue();
       } catch (InvocationTargetException e) {
