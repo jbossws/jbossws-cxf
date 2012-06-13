@@ -128,7 +128,7 @@
         <include name="cxf.xml"/>
       </zipfileset>
       <manifest>
-        <attribute name="Dependencies" value="org.apache.cxf"/>
+        <attribute name="Dependencies" value="org.apache.cxf,org.jboss.ws.cxf.jbossws-cxf-server"/>
       </manifest>
     </war>
 

@@ -9,8 +9,18 @@
     <servlet-class>org.jboss.test.ws.jaxws.cxf.bus.EndpointImpl</servlet-class>
   </servlet>
   
+  <servlet>
+    <servlet-name>Ep2Servlet</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.cxf.bus.ClientEndpointImpl</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>EpServlet</servlet-name>
     <url-pattern>/EndpointService/Endpoint</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>Ep2Servlet</servlet-name>
+    <url-pattern>/ClientEndpointService/ClientEndpoint</url-pattern>
   </servlet-mapping>
 </web-app>

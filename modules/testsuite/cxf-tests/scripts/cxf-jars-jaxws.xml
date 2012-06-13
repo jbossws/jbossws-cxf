@@ -41,9 +41,14 @@
     <!-- jaxws-cxf-bus -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-bus.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/bus/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/ClientEndpoint.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/ClientEndpointImpl.class"/>
         <include name="org/jboss/test/ws/jaxws/cxf/bus/Endpoint.class"/>
         <include name="org/jboss/test/ws/jaxws/cxf/bus/EndpointImpl.class"/>
       </classes>
+      <manifest>
+        <attribute name="Dependencies" value="org.apache.cxf"/>
+      </manifest>
     </war>
     <!-- jaxws-cxf-bus-ejb3-client -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-bus-ejb3-client.jar">
@@ -203,7 +208,7 @@
         <include name="**/*" />
       </metainf>
       <manifest>
-        <attribute name="Dependencies" value="org.apache.cxf"/>
+        <attribute name="Dependencies" value="org.apache.cxf,org.jboss.ws.cxf.jbossws-cxf-server"/>
       </manifest>
     </jar>
 

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,17 +23,20 @@ package org.jboss.test.ws.jaxws.cxf.jbws3497;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.xml.ws.WebServiceContext;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
 import org.apache.cxf.workqueue.AutomaticWorkQueue;
 import org.apache.cxf.workqueue.WorkQueueManager;
 import org.jboss.logging.Logger;
+import org.jboss.wsf.spi.invocation.EndpointAssociation;
+import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 
 @WebService(name = "EndpointOne", targetNamespace = "http://org.jboss.ws.jaxws.cxf/jbws3497", serviceName = "ServiceOne")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
@@ -42,12 +45,15 @@ public class EndpointOneImpl
 {
    private static AtomicInteger count = new AtomicInteger(0);
    
+   @Resource
+   WebServiceContext ctx;
+   
    @WebMethod
    public String echo(String input)
    {
-      Bus bus = BusFactory.getThreadDefaultBus(false);
-      AutomaticWorkQueue queue = bus.getExtension(WorkQueueManager.class).getAutomaticWorkQueue();
       //this is just a verification, so going the dirty way...
+      Bus bus = EndpointAssociation.getEndpoint().getService().getDeployment().getAttachment(BusHolder.class).getBus();
+      AutomaticWorkQueue queue = bus.getExtension(WorkQueueManager.class).getAutomaticWorkQueue();
       Long qs = null;
       Integer it = null;
       try
