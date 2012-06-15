@@ -23,9 +23,12 @@ package org.jboss.wsf.stack.cxf;
 
 import java.io.IOException;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -133,5 +136,13 @@ public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegat
          throws ServletException, IOException
    {
       this.service(request, response);
+   }
+
+   @Override
+   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+         ServletException
+   {
+      // filtering not supported, move on
+      chain.doFilter(request, response);
    }
 }
