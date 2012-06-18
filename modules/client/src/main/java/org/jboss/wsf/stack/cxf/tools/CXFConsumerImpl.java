@@ -139,6 +139,29 @@ public class CXFConsumerImpl extends WSContractConsumer
    public void consume(URL wsdl)
    {
       List<String> args = new ArrayList<String>();
+      
+      PrintStream stream = messageStream;
+      boolean verbose = false;
+      if (stream != null)
+      {
+         verbose = true;
+      }
+      else
+      {
+         stream = NullPrintStream.getInstance();
+      }
+      
+      // Always set the target
+      if ("2.1".equals(target))
+      {
+         args.add("-frontend");
+         args.add("jaxws21");
+      }
+      else if (target != null && !target.equals("2.2"))
+      {
+         stream.println("Unsupported target, using default value '2.2'");
+      }
+      
       if (bindingFiles != null)
       {
          for (File file : bindingFiles)
@@ -189,14 +212,8 @@ public class CXFConsumerImpl extends WSContractConsumer
          args.add(wsdlLocation);
       }
 
-      PrintStream stream = messageStream;
-      if (stream != null)
-      {
+      if (verbose) {
          args.add("-verbose");
-      }
-      else
-      {
-         stream = NullPrintStream.getInstance();
       }
 
       if (extension)
@@ -219,13 +236,6 @@ public class CXFConsumerImpl extends WSContractConsumer
          args.add(outputDir.getAbsolutePath());
       }
      
-      // Always set the target
-      if (target != null)
-      {
-         stream.println("WSConsume (CXF) does not allow to setup the JAX-WS specification target, using the currently " +
-         		"configured JAX-WS version (check your JVM version and/or endorsed libs)");
-      }
-      
       //Always generate wrapped style for reference element:CXF-1079
       args.add("-allowElementReferences");
       
