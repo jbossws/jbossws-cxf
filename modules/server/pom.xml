@@ -203,12 +203,8 @@
       <artifactId>jboss-common-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.security</groupId>
-      <artifactId>jboss-security-spi</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.security</groupId>
-      <artifactId>jbosssx</artifactId>
+      <groupId>org.picketbox</groupId>
+      <artifactId>picketbox</artifactId>
     </dependency>
     <dependency>
       <groupId>xerces</groupId>
