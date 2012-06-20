@@ -97,7 +97,6 @@ import org.jboss.wsf.spi.invocation.WebServiceContextFactory;
  * @author Thomas.Diesler@jboss.org
  * @author richard.opalka@jboss.com
  * 
- * @see org.apache.cxf.jaxws.AbstractJAXWSMethodInvoker
  */
 public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
 {
