@@ -38,6 +38,18 @@
 
     <mkdir dir="${tests.output.dir}/test-libs"/>
 
+    <!-- jaxws-samples-asynch -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-asynch.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/asynch/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/asynch/EndpointImpl*.class"/>
+       </classes>
+       <manifest>
+        <attribute name="Dependencies" value="org.apache.cxf"/>
+      </manifest>
+    </war>
+
     <!-- jaxws-samples-mtom -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-mtom.war"
