@@ -32,10 +32,10 @@ import org.apache.cxf.ws.addressing.soap.MAPCodec;
  * need this to be default to make it same behavior with native stack.
  * @author <a href="mailto:ema@redhat.com>Jim Ma</a>
  */
-public class EnableOneWayDecoupledFaultInterceptor extends AbstractPhaseInterceptor<Message>
+public class EnableDecoupledFaultInterceptor extends AbstractPhaseInterceptor<Message>
 {
 
-   public EnableOneWayDecoupledFaultInterceptor()
+   public EnableDecoupledFaultInterceptor()
    {
       super(Phase.PRE_PROTOCOL);
       addBefore(MAPCodec.class.getName());
@@ -43,7 +43,7 @@ public class EnableOneWayDecoupledFaultInterceptor extends AbstractPhaseIntercep
 
    public void handleMessage(Message message)
    {
-      message.put("org.apache.cxf.ws.addressing.oneway.decoupled_fault_support", true);
+      message.put("org.apache.cxf.ws.addressing.decoupled_fault_support", true);
    }
 
    public void handleFault(Message message)
