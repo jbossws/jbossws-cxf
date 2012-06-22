@@ -1224,7 +1224,7 @@
         <dependency>
           <groupId>org.jboss</groupId>
           <artifactId>jboss-remote-naming</artifactId>
-          <version>1.0.3.Final</version>
+          <version>1.0.4.Final</version>
         </dependency>
         <dependency>
           <groupId>javax.mail</groupId>
@@ -1325,7 +1325,7 @@
         <dependency>
           <groupId>org.jboss.remoting3</groupId>
           <artifactId>jboss-remoting</artifactId>
-          <version>3.2.7.GA</version>
+          <version>3.2.8.GA</version>
           <scope>test</scope>
         </dependency>
         <dependency>
