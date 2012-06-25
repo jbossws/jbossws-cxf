@@ -34,9 +34,6 @@ public class STSCallbackHandler implements CallbackHandler {
                 if ("mystskey".equals(pc.getIdentifier())) {
                     pc.setPassword("stskpass");
                     break;
-                } else if ("alice".equals(pc.getIdentifier())) {
-                    pc.setPassword("clarinet");
-                    break;
                 }
             }
         }
