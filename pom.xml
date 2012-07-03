@@ -64,7 +64,7 @@
     <jbossws.common.version>2.0.4.GA</jbossws.common.version>
     <jbossws.common.tools.version>1.0.1.GA</jbossws.common.tools.version>
     <jbossws.shared.testsuite.version>4.0.5-SNAPSHOT</jbossws.shared.testsuite.version>
-    <jboss712.version>7.1.2.Final</jboss712.version> <!-- replace with the EAP6 snapshot version -->
+    <jboss712.version>7.1.3.Final-SNAPSHOT</jboss712.version>
     <ejb.api.version>1.0.1.Final</ejb.api.version>
     <cxf.version>2.4.8</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
