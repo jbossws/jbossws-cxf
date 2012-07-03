@@ -88,7 +88,7 @@
     <commons.logging.version>1.1.1</commons.logging.version>
     <log4j.version>1.2.16</log4j.version>
     <mail.version>1.4.4</mail.version>
-    <neethi.version>3.0.1</neethi.version>
+    <neethi.version>3.0.2</neethi.version>
     <saaj.api.version>1.0.1.Final</saaj.api.version>
     <servlet.api.version>1.0.1.Final</servlet.api.version>
     <stax.api.version>1.0-2</stax.api.version>
@@ -96,8 +96,8 @@
     <velocity.version>1.6.3</velocity.version>
     <xerces.version>2.9.1</xerces.version>
     <xmlschema.version>2.0.2</xmlschema.version>
-    <xmlsec.version>1.5.1</xmlsec.version>
-    <wss4j.version>1.6.5</wss4j.version>
+    <xmlsec.version>1.5.2</xmlsec.version>
+    <wss4j.version>1.6.6</wss4j.version>
     <wstx.version>3.2.9</wstx.version>
     <spring.version>3.0.6.RELEASE</spring.version>
   </properties>
