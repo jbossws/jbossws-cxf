@@ -44,16 +44,16 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.common.version>1.1.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.framework.version>3.1.2-SNAPSHOT</jbossws.framework.version>
-    <jbossws.spi.version>1.1.2-SNAPSHOT</jbossws.spi.version>
+    <jbossws.common.version>1.1.0.SP9</jbossws.common.version>
+    <jbossws.framework.version>3.1.2.SP11</jbossws.framework.version>
+    <jbossws.spi.version>1.1.2.SP8</jbossws.spi.version>
     <!-- JBWS-2505 -->
     <!-- START -->
     <!--
     <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
     -->
     <!-- END -->
-    <cxf.version>2.2.12-patch-03-SNAPSHOT</cxf.version>
+    <cxf.version>2.2.12-patch-03</cxf.version>
     <cxf.spring.version>2.5.6.SEC02</cxf.spring.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>3.1</cxf.asm.version>
@@ -76,7 +76,7 @@
     <saaj.api.version>1.3</saaj.api.version>
     <velocity.version>1.5</velocity.version>
     <xmlsec.version>1.5.1</xmlsec.version>
-    <wss4j.version>1.5.12-patch-01-SNAPSHOT</wss4j.version>
+    <wss4j.version>1.5.12-patch-01</wss4j.version>
     <wstx.version>3.2.9</wstx.version>
   </properties>
 
