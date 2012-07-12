@@ -80,7 +80,7 @@ public class DDBeans
          writeTo(writer);
          writer.close();
 
-         return tmpFile.toURL();
+         return tmpFile.toURI().toURL();
       }
       catch (IOException ex)
       {
