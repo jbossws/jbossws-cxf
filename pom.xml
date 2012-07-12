@@ -74,6 +74,7 @@
     <commons.logging.version>1.1.1</commons.logging.version>
     <log4j.version>1.2.14</log4j.version>
     <saaj.api.version>1.3</saaj.api.version>
+    <servlet.api.version>2.5</servlet.api.version>
     <velocity.version>1.5</velocity.version>
     <xmlsec.version>1.5.1</xmlsec.version>
     <wss4j.version>1.5.12-patch-01</wss4j.version>
@@ -479,6 +480,12 @@
       </dependency>
       
       <!-- jboss provided -->
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>${servlet.api.version}</version>
+        <scope>provided</scope>
+      </dependency>
       <dependency>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-common-core</artifactId>
