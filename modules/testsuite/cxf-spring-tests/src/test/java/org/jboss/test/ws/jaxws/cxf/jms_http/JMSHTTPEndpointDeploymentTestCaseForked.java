@@ -71,10 +71,9 @@ public final class JMSHTTPEndpointDeploymentTestCaseForked extends JBossWSTest
       try {
          assertEquals("Hi", proxy.echo("Hi"));
       } catch (Exception e) {
-         if (e.getMessage().contains("Authentication failed")) {
-            System.out.println("This test requires an user with 'guest' role to be available on the application server; " +
-            		"please ensure that then specify user and password using -Dtest.username=\"foo\" -Dtest.password=\"bar\".");
-         }
+         System.out.println("This test requires a testQueue JMS queue and a user with 'guest' role to be available on the application server; " +
+            "queue are easily added using jboss-cli.sh/bat, while users are added using add-user.sh/bat. When running test please specify user " +
+            "and password using -Dtest.username=\"foo\" -Dtest.password=\"bar\".");
          throw e;
       }
    }
