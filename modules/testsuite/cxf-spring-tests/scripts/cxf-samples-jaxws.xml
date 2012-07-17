@@ -157,30 +157,6 @@
        </webinf>
     </war>
     
-    <!-- jaxws-samples-wsse-username-authorize-custom -->
-    <war
-       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-username-authorize-custom.war"
-       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-authorize-custom/WEB-INF/web.xml">
-       <classes dir="${tests.output.dir}/test-classes">
-          <include name="org/jboss/test/ws/jaxws/samples/wsse/Service*.class"/>
-          <include name="org/jboss/test/ws/jaxws/samples/wsse/CustomSubjectCreatingInterceptor.class"/>
-          <include name="org/jboss/test/ws/jaxws/samples/wsse/jaxws/*.class"/>
-       </classes>
-       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-authorize-custom/WEB-INF">
-          <include name="jboss-web.xml"/>
-          <include name="jbossws-cxf.xml"/>
-          <include name="wsdl/*"/>
-       </webinf>
-       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/username-authorize-custom/WEB-INF" prefix="WEB-INF/classes">
-          <include name="login-config.xml"/>
-          <include name="users.properties"/>
-          <include name="roles.properties"/>
-       </zipfileset>
-       <manifest>
-          <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-server"/>
-       </manifest>
-    </war>
-
     <!-- jaxws-samples-wsse-username-digest -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-username-digest.war"
