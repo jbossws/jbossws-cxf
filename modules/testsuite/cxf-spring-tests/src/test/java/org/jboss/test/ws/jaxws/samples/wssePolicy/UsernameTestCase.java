@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.samples.wssePolicy;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -32,6 +34,7 @@ import junit.framework.Test;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * WS-Security Policy username test case
@@ -45,10 +48,20 @@ public final class UsernameTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      System.setProperty("javax.net.ssl.trustStore", "/dati/truststore_abc");
+      /** System properties - currently set at testsuite start time 
+      System.setProperty("javax.net.ssl.trustStore", "my.truststore");
       System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
       System.setProperty("javax.net.ssl.trustStoreType", "jks");
-      return new JBossWSCXFTestSetup(UsernameTestCase.class, "jaxws-samples-wssePolicy-username.war");
+      System.setProperty("org.jboss.security.ignoreHttpsHost", "true");
+      */
+      JBossWSTestSetup setup = new JBossWSCXFTestSetup(UsernameTestCase.class, "jaxws-samples-wssePolicy-username.war");
+      Map<String, String> sslOptions = new HashMap<String, String>();
+      sslOptions.put("certificate-key-file", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+      sslOptions.put("password", "changeit");
+      sslOptions.put("verify-client", "false");
+      sslOptions.put("key-alias", "tomcat");
+      setup.setHttpsConnectorRequirement(sslOptions);
+      return setup;
    }
 
    public void test() throws Exception
