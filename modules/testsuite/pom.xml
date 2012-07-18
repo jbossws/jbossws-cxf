@@ -326,30 +326,6 @@
                   <value>${project.build.directory}/test-classes/test.keystore</value>
                 </property>
                 <property>
-                  <name>org.jboss.ws.wsse.keyStore</name>
-                  <value>${test.resources.directory}/jaxws/samples/wssecurity/wsse.keystore</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.wsse.trustStore</name>
-                  <value>${test.resources.directory}/jaxws/samples/wssecurity/wsse.truststore</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.wsse.keyStorePassword</name>
-                  <value>jbossws</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.wsse.trustStorePassword</name>
-                  <value>jbossws</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.wsse.keyStoreType</name>
-                  <value>jks</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.wsse.trustStoreType</name>
-                  <value>jks</value>
-                </property>
-                <property>
                   <name>test.archive.directory</name>
                   <value>${test.archive.directory}</value>
                 </property>
@@ -448,30 +424,6 @@
                 <property>
                   <name>org.jboss.ws.testsuite.server.keystore</name>
                   <value>${project.build.directory}/test-classes/test.keystore</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.wsse.keyStore</name>
-                  <value>${test.resources.directory}/jaxws/samples/wssecurity/wsse.keystore</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.wsse.trustStore</name>
-                  <value>${test.resources.directory}/jaxws/samples/wssecurity/wsse.truststore</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.wsse.keyStorePassword</name>
-                  <value>jbossws</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.wsse.trustStorePassword</name>
-                  <value>jbossws</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.wsse.keyStoreType</name>
-                  <value>jks</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.wsse.trustStoreType</name>
-                  <value>jks</value>
                 </property>
                 <property>
                   <name>test.archive.directory</name>
