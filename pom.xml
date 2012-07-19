@@ -149,36 +149,33 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss710</artifactId>
+        <artifactId>jbossws-jboss710-server-integration</artifactId>
         <version>${jbossws.jboss710.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss710</artifactId>
+        <artifactId>jbossws-jboss710-tests-integration</artifactId>
         <version>${jbossws.jboss710.version}</version>
-        <classifier>tests-integration</classifier>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss711</artifactId>
+        <artifactId>jbossws-jboss711-server-integration</artifactId>
         <version>${jbossws.jboss711.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss711</artifactId>
+        <artifactId>jbossws-jboss711-tests-integration</artifactId>
         <version>${jbossws.jboss711.version}</version>
-        <classifier>tests-integration</classifier>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss712</artifactId>
+        <artifactId>jbossws-jboss712-server-integration</artifactId>
         <version>${jbossws.jboss712.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss712</artifactId>
+        <artifactId>jbossws-jboss712-tests-integration</artifactId>
         <version>${jbossws.jboss712.version}</version>
-        <classifier>tests-integration</classifier>
       </dependency>
       <dependency>
         <groupId>org.jboss.as</groupId>
