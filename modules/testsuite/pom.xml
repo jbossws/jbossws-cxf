@@ -635,9 +635,6 @@
                  <!--# [JBWS-2480] Soap attachments are dropped on server response-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
 
-                 <!--# [JBWS-2397] Fix jbws1797 testcase-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
-
                  <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher // also see compile exclude above -->
                  <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/WebServiceRefClientTestCase*</exclude>
 
@@ -705,9 +702,6 @@
                  <!--# [JBWS-2480] Soap attachments are dropped on server response-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
 
-                 <!--# [JBWS-2397] Fix jbws1797 testcase-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
-
                  <!-- # [JBWS-3493] WS-Trust tests w/ PicketLink STS require PL 2.1.2.Final or greater -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/PicketLinkSTService*</exclude>
@@ -765,9 +759,6 @@
                  <!--# [JBWS-2480] Soap attachments are dropped on server response-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
 
-                 <!--# [JBWS-2397] Fix jbws1797 testcase-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
-
                  <!-- # [JBWS-3493] WS-Trust tests w/ PicketLink STS require PL 2.1.2.Final or greater -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
 
@@ -824,9 +815,6 @@
 
                  <!--# [JBWS-2480] Soap attachments are dropped on server response-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
-
-                 <!--# [JBWS-2397] Fix jbws1797 testcase-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1797/**</exclude>
 
                  <!-- # [JBWS-3493] WS-Trust tests w/ PicketLink STS require PL 2.1.2.Final or greater -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
