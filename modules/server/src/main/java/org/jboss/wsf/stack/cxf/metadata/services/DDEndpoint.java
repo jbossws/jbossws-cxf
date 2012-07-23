@@ -242,7 +242,7 @@ public class DDEndpoint
       }
       if (this.wsdlLocation != null)
       {
-         writer.write(" wsdlLocation='" + this.wsdlLocation + "'");
+         writer.write(" wsdlLocationOverride='" + this.wsdlLocation + "'");
       }
       writer.write(">");
 
