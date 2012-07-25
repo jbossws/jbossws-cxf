@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.cxf.helpers.FileUtils;
 import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.wsdlto.WSDLToJava;
 import org.jboss.ws.api.tools.WSContractConsumer;
@@ -185,25 +186,29 @@ public class CXFConsumerImpl extends WSContractConsumer
       
       args.add("-exsh");
       args.add(additionalHeaders ? "true" : "false");
-
-      if (generateSource && sourceDir == null)
+      
+      if (targetPackage != null)
       {
-         sourceDir = outputDir;
+         args.add("-p");
+         args.add(targetPackage);
       }
       
-      if (sourceDir != null && generateSource)
-      {
+      File sourceTempDir = null;
+      if (generateSource) {
+         if (sourceDir == null)
+         {
+            sourceDir = outputDir;
+         }
          if (!sourceDir.exists() && !sourceDir.mkdirs())
             throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  sourceDir.getName()));
 
          args.add("-d");
          args.add(sourceDir.getAbsolutePath());
-      }
-
-      if (targetPackage != null)
-      {
-         args.add("-p");
-         args.add(targetPackage);
+      } else {
+         sourceTempDir = new File(outputDir, "tmp" + Math.round(Math.random() * 10000000));
+         FileUtils.mkDir(sourceTempDir);
+         args.add("-d");
+         args.add(sourceTempDir.getAbsolutePath());
       }
 
       if (wsdlLocation != null)
@@ -228,11 +233,6 @@ public class CXFConsumerImpl extends WSContractConsumer
       if (!nocompile)
       {
          args.add("-classdir");
-         args.add(outputDir.getAbsolutePath());
-      }
-      if (nocompile && !generateSource)
-      {
-         args.add("-d");
          args.add(outputDir.getAbsolutePath());
       }
      
@@ -269,6 +269,13 @@ public class CXFConsumerImpl extends WSContractConsumer
          else
          {
             t.printStackTrace();
+         }
+      }
+      finally
+      {
+         if (sourceTempDir != null)
+         {
+            FileUtils.removeDir(sourceTempDir);
          }
       }
    }
