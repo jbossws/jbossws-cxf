@@ -188,6 +188,7 @@
       <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/sign-encrypt/META-INF">
         <include name="alice.properties" />
         <include name="alice.jks" />
+        <include name="jaxws-client-config.xml" />
       </metainf>
     </jar>
     <war warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-encrypt-client.war" needxmlfile='false'>
@@ -201,6 +202,7 @@
       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/sign-encrypt" prefix="WEB-INF/classes">
           <include name="META-INF/alice.properties" />
           <include name="META-INF/alice.jks" />
+          <include name="META-INF/jaxws-client-config.xml" />
       </zipfileset>
       <manifest>
         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services, org.apache.ws.security"/>
