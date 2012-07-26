@@ -42,6 +42,7 @@ import javax.xml.ws.spi.ServiceDelegate;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
@@ -54,6 +55,7 @@ import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.management.ServerConfigFactory;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
+import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
 import org.jboss.wsf.stack.cxf.client.configuration.HandlerChainSortInterceptor;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.w3c.dom.Element;
@@ -462,14 +464,16 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             WebServiceFeature... features) {
          T port = super.createPort(portName, epr, serviceEndpointInterface, features);
          Binding binding = ((BindingProvider)port).getBinding();
-         ClientProxy.getClient(port).getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
+         Client client = ClientProxy.getClient(port);
+         client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
          if (inContainer) {
             ServerConfig sc = getServerConfig();
             if (sc != null) {
                for (ClientConfig config : sc.getClientConfigs()) {
                   if (config.getConfigName().equals(ClientConfig.STANDARD_CLIENT_CONFIG)) {
-                     ConfigHelper helper = new ConfigHelper();
+                     CXFClientConfigurer helper = new CXFClientConfigurer();
                      helper.setupConfigHandlers(binding, config);
+                     helper.setConfigProperties(client, config.getProperties());
                   }
                }
             }
