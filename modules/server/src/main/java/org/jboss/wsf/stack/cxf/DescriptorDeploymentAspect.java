@@ -21,21 +21,29 @@
  */
 package org.jboss.wsf.stack.cxf;
 
+import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import javax.jws.WebService;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.ws.BindingType;
+import javax.xml.ws.WebServiceProvider;
 import javax.xml.ws.soap.MTOM;
 import javax.xml.ws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.spi.deployment.DeploymentAspect;
 import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.deployment.Deployment.DeploymentType;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
@@ -71,7 +79,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
 			cxfURL = generateCXFConfigFromDeployment(dep);
 		}
 		putCXFConfigToDeployment(dep, cxfURL);
-      
+		checkCVE20122379(dep, cxfURL);
    }
 
    @Override
@@ -96,25 +104,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
     */
    private URL getCXFConfigFromDeployment(Deployment dep)
    {
-      DeploymentType depType = dep.getType();
-      
-      String metadir;
-      if (depType == DeploymentType.JAXWS_EJB3)
-      {
-         // expected resource location for EJB3 deployments
-         metadir = "META-INF";
-      }
-      else if (depType == DeploymentType.JAXWS_JSE)
-      {
-         // expected resource location for POJO deployments
-         metadir = "WEB-INF";
-      }
-      else
-      {
-         // only POJO and EJB3 deployments are supported
-         throw new IllegalStateException("Unsupported deployment type: " + depType);
-      }
-
+      final String metadir = getMetaDir(dep);
       URL cxfURL = null;
       try
       {
@@ -129,6 +119,26 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
       }
       
       return cxfURL;
+   }
+   
+   private String getMetaDir(Deployment dep) {
+      
+      DeploymentType depType = dep.getType();
+      if (depType == DeploymentType.JAXWS_EJB3)
+      {
+         // expected resource location for EJB3 deployments
+         return "META-INF";
+      }
+      else if (depType == DeploymentType.JAXWS_JSE)
+      {
+         // expected resource location for POJO deployments
+         return "WEB-INF";
+      }
+      else
+      {
+         // only POJO and EJB3 deployments are supported
+         throw new IllegalStateException("Unsupported deployment type: " + depType);
+      }
    }
    
    /**
@@ -161,7 +171,6 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
          {
             ddep.setInvoker(invokerJSE);
          }
-
 
          log.info("Add " + ddep);
          dd.addEndpoint(ddep);
@@ -209,6 +218,130 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
       }
       
       return mtomEnabled;
+   }
+   
+   private void checkCVE20122379(Deployment dep, URL cxfURL)
+   {
+      try {
+         Set<String> wsdlLocations = new HashSet<String>();
+         //first check jbossws-cxf.xml
+         Set<String> endpoints = checkAssertionsAndGet(cxfURL, "http://cxf.apache.org/jaxws", "endpoint", "implementor");
+         ClassLoader cl = dep.getRuntimeClassLoader();
+         if (cl == null) {
+            cl = dep.getInitialClassLoader();
+         }
+         System.out.println("** CL: " + cl);
+         for (String ep : endpoints)
+         {
+            Class<?> clazz = cl.loadClass(ep);
+            String wl = null;
+            if (clazz.isAnnotationPresent(WebService.class)) {
+               WebService wsa = clazz.getAnnotation(WebService.class);
+               wl = wsa.wsdlLocation();
+               String epIf = wsa.endpointInterface();
+               if(epIf != null && !epIf.isEmpty()) {
+                  Class<?> epIfClass = cl.loadClass(epIf);
+                  WebService epIfWsa = epIfClass.getAnnotation(WebService.class);
+                  if (epIfWsa != null && epIfWsa.wsdlLocation() != null && !epIfWsa.wsdlLocation().isEmpty()) {
+                     wl = epIfWsa.wsdlLocation();
+                  }
+               }
+            } else {
+               WebServiceProvider wsp = clazz.getAnnotation(WebServiceProvider.class);
+               wl = wsp.wsdlLocation();
+            }
+            if (wl != null && !wl.trim().isEmpty()) {
+               wsdlLocations.add(wl);
+            }
+         }
+         //then check wsdl files for contract first endpoints
+         for (String w : wsdlLocations) {
+            try
+            {
+               ArchiveDeployment archDep = (ArchiveDeployment)dep;
+               URL wsdlURL = archDep.getResourceResolver().resolve(w);
+               checkAssertionsAndGet(wsdlURL, null, null, null);
+            }
+            catch (Exception e)
+            {
+               throw new RuntimeException(e);
+            }
+         }
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
+   }
+   
+   private Set<String> checkAssertionsAndGet(URL cxfUrl, String searchNS, String searchLocalName, String searchAttributeName) throws Exception
+   {
+      log.info("* checking... " + cxfUrl);
+      InputStream is = null;
+      XMLStreamReader reader = null;
+      Set<String> endpoints = new HashSet<String>();
+      final boolean search = searchNS != null || searchLocalName != null || searchAttributeName != null;
+      try
+      {
+         is = cxfUrl.openStream();
+         reader = StAXUtils.createXMLStreamReader(is);
+         while (reader.hasNext())
+         {
+            switch (reader.next())
+            {
+               case START_ELEMENT:
+               {
+                  if (StAXUtils.match(reader, NAMESPACES, ASSERTIONS))
+                  {
+                     throw new RuntimeException("WS-Security Policy SupportingTokens not allowed due to known security vulnerability! URL: " + cxfUrl);
+                  }
+                  else if (search && StAXUtils.match(reader, searchNS, searchLocalName))
+                  {
+                     String e = reader.getAttributeValue(null, searchAttributeName).trim();
+                     System.out.println("--> " + e);
+                     endpoints.add(e);
+                  }
+               }
+            }
+         }
+      }
+      finally
+      {
+         try {
+            reader.close();
+         } catch (Exception e) {}
+         try {
+            is.close();
+         } catch (Exception e) {}
+      }
+      return endpoints;
+   }
+   
+   private static final String SP_NS_11 = "http://schemas.xmlsoap.org/ws/2005/02/securitypolicy";
+   private static final String SP_NS_12 = "http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702";
+   private static final String SP_NS_13 = "http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200802";
+   private static final String SUPPORTING_TOKENS = "SupportingTokens";
+   private static final String SIGNED_SUPPORTING_TOKENS = "SignedSupportingTokens";
+   private static final String ENDORSING_SUPPORTING_TOKENS = "EndorsingSupportingTokens";
+   private static final String SIGNED_ENDORSING_SUPPORTING_TOKENS = "SignedEndorsingSupportingTokens";
+   private static final String SIGNED_ENCRYPTED_SUPPORTING_TOKENS = "SignedEncryptedSupportingTokens";
+   private static final String ENCRYPTED_SUPPORTING_TOKENS = "EncryptedSupportingTokens";
+   private static final String ENDORSING_ENCRYPTED_SUPPORTING_TOKENS = "EndorsingEncryptedSupportingTokens";
+   private static final String SIGNED_ENDORSING_ENCRYPTED_SUPPORTING_TOKENS = "SignedEndorsingEncryptedSupportingTokens";
+   private static String[] NAMESPACES = new String[3];
+   private static String[] ASSERTIONS = new String[8];
+   static {
+      NAMESPACES[0] = SP_NS_11;
+      NAMESPACES[1] = SP_NS_12;
+      NAMESPACES[2] = SP_NS_13;
+      ASSERTIONS[0] = SUPPORTING_TOKENS;
+      ASSERTIONS[1] = SIGNED_SUPPORTING_TOKENS;
+      ASSERTIONS[2] = ENDORSING_SUPPORTING_TOKENS;
+      ASSERTIONS[3] = SIGNED_ENDORSING_SUPPORTING_TOKENS;
+      ASSERTIONS[4] = SIGNED_ENCRYPTED_SUPPORTING_TOKENS;
+      ASSERTIONS[5] = ENCRYPTED_SUPPORTING_TOKENS;
+      ASSERTIONS[6] = ENDORSING_ENCRYPTED_SUPPORTING_TOKENS;
+      ASSERTIONS[7] = SIGNED_ENDORSING_ENCRYPTED_SUPPORTING_TOKENS;
    }
 
 }
