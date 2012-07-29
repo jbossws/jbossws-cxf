@@ -230,7 +230,6 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
          if (cl == null) {
             cl = dep.getInitialClassLoader();
          }
-         System.out.println("** CL: " + cl);
          for (String ep : endpoints)
          {
             Class<?> clazz = cl.loadClass(ep);
@@ -256,16 +255,9 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
          }
          //then check wsdl files for contract first endpoints
          for (String w : wsdlLocations) {
-            try
-            {
-               ArchiveDeployment archDep = (ArchiveDeployment)dep;
-               URL wsdlURL = archDep.getResourceResolver().resolve(w);
-               checkAssertionsAndGet(wsdlURL, null, null, null);
-            }
-            catch (Exception e)
-            {
-               throw new RuntimeException(e);
-            }
+            ArchiveDeployment archDep = (ArchiveDeployment)dep;
+            URL wsdlURL = archDep.getResourceResolver().resolve(w);
+            checkAssertionsAndGet(wsdlURL, null, null, null);
          }
       }
       catch (Exception e)
@@ -274,16 +266,18 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
       }
    }
    
-   private Set<String> checkAssertionsAndGet(URL cxfUrl, String searchNS, String searchLocalName, String searchAttributeName) throws Exception
+   private Set<String> checkAssertionsAndGet(URL url, String searchNS, String searchLocalName, String searchAttributeName) throws Exception
    {
-      log.info("* checking... " + cxfUrl);
+      if (log.isTraceEnabled()) {
+         log.trace("* checking for CVE-2012-2379 possibly vulnerable assertions in " + url);
+      }
       InputStream is = null;
       XMLStreamReader reader = null;
       Set<String> endpoints = new HashSet<String>();
       final boolean search = searchNS != null || searchLocalName != null || searchAttributeName != null;
       try
       {
-         is = cxfUrl.openStream();
+         is = url.openStream();
          reader = StAXUtils.createXMLStreamReader(is);
          while (reader.hasNext())
          {
@@ -293,13 +287,11 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
                {
                   if (StAXUtils.match(reader, NAMESPACES, ASSERTIONS))
                   {
-                     throw new RuntimeException("WS-Security Policy SupportingTokens not allowed due to known security vulnerability! URL: " + cxfUrl);
+                     throw new RuntimeException("WS-Security Policy SupportingTokens not allowed due to known security vulnerability! URL: " + url);
                   }
                   else if (search && StAXUtils.match(reader, searchNS, searchLocalName))
                   {
-                     String e = reader.getAttributeValue(null, searchAttributeName).trim();
-                     System.out.println("--> " + e);
-                     endpoints.add(e);
+                     endpoints.add(reader.getAttributeValue(null, searchAttributeName).trim());
                   }
                }
             }
