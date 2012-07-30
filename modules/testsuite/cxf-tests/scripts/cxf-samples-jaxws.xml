@@ -241,6 +241,25 @@
       </metainf>
     </jar>
 
+    <!-- jaxws-samples-wssePolicy-cve-2012-2379 -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wssePolicy-cve-2012-2379.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wssePolicy/cve-2012-2379/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wssePolicy/Service*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wssePolicy/jaxws/*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wssePolicy/KeystorePasswordCallback.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wssePolicy/cve-2012-2379/WEB-INF">
+          <include name="jbossws-cxf.xml"/>
+          <include name="wsdl/*"/>
+       </webinf>
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wssePolicy/cve-2012-2379/WEB-INF" prefix="WEB-INF/classes">
+          <include name="bob.jks" />
+          <include name="bob.properties" />
+       </zipfileset>
+    </war>
+
     <!-- jaxws-samples-wssePolicy-sign-encrypt -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wssePolicy-sign-encrypt.war"
