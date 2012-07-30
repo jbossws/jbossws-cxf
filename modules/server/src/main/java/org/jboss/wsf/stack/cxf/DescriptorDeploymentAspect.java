@@ -79,7 +79,9 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
 			cxfURL = generateCXFConfigFromDeployment(dep);
 		}
 		putCXFConfigToDeployment(dep, cxfURL);
-		checkCVE20122379(dep, cxfURL);
+		if (!DISABLE_CVE_2012_2379_CHECK) {
+		   checkCVE20122379(dep, cxfURL);
+		}
    }
 
    @Override
@@ -287,7 +289,9 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
                {
                   if (StAXUtils.match(reader, NAMESPACES, ASSERTIONS))
                   {
-                     throw new RuntimeException("WS-Security Policy SupportingTokens not allowed due to known security vulnerability! URL: " + url);
+                     throw new RuntimeException(
+                           "WS-Security Policy SupportingTokens are not allowed, due to a known security vulnerability affecting them (CVE-2012-2379). URL: " + url
+                                 + "\nYou can turn this check off at your own risk setting system property " + DISABLE_CVE_2012_2379_CHECK_PROP + " to true");
                   }
                   else if (search && StAXUtils.match(reader, searchNS, searchLocalName))
                   {
@@ -309,6 +313,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
       return endpoints;
    }
    
+   private static final String DISABLE_CVE_2012_2379_CHECK_PROP = "org.jboss.wsf.cxf.disableCVE20122379Check";
    private static final String SP_NS_11 = "http://schemas.xmlsoap.org/ws/2005/02/securitypolicy";
    private static final String SP_NS_12 = "http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702";
    private static final String SP_NS_13 = "http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200802";
@@ -320,9 +325,11 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
    private static final String ENCRYPTED_SUPPORTING_TOKENS = "EncryptedSupportingTokens";
    private static final String ENDORSING_ENCRYPTED_SUPPORTING_TOKENS = "EndorsingEncryptedSupportingTokens";
    private static final String SIGNED_ENDORSING_ENCRYPTED_SUPPORTING_TOKENS = "SignedEndorsingEncryptedSupportingTokens";
+   private static final boolean DISABLE_CVE_2012_2379_CHECK;
    private static String[] NAMESPACES = new String[3];
    private static String[] ASSERTIONS = new String[8];
    static {
+      DISABLE_CVE_2012_2379_CHECK = Boolean.getBoolean(DISABLE_CVE_2012_2379_CHECK_PROP);
       NAMESPACES[0] = SP_NS_11;
       NAMESPACES[1] = SP_NS_12;
       NAMESPACES[2] = SP_NS_13;
