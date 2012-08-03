@@ -74,14 +74,14 @@ import org.w3c.dom.Element;
  */
 public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
 {
-   private static final boolean inContainer;
-   private static ServerConfig serverConfig;
+   private static final boolean jbossModulesEnv;
+   private static ServerConfig serverConfig = null;
+   private static boolean serverConfigInit = false;
    
    static {
-      //a trick for verifying if running in-container (AS7): the jbossws-cxf and cxf classes come from different
-      //(module) classloader on AS7, while out-of-container they are coming from the same flat classloader;
-      //this is used as an optimization to avoid looking for ServerConfig when running out-of-container
-      inContainer = ProviderImpl.class.getClassLoader() != org.apache.cxf.jaxws22.spi.ProviderImpl.class.getClassLoader();
+      //check if running in a JBoss Modules environment: the jbossws-cxf and cxf classes come
+      //from different classloader when using jboss-modules (no flat classloader)
+      jbossModulesEnv = (ProviderImpl.class.getClassLoader() != org.apache.cxf.jaxws22.spi.ProviderImpl.class.getClassLoader());
    }
    
    @Override
@@ -466,7 +466,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          Binding binding = ((BindingProvider)port).getBinding();
          Client client = ClientProxy.getClient(port);
          client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
-         if (inContainer) {
+         if (jbossModulesEnv) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
             ServerConfig sc = getServerConfig();
             if (sc != null) {
                for (ClientConfig config : sc.getClientConfigs()) {
@@ -483,13 +483,23 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       
    }
    
+   //lazy get the server config (and try once per classloader only)
    private static synchronized ServerConfig getServerConfig()
    {
-      if (serverConfig == null)
+      if (!serverConfigInit)
       {
-         final ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
-         SPIProvider spiProvider = SPIProviderResolver.getInstance(cl).getProvider();
-         serverConfig = spiProvider.getSPI(ServerConfigFactory.class, cl).getServerConfig();
+         try {
+            final ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
+            SPIProvider spiProvider = SPIProviderResolver.getInstance(cl).getProvider();
+            serverConfig = spiProvider.getSPI(ServerConfigFactory.class, cl).getServerConfig();
+         } catch (Exception e) {
+            Logger log = Logger.getLogger(ProviderImpl.class);
+            if (log.isTraceEnabled()) {
+               log.trace("Unable to retrieve server config; this is expected for jboss-modules enabled client", e);
+            }
+         } finally {
+            serverConfigInit = true;
+         }
       }
       return serverConfig;
    }
