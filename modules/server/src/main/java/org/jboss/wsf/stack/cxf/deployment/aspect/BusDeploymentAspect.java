@@ -110,7 +110,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          }
          Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
                new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile());
-         holder.configure(new SoapTransportFactoryExt(), resolver, configurer);
+         holder.configure(new SoapTransportFactoryExt(), resolver, configurer, dep);
          dep.addAttachment(BusHolder.class, holder);
       }
       finally

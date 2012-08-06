@@ -39,6 +39,7 @@ import org.apache.ws.security.WSSConfig;
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
@@ -115,15 +116,16 @@ public class SpringBusHolder extends BusHolder
     * @param soapTransportFactory   The SoapTransportFactory to configure, if any
     * @param resolver               The ResourceResolver to configure, if any
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
+    * @param dep                    The current JBossWS-SPI Deployment
     */
    @Override
-   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer)
+   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer, Deployment dep)
    {
       if (configured)
       {
          throw new IllegalStateException(BundleUtils.getMessage(bundle, "BUS_IS_ALREADY_CONFIGURED"));
       }
-      super.configure(soapTransportFactory, resolver, configurer);
+      super.configure(soapTransportFactory, resolver, configurer, dep);
       if (additionalLocations != null)
       {
          for (URL jbossCxfXml : additionalLocations)

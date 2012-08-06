@@ -1,0 +1,17 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<webservices
+  xmlns="http://www.jboss.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  version="1.2"
+  xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee">
+
+  <property>
+    <name>cxf.queue.default.maxQueueSize</name>
+    <value>10</value>
+  </property>
+  <property>
+    <name>cxf.queue.default.highWaterMark</name>
+    <value>8</value>
+  </property>
+
+</webservices>
