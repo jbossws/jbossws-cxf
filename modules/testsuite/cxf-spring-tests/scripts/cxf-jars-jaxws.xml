@@ -64,7 +64,7 @@
           <include name="org/jboss/test/ws/jaxws/cxf/aegis/Member.class"/>
        </classes>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.cxf"/>
+         <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- cxf impl required due to AegisDataBinding reference in endpoint impl -->
        </manifest>
     </war>
   	
@@ -98,7 +98,7 @@
         <include name="jbossws-cxf.xml"/>
       </webinf>
       <manifest>
-        <attribute name="Dependencies" value="org.apache.cxf"/>
+        <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
       </manifest>
     </war>
 

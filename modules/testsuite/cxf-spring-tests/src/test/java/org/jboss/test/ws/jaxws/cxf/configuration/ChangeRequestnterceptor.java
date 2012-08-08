@@ -23,7 +23,6 @@ package org.jboss.test.ws.jaxws.cxf.configuration;
 
 import java.util.List;
 
-import org.apache.cxf.binding.soap.interceptor.RPCInInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageContentsList;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
@@ -39,7 +38,7 @@ public class ChangeRequestnterceptor extends AbstractPhaseInterceptor<Message>
    public ChangeRequestnterceptor()
    {
       super(Phase.UNMARSHAL);
-      addAfter(RPCInInterceptor.class.getName());     
+      addAfter("org.apache.cxf.binding.soap.interceptor.RPCInInterceptor");     
    }
    
    public void handleMessage(final Message message) {

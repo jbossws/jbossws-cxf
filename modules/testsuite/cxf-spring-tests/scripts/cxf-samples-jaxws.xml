@@ -138,7 +138,7 @@
         <include name="org/jboss/wsf/test/ClientHelper.class"/>
       </classes>
       <manifest>
-        <attribute name="Dependencies" value="org.apache.ws.security,org.jboss.ws.cxf.jbossws-cxf-client services"/>
+        <attribute name="Dependencies" value="org.apache.ws.security,org.jboss.ws.cxf.jbossws-cxf-client services,org.apache.cxf.impl"/>
       </manifest>
     </war>
 
