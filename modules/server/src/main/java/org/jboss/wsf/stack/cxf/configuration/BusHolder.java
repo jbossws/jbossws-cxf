@@ -45,7 +45,7 @@ import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
-import org.jboss.wsf.stack.cxf.interceptor.EnableOneWayDecoupledFaultInterceptor;
+import org.jboss.wsf.stack.cxf.interceptor.EnableDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 
@@ -138,7 +138,7 @@ public abstract class BusHolder
       //Install the EndpointAssociationInterceptor for linking every message exchange
       //with the proper spi Endpoint retrieved in CXFServletExt
       bus.getInInterceptors().add(new EndpointAssociationInterceptor());
-      bus.getInInterceptors().add(new EnableOneWayDecoupledFaultInterceptor());
+      bus.getInInterceptors().add(new EnableDecoupledFaultInterceptor());
       bus.getInInterceptors().add(new NsCtxSelectorStoreInterceptor());
    }
    
