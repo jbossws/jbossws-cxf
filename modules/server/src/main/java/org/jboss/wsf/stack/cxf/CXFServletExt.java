@@ -138,7 +138,6 @@ public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegat
       this.service(request, response);
    }
 
-   @Override
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
          ServletException
    {
