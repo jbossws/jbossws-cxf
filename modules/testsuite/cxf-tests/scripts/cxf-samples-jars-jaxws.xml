@@ -62,7 +62,21 @@
           dir="${tests.output.dir}/test-resources/jaxws/samples/mtom/WEB-INF/wsdl" 
           prefix="WEB-INF/wsdl"/>
     </war>
-
+    <!-- jaxws-samples-schemavalidation -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-schemavalidation.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/schemavalidation/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/schemavalidation/Hello*.class"/>
+       </classes>
+        <zipfileset
+           dir="${tests.output.dir}/test-resources/jaxws/samples/schemavalidation/WEB-INF/wsdl" 
+           prefix="WEB-INF/wsdl"/>
+        <manifest>
+          <attribute name="Dependencies" value="org.apache.cxf"/>
+        </manifest>
+    </war>
+  	
     <!-- jaxws-samples-wsa -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsa.war"
