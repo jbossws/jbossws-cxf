@@ -129,8 +129,12 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
          Service service = endpoint.getService();
          try
          {
-            JaxWsImplementorInfo info = new JaxWsImplementorInfo(getImplementorClass());
-            wsdlPublisher.publishWsdlFiles(service.getName(), info.getWsdlLocation(), BusFactory.getThreadDefaultBus(false), service.getServiceInfos());
+            String wsdlLocation = getWsdlLocation();
+            if (wsdlLocation == null) {
+               JaxWsImplementorInfo info = new JaxWsImplementorInfo(getImplementorClass());
+               wsdlLocation = info.getWsdlLocation();
+            }
+            wsdlPublisher.publishWsdlFiles(service.getName(), wsdlLocation, BusFactory.getThreadDefaultBus(false), service.getServiceInfos());
          }
          catch (IOException ioe)
          {

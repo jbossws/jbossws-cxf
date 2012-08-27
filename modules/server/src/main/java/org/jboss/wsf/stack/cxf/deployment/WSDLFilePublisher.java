@@ -89,10 +89,11 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
          if (def != null)
          {
             List<String> published = new LinkedList<String>();
-            publishWsdlImports(wsdlPublishURL, def, published);
+            String expLocation = getExpLocation(wsdlLocation);
+            publishWsdlImports(wsdlPublishURL, def, published, expLocation);
 
             // Publish XMLSchema imports
-            publishSchemaImports(wsdlPublishURL, doc.getDocumentElement(), published);
+            publishSchemaImports(wsdlPublishURL, doc.getDocumentElement(), published, expLocation);
          }
          else
          {
@@ -180,5 +181,13 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
       }
 
       return result;
+   }
+   
+   private String getExpLocation(String wsdlLocation) {
+      if (wsdlLocation == null || wsdlLocation.indexOf(expLocation) >= 0) {
+         return expLocation;
+      } else { //JBWS-3540
+         return wsdlLocation.contains("/") ? wsdlLocation.substring(0, wsdlLocation.lastIndexOf("/") + 1) : "";
+      }
    }
 }
