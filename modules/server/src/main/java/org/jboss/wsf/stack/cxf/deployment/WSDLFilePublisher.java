@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -81,7 +82,7 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
          Document doc = getWsdlDocument(bus, def);
          writeDocument(doc, wsdlFile);
 
-         URL wsdlPublishURL = wsdlFile.toURI().toURL();
+         URL wsdlPublishURL = new URL(URLDecoder.decode(wsdlFile.toURI().toURL().toExternalForm(), "UTF-8"));
          log.info("WSDL published to: " + wsdlPublishURL);
 
          // Process the wsdl imports
