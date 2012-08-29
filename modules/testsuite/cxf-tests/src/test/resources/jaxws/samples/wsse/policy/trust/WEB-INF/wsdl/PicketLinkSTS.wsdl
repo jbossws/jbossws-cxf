@@ -6,31 +6,47 @@
 	xmlns:wsap10="http://www.w3.org/2006/05/addressing/wsdl"
 	xmlns:wsp="http://www.w3.org/ns/ws-policy"
 	xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+	xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
 	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
   <wsdl:types>
-    <xs:schema targetNamespace="urn:picketlink:identity-federation:sts" 
-      xmlns:tns="urn:picketlink:identity-federation:sts" 
-      xmlns:xs="http://www.w3.org/2001/XMLSchema"
-      version="1.0" elementFormDefault="qualified">
-      <xs:element name="MessageBody">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##any"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
+    <xs:schema elementFormDefault="qualified" targetNamespace='http://docs.oasis-open.org/ws-sx/ws-trust/200512' xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name='RequestSecurityToken' type='wst:AbstractRequestSecurityTokenType' />
+      <xs:element name='RequestSecurityTokenResponse' type='wst:AbstractRequestSecurityTokenType' />
+      <xs:complexType name='AbstractRequestSecurityTokenType' >
+        <xs:sequence>
+          <xs:any namespace='##any' processContents='lax' minOccurs='0' maxOccurs='unbounded' />
+        </xs:sequence>
+        <xs:attribute name='Context' type='xs:anyURI' use='optional' />
+        <xs:anyAttribute namespace='##other' processContents='lax' />
+      </xs:complexType>
+      <xs:element name='RequestSecurityTokenCollection' type='wst:RequestSecurityTokenCollectionType' />
+      <xs:complexType name='RequestSecurityTokenCollectionType' >
+        <xs:sequence>
+          <xs:element name='RequestSecurityToken' type='wst:AbstractRequestSecurityTokenType' minOccurs='2' maxOccurs='unbounded'/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name='RequestSecurityTokenResponseCollection' type='wst:RequestSecurityTokenResponseCollectionType' />
+      <xs:complexType name='RequestSecurityTokenResponseCollectionType' >
+        <xs:sequence>
+          <xs:element ref='wst:RequestSecurityTokenResponse' minOccurs='1' maxOccurs='unbounded' />
+        </xs:sequence>
+        <xs:anyAttribute namespace='##other' processContents='lax' />
+      </xs:complexType>
     </xs:schema>
   </wsdl:types>
-  <wsdl:message name="RequestSecurityToken">
-    <wsdl:part name="rstMessage" element="tns:MessageBody"/>
+  
+  <wsdl:message name="RequestSecurityTokenMsg">
+    <wsdl:part name="request" element="wst:RequestSecurityToken" />
   </wsdl:message>
-  <wsdl:message name="RequestSecurityTokenResponse">
-    <wsdl:part name="rstrMessage" element="tns:MessageBody"/>
+  <wsdl:message name="RequestSecurityTokenResponseCollectionMsg">
+    <wsdl:part name="responseCollection"
+            element="wst:RequestSecurityTokenResponseCollection"/>
   </wsdl:message>
+  
   <wsdl:portType name="SecureTokenService">
     <wsdl:operation name="IssueToken">
-      <wsdl:input wsap10:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" message="tns:RequestSecurityToken"/>
-      <wsdl:output wsap10:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/Issue" message="tns:RequestSecurityTokenResponse"/>
+      <wsdl:input wsap10:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" message="tns:RequestSecurityTokenMsg"/>
+      <wsdl:output wsap10:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTRC/IssueFinal" message="tns:RequestSecurityTokenResponseCollectionMsg"/>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="STSBinding" type="tns:SecureTokenService">
