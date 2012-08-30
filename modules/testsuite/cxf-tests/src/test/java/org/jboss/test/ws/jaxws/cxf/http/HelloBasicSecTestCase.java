@@ -54,7 +54,7 @@ public class HelloBasicSecTestCase extends JBossWSTest
       return testSetup;
    }
 
-   public void testSchemaValidation() throws Exception
+   public void testBasicAuth() throws Exception
    {
       QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
       URL wsdlURL = getResourceURL("jaxws/cxf/http/WEB-INF/wsdl/hello.wsdl");
