@@ -34,6 +34,8 @@ import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
+ * A testcase acting as sample for using client and server schema validation of messages
+ * 
  * @author ema@redhat.com
  * @author alessio.soldano@jboss.com
  */
@@ -59,7 +61,7 @@ public class SchemaValidationTestCase extends JBossWSTest
       assertEquals(1, hr.getReturn());
       try {
          proxy.helloRequest("number");
-         fail("validation error is expeced");
+         fail("validation error is expected");
       } catch (Exception e) {
          assertTrue("not respect to enumration error is expected", e.getMessage().contains("is not facet-valid with respect to enumeration"));
       }
@@ -83,7 +85,7 @@ public class SchemaValidationTestCase extends JBossWSTest
    public void testClientSideSchemaValidation() throws Exception
    {
       QName serviceName = new QName("http://jboss.org/schemavalidation", "HelloService");
-      URL wsdlURL = getResourceURL("jaxws/samples/schemavalidation/client.wsdl");
+      URL wsdlURL = getResourceURL("jaxws/samples/schemavalidation/validatingClient.wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       Hello proxy = (Hello)service.getPort(new QName("http://jboss.org/schemavalidation", "HelloPort"), Hello.class);
       ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
@@ -93,7 +95,7 @@ public class SchemaValidationTestCase extends JBossWSTest
       assertEquals(2, hr.getReturn());
       try {
          proxy.helloRequest("number");
-         fail("validation error is expeced");
+         fail("validation error is expected");
       } catch (Exception e) {
          assertTrue("not respect to enumration error is expected", e.getMessage().contains("is not facet-valid with respect to enumeration"));
       }

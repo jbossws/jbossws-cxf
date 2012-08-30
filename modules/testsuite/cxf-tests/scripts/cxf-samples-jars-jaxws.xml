@@ -78,6 +78,19 @@
           <attribute name="Dependencies" value="org.apache.cxf"/>
         </manifest>
     </war>
+    <war warfile="${tests.output.dir}/test-libs/jaxws-samples-schemavalidation-client.war" needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/wsf/test/ClientHelper.class"/>
+        <include name="org/jboss/wsf/test/TestServlet.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/schemavalidation/Hello.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/schemavalidation/Helper.class"/>
+      	<include name="org/jboss/test/ws/jaxws/samples/schemavalidation/types/*.class"/>
+      </classes>
+      <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/schemavalidation" prefix="WEB-INF/classes">
+          <include name="client.wsdl" />
+          <include name="validatingClient.wsdl" />
+      </zipfileset>
+    </war>
   	
     <!-- jaxws-samples-wsa -->
     <war

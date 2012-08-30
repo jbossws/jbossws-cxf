@@ -20,7 +20,14 @@
             </complexType>
             <element name="helloResponse" type="x1:helloResponse"/>
 
-            <element name="helloRequest" type="xsd:string"/>
+            <element name="helloRequest">
+                <simpleType>
+                   <restriction base="xsd:string">
+                       <enumeration value="JBoss"/>
+                       <enumeration value="CXF"/>
+                   </restriction>
+                </simpleType>
+            </element>
        </xsd:schema>
     </types>
     <message name="helloRequest">

@@ -36,6 +36,7 @@ public class ValidatingHelloImpl implements Hello {
 
    public HelloResponse helloRequest(String input)
    {
+      System.out.println("ValidatingHello: " + input);
       HelloResponse response = new HelloResponse();
       response.setReturn(1);
       return response;

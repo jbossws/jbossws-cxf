@@ -33,6 +33,7 @@ public class HelloImpl implements Hello {
 
    public HelloResponse helloRequest(String input)
    {
+      System.out.println("Hello: " + input);
       HelloResponse response = new HelloResponse();
       response.setReturn(2);
       return response;
