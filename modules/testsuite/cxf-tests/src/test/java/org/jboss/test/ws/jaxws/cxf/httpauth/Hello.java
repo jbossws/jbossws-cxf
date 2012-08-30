@@ -19,21 +19,26 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.cxf.http;
+package org.jboss.test.ws.jaxws.cxf.httpauth;
 
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.ws.RequestWrapper;
+import javax.xml.ws.ResponseWrapper;
 
-@WebService(
-                      serviceName = "HelloService",
-                      portName = "HelloPort",
-                      targetNamespace = "http://jboss.org/http/security",
-                      wsdlLocation = "WEB-INF/wsdl/hello.wsdl",
-                      endpointInterface = "org.jboss.test.ws.jaxws.cxf.http.Hello")
-                      
-public class HelloImpl implements Hello {
+@WebService(targetNamespace = "http://jboss.org/http/security", name = "hello")
+@XmlSeeAlso({ObjectFactory.class})
+public interface Hello {
 
-    public int helloRequest(java.lang.String request) { 
-        return 100;
-    }
-
+    @WebResult(name = "return", targetNamespace = "http://jboss.org/http/security/types")
+    @RequestWrapper(localName = "helloRequest", targetNamespace = "http://jboss.org/http/security/types", className = "org.jboss.test.ws.jaxws.cxf.httpauth.HelloRequest")
+    @WebMethod
+    @ResponseWrapper(localName = "helloResponse", targetNamespace = "http://jboss.org/http/security/types", className = "org.jboss.test.ws.jaxws.cxf.httpauth.HelloResponse")
+    public int helloRequest(
+        @WebParam(name = "request", targetNamespace = "http://jboss.org/http/security/types")
+        java.lang.String request
+    );
 }

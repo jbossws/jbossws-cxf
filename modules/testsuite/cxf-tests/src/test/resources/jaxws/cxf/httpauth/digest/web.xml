@@ -6,7 +6,7 @@
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
    <servlet>
       <servlet-name>HelloService</servlet-name>
-      <servlet-class>org.jboss.test.ws.jaxws.cxf.http.HelloImpl</servlet-class>
+      <servlet-class>org.jboss.test.ws.jaxws.cxf.httpauth.HelloImpl</servlet-class>
    </servlet>
    <servlet-mapping>
       <servlet-name>HelloService</servlet-name>

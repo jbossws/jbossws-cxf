@@ -19,26 +19,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.cxf.http;
+package org.jboss.test.ws.jaxws.cxf.httpauth;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for helloResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="helloResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="request" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -48,37 +47,28 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "request"
+@XmlType(name = "helloResponse", propOrder = {
+    "_return"
 })
-@XmlRootElement(name = "helloRequest")
-public class HelloRequest {
+public class HelloResponse {
 
-    @XmlElement(required = true)
-    protected String request;
+    @XmlElement(name = "return")
+    protected int _return;
 
     /**
-     * Gets the value of the request property.
+     * Gets the value of the return property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getRequest() {
-        return request;
+    public int getReturn() {
+        return _return;
     }
 
     /**
-     * Sets the value of the request property.
+     * Sets the value of the return property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setRequest(String value) {
-        this.request = value;
+    public void setReturn(int value) {
+        this._return = value;
     }
 
 }

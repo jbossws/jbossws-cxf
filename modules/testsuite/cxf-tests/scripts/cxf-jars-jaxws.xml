@@ -153,16 +153,16 @@
   	
 
     <!-- jaxws-cxf-http-basic -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-basic-sec.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/http/basic/web.xml">
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-basic-sec.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/basic/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/http/*.class"/>
-      	<exclude name="org/jboss/test/ws/jaxws/cxf/http/*TestCase.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/httpauth/*.class"/>
+      	<exclude name="org/jboss/test/ws/jaxws/cxf/httpauth/*TestCase.class"/>
       </classes>
       <zipfileset
-            dir="${tests.output.dir}/test-resources/jaxws/cxf/http/WEB-INF/wsdl/" 
+            dir="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/WEB-INF/wsdl/" 
             prefix="WEB-INF/wsdl/"/>
       <zipfileset
-            dir="${tests.output.dir}/test-resources/jaxws/cxf/http/basic" 
+            dir="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/basic" 
             prefix="WEB-INF/"/> 
       <manifest>
         <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
@@ -170,16 +170,16 @@
     </war>
   	
   	<!-- jaxws-cxf-http-digest -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-digest-sec.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/http/digest/web.xml">
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-digest-sec.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/digest/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/http/*.class"/>
-      	<exclude name="org/jboss/test/ws/jaxws/cxf/http/*TestCase.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/httpauth/*.class"/>
+      	<exclude name="org/jboss/test/ws/jaxws/cxf/httpauth/*TestCase.class"/>
       </classes>   	
         <zipfileset
-              dir="${tests.output.dir}/test-resources/jaxws/cxf/http/WEB-INF/wsdl/" 
+              dir="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/WEB-INF/wsdl/" 
               prefix="WEB-INF/wsdl/"/>
         <zipfileset
-              dir="${tests.output.dir}/test-resources/jaxws/cxf/http/digest" 
+              dir="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/digest" 
               prefix="WEB-INF/"/> 	    	
       <manifest>
         <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.cxf.http;
+package org.jboss.test.ws.jaxws.cxf.httpauth;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -46,9 +46,9 @@ public class HelloBasicSecTestCase extends JBossWSTest
       testSetup = new JBossWSCXFTestSetup(HelloBasicSecTestCase.class, "jaxws-cxf-basic-sec.war");
       Map<String, String> authenticationOptions = new HashMap<String, String>();
       authenticationOptions.put("usersProperties",
-            getResourceFile("jaxws/cxf/http/WEB-INF/ws-users.properties").getAbsolutePath());
+            getResourceFile("jaxws/cxf/httpauth/WEB-INF/ws-users.properties").getAbsolutePath());
       authenticationOptions.put("rolesProperties",
-            getResourceFile("jaxws/cxf/http/WEB-INF/ws-roles.properties").getAbsolutePath());
+            getResourceFile("jaxws/cxf/httpauth/WEB-INF/ws-roles.properties").getAbsolutePath());
       authenticationOptions.put("password-stacking", "useFirstPass");
       testSetup.addSecurityDomainRequirement("ws-basic-domain", authenticationOptions);
       return testSetup;
@@ -57,7 +57,7 @@ public class HelloBasicSecTestCase extends JBossWSTest
    public void testBasicAuth() throws Exception
    {
       QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
-      URL wsdlURL = getResourceURL("jaxws/cxf/http/WEB-INF/wsdl/hello.wsdl");
+      URL wsdlURL = getResourceURL("jaxws/cxf/httpauth/WEB-INF/wsdl/hello.wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       Hello proxy = (Hello)service.getPort(Hello.class);
       ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
