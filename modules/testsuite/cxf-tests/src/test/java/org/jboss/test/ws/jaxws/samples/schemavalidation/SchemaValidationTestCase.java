@@ -47,7 +47,7 @@ public class SchemaValidationTestCase extends JBossWSTest
       return new JBossWSCXFTestSetup(SchemaValidationTestCase.class, "jaxws-samples-schemavalidation.war");
    }
 
-   public void testSchemaValidation() throws Exception
+   public void testSchemaValidationEndpoint() throws Exception
    {
       QName serviceName = new QName("http://jboss.org/schemavalidation", "HelloService");
       URL wsdlURL = getResourceURL("jaxws/samples/schemavalidation/WEB-INF/wsdl/hello.wsdl");
@@ -65,7 +65,7 @@ public class SchemaValidationTestCase extends JBossWSTest
       }
    }
    
-   public void testNoSchemaValidation() throws Exception
+   public void testNoSchemaValidationEndpoint() throws Exception
    {
       QName serviceName = new QName("http://jboss.org/schemavalidation", "HelloService");
       URL wsdlURL = getResourceURL("jaxws/samples/schemavalidation/WEB-INF/wsdl/hello.wsdl");
@@ -78,5 +78,24 @@ public class SchemaValidationTestCase extends JBossWSTest
       hr = proxy.helloRequest("number"); //validation is not enabled...
       assertNotNull(hr);
       assertEquals(2, hr.getReturn());
+   }
+   
+   public void testClientSideSchemaValidation() throws Exception
+   {
+      QName serviceName = new QName("http://jboss.org/schemavalidation", "HelloService");
+      URL wsdlURL = getResourceURL("jaxws/samples/schemavalidation/client.wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      Hello proxy = (Hello)service.getPort(new QName("http://jboss.org/schemavalidation", "HelloPort"), Hello.class);
+      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+      ((BindingProvider)proxy).getRequestContext().put("schema-validation-enabled", true); //enable client side schema validation
+      HelloResponse hr = proxy.helloRequest("JBoss");
+      assertNotNull(hr);
+      assertEquals(2, hr.getReturn());
+      try {
+         proxy.helloRequest("number");
+         fail("validation error is expeced");
+      } catch (Exception e) {
+         assertTrue("not respect to enumration error is expected", e.getMessage().contains("is not facet-valid with respect to enumeration"));
+      }
    }
 }
