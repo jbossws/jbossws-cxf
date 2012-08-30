@@ -150,6 +150,41 @@
         <include name="org/jboss/test/ws/jaxws/cxf/httpproxy/HelloWorld*.class"/>
       </classes>
     </war>
+  	
+
+    <!-- jaxws-cxf-http-basic -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-basic-sec.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/http/basic/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/http/*.class"/>
+      	<exclude name="org/jboss/test/ws/jaxws/cxf/http/*TestCase.class"/>
+      </classes>
+      <zipfileset
+            dir="${tests.output.dir}/test-resources/jaxws/cxf/http/WEB-INF/wsdl/" 
+            prefix="WEB-INF/wsdl/"/>
+      <zipfileset
+            dir="${tests.output.dir}/test-resources/jaxws/cxf/http/basic" 
+            prefix="WEB-INF/"/> 
+      <manifest>
+        <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
+      </manifest>
+    </war>
+  	
+  	<!-- jaxws-cxf-http-digest -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-digest-sec.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/http/digest/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/http/*.class"/>
+      	<exclude name="org/jboss/test/ws/jaxws/cxf/http/*TestCase.class"/>
+      </classes>   	
+        <zipfileset
+              dir="${tests.output.dir}/test-resources/jaxws/cxf/http/WEB-INF/wsdl/" 
+              prefix="WEB-INF/wsdl/"/>
+        <zipfileset
+              dir="${tests.output.dir}/test-resources/jaxws/cxf/http/digest" 
+              prefix="WEB-INF/"/> 	    	
+      <manifest>
+        <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
+      </manifest>
+    </war>  	
 
     <!-- jaxws-cxf-jaxbintros -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jaxbintros.jar">

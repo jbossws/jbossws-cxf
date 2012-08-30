@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jboss-web>
+  <security-domain>ws-basic-domain</security-domain>
+    <security-role>
+       <role-name>guest</role-name>
+       <principal-name>jbossws</principal-name>
+    </security-role>
+</jboss-web>
