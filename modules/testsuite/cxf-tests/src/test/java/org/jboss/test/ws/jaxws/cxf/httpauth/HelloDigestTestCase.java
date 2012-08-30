@@ -37,6 +37,10 @@ import org.apache.cxf.transport.http.auth.DigestAuthSupplier;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
+/**
+ * @author ema@redhat.com
+ * @author alessio.soldano@jboss.com
+ */
 public class HelloDigestTestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-cxf-digest-sec";
@@ -73,5 +77,39 @@ public class HelloDigestTestCase extends JBossWSTest
       int result = proxy.helloRequest("number");
       assertEquals(100, result);
       
+   }
+   
+   public void testDigestAuthFail() throws Exception
+   {
+      QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
+      URL wsdlURL = getResourceURL("jaxws/cxf/httpauth/WEB-INF/wsdl/hello.wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      Hello proxy = (Hello)service.getPort(Hello.class);
+      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "jbossws");
+      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "wrongPwd");
+      HTTPConduit cond = (HTTPConduit)ClientProxy.getClient(proxy).getConduit();
+      cond.setAuthSupplier(new DigestAuthSupplier());
+      try {
+         proxy.helloRequest("number");
+         fail("Authorization exception expected!");
+      } catch (Exception e) {
+         assertTrue(e.getCause().getMessage().contains("Authorization"));
+      }
+   }
+   
+   public void testDigestNoAuth() throws Exception
+   {
+      QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
+      URL wsdlURL = getResourceURL("jaxws/cxf/httpauth/WEB-INF/wsdl/hello.wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      Hello proxy = (Hello)service.getPort(Hello.class);
+      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+      try {
+         proxy.helloRequest("number");
+         fail("Authorization exception expected!");
+      } catch (Exception e) {
+         assertTrue(e.getCause().getMessage().contains("401: Unauthorized"));
+      }
    }
 }

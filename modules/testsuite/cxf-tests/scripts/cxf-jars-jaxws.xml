@@ -164,9 +164,6 @@
       <zipfileset
             dir="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/basic" 
             prefix="WEB-INF/"/> 
-      <manifest>
-        <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
-      </manifest>
     </war>
   	
   	<!-- jaxws-cxf-http-digest -->
@@ -181,9 +178,6 @@
         <zipfileset
               dir="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/digest" 
               prefix="WEB-INF/"/> 	    	
-      <manifest>
-        <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
-      </manifest>
     </war>  	
 
     <!-- jaxws-cxf-jaxbintros -->
