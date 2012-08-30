@@ -21,20 +21,23 @@
  */
 package org.jboss.test.ws.jaxws.samples.schemavalidation;
 
+import org.apache.cxf.annotations.SchemaValidation;
 import org.jboss.test.ws.jaxws.samples.schemavalidation.types.HelloResponse;
 /**
  * @author ema@redhat.com
  */
 @javax.jws.WebService(serviceName = "HelloService",
-		portName = "HelloPort", targetNamespace = "http://jboss.org/schemavalidation", 
+		portName = "ValidatingHelloPort", targetNamespace = "http://jboss.org/schemavalidation", 
 		wsdlLocation = "WEB-INF/wsdl/hello.wsdl", 
 		endpointInterface = "org.jboss.test.ws.jaxws.samples.schemavalidation.Hello")
-public class HelloImpl implements Hello {
+
+@SchemaValidation
+public class ValidatingHelloImpl implements Hello {
 
    public HelloResponse helloRequest(String input)
    {
       HelloResponse response = new HelloResponse();
-      response.setReturn(2);
+      response.setReturn(1);
       return response;
 
    }

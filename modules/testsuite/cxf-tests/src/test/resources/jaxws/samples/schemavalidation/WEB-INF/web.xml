@@ -10,6 +10,14 @@
    </servlet>
    <servlet-mapping>
       <servlet-name>HelloService</servlet-name>
-      <url-pattern>/*</url-pattern>
+      <url-pattern>/hello</url-pattern>
+   </servlet-mapping>
+   <servlet>
+      <servlet-name>ValidatingHelloService</servlet-name>
+      <servlet-class>org.jboss.test.ws.jaxws.samples.schemavalidation.ValidatingHelloImpl</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>ValidatingHelloService</servlet-name>
+      <url-pattern>/validatingHello</url-pattern>
    </servlet-mapping>
 </web-app>

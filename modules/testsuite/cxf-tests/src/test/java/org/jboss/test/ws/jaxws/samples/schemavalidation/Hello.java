@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -26,10 +26,14 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.xml.bind.annotation.XmlSeeAlso;
+
+import org.jboss.test.ws.jaxws.samples.schemavalidation.types.HelloResponse;
 /**
  * @author ema@redhat.com
  */
 @WebService(targetNamespace = "http://jboss.org/schemavalidation", name = "hello")
+@XmlSeeAlso({org.jboss.test.ws.jaxws.samples.schemavalidation.types.ObjectFactory.class})
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 public interface Hello {
 

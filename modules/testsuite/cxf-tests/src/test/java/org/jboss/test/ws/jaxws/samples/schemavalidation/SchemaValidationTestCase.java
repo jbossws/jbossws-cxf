@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -29,14 +29,18 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.test.ws.jaxws.samples.schemavalidation.types.HelloResponse;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+
 /**
  * @author ema@redhat.com
+ * @author alessio.soldano@jboss.com
  */
 public class SchemaValidationTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-schemavalidation/HelloService";
+   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-schemavalidation/hello";
+   private final String validatingServiceURL = "http://" + getServerHost() + ":8080/jaxws-samples-schemavalidation/validatingHello";
    
    public static Test suite()
    {
@@ -48,14 +52,31 @@ public class SchemaValidationTestCase extends JBossWSTest
       QName serviceName = new QName("http://jboss.org/schemavalidation", "HelloService");
       URL wsdlURL = getResourceURL("jaxws/samples/schemavalidation/WEB-INF/wsdl/hello.wsdl");
       Service service = Service.create(wsdlURL, serviceName);
-      Hello proxy = (Hello)service.getPort(Hello.class);
-      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+      Hello proxy = (Hello)service.getPort(new QName("http://jboss.org/schemavalidation", "ValidatingHelloPort"), Hello.class);
+      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, validatingServiceURL);
+      HelloResponse hr = proxy.helloRequest("JBoss"); //valid value (see xsd restriction in the wsdl)
+      assertNotNull(hr);
+      assertEquals(1, hr.getReturn());
       try {
          proxy.helloRequest("number");
          fail("validation error is expeced");
       } catch (Exception e) {
          assertTrue("not respect to enumration error is expected", e.getMessage().contains("is not facet-valid with respect to enumeration"));
-
       }
+   }
+   
+   public void testNoSchemaValidation() throws Exception
+   {
+      QName serviceName = new QName("http://jboss.org/schemavalidation", "HelloService");
+      URL wsdlURL = getResourceURL("jaxws/samples/schemavalidation/WEB-INF/wsdl/hello.wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      Hello proxy = (Hello)service.getPort(new QName("http://jboss.org/schemavalidation", "HelloPort"), Hello.class);
+      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+      HelloResponse hr = proxy.helloRequest("JBoss");
+      assertNotNull(hr);
+      assertEquals(2, hr.getReturn());
+      hr = proxy.helloRequest("number"); //validation is not enabled...
+      assertNotNull(hr);
+      assertEquals(2, hr.getReturn());
    }
 }
