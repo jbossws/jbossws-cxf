@@ -63,7 +63,7 @@
     <jbossws.spi.version>2.1.0.Beta3</jbossws.spi.version>
     <jbossws.common.version>2.1.0.Beta3</jbossws.common.version>
     <jbossws.common.tools.version>1.0.1.GA</jbossws.common.tools.version>
-    <jbossws.shared.testsuite.version>4.1.0.Beta2</jbossws.shared.testsuite.version>
+    <jbossws.shared.testsuite.version>4.1.0-SNAPSHOT</jbossws.shared.testsuite.version>
     <jbossws.jboss710.version>4.1.0-SNAPSHOT</jbossws.jboss710.version>
     <jbossws.jboss711.version>4.1.0-SNAPSHOT</jbossws.jboss711.version>
     <jbossws.jboss712.version>4.1.0-SNAPSHOT</jbossws.jboss712.version>
