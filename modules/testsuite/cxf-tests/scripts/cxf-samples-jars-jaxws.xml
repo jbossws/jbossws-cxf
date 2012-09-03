@@ -271,7 +271,8 @@
 
     <!-- jaxws-samples-wsse-policy-trust-sts -->
     <war
-       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trust-sts.war" needxmlfile='false'>
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trust-sts.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF/web.xml">
        <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/SampleSTS.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/STSCallbackHandler.class"/>
