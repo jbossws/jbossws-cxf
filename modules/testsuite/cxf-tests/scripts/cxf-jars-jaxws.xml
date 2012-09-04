@@ -84,6 +84,37 @@
           prefix="WEB-INF/wsdl"/>
     </war>
 
+    <!-- jaxws-cxf-clientConfig -->
+	<war warfile="${tests.output.dir}/test-libs/jaxws-cxf-clientConfig.war" needxmlfile="false">
+		<classes dir="${tests.output.dir}/test-classes">
+			<include name="org/jboss/test/ws/jaxws/cxf/clientConfig/Endpoint*.class" />
+		</classes>
+	</war>
+	
+    <!-- jaxws-cxf-clientConfig-inContainer-client -->
+	<war warfile="${tests.output.dir}/test-libs/jaxws-cxf-clientConfig-inContainer-client.war" needxmlfile="false">
+		<classes dir="${tests.output.dir}/test-classes">
+			<include name="org/jboss/test/ws/jaxws/cxf/clientConfig/Endpoint.class" />
+			<include name="org/jboss/test/ws/jaxws/cxf/clientConfig/Helper.class" />
+			<include name="org/jboss/test/ws/jaxws/cxf/clientConfig/TestUtils.class" />
+			<include name="org/jboss/wsf/test/TestServlet.class"/>
+            <include name="org/jboss/wsf/test/ClientHelper.class"/>
+		</classes>
+		<classes dir="${tests.output.dir}/test-resources/jaxws/cxf/clientConfig">
+			<include name="META-INF/jaxws-client-config.xml"/>
+		</classes>
+		<manifest>
+            <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- Apache CXF impl required for testing purposes -->
+        </manifest>
+	</war>
+	
+    <!-- jaxws-cxf-clientConfig-client -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-clientConfig-client.jar">
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/clientConfig/META-INF">
+        <include name="jaxws-client-config.xml" />
+      </metainf>
+    </jar>
+
     <!-- jaxws-cxf-continuations -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-continuations.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/continuations/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">

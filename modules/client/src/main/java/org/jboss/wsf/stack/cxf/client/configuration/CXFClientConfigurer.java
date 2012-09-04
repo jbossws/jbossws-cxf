@@ -22,8 +22,10 @@
 package org.jboss.wsf.stack.cxf.client.configuration;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.jboss.ws.common.configuration.ConfigHelper;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
@@ -37,13 +39,37 @@ import org.jboss.wsf.spi.metadata.config.ClientConfig;
  */
 public class CXFClientConfigurer extends ConfigHelper
 {
+   private static final String JBOSSWS_CXF_CLIENT_CONF_PROPS = "jbossws.cxf.client.conf.props";
+   
    @Override
    public void setConfigProperties(Object proxy, String configFile, String configName) {
       ClientConfig config = readConfig(configFile, configName);
-      setConfigProperties(ClientProxy.getClient(proxy), config.getProperties());
+      Client client = ClientProxy.getClient(proxy);
+      cleanupPreviousProps(client);
+      Map<String, String> props = config.getProperties();
+      if (props != null && !props.isEmpty()) {
+         savePropList(client, props);
+      }
+      setConfigProperties(client, props);
    }
    
    public void setConfigProperties(Client client, Map<String, String> properties) {
       client.getEndpoint().putAll(properties);
+   }
+   
+   private void savePropList(Client client, Map<String, String> props) {
+      final Set<String> keys = props.keySet();
+      client.getEndpoint().put(JBOSSWS_CXF_CLIENT_CONF_PROPS, (String[])keys.toArray(new String[keys.size()]));
+   }
+   
+   private void cleanupPreviousProps(Client client) {
+      Endpoint ep = client.getEndpoint();
+      String[] previousProps = (String[])ep.get(JBOSSWS_CXF_CLIENT_CONF_PROPS);
+      if (previousProps != null) {
+         for (String p : previousProps) {
+            ep.remove(p);
+         }
+         ep.remove(JBOSSWS_CXF_CLIENT_CONF_PROPS);
+      }
    }
 }
