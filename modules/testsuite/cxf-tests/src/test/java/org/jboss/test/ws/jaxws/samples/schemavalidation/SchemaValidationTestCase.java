@@ -30,6 +30,7 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.test.ws.jaxws.samples.schemavalidation.types.HelloResponse;
+import org.jboss.ws.api.configuration.ClientConfigUtil;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -46,7 +47,7 @@ public class SchemaValidationTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(SchemaValidationTestCase.class, "jaxws-samples-schemavalidation.war");
+      return new JBossWSCXFTestSetup(SchemaValidationTestCase.class, "jaxws-samples-schemavalidation.war,jaxws-samples-schemavalidation-client.jar");
    }
 
    public void testSchemaValidationEndpoint() throws Exception
@@ -90,6 +91,25 @@ public class SchemaValidationTestCase extends JBossWSTest
       Hello proxy = (Hello)service.getPort(new QName("http://jboss.org/schemavalidation", "HelloPort"), Hello.class);
       ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
       ((BindingProvider)proxy).getRequestContext().put("schema-validation-enabled", true); //enable client side schema validation
+      HelloResponse hr = proxy.helloRequest("JBoss");
+      assertNotNull(hr);
+      assertEquals(2, hr.getReturn());
+      try {
+         proxy.helloRequest("number");
+         fail("validation error is expected");
+      } catch (Exception e) {
+         assertTrue("not respect to enumration error is expected", e.getMessage().contains("is not facet-valid with respect to enumeration"));
+      }
+   }
+   
+   public void testClientSideSchemaValidationUsingConfiguration() throws Exception
+   {
+      QName serviceName = new QName("http://jboss.org/schemavalidation", "HelloService");
+      URL wsdlURL = getResourceURL("jaxws/samples/schemavalidation/validatingClient.wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      Hello proxy = (Hello)service.getPort(new QName("http://jboss.org/schemavalidation", "HelloPort"), Hello.class);
+      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+      ClientConfigUtil.setConfigProperties(proxy, "META-INF/jaxws-client-config.xml", "Test Validating Client Config"); //enable client side schema validation
       HelloResponse hr = proxy.helloRequest("JBoss");
       assertNotNull(hr);
       assertEquals(2, hr.getReturn());
