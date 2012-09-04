@@ -24,7 +24,6 @@ package org.jboss.test.ws.jaxws.cxf.clientConfig;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
 import org.apache.cxf.frontend.ClientProxy;
@@ -48,7 +47,7 @@ public class Helper implements ClientHelper
       Service service = Service.create(new URL(address + "?wsdl"), serviceName);
       Endpoint port = (Endpoint)service.getPort(Endpoint.class);
       
-      ClientConfigUtil.setConfigProperties((BindingProvider)port, "META-INF/jaxws-client-config.xml", "Custom Client Config");
+      ClientConfigUtil.setConfigProperties(port, "META-INF/jaxws-client-config.xml", "Custom Client Config");
       
       return ClientProxy.getClient(port).getEndpoint().get("propA").equals("fileValueA");
    }
@@ -61,10 +60,9 @@ public class Helper implements ClientHelper
       assert(ep.get("propA") == null);
       assert(ep.get("propB") == null);
       ep.put("propZ", "valueZ");
-      BindingProvider bp = (BindingProvider)port;
       
       ClientConfigurer configurer = ClientConfigUtil.resolveClientConfigurer();
-      configurer.setConfigProperties(bp, "META-INF/jaxws-client-config.xml", "Custom Client Config");
+      configurer.setConfigProperties(port, "META-INF/jaxws-client-config.xml", "Custom Client Config");
 
       if (!ep.get("propA").equals("fileValueA") || !ep.get("propB").equals("fileValueB") || !ep.get("propZ").equals("valueZ")) {
          return false;
@@ -72,7 +70,7 @@ public class Helper implements ClientHelper
       
       port.echo("Kermit");
       
-      configurer.setConfigProperties(bp, "META-INF/jaxws-client-config.xml", "Another Client Config");
+      configurer.setConfigProperties(port, "META-INF/jaxws-client-config.xml", "Another Client Config");
       
       return (ep.get("propA") == null && ep.get("propB") == null && ep.get("propC").equals("fileValueC") && ep.get("propZ").equals("valueZ"));
    }
@@ -129,7 +127,7 @@ public class Helper implements ClientHelper
          org.apache.cxf.endpoint.Endpoint ep = ClientProxy.getClient(port).getEndpoint();
          ep.put("propZ", "valueZ");
          
-         ClientConfigUtil.setConfigProperties((BindingProvider)port, null, testConfigName);
+         ClientConfigUtil.setConfigProperties(port, null, testConfigName);
          
          return (ep.get("propT").equals("valueT") && ep.get("propZ").equals("valueZ"));
       }
