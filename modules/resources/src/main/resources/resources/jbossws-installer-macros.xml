@@ -56,6 +56,7 @@
   
   <patternset id="jbossws.lib.endorsed.patternset">
     <include name="**/jbossws-cxf-factories.jar"/>
+    <include name="**/jaxws-api.jar"/> <!-- Required due to JDK7 shipping with JAXWS 2.2, while we need JAXWS 2.1 API level on EAP 5.x -->
   </patternset>
   
   <patternset id="jbossws.server.lib.patternset">
