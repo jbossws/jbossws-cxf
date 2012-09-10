@@ -51,7 +51,7 @@ public final class WSSecurityPolicyExamples22xTestCase extends JBossWSTest
    public static Test suite()
    {
       return new JBossWSCXFTestSetup(WSSecurityPolicyExamples22xTestCase.class,
-            "jaxws-samples-wsse-policy-oasis-22x.war,jaxws-samples-wsse-policy-oasis-22x-client.jar");
+            "jaxws-samples-wsse-policy-oasis-22x.war,jaxws-samples-wsse-policy-oasis-client.jar");
    }
    
    /**
@@ -73,7 +73,6 @@ public final class WSSecurityPolicyExamples22xTestCase extends JBossWSTest
    /**
     * 2.2.2  (WSS1.0) Mutual Authentication with X.509 Certificates, Sign, Encrypt
     * 
-    * This scenario is based on WSS Interop, Scenario 3, Web Services Security: Interop 1, Draft 06, Editor, Hal Lockhart, BEA Systems
     * This use case corresponds to the situation where both parties have X.509v3 certificates (and public-private key pairs).
     * The requestor wishes to identify itself to the service using its X.509 credential (strong authentication).
     * The message exchange needs to be integrity protected and encrypted as well. The difference from previous use case is

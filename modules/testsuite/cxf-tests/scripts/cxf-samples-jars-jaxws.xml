@@ -122,17 +122,18 @@
        </manifest>
     </war>
   	
-    <!-- jaxws-samples-wsse-policy-oasis-22x -->
+    <!-- jaxws-samples-wsse-policy-oasis-21x -->
     <war
-       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-oasis-22x.war" needxmlfile='false'>
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-oasis-21x.war" needxmlfile='false'>
        <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/ServiceIface.class"/>
-          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/Service*Impl.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/Service21*Impl.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
-          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/KeystorePasswordCallback.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/ServerUsernamePasswordCallback.class"/>
        </classes>
        <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/oasis/WEB-INF">
-          <include name="wsdl/*"/>
+          <include name="wsdl/*.xsd"/>
+          <include name="wsdl/SecurityService21x.wsdl"/>
        </webinf>
        <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/oasis/WEB-INF" prefix="WEB-INF/classes">
           <include name="bob.jks" />
@@ -143,8 +144,30 @@
        </manifest>
     </war>
 
-    <!-- jaxws-samples-wsse-policy-oasis-22x-client -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-oasis-22x-client.jar">
+    <!-- jaxws-samples-wsse-policy-oasis-22x -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-oasis-22x.war" needxmlfile='false'>
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/ServiceIface.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/Service22*Impl.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/KeystorePasswordCallback.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/oasis/WEB-INF">
+          <include name="wsdl/*.xsd"/>
+          <include name="wsdl/SecurityService.wsdl"/>
+       </webinf>
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/oasis/WEB-INF" prefix="WEB-INF/classes">
+          <include name="bob.jks" />
+          <include name="bob.properties" />
+       </zipfileset>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+       </manifest>
+    </war>
+
+    <!-- jaxws-samples-wsse-policy-oasis-client -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-oasis-client.jar">
       <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/oasis/META-INF">
         <include name="alice.properties" />
         <include name="alice.jks" />
