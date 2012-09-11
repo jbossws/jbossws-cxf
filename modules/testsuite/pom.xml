@@ -290,6 +290,18 @@
                   <value>jks</value>
                 </property>
                 <property>
+                  <name>javax.net.ssl.keyStore</name>
+                  <value>${project.build.directory}/test-classes/client.keystore</value>
+                </property>
+                <property>
+                  <name>javax.net.ssl.keyStorePassword</name>
+                  <value>changeit</value>
+                </property>
+                <property>
+                  <name>javax.net.ssl.keyStoreType</name>
+                  <value>jks</value>
+                </property>
+                <property>
                   <name>org.jboss.security.ignoreHttpsHost</name>
                   <value>true</value>
                 </property>
@@ -324,6 +336,10 @@
                 <property>
                   <name>org.jboss.ws.testsuite.server.keystore</name>
                   <value>${project.build.directory}/test-classes/test.keystore</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.testsuite.server.truststore</name>
+                  <value>${project.build.directory}/test-classes/test.truststore</value>
                 </property>
                 <property>
                   <name>test.archive.directory</name>
@@ -391,6 +407,18 @@
                   <value>jks</value>
                 </property>
                 <property>
+                  <name>javax.net.ssl.keyStore</name>
+                  <value>${project.build.directory}/test-classes/client.keystore</value>
+                </property>
+                <property>
+                  <name>javax.net.ssl.keyStorePassword</name>
+                  <value>changeit</value>
+                </property>
+                <property>
+                  <name>javax.net.ssl.keyStoreType</name>
+                  <value>jks</value>
+                </property>
+                <property>
                   <name>org.jboss.security.ignoreHttpsHost</name>
                   <value>true</value>
                 </property>
@@ -425,6 +453,10 @@
                 <property>
                   <name>org.jboss.ws.testsuite.server.keystore</name>
                   <value>${project.build.directory}/test-classes/test.keystore</value>
+                </property>
+                <property>
+                  <name>org.jboss.ws.testsuite.server.truststore</name>
+                  <value>${project.build.directory}/test-classes/test.truststore</value>
                 </property>
                 <property>
                   <name>test.archive.directory</name>
