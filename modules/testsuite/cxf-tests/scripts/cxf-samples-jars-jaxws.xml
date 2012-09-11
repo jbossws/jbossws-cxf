@@ -166,6 +166,28 @@
        </manifest>
     </war>
 
+    <!-- jaxws-samples-wsse-policy-oasis-23x -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-oasis-23x.war" needxmlfile='false'>
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/ServiceIface.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/Service23*Impl.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/KeystorePasswordCallback.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/oasis/WEB-INF">
+          <include name="wsdl/*.xsd"/>
+          <include name="wsdl/SecurityService23x.wsdl"/>
+       </webinf>
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/oasis/WEB-INF" prefix="WEB-INF/classes">
+          <include name="bob.jks" />
+          <include name="bob.properties" />
+       </zipfileset>
+       <manifest>
+         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+       </manifest>
+    </war>
+
     <!-- jaxws-samples-wsse-policy-oasis-client -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-oasis-client.jar">
       <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/oasis/META-INF">
