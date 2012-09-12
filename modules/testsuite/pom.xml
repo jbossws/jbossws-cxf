@@ -379,11 +379,12 @@
               <forkMode>pertest</forkMode>
               <skip>false</skip>
               <includes>
-                <include>**/smoke/tools/**/*TestForked.java</include>
-                <include>**/smoke/tools/**/*TestCaseForked.java</include>
+                <include>**/jaxws/cxf/httpproxy/*TestCaseForked.java</include>
+                <include>**/jaxws/samples/schemavalidation/*TestCaseForked.java</include>
                 <include>**/jbws2150/**/*TestCaseForked.java</include>
                 <include>**/jms*/**/*TestCaseForked.java</include>
-                <include>**/jaxws/samples/schemavalidation/*TestCaseForked.java</include>
+                <include>**/smoke/tools/**/*TestForked.java</include>
+                <include>**/smoke/tools/**/*TestCaseForked.java</include>
               </includes>
               <systemProperties>
                 <property>

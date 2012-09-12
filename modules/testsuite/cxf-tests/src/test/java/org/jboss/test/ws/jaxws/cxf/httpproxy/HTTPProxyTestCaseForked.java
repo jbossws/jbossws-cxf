@@ -57,7 +57,7 @@ import org.littleshoot.proxy.ProxyAuthorizationHandler;
  * @author alessio.soldano@jboss.com
  * @since 24-May-2011
  */
-public class HTTPProxyTestCase extends JBossWSTest
+public class HTTPProxyTestCaseForked extends JBossWSTest
 {
    private static int proxyPort = 19387;
    private static final String PROXY_USER = "foo";
@@ -67,7 +67,7 @@ public class HTTPProxyTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(HTTPProxyTestCase.class, "jaxws-cxf-httpproxy.war");
+      return new JBossWSCXFTestSetup(HTTPProxyTestCaseForked.class, "jaxws-cxf-httpproxy.war");
    }
 
    public void testHttpProxy() throws Exception
@@ -182,11 +182,11 @@ public class HTTPProxyTestCase extends JBossWSTest
    @Override
    protected void tearDown() throws Exception
    {
+      clearProxySystemProperties();
       if (proxyServer != null)
       {
          proxyServer.stop();
       }
-      clearProxySystemProperties();
    }
    
    private HelloWorld getPort(URL wsdlURL, String endpointAddressHost) throws MalformedURLException
