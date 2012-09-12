@@ -165,4 +165,83 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
       assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) SAML1.1 Holder of Key, Sign, Optional Encrypt"));
    }
 
+   /**
+    * 2.3.2.1 (WSS1.1) SAML 2.0 Bearer
+    * 
+    * @throws Exception
+    */
+   public void test2321() throws Exception
+   {
+      Service service = Service.create(new URL(serviceURL + "SecurityService2321?wsdl"), serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2321Port"), ServiceIface.class);
+      SamlCallbackHandler cbh = new SamlCallbackHandler();
+      cbh.setConfirmationMethod("urn:oasis:names:tc:SAML:2.0:cm:bearer");
+      cbh.setSaml2(true);
+      Map<String, Object> reqCtx = ((BindingProvider)proxy).getRequestContext();
+      reqCtx.put(SecurityConstants.SAML_CALLBACK_HANDLER, cbh);
+      reqCtx.put(SecurityConstants.CALLBACK_HANDLER, new KeystorePasswordCallback());
+      reqCtx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      reqCtx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      reqCtx.put(SecurityConstants.SIGNATURE_USERNAME, "alice");
+      reqCtx.put(SecurityConstants.ENCRYPT_USERNAME, "bob");
+      assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) SAML 2.0 Bearer"));
+   }
+
+   /**
+    * 2.3.2.2 (WSS1.1) SAML2.0 Sender Vouches over SSL
+    * 
+    * @throws Exception
+    */
+   public void test2322() throws Exception
+   {
+      Service service = Service.create(new URL(serviceURLHttps + "SecurityService2322?wsdl"), serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2322Port"), ServiceIface.class);
+      SamlCallbackHandler cbh = new SamlCallbackHandler();
+      cbh.setConfirmationMethod("urn:oasis:names:tc:SAML:2.0:cm:sender-vouches");
+      cbh.setSaml2(true);
+      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.SAML_CALLBACK_HANDLER, cbh);
+      assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) SAML2.0 Sender Vouches over SSL"));
+   }
+   
+   /**
+    * 2.3.2.3 (WSS1.1) SAML2.0 HoK over SSL
+    * 
+    * @throws Exception
+    */
+   public void test2323() throws Exception
+   {
+      Service service = Service.create(new URL(serviceURLHttps + "SecurityService2323?wsdl"), serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2323Port"), ServiceIface.class);
+      Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
+      SamlCallbackHandler cbh = new SamlCallbackHandler();
+      cbh.setConfirmationMethod("urn:oasis:names:tc:SAML:2.0:cm:holder-of-key");
+      cbh.setSaml2(true);
+      reqCtx.put(SecurityConstants.SAML_CALLBACK_HANDLER, cbh);
+      reqCtx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      reqCtx.put(SecurityConstants.SIGNATURE_USERNAME, "alice");
+      reqCtx.put(SecurityConstants.CALLBACK_HANDLER, new KeystorePasswordCallback());
+      reqCtx.put(SecurityConstants.SELF_SIGN_SAML_ASSERTION, "true");
+      assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) SAML2.0 HoK over SSL"));
+   }
+
+   /**
+    * 2.3.2.4 (WSS1.1) SAML1.1/2.0 Sender Vouches with X.509 Certificate, Sign, Encrypt
+    * 
+    * @throws Exception
+    */
+   public void test2324() throws Exception
+   {
+      Service service = Service.create(new URL(serviceURL + "SecurityService2324?wsdl"), serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2324Port"), ServiceIface.class);
+      Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
+      SamlCallbackHandler cbh = new SamlCallbackHandler();
+      cbh.setConfirmationMethod("urn:oasis:names:tc:SAML:1.0:cm:sender-vouches");
+      reqCtx.put(SecurityConstants.SAML_CALLBACK_HANDLER, cbh);
+      reqCtx.put(SecurityConstants.CALLBACK_HANDLER, new KeystorePasswordCallback());
+      reqCtx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      reqCtx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      reqCtx.put(SecurityConstants.SIGNATURE_USERNAME, "alice");
+      reqCtx.put(SecurityConstants.ENCRYPT_USERNAME, "bob");
+      assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) SAML1.1/2.0 Sender Vouches with X.509 Certificate, Sign, Encrypt"));
+   }
 }

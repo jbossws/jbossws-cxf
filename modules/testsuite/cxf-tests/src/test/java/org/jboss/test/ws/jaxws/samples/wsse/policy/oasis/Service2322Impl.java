@@ -24,32 +24,22 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.oasis;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 
-import org.apache.cxf.annotations.EndpointProperties;
-import org.apache.cxf.annotations.EndpointProperty;
 import org.jboss.ws.api.annotation.WebContext;
 
 @WebService
 (
-   portName = "SecurityService214Port",
+   portName = "SecurityService2322Port",
    serviceName = "SecurityService",
-   wsdlLocation = "WEB-INF/wsdl/SecurityService21x.wsdl",
+   wsdlLocation = "WEB-INF/wsdl/SecurityService23x.wsdl",
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy/oasis-samples",
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.ServiceIface"
 )
-@EndpointProperties(value = {
-      @EndpointProperty(key = "ws-security.signature.properties", value = "bob.properties"),
-      @EndpointProperty(key = "ws-security.encryption.properties", value = "bob.properties"),
-      @EndpointProperty(key = "ws-security.signature.username", value = "bob"),
-      @EndpointProperty(key = "ws-security.encryption.username", value = "useReqSigCert"),
-      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.ServerUsernamePasswordCallback")
-      }
-)
 @Stateless
-@WebContext(urlPattern = "SecurityService214")
-public class Service214Impl implements ServiceIface
+@WebContext(urlPattern = "SecurityService2322", transportGuarantee="CONFIDENTIAL")
+public class Service2322Impl implements ServiceIface
 {
    public String sayHello()
    {
-      return "Hello - (WSS 1.1) User Name with Certificates, Sign, Encrypt";
+      return "Hello - (WSS1.1) SAML2.0 Sender Vouches over SSL";
    }
 }

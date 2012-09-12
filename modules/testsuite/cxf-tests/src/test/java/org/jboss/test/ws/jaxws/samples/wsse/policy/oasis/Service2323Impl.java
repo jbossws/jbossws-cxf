@@ -30,26 +30,24 @@ import org.jboss.ws.api.annotation.WebContext;
 
 @WebService
 (
-   portName = "SecurityService214Port",
+   portName = "SecurityService2323Port",
    serviceName = "SecurityService",
-   wsdlLocation = "WEB-INF/wsdl/SecurityService21x.wsdl",
+   wsdlLocation = "WEB-INF/wsdl/SecurityService23x.wsdl",
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy/oasis-samples",
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.ServiceIface"
 )
 @EndpointProperties(value = {
       @EndpointProperty(key = "ws-security.signature.properties", value = "bob.properties"),
-      @EndpointProperty(key = "ws-security.encryption.properties", value = "bob.properties"),
       @EndpointProperty(key = "ws-security.signature.username", value = "bob"),
-      @EndpointProperty(key = "ws-security.encryption.username", value = "useReqSigCert"),
-      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.ServerUsernamePasswordCallback")
+      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.KeystorePasswordCallback")
       }
 )
 @Stateless
-@WebContext(urlPattern = "SecurityService214")
-public class Service214Impl implements ServiceIface
+@WebContext(urlPattern = "SecurityService2323", transportGuarantee="CONFIDENTIAL")
+public class Service2323Impl implements ServiceIface
 {
    public String sayHello()
    {
-      return "Hello - (WSS 1.1) User Name with Certificates, Sign, Encrypt";
+      return "Hello - (WSS1.1) SAML2.0 HoK over SSL";
    }
 }
