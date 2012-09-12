@@ -47,6 +47,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
 {
    private final String NS = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy/oasis-samples";
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-oasis-23x/";
+   private final String serviceURLHttps = "https://" + getServerHost() + ":8443/jaxws-samples-wsse-policy-oasis-23x/";
    private final QName serviceName = new QName(NS, "SecurityService");
 
    public static Test suite()
@@ -93,7 +94,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
     */
    public void test2312() throws Exception
    {
-      Service service = Service.create(new URL(serviceURL + "SecurityService2312?wsdl"), serviceName);
+      Service service = Service.create(new URL(serviceURLHttps + "SecurityService2312?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2312Port"), ServiceIface.class);
       SamlCallbackHandler cbh = new SamlCallbackHandler();
       cbh.setConfirmationMethod("urn:oasis:names:tc:SAML:1.0:cm:sender-vouches");
@@ -108,16 +109,60 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
     */
    public void test2313() throws Exception
    {
-      Service service = Service.create(new URL(serviceURL + "SecurityService2313?wsdl"), serviceName);
+      Service service = Service.create(new URL(serviceURLHttps + "SecurityService2313?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2313Port"), ServiceIface.class);
+      Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
       SamlCallbackHandler cbh = new SamlCallbackHandler();
       cbh.setConfirmationMethod("urn:oasis:names:tc:SAML:1.0:cm:holder-of-key");
-      ((BindingProvider) proxy).getRequestContext().put(SecurityConstants.SAML_CALLBACK_HANDLER, cbh);
-      ((BindingProvider) proxy).getRequestContext().put(SecurityConstants.SIGNATURE_PROPERTIES,
-            Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.SIGNATURE_USERNAME, "alice");
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, new KeystorePasswordCallback());
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.SELF_SIGN_SAML_ASSERTION, "true");
+      reqCtx.put(SecurityConstants.SAML_CALLBACK_HANDLER, cbh);
+      reqCtx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      reqCtx.put(SecurityConstants.SIGNATURE_USERNAME, "alice");
+      reqCtx.put(SecurityConstants.CALLBACK_HANDLER, new KeystorePasswordCallback());
+      reqCtx.put(SecurityConstants.SELF_SIGN_SAML_ASSERTION, "true");
       assertTrue(proxy.sayHello().equals("Hello -  (WSS1.0) SAML1.1 Assertion (HK) over SSL"));
    }
+
+   /**
+    * 2.3.1.4 (WSS1.0) SAML1.1 Sender Vouches with X.509 Certificates, Sign, Optional Encrypt
+    * 
+    * @throws Exception
+    */
+   public void test2314() throws Exception
+   {
+      Service service = Service.create(new URL(serviceURL + "SecurityService2314?wsdl"), serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2314Port"), ServiceIface.class);
+      Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
+      SamlCallbackHandler cbh = new SamlCallbackHandler();
+      cbh.setConfirmationMethod("urn:oasis:names:tc:SAML:1.0:cm:sender-vouches");
+      reqCtx.put(SecurityConstants.SAML_CALLBACK_HANDLER, cbh);
+      reqCtx.put(SecurityConstants.CALLBACK_HANDLER, new KeystorePasswordCallback());
+      reqCtx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      reqCtx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      reqCtx.put(SecurityConstants.SIGNATURE_USERNAME, "alice");
+      reqCtx.put(SecurityConstants.ENCRYPT_USERNAME, "bob");
+      assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) SAML1.1 Sender Vouches with X.509 Certificates, Sign, Optional Encrypt"));
+   }
+
+   /**
+    * 2.3.1.5 (WSS1.0) SAML1.1 Holder of Key, Sign, Optional Encrypt
+    * 
+    * @throws Exception
+    */
+   public void test2315() throws Exception
+   {
+      Service service = Service.create(new URL(serviceURL + "SecurityService2315?wsdl"), serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2315Port"), ServiceIface.class);
+      Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
+      SamlCallbackHandler cbh = new SamlCallbackHandler();
+      cbh.setConfirmationMethod("urn:oasis:names:tc:SAML:1.0:cm:holder-of-key");
+      reqCtx.put(SecurityConstants.SAML_CALLBACK_HANDLER, cbh);
+      reqCtx.put(SecurityConstants.CALLBACK_HANDLER, new KeystorePasswordCallback());
+      reqCtx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      reqCtx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
+      reqCtx.put(SecurityConstants.SIGNATURE_USERNAME, "alice");
+      reqCtx.put(SecurityConstants.ENCRYPT_USERNAME, "bob");
+      reqCtx.put(SecurityConstants.SELF_SIGN_SAML_ASSERTION, "true");
+      assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) SAML1.1 Holder of Key, Sign, Optional Encrypt"));
+   }
+
 }

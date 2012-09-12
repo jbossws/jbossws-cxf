@@ -48,6 +48,7 @@ public final class WSSecurityPolicyExamples21xTestCase extends JBossWSTest
 {
    private final String NS = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy/oasis-samples";
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-oasis-21x/";
+   private final String serviceURLHttps = "https://" + getServerHost() + ":8443/jaxws-samples-wsse-policy-oasis-21x/";
    private final QName serviceName = new QName(NS, "SecurityService");
 
    public static Test suite()
@@ -115,7 +116,7 @@ public final class WSSecurityPolicyExamples21xTestCase extends JBossWSTest
     */
    public void test2121() throws Exception
    {
-      Service service = Service.create(new URL(serviceURL + "SecurityService2121?wsdl"), serviceName);
+      Service service = Service.create(new URL(serviceURLHttps + "SecurityService2121?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2121Port"), ServiceIface.class);
       setupWsse(proxy);
       assertTrue(proxy.sayHello().equals("Hello - UsernameToken as supporting token"));
