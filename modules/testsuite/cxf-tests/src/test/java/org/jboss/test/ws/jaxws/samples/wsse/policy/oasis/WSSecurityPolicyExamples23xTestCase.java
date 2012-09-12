@@ -39,6 +39,7 @@ import org.jboss.wsf.test.JBossWSTest;
  * WS-Security Policy examples
  *
  * From OASIS WS-SecurityPolicy Examples Version 1.0
+ * http://docs.oasis-open.org/ws-sx/security-policy/examples/ws-sp-usecases-examples.html
  * 
  * @author alessio.soldano@jboss.com
  * @since 10-Sep-2012
