@@ -653,6 +653,7 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase.*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples21xTestCase.*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples23xTestCase.*</exclude>
 
                  <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
