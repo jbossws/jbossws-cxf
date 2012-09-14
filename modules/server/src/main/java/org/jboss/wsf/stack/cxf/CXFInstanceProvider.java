@@ -45,12 +45,13 @@ public final class CXFInstanceProvider implements InstanceProvider {
 
     private static final ResourceBundle bundle = BundleUtils.getBundle(CXFInstanceProvider.class);
     private final ServerFactoryBean factory;
-    private final Map<String, Reference> cache = new HashMap<String, Reference>();
+    private final Map<String, Reference> cache = new HashMap<String, Reference>(8);
 
     public CXFInstanceProvider(final ServerFactoryBean factory) {
         this.factory = factory;
     }
 
+    @SuppressWarnings("rawtypes")
     public synchronized Reference getInstance(final String className) {
         Reference instance = cache.get(className);
         if (instance == null) {
