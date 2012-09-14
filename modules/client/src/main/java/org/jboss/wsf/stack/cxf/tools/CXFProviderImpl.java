@@ -51,6 +51,7 @@ public class CXFProviderImpl extends WSContractProvider
    private File resourceDir;
    private File sourceDir;
    private PrintStream messageStream;
+   private String portAddress;
 
    public CXFProviderImpl()
    {
@@ -94,6 +95,11 @@ public class CXFProviderImpl extends WSContractProvider
    public void setMessageStream(PrintStream messageStream)
    {
       this.messageStream = messageStream;
+   }
+   
+   public void setPortSoapAddress(String address)
+   {
+      this.portAddress = address;
    }
 
    public void provide(String endpointClass)
@@ -170,6 +176,10 @@ public class CXFProviderImpl extends WSContractProvider
             args.add("-wsdl");
             if (extension)
                args.add("-soap12");
+            if (portAddress != null) {
+               args.add("-address");
+               args.add(portAddress);
+            }
          }
 
          String cp = buildClasspathString(loader);
