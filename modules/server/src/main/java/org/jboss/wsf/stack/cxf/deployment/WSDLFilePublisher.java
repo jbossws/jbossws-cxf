@@ -132,7 +132,7 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
       {
          enc = "utf-8";
       }
-      FileOutputStream fos = new FileOutputStream(file);
+      FileOutputStream fos = new FileOutputStream(new File(file.toURI()));
       try
       {
          XMLStreamWriter writer = StaxUtils.createXMLStreamWriter(fos, enc);
