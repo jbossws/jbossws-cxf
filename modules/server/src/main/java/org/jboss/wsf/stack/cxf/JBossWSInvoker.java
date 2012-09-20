@@ -43,12 +43,12 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.jaxws.JAXWSMethodInvoker;
+import org.apache.cxf.jaxws.context.WebServiceContextImpl;
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.MessageContentsList;
 import org.apache.cxf.service.Service;
@@ -57,15 +57,12 @@ import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.service.invoker.MethodDispatcher;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.jboss.ws.api.util.ServiceLoader;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.Invocation;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 import org.jboss.wsf.spi.invocation.NamespaceContextSelectorWrapperFactory;
-import org.jboss.wsf.spi.invocation.WebServiceContextFactory;
 
 /**
  * A JBossWS extension of the Apache CXF JAXWSMethodInvoker invoker.
@@ -101,7 +98,6 @@ import org.jboss.wsf.spi.invocation.WebServiceContextFactory;
 public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
 {
    private Object targetBean;
-   private WebServiceContextFactory contextFactory;
    private NamespaceContextSelectorWrapperFactory nsCtxSelectorFactory;
 
    public JBossWSInvoker() {
@@ -155,9 +151,6 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
       } finally {
          //make sure the right bus is restored after coming back from the endpoint method
          BusFactory.setThreadDefaultBus(threadBus);
-         if (ep.getAttachment(Object.class) == null) { //JBWS-2486
-            ep.addAttachment(Object.class, inv.getInvocationContext().getTargetBean());
-         }
          clearNamespaceContextSelector(exchange);
       }
    }
@@ -165,18 +158,12 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
    private Invocation createInvocation(InvocationHandler invHandler, Endpoint ep, Method m, Object[] paramArray) {
       Invocation inv = invHandler.createInvocation();
       InvocationContext invContext = inv.getInvocationContext();
-      WebServiceContext wsCtx = getWebServiceContext(null);
+      WebServiceContext wsCtx = new WebServiceContextImpl(null);
       invContext.addAttachment(WebServiceContext.class, wsCtx);
-      invContext.addAttachment(MessageContext.class, wsCtx.getMessageContext());
-      invContext.setTargetBean(targetBean != null ? targetBean : ep.getAttachment(Object.class)); //JBWS-2486 - JBWS-3002
+      invContext.setTargetBean(targetBean);
       inv.setJavaMethod(m);
       inv.setArgs(paramArray);
       return inv;
-   }
-
-   protected WebServiceContext getWebServiceContext(MessageContext msgCtx)
-   {
-      return getWebServiceContextFactory().newWebServiceContext(msgCtx);
    }
 
    protected void setNamespaceContextSelector(Exchange exchange)
@@ -193,16 +180,5 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
       {
          nsCtxSelectorFactory.getWrapper().clearCurrentThreadSelector(exchange);
       }
-   }
-   
-   protected synchronized WebServiceContextFactory getWebServiceContextFactory()
-   {
-      if (contextFactory == null)
-      {
-         ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
-         SPIProvider spiProvider = SPIProviderResolver.getInstance(cl).getProvider();
-         contextFactory = spiProvider.getSPI(WebServiceContextFactory.class, cl);
-      }
-      return contextFactory;
    }
 }

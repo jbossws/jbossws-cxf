@@ -146,6 +146,10 @@
         <artifactId>jbossws-jboss712-server-integration</artifactId>
         <scope>provided</scope>
       </dependency>
+      <dependency>
+        <groupId>org.jboss</groupId>
+        <artifactId>jandex</artifactId>
+      </dependency>
       <!--junit-->
       <dependency>
         <groupId>junit</groupId>

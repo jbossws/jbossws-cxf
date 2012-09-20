@@ -91,12 +91,6 @@ public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegat
    }
    
    @Override
-   public void destroy() 
-   {
-      ServletHelper.callPreDestroy(endpoint);
-   }
-   
-   @Override
    public void doHead(HttpServletRequest request, HttpServletResponse response, ServletContext context)
          throws ServletException, IOException
    {
