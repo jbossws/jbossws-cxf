@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.transport;
 
+import static org.jboss.ws.common.integration.WSHelper.isJaxwsJseEndpoint;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -45,6 +47,7 @@ import org.apache.cxf.management.interceptor.ResponseTimeMessageInvokerIntercept
 import org.apache.cxf.management.interceptor.ResponseTimeMessageOutInterceptor;
 import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.ObjectNameFactory;
+import org.jboss.ws.common.injection.InjectionHelper;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
@@ -124,11 +127,30 @@ public class ServletHelper
             for (Handler handler : chain)
             {
                final Reference handlerReference = endpoint.getInstanceProvider().getInstance(handler.getClass().getName());
+               if (!handlerReference.isInitialized()) {
+                   final Object handlerInstance = handlerReference.getValue();
+                   InjectionHelper.callPostConstructMethod(handlerInstance);
+                   handlerReference.setInitialized();
+               }
             }
          }
       }
    }
    
+   public static void callPreDestroy(Endpoint endpoint)
+   {
+      ServerFactoryBean factory = endpoint.getAttachment(ServerFactoryBean.class);
+      if (factory != null)
+      {
+         if (isJaxwsJseEndpoint(endpoint) && factory.getServiceBean() != null)
+         {
+            final Reference epReference = endpoint.getInstanceProvider().getInstance(factory.getServiceBean().getClass().getName());
+            final Object epInstance = epReference.getValue(); 
+            InjectionHelper.callPreDestroyMethod(epInstance);
+         }
+      }
+   }
+
    public static void callRequestHandler(HttpServletRequest req, HttpServletResponse res, ServletContext ctx, Bus bus,
          Endpoint endpoint) throws ServletException
    {
