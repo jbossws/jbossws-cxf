@@ -78,7 +78,8 @@
     <cxf.xjcplugins.version>2.6.0</cxf.xjcplugins.version>
     <fastinfoset.api.version>1.2.9</fastinfoset.api.version>
     <jboss.common.core.version>2.2.17.GA</jboss.common.core.version>
-    <jboss.logging.version>3.1.0.GA</jboss.logging.version>
+    <jboss-logging.version>3.1.2.GA</jboss-logging.version>
+    <jboss-logging-processor.version>1.0.3.Final</jboss-logging-processor.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <picketbox.version>4.0.9.Final</picketbox.version>
     <picketlink.version>2.1.4.Final</picketlink.version>
@@ -1159,6 +1160,12 @@
         <groupId>org.jboss</groupId>
         <artifactId>jboss-common-core</artifactId>
         <version>${jboss.common.core.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging-spi</artifactId>
+          </exclusion>
+        </exclusions>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -1219,7 +1226,12 @@
       <dependency>
         <groupId>org.jboss.logging</groupId>
         <artifactId>jboss-logging</artifactId>
-        <version>${jboss.logging.version}</version>
+        <version>${jboss-logging.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.logging</groupId>
+        <artifactId>jboss-logging-processor</artifactId>
+        <version>${jboss-logging-processor.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.jms</groupId>

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,11 +21,13 @@
  */
 package org.jboss.wsf.stack.cxf.metadata;
 
+import static org.jboss.wsf.stack.cxf.Loggers.METADATA_LOGGER;
+import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -36,8 +38,6 @@ import javax.xml.ws.WebServiceProvider;
 import javax.xml.ws.soap.MTOM;
 import javax.xml.ws.soap.SOAPBinding;
 
-import org.jboss.logging.Logger;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.JavaUtils;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
@@ -48,7 +48,6 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
 import org.jboss.wsf.spi.metadata.webservices.PortComponentMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebserviceDescriptionMetaData;
-import org.jboss.wsf.spi.metadata.webservices.WebservicesFactory;
 import org.jboss.wsf.spi.metadata.webservices.WebservicesMetaData;
 import org.jboss.wsf.stack.cxf.JBossWSInvoker;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
@@ -63,9 +62,6 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
  */
 public class MetadataBuilder
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(MetadataBuilder.class);
-   private static final Logger log = Logger.getLogger(MetadataBuilder.class);
-   
    public MetadataBuilder()
    {
       
@@ -84,7 +80,7 @@ public class MetadataBuilder
          }
          processWSDDContribution(ddep, (ArchiveDeployment)dep);
 
-         log.info("Add " + ddep);
+         METADATA_LOGGER.addingServiceEndpointMetadata(ddep);
          dd.addEndpoint(ddep);
       }
       return dd;
@@ -125,18 +121,17 @@ public class MetadataBuilder
 
                if (doesMatch)
                {
+                  final String id = endpoint.getId();
                   // PortQName overrides
                   if (portComp.getWsdlPort() != null)
                   {
-                     if (log.isDebugEnabled())
-                        log.debug("Override portName " + endpoint.getPortName() + " with " + portComp.getWsdlPort());
+                     METADATA_LOGGER.overridePortName(id, endpoint.getPortName(), portComp.getWsdlPort());
                      endpoint.setPortName(portComp.getWsdlPort());
                   }
                   //ServiceQName overrides
                   if (portComp.getWsdlService() != null)
                   {
-                     if (log.isDebugEnabled())
-                        log.debug("Override serviceName " + endpoint.getServiceName() + " with " + portComp.getWsdlService());
+                     METADATA_LOGGER.overrideServiceName(id, endpoint.getServiceName(), portComp.getWsdlService());
                      endpoint.setServiceName(portComp.getWsdlService());
                   }
                   
@@ -150,7 +145,7 @@ public class MetadataBuilder
                   // MTOM settings
                   if (portComp.isMtomEnabled())
                   {
-                     log.debug("Enabling MTOM");
+                     METADATA_LOGGER.enableMTOM(id);
                      endpoint.setMtomEnabled(true);
                      endpoint.setMtomThreshold(portComp.getMtomThreshold());
                   }
@@ -158,23 +153,22 @@ public class MetadataBuilder
                   //Addressing
                   if (portComp.isAddressingEnabled()) 
                   {
-                      log.debug("Enabling Addressing");
-                      endpoint.setAddressingEnabled(true);
-                      endpoint.setAddressingRequired(portComp.isAddressingRequired());
-                      endpoint.setAddressingResponses(portComp.getAddressingResponses());
+                     METADATA_LOGGER.enableAddressing(id);
+                     endpoint.setAddressingEnabled(true);
+                     endpoint.setAddressingRequired(portComp.isAddressingRequired());
+                     endpoint.setAddressingResponses(portComp.getAddressingResponses());
                   }
                   //RespectBinding
                   if (portComp.isRespectBindingEnabled()) 
                   {
-                      log.debug("RepectBinging...");
-                      endpoint.setRespectBindingEnabled(true);
+                     METADATA_LOGGER.enableRespectBinding(id);
+                     endpoint.setRespectBindingEnabled(true);
                   }
                   //wsdlLocation override
                   String wsdlFile = portComp.getWebserviceDescription().getWsdlFile();
                   if (wsdlFile != null)
                   {
-                     if (log.isDebugEnabled())
-                        log.debug("Override wsdlFile location with " + wsdlFile);
+                     METADATA_LOGGER.overridingWsdlFileLocation(id, wsdlFile);
                      endpoint.setWsdlLocation(wsdlFile);
                   }
                }
@@ -193,15 +187,13 @@ public class MetadataBuilder
             if (handlerChain.getPortNamePattern() != null || handlerChain.getProtocolBindings() != null
                   || handlerChain.getServiceNamePattern() != null)
             {
-               log.warn(BundleUtils.getMessage(bundle, "FILTERS_NOT_SUPPORTED"));
+               METADATA_LOGGER.filtersNotSupported();
             }
             for (UnifiedHandlerMetaData uhmd : handlerChain.getHandlers())
             {
-               if (log.isDebugEnabled())
-                  log.debug("Contribute handler from webservices.xml: " + uhmd.getHandlerName());
                if (uhmd.getInitParams() != null && !uhmd.getInitParams().isEmpty())
                {
-                  log.warn(BundleUtils.getMessage(bundle, "INIT_PARAMS_NOT_SUPPORTED"));
+                  METADATA_LOGGER.initParamsSupported(uhmd.getHandlerName());
                }
                handlers.add(uhmd.getHandlerClass());
             }
@@ -239,7 +231,7 @@ public class MetadataBuilder
          seiName = anWebService.endpointInterface();
          ClassLoader runtimeClassLoader = dep.getRuntimeClassLoader();
          if(null == runtimeClassLoader)
-            throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "RUNTIME_LOADER_CANNOT_BE_NULL"));
+            throw MESSAGES.runtimeLoaderCannotBeNull(dep);
          
          try
          {
@@ -247,15 +239,15 @@ public class MetadataBuilder
          }
          catch (ClassNotFoundException cnfe)
          {
-            throw new RuntimeException(BundleUtils.getMessage(bundle, "CANNOT_LOAD_SEI_CLASS"),  cnfe);
+            throw new RuntimeException(cnfe);
          }
          WebService seiAnnotation = seiClass.getAnnotation(WebService.class);
 
          if (seiAnnotation == null)
-            throw new RuntimeException(BundleUtils.getMessage(bundle, "WEBSERVICE_ANNOTATION_NOT_FOUND",  seiName));
+            throw MESSAGES.webserviceAnnotationNotFound(seiName);
 
          if (seiAnnotation.portName().length() > 0 || seiAnnotation.serviceName().length() > 0 || seiAnnotation.endpointInterface().length() > 0)
-            throw new RuntimeException(BundleUtils.getMessage(bundle, "ATTRIBUTES_NOT_FOUND",  seiName));
+            throw MESSAGES.webserviceAnnotationSEIAttributes(seiName);
 
       }
       

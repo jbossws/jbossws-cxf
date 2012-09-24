@@ -225,6 +225,11 @@
       <groupId>org.jboss.logging</groupId>
       <artifactId>jboss-logging</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.logging</groupId>
+      <artifactId>jboss-logging-processor</artifactId>
+      <scope>provided</scope>
+    </dependency>
     
     <dependency>
       <groupId>junit</groupId>
@@ -241,6 +246,7 @@
           <showDeprecation>false</showDeprecation>
           <compilerArguments>
             <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+            <AgeneratedTranslationFilesPath>${project.basedir}/target/generated-translation-files</AgeneratedTranslationFilesPath>
           </compilerArguments>
         </configuration>
       </plugin>

@@ -21,18 +21,18 @@
  */
 package org.jboss.wsf.stack.cxf.security.authentication;
 
+import static org.jboss.wsf.stack.cxf.Loggers.SECURITY_LOGGER;
+import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+
 import java.security.Principal;
 import java.util.Calendar;
-import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
 
 import org.apache.cxf.common.security.SimplePrincipal;
-import org.jboss.logging.Logger;
 import org.jboss.security.auth.callback.CallbackHandlerPolicyContextHandler;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
@@ -49,9 +49,6 @@ import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
  */
 public class SubjectCreator
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(SubjectCreator.class);
-   private static final Logger log = Logger.getLogger(SubjectCreator.class);
-
    private static final int TIMESTAMP_FRESHNESS_THRESHOLD = 300;
 
    private boolean propagateContext;
@@ -83,9 +80,9 @@ public class SubjectCreator
       Principal principal = new SimplePrincipal(name);
       Subject subject = new Subject();
 
-      boolean TRACE = log.isTraceEnabled();
+      boolean TRACE = SECURITY_LOGGER.isTraceEnabled();
       if (TRACE)
-         log.trace("About to authenticate, using security domain '" + ctx.getSecurityDomain() + "'");
+         SECURITY_LOGGER.aboutToAuthenticate(ctx.getSecurityDomain());
 
       try
       {
@@ -96,9 +93,7 @@ public class SubjectCreator
          {
             if (ctx.isValid(principal, password, subject) == false)
             {
-               String msg = BundleUtils.getMessage(bundle, "AUTHENTICATION_FAILED", principal.getName());
-               log.error(msg);
-               throw new SecurityException(msg);
+               throw MESSAGES.authenticationFailed(principal.getName());
             }
          }
          finally
@@ -117,13 +112,13 @@ public class SubjectCreator
       }
 
       if (TRACE)
-         log.trace("Authenticated, principal=" + name);
+         SECURITY_LOGGER.authenticated(name);
 
       if (propagateContext)
       {
          ctx.pushSubjectContext(subject, principal, password);
          if (TRACE)
-            log.trace("Security Context has been propagated");
+            SECURITY_LOGGER.securityContextPropagated(name);
       }
       return subject;
    }
@@ -136,13 +131,13 @@ public class SubjectCreator
          Calendar ref = Calendar.getInstance();
          ref.add(Calendar.SECOND, -timestampThreshold);
          if (ref.after(cal))
-            throw new SecurityException(BundleUtils.getMessage(bundle, "REQUEST_REJECTED",  created));
+            throw MESSAGES.requestRejectedTimeStamp(created);
       }
 
       if (nonce != null && nonceStore != null)
       {
          if (nonceStore.hasNonce(nonce))
-            throw new SecurityException(BundleUtils.getMessage(bundle, "REQUEST_REJECTED_SAME_NONCE", nonce));
+            throw MESSAGES.requestRejectedSameNonce(nonce);
          nonceStore.putNonce(nonce);
       }
    }
@@ -175,7 +170,7 @@ public class SubjectCreator
       int timeInd = parseDate(value, 0, cal);
       if (value.charAt(timeInd) != 'T')
       {
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "INVALID_DATATIME_FORMAT", value.charAt(timeInd)));
+         throw MESSAGES.invalidDateTimeFormat(value.charAt(timeInd));
       }
 
       int tzStart = parseTime(value, timeInd + 1, cal);
@@ -203,13 +198,13 @@ public class SubjectCreator
 
       if (!Character.isDigit(value.charAt(start)))
       {
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "INVALID_DATE_VALUE_FORMAT",  value));
+         throw MESSAGES.invalidDateValueFormat(value);
       }
 
       int nextToken = value.indexOf('-', start);
       if (nextToken == -1 || nextToken - start < 4)
       {
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "INVALID_DATE_VALUE_FORMAT",  value));
+         throw MESSAGES.invalidDateValueFormat(value);
       }
 
       int year = Integer.parseInt(value.substring(start, nextToken));
@@ -218,7 +213,7 @@ public class SubjectCreator
       nextToken = value.indexOf('-', start);
       if (nextToken == -1 || nextToken - start < 2)
       {
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "INVALID_DATE_VALUE_FORMAT",  value));
+         throw MESSAGES.invalidDateValueFormat(value);
       }
 
       int month = Integer.parseInt(value.substring(start, nextToken));
@@ -238,7 +233,7 @@ public class SubjectCreator
    {
       if (value.charAt(start + 2) != ':' || value.charAt(start + 5) != ':')
       {
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "INVALID_TIME_VALUE_FORMAT",  value));
+         throw MESSAGES.invalidTimeValueFormat(value);
       }
 
       int hh = Integer.parseInt(value.substring(start, start + 2));
@@ -292,7 +287,7 @@ public class SubjectCreator
          }
          else
          {
-            throw new NumberFormatException(BundleUtils.getMessage(bundle, "INVALID_TIME_VALUE_FORMAT", value.substring(start)));
+            throw MESSAGES.invalidTimeZoneValueFormat(value.substring(start));
          }
       }
       else if (value.charAt(start) == 'Z')
@@ -301,7 +296,7 @@ public class SubjectCreator
       }
       else
       {
-         throw new NumberFormatException(BundleUtils.getMessage(bundle, "INVALID_TIME_VALUE_FORMAT", value.substring(start)));
+         throw MESSAGES.invalidTimeZoneValueFormat(value.substring(start));
       }
       return tz;
    }

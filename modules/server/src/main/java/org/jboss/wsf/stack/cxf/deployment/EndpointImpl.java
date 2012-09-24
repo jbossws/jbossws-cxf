@@ -24,7 +24,6 @@ package org.jboss.wsf.stack.cxf.deployment;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.xml.namespace.QName;
 
@@ -34,10 +33,9 @@ import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
 import org.apache.cxf.service.Service;
-import org.jboss.logging.Logger;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.configuration.ConfigHelper;
 import org.jboss.wsf.spi.metadata.config.CommonConfig;
+import org.jboss.wsf.stack.cxf.Loggers;
 
 /**
  * An extension of @see org.apache.cxf.jaxws.EndpointImpl for dealing with
@@ -49,7 +47,6 @@ import org.jboss.wsf.spi.metadata.config.CommonConfig;
  */
 public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(EndpointImpl.class);
    private WSDLFilePublisher wsdlPublisher;
    private CommonConfig config;
    
@@ -136,12 +133,12 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
          }
          catch (IOException ioe)
          {
-            throw new RuntimeException(BundleUtils.getMessage(bundle, "PUBLISHING_WSDL_ERROR",  service.getName()),  ioe);
+            throw new RuntimeException(ioe);
          }
       }
       else
       {
-         Logger.getLogger(this.getClass()).warn(BundleUtils.getMessage(bundle, "UNABLE_TO_PUBLISH_CONTRACT"));
+         Loggers.DEPLOYMENT_LOGGER.unableToPublishContractDueToMissingPublisher(getImplementorClass());
       }
    }
 

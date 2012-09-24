@@ -25,19 +25,18 @@ import static org.jboss.wsf.spi.deployment.DeploymentType.JAXRPC;
 import static org.jboss.ws.common.integration.WSHelper.isJaxrpcDeployment;
 import static org.jboss.ws.common.integration.WSHelper.isJseDeployment;
 import static org.jboss.ws.common.integration.WSHelper.isWarArchive;
+import static org.jboss.wsf.stack.cxf.Loggers.DEPLOYMENT_LOGGER;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 
-import org.jboss.logging.Logger;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.integration.AbstractDeploymentAspect;
 import org.jboss.ws.common.integration.WSConstants;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
@@ -55,10 +54,6 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
 {
    private static final boolean PREFER_SPRING_DESCRIPTOR_GENERATION = Boolean.getBoolean("org.jboss.ws.cxf.prefer_spring_descriptor_generation");
    
-   private static final ResourceBundle bundle = BundleUtils.getBundle(DescriptorDeploymentAspect.class);
-   // provide logging
-   private static final Logger log = Logger.getLogger(DescriptorDeploymentAspect.class);
-
    @Override
    public void start(Deployment dep)
    {
@@ -73,7 +68,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
          {
             DDBeans dd = generateMetadataFromDeployment(dep);
             cxfURL = dd.createFileURL();
-            log.debug("JBossWS-CXF configuration generated: " + cxfURL);
+            DEPLOYMENT_LOGGER.jbwscxfConfGenerated(cxfURL);
          }
       }
       if (cxfURL == null)
@@ -82,7 +77,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
       }
       else
       {
-         log.debug("Actual configuration from file: " + cxfURL);
+         DEPLOYMENT_LOGGER.actualConfFromFile(cxfURL);
          putCXFConfigToDeployment(dep, cxfURL);
       }
    }
@@ -110,7 +105,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
    {
       if (isJaxrpcDeployment(dep))
       {
-         throw new IllegalStateException(BundleUtils.getMessage(bundle, "UNSUPPORTED_DEPLOYMENT_TYPE",  JAXRPC));
+         throw Messages.MESSAGES.unsupportedDeploymentType(JAXRPC);
       }
       String metadir = null;
       if (isJseDeployment(dep) || isWarArchive(dep))
@@ -131,7 +126,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
          // get resource URL
          ArchiveDeployment archDep = (ArchiveDeployment)dep;
          cxfURL = archDep.getResourceResolver().resolve(metadir + "/" + Constants.JBOSSWS_CXF_SPRING_DD);
-         log.debug("JBossWS-CXF configuration found: " + cxfURL);
+         DEPLOYMENT_LOGGER.jbwscxfConfFound(cxfURL);
       }
       catch (IOException ignore)
       {

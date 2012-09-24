@@ -24,11 +24,9 @@ package org.jboss.wsf.stack.cxf.resolver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ResourceBundle;
 
 import org.apache.cxf.resource.ResourceResolver;
-import org.jboss.logging.Logger;
-import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.stack.cxf.Loggers;
 
 /**
  * A CXF resource resolver that uses the JBossWS spi resource resolver,
@@ -41,8 +39,6 @@ import org.jboss.ws.api.util.BundleUtils;
  */
 public class JBossWSResourceResolver implements ResourceResolver
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(JBossWSResourceResolver.class);
-   private static Logger log = Logger.getLogger(JBossWSResourceResolver.class);
    private org.jboss.wsf.spi.deployment.ResourceResolver resolver;
    
    public JBossWSResourceResolver(org.jboss.wsf.spi.deployment.ResourceResolver resolver)
@@ -61,7 +57,7 @@ public class JBossWSResourceResolver implements ResourceResolver
          }
          catch (IOException ioe)
          {
-            log.warn(BundleUtils.getMessage(bundle, "CANNOT_OPEN_STREAM_FOR_RESOURCE",  resourcePath));
+            Loggers.ROOT_LOGGER.cannotOpenStream(JBossWSResourceResolver.class.getSimpleName(), resourcePath);
          }
       }
       return null;
@@ -76,8 +72,8 @@ public class JBossWSResourceResolver implements ResourceResolver
       }
       catch (IOException ioe)
       {
-         if (log.isDebugEnabled())
-            log.debug(BundleUtils.getMessage(bundle, "CANNOT_RESOLVE_RESOURCE",  resourcePath));
+         if (Loggers.ROOT_LOGGER.isDebugEnabled())
+            Loggers.ROOT_LOGGER.cannotResolveResource(JBossWSResourceResolver.class.getSimpleName(), resourcePath);
       }
       if (url != null && resourceType.isInstance(url))
       {

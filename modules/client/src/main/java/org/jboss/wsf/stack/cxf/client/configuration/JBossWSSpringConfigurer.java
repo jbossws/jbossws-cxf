@@ -21,12 +21,10 @@
  */
 package org.jboss.wsf.stack.cxf.client.configuration;
 
-import java.util.ResourceBundle;
-
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.configuration.spring.ConfigurerImpl;
 import org.apache.cxf.extension.BusExtension;
-import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.stack.cxf.Messages;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -40,7 +38,6 @@ import org.springframework.context.ApplicationContextAware;
  */
 public class JBossWSSpringConfigurer implements JBossWSConfigurer, ApplicationContextAware, BusExtension
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(JBossWSSpringConfigurer.class);
    private BeanCustomizer customizer;
    private Configurer delegate;
    
@@ -96,7 +93,7 @@ public class JBossWSSpringConfigurer implements JBossWSConfigurer, ApplicationCo
       {
          return ((BusExtension)delegate).getRegistrationType();
       }
-      throw new RuntimeException(BundleUtils.getMessage(bundle, "NOT_A_BUSEXTENSION_INSTANCE",  delegate));
+      throw Messages.MESSAGES.notABusExtensionInstance(delegate);
    }
 
    @Override

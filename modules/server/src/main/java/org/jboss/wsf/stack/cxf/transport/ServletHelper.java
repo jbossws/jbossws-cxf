@@ -25,7 +25,6 @@ import static org.jboss.ws.common.integration.WSHelper.isJaxwsJseEndpoint;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.management.ObjectName;
 import javax.servlet.ServletConfig;
@@ -33,7 +32,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.WebServiceException;
 import javax.xml.ws.handler.Handler;
 
 import org.apache.cxf.Bus;
@@ -45,7 +43,6 @@ import org.apache.cxf.management.counters.CounterRepository;
 import org.apache.cxf.management.interceptor.ResponseTimeMessageInInterceptor;
 import org.apache.cxf.management.interceptor.ResponseTimeMessageInvokerInterceptor;
 import org.apache.cxf.management.interceptor.ResponseTimeMessageOutInterceptor;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.ws.common.injection.InjectionHelper;
 import org.jboss.wsf.spi.SPIProvider;
@@ -57,6 +54,7 @@ import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
+import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 
 /**
@@ -67,7 +65,6 @@ import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
  */
 public class ServletHelper
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(ServletHelper.class);
    public static final String ENABLE_CXF_MANAGEMENT = "enable.cxf.management";
 
    public static Endpoint initEndpoint(ServletConfig servletConfig, String servletName)
@@ -105,7 +102,7 @@ public class ServletHelper
       {
          ObjectName oname = ObjectNameFactory.create(Endpoint.SEPID_DOMAIN + ":" + Endpoint.SEPID_PROPERTY_CONTEXT
                + "=" + contextPath + "," + Endpoint.SEPID_PROPERTY_ENDPOINT + "=" + servletName);
-         throw new WebServiceException(BundleUtils.getMessage(bundle, "CANNOT_OBTAIN_ENDPOINT",  oname));
+         throw Messages.MESSAGES.cannotObtainEndpoint(oname);
       }
 
       //Inject the EJB and JNDI resources if possible

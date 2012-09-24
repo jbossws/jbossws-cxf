@@ -1,16 +1,14 @@
 package org.jboss.wsf.stack.cxf.management;
 
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 
 import org.apache.cxf.bus.ManagedBus;
-import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.management.jmx.InstrumentationManagerImpl;
+import org.jboss.wsf.stack.cxf.Loggers;
 
 
 /**
@@ -21,7 +19,6 @@ import org.apache.cxf.management.jmx.InstrumentationManagerImpl;
 
 public class InstrumentationManagerExtImpl extends InstrumentationManagerImpl
 {
-   private static final Logger LOG = LogUtils.getL7dLogger(InstrumentationManagerExtImpl.class);
    private MBeanServer mbeanServer = null;
 
    
@@ -39,7 +36,7 @@ public class InstrumentationManagerExtImpl extends InstrumentationManagerImpl
       }
       catch (JMException e)
       {
-         LOG.log(Level.SEVERE, "Register bus " + this.getBus() + " failure :" + e.getMessage());
+         Loggers.ROOT_LOGGER.errorRegisteringBus(this.getBus(), e);
       }
 
    }

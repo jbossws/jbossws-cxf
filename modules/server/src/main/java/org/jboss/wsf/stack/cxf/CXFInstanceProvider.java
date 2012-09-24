@@ -25,13 +25,11 @@ package org.jboss.wsf.stack.cxf;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.xml.ws.handler.Handler;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.deployment.ReferenceFactory;
 import org.jboss.wsf.spi.deployment.InstanceProvider;
 import org.jboss.wsf.spi.deployment.Reference;
@@ -43,7 +41,6 @@ import org.jboss.wsf.spi.deployment.Reference;
  */
 public final class CXFInstanceProvider implements InstanceProvider {
 
-    private static final ResourceBundle bundle = BundleUtils.getBundle(CXFInstanceProvider.class);
     private final ServerFactoryBean factory;
     private final Map<String, Reference> cache = new HashMap<String, Reference>(8);
 
@@ -72,7 +69,7 @@ public final class CXFInstanceProvider implements InstanceProvider {
             }
         }
         if (instance == null)
-            throw new IllegalStateException(BundleUtils.getMessage(bundle, "CANNOT_LOAD_CLASS",  className));
+            throw Messages.MESSAGES.cannotLoadClass(className);
         return instance;
     }
 

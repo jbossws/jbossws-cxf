@@ -28,7 +28,6 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
@@ -42,11 +41,10 @@ import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.staxutils.StaxUtils;
 import org.apache.cxf.wsdl.WSDLManager;
 import org.apache.cxf.wsdl11.ServiceWSDLBuilder;
-import org.jboss.logging.Logger;
-import org.jboss.util.NotImplementedException;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.utils.AbstractWSDLFilePublisher;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
+import org.jboss.wsf.stack.cxf.Loggers;
+import org.jboss.wsf.stack.cxf.Messages;
 import org.w3c.dom.Document;
 
 /**
@@ -58,9 +56,6 @@ import org.w3c.dom.Document;
  */
 public class WSDLFilePublisher extends AbstractWSDLFilePublisher
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(WSDLFilePublisher.class);
-   private static final Logger log = Logger.getLogger(WSDLFilePublisher.class);
-   
    public WSDLFilePublisher(ArchiveDeployment dep)
    {
       super(dep);
@@ -83,7 +78,7 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
          writeDocument(doc, wsdlFile);
 
          URL wsdlPublishURL = new URL(URLDecoder.decode(wsdlFile.toURI().toURL().toExternalForm(), "UTF-8"));
-         log.info("WSDL published to: " + wsdlPublishURL);
+         Loggers.DEPLOYMENT_LOGGER.wsdlFilePublished(wsdlPublishURL);
 
          // Process the wsdl imports
          if (def != null)
@@ -97,7 +92,7 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
          }
          else
          {
-            throw new NotImplementedException(BundleUtils.getMessage(bundle, "WSDL20_NOT_SUPPORTED"));
+            throw Messages.MESSAGES.wsdl20NotSupported();
          }
       }
       catch (RuntimeException rte)
@@ -106,7 +101,7 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
       }
       catch (Exception e)
       {
-         throw new RuntimeException(BundleUtils.getMessage(bundle, "CANNOT_PUBLISH_WSDL",  wsdlFile),  e);
+         throw Messages.MESSAGES.cannotPublishWSDLTo(serviceName, wsdlFile, e);
       }
    }
    
@@ -152,7 +147,7 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
    {
       if (wsdlLocation == null && serviceName == null)
       {
-         log.warn(BundleUtils.getMessage(bundle, "CANNOT_GET_PUBLISH_LOCATION"));
+         Loggers.DEPLOYMENT_LOGGER.cannotGetWsdlPublishLocation();
          return null;
       }
 

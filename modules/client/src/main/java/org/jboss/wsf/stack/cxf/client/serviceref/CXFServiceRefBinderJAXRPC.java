@@ -21,13 +21,11 @@
  */
 package org.jboss.wsf.stack.cxf.client.serviceref;
 
-import java.util.ResourceBundle;
-
 import javax.naming.Referenceable;
 
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 import org.jboss.wsf.spi.serviceref.ServiceRefBinder;
+import org.jboss.wsf.stack.cxf.Messages;
 
 /**
  * Binds a JAXRPC Service object to the client's ENC.
@@ -36,10 +34,9 @@ import org.jboss.wsf.spi.serviceref.ServiceRefBinder;
  */
 final class CXFServiceRefBinderJAXRPC implements ServiceRefBinder
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(CXFServiceRefBinderJAXRPC.class);
    @Override
    public Referenceable createReferenceable(final UnifiedServiceRefMetaData serviceRefUMDM)
    {
-      throw new UnsupportedOperationException(BundleUtils.getMessage(bundle, "DOES_NOT_SUPPORT_JAX_RPC"));
+      throw Messages.MESSAGES.jaxrpcServiceRefNotSupported();
    }
 }

@@ -46,7 +46,6 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
-import org.jboss.logging.Logger;
 import org.jboss.ws.common.configuration.ConfigHelper;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.SPIProvider;
@@ -55,6 +54,8 @@ import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.management.ServerConfigFactory;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
+import org.jboss.wsf.stack.cxf.Loggers;
+import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
 import org.jboss.wsf.stack.cxf.client.configuration.HandlerChainSortInterceptor;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
@@ -91,8 +92,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       Boolean db = (Boolean)bus.getProperty(Constants.DEPLOYMENT_BUS);
       if (db != null && db)
       {
-         Logger.getLogger(ProviderImpl.class).info(
-               "Cannot use the bus associated to the current deployment for starting a new endpoint, creating a new bus...");
+         Loggers.ROOT_LOGGER.cannotUseCurrentDepBusForStartingNewEndpoint();
          bus = BusFactory.newInstance().createBus();
       }
       return super.createEndpointImpl(bus, bindingId, implementor, features);
@@ -184,7 +184,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          Bus bus = setValidThreadDefaultBus();
          for (WebServiceFeature f : features) {
              if (!f.getClass().getName().startsWith("javax.xml.ws")) {
-                 throw new WebServiceException("Unknown feature error: " + f.getClass().getName());
+                 throw Messages.MESSAGES.unknownFeature(f.getClass().getName());
              }
          }
          return new JBossWSServiceImpl(bus, wsdlDocumentLocation, serviceName, serviceClass, features);
@@ -493,10 +493,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             SPIProvider spiProvider = SPIProviderResolver.getInstance(cl).getProvider();
             serverConfig = spiProvider.getSPI(ServerConfigFactory.class, cl).getServerConfig();
          } catch (Exception e) {
-            Logger log = Logger.getLogger(ProviderImpl.class);
-            if (log.isTraceEnabled()) {
-               log.trace("Unable to retrieve server config; this is expected for jboss-modules enabled client", e);
-            }
+            Loggers.ROOT_LOGGER.cannotRetrieveServerConfigIgnoreForClients(e);
          } finally {
             serverConfigInit = true;
          }

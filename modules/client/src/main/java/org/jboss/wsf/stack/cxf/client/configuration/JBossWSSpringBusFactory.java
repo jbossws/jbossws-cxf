@@ -22,16 +22,14 @@
 package org.jboss.wsf.stack.cxf.client.configuration;
 
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.spring.BusApplicationContext;
 import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
-import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.configuration.Configurer;
+import org.jboss.wsf.stack.cxf.Loggers;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -46,8 +44,6 @@ import org.springframework.core.io.Resource;
  */
 public class JBossWSSpringBusFactory extends SpringBusFactory
 {
-   private static final Logger LOG = LogUtils.getL7dLogger(JBossWSSpringBusFactory.class);
-   
    private boolean customContextProvided = false;
 
    public JBossWSSpringBusFactory()
@@ -83,7 +79,6 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
       }
       catch (BeansException ex)
       {
-         LogUtils.log(LOG, Level.WARNING, "APP_CONTEXT_CREATION_FAILED_MSG", ex, (Object[]) null);
          throw new RuntimeException(ex);
       }
    }
@@ -97,7 +92,6 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
       }
       catch (BeansException ex)
       {
-         LogUtils.log(LOG, Level.WARNING, "APP_CONTEXT_CREATION_FAILED_MSG", ex, (Object[]) null);
          throw new RuntimeException(ex);
       }
    }
@@ -126,10 +120,10 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
       }
       catch (BeansException ex)
       {
-         LogUtils.log(LOG, Level.WARNING, "INITIAL_APP_CONTEXT_CREATION_FAILED_MSG", ex, (Object[]) null);
          ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
          if (contextLoader != BusApplicationContext.class.getClassLoader())
          {
+            Loggers.ROOT_LOGGER.appContextCreationFailedWillTryWithNewTCCL(contextLoader, BusApplicationContext.class.getClassLoader(), ex);
             Thread.currentThread().setContextClassLoader(BusApplicationContext.class.getClassLoader());
             try
             {

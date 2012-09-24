@@ -22,14 +22,12 @@
 
 package org.jboss.wsf.stack.cxf.deployment.aspect;
 
-import java.util.ResourceBundle;
-
 import org.apache.cxf.frontend.ServerFactoryBean;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.integration.AbstractDeploymentAspect;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.stack.cxf.CXFInstanceProvider;
+import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 
 
@@ -40,7 +38,6 @@ import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
  */
 public final class CXFInstanceProviderDeploymentAspect extends AbstractDeploymentAspect
 {
-    private static final ResourceBundle bundle = BundleUtils.getBundle(CXFInstanceProviderDeploymentAspect.class);
     @Override
     public void start(final Deployment dep)
     {
@@ -50,7 +47,7 @@ public final class CXFInstanceProviderDeploymentAspect extends AbstractDeploymen
          //TODO: remove this after JBWS-3396 resolved
          if (factory == null && SpringUtils.isSpringAvailable())
          {
-            throw new IllegalStateException(BundleUtils.getMessage(bundle, "SPRING_ENDPOINT_NOT_DEFINED", ep.getTargetBeanName()));
+            throw Messages.MESSAGES.endpointNotDefineInJbwsCxf(ep.getTargetBeanName());
          }         
          ep.setInstanceProvider(new CXFInstanceProvider(factory));
        }

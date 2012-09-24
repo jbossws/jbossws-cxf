@@ -319,8 +319,8 @@ public class DDEndpoint
 
    public String toString()
    {
-      StringBuilder str = new StringBuilder("Service");
-      str.append("\n id=" + this.id);
+      StringBuilder str = new StringBuilder();
+      str.append("id=" + this.id);
       str.append("\n address=" + this.address);
       str.append("\n implementor=" + this.implementor);
       str.append("\n invoker=" + this.invoker);

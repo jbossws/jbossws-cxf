@@ -21,19 +21,20 @@
  */
 package org.jboss.wsf.stack.cxf.tools;
 
+import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+
 import java.io.File;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.cxf.helpers.FileUtils;
 import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.wsdlto.WSDLToJava;
 import org.jboss.ws.api.tools.WSContractConsumer;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.utils.NullPrintStream;
+import org.jboss.wsf.stack.cxf.Messages;
 
 /**
  * A WSContractConsumer for CXF stack
@@ -43,7 +44,6 @@ import org.jboss.ws.common.utils.NullPrintStream;
  */
 public class CXFConsumerImpl extends WSContractConsumer
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(CXFConsumerImpl.class);
    private List<File> bindingFiles = null;
    private File catalog = null;
    private boolean extension;
@@ -160,7 +160,7 @@ public class CXFConsumerImpl extends WSContractConsumer
       }
       else if (target != null && !target.equals("2.2"))
       {
-         stream.println("Unsupported target, using default value '2.2'");
+         stream.println(Messages.MESSAGES.unsupportedTargetUsingDefault(target, "2.2"));
       }
       
       if (bindingFiles != null)
@@ -200,7 +200,7 @@ public class CXFConsumerImpl extends WSContractConsumer
             sourceDir = outputDir;
          }
          if (!sourceDir.exists() && !sourceDir.mkdirs())
-            throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  sourceDir.getName()));
+            throw Messages.MESSAGES.couldNotMakeDirectory(sourceDir.getName());
 
          args.add("-d");
          args.add(sourceDir.getAbsolutePath());
@@ -227,7 +227,7 @@ public class CXFConsumerImpl extends WSContractConsumer
       }
 
       if (!outputDir.exists() && !outputDir.mkdirs())
-         throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  outputDir.getName()));
+         throw Messages.MESSAGES.couldNotMakeDirectory(outputDir.getName());
 
       // Always add the output directory and the wsdl location
       if (!nocompile)
@@ -263,7 +263,7 @@ public class CXFConsumerImpl extends WSContractConsumer
       {
          if (messageStream != null)
          {
-            messageStream.println("Failed to invoke WSDLToJava");
+            messageStream.println(MESSAGES.failedToInvoke(WSDLToJava.class.getName()));
             t.printStackTrace(messageStream);
          }
          else

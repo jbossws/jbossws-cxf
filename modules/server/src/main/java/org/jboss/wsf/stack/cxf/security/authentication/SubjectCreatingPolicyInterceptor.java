@@ -36,9 +36,10 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.security.SecurityContext;
 import org.apache.ws.security.WSUsernameTokenPrincipal;
-import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
+import org.jboss.wsf.stack.cxf.Loggers;
+import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
 
 /**
@@ -50,8 +51,6 @@ import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
  */
 public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<Message>
 {
-   private static Logger LOG = Logger.getLogger(SubjectCreatingPolicyInterceptor.class);
-
    private SubjectCreator helper = new SubjectCreator();
 
    public SubjectCreatingPolicyInterceptor()
@@ -68,7 +67,7 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
       SecurityContext context = message.get(SecurityContext.class);
       if (context == null || context.getUserPrincipal() == null)
       {
-         LOG.error("User Principal is not available on the current message"); //TODO i18n
+         Loggers.SECURITY_LOGGER.userPrincipalNotAvailableOnCurrentMessage();
          return;
       }
 
@@ -79,7 +78,7 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
          //Try authenticating using SecurityToken info
          if (token.getTokenType() != TokenType.UsernameToken)
          {
-            reportSecurityException("Unsupported token type " + token.getTokenType().toString());
+            throw Messages.MESSAGES.unsupportedTokenType(token.getTokenType());
          }
          UsernameToken ut = (UsernameToken) token;
          subject = createSubject(sdc, ut.getName(), ut.getPassword(), ut.isHashed(), ut.getNonce(), ut.getCreatedTime());
@@ -90,7 +89,7 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
          //Try authenticating using WSS4J internal info (previously set into SecurityContext by WSS4JInInterceptor)
          Principal p = context.getUserPrincipal();
          if (!(p instanceof WSUsernameTokenPrincipal)) {
-            reportSecurityException("Could not get subject info neither from Security Token in the current message nor directly from computed SecurityContext");
+            throw Messages.MESSAGES.couldNotGetSubjectInfo();
          }
          WSUsernameTokenPrincipal up = (WSUsernameTokenPrincipal) p;
          subject = createSubject(sdc, up.getName(), up.getPassword(), up.isPasswordDigest(), up.getNonce(), up.getCreatedTime());
@@ -109,11 +108,11 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
       }
       catch (Exception ex)
       {
-         reportSecurityException("Failed Authentication : Subject has not been created, " + ex.getMessage());
+         throw Messages.MESSAGES.authenticationFailedSubjectNotCreated(ex);
       }
       if (subject == null || subject.getPrincipals().size() == 0)
       {
-         reportSecurityException("Failed Authentication : Invalid Subject");
+         throw Messages.MESSAGES.authenticationFailedSubjectInvalid();
       }
       return subject;
    }
@@ -135,12 +134,6 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
    protected SecurityContext createSecurityContext(Principal p, Subject subject)
    {
       return new DefaultSecurityContext(p, subject);
-   }
-
-   protected void reportSecurityException(String errorMessage)
-   {
-      LOG.error(errorMessage); //TODO i18n
-      throw new SecurityException(errorMessage);
    }
 
    public void setPropagateContext(boolean propagateContext)

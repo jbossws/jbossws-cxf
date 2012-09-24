@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.saaj;
 
+import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,7 +32,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeader;
@@ -54,11 +55,9 @@ import org.apache.cxf.transport.ConduitInitiator;
 import org.apache.cxf.transport.ConduitInitiatorManager;
 import org.apache.cxf.transport.MessageObserver;
 import org.apache.cxf.transport.http.HTTPConduit;
-import org.jboss.ws.api.util.BundleUtils;
 
 public class SOAPConnectionImpl extends SOAPConnection 
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(SOAPConnectionImpl.class);
    private boolean closed = false;
 
     @Override
@@ -122,7 +121,7 @@ public class SOAPConnectionImpl extends SOAPConnection
        } 
        catch (Exception ex) 
        {
-          throw new SOAPException(BundleUtils.getMessage(bundle, "SOAPMESSAGE_CAN_NOT_BE_SENT"),  ex);
+          throw MESSAGES.soapMessageCouldNotBeSent(ex);
        }    
 
        // read SOAPMessage        
@@ -164,7 +163,7 @@ public class SOAPConnectionImpl extends SOAPConnection
        } 
        catch (Exception ex) 
        {
-          throw new SOAPException(BundleUtils.getMessage(bundle, "GET_REQUEST_CAN_NOT_BE_SENT"),  ex);
+          throw MESSAGES.getRequestCouldNotBeSent(ex);
        }    
 
        // read SOAPMessage
@@ -176,7 +175,7 @@ public class SOAPConnectionImpl extends SOAPConnection
     {
        if (this.closed)
        {
-          throw new SOAPException(BundleUtils.getMessage(bundle, "CONNECTION_ALREADY_CLOSED"));
+          throw MESSAGES.connectionAlreadyClosed();
        }
        this.closed = true;
     }
@@ -187,7 +186,7 @@ public class SOAPConnectionImpl extends SOAPConnection
        {
           return addressObject.toString();
        }
-       throw new SOAPException(BundleUtils.getMessage(bundle, "ADDRESS_TYPE_NOT_SUPPORTED",  addressObject.getClass()));
+       throw MESSAGES.addressTypeNotSupported(addressObject.getClass());
     }
     
     private ConduitInitiator getConduitInitiator(String address) throws SOAPException 
@@ -215,12 +214,12 @@ public class SOAPConnectionImpl extends SOAPConnection
        } 
        catch (Exception ex) 
        {
-          throw new SOAPException(BundleUtils.getMessage(bundle, "NO_CONDUITINITIATOR_IS_AVAILABLE",  address),  ex);
+          throw MESSAGES.noConduitInitiatorAvailableFor2(address, ex);
        }
         
        if (ci == null) 
        {
-          throw new SOAPException(BundleUtils.getMessage(bundle, "NO_CONDUITINITIATOR_IS_AVAILABLE",  address));
+          throw MESSAGES.noConduitInitiatorAvailableFor(address);
        }
        return ci;
     }
@@ -299,14 +298,14 @@ public class SOAPConnectionImpl extends SOAPConnection
        } 
        catch (Exception ex) 
        {    
-          throw new SOAPException(BundleUtils.getMessage(bundle, "SOAPMESSAGE_CAN_NOT_BE_READ"),  ex);
+          throw MESSAGES.soapMessageCouldNotBeRead(ex);
        }
     }
     
     private void checkClosed() throws SOAPException 
     {
     	if (closed) {
-           throw new SOAPException(BundleUtils.getMessage(bundle, "CANNOT_SENT_WITH_CLOSED_CONNECTION"));
+           throw MESSAGES.cantSendMessagesOnClosedConnection();
         }   	
     }
     

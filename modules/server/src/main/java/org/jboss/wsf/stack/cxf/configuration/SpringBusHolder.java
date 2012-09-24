@@ -21,13 +21,15 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import static org.jboss.wsf.stack.cxf.Loggers.DEPLOYMENT_LOGGER;
+import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
@@ -38,9 +40,7 @@ import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.http.HttpDestinationFactory;
 import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.apache.ws.security.WSSConfig;
-import org.jboss.logging.Logger;
 import org.jboss.ws.api.binding.BindingCustomization;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
@@ -62,9 +62,6 @@ import org.springframework.core.io.InputStreamResource;
  */
 public class SpringBusHolder extends BusHolder
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(SpringBusHolder.class);
-   private static final Logger log = Logger.getLogger(BusHolder.class);
-
    private boolean configured = false;
    
    protected BusApplicationContext ctx;
@@ -107,8 +104,7 @@ public class SpringBusHolder extends BusHolder
          }
          catch (IOException e)
          {
-            if (log.isTraceEnabled())
-               log.trace("Could not load additional config from location: " + location, e);
+            DEPLOYMENT_LOGGER.unableToLoadAdditionalConfigurationFrom(location, e);
          }
       }
       //Force servlet transport to prevent CXF from using Jetty / http server or other transports
@@ -130,7 +126,7 @@ public class SpringBusHolder extends BusHolder
    {
       if (configured)
       {
-         throw new IllegalStateException(BundleUtils.getMessage(bundle, "BUS_IS_ALREADY_CONFIGURED"));
+         throw MESSAGES.busAlreadyConfigured(ctx);
       }
       super.configure(soapTransportFactory, resolver, configurer, wsmd);
       if (additionalLocations != null)
@@ -143,7 +139,7 @@ public class SpringBusHolder extends BusHolder
             }
             catch (IOException e)
             {
-               throw new RuntimeException(BundleUtils.getMessage(bundle, "UNABLE_TO_LOAD_CONFIGURATION",  jbossCxfXml),  e);
+               throw MESSAGES.unableToLoadConfigurationFrom(jbossCxfXml, e);
             }
          }
       }
@@ -155,11 +151,8 @@ public class SpringBusHolder extends BusHolder
       }
       catch (Exception e)
       {
-         log.warn(BundleUtils.getMessage(bundle, "COULD_NOT_INITIALIZE_SECURITY_ENGINE"));
-         if (log.isTraceEnabled())
-         {
-            log.trace("Error while getting default WSSConfig: ", e);
-         }
+         DEPLOYMENT_LOGGER.couldNotInitSecurityEngine();
+         DEPLOYMENT_LOGGER.errorGettingWSSConfig(e);
       }
       configured = true;
    }
@@ -187,7 +180,7 @@ public class SpringBusHolder extends BusHolder
          throws IOException
    {
       if (locationUrl == null)
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "CANNOT_LOAD_ADDITIONAL_CONFIG"));
+         throw MESSAGES.unableToLoadAdditionalConfigFromNull();
       InputStream is = locationUrl.openStream();
       GenericApplicationContext childCtx = new GenericApplicationContext(ctx);
       additionalCtx.add(childCtx);

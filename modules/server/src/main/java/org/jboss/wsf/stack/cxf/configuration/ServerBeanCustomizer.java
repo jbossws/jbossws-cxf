@@ -23,11 +23,9 @@ package org.jboss.wsf.stack.cxf.configuration;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
 import org.jboss.ws.api.annotation.EndpointConfig;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
@@ -38,6 +36,7 @@ import org.jboss.wsf.spi.management.ServerConfigFactory;
 import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
 import org.jboss.wsf.spi.metadata.config.ConfigRoot;
 import org.jboss.wsf.stack.cxf.JBossWSInvoker;
+import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
@@ -49,7 +48,6 @@ import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
  */
 public class ServerBeanCustomizer extends BeanCustomizer
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(ServerBeanCustomizer.class);
    private static ServerConfig serverConfig;
    
    private WSDLFilePublisher wsdlPublisher;
@@ -162,7 +160,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
             }
             catch (IOException e)
             {
-               throw new RuntimeException(BundleUtils.getMessage(bundle, "COULD_NOT_READ",  configFile));
+               throw Messages.MESSAGES.couldNotReadConfigFile(configFile);
             }
          }
       }

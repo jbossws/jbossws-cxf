@@ -40,9 +40,12 @@
  */
 package org.jboss.wsf.stack.cxf.client.serviceref;
 
+import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+
 import java.io.File;
-import java.util.ResourceBundle;
 import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.spi.metadata.ParserConstants;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -70,7 +73,6 @@ import org.apache.cxf.jaxws.javaee.PortComponentHandlerType;
 import org.apache.cxf.resource.DefaultResourceManager;
 import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
-import org.jboss.logging.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -81,9 +83,6 @@ import org.w3c.dom.Node;
  */
 final class CXFHandlerResolverImpl extends HandlerChainBuilder implements HandlerResolver
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(CXFHandlerResolverImpl.class);
-   
-   private static final Logger log = Logger.getLogger(CXFHandlerResolverImpl.class);
    @SuppressWarnings("rawtypes")
    private final Map<PortInfo, List<Handler>> handlerMap = new HashMap<PortInfo, List<Handler>>();
    private final String handlerFile;
@@ -150,25 +149,25 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       try {
 
          if (is == null) {
-            throw new WebServiceException(BundleUtils.getMessage(bundle, "HANDLER_CONFIG_FILE_NOT_FOUND",  handlerFile));
+            throw MESSAGES.handlerConfigFileNotFound(handlerFile);
          }
 
          Document doc = XMLUtils.parse(is);
          Element el = doc.getDocumentElement();
-         if (!"http://java.sun.com/xml/ns/javaee".equals(el.getNamespaceURI()) 
-               || !"handler-chains".equals(el.getLocalName())) {
-
-            throw new WebServiceException(BundleUtils.getMessage(bundle, "HANDLER_CHAINS_ELEMENT_EXPECTED"));
+         if (!ParserConstants.JAVAEE_NS.equals(el.getNamespaceURI()) 
+               || !ParserConstants.HANDLER_CHAINS.equals(el.getLocalName())) {
+            throw MESSAGES.differentElementExpected(handlerFile, "{" + ParserConstants.JAVAEE_NS + "}"
+                  + ParserConstants.HANDLER_CHAINS, "{" + el.getNamespaceURI() + "}" + el.getLocalName());
          }
          chain = new ArrayList<Handler>();
          Node node = el.getFirstChild();
          while (node != null) {
             if (node instanceof Element) {
                el = (Element)node;
-               if (!el.getNamespaceURI().equals("http://java.sun.com/xml/ns/javaee") 
-                     || !el.getLocalName().equals("handler-chain")) {
-
-                  throw new WebServiceException(BundleUtils.getMessage(bundle, "HANDLER_CHAINS_ELEMENT_EXPECTED"));
+               if (!el.getNamespaceURI().equals(ParserConstants.JAVAEE_NS) 
+                     || !el.getLocalName().equals(ParserConstants.HANDLER_CHAIN)) {
+                  throw MESSAGES.differentElementExpected(handlerFile, "{" + ParserConstants.JAVAEE_NS + "}"
+                        + ParserConstants.HANDLER_CHAIN, "{" + el.getNamespaceURI() + "}" + el.getLocalName());
                }
                processHandlerChainElement(el, chain, portQName, serviceQName, bindingID);
             }
@@ -177,7 +176,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       } catch (WebServiceException e) {
          throw e;
       } catch (Exception e) {
-         throw new WebServiceException(BundleUtils.getMessage(bundle, "NO_HANDLER_CHAIN_FOUND"),  e);
+         throw MESSAGES.noHandlerChainFound(handlerFile, e);
       }
       finally
       {
@@ -198,9 +197,9 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          node = node.getNextSibling();            
          if (cur instanceof Element) {
             el = (Element)cur;
-            if (!el.getNamespaceURI().equals("http://java.sun.com/xml/ns/javaee")) {
+            if (!el.getNamespaceURI().equals(ParserConstants.JAVAEE_NS)) {
                String xml = XMLUtils.toString(el);
-               throw new WebServiceException(BundleUtils.getMessage(bundle, "INVALID_ELEMENT_IN_HANDLER",  xml));
+               throw MESSAGES.invalidElementInHandler(handlerFile, xml);
             }
             String name = el.getLocalName();
             if ("port-name-pattern".equals(name)) {
@@ -252,7 +251,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          return true;
       }
       if (!namePattern.contains(":")) {
-         throw new WebServiceException(BundleUtils.getMessage(bundle, "NOT_A_QNAME_PATTERN",  namePattern));
+         throw MESSAGES.notAQNamePattern(handlerFile, namePattern);
       }
       String localPart = namePattern.substring(namePattern.indexOf(':') + 1,
             namePattern.length());
@@ -296,9 +295,6 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
    private InputStream getInputStream(String filename, Class<?> wsClass)
    {
       URL fileURL = null;
-      if (log.isDebugEnabled())
-         log.debug("processHandlerChain [" + filename + "] on: " + wsClass.getName());
-
       // Try the filename as URL
       try
       {
@@ -327,11 +323,6 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       // Try the filename as Resource
       if (fileURL == null)
       {
-         if (log.isDebugEnabled())
-         {
-            log.debug(wsClass.getProtectionDomain().getCodeSource());
-            log.debug(wsClass.getClassLoader());
-         }
          fileURL = wsClass.getClassLoader().getResource(filename);
       }
 
@@ -351,7 +342,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       }
 
       if (fileURL == null)
-         throw new WebServiceException(BundleUtils.getMessage(bundle, "CANNOT_RESOLVE_HANDLER_FILE", new Object[]{ filename, wsClass.getName()}));
+         throw MESSAGES.cannotResolveHandlerFile(filename, wsClass.getName());
 
       try
       {

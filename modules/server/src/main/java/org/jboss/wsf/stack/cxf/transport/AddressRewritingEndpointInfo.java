@@ -21,13 +21,14 @@
  */
 package org.jboss.wsf.stack.cxf.transport;
 
+import static org.jboss.wsf.stack.cxf.Loggers.ADDRESS_REWRITE_LOGGER;
+
 import java.net.URI;
 import java.net.URL;
 
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.binding.soap.wsdl.extensions.SoapAddress;
-import org.jboss.logging.Logger;
 import org.jboss.wsf.spi.management.ServerConfig;
 
 /**
@@ -43,8 +44,6 @@ import org.jboss.wsf.spi.management.ServerConfig;
  */
 public class AddressRewritingEndpointInfo extends EndpointInfo
 {
-   private static Logger log = Logger.getLogger(AddressRewritingEndpointInfo.class);
-   
    private ServerConfig serverConfig;
    SoapAddress saddress;
 
@@ -92,7 +91,7 @@ public class AddressRewritingEndpointInfo extends EndpointInfo
       }
       if (setNewAddress && saddress != null)
       {
-         log.info("Setting new service endpoint address in wsdl: " + s);
+         ADDRESS_REWRITE_LOGGER.settingNewServiceEndpointAddressInWsdl(s);
          saddress.setLocationURI(s);
       }
    }
@@ -122,16 +121,16 @@ public class AddressRewritingEndpointInfo extends EndpointInfo
       //check config prop forcing address rewrite
       if (serverConfig.isModifySOAPAddress())
       {
-         log.debug("Rewrite required because of configuration");
+         ADDRESS_REWRITE_LOGGER.addressRewriteRequiredBecauseOfServerConf(previousAddress);
          return true;
       }
       //check if the previous address is not valid
       if (isInvalidAddress(previousAddress))
       {
-         log.debug("Rewrite required because of invalid url");
+         ADDRESS_REWRITE_LOGGER.addressRewriteRequiredBecauseOfInvalidAddress(previousAddress);
          return true;
       }
-      log.debug("Rewrite not required");
+      ADDRESS_REWRITE_LOGGER.rewriteNotRequired(previousAddress);
       return false;
    }
    
@@ -190,12 +189,13 @@ public class AddressRewritingEndpointInfo extends EndpointInfo
             }
          }
          String urlStr = uriScheme + "://" + host + port + path;
-         log.debugf("Rewritten new candidate service endpoint address '%s' to '%s'", s, urlStr);
+         
+         ADDRESS_REWRITE_LOGGER.addressRewritten(s, urlStr);
          return urlStr;
       }
       catch (Exception e)
       {
-         log.debugf("Invalid url provided, using it without rewriting: %s", s);
+         ADDRESS_REWRITE_LOGGER.invalidAddressProvidedUseItWithoutRewriting(s);
          return s;
       }
    }

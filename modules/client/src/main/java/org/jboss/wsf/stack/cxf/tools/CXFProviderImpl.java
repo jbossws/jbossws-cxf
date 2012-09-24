@@ -21,18 +21,19 @@
  */
 package org.jboss.wsf.stack.cxf.tools;
 
+import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+
 import java.io.File;
 import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.cxf.tools.java2ws.JavaToWS;
 import org.jboss.ws.api.tools.WSContractProvider;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.ws.common.utils.NullPrintStream;
+import org.jboss.wsf.stack.cxf.Messages;
 
 /**
  * A WSContractProvider for the CXF stack
@@ -42,7 +43,6 @@ import org.jboss.ws.common.utils.NullPrintStream;
  */
 public class CXFProviderImpl extends WSContractProvider
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(CXFProviderImpl.class);
    private ClassLoader loader;
    private boolean generateWsdl;
    private boolean extension;
@@ -110,7 +110,7 @@ public class CXFProviderImpl extends WSContractProvider
       }
       catch (ClassNotFoundException e)
       {
-         throw new IllegalArgumentException(BundleUtils.getMessage(bundle, "CLASS_NOT_FOUND",  endpointClass));
+         throw Messages.MESSAGES.classNotFound(endpointClass);
       }
    }
 
@@ -139,14 +139,14 @@ public class CXFProviderImpl extends WSContractProvider
          if (sourceDir != null)
          {
             if (!sourceDir.exists() && !sourceDir.mkdirs())
-               throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  sourceDir.getName()));
+               throw MESSAGES.couldNotMakeDirectory(sourceDir.getName());
 
             args.add("-s");
             args.add(sourceDir.getAbsolutePath());
          }
 
          if (!outputDir.exists() && !outputDir.mkdirs())
-            throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  outputDir.getName()));
+            throw MESSAGES.couldNotMakeDirectory(outputDir.getName());
 
          args.add("-classdir");
          args.add(outputDir.getAbsolutePath());
@@ -154,7 +154,7 @@ public class CXFProviderImpl extends WSContractProvider
          if (resourceDir != null)
          {
             if (!resourceDir.exists() && !resourceDir.mkdirs())
-               throw new IllegalStateException(BundleUtils.getMessage(bundle, "COULD_NOT_MAKE_DIRECTORY",  resourceDir.getName()));
+               throw MESSAGES.couldNotMakeDirectory(resourceDir.getName());
             args.add("-d");
             args.add(resourceDir.getAbsolutePath());
          }
@@ -203,7 +203,7 @@ public class CXFProviderImpl extends WSContractProvider
       {
          if (messageStream != null)
          {
-            messageStream.println("Failed to invoke JavaToWS");
+            messageStream.println(MESSAGES.failedToInvoke(JavaToWS.class.getName()));
             t.printStackTrace(messageStream);
          }
          else

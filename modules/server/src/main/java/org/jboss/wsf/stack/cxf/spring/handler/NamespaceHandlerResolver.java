@@ -25,10 +25,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
-import org.jboss.logging.Logger;
-import org.jboss.ws.api.util.BundleUtils;
+import org.jboss.wsf.stack.cxf.Loggers;
+import org.jboss.wsf.stack.cxf.Messages;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.xml.DefaultNamespaceHandlerResolver;
@@ -48,10 +47,7 @@ import org.springframework.util.ClassUtils;
  */
 public class NamespaceHandlerResolver extends DefaultNamespaceHandlerResolver
 {
-   private static final ResourceBundle bundle = BundleUtils.getBundle(NamespaceHandlerResolver.class);
    public static final String JBOSSWS_HANDLER_MAPPINGS_LOCATION = "META-INF/jbossws.spring.handlers";
-
-   private static final Logger logger = Logger.getLogger(NamespaceHandlerResolver.class);
 
    private ClassLoader loader;
 
@@ -83,9 +79,7 @@ public class NamespaceHandlerResolver extends DefaultNamespaceHandlerResolver
       }
       catch (Throwable t)
       {
-         if (logger.isTraceEnabled())
-            logger.trace("Unable to resolve JBossWS specific handler for namespace '" + namespaceUri
-                  + "'; trying default namespace resolution...", t);
+         Loggers.ROOT_LOGGER.unableToResolveJBWSSpringNSHandler(namespaceUri, t);
       }
       return jbosswsHandler != null ? jbosswsHandler : super.resolve(namespaceUri);
    }
@@ -110,8 +104,7 @@ public class NamespaceHandlerResolver extends DefaultNamespaceHandlerResolver
             Class<?> handlerClass = ClassUtils.forName(className, this.loader);
             if (!NamespaceHandler.class.isAssignableFrom(handlerClass))
             {
-               throw new FatalBeanException(BundleUtils.getMessage(bundle, "NOT_IMPLEMENT_NSHANDLER_INTERFACE", 
-                     new Object[]{className, namespaceUri, NamespaceHandler.class.getName()}));
+               throw new FatalBeanException("", Messages.MESSAGES.nsHandlerInterfaceNotImplemented(className, namespaceUri, NamespaceHandler.class.getName()));
             }
             NamespaceHandler namespaceHandler = (NamespaceHandler) BeanUtils.instantiateClass(handlerClass);
             namespaceHandler.init();
@@ -120,13 +113,11 @@ public class NamespaceHandlerResolver extends DefaultNamespaceHandlerResolver
          }
          catch (ClassNotFoundException ex)
          {
-            throw new FatalBeanException(BundleUtils.getMessage(bundle, "NSHANDLER_CLASS_NOT_FOUND", 
-                  new Object[]{className, namespaceUri}), ex);
+            throw new FatalBeanException("", Messages.MESSAGES.nsHandlerClassNotFound(className, namespaceUri, ex));
          }
          catch (LinkageError err)
          {
-            throw new FatalBeanException(BundleUtils.getMessage(bundle, "INVALID_NAMESPACEHANDLER_CLASS",  
-                  new Object[]{className, namespaceUri} ), err);
+            throw new FatalBeanException("", Messages.MESSAGES.nsHandlerInvalidClass(className, namespaceUri, err));
          }
       }
    }
@@ -142,18 +133,11 @@ public class NamespaceHandlerResolver extends DefaultNamespaceHandlerResolver
          {
             Properties mappings = PropertiesLoaderUtils.loadAllProperties(JBOSSWS_HANDLER_MAPPINGS_LOCATION,
                   this.loader);
-            if (logger.isDebugEnabled())
-            {
-               logger.debug("Loaded mappings [" + mappings + "]");
-            }
             this.jbosswsHandlerMappings = new HashMap<Object, Object>(mappings);
          }
          catch (IOException ex)
          {
-            IllegalStateException ise = new IllegalStateException(
-                  "Unable to load NamespaceHandler mappings from location [" + JBOSSWS_HANDLER_MAPPINGS_LOCATION + "]");
-            ise.initCause(ex);
-            throw ise;
+            throw Messages.MESSAGES.unableToLoadNSHandler(JBOSSWS_HANDLER_MAPPINGS_LOCATION, ex);
          }
       }
       return this.jbosswsHandlerMappings;
