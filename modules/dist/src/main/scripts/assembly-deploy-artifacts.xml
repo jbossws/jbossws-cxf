@@ -143,15 +143,6 @@
           <dependencySet>
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <unpack>false</unpack>
-            <outputFileNameMapping>wstx.jar</outputFileNameMapping>
-            <includes>
-              <include>org.codehaus.woodstox:wstx-lgpl:jar</include>
-            </includes>
-            <useProjectArtifact>false</useProjectArtifact>
-          </dependencySet>
-          <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>
             <outputFileNameMapping>jaxb-api.jar</outputFileNameMapping>
             <includes>
               <include>org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.2_spec:jar</include>
