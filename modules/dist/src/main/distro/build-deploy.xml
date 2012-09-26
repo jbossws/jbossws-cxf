@@ -31,13 +31,20 @@
   <target name="deploy-structure-jboss71x" depends="prepare-deploy">
     <delete dir="${deploy.structure}"/>
 
-    <path id="jbossws-common.path">
+    <path id="jboss.ant.tasks.classpath">
       <fileset dir="${deploy.artifacts.dir}">
         <include name="**/jbossws-common-tools.jar"/>
+        <include name="**/jandex.jar"/>
       </fileset>
     </path>
-    <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jbossws-common.path"/>
+    <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jboss.ant.tasks.classpath"/>
+    <taskdef name="jandex" classname="org.jboss.jandex.JandexAntTask" classpathref="jboss.ant.tasks.classpath"/>
 
+    <jandex run="true" verbose="false" newJar="true">
+      <fileset dir="${deploy.artifacts.dir}/lib">
+        <include name="cxf*security.jar"/>
+      </fileset>
+    </jandex>
     <antcall target="deploy-jbossws-cxf-modules" inheritall="false">
       <param name="installserver" value="${deploy.structure}"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
@@ -140,13 +147,20 @@
   <target name="deploy-structure-jboss72x" depends="prepare-deploy">
     <delete dir="${deploy.structure}"/>
 
-    <path id="jbossws-common.path">
+    <path id="jboss.ant.tasks.classpath">
       <fileset dir="${deploy.artifacts.dir}">
         <include name="**/jbossws-common-tools.jar"/>
+        <include name="**/jandex.jar"/>
       </fileset>
     </path>
-    <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jbossws-common.path"/>
+    <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jboss.ant.tasks.classpath"/>
+    <taskdef name="jandex" classname="org.jboss.jandex.JandexAntTask" classpathref="jboss.ant.tasks.classpath"/>
 
+    <jandex run="true" verbose="false" newJar="true">
+      <fileset dir="${deploy.artifacts.dir}/lib">
+        <include name="cxf*security.jar"/>
+      </fileset>
+    </jandex>
     <antcall target="deploy-jbossws-cxf-modules" inheritall="false">
       <param name="installserver" value="${deploy.structure}"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>

@@ -25,9 +25,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.xml.ws.WebServiceContext;
-
 import junit.framework.TestCase;
-
+import org.apache.cxf.jaxws.context.WebServiceContextImpl;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.ExchangeImpl;
@@ -73,7 +72,7 @@ public class JBossWSInvokerTest extends TestCase
       protected Object performInvocation(Exchange exchange, final Object serviceObject, Method m, Object[] paramArray)
             throws Exception
       {
-         WebServiceContext wsCtx = getWebServiceContext(null);
+         WebServiceContext wsCtx = new WebServiceContextImpl(null);
          return wsCtx.getMessageContext() != null ? "OK" : "FAIL";
       }
    }

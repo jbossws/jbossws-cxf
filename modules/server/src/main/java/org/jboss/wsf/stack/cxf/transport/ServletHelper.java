@@ -115,8 +115,6 @@ public class ServletHelper
    private static void injectServiceAndHandlerResources(Endpoint endpoint)
    {
       ServerFactoryBean factory = endpoint.getAttachment(ServerFactoryBean.class);
-      // ping endpoint to force injection
-      endpoint.getInstanceProvider().getInstance(endpoint.getTargetBeanName());
       if (factory != null)
       {
          List<Handler> chain = ((JaxWsEndpointImpl) factory.getServer().getEndpoint()).getJaxwsBinding()

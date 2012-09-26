@@ -394,7 +394,7 @@
           <include name="stsKeystore.properties" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf.impl"/> <!-- cxf impl required to extend STS impl -->
+         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf.impl annotations"/> <!-- cxf impl required to extend STS impl -->
        </manifest>
     </war>
 

@@ -42,6 +42,7 @@
               <include>org.apache.cxf.xjcplugins:cxf-*</include>
               <include>com.sun.xml.bind:jaxb-impl:jar</include>
               <include>com.sun.xml.bind:jaxb-xjc:jar</include>
+              <include>org.jboss:jandex:jar</include>
               <include>org.jboss.ws:jbossws-api:jar</include>
               <include>org.jboss.ws:jbossws-common:jar</include>
               <include>org.jboss.ws:jbossws-spi:jar</include>

@@ -67,7 +67,7 @@
     <jbossws.jboss710.version>4.1.0-SNAPSHOT</jbossws.jboss710.version>
     <jbossws.jboss711.version>4.1.0-SNAPSHOT</jbossws.jboss711.version>
     <jbossws.jboss712.version>4.1.0-SNAPSHOT</jbossws.jboss712.version>
-    <jbossws.native.version>4.1.0.Beta2</jbossws.native.version>
+    <jbossws.native.version>4.1.0-SNAPSHOT</jbossws.native.version>
     <jboss710.version>7.1.0.Final</jboss710.version>
     <jboss711.version>7.1.1.Final</jboss711.version>
     <jboss712.version>7.1.2.Final</jboss712.version>
@@ -80,6 +80,7 @@
     <jboss.common.core.version>2.2.17.GA</jboss.common.core.version>
     <jboss-logging.version>3.1.2.GA</jboss-logging.version>
     <jboss-logging-processor.version>1.0.3.Final</jboss-logging-processor.version>
+    <jboss.jandex.version>1.0.3.Final</jboss.jandex.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <picketbox.version>4.0.9.Final</picketbox.version>
     <picketlink.version>2.1.4.Final</picketlink.version>
@@ -1222,6 +1223,11 @@
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
         <version>${commons.logging.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss</groupId>
+        <artifactId>jandex</artifactId>
+        <version>${jboss.jandex.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.logging</groupId>
