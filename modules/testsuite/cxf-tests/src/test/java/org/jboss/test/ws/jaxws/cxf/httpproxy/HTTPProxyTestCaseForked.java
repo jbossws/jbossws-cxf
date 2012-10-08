@@ -219,8 +219,8 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       {
          Authenticator.setDefault(new ProxyAuthenticator(PROXY_USER, PROXY_PWD));
          String endpointAddress = "http://unreachable-testWSDLHttpProxy" + ENDPOINT_PATH;
-         StringBuffer sb = readContent(new URL(endpointAddress + "?wsdl"));
-         assertTrue(sb.toString().contains("wsdl:definitions name=\"HelloWorldService\""));
+         String c = readContent(new URL(endpointAddress + "?wsdl")).toString();
+         assertTrue(c.contains("wsdl:definitions") && c.contains(" name=\"HelloWorldService\""));
       }
       finally
       {
