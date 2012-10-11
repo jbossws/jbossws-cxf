@@ -28,6 +28,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.jboss.wsf.spi.deployment.WSFDeploymentException;
@@ -44,9 +45,9 @@ public class DDBeans
    // The Required services.
    private List<DDEndpoint> endpoints = new ArrayList<DDEndpoint>();
    // Optional additional beans.
-   private List<DDBean> beans = new ArrayList<DDBean>();
+   private List<DDBean> beans = new LinkedList<DDBean>();
    
-   private List<DDJmsAddressBean> addressBeans = new ArrayList<DDJmsAddressBean>();
+   private List<DDJmsAddressBean> addressBeans = new LinkedList<DDJmsAddressBean>();
    
    // The derived temp file
    private File tmpFile;

@@ -68,7 +68,8 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
       SecurityContext context = message.get(SecurityContext.class);
       if (context == null || context.getUserPrincipal() == null)
       {
-         reportSecurityException("User Principal is not available on the current message");
+         LOG.error("User Principal is not available on the current message"); //TODO i18n
+         return;
       }
 
       SecurityToken token = message.get(SecurityToken.class);

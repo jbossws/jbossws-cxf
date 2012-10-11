@@ -109,9 +109,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
          {
             if (getProperties() == null)
             {
-               Map<String, Object> props = new HashMap<String, Object>();
-               props.putAll(epConfProps);
-               setProperties(props);
+               setProperties(new HashMap<String, Object>(epConfProps));
             }
             else
             {
