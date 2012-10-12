@@ -43,7 +43,6 @@ package org.jboss.wsf.stack.cxf.client.serviceref;
 import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
 import java.io.File;
-import org.jboss.ws.api.util.BundleUtils;
 import org.jboss.wsf.spi.metadata.ParserConstants;
 
 import java.io.IOException;
