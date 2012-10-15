@@ -293,7 +293,8 @@ public class EchoImpl implements Echo
    {
       return arg0;
    }
-}</programlisting>
+}
+</programlisting>
         </informalexample>
       </section>
     </section>
@@ -330,7 +331,8 @@ public class EchoImpl implements Echo
   &lt;port binding="tns:EchoBinding" name="EchoPort"&gt;
     &lt;soap:address location="http://localhost.localdomain:8080/echo/Echo"/&gt;
   &lt;/port&gt;
-&lt;/service&gt;</programlisting>
+&lt;/service&gt;
+</programlisting>
       </informalexample>
       <para>
         Using the online deployed version with
@@ -431,7 +433,7 @@ public class EchoClient
         as shown below:
       </para>
       <informalexample>
-        <programlisting>EchoService service = new EchoService();
+        <programlisting>      EchoService service = new EchoService();
       Echo echo = service.getEchoPort();
 
       /* Set NEW Endpoint Location */
@@ -498,12 +500,13 @@ options:
   -w  --wsdlLocation=&lt;loc&gt;    Value to use for @WebServiceClient.wsdlLocation
   -o, --output=&lt;directory&gt;    The directory to put generated artifacts
   -s, --source=&lt;directory&gt;    The directory to put Java source
-  -t, --target=&lt;2.0|2.1|2.2&gt;  The JAX-WS specification target
+  -t, --target=&lt;2.1|2.2&gt;      The JAX-WS specification target
   -q, --quiet                 Be somewhat more quiet
   -v, --verbose               Show full exception stack traces
   -l, --load-consumer         Load the consumer and exit (debug utility)
   -e, --extension             Enable SOAP 1.2 binding extension
-  -a, --additionalHeaders     Enables processing of implicit SOAP headers</programlisting>
+  -a, --additionalHeaders     Enables processing of implicit SOAP headers
+  -n, --nocompile             Do not compile generated sources</programlisting>
         </informalexample>
         <para>
           
@@ -764,7 +767,8 @@ ${project.build.testOutputDirectory}</para>
           </para>
           <para>The  following example makes the plugin consume the test.wsdl file and  generate SEI and wrappers' java sources. The generated sources are then  compiled together with the other project classes.</para>
           <informalexample>
-            <programlisting>&lt;build&gt;
+            <programlisting>
+&lt;build&gt;
   &lt;plugins&gt;
     &lt;plugin&gt;
       &lt;groupId&gt;org.jboss.ws.plugins&lt;/groupId&gt;
@@ -784,11 +788,13 @@ ${project.build.testOutputDirectory}</para>
       &lt;/executions&gt;
     &lt;/plugin&gt;
   &lt;/plugins&gt;
-&lt;/build&gt;</programlisting>
+&lt;/build&gt;
+</programlisting>
           </informalexample>
           <para>You can also specify multiple wsdl files, as well as force the target  package, enable SOAP 1.2 binding and turn the tool's verbose mode on:</para>
           <informalexample>
-            <programlisting>&lt;build&gt;
+            <programlisting>
+&lt;build&gt;
   &lt;plugins&gt;
     &lt;plugin&gt;
       &lt;groupId&gt;org.jboss.ws.plugins&lt;/groupId&gt;
@@ -812,7 +818,8 @@ ${project.build.testOutputDirectory}</para>
       &lt;/executions&gt;
     &lt;/plugin&gt;
   &lt;/plugins&gt;
-&lt;/build&gt;</programlisting>
+&lt;/build&gt;
+</programlisting>
           </informalexample>
           <para>
             Finally,  if the wsconsume invocation is required for consuming a wsdl to be used  in your testsuite only, you might want to use the
@@ -820,7 +827,8 @@ ${project.build.testOutputDirectory}</para>
             goal as follows:
           </para>
           <informalexample>
-            <programlisting>&lt;build&gt;
+            <programlisting>
+&lt;build&gt;
   &lt;plugins&gt;
     &lt;plugin&gt;
       &lt;groupId&gt;org.jboss.ws.plugins&lt;/groupId&gt;
@@ -840,7 +848,8 @@ ${project.build.testOutputDirectory}</para>
       &lt;/executions&gt;
     &lt;/plugin&gt;
   &lt;/plugins&gt;
-&lt;/build&gt;</programlisting>
+&lt;/build&gt;
+</programlisting>
           </informalexample>
           <para>
             Plugin stack dependencyThe plugin itself does not have an explicit dependency to a JBossWS stack, as it's meant for being used with implementations of any supported version of the
@@ -1099,7 +1108,8 @@ ${project.build.testOutputDirectory}</para>
           <title>Examples</title>
           <para>Generate  JAX-WS source and classes in a separate JVM with separate directories, a  custom wsdl location attribute, and a list of binding files from  foo.wsdl:</para>
           <informalexample>
-            <programlisting>&lt;wsconsume
+            <programlisting>
+&lt;wsconsume
   fork="true"
   verbose="true"
   destdir="output"
@@ -1108,7 +1118,8 @@ ${project.build.testOutputDirectory}</para>
   wsdllocation="handEdited.wsdl"
   wsdl="foo.wsdl"&gt;
   &lt;binding dir="binding-files" includes="*.xml" excludes="bad.xml"/&gt;
-&lt;/wsconsume&gt;</programlisting>
+&lt;/wsconsume&gt;
+</programlisting>
           </informalexample>
         </section>
       </section>
@@ -1130,7 +1141,8 @@ options:
   -h, --help                  Show this help message
   -k, --keep                  Keep/Generate Java source
   -w, --wsdl                  Enable WSDL file generation
-  -c. --classpath=&lt;path&lt;      The classpath that contains the endpoint
+  -a, --address               The generated port soap:address in wsdl
+  -c. --classpath=&lt;path&gt;      The classpath that contains the endpoint
   -o, --output=&lt;directory&gt;    The directory to put generated artifacts
   -r, --resource=&lt;directory&gt;  The directory to put resource artifacts
   -s, --source=&lt;directory&gt;    The directory to put Java source
@@ -1265,7 +1277,10 @@ ${project.build.testOutputDirectory}</para>
                   <para>Whether or not to generate WSDL.</para>
                 </entry>
                 <entry>
-                  <para>false</para>
+                  <para>
+                    false
+                    
+                  </para>
                 </entry>
               </row>
               <row>
@@ -1485,6 +1500,23 @@ ${project.build.testOutputDirectory}</para>
                 </entry>
                 <entry>
                   <para>false</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>
+                    address
+                    
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    The generated port soap:address in wsdl.
+                    
+                  </para>
+                </entry>
+                <entry>
+                  <para> </para>
                 </entry>
               </row>
               <row>

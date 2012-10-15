@@ -3,27 +3,82 @@
 <chapter id="sid-3866738">
     
     <title>Advanced User Guide</title>
+    <section id="sid-3866738_AdvancedUserGuide-Logging">
+      
+      <title>Logging</title>
+      <para>Logging of inbound and outbound messages is a common need. Different approaches are available for achieving that:</para>
+      <section id="sid-3866738_AdvancedUserGuide-JAXWSHandlerapproach">
+        
+        <title>JAX-WS Handler approach</title>
+        <para>
+          A portable way of performing logging is writing a simple JAX-WS handler dumping the messages that are passed in it; the handler can be added to the desired client/endpoints (programmatically / using
+          <code>@HandlerChain</code>
+          JAX-WS annotation).
+        </para>
+        <para>
+          The
+          <link linkend="sid-41713670">predefined client and endpoint configuration</link>
+          mechanism allows user to add the logging handler to any client/endpoint or to some of them only (in which case the
+          <code>@EndpointConfig</code>
+          annotation / JBossWS API is required though).
+        </para>
+      </section>
+      <section id="sid-3866738_AdvancedUserGuide-ApacheCXFapproach">
+        
+        <title>Apache CXF approach</title>
+        <para>Apache CXF also comes with logging interceptors that can be easily used to log messages to the console or configured client/server log files. Those interceptors can be added to client, endpoint and buses in multiple ways:</para>
+        <section id="sid-3866738_AdvancedUserGuide-Systemproperty">
+          
+          <title>System property</title>
+          <para>
+            Setting the
+            <code>org.apache.cxf.logging.enabled</code>
+            system property to true causes the logging interceptors to be added to any
+            <code>Bus</code>
+            instance being created on the JVM.
+          </para>
+          <important>
+            <para>On JBoss AS 7, the system property is easily set by adding what follows to the standalone / domain server configuration just after the extensions section:</para>
+            <informalexample>
+              <programlisting>&lt;system-properties&gt;
+  &lt;property name="org.apache.cxf.logging.enabled" value="true"/&gt;
+&lt;/system-properties&gt;</programlisting>
+            </informalexample>
+          </important>
+        </section>
+        <section id="sid-3866738_AdvancedUserGuide-Manualinterceptoradditionandloggingfeature">
+          
+          <title>Manual interceptor addition and logging feature</title>
+          <para>
+            Logging interceptors can be selectively added to endpoints using the Apache CXF annotations
+            <code>@org.apache.cxf.interceptor.InInterceptors</code>
+            and
+            <code>@org.apache.cxf.interceptor.OutInterceptors</code>
+            . The same is achieved on client side by programmatically adding new instances of the logging interceptors to the client or the bus.
+          </para>
+          <para>
+            Alternatively, Apache CXF also comes with a
+            <code>org.apache.cxf.feature.LoggingFeature</code>
+            that can be used on clients and endpoints (either annotating them with
+            <code>@org.apache.cxf.feature.Features</code>
+            or directly with
+            <code>@org.apache.cxf.annotations.Logging</code>
+            ).
+          </para>
+          <para>Finally, the interceptors and feature can also be configured using Spring descriptors when Spring is available for the JBossWS-CXF integration on the application server.</para>
+          <para>
+            Please refer to the
+            <ulink url="http://cxf.apache.org/docs/debugging-and-logging.html#DebuggingandLogging-LoggingMessages">Apache CXF documentation</ulink>
+            for more details.
+          </para>
+        </section>
+      </section>
+    </section>
     <section id="sid-3866738_AdvancedUserGuide-WS%5Csupport">
       
       <title>WS-* support</title>
       <para>JBossWS includes most of the WS-* specification functionalities through the integration with Apache CXF. In particular, the whole WS-Security Policy framework is fully supported, enabling full contract driven configuration of complex features like WS-Security.</para>
       <para>In details information available further down in this documentation book.</para>
-    </section>
-    <section id="sid-3866738_AdvancedUserGuide-JAXBIntroductions">
-      
-      <title>JAXB Introductions</title>
-      <para>
-        As Kohsuke Kawaguchi wrote on
-        <ulink url="http://weblogs.java.net/blog/kohsuke/archive/2007/07/binding_3rd_par.html">his blog</ulink>
-        , one common complaint from the JAXB users is the lack of support for binding 3rd party classes. The scenario is this:  you are trying to annotate your classes with JAXB annotations to make it XML bindable, but some of the classes are coming from libraries and JDK, and thus you cannot put necessary JAXB annotations on it.
-      </para>
-      <para>To solve this JAXB has been designed to provide hooks for programmatic introduction of annotations to the runtime.</para>
-      <para>This is currently leveraged by the JBoss JAXB Introductions project, using which users can define annotations in XML and make JAXB see those as if those were in the class files (perhaps coming from 3rd party libraries).</para>
-      <para>
-        Take a look at the
-        <ulink url="http://community.jboss.org/docs/DOC-10075">JAXB Introductions page</ulink>
-        on the wiki and at the examples in the sources.
-      </para>
     </section>
     <section id="sid-3866738_AdvancedUserGuide-Addressrewrite">
       
@@ -36,9 +91,14 @@
       <section id="sid-3866738_AdvancedUserGuide-Serverconfigurationoptions">
         
         <title>Server configuration options</title>
-        <para>The configuration options are part of the webservices subsystem section of the JBoss Application Server 7 domain model.</para>
+        <para>
+          The configuration options are part of the
+          <ulink url="https://docs.jboss.org/author/display/AS71/Web+services+configuration">webservices subsystem section</ulink>
+          of the JBoss Application Server 7 domain model.
+        </para>
         <informalexample>
-          <programlisting>&lt;subsystem xmlns="urn:jboss:domain:webservices:1.1" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
+          <programlisting>
+&lt;subsystem xmlns="urn:jboss:domain:webservices:1.1" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
   xmlns:jaxwsconfig="urn:jboss:jbossws-jaxws-config:4.0"&gt;
   &lt;wsdl-host&gt;localhost&lt;/wsdl-host&gt;
   &lt;modify-wsdl-address&gt;true&lt;/modify-wsdl-address&gt;
@@ -46,7 +106,8 @@
   &lt;wsdl-port&gt;8080&lt;/wsdl-port&gt;
   &lt;wsdl-secure-port&gt;8443&lt;/wsdl-secure-port&gt;
 --&gt;
-&lt;/subsystem&gt;</programlisting>
+&lt;/subsystem&gt;
+</programlisting>
         </informalexample>
         <para>
           If the content of
@@ -76,6 +137,483 @@
 &lt;modify-wsdl-address&gt;true&lt;/modify-wsdl-address&gt;</programlisting>
         </informalexample>
         <para>Of course, when a confidential transport address is required, the addresses are always rewritten using https protocol and the port currently configured for the https/ssl connector.</para>
+      </section>
+    </section>
+    <section id="sid-3866738_AdvancedUserGuide-Configurationthroughdeploymentdescriptor">
+      
+      <title>Configuration through deployment descriptor</title>
+      <para>
+        The
+        <code>jboss-webservices.xml</code>
+        deployment descriptor can be used to provide additional configuration for a given deployment. The expected location of it is:
+      </para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            <code>META-INF/jboss-webservices.xml</code>
+            for EJB webservice deployments
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <code>WEB-INF/jboss-webservices.xml</code>
+            for POJO webservice deployments and EJB webservice endpoints bundled in
+            <code>war</code>
+            archives
+          </para>
+        </listitem>
+      </itemizedlist>
+      <para>
+        The structure of file is the following (schemas are available
+        <ulink url="http://anonsvn.jboss.org/repos/jbossws/spi/trunk/src/main/resources/schema/">here</ulink>
+        ):
+      </para>
+      <informalexample>
+        <programlisting>
+&lt;webservices&gt;
+  &lt;context-root/&gt;?
+  &lt;config-name/&gt;?
+  &lt;config-file/&gt;?
+  &lt;property&gt;*
+    &lt;name/&gt;
+    &lt;value/&gt;
+  &lt;/property&gt;
+  &lt;port-component&gt;*
+    &lt;ejb-name/&gt;
+    &lt;port-component-name/&gt;
+    &lt;port-component-uri/&gt;?
+    &lt;auth-method/&gt;?
+    &lt;transport-guarantee/&gt;?
+    &lt;secure-wsdl-access/&gt;?
+  &lt;/port-component&gt;
+  &lt;webservice-description&gt;*
+    &lt;webservice-description-name/&gt;
+    &lt;wsdl-publish-location/&gt;?
+  &lt;/webservice-description&gt;
+&lt;/webservices&gt;
+</programlisting>
+      </informalexample>
+      <section id="sid-3866738_AdvancedUserGuide-contextrootelement">
+        
+        <title>context-root element</title>
+        <para>
+          Element
+          <code>&lt;context-root&gt;</code>
+          can be used to customize context root of webservices deployment.
+        </para>
+        <informalexample>
+          <programlisting>
+&lt;webservices&gt;
+  &lt;context-root&gt;foo&lt;/context-root&gt;
+&lt;/webservices&gt;
+</programlisting>
+        </informalexample>
+      </section>
+      <section id="sid-3866738_AdvancedUserGuide-confignameandconfigfileelements">
+        
+        <title>config-name and config-file elements</title>
+        <para>
+          Elements
+          <code>&lt;config-name&gt;</code>
+          and
+          <code>&lt;config-file&gt;</code>
+          can be used to associate any endpoint provided in the deployment with a given
+          <link linkend="sid-41713670">endpoint configuration</link>
+          . Endpoint configuration are either specified in the referenced config file or in the JBoss AS 7 domain model (webservices subsystem). For further details on the endpoint configurations and their management in the domain model, please see the related
+          <ulink url="https://docs.jboss.org/author/display/AS71/Web+services+configuration">documentation</ulink>
+          .
+        </para>
+        <informalexample>
+          <programlisting>
+&lt;webservices&gt;
+  &lt;config-name&gt;Standard WSSecurity Endpoint&lt;/config-name&gt;
+  &lt;config-file&gt;META-INF/custom.xml&lt;/config-file&gt;
+&lt;/webservices&gt;
+</programlisting>
+        </informalexample>
+      </section>
+      <section id="sid-3866738_AdvancedUserGuide-propertyelement">
+        
+        <title>property element</title>
+        <para>
+          <code>&lt;property&gt;</code>
+          elements can be used to setup simple property values to configure the ws stack behavior. Allowed property names and values are mentioned in the guide under related topics.
+        </para>
+        <informalexample>
+          <programlisting>
+&lt;property&gt;
+  &lt;name&gt;prop.name&lt;/name&gt;
+  &lt;value&gt;prop.value&lt;/value&gt;
+&lt;/property&gt;
+</programlisting>
+        </informalexample>
+      </section>
+      <section id="sid-3866738_AdvancedUserGuide-portcomponentelement">
+        
+        <title>component element</title>
+        <para>
+          Element
+          <code>&lt;port-component&gt;</code>
+          can be used to customize EJB endpoint target URI or to configure security related properties.
+        </para>
+        <informalexample>
+          <programlisting>
+&lt;webservices&gt;
+  &lt;port-component&gt;
+    &lt;ejb-name&gt;TestService&lt;/ejb-name&gt;
+    &lt;port-component-name&gt;TestServicePort&lt;/port-component-name&gt;
+    &lt;port-component-uri&gt;/*&lt;/port-component-uri&gt;
+    &lt;auth-method&gt;BASIC&lt;/auth-method&gt;
+    &lt;transport-guarantee&gt;NONE&lt;/transport-guarantee&gt;
+    &lt;secure-wsdl-access&gt;true&lt;/secure-wsdl-access&gt;
+  &lt;/port-component&gt;
+&lt;/webservices&gt;
+</programlisting>
+        </informalexample>
+      </section>
+      <section id="sid-3866738_AdvancedUserGuide-webservicedescriptionelement">
+        
+        <title>webservice-description element</title>
+        <para>
+          Element
+          <code>&lt;webservice-description&gt;</code>
+          can be used to customize (override) webservice WSDL publish location.
+        </para>
+        <informalexample>
+          <programlisting>
+&lt;webservices&gt;
+  &lt;webservice-description&gt;
+    &lt;webservice-description-name&gt;TestService&lt;/webservice-description-name&gt;
+    &lt;wsdl-publish-location&gt;file:///bar/foo.wsdl&lt;/wsdl-publish-location&gt;
+  &lt;/webservice-description&gt;
+&lt;/webservices&gt;
+</programlisting>
+        </informalexample>
+      </section>
+    </section>
+    <section id="sid-3866738_AdvancedUserGuide-SchemavalidationofSOAPmessages">
+      
+      <title>Schema validation of SOAP messages</title>
+      <para>Apache CXF has a feature for validating incoming and outgoing SOAP messages on both client and server side. The validation is performed against the relevant schema in the endpoint wsdl contract (server side) or the wsdl contract used for building up the service proxy (client side).</para>
+      <para>Schema validation can be turned on programmatically on client side</para>
+      <informalexample>
+        <programlisting>((BindingProvider)proxy).getRequestContext().put("schema-validation-enabled", true);</programlisting>
+      </informalexample>
+      <para>
+        or using the
+        <code>@org.apache.cxf.annotations.SchemaValidation</code>
+        annotation on server side
+      </para>
+      <informalexample>
+        <programlisting>import javax.jws.WebService;
+import org.apache.cxf.annotations.SchemaValidation;
+
+@WebService(...)
+@SchemaValidation
+public class ValidatingHelloImpl implements Hello {
+   ...
+}</programlisting>
+      </informalexample>
+      <para>
+        Alternatively, any endpoint and client running in-container can be associated to a JBossWS
+        <link linkend="sid-41713670">predefined configuration</link>
+        having the
+        <code>schema-validation-enabled</code>
+        property set to
+        <code>true</code>
+        in the referenced config file.
+      </para>
+      <para>
+        Finally, JBossWS also allows for server-wide (default) setup of schema validation by using the
+        <emphasis role="italics">Standard-Endpoint-Config</emphasis>
+        and
+        <emphasis role="italics">Standard-Client-Config</emphasis>
+        special configurations (which apply to any client / endpoint unless a different configuration is specified for them)
+      </para>
+      <informalexample>
+        <programlisting>&lt;subsystem xmlns="urn:jboss:domain:webservices:1.2"&gt;
+    ...
+    &lt;endpoint-config name="Standard-Endpoint-Config"&gt;
+        &lt;property name="schema-validation-enabled" value="true"/&gt;
+    &lt;/endpoint-config&gt;
+    ...
+    &lt;client-config name="Standard-Client-Config"&gt;
+        &lt;property name="schema-validation-enabled" value="true"/&gt;
+    &lt;/client-config&gt;
+&lt;/subsystem&gt;</programlisting>
+      </informalexample>
+    </section>
+    <section id="sid-3866738_AdvancedUserGuide-JAXBIntroductions">
+      
+      <title>JAXB Introductions</title>
+      <para>
+        As Kohsuke Kawaguchi wrote on
+        <ulink url="http://weblogs.java.net/blog/kohsuke/archive/2007/07/binding_3rd_par.html">his blog</ulink>
+        , one common complaint from the JAXB users is the lack of support for binding 3rd party classes. The scenario is this:  you are trying to annotate your classes with JAXB annotations to make it XML bindable, but some of the classes are coming from libraries and JDK, and thus you cannot put necessary JAXB annotations on it.
+      </para>
+      <para>To solve this JAXB has been designed to provide hooks for programmatic introduction of annotations to the runtime.</para>
+      <para>This is currently leveraged by the JBoss JAXB Introductions project, using which users can define annotations in XML and make JAXB see those as if those were in the class files (perhaps coming from 3rd party libraries).</para>
+      <para>
+        Take a look at the
+        <ulink url="http://community.jboss.org/docs/DOC-10075">JAXB Introductions page</ulink>
+        on the wiki and at the examples in the sources.
+      </para>
+    </section>
+    <section id="sid-41713670">
+      
+      <title>Predefined client and endpoint configurations</title>
+      <section id="sid-41713670_Predefinedclientandendpointconfigurations-Overview">
+        
+        <title>Overview</title>
+        <para>
+          JBossWS comes with a concept of
+          <emphasis role="italics">predefined configurations</emphasis>
+          , which are kind of basic templates that can be used for both JAX-WS client and JAX-WS endpoint setup. Configurations can include JAX-WS handlers as well as basic key/value properties declarations.
+        </para>
+        <section id="sid-41713670_Predefinedclientandendpointconfigurations-Handlers">
+          
+          <title>Handlers</title>
+          <para>For each endpoint configuration, both PRE and POST handler chains can be specified. Each handler chain may include JAXWS handlers. For outbound messages, PRE handler chain handlers are meant to be executed before any handler attached to the endpoints using standard JAXWS means (e.g. using @HandlerChain), while POST handler chain handlers are executed after usual endpoint handlers. For inbound messages, the opposite applies.</para>
+          <informalexample>
+            <programlisting>* Server inbound messages
+Client --&gt; ... --&gt; POST HANDLER --&gt; ENDPOINT HANDLERS --&gt; PRE HANDLERS --&gt; Endpoint
+
+* Server outbound messages
+Endpoint --&gt; PRE HANDLER --&gt; ENDPOINT HANDLERS --&gt; POST HANDLERS --&gt; ... --&gt; Client</programlisting>
+          </informalexample>
+          <para>The same applies for client configurations.</para>
+        </section>
+        <section id="sid-41713670_Predefinedclientandendpointconfigurations-Properties">
+          
+          <title>Properties</title>
+          <para>Key/value properties are used for controlling both some Apache CXF internals and some JBossWS options. Specific supported values are mentioned where relevant in the rest of the documentation.</para>
+        </section>
+      </section>
+      <section id="sid-41713670_Predefinedclientandendpointconfigurations-Assigningconfigurations">
+        
+        <title>Assigning configurations</title>
+        <section id="sid-41713670_Predefinedclientandendpointconfigurations-Endpointconfigurationassignment">
+          
+          <title>Endpoint configuration assignment</title>
+          <para>
+            JAX-WS endpoints can be assigned to a given configuration by annotating them with the
+            <code>org.jboss.ws.api.annotation.EndpointConfig</code>
+            annotation:
+          </para>
+          <informalexample>
+            <programlisting>@EndpointConfig(configFile = "WEB-INF/jaxws-endpoint-config.xml", configName = "Custom WS-Security Endpoint")
+public class ServiceImpl implements ServiceIface
+{
+   public String sayHello()
+   {
+      return "Secure Hello World!";
+   }
+}</programlisting>
+          </informalexample>
+          <para>
+            The
+            <code>configFile</code>
+            attribute is used to specify with config file, if any, is to be used to load the configuration; if
+            <code>configFile</code>
+            is not set, the application server configurations are used.
+          </para>
+          <para>
+            The
+            <code>configName</code>
+            attributed is used to specify the name of the configuration to be used.
+          </para>
+          <para>
+            Alternatively, configurations can be assigned to endpoints through the
+            <link linkend="sid-3866738">jboss-webservices.xml deployment descriptor</link>
+            .
+          </para>
+          <para>
+            The configuration file, if any, needs to be included in the endpoint deployment; the
+            <ulink url="http://anonsvn.jboss.org/repos/jbossws/spi/tags/jbossws-spi-2.1.0.Beta1/src/main/resources/schema/jbossws-jaxws-config_4_0.xsd">jbossws-jaxws-config schema</ulink>
+            defines its contents and is included in the
+            <emphasis role="italics">jbossws-spi</emphasis>
+            artifact.
+          </para>
+        </section>
+        <section id="sid-41713670_Predefinedclientandendpointconfigurations-Clientconfigurationassignment">
+          
+          <title>Client configuration assignment</title>
+          <para>JBossWS API comes with facility classes for assigning configurations when building up a client; JAXWS handlers can be read from client configurations as follows:</para>
+          <informalexample>
+            <programlisting>import org.jboss.ws.api.configuration.ClientConfigUtil;
+import org.jboss.ws.api.configuration.ClientConfigurer;
+
+...
+
+Service service = Service.create(wsdlURL, serviceName);
+Endpoint port = (Endpoint)service.getPort(Endpoint.class);
+BindingProvider bp = (BindingProvider)port;
+ClientConfigUtil.setConfigHandlers(bp, "META-INF/jaxws-client-config.xml", "Custom Client Config 1");
+port.echo("Kermit");
+
+...
+
+ClientConfigurer configurer = ClientConfigUtil.resolveClientConfigurer();
+configurer.setConfigHandlers(bp, "META-INF/jaxws-client-config.xml", "Custom Client Config 2");
+port.echo("Kermit");
+
+...
+
+configurer.setConfigHandlers(bp, "META-INF/jaxws-client-config.xml", "Custom Client Config 3");
+port.echo("Kermit");
+
+
+...
+
+configurer.setConfigHandlers(bp, null, "Container Custom Client Config"); //reads from container configurations
+port.echo("Kermit");
+</programlisting>
+          </informalexample>
+          <para>... similarly, properties are read from client configurations as follows:</para>
+          <informalexample>
+            <programlisting>import org.jboss.ws.api.configuration.ClientConfigUtil;
+import org.jboss.ws.api.configuration.ClientConfigurer;
+
+...
+
+Service service = Service.create(wsdlURL, serviceName);
+Endpoint port = (Endpoint)service.getPort(Endpoint.class);
+
+ClientConfigUtil.setConfigProperties(port, "META-INF/jaxws-client-config.xml", "Custom Client Config 1");
+port.echo("Kermit");
+
+...
+
+ClientConfigurer configurer = ClientConfigUtil.resolveClientConfigurer();
+configurer.setConfigProperties(port, "META-INF/jaxws-client-config.xml", "Custom Client Config 2");
+port.echo("Kermit");
+
+...
+
+configurer.setConfigProperties(port, "META-INF/jaxws-client-config.xml", "Custom Client Config 3");
+port.echo("Kermit");
+
+
+...
+
+configurer.setConfigProperties(port, null, "Container Custom Client Config"); //reads from container configurations
+port.echo("Kermit");
+</programlisting>
+          </informalexample>
+          <para>
+            The default
+            <code>ClientConfigurer</code>
+            implementation parses the specified configuration file, if any, after having resolved it as a resources using the current thread context classloader. The
+            <ulink url="http://anonsvn.jboss.org/repos/jbossws/spi/tags/jbossws-spi-2.1.0.Beta1/src/main/resources/schema/jbossws-jaxws-config_4_0.xsd">jbossws-jaxws-config schema</ulink>
+            defines the descriptor contents and is included in the
+            <emphasis role="italics">jbossws-spi</emphasis>
+            artifact.
+          </para>
+        </section>
+      </section>
+      <section id="sid-41713670_Predefinedclientandendpointconfigurations-Applicationserverconfigurations">
+        
+        <title>Application server configurations</title>
+        <para>
+          JBoss Application Server 7.x allows declaring JBossWS client and server predefined configurations in the
+          <emphasis role="italics">webservices</emphasis>
+          subsystem section of the server model. As a consequence it is possible to declare server-wide handlers to be added to the chain of each endpoint or client assigned to a given configuration.
+        </para>
+        <para>
+          Please refer to the
+          <ulink url="https://docs.jboss.org/author/display/AS71/Web+services+configuration">JBoss Application Server 7 documentation</ulink>
+          for any detail on managing the
+          <emphasis role="italics">webservices</emphasis>
+          subsystem to add, remove or modify handlers and properties.
+        </para>
+        <para>
+          The allowed contents in the
+          <emphasis role="italics">webservices</emphasis>
+          subsystem are defined by the
+          <ulink url="https://github.com/jbossas/jboss-as/blob/master/build/src/main/resources/docs/schema/jboss-as-webservices_1_2.xsd">schema</ulink>
+          included in the application server.
+        </para>
+        <section id="sid-41713670_Predefinedclientandendpointconfigurations-Standardconfigurations">
+          
+          <title>Standard configurations</title>
+          <para>
+            Clients running in-container as well as endpoints are assigned standard configurations by default. Those are used unless different configurations are set as previously described. This way administrators can tune default handler chains for client and endpoints developers did not assign a specific configuration to. The name for such default configuration, to be used in the JBoss AS 7 webservices subsystem are
+            <code>Standard-Client-Config</code>
+            and
+            <code>Standard-Endpoint-Config</code>
+            .
+          </para>
+        </section>
+        <section id="sid-41713670_Predefinedclientandendpointconfigurations-Handlersclassloading">
+          
+          <title>Handlers classloading</title>
+          <para>
+            When setting a server-wide handler, please note the handler class needs to be available either through each ws deployment classloader or the
+            <code>org.jboss.as.webservices.server.integration:main</code>
+            module classloader. As a consequence proper module dependencies might need to be specified either in the deployments that are going to leverage a given predefined configuration or directly in the previously mentioned AS7 module.
+          </para>
+        </section>
+      </section>
+      <section id="sid-41713670_Predefinedclientandendpointconfigurations-Examples">
+        
+        <title>Examples</title>
+        <example>
+          <title>JBoss AS 7.2 default configurations</title>
+          <programlisting>
+&lt;subsystem xmlns="urn:jboss:domain:webservices:1.2"&gt;
+    &lt;!-- ... --&gt;
+    &lt;endpoint-config name="Standard-Endpoint-Config"/&gt;
+    &lt;endpoint-config name="Recording-Endpoint-Config"&gt;
+        &lt;pre-handler-chain name="recording-handlers" protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM"&gt;
+            &lt;handler name="RecordingHandler" class="org.jboss.ws.common.invocation.RecordingServerHandler"/&gt;
+        &lt;/pre-handler-chain&gt;
+    &lt;/endpoint-config&gt;
+    &lt;client-config name="Standard-Client-Config"/&gt;
+&lt;/subsystem&gt;</programlisting>
+        </example>
+        <example>
+          <title>A configuration file for a deployment specific ws-security endpoint setup</title>
+          <programlisting>
+&lt;jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:javaee="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd"&gt;
+  &lt;endpoint-config&gt;
+    &lt;config-name&gt;Custom WS-Security Endpoint&lt;/config-name&gt;
+    &lt;property&gt;
+      &lt;property-name&gt;ws-security.signature.properties&lt;/property-name&gt;
+      &lt;property-value&gt;bob.properties&lt;/property-value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+      &lt;property-name&gt;ws-security.encryption.properties&lt;/property-name&gt;
+      &lt;property-value&gt;bob.properties&lt;/property-value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+      &lt;property-name&gt;ws-security.signature.username&lt;/property-name&gt;
+      &lt;property-value&gt;bob&lt;/property-value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+      &lt;property-name&gt;ws-security.encryption.username&lt;/property-name&gt;
+      &lt;property-value&gt;alice&lt;/property-value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+      &lt;property-name&gt;ws-security.callback-handler&lt;/property-name&gt;
+      &lt;property-value&gt;org.jboss.test.ws.jaxws.samples.wsse.policy.basic.KeystorePasswordCallback&lt;/property-value&gt;
+    &lt;/property&gt;
+  &lt;/endpoint-config&gt;
+&lt;/jaxws-config&gt;</programlisting>
+        </example>
+        <example>
+          <title>JBoss AS 7.2 default configurations modified to default to SOAP messages schema-validation on</title>
+          <programlisting>&lt;subsystem xmlns="urn:jboss:domain:webservices:1.2"&gt;
+    &lt;!-- ... --&gt;
+    &lt;endpoint-config name="Standard-Endpoint-Config"&gt;
+        &lt;property name="schema-validation-enabled" value="true"/&gt;
+    &lt;/endpoint-config&gt;
+    &lt;!-- ... --&gt;
+    &lt;client-config name="Standard-Client-Config"&gt;
+        &lt;property name="schema-validation-enabled" value="true"/&gt;
+    &lt;/client-config&gt;
+&lt;/subsystem&gt;</programlisting>
+        </example>
       </section>
     </section>
     <section id="sid-3866749">
@@ -126,9 +664,11 @@ public class EndpointEJB implements EndpointInterface
         </informalexample>
         <para>or modifying the jboss-web.xml for POJO endpoints</para>
         <informalexample>
-          <programlisting>&lt;jboss-web&gt;
+          <programlisting>
+&lt;jboss-web&gt;
 &lt;security-domain&gt;JBossWS&lt;/security-domain&gt;
-&lt;/jboss-web&gt;</programlisting>
+&lt;/jboss-web&gt;
+</programlisting>
         </informalexample>
         <para>The security domain as well as its the authentication and authorization mechanisms are defined differently depending on the JBoss Application Server in use.</para>
       </section>
@@ -185,160 +725,170 @@ public class EndpointEJB implements EndpointInterface
     <section id="sid-3866786">
       
       <title>Apache CXF integration</title>
-      <para>
-        All JAX-WS functionalities provided by JBossWS on top of JBoss Application Server are currently served through a proper integration of the JBoss Web Services stack with most of the
-        <ulink url="http://cxf.apache.org/">Apache CXF</ulink>
-        project modules.
-      </para>
-      <para>Apache CXF is an open source services framework. It allows building and  developing services using frontend programming APIs (including JAX-WS), with services speaking a variety of protocols such as SOAP and  XML/HTTP over a variety of transports  such as HTTP and JMS.</para>
-      <para>
-        The integration layer (
-        <emphasis role="italics">JBossWS-CXF</emphasis>
-        in short hereafter) is mainly meant for:
-      </para>
-      <itemizedlist>
-        <listitem>
-          <para>allowing  using standard webservices APIs (including JAX-WS) on JBoss Application Server; this is performed internally leveraging Apache  CXF without requiring the user to deal with it;</para>
-        </listitem>
-        <listitem>
-          <para>allowing using  Apache CXF advanced features (including WS-*) on top of JBoss  Application server without requiring the user to deal with / setup /  care about the required integration steps for running in such a  container.</para>
-        </listitem>
-      </itemizedlist>
-      <para>In order for achieving the goals above, the  JBossWS-CXF integration supports the JBoss endpoint  deployment and comes with many internal customizations on top of Apache CXF.</para>
-      <para>
-        In the next sections a list of technical suggestions and notes on the integration is provided; please also refer to the
-        <ulink url="http://cxf.apache.org/docs/index.html">Apache CXF official documentation</ulink>
-        for in-dept details on the CXF architecture.
-      </para>
-      <section id="sid-3866786_ApacheCXFintegration-CreatingaBusinstance">
+      <section id="sid-3866786_ApacheCXFintegration-JBossWSintegrationlayerwithApacheCXF">
         
-        <title>Creating a Bus instance</title>
+        <title>JBossWS integration layer with Apache CXF</title>
         <para>
-          Most of the Apache CXF features are configurable using the
-          <code>org.apache.cxf.Bus</code>
-          class. While for basic JAX-WS usage the user might never need to  explicitly deal with Bus, using Apache CXF specific features generally  requires getting a handle to a
-          <code>org.apache.cxf.Bus</code>
-          instance. This can happen on client side as well as in a ws endpoint or handler business code.
+          All JAX-WS functionalities provided by JBossWS on top of JBoss Application Server are currently served through a proper integration of the JBoss Web Services stack with most of the
+          <ulink url="http://cxf.apache.org/">Apache CXF</ulink>
+          project modules.
         </para>
+        <para>Apache CXF is an open source services framework. It allows building and  developing services using frontend programming APIs (including JAX-WS), with services speaking a variety of protocols such as SOAP and  XML/HTTP over a variety of transports  such as HTTP and JMS.</para>
         <para>
-          New Bus instances are produced by the currently configured
-          <code>org.apache.cxf.BusFactory</code>
-          implementation the following way:
+          The integration layer (
+          <emphasis role="italics">JBossWS-CXF</emphasis>
+          in short hereafter) is mainly meant for:
         </para>
-        <informalexample>
-          <programlisting>Bus bus = BusFactory.newInstance().createBus();</programlisting>
-        </informalexample>
+        <itemizedlist>
+          <listitem>
+            <para>allowing  using standard webservices APIs (including JAX-WS) on JBoss Application Server; this is performed internally leveraging Apache  CXF without requiring the user to deal with it;</para>
+          </listitem>
+          <listitem>
+            <para>allowing using  Apache CXF advanced features (including WS-*) on top of JBoss  Application server without requiring the user to deal with / setup /  care about the required integration steps for running in such a  container.</para>
+          </listitem>
+        </itemizedlist>
+        <para>In order for achieving the goals above, the  JBossWS-CXF integration supports the JBoss endpoint  deployment and comes with many internal customizations on top of Apache CXF.</para>
         <para>
-          The  algorithm for selecting the actual implementation of
-          <code>BusFactory</code>
-          to be  used leverages the Service API, basically looking for optional  configurations in
-          <emphasis role="italics">META-INF/services/...</emphasis>
-          location using the current  thread context classloader. JBossWS-CXF integration comes with his own  implementation of
-          <code>BusFactory</code>
-          ,
-          <code>org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory</code>
-          ,  that allows for automatic detection of
-          <emphasis role="italics">Spring</emphasis>
-          availability as well as  seamless setup of JBossWS customizations on top of Apache CXF. So,  assuming the JBossWS-CXF libraries are available in the current thread  context classloader, the
-          <code>JBossWSBusFactory</code>
-          is
-          <emphasis role="italics">automatically</emphasis>
-          retrieved by the
-          <code>BusFactory.newInstance()</code>
-          call above.
+          In the next sections a list of technical suggestions and notes on the integration is provided; please also refer to the
+          <ulink url="http://cxf.apache.org/docs/index.html">Apache CXF official documentation</ulink>
+          for in-depth details on the CXF architecture.
         </para>
-        <para>
-          JBossWS users willing to explicitely use functionalities of
-          <code>org.apache.cxf.bus.spring.SpringBusFactory</code>
-          or
-          <code>org.apache.cxf.bus.CXFBusFactory</code>
-          <emphasis role="italics">,</emphasis>
-          get the same API with JBossWS additions through
-          <code>JBossWSBusFactory</code>
-          :
-        </para>
-        <informalexample>
-          <programlisting>String myConfigFile = ...
+      </section>
+      <section id="sid-3866786_ApacheCXFintegration-Bususage">
+        
+        <title>Bus usage</title>
+        <section id="sid-3866786_ApacheCXFintegration-CreatingaBusinstance">
+          
+          <title>Creating a Bus instance</title>
+          <para>
+            Most of the Apache CXF features are configurable using the
+            <code>org.apache.cxf.Bus</code>
+            class. While for basic JAX-WS usage the user might never need to  explicitly deal with Bus, using Apache CXF specific features generally  requires getting a handle to a
+            <code>org.apache.cxf.Bus</code>
+            instance. This can happen on client side as well as in a ws endpoint or handler business code.
+          </para>
+          <para>
+            New Bus instances are produced by the currently configured
+            <code>org.apache.cxf.BusFactory</code>
+            implementation the following way:
+          </para>
+          <informalexample>
+            <programlisting>Bus bus = BusFactory.newInstance().createBus();</programlisting>
+          </informalexample>
+          <para>
+            The  algorithm for selecting the actual implementation of
+            <code>BusFactory</code>
+            to be  used leverages the Service API, basically looking for optional  configurations in
+            <emphasis role="italics">META-INF/services/...</emphasis>
+            location using the current  thread context classloader. JBossWS-CXF integration comes with his own  implementation of
+            <code>BusFactory</code>
+            ,
+            <code>org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory</code>
+            ,  that allows for automatic detection of
+            <emphasis role="italics">Spring</emphasis>
+            availability as well as  seamless setup of JBossWS customizations on top of Apache CXF. So,  assuming the JBossWS-CXF libraries are available in the current thread  context classloader, the
+            <code>JBossWSBusFactory</code>
+            is
+            <emphasis role="italics">automatically</emphasis>
+            retrieved by the
+            <code>BusFactory.newInstance()</code>
+            call above.
+          </para>
+          <para>
+            JBossWS users willing to explicitely use functionalities of
+            <code>org.apache.cxf.bus.spring.SpringBusFactory</code>
+            or
+            <code>org.apache.cxf.bus.CXFBusFactory</code>
+            <emphasis role="italics">,</emphasis>
+            get the same API with JBossWS additions through
+            <code>JBossWSBusFactory</code>
+            :
+          </para>
+          <informalexample>
+            <programlisting>String myConfigFile = ...
 Bus bus = new JBossWSBusFactory().createBus(myConfigFile);</programlisting>
-        </informalexample>
-        <informalexample>
-          <programlisting>Map&lt;Class, Object&gt; myExtensions = new HashMap&lt;Class, Object&gt;();
+          </informalexample>
+          <informalexample>
+            <programlisting>Map&lt;Class, Object&gt; myExtensions = new HashMap&lt;Class, Object&gt;();
 myExtensions.put(...);
 Bus bus = new JBossWSBusFactory().createBus(myExtensions);</programlisting>
-        </informalexample>
-      </section>
-      <section id="sid-3866786_ApacheCXFintegration-UsingexistingBusinstances">
-        
-        <title>Using existing Bus instances</title>
-        <para>
-          Apache  CXF keeps reference to a global default
-          <code>Bus</code>
-          instance as well as to a  thread default bus for each thread. That is performed through static  members in
-          <code>org.apache.cxf.BusFactory</code>
-          <emphasis role="italics">,</emphasis>
-          which also comes with the following methods in the public API:
-        </para>
-        <informalexample>
-          <programlisting>public static synchronized Bus getDefaultBus()
+          </informalexample>
+        </section>
+        <section id="sid-3866786_ApacheCXFintegration-UsingexistingBusinstances">
+          
+          <title>Using existing Bus instances</title>
+          <para>
+            Apache  CXF keeps reference to a global default
+            <code>Bus</code>
+            instance as well as to a  thread default bus for each thread. That is performed through static  members in
+            <code>org.apache.cxf.BusFactory</code>
+            <emphasis role="italics">,</emphasis>
+            which also comes with the following methods in the public API:
+          </para>
+          <informalexample>
+            <programlisting>
+public static synchronized Bus getDefaultBus()
 public static synchronized Bus getDefaultBus(boolean createIfNeeded)
 public static synchronized void setDefaultBus(Bus bus)
 public static Bus getThreadDefaultBus()
 public static Bus getThreadDefaultBus(boolean createIfNeeded)
-public static void setThreadDefaultBus(Bus bus)</programlisting>
-        </informalexample>
-        <para>
-          Please note that the default behaviour of
-          <code>getDefaultBus()</code>
-          <emphasis role="italics">/</emphasis>
-          <code>getDefaultBus(true)</code>
-          <emphasis role="italics">/</emphasis>
-          <code>getThreadDefaultBus()</code>
-          <emphasis role="italics">/</emphasis>
-          <code>getThreadDefaultBus(true)</code>
-          is to create a new Bus instance if that's not set yet. Moreover
-          <emphasis role="italics">getThreadDefaultBus()</emphasis>
-          and
-          <emphasis role="italics">getThreadDefaultBus(true)</emphasis>
-          first fallback to retrieving the configured global default bus before  actually trying creating a new instance (and the created new instance is  set as global default bus if that was not there set yet).
-        </para>
-        <para>The  drawback of this mechanism (which is basically fine in JSE environment)  is that when running in a JBoss AS container you need to be careful in  order not to (mis)use a bus over multiple applications (assuming the  Apache CXF classes are loaded by the same classloader, which is  currently the case with AS6 and 7).</para>
-        <para>Here is a list of general suggestions to avoid problems when running in-container:</para>
-        <itemizedlist>
-          <listitem>
-            <para>
-              forget about the global default bus; you don't need that, so don't do
-              <code>getDefaultBus()</code>
-              <emphasis role="italics">/</emphasis>
-              <code>getDefaultBus(true)</code>
-              <emphasis role="italics">/</emphasis>
-              <code>setDefaultBus()</code>
-              in your code;
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-              avoid
-              <code>getThreadDefaultBus()</code>
-              <emphasis role="italics">/</emphasis>
-              <code>getThreadDefaultBus(true)</code>
-              unless you already know for sure the default bus is already set;
-            </para>
-          </listitem>
-          <listitem>
-            <para>keep  in mind thread pooling whenever you customize a thread default bus  instance (for instance adding bus scope interceptors, ...), as that  thread and bus might be later reused; so either shutdown the bus when  you're done or explicitly remove it from the BusFactory thread  association.</para>
-          </listitem>
-        </itemizedlist>
-        <para>
-          Finally, remember that each time you explictly  create a new Bus instance (factory.createBus()) that is set as thread  default bus and global default bus if those are not set yet. The JAXWS
-          <code>Provider</code>
-          implementation also creates
-          <code>Bus</code>
-          instances internally, in  particular the JBossWS version of JAXWS
-          <code>Provider</code>
-          makes sure the default  bus is never internally used and instead a new
-          <code>Bus</code>
-          is created if  required.
-        </para>
+public static void setThreadDefaultBus(Bus bus)
+</programlisting>
+          </informalexample>
+          <para>
+            Please note that the default behaviour of
+            <code>getDefaultBus()</code>
+            <emphasis role="italics">/</emphasis>
+            <code>getDefaultBus(true)</code>
+            <emphasis role="italics">/</emphasis>
+            <code>getThreadDefaultBus()</code>
+            <emphasis role="italics">/</emphasis>
+            <code>getThreadDefaultBus(true)</code>
+            is to create a new Bus instance if that's not set yet. Moreover
+            <emphasis role="italics">getThreadDefaultBus()</emphasis>
+            and
+            <emphasis role="italics">getThreadDefaultBus(true)</emphasis>
+            first fallback to retrieving the configured global default bus before  actually trying creating a new instance (and the created new instance is  set as global default bus if that was not there set yet).
+          </para>
+          <para>The  drawback of this mechanism (which is basically fine in JSE environment)  is that when running in a JBoss AS container you need to be careful in  order not to (mis)use a bus over multiple applications (assuming the  Apache CXF classes are loaded by the same classloader, which is  currently the case with AS6 and 7).</para>
+          <para>Here is a list of general suggestions to avoid problems when running in-container:</para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                forget about the global default bus; you don't need that, so don't do
+                <code>getDefaultBus()</code>
+                <emphasis role="italics">/</emphasis>
+                <code>getDefaultBus(true)</code>
+                <emphasis role="italics">/</emphasis>
+                <code>setDefaultBus()</code>
+                in your code;
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                avoid
+                <code>getThreadDefaultBus()</code>
+                <emphasis role="italics">/</emphasis>
+                <code>getThreadDefaultBus(true)</code>
+                unless you already know for sure the default bus is already set;
+              </para>
+            </listitem>
+            <listitem>
+              <para>keep  in mind thread pooling whenever you customize a thread default bus  instance (for instance adding bus scope interceptors, ...), as that  thread and bus might be later reused; so either shutdown the bus when  you're done or explicitly remove it from the BusFactory thread  association.</para>
+            </listitem>
+          </itemizedlist>
+          <para>
+            Finally, remember that each time you explictly  create a new Bus instance (factory.createBus()) that is set as thread  default bus and global default bus if those are not set yet. The JAXWS
+            <code>Provider</code>
+            implementation also creates
+            <code>Bus</code>
+            instances internally, in  particular the JBossWS version of JAXWS
+            <code>Provider</code>
+            makes sure the default  bus is never internally used and instead a new
+            <code>Bus</code>
+            is created if  required.
+          </para>
+        </section>
       </section>
       <section id="sid-3866786_ApacheCXFintegration-ServerSideIntegrationCustomization">
         
@@ -349,37 +899,174 @@ public static void setThreadDefaultBus(Bus bus)</programlisting>
           instance, of course) for  the ws endpoint deployment.
         </para>
         <para>
-          It is possible to customize the  JBossWS and CXF integration by incorporating the CXF configuration file  to the endpoint deployment archive. In order for that to be possible,  JBossWS-CXF requires Spring to be installed in the application server.  The Spring Framework libraries installation can be perfomed using the JBossWS-CXF installation or by manually populating the
-          <emphasis role="italics">org.springframework.spring</emphasis>
-          module that's in JBoss AS 7 and which the other webservices modules already have an optional dependency on.
+          While JBossWS sets sensible defaults for most of the Apache CXF configuration options on server side, users might want to fine tune the
+          <code>Bus</code>
+          instance that's created for their deployments.
         </para>
-        <para>The convention is the following:</para>
-        <itemizedlist>
-          <listitem>
+        <section id="sid-3866786_ApacheCXFintegration-Deploymentdescriptorproperties">
+          
+          <title>Deployment descriptor properties</title>
+          <para>
+            The
+            <code>jboss-webservices.xml</code>
+            descriptor can be used to
+            <link linkend="sid-3866738">provide property values</link>
+            .
+          </para>
+          <informalexample>
+            <programlisting>&lt;webservices xmlns="http://www.jboss.com/xml/ns/javaee" version="1.2"&gt;
+  ...
+  &lt;property&gt;
+    &lt;name&gt;...&lt;/name&gt;
+    &lt;value&gt;...&lt;/value&gt;
+  &lt;/property&gt;
+  ...
+&lt;/webservices&gt;</programlisting>
+          </informalexample>
+          <para>JBossWS-CXF integration comes with a set of allowed property names to control Apache CXF internals. The main advantage of the property based approach is that it does not require Spring libraries.</para>
+          <section id="sid-3866786_ApacheCXFintegration-WorkQueueconfiguration">
+            
+            <title>WorkQueue configuration</title>
             <para>
-              file name must be
-              <emphasis role="strong">jbossws-cxf.xml</emphasis>
+              Apache CXF uses WorkQueue instances for dealing with some operations (e.g. @Oneway requests processing). A
+              <ulink url="http://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/workqueue/WorkQueueManager.html">WorkQueueManager</ulink>
+              is installed in the Bus as an extension and allows for adding / removing queues as well as controlling the existing ones.
             </para>
-          </listitem>
-          <listitem>
             <para>
-              for POJO deployments it is located in
-              <emphasis role="strong">WEB-INF</emphasis>
-              directory
+              On server side, queues can be provided through
+              <emphasis role="italics">Spring</emphasis>
+              based Bus declaration or by using the
+              <code>cxf.queue.&lt;queue-name&gt;.*</code>
+              properties in
+              <code>jboss-webservices.xml</code>
+              (e.g.
+              <code>cxf.queue.default.maxQueueSize</code>
+              for controlling the max queue size of the
+              <code>default</code>
+              workqueue). At deployment time, the JBossWS integration can add new instances of
+              <ulink url="http://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/workqueue/AutomaticWorkQueueImpl.html">AutomaticWorkQueueImpl</ulink>
+              to the currently configured WorkQueueManager; the properties below are used to fill in parameter into the
+              <ulink url="http://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/workqueue/AutomaticWorkQueueImpl.html#AutomaticWorkQueueImpl(int, int, int, int, long, java.lang.String)">AutomaticWorkQueueImpl constructor</ulink>
+              :
             </para>
-          </listitem>
-          <listitem>
+            <informaltable>
+              <tgroup cols="2">
+                <thead>
+                  <row>
+                    <entry>
+                      <para>Property</para>
+                    </entry>
+                    <entry>
+                      <para>Default value</para>
+                    </entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>
+                      <para>
+                        <code>cxf.queue.&lt;queue-name&gt;.maxQueueSize</code>
+                      </para>
+                    </entry>
+                    <entry>
+                      <para>256</para>
+                    </entry>
+                  </row>
+                  <row>
+                    <entry>
+                      <para>
+                        <code>cxf.queue.&lt;queue-name&gt;.initialThreads</code>
+                        
+                      </para>
+                    </entry>
+                    <entry>
+                      <para>0</para>
+                    </entry>
+                  </row>
+                  <row>
+                    <entry>
+                      <para>
+                        <code>cxf.queue.&lt;queue-name&gt;.highWaterMark</code>
+                        
+                      </para>
+                    </entry>
+                    <entry>
+                      <para>25</para>
+                    </entry>
+                  </row>
+                  <row>
+                    <entry>
+                      <para>
+                        <code>cxf.queue.&lt;queue-name&gt;.lowWaterMark</code>
+                        
+                      </para>
+                    </entry>
+                    <entry>
+                      <para>5</para>
+                    </entry>
+                  </row>
+                  <row>
+                    <entry>
+                      <para>
+                        <code>cxf.queue.&lt;queue-name&gt;.dequeueTimeout</code>
+                        
+                      </para>
+                    </entry>
+                    <entry>
+                      <para>120000</para>
+                    </entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </informaltable>
+          </section>
+          <section id="sid-3866786_ApacheCXFintegration-Policyalternativeselector">
+            
+            <title>Policy alternative selector</title>
             <para>
-              for EJB3 deployments it is located in
-              <emphasis role="strong">META-INF</emphasis>
-              directory
+              The Apache CXF policy engine supports different strategies to deal with policy alternatives. JBossWS-CXF integration currently defaults to the
+              <ulink url="http://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/ws/policy/selector/MaximalAlternativeSelector.html">MaximalAlternativeSelector</ulink>
+              , but still allows for setting different selector implementation using the
+              <code>cxf.policy.alternativeSelector</code>
+              property in
+              <code>jboss-webservices.xml</code>
+              .
             </para>
-          </listitem>
-        </itemizedlist>
-        <para>Providing  custom CXF configuration to the endpoint deployment is useful in cases  when users want to use features that are not part of standard JAX-WS  specification (CXF specific) and that can't be setup in the application classes' code. An example are some advanced WS-RM customizations.</para>
-        <note>
-          <para>Please consider that from a technical point of view, the jbossws-cxf.xml configuration file is basically treated as an addition to the default Apache CXF / JBossWS-CXF configuration. Hence users should be careful when dealing with global configurations (eg. global bus level interceptors) and instead provide those configuration in the deployment in another cxf.xml descriptor, which will be loaded at the same time as the default setup.</para>
-        </note>
+          </section>
+        </section>
+        <section id="sid-3866786_ApacheCXFintegration-Springbasedconfiguration">
+          
+          <title>Spring based configuration</title>
+          <para>
+            It is possible to customize the  JBossWS and CXF integration by incorporating the CXF configuration file  to the endpoint deployment archive. In order for that to be possible,  JBossWS-CXF requires Spring to be installed in the application server.  The Spring Framework libraries installation can be performed using the JBossWS-CXF installation or by manually populating the
+            <emphasis role="italics">org.springframework.spring</emphasis>
+            module that's in JBoss AS 7 and which the other webservices modules already have an optional dependency on.
+          </para>
+          <para>The convention is the following:</para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                file name must be
+                <emphasis role="strong">jbossws-cxf.xml</emphasis>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                for POJO deployments it is located in
+                <emphasis role="strong">WEB-INF</emphasis>
+                directory
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                for EJB3 deployments it is located in
+                <emphasis role="strong">META-INF</emphasis>
+                directory
+              </para>
+            </listitem>
+          </itemizedlist>
+          <para>Providing  custom CXF configuration to the endpoint deployment is useful in cases  when users want to use features that are not part of standard JAX-WS  specification (CXF specific) and that can't be setup in the application classes' code. An example are some advanced WS-RM customizations.</para>
+        </section>
       </section>
     </section>
     <section id="sid-3866793">
@@ -664,7 +1351,7 @@ proxy.sayHello("World");</programlisting>
           <para>Recent versions of Apache CXF, however, introduced support for WS-Security Policy, which aims at moving most of the security configuration into the service contract (through policies), so that clients can easily be configured almost completely automatically from that. This way users do not need to manually deal with configuring / installing the required interceptors; the Apache CXF WS-Policy engine internally takes care of that instead.</para>
           <section id="sid-3866795_WS-Security-WSSecurityPolicysupport">
             
-            <title>WS-Security Policy support</title>
+            <title>Security Policy support</title>
             <para>
               WS-SecurityPolicy describes the actions that are required to securely communicate with a service advertised in a given WSDL contract. The WSDL bindings / operations reference WS-Policy fragments with the security requirements to interact with the service. The
               <ulink url="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/ws-securitypolicy.html">WS-SecurityPolicy specification</ulink>
@@ -763,7 +1450,8 @@ proxy.sayHello("World");</programlisting>
             <informalexample>
               <programlisting>Map&lt;String, Object&gt; ctx = ((BindingProvider)port).getRequestContext();
 ctx.put("ws-security.encryption.properties", properties);
-port.echoString("hello");</programlisting>
+port.echoString("hello");
+</programlisting>
             </informalexample>
             <para>
               Please refer to the
@@ -778,9 +1466,11 @@ port.echoString("hello");</programlisting>
           <para>
             In order for removing the need of Spring on server side for setting up WS-Security configuration properties not covered by policies, the JBossWS integration allows for getting those pieces of information from a defined
             <emphasis role="italics">endpoint configuration</emphasis>
-            . Endpoint configurations can include property declarations and endpoint implementations can be associated with a given endpoint configuration using the
+            .
+            <link linkend="sid-41713670">Endpoint configurations</link>
+            can include property declarations and endpoint implementations can be associated with a given endpoint configuration using the
             <code>@EndpointConfig</code>
-            annotation. While endpoint configurations can be provided through the JBoss Application Server 7 domain, for the sake of WS-Security configuration they're probably better described in a deployment descriptor included in the deployed archive:
+            annotation.
           </para>
           <informalexample>
             <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -1049,7 +1739,7 @@ public class ServiceImpl implements ServiceIface
 org.apache.ws.security.crypto.merlin.keystore.type=jks
 org.apache.ws.security.crypto.merlin.keystore.password=password
 org.apache.ws.security.crypto.merlin.keystore.alias=bob
-org.apache.ws.security.crypto.merlin.file=bob.jks</programlisting>
+org.apache.ws.security.crypto.merlin.keystore.file=bob.jks</programlisting>
             </informalexample>
             <para>A callback handler for the letting Apache CXF access the keystore is also provided:</para>
             <informalexample>
@@ -1214,7 +1904,7 @@ proxy.sayHello();</programlisting>
 org.apache.ws.security.crypto.merlin.keystore.type=jks
 org.apache.ws.security.crypto.merlin.keystore.password=password
 org.apache.ws.security.crypto.merlin.keystore.alias=alice
-org.apache.ws.security.crypto.merlin.file=META-INF/alice.jks</programlisting>
+org.apache.ws.security.crypto.merlin.keystore.file=META-INF/alice.jks</programlisting>
             </informalexample>
             <para>The Apache CXF WS-Policy engine will digest the security requirements in the contract and ensure a valid secure communication is in place for interacting with the server endpoint.</para>
           </section>
@@ -1704,6 +2394,998 @@ public class UsernamePasswordCallback implements CallbackHandler
 &lt;/web-app&gt;</programlisting>
           </informalexample>
         </section>
+        <section id="sid-3866795_WS-Security-Secureconversation">
+          
+          <title>Secure conversation</title>
+          <para>
+            Apache CXF supports
+            <ulink url="http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512/ws-secureconversation-1.3-os.html">WS-SecureConversation</ulink>
+            specification, which is about improving performance by allowing client and server to negotiate initial security keys to be used for later communication encryption/signature. This is done by having two policies in the wsdl contract, an outer one setting the security requirements to actually communicate with the endpoint and a bootstrap one, related to the communication for establishing the secure conversation keys. The client will be automatically sending an initial message to the server for negotiating the keys, then the actual communication to the endpoint takes place. As a consequence, Apache CXF needs a way to specify which WS-Security configuration properties are intended for the bootstrap policy and which are intended for the actual service policy. To accomplish this, properties intended for the bootstrap policy are appended with
+            <code>.sct</code>
+            .
+          </para>
+          <informalexample>
+            <programlisting>...
+((BindingProvider)proxy).getRequestContext().put("ws-security.signature.username.sct", "alice");
+((BindingProvider)proxy).getRequestContext().put("ws-security.encryption.username.sct", "bob");
+...</programlisting>
+          </informalexample>
+          <informalexample>
+            <programlisting>@WebService(
+   ...
+)
+@EndpointProperties(value = {
+      @EndpointProperty(key = "ws-security.encryption.properties.sct", value = "bob.properties"),
+      @EndpointProperty(key = "ws-security.signature.properties.sct", value = "bob.properties"),
+      ...
+      }
+)
+public class ServiceImpl implements ServiceIface {
+   ...
+}</programlisting>
+          </informalexample>
+        </section>
+      </section>
+    </section>
+    <section id="sid-47972359">
+      
+      <title>WS-Trust and STS</title>
+      <section id="sid-47972359_WS-TrustandSTS-WSTrustoverview">
+        
+        <title>WS-Trust overview</title>
+        <para>
+          The
+          <ulink url="https://www.oasis-open.org/standards#wstrustv1.4">WS-Trust</ulink>
+          specification defines extensions to WS-Security to deal with the issuing, renewing, and validating of security tokens; it also defines how to establish, assess the presence of, and broker trust relationships between participants in a secure message exchange.
+        </para>
+        <para>
+          Complex applications spanning multiple domains typically suffer from the need for generating and sharing multiple keys; moreover dealing with services updates when credentials change is usually painful. With WS-Trust, a trusted
+          <emphasis role="italics">Security Token Service (STS)</emphasis>
+          can be used to obtain security tokens which are then used as authentication / authorization. A client authenticates itself with the STS based on policies and requirements defined by the STS; the STS then provides a security token (e.g. a SAML token) that the client then uses to talk to the target service; the service can validate that token to make sure it really came from the trusted STS.
+        </para>
+      </section>
+      <section id="sid-47972359_WS-TrustandSTS-SecurityTokenService">
+        
+        <title>Security Token Service</title>
+        <para>The security token service is the core of the WS-Trust extension to WS-Security; it is a service that offers some or all of the following functionalities:</para>
+        <itemizedlist>
+          <listitem>
+            <para>issuing security tokens of different types depending on the received credentials</para>
+          </listitem>
+          <listitem>
+            <para>validation of security tokens</para>
+          </listitem>
+          <listitem>
+            <para>renewal of security tokens</para>
+          </listitem>
+          <listitem>
+            <para>cancellation of security tokens</para>
+          </listitem>
+          <listitem>
+            <para>transformation of security tokens into different type ones</para>
+          </listitem>
+        </itemizedlist>
+        <para>In the basic scenario, the WSDL contract for an endpoint service will usually include a WS-Security policy stating that a particular security token type is required to access the service. Clients reading that contract will ask the STS for a security token of the required type and attach it to the message invocation to the service. The endpoint service will locally validate the received token or dispatch it to the STS for validation.</para>
+      </section>
+      <section id="sid-47972359_WS-TrustandSTS-ApacheCXFsupport">
+        
+        <title>Apache CXF support</title>
+        <para>
+          JBossWS inherits Apache CXF support for WS-Trust, which is fully integration with WS-Security Policy support. On client side, a
+          <code>STSClient</code>
+          is used to contact the STS and e.g get the security token; the
+          <code>STSClient</code>
+          can either be programmatically provided or automatically created by CXF runtime (through policy support) and configured through properties as done with plain WS-Security (keystore locations, aliases, etc.).
+        </para>
+        <para>
+          Any specification compliant STS can be used; however Apache CXF comes with its own STS implementation, which can be deployed on JBoss Application Server using JBossWS integration too. Detailed information on the Apache CXF STS implementation in a multiple blog post series
+          <ulink url="http://coheigea.blogspot.it/2011/10/apache-cxf-sts-documentation-part-i.html">here</ulink>
+          .
+        </para>
+      </section>
+      <section id="sid-47972359_WS-TrustandSTS-Example">
+        
+        <title>Example</title>
+        <para>
+          Here is an example of a basic WS-Trust scenario. A service provider published a WSDL with policy assertions establishing who the communication must happen. A SAML 2.0 token issued by an STS is required to access the service endpoint. The client will authenticate itself to the STS using a UsernameToken over the symmetric binding and the STS will issue it the desired SAML 2.0 token, which the client will then forwards to the service provider endpoint. As the
+          <code>IssuedToken</code>
+          is defined as the
+          <code>InitiatorToken</code>
+          of the Asymmetric binding in the policy of the service provider, the client will use the associated secret key for message signing.
+        </para>
+        <section id="sid-47972359_WS-TrustandSTS-Endpoint">
+          
+          <title>Endpoint</title>
+          <para>The service provider is a contract-first endpoint and the need for WS-Trust communication is completely driven by the wsdl. It comes with policies requiring signature and encryption of messages and setting the WS-Trust requirements (SAML 2.0 security token and STS location). WS-AddressingMetadata is used to specify the wsdl location of the STS and the servive/port name in it to be used:</para>
+          <informalexample>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+&lt;definitions targetNamespace="http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy" name="SecurityService"
+		xmlns:tns="http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:wsp="http://www.w3.org/ns/ws-policy"
+		xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+        xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+        xmlns:wsaws="http://www.w3.org/2005/08/addressing"
+        xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"
+        xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512"&gt;
+  &lt;types&gt;
+    &lt;xsd:schema&gt;
+      &lt;xsd:import namespace="http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy" schemaLocation="SecurityService_schema1.xsd"/&gt;
+    &lt;/xsd:schema&gt;
+  &lt;/types&gt;
+  &lt;message name="sayHello"&gt;
+    &lt;part name="parameters" element="tns:sayHello"/&gt;
+  &lt;/message&gt;
+  &lt;message name="sayHelloResponse"&gt;
+    &lt;part name="parameters" element="tns:sayHelloResponse"/&gt;
+  &lt;/message&gt;
+  &lt;portType name="ServiceIface"&gt;
+    &lt;operation name="sayHello"&gt;
+      &lt;input message="tns:sayHello"/&gt;
+      &lt;output message="tns:sayHelloResponse"/&gt;
+    &lt;/operation&gt;
+  &lt;/portType&gt;
+  &lt;binding name="SecurityServicePortBinding" type="tns:ServiceIface"&gt;
+    &lt;wsp:PolicyReference URI="#AsymmetricSAML2Policy" /&gt;
+    &lt;soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/&gt;
+    &lt;operation name="sayHello"&gt;
+      &lt;soap:operation soapAction=""/&gt;
+      &lt;input&gt;
+        &lt;soap:body use="literal"/&gt;
+        &lt;wsp:PolicyReference URI="#Input_Policy" /&gt;
+      &lt;/input&gt;
+      &lt;output&gt;
+        &lt;soap:body use="literal"/&gt;
+        &lt;wsp:PolicyReference URI="#Output_Policy" /&gt;
+      &lt;/output&gt;
+    &lt;/operation&gt;
+  &lt;/binding&gt;
+  &lt;service name="SecurityService"&gt;
+    &lt;port name="SecurityServicePort" binding="tns:SecurityServicePortBinding"&gt;
+      &lt;soap:address location="http://localhost:8080/jaxws-samples-wsse-policy-trust/SecurityService"/&gt;
+    &lt;/port&gt;
+  &lt;/service&gt;
+
+  &lt;wsp:Policy wsu:Id="AsymmetricSAML2Policy"&gt;
+		&lt;wsp:ExactlyOne&gt;
+			&lt;wsp:All&gt;
+				&lt;wsam:Addressing wsp:Optional="false"&gt;
+					&lt;wsp:Policy /&gt;
+				&lt;/wsam:Addressing&gt;
+				&lt;sp:AsymmetricBinding&gt;
+					&lt;wsp:Policy&gt;
+						&lt;sp:InitiatorToken&gt;
+							&lt;wsp:Policy&gt;
+								&lt;sp:IssuedToken
+									sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient"&gt;
+									&lt;sp:RequestSecurityTokenTemplate&gt;
+										&lt;t:TokenType&gt;http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0&lt;/t:TokenType&gt;
+										&lt;t:KeyType&gt;http://docs.oasis-open.org/ws-sx/ws-trust/200512/PublicKey&lt;/t:KeyType&gt;
+									&lt;/sp:RequestSecurityTokenTemplate&gt;
+									&lt;wsp:Policy&gt;
+										&lt;sp:RequireInternalReference /&gt;
+									&lt;/wsp:Policy&gt;
+									&lt;sp:Issuer&gt;
+										&lt;wsaws:Address&gt;http://localhost:8080/jaxws-samples-wsse-policy-trust-sts/SecurityTokenService&lt;/wsaws:Address&gt;
+										&lt;wsaws:Metadata xmlns:wsdli="http://www.w3.org/2006/01/wsdl-instance"
+										                wsdli:wsdlLocation="http://localhost:8080/jaxws-samples-wsse-policy-trust-sts/SecurityTokenService?wsdl"&gt;
+										    &lt;wsaw:ServiceName xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+										                    xmlns:stsns="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
+										                    EndpointName="UT_Port"&gt;stsns:SecurityTokenService&lt;/wsaw:ServiceName&gt;
+										&lt;/wsaws:Metadata&gt;
+									&lt;/sp:Issuer&gt;
+								&lt;/sp:IssuedToken&gt;
+							&lt;/wsp:Policy&gt;
+						&lt;/sp:InitiatorToken&gt;
+						&lt;sp:RecipientToken&gt;
+							&lt;wsp:Policy&gt;
+								&lt;sp:X509Token
+									sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never"&gt;
+									&lt;wsp:Policy&gt;
+										&lt;sp:WssX509V3Token10 /&gt;
+										&lt;sp:RequireIssuerSerialReference /&gt;
+									&lt;/wsp:Policy&gt;
+								&lt;/sp:X509Token&gt;
+							&lt;/wsp:Policy&gt;
+						&lt;/sp:RecipientToken&gt;
+						&lt;sp:Layout&gt;
+							&lt;wsp:Policy&gt;
+								&lt;sp:Lax /&gt;
+							&lt;/wsp:Policy&gt;
+						&lt;/sp:Layout&gt;
+						&lt;sp:IncludeTimestamp /&gt;
+						&lt;sp:OnlySignEntireHeadersAndBody /&gt;
+						&lt;sp:AlgorithmSuite&gt;
+							&lt;wsp:Policy&gt;
+								&lt;sp:Basic256 /&gt;
+							&lt;/wsp:Policy&gt;
+						&lt;/sp:AlgorithmSuite&gt;
+					&lt;/wsp:Policy&gt;
+				&lt;/sp:AsymmetricBinding&gt;
+				&lt;sp:Wss11&gt;
+					&lt;wsp:Policy&gt;
+						&lt;sp:MustSupportRefIssuerSerial /&gt;
+						&lt;sp:MustSupportRefThumbprint /&gt;
+						&lt;sp:MustSupportRefEncryptedKey /&gt;
+					&lt;/wsp:Policy&gt;
+				&lt;/sp:Wss11&gt;
+				&lt;sp:Trust13&gt;
+					&lt;wsp:Policy&gt;
+						&lt;sp:MustSupportIssuedTokens /&gt;
+						&lt;sp:RequireClientEntropy /&gt;
+						&lt;sp:RequireServerEntropy /&gt;
+					&lt;/wsp:Policy&gt;
+				&lt;/sp:Trust13&gt;
+			&lt;/wsp:All&gt;
+		&lt;/wsp:ExactlyOne&gt;
+	&lt;/wsp:Policy&gt;
+
+	&lt;wsp:Policy wsu:Id="Input_Policy"&gt;
+		&lt;wsp:ExactlyOne&gt;
+			&lt;wsp:All&gt;
+				&lt;sp:EncryptedParts&gt;
+					&lt;sp:Body /&gt;
+				&lt;/sp:EncryptedParts&gt;
+				&lt;sp:SignedParts&gt;
+					&lt;sp:Body /&gt;
+					&lt;sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+					&lt;sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+					&lt;sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+					&lt;sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+					&lt;sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+					&lt;sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+					&lt;sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+				&lt;/sp:SignedParts&gt;
+			&lt;/wsp:All&gt;
+		&lt;/wsp:ExactlyOne&gt;
+	&lt;/wsp:Policy&gt;
+
+	&lt;wsp:Policy wsu:Id="Output_Policy"&gt;
+		&lt;wsp:ExactlyOne&gt;
+			&lt;wsp:All&gt;
+				&lt;sp:EncryptedParts&gt;
+					&lt;sp:Body /&gt;
+				&lt;/sp:EncryptedParts&gt;
+				&lt;sp:SignedParts&gt;
+					&lt;sp:Body /&gt;
+					&lt;sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+					&lt;sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+					&lt;sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+					&lt;sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+					&lt;sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+					&lt;sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+					&lt;sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+				&lt;/sp:SignedParts&gt;
+			&lt;/wsp:All&gt;
+		&lt;/wsp:ExactlyOne&gt;
+	&lt;/wsp:Policy&gt;
+&lt;/definitions&gt;</programlisting>
+          </informalexample>
+          <para>
+            The endpoint implementation class is a POJO featuring Apache CXF
+            <code>@EndpointProperty</code>
+            annotations to provide
+            <emphasis role="italics">WSS4J</emphasis>
+            security properties:
+          </para>
+          <informalexample>
+            <programlisting>package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
+
+import javax.jws.WebService;
+
+import org.apache.cxf.annotations.EndpointProperties;
+import org.apache.cxf.annotations.EndpointProperty;
+
+@WebService
+(
+   portName = "SecurityServicePort",
+   serviceName = "SecurityService",
+   wsdlLocation = "WEB-INF/wsdl/SecurityService.wsdl",
+   targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy",
+   endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.ServiceIface"
+)
+@EndpointProperties(value = {
+      @EndpointProperty(key = "ws-security.signature.username", value = "myservicekey"),
+      @EndpointProperty(key = "ws-security.signature.properties", value = "serviceKeystore.properties"),
+      @EndpointProperty(key = "ws-security.encryption.properties", value = "serviceKeystore.properties"),
+      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.ServerCallbackHandler")
+})
+public class ServiceImpl implements ServiceIface
+{
+   public String sayHello()
+   {
+      return "WS-Trust Hello World!";
+   }
+}</programlisting>
+          </informalexample>
+          <para>
+            ... the
+            <emphasis role="italics">serviceKeystore.properties</emphasis>
+            file references the keystore, aliases, etc.
+          </para>
+          <informalexample>
+            <programlisting>org.apache.ws.security.crypto.provider=org.apache.ws.security.components.crypto.Merlin
+org.apache.ws.security.crypto.merlin.keystore.type=jks
+org.apache.ws.security.crypto.merlin.keystore.password=sspass
+org.apache.ws.security.crypto.merlin.keystore.alias=myservicekey
+org.apache.ws.security.crypto.merlin.keystore.file=servicestore.jks</programlisting>
+          </informalexample>
+          <para>
+            ... while
+            <code>ServerCallbackHandler</code>
+            is an usual implementation of
+            <code>CallbackHandler</code>
+            to allow Apache CXF access to the keystore:
+          </para>
+          <informalexample>
+            <programlisting>package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
+
+import java.io.IOException;
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.UnsupportedCallbackException;
+import org.apache.ws.security.WSPasswordCallback;
+
+public class ServerCallbackHandler implements CallbackHandler {
+
+    public void handle(Callback[] callbacks) throws IOException,
+            UnsupportedCallbackException {
+        for (int i = 0; i &lt; callbacks.length; i++) {
+            if (callbacks[i] instanceof WSPasswordCallback) {
+                WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
+                if ("myservicekey".equals(pc.getIdentifier())) {
+                    pc.setPassword("skpass");
+                    break;
+                }
+            }
+        }
+    }
+}</programlisting>
+          </informalexample>
+          <para>
+            Assuming the
+            <emphasis role="italics">servicestore.jks</emphasis>
+            keystore has been properly generated and contains service provider (server) full key (private/certificate + public key) as well as the STS public key, we can proceed to packaging the endpoint. Here is the expected content (the endpoint is a
+            <emphasis role="italics">POJO</emphasis>
+            one in a
+            <emphasis role="italics">war</emphasis>
+            archive, but
+            <emphasis role="italics">EJB3</emphasis>
+            endpoints in
+            <emphasis role="italics">jar</emphasis>
+            archives are of course also supported):
+          </para>
+          <informalexample>
+            <programlisting>alessio@inuyasha /dati/jbossws/stack/cxf/trunk $ jar -tvf ./modules/testsuite/cxf-tests/target/test-libs/jaxws-samples-wsse-policy-trust.war
+     0 Thu Jun 21 14:03:24 CEST 2012 META-INF/
+   159 Thu Jun 21 14:03:22 CEST 2012 META-INF/MANIFEST.MF
+     0 Thu Jun 21 14:03:24 CEST 2012 WEB-INF/
+     0 Thu Jun 21 14:03:24 CEST 2012 WEB-INF/classes/
+     0 Thu Jun 21 14:03:20 CEST 2012 WEB-INF/classes/org/
+     0 Thu Jun 21 14:03:20 CEST 2012 WEB-INF/classes/org/jboss/
+     0 Thu Jun 21 14:03:20 CEST 2012 WEB-INF/classes/org/jboss/test/
+     0 Thu Jun 21 14:03:22 CEST 2012 WEB-INF/classes/org/jboss/test/ws/
+     0 Thu Jun 21 14:03:20 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/
+     0 Thu Jun 21 14:03:20 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/
+     0 Thu Jun 21 14:03:20 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/
+     0 Thu Jun 21 14:03:20 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/
+     0 Thu Jun 21 14:03:22 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/
+   705 Thu Jun 21 14:03:22 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/SayHello.class
+  1069 Thu Jun 21 14:03:22 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/SayHelloResponse.class
+     0 Thu Jun 21 14:03:22 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/
+  1159 Thu Jun 21 14:03:22 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/ServerCallbackHandler.class
+   383 Thu Jun 21 14:03:20 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/ServiceIface.class
+  1365 Thu Jun 21 14:03:20 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/ServiceImpl.class
+     0 Thu Jun 21 14:03:18 CEST 2012 WEB-INF/wsdl/
+  6478 Thu Jun 21 14:03:18 CEST 2012 WEB-INF/wsdl/SecurityService.wsdl
+   653 Thu Jun 21 14:03:18 CEST 2012 WEB-INF/wsdl/SecurityService_schema1.xsd
+  1121 Thu Jun 21 14:03:18 CEST 2012 WEB-INF/classes/serviceKeystore.properties
+  3350 Thu Jun 21 14:03:18 CEST 2012 WEB-INF/classes/servicestore.jks</programlisting>
+          </informalexample>
+          <para>As you can see, the jaxws classes generated by the tools are of course also included. The manifest declares the JBoss Modules dependencies for allowing Apache CXF annotations and WSS4J usage:</para>
+          <informalexample>
+            <programlisting>Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.8.2
+Created-By: 1.6.0_26-b03 (Sun Microsystems Inc.)
+Dependencies: org.apache.ws.security,org.apache.cxf</programlisting>
+          </informalexample>
+        </section>
+        <section id="sid-47972359_WS-TrustandSTS-Client">
+          
+          <title>Client</title>
+          <para>
+            You start by consuming the published WSDL contract using the
+            <emphasis role="italics">wsconsume</emphasis>
+            tool on client side too. Then you simply invoke the the endpoint as a standard JAX-WS one:
+          </para>
+          <informalexample>
+            <programlisting>QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+URL wsdlURL = new URL(serviceURL + "?wsdl");
+Service service = Service.create(wsdlURL, serviceName);
+ServiceIface proxy = (ServiceIface) service.getPort(ServiceIface.class);
+
+//setup WS-Security
+Map&lt;String, Object&gt; ctx = ((BindingProvider) proxy).getRequestContext();
+ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
+ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
+ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
+ctx.put(SecurityConstants.USERNAME + ".it", "alice");
+ctx.put(SecurityConstants.CALLBACK_HANDLER + ".it", new ClientCallbackHandler());
+ctx.put(SecurityConstants.ENCRYPT_PROPERTIES + ".it", Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+ctx.put(SecurityConstants.ENCRYPT_USERNAME + ".it", "mystskey");
+ctx.put(SecurityConstants.STS_TOKEN_USERNAME + ".it", "myclientkey");
+ctx.put(SecurityConstants.STS_TOKEN_PROPERTIES + ".it", Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+ctx.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO + ".it", "true");
+ctx.put("ws-security.sts.disable-wsmex-call-using-epr-address", "true");
+
+proxy.sayHello();</programlisting>
+          </informalexample>
+          <para>
+            As you can see, as usual the WS-Security properties are set in the request context. The
+            <code>".it"</code>
+            suffix is used for properties related to communication with the Security Token Service (which is described below and also includes policies enforcing signed and encrypted messages). The
+            <code>
+              <ulink url="http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.1.0.Beta1/modules/testsuite/cxf-tests/src/test/java/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/ClientCallbackHandler.java">ClientCallbackHandler</ulink>
+            </code>
+            is basically similar to the endpoint server one. The
+            <emphasis role="italics">clientKeystore.properties</emphasis>
+            file is the client side equivalent of the
+            <emphasis role="italics">serviceKeystore.properties</emphasis>
+            and references the
+            <emphasis role="italics">clientstore.jks</emphasis>
+            keystore file, which has been populated with the client full key (private/certificate + public key) as well as the server endpoint and STS public keys.
+          </para>
+          <informalexample>
+            <programlisting>org.apache.ws.security.crypto.provider=org.apache.ws.security.components.crypto.Merlin
+org.apache.ws.security.crypto.merlin.keystore.type=jks
+org.apache.ws.security.crypto.merlin.keystore.password=cspass
+org.apache.ws.security.crypto.merlin.keystore.alias=myclientkey
+org.apache.ws.security.crypto.merlin.keystore.file=META-INF/clientstore.jks</programlisting>
+          </informalexample>
+          <para>The Apache CXF WS-Policy engine will digest the security requirements in the endpoint contract and ensure a valid secure communication is in place for interacting with the server endpoint. More in details, here is what will be happening:</para>
+          <orderedlist>
+            <listitem>
+              <para>the client get the service endpoint WSDL; the Apache CXF engine parses it, processes the included policy and decides to contact the STS</para>
+            </listitem>
+            <listitem>
+              <para>the STS client is automatically injected into the application client and gets the STS wsdl; the Apache CXF engine processes the policy in it</para>
+            </listitem>
+            <listitem>
+              <para>a WS-Security enabled communication (as per STS advertised policy) is established and the client issues a request for getting a SAML assertion token from the STS</para>
+            </listitem>
+            <listitem>
+              <para>the STS endpoint receives the request, extracts the client identify from it and authenticates the client</para>
+            </listitem>
+            <listitem>
+              <para>the SAML token is returned to the client, which uses it for establishing a new connection with the service endpoint; the Apache CXF engine again setups signature/encryption as per endpoint advertised policy</para>
+            </listitem>
+            <listitem>
+              <para>the service endpoint receives the token provided through the STS and performs the required operation</para>
+            </listitem>
+          </orderedlist>
+        </section>
+        <section id="sid-47972359_WS-TrustandSTS-ApacheCXFSTS">
+          
+          <title>Apache CXF STS</title>
+          <para>
+            As mentioned above, Apache CXF comes with its own Security Token Service implementation. That is completely configurable and can be used as a JAX-WS
+            <code>WebServiceProvider</code>
+            endpoint running in payload service mode. An extension to the org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider is created, properly annotated and included in an usual webservice endpoint deployment.
+          </para>
+          <informalexample>
+            <programlisting>package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.xml.ws.WebServiceProvider;
+
+import org.apache.cxf.annotations.EndpointProperties;
+import org.apache.cxf.annotations.EndpointProperty;
+import org.apache.cxf.interceptor.InInterceptors;
+import org.apache.cxf.sts.StaticSTSProperties;
+import org.apache.cxf.sts.operation.TokenIssueOperation;
+import org.apache.cxf.sts.operation.TokenValidateOperation;
+import org.apache.cxf.sts.service.ServiceMBean;
+import org.apache.cxf.sts.service.StaticService;
+import org.apache.cxf.sts.token.provider.SAMLTokenProvider;
+import org.apache.cxf.sts.token.validator.SAMLTokenValidator;
+import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
+
+@WebServiceProvider(serviceName = "SecurityTokenService",
+      portName = "UT_Port",
+      targetNamespace = "http://docs.oasis-open.org/ws-sx/ws-trust/200512/",
+      wsdlLocation = "WEB-INF/wsdl/ws-trust-1.4-service.wsdl")
+@EndpointProperties(value = {
+      @EndpointProperty(key = "ws-security.signature.username", value = "mystskey"),
+      @EndpointProperty(key = "ws-security.signature.properties", value = "stsKeystore.properties"),
+      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.STSCallbackHandler"),
+      @EndpointProperty(key = "ws-security.validate.token", value = "false") //to let the JAAS integration deal with validation through the interceptor below
+})
+@InInterceptors(interceptors = {"org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor"})
+public class SampleSTS extends SecurityTokenServiceProvider
+{
+   public SampleSTS() throws Exception
+   {
+      super();
+
+      StaticSTSProperties props = new StaticSTSProperties();
+      props.setSignaturePropertiesFile("stsKeystore.properties");
+      props.setSignatureUsername("mystskey");
+      props.setCallbackHandlerClass(STSCallbackHandler.class.getName());
+      props.setIssuer("DoubleItSTSIssuer");
+
+      List&lt;ServiceMBean&gt; services = new LinkedList&lt;ServiceMBean&gt;();
+      StaticService service = new StaticService();
+      service.setEndpoints(Arrays.asList("http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService", "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService"));
+      services.add(service);
+
+      TokenIssueOperation issueOperation = new TokenIssueOperation();
+      issueOperation.setServices(services);
+      issueOperation.getTokenProviders().add(new SAMLTokenProvider());
+      issueOperation.setStsProperties(props);
+
+      TokenValidateOperation validateOperation = new TokenValidateOperation();
+      validateOperation.getTokenValidators().add(new SAMLTokenValidator());
+      validateOperation.setStsProperties(props);
+
+      this.setIssueOperation(issueOperation);
+      this.setValidateOperation(validateOperation);
+   }
+}</programlisting>
+          </informalexample>
+          <para>
+            The
+            <code>@WebServiceProvider</code>
+            annotation references a WS-SecurityPolicy enriched
+            <ulink url="http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.1.0.Beta1/modules/testsuite/cxf-tests/src/test/resources/jaxws/samples/wsse/policy/trust/WEB-INF/wsdl/ws-trust-1.4-service.wsdl">version</ulink>
+            of the WS-Trust 1.4 wsdl.
+          </para>
+          <para>
+            The
+            <code>@EndpointProperty</code>
+            annotations provides the usual WSS4J configuration elements.
+          </para>
+          <para>
+            The
+            <code>@InInterceptor</code>
+            annotation is used to specify a JBossWS integration interceptor to be used for authenticating incoming requests; JAAS integration is used here for authentication, so basically the username/passoword coming from the UsernameToken in the client message are used for authenticating the client against a security domain on the application server hosting the STS deployment.
+          </para>
+          <para>The stsKeystore.properties file is as follows:</para>
+          <informalexample>
+            <programlisting>org.apache.ws.security.crypto.provider=org.apache.ws.security.components.crypto.Merlin
+org.apache.ws.security.crypto.merlin.keystore.type=jks
+org.apache.ws.security.crypto.merlin.keystore.password=stsspass
+org.apache.ws.security.crypto.merlin.keystore.file=stsstore.jks</programlisting>
+          </informalexample>
+          <para>... while STSCallbackHandler grants access to the stsstore.jks, which has been populated with the STS full key (private/certificate + public key) as well as the server endpoint and client public keys.</para>
+          <informalexample>
+            <programlisting>package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
+
+import java.io.IOException;
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.UnsupportedCallbackException;
+import org.apache.ws.security.WSPasswordCallback;
+
+public class STSCallbackHandler implements CallbackHandler {
+
+    public void handle(Callback[] callbacks) throws IOException,
+            UnsupportedCallbackException {
+        for (int i = 0; i &lt; callbacks.length; i++) {
+            if (callbacks[i] instanceof WSPasswordCallback) {
+                WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
+                if ("mystskey".equals(pc.getIdentifier())) {
+                    pc.setPassword("stskpass");
+                    break;
+                }
+            }
+        }
+    }
+}</programlisting>
+          </informalexample>
+          <para>Here is how the STS webservice provider is packaged:</para>
+          <informalexample>
+            <programlisting>alessio@inuyasha /dati/jbossws/stack/cxf/trunk $ jar -tvf ./modules/testsuite/cxf-tests/target/test-libs/jaxws-samples-wsse-policy-trust-sts.war
+     0 Mon Jun 25 13:39:06 CEST 2012 META-INF/
+   164 Mon Jun 25 13:39:04 CEST 2012 META-INF/MANIFEST.MF
+     0 Mon Jun 25 13:39:06 CEST 2012 WEB-INF/
+     0 Mon Jun 25 13:39:06 CEST 2012 WEB-INF/classes/
+     0 Mon Jun 25 13:39:04 CEST 2012 WEB-INF/classes/org/
+     0 Mon Jun 25 13:39:04 CEST 2012 WEB-INF/classes/org/jboss/
+     0 Mon Jun 25 13:39:04 CEST 2012 WEB-INF/classes/org/jboss/test/
+     0 Mon Jun 25 13:39:04 CEST 2012 WEB-INF/classes/org/jboss/test/ws/
+     0 Mon Jun 25 13:39:04 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/
+     0 Mon Jun 25 13:39:04 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/
+     0 Mon Jun 25 13:39:04 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/
+     0 Mon Jun 25 13:39:04 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/
+     0 Mon Jun 25 13:39:04 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/
+  1148 Mon Jun 25 13:39:04 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/STSCallbackHandler.class
+  3456 Mon Jun 25 13:39:04 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/SampleSTS.class
+   251 Mon Jun 25 13:39:02 CEST 2012 WEB-INF/jboss-web.xml
+     0 Mon Jun 25 13:39:02 CEST 2012 WEB-INF/wsdl/
+ 13635 Mon Jun 25 13:39:02 CEST 2012 WEB-INF/wsdl/ws-trust-1.4-service.wsdl
+  1054 Mon Jun 25 13:39:02 CEST 2012 WEB-INF/classes/stsKeystore.properties
+  3978 Mon Jun 25 13:39:02 CEST 2012 WEB-INF/classes/stsstore.jks</programlisting>
+          </informalexample>
+          <para>
+            The
+            <emphasis role="italics">jboss-web.xml</emphasis>
+            descriptor is used to set the security domain to be used for authentication (in this case the domain will need to be configured to allow
+            <emphasis role="italics">alice</emphasis>
+            /
+            <emphasis role="italics">clarinet</emphasis>
+            username/password couple):
+          </para>
+          <informalexample>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE jboss-web PUBLIC "-//JBoss//DTD Web Application 2.4//EN" "http://www.jboss.org/j2ee/dtd/jboss-web_4_0.dtd"&gt;
+&lt;jboss-web&gt;
+   &lt;security-domain&gt;java:/jaas/JBossWS-trust-sts&lt;/security-domain&gt;
+&lt;/jboss-web&gt;</programlisting>
+          </informalexample>
+          <para>
+            ... and the manifest contains the usual declaration of JBoss Application Server 7 module dependencies (Apache CXF internals are needed here to build up the STS configuration in
+            <code>SampleSTS</code>
+            constructor as shown above):
+          </para>
+          <informalexample>
+            <programlisting>Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.8.2
+Created-By: 1.6.0_26-b03 (Sun Microsystems Inc.)
+Dependencies: org.apache.ws.security,org.apache.cxf.impl</programlisting>
+          </informalexample>
+          <tip>
+            <title>WS-MetadataExchange and interoperability</title>
+            <para>
+              To achieve better interoperability, you might consider allowing the STS endpoint to reply to WS-MetadataExchange messages directed to the
+              <code>/mex</code>
+              URL sub-path (e.g.
+              <code>
+                <ulink url="http://localhost:8080/jaxws-samples-wsse-policy-trust-sts/SecurityTokenService/mex"/>
+              </code>
+              ). This can be done by tweaking the
+              <emphasis role="italics">url-pattern</emphasis>
+              for the underlying endpoint servlet, for instance by adding a
+              <emphasis role="italics">web.xml</emphasis>
+              descriptor as follows to the deployment:
+              
+            </para>
+            <informalexample>
+              <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;web-app
+   version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"&gt;
+   &lt;servlet&gt;
+      &lt;servlet-name&gt;TestSecurityTokenService&lt;/servlet-name&gt;
+      &lt;servlet-class&gt;org.jboss.test.ws.jaxws.samples.wsse.policy.trust.SampleSTS&lt;/servlet-class&gt;
+   &lt;/servlet&gt;
+   &lt;servlet-mapping&gt;
+      &lt;servlet-name&gt;TestSecurityTokenService&lt;/servlet-name&gt;
+      &lt;url-pattern&gt;/SecurityTokenService/*&lt;/url-pattern&gt;
+   &lt;/servlet-mapping&gt;
+&lt;/web-app&gt;</programlisting>
+            </informalexample>
+            <para>
+              As a matter of fact, at the time of writing some webservices implementations (including
+              <emphasis role="italics">Metro</emphasis>
+              ) assume the
+              <code>/mex</code>
+              URL as the default choice for directing WS-MetadataExchange requests to and use that to retrieve STS wsdl contracts.
+            </para>
+          </tip>
+        </section>
+        <section id="sid-47972359_WS-TrustandSTS-PicketLinkSTS">
+          
+          <title>PicketLink STS</title>
+          <para>
+            <ulink url="http://www.jboss.org/picketlink">PicketLink</ulink>
+            provides facilities for building up an alternative to the Apache CXF Security Token Service implementation.
+          </para>
+          <para>
+            Similarly to the previous implementation, the STS is served through a
+            <code>WebServiceProvider</code>
+            annotated POJO:
+          </para>
+          <informalexample>
+            <programlisting>package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
+
+import javax.annotation.Resource;
+import javax.xml.ws.Service;
+import javax.xml.ws.ServiceMode;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.WebServiceProvider;
+
+import org.apache.cxf.annotations.EndpointProperties;
+import org.apache.cxf.annotations.EndpointProperty;
+import org.apache.cxf.interceptor.InInterceptors;
+import org.picketlink.identity.federation.core.wstrust.PicketLinkSTS;
+
+@WebServiceProvider(serviceName = "PicketLinkSTS", portName = "PicketLinkSTSPort", targetNamespace = "urn:picketlink:identity-federation:sts", wsdlLocation = "WEB-INF/wsdl/PicketLinkSTS.wsdl")
+@ServiceMode(value = Service.Mode.MESSAGE)
+//be sure to have dependency on org.apache.cxf module when on AS7, otherwise Apache CXF annotations are ignored
+@EndpointProperties(value = {
+      @EndpointProperty(key = "ws-security.signature.username", value = "mystskey"),
+      @EndpointProperty(key = "ws-security.signature.properties", value = "stsKeystore.properties"),
+      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.STSCallbackHandler"),
+      @EndpointProperty(key = "ws-security.validate.token", value = "false") //to let the JAAS integration deal with validation through the interceptor below
+})
+@InInterceptors(interceptors = {"org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor"})
+public class PicketLinkSTService extends PicketLinkSTS {
+   @Resource
+   public void setWSC(WebServiceContext wctx) {
+       this.context = wctx;
+   }
+}</programlisting>
+          </informalexample>
+          <para>
+            The
+            <code>@WebServiceProvider</code>
+            annotation references the following WS-Policy enabled wsdl contract; please note the wsdl operations, messages and such must match the
+            <code>PicketLinkSTS</code>
+            implementation:
+          </para>
+          <informalexample>
+            <programlisting>&lt;?xml version="1.0"?&gt;
+&lt;wsdl:definitions name="PicketLinkSTS" targetNamespace="urn:picketlink:identity-federation:sts"
+	xmlns:tns="urn:picketlink:identity-federation:sts"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:wsap10="http://www.w3.org/2006/05/addressing/wsdl"
+	xmlns:wsp="http://www.w3.org/ns/ws-policy"
+	xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+	xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"&gt;
+  &lt;wsdl:types&gt;
+    &lt;xs:schema elementFormDefault="qualified" targetNamespace='http://docs.oasis-open.org/ws-sx/ws-trust/200512' xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+      &lt;xs:element name='RequestSecurityToken' type='wst:AbstractRequestSecurityTokenType' /&gt;
+      &lt;xs:element name='RequestSecurityTokenResponse' type='wst:AbstractRequestSecurityTokenType' /&gt;
+      &lt;xs:complexType name='AbstractRequestSecurityTokenType' &gt;
+        &lt;xs:sequence&gt;
+          &lt;xs:any namespace='##any' processContents='lax' minOccurs='0' maxOccurs='unbounded' /&gt;
+        &lt;/xs:sequence&gt;
+        &lt;xs:attribute name='Context' type='xs:anyURI' use='optional' /&gt;
+        &lt;xs:anyAttribute namespace='##other' processContents='lax' /&gt;
+      &lt;/xs:complexType&gt;
+      &lt;xs:element name='RequestSecurityTokenCollection' type='wst:RequestSecurityTokenCollectionType' /&gt;
+      &lt;xs:complexType name='RequestSecurityTokenCollectionType' &gt;
+        &lt;xs:sequence&gt;
+          &lt;xs:element name='RequestSecurityToken' type='wst:AbstractRequestSecurityTokenType' minOccurs='2' maxOccurs='unbounded'/&gt;
+        &lt;/xs:sequence&gt;
+      &lt;/xs:complexType&gt;
+      &lt;xs:element name='RequestSecurityTokenResponseCollection' type='wst:RequestSecurityTokenResponseCollectionType' /&gt;
+      &lt;xs:complexType name='RequestSecurityTokenResponseCollectionType' &gt;
+        &lt;xs:sequence&gt;
+          &lt;xs:element ref='wst:RequestSecurityTokenResponse' minOccurs='1' maxOccurs='unbounded' /&gt;
+        &lt;/xs:sequence&gt;
+        &lt;xs:anyAttribute namespace='##other' processContents='lax' /&gt;
+      &lt;/xs:complexType&gt;
+    &lt;/xs:schema&gt;
+  &lt;/wsdl:types&gt;
+
+  &lt;wsdl:message name="RequestSecurityTokenMsg"&gt;
+    &lt;wsdl:part name="request" element="wst:RequestSecurityToken" /&gt;
+  &lt;/wsdl:message&gt;
+  &lt;wsdl:message name="RequestSecurityTokenResponseCollectionMsg"&gt;
+    &lt;wsdl:part name="responseCollection"
+            element="wst:RequestSecurityTokenResponseCollection"/&gt;
+  &lt;/wsdl:message&gt;
+
+  &lt;wsdl:portType name="SecureTokenService"&gt;
+    &lt;wsdl:operation name="IssueToken"&gt;
+      &lt;wsdl:input wsap10:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" message="tns:RequestSecurityTokenMsg"/&gt;
+      &lt;wsdl:output wsap10:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTRC/IssueFinal" message="tns:RequestSecurityTokenResponseCollectionMsg"/&gt;
+    &lt;/wsdl:operation&gt;
+  &lt;/wsdl:portType&gt;
+  &lt;wsdl:binding name="STSBinding" type="tns:SecureTokenService"&gt;
+    &lt;wsp:PolicyReference URI="#UT_policy" /&gt;
+    &lt;soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/&gt;
+    &lt;wsdl:operation name="IssueToken"&gt;
+      &lt;soap12:operation soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" style="document"/&gt;
+      &lt;wsdl:input&gt;
+        &lt;wsp:PolicyReference URI="#Input_policy" /&gt;
+        &lt;soap12:body use="literal"/&gt;
+      &lt;/wsdl:input&gt;
+      &lt;wsdl:output&gt;
+        &lt;wsp:PolicyReference URI="#Output_policy" /&gt;
+        &lt;soap12:body use="literal"/&gt;
+      &lt;/wsdl:output&gt;
+    &lt;/wsdl:operation&gt;
+  &lt;/wsdl:binding&gt;
+  &lt;wsdl:service name="PicketLinkSTS"&gt;
+    &lt;wsdl:port name="PicketLinkSTSPort" binding="tns:STSBinding"&gt;
+      &lt;soap12:address location="http://localhost:8080/picketlink-sts/PicketLinkSTS"/&gt;
+    &lt;/wsdl:port&gt;
+  &lt;/wsdl:service&gt;
+
+  &lt;wsp:Policy wsu:Id="UT_policy"&gt;
+      &lt;wsp:ExactlyOne&gt;
+         &lt;wsp:All&gt;
+            &lt;wsap10:UsingAddressing/&gt;
+            &lt;sp:SymmetricBinding
+               xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"&gt;
+               &lt;wsp:Policy&gt;
+                  &lt;sp:ProtectionToken&gt;
+                     &lt;wsp:Policy&gt;
+                        &lt;sp:X509Token
+                           sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never"&gt;
+                           &lt;wsp:Policy&gt;
+                              &lt;sp:RequireDerivedKeys /&gt;
+                              &lt;sp:RequireThumbprintReference /&gt;
+                              &lt;sp:WssX509V3Token10 /&gt;
+                           &lt;/wsp:Policy&gt;
+                        &lt;/sp:X509Token&gt;
+                     &lt;/wsp:Policy&gt;
+                  &lt;/sp:ProtectionToken&gt;
+                  &lt;sp:AlgorithmSuite&gt;
+                     &lt;wsp:Policy&gt;
+                        &lt;sp:Basic256 /&gt;
+                     &lt;/wsp:Policy&gt;
+                  &lt;/sp:AlgorithmSuite&gt;
+                  &lt;sp:Layout&gt;
+                     &lt;wsp:Policy&gt;
+                        &lt;sp:Lax /&gt;
+                     &lt;/wsp:Policy&gt;
+                  &lt;/sp:Layout&gt;
+                  &lt;sp:IncludeTimestamp /&gt;
+                  &lt;sp:EncryptSignature /&gt;
+                  &lt;sp:OnlySignEntireHeadersAndBody /&gt;
+               &lt;/wsp:Policy&gt;
+            &lt;/sp:SymmetricBinding&gt;
+            &lt;sp:SignedSupportingTokens
+               xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"&gt;
+               &lt;wsp:Policy&gt;
+                  &lt;sp:UsernameToken
+                     sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient"&gt;
+                     &lt;wsp:Policy&gt;
+                        &lt;sp:WssUsernameToken10 /&gt;
+                     &lt;/wsp:Policy&gt;
+                  &lt;/sp:UsernameToken&gt;
+               &lt;/wsp:Policy&gt;
+            &lt;/sp:SignedSupportingTokens&gt;
+            &lt;sp:Wss11
+               xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"&gt;
+               &lt;wsp:Policy&gt;
+                  &lt;sp:MustSupportRefKeyIdentifier /&gt;
+                  &lt;sp:MustSupportRefIssuerSerial /&gt;
+                  &lt;sp:MustSupportRefThumbprint /&gt;
+                  &lt;sp:MustSupportRefEncryptedKey /&gt;
+               &lt;/wsp:Policy&gt;
+            &lt;/sp:Wss11&gt;
+            &lt;sp:Trust13
+               xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"&gt;
+               &lt;wsp:Policy&gt;
+                  &lt;sp:MustSupportIssuedTokens /&gt;
+                  &lt;sp:RequireClientEntropy /&gt;
+                  &lt;sp:RequireServerEntropy /&gt;
+               &lt;/wsp:Policy&gt;
+            &lt;/sp:Trust13&gt;
+         &lt;/wsp:All&gt;
+      &lt;/wsp:ExactlyOne&gt;
+   &lt;/wsp:Policy&gt;
+
+   &lt;wsp:Policy wsu:Id="Input_policy"&gt;
+      &lt;wsp:ExactlyOne&gt;
+         &lt;wsp:All&gt;
+            &lt;sp:SignedParts
+               xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"&gt;
+               &lt;sp:Body /&gt;
+               &lt;sp:Header Name="To"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+               &lt;sp:Header Name="From"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+               &lt;sp:Header Name="FaultTo"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+               &lt;sp:Header Name="ReplyTo"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+               &lt;sp:Header Name="MessageID"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+               &lt;sp:Header Name="RelatesTo"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+               &lt;sp:Header Name="Action"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+            &lt;/sp:SignedParts&gt;
+            &lt;sp:EncryptedParts
+               xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"&gt;
+               &lt;sp:Body /&gt;
+            &lt;/sp:EncryptedParts&gt;
+         &lt;/wsp:All&gt;
+      &lt;/wsp:ExactlyOne&gt;
+   &lt;/wsp:Policy&gt;
+
+   &lt;wsp:Policy wsu:Id="Output_policy"&gt;
+      &lt;wsp:ExactlyOne&gt;
+         &lt;wsp:All&gt;
+            &lt;sp:SignedParts
+               xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"&gt;
+               &lt;sp:Body /&gt;
+               &lt;sp:Header Name="To"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+               &lt;sp:Header Name="From"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+               &lt;sp:Header Name="FaultTo"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+               &lt;sp:Header Name="ReplyTo"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+               &lt;sp:Header Name="MessageID"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+               &lt;sp:Header Name="RelatesTo"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+               &lt;sp:Header Name="Action"
+                  Namespace="http://www.w3.org/2005/08/addressing" /&gt;
+            &lt;/sp:SignedParts&gt;
+            &lt;sp:EncryptedParts
+               xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"&gt;
+               &lt;sp:Body /&gt;
+            &lt;/sp:EncryptedParts&gt;
+         &lt;/wsp:All&gt;
+      &lt;/wsp:ExactlyOne&gt;
+   &lt;/wsp:Policy&gt;
+
+&lt;/wsdl:definitions&gt;</programlisting>
+          </informalexample>
+          <para>Differently from the Apache CXF STS example described above, the PicketLink based STS gets its configuration from a picketlink-sts.xml descriptor which must be added in WEB-INF into the deployment; please refer to the PicketLink documentation for further information:</para>
+          <informalexample>
+            <programlisting>&lt;PicketLinkSTS xmlns="urn:picketlink:identity-federation:config:1.0"
+	STSName="PicketLinkSTS" TokenTimeout="7200" EncryptToken="false"&gt;
+	&lt;KeyProvider ClassName="org.picketlink.identity.federation.core.impl.KeyStoreKeyManager"&gt;
+		&lt;Auth Key="KeyStoreURL" Value="stsstore.jks"/&gt;
+  		&lt;Auth Key="KeyStorePass" Value="stsspass"/&gt;
+  		&lt;Auth Key="SigningKeyAlias" Value="mystskey"/&gt;
+   		&lt;Auth Key="SigningKeyPass" Value="stskpass"/&gt;
+  		&lt;ValidatingAlias Key="http://localhost:8080/jaxws-samples-wsse-policy-trust/SecurityService" Value="myservicekey"/&gt;
+	&lt;/KeyProvider&gt;
+	&lt;TokenProviders&gt;
+            &lt;TokenProvider ProviderClass="org.picketlink.identity.federation.core.wstrust.plugins.saml.SAML11TokenProvider"
+                TokenType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1"
+	        TokenElement="Assertion"
+	        TokenElementNS="urn:oasis:names:tc:SAML:1.0:assertion"/&gt;
+            &lt;TokenProvider ProviderClass="org.picketlink.identity.federation.core.wstrust.plugins.saml.SAML20TokenProvider"
+                TokenType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0"
+	        TokenElement="Assertion"
+	        TokenElementNS="urn:oasis:names:tc:SAML:2.0:assertion"/&gt;
+	&lt;/TokenProviders&gt;
+&lt;/PicketLinkSTS&gt;</programlisting>
+          </informalexample>
+          <para>Finally, the PicketLink alternative approach of course requires different JBoss AS module dependencies to be declared in the MANIFEST.MF:</para>
+          <informalexample>
+            <programlisting>Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.8.2
+Created-By: 1.6.0_26-b03 (Sun Microsystems Inc.)
+Dependencies: org.apache.ws.security,org.apache.cxf,org.picketlink</programlisting>
+          </informalexample>
+          <para>Here is how the PicketLink STS endpoint is packaged:</para>
+          <informalexample>
+            <programlisting>alessio@inuyasha /dati/jbossws/stack/cxf/trunk $ jar -tvf ./modules/testsuite/cxf-tests/target/test-libs/jaxws-samples-wsse-policy-trustPicketLink-sts.war 
+     0 Mon Sep 03 17:38:38 CEST 2012 META-INF/
+   174 Mon Sep 03 17:38:36 CEST 2012 META-INF/MANIFEST.MF
+     0 Mon Sep 03 17:38:38 CEST 2012 WEB-INF/
+     0 Mon Sep 03 17:38:38 CEST 2012 WEB-INF/classes/
+     0 Mon Sep 03 16:35:50 CEST 2012 WEB-INF/classes/org/
+     0 Mon Sep 03 16:35:50 CEST 2012 WEB-INF/classes/org/jboss/
+     0 Mon Sep 03 16:35:50 CEST 2012 WEB-INF/classes/org/jboss/test/
+     0 Mon Sep 03 16:35:52 CEST 2012 WEB-INF/classes/org/jboss/test/ws/
+     0 Mon Sep 03 16:35:50 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/
+     0 Mon Sep 03 16:35:52 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/
+     0 Mon Sep 03 16:35:50 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/
+     0 Mon Sep 03 16:35:50 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/
+     0 Mon Sep 03 16:35:52 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/
+  1686 Mon Sep 03 16:35:50 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/PicketLinkSTService.class
+  1148 Mon Sep 03 16:35:52 CEST 2012 WEB-INF/classes/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/STSCallbackHandler.class
+   251 Mon Sep 03 17:38:34 CEST 2012 WEB-INF/jboss-web.xml
+     0 Mon Sep 03 16:35:50 CEST 2012 WEB-INF/wsdl/
+  9070 Mon Sep 03 17:38:34 CEST 2012 WEB-INF/wsdl/PicketLinkSTS.wsdl
+  1267 Mon Sep 03 17:38:34 CEST 2012 WEB-INF/classes/picketlink-sts.xml
+  1054 Mon Sep 03 16:35:50 CEST 2012 WEB-INF/classes/stsKeystore.properties
+  3978 Mon Sep 03 16:35:50 CEST 2012 WEB-INF/classes/stsstore.jks</programlisting>
+          </informalexample>
+        </section>
       </section>
     </section>
     <section id="sid-3866797">
@@ -1891,7 +3573,8 @@ proxy.echo("Hello World!");</programlisting>
             using a Spring XML descriptor; here is an example:
           </para>
           <informalexample>
-            <programlisting>&lt;beans
+            <programlisting>
+&lt;beans
   xmlns="http://www.springframework.org/schema/beans"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:cxf="http://cxf.apache.org/core"
@@ -1926,11 +3609,13 @@ proxy.echo("Hello World!");</programlisting>
       &lt;/wsrm-mgr:reliableMessaging&gt;
     &lt;/cxf:features&gt;
   &lt;/cxf:bus&gt;
-&lt;/beans</programlisting>
+&lt;/beans
+</programlisting>
           </informalexample>
           <para>The client needs to pick up the bus configuration such as below:</para>
           <informalexample>
-            <programlisting>package org.jboss.test.ws.jaxws.samples.wsrm.client;
+            <programlisting>
+package org.jboss.test.ws.jaxws.samples.wsrm.client;
 
 import java.net.URL;
 import java.io.File;
@@ -1968,7 +3653,8 @@ public final class SimpleServiceTestCase
           bus.shutdown(true);
       }
    }
-}</programlisting>
+}
+</programlisting>
           </informalexample>
         </section>
       </section>
@@ -2038,7 +3724,8 @@ public final class SimpleServiceTestCase
           </listitem>
         </itemizedlist>
         <informalexample>
-          <programlisting>&lt;wsdl:definitions name="HelloWorldService" targetNamespace="http://org.jboss.ws/jaxws/cxf/jms"
+          <programlisting>
+&lt;wsdl:definitions name="HelloWorldService" targetNamespace="http://org.jboss.ws/jaxws/cxf/jms"
   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
   xmlns:tns="http://org.jboss.ws/jaxws/cxf/jms"
   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
@@ -2063,7 +3750,8 @@ public final class SimpleServiceTestCase
   &lt;wsdl:port binding="tns:HelloWorldServiceSoapBinding" name="HelloWorldImplPort"&gt;
     &lt;soap:address location="jms:queue:testQueue"/&gt; &lt;!-- 1 --&gt;
   &lt;/wsdl:port&gt;
-&lt;/wsdl:service&gt;</programlisting>
+&lt;/wsdl:service&gt;
+</programlisting>
         </informalexample>
         <para>
           Apache CXF takes care of setting up the JMS transport for endpoint implementations whose
@@ -2165,6 +3853,14 @@ public final class SimpleServiceTestCase
     &lt;/wsdl:operation&gt;
   &lt;/wsdl:binding&gt;
   &lt;wsdl:service name="HelloWorldService"&gt;
+    &lt;soapjms:jndiConnectionFactoryName&gt;java:jms/RemoteConnectionFactory&lt;/soapjms:jndiConnectionFactoryName&gt;
+    &lt;soapjms:jndiInitialContextFactory&gt;org.jboss.naming.remote.client.InitialContextFactory&lt;/soapjms:jndiInitialContextFactory&gt;
+    &lt;soapjms:jndiURL&gt;remote://myhost:4447&lt;/soapjms:jndiURL&gt;
+    &lt;wsdl:port binding="tns:HelloWorldServiceSoapBinding" name="HelloWorldImplPort"&gt;
+      &lt;soap:address location="jms:queue:testQueue"/&gt;
+    &lt;/wsdl:port&gt;
+  &lt;/wsdl:service&gt;
+  &lt;wsdl:service name="HelloWorldServiceLocal"&gt;
     &lt;soapjms:jndiConnectionFactoryName&gt;java:/ConnectionFactory&lt;/soapjms:jndiConnectionFactoryName&gt;
     &lt;wsdl:port binding="tns:HelloWorldServiceSoapBinding" name="HelloWorldImplPort"&gt;
       &lt;soap:address location="jms:queue:testQueue"/&gt;
@@ -2181,12 +3877,25 @@ public final class SimpleServiceTestCase
               that's available by default on JBoss Application Server 7
             </para>
           </important>
+          <para>
+            At the time of writing,
+            <emphasis role="italics">java:/ConnectionFactory</emphasis>
+            is the default connection factory JNDI location on JBoss Application Server 7
+          </para>
+          <para>
+            For allowing remote JNDI lookup of the connection factory, a specific service (
+            <code>HelloWorldService</code>
+            ) for remote clients is added to the WSDL. The
+            <emphasis role="italics">java:jms/RemoteConnectionFactory</emphasis>
+            is the JNDI location of the same connection factory mentioned above, except it's exposed for remote lookup. The
+            <code>soapjms:jndiInitialContextFactory</code>
+            and
+            <code>soap:jmsjndiURL</code>
+            complete the remote connection configuration, specifying the initial context factory class to use and the JNDI registry address.
+          </para>
           <important>
-            <para>
-              At the time of writing,
-              <emphasis role="italics">java:/ConnectionFactory</emphasis>
-              is the default connection factory JNDI location on JBoss Application Server 7
-            </para>
+            <para>Have a look at the application server domain for finding out the configured connection factory JNDI locations.</para>
+            <para>Remote JNDI support is available starting from JBoss Application Server 7.1.</para>
           </important>
           <para>The endpoint implementation is a basic JAX-WS POJO using @WebService annotation to refer to the consumed contract:</para>
           <informalexample>
@@ -2197,7 +3906,7 @@ import javax.jws.WebService;
 @WebService
 (
    portName = "HelloWorldImplPort",
-   serviceName = "HelloWorldService",
+   serviceName = "HelloWorldServiceLocal",
    wsdlLocation = "META-INF/wsdl/HelloWorldService.wsdl",
    endpointInterface = "org.jboss.test.ws.jaxws.cxf.jms.HelloWorld",
    targetNamespace = "http://org.jboss.ws/jaxws/cxf/jms"
@@ -2210,6 +3919,13 @@ public class HelloWorldImpl implements HelloWorld
    }
 }</programlisting>
           </informalexample>
+          <note>
+            <para>
+              The endpoint implementation references the
+              <code>HelloWorldServiceLocal</code>
+              wsdl service, so that the local JNDI connection factory location is used for starting the endpoint on server side.
+            </para>
+          </note>
           <para>
             That's pretty much all. We just need to package the generated service endpoint interface, the endpoint implementation and the WSDL file in a
             <emphasis role="italics">jar</emphasis>
@@ -2258,17 +3974,73 @@ try
    QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
    Service service = Service.create(wsdlUrl, serviceName);
    HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
+   setupProxy(proxy);
    proxy.echo("Hi");
 }
 finally
 {
    bus.shutdown(true);
-}</programlisting>
+}
+</programlisting>
           </informalexample>
-          <para>﻿</para>
           <important>
             <para>The WSDL location URL needs to be retrieved in a custom way, depending on the client application. Given the endpoint is JMS only, there's no automatically published WSDL contract.</para>
           </important>
+          <para>in order for performing the remote invocation (which internally goes through remote JNDI lookup of the connection factory), the calling user credentials need to be set into the Apache CXF JMSConduit:</para>
+          <informalexample>
+            <programlisting>
+private void setupProxy(HelloWorld proxy) {
+   JMSConduit conduit = (JMSConduit)ClientProxy.getClient(proxy).getConduit();
+   JNDIConfiguration jndiConfig = conduit.getJmsConfig().getJndiConfig();
+   jndiConfig.setConnectionUserName("user");
+   jndiConfig.setConnectionPassword("password");
+   Properties props = conduit.getJmsConfig().getJndiTemplate().getEnvironment();
+   props.put(Context.SECURITY_PRINCIPAL, "user");
+   props.put(Context.SECURITY_CREDENTIALS, "password");
+}
+</programlisting>
+          </informalexample>
+          <important>
+            <para>
+              Have a look at the JBoss Application Server 7 domain and messaging configuration for finding out the actual security requirements. At the time of writing, a user with
+              <code>guest</code>
+              role is required and that's internally checked using the
+              <code>other</code>
+              security domain.
+            </para>
+          </important>
+          <para>Of course once the endpoint is exposed over JMS transport, any plain JMS client can also be used to send messages to the webservice endpoint. You can have a look at the SOAP over JMS spec details and code the client similarly to</para>
+          <informalexample>
+            <programlisting>
+Properties env = new Properties();
+env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
+env.put(Context.PROVIDER_URL, "remote://myhost:4447");
+env.put(Context.SECURITY_PRINCIPAL, "user");
+env.put(Context.SECURITY_CREDENTIALS, "password");
+InitialContext context = new InitialContext(env);
+QueueConnectionFactory connectionFactory = (QueueConnectionFactory)context.lookup("jms/RemoteConnectionFactory");
+Queue reqQueue = (Queue)context.lookup("jms/queue/test");
+Queue resQueue = (Queue)context.lookup("jms/queue/test");
+QueueConnection con = connectionFactory.createQueueConnection("user", "password");
+QueueSession session = con.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
+QueueReceiver receiver = session.createReceiver(resQueue);
+ResponseListener responseListener = new ResponseListener(); //a custom response listener...
+receiver.setMessageListener(responseListener);
+con.start();
+TextMessage message = session.createTextMessage(reqMessage);
+message.setJMSReplyTo(resQueue);
+
+//setup SOAP-over-JMS properties...
+message.setStringProperty("SOAPJMS_contentType", "text/xml");
+message.setStringProperty("SOAPJMS_requestURI", "jms:queue:testQueue");
+
+QueueSender sender = session.createSender(reqQueue);
+sender.send(message);
+sender.close();
+
+...
+</programlisting>
+          </informalexample>
         </section>
         <section id="sid-3866801_SOAPoverJMS-JMSandHTTPendpointsdeployment">
           
@@ -2353,7 +4125,9 @@ finally
     &lt;/wsdl:operation&gt;
   &lt;/wsdl:binding&gt;
   &lt;wsdl:service name="HelloWorldService"&gt;
-    &lt;soapjms:jndiConnectionFactoryName&gt;java:/ConnectionFactory&lt;/soapjms:jndiConnectionFactoryName&gt;
+    &lt;soapjms:jndiConnectionFactoryName&gt;java:jms/RemoteConnectionFactory&lt;/soapjms:jndiConnectionFactoryName&gt;
+    &lt;soapjms:jndiInitialContextFactory&gt;org.jboss.naming.remote.client.InitialContextFactory&lt;/soapjms:jndiInitialContextFactory&gt;
+    &lt;soapjms:jndiURL&gt;remote://localhost:4447&lt;/soapjms:jndiURL&gt;
     &lt;wsdl:port binding="tns:HelloWorldServiceSoapBinding" name="HelloWorldImplPort"&gt;
       &lt;soap:address location="jms:queue:testQueue"/&gt;
     &lt;/wsdl:port&gt;
@@ -2361,6 +4135,11 @@ finally
       &lt;soap:address location="http://localhost:8080/jaxws-cxf-jms-http-deployment"/&gt;
     &lt;/wsdl:port&gt;
   &lt;/wsdl:service&gt;
+  &lt;wsdl:service name="HelloWorldServiceLocal"&gt;
+    &lt;soapjms:jndiConnectionFactoryName&gt;java:/ConnectionFactory&lt;/soapjms:jndiConnectionFactoryName&gt;
+    &lt;wsdl:port binding="tns:HelloWorldServiceSoapBinding" name="HelloWorldImplPort"&gt;
+      &lt;soap:address location="jms:queue:testQueue"/&gt;
+    &lt;/wsdl:port&gt;
 &lt;/wsdl:definitions&gt;</programlisting>
           </informalexample>
           <para>
@@ -2376,7 +4155,7 @@ import javax.jws.WebService;
 @WebService
 (
    portName = "HelloWorldImplPort",
-   serviceName = "HelloWorldService",
+   serviceName = "HelloWorldServiceLocal",
    wsdlLocation = "WEB-INF/wsdl/HelloWorldService.wsdl",
    endpointInterface = "org.jboss.test.ws.jaxws.cxf.jms_http.HelloWorld",
    targetNamespace = "http://org.jboss.ws/jaxws/cxf/jms"
@@ -2473,6 +4252,7 @@ try
 
    //JMS test
    HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
+   setupProxy(proxy);
    proxy.echo("Hi");
    //HTTP test
    HelloWorld httpProxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HttpHelloWorldImplPort"), HelloWorld.class);

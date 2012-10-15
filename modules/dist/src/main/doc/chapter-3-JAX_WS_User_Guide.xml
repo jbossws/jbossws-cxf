@@ -412,6 +412,7 @@ publicclass TestEndpointService extends Service
             <emphasis role="italics">
               <ulink url="http://www.jboss.org/j2ee/dtd/service-ref_5_0.dtd">service-ref_5_0.dtd</ulink>
             </emphasis>
+            .
           </para>
         </section>
       </section>

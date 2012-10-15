@@ -71,7 +71,8 @@
           
           <title>Implementing the service</title>
           <informalexample>
-            <programlisting>package org.jboss.test.ws.jaxws.samples.retail.profile;
+            <programlisting>
+package org.jboss.test.ws.jaxws.samples.retail.profile;
 
 import javax.ejb.Stateless;
 import javax.jws.WebService;
@@ -90,7 +91,8 @@ public class ProfileMgmtBean {
    public DiscountResponse getCustomerDiscount(DiscountRequest request) {
       return new DiscountResponse(request.getCustomer(), 10.00);
    }
-}</programlisting>
+}
+</programlisting>
           </informalexample>
           <informalexample>
             <programlisting>1. We are using a stateless session bean implementation
@@ -105,7 +107,8 @@ public class ProfileMgmtBean {
           <para>The method parameters and return values are going to represent our XML payload and thus require being compatible with JAXB2. Actually you wouldn't need any JAXB annotations for this particular example, because JAXB relies on meaningful defaults. For the sake of documentation we put the more important ones here.</para>
           <para>Take a look at the request parameter:</para>
           <informalexample>
-            <programlisting>package org.jboss.test.ws.jaxws.samples.retail.profile;
+            <programlisting>
+package org.jboss.test.ws.jaxws.samples.retail.profile;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -138,7 +141,8 @@ public class DiscountRequest {
       this.customer = value;
    }
 
-}</programlisting>
+}
+</programlisting>
           </informalexample>
           <informalexample>
             <programlisting>1. In this case we use @XmlType to specify an XML complex type name and override the namespace.</programlisting>
@@ -324,7 +328,8 @@ org/jboss/test/ws/jaxws/samples/retail/profile/package-info.java</programlisting
         <title>Constructing a service stub</title>
         <para>Web  service clients make use of a service stubs that hide the details of a  remote web service invocation. To a client application a WS invocation  just looks like an invocation of any other business component. In this  case the service endpoint interface acts as the business interface.  JAX-WS does use a service factory class to construct this as particular service stub:</para>
         <informalexample>
-          <programlisting>import javax.xml.ws.Service;
+          <programlisting>
+import javax.xml.ws.Service;
 [...]
 Service service = Service.create(                                 (1)
 new URL("http://example.org/service?wsdl"),
@@ -332,7 +337,8 @@ new QName("MyService")
 );
 ProfileMgmt profileMgmt = service.getPort(ProfileMgmt.class);     (2)
 
-// do something with the service stub here...                     (3)</programlisting>
+// do something with the service stub here...                     (3)
+</programlisting>
         </informalexample>
         <orderedlist>
           <listitem>
@@ -349,6 +355,158 @@ ProfileMgmt profileMgmt = service.getPort(ProfileMgmt.class);     (2)
           </listitem>
         </orderedlist>
       </section>
+      <section id="sid-3735860_QuickStart-Resolvingdependenciesandrunningtheclient">
+        
+        <title>Resolving dependencies and running the client</title>
+        <para>In order for successfully running a WS client application, a classloader needs to be properly setup to include the JBossWS components and its required transitive dependencies. Depending on the environment the client is meant to be run in, this might imply adding some jars to the classpath, or adding some artifact dependencies to the maven dependency tree, etc. Moreover, even for simply developing a client, users might need to resolve proper dependencies (e.g. to setup their IDE).</para>
+        <para>Below you find some options for resolving dependencies and running a WS client using the JBossWS libraries:</para>
+        <section id="sid-3735860_QuickStart-Mavenproject">
+          
+          <title>Maven project</title>
+          <para>
+            The JBossWS project is composed of multiple Maven artifacts that can be used to declare dependencies in user Maven projects. In particular, the
+            <code>
+              <ulink url="https://repository.jboss.org/nexus/content/groups/public-jboss/org/jboss/ws/cxf/jbossws-cxf-client/">org.jboss.ws.cxf:jbossws-cxf-client</ulink>
+            </code>
+            and
+            <ulink url="https://repository.jboss.org/nexus/content/groups/public-jboss/org/jboss/ws/native/jbossws-native-client/">
+              <code>org.jboss.ws.native:jbossws-native-client</code>
+            </ulink>
+            artifacts can be used for getting the whole jbossws client dependency trees for the JBossWS-CXF and JBossWS-Native stacks. Users should simply add a dependency on
+            <emphasis role="strong">one</emphasis>
+            of them (depending on the JBossWS stack in use) to their Maven project.
+          </para>
+          <para>
+            If you're running the client out of container, It's also recommended to properly setup JAXWS implementation endorsing, to use the JBossWS implementation of JAXWS API instead of relying on the implementation coming with the JDK; this is usually done by copying the
+            <code>
+              <ulink url="https://repository.jboss.org/nexus/content/groups/public-jboss/org/jboss/ws/cxf/jbossws-cxf-factories/">org.jboss.ws.cxf.jbossws-cxf-factories</ulink>
+            </code>
+            (JBossWS-CXF stack)
+            <emphasis role="strong">or</emphasis>
+            <code>
+              <ulink url="https://repository.jboss.org/nexus/content/groups/public-jboss/org/jboss/ws/native/jbossws-native-factories">org.jboss.ws.native:jbossws-native-factories</ulink>
+            </code>
+            (JBossWS-Native stack) jar into a local directory (e.g.
+            <emphasis role="italics">project.build.directory/endorsed</emphasis>
+            ) and then using that for compiling and running sources, for setting the
+            <emphasis role="italics">java.endorsed.dirs</emphasis>
+            system property into the maven-surefire-plugin, etc:
+          </para>
+          <informalexample>
+            <programlisting>&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 [http://maven.apache.org/maven-v4_0_0.xsd]"&gt;
+  ...
+  &lt;build&gt;
+    &lt;plugins&gt;
+
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-dependency-plugin&lt;/artifactId&gt;
+        &lt;executions&gt;
+          &lt;execution&gt;
+            &lt;id&gt;create-endorsed-dir&lt;/id&gt;
+            &lt;phase&gt;generate-sources&lt;/phase&gt;
+            &lt;goals&gt;
+              &lt;goal&gt;copy&lt;/goal&gt;
+            &lt;/goals&gt;
+            &lt;configuration&gt;
+              &lt;artifactItems&gt;
+                &lt;artifactItem&gt;
+                  &lt;groupId&gt;org.jboss.spec.javax.xml.ws&lt;/groupId&gt;
+                  &lt;artifactId&gt;jboss-jaxws-api_2.2_spec&lt;/artifactId&gt;
+                  &lt;type&gt;jar&lt;/type&gt;
+                  &lt;outputDirectory&gt;${project.build.directory}/endorsed&lt;/outputDirectory&gt;
+                &lt;/artifactItem&gt;
+                &lt;artifactItem&gt;
+                  &lt;groupId&gt;org.jboss.spec.javax.xml.bind&lt;/groupId&gt;
+                  &lt;artifactId&gt;jboss-jaxb-api_2.2_spec&lt;/artifactId&gt;
+                  &lt;type&gt;jar&lt;/type&gt;
+                  &lt;outputDirectory&gt;${project.build.directory}/endorsed&lt;/outputDirectory&gt;
+                &lt;/artifactItem&gt;
+                &lt;artifactItem&gt;
+                  &lt;groupId&gt;org.jboss.ws.cxf&lt;/groupId&gt;
+                  &lt;artifactId&gt;jbossws-cxf-factories&lt;/artifactId&gt;
+                  &lt;type&gt;jar&lt;/type&gt;
+                  &lt;outputDirectory&gt;${project.build.directory}/endorsed&lt;/outputDirectory&gt;
+                &lt;/artifactItem&gt;
+              &lt;/artifactItems&gt;
+            &lt;/configuration&gt;
+          &lt;/execution&gt;
+        &lt;/executions&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+        &lt;configuration&gt;
+          &lt;showDeprecation&gt;false&lt;/showDeprecation&gt;
+          &lt;compilerArguments&gt;
+            &lt;endorseddirs&gt;${project.build.directory}/endorsed&lt;/endorseddirs&gt;
+          &lt;/compilerArguments&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+        &lt;configuration&gt;
+          &lt;argLine&gt;-Djava.endorsed.dirs=${project.build.directory}/endorsed&lt;/argLine&gt;
+          ...
+        &lt;/configuration&gt;
+        ...
+      &lt;/plugin&gt;
+      ...
+    &lt;/plugins&gt;
+    ...
+  &lt;/build&gt;
+...
+&lt;/project&gt;
+</programlisting>
+          </informalexample>
+          <important>
+            <para>Endorsing of JAXWS API jar is used to force a API level different from the one included in the JDK. E.g. JAXWS 2.2 on JDK 1.6, or JAXWS 2.1 on JDK 1.7, etc.</para>
+          </important>
+        </section>
+        <section id="sid-3735860_QuickStart-JBossModulesenvironment">
+          
+          <title>JBoss Modules environment</title>
+          <para>
+            An interesting approach for running a WS client is to leverage JBoss Modules, basically getting a classloading environment equivalent to the server container WS endpoints are run in. This is achieved by using the
+            <emphasis role="italics">jboss-modules.jar</emphasis>
+            coming with AS 7 as follows:
+          </para>
+          <informalexample>
+            <programlisting>java -jar $JBOSS_HOME/jboss-modules.jar -mp $JBOSS_HOME/modules -jar client.jar</programlisting>
+          </informalexample>
+          <para>
+            The
+            <emphasis role="italics">client.jar</emphasis>
+            is meant to contain the WS client application and include a
+            <emphasis role="italics">MANIFEST.MF</emphasis>
+            file specifying the proper
+            <code>Main-Class</code>
+            as well as
+            <link linkend="sid-4784150">JBoss Module dependencies</link>
+            , for instance:
+          </para>
+          <informalexample>
+            <programlisting>
+Manifest-Version: 1.0
+Main-Class: org.jboss.test.ws.jaxws.jbws1666.TestClient
+Dependencies: org.jboss.ws.cxf.jbossws-cxf-client
+</programlisting>
+          </informalexample>
+        </section>
+        <section id="sid-3735860_QuickStart-Flatclasspathsetup">
+          
+          <title>Flat classpath setup</title>
+          <para>
+            Finally, users can of course setup their application classpath manually (e.g when compiling and running the application directly through
+            <code>javac</code>
+            /
+            <code>java</code>
+            command or using
+            <code>Ant</code>
+            ). The JBossWS testsuite can be used to derive the whole set of files to be used; the testsuite can be run either using Maven (from the source distribution) or Ant (from the binary distribution). A verbose execution reveals the list of jar. As for the Maven project approach mentioned above, properly setting
+            <emphasis role="italics">java.endorsed.dirs</emphasis>
+            system property is also required.
+          </para>
+        </section>
+      </section>
       <section id="sid-3735860_QuickStart-Appendix">
         
         <title>Appendix</title>
@@ -356,7 +514,8 @@ ProfileMgmt profileMgmt = service.getPort(ProfileMgmt.class);     (2)
           
           <title>Sample wsdl contract</title>
           <informalexample>
-            <programlisting>&lt;definitions
+            <programlisting>
+&lt;definitions
     name='ProfileMgmtService'
     targetNamespace='http://org.jboss.ws/samples/retail/profile'
     xmlns='http://schemas.xmlsoap.org/wsdl/'
@@ -442,7 +601,8 @@ ProfileMgmt profileMgmt = service.getPort(ProfileMgmt.class);     (2)
              location='http://&lt;HOST&gt;:&lt;PORT&gt;/jaxws-samples-retail/ProfileMgmtBean'/&gt;
       &lt;/port&gt;
    &lt;/service&gt;
-&lt;/definitions&gt;</programlisting>
+&lt;/definitions&gt;
+</programlisting>
           </informalexample>
         </section>
       </section>
