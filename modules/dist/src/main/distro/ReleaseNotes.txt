@@ -28,19 +28,99 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    TODO: enumerate
+    [JBWS-3453] - JBossWSBusFactory check on Spring availability relies on TCCL only
+    [JBWS-3458] - JBossWS testsuite fails on IPv6
+    [JBWS-3483] - Missing org.jboss.ws:jbossws-jbossXYZ:version:tests-integration dependency when running testsuite
+    [JBWS-3488] - Cannot deploy webservices with schema import to paths with spaces
+    [JBWS-3489] - Missing modules-deploy.conf in binary distribution
+    [JBWS-3491] - ConcurrentModificationException when accessing to EndopointRegistry
+    [JBWS-3498] - Service implementations fail when a SAML-assertion is present in the request.
+    [JBWS-3513] - Server side Bus used for creating JAX-WS clients in endpoint business logic
+    [JBWS-3516] - JBossWS-CXF doesn't send fault message to a FaultTo endpoint when request-response message.
+    [JBWS-3518] - static wsdl not recognized
+    [JBWS-3519] - WSConsume generates sources in current dir even if -keep option is not specified
+    [JBWS-3520] - WSConsume ignores target 2.1 option
+    [JBWS-3532] - WSDL published to wrong directory when path contains blank characters
+    [JBWS-3535] - Fix TCK6 regression in jaxws/wsi/w2j/document/literal/swareftest
+    [JBWS-3540] - EndpointPublisher: xsd imports cause deployment error unless placed in WEB-INF dir
+    [JBWS-3544] - xsd:import not working in WSDLs if EJB WebService deployed in EAR
+    [JBWS-3545] - ConcurrentModificationException when getting Client/EndpointConfig from ServerConfig
+    [JBWS-3552] - @XmlJavaTypeAdapter ignored on exception classes
+
+Enhancement
+
+    [JBWS-2843] - wsprovide tool does not check the annotation and method signature
+    [JBWS-3409] - Support for CXF Continuations
+    [JBWS-3499] - Remove Apache Scout, Apache JUDDI & JBoss JAXR dependency from JBossWS CXF stack
+    [JBWS-3554] - Add http://ws-i.org/profiles/basic/1.1 entry in jax-ws-catalog
 
 Feature Request
 
-    TODO: enumerate
+    [JBWS-2932] - Support for HTTP Digest authentication, when acting as a client to an external web service
+    [JBWS-3109] - Global handler to intercept/observe inbound/outbound messages
+    [JBWS-3237] - Set an HTTP proxy host/port for an individual WS-stub
+    [JBWS-3287] - Deployment descriptor support for declaring jbossws-config-file / jbossws-config-name
+    [JBWS-3433] - Upgrade to Apache CXF 2.5.2
+    [JBWS-3434] - Apache CXF STS integration
+    [JBWS-3448] - Upgrade to Apache CXF 2.5.3
+    [JBWS-3493] - PicketLink STS integration
+    [JBWS-3495] - Upgrade to Apache CXF 2.6.1
+    [JBWS-3496] - Enable CXF WS-MetadataExchange (Aug 2006 spec) support
+    [JBWS-3497] - Add ability to configure the queue depth on the asynchronous (@Oneway) work queue.
+    [JBWS-3501] - Separate Apache CXF apis from implementation in AS7 modules
+    [JBWS-3502] - Add property elements to jboss-webservices.xml descriptor
+    [JBWS-3504] - Add ability to configure the CXF policy alternative selector on server side
+    [JBWS-3505] - Provide facilities for setting JBossWS client configuration
+    [JBWS-3510] - Add WSProvide option for specifying soap:address location to use in generated wsdl
+    [JBWS-3525] - JBossWS-CXF:OneWay faultTo request is not correctly transmitted to the specified address
 
 Task
 
-    TODO: enumerate
+    [JBWS-2710] - Provide testcase for WS-Trust (including STS) and WS-SecureConversation
+    [JBWS-3335] - Restore jbossws jaxws client configuration to jbossws-cxf stack and update AS7 domain model
+    [JBWS-3405] - Additional WS-Security Policy samples
+    [JBWS-3435] - Enable appclient based tests
+    [JBWS-3446] - Evaluate options for enabling username over transport security wsse tests
+    [JBWS-3451] - Move modified appclient.xml conf for WS tests to appclient-ws.xml
+    [JBWS-3452] - Do not log appclient boot messages to console
+    [JBWS-3454] - Additional tests for SOAP-over-JMS and AS7 remote connection factory
+    [JBWS-3455] - Reduce testsuite memory footprint
+    [JBWS-3462] - Slim down native stack keeping minimum set of features required for running cxf stack
+    [JBWS-3473] - Update jbossws-native-core as part of jbossws-cxf stack installation
+    [JBWS-3475] - SOAP-over-JMS tests require test queue on target AS
+    [JBWS-3477] - Provide testcase for JAXWS SPI provider override
+    [JBWS-3478] - Provide testcase for JBossWS-CXF isolation from Spring
+    [JBWS-3480] - Review / update maven plugins in project maven parent
+    [JBWS-3482] - Parallel / concurrent testsuite runs
+    [JBWS-3484] - Factor out container specific testsuite dependencies to ASIL / jboss-as-webservices-tests-integration
+    [JBWS-3490] - Fix org.jboss.test.ws.jaxws.as3581.AS3581TestCase
+    [JBWS-3494] - Implement support for AS 720 & drop support of AS 70x series
+    [JBWS-3503] - Look at how to generate classpath for webservice client in AS7 and enable JBWS1666TestCase
+    [JBWS-3507] - WSTrustTestCase regression with WSS4J 1.6.6
+    [JBWS-3509] - Convert project to use i18n logging and exceptions
+    [JBWS-3517] - Upgrade to Apache CXF 2.6.2
+    [JBWS-3522] - Review and update JBossWSInvoker to Apache CXF 2.6+ level
+    [JBWS-3523] - Provide testcase for CXF @UseAsynchMethod
+    [JBWS-3531] - Provide testcase for jboss-modules enabled clients
+    [JBWS-3547] - Fix cookies handling in HandlerChainTestCase
+    [JBWS-3548] - Upgrade woodstox to 4.1.1 and change artifactId to woodstox-core-asl instead of wstx-lgpl
+    [JBWS-3553] - Remove '2.0' from supported targets in WSConsume help message
+    [JBWS-3555] - Investigate TCK6 regression with CXF 2.7.0
+    [JBWS-3557] - Upgrade to Apache CXF 2.6.3
+    [JBWS-3558] - Release JBossWS 4.1.0.Final
+
+Sub-task
+
+    [JBWS-3460] - Investigate CXF specific tests IPv6 issues
+    [JBWS-3463] - Remove project generator
+    [JBWS-3529] - Enable configuration of properties
+    [JBWS-3542] - Allow WS-MetadataExchange in WS-Trust testcase
+    [JBWS-3543] - Relax SubjectCreatingPolicyInterceptor reaction to missing SecurityContext
+    [JBWS-3550] - Rewrite JAXWS POJO invocation process
 
 Errata
 
-    See: TODO: reference to associated JIRA issue
+    See: https://issues.jboss.org/browse/JBWS-3559
 
 This version of ${project.name} is based on Apache CXF ${cxf.version}
 
