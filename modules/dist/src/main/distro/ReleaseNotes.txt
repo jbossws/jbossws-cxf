@@ -41,7 +41,6 @@ Bug
     [JBWS-3519] - WSConsume generates sources in current dir even if -keep option is not specified
     [JBWS-3520] - WSConsume ignores target 2.1 option
     [JBWS-3532] - WSDL published to wrong directory when path contains blank characters
-    [JBWS-3535] - Fix TCK6 regression in jaxws/wsi/w2j/document/literal/swareftest
     [JBWS-3540] - EndpointPublisher: xsd imports cause deployment error unless placed in WEB-INF dir
     [JBWS-3544] - xsd:import not working in WSDLs if EJB WebService deployed in EAR
     [JBWS-3545] - ConcurrentModificationException when getting Client/EndpointConfig from ServerConfig
@@ -105,7 +104,6 @@ Task
     [JBWS-3547] - Fix cookies handling in HandlerChainTestCase
     [JBWS-3548] - Upgrade woodstox to 4.1.1 and change artifactId to woodstox-core-asl instead of wstx-lgpl
     [JBWS-3553] - Remove '2.0' from supported targets in WSConsume help message
-    [JBWS-3555] - Investigate TCK6 regression with CXF 2.7.0
     [JBWS-3557] - Upgrade to Apache CXF 2.6.3
     [JBWS-3558] - Release JBossWS 4.1.0.Final
 
