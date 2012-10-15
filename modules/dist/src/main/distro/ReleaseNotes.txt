@@ -44,7 +44,6 @@ Bug
     [JBWS-3540] - EndpointPublisher: xsd imports cause deployment error unless placed in WEB-INF dir
     [JBWS-3544] - xsd:import not working in WSDLs if EJB WebService deployed in EAR
     [JBWS-3545] - ConcurrentModificationException when getting Client/EndpointConfig from ServerConfig
-    [JBWS-3552] - @XmlJavaTypeAdapter ignored on exception classes
 
 Enhancement
 
