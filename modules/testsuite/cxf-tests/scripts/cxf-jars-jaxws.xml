@@ -313,6 +313,21 @@
        </webinf>
     </war>
 
+    <!-- jaxws-cxf-policy -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-policy.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/policy/PIPEndpointImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/policy/CustomInInterceptor.class"/>
+      	<include name="org/jboss/test/ws/jaxws/cxf/policy/PolicyInterceptorProviderInstallerInterceptor.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/policy/META-INF">
+        <include name="**/*" />
+      </metainf>
+      <manifest>
+        <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor using cxf-rt-ws-policy in deployment -->
+      </manifest>
+    </jar>
+
     <!-- jaxws-cxf-spring -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-spring.war" needxmlfile='false'>
        <classes dir="${tests.output.dir}/test-classes">
