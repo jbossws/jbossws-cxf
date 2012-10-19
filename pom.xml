@@ -64,9 +64,9 @@
     <jbossws.common.version>2.1.0.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.1.0.Final</jbossws.common.tools.version>
     <jbossws.shared.testsuite.version>4.1.1-SNAPSHOT</jbossws.shared.testsuite.version>
-    <jbossws.jboss710.version>4.1.0.Final</jbossws.jboss710.version>
-    <jbossws.jboss711.version>4.1.0.Final</jbossws.jboss711.version>
-    <jbossws.jboss712.version>4.1.0.Final</jbossws.jboss712.version>
+    <jbossws.jboss710.version>4.1.1-SNAPSHOT</jbossws.jboss710.version>
+    <jbossws.jboss711.version>4.1.1-SNAPSHOT</jbossws.jboss711.version>
+    <jbossws.jboss712.version>4.1.1-SNAPSHOT</jbossws.jboss712.version>
     <jbossws.native.version>4.1.0.Final</jbossws.native.version>
     <jboss710.version>7.1.0.Final</jboss710.version>
     <jboss711.version>7.1.1.Final</jboss711.version>
