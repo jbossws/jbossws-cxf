@@ -873,9 +873,6 @@
                  <!--# [JBWS-3441] Support CDI interceptors for POJO JAX-WS services  -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3441/**</exclude>
 
-                 <!--# [AS7-5784] WSIntegrationProcessorJAXWS_EJB does not process @PermitAll, @DeclareRoles and @RolesAllowed properly -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/securityDomain/PermitAllTestCase*</exclude>
-
                  <!--# [JBWS-3552] @XmlJavaTypeAdapter ignored on exception classes -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3552/**</exclude>
               </excludes>
