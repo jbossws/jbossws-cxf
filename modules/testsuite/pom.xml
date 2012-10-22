@@ -605,102 +605,6 @@
     </profile>
 
     <!--
-    Name:  jboss710
-    Descr: JBoss-7.1.0 specific options
-    -->
-    <profile>
-      <id>jboss710</id>
-      <properties>
-        <jboss.version>${jboss710.version}</jboss.version>
-        <jbossws.integration.target>jboss710</jbossws.integration.target>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss710-tests-integration</artifactId>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <compilerArguments>
-                <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-              </compilerArguments>
-            </configuration>
-            <executions>
-              <execution>
-                <id>default-testCompile</id>
-                <phase>test-compile</phase>
-                <configuration>
-                  <testExcludes>
-                    <!-- EJB3 client API dependencies -->
-                    <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/WebServiceRefClientTestCase*</exclude>
-                  </testExcludes>
-                </configuration>
-                <goals>
-                  <goal>testCompile</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
-              <excludes>
-                 <!--# TestCases requiring trustore in jboss-web tomcat configuration-->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase.*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase.*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples21xTestCase.*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples23xTestCase.*</exclude>
-
-                 <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
-
-                 <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
-
-                 <!--# [JBWS-3503] Enable this after find out how to easily generate client classpath in as7-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1666/**</exclude>
-
-                 <!--# [JBWS-2561] XOP request not properly inlined-->
-                 <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
-
-                 <!--# [JBWS-2480] Soap attachments are dropped on server response-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
-
-                 <!-- TODO: tests using org.jboss.ejb3.client.ClientLauncher // also see compile exclude above -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/webserviceref/WebServiceRefClientTestCase*</exclude>
-
-                 <!-- # [JBWS-3493] WS-Trust tests w/ PicketLink STS require PL 2.1.2.Final or greater -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/PicketLinkSTService*</exclude>
-
-                 <!-- # TODO: appclient -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/serviceref/ServiceRefClientTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxrpc/samples/serviceref/ServiceRefClientTestCase*</exclude>
-
-                 <!-- # TODO: remote JNDI support (non EJB objects) -->
-                 <exclude>org/jboss/test/ws/jaxrpc/samples/secureejb/**</exclude>
-
-                 <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
-
-                 <!--# [JBWS-3441] Support CDI interceptors for POJO JAX-WS services  -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws3441/**</exclude>
-
-                 <!--# [JBWS-3552] @XmlJavaTypeAdapter ignored on exception classes -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws3552/**</exclude>
-              </excludes>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!--
     Name:  jboss711
     Descr: JBoss-7.1.1 specific options
     -->
@@ -776,6 +680,67 @@
         <dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-jboss712-tests-integration</artifactId>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <compilerArguments>
+                <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+              </compilerArguments>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
+              <excludes>
+                 <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
+
+                 <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
+
+                 <!--# [JBWS-2561] XOP request not properly inlined-->
+                 <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
+
+                 <!--# [JBWS-2480] Soap attachments are dropped on server response-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
+
+                 <!-- # [JBWS-3493] WS-Trust tests w/ PicketLink STS require PL 2.1.2.Final or greater -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
+
+                 <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
+
+                 <!--# [JBWS-3441] Support CDI interceptors for POJO JAX-WS services  -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws3441/**</exclude>
+
+                 <!--# [JBWS-3552] @XmlJavaTypeAdapter ignored on exception classes -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws3552/**</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+    Name:  jboss713
+    Descr: JBoss-7.1.3 specific options
+    -->
+    <profile>
+      <id>jboss713</id>
+      <properties>
+        <jboss.version>${jboss713.version}</jboss.version>
+        <jbossws.integration.target>jboss713</jbossws.integration.target>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss713-tests-integration</artifactId>
         </dependency>
       </dependencies>
       <build>

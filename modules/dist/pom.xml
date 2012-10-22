@@ -32,13 +32,6 @@
          <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-resources</artifactId>
          <version>${project.version}</version>
-         <classifier>jboss710</classifier>     
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.ws.cxf</groupId>
-         <artifactId>jbossws-cxf-resources</artifactId>
-         <version>${project.version}</version>
          <classifier>jboss711</classifier>     
       </dependency>
 
@@ -47,6 +40,13 @@
          <artifactId>jbossws-cxf-resources</artifactId>
          <version>${project.version}</version>
          <classifier>jboss712</classifier>     
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.ws.cxf</groupId>
+         <artifactId>jbossws-cxf-resources</artifactId>
+         <version>${project.version}</version>
+         <classifier>jboss713</classifier>     
       </dependency>
 
       <dependency>
@@ -133,17 +133,17 @@
       <!-- container integration -->
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss710-server-integration</artifactId>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss711-server-integration</artifactId>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss712-server-integration</artifactId>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-jboss713-server-integration</artifactId>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -199,14 +199,14 @@
                         <configuration>
                             <target>
                                 <mkdir dir="${basedir}/target/exclude-file" />
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss710.txt">
-                                    <param name="targetName" expression="jboss710" />
-                                </xslt>
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss711.txt">
                                     <param name="targetName" expression="jboss711" />
                                 </xslt>
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss712.txt">
                                     <param name="targetName" expression="jboss712" />
+                                </xslt>
+                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss713.txt">
+                                    <param name="targetName" expression="jboss713" />
                                 </xslt>
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss720.txt">
                                     <param name="targetName" expression="jboss720" />
@@ -239,17 +239,17 @@
         <!-- Libraries required for running binary distro testsuite and not available on server-->
         <dependency>
           <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss710-tests-integration</artifactId>
-          <scope>provided</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-jboss711-tests-integration</artifactId>
           <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-jboss712-tests-integration</artifactId>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss713-tests-integration</artifactId>
           <scope>provided</scope>
         </dependency>
         <dependency>

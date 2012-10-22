@@ -3,13 +3,13 @@
 #
 
 # Optional JBoss Home
-jboss710.home=@jboss710.home@
 jboss711.home=@jboss711.home@
 jboss712.home=@jboss712.home@
+jboss713.home=@jboss713.home@
 jboss720.home=@jboss720.home@
 
-# The JBoss server under test. This can be [jboss710|jboss711|jboss712|jboss720]
-jbossws.integration.target=jboss712
+# The JBoss server under test. This can be [jboss711|jboss712|jboss713|jboss720]
+jbossws.integration.target=jboss713
 
 # The JBoss settings
 jboss.bind.address=localhost
