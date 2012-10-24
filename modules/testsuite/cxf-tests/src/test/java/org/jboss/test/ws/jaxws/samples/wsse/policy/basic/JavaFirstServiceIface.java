@@ -24,13 +24,10 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
-import org.apache.cxf.annotations.Policy;
-
 @WebService
 (
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy"
 )
-@Policy(placement = Policy.Placement.BINDING, uri = "JavaFirstPolicy.xml")
 public interface JavaFirstServiceIface
 {
    @WebMethod
