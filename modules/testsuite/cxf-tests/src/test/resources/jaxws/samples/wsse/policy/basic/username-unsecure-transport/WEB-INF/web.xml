@@ -8,8 +8,16 @@
       <servlet-name>TestService</servlet-name>
       <servlet-class>org.jboss.test.ws.jaxws.samples.wsse.policy.basic.ServiceImpl</servlet-class>
    </servlet>
+   <servlet>
+      <servlet-name>JavaFirstTestService</servlet-name>
+      <servlet-class>org.jboss.test.ws.jaxws.samples.wsse.policy.basic.JavaFirstServiceImpl</servlet-class>
+   </servlet>
    <servlet-mapping>
       <servlet-name>TestService</servlet-name>
-      <url-pattern>/*</url-pattern>
+      <url-pattern>/service</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>JavaFirstTestService</servlet-name>
+      <url-pattern>/javafirst-service</url-pattern>
    </servlet-mapping>
 </web-app>

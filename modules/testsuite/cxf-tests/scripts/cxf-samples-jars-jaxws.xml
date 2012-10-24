@@ -211,6 +211,7 @@
        webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/username-unsecure-transport/WEB-INF/web.xml">
        <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/Service*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/JavaFirstService*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/ServerUsernamePasswordCallback.class"/>
        </classes>
@@ -218,8 +219,11 @@
           <include name="jaxws-endpoint-config.xml"/>
           <include name="wsdl/*"/>
        </webinf>
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/username-unsecure-transport" prefix="WEB-INF/classes">
+          <include name="JavaFirstPolicy.xml" />
+       </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security"/>
+         <attribute name="Dependencies" value="org.apache.cxf,org.apache.ws.security"/>
        </manifest>
     </war>
 

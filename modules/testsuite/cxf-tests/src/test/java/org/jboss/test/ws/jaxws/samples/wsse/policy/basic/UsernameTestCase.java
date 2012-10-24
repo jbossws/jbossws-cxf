@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -41,7 +41,8 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public final class UsernameTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-unsecure-transport";
+   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-unsecure-transport/service";
+   private final String javaFirstServiceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-unsecure-transport/javafirst-service";
 
    public static Test suite()
    {
@@ -54,7 +55,7 @@ public final class UsernameTestCase extends JBossWSTest
       URL wsdlURL = new URL(serviceURL + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
-      setupWsse(proxy, "kermit");
+      setupWsse((BindingProvider)proxy, "kermit");
       assertEquals("Secure Hello World!", proxy.sayHello());
    }
 
@@ -64,7 +65,7 @@ public final class UsernameTestCase extends JBossWSTest
       URL wsdlURL = new URL(serviceURL + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
-      setupWsse(proxy, "snoopy");
+      setupWsse((BindingProvider)proxy, "snoopy");
       try
       {
          proxy.sayHello();
@@ -76,9 +77,37 @@ public final class UsernameTestCase extends JBossWSTest
       }
    }
 
-   private void setupWsse(ServiceIface proxy, String username)
+   public void testJavaFirst() throws Exception
    {
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.USERNAME, username);
-      ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, "org.jboss.test.ws.jaxws.samples.wsse.policy.basic.UsernamePasswordCallback");
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "JavaFirstSecurityService");
+      URL wsdlURL = new URL(javaFirstServiceURL + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      JavaFirstServiceIface proxy = (JavaFirstServiceIface)service.getPort(JavaFirstServiceIface.class);
+      setupWsse((BindingProvider)proxy, "kermit");
+      assertEquals("Secure Hello World!", proxy.sayHello());
+   }
+
+   public void testJavaFirstWrongPassword() throws Exception
+   {
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "JavaFirstSecurityService");
+      URL wsdlURL = new URL(javaFirstServiceURL + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      JavaFirstServiceIface proxy = (JavaFirstServiceIface)service.getPort(JavaFirstServiceIface.class);
+      setupWsse((BindingProvider)proxy, "snoopy");
+      try
+      {
+         proxy.sayHello();
+         fail("User snoopy shouldn't be authenticated.");
+      }
+      catch (Exception e)
+      {
+         //OK
+      }
+   }
+
+   private void setupWsse(BindingProvider proxy, String username)
+   {
+      proxy.getRequestContext().put(SecurityConstants.USERNAME, username);
+      proxy.getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, "org.jboss.test.ws.jaxws.samples.wsse.policy.basic.UsernamePasswordCallback");
    }
 }
