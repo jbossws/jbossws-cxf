@@ -38,11 +38,6 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.frontend.ServerFactoryBean;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
-import org.apache.cxf.management.InstrumentationManager;
-import org.apache.cxf.management.counters.CounterRepository;
-import org.apache.cxf.management.interceptor.ResponseTimeMessageInInterceptor;
-import org.apache.cxf.management.interceptor.ResponseTimeMessageInvokerInterceptor;
-import org.apache.cxf.management.interceptor.ResponseTimeMessageOutInterceptor;
 import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.ws.common.injection.InjectionHelper;
 import org.jboss.wsf.spi.SPIProvider;
@@ -55,7 +50,6 @@ import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
 import org.jboss.wsf.stack.cxf.Messages;
-import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 
 /**
  * 
@@ -171,35 +165,6 @@ public class ServletHelper
       {
          EndpointAssociation.removeEndpoint();
          BusFactory.setThreadDefaultBus(null);
-      }
-   }
-
-   public static void registerInstrumentManger(Bus bus, ServletContext svCtx) throws ServletException
-   {
-      if (svCtx.getInitParameter(ENABLE_CXF_MANAGEMENT) != null
-            && "true".equalsIgnoreCase((String) svCtx.getInitParameter(ENABLE_CXF_MANAGEMENT)))
-      {
-         InstrumentationManagerExtImpl instrumentationManagerImpl = new InstrumentationManagerExtImpl();
-         instrumentationManagerImpl.setBus(bus);
-         instrumentationManagerImpl.setEnabled(true);
-         instrumentationManagerImpl.initMBeanServer();
-         instrumentationManagerImpl.register();
-         bus.setExtension(instrumentationManagerImpl, InstrumentationManager.class);
-
-         //attach couterRepository
-         CounterRepository couterRepository = new CounterRepository();
-         couterRepository.setBus(bus);
-         
-         
-         ResponseTimeMessageInInterceptor in = new ResponseTimeMessageInInterceptor();
-         ResponseTimeMessageInvokerInterceptor invoker = new ResponseTimeMessageInvokerInterceptor();
-         ResponseTimeMessageOutInterceptor out = new ResponseTimeMessageOutInterceptor();
-         
-         bus.getInInterceptors().add(in);
-         bus.getInInterceptors().add(invoker);
-         bus.getOutInterceptors().add(out);
-         bus.setExtension(couterRepository, CounterRepository.class); 
-
       }
    }
 }

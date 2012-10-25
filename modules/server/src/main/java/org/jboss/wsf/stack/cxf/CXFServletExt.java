@@ -68,9 +68,6 @@ public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegat
 
       //keep the bus created during deployment and update it with the information coming from the servlet config
       updateAvailableBusWithServletInfo(servletConfig);
-
-      //register the InstrumentManagementImpl
-      ServletHelper.registerInstrumentManger(bus, getServletContext());
    }
 
    private void updateAvailableBusWithServletInfo(ServletConfig servletConfig)

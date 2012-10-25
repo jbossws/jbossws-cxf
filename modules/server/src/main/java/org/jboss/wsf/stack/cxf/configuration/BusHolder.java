@@ -30,6 +30,11 @@ import org.apache.cxf.binding.soap.SoapTransportFactory;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.management.InstrumentationManager;
+import org.apache.cxf.management.counters.CounterRepository;
+import org.apache.cxf.management.interceptor.ResponseTimeMessageInInterceptor;
+import org.apache.cxf.management.interceptor.ResponseTimeMessageInvokerInterceptor;
+import org.apache.cxf.management.interceptor.ResponseTimeMessageOutInterceptor;
 import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.DestinationFactoryManager;
@@ -48,6 +53,7 @@ import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.interceptor.EnableDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
+import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 
 /**
  * A wrapper of the Bus for performing most of the configurations required on it by JBossWS
@@ -103,6 +109,7 @@ public abstract class BusHolder
       }
       
       setAdditionalWorkQueues(bus, props);
+      setCXFManagement(bus, props);
    }
    
    
@@ -196,6 +203,34 @@ public abstract class BusHolder
          for (String queueName : queuesMap.keySet()) {
             AutomaticWorkQueue q = createWorkQueue(queueName, queuesMap.get(queueName));
             mgr.addNamedWorkQueue(queueName, q);
+         }
+      }
+   }
+   
+   protected static void setCXFManagement(Bus bus, Map<String, String> props) {
+      if (props != null && !props.isEmpty()) {
+         final String p = props.get(Constants.CXF_MANAGEMENT_ENABLED);
+         if ("true".equalsIgnoreCase(p) || "1".equalsIgnoreCase(p)) {
+            InstrumentationManagerExtImpl instrumentationManagerImpl = new InstrumentationManagerExtImpl();
+            instrumentationManagerImpl.setBus(bus);
+            instrumentationManagerImpl.setEnabled(true);
+            instrumentationManagerImpl.initMBeanServer();
+            instrumentationManagerImpl.register();
+            bus.setExtension(instrumentationManagerImpl, InstrumentationManager.class);
+            CounterRepository couterRepository = new CounterRepository();
+            couterRepository.setBus(bus);
+            final String installRespTimeInterceptors = props.get(Constants.CXF_MANAGEMENT_INSTALL_RESPONSE_TIME_INTERCEPTORS);
+            if (installRespTimeInterceptors == null ||
+                  "true".equalsIgnoreCase(installRespTimeInterceptors) ||
+                  "1".equalsIgnoreCase(installRespTimeInterceptors)) {
+               ResponseTimeMessageInInterceptor in = new ResponseTimeMessageInInterceptor();
+               ResponseTimeMessageInvokerInterceptor invoker = new ResponseTimeMessageInvokerInterceptor();
+               ResponseTimeMessageOutInterceptor out = new ResponseTimeMessageOutInterceptor();
+               bus.getInInterceptors().add(in);
+               bus.getInInterceptors().add(invoker);
+               bus.getOutInterceptors().add(out);
+            }
+            bus.setExtension(couterRepository, CounterRepository.class);
          }
       }
    }

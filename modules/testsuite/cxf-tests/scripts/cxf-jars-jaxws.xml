@@ -300,6 +300,9 @@
          <include name="org/jboss/test/ws/jaxws/cxf/management/HelloWorldImpl.class" />  
          <include name="org/jboss/test/ws/jaxws/cxf/management/HelloWorld.class"/>
        </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/management/WEB-INF">
+          <include name="jboss-webservices.xml"/>
+       </webinf>
     </war>
 
     <!-- jaxws-cxf-mixtype-->
