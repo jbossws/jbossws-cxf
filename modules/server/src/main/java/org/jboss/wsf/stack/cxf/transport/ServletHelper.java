@@ -59,8 +59,6 @@ import org.jboss.wsf.stack.cxf.Messages;
  */
 public class ServletHelper
 {
-   public static final String ENABLE_CXF_MANAGEMENT = "enable.cxf.management";
-
    public static Endpoint initEndpoint(ServletConfig servletConfig, String servletName)
    {
       ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
