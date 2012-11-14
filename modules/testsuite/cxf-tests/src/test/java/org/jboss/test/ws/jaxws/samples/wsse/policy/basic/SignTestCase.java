@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -42,10 +42,11 @@ import org.jboss.wsf.test.JBossWSTest;
 public final class SignTestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-sign";
+   private final String serviceURLEJB = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-sign-ejb/SecurityService/EJBServiceImpl";
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(SignTestCase.class, "jaxws-samples-wsse-policy-sign-client.jar jaxws-samples-wsse-policy-sign.war");
+      return new JBossWSCXFTestSetup(SignTestCase.class, "jaxws-samples-wsse-policy-sign-client.jar jaxws-samples-wsse-policy-sign.war jaxws-samples-wsse-policy-sign-ejb.jar");
    }
 
    public void test() throws Exception
@@ -56,6 +57,16 @@ public final class SignTestCase extends JBossWSTest
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy);
       assertEquals("Secure Hello World!", proxy.sayHello());
+   }
+
+   public void testEJB() throws Exception
+   {
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+      URL wsdlURL = new URL(serviceURLEJB + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
+      setupWsse(proxy);
+      assertEquals("EJB Secure Hello World!", proxy.sayHello());
    }
 
    private void setupWsse(ServiceIface proxy)

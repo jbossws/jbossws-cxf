@@ -255,6 +255,25 @@
       </metainf>
     </jar>
 
+    <!-- jaxws-samples-wsse-policy-sign-ejb -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-ejb.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/EJB*.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/ServiceIface.class"/>
+      	<include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
+      	<include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/KeystorePasswordCallback.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/sign/META-INF-server">
+        <include name="jaxws-endpoint-config.xml"/>
+        <include name="wsdl/*"/>
+        <include name="bob.properties" />
+        <include name="bob.jks" />
+      </metainf>
+      <manifest>
+        <attribute name="Dependencies" value="org.apache.ws.security"/>
+      </manifest>
+    </jar>
+
     <!-- jaxws-samples-wsse-policy-sign-encrypt -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-encrypt.war"

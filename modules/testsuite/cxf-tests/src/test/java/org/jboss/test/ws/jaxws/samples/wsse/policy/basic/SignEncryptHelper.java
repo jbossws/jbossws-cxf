@@ -33,7 +33,6 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.ws.api.configuration.ClientConfigUtil;
-import org.jboss.ws.api.configuration.ClientConfigurer;
 import org.jboss.wsf.test.ClientHelper;
 
 public class SignEncryptHelper implements ClientHelper
