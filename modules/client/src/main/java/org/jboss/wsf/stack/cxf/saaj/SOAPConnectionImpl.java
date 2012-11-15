@@ -277,6 +277,7 @@ public class SOAPConnectionImpl extends SOAPConnection
              }
           }
           
+          if (ins == null) return null;
           //if inputstream is empty, no need to build
           if (ins.markSupported())
           {
