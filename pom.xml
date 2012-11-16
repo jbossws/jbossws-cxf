@@ -73,7 +73,7 @@
     <jboss713.version>7.1.3.Final</jboss713.version>
     <jboss720.version>7.2.0.Alpha1-SNAPSHOT</jboss720.version>
     <ejb.api.version>1.0.1.Final</ejb.api.version>
-    <cxf.version>2.6.3</cxf.version>
+    <cxf.version>2.7.1-SNAPSHOT</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
     <cxf.xjcplugins.version>2.6.0</cxf.xjcplugins.version>
     <jboss.common.core.version>2.2.17.GA</jboss.common.core.version>
