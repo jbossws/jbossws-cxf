@@ -21,22 +21,23 @@
  */
 package org.jboss.wsf.stack.cxf.client.serviceref;
 
-import javax.naming.Referenceable;
-
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
-import org.jboss.wsf.spi.serviceref.ServiceRefBinder;
+import org.jboss.wsf.spi.serviceref.ServiceRefFactory;
+import org.jboss.wsf.spi.serviceref.ServiceRefType;
 import org.jboss.wsf.stack.cxf.Messages;
 
 /**
- * Binds a JAXRPC Service object to the client's ENC.
- *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-final class CXFServiceRefBinderJAXRPC implements ServiceRefBinder
+final class CXFServiceRefFactoryImpl implements ServiceRefFactory
 {
    @Override
-   public Referenceable createReferenceable(final UnifiedServiceRefMetaData serviceRefUMDM)
+   public Object newServiceRef(final UnifiedServiceRefMetaData serviceRefUMDM)
    {
-      throw Messages.MESSAGES.jaxrpcServiceRefNotSupported();
+       if (serviceRefUMDM.getType() == ServiceRefType.JAXWS) {
+           return new CXFServiceObjectFactoryJAXWS().getObjectInstance(serviceRefUMDM);
+       } else {
+           throw Messages.MESSAGES.jaxrpcServiceRefNotSupported();
+       }
    }
 }

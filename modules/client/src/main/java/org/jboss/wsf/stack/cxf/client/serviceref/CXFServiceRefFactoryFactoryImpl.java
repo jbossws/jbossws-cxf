@@ -21,21 +21,16 @@
  */
 package org.jboss.wsf.stack.cxf.client.serviceref;
 
-import javax.naming.Referenceable;
-
-import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
-import org.jboss.wsf.spi.serviceref.ServiceRefBinder;
+import org.jboss.wsf.spi.serviceref.ServiceRefFactory;
+import org.jboss.wsf.spi.serviceref.ServiceRefFactoryFactory;
 
 /**
- * Binds a JAXWS Service object to the client's ENC.
- *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-final class CXFServiceRefBinderJAXWS implements ServiceRefBinder
+public final class CXFServiceRefFactoryFactoryImpl implements ServiceRefFactoryFactory
 {
-   @Override
-   public Referenceable createReferenceable(final UnifiedServiceRefMetaData serviceRefUMDM)
+   public ServiceRefFactory newServiceRefFactory()
    {
-      return new CXFServiceReferenceableJAXWS(serviceRefUMDM);
+      return new CXFServiceRefFactoryImpl();
    }
 }
