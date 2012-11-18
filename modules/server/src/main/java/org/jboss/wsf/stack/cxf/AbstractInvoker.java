@@ -88,7 +88,8 @@ import org.jboss.wsf.spi.invocation.InvocationHandler;
 public abstract class AbstractInvoker implements Invoker
 {
    private static final Object[] NO_ARGS = new Object[]{};
-   
+   private Object targetBean;
+
    public Object invoke(Exchange exchange, Object o)
    {
       // set up the webservice request context 
@@ -115,6 +116,15 @@ public abstract class AbstractInvoker implements Invoker
       }
 
       return new MessageContentsList(retObj);
+   }
+   
+   private synchronized Object getTargetBean(Endpoint ep) throws Exception
+   {
+      if (targetBean == null)
+      {
+         targetBean = ep.getTargetBeanClass().newInstance();
+      }
+      return targetBean;
    }
 
    private Object _invokeInternal(Exchange exchange, Object o, WrappedMessageContext ctx)
@@ -143,7 +153,7 @@ public abstract class AbstractInvoker implements Invoker
 
       Invocation inv = invHandler.createInvocation();
       InvocationContext invContext = inv.getInvocationContext();
-      inv.getInvocationContext().addAttachment(WebServiceContext.class, getWebServiceContext(ctx));
+      invContext.addAttachment(WebServiceContext.class, getWebServiceContext(ctx));
       invContext.addAttachment(MessageContext.class, ctx);
       inv.setJavaMethod(m);
       inv.setArgs(params);
@@ -151,6 +161,7 @@ public abstract class AbstractInvoker implements Invoker
       Object retObj = null;
       try
       {
+         invContext.setTargetBean(getTargetBean(ep)); //JBWS-2486 - JBWS-3002
          invHandler.invoke(ep, inv);
          retObj = inv.getReturnValue();
       } catch (InvocationTargetException e) {
