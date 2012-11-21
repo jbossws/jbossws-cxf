@@ -89,7 +89,7 @@ public final class SignEncryptTestCase extends JBossWSTest
       outProps.put("encryptionUser", "Bob");
       outProps.put("encryptionParts", "{Element}{http://www.w3.org/2000/09/xmldsig#}Signature;{Content}{http://schemas.xmlsoap.org/soap/envelope/}Body");
       outProps.put("encryptionSymAlgorithm", "http://www.w3.org/2001/04/xmlenc#tripledes-cbc");
-      outProps.put("encryptionKeyTransportAlgorithm", "http://www.w3.org/2001/04/xmlenc#rsa-1_5");
+      outProps.put("encryptionKeyTransportAlgorithm", "http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p");
       WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps); //request
       cxfEndpoint.getOutInterceptors().add(wssOut);
       cxfEndpoint.getOutInterceptors().add(new SAAJOutInterceptor());
