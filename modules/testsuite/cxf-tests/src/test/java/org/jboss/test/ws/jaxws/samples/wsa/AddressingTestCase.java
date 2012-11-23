@@ -23,9 +23,12 @@ package org.jboss.test.ws.jaxws.samples.wsa;
 
 import java.net.URL;
 import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
+
+import org.apache.cxf.ws.addressing.AddressingPropertiesImpl;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -57,6 +60,12 @@ public final class AddressingTestCase extends JBossWSTest
 
    public void test() throws Exception
    {
+      assertEquals("Hello World!", proxy.sayHello());
+   }
+   
+   public void testUsingWSA200408() throws Exception
+   {
+      ((BindingProvider)proxy).getRequestContext().put("javax.xml.ws.addressing.context", new AddressingPropertiesImpl("http://schemas.xmlsoap.org/ws/2004/08/addressing"));
       assertEquals("Hello World!", proxy.sayHello());
    }
    
