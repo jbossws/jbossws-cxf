@@ -656,10 +656,6 @@
 
                  <!--# [JBWS-3441] Support CDI interceptors for POJO JAX-WS services  -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3441/**</exclude>
-
-                 <!--# [CXF-4653] CXF continuations portability issue -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/continuations/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/asynch/**</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -718,10 +714,6 @@
 
                  <!--# [JBWS-3441] Support CDI interceptors for POJO JAX-WS services  -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3441/**</exclude>
-
-                 <!--# [CXF-4653] CXF continuations portability issue -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/continuations/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/asynch/**</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -780,10 +772,6 @@
 
                  <!--# [JBWS-3441] Support CDI interceptors for POJO JAX-WS services  -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3441/**</exclude>
-
-                 <!--# [CXF-4653] CXF continuations portability issue -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/continuations/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/asynch/**</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -837,10 +825,6 @@
 
                  <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
-
-                 <!--# [CXF-4653] CXF continuations portability issue -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/continuations/**</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/asynch/**</exclude>
               </excludes>
             </configuration>
           </plugin>
