@@ -29,7 +29,6 @@ import java.util.Map;
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.SOAPBinding;
 
-import org.apache.cxf.binding.soap.SoapTransportFactory;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.service.invoker.Invoker;
@@ -77,19 +76,18 @@ public class NonSpringBusHolder extends BusHolder
     * Update the Bus held by the this instance using the provided parameters.
     * This basically prepares the bus for being used with JBossWS.
     * 
-    * @param soapTransportFactory   The SoapTransportFactory to configure, if any
     * @param resolver               The ResourceResolver to configure, if any
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     * @param wsmd                   The current JBossWebservicesMetaData, if any
     */
    @Override
-   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd)
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd)
    {
       if (configured)
       {
          throw Messages.MESSAGES.busAlreadyConfigured(bus);
       }
-      super.configure(soapTransportFactory, resolver, configurer, wsmd);
+      super.configure(resolver, configurer, wsmd);
 
       for (DDEndpoint dde : metadata.getEndpoints())
       {
@@ -114,6 +112,7 @@ public class NonSpringBusHolder extends BusHolder
             addressingFeature.setResponses(dde.getAddressingResponses());
             endpoint.getFeatures().add(addressingFeature);
          }
+         endpoint.setPublishedEndpointUrl(dde.getPublishedEndpointUrl());
          endpoint.publish();
          endpoints.add(endpoint);
          if (dde.isMtomEnabled())

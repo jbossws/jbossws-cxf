@@ -64,7 +64,7 @@ public class BusHolderTest extends TestCase
       }
       BusHolder holder = new NonSpringBusHolder(new DDBeans());
       try {
-         holder.configure(null, null, null, wsmd);
+         holder.configure(null, null, wsmd);
          return holder.getBus().getExtension(PolicyEngine.class).getAlternativeSelector().getClass().getName();
       } finally {
          holder.close();

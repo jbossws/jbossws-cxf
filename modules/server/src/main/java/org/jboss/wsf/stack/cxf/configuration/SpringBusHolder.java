@@ -32,7 +32,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.binding.soap.SoapTransportFactory;
 import org.apache.cxf.bus.spring.BusApplicationContext;
 import org.apache.cxf.configuration.ConfiguredBeanLocator;
 import org.apache.cxf.configuration.Configurer;
@@ -115,20 +114,19 @@ public class SpringBusHolder extends BusHolder
     * Update the Bus held by the this instance using the provided parameters.
     * This basically prepares the bus for being used with JBossWS.
     * 
-    * @param soapTransportFactory   The SoapTransportFactory to configure, if any
     * @param resolver               The ResourceResolver to configure, if any
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     * @param dep                    The current JBossWS-SPI Deployment
     * @param wsmd                   The current JBossWebservicesMetaData, if any
     */
    @Override
-   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd)
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd)
    {
       if (configured)
       {
          throw MESSAGES.busAlreadyConfigured(ctx);
       }
-      super.configure(soapTransportFactory, resolver, configurer, wsmd);
+      super.configure(resolver, configurer, wsmd);
       if (additionalLocations != null)
       {
          for (URL jbossCxfXml : additionalLocations)

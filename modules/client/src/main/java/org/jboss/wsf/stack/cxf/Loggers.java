@@ -90,8 +90,8 @@ public interface Loggers extends BasicLogger
     void addressRewritten(String previousAddress, String address);
     
     @LogMessage(level = DEBUG)
-    @Message(id = 24038, value = "Invalid url provided, using it without rewriting: %s")
-    void invalidAddressProvidedUseItWithoutRewriting(String address);
+    @Message(id = 24038, value = "Invalid url '%s' provided, using original one without rewriting: %s")
+    void invalidAddressProvidedUseItWithoutRewriting(String newAddress, String origAddress);
     
     @LogMessage(level = TRACE)
     @Message(id = 24039, value = "Spring namespace handler resolution: unable to resolve JBossWS specific handler for namespace '%s'; trying default namespace resolution...")

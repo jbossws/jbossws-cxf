@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.binding.soap.SoapTransportFactory;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.configuration.Configurer;
@@ -37,7 +36,6 @@ import org.apache.cxf.management.interceptor.ResponseTimeMessageInvokerIntercept
 import org.apache.cxf.management.interceptor.ResponseTimeMessageOutInterceptor;
 import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
-import org.apache.cxf.transport.DestinationFactoryManager;
 import org.apache.cxf.workqueue.AutomaticWorkQueue;
 import org.apache.cxf.workqueue.AutomaticWorkQueueImpl;
 import org.apache.cxf.workqueue.WorkQueueManager;
@@ -82,12 +80,11 @@ public abstract class BusHolder
     * Update the Bus held by the this instance using the provided parameters.
     * This basically prepares the bus for being used with JBossWS.
     * 
-    * @param soapTransportFactory   The SoapTransportFactory to configure, if any
     * @param resolver               The ResourceResolver to configure, if any
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     * @param wsmd                   The current JBossWebservicesMetaData, if any
     */
-   public void configure(SoapTransportFactory soapTransportFactory, ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd)
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd)
    {
       bus.setProperty(org.jboss.wsf.stack.cxf.client.Constants.DEPLOYMENT_BUS, true);
       busHolderListener = new BusHolderLifeCycleListener();
@@ -98,7 +95,6 @@ public abstract class BusHolder
          bus.setExtension(configurer, Configurer.class);
       }
       setInterceptors(bus);
-      setSoapTransportFactory(bus, soapTransportFactory);
       setResourceResolver(bus, resolver);
       
       Map<String, String> props = (wsmd == null) ? null : wsmd.getProperties();
@@ -154,17 +150,6 @@ public abstract class BusHolder
       if (resourceResolver != null)
       {
          bus.getExtension(ResourceManager.class).addResourceResolver(resourceResolver);
-      }
-   }
-   
-   protected static void setSoapTransportFactory(Bus bus, SoapTransportFactory factory)
-   {
-      if (factory != null)
-      {
-         DestinationFactoryManager dfm = bus.getExtension(DestinationFactoryManager.class);
-         factory.setBus(bus);
-         dfm.registerDestinationFactory(org.jboss.ws.common.Constants.NS_SOAP11, factory);
-         dfm.registerDestinationFactory(org.jboss.ws.common.Constants.NS_SOAP12, factory);
       }
    }
    

@@ -45,7 +45,6 @@ import org.jboss.wsf.stack.cxf.configuration.SpringBusHolder;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.resolver.JBossWSResourceResolver;
-import org.jboss.wsf.stack.cxf.transport.SoapTransportFactoryExt;
 
 /**
  * A deployment aspect that creates the CXF Bus early and attaches it to the endpoints (wrapped in a BusHolder)
@@ -126,7 +125,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          
          Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
                new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile(), epConfigName, epConfigFile);
-         holder.configure(new SoapTransportFactoryExt(), resolver, configurer, wsmd);
+         holder.configure(resolver, configurer, wsmd);
          dep.addAttachment(BusHolder.class, holder);
       }
       finally

@@ -197,8 +197,10 @@ public class RequestHandlerImpl implements RequestHandler
          String ctxUri = req.getRequestURI();
          String baseUri = req.getRequestURL().toString() + "?" + req.getQueryString();
          EndpointInfo endpointInfo = dest.getEndpointInfo();
-         endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS,
-               ServerConfig.UNDEFINED_HOSTNAME.equals(serverConfig.getWebServiceHost()));
+         if (serverConfig.isModifySOAPAddress()) {
+            endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL,
+                  ServerConfig.UNDEFINED_HOSTNAME.equals(serverConfig.getWebServiceHost()));
+         }
 
          for (QueryHandler queryHandler : bus.getExtension(QueryHandlerRegistry.class).getHandlers())
          {

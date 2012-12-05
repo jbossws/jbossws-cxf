@@ -42,6 +42,8 @@ public class DDEndpoint
    private String id;
 
    private String address;
+   
+   private String publishedEndpointUrl;
 
    private String implementor;
 
@@ -71,6 +73,8 @@ public class DDEndpoint
    
    //additional fields
    private Class<?> epClass;
+   
+   private String annotationWsdlLocation;
    
    private int counter = 0;
 
@@ -114,6 +118,16 @@ public class DDEndpoint
       this.address = address;
    }
 
+   public String getPublishedEndpointUrl()
+   {
+      return publishedEndpointUrl;
+   }
+
+   public void setPublishedEndpointUrl(String publishedEndpointUrl)
+   {
+      this.publishedEndpointUrl = publishedEndpointUrl;
+   }
+
    public String getImplementor()
    {
       return implementor;
@@ -132,6 +146,16 @@ public class DDEndpoint
    public void setWsdlLocation(String wsdlLocation)
    {
       this.wsdlLocation = wsdlLocation;
+   }
+
+   public String getAnnotationWsdlLocation()
+   {
+      return annotationWsdlLocation;
+   }
+
+   public void setAnnotationWsdlLocation(String annotationWsdlLocation)
+   {
+      this.annotationWsdlLocation = annotationWsdlLocation;
    }
 
    public Class<?> getEpClass()
@@ -231,6 +255,10 @@ public class DDEndpoint
    {
       writer.write("<jaxws:endpoint id='" + this.id + "'");
       writer.write(" address='" + this.address + "'");
+      if (this.publishedEndpointUrl != null)
+      {
+         writer.write(" publishedEndpointUrl='" + this.publishedEndpointUrl + "'");
+      }
       writer.write(" implementor='" + this.implementor + "'");
       if (this.serviceName != null)
       {
@@ -242,7 +270,7 @@ public class DDEndpoint
       }
       if (this.wsdlLocation != null)
       {
-         writer.write(" wsdlLocationOverride='" + this.wsdlLocation + "'");
+         writer.write(" wsdlLocation='" + this.wsdlLocation + "'");
       }
       writer.write(">");
 
@@ -316,17 +344,17 @@ public class DDEndpoint
       writer.write(" " + elementName + "='" + prefix + ":" + qname.getLocalPart() + "'");
       writer.write(" xmlns:" + prefix + "='" + qname.getNamespaceURI() + "'");
    }
-
-   public String toString()
+   
+   private StringBuilder basicToString()
    {
       StringBuilder str = new StringBuilder();
       str.append("id=" + this.id);
       str.append("\n address=" + this.address);
       str.append("\n implementor=" + this.implementor);
-      str.append("\n invoker=" + this.invoker);
       str.append("\n serviceName=" + this.serviceName);
       str.append("\n portName=" + this.portName);
-      str.append("\n wsdlLocation=" + this.wsdlLocation);
+      str.append("\n annotationWsdlLocation=" + this.annotationWsdlLocation);
+      str.append("\n wsdlLocationOverride=" + this.wsdlLocation);
       str.append("\n mtomEnabled=" + this.mtomEnabled);
       if (this.handlers != null && !this.handlers.isEmpty()) {
          str.append("\n handlers=[");
@@ -335,6 +363,19 @@ public class DDEndpoint
             str.append(it.hasNext() ? "," : "]");
          }
       }
+      return str;
+   }
+   
+   public String toString()
+   {
+      return basicToString().toString();
+   }
+
+   public String toStringExtended()
+   {
+      StringBuilder str = basicToString();
+      str.append("\n publishedEndpointUrl=" + this.publishedEndpointUrl);
+      str.append("\n invoker=" + this.invoker);
       if (this.properties != null && !this.properties.isEmpty())
       {
          str.append("\n properties=[");

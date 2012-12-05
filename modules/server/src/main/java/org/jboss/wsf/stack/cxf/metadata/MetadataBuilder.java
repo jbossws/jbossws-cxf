@@ -24,6 +24,8 @@ package org.jboss.wsf.stack.cxf.metadata;
 import static org.jboss.wsf.stack.cxf.Loggers.METADATA_LOGGER;
 import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,10 +41,15 @@ import javax.xml.ws.soap.MTOM;
 import javax.xml.ws.soap.SOAPBinding;
 
 import org.jboss.ws.common.JavaUtils;
+import org.jboss.ws.common.deployment.SOAPAddressWSDLParser;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.HttpEndpoint;
+import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.wsf.spi.management.ServerConfigFactory;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
@@ -50,6 +57,7 @@ import org.jboss.wsf.spi.metadata.webservices.PortComponentMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebserviceDescriptionMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebservicesMetaData;
 import org.jboss.wsf.stack.cxf.JBossWSInvoker;
+import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
@@ -62,6 +70,8 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
  */
 public class MetadataBuilder
 {
+   private static ServerConfig serverConfig;
+   
    public MetadataBuilder()
    {
       
@@ -69,6 +79,7 @@ public class MetadataBuilder
    
    public DDBeans build(Deployment dep)
    {
+      Map<String, SOAPAddressWSDLParser> soapAddressWsdlParsers = new HashMap<String, SOAPAddressWSDLParser>();
       DDBeans dd = new DDBeans();
       for (Endpoint ep : dep.getService().getEndpoints())
       {
@@ -79,8 +90,9 @@ public class MetadataBuilder
             ddep.setInvoker(JBossWSInvoker.class.getName());
          }
          processWSDDContribution(ddep, (ArchiveDeployment)dep);
+         processAddressRewrite(ddep, (ArchiveDeployment)dep, soapAddressWsdlParsers);
 
-         METADATA_LOGGER.addingServiceEndpointMetadata(ddep);
+         METADATA_LOGGER.addingServiceEndpointMetadata(METADATA_LOGGER.isDebugEnabled() ? ddep.toStringExtended() : ddep.toString());
          dd.addEndpoint(ddep);
       }
       return dd;
@@ -209,22 +221,27 @@ public class MetadataBuilder
       
       Class<?> seiClass = null;
       String seiName;
+      boolean missingServicePortAttr = false;
 
       String name = (anWebService != null) ? anWebService.name() : "";
       if (name.length() == 0)
          name = JavaUtils.getJustClassName(sepClass);
 
       String serviceName = (anWebService != null) ? anWebService.serviceName() : anWebServiceProvider.serviceName();
-      if (serviceName.length() == 0)
+      if (serviceName.length() == 0) {
+         missingServicePortAttr = true;
          serviceName = JavaUtils.getJustClassName(sepClass) + "Service";
+      }
 
       String serviceNS = (anWebService != null) ? anWebService.targetNamespace() : anWebServiceProvider.targetNamespace();
       if (serviceNS.length() == 0)
          serviceNS = getTypeNamespace(JavaUtils.getPackageName(sepClass));
 
       String portName = (anWebService != null) ? anWebService.portName() : anWebServiceProvider.portName();
-      if (portName.length() == 0)
+      if (portName.length() == 0) {
+         missingServicePortAttr = true;
          portName = name + "Port";
+      }
       
       if (anWebService != null && anWebService.endpointInterface().length() > 0)
       {
@@ -250,6 +267,7 @@ public class MetadataBuilder
             throw MESSAGES.webserviceAnnotationSEIAttributes(seiName);
 
       }
+      final String annWsdlLocation = (anWebService != null) ? anWebService.wsdlLocation() : anWebServiceProvider.wsdlLocation();
       
       DDEndpoint result = new DDEndpoint();
       
@@ -265,7 +283,50 @@ public class MetadataBuilder
          props.put(k, ep.getProperty(k));
       }
       result.setProperties(props);
+      if (!missingServicePortAttr && annWsdlLocation.length() > 0) {
+         result.setAnnotationWsdlLocation(annWsdlLocation);
+      }
       return result;
+   }
+   
+   protected void processAddressRewrite(DDEndpoint ddep, ArchiveDeployment dep, Map<String, SOAPAddressWSDLParser> soapAddressWsdlParsers)
+   {
+      String wsdlLocation = ddep.getWsdlLocation();
+      if (wsdlLocation == null) {
+         wsdlLocation = ddep.getAnnotationWsdlLocation();
+      }
+      if (wsdlLocation != null) {
+         try {
+         URL wsdlUrl = dep.getResourceResolver().resolve(wsdlLocation);
+         
+         SOAPAddressWSDLParser parser = getCurrentSOAPAddressWSDLParser(wsdlUrl, soapAddressWsdlParsers);
+         //do not try rewriting addresses for not-http binding
+         String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
+         
+         final ServerConfig sc = getServerConfig();
+         String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc);
+         //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF do not force host/port values for
+         //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
+         //which causes CXF to override any address in the published wsdl.
+         if (!SoapAddressRewriteHelper.isAutoRewriteOn(sc)) {
+            ddep.setPublishedEndpointUrl(rewrittenWsdlAddress);
+         }
+         } catch (IOException e) {
+            throw new RuntimeException(e);
+         }
+      }
+   }
+   
+   private SOAPAddressWSDLParser getCurrentSOAPAddressWSDLParser(URL wsdlUrl, Map<String, SOAPAddressWSDLParser> soapAddressWsdlParsers) {
+      final String key = wsdlUrl.toString();
+      SOAPAddressWSDLParser parser = soapAddressWsdlParsers.get(key);
+      if (parser != null) {
+         return parser;
+      } else {
+         parser = new SOAPAddressWSDLParser(wsdlUrl);
+         soapAddressWsdlParsers.put(key, parser);
+         return parser;
+      }
    }
    
    /**
@@ -298,6 +359,16 @@ public class MetadataBuilder
       sb.append('/');
 
       return sb.toString();
+   }
+   
+   private static synchronized ServerConfig getServerConfig()
+   {
+      if (serverConfig == null)
+      {
+         SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
+         serverConfig = spiProvider.getSPI(ServerConfigFactory.class).getServerConfig();
+      }
+      return serverConfig;
    }
    
 }
