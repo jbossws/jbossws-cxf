@@ -196,4 +196,8 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = TRACE)
     @Message(id = 24089, value = "Unable to load additional configuration from %s")
     void unableToLoadAdditionalConfigurationFrom(URL url, @Cause Throwable cause);
+    
+    @LogMessage(level = DEBUG)
+    @Message(id = 24091, value = "Could not get WSDL from %s, aborting soap:address rewrite.")
+    void abortSoapAddressRewrite(String wsdlLocation, @Cause Throwable cause);
 }

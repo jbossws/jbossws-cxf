@@ -312,7 +312,7 @@ public class MetadataBuilder
             ddep.setPublishedEndpointUrl(rewrittenWsdlAddress);
          }
          } catch (IOException e) {
-            throw new RuntimeException(e);
+            METADATA_LOGGER.abortSoapAddressRewrite(wsdlLocation, e);
          }
       }
    }
