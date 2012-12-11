@@ -158,7 +158,6 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
             throw MESSAGES.differentElementExpected(handlerFile, "{" + ParserConstants.JAVAEE_NS + "}"
                   + ParserConstants.HANDLER_CHAINS, "{" + el.getNamespaceURI() + "}" + el.getLocalName());
          }
-         chain = new ArrayList<Handler>();
          Node node = el.getFirstChild();
          while (node != null) {
             if (node instanceof Element) {
