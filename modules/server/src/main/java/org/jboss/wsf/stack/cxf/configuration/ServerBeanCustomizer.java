@@ -26,13 +26,10 @@ import java.util.List;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
 import org.jboss.ws.api.annotation.EndpointConfig;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
-import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
+import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.management.ServerConfig;
-import org.jboss.wsf.spi.management.ServerConfigFactory;
 import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
 import org.jboss.wsf.spi.metadata.config.ConfigRoot;
 import org.jboss.wsf.stack.cxf.JBossWSInvoker;
@@ -48,8 +45,6 @@ import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
  */
 public class ServerBeanCustomizer extends BeanCustomizer
 {
-   private static ServerConfig serverConfig;
-   
    private WSDLFilePublisher wsdlPublisher;
 
    private List<Endpoint> depEndpoints;
@@ -139,7 +134,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
          if (configFile == null)
          {
             //use endpoint configs from AS domain
-            ServerConfig sc = getServerConfig();
+            ServerConfig sc = AbstractServerConfig.getServerIntegrationServerConfig();
             for (org.jboss.wsf.spi.metadata.config.EndpointConfig config : sc.getEndpointConfigs())
             {
                if (config.getConfigName().equals(configName))
@@ -164,17 +159,6 @@ public class ServerBeanCustomizer extends BeanCustomizer
             }
          }
       }
-   }
-   
-   private static synchronized ServerConfig getServerConfig()
-   {
-      if (serverConfig == null)
-      {
-         final ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
-         SPIProvider spiProvider = SPIProviderResolver.getInstance(cl).getProvider();
-         serverConfig = spiProvider.getSPI(ServerConfigFactory.class, cl).getServerConfig();
-      }
-      return serverConfig;
    }
    
    public void setDeploymentRoot(UnifiedVirtualFile deploymentRoot)

@@ -42,14 +42,12 @@ import javax.xml.ws.soap.SOAPBinding;
 
 import org.jboss.ws.common.JavaUtils;
 import org.jboss.ws.common.deployment.SOAPAddressWSDLParser;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.HttpEndpoint;
 import org.jboss.wsf.spi.management.ServerConfig;
-import org.jboss.wsf.spi.management.ServerConfigFactory;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
@@ -70,8 +68,6 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
  */
 public class MetadataBuilder
 {
-   private static ServerConfig serverConfig;
-   
    public MetadataBuilder()
    {
       
@@ -303,7 +299,7 @@ public class MetadataBuilder
          //do not try rewriting addresses for not-http binding
          String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
          
-         final ServerConfig sc = getServerConfig();
+         final ServerConfig sc = AbstractServerConfig.getServerIntegrationServerConfig();
          String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc);
          //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF do not force host/port values for
          //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
@@ -359,16 +355,6 @@ public class MetadataBuilder
       sb.append('/');
 
       return sb.toString();
-   }
-   
-   private static synchronized ServerConfig getServerConfig()
-   {
-      if (serverConfig == null)
-      {
-         SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-         serverConfig = spiProvider.getSPI(ServerConfigFactory.class).getServerConfig();
-      }
-      return serverConfig;
    }
    
 }

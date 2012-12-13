@@ -46,30 +46,26 @@ import org.apache.cxf.transport.http.HTTPTransportFactory;
 import org.apache.cxf.transports.http.QueryHandler;
 import org.apache.cxf.transports.http.QueryHandlerRegistry;
 import org.jboss.util.NotImplementedException;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
+import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
 import org.jboss.wsf.spi.management.ServerConfig;
-import org.jboss.wsf.spi.management.ServerConfigFactory;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 
 /**
  * A request handler
  * 
  * @author Thomas.Diesler@jboss.org
+ * @author alessio.soldano@jboss.com
  * @since 21-May-2007
  */
 public class RequestHandlerImpl implements RequestHandler
 {
-   private ServerConfig serverConfig;
-   
    RequestHandlerImpl()
    {
-      final SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-      serverConfig = spiProvider.getSPI(ServerConfigFactory.class).getServerConfig();
+      
    }
 
    public void handleHttpRequest(Endpoint ep, HttpServletRequest req, HttpServletResponse res, ServletContext context) throws ServletException, IOException
@@ -197,6 +193,7 @@ public class RequestHandlerImpl implements RequestHandler
          String ctxUri = req.getRequestURI();
          String baseUri = req.getRequestURL().toString() + "?" + req.getQueryString();
          EndpointInfo endpointInfo = dest.getEndpointInfo();
+         ServerConfig serverConfig = AbstractServerConfig.getServerIntegrationServerConfig();
          if (serverConfig.isModifySOAPAddress()) {
             endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL,
                   ServerConfig.UNDEFINED_HOSTNAME.equals(serverConfig.getWebServiceHost()));
