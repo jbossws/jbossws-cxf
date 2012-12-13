@@ -30,8 +30,14 @@ import org.jboss.wsf.spi.invocation.RequestHandler;
  */
 public class RequestHandlerFactoryImpl extends RequestHandlerFactory
 {
+   @Deprecated
    public RequestHandler newRequestHandler()
    {
       return new RequestHandlerImpl();  
+   }
+   
+   public RequestHandler getRequestHandler()
+   {
+      return RequestHandlerImpl.getInstance();  
    }
 }

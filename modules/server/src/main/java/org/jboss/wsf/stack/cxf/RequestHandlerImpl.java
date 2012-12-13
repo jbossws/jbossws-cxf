@@ -63,9 +63,20 @@ import org.jboss.wsf.stack.cxf.configuration.BusHolder;
  */
 public class RequestHandlerImpl implements RequestHandler
 {
+   private static RequestHandlerImpl me;
+   
    RequestHandlerImpl()
    {
-      
+      //NOOP
+   }
+   
+   static synchronized RequestHandlerImpl getInstance()
+   {
+      if (me == null)
+      {
+         me = new RequestHandlerImpl();
+      }
+      return me;
    }
 
    public void handleHttpRequest(Endpoint ep, HttpServletRequest req, HttpServletResponse res, ServletContext context) throws ServletException, IOException
