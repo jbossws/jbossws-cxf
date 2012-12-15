@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2009, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2012, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -65,15 +65,9 @@ public class JBossWSResourceResolver implements ResourceResolver
 
    public <T> T resolve(String resourcePath, Class<T> resourceType)
    {
-      URL url = null;
-      try
-      {
-         url = resolver.resolve(resourcePath);
-      }
-      catch (IOException ioe)
-      {
-         if (Loggers.ROOT_LOGGER.isDebugEnabled())
-            Loggers.ROOT_LOGGER.cannotResolveResource(JBossWSResourceResolver.class.getSimpleName(), resourcePath);
+      URL url = resolver.resolveFailSafe(resourcePath);
+      if (url == null && Loggers.ROOT_LOGGER.isDebugEnabled()) {
+         Loggers.ROOT_LOGGER.cannotResolveResource(JBossWSResourceResolver.class.getSimpleName(), resourcePath);
       }
       if (url != null && resourceType.isInstance(url))
       {

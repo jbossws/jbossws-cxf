@@ -41,11 +41,12 @@ public final class CXFInstanceProviderDeploymentAspect extends AbstractDeploymen
     @Override
     public void start(final Deployment dep)
     {
+       boolean springAvailable = SpringUtils.isSpringAvailable();
        for (final Endpoint ep : dep.getService().getEndpoints())
        {
           final ServerFactoryBean factory = ep.getAttachment(ServerFactoryBean.class);
          //TODO: remove this after JBWS-3396 resolved
-         if (factory == null && SpringUtils.isSpringAvailable())
+         if (factory == null && springAvailable)
          {
             throw Messages.MESSAGES.endpointNotDefineInJbwsCxf(ep.getTargetBeanName());
          }         

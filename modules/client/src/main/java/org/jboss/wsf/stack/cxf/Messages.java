@@ -169,7 +169,7 @@ public interface Messages {
     @Message(id = 24055, value = "Unsupported token type: %s")
     SecurityException unsupportedTokenType(Object tokenType);
     
-    @Message(id = 24056, value = "Could not get subject info neither from Security Token in the current message nor directly from computed SecurityContext")
+    @Message(id = 24056, value = "Could not get subject info from computed SecurityContext")
     SecurityException couldNotGetSubjectInfo();
     
     @Message(id = 24057, value = "Failed Authentication : Subject has not been created")
