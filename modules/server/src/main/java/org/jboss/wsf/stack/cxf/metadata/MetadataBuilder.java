@@ -118,67 +118,51 @@ public class MetadataBuilder
          {
             for (PortComponentMetaData portComp : wsDesc.getPortComponents())
             {
-               // We match portComp's by SEI first and portQName second
-               // In the first case the portComp may override the portQName that derives from the annotation
-               String portCompSEI = portComp.getServiceEndpointInterface();
-               boolean doesMatch = portCompSEI != null ? portCompSEI.equals(endpoint.getEpClass().getName()) : false;
-               if (!doesMatch)
-               {
-                  doesMatch = portComp.getWsdlPort().equals(endpoint.getPortName());
+               final String linkedId = portComp.getEjbLink() != null ? portComp.getEjbLink() : portComp.getServletLink();
+               final String id = endpoint.getId();
+               if (!id.equals(linkedId)) continue;
+               
+               // PortQName overrides
+               if (portComp.getWsdlPort() != null) {
+                  METADATA_LOGGER.overridePortName(id, endpoint.getPortName(), portComp.getWsdlPort());
+                  endpoint.setPortName(portComp.getWsdlPort());
+               }
+               // ServiceQName overrides
+               if (portComp.getWsdlService() != null) {
+                  METADATA_LOGGER.overrideServiceName(id, endpoint.getServiceName(), portComp.getWsdlService());
+                  endpoint.setServiceName(portComp.getWsdlService());
                }
 
-               if (doesMatch)
-               {
-                  final String id = endpoint.getId();
-                  // PortQName overrides
-                  if (portComp.getWsdlPort() != null)
-                  {
-                     METADATA_LOGGER.overridePortName(id, endpoint.getPortName(), portComp.getWsdlPort());
-                     endpoint.setPortName(portComp.getWsdlPort());
-                  }
-                  //ServiceQName overrides
-                  if (portComp.getWsdlService() != null)
-                  {
-                     METADATA_LOGGER.overrideServiceName(id, endpoint.getServiceName(), portComp.getWsdlService());
-                     endpoint.setServiceName(portComp.getWsdlService());
-                  }
-                  
-                  //HandlerChain contributions
-                  UnifiedHandlerChainsMetaData chainWrapper = portComp.getHandlerChains();
-                  if (chainWrapper != null)
-                  {
-                     endpoint.setHandlers(convertEndpointHandlers(chainWrapper.getHandlerChains()));
-                  }
+               // HandlerChain contributions
+               UnifiedHandlerChainsMetaData chainWrapper = portComp.getHandlerChains();
+               if (chainWrapper != null) {
+                  endpoint.setHandlers(convertEndpointHandlers(chainWrapper.getHandlerChains()));
+               }
 
-                  // MTOM settings
-                  if (portComp.isMtomEnabled())
-                  {
-                     METADATA_LOGGER.enableMTOM(id);
-                     endpoint.setMtomEnabled(true);
-                     endpoint.setMtomThreshold(portComp.getMtomThreshold());
-                  }
-                  
-                  //Addressing
-                  if (portComp.isAddressingEnabled()) 
-                  {
-                     METADATA_LOGGER.enableAddressing(id);
-                     endpoint.setAddressingEnabled(true);
-                     endpoint.setAddressingRequired(portComp.isAddressingRequired());
-                     endpoint.setAddressingResponses(portComp.getAddressingResponses());
-                  }
-                  //RespectBinding
-                  if (portComp.isRespectBindingEnabled()) 
-                  {
-                     METADATA_LOGGER.enableRespectBinding(id);
-                     endpoint.setRespectBindingEnabled(true);
-                  }
-                  //wsdlLocation override
-                  String wsdlFile = portComp.getWebserviceDescription().getWsdlFile();
-                  if (wsdlFile != null)
-                  {
-                     METADATA_LOGGER.overridingWsdlFileLocation(id, wsdlFile);
-                     endpoint.setWsdlLocation(wsdlFile);
-                  }
+               // MTOM settings
+               if (portComp.isMtomEnabled()) {
+                  METADATA_LOGGER.enableMTOM(id);
+                  endpoint.setMtomEnabled(true);
+                  endpoint.setMtomThreshold(portComp.getMtomThreshold());
+               }
+
+               // Addressing
+               if (portComp.isAddressingEnabled()) {
+                  METADATA_LOGGER.enableAddressing(id);
+                  endpoint.setAddressingEnabled(true);
+                  endpoint.setAddressingRequired(portComp.isAddressingRequired());
+                  endpoint.setAddressingResponses(portComp.getAddressingResponses());
+               }
+               // RespectBinding
+               if (portComp.isRespectBindingEnabled()) {
+                  METADATA_LOGGER.enableRespectBinding(id);
+                  endpoint.setRespectBindingEnabled(true);
+               }
+               // wsdlLocation override
+               String wsdlFile = portComp.getWebserviceDescription().getWsdlFile();
+               if (wsdlFile != null) {
+                  METADATA_LOGGER.overridingWsdlFileLocation(id, wsdlFile);
+                  endpoint.setWsdlLocation(wsdlFile);
                }
             }
          }
