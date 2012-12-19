@@ -97,10 +97,10 @@ public class HttpServerEngineFactory implements BusLifeCycleListener
    public synchronized HttpServerEngine createHttpServerEngine(String host, int port, String protocol)
          throws IOException
    {
+      LOG.fine("Creating HttpServer Engine for port " + port + ".");
       HttpServerEngine ref = null;
       synchronized(portMap)
       {
-         LOG.fine("Creating HttpServer Engine for port " + port + ".");
          ref = retrieveHttpServerEngine(port);
          if (null == ref)
          {
