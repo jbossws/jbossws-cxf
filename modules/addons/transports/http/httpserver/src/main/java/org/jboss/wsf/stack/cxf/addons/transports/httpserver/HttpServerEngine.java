@@ -62,23 +62,23 @@ public class HttpServerEngine
       this.host = host;
       this.port = port;
    }
-   
-   public Bus getBus()
+
+   public synchronized Bus getBus()
    {
       return bus;
    }
 
-   public String getProtocol()
+   public synchronized String getProtocol()
    {
       return protocol;
    }
 
-   public int getPort()
+   public synchronized int getPort()
    {
       return port;
    }
 
-   public String getHost()
+   public synchronized String getHost()
    {
       return host;
    }
@@ -112,7 +112,7 @@ public class HttpServerEngine
    /**
     * This method is called by the ServerEngine Factory to destroy the server
     */
-   protected void stop() throws Exception
+   protected synchronized void stop() throws Exception
    {
       if (server != null)
       {
@@ -124,7 +124,7 @@ public class HttpServerEngine
     * This method will shut down the server engine and
     * remove it from the factory's cache. 
     */
-   public void shutdown()
+   public synchronized void shutdown()
    {
       if (factory != null && handlerCount == 0)
       {
