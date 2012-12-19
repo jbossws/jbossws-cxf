@@ -67,7 +67,8 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
    {
       String deploymentName = dep.getCanonicalName();
       File wsdlFile = getPublishLocation(serviceName.getLocalPart(), deploymentName, wsdlLocation);
-      wsdlFile.getParentFile().mkdirs();
+      if (wsdlFile == null) return;
+      createParentDir(wsdlFile);
       try
       {
          // Write the wsdl def to file

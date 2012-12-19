@@ -85,7 +85,7 @@ public class DDBeans
       {
          File tmpDir = IOUtils.createTempDirectory();
          tmpFile = File.createTempFile("jbossws-cxf", ".xml", tmpDir);
-         Writer writer = new OutputStreamWriter(new FileOutputStream(tmpFile));
+         Writer writer = new OutputStreamWriter(new FileOutputStream(tmpFile), "UTF-8");
          try
          {
             writeTo(writer);
@@ -114,7 +114,7 @@ public class DDBeans
 
    public void writeTo(Writer writer) throws IOException
    {
-      writer.write("<beans " +
+      writer.write("<?xml version = \"1.0\" encoding = \"UTF-8\"?><beans " +
             "xmlns='http://www.springframework.org/schema/beans' " +
             "xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' " +
             "xmlns:beans='http://www.springframework.org/schema/beans' " +
