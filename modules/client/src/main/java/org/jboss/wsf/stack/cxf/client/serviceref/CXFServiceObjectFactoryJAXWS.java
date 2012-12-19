@@ -93,24 +93,14 @@ public final class CXFServiceObjectFactoryJAXWS extends AbstractServiceObjectFac
 
    private URL getCXFConfiguration(final UnifiedVirtualFile vfsRoot)
    {
-      URL url = null;
-      try
-      {
-         url = vfsRoot.findChild("WEB-INF/" + Constants.JBOSSWS_CXF_SPRING_DD).toURL();
-      }
-      catch (Exception e)
-      {
-      }
+      UnifiedVirtualFile uvf = vfsRoot.findChildFailSafe("WEB-INF/" + Constants.JBOSSWS_CXF_SPRING_DD);
+      URL url = (uvf != null) ? uvf.toURL() : null;
 
       if (url == null)
       {
-         try
-         {
-            url = vfsRoot.findChild("META-INF/" + Constants.JBOSSWS_CXF_SPRING_DD).toURL();
-         }
-         catch (Exception e)
-         {
-         }
+         uvf = vfsRoot.findChildFailSafe("META-INF/" + Constants.JBOSSWS_CXF_SPRING_DD);
+         if (uvf != null)
+            url = uvf.toURL();
       }
       return url;
    }

@@ -276,23 +276,22 @@ public class MetadataBuilder
          wsdlLocation = ddep.getAnnotationWsdlLocation();
       }
       if (wsdlLocation != null) {
-         try {
-         URL wsdlUrl = dep.getResourceResolver().resolve(wsdlLocation);
-         
-         SOAPAddressWSDLParser parser = getCurrentSOAPAddressWSDLParser(wsdlUrl, soapAddressWsdlParsers);
-         //do not try rewriting addresses for not-http binding
-         String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
-         
-         final ServerConfig sc = AbstractServerConfig.getServerIntegrationServerConfig();
-         String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc);
-         //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF do not force host/port values for
-         //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
-         //which causes CXF to override any address in the published wsdl.
-         if (!SoapAddressRewriteHelper.isAutoRewriteOn(sc)) {
-            ddep.setPublishedEndpointUrl(rewrittenWsdlAddress);
-         }
-         } catch (IOException e) {
-            METADATA_LOGGER.abortSoapAddressRewrite(wsdlLocation, e);
+         URL wsdlUrl = dep.getResourceResolver().resolveFailSafe(wsdlLocation);
+         if (wsdlUrl != null) {
+            SOAPAddressWSDLParser parser = getCurrentSOAPAddressWSDLParser(wsdlUrl, soapAddressWsdlParsers);
+            //do not try rewriting addresses for not-http binding
+            String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
+            
+            final ServerConfig sc = AbstractServerConfig.getServerIntegrationServerConfig();
+            String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc);
+            //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF do not force host/port values for
+            //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
+            //which causes CXF to override any address in the published wsdl.
+            if (!SoapAddressRewriteHelper.isAutoRewriteOn(sc)) {
+               ddep.setPublishedEndpointUrl(rewrittenWsdlAddress);
+            }
+         } else {
+            METADATA_LOGGER.abortSoapAddressRewrite(wsdlLocation, null);
          }
       }
    }

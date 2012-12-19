@@ -27,7 +27,6 @@ import static org.jboss.ws.common.integration.WSHelper.isJseDeployment;
 import static org.jboss.ws.common.integration.WSHelper.isWarArchive;
 import static org.jboss.wsf.stack.cxf.Loggers.DEPLOYMENT_LOGGER;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -121,17 +120,11 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
       }
 
       URL cxfURL = null;
-      try
-      {
-         // get resource URL
-         ArchiveDeployment archDep = (ArchiveDeployment)dep;
-         cxfURL = archDep.getResourceResolver().resolve(metadir + "/" + Constants.JBOSSWS_CXF_SPRING_DD);
+      //get resource URL
+      ArchiveDeployment archDep = (ArchiveDeployment)dep;
+      cxfURL = archDep.getResourceResolver().resolveFailSafe(metadir + "/" + Constants.JBOSSWS_CXF_SPRING_DD);
+      if (cxfURL != null)
          DEPLOYMENT_LOGGER.jbwscxfConfFound(cxfURL);
-      }
-      catch (IOException ignore)
-      {
-         // resource not found
-      }
       
       return cxfURL;
    }

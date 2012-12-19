@@ -99,8 +99,8 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          if (jbosswsCxfXml != null)
          {
             // Spring available and jbossws-cxf.xml provided
-            final URL cxfServletUrl = getResourceUrl(deploymentResolver, "WEB-INF/cxf-servlet.xml", false); // TODO: decide not to support this?
-            final URL jbosswsCxfUrl = getResourceUrl(deploymentResolver, jbosswsCxfXml, true);
+            final URL cxfServletUrl = deploymentResolver.resolveFailSafe("WEB-INF/cxf-servlet.xml"); // TODO: decide not to support this?
+            final URL jbosswsCxfUrl = getResourceUrl(deploymentResolver, jbosswsCxfXml);
             holder = new SpringBusHolder(cxfServletUrl, jbosswsCxfUrl);
          }
          else
@@ -135,16 +135,16 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
       }
    }
 
-   private static URL getResourceUrl(final ResourceResolver resolver, final String resourcePath, final boolean fail) {
-       try {
-           return resolver.resolve(resourcePath);
-       } catch (final IOException e) {
-           if (fail) {
-               throw new RuntimeException(e);
-           } else {
-               return null;
-           }
-       }
+   private static URL getResourceUrl(final ResourceResolver resolver, final String resourcePath)
+   {
+      try
+      {
+         return resolver.resolve(resourcePath);
+      }
+      catch (final IOException e)
+      {
+         throw new RuntimeException(e);
+      }
    }
    
 }
