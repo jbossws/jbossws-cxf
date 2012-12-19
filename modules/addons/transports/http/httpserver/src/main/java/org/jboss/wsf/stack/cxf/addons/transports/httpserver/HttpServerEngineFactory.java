@@ -79,7 +79,7 @@ public class HttpServerEngineFactory implements BusLifeCycleListener
    {
       return bus;
    }
-   
+
    /**
     * Retrieve a previously configured HttpServerEngine for the
     * given port. If none exists, this call returns null.
@@ -97,10 +97,10 @@ public class HttpServerEngineFactory implements BusLifeCycleListener
    public synchronized HttpServerEngine createHttpServerEngine(String host, int port, String protocol)
          throws IOException
    {
-      LOG.fine("Creating HttpServer Engine for port " + port + ".");
       HttpServerEngine ref = null;
       synchronized(portMap)
       {
+         LOG.fine("Creating HttpServer Engine for port " + port + ".");
          ref = retrieveHttpServerEngine(port);
          if (null == ref)
          {
@@ -116,7 +116,7 @@ public class HttpServerEngineFactory implements BusLifeCycleListener
       }
       return ref;
    }
-   
+
    /**
     * This method removes the Server Engine from the port map and stops it.
     */
@@ -145,7 +145,7 @@ public class HttpServerEngineFactory implements BusLifeCycleListener
       // do nothing here
    }
 
-   public void postShutdown()
+   public synchronized void postShutdown()
    {
       // shut down the httpserver in the portMap
       // To avoid the CurrentModificationException,
