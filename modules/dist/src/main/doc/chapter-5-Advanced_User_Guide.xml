@@ -1033,6 +1033,42 @@ public static void setThreadDefaultBus(Bus bus)
               .
             </para>
           </section>
+          <section id="sid-3866786_ApacheCXFintegration-MBeanmanagement">
+            
+            <title>MBean management</title>
+            <para>
+              Apache CXF allows managing its MBean objects that are installed into the JBoss AS MBean server. The feature is enabled on a deployment basis through the
+              <code>cxf.management.enabled</code>
+              property in
+              <code>jboss-webservices.xml</code>
+              . The
+              <code>cxf.management.installResponseTimeInterceptors</code>
+              property can also be used to control installation of CXF response time interceptors, which are added by default when enabling MBean management, but might not be desired in some cases. Here is an example:
+            </para>
+            <informalexample>
+              <programlisting>&lt;webservices xmlns="http://www.jboss.com/xml/ns/javaee" version="1.2"&gt;
+  &lt;property&gt;
+    &lt;name&gt;cxf.management.enabled&lt;/name&gt;
+    &lt;value&gt;true&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;cxf.management.installResponseTimeInterceptors&lt;/name&gt;
+    &lt;value&gt;false&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/webservices&gt;</programlisting>
+            </informalexample>
+          </section>
+          <section id="sid-3866786_ApacheCXFintegration-Schemavalidation">
+            
+            <title>Schema validation</title>
+            <para>
+              Schema validation of exchanged messages can also be enabled in
+              <code>jboss-webservices.xml</code>
+              . Further details available
+              <link linkend="sid-3866738">here</link>
+              .
+            </para>
+          </section>
         </section>
         <section id="sid-3866786_ApacheCXFintegration-Springbasedconfiguration">
           
