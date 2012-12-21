@@ -24,7 +24,51 @@ For issues that are scheduled for future versions see the road map.
 https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
 
 What's new in jbossws-cxf-${project.version}
-----------------------------------
+-------------------------------------
+
+Bug
+
+    [JBWS-3552] - @XmlJavaTypeAdapter ignored on exception classes
+    [JBWS-3568] - Registering endpoints with EndpointPublisher using same context results in DuplicateServiceException
+    [JBWS-3569] - WSDL produced for a multi-port service contains invalid port addresses in clustered configuration
+    [JBWS-3571] - SOAPAddressWSDLParser does not process wsdl imports
+    [JBWS-3579] - Fix MetadataBuilder.processWSDDContribution() port-component matching (JSR 109)
+
+Enhancement
+
+    [JBWS-3570] - Revisit and improve soap:address rewrite functionality
+    [JBWS-3580] - Optimize AbstractWSDLFilePublisher performances
+
+Feature Request
+
+    [JBWS-3561] - Allow enabling CXF MBean management in jboss-webservices.xml
+
+Task
+
+    [JBWS-3426] - Review AS7 EndpointPublisherImpl integration
+    [JBWS-3551] - Extend UnifiedVirtualFile API with no-check findChild methods
+    [JBWS-3565] - Simplify WS Ref creation process
+    [JBWS-3567] - Upgrade to Apache WSS4J 1.6.8
+    [JBWS-3572] - Upgrade to Apache CXF 2.6.4
+    [JBWS-3573] - Review Coverity reports for JBossWS projects
+    [JBWS-3576] - Centralize ServerConfig retrieval
+    [JBWS-3577] - Turn RequestHandler and LifecycleHandler into singletons
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3582
+
+This version of "${project.name}" is based on Apache CXF ${cxf.version}
+
+Enjoy,
+The JBossWS Team
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+-----------------------
+jbossws-cxf-4.1.0.Final
+-----------------------
 
 Bug
 
@@ -119,12 +163,8 @@ Errata
 
     See: https://issues.jboss.org/browse/JBWS-3559
 
-This version of ${project.name} is based on Apache CXF ${cxf.version}
+This version of JBoss Web Services - Stack CXF Distrubiton is based on Apache CXF 2.6.3
 
-Enjoy,
-The JBossWS Team
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 --------------------
 jbossws-cxf-4.0.2.GA
