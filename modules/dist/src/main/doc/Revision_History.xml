@@ -60,6 +60,20 @@
           </simplelist>
         </revdescription>
       </revision>
+      <revision>
+        <revnumber>4.1.1</revnumber>
+        <date>Fri Dec 21 2012</date>
+        <author>
+          <firstname>Alessio</firstname>
+          <surname>Soldano</surname>
+          <email>alessio.soldano@jboss.com</email>
+        </author>
+        <revdescription>
+          <simplelist>
+            <member>JBossWS-CXF 4.1.1 documentation</member>
+          </simplelist>
+        </revdescription>
+      </revision>
     </revhistory>
   </simpara>
 </appendix>
