@@ -86,8 +86,14 @@ public class DDBeans
          File tmpDir = IOUtils.createTempDirectory();
          tmpFile = File.createTempFile("jbossws-cxf", ".xml", tmpDir);
          Writer writer = new OutputStreamWriter(new FileOutputStream(tmpFile));
-         writeTo(writer);
-         writer.close();
+         try
+         {
+            writeTo(writer);
+         }
+         finally
+         {
+            writer.close();
+         }
 
          return tmpFile.toURI().toURL();
       }

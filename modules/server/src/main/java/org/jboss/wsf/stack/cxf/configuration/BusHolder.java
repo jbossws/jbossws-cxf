@@ -24,6 +24,7 @@ package org.jboss.wsf.stack.cxf.configuration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.soap.SoapTransportFactory;
@@ -178,7 +179,8 @@ public abstract class BusHolder
          Map<String, String> props = wsmd.getProperties();
          if (props != null && !props.isEmpty()) {
             Map<String, Map<String, String>> queuesMap = new HashMap<String, Map<String,String>>();
-            for (final String k : props.keySet()) {
+            for (Entry<String, String> e : props.entrySet()) {
+               String k = e.getKey();
                if (k.startsWith(Constants.CXF_QUEUE_PREFIX)) {
                   String sk = k.substring(Constants.CXF_QUEUE_PREFIX.length());
                   int i = sk.indexOf(".");
@@ -190,13 +192,14 @@ public abstract class BusHolder
                         m = new HashMap<String, String>();
                         queuesMap.put(queueName, m);
                      }
-                     m.put(queueProp, props.get(k));
+                     m.put(queueProp, e.getValue());
                   }
                }
             }
             WorkQueueManager mgr = bus.getExtension(WorkQueueManager.class);
-            for (String queueName : queuesMap.keySet()) {
-               AutomaticWorkQueue q = createWorkQueue(queueName, queuesMap.get(queueName));
+            for (Entry<String, Map<String, String>> e : queuesMap.entrySet()) {
+               final String queueName = e.getKey();
+               AutomaticWorkQueue q = createWorkQueue(queueName, e.getValue());
                mgr.addNamedWorkQueue(queueName, q);
             }
          }
@@ -235,7 +238,7 @@ public abstract class BusHolder
       this.bus = bus;
    }
    
-   private class BusHolderLifeCycleListener implements BusLifeCycleListener
+   private static class BusHolderLifeCycleListener implements BusLifeCycleListener
    {
       private volatile boolean preShutdown = false;
 

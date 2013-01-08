@@ -160,7 +160,6 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
 
             throw new WebServiceException(BundleUtils.getMessage(bundle, "HANDLER_CHAINS_ELEMENT_EXPECTED"));
          }
-         chain = new ArrayList<Handler>();
          Node node = el.getFirstChild();
          while (node != null) {
             if (node instanceof Element) {
