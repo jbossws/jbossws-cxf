@@ -69,7 +69,6 @@
     <cxf.version>2.4.10.jbossorg-1-SNAPSHOT</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
     <cxf.xjcplugins.version>2.4.0</cxf.xjcplugins.version>
-    <fastinfoset.api.version>1.2.7</fastinfoset.api.version>
     <jboss.common.core.version>2.2.17.GA</jboss.common.core.version>
     <jboss.logging.version>3.1.0.GA</jboss.logging.version>
     <jboss.security.spi.version>2.0.4.SP4</jboss.security.spi.version>
@@ -886,11 +885,6 @@
         <groupId>org.jboss.spec.javax.ejb</groupId>
         <artifactId>jboss-ejb-api_3.1_spec</artifactId>
         <version>${ejb.api.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.xml.fastinfoset</groupId>
-        <artifactId>FastInfoset</artifactId>
-        <version>${fastinfoset.api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.velocity</groupId>
