@@ -114,69 +114,54 @@ public class MetadataBuilder
          {
             for (PortComponentMetaData portComp : wsDesc.getPortComponents())
             {
-               // We match portComp's by SEI first and portQName second
-               // In the first case the portComp may override the portQName that derives from the annotation
-               String portCompSEI = portComp.getServiceEndpointInterface();
-               boolean doesMatch = portCompSEI != null ? portCompSEI.equals(endpoint.getEpClass().getName()) : false;
-               if (!doesMatch)
-               {
-                  doesMatch = portComp.getWsdlPort().equals(endpoint.getPortName());
+               final String linkedId = portComp.getEjbLink() != null ? portComp.getEjbLink() : portComp.getServletLink();
+               final String id = endpoint.getId();
+               if (!id.equals(linkedId)) continue;
+               
+               // PortQName overrides
+               if (portComp.getWsdlPort() != null) {
+                  if (log.isDebugEnabled())
+                     log.debug("Override portName " + endpoint.getPortName() + " with " + portComp.getWsdlPort());
+                  endpoint.setPortName(portComp.getWsdlPort());
+               }
+               // ServiceQName overrides
+               if (portComp.getWsdlService() != null) {
+                  if (log.isDebugEnabled())
+                     log.debug("Override serviceName " + endpoint.getServiceName() + " with " + portComp.getWsdlService());
+                  endpoint.setServiceName(portComp.getWsdlService());
                }
 
-               if (doesMatch)
-               {
-                  // PortQName overrides
-                  if (portComp.getWsdlPort() != null)
-                  {
-                     if (log.isDebugEnabled())
-                        log.debug("Override portName " + endpoint.getPortName() + " with " + portComp.getWsdlPort());
-                     endpoint.setPortName(portComp.getWsdlPort());
-                  }
-                  //ServiceQName overrides
-                  if (portComp.getWsdlService() != null)
-                  {
-                     if (log.isDebugEnabled())
-                        log.debug("Override serviceName " + endpoint.getServiceName() + " with " + portComp.getWsdlService());
-                     endpoint.setServiceName(portComp.getWsdlService());
-                  }
-                  
-                  //HandlerChain contributions
-                  UnifiedHandlerChainsMetaData chainWrapper = portComp.getHandlerChains();
-                  if (chainWrapper != null)
-                  {
-                     endpoint.setHandlers(convertEndpointHandlers(chainWrapper.getHandlerChains()));
-                  }
+               // HandlerChain contributions
+               UnifiedHandlerChainsMetaData chainWrapper = portComp.getHandlerChains();
+               if (chainWrapper != null) {
+                  endpoint.setHandlers(convertEndpointHandlers(chainWrapper.getHandlerChains()));
+               }
 
-                  // MTOM settings
-                  if (portComp.isMtomEnabled())
-                  {
-                     log.debug("Enabling MTOM");
-                     endpoint.setMtomEnabled(true);
-                     endpoint.setMtomThreshold(portComp.getMtomThreshold());
-                  }
-                  
-                  //Addressing
-                  if (portComp.isAddressingEnabled()) 
-                  {
-                      log.debug("Enabling Addressing");
-                      endpoint.setAddressingEnabled(true);
-                      endpoint.setAddressingRequired(portComp.isAddressingRequired());
-                      endpoint.setAddressingResponses(portComp.getAddressingResponses());
-                  }
-                  //RespectBinding
-                  if (portComp.isRespectBindingEnabled()) 
-                  {
-                      log.debug("RepectBinging...");
-                      endpoint.setRespectBindingEnabled(true);
-                  }
-                  //wsdlLocation override
-                  String wsdlFile = portComp.getWebserviceDescription().getWsdlFile();
-                  if (wsdlFile != null)
-                  {
-                     if (log.isDebugEnabled())
-                        log.debug("Override wsdlFile location with " + wsdlFile);
-                     endpoint.setWsdlLocation(wsdlFile);
-                  }
+               // MTOM settings
+               if (portComp.isMtomEnabled()) {
+                  log.debug("Enabling MTOM");
+                  endpoint.setMtomEnabled(true);
+                  endpoint.setMtomThreshold(portComp.getMtomThreshold());
+               }
+
+               // Addressing
+               if (portComp.isAddressingEnabled()) {
+                  log.debug("Enabling Addressing");
+                  endpoint.setAddressingEnabled(true);
+                  endpoint.setAddressingRequired(portComp.isAddressingRequired());
+                  endpoint.setAddressingResponses(portComp.getAddressingResponses());
+               }
+               // RespectBinding
+               if (portComp.isRespectBindingEnabled()) {
+                  log.debug("RepectBinging...");
+                  endpoint.setRespectBindingEnabled(true);
+               }
+               // wsdlLocation override
+               String wsdlFile = portComp.getWebserviceDescription().getWsdlFile();
+               if (wsdlFile != null) {
+                  if (log.isDebugEnabled())
+                     log.debug("Override wsdlFile location with " + wsdlFile);
+                  endpoint.setWsdlLocation(wsdlFile);
                }
             }
          }
