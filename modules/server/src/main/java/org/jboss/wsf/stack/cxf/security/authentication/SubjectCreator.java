@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.security.authentication;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.security.Principal;
 import java.util.Calendar;
 import java.util.ResourceBundle;
@@ -91,7 +93,7 @@ public class SubjectCreator
       {
          ClassLoader tccl = SecurityActions.getContextClassLoader();
          //allow PicketBox to see jbossws modules' classes
-         SecurityActions.setContextClassLoader(new DelegateClassLoader(ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader(), tccl));
+         SecurityActions.setContextClassLoader(createDelegateClassLoader(ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader(), tccl));
          try
          {
             if (ctx.isValid(principal, password, subject) == false)
@@ -165,6 +167,25 @@ public class SubjectCreator
    public void setDecodeNonce(boolean decodeNonce)
    {
       this.decodeNonce = decodeNonce;
+   }
+
+   private static DelegateClassLoader createDelegateClassLoader(final ClassLoader clientClassLoader, final ClassLoader origClassLoader)
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         return new DelegateClassLoader(clientClassLoader, origClassLoader);
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<DelegateClassLoader>()
+         {
+            public DelegateClassLoader run()
+            {
+               return new DelegateClassLoader(clientClassLoader, origClassLoader);
+            }
+         });
+      }
    }
    
    private static Calendar unmarshalDateTime(String value)

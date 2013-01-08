@@ -196,7 +196,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          }
          //then setup a new TCCL having visibility over both the client path (JBossWS
          //jaxws-client module on AS7) and the the former TCCL (i.e. the deployment classloader)
-         setContextClassLoader(new DelegateClassLoader(clientClassLoader, origClassLoader));
+         setContextClassLoader(createDelegateClassLoader(clientClassLoader, origClassLoader));
          return true;
       }
       return false;
@@ -213,6 +213,25 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          bus = BusFactory.newInstance().createBus(); //this also set thread local bus internally as it's not set yet 
       }
       return bus;
+   }
+   
+   private static DelegateClassLoader createDelegateClassLoader(final ClassLoader clientClassLoader, final ClassLoader origClassLoader)
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         return new DelegateClassLoader(clientClassLoader, origClassLoader);
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<DelegateClassLoader>()
+         {
+            public DelegateClassLoader run()
+            {
+               return new DelegateClassLoader(clientClassLoader, origClassLoader);
+            }
+         });
+      }
    }
 
    /**

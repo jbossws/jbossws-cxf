@@ -198,6 +198,7 @@
       <delete includeemptydirs="true" verbose="true">
         <fileset dir="${jboss.modules}">
           <include name="**/org/jboss/as/webservices/main/jbossws-*-resources*"/>
+          <include name="**/org/jboss/as/webservices/main/jbossws-jboss*"/>
         </fileset>
       </delete>
       <antcall target="remove-jboss-integration-module">

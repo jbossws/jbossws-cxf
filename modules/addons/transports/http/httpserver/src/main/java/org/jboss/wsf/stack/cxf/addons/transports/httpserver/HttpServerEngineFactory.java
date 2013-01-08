@@ -44,7 +44,7 @@ import org.apache.cxf.common.logging.LogUtils;
  */
 public class HttpServerEngineFactory implements BusLifeCycleListener
 {
-   private static final Logger LOG = LogUtils.getL7dLogger(HttpServerEngineFactory.class);   
+   private static final Logger LOG = LogUtils.getL7dLogger(HttpServerEngineFactory.class);
    private static Map<Integer, HttpServerEngine> portMap = new HashMap<Integer, HttpServerEngine>();
 
    private BusLifeCycleManager lifeCycleManager;
@@ -79,7 +79,7 @@ public class HttpServerEngineFactory implements BusLifeCycleListener
    {
       return bus;
    }
-   
+
    /**
     * Retrieve a previously configured HttpServerEngine for the
     * given port. If none exists, this call returns null.
@@ -116,7 +116,7 @@ public class HttpServerEngineFactory implements BusLifeCycleListener
       }
       return ref;
    }
-   
+
    /**
     * This method removes the Server Engine from the port map and stops it.
     */
@@ -145,12 +145,15 @@ public class HttpServerEngineFactory implements BusLifeCycleListener
       // do nothing here
    }
 
-   public void postShutdown()
+   public synchronized void postShutdown()
    {
       // shut down the httpserver in the portMap
-      // To avoid the CurrentModificationException, 
-      // do not use portMap.vaules directly       
-      HttpServerEngine[] engines = portMap.values().toArray(new HttpServerEngine[0]);
+      // To avoid the CurrentModificationException,
+      // do not use portMap.vaules directly
+      HttpServerEngine[] engines = null;
+      synchronized (portMap) {
+         engines = portMap.values().toArray(new HttpServerEngine[0]);
+      }
       for (HttpServerEngine engine : engines)
       {
          if (engine.getBus() == getBus())
