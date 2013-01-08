@@ -73,8 +73,8 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
    {
       try
       {
-         String userCfgFile = System.getProperty(Configurer.USER_CFG_FILE_PROPERTY_NAME);
-         String sysCfgFileUrl = System.getProperty(Configurer.USER_CFG_FILE_PROPERTY_URL);
+         String userCfgFile = SecurityActions.getSystemProperty(Configurer.USER_CFG_FILE_PROPERTY_NAME, null);
+         String sysCfgFileUrl = SecurityActions.getSystemProperty(Configurer.USER_CFG_FILE_PROPERTY_URL, null);
          Resource r = BusApplicationContext.findResource(Configurer.DEFAULT_USER_CFG_FILE);
          if (!customContextProvided && userCfgFile == null && cfgFiles == null && sysCfgFileUrl == null
                && (r == null || !r.exists()) && includeDefaults)

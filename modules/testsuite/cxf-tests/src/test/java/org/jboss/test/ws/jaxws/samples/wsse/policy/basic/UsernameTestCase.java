@@ -77,6 +77,26 @@ public final class UsernameTestCase extends JBossWSTest
       }
    }
 
+   public void testNoCBH() throws Exception
+   {
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
+      setupWsseNoCBH((BindingProvider)proxy, "kermit", "thefrog");
+      assertEquals("Secure Hello World!", proxy.sayHello());
+      setupWsseNoCBH((BindingProvider)proxy, "kermit", "wrongpassword");
+      try
+      {
+         proxy.sayHello();
+         fail("User snoopy shouldn't be authenticated.");
+      }
+      catch (Exception e)
+      {
+         //OK
+      }
+   }
+
    public void testJavaFirst() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "JavaFirstSecurityService");
@@ -109,5 +129,11 @@ public final class UsernameTestCase extends JBossWSTest
    {
       proxy.getRequestContext().put(SecurityConstants.USERNAME, username);
       proxy.getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, "org.jboss.test.ws.jaxws.samples.wsse.policy.basic.UsernamePasswordCallback");
+   }
+   
+   private void setupWsseNoCBH(BindingProvider proxy, String username, String password)
+   {
+      proxy.getRequestContext().put(SecurityConstants.USERNAME, username);
+      proxy.getRequestContext().put(SecurityConstants.PASSWORD, password);
    }
 }

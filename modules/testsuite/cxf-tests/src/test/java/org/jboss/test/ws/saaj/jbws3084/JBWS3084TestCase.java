@@ -22,22 +22,19 @@
 package org.jboss.test.ws.saaj.jbws3084;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Iterator;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.AttachmentPart;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
 import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPFactory;
 import javax.xml.soap.SOAPMessage;
 
 import junit.framework.Test;
 
-import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.wsf.test.JBossWSTest;
 
 /**
  * [JBWS-3084] Enable control of chunked encoding when using SOAPConnection.
@@ -58,7 +55,10 @@ public class JBWS3084TestCase extends JBossWSTest
 
       SOAPConnection con = conFac.createConnection();
       URL endpoint = new URL(serviceURL);
-      SOAPMessage response = con.get(endpoint);
+      MessageFactory msgFactory = MessageFactory.newInstance();
+      SOAPMessage msg = msgFactory.createMessage();
+      msg.getSOAPBody().addBodyElement(new QName("http://www.jboss.org/jbossws/saaj", "greetMe"));
+      SOAPMessage response = con.call(msg, endpoint);
       QName greetMeResp = new QName("http://www.jboss.org/jbossws/saaj", "greetMeResponse");
 
       Iterator<?> sayHiRespIterator = response.getSOAPBody().getChildElements(greetMeResp);
