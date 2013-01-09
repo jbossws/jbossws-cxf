@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -42,8 +42,6 @@ import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.metadata.MetadataBuilder;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 
-import com.ibm.wsdl.util.xml.DOMUtils;
-
 /**
  * A deployer that locates or generates cxf.xml 
  *
@@ -67,16 +65,12 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
             putCXFConfigToDeployment(dep, BusHolder.PARAM_CXF_BEANS_URL, cxfURL);
          }
       }
-      if (cxfURL == null) //no spring or no jbossws-cxf.xml
+      DDBeans dd = generateMetadataFromDeployment(dep); //metadata attached to deployment
+      //create additional DD if user provided jbossws-cxf.xml and Spring is available OR spring descriptor generation is forced
+      if (cxfURL != null || PREFER_SPRING_DESCRIPTOR_GENERATION)
       {
-         generateMetadataFromDeployment(dep);
-      }
-      else  
-      {  
-         DEPLOYMENT_LOGGER.actualConfFromFile(cxfURL);
-         DDBeans dd = generateMetadataFromDeployment(dep);
          URL generated = dd.createFileURL();
-         DEPLOYMENT_LOGGER.jbwscxfConfGenerated(cxfURL);
+         DEPLOYMENT_LOGGER.jbwscxfConfGenerated(generated);
          putCXFConfigToDeployment(dep, BusHolder.PARAM_CXF_GEN_URL, generated);
       }
    }

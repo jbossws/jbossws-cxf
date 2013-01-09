@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -65,26 +65,19 @@ public class SpringBusHolder extends BusHolder
    private boolean configured = false;
    
    protected BusApplicationContext ctx;
-   
-   protected GenericApplicationContext jbosswsCxfContext;
-
    protected List<GenericApplicationContext> additionalCtx = new LinkedList<GenericApplicationContext>();
+   
    private ConfiguredBeanLocator delegatingBeanLocator;
 
+   protected URL jbosswsCxfLocation;
    protected URL[] additionalLocations;
-   
-   protected URL jbosswsCXF; 
 
    public SpringBusHolder(URL location, URL jbosswscxf, URL... additionalLocations)
    {
       super();
       createBus(location);
-      jbosswsCXF = jbosswscxf;
+      jbosswsCxfLocation = jbosswscxf;
       this.additionalLocations = additionalLocations;
-      if (jbosswsCxfContext != null && jbosswsCxfContext.getBeanNamesForType(JBossWSSpringEndpointImpl.class).length >=1)
-      {
-          this.additionalLocations = new URL[]{};
-      }
    }
 
    /**
@@ -139,28 +132,29 @@ public class SpringBusHolder extends BusHolder
       }
       super.configure(resolver, configurer, wsmd);
       
-      if (jbosswsCXF != null) 
+      GenericApplicationContext jbosswsCxfContext = null;
+      //load stuff from provided jbossws-cxf.xml DD
+      if (jbosswsCxfLocation != null) 
       {
          try
          {
-    	    jbosswsCxfContext = loadAdditionalConfig(ctx,  jbosswsCXF);
+    	    jbosswsCxfContext = loadAdditionalConfig(ctx,  jbosswsCxfLocation);
          }
          catch (IOException e)
          {
-            DEPLOYMENT_LOGGER.unableToLoadAdditionalConfigurationFrom(jbosswsCXF, e);
+            throw MESSAGES.unableToLoadConfigurationFrom(jbosswsCxfLocation, e);
          } 
       }
       
-      
-      if (jbosswsCxfContext != null 
-            && jbosswsCxfContext.getBeansOfType(JBossWSSpringEndpointImpl.class).isEmpty() && additionalLocations != null)
+      //possibly load stuff from additional DD / DD generated from metadata if the provided jbossws-cxf.xml did not specify endpoints
+      if (additionalLocations != null &&
+            (jbosswsCxfLocation == null || jbosswsCxfContext.getBeansOfType(JBossWSSpringEndpointImpl.class).isEmpty()))
       {
-
          for (URL additionXml : additionalLocations)
          {
             try
             {
-               loadAdditionalConfig(jbosswsCxfContext, additionXml);
+               loadAdditionalConfig(jbosswsCxfLocation != null ? jbosswsCxfContext : ctx, additionXml);
             }
             catch (IOException e)
             {

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -88,7 +88,6 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          final ResourceResolver deploymentResolver = aDep.getResourceResolver();
          final org.apache.cxf.resource.ResourceResolver resolver = new JBossWSResourceResolver(deploymentResolver);
          Map<String, String> contextParams = (Map<String, String>) dep.getProperty(WSConstants.STACK_CONTEXT_PARAMS);
-         String jbosswsGenXml = contextParams == null ? null : contextParams.get(BusHolder.PARAM_CXF_GEN_URL);
          String jbosswsCxfXml = contextParams == null ? null : contextParams.get(BusHolder.PARAM_CXF_BEANS_URL);
          BusHolder holder = null;
 
@@ -102,8 +101,8 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
             // Spring available and jbossws-cxf.xml provided
             final URL cxfServletUrl = deploymentResolver.resolveFailSafe("WEB-INF/cxf-servlet.xml"); // TODO: decide not to support this?
             final URL jbosswsCxfUrl = getResourceUrl(deploymentResolver, jbosswsCxfXml);
-            final URL genCxfUrl = getResourceUrl(deploymentResolver, jbosswsGenXml);
-            holder = new SpringBusHolder(cxfServletUrl, jbosswsCxfUrl, new URL[]{genCxfUrl});
+            final URL genCxfUrl = getResourceUrl(deploymentResolver, contextParams.get(BusHolder.PARAM_CXF_GEN_URL));
+            holder = new SpringBusHolder(cxfServletUrl, jbosswsCxfUrl, genCxfUrl);
          }
          else
          {
