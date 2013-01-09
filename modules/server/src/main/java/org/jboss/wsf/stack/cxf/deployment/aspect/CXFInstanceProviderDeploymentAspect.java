@@ -44,13 +44,8 @@ public final class CXFInstanceProviderDeploymentAspect extends AbstractDeploymen
        boolean springAvailable = SpringUtils.isSpringAvailable();
        for (final Endpoint ep : dep.getService().getEndpoints())
        {
-          final ServerFactoryBean factory = ep.getAttachment(ServerFactoryBean.class);
-         //TODO: remove this after JBWS-3396 resolved
-         if (factory == null && springAvailable)
-         {
-            throw Messages.MESSAGES.endpointNotDefineInJbwsCxf(ep.getTargetBeanName());
-         }         
-         ep.setInstanceProvider(new CXFInstanceProvider(factory));
+          final ServerFactoryBean factory = ep.getAttachment(ServerFactoryBean.class);       
+          ep.setInstanceProvider(new CXFInstanceProvider(factory));
        }
     }
 

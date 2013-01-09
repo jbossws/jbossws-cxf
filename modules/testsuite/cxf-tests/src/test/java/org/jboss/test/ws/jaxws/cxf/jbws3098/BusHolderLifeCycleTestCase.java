@@ -46,9 +46,9 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
    {
       if (SpringUtils.isSpringAvailable(Thread.currentThread().getContextClassLoader()))
       {
-         simpleShutdownTest(new SpringBusHolder(null, new URL[]{}));
-         shutdownTestWithInnerShutdown(new SpringBusHolder(null, new URL[]{}));
-         shutdownTestWithNoShutdown(new SpringBusHolder(null, new URL[]{}));
+         simpleShutdownTest(new SpringBusHolder(null, null, new URL[]{}));
+         shutdownTestWithInnerShutdown(new SpringBusHolder(null, null, new URL[]{}));
+         shutdownTestWithNoShutdown(new SpringBusHolder(null, null, new URL[]{}));
       }
       else
       {

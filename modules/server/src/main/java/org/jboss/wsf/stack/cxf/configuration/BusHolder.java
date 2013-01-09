@@ -64,6 +64,8 @@ import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 public abstract class BusHolder
 {
    public static final String PARAM_CXF_BEANS_URL = "jbossws.cxf.beans.url";
+   public static final String PARAM_CXF_GEN_URL = "jbossws.cxf.gen.url";
+   
    protected Bus bus;
    protected BusHolderLifeCycleListener busHolderListener;
    

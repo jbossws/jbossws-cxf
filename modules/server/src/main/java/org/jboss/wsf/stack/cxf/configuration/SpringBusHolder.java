@@ -47,6 +47,7 @@ import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.spring.handler.NamespaceHandlerResolver;
+import org.jboss.wsf.stack.cxf.spring.parser.JaxwsEndpointDefinitionParser.JBossWSSpringEndpointImpl;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
@@ -64,17 +65,26 @@ public class SpringBusHolder extends BusHolder
    private boolean configured = false;
    
    protected BusApplicationContext ctx;
+   
+   protected GenericApplicationContext jbosswsCxfContext;
 
    protected List<GenericApplicationContext> additionalCtx = new LinkedList<GenericApplicationContext>();
    private ConfiguredBeanLocator delegatingBeanLocator;
 
    protected URL[] additionalLocations;
+   
+   protected URL jbosswsCXF; 
 
-   public SpringBusHolder(URL location, URL... additionalLocations)
+   public SpringBusHolder(URL location, URL jbosswscxf, URL... additionalLocations)
    {
       super();
-      this.additionalLocations = additionalLocations;
       createBus(location);
+      jbosswsCXF = jbosswscxf;
+      this.additionalLocations = additionalLocations;
+      if (jbosswsCxfContext != null && jbosswsCxfContext.getBeanNamesForType(JBossWSSpringEndpointImpl.class).length >=1)
+      {
+          this.additionalLocations = new URL[]{};
+      }
    }
 
    /**
@@ -106,6 +116,7 @@ public class SpringBusHolder extends BusHolder
             DEPLOYMENT_LOGGER.unableToLoadAdditionalConfigurationFrom(location, e);
          }
       }
+      
       //Force servlet transport to prevent CXF from using Jetty / http server or other transports
       bus.setExtension(new ServletDestinationFactory(), HttpDestinationFactory.class);
    }
@@ -127,17 +138,33 @@ public class SpringBusHolder extends BusHolder
          throw MESSAGES.busAlreadyConfigured(ctx);
       }
       super.configure(resolver, configurer, wsmd);
-      if (additionalLocations != null)
+      
+      if (jbosswsCXF != null) 
       {
-         for (URL jbossCxfXml : additionalLocations)
+         try
+         {
+    	    jbosswsCxfContext = loadAdditionalConfig(ctx,  jbosswsCXF);
+         }
+         catch (IOException e)
+         {
+            DEPLOYMENT_LOGGER.unableToLoadAdditionalConfigurationFrom(jbosswsCXF, e);
+         } 
+      }
+      
+      
+      if (jbosswsCxfContext != null 
+            && jbosswsCxfContext.getBeansOfType(JBossWSSpringEndpointImpl.class).isEmpty() && additionalLocations != null)
+      {
+
+         for (URL additionXml : additionalLocations)
          {
             try
             {
-               loadAdditionalConfig(ctx, jbossCxfXml);
+               loadAdditionalConfig(jbosswsCxfContext, additionXml);
             }
             catch (IOException e)
             {
-               throw MESSAGES.unableToLoadConfigurationFrom(jbossCxfXml, e);
+               throw MESSAGES.unableToLoadConfigurationFrom(additionXml, e);
             }
          }
       }
@@ -174,13 +201,13 @@ public class SpringBusHolder extends BusHolder
       return serverConfigurer;
    }
 
-   protected GenericApplicationContext loadAdditionalConfig(ApplicationContext ctx, URL locationUrl)
+   protected GenericApplicationContext loadAdditionalConfig(ApplicationContext parent , URL locationUrl)
          throws IOException
    {
       if (locationUrl == null)
          throw MESSAGES.unableToLoadAdditionalConfigFromNull();
       InputStream is = locationUrl.openStream();
-      GenericApplicationContext childCtx = new GenericApplicationContext(ctx);
+      GenericApplicationContext childCtx = new GenericApplicationContext(parent);
       additionalCtx.add(childCtx);
       XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(childCtx);
       reader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_XSD);

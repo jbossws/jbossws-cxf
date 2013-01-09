@@ -7,18 +7,9 @@
 
 	<bean id="aegisBean" class="org.apache.cxf.aegis.databinding.AegisDatabinding"
 		scope="prototype" />
-
-	<bean id="aegis-service-factory" class="org.apache.cxf.jaxws.support.JaxWsServiceFactoryBean"
-		scope="prototype">
+    <!--Test for JBWS-3396 -->
+	<bean name="{http://aegis.cxf.jaxws.ws.test.jboss.org/}AegisGroupQueryImplPort.jaxws-endpoint" abstract="true">
 		<property name="dataBinding" ref="aegisBean" />
 	</bean>
-
-	<jaxws:endpoint id='AegisGroupQueryService'
-		address='http://@jboss.bind.address@:8080/jaxws-aegis'
-		implementor='org.jboss.test.ws.jaxws.cxf.aegis.AegisGroupQueryImpl'>
-		<jaxws:serviceFactory>
-			<ref bean='aegis-service-factory' />
-		</jaxws:serviceFactory>
-	</jaxws:endpoint>
-
-</beans>
+</beans> 
+	

@@ -42,6 +42,8 @@ import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.metadata.MetadataBuilder;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 
+import com.ibm.wsdl.util.xml.DOMUtils;
+
 /**
  * A deployer that locates or generates cxf.xml 
  *
@@ -59,25 +61,23 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
       URL cxfURL = null;
       if (SpringUtils.isSpringAvailable())
       {
-         //only try reading jbossws-cxf.xml if Spring available...
          cxfURL = getCXFConfigFromDeployment(dep);
-         //... but do not generate it if it's not provided
-         //or unless it's explicitly required to be generated
-         if (cxfURL == null && PREFER_SPRING_DESCRIPTOR_GENERATION)
+         if (cxfURL != null) 
          {
-            DDBeans dd = generateMetadataFromDeployment(dep);
-            cxfURL = dd.createFileURL();
-            DEPLOYMENT_LOGGER.jbwscxfConfGenerated(cxfURL);
+            putCXFConfigToDeployment(dep, BusHolder.PARAM_CXF_BEANS_URL, cxfURL);
          }
       }
-      if (cxfURL == null)
+      if (cxfURL == null) //no spring or no jbossws-cxf.xml
       {
          generateMetadataFromDeployment(dep);
       }
-      else
-      {
+      else  
+      {  
          DEPLOYMENT_LOGGER.actualConfFromFile(cxfURL);
-         putCXFConfigToDeployment(dep, cxfURL);
+         DDBeans dd = generateMetadataFromDeployment(dep);
+         URL generated = dd.createFileURL();
+         DEPLOYMENT_LOGGER.jbwscxfConfGenerated(cxfURL);
+         putCXFConfigToDeployment(dep, BusHolder.PARAM_CXF_GEN_URL, generated);
       }
    }
 
@@ -147,11 +147,12 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
     * Puts CXF config file reference to the stack specific context properties. 
     *
     * @param dep webservice deployment
-    * @param cxfURL CXF DD URL
+    * @param key the key to put in the context parameter
+    * @param value the cxf spring configuration url to put in the context parameter
     * @see org.jboss.ws.common.integration.WSConstants.STACK_CONTEXT_PARAMS
     */
    @SuppressWarnings("unchecked")
-   private void putCXFConfigToDeployment(Deployment dep, URL cxfURL)
+   private void putCXFConfigToDeployment(Deployment dep, String key, URL value)
    {
       // get property map
       Map<String, String> contextParams = (Map<String, String>)dep.getProperty(WSConstants.STACK_CONTEXT_PARAMS);
@@ -162,7 +163,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
          dep.setProperty(WSConstants.STACK_CONTEXT_PARAMS, contextParams);
       }
       // put cxf config URL to the property map
-      contextParams.put(BusHolder.PARAM_CXF_BEANS_URL, cxfURL.toExternalForm());
+      contextParams.put(key, value.toExternalForm());
    }
 
 }
