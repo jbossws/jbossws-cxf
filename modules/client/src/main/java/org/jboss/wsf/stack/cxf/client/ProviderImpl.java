@@ -46,6 +46,7 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
+import org.jboss.ws.api.configuration.AbstractClientFeature;
 import org.jboss.ws.common.configuration.ConfigHelper;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.SPIProvider;
@@ -494,6 +495,13 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
                      helper.setupConfigHandlers(binding, config);
                      helper.setConfigProperties(client, config.getProperties());
                   }
+               }
+            }
+         }
+         if (features != null) {
+            for (WebServiceFeature f : features) {
+               if (f instanceof AbstractClientFeature) {
+                  ((AbstractClientFeature)f).initialize(port);
                }
             }
          }
