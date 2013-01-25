@@ -56,6 +56,14 @@ public class CXFClientConfigurationTestCase extends JBossWSTest
       assertEquals("1", runTestInContainer("testCustomClientConfigurationFromFile"));
    }
    
+   public void testCustomClientConfigurationFromFileUsingFeature() throws Exception {
+      assertTrue(getHelper().testCustomClientConfigurationFromFileUsingFeature());
+   }
+
+   public void testCustomClientConfigurationFromFileUsingFeatureInContainer() throws Exception {
+      assertEquals("1", runTestInContainer("testCustomClientConfigurationFromFileUsingFeature"));
+   }
+   
    /**
     * Verifies a client configuration can be changed after another one has been set
     * 
@@ -87,6 +95,10 @@ public class CXFClientConfigurationTestCase extends JBossWSTest
     */
    public void testCustomClientConfigurationInContainer() throws Exception {
       assertEquals("1", runTestInContainer("testCustomClientConfiguration"));
+   }
+   
+   public void testCustomClientConfigurationUsingFeatureInContainer() throws Exception {
+      assertEquals("1", runTestInContainer("testCustomClientConfigurationUsingFeature"));
    }
    
    // -------------------------

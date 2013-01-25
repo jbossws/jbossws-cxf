@@ -27,6 +27,7 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import org.apache.cxf.frontend.ClientProxy;
+import org.jboss.ws.api.configuration.ClientConfigFeature;
 import org.jboss.ws.api.configuration.ClientConfigUtil;
 import org.jboss.ws.api.configuration.ClientConfigurer;
 import org.jboss.wsf.test.ClientHelper;
@@ -48,6 +49,14 @@ public class Helper implements ClientHelper
       Endpoint port = (Endpoint)service.getPort(Endpoint.class);
       
       ClientConfigUtil.setConfigProperties(port, "META-INF/jaxws-client-config.xml", "Custom Client Config");
+      
+      return ClientProxy.getClient(port).getEndpoint().get("propA").equals("fileValueA");
+   }
+   
+   public boolean testCustomClientConfigurationFromFileUsingFeature() throws Exception
+   {
+      Service service = Service.create(new URL(address + "?wsdl"), serviceName);
+      Endpoint port = (Endpoint)service.getPort(Endpoint.class, new ClientConfigFeature("META-INF/jaxws-client-config.xml", "Custom Client Config", true));
       
       return ClientProxy.getClient(port).getEndpoint().get("propA").equals("fileValueA");
    }
@@ -128,6 +137,31 @@ public class Helper implements ClientHelper
          ep.put("propZ", "valueZ");
          
          ClientConfigUtil.setConfigProperties(port, null, testConfigName);
+         
+         return (ep.get("propT").equals("valueT") && ep.get("propZ").equals("valueZ"));
+      }
+      finally
+      {
+         // -- remove test client configuration --
+         TestUtils.removeTestCaseClientConfiguration(testConfigName);
+         // --
+      }
+   }
+   
+   public boolean testCustomClientConfigurationUsingFeature() throws Exception
+   {
+      final URL wsdlURL = new URL(address + "?wsdl");
+      final String testConfigName = "MyTestConfig";
+      try
+      {
+         //-- add test client configuration
+         TestUtils.addTestCaseClientConfiguration(testConfigName);
+         // --
+         
+         Service service = Service.create(wsdlURL, serviceName);
+         Endpoint port = (Endpoint)service.getPort(Endpoint.class, new ClientConfigFeature(null, testConfigName, true));
+         org.apache.cxf.endpoint.Endpoint ep = ClientProxy.getClient(port).getEndpoint();
+         ep.put("propZ", "valueZ");
          
          return (ep.get("propT").equals("valueT") && ep.get("propZ").equals("valueZ"));
       }
