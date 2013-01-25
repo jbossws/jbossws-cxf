@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -24,12 +24,34 @@ package org.jboss.wsf.stack.cxf.tools;
 import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import javax.tools.FileObject;
+import javax.tools.ForwardingJavaFileManager;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaCompiler.CompilationTask;
+import javax.tools.JavaFileManager;
+import javax.tools.JavaFileObject;
+import javax.tools.SimpleJavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.StandardLocation;
+import javax.tools.ToolProvider;
+import javax.xml.ws.spi.Provider;
+
+import org.apache.cxf.common.util.Compiler;
 import org.apache.cxf.helpers.FileUtils;
+import org.apache.cxf.tools.common.ToolConstants;
 import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.wsdlto.WSDLToJava;
 import org.jboss.ws.api.tools.WSContractConsumer;
@@ -257,7 +279,9 @@ public class CXFConsumerImpl extends WSContractConsumer
       WSDLToJava w2j = new WSDLToJava(args.toArray(new String[0]));
       try
       {
-         w2j.run(new ToolContext(), stream);
+         ToolContext ctx = new ToolContext();
+         ctx.put(ToolConstants.COMPILER, new JBossModulesAwareCompiler());
+         w2j.run(ctx, stream);
       }
       catch (Throwable t)
       {
@@ -277,6 +301,155 @@ public class CXFConsumerImpl extends WSContractConsumer
          {
             FileUtils.removeDir(sourceTempDir);
          }
+      }
+   }
+   
+   /**
+    * A CXF Compiler that installs a custom JavaFileManager to load JAXWS and JAXB apis from
+    * the proper JBoss module (the one providing the JAXWS SPI Provider) instead of from the
+    * JDK boot classpath.
+    */
+   private final class JBossModulesAwareCompiler extends Compiler
+   {
+      @Override
+      protected boolean useJava6Compiler(String[] files) throws Exception
+      {
+         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+         StandardJavaFileManager stdFileManager = compiler.getStandardFileManager(null, null, null);
+         Iterable<? extends JavaFileObject> fileList = stdFileManager.getJavaFileObjectsFromStrings(Arrays.asList(files));
+         JavaFileManager fileManager = new CustomJavaFileManager(stdFileManager);
+
+         List<String> args = new ArrayList<String>();
+         addArgs(args);
+         CompilationTask task = compiler.getTask(null, fileManager, null, args, null, fileList);
+         Boolean ret = task.call();
+         fileManager.close();
+         return ret;
+      }
+   }
+   
+   final class CustomJavaFileManager extends ForwardingJavaFileManager<JavaFileManager>
+   {
+      private ClassLoader classLoader = Provider.provider().getClass().getClassLoader();
+
+      protected CustomJavaFileManager(JavaFileManager fileManager)
+      {
+         super(fileManager);
+      }
+
+      public ClassLoader getClassLoader(Location location)
+      {
+         //TODO evaluate replacing with return new DelegateClassLoader(super.getClassLoader(location), classLoader);
+         return classLoader;
+      }
+
+      @Override
+      public FileObject getFileForInput(Location location, String packageName, String relativeName) throws IOException
+      {
+         return super.getFileForInput(location, packageName, relativeName);
+      }
+
+      @Override
+      public String inferBinaryName(Location loc, JavaFileObject file)
+      {
+         String result;
+         if (file instanceof JavaFileObjectImpl)
+            result = file.getName();
+         else
+            result = super.inferBinaryName(loc, file);
+         return result;
+      }
+
+      @Override
+      public Iterable<JavaFileObject> list(Location location, String packageName, Set<JavaFileObject.Kind> kinds, boolean recurse)
+            throws IOException
+      {
+         Iterable<JavaFileObject> result = super.list(location, packageName, kinds, recurse);
+         List<JavaFileObject> files = new ArrayList<JavaFileObject>();
+         if (location == StandardLocation.PLATFORM_CLASS_PATH && kinds.contains(JavaFileObject.Kind.CLASS))
+         {
+            List<JavaFileObject> resultFiltered = new ArrayList<JavaFileObject>();
+            for (Iterator<JavaFileObject> it = result.iterator(); it.hasNext();)
+            {
+               final JavaFileObject obj = it.next();
+               final String objName = obj.getName();
+               Class<?> clazz = null;
+               final String className = packageName + "." + objName.substring(0, objName.length() - 6);
+               try
+               {
+                  clazz = classLoader.loadClass(className);
+               }
+               catch (ClassNotFoundException cnfe)
+               {
+                  //NOOP
+               }
+               boolean added = false;
+               if (clazz != null)
+               {
+                  ClassLoader loader = clazz.getClassLoader();
+                  if (loader != null)
+                  {
+                     files.add(new JavaFileObjectImpl(className, loader));
+                     added = true;
+                  }
+               }
+               if (!added)
+               {
+                  resultFiltered.add(obj);
+               }
+            }
+            for (JavaFileObject file : resultFiltered)
+            {
+               files.add(file);
+            }
+         }
+         else
+         {
+            for (JavaFileObject file : result)
+            {
+               files.add(file);
+            }
+         }
+         return files;
+      }
+   }
+
+   final class JavaFileObjectImpl extends SimpleJavaFileObject
+   {
+
+      private ClassLoader loader;
+
+      private final String key;
+
+      JavaFileObjectImpl(String fqClassName, ClassLoader loader)
+      {
+         super(toURI(fqClassName), JavaFileObject.Kind.CLASS);
+         this.loader = loader;
+         this.key = "/" + fqClassName.replace(".", "/") + ".class";
+      }
+
+      @Override
+      public InputStream openInputStream()
+      {
+         return loader.getResourceAsStream(key);
+      }
+
+      @Override
+      public OutputStream openOutputStream()
+      {
+         throw new UnsupportedOperationException();
+      }
+   }
+
+   static URI toURI(String name)
+   {
+      try
+      {
+         return new URI(name);
+      }
+      catch (URISyntaxException e)
+      {
+         throw new RuntimeException(e);
       }
    }
 }
