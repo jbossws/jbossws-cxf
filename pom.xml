@@ -53,7 +53,7 @@
     <jbossws.jboss510.version>3.1.0-SNAPSHOT</jbossws.jboss510.version>
     -->
     <!-- END -->
-    <cxf.version>2.2.12-patch-04</cxf.version>
+    <cxf.version>2.2.12-patch-06-SNAPSHOT</cxf.version>
     <cxf.spring.version>2.5.6.SEC02</cxf.spring.version>
     <cxf.stax.version>1.0.1</cxf.stax.version>
     <cxf.asm.version>3.1</cxf.asm.version>
