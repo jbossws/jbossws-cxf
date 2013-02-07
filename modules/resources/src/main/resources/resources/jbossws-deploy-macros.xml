@@ -142,11 +142,6 @@
           <exclude name="**/spring/**/module.xml"/>
         </fileset>
       </installModules>
-      <copy toDir="@{targetdir}">
-        <fileset dir="@{thirdpartydir}/modules/@{modules-jbossid}">
-          <include name="**/jboss/as/webservices/**/module.xml"/>
-        </fileset>
-      </copy>
     </sequential>
   </macrodef>
 
@@ -164,7 +159,7 @@
   <target name="deploy-jbossws-cxf-modules">
     <fail message="installserver must be specified" unless="installserver"/>
     <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
-    <macro-deploy-jbossws-modules targetdir="${installserver}/modules" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}" modules-jbossid="${modules-jbossid}"/>
+    <macro-deploy-jbossws-modules targetdir="${installserver}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}" modules-jbossid="${modules-jbossid}"/>
   </target>
 	
   <!-- ================================================================== -->
@@ -194,7 +189,7 @@
   <target name="deploy-spring-module">
   	<fail message="installserver must be specified" unless="installserver"/>
     <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
-  	<macro-install-spring-modules targetdir="${installserver}/modules" thirdpartydir="${thirdpartydir}" modules-jbossid="${modules-jbossid}"/>
+  	<macro-install-spring-modules targetdir="${installserver}" thirdpartydir="${thirdpartydir}" modules-jbossid="${modules-jbossid}"/>
   </target>
 
   <!-- ================================================================== -->
@@ -207,24 +202,23 @@
   	<attribute name="modifyjbossintegration"/>
   	
     <sequential>
-      <loadfile property="jbossws.modules.conf" srcfile="@{targetdir}/modules/org/jboss/as/webservices/jbossws-modules.conf" failonerror="false"/>
+      <loadfile property="jbossws.modules.conf" srcfile="@{targetdir}/org/jboss/as/webservices/jbossws-modules.conf" failonerror="false"/>
       <loadfile property="jbossws.modules.conf" srcfile="@{defaultmodulesconf}" failonerror="false"/>
 
-      <property name="jboss.modules" value="@{targetdir}/modules"/>
-
       <delete includeemptydirs="true" verbose="true">
-        <fileset dir="${jboss.modules}">
+        <fileset dir="@{targetdir}">
           <include name="**/org/jboss/as/webservices/main/jbossws-*-resources*"/>
           <include name="**/org/jboss/as/webservices/main/jbossws-jboss*"/>
         </fileset>
       </delete>
+      <property name="jboss.modules" value="@{targetdir}"/>
       <antcall target="remove-jboss-integration-module">
         <param name="modifyjbossintegration" value="@{modifyjbossintegration}"/>
       </antcall>
 
       <!-- delete content of last deployment -->
       <delete includeemptydirs="true" verbose="true">
-        <fileset dir="${jboss.modules}" includes="${jbossws.modules.conf}"/>
+        <fileset dir="@{targetdir}" includes="${jbossws.modules.conf}"/>
       </delete>
     </sequential>
   </macrodef>

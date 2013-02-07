@@ -46,11 +46,16 @@
       </fileset>
     </jandex>
     <antcall target="deploy-jbossws-cxf-modules" inheritall="false">
-      <param name="installserver" value="${deploy.structure}"/>
+      <param name="installserver" value="${deploy.structure}/modules"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
       <param name="jbossid" value="${jbossws.integration.target}"/>
       <param name="modules-jbossid" value="jboss710"/>
     </antcall>
+  	<copy toDir="${deploy.structure}/modules">
+      <fileset dir="${deploy.artifacts.dir}/modules/jboss710">
+        <include name="**/jboss/as/webservices/**/module.xml"/>
+      </fileset>
+    </copy>
   </target>
 
   <!-- ================================================================== -->
@@ -79,7 +84,7 @@
 
   <target name="undeploy-jboss711" depends="target-jboss711,init" description="Remove jbossws from jboss711">
     <fail message="Not available: ${jboss711.available.file}" unless="jboss711.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${jboss711.home}" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
+    <macro-undeploy-jbossws-modules targetdir="${jboss711.home}/modules" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
   </target>
 
   <!-- ================================================================== -->
@@ -108,7 +113,7 @@
 
   <target name="undeploy-jboss712" depends="target-jboss712,init" description="Remove jbossws from jboss712">
     <fail message="Not available: ${jboss712.available.file}" unless="jboss712.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${jboss712.home}" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
+    <macro-undeploy-jbossws-modules targetdir="${jboss712.home}/modules" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
   </target>
 
   <!-- ================================================================== -->
@@ -137,7 +142,7 @@
 
   <target name="undeploy-jboss713" depends="target-jboss713,init" description="Remove jbossws from jboss713">
     <fail message="Not available: ${jboss713.available.file}" unless="jboss713.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${jboss713.home}" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
+    <macro-undeploy-jbossws-modules targetdir="${jboss713.home}/modules" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
   </target>
 
   <!-- ================================================================== -->
@@ -162,11 +167,16 @@
       </fileset>
     </jandex>
     <antcall target="deploy-jbossws-cxf-modules" inheritall="false">
-      <param name="installserver" value="${deploy.structure}"/>
+      <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
       <param name="jbossid" value="${jbossws.integration.target}"/>
       <param name="modules-jbossid" value="jboss720"/>
     </antcall>
+  	<copy toDir="${deploy.structure}/modules/system/layers/base">
+      <fileset dir="${deploy.artifacts.dir}/modules/jboss720">
+        <include name="**/jboss/as/webservices/**/module.xml"/>
+      </fileset>
+    </copy>
   </target>
 
   <!-- ================================================================== -->
@@ -186,8 +196,8 @@
       </fileset>
     </copy>
     <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
-    <installModules targetDir="${jboss720.home}/modules">
-      <fileset dir="${deploy.structure}/modules">
+    <installModules targetDir="${jboss720.home}/modules/system/layers/base/">
+      <fileset dir="${deploy.structure}/modules/system/layers/base">
         <include name="**/jboss/as/webservices/**/module.xml"/>
       </fileset>
     </installModules>
@@ -195,7 +205,7 @@
 
   <target name="undeploy-jboss720" depends="target-jboss720,init" description="Remove jbossws from jboss720">
     <fail message="Not available: ${jboss720.available.file}" unless="jboss720.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${jboss720.home}" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
+    <macro-undeploy-jbossws-modules targetdir="${jboss720.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
   </target>
 
   <!-- ================================================================== -->
@@ -211,7 +221,7 @@
 
   <target name="install-spring-module71x" if="spring-required">
     <antcall target="deploy-spring-module" inheritall="false">
-      <param name="installserver" value="${deploy.structure}"/>
+      <param name="installserver" value="${deploy.structure}/modules"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
       <param name="modules-jbossid" value="jboss710"/>
     </antcall>
@@ -219,7 +229,7 @@
 
   <target name="install-spring-module72x" if="spring-required">
     <antcall target="deploy-spring-module" inheritall="false">
-      <param name="installserver" value="${deploy.structure}"/>
+      <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
       <param name="modules-jbossid" value="jboss720"/>
     </antcall>
