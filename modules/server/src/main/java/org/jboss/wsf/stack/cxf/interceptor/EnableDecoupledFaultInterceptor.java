@@ -27,8 +27,8 @@ import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.addressing.soap.MAPCodec;
 
 /**
- * This intercetpor adds the context property decoupled_fault_support
- * to enable decoupled faultTo. This is an optinal feature in cxf and we
+ * This interceptor adds the context property decoupled_fault_support
+ * to enable decoupled faultTo. This is an optional feature in cxf and we
  * need this to be default to make it same behavior with native stack.
  * @author <a href="mailto:ema@redhat.com>Jim Ma</a>
  */

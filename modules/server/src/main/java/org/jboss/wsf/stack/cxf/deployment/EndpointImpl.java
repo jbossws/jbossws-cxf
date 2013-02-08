@@ -28,7 +28,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
