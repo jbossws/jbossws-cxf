@@ -318,7 +318,10 @@ public class CXFConsumerImpl extends WSContractConsumer
 
    final class CustomJavaFileManager extends ForwardingJavaFileManager<JavaFileManager>
    {
-      private ClassLoader classLoader = Provider.provider().getClass().getClassLoader();
+      private ClassLoader classLoader = new ClassLoader(Provider.provider().getClass().getClassLoader())
+      {
+         //just prevent the classloader from being Closeable, as URLClassloader implements Closeable since JDK 1.7 u12 b08
+      };
 
       protected CustomJavaFileManager(JavaFileManager fileManager)
       {
