@@ -27,6 +27,8 @@ import org.jboss.ws.common.integration.AbstractDeploymentAspect;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.stack.cxf.CXFInstanceProvider;
+import org.jboss.wsf.stack.cxf.Messages;
+import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 
 
 /**
@@ -39,6 +41,7 @@ public final class CXFInstanceProviderDeploymentAspect extends AbstractDeploymen
     @Override
     public void start(final Deployment dep)
     {
+       boolean springAvailable = SpringUtils.isSpringAvailable();
        for (final Endpoint ep : dep.getService().getEndpoints())
        {
           final ServerFactoryBean factory = ep.getAttachment(ServerFactoryBean.class);
