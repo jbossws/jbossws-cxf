@@ -24,7 +24,6 @@ package org.jboss.wsf.stack.cxf.metadata;
 import static org.jboss.wsf.stack.cxf.Loggers.METADATA_LOGGER;
 import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;

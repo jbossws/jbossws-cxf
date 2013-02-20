@@ -3,12 +3,12 @@
 #
 
 # Optional JBoss Home
-jboss711.home=@jboss711.home@
 jboss712.home=@jboss712.home@
 jboss713.home=@jboss713.home@
 jboss720.home=@jboss720.home@
+jboss800.home=@jboss800.home@
 
-# The JBoss server under test. This can be [jboss711|jboss712|jboss713|jboss720]
+# The JBoss server under test. This can be [jboss712|jboss713|jboss720|jboss800]
 jbossws.integration.target=jboss713
 
 # The JBoss settings

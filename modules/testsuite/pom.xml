@@ -605,65 +605,6 @@
     </profile>
 
     <!--
-    Name:  jboss711
-    Descr: JBoss-7.1.1 specific options
-    -->
-    <profile>
-      <id>jboss711</id>
-      <properties>
-        <jboss.version>${jboss711.version}</jboss.version>
-        <jbossws.integration.target>jboss711</jbossws.integration.target>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss711-tests-integration</artifactId>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <compilerArguments>
-                <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-              </compilerArguments>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
-              <excludes>
-                 <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
-
-                 <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
-
-                 <!--# [JBWS-2561] XOP request not properly inlined-->
-                 <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
-
-                 <!--# [JBWS-2480] Soap attachments are dropped on server response-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
-
-                 <!-- # [JBWS-3493] WS-Trust tests w/ PicketLink STS require PL 2.1.2.Final or greater -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/PicketLinkSTService*</exclude>
-
-                 <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
-
-                 <!--# [JBWS-3441] Support CDI interceptors for POJO JAX-WS services  -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws3441/**</exclude>
-              </excludes>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!--
     Name:  jboss712
     Descr: JBoss-7.1.2 specific options
     -->
@@ -788,6 +729,58 @@
       <properties>
         <jboss.version>${jboss720.version}</jboss.version>
         <jbossws.integration.target>jboss720</jbossws.integration.target>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-jboss720-tests-integration</artifactId>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <compilerArguments>
+                <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+              </compilerArguments>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
+              <excludes>
+                 <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
+
+                 <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
+
+                 <!--# [JBWS-2561] XOP request not properly inlined-->
+                 <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
+
+                 <!--# [JBWS-2480] Soap attachments are dropped on server response-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
+
+                 <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+    Name:  jboss800
+    Descr: JBoss-8.0.0 specific options
+    -->
+    <profile>
+      <id>jboss800</id>
+      <properties>
+        <jboss.version>${jboss800.version}</jboss.version>
+        <jbossws.integration.target>jboss800</jbossws.integration.target>
       </properties>
       <dependencies>
         <dependency>

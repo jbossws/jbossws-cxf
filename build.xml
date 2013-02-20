@@ -68,9 +68,6 @@
       <arg line="${maven.opts} help:effective-settings"/>
     </exec>
     <xmlproperty file="${dist.output.dir}/effective-settings.xml" keeproot="false"/>
-    <condition property="jboss711.home" value="${profiles.profile.properties.jboss711.home}">
-      <isset property="profiles.profile.properties.jboss711.home"/>
-    </condition>
     <condition property="jboss712.home" value="${profiles.profile.properties.jboss712.home}">
       <isset property="profiles.profile.properties.jboss712.home"/>
     </condition>
@@ -80,14 +77,14 @@
     <condition property="jboss720.home" value="${profiles.profile.properties.jboss720.home}">
       <isset property="profiles.profile.properties.jboss720.home"/>
     </condition>
+    <condition property="jboss800.home" value="${profiles.profile.properties.jboss800.home}">
+      <isset property="profiles.profile.properties.jboss800.home"/>
+    </condition>
 
 
-    <fail message="jboss home not set, use jboss711.home=value, jboss712.home=value, jboss713.home=value or jboss720.home=value to set">
+    <fail message="jboss home not set, jboss712.home=value, jboss713.home=value, jboss720.home=value or jboss800.home=value to set">
      <condition>
       <and>
-       <not>
-         <isset property="jboss711.home"/>
-       </not>
        <not>
          <isset property="jboss712.home"/>
        </not>
@@ -97,15 +94,18 @@
        <not>
          <isset property="jboss720.home"/>
        </not>
+       <not>
+         <isset property="jboss800.home"/>
+       </not>
       </and>
      </condition>
     </fail>
 
     <echo/>
-    <echo message="jboss711.home=${jboss711.home}"/>
     <echo message="jboss712.home=${jboss712.home}"/>
     <echo message="jboss713.home=${jboss713.home}"/>
     <echo message="jboss720.home=${jboss720.home}"/>
+    <echo message="jboss800.home=${jboss800.home}"/>
   </target>
 
   <target name="init" depends="mvn-settings,prepare,os-init">
