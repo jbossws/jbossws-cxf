@@ -28,15 +28,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 import javax.xml.ws.Binding;
 import javax.xml.ws.BindingProvider;
+import javax.xml.ws.Dispatch;
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.EndpointContext;
 import javax.xml.ws.EndpointReference;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.WebServiceFeature;
+import javax.xml.ws.Service.Mode;
 import javax.xml.ws.spi.Invoker;
 import javax.xml.ws.spi.ServiceDelegate;
 
@@ -44,6 +47,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.jaxws.DispatchImpl;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.jboss.ws.api.configuration.AbstractClientFeature;
@@ -480,11 +484,28 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          super(b, url, name, cls, f);
       }
       
+      @Override
       protected <T> T createPort(QName portName, EndpointReferenceType epr, Class<T> serviceEndpointInterface, 
             WebServiceFeature... features) {
          T port = super.createPort(portName, epr, serviceEndpointInterface, features);
-         Binding binding = ((BindingProvider)port).getBinding();
-         Client client = ClientProxy.getClient(port);
+         setupClient(port, features);
+         return port;
+      }
+      
+      @Override
+      public <T> Dispatch<T> createDispatch(QName portName,
+            Class<T> type,
+            JAXBContext context,
+            Mode mode,
+            WebServiceFeature... features) {
+         Dispatch<T> dispatch = super.createDispatch(portName, type, context, mode, features);
+         setupClient(dispatch, features);
+         return dispatch;
+      }
+      
+      protected void setupClient(Object obj, WebServiceFeature... features) {
+         Binding binding = ((BindingProvider)obj).getBinding();
+         Client client = obj instanceof DispatchImpl<?> ? ((DispatchImpl<?>)obj).getClient() : ClientProxy.getClient(obj);
          client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
          if (jbossModulesEnv) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
             ServerConfig sc = getServerConfig();
@@ -501,13 +522,11 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          if (features != null) {
             for (WebServiceFeature f : features) {
                if (f instanceof AbstractClientFeature) {
-                  ((AbstractClientFeature)f).initialize(port);
+                  ((AbstractClientFeature)f).initialize(obj);
                }
             }
          }
-         return port;
       }
-      
    }
    
    //lazy get the server config (and try once per classloader only)

@@ -27,6 +27,7 @@ import java.util.Set;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.jaxws.DispatchImpl;
 import org.jboss.ws.common.configuration.ConfigHelper;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 
@@ -42,15 +43,20 @@ public class CXFClientConfigurer extends ConfigHelper
    private static final String JBOSSWS_CXF_CLIENT_CONF_PROPS = "jbossws.cxf.client.conf.props";
    
    @Override
-   public void setConfigProperties(Object proxy, String configFile, String configName) {
+   public void setConfigProperties(Object client, String configFile, String configName) {
       ClientConfig config = readConfig(configFile, configName);
-      Client client = ClientProxy.getClient(proxy);
-      cleanupPreviousProps(client);
+      Client cxfClient;
+      if (client instanceof DispatchImpl<?>) {
+         cxfClient = ((DispatchImpl<?>)client).getClient();
+      } else {
+         cxfClient = ClientProxy.getClient(client);
+      }
+      cleanupPreviousProps(cxfClient);
       Map<String, String> props = config.getProperties();
       if (props != null && !props.isEmpty()) {
-         savePropList(client, props);
+         savePropList(cxfClient, props);
       }
-      setConfigProperties(client, props);
+      setConfigProperties(cxfClient, props);
    }
    
    public void setConfigProperties(Client client, Map<String, String> properties) {
