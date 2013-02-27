@@ -32,7 +32,7 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>4.2.0-SNAPSHOT</version>
+  <version>4.2.0.Alpha1</version>
   
   <!-- Parent -->
   <parent>
@@ -43,9 +43,9 @@
   
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/trunk</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/trunk</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/trunk</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.2.0.Alpha1</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.2.0.Alpha1</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/tags/jbossws-cxf-4.2.0.Alpha1</url>
   </scm>
   
   <!-- Modules -->
@@ -59,21 +59,21 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.api.version>1.0.2-SNAPSHOT</jbossws.api.version>
-    <jbossws.spi.version>2.2.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>2.2.0-SNAPSHOT</jbossws.common.version>
+    <jbossws.api.version>1.0.2.Alpha1</jbossws.api.version>
+    <jbossws.spi.version>2.1.1.Final</jbossws.spi.version>
+    <jbossws.common.version>2.1.1.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.1.0.Final</jbossws.common.tools.version>
-    <jbossws.shared.testsuite.version>4.2.0-SNAPSHOT</jbossws.shared.testsuite.version>
+    <jbossws.shared.testsuite.version>4.2.0.Alpha1</jbossws.shared.testsuite.version>
     <jbossws.jboss712.version>4.1.1.Final</jbossws.jboss712.version>
     <jbossws.jboss713.version>4.1.1.Final</jbossws.jboss713.version>
-    <jbossws.jboss720.version>4.2.0-SNAPSHOT</jbossws.jboss720.version>
+    <jbossws.jboss720.version>4.2.0.Alpha1</jbossws.jboss720.version>
     <jbossws.native.version>4.1.1.Final</jbossws.native.version>
     <jboss712.version>7.1.2.Final</jboss712.version>
     <jboss713.version>7.1.3.Final</jboss713.version>
     <jboss720.version>7.2.0.Final</jboss720.version>
     <jboss800.version>8.0.0.Alpha1-SNAPSHOT</jboss800.version>
     <ejb.api.version>1.0.1.Final</ejb.api.version>
-    <cxf.version>2.7.3-SNAPSHOT</cxf.version>
+    <cxf.version>2.7.3</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
     <cxf.xjcplugins.version>2.6.0</cxf.xjcplugins.version>
     <jboss.common.core.version>2.2.17.GA</jboss.common.core.version>
