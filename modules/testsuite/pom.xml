@@ -765,6 +765,9 @@
 
                  <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
+
+                 <!-- # [PLFED-390] PicketLink STS chokes on WS-Policy 1.5 tags -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -818,6 +821,9 @@
 
                  <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
+
+                 <!-- # [PLFED-390] PicketLink STS chokes on WS-Policy 1.5 tags -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
