@@ -151,7 +151,7 @@ public class Helper implements ClientHelper
       }
       catch (Throwable t)
       {
-         if (!springInAS && (t instanceof NoClassDefFoundError) && t.getMessage().contains("org/springframework"))
+         if (!springInAS && (t instanceof NoClassDefFoundError) && t.getMessage().contains("springframework"))
          {
             //Spring is not installed on AS, so the SpringBus can't be created - fine
             return true;
