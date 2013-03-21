@@ -234,25 +234,27 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
          }
          for (String ep : endpoints)
          {
-            Class<?> clazz = cl.loadClass(ep);
-            String wl = null;
-            if (clazz.isAnnotationPresent(WebService.class)) {
-               WebService wsa = clazz.getAnnotation(WebService.class);
-               wl = wsa.wsdlLocation();
-               String epIf = wsa.endpointInterface();
-               if(epIf != null && !epIf.isEmpty()) {
-                  Class<?> epIfClass = cl.loadClass(epIf);
-                  WebService epIfWsa = epIfClass.getAnnotation(WebService.class);
-                  if (epIfWsa != null && epIfWsa.wsdlLocation() != null && !epIfWsa.wsdlLocation().isEmpty()) {
-                     wl = epIfWsa.wsdlLocation();
+            if (!ep.startsWith("#")) {
+               Class<?> clazz = cl.loadClass(ep);
+               String wl = null;
+               if (clazz.isAnnotationPresent(WebService.class)) {
+                  WebService wsa = clazz.getAnnotation(WebService.class);
+                  wl = wsa.wsdlLocation();
+                  String epIf = wsa.endpointInterface();
+                  if(epIf != null && !epIf.isEmpty()) {
+                     Class<?> epIfClass = cl.loadClass(epIf);
+                     WebService epIfWsa = epIfClass.getAnnotation(WebService.class);
+                     if (epIfWsa != null && epIfWsa.wsdlLocation() != null && !epIfWsa.wsdlLocation().isEmpty()) {
+                        wl = epIfWsa.wsdlLocation();
+                     }
                   }
+               } else {
+                  WebServiceProvider wsp = clazz.getAnnotation(WebServiceProvider.class);
+                  wl = wsp.wsdlLocation();
                }
-            } else {
-               WebServiceProvider wsp = clazz.getAnnotation(WebServiceProvider.class);
-               wl = wsp.wsdlLocation();
-            }
-            if (wl != null && !wl.trim().isEmpty()) {
-               wsdlLocations.add(wl);
+               if (wl != null && !wl.trim().isEmpty()) {
+                  wsdlLocations.add(wl);
+               }
             }
          }
          //then check wsdl files for contract first endpoints
@@ -296,6 +298,14 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
                   else if (search && StAXUtils.match(reader, searchNS, searchLocalName))
                   {
                      endpoints.add(reader.getAttributeValue(null, searchAttributeName).trim());
+                  }
+                  
+                  else if (search && StAXUtils.match(reader, "http://www.springframework.org/schema/beans", "bean"))
+                  {
+                     if (reader.getAttributeValue(null, "id") != null)
+                     {
+                        endpoints.add(reader.getAttributeValue(null, "class").trim());
+                     }
                   }
                }
             }
