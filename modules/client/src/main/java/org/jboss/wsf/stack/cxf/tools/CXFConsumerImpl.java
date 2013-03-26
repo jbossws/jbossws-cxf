@@ -370,7 +370,7 @@ public class CXFConsumerImpl extends WSContractConsumer
                {
                   clazz = classLoader.loadClass(className);
                }
-               catch (ClassNotFoundException cnfe)
+               catch (Throwable t)
                {
                   //NOOP
                }
