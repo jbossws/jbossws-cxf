@@ -105,7 +105,7 @@
     <xerces.version>2.9.1</xerces.version>
     <xmlsec.version>1.5.3</xmlsec.version>
     <wss4j.version>1.6.10</wss4j.version>
-    <wstx.version>4.1.4</wstx.version>
+    <wstx.version>4.2.0</wstx.version>
     <spring.version>3.0.7.RELEASE</spring.version>
   </properties>
 
