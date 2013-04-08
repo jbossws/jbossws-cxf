@@ -33,6 +33,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
@@ -88,7 +89,7 @@ public class RequestHandlerImpl implements RequestHandler
       if (false == requestHandled)
       {
          Long beginTime = initRequestMetrics(ep);
-         HttpServletResponseExt response = new HttpServletResponseExt(res);
+         HttpServletResponseWrapper response = new HttpServletResponseWrapper(res);
          try
          {
             ServletConfig cfg = (ServletConfig)context.getAttribute(ServletConfig.class.getName());
