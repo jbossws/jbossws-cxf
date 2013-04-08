@@ -840,6 +840,12 @@
                  <!-- # [CXF-4875] NPE resolving policy reference -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCTestCase*</exclude>
+
+                 <!-- # [AS7-6850] Undertow: Missing Start Boundary, or boundary does not start on a new line -->
+                 <exclude>org/jboss/test/ws/saaj/jbws3084/JBWS3084TestCase*</exclude>
+
+                 <!-- # [AS7-6765] fix in commit https://github.com/undertow-io/undertow/commit/d1747d12af796e9048308d3c63fb2cf8e10036f6 -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2000/JBWS2000TestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
