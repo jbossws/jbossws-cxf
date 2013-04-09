@@ -24,6 +24,10 @@ package org.jboss.wsf.stack.cxf.tools;
 import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -48,6 +52,7 @@ import javax.xml.ws.spi.Provider;
 
 import org.apache.cxf.common.util.Compiler;
 import org.apache.cxf.helpers.FileUtils;
+import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.tools.common.ToolConstants;
 import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.wsdlto.WSDLToJava;
@@ -65,6 +70,7 @@ public class CXFConsumerImpl extends WSContractConsumer
 {
    private List<File> bindingFiles = null;
    private File catalog = null;
+   private File clientJar = null;
    private boolean extension;
    private boolean generateSource = false;
    private File outputDir = new File("output");
@@ -154,6 +160,14 @@ public class CXFConsumerImpl extends WSContractConsumer
    {
       this.nocompile = nocompile;
    }
+   
+   
+   @Override
+   public void setClientJar(File clientJar)
+   {
+      this.clientJar = clientJar;
+      
+   }
 
    @Override
    public void consume(URL wsdl)
@@ -196,6 +210,12 @@ public class CXFConsumerImpl extends WSContractConsumer
       {
          args.add("-catalog");
          args.add(catalog.getAbsolutePath());
+      }
+      
+      if (clientJar != null)
+      {
+         args.add("-clientjar");
+         args.add(clientJar.getName());
       }
 
       if (!nocompile)
@@ -294,14 +314,43 @@ public class CXFConsumerImpl extends WSContractConsumer
       }
       finally
       {
+         //hack to copy the clientjar file to outputdir
          if (sourceTempDir != null)
          {
+            for (File file : sourceTempDir.listFiles(new FilenameFilter() {
+               public boolean accept(File dir, String name)
+               {
+                  if (!name.endsWith(".java"))
+                  {
+                     return true;
+                  }
+                  return false;
+               }
+            }))
+            {
+
+               InputStream input;
+               OutputStream output;
+               try
+               {
+                  input = new FileInputStream(file);
+                  output = new FileOutputStream(new File(outputDir, file.getName()));
+                  IOUtils.copy(input, output);
+               }
+               catch (FileNotFoundException e)
+               {
+                  //NOOP
+               }
+               catch (IOException e)
+               {
+                  throw new RuntimeException(e);
+               }
+
+            }                      
             FileUtils.removeDir(sourceTempDir);
          }
       }
    }
-   
-
    /**
     * A CXF Compiler that installs a custom JavaFileManager to load JAXWS and JAXB apis from
     * the proper JBoss module (the one providing the JAXWS SPI Provider) instead of from the
@@ -443,5 +492,4 @@ public class CXFConsumerImpl extends WSContractConsumer
          throw new RuntimeException(e);
       }
    }
-
 }
