@@ -839,6 +839,11 @@
                  <exclude>org/jboss/test/ws/jaxws/samples/webservicerefsec/WebServiceRefSecTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
 
+                 <!-- # [JBWS-3622] Restore HTTPS tests w/ Undertow -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples23xTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameTestCase*</exclude>
+
                  <!-- # [PLFED-390] PicketLink STS chokes on WS-Policy 1.5 tags -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
 
