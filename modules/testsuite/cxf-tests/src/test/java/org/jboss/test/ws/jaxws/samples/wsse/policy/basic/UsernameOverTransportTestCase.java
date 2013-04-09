@@ -56,10 +56,20 @@ public final class UsernameOverTransportTestCase extends JBossWSTest
       */
       JBossWSTestSetup setup = new JBossWSCXFTestSetup(UsernameOverTransportTestCase.class, "jaxws-samples-wsse-policy-username.war");
       Map<String, String> sslOptions = new HashMap<String, String>();
-      sslOptions.put("certificate-key-file", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
-      sslOptions.put("password", "changeit");
-      sslOptions.put("verify-client", "false");
-      sslOptions.put("key-alias", "tomcat");
+      if (isTargetJBoss7())
+      {
+         sslOptions.put("certificate-key-file", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+         sslOptions.put("password", "changeit");
+         sslOptions.put("verify-client", "false");
+         sslOptions.put("key-alias", "tomcat");
+      }
+      else
+      {
+         sslOptions.put("keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+         sslOptions.put("keystore-password", "changeit");
+         sslOptions.put("verify-client", "false");
+         sslOptions.put("alias", "tomcat");
+      }
       setup.setHttpsConnectorRequirement(sslOptions);
       return setup;
    }

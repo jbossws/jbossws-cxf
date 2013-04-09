@@ -62,10 +62,20 @@ public final class WSSecurityPolicyExamples21xTestCase extends JBossWSTest
       JBossWSCXFTestSetup setup = new JBossWSCXFTestSetup(WSSecurityPolicyExamples21xTestCase.class,
          "jaxws-samples-wsse-policy-oasis-21x.war,jaxws-samples-wsse-policy-oasis-client.jar");
       Map<String, String> sslOptions = new HashMap<String, String>();
-      sslOptions.put("certificate-key-file", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
-      sslOptions.put("password", "changeit");
-      sslOptions.put("verify-client", "false");
-      sslOptions.put("key-alias", "tomcat");
+      if (isTargetJBoss7())
+      {
+         sslOptions.put("certificate-key-file", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+         sslOptions.put("password", "changeit");
+         sslOptions.put("verify-client", "false");
+         sslOptions.put("key-alias", "tomcat");
+      }
+      else
+      {
+         sslOptions.put("keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+         sslOptions.put("keystore-password", "changeit");
+         sslOptions.put("verify-client", "false");
+         sslOptions.put("alias", "tomcat");
+      }
       setup.setHttpsConnectorRequirement(sslOptions);
       return setup;
    }

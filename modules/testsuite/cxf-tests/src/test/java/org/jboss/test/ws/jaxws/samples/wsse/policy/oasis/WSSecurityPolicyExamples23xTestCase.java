@@ -65,12 +65,24 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
       JBossWSCXFTestSetup setup = new JBossWSCXFTestSetup(WSSecurityPolicyExamples23xTestCase.class,
             "jaxws-samples-wsse-policy-oasis-23x.war,jaxws-samples-wsse-policy-oasis-client.jar");
       Map<String, String> sslOptions = new HashMap<String, String>();
-      sslOptions.put("certificate-key-file", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
-      sslOptions.put("password", "changeit");
-      sslOptions.put("verify-client", "true"); //enable SSL mutual authentication (https client cert is checked on server side)
-      sslOptions.put("key-alias", "tomcat");
-      sslOptions.put("ca-certificate-file", System.getProperty("org.jboss.ws.testsuite.server.truststore"));
-      sslOptions.put("ca-certificate-password", "changeit");
+      if (isTargetJBoss7())
+      {
+         sslOptions.put("certificate-key-file", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+         sslOptions.put("password", "changeit");
+         sslOptions.put("verify-client", "true"); //enable SSL mutual authentication (https client cert is checked on server side)
+         sslOptions.put("key-alias", "tomcat");
+         sslOptions.put("ca-certificate-file", System.getProperty("org.jboss.ws.testsuite.server.truststore"));
+         sslOptions.put("ca-certificate-password", "changeit");
+      }
+      else
+      {
+         sslOptions.put("keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+         sslOptions.put("keystore-password", "changeit");
+         sslOptions.put("verify-client", "true"); //enable SSL mutual authentication (https client cert is checked on server side)
+         sslOptions.put("alias", "tomcat");
+         sslOptions.put("ca-certificate-file", System.getProperty("org.jboss.ws.testsuite.server.truststore"));
+         sslOptions.put("ca-certificate-password", "changeit");
+      }
       setup.setHttpsConnectorRequirement(sslOptions);
       return setup;
    }
