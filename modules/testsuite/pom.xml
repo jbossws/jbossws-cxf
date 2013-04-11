@@ -819,6 +819,9 @@
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
               <excludes>
+                 <!--# JAX-RPC removed in EE 7 -->
+                 <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
+
                  <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
 

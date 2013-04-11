@@ -57,12 +57,8 @@
     />
 
     <copy
-      file="${src.dir}/jbossws-cxf-config-as7.xml"
+      file="${src.dir}/jbossws-cxf-config-as8.xml"
       tofile="${dest.dir}/jbossws-jboss800/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-    <copy
-      file="${src.dir}/jbossws-jaxrpc-config-as7.xml"
-      tofile="${dest.dir}/jbossws-jboss800/jbossws.beans/META-INF/jaxrpc-deployment-aspects.xml"
     />
 
   </target>

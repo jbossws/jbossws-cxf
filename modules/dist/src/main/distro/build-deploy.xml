@@ -45,7 +45,7 @@
         <include name="cxf*security.jar"/>
       </fileset>
     </jandex>
-    <antcall target="deploy-jbossws-cxf-modules" inheritall="false">
+    <antcall target="deploy-jbossws-cxf-modules-as7" inheritall="false">
       <param name="installserver" value="${deploy.structure}/modules"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
       <param name="jbossid" value="${jbossws.integration.target}"/>
@@ -137,7 +137,7 @@
         <include name="cxf*security.jar"/>
       </fileset>
     </jandex>
-    <antcall target="deploy-jbossws-cxf-modules" inheritall="false">
+    <antcall target="deploy-jbossws-cxf-modules-as7" inheritall="false">
       <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
       <param name="jbossid" value="${jbossws.integration.target}"/>
@@ -200,7 +200,7 @@
         <include name="cxf*security.jar"/>
       </fileset>
     </jandex>
-    <antcall target="deploy-jbossws-cxf-modules" inheritall="false">
+    <antcall target="deploy-jbossws-cxf-modules-as8" inheritall="false">
       <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
       <param name="jbossid" value="${jbossws.integration.target}"/>
@@ -208,7 +208,8 @@
     </antcall>
   	<copy toDir="${deploy.structure}/modules/system/layers/base">
       <fileset dir="${deploy.artifacts.dir}/modules/jboss800">
-        <include name="**/jboss/as/webservices/**/module.xml"/>
+        <include name="**/jboss/as/webservices/main/module.xml"/>
+      	<include name="**/jboss/as/webservices/server/integration/main/module.xml"/>
       </fileset>
     </copy>
   </target>
