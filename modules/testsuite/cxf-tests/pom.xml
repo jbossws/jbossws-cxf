@@ -18,6 +18,9 @@
     <!-- This is used for test archives embedding Spring and is intentionally different from the
          version specified in the jbossws-cxf main pom.xml to test there're no classloading clashes -->
     <test.spring.version>3.0.3.RELEASE</test.spring.version>
+    <!-- This is used for test archives embedding CXF and is intentionally different from the
+         version specified in the jbossws-cxf main pom.xml to test there're no classloading clashes -->
+    <test.cxf.version>2.6.6</test.cxf.version>
   </properties>
   
   <dependencies>
@@ -134,8 +137,70 @@
             					<artifactId>spring-expression</artifactId>
             					<version>${test.spring.version}</version>
             				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.springframework</groupId>
+            					<artifactId>spring-web</artifactId>
+            					<version>${test.spring.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.springframework</groupId>
+            					<artifactId>spring-aop</artifactId>
+            					<version>${test.spring.version}</version>
+            				</artifactItem>
             			</artifactItems>
             			<outputDirectory>target/spring</outputDirectory>
+            		</configuration>
+            	</execution>
+            	<execution>
+            		<id>copy-cxf</id>
+            		<phase>process-test-resources</phase>
+            		<goals>
+            			<goal>copy</goal>
+            		</goals>
+            		<configuration>
+            			<artifactItems>
+            				<artifactItem>
+            					<groupId>org.apache.cxf</groupId>
+            					<artifactId>cxf-rt-frontend-jaxws</artifactId>
+            					<version>${test.cxf.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.apache.cxf</groupId>
+            					<artifactId>cxf-rt-frontend-simple</artifactId>
+            					<version>${test.cxf.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.apache.cxf</groupId>
+            					<artifactId>cxf-api</artifactId>
+            					<version>${test.cxf.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.apache.cxf</groupId>
+            					<artifactId>cxf-rt-core</artifactId>
+            					<version>${test.cxf.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.apache.cxf</groupId>
+            					<artifactId>cxf-rt-transports-http</artifactId>
+            					<version>${test.cxf.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.apache.cxf</groupId>
+            					<artifactId>cxf-rt-bindings-soap</artifactId>
+            					<version>${test.cxf.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.apache.cxf</groupId>
+            					<artifactId>cxf-rt-databinding-jaxb</artifactId>
+            					<version>${test.cxf.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.apache.cxf</groupId>
+            					<artifactId>cxf-rt-ws-policy</artifactId>
+            					<version>${test.cxf.version}</version>
+            				</artifactItem>
+            			</artifactItems>
+            			<outputDirectory>target/cxf-embedded</outputDirectory>
             		</configuration>
             	</execution>
             </executions>

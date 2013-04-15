@@ -125,6 +125,36 @@
       </manifest>
     </war>
   	
+    <!-- jaxws-cxf-disabledWSSubsystem -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-disabledWSSubsystem.war"
+    	webxml="${tests.output.dir}/test-resources/jaxws/cxf/noIntegration/moduleImports/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/noIntegration/EchoImpl.class"/>
+      	<include name="org/jboss/test/ws/jaxws/cxf/noIntegration/CXFEndpointServlet.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/noIntegration/moduleImports/WEB-INF">
+        <include name="jboss-deployment-structure.xml"/>
+      </webinf>
+    </war>
+  	
+    <!-- jaxws-cxf-embedded -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-embedded.war"
+    	webxml="${tests.output.dir}/test-resources/jaxws/cxf/noIntegration/embedded/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/noIntegration/EchoImpl.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/noIntegration/embedded/WEB-INF">
+        <include name="jboss-deployment-structure.xml"/>
+      	<include name="beans.xml"/>
+      </webinf>
+      <zipfileset
+        dir="${tests.output.dir}/spring/" 
+        prefix="WEB-INF/lib/"/>
+      <zipfileset
+        dir="${tests.output.dir}/cxf-embedded/" 
+        prefix="WEB-INF/lib/"/>
+    </war>
+  	
     <!-- jaxws-cxf-endorse -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-endorse.war"
   	  manifest="${tests.output.dir}/test-resources/jaxws/cxf/endorse/META-INF/MANIFEST.MF"

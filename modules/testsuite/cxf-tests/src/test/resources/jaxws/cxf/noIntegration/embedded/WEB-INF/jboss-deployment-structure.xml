@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2">
+    <deployment>
+        <exclude-subsystems>
+            <subsystem name="webservices" />
+        </exclude-subsystems>
+        <!-- Dependencies below included for the sake of simplifying test only, would actually come within the deployment in this scenario -->
+        <dependencies>
+            <module name="javax.wsdl4j.api"/>
+            <module name="org.apache.ws.xmlschema"/>
+            <module name="org.apache.neethi"/>
+            <module name="org.codehaus.woodstox"/>
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>
