@@ -38,7 +38,7 @@ import org.jboss.wsf.test.JBossWSTest;
  * Verifies a plain Apache CXF ws endpoint war can be deployed on
  * AS similarly as on a Tomcat instance (the Apache CXF libs from
  * the AS modules are used instead of embedding them in the war).
- * This is is NOT the suggest approach as any Java EE support is
+ * This is is NOT the suggested approach as any Java EE support is
  * actually disabled / skipped (including any JBossWS-CXF
  * integration additions, JSR-109, etc.)
  * 
