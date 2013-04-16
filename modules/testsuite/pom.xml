@@ -659,6 +659,9 @@
                  <!-- # [CXF-4875] NPE resolving policy reference -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCTestCase*</exclude>
+                 
+                 <!--# [AS7-537] Fixed on AS 8 or greater -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/noIntegration/AS7537TestCase**</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -721,6 +724,9 @@
                  <!-- # [CXF-4875] NPE resolving policy reference -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCTestCase*</exclude>
+                 
+                 <!--# [AS7-537] Fixed on AS 8 or greater -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/noIntegration/AS7537TestCase**</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -780,6 +786,9 @@
                  <!-- # [CXF-4875] NPE resolving policy reference -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCTestCase*</exclude>
+                 
+                 <!--# [AS7-537] Fixed on AS 8 or greater -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/noIntegration/AS7537TestCase**</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -859,6 +868,9 @@
 
                  <!-- # [AS7-6765] fix in commit https://github.com/undertow-io/undertow/commit/d1747d12af796e9048308d3c63fb2cf8e10036f6 -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2000/JBWS2000TestCase*</exclude>
+                 
+                 <!--# [AS7-537] Filter Apache CXF -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/noIntegration/AS7537TestCase**</exclude>
               </excludes>
             </configuration>
           </plugin>
