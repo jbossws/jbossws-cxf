@@ -656,10 +656,6 @@
                  <!--# [JBWS-3441] Support CDI interceptors for POJO JAX-WS services  -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3441/**</exclude>
 
-                 <!-- # [CXF-4875] NPE resolving policy reference -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCTestCase*</exclude>
-                 
                  <!--# [AS7-537] Fixed on AS 8 or greater -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/noIntegration/AS7537TestCase**</exclude>
               </excludes>
@@ -721,10 +717,6 @@
                  <!--# [JBWS-3441] Support CDI interceptors for POJO JAX-WS services  -->
                  <exclude>org/jboss/test/ws/jaxws/jbws3441/**</exclude>
 
-                 <!-- # [CXF-4875] NPE resolving policy reference -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCTestCase*</exclude>
-                 
                  <!--# [AS7-537] Fixed on AS 8 or greater -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/noIntegration/AS7537TestCase**</exclude>
               </excludes>
@@ -783,10 +775,6 @@
                  <!-- # [PLFED-390] PicketLink STS chokes on WS-Policy 1.5 tags -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
 
-                 <!-- # [CXF-4875] NPE resolving policy reference -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCTestCase*</exclude>
-                 
                  <!--# [AS7-537] Fixed on AS 8 or greater -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/noIntegration/AS7537TestCase**</exclude>
               </excludes>
@@ -858,10 +846,6 @@
 
                  <!-- # [PLFED-390] PicketLink STS chokes on WS-Policy 1.5 tags -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
-
-                 <!-- # [CXF-4875] NPE resolving policy reference -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/cxf/wsrm/BasicRPCTestCase*</exclude>
 
                  <!-- # [AS7-6850] Undertow: Missing Start Boundary, or boundary does not start on a new line -->
                  <exclude>org/jboss/test/ws/saaj/jbws3084/JBWS3084TestCase*</exclude>

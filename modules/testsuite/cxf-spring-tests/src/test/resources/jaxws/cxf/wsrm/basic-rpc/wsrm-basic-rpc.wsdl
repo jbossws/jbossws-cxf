@@ -3,7 +3,7 @@
   xmlns:tns="http://org.jboss.ws.jaxws.cxf/wsrm" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="RMService"
   targetNamespace="http://org.jboss.ws.jaxws.cxf/wsrm">
   
-  <wsp:Policy wsu:Id="RM" xmlns:wsp="http://www.w3.org/2006/07/ws-policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+  <wsp:Policy wsu:Id="RM" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
     <wsam:Addressing xmlns:wsam="http://www.w3.org/2007/02/addressing/metadata">
       <wsp:Policy/>
     </wsam:Addressing>
@@ -43,7 +43,7 @@
   <wsdl:service name="RMService">
     <wsdl:port binding="tns:RMServiceSoapBinding" name="RMEndpointPort">
       <soap:address location="http://@jboss.bind.address@:8080/jaxws-cxf-wsrm-basic-rpc"/>
-      <wsp:PolicyReference URI="#RM" xmlns:wsp="http://www.w3.org/2006/07/ws-policy"/>
+      <wsp:PolicyReference URI="#RM" xmlns:wsp="http://www.w3.org/ns/ws-policy"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
