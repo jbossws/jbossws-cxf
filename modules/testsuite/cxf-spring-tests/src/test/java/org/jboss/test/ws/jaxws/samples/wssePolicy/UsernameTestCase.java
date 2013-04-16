@@ -65,10 +65,9 @@ public final class UsernameTestCase extends JBossWSTest
       }
       else
       {
-         sslOptions.put("keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
-         sslOptions.put("keystore-password", "changeit");
-         sslOptions.put("verify-client", "false");
-         sslOptions.put("alias", "tomcat");
+         sslOptions.put("server-identity.ssl.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+         sslOptions.put("server-identity.ssl.keystore-password", "changeit");
+         sslOptions.put("server-identity.ssl.alias", "tomcat");
       }
       setup.setHttpsConnectorRequirement(sslOptions);
       return setup;

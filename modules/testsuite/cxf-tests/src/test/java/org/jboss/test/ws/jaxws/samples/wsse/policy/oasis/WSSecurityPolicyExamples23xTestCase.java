@@ -69,19 +69,20 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
       {
          sslOptions.put("certificate-key-file", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
          sslOptions.put("password", "changeit");
-         sslOptions.put("verify-client", "true"); //enable SSL mutual authentication (https client cert is checked on server side)
          sslOptions.put("key-alias", "tomcat");
+         //enable SSL mutual authentication (https client cert is checked on server side)
+         sslOptions.put("verify-client", "true");
          sslOptions.put("ca-certificate-file", System.getProperty("org.jboss.ws.testsuite.server.truststore"));
          sslOptions.put("ca-certificate-password", "changeit");
       }
       else
       {
-         sslOptions.put("keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
-         sslOptions.put("keystore-password", "changeit");
-         sslOptions.put("verify-client", "true"); //enable SSL mutual authentication (https client cert is checked on server side)
-         sslOptions.put("alias", "tomcat");
-         sslOptions.put("ca-certificate-file", System.getProperty("org.jboss.ws.testsuite.server.truststore"));
-         sslOptions.put("ca-certificate-password", "changeit");
+         sslOptions.put("server-identity.ssl.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+         sslOptions.put("server-identity.ssl.keystore-password", "changeit");
+         sslOptions.put("server-identity.ssl.alias", "tomcat");
+         //enable SSL mutual authentication (https client cert is checked on server side)
+         sslOptions.put("authentication.truststore.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.truststore"));
+         sslOptions.put("authentication.truststore.keystore-password", "changeit");
       }
       setup.setHttpsConnectorRequirement(sslOptions);
       return setup;
