@@ -248,7 +248,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
                         wl = epIfWsa.wsdlLocation();
                      }
                   }
-               } else {
+               } else if (clazz.isAnnotationPresent(WebServiceProvider.class)) {
                   WebServiceProvider wsp = clazz.getAnnotation(WebServiceProvider.class);
                   wl = wsp.wsdlLocation();
                }
