@@ -71,10 +71,9 @@ public final class WSSecurityPolicyExamples21xTestCase extends JBossWSTest
       }
       else
       {
-         sslOptions.put("keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
-         sslOptions.put("keystore-password", "changeit");
-         sslOptions.put("verify-client", "false");
-         sslOptions.put("alias", "tomcat");
+         sslOptions.put("server-identity.ssl.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+         sslOptions.put("server-identity.ssl.keystore-password", "changeit");
+         sslOptions.put("server-identity.ssl.alias", "tomcat");
       }
       setup.setHttpsConnectorRequirement(sslOptions);
       return setup;
@@ -126,10 +125,6 @@ public final class WSSecurityPolicyExamples21xTestCase extends JBossWSTest
     */
    public void test2121() throws Exception
    {
-      if (true) {
-         System.out.println("FIXME: [JBWS-3622] Restore HTTPS tests w/ Undertow");
-         return;
-      }
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2121?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2121Port"), ServiceIface.class);
       setupWsse(proxy);
