@@ -324,7 +324,7 @@ public class DescriptorDeploymentAspect extends DeploymentAspect
    }
    
    private static final String DISABLE_CVE_2012_2379_CHECK_PROP = "org.jboss.wsf.cxf.disableCVE20122379Check";
-   private static final String SP_NS_11 = "http://schemas.xmlsoap.org/ws/2005/02/securitypolicy";
+   private static final String SP_NS_11 = "http://schemas.xmlsoap.org/ws/2005/07/securitypolicy";
    private static final String SP_NS_12 = "http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702";
    private static final String SP_NS_13 = "http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200802";
    private static final String SUPPORTING_TOKENS = "SupportingTokens";
