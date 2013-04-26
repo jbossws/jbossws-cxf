@@ -368,6 +368,9 @@
 
                 <!-- # Seems MSFT interop. endpoints are down :( -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/interop/wstrust10/**</exclude>
+                
+                <!-- # [JBPAPP-9224] Disabled tests due to CVE-2012-2379 checks -->
+                <exclude>org/jboss/test/ws/jaxws/samples/wssePolicy/UsernameUnsecureTransportTestCase.*</exclude>
               </excludes>
             </configuration>
           </plugin>
