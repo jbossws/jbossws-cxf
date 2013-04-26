@@ -66,6 +66,25 @@ public final class SignEncryptGCMTestCase extends JBossWSTest
       }
    }
    
+   public void testCVE20125575() throws Exception
+   {
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+      URL wsdlURL = getResourceURL("jaxws/samples/wssePolicy/sign-encrypt/WEB-INF/wsdl/SecurityService.wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
+      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+      setupWsse(proxy);
+      try
+      {
+         proxy.sayHello();
+         fail("Exception expected!");
+      }
+      catch (SOAPFaultException e)
+      {
+         assertTrue(e.getMessage().contains("An error was discovered processing the <wsse:Security> header"));
+      }
+   }
+   
    private void setupWsse(ServiceIface proxy)
    {
       ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.CALLBACK_HANDLER, new KeystorePasswordCallback());
