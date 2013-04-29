@@ -70,9 +70,9 @@
       </or>
     </condition>
     
-    <condition property="jbossws.integration.jboss80x" value="true">
+    <condition property="jbossws.integration.wildfly80x" value="true">
       <or>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss800"/>
+        <equals arg1="${jbossws.integration.target}" arg2="wildfly800"/>
       </or>
     </condition>
     

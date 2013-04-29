@@ -785,14 +785,14 @@
     </profile>
 
     <!--
-    Name:  jboss800
-    Descr: JBoss-8.0.0 specific options
+    Name:  wildfly800
+    Descr: WildFly-8.0.0 specific options
     -->
     <profile>
-      <id>jboss800</id>
+      <id>wildfly800</id>
       <properties>
-        <jboss.version>${jboss800.version}</jboss.version>
-        <jbossws.integration.target>jboss800</jbossws.integration.target>
+        <jboss.version>${wildfly800.version}</jboss.version>
+        <jbossws.integration.target>wildfly800</jbossws.integration.target>
       </properties>
       <dependencies>
         <dependency>

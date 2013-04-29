@@ -16,7 +16,7 @@ In order to install JBossWS the following steps are necessary:
 	ant deploy-jboss712
 	ant deploy-jboss713
 	ant deploy-jboss720
-	ant deploy-jboss800
+	ant deploy-wildfly800
 
     By default Spring Framework libraries are not installed to application
 server. In order to do that, please add the -Dspring=true property option when

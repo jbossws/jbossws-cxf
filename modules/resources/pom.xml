@@ -78,12 +78,12 @@
             </configuration>
           </execution>
           <execution>
-            <id>jboss800</id>
+            <id>wildfly800</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>
             <configuration>
-              <classifier>jboss800</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss800/jbossws.beans</classesDirectory>
+              <classifier>wildfly800</classifier>
+              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly800/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
         </executions>

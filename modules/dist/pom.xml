@@ -53,7 +53,7 @@
          <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-resources</artifactId>
          <version>${project.version}</version>
-         <classifier>jboss800</classifier>     
+         <classifier>wildfly800</classifier>     
       </dependency>
 
       <dependency>
@@ -208,8 +208,8 @@
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss720.txt">
                                     <param name="targetName" expression="jboss720" />
                                 </xslt>
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss800.txt">
-                                    <param name="targetName" expression="jboss800" />
+                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-wildfly800.txt">
+                                    <param name="targetName" expression="wildfly800" />
                                 </xslt>
                             </target>
                         </configuration>

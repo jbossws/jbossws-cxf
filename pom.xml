@@ -71,7 +71,7 @@
     <jboss712.version>7.1.2.Final</jboss712.version>
     <jboss713.version>7.1.3.Final</jboss713.version>
     <jboss720.version>7.2.0.Final</jboss720.version>
-    <jboss800.version>8.0.0.Alpha1-SNAPSHOT</jboss800.version>
+    <wildfly800.version>8.0.0.Alpha1-SNAPSHOT</wildfly800.version>
     <ejb.api.version>1.0.1.Final</ejb.api.version>
     <cxf.version>2.7.4</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
@@ -181,7 +181,7 @@
       <dependency>
         <groupId>org.jboss.as</groupId>
         <artifactId>jboss-as-webservices-tests-integration</artifactId>
-        <version>${jboss800.version}</version>
+        <version>${wildfly800.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
@@ -1382,14 +1382,14 @@
     </profile>
 
     <!--
-    Name:  jboss800
-    Descr: JBoss-8.0.0 specific options
+    Name:  wildfly800
+    Descr: WildFly-8.0.0 specific options
     -->
     <profile>
-      <id>jboss800</id>
+      <id>wildfly800</id>
       <properties>
-        <jbossws.integration.target>jboss800</jbossws.integration.target>
-        <jboss.home>${jboss800.home}</jboss.home>
+        <jbossws.integration.target>wildfly800</jbossws.integration.target>
+        <jboss.home>${wildfly800.home}</jboss.home>
       </properties>
     </profile>
 

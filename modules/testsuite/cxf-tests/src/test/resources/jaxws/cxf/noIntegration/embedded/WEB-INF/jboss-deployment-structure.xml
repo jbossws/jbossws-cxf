@@ -3,6 +3,7 @@
     <deployment>
         <exclude-subsystems>
             <subsystem name="webservices" />
+            <subsystem name="weld" /> <!-- Prevent WELD-000070 failure -->
         </exclude-subsystems>
         <!-- Dependencies below included for the sake of simplifying test only, would actually come within the deployment in this scenario -->
         <dependencies>

@@ -180,10 +180,10 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- Prepare Deployment Structure JBoss-8.0.x                           -->
+  <!-- Prepare Deployment Structure WildFly-8.0.x                         -->
   <!-- ================================================================== -->
 
-  <target name="deploy-structure-jboss80x" depends="prepare-deploy">
+  <target name="deploy-structure-wildfly80x" depends="prepare-deploy">
     <delete dir="${deploy.structure}"/>
 
     <path id="jboss.ant.tasks.classpath">
@@ -204,10 +204,10 @@
       <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
       <param name="jbossid" value="${jbossws.integration.target}"/>
-      <param name="modules-jbossid" value="jboss800"/>
+      <param name="modules-jbossid" value="wildfly800"/>
     </antcall>
   	<copy toDir="${deploy.structure}/modules/system/layers/base">
-      <fileset dir="${deploy.artifacts.dir}/modules/jboss800">
+      <fileset dir="${deploy.artifacts.dir}/modules/wildfly800">
         <include name="**/jboss/as/webservices/main/module.xml"/>
       	<include name="**/jboss/as/webservices/server/integration/main/module.xml"/>
       </fileset>
@@ -215,32 +215,32 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- Deployment jboss800                                                -->
+  <!-- Deployment wildfly800                                                -->
   <!-- ================================================================== -->
 
-  <target name="target-jboss800">
-    <property name="jbossws.integration.target" value="jboss800"/>
+  <target name="target-wildfly800">
+    <property name="jbossws.integration.target" value="wildfly800"/>
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-jboss800" depends="undeploy-jboss800,deploy-structure-jboss80x,check-spring,install-spring-module80x" description="Deploy jbossws to jboss800">
-    <fail message="Not available: ${jboss800.available.file}" unless="jboss800.available"/>
-    <copy todir="${jboss800.home}" overwrite="true" verbose="true">
+  <target name="deploy-wildfly800" depends="undeploy-wildfly800,deploy-structure-wildfly80x,check-spring,install-spring-module80x" description="Deploy jbossws to wildfly800">
+    <fail message="Not available: ${wildfly800.available.file}" unless="wildfly800.available"/>
+    <copy todir="${wildfly800.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
         <exclude name="**/jboss/as/webservices/**/module.xml"/>
       </fileset>
     </copy>
     <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
-    <installModules targetDir="${jboss800.home}/modules/system/layers/base/">
+    <installModules targetDir="${wildfly800.home}/modules/system/layers/base/">
       <fileset dir="${deploy.structure}/modules/system/layers/base">
         <include name="**/jboss/as/webservices/**/module.xml"/>
       </fileset>
     </installModules>
   </target>
 
-  <target name="undeploy-jboss800" depends="target-jboss800,init" description="Remove jbossws from jboss800">
-    <fail message="Not available: ${jboss800.available.file}" unless="jboss800.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${jboss800.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
+  <target name="undeploy-wildfly800" depends="target-wildfly800,init" description="Remove jbossws from wildfly800">
+    <fail message="Not available: ${wildfly800.available.file}" unless="wildfly800.available"/>
+    <macro-undeploy-jbossws-modules targetdir="${wildfly800.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
   </target>
 
   <!-- ================================================================== -->
@@ -274,7 +274,7 @@
     <antcall target="deploy-spring-module" inheritall="false">
       <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
       <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="modules-jbossid" value="jboss800"/>
+      <param name="modules-jbossid" value="wildfly800"/>
     </antcall>
   </target>
 
