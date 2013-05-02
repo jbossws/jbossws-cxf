@@ -59,6 +59,8 @@
               <include>jboss.jaxbintros:jboss-jaxb-intros</include>
               <include>javax.xml.stream:stax-api:jar</include>
               <include>javax.jws:jsr181-api:jar</include>
+              <include>org.codehaus.woodstox:stax2-api:jar</include>
+              <include>org.codehaus.woodstox:woodstox-core-asl:jar</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
             <useProjectArtifact>false</useProjectArtifact>

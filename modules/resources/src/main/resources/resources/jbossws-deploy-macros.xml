@@ -235,6 +235,12 @@
           <include name="**/xmltooling.jar"/>
         </fileset>
       </copy>
+      <copy todir="@{targetdir}/org/codehaus/woodstox/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/woodstox-core-asl.jar"/>
+          <include name="**/stax2-api.jar"/>
+        </fileset>
+      </copy>
       <copy todir="@{targetdir}/org/jboss/as/webservices/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-cxf-resources-@{jbossid}.jar"/>
