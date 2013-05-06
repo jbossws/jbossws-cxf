@@ -1,0 +1,1 @@
+org.jboss.wsf.stack.cxf.addons.transports.udp.UDPTransportFactory::true

@@ -155,7 +155,7 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
          }
          catch (Exception e)
          {
-            LOG.throwing(Handler.class.getName(), "handle(com.sun.net.httpserver.HttpExchange ex)", e);
+            LOG.throwing(Handler.class.getName(), "handle(" + HttpExchange.class.getName() + " ex)", e);
             if (e instanceof IOException)
             {
                throw (IOException) e;
