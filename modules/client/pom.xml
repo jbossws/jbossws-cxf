@@ -42,6 +42,11 @@
       <artifactId>jbossws-cxf-transports-httpserver</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-transports-udp</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     
     <!-- CXF dependencies -->
     <dependency>

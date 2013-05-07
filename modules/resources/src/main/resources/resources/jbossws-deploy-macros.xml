@@ -60,6 +60,11 @@
           <include name="**/jbossws-cxf-transports-httpserver.jar"/>
         </fileset>
       </copy>
+      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-transports-udp/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jbossws-cxf-transports-udp.jar"/>
+        </fileset>
+      </copy>
       <copy todir="@{targetdir}/org/apache/cxf/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/cxf-api*.jar"/>
@@ -165,6 +170,11 @@
       <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-transports-httpserver/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-cxf-transports-httpserver.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-transports-udp/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jbossws-cxf-transports-udp.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/native/jbossws-native-core/main" flatten="false" overwrite="true">

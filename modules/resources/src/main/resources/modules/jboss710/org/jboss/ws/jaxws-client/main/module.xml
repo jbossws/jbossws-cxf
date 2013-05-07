@@ -51,6 +51,12 @@
             <include path="META-INF/"/>
           </imports>
         </module>
+        <module name="org.jboss.ws.cxf.jbossws-cxf-transports-udp" services="import">
+          <imports>
+            <include path="META-INF/cxf"/> <!-- required to also pull in the bus extensions from META-INF -->
+            <include path="META-INF/"/>
+          </imports>
+        </module>
         <module name="org.apache.log4j" />
         <module name="org.apache.neethi" />
         <module name="org.jboss.logging" />
