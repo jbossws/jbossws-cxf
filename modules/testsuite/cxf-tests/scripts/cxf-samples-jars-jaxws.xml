@@ -107,6 +107,28 @@
        </classes>
     </war>
 
+    <!-- jaxws-samples-wsdd -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsdd.war" needxmlfile='false'>
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsdd/ServiceIface.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsdd/ServiceImpl.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsdd/WEB-INF">
+         <include name="jboss-webservices.xml"/>
+      </webinf>
+    </war>
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsdd2.war" needxmlfile='false'>
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsdd/ServiceIface.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsdd/*ServiceImpl.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsdd/WEB-INF">
+         <include name="jboss-webservices.xml"/>
+      </webinf>
+    </war>
+
     <!-- jaxws-samples-wsrm -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsrm-api.war"

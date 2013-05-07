@@ -641,6 +641,9 @@
                  <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
                  <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
 
+                 <!--# [CXF-5005] Wrong EPR match in WSDiscoveryProvider::handleResolve -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsdd/WSDiscoveryTestCase**</exclude>
+
                  <!--# [JBWS-2561] XOP request not properly inlined-->
                  <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
 
@@ -701,6 +704,9 @@
 
                  <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
                  <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
+
+                 <!--# [CXF-5005] Wrong EPR match in WSDiscoveryProvider::handleResolve -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsdd/WSDiscoveryTestCase**</exclude>
 
                  <!--# [JBWS-2561] XOP request not properly inlined-->
                  <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
@@ -763,6 +769,9 @@
                  <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
                  <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
 
+                 <!--# [CXF-5005] Wrong EPR match in WSDiscoveryProvider::handleResolve -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsdd/WSDiscoveryTestCase**</exclude>
+
                  <!--# [JBWS-2561] XOP request not properly inlined-->
                  <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
 
@@ -824,6 +833,9 @@
 
                  <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
                  <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
+
+                 <!--# [CXF-5005] Wrong EPR match in WSDiscoveryProvider::handleResolve -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsdd/WSDiscoveryTestCase**</exclude>
 
                  <!--# [JBWS-2561] XOP request not properly inlined-->
                  <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
