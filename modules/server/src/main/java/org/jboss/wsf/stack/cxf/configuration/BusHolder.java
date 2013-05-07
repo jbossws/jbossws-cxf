@@ -30,6 +30,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.counters.CounterRepository;
 import org.apache.cxf.management.interceptor.ResponseTimeMessageInInterceptor;
@@ -40,6 +41,7 @@ import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.workqueue.AutomaticWorkQueue;
 import org.apache.cxf.workqueue.AutomaticWorkQueueImpl;
 import org.apache.cxf.workqueue.WorkQueueManager;
+import org.apache.cxf.ws.discovery.listeners.WSDiscoveryServerListener;
 import org.apache.cxf.ws.policy.AlternativeSelector;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
@@ -109,6 +111,7 @@ public abstract class BusHolder
       
       setAdditionalWorkQueues(bus, props);
       setCXFManagement(bus, props);
+      setWSDiscovery(bus, props);
    }
    
    
@@ -221,6 +224,15 @@ public abstract class BusHolder
                bus.getOutInterceptors().add(out);
             }
             bus.setExtension(couterRepository, CounterRepository.class);
+         }
+      }
+   }
+   
+   protected static void setWSDiscovery(Bus bus, Map<String, String> props) {
+      if (props != null && !props.isEmpty()) {
+         final String p = props.get(Constants.CXF_WS_DISCOVERY_ENABLED);
+         if ("true".equalsIgnoreCase(p) || "1".equalsIgnoreCase(p)) {
+            bus.getExtension(ServerLifeCycleManager.class).registerListener(new WSDiscoveryServerListener(bus));
          }
       }
    }

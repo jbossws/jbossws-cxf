@@ -659,6 +659,17 @@
         <version>${cxf.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.apache.cxf.services.ws-discovery</groupId>
+        <artifactId>cxf-services-ws-discovery-api</artifactId>
+        <version>${cxf.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-udp</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-tools-wsdlto-core</artifactId>
         <version>${cxf.version}</version>

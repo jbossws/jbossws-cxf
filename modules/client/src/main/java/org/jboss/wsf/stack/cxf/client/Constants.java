@@ -42,4 +42,5 @@ public class Constants
    public static final String CXF_POLICY_ALTERNATIVE_SELECTOR_PROP = "cxf.policy.alternativeSelector";
    public static final String CXF_MANAGEMENT_ENABLED = "cxf.management.enabled";
    public static final String CXF_MANAGEMENT_INSTALL_RESPONSE_TIME_INTERCEPTORS = "cxf.management.installResponseTimeInterceptors";
+   public static final String CXF_WS_DISCOVERY_ENABLED = "cxf.ws-discovery.enabled";
 }
