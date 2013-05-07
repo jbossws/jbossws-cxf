@@ -381,6 +381,21 @@
       </manifest>
     </jar>
 
+    <!-- jaxws-cxf-udp-api -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-udp-api.war"
+    	needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/udp/TestServlet.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/udp/HelloWorld*.class"/>
+      </classes>
+      <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/cxf/udp/META-INF/wsdl" 
+          prefix="WEB-INF/classes/META-INF/wsdl"/>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services"/>
+      </manifest>
+    </war>
+  	
     <!-- jaxws-cxf-spring -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-spring.war" needxmlfile='false'>
        <classes dir="${tests.output.dir}/test-classes">
