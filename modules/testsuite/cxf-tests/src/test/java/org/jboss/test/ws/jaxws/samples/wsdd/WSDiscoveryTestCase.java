@@ -75,6 +75,7 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          checkResolveMatches(rmts, "http://" + getServerHost() + ":8080/jaxws-samples-wsdd/WSDDService", typeName);
          checkResolveMatches(rmts, "http://" + getServerHost() + ":8080/jaxws-samples-wsdd2/WSDDService", typeName);
          checkResolveMatches(rmts, "http://" + getServerHost() + ":8080/jaxws-samples-wsdd2/AnotherWSDDService", typeName);
+         client.close();
       } finally {
          bus.shutdown(true);
       }
@@ -107,6 +108,7 @@ public final class WSDiscoveryTestCase extends JBossWSTest
             String expected = address.contains("AnotherWSDDService") ? "Hi " : "Greetings ";
             assertEquals(expected +  "Alice" + i, port.greet("Alice" + i));
          }
+         client.close();
       } finally {
          bus.shutdown(true);
       }
