@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.addons.transports.udp;
 
+import java.net.InetAddress;
+import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
 
@@ -86,7 +88,7 @@ public class UDPTransportTest
       while (interfaces.hasMoreElements())
       {
          NetworkInterface networkInterface = interfaces.nextElement();
-         if (!networkInterface.isUp() || networkInterface.isLoopback())
+         if (!networkInterface.isUp() || networkInterface.isLoopback() || !isBroadcastAddressAvailable(networkInterface))
          {
             continue;
          }
@@ -95,7 +97,7 @@ public class UDPTransportTest
       if (count == 0)
       {
          //no non-loopbacks, cannot do broadcasts
-         System.out.println("Skipping broadcast test");
+         System.out.println("Skipping broadcast test: no non-loopback IPv4 interface available");
          return;
       }
 
@@ -120,5 +122,15 @@ public class UDPTransportTest
       Assert.assertEquals("Hello " + b.toString(), g.greetMe(b.toString()));
 
       ((java.io.Closeable) g).close();
+   }
+   
+   private boolean isBroadcastAddressAvailable(NetworkInterface networkInterface) {
+      for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+         InetAddress broadcast = interfaceAddress.getBroadcast();
+         if (broadcast != null) {
+             return true;
+         }
+      }
+      return false;
    }
 }
