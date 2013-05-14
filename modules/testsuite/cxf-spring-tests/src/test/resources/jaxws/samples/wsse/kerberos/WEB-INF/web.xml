@@ -8,8 +8,51 @@
       <servlet-name>DoubleItKerberosSupport</servlet-name>
       <servlet-class>org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl</servlet-class>
    </servlet>
+   <servlet>
+      <servlet-name>DoubleItKerberosTransport</servlet-name>
+      <servlet-class>org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl</servlet-class>
+   </servlet>
+   <servlet>
+      <servlet-name>DoubleItKerberosOverSymmetricSupporting</servlet-name>
+      <servlet-class>org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl</servlet-class>
+   </servlet>
+   <servlet>
+      <servlet-name>DoubleItKerberosAsymmetric</servlet-name>
+      <servlet-class>org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl</servlet-class>
+   </servlet>
+   <servlet>
+      <servlet-name>DoubleItKerberosOverAsymmetricSignedEncrypted</servlet-name>
+      <servlet-class>org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl</servlet-class>
+   </servlet>
+   <servlet>
+      <servlet-name>DoubleItKerberosSymmetric</servlet-name>
+      <servlet-class>org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl</servlet-class>
+   </servlet>   
+   
    <servlet-mapping>
       <servlet-name>DoubleItKerberosSupport</servlet-name>
-      <url-pattern>/*</url-pattern>
+      <url-pattern>/DoubleItKerberosSupport</url-pattern>
    </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>DoubleItKerberosTransport</servlet-name>
+      <url-pattern>/DoubleItKerberosTransport</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>DoubleItKerberosOverSymmetricSupporting</servlet-name>
+      <url-pattern>/DoubleItKerberosOverSymmetricSupporting</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>DoubleItKerberosAsymmetric</servlet-name>
+      <url-pattern>/DoubleItKerberosAsymmetric</url-pattern>
+   </servlet-mapping>  
+   <servlet-mapping>
+      <servlet-name>DoubleItKerberosOverAsymmetricSignedEncrypted</servlet-name>
+      <url-pattern>/DoubleItKerberosOverAsymmetricSignedEncrypted</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>DoubleItKerberosSymmetric</servlet-name>
+      <url-pattern>/DoubleItKerberosSymmetric</url-pattern>
+   </servlet-mapping>   
+   
+   
 </web-app>

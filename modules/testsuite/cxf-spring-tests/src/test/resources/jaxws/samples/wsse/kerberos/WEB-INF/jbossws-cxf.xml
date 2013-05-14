@@ -14,8 +14,6 @@
 		<property name="serviceName" value="bob@service.ws.apache.org" />
 	</bean>
 
-
-
 	<jaxws:endpoint id="DoubleItKerberosSupport"
 		address="http://@jboss.bind.address@:8080/jaxws-samples-wsse-kerberos/DoubleItKerberosSupport"
 		implementor="org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl"> 		    
@@ -25,6 +23,91 @@
 	       <entry key="ws-security.bst.validator" value-ref="kerberosValidator" />
        </jaxws:properties>
     </jaxws:endpoint>
+    
+    <jaxws:endpoint id="DoubleItKerberosTransport"
+		address="https://@jboss.bind.address@:8443/jaxws-samples-wsse-kerberos/DoubleItKerberosTransport"
+		serviceName="s:DoubleItService"
+        endpointName="s:DoubleItKerberosTransportPort"
+        xmlns:s="http://www.example.org/contract/DoubleIt"
+		implementor="org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl"> 		    
+       <jaxws:properties>
+           <entry key="ws-security.is-bsp-compliant" value="false"/>
+           <entry key="ws-security.bst.validator" value-ref="kerberosValidator"/>
+       </jaxws:properties> 
+    </jaxws:endpoint>  
 
 
+    <jaxws:endpoint 
+       id="KerberosOverAsymmetric"
+       address="http://@jboss.bind.address@:8080/jaxws-samples-wsse-kerberos/DoubleItKerberosAsymmetric" 
+       serviceName="s:DoubleItService"
+       endpointName="s:DoubleItKerberosAsymmetricPort"
+       xmlns:s="http://www.example.org/contract/DoubleIt"
+       implementor="org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl">
+        
+       <jaxws:properties>
+           <entry key="ws-security.username" value="bob"/>
+           <entry key="ws-security.callback-handler" value="org.jboss.test.ws.jaxws.samples.wsse.kerberos.KeystorePasswordCallback"/>
+           <entry key="ws-security.signature.properties" value="bob.properties"/> 
+           <entry key="ws-security.encryption.properties" value="alice.properties"/> 
+           <entry key="ws-security.encryption.username" value="alice"/>
+           <entry key="ws-security.bst.validator" value-ref="kerberosValidator"/>
+           <entry key="ws-security.is-bsp-compliant" value="false"/>
+       </jaxws:properties> 
+     
+    </jaxws:endpoint>
+    
+    
+    <jaxws:endpoint 
+       id="KerberosOverSymmetric"
+       address="http://@jboss.bind.address@:8080/jaxws-samples-wsse-kerberos/DoubleItKerberosSymmetric" 
+       serviceName="s:DoubleItService"
+       endpointName="s:DoubleItKerberosSymmetricPort"
+       xmlns:s="http://www.example.org/contract/DoubleIt"
+       implementor="org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl">
+        
+       <jaxws:properties>
+           <entry key="ws-security.callback-handler" value="org.jboss.test.ws.jaxws.samples.wsse.kerberos.KeystorePasswordCallback"/>
+           <entry key="ws-security.signature.properties" value="bob.properties"/> 
+           <entry key="ws-security.bst.validator" value-ref="kerberosValidator"/>
+       </jaxws:properties> 
+     
+    </jaxws:endpoint>  
+
+    
+    <jaxws:endpoint 
+       id="KerberosOverSymmetricSupporting"
+       address="http://@jboss.bind.address@:8080/jaxws-samples-wsse-kerberos/DoubleItKerberosOverSymmetricSupporting" 
+       serviceName="s:DoubleItService"
+       endpointName="s:DoubleItKerberosSymmetricSupportingPort"
+       xmlns:s="http://www.example.org/contract/DoubleIt"
+       implementor="org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl">      
+       <jaxws:properties>
+           <entry key="ws-security.callback-handler" value="org.jboss.test.ws.jaxws.samples.wsse.kerberos.KeystorePasswordCallback"/>
+           <entry key="ws-security.signature.properties" value="bob.properties"/> 
+           <entry key="ws-security.bst.validator" value-ref="kerberosValidator"/>
+       </jaxws:properties>    
+    </jaxws:endpoint>  
+      
+    <jaxws:endpoint 
+       id="KerberosOverAsymmetricSignedEncrypted"
+       address="http://@jboss.bind.address@:8080/jaxws-samples-wsse-kerberos/DoubleItKerberosOverAsymmetricSignedEncrypted" 
+       serviceName="s:DoubleItService"
+       endpointName="s:DoubleItKerberosAsymmetricSignedEncryptedPort"
+       xmlns:s="http://www.example.org/contract/DoubleIt"
+       implementor="org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl">
+        
+       <jaxws:properties>
+           <entry key="ws-security.username" value="bob"/>
+           <entry key="ws-security.callback-handler" value="org.jboss.test.ws.jaxws.samples.wsse.kerberos.KeystorePasswordCallback"/>
+           <entry key="ws-security.signature.properties" value="bob.properties"/> 
+           <entry key="ws-security.encryption.properties" value="alice.properties"/> 
+           <entry key="ws-security.encryption.username" value="alice"/>
+           <entry key="ws-security.bst.validator" value-ref="kerberosValidator"/>
+           <entry key="ws-security.is-bsp-compliant" value="false"/>
+       </jaxws:properties> 
+     
+    </jaxws:endpoint>
+       
+      
 </beans>
