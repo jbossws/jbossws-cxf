@@ -73,9 +73,9 @@
     <jboss720.version>7.2.0.Final</jboss720.version>
     <wildfly800.version>8.0.0.Alpha1-SNAPSHOT</wildfly800.version>
     <ejb.api.version>1.0.1.Final</ejb.api.version>
-    <cxf.version>2.7.5-SNAPSHOT</cxf.version>
+    <cxf.version>2.7.5</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
-    <cxf.xjcplugins.version>2.6.0</cxf.xjcplugins.version>
+    <cxf.xjcplugins.version>2.6.1</cxf.xjcplugins.version>
     <jboss.common.core.version>2.2.17.GA</jboss.common.core.version>
     <jboss-logging.version>3.1.2.GA</jboss-logging.version>
     <jboss-logging-processor.version>1.0.3.Final</jboss-logging-processor.version>
@@ -96,7 +96,7 @@
     <log4j.version>1.2.16</log4j.version>
     <activation.version>1.1</activation.version>
     <neethi.version>3.0.2</neethi.version>
-    <opensaml.version>2.5.1-1</opensaml.version>
+    <opensaml.version>2.5.3</opensaml.version>
     <saaj.api.version>1.0.1.Final</saaj.api.version>
     <servlet.api.version>1.0.1.Final</servlet.api.version>
     <stax.api.version>1.0-2</stax.api.version>
