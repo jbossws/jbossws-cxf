@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:foo="http://marshalltestservice.org/types2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://marshalltestservice.org/types2"
+	elementFormDefault="qualified"
+>
+  <element name="FooByteListType" type="foo:FooByteListType" />
+  <simpleType name="FooByteListType">
+    <list itemType="byte" />
+  </simpleType>
+</schema>
+

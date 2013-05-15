@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+  <wsdl:definitions name="EndpointService5"
+                    targetNamespace="http://publish.ws.test.jboss.org/"
+                    xmlns:ns1="http://schemas.xmlsoap.org/soap/http"
+                    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                    xmlns:tns="http://publish.ws.test.jboss.org/"
+                    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xsd:schema>
+      <xsd:import namespace="http://publish.ws.test.jboss.org/" schemaLocation="TestService.xml" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="echoStringResponse">
+    <wsdl:part name="return" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="echoString">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Endpoint">
+    <wsdl:operation name="echoString">
+      <wsdl:input message="tns:echoString" name="echoString">
+    </wsdl:input>
+      <wsdl:output message="tns:echoStringResponse" name="echoStringResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EndpointService5SoapBinding" type="tns:Endpoint">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="echoString">
+      <soap:operation soapAction="urn:EchoString" style="rpc"/>
+      <wsdl:input name="echoString">
+        <soap:body namespace="http://publish.ws.test.jboss.org/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="echoStringResponse">
+        <soap:body namespace="http://publish.ws.test.jboss.org/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EndpointService5">
+    <wsdl:port binding="tns:EndpointService5SoapBinding" name="EndpointPort5">
+      <soap:address location="http://localhost:8080/ep-publish-test/pattern5"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

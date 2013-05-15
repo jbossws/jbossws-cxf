@@ -1,0 +1,26 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<jaxb-intros xmlns="http://www.jboss.org/xsd/jaxb/intros" default-namespace="http://org.jboss.ws/jaxbintro/wsdl">
+
+  <!--
+  The XSD for the schema can be found at:
+  http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/extras/jaxbintros/src/main/resources/jaxb-intros.xsd
+  Register it against the http://www.jboss.org/xsd/jaxb/intros namespace in your IDE and away you go :-)
+  -->
+
+  <!--
+  Note: how the "name" attributes on class, field and method configs can be regular expressions.
+  -->
+
+  <!--
+  The type namespaces on the customerOrder are different from the rest of the message...
+  -->
+  <Class name="org.jboss.test.ws.jaxws.jbws1809.DocRequest">
+    <XmlAccessorType value="FIELD"/>   
+    <XmlRootElement name="request" namespace="http://org.jboss.ws/jaxbintro/wsdl"/>
+
+    <Field name="value">
+      <XmlAttribute />
+    </Field>    
+  </Class>
+
+</jaxb-intros>

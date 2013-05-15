@@ -1,0 +1,3 @@
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://www.w3.org/2006/05/addressing/wsdl" uri="ws-addr-wsdl.xsd"/>
+</catalog>

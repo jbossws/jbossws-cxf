@@ -1,0 +1,13 @@
+<!--
+  This wsdl is only used for client artifact generation
+
+  wsconsume -k -s output/wsconsume src/main/resources/jaxws/complex/META-INF/wsdl/RegistrationService.wsdl
+-->
+<definitions name="RegistrationService" targetNamespace="http://complex.jaxws.ws.test.jboss.org/" xmlns:tns="http://complex.jaxws.ws.test.jboss.org/" xmlns:ns1="http://types.complex.jaxws.ws.test.jboss.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://extra.complex.jaxws.ws.test.jboss.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <import namespace="http://types.complex.jaxws.ws.test.jboss.org/" location="Registration_PortType.wsdl"/>
+  <service name="RegistrationService">
+    <port name="RegistrationPort" binding="ns1:RegistrationBinding">
+      <soap:address location="http://@jboss.bind.address@:8080/jaxws-complex/RegistrationService"/>
+    </port>
+  </service>
+</definitions>

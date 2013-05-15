@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="RegistrationService" targetNamespace="http://types.complex.jaxws.ws.test.jboss.org/" xmlns:tns="http://complex.jaxws.ws.test.jboss.org/" xmlns:ns1="http://types.complex.jaxws.ws.test.jboss.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://extra.complex.jaxws.ws.test.jboss.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://types.complex.jaxws.ws.test.jboss.org/" version="1.0" xmlns:ns1="http://complex.jaxws.ws.test.jboss.org/" xmlns:ns2="http://extra.complex.jaxws.ws.test.jboss.org/" xmlns:tns="http://types.complex.jaxws.ws.test.jboss.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:import namespace="http://complex.jaxws.ws.test.jboss.org/"/>
+   <xs:import namespace="http://extra.complex.jaxws.ws.test.jboss.org/"/>
+   <xs:element name="AlreadyRegisteredFault" nillable="false" type="tns:AlreadyRegisteredFault"/>
+   <xs:element name="BulkRegister" nillable="false" type="tns:BulkRegister"/>
+   <xs:element name="BulkRegisterResponse" nillable="false" type="tns:BulkRegisterResponse"/>
+   <xs:element name="GetStatistics" nillable="false" type="tns:GetStatistics"/>
+   <xs:element name="GetStatisticsResponse" nillable="false" type="tns:GetStatisticsResponse"/>
+   <xs:element name="Register" nillable="false" type="tns:Register"/>
+   <xs:element name="RegisterForInvoice" nillable="false" type="tns:RegisterForInvoice"/>
+   <xs:element name="RegisterForInvoiceResponse" nillable="false" type="tns:RegisterForInvoiceResponse"/>
+   <xs:element name="Echo" nillable="false" type="tns:Echo"/>
+   <xs:element name="EchoResponse" nillable="false" type="tns:EchoResponse"/>
+   <xs:element name="RegisterResponse" nillable="false" type="tns:RegisterResponse"/>
+   <xs:element name="ValidationFault" nillable="false" type="tns:ValidationFault"/>
+   <xs:complexType name="Register">
+    <xs:sequence>
+     <xs:element name="Customer" nillable="true" type="ns1:Customer"/>
+     <xs:element name="When" nillable="true" type="xs:anySimpleType"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Echo">
+    <xs:sequence>
+     <xs:element name="Customer" nillable="true" type="ns1:Customer"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="RegisterResponse">
+    <xs:sequence>
+     <xs:element name="RegisteredID" type="xs:long"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="EchoResponse">
+    <xs:sequence>
+     <xs:element name="Customer" nillable="true" type="ns1:Customer"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="AlreadyRegisteredFault">
+    <xs:complexContent>
+     <xs:extension base="ns1:RegistrationFault">
+      <xs:sequence>
+       <xs:element name="existingId" type="xs:long"/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="ValidationFault">
+    <xs:complexContent>
+     <xs:extension base="ns1:RegistrationFault">
+      <xs:sequence>
+       <xs:element maxOccurs="unbounded" minOccurs="0" name="failedCustomers" type="xs:long"/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="GetStatistics">
+    <xs:sequence>
+     <xs:element name="Customer" nillable="true" type="ns1:Customer"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="GetStatisticsResponse">
+    <xs:sequence>
+     <xs:element name="Statistics" nillable="true" type="ns2:Statistics"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="BulkRegister">
+    <xs:sequence>
+     <xs:element maxOccurs="unbounded" minOccurs="0" name="Customers" nillable="true" type="ns1:Customer"/>
+     <xs:element name="When" nillable="true" type="xs:anySimpleType"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="BulkRegisterResponse">
+    <xs:sequence>
+     <xs:element maxOccurs="unbounded" minOccurs="0" name="RegisteredIDs" type="xs:long"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="RegisterForInvoice">
+    <xs:sequence>
+     <xs:element name="InvoiceCustomer" nillable="true" type="ns1:InvoiceCustomer"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="RegisterForInvoiceResponse">
+    <xs:sequence>
+     <xs:element name="done" type="xs:boolean"/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://extra.complex.jaxws.ws.test.jboss.org/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:complexType name="Statistics">
+    <xs:sequence>
+     <xs:element name="activationTime" nillable="true" type="xs:anySimpleType"/>
+     <xs:element name="hits" type="xs:long"/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+    <xs:schema targetNamespace="http://complex.jaxws.ws.test.jboss.org/" version="1.0" xmlns:tns="http://complex.jaxws.ws.test.jboss.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:complexType name="Customer">
+    <xs:sequence>
+     <xs:element form="qualified" name="address" nillable="true" type="tns:Address"/>
+     <xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="contactNumbers" nillable="true" type="tns:PhoneNumber"/>
+     <xs:element form="qualified" name="id" type="xs:long"/>
+     <xs:element form="qualified" name="name" nillable="true" type="tns:Name"/>
+     <xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="referredCustomers" nillable="true" type="tns:Customer"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Address">
+    <xs:sequence>
+     <xs:element form="qualified" name="city" nillable="true" type="xs:string"/>
+     <xs:element form="qualified" name="state" nillable="true" type="xs:string"/>
+     <xs:element form="qualified" name="street" nillable="true" type="xs:string"/>
+     <xs:element form="qualified" name="zip" nillable="true" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="PhoneNumber">
+    <xs:sequence>
+     <xs:element form="qualified" name="areaCode" nillable="true" type="xs:string"/>
+     <xs:element form="qualified" name="exchange" nillable="true" type="xs:string"/>
+     <xs:element form="qualified" name="line" nillable="true" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="Name">
+    <xs:sequence>
+     <xs:element form="qualified" name="firstName" nillable="true" type="xs:string"/>
+     <xs:element form="qualified" name="lastName" nillable="true" type="xs:string"/>
+     <xs:element form="qualified" name="middleName" nillable="true" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="RegistrationFault">
+    <xs:sequence>
+     <xs:element form="qualified" name="message" nillable="true" type="xs:string"/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="InvoiceCustomer">
+    <xs:complexContent>
+     <xs:extension base="tns:Customer">
+      <xs:sequence>
+       <xs:element form="qualified" name="cycleDay" type="xs:int"/>
+      </xs:sequence>
+     </xs:extension>
+    </xs:complexContent>
+   </xs:complexType>
+  </xs:schema>
+  </types>
+  <message name="Registration_RegisterForInvoiceResponse">
+    <part name="RegisterForInvoiceResponse" element="ns1:RegisterForInvoiceResponse"/>
+  </message>
+  <message name="Registration_EchoResponse">
+    <part name="EchoResponse" element="ns1:EchoResponse"/>
+  </message>
+  <message name="Registration_RegisterResponse">
+    <part name="RegisterResponse" element="ns1:RegisterResponse"/>
+  </message>
+  <message name="Registration_GetStatistics">
+    <part name="GetStatistics" element="ns1:GetStatistics"/>
+  </message>
+  <message name="Registration_BulkRegisterResponse">
+    <part name="BulkRegisterResponse" element="ns1:BulkRegisterResponse"/>
+  </message>
+  <message name="Registration_BulkRegister">
+    <part name="BulkRegister" element="ns1:BulkRegister"/>
+  </message>
+  <message name="AlreadyRegisteredFault">
+    <part name="AlreadyRegisteredFault" element="ns1:AlreadyRegisteredFault"/>
+  </message>
+  <message name="Registration_RegisterForInvoice">
+    <part name="RegisterForInvoice" element="ns1:RegisterForInvoice"/>
+  </message>
+  <message name="Registration_Echo">
+    <part name="Echo" element="ns1:Echo"/>
+  </message>
+  <message name="ValidationFault">
+    <part name="ValidationFault" element="ns1:ValidationFault"/>
+  </message>
+  <message name="Registration_GetStatisticsResponse">
+    <part name="GetStatisticsResponse" element="ns1:GetStatisticsResponse"/>
+  </message>
+  <message name="Registration_Register">
+    <part name="Register" element="ns1:Register"/>
+  </message>
+  <portType name="Registration">
+    <operation name="BulkRegister" parameterOrder="BulkRegister">
+      <input message="ns1:Registration_BulkRegister"/>
+      <output message="ns1:Registration_BulkRegisterResponse"/>
+      <fault name="AlreadyRegisteredFault" message="ns1:AlreadyRegisteredFault"/>
+      <fault name="ValidationFault" message="ns1:ValidationFault"/>
+    </operation>
+    <operation name="GetStatistics" parameterOrder="GetStatistics">
+      <input message="ns1:Registration_GetStatistics"/>
+      <output message="ns1:Registration_GetStatisticsResponse"/>
+    </operation>
+    <operation name="Register" parameterOrder="Register">
+      <input message="ns1:Registration_Register"/>
+      <output message="ns1:Registration_RegisterResponse"/>
+      <fault name="AlreadyRegisteredFault" message="ns1:AlreadyRegisteredFault"/>
+      <fault name="ValidationFault" message="ns1:ValidationFault"/>
+    </operation>
+    <operation name="RegisterForInvoice" parameterOrder="RegisterForInvoice">
+      <input message="ns1:Registration_RegisterForInvoice"/>
+      <output message="ns1:Registration_RegisterForInvoiceResponse"/>
+      <fault name="AlreadyRegisteredFault" message="ns1:AlreadyRegisteredFault"/>
+      <fault name="ValidationFault" message="ns1:ValidationFault"/>
+    </operation>
+    <operation name="Echo" parameterOrder="Echo">
+      <input message="ns1:Registration_Echo"/>
+      <output message="ns1:Registration_EchoResponse"/>
+    </operation>
+  </portType>
+  <binding name="RegistrationBinding" type="ns1:Registration">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="BulkRegister">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="AlreadyRegisteredFault">
+        <soap:fault name="AlreadyRegisteredFault" use="literal"/>
+      </fault>
+      <fault name="ValidationFault">
+        <soap:fault name="ValidationFault" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="Echo">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="GetStatistics">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="Register">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="AlreadyRegisteredFault">
+        <soap:fault name="AlreadyRegisteredFault" use="literal"/>
+      </fault>
+      <fault name="ValidationFault">
+        <soap:fault name="ValidationFault" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="RegisterForInvoice">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="AlreadyRegisteredFault">
+        <soap:fault name="AlreadyRegisteredFault" use="literal"/>
+      </fault>
+      <fault name="ValidationFault">
+        <soap:fault name="ValidationFault" use="literal"/>
+      </fault>
+    </operation>
+  </binding>
+</definitions>

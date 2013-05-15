@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd">
+  
+   <description>jBoss test application</description>
+   <display-name>Test</display-name>
+   <enterprise-beans>
+      <session>
+         <ejb-name>StatelessBean</ejb-name>
+         <service-ref>
+            <service-ref-name>service/Endpoint3</service-ref-name>
+            <service-interface>org.jboss.test.ws.jaxws.jbws1841.EndpointService</service-interface>
+            <mapped-name>jbossws-client/service/TestService</mapped-name>
+            <injection-target>
+               <injection-target-class>org.jboss.test.ws.jaxws.jbws1841.StatelessBean</injection-target-class>
+               <injection-target-name>endpoint3</injection-target-name>
+            </injection-target>
+         </service-ref>
+         <service-ref>
+            <service-ref-name>service/Endpoint4</service-ref-name>
+            <service-interface>javax.xml.ws.Service</service-interface>
+            <mapped-name>jbossws-client/service/TestService</mapped-name>
+            <injection-target>
+               <injection-target-class>org.jboss.test.ws.jaxws.jbws1841.StatelessBean</injection-target-class>
+               <injection-target-name>endpoint4</injection-target-name>
+            </injection-target>
+         </service-ref>       
+      </session>
+   </enterprise-beans>
+</ejb-jar>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Service" targetNamespace="http://www.jboss.org/test/ws/jaxws/jbws2957" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.jboss.org/test/ws/jaxws/jbws2957" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <types/>
+ <message name="HelloIface_sayHello"/>
+ <message name="HelloIface_sayHelloResponse">
+  <part name="return" type="xsd:string"/>
+ </message>
+ <portType name="HelloIface">
+  <operation name="sayHello">
+   <input message="tns:HelloIface_sayHello"/>
+   <output message="tns:HelloIface_sayHelloResponse"/>
+  </operation>
+ </portType>
+ <binding name="HelloIfaceBinding" type="tns:HelloIface">
+  <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="sayHello">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body namespace="http://www.jboss.org/test/ws/jaxws/jbws2957" use="literal"/>
+   </input>
+   <output>
+    <soap:body namespace="http://www.jboss.org/test/ws/jaxws/jbws2957" use="literal"/>
+   </output>
+  </operation>
+ </binding>
+ <service name="Service">
+  <port binding="tns:HelloIfaceBinding" name="HelloImplPort">
+   <soap:address location="http://@jboss.bind.address@:8080/foo/bar"/>
+  </port>
+ </service>
+</definitions>

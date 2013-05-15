@@ -1,0 +1,67 @@
+<definitions name='TestService' targetNamespace='http://org.jboss.test.ws/jbws2278' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://org.jboss.test.ws/jbws2278/types' xmlns:soap12='http://schemas.xmlsoap.org/wsdl/soap12/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://org.jboss.test.ws/jbws2278' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <schema targetNamespace='http://org.jboss.test.ws/jbws2278/types' xmlns='http://www.w3.org/2001/XMLSchema' xmlns:soap11-enc='http://schemas.xmlsoap.org/soap/encoding/' xmlns:tns='http://org.jboss.test.ws/jbws2278/types' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+   <complexType name='TestException'>
+    <sequence/>
+   </complexType>
+   <element name='TestException' type='tns:TestException'/>
+  </schema>
+ </types>
+
+ <message name='TestException' xmlns='http://schemas.xmlsoap.org/wsdl/'>
+  <part element='ns1:TestException' name='TestException'></part>
+ </message>
+ <message name='TestEndpoint_echoResponse'>
+  <part name='result' type='xsd:string'></part>
+ </message>
+ <message name='TestEndpoint_echo'>
+  <part name='String_1' type='xsd:string'></part>
+ </message>
+
+ <portType name='TestEndpoint'>
+  <operation name='echo' parameterOrder='String_1'>
+   <input message='tns:TestEndpoint_echo'></input>
+   <output message='tns:TestEndpoint_echoResponse'></output>
+   <fault message='tns:TestException' name='TestException'></fault>
+  </operation>
+ </portType>
+ <binding name='TestEndpointSoap11Binding' type='tns:TestEndpoint'>
+  <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='echo'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.test.ws/jbws2278' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.test.ws/jbws2278' use='literal'/>
+   </output>
+   <fault name='TestException'>
+    <soap:fault name='TestException' use='literal'/>
+   </fault>
+  </operation>
+ </binding>
+ <binding name='TestEndpointSoap12Binding' type='tns:TestEndpoint'>
+  <soap12:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='echo'>
+   <soap12:operation soapAction=''/>
+   <input>
+    <soap12:body namespace='http://org.jboss.test.ws/jbws2278' use='literal'/>
+   </input>
+   <output>
+    <soap12:body namespace='http://org.jboss.test.ws/jbws2278' use='literal'/>
+   </output>
+   <fault name='TestException'>
+    <soap12:fault name='TestException' use='literal'/>
+   </fault>
+  </operation>
+ </binding>
+ <service name='TestService'>
+  <port binding='tns:TestEndpointSoap11Binding' name='TestEndpointSoap11Port'>
+   <soap:address location='http://REPLACE_WITH_ACTUAL_URL/jaxws-jbws2278/soap11'/>
+  </port>
+  <port binding='tns:TestEndpointSoap12Binding' name='TestEndpointSoap12Port'>
+   <soap12:address location='http://REPLACE_WITH_ACTUAL_URL/jaxws-jbws2278/soap12'/>
+  </port>
+ </service>
+
+</definitions>

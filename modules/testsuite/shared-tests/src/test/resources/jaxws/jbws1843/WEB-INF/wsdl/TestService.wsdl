@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='utf-8'?>
+<definitions name='Service' targetNamespace='http://jbws1843.jaxws.ws.test.jboss.org/' xmlns:tns='http://jbws1843.jaxws.ws.test.jboss.org/'
+  xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:cc="urn:CoreComponentTypes" xmlns:bc="urn:BaseComponents" xmlns='http://schemas.xmlsoap.org/wsdl/'>
+  <types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="http://jbws1843.jaxws.ws.test.jboss.org/" xmlns:tns="http://jbws1843.jaxws.ws.test.jboss.org/"
+      xmlns:xns4="http://jbws1843.jaxws.ws.test.jboss.org/java/lang/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:import namespace="urn:BaseComponents" schemaLocation="BaseComponents.xsd"/>
+      <xsd:import namespace="urn:CoreComponentTypes" schemaLocation="CoreComponentTypes.xsd"/>
+      <xsd:element name="getCountryCodes">
+        <xsd:complexType>
+          <xsd:sequence/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getCurrencyCodes">
+        <xsd:complexType>
+          <xsd:sequence/>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getCountryCodesResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" nillable="false">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" minOccurs="1" name="country" nillable="true" type="bc:CountryCodeType"/>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getCurrency" type="bc:RequestType"/>
+      <xsd:element name="getCurrencyResponse" type="bc:ResponseType"/>
+      <xsd:element name="getCurrencyCodesResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" nillable="false">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" minOccurs="1" name="currency" nillable="true" type="bc:CurrencyCodeType"/>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+  <message name='Service_getCountryCodes_Request_Soap'>
+    <part name='parameters' element='tns:getCountryCodes'/>
+  </message>
+  <message name='Service_getCountryCodes_Response_Soap'>
+    <part name='parameters' element='tns:getCountryCodesResponse'/>
+  </message>
+  <message name='Service_getCurrencyCodes_Request_Soap'>
+    <part name='parameters' element='tns:getCurrencyCodes'/>
+  </message>
+  <message name='Service_getCurrencyCodes_Response_Soap'>
+    <part name='parameters' element='tns:getCurrencyCodesResponse'/>
+  </message>
+  <message name='Service_getCurrency_Request_Soap'>
+    <part name='parameters' element='tns:getCurrency'/>
+  </message>
+  <message name='Service_getCurrency_Response_Soap'>
+    <part name='parameters' element='tns:getCurrencyResponse'/>
+  </message>
+  <portType name='Service'>
+    <operation name='getCountryCodes'>
+      <input message='tns:Service_getCountryCodes_Request_Soap'/>
+      <output message='tns:Service_getCountryCodes_Response_Soap'/>
+    </operation>
+    <operation name='getCurrency'>
+      <input message='tns:Service_getCurrency_Request_Soap'/>
+      <output message='tns:Service_getCurrency_Response_Soap'/>
+    </operation>
+    <operation name='getCurrencyCodes'>
+      <input message='tns:Service_getCurrencyCodes_Request_Soap'/>
+      <output message='tns:Service_getCurrencyCodes_Response_Soap'/>
+    </operation>
+  </portType>
+  <binding name='Service' type='tns:Service'>
+    <soap:binding transport='http://schemas.xmlsoap.org/soap/http' style='document'/>
+    <operation name='getCountryCodes'>
+      <soap:operation soapAction='countryCodesAction' style='document'/>
+      <input>
+        <soap:body parts='parameters' use='literal'/>
+      </input>
+      <output>
+        <soap:body parts='parameters' use='literal'/>
+      </output>
+    </operation>
+    <operation name='getCurrency'>
+      <soap:operation soapAction='currencyAction' style='document'/>
+      <input>
+        <soap:body parts='parameters' use='literal'/>
+      </input>
+      <output>
+        <soap:body parts='parameters' use='literal'/>
+      </output>
+    </operation>
+    <operation name='getCurrencyCodes'>
+      <soap:operation soapAction='currencyCodesAction' style='document'/>
+      <input>
+        <soap:body parts='parameters' use='literal'/>
+      </input>
+      <output>
+        <soap:body parts='parameters' use='literal'/>
+      </output>
+    </operation>
+  </binding>
+  <service name='Service'>
+    <port name='Service' binding='tns:Service'>
+      <soap:address location='REPLACE_WITH_ACTUAL_URL'/>
+    </port>
+  </service>
+</definitions>

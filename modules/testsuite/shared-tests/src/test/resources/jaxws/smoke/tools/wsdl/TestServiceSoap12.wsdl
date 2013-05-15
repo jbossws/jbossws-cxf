@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions name="TestService"
+             targetNamespace="http://www.openuri.org/2004/04/HelloWorld"
+             xmlns:tns="http://www.openuri.org/2004/04/HelloWorld"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+  <types/>
+  <message name="EndpointInterface_echo">
+    <part name="String_1" type="xsd:string"/>
+  </message>
+  <message name="EndpointInterface_echoResponse">
+    <part name="result" type="xsd:string"/>
+  </message>
+  <portType name="EndpointInterface">
+    <operation name="echo" parameterOrder="String_1">
+      <input message="tns:EndpointInterface_echo"/>
+      <output message="tns:EndpointInterface_echoResponse"/>
+    </operation>
+  </portType>
+  <binding name="EndpointInterfaceBinding" type="tns:EndpointInterface">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+    <operation name="echo">
+      <soap12:operation soapAction=""/>
+      <input>
+        <soap12:body use="literal" namespace="http://www.openuri.org/2004/04/HelloWorld"/>
+      </input>
+      <output>
+        <soap12:body use="literal" namespace="http://www.openuri.org/2004/04/HelloWorld"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="TestService">
+    <port name="EndpointInterfacePort" binding="tns:EndpointInterfaceBinding">
+      <soap12:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>

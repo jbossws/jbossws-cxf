@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://marshalltestservice.org/NewSchemaDefs" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://marshalltestservice.org/types2" name="NewSchemaDefs" targetNamespace="http://marshalltestservice.org/NewSchemaDefs">
+  <types>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified">
+      <xsd:import namespace="http://marshalltestservice.org/types2" schemaLocation="JBWS2591Schema.xsd" />
+    </xsd:schema>
+  </types>
+  <message name="FooByteListTypeRequest">
+    <part name="fooByteListTypeRequest" element="ns2:FooByteListType" />
+  </message>
+  <message name="FooByteListTypeResponse">
+    <part name="fooByteListTypeResponse" element="ns2:FooByteListType" />
+  </message>
+  <portType name="NewSchemaTest">
+    <operation name="echoByteListTypeTest">
+      <input message="tns:FooByteListTypeRequest" />
+      <output message="tns:FooByteListTypeResponse" />
+    </operation>
+  </portType>
+  <binding name="NewSchemaTestSoapBinding" type="tns:NewSchemaTest">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="echoByteListTypeTest">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="MarshallTestService">
+    <port name="MarshallTestPort2" binding="tns:NewSchemaTestSoapBinding">
+      <soap:address location="http://@jboss.bind.address@:8080/W2JDLMarshallTest/jaxws/NewSchemaTest" />
+    </port>
+  </service>
+</definitions>
+

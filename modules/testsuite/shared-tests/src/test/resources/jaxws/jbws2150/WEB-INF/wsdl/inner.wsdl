@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions targetNamespace='http://test.jboss.org/addressrewrite/wsdlimp' xmlns='http://schemas.xmlsoap.org/wsdl/'>
+ <types/>
+</definitions>

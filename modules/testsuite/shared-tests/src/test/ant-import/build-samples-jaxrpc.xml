@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ JBoss, Home of Professional Open Source.
+  ~ Copyright 2011, Red Hat, Inc., and individual contributors
+  ~ as indicated by the @author tags. See the copyright.txt file in the
+  ~ distribution for a full listing of individual contributors.
+  ~
+  ~ This is free software; you can redistribute it and/or modify it
+  ~ under the terms of the GNU Lesser General Public License as
+  ~ published by the Free Software Foundation; either version 2.1 of
+  ~ the License, or (at your option) any later version.
+  ~
+  ~ This software is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this software; if not, write to the Free
+  ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+  ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+  -->
+
+<project>
+  
+  <!-- ================================================================== -->
+  <!-- Building                                                           -->
+  <!-- ================================================================== -->
+  
+  <target name="build-samples-jaxrpc" description="Build the jaxrpc samples deployments">
+    
+    <mkdir dir="${tests.output.dir}/test-libs"/>
+    
+    <!-- jaxrpc-samples-docstyle-bare -->
+    <war warfile="${tests.output.dir}/test-libs/jaxrpc-samples-docstyle-bare.war"
+      webxml="${tests.output.dir}/test-resources/jaxrpc/samples/docstyle/bare/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/bare/TrivialEndpointJSE.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/bare/TrivialService.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/bare/TrivialOrder.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/bare/TrivialOrderResponse.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/docstyle/bare/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+    </war>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-docstyle-bare-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/bare/TrivialService.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/bare/TrivialOrder.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/bare/TrivialOrderResponse.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/docstyle/bare/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+      </metainf>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/docstyle/bare/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-docstyle-wrapped -->
+    <war warfile="${tests.output.dir}/test-libs/jaxrpc-samples-docstyle-wrapped.war"
+      webxml="${tests.output.dir}/test-resources/jaxrpc/samples/docstyle/wrapped/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/wrapped/TrivialEndpointJSE.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/wrapped/TrivialService.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/wrapped/TrivialService*RequestStruct.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/wrapped/TrivialService*ResponseStruct.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/docstyle/wrapped/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+    </war>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-docstyle-wrapped-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/wrapped/TrivialService.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/wrapped/TrivialService*RequestStruct.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/docstyle/wrapped/TrivialService*ResponseStruct.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/docstyle/wrapped/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+      </metainf>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/docstyle/wrapped/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-exception -->
+    <war destfile="${tests.output.dir}/test-libs/jaxrpc-samples-exception.war" webxml="${tests.output.dir}/test-resources/jaxrpc/samples/exception/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/exception/*Exception.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/exception/ServerHandler.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/exception/ExceptionServiceInterface.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/exception/ExceptionBeanImpl.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/exception/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+    </war>
+    <jar destfile="${tests.output.dir}/test-libs/jaxrpc-samples-exception-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/exception/*Exception.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/exception/ExceptionServiceInterface.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/exception/ExceptionService.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/exception/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+      </metainf>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/exception/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-handler -->
+    <war warfile="${tests.output.dir}/test-libs/jaxrpc-samples-handler.war" webxml="${tests.output.dir}/test-resources/jaxrpc/samples/handler/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/handler/*Service.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/handler/*ServiceBean.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/handler/ServerSideHandler.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/handler/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+    </war>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-handler-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/handler/*Service.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/handler/ClientSideHandler.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/handler/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/handler/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-holder -->
+    <war warfile="${tests.output.dir}/test-libs/jaxrpc-samples-holder.war" webxml="${tests.output.dir}/test-resources/jaxrpc/samples/holder/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/holder/*Service.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/holder/*ServiceBean.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/holder/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+    </war>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-holder-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/holder/*Service.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/holder/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/holder/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-jsr109ejb-rpc -->
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-jsr109ejb-rpc.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109ejb/*Type.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109ejb/*Service.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109ejb/*EJBEndpoint.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/jsr109ejb/rpclit/META-INF">
+        <include name="ejb-jar.xml"/>
+        <include name="jboss-webservices.xml"/>
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+    </jar>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-jsr109ejb-rpc-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109ejb/*Type.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109ejb/*Service.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/jsr109ejb/rpclit/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-jsr109ejb-doc -->
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-jsr109ejb-doc.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109ejb/*Type.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109ejb/*Struct.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109ejb/*Service.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109ejb/*EJBEndpoint.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/jsr109ejb/doclit/META-INF">
+        <include name="ejb-jar.xml"/>
+        <include name="jboss-webservices.xml"/>
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+    </jar>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-jsr109ejb-doc-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109ejb/*Type.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109ejb/*Struct.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109ejb/*Service.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/jsr109ejb/doclit/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-jsr109pojo-rpc -->
+    <war warfile="${tests.output.dir}/test-libs/jaxrpc-samples-jsr109pojo-rpc.war"
+      webxml="${tests.output.dir}/test-resources/jaxrpc/samples/jsr109pojo/rpclit/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109pojo/*Type.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109pojo/*Service.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109pojo/*JSEEndpoint.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/jsr109pojo/rpclit/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="jboss-webservices.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+    </war>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-jsr109pojo-rpc-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109pojo/*Type.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109pojo/*Service.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/jsr109pojo/rpclit/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+      </metainf>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/jsr109pojo/rpclit/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-jsr109pojo-doc -->
+    <war warfile="${tests.output.dir}/test-libs/jaxrpc-samples-jsr109pojo-doc.war"
+      webxml="${tests.output.dir}/test-resources/jaxrpc/samples/jsr109pojo/doclit/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109pojo/*Type.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109pojo/*Struct.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109pojo/*Service.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109pojo/*JSEEndpoint.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/jsr109pojo/doclit/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+    </war>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-jsr109pojo-doc-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109pojo/*Type.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109pojo/*Struct.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/jsr109pojo/*Service.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/jsr109pojo/doclit/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+      </metainf>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/jsr109pojo/doclit/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-message -->
+    <war warfile="${tests.output.dir}/test-libs/jaxrpc-samples-message.war" webxml="${tests.output.dir}/test-resources/jaxrpc/samples/message/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/message/*Service.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/message/*ServiceBean.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/message/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.common"/>
+      </manifest>
+    </war>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-message-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/message/*Service.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/message/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/message/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-oneway -->
+    <war warfile="${tests.output.dir}/test-libs/jaxrpc-samples-oneway.war" webxml="${tests.output.dir}/test-resources/jaxrpc/samples/oneway/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/oneway/*Service.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/oneway/*ServiceBean.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/oneway/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+    </war>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-oneway-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/oneway/*Service.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/oneway/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/oneway/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-rpcstyle -->
+    <war warfile="${tests.output.dir}/test-libs/jaxrpc-samples-rpcstyle.war" webxml="${tests.output.dir}/test-resources/jaxrpc/samples/rpcstyle/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/rpcstyle/TrivialEndpointJSE.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/rpcstyle/TrivialService.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/rpcstyle/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+    </war>
+    <jar jarfile="${tests.output.dir}/test-libs/jaxrpc-samples-rpcstyle-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/rpcstyle/TrivialService.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/rpcstyle/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+      </metainf>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/rpcstyle/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-serviceref -->
+    <war warfile="${tests.output.dir}/test-libs/jaxrpc-samples-serviceref.war" webxml="${tests.output.dir}/test-resources/jaxrpc/samples/serviceref/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/serviceref/TestEndpointImpl.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/serviceref/TestEndpoint.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/serviceref/META-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/serviceref/WEB-INF">
+        <include name="webservices.xml"/>
+      </webinf>
+    </war>
+    <war destfile="${tests.output.dir}/test-libs/jaxrpc-samples-serviceref-servlet-client.war"
+      webxml="${tests.output.dir}/test-resources/jaxrpc/samples/serviceref/servlet-client/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/serviceref/ServletClient.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/serviceref/TestEndpointService.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/serviceref/TestEndpoint.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/serviceref/ExampleHandler.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/serviceref/META-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+    </war>
+    <jar destfile="${tests.output.dir}/test-libs/jaxrpc-samples-serviceref-ejbclient.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/serviceref/EJBClient.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/serviceref/EJBRemote.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/serviceref/EJBRemoteHome.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/serviceref/TestEndpointService.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/serviceref/TestEndpoint.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/serviceref/META-INF">
+        <include name="ejb-jar.xml"/>
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+    </jar>
+    
+    <!-- jaxrpc-samples-swa -->
+    <war warfile="${tests.output.dir}/test-libs/jaxrpc-samples-swa.war" webxml="${tests.output.dir}/test-resources/jaxrpc/samples/swa/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/swa/AttachmentImpl.class"/>
+        <include name="org/jboss/test/ws/jaxrpc/samples/swa/Attachment.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxrpc/samples/swa/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="webservices.xml"/>
+        <include name="wsdl/**"/>
+      </webinf>
+    </war>
+    <jar destfile="${tests.output.dir}/test-libs/jaxrpc-samples-swa-client.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxrpc/samples/swa/Attachment.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/swa/META-INF">
+        <include name="application-client.xml"/>
+        <include name="jboss-client.xml"/>
+      </metainf>
+      <metainf dir="${tests.output.dir}/test-resources/jaxrpc/samples/swa/WEB-INF">
+        <include name="jaxrpc-mapping.xml"/>
+        <include name="wsdl/**"/>
+      </metainf>
+    </jar>
+    
+    <!-- Please add alphabetically -->
+    
+  </target>
+  
+</project>

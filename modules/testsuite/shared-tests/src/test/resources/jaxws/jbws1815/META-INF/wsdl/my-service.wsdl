@@ -1,0 +1,58 @@
+<definitions name="MyTestService" targetNamespace="http://www.my-company.it/ws/my-test" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.my-company.it/ws/my-test" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <types>
+  <schema elementFormDefault="qualified" targetNamespace="http://www.my-company.it/ws/my-test" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.my-company.it/ws/my-test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <complexType name="MyWSException">
+    <sequence>
+     <element name="message" nillable="true" type="string"/>
+    </sequence>
+   </complexType>
+   <complexType name="performTest">
+    <sequence>
+     <element name="Code" nillable="true" type="long"/>
+    </sequence>
+   </complexType>
+   <complexType name="performTestResponse">
+    <sequence/>
+   </complexType>
+   <element name="MyWSException" type="tns:MyWSException"/>
+   <element name="performTest" type="tns:performTest"/>
+   <element name="performTestResponse" type="tns:performTestResponse"/>
+  </schema>
+ </types>
+ <message name="MyTest_performTestResponse">
+  <part element="tns:performTestResponse" name="result"/>
+ </message>
+ <message name="MyTest_performTest">
+  <part element="tns:performTest" name="parameters"/>
+ </message>
+ <message name="MyWSException">
+  <part element="tns:MyWSException" name="MyWSException"/>
+ </message>
+ <portType name="MyTest">
+  <operation name="performTest">
+   <input message="tns:MyTest_performTest"/>
+   <output message="tns:MyTest_performTestResponse"/>
+   <fault message="tns:MyWSException" name="MyWSException"/>
+  </operation>
+ </portType>
+ <binding name="MyTestBinding" type="tns:MyTest">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="performTest">
+   <soap:operation soapAction="urn:performTest"/>
+   <input>
+    <soap:body use="literal"/>
+   </input>
+   <output>
+    <soap:body use="literal"/>
+   </output>
+   <fault name="MyWSException">
+    <soap:fault name="MyWSException" use="literal"/>
+   </fault>
+  </operation>
+ </binding>
+ <service name="MyTestService">
+  <port binding="tns:MyTestBinding" name="MyTestPort">
+   <soap:address location="http://my-company.it/my-context/my-endpoint"/>
+  </port>
+ </service>
+</definitions>

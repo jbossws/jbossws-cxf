@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name='JBWS1529Service' targetNamespace='http://jbws1529.jaxws.ws.test.jboss.org/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://sei-namespace' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://jbws1529.jaxws.ws.test.jboss.org/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <import location='JBWS1529_PortType.wsdl' namespace='http://sei-namespace'/>
+ <service name='JBWS1529Service'>
+  <port binding='ns1:JBWS1529Binding' name='JBWS1529Port'>
+   <soap:address location='REPLACE_WITH_ACTUAL_URL'/>
+  </port>
+ </service>
+</definitions>

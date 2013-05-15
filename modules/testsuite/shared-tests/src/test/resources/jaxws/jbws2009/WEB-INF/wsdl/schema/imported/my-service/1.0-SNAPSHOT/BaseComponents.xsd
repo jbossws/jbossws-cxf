@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="urn:BaseComponents" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:cc="urn:CoreComponentTypes"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="urn:CoreComponentTypes" schemaLocation="../../../common/1.0-SNAPSHOT/CoreComponentTypes.xsd"/>
+  <xs:simpleType name="CountryCodeType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="DE"/>
+      <xs:enumeration value="CZ"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CurrencyCodeType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="CZK"/>
+      <xs:enumeration value="EUR"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RequestType">
+    <xs:restriction base="cc:CountryType"/>
+  </xs:simpleType>
+  <xs:simpleType name="ResponseType">
+    <xs:restriction base="cc:CurrencyType"/>
+  </xs:simpleType>
+</xs:schema>

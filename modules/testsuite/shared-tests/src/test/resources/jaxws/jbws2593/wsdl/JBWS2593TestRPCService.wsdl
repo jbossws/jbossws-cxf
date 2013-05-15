@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://jbws2593-rpc.org/" xmlns:s="http://jbws2593-rpc.org/xsd" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="ParameterModeTest" targetNamespace="http://jbws2593-rpc.org/">
+  <types/>
+  <message name="inSimpleTypesRequest">
+    <part name="varBase64Binary" type="xsd:base64Binary" />
+    <part name="varHexBinary" type="xsd:hexBinary" />
+  </message>
+  <message name="inSimpleTypesResponse">
+    <part name="return" type="xsd:hexBinary" />
+  </message>
+  <portType name="ParameterModeTest">
+    <operation name="echoInSimpleTypes" parameterOrder="varBase64Binary varHexBinary">
+      <input message="tns:inSimpleTypesRequest" />
+      <output message="tns:inSimpleTypesResponse" />
+    </operation>
+  </portType>
+  <binding name="ParameterModeTestBinding" type="tns:ParameterModeTest">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="echoInSimpleTypes">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://ParameterModeTest.org/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://ParameterModeTest.org/" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ParameterModeTestService">
+    <port name="ParameterModeTestPort" binding="tns:ParameterModeTestBinding">
+      <soap:address location="http://@jboss.bind.address@:8000/W2JRLParameterModeTest/jaxws/ParameterModeTest" />
+    </port>
+  </service>
+</definitions>
+

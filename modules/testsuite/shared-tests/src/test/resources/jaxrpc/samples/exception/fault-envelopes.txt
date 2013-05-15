@@ -1,0 +1,101 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <soapenv:Header>
+ </soapenv:Header>
+ <soapenv:Body>
+  <ns1:throwException xmlns:ns1="http://org.jboss.webservice/exception"/>
+ </soapenv:Body>
+</soapenv:Envelope>
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <soapenv:Body>
+  <soapenv:Fault>
+   <faultcode>soapenv:Client</faultcode>
+   <faultstring>org.jboss.test.ws.jaxrpc.exception.UserException</faultstring>
+   <detail>
+    <ns1:UserException xmlns:ns1="http://org.jboss.webservice/exception/types">
+     <message xsi:nil="1"/>
+    </ns1:UserException>
+   </detail>
+  </soapenv:Fault>
+ </soapenv:Body>
+</soapenv:Envelope>
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <soapenv:Header>
+ </soapenv:Header>
+ <soapenv:Body>
+  <ns1:throwExceptionWithMessage xmlns:ns1="http://org.jboss.webservice/exception">
+   <String_1>Don't worry it's just a test</String_1>
+  </ns1:throwExceptionWithMessage>
+ </soapenv:Body>
+</soapenv:Envelope>
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <soapenv:Body>
+  <soapenv:Fault>
+   <faultcode>soapenv:Client</faultcode>
+   <faultstring>Don't worry it's just a test</faultstring>
+   <detail>
+    <ns1:UserMessageException xmlns:ns1="http://org.jboss.webservice/exception/types">
+     <message>Don't worry it's just a test</message>
+    </ns1:UserMessageException>
+   </detail>
+  </soapenv:Fault>
+ </soapenv:Body>
+</soapenv:Envelope>
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <soapenv:Header>
+ </soapenv:Header>
+ <soapenv:Body>
+  <ns1:throwComplexUserException xmlns:ns1="http://org.jboss.webservice/exception">
+   <String_1>Don't worry it's just a test</String_1>
+   <int_2>200</int_2>
+  </ns1:throwComplexUserException>
+ </soapenv:Body>
+</soapenv:Envelope>
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <soapenv:Body>
+  <soapenv:Fault>
+   <faultcode>soapenv:Client</faultcode>
+   <faultstring>Don't worry it's just a test</faultstring>
+   <detail>
+    <ns1:ComplexUserException xmlns:ns1="http://org.jboss.webservice/exception/types">
+     <message>Don't worry it's just a test</message>
+     <errorCode>200</errorCode>
+    </ns1:ComplexUserException>
+   </detail>
+  </soapenv:Fault>
+ </soapenv:Body>
+</soapenv:Envelope>
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <soapenv:Header>
+ </soapenv:Header>
+ <soapenv:Body>
+  <ns1:throwComplexUserArrayException xmlns:ns1="http://org.jboss.webservice/exception">
+   <String_1>Don't worry it's just a test</String_1>
+   <arrayOfint_2>
+    <value>100</value>
+    <value>200</value>
+   </arrayOfint_2>
+  </ns1:throwComplexUserArrayException>
+ </soapenv:Body>
+</soapenv:Envelope>
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <soapenv:Body>
+  <soapenv:Fault>
+   <faultcode>soapenv:Client</faultcode>
+   <faultstring>Don't worry it's just a test</faultstring>
+   <detail>
+    <ns1:ComplexUserArrayException xmlns:ns1="http://org.jboss.webservice/exception/types">
+     <message>Don't worry it's just a test</message>
+     <errorCodes>100</errorCodes>
+     <errorCodes>200</errorCodes>
+    </ns1:ComplexUserArrayException>
+   </detail>
+  </soapenv:Fault>
+ </soapenv:Body>
+</soapenv:Envelope>

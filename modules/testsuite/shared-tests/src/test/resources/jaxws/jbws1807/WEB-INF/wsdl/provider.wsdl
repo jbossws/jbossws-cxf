@@ -1,0 +1,70 @@
+<?xml version='1.0'?>
+<definitions name='ProviderService' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' 
+  xmlns:tns='http://ws.com/' targetNamespace='http://ws.com/'
+  xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+  
+  <types>
+    <xs:schema targetNamespace='http://ws.com/' version='1.0' xmlns:tns='http://ws.com/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+      <xs:element name='input' type='tns:input'/>
+      <xs:element name='reply' type='tns:reply'/>
+      <xs:complexType name='input'>
+        <xs:sequence>
+          <xs:element minOccurs='0' name='arg0' type='xs:string'/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name='reply'>
+        <xs:sequence>
+          <xs:element minOccurs='0' name='return' type='xs:string'/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </types>
+
+  <message name='input'>
+    <part name='input' element='tns:input'/>
+  </message>
+  
+  <message name='reply'>
+    <part name='reply' element='tns:reply'/>
+  </message>
+  
+  <portType name='pt2'>
+    <operation name='o1'>
+      <input message='tns:input'/>
+      <output message='tns:reply'/>
+    </operation>
+  </portType>
+  
+  <binding name="b1" type="tns:pt2">
+    <http:binding verb="GET"/>
+    <operation name="o1">
+      <http:operation location="o1"/>
+      <input>
+        <http:urlEncoded/>
+      </input>
+      <output>
+        <mime:content type="text/xml"/>
+      </output>
+    </operation>
+  </binding>
+  <binding name='b2' type='tns:pt2'>
+    <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+    <operation name='o1'>
+      <soap:operation soapAction=''/>
+      <input>
+        <soap:body use='literal'/>
+      </input>
+      <output>
+        <soap:body use='literal'/>
+      </output>
+    </operation>
+  </binding>
+  
+  <service name="ProviderService">
+    <port name="ProviderPort" binding="tns:b1">
+      <http:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+  
+</definitions>

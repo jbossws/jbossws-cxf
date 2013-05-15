@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<env:Envelope xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>
+  <env:Header/>
+  <env:Body>
+    <ns1:echoString xmlns:ns1='http://jbws1582.jaxws.ws.test.jboss.org/'>
+      <arg0>Hello</arg0>
+    </ns1:echoString>
+  </env:Body>
+</env:Envelope>
+

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  version="2.5">
+
+  <servlet>
+    <servlet-name>TestService</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.enventry.EnvEntryBeanJSE</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>TestService</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+
+  <env-entry>
+    <env-entry-name>jaxws/entry1</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>web</env-entry-value>
+    <injection-target>
+      <injection-target-class>org.jboss.test.ws.jaxws.enventry.EnvEntryBeanJSE</injection-target-class>
+      <injection-target-name>strValue</injection-target-name>
+    </injection-target>
+  </env-entry>
+
+  <env-entry>
+    <env-entry-name>jaxws/entry2</env-entry-name>
+    <env-entry-type>java.lang.Integer</env-entry-type>
+    <env-entry-value>8</env-entry-value>
+  </env-entry>
+
+</web-app>

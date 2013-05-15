@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name='TestService' targetNamespace='http://org.jboss.ws/samples/handler' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://org.jboss.ws/samples/handler/types' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://org.jboss.ws/samples/handler' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <schema targetNamespace='http://org.jboss.ws/samples/handler/types' xmlns='http://www.w3.org/2001/XMLSchema' xmlns:soap11-enc='http://schemas.xmlsoap.org/soap/encoding/' xmlns:tns='http://org.jboss.ws/samples/handler/types' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+   <element name='headerMsg' type='string'/>
+  </schema>
+ </types>
+ <message name='HeaderTestService_testInHeader' xmlns='http://schemas.xmlsoap.org/wsdl/'>
+  <part name='String_1' type='xsd:string'/>
+  <part element='ns1:headerMsg' name='headerMsg'/>
+ </message>
+ <message name='HeaderTestService_testInHeaderResponse'/>
+ <message name='HeaderTestService_testInOutHeader'>
+  <part name='String_1' type='xsd:string'/>
+  <part element='ns1:headerMsg' name='headerMsg'/>
+ </message>
+ <message name='HeaderTestService_testInOutHeaderResponse'>
+  <part element='ns1:headerMsg' name='headerMsg'/>
+ </message>
+ <message name='HeaderTestService_testOutHeader'>
+  <part name='String_1' type='xsd:string'/>
+ </message>
+ <message name='HeaderTestService_testOutHeaderResponse'>
+  <part element='ns1:headerMsg' name='headerMsg'/>
+ </message>
+ <portType name='HeaderTestService'>
+  <operation name='testInHeader' parameterOrder='String_1 headerMsg'>
+   <input message='tns:HeaderTestService_testInHeader'/>
+   <output message='tns:HeaderTestService_testInHeaderResponse'/>
+  </operation>
+  <operation name='testInOutHeader' parameterOrder='String_1 headerMsg'>
+   <input message='tns:HeaderTestService_testInOutHeader'/>
+   <output message='tns:HeaderTestService_testInOutHeaderResponse'/>
+  </operation>
+  <operation name='testOutHeader' parameterOrder='String_1 headerMsg'>
+   <input message='tns:HeaderTestService_testOutHeader'/>
+   <output message='tns:HeaderTestService_testOutHeaderResponse'/>
+  </operation>
+ </portType>
+ <binding name='HeaderTestServiceBinding' type='tns:HeaderTestService'>
+  <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='testInHeader'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/handler' parts='String_1' use='literal'/>
+    <soap:header message='tns:HeaderTestService_testInHeader' part='headerMsg' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/handler' use='literal'/>
+   </output>
+  </operation>
+  <operation name='testInOutHeader'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/handler' parts='String_1' use='literal'/>
+    <soap:header message='tns:HeaderTestService_testInOutHeader' part='headerMsg' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/handler' parts='' use='literal'/>
+    <soap:header message='tns:HeaderTestService_testInOutHeaderResponse' part='headerMsg' use='literal'/>
+   </output>
+  </operation>
+  <operation name='testOutHeader'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/handler' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/handler' parts='' use='literal'/>
+    <soap:header message='tns:HeaderTestService_testOutHeaderResponse' part='headerMsg' use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='TestService'>
+  <port binding='tns:HeaderTestServiceBinding' name='HeaderTestServicePort'>
+   <soap:address location='REPLACE_WITH_ACTUAL_URL'/>
+  </port>
+ </service>
+</definitions>

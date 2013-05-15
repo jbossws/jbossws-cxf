@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+  version="2.4">
+
+  <servlet>
+    <servlet-name>JBWS1357Service</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws1357.JBWS1357Impl</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>hello_jsp</servlet-name>
+    <jsp-file>/hello.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>JBWS1357Service</servlet-name>
+    <url-pattern>/JBWS1357Service</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>hello_jsp</servlet-name>
+    <url-pattern>/hello.jsp</url-pattern>
+  </servlet-mapping>
+
+</web-app>

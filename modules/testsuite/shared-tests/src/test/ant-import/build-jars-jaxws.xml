@@ -1,0 +1,1393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ JBoss, Home of Professional Open Source.
+  ~ Copyright 2011, Red Hat, Inc., and individual contributors
+  ~ as indicated by the @author tags. See the copyright.txt file in the
+  ~ distribution for a full listing of individual contributors.
+  ~
+  ~ This is free software; you can redistribute it and/or modify it
+  ~ under the terms of the GNU Lesser General Public License as
+  ~ published by the Free Software Foundation; either version 2.1 of
+  ~ the License, or (at your option) any later version.
+  ~
+  ~ This software is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this software; if not, write to the Free
+  ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+  ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+  -->
+
+<project>
+
+	<description>JBossWS test archive builder</description>
+
+	<!-- ================================================================== -->
+	<!-- Building                                                           -->
+	<!-- ================================================================== -->
+
+	<target name="build-jars-jaxws" description="Build the deployments.">
+
+		<mkdir dir="${tests.output.dir}/test-libs/as6" />
+
+		<!-- jaxws-anonymous -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-anonymous.war" webxml="${tests.output.dir}/test-resources/jaxws/anonymous/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/anonymous/Anonymous.class" />
+				<include name="org/jboss/test/ws/jaxws/anonymous/AnonymousRequest.class" />
+				<include name="org/jboss/test/ws/jaxws/anonymous/AnonymousResponse.class" />
+				<include name="org/jboss/test/ws/jaxws/anonymous/AnonymousImpl.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-benchmark-basic -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-benchmark-basic.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/benchmark/test/basic/Endpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/benchmark/test/basic/EndpointImpl.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-benchmark-datatypes-ejb3 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-benchmark-datatypes-ejb3.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/benchmark/test/datatypes/**/Endpoint*.class" />
+				<include name="org/jboss/test/ws/jaxws/benchmark/test/datatypes/**/ComplexType.class" />
+				<exclude name="org/jboss/test/ws/jaxws/benchmark/test/datatypes/**/*POJO*.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-benchmark-datatypes-pojo -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-benchmark-datatypes-pojo.war" webxml="${tests.output.dir}/test-resources/jaxws/benchmark/test/datatypes/war/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/benchmark/test/datatypes/**/Endpoint*.class" />
+				<include name="org/jboss/test/ws/jaxws/benchmark/test/datatypes/**/ComplexType.class" />
+				<exclude name="org/jboss/test/ws/jaxws/benchmark/test/datatypes/**/*EJB3*.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-benchmark-basicdoclit -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-benchmark-basicdoclit.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/benchmark/test/basicdoclit/Endpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/benchmark/test/basicdoclit/EndpointImpl.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-benchmark-complex -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-benchmark-complex.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/benchmark/test/complex/types/*.class" />
+				<include name="org/jboss/test/ws/jaxws/benchmark/test/complex/RegistrationServiceImpl.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-binding -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-binding.war" webxml="${tests.output.dir}/test-resources/jaxws/binding/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/binding/SOAPEndpointBean.class" />
+				<include name="org/jboss/test/ws/jaxws/binding/SOAPEndpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/binding/ServerHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/binding/jaxws-server-handlers.xml" />
+			</classes>
+		</war>
+
+		<!-- jaxws-classloading-service -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-classloading-service.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/smoke/tools/service/HelloWorld.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-classloading-types -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-classloading-types.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/smoke/tools/service/Message.class" />
+				<include name="org/jboss/test/ws/jaxws/smoke/tools/service/Echo.class" />
+				<include name="org/jboss/test/ws/jaxws/smoke/tools/service/EchoResponse.class" />
+			</fileset>
+		</jar>
+
+        <!-- jaxws-clientConfig -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-clientConfig.war" needxmlfile="false">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/clientConfig/Endpoint*.class" />
+			</classes>
+		</war>
+		
+        <!-- jaxws-clientConfig-inContainer-client -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-clientConfig-inContainer-client.war" needxmlfile="false">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/clientConfig/Endpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/clientConfig/*Handler.class" />
+				<include name="org/jboss/test/ws/jaxws/clientConfig/Helper.class" />
+				<include name="org/jboss/test/ws/jaxws/clientConfig/TestUtils.class" />
+				<include name="org/jboss/test/helper/TestServlet.class"/>
+				<include name="org/jboss/test/helper/ClientHelper.class"/>
+			</classes>
+			<classes dir="${tests.output.dir}/test-resources/jaxws/clientConfig">
+				<include name="META-INF/jaxws-client-config.xml"/>
+			</classes>
+                        <manifest>
+                                <attribute name="Dependencies" value="org.jboss.ws.common"/>
+                        </manifest>
+		</war>
+		
+        <!-- jaxws-clientConfig-client -->
+	    <jar destfile="${tests.output.dir}/test-libs/jaxws-clientConfig-client.jar">
+	      <metainf dir="${tests.output.dir}/test-resources/jaxws/clientConfig/META-INF">
+	        <include name="jaxws-client-config.xml" />
+	      </metainf>
+	    </jar>
+
+		<!-- jaxws-complex -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-complex.war" webxml="${tests.output.dir}/test-resources/jaxws/complex/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/complex/*.class" />
+				<include name="org/jboss/test/ws/jaxws/complex/extra/*.class" />
+				<include name="org/jboss/test/ws/jaxws/complex/types/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/complex/*TestCase.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-endpointReference -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-endpointReference.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/endpointReference/Endpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/endpointReference/EndpointImpl.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-enventry -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-enventry-jse.war" webxml="${tests.output.dir}/test-resources/jaxws/enventry/WEB-INF/jse-web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/enventry/EnvEntryBeanJSE.class" />
+				<include name="org/jboss/test/ws/jaxws/enventry/EnvEntryHandler.class" />
+			</classes>
+		</war>
+		<war warfile="${tests.output.dir}/test-libs/jaxws-enventry-servlet.war" webxml="${tests.output.dir}/test-resources/jaxws/enventry/WEB-INF/servlet-web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/enventry/EnvEntryServlet.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-handlerscope -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-handlerscope.war" webxml="${tests.output.dir}/test-resources/jaxws/handlerscope/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/handlerscope/SOAPEndpointBean.class" />
+				<include name="org/jboss/test/ws/jaxws/handlerscope/SOAPEndpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/handlerscope/*ServerHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/handlerscope/ProtocolHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/handlerscope/jaxws-server-handlers.xml" />
+			</classes>
+		</war>
+
+		<!-- jaxws-holder -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-holder.war" webxml="${tests.output.dir}/test-resources/jaxws/holder/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/holder/HolderServiceImpl.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-jbws860 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws860.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws860/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws860/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws860/*TestCase.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws860/WEB-INF">
+				<include name="jboss-web.xml" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws944 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws944.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws944/EJB3Bean01.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws944/EJB3RemoteInterface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws944/EJB3RemoteBusinessInterface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws944/EJB3RemoteHome.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws981 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws981.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws981/EJB3Bean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws981/EJB3RemoteInterface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws981/EndpointInterface.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws1178 -->
+		<war destfile="${tests.output.dir}/test-libs/jaxws-jbws1178.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1178/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1178/EndpointImpl.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-jbws1190 -->
+		<war destfile="${tests.output.dir}/test-libs/jaxws-jbws1190.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1190/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1190/ConfidentialEndpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1190/Endpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1190/EndpointImpl*.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1190/JBWS1190Exception.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-jbws1283 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1283.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1283/*.*" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws1357 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws1357.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1357/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1357/JBWS1357.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1357/JBWS1357Impl.class" />
+			</classes>
+			<fileset dir="${tests.output.dir}/test-resources/jaxws/jbws1357">
+				<include name="hello.jsp" />
+			</fileset>
+		</war>
+
+		<!-- jaxws-jbws1422 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1422.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1422/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws1422/*TestCase.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws1446 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws1446.jar" manifest="${tests.output.dir}/test-resources/jaxws/jbws1446/META-INF/MANIFEST.MF">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1446/EJB3Bean.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws1505 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1505.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1505/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws1505/*TestCase.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws1529 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws1529.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1529/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1529/UserException.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1529/JBWS1529.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1529/JBWS1529Impl.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-jbws1556 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws1556.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1556/EJB3Bean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1556/UserType.class" />
+			</fileset>
+		</jar>
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws1556.ear">
+			<fileset dir="${tests.output.dir}/test-libs">
+				<include name="jaxws-jbws1556.jar" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws1556/META-INF">
+				<include name="application.xml" />
+				<include name="jboss-app.xml" />
+			</metainf>
+		</jar>
+
+		<!-- jaxws-jbws1566-->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws1566.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1566/**/*.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws1581 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws1581-pojo.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1581/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1581/EndpointBean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1581/EndpointInterface.class" />
+			</classes>
+		</war>
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws1581.ear">
+			<fileset dir="${tests.output.dir}/test-libs">
+				<include name="jaxws-jbws1581-pojo.war" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws1581/META-INF">
+				<include name="jboss-app.xml" />
+			</metainf>
+		</jar>
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws1581-ejb3.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1581/EJB3Bean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1581/EJB3Remote.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1581/EndpointInterface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1581/EndpointService.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws1581/META-INF">
+				<include name="wsdl/**" />
+			</metainf>
+		</jar>
+
+		<!-- jaxws-jbws1582 -->
+		<war destfile="${tests.output.dir}/test-libs/jaxws-jbws1582.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1582/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1582/Endpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1582/EndpointImpl.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws1582/WEB-INF">
+				<include name="wsdl/service.wsdl" />
+			</webinf>
+		</war>
+		<war destfile="${tests.output.dir}/test-libs/jaxws-jbws1582-attacked.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1582/WEB-INF/attack-web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1582/Endpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1582/AttackedEndpointImpl.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws1582/WEB-INF">
+				<include name="wsdl/attack-service.wsdl" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws1611 -->
+		<war destfile="${tests.output.dir}/test-libs/jaxws-jbws1611.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1611/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1611/PingEndpointImpl.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-jbws1665 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws1665.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1665/**/*.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws1666 -->
+		<war destfile="${tests.output.dir}/test-libs/jaxws-jbws1666.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1666/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1666/TestEndpointImpl.class" />
+			</classes>
+		</war>
+        <jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1666-client.jar"
+        	manifest="${tests.output.dir}/test-resources/jaxws/jbws1666/META-INF/MANIFEST.MF">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1666/TestClient.class" />
+                <include name="org/jboss/test/ws/jaxws/jbws1666/TestEndpoint.class" />
+			</fileset>
+		</jar>
+        <jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1666-b-client.jar"
+        	manifest="${tests.output.dir}/test-resources/jaxws/jbws1666/META-INF/MANIFEST-jbossws-cxf-client.MF">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1666/TestClient.class" />
+                <include name="org/jboss/test/ws/jaxws/jbws1666/TestEndpoint.class" />
+			</fileset>
+		</jar>
+		
+
+		<!-- jaxws-jbws1694 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws1694.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1694/**/*.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws1702 -->
+		<war destfile="${tests.output.dir}/test-libs/jaxws-jbws1702.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1702/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1702/**/*.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws1702/WEB-INF" />
+		</war>
+
+		<!-- jaxws-jbws1733 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws1733.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1733/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1733/JBWS1733.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1733/JBWS1733Impl.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-jbws1798 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws1798.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1798/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1798/**/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws1798/*TestCase.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws1798/WEB-INF">
+				<include name="wsdl/**" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws1799 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1799.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1799/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws1799/*TestCase.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws1807 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws1807.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1807/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1807/ProviderImpl.class" />
+				<include name="org/jboss/test/helper/DOMWriter.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws1807/WEB-INF">
+				<include name="wsdl/**" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws1809 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1809.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1809/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws1809/*TestCase.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws1809/META-INF" />
+		</jar>
+
+		<!-- jaxws-jbws1813 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1813.jar" manifest="${tests.output.dir}/test-resources/jaxws/jbws1813/META-INF/MANIFEST.MF">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1813/EndpointImpl.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws1813/META-INF">
+				<include name="jboss-webservices.xml" />
+			</metainf>
+		</jar>
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1813.ear">
+			<fileset dir="${tests.output.dir}/test-libs">
+				<include name="jaxws-jbws1813.jar" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws1813/META-INF">
+				<include name="application.xml" />
+			</metainf>
+		</jar>
+
+		<!-- jaxws-jbws1815 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1815.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1815/ProviderImpl.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws1815/META-INF">
+				<include name="wsdl/my-service.wsdl" />
+			</metainf>
+		</jar>
+
+		<!-- jaxws-jbws1822 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws1822-shared.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1822/shared/BeanImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1822/shared/BeanIface.class" />
+			</fileset>
+		</jar>
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws1822-one-ejb3-inside.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1822/webservice/EJB3Bean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1822/webservice/EJB3RemoteIface.class" />
+			</fileset>
+		</jar>
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws1822-two-ejb3-inside.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1822/shared/BeanImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1822/shared/BeanIface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1822/webservice/EJB3Bean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws1822/webservice/EJB3RemoteIface.class" />
+			</fileset>
+		</jar>
+		<ear appxml="${tests.output.dir}/test-resources/jaxws/jbws1822/two-ejb-modules/META-INF/application.xml" earfile="${tests.output.dir}/test-libs/jaxws-jbws1822-two-ejb-modules.ear">
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws1822/two-ejb-modules/META-INF">
+				<include name="jboss-app.xml" />
+				<!-- this fixes the problem -->
+			</metainf>
+			<fileset file="${tests.output.dir}/test-libs/jaxws-jbws1822-shared.jar" />
+			<fileset file="${tests.output.dir}/test-libs/jaxws-jbws1822-one-ejb3-inside.jar" />
+		</ear>
+		<ear appxml="${tests.output.dir}/test-resources/jaxws/jbws1822/one-ejb-module/META-INF/application.xml" earfile="${tests.output.dir}/test-libs/jaxws-jbws1822-one-ejb-module.ear">
+			<fileset file="${tests.output.dir}/test-libs/jaxws-jbws1822-two-ejb3-inside.jar" />
+		</ear>
+
+		<!-- jaxws-jbws1841 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1841.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1841/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws1841/*TestCase.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws1841/META-INF">
+				<include name="wsdl/*" />
+				<include name="ejb-jar.xml" />
+				<include name="jboss.xml" />
+				<include name="jboss-ejb3.xml" />
+				<include name="jboss-webservices.xml" />
+			</metainf>
+		</jar>
+
+		<!-- jaxws-jbws1843 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws1843.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws1843/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1843/**/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws1843/*TestCase.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws1843/WEB-INF">
+				<include name="wsdl/**" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws1845 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1845.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1845/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws1845/*TestCase.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws1872 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws1872.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1872/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws1872/*TestCase.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws1872/Client*.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws1904 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1904.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1904/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws1904/*TestCase.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws1969 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws1969.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws1969/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws1969/*TestCase.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws1969/META-INF">
+				<include name="wsdl/**" />
+			</metainf>
+		</jar>
+
+		<!-- jaxws-jbws2000 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws2000.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2000/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2000/*TestCase.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws2009 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2009.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2009/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2009/**/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2009/*TestCase.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2009/WEB-INF">
+				<include name="wsdl/**" />
+				<include name="schema/**" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws2074 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2074-usecase1.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2074/usecase1/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2074/usecase1/service/POJOIface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2074/usecase1/service/POJOImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2074/handler/DescriptorResourcesHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2074/handler/JavaResourcesHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2074/handler/ManualResourcesHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2074/usecase1/service/jaxws-service-handlers.xml" />
+			</classes>
+                        <manifest>
+                                <attribute name="Dependencies" value="org.jboss.logging"/>
+                        </manifest>
+		</war>
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws2074-usecase2.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2074/usecase2/service/EJB3Iface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2074/usecase2/service/EJB3Impl.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2074/usecase2/META-INF">
+				<include name="ejb-jar.xml" />
+			</metainf>
+                        <manifest>
+                                <attribute name="Dependencies" value="org.jboss.logging"/>
+                        </manifest>
+		</jar>
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2074-usecase3.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2074/usecase3/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2074/usecase3/service/POJOIface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2074/usecase3/service/POJOImpl.class" />
+			</classes>
+                        <manifest>
+                                <attribute name="Dependencies" value="org.jboss.logging"/>
+                        </manifest>
+		</war>
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws2074-usecase4.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2074/usecase4/service/EJB3Iface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2074/usecase4/service/EJB3Impl.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2074/handler/DescriptorResourcesHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2074/handler/JavaResourcesHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2074/handler/ManualResourcesHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2074/usecase4/service/jaxws-service-handlers.xml" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2074/usecase4/META-INF">
+				<include name="ejb-jar.xml" />
+			</metainf>
+                        <manifest>
+                                <attribute name="Dependencies" value="org.jboss.logging"/>
+                        </manifest>
+		</jar>
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws2074-usecase1.ear">
+			<fileset dir="${tests.output.dir}/test-libs">
+				<include name="jaxws-jbws2074-usecase1.war" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2074/usecase1-ear/META-INF">
+				<include name="application.xml" />
+			</metainf>
+		</jar>
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws2074-usecase2.ear">
+			<fileset dir="${tests.output.dir}/test-libs">
+				<include name="jaxws-jbws2074-usecase2.jar" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2074/usecase2-ear/META-INF">
+				<include name="application.xml" />
+			</metainf>
+		</jar>
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws2074-usecase3.ear">
+			<fileset dir="${tests.output.dir}/test-libs">
+				<include name="jaxws-jbws2074-usecase3.war" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2074/usecase3-ear/META-INF">
+				<include name="application.xml" />
+			</metainf>
+		</jar>
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws2074-usecase4.ear">
+			<fileset dir="${tests.output.dir}/test-libs">
+				<include name="jaxws-jbws2074-usecase4.jar" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2074/usecase4-ear/META-INF">
+				<include name="application.xml" />
+			</metainf>
+		</jar>
+
+		<!-- jaxws-jbws2150 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2150.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2150/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2150/*Service*.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2150/WEB-INF">
+				<include name="wsdl/**" />
+			</webinf>
+		</war>
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2150-sec.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2150/WEB-INF/web-sec.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2150/*Service*.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2150/WEB-INF">
+				<include name="wsdl/**" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws2183 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws2183.jar" manifest="${tests.output.dir}/test-resources/jaxws/jbws2183/META-INF/MANIFEST.MF">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2183/**/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2183/**/*TestCase.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws2218 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws2218.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2218/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2218/*TestCase.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws2241 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws2241.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2241/EJB3Bean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2241/EJB3RemoteInterface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2241/EndpointInterface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2241/EndpointService.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2241/META-INF">
+				<include name="jboss.xml" />
+				<include name="jboss-ejb3.xml" />
+				<include name="jboss-webservices.xml" />
+			</metainf>
+		</jar>
+        <jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws2241-as71.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2241/EJB3Bean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2241/EJB3RemoteInterface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2241/EndpointInterface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2241/EndpointService.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2241/META-INF-as71">
+				<include name="jboss.xml" />
+				<include name="jboss-ejb3.xml" />
+				<include name="jboss-webservices.xml" />
+			</metainf>
+		</jar>
+
+		<!-- jaxws-jbws2250 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2250.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2250/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2250/**/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2250/*TestCase.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2250/WEB-INF">
+				<include name="jboss-web.xml" />
+			</webinf>
+		</war>
+
+		<!-- jbws2257 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws2257.jar" manifest="${tests.output.dir}/test-resources/jaxws/jbws2257/META-INF/MANIFEST.MF">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2257/Service*.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2257/jaxws/*.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2257/META-INF">
+				<include name="wsdl/**" />
+			</metainf>
+		</jar>
+
+		<!-- jaxws-jbws2259 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2259.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2259/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2259/Endpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2259/EndpointImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2259/CustomHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2259/Photo.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2259/WEB-INF">
+				<include name="jaxws-endpoint-config.xml" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws2268 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2268.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2268/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2268/*.class"/>
+				<exclude name="org/jboss/test/ws/jaxws/jbws2268/*TestCase.class"/>
+			</classes>
+		</war>
+	    
+		<!-- jaxws-jbws2278 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2278.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2278/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2278/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2278/JBWS2278TestCase.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2278/WEB-INF">
+				<include name="jboss-web.xml" />
+				<include name="wsdl/*" />
+			</webinf>
+		</war>
+
+		<!-- jbws2307  -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2307-client.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2307/WEB-INF-client/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2307/ClientServlet.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2307/Hello.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2307/HelloService.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2307/WEB-INF-client">
+				<include name="wsdl/**" />
+				<include name="*.xml" />
+			</webinf>
+		</war>
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2307-service.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2307/WEB-INF-service/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2307/Hello.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2307/HelloImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2307/HelloService.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2307/WEB-INF-service">
+				<include name="wsdl/**" />
+				<include name="*.xml" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws2412 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2412.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2412/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2412/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2412/*TestCase.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2412/WEB-INF">
+				<include name="wsdl/*" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws2419 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2419.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2419/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2419/SOAP12EndpointBean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2419/SOAP12Endpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2419/SOAP12ServerHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2419/SOAP11EndpointBean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2419/SOAP11Endpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2419/SOAP11ServerHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2419/jaxws-server-handlers1.xml" />
+				<include name="org/jboss/test/ws/jaxws/jbws2419/jaxws-server-handlers2.xml" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2419/WEB-INF">
+				<include name="wsdl/*" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws2449 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws2449.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2449/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2449/*TestCase.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2449/META-INF">
+				<include name="wsdl/*" />
+			</metainf>
+		</jar>
+
+                <!-- jaxws-jbws2486 -->
+                <war warfile="${tests.output.dir}/test-libs/jaxws-jbws2486.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2486/WEB-INF/web.xml">
+                        <classes dir="${tests.output.dir}/test-classes">
+                                 <include name="org/jboss/test/ws/jaxws/jbws2486/*.class"/>
+                                 <exclude name="org/jboss/test/ws/jaxws/jbws2486/*TestCase.class"/>
+                        </classes>
+                </war>    
+    
+		<!-- jbws2527  -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2527-client.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2527/WEB-INF-client/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2527/ClientServlet.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2527/Hello.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2527/HelloService.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2527/WEB-INF-client">
+				<include name="wsdl/**" />
+				<include name="*.xml" />
+			</webinf>
+		</war>
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2527-service.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2527/WEB-INF-service/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2527/Hello.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2527/HelloImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2527/HelloService.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2527/WEB-INF-service">
+				<include name="wsdl/**" />
+				<include name="*.xml" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws2634 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws2634.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2634/shared/**/*.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2634/webservice/EndpointIface.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2634/webservice/AbstractEndpointImpl.class" />
+			</fileset>
+		</jar>
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2634-pojo.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2634/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2634/webservice/POJOBean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2634/webservice/jaxws-handler.xml" />
+			</classes>
+                        <manifest>
+                                <attribute name="Dependencies" value="org.jboss.logging"/>
+                        </manifest>
+		</war>
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws2634-ejb3.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2634/webservice/EJB3Bean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2634/webservice/jaxws-handler.xml" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2634/META-INF">
+				<include name="ejb-jar.xml" />
+			</metainf>
+                        <manifest>
+                                <attribute name="Dependencies" value="org.jboss.logging"/>
+                        </manifest>
+		</jar>
+		<ear appxml="${tests.output.dir}/test-resources/jaxws/jbws2634/META-INF/application.xml" earfile="${tests.output.dir}/test-libs/jaxws-jbws2634.ear">
+			<fileset file="${tests.output.dir}/test-libs/jaxws-jbws2634.jar" />
+			<fileset file="${tests.output.dir}/test-libs/jaxws-jbws2634-ejb3.jar" />
+			<fileset file="${tests.output.dir}/test-libs/jaxws-jbws2634-pojo.war" />
+		</ear>
+
+		<!-- jaxws-jbws2701 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws2701.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2701/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2701/*TestCase.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws2717 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2717.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2717/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2717/EndpointImpl.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-jbws2934 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2934-jse.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2934/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2934/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2934/EndpointEJB.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2934/*TestCase*.class" />
+			</classes>
+		</war>
+
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws2934-ejb.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2934/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2934/EndpointJSE.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2934/*TestCase*.class" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws2937 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws2937.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2937/EndpointImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2937/UserType.class" />
+			</fileset>
+		</jar>
+
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws2937-client.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2937/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2937/EndpointImpl.class" />
+			</fileset>
+		</jar>
+		
+		<!-- jaxws-jbws2955 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2955.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2955/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2955/Endpoint.class"/>
+				<include name="org/jboss/test/ws/jaxws/jbws2955/EndpointImpl.class"/>
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2955/WEB-INF">
+				<include name="jboss-web.xml"/>
+			</webinf>
+		</war>  	
+
+		<!-- jaxws-jbws2956 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2956.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2956/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2956/OnewayEndpoint.class"/>
+				<include name="org/jboss/test/ws/jaxws/jbws2956/OnewayEndpointImpl.class"/>
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2956/WEB-INF">
+				<include name="jboss-web.xml"/>
+			</webinf>
+		</war> 
+
+		<!-- jaxws-jbws2957 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws2957-ejbinwarwebinflib_ejb.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2957/common/*.class" />
+			</fileset>
+		</jar>
+
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2957-ejbinwarwebinflib_web.war" needxmlfile="false">
+			<lib dir="${tests.output.dir}/test-libs/">
+				<include name="jaxws-jbws2957-ejbinwarwebinflib_ejb.jar"/>
+			</lib>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2957/WEB-INF">
+				<include name="wsdl/**" />
+				<include name="ejb-jar.xml"/>
+			</webinf>
+		</war> 
+
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws2957-ejbinwarwebinflib.ear">
+			<fileset dir="${tests.output.dir}/test-libs">
+				<include name="jaxws-jbws2957-ejbinwarwebinflib_web.war"/>
+			</fileset>
+		</jar>
+
+		<!-- jaxws-jbws2978 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2978.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2978/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2978/AddNumbers.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2978/AddNumbersImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2978/AddNumbersRequest.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2978/AddNumbersResponse.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2978/WEB-INF">
+				<include name="jboss-web.xml" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws2999 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws2999.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2999/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2999/*TestCase.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2999/META-INF">
+				<include name="ejb-jar.xml" />
+                <include name="webservices.xml" />
+				<include name="wsdl/**" />
+			</metainf>
+		</jar>
+
+                <!-- jaxws-jbws3026 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws3026-ejb.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3026/MyBean*.class" />
+			</fileset>
+		</jar>
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws3026-web.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3026/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3026/MyService*.class"/>
+				<include name="org/jboss/test/ws/jaxws/jbws3026/MyBeanRemote.class"/>
+				<exclude name="org/jboss/test/ws/jaxws/jbws3026/*TestCase.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-jbws3034 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws3034.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3034/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3034/Endpoint.class"/>
+				<include name="org/jboss/test/ws/jaxws/jbws3034/EndpointImpl.class"/>
+				<include name="org/jboss/test/ws/jaxws/jbws3034/ServerSOAPHandler.class"/>
+			</classes>
+			<classes dir="${tests.output.dir}/test-resources/jaxws/jbws3034">
+				<include name="handlers.xml" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3034/WEB-INF">
+				<include name="jboss-web.xml"/>
+			</webinf>
+		</war>  	
+
+                <!-- jaxws-jbws3114 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws3114.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3114/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3114/Endpoint.class"/>
+				<include name="org/jboss/test/ws/jaxws/jbws3114/EndpointImpl.class"/>
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3114/WEB-INF">
+				<include name="jboss-web.xml"/>
+			</webinf>
+		</war>
+
+		<!-- jaxws-jbws3140 -->
+		<war warfile="${tests.output.dir}/test-libs/jbws3140-server.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3140/WEB-INF-Server/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3140/*.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws3140/*.xml" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws3140/*EndpointService.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws3140/*TestCase.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws3140/*TestClient.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3140/WEB-INF-Server">
+				<include name="*.xml" />
+			</webinf>
+		</war>
+		<war warfile="${tests.output.dir}/test-libs/jbws3140-responses-server.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3140/WEB-INF-Server/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3140/*.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws3140/*.xml" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws3140/*TestCase.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws3140/*TestClient.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3140/WEB-INF-Responses-Server">
+				<include name="*.xml" />
+			</webinf>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3140">
+				<include name="wsdl/*.wsdl"/>
+		    </webinf>
+		</war>
+		<war warfile="${tests.output.dir}/test-libs/jbws3140-client.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3140/WEB-INF-Client/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3140/*.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws3140/*.xml" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws3140/*TestCase.class" />
+			</classes>
+			<classes dir="${tests.output.dir}/test-resources/jaxws/jbws3140">
+				<include name="*.jpg" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3140/WEB-INF-Client">
+				<include name="jboss-web.xml" />
+			</webinf>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3140">
+				<include name="wsdl/*.wsdl"/>
+		    </webinf>
+		</war>
+		
+		<!-- jaxws-jbws3223 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws3223.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3223/WEB-INF/web-ws.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3223/EndpointBean.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws3223/EndpointInterface.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-jbws3223-servlet -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws3223-servlet.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3223/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3223/TestServlet.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws3223/Client.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws3223/EndpointInterface.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3223/WEB-INF">
+				<include name="wsdl/**" />
+			</webinf>
+		</war>
+
+        <!-- jaxws-jbws3250 -->
+        <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3250.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3250/WEB-INF/web.xml">
+            <classes dir="${tests.output.dir}/test-classes">
+               <include name="org/jboss/test/ws/jaxws/jbws3250/*.class" />
+               <exclude name="org/jboss/test/ws/jaxws/jbws3250/*TestCase*.class" />
+            </classes>
+        </war>
+		
+        <!-- jaxws-jbws3282 -->
+        <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3282.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3282/WEB-INF/web.xml">
+            <classes dir="${tests.output.dir}/test-classes">
+    	        <include name="org/jboss/test/ws/jaxws/jbws3282/EndpointImpl.class"/>
+      	        <include name="org/jboss/test/ws/jaxws/jbws3282/Endpoint.class"/>
+      	        <include name="org/jboss/test/ws/jaxws/jbws3282/*Handler.class"/>
+       	      	<include name="org/jboss/test/ws/jaxws/jbws3282/jaxws-handlers-server.xml"/>
+            </classes>
+            <webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3282/WEB-INF">
+                <include name="**/jaxws-endpoint-config.xml" />
+            </webinf>
+        </war>
+
+        <!-- jaxws-jbws3287-A -->
+        <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3287-A.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3287/WEB-INF/web-A.xml">
+            <classes dir="${tests.output.dir}/test-classes">
+    	        <include name="org/jboss/test/ws/jaxws/jbws3287/EndpointImpl.class"/>
+      	        <include name="org/jboss/test/ws/jaxws/jbws3287/Endpoint.class"/>
+      	        <include name="org/jboss/test/ws/jaxws/jbws3287/*Handler.class"/>
+       	      	<include name="org/jboss/test/ws/jaxws/jbws3287/jaxws-handlers-server.xml"/>
+            </classes>
+            <webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3287/WEB-INF">
+                <include name="**/jaxws-endpoint-config.xml" />
+                <include name="**/jboss-webservices.xml" />
+            </webinf>
+        </war>
+
+        <!-- jaxws-jbws3287-B -->
+        <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3287-B.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3287/WEB-INF/web-B.xml">
+            <classes dir="${tests.output.dir}/test-classes">
+    	        <include name="org/jboss/test/ws/jaxws/jbws3287/EndpointImpl.class"/>
+      	        <include name="org/jboss/test/ws/jaxws/jbws3287/Endpoint.class"/>
+      	        <include name="org/jboss/test/ws/jaxws/jbws3287/*Handler.class"/>
+       	      	<include name="org/jboss/test/ws/jaxws/jbws3287/jaxws-handlers-server.xml"/>
+            </classes>
+            <webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3287/WEB-INF">
+                <include name="**/jaxws-endpoint-config.xml" />
+            </webinf>
+        </war>
+
+        <!-- jaxws-jbws3287-C -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws3287-C.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3287/EJB3EndpointImpl.class"/>
+				<include name="org/jboss/test/ws/jaxws/jbws3287/Endpoint.class"/>
+				<include name="org/jboss/test/ws/jaxws/jbws3287/*Handler.class"/>
+				<include name="org/jboss/test/ws/jaxws/jbws3287/jaxws-handlers-server.xml"/>
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws3287/META-INF">
+				<include name="**/*" />
+			</metainf>
+		</jar>
+
+        <!-- jaxws-jbws3276 -->
+        <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3276-usecase1.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3276/WEB-INF/web.xml">
+            <classes dir="${tests.output.dir}/test-classes">
+      	        <include name="org/jboss/test/ws/jaxws/jbws3276/POJOIface.class"/>
+      	        <include name="org/jboss/test/ws/jaxws/jbws3276/POJOImpl.class"/>
+      	        <include name="org/jboss/test/ws/jaxws/jbws3276/AnonymousPOJO.class"/>
+            </classes>
+        </war>
+		
+        <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3276-usecase2.war" needxmlfile="false">
+            <classes dir="${tests.output.dir}/test-classes">
+   	            <include name="org/jboss/test/ws/jaxws/jbws3276/POJOIface.class"/>
+    	        <include name="org/jboss/test/ws/jaxws/jbws3276/AnonymousPOJO.class"/>
+            </classes>
+        </war>
+		
+        <!-- jaxws-jbws3293 -->
+        <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3293.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3293/WEB-INF/web.xml">
+            <classes dir="${tests.output.dir}/test-classes">
+                <include name="org/jboss/test/ws/jaxws/jbws3293/Endpoint.class"/>
+                <include name="org/jboss/test/ws/jaxws/jbws3293/EndpointBean.class"/>
+            </classes>
+        </war>
+		
+		<!-- jaxws-jbws3401 -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws3401.war" needxmlfile="false">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3401/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws3401/*TestCase.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3401/WEB-INF">
+				<include name="wsdl/*" />
+			</webinf>
+		</war>
+
+        <!-- jaxws-jbws3437 -->
+	    <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3477.war" needxmlfile="false">
+	      <classes dir="${tests.output.dir}/test-classes">
+	        <include name="org/jboss/test/ws/jaxws/jbws3477/TestServlet.class"/>
+	        <include name="org/jboss/test/ws/jaxws/jbws3477/Helper.class"/>
+	      </classes>
+	    </war>
+
+        <!-- jaxws-jbws3441 -->
+        <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3441.war" needxmlfile="false">
+            <classes dir="${tests.output.dir}/test-classes">
+                <include name="org/jboss/test/ws/jaxws/jbws3441/*.class" />
+                <exclude name="org/jboss/test/ws/jaxws/jbws3441/*TestCase.class" />
+            </classes>
+            <webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3441/WEB-INF">
+                <include name="beans.xml" />
+            </webinf>
+        </war>
+
+        <!-- jaxws-jbws3477-custom-provider -->
+	    <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3477-custom-provider.war" needxmlfile="false">
+	      <classes dir="${tests.output.dir}/test-classes">
+	        <include name="org/jboss/test/ws/jaxws/jbws3477/TestServlet.class"/>
+	        <include name="org/jboss/test/ws/jaxws/jbws3477/Helper.class"/>
+	        <include name="org/jboss/test/ws/jaxws/jbws3477/DummyProvider.class"/>
+	      </classes>
+	      <classes dir="${tests.output.dir}/test-resources/jaxws/jbws3477">
+	        <include name="META-INF/services/*"/>
+	      </classes>
+	    </war>
+
+        <!-- jaxws-as3581 -->
+        <war warfile="${tests.output.dir}/test-libs/jaxws-as3581.war" webxml="${tests.output.dir}/test-resources/jaxws/as3581/WEB-INF/web.xml">
+            <classes dir="${tests.output.dir}/test-classes">
+                <include name="org/jboss/test/ws/jaxws/as3581/EndpointImpl.class"/>
+                <include name="org/jboss/test/ws/jaxws/as3581/EndpointIface.class"/>
+                <include name="org/jboss/test/ws/jaxws/as3581/EndpointImpl2.class"/>
+                <include name="org/jboss/test/ws/jaxws/as3581/EndpointIface2.class"/>
+            </classes>
+        </war>
+
+                <!-- jaxws-jbws3367 -->
+                <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3367-usecase1.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3367/WEB-INF/web.xml">
+                        <classes dir="${tests.output.dir}/test-classes">
+                	        <include name="org/jboss/test/ws/jaxws/jbws3367/EndpointIface.class"/>
+                	        <include name="org/jboss/test/ws/jaxws/jbws3367/POJOEndpoint.class"/>
+                	        <include name="org/jboss/test/ws/jaxws/jbws3367/EJB3Endpoint.class"/>
+                        </classes>
+                        <webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3367/WEB-INF">
+                                <include name="jboss-web.xml" />
+                        </webinf>
+                </war>
+		
+        <!-- jaxws-jbws3552 -->
+        <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3552.war" needxmlfile="false">
+            <classes dir="${tests.output.dir}/test-classes">
+                <include name="org/jboss/test/ws/jaxws/jbws3552/*.class" />
+                <exclude name="org/jboss/test/ws/jaxws/jbws3552/*TestCase.class" />
+            </classes>
+        </war>
+
+        <!-- jaxws-jbws3556 -->
+        <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3556.war" needxmlfile="false">
+            <classes dir="${tests.output.dir}/test-classes">
+                <include name="org/jboss/test/ws/jaxws/jbws3556/*.class" />
+                <exclude name="org/jboss/test/ws/jaxws/jbws3556/*TestCase.class" />
+            </classes>
+        </war>
+
+                <war warfile="${tests.output.dir}/test-libs/jaxws-jbws3367-usecase2.war" needxmlfile="false">
+                        <classes dir="${tests.output.dir}/test-classes">
+                	        <include name="org/jboss/test/ws/jaxws/jbws3367/EndpointIface.class"/>
+                	        <include name="org/jboss/test/ws/jaxws/jbws3367/EJB3Endpoint.class"/>
+                        </classes>
+                        <webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3367/WEB-INF-2">
+                                <include name="jboss-web.xml" />
+                        </webinf>
+                </war>
+		
+		<!-- jaxws-endpoint-servlet -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-endpoint-servlet.war" manifest="${tests.output.dir}/test-resources/jaxws/endpoint/META-INF/MANIFEST.MF"
+			webxml="${tests.output.dir}/test-resources/jaxws/endpoint/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/endpoint/EndpointServlet.class" />
+				<include name="org/jboss/test/ws/jaxws/endpoint/EndpointBean.class" />
+				<include name="org/jboss/test/ws/jaxws/endpoint/EndpointInterface.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/endpoint/WEB-INF">
+				<include name="wsdl/**" />
+			</webinf>
+		</war>
+		
+        <!-- jaxws-endpoint-ws -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-endpoint-ws.war" webxml="${tests.output.dir}/test-resources/jaxws/endpoint/WEB-INF/web-ws.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/endpoint/WSClientEndpointBean.class" />
+				<include name="org/jboss/test/ws/jaxws/endpoint/WSClientEndpointInterface.class" />
+				<include name="org/jboss/test/ws/jaxws/endpoint/EndpointBean.class" />
+				<include name="org/jboss/test/ws/jaxws/endpoint/EndpointInterface.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws namespace -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-namespace.war" webxml="${tests.output.dir}/test-resources/jaxws/namespace/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/namespace/CustomHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/namespace/EndpointBean.class" />
+				<include name="org/jboss/test/ws/jaxws/namespace/EndpointInterface.class" />
+				<include name="org/jboss/test/ws/jaxws/namespace/*.xml" />
+				<include name="org/jboss/test/helper/DOMWriter.class" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/jaxws/namespace/WEB-INF">
+				<include name="jboss-web.xml" />
+			</webinf>
+		</war>
+
+		<!-- jaxws-webfault -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-webfault.war" webxml="${tests.output.dir}/test-resources/jaxws/webfault/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/webfault/Endpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/webfault/EndpointImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/webfault/CustomException.class" />
+				<include name="org/jboss/test/ws/jaxws/webfault/SimpleException.class" />
+			</classes>
+		</war>
+
+		<!-- jaxws-wrapped-accessor -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-wrapped-accessor.war" webxml="${tests.output.dir}/test-resources/jaxws/wrapped/accessor/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/wrapped/accessor/Accessor.class" />
+				<include name="org/jboss/test/ws/jaxws/wrapped/accessor/AccessorImpl.class" />
+				<include name="org/jboss/test/ws/jaxws/wrapped/accessor/jaxws/*" />
+			</classes>
+		</war>
+
+		<!-- Please add alphabetically -->
+
+	</target>
+
+</project>

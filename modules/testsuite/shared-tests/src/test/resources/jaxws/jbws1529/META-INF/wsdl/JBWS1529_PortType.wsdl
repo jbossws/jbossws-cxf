@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name='JBWS1529Service' targetNamespace='http://sei-namespace' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://sei-namespace' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://jbws1529.jaxws.ws.test.jboss.org/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <xs:schema targetNamespace='http://sei-namespace' version='1.0' xmlns:tns='http://sei-namespace' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:element name='UserException' type='tns:UserException'/>
+   <xs:element name='echo' type='tns:echo'/>
+   <xs:element name='echoResponse' type='tns:echoResponse'/>
+   <xs:complexType name='echo'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='arg0' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='echoResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='return' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='UserException'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='message' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+ </types>
+ <message name='JBWS1529_echo'>
+  <part element='ns1:echo' name='echo'/>
+ </message>
+ <message name='JBWS1529_echoResponse'>
+  <part element='ns1:echoResponse' name='echoResponse'/>
+ </message>
+ <message name='UserException'>
+  <part element='ns1:UserException' name='UserException'/>
+ </message>
+ <portType name='JBWS1529'>
+  <operation name='echo' parameterOrder='echo'>
+   <input message='ns1:JBWS1529_echo'/>
+   <output message='ns1:JBWS1529_echoResponse'/>
+   <!--fault message='tns:UserException' name='UserException'/-->
+   <fault message='ns1:UserException' name='UserException'/>
+  </operation>
+ </portType>
+ <binding name='JBWS1529Binding' type='ns1:JBWS1529'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='echo'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+   <fault name='UserException'>
+    <soap:fault name='UserException' use='literal'/>
+   </fault>
+  </operation>
+ </binding>
+</definitions>

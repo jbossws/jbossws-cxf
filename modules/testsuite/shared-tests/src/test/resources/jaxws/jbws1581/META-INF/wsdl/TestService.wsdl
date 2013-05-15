@@ -1,0 +1,33 @@
+<definitions name='EndpointService' targetNamespace='http://jbws1581.jaxws.ws.test.jboss.org/' xmlns='http://schemas.xmlsoap.org/wsdl/'
+  xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://jbws1581.jaxws.ws.test.jboss.org/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+  <types></types>
+  <message name='EndpointBean_hello'>
+    <part name='arg0' type='xsd:string'/>
+  </message>
+  <message name='EndpointBean_helloResponse'>
+    <part name='return' type='xsd:string'/>
+  </message>
+  <portType name='EndpointBean'>
+    <operation name='hello' parameterOrder='arg0'>
+      <input message='tns:EndpointBean_hello'/>
+      <output message='tns:EndpointBean_helloResponse'/>
+    </operation>
+  </portType>
+  <binding name='EndpointBeanBinding' type='tns:EndpointBean'>
+    <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
+    <operation name='hello'>
+      <soap:operation soapAction=''/>
+      <input>
+        <soap:body namespace='http://jbws1581.jaxws.ws.test.jboss.org/' use='literal'/>
+      </input>
+      <output>
+        <soap:body namespace='http://jbws1581.jaxws.ws.test.jboss.org/' use='literal'/>
+      </output>
+    </operation>
+  </binding>
+  <service name='EndpointService'>
+    <port binding='tns:EndpointBeanBinding' name='EndpointBeanPort'>
+      <soap:address location='http://@jboss.bind.address@:8080/jaxws-jbws1581-pojo'/>
+    </port>
+  </service>
+</definitions>

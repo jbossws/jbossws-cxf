@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <display-name>jbws2307_testcase_client</display-name>
+  <servlet>
+    <servlet-name>ClientServlet</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws2307.ClientServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ClientServlet</servlet-name>
+    <url-pattern>/jbws2307</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>54</session-timeout>
+  </session-config>
+  <service-ref>
+    <service-ref-name>service/jbws2307service</service-ref-name>
+    <service-interface>javax.xml.ws.Service</service-interface>
+    <wsdl-file>WEB-INF/wsdl/HelloService.wsdl</wsdl-file>
+    <port-component-ref>
+      <service-endpoint-interface>org.jboss.test.ws.jaxws.jbws2307.Hello</service-endpoint-interface>
+      <enable-mtom>true</enable-mtom>
+    </port-component-ref>
+  </service-ref>
+</web-app>

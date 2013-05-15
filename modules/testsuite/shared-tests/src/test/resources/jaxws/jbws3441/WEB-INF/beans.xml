@@ -1,0 +1,6 @@
+<beans>
+  <interceptors>
+    <class>org.jboss.test.ws.jaxws.jbws3441.POJOInterceptorImpl</class>
+    <class>org.jboss.test.ws.jaxws.jbws3441.EJBInterceptorImpl</class>
+  </interceptors>
+</beans>

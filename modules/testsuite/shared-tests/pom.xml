@@ -17,37 +17,11 @@
   <!-- Dependencies -->
   <dependencies>
     <dependency>
-      <groupId>org.jboss.ws</groupId>
-      <artifactId>jbossws-shared-testsuite</artifactId>
-      <type>zip</type>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <!-- Plugins -->
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <configuration>
-          <filesets>
-            <fileset>
-              <directory>src/test</directory>
-              <includes>
-                <include>ant-import/**</include>
-                <include>java/**</include>
-                <include>resources/**</include>
-              </includes>
-            </fileset>
-          </filesets>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
   <!-- Profiles -->
   <profiles>
@@ -65,29 +39,6 @@
       </activation>
       <build>
         <plugins>
-          <plugin>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>unpack-shared-tests</id>
-                <phase>generate-sources</phase>
-                <goals>
-                  <goal>unpack</goal>
-                </goals>
-                <configuration>
-                  <artifactItems>
-                    <artifactItem>
-                      <groupId>org.jboss.ws</groupId>
-                      <artifactId>jbossws-shared-testsuite</artifactId>
-                      <type>zip</type>
-                      <overWrite>true</overWrite>
-                      <outputDirectory>src/test</outputDirectory>
-                    </artifactItem>
-                  </artifactItems>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <plugin>
             <artifactId>maven-antrun-plugin</artifactId>
             <executions>

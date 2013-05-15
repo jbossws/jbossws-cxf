@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE jboss PUBLIC "-//JBoss//DTD JBOSS 5.0//EN" "http://www.jboss.org/j2ee/dtd/jboss_5_0.dtd">
+
+<jboss>
+
+   <enterprise-beans>
+      <session>
+         <ejb-name>StatelessBean</ejb-name>
+         <service-ref>
+            <service-ref-name>service/Endpoint3</service-ref-name>
+            <wsdl-override>META-INF/wsdl/TestService.wsdl</wsdl-override>
+         </service-ref>
+         <service-ref>
+            <service-ref-name>service/Endpoint4</service-ref-name>
+            <!-- Metro compatibility: we declare the service-qname since we're using javax.xml.ws.Service in the ejb-jar.xml -->
+            <service-qname>{http://www.openuri.org/2004/04/HelloWorld}EndpointService</service-qname>
+            <wsdl-override>META-INF/wsdl/TestService.wsdl</wsdl-override>
+         </service-ref>
+      </session>
+   </enterprise-beans>
+
+</jboss>

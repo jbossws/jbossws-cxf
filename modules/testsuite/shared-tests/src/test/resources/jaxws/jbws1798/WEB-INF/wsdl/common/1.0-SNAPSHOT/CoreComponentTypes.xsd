@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="urn:CoreComponentTypes" elementFormDefault="qualified" attributeFormDefault="unqualified"
+    xmlns:bc="urn:BaseComponents"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:import namespace="urn:BaseComponents" schemaLocation="../../imported/my-service/1.0-SNAPSHOT/BaseComponents.xsd"/>
+    <xs:simpleType name="CountryType">
+        <xs:restriction base="bc:CountryCodeType"/>
+    </xs:simpleType>
+    <xs:simpleType name="CurrencyType">
+        <xs:restriction base="bc:CurrencyCodeType"/>
+    </xs:simpleType>
+</xs:schema>

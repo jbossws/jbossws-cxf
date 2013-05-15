@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8'?><java-wsdl-mapping version='1.1' xmlns='http://java.sun.com/xml/ns/j2ee' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://java.sun.com/xml/ns/j2ee http://www.ibm.com/webservices/xsd/j2ee_jaxrpc_mapping_1_1.xsd'>
+ <package-mapping>
+  <package-type>org.jboss.test.ws.jaxrpc.samples.jsr109ejb</package-type>
+  <namespaceURI>http://org.jboss.ws/samples/jsr109ejb/types</namespaceURI>
+ </package-mapping>
+ <java-xml-type-mapping>
+  <java-type>org.jboss.test.ws.jaxrpc.samples.jsr109ejb.SimpleUserType</java-type>
+  <root-type-qname xmlns:typeNS='http://org.jboss.ws/samples/jsr109ejb/types'>typeNS:SimpleUserType</root-type-qname>
+  <qname-scope>complexType</qname-scope>
+  <variable-mapping>
+   <java-variable-name>a</java-variable-name>
+   <data-member/>
+   <xml-element-name>a</xml-element-name>
+  </variable-mapping>
+  <variable-mapping>
+   <java-variable-name>b</java-variable-name>
+   <xml-element-name>b</xml-element-name>
+  </variable-mapping>
+ </java-xml-type-mapping>
+ <service-interface-mapping>
+  <service-interface>org.jboss.test.ws.jaxrpc.samples.jsr109ejb.TestService</service-interface>
+  <wsdl-service-name xmlns:serviceNS='http://org.jboss.ws/samples/jsr109ejb'>serviceNS:TestService</wsdl-service-name>
+  <port-mapping>
+   <port-name>JaxRpcTestServicePort</port-name>
+   <java-port-name>JaxRpcTestServicePort</java-port-name>
+  </port-mapping>
+ </service-interface-mapping>
+ <service-endpoint-interface-mapping>
+  <service-endpoint-interface>org.jboss.test.ws.jaxrpc.samples.jsr109ejb.JaxRpcTestService</service-endpoint-interface>
+  <wsdl-port-type xmlns:portTypeNS='http://org.jboss.ws/samples/jsr109ejb'>portTypeNS:JaxRpcTestService</wsdl-port-type>
+  <wsdl-binding xmlns:bindingNS='http://org.jboss.ws/samples/jsr109ejb'>bindingNS:JaxRpcTestServiceBinding</wsdl-binding>
+  <service-endpoint-method-mapping>
+   <java-method-name>echoString</java-method-name>
+   <wsdl-operation>echoString</wsdl-operation>
+   <method-param-parts-mapping>
+    <param-position>0</param-position>
+    <param-type>java.lang.String</param-type>
+    <wsdl-message-mapping>
+     <wsdl-message xmlns:wsdlMsgNS='http://org.jboss.ws/samples/jsr109ejb'>wsdlMsgNS:JaxRpcTestService_echoString</wsdl-message>
+     <wsdl-message-part-name>String_1</wsdl-message-part-name>
+     <parameter-mode>IN</parameter-mode>
+    </wsdl-message-mapping>
+   </method-param-parts-mapping>
+   <method-param-parts-mapping>
+    <param-position>1</param-position>
+    <param-type>java.lang.String</param-type>
+    <wsdl-message-mapping>
+     <wsdl-message xmlns:wsdlMsgNS='http://org.jboss.ws/samples/jsr109ejb'>wsdlMsgNS:JaxRpcTestService_echoString</wsdl-message>
+     <wsdl-message-part-name>String_2</wsdl-message-part-name>
+     <parameter-mode>IN</parameter-mode>
+    </wsdl-message-mapping>
+   </method-param-parts-mapping>
+   <wsdl-return-value-mapping>
+    <method-return-value>java.lang.String</method-return-value>
+    <wsdl-message xmlns:wsdlMsgNS='http://org.jboss.ws/samples/jsr109ejb'>wsdlMsgNS:JaxRpcTestService_echoStringResponse</wsdl-message>
+    <wsdl-message-part-name>result</wsdl-message-part-name>
+   </wsdl-return-value-mapping>
+  </service-endpoint-method-mapping>
+  <service-endpoint-method-mapping>
+   <java-method-name>echoSimpleUserType</java-method-name>
+   <wsdl-operation>echoSimpleUserType</wsdl-operation>
+   <method-param-parts-mapping>
+    <param-position>0</param-position>
+    <param-type>java.lang.String</param-type>
+    <wsdl-message-mapping>
+     <wsdl-message xmlns:wsdlMsgNS='http://org.jboss.ws/samples/jsr109ejb'>wsdlMsgNS:JaxRpcTestService_echoSimpleUserType</wsdl-message>
+     <wsdl-message-part-name>String_1</wsdl-message-part-name>
+     <parameter-mode>IN</parameter-mode>
+    </wsdl-message-mapping>
+   </method-param-parts-mapping>
+   <method-param-parts-mapping>
+    <param-position>1</param-position>
+    <param-type>org.jboss.test.ws.jaxrpc.samples.jsr109ejb.SimpleUserType</param-type>
+    <wsdl-message-mapping>
+     <wsdl-message xmlns:wsdlMsgNS='http://org.jboss.ws/samples/jsr109ejb'>wsdlMsgNS:JaxRpcTestService_echoSimpleUserType</wsdl-message>
+     <wsdl-message-part-name>SimpleUserType_2</wsdl-message-part-name>
+     <parameter-mode>IN</parameter-mode>
+    </wsdl-message-mapping>
+   </method-param-parts-mapping>
+   <wsdl-return-value-mapping>
+    <method-return-value>org.jboss.test.ws.jaxrpc.samples.jsr109ejb.SimpleUserType</method-return-value>
+    <wsdl-message xmlns:wsdlMsgNS='http://org.jboss.ws/samples/jsr109ejb'>wsdlMsgNS:JaxRpcTestService_echoSimpleUserTypeResponse</wsdl-message>
+    <wsdl-message-part-name>result</wsdl-message-part-name>
+   </wsdl-return-value-mapping>
+  </service-endpoint-method-mapping>
+ </service-endpoint-interface-mapping>
+</java-wsdl-mapping>

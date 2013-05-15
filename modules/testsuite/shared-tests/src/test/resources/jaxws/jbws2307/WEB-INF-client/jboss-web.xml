@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss-web PUBLIC "-//JBoss//DTD Web Application 5.0//EN" "http://www.jboss.org/j2ee/dtd/jboss-web_5_0.dtd">
+
+<jboss-web>
+  <security-domain>JBossWS</security-domain>
+  <service-ref>
+    <service-ref-name>service/jbws2307service</service-ref-name>
+    <port-component-ref>
+      <service-endpoint-interface>org.jboss.test.ws.jaxws.jbws2307.Hello</service-endpoint-interface>
+      <port-qname>{http://helloservice.org/wsdl}HelloPort</port-qname>
+      <stub-property>
+        <prop-name>javax.xml.ws.security.auth.password</prop-name>
+        <prop-value>thefrog</prop-value>
+      </stub-property>
+      <stub-property>
+        <prop-name>javax.xml.ws.security.auth.username</prop-name>
+        <prop-value>kermit</prop-value>
+      </stub-property>
+    </port-component-ref>
+  </service-ref>
+</jboss-web>

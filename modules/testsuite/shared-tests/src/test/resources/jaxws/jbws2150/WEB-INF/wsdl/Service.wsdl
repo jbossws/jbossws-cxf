@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name='HelloService' targetNamespace='http://test.jboss.org/addressrewrite' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://test.jboss.org/addressrewrite' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <import namespace="http://test.jboss.org/addressrewrite/wsdlimp" location="inner.wsdl"/>
+ <types/>
+ <message name='HelloWs_echo'>
+  <part name='String_1' type='xsd:string'/>
+ </message>
+ <message name='HelloWs_echoResponse'>
+  <part name='result' type='xsd:string'/>
+ </message>
+ <portType name='HelloWs'>
+  <operation name='echo' parameterOrder='String_1'>
+   <input message='tns:HelloWs_echo'/>
+   <output message='tns:HelloWs_echoResponse'/>
+  </operation>
+ </portType>
+ <binding name='HelloWsBinding' type='tns:HelloWs'>
+  <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='echo'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://test.jboss.org/addressrewrite' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://test.jboss.org/addressrewrite' use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name="ValidURLService">
+  <port name="ValidURLPort" binding="tns:HelloWsBinding">
+   <soap:address location="http://somehost:80/somepath"/>
+  </port>
+ </service>
+ <service name="InvalidURLService">
+  <port name="InvalidURLPort" binding="tns:HelloWsBinding">
+   <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+  </port>
+ </service>
+ <service name="ValidSecureURLService">
+  <port name="ValidSecureURLPort" binding="tns:HelloWsBinding">
+   <soap:address location="https://somehost:443/some-secure-path"/>
+  </port>
+ </service>
+ <service name="InvalidSecureURLService">
+  <port name="InvalidSecureURLPort" binding="tns:HelloWsBinding">
+   <soap:address location="https://REPLACE_WITH_ACTUAL_URL"/>
+  </port>
+ </service>
+</definitions>

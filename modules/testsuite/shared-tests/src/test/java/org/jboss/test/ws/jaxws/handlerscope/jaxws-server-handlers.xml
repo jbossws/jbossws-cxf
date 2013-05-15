@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ns1="http://org.jboss.ws/jaxws/handlerscope"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee javaee_web_services_1_2.xsd">
+
+	<handler-chain>
+    <protocol-bindings>##SOAP11_HTTP</protocol-bindings>
+		<handler>
+			<handler-name> SOAP11ServerHandler </handler-name>
+			<handler-class> org.jboss.test.ws.jaxws.handlerscope.SOAP11ServerHandler </handler-class>
+		</handler>
+	</handler-chain>
+  
+	<handler-chain>
+    <protocol-bindings>##SOAP12_HTTP</protocol-bindings>
+		<handler>
+			<handler-name> SOAP12ServerHandler </handler-name>
+			<handler-class> org.jboss.test.ws.jaxws.handlerscope.SOAP12ServerHandler </handler-class>
+		</handler>
+	</handler-chain>
+  
+	<handler-chain>
+    <protocol-bindings>##SOAP11_HTTP ##SOAP12_HTTP</protocol-bindings>
+		<handler>
+			<handler-name> SOAPServerHandler </handler-name>
+			<handler-class> org.jboss.test.ws.jaxws.handlerscope.SOAPServerHandler </handler-class>
+		</handler>
+	</handler-chain>
+  
+	<handler-chain>
+    <service-name-pattern>ns1:SOAPEndpointService</service-name-pattern>
+		<handler>
+			<handler-name> ServiceServerHandler </handler-name>
+			<handler-class> org.jboss.test.ws.jaxws.handlerscope.ServiceServerHandler </handler-class>
+		</handler>
+	</handler-chain>
+  
+	<handler-chain>
+    <service-name-pattern>ns1:SOAPEndpointSer*</service-name-pattern>
+		<handler>
+			<handler-name> ServiceWildcardServerHandler </handler-name>
+			<handler-class> org.jboss.test.ws.jaxws.handlerscope.ServiceWildcardServerHandler </handler-class>
+		</handler>
+	</handler-chain>
+  
+	<handler-chain>
+    <service-name-pattern>ns1:InvalidService</service-name-pattern>
+		<handler>
+			<handler-name> InvalidServiceServerHandler </handler-name>
+			<handler-class> org.jboss.test.ws.jaxws.handlerscope.InvalidServiceServerHandler </handler-class>
+		</handler>
+	</handler-chain>
+  
+	<handler-chain>
+    <port-name-pattern>ns1:SOAPEndpointPort</port-name-pattern>
+		<handler>
+			<handler-name> PortServerHandler </handler-name>
+			<handler-class> org.jboss.test.ws.jaxws.handlerscope.PortServerHandler </handler-class>
+		</handler>
+	</handler-chain>
+  
+	<handler-chain>
+    <port-name-pattern>ns1:SOAPEndpointPo*</port-name-pattern>
+		<handler>
+			<handler-name> PortWildcardServerHandler </handler-name>
+			<handler-class> org.jboss.test.ws.jaxws.handlerscope.PortWildcardServerHandler </handler-class>
+		</handler>
+	</handler-chain>
+  
+	<handler-chain>
+    <port-name-pattern>ns1:InvalidPort</port-name-pattern>
+		<handler>
+			<handler-name> InvalidPortServerHandler </handler-name>
+			<handler-class> org.jboss.test.ws.jaxws.handlerscope.InvalidPortServerHandler </handler-class>
+		</handler>
+	</handler-chain>
+  
+	<handler-chain>
+		<handler>
+			<handler-name> GeneralServerHandler </handler-name>
+			<handler-class> org.jboss.test.ws.jaxws.handlerscope.GeneralServerHandler </handler-class>
+		</handler>
+	</handler-chain>
+  
+</handler-chains>

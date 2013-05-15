@@ -1,0 +1,11 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<webservices
+  xmlns="http://www.jboss.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  version="1.2"
+  xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee">
+
+  <config-name>Custom Endpoint</config-name>
+  <config-file>WEB-INF/jaxws-endpoint-config.xml</config-file>
+
+</webservices>

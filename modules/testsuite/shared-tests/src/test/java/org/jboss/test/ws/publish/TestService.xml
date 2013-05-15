@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema version="1.0" xmlns="http://www.w3.org/2001/XMLSchema" 
+    elementFormDefault="qualified" attributeFormDefault="unqualified" 
+    targetNamespace="http://publish.ws.test.jboss.org/"
+    xmlns:tns="http://publish.ws.test.jboss.org/">
+
+    <element name='foo' type='tns:foo'/>
+</schema>

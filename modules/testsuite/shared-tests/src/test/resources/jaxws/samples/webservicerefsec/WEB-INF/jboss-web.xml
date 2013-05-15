@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE jboss-web PUBLIC "-//JBoss//DTD Web Application 5.0//EN" "http://www.jboss.org/j2ee/dtd/jboss-web_5_0.dtd">
+
+<jboss-web>
+      
+  <service-ref>
+    <service-ref-name>org.jboss.test.ws.jaxws.samples.webservicerefsec.Client/authorizedService</service-ref-name>
+    <service-qname>{http://org.jboss.ws/wsref}EndpointService</service-qname>
+    <port-component-ref>
+      <service-endpoint-interface>org.jboss.test.ws.jaxws.samples.webservicerefsec.Endpoint</service-endpoint-interface>
+      <port-qname>{http://org.jboss.ws/wsref}EndpointPort</port-qname>
+      <stub-property>
+        <prop-name>javax.xml.ws.security.auth.username</prop-name>
+        <prop-value>kermit</prop-value>
+      </stub-property>
+      <stub-property>
+        <prop-name>javax.xml.ws.security.auth.password</prop-name>
+        <prop-value>thefrog</prop-value>
+      </stub-property>
+    </port-component-ref>
+    <wsdl-override>WEB-INF/wsdl/Endpoint.wsdl</wsdl-override>
+  </service-ref>
+  
+  <service-ref>
+    <service-ref-name>org.jboss.test.ws.jaxws.samples.webservicerefsec.Client/unauthorizedService</service-ref-name>
+    <service-qname>{http://org.jboss.ws/wsref}EndpointService</service-qname>
+    <port-component-ref>
+      <service-endpoint-interface>org.jboss.test.ws.jaxws.samples.webservicerefsec.Endpoint</service-endpoint-interface>
+      <port-qname>{http://org.jboss.ws/wsref}EndpointPort</port-qname>
+      <stub-property>
+        <prop-name>javax.xml.ws.security.auth.username</prop-name>
+        <prop-value>foo</prop-value>
+      </stub-property>
+      <stub-property>
+        <prop-name>javax.xml.ws.security.auth.password</prop-name>
+        <prop-value>bar</prop-value>
+      </stub-property>
+    </port-component-ref>
+    <wsdl-override>WEB-INF/wsdl/Endpoint.wsdl</wsdl-override>
+  </service-ref>
+  
+</jboss-web>

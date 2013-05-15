@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webservices xmlns="http://java.sun.com/xml/ns/javaee"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             version="1.3"
+	         xmlns:wsdl="http://TestEndpoint.org"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/javaee_web_services_1_3.xsd">
+  <webservice-description>
+    <webservice-description-name>MTOMTestService</webservice-description-name>
+    <wsdl-file>WEB-INF/wsdl/TestEndpoint.wsdl</wsdl-file>
+    <port-component>
+      <port-component-name>MTOMTestImpl</port-component-name>
+      <wsdl-port>wsdl:MTOMTestPort</wsdl-port>
+      <addressing>
+	    <enabled>true</enabled>
+        <responses>NON_ANONYMOUS</responses>
+      </addressing>
+      <protocol-binding>##SOAP11_HTTP</protocol-binding>
+      <service-endpoint-interface>org.jboss.test.ws.jaxws.jbws3140.MTOMTest</service-endpoint-interface>
+      <service-impl-bean>
+        <servlet-link>MtomImpl</servlet-link>
+      </service-impl-bean>
+    </port-component>
+  </webservice-description> 
+</webservices>

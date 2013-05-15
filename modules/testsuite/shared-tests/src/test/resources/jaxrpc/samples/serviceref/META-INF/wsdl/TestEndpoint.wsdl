@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name='TestEndpointService' targetNamespace='http://org.jboss.ws/wsref' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://org.jboss.ws/wsref' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types/>
+ <message name='TestEndpoint_echo'>
+  <part name='String_1' type='xsd:string'/>
+ </message>
+ <message name='TestEndpoint_echoResponse'>
+  <part name='result' type='xsd:string'/>
+ </message>
+ <portType name='TestEndpoint'>
+  <operation name='echo' parameterOrder='String_1'>
+   <input message='tns:TestEndpoint_echo'/>
+   <output message='tns:TestEndpoint_echoResponse'/>
+  </operation>
+ </portType>
+ <binding name='TestEndpointBinding' type='tns:TestEndpoint'>
+  <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='echo'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/wsref' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/wsref' use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='TestEndpointService'>
+  <port binding='tns:TestEndpointBinding' name='TestEndpointPort'>
+   <soap:address location='http://@jboss.bind.address@:8080/jaxrpc-samples-serviceref'/>
+  </port>
+ </service>
+</definitions>

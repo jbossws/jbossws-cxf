@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar version="3.1" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
+  <display-name>JBWS2957</display-name>
+  <enterprise-beans>
+    <session>
+      <display-name>JBWS2957Test</display-name>
+      <ejb-name>JBWS2957Test</ejb-name>
+      <business-remote>org.jboss.test.ws.jaxws.jbws2957.common.HelloIface</business-remote>
+      <ejb-class>org.jboss.test.ws.jaxws.jbws2957.common.HelloImpl</ejb-class>
+      <session-type>Stateless</session-type>
+      <transaction-type>Container</transaction-type>
+      <security-identity>
+        <description></description>
+        <use-caller-identity></use-caller-identity>
+      </security-identity>
+    </session>
+  </enterprise-beans>
+
+  <assembly-descriptor>
+    <container-transaction>
+      <method>
+        <ejb-name>JBWS2957Test</ejb-name>
+        <method-name>sayHello</method-name>
+      </method>
+      <trans-attribute>Supports</trans-attribute>
+    </container-transaction>
+  </assembly-descriptor>
+</ejb-jar>

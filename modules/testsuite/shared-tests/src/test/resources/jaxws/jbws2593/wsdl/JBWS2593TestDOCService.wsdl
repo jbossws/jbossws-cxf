@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://jbws2593-doc.org/" xmlns:s="http://jbws2593-doc.org/xsd" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="ParameterModeTest" targetNamespace="http://jbws2593-doc.org/">
+  <types>
+    <xsd:schema targetNamespace="http://jbws2593-doc.org/xsd" elementFormDefault="qualified">
+      <xsd:element name="HexBinaryElement" type="xsd:hexBinary"/>
+    </xsd:schema>
+  </types>
+  <message name="inSimpleTypesRequest">
+    <part name="varHexBinary" element="s:HexBinaryElement" />
+  </message>
+  <message name="inSimpleTypesResponse">
+    <part name="return" element="s:HexBinaryElement" />
+  </message>
+  <portType name="ParameterModeTest">
+    <operation name="echoInSimpleTypes">
+      <input message="tns:inSimpleTypesRequest" />
+      <output message="tns:inSimpleTypesResponse" />
+    </operation>
+  </portType>
+  <binding name="ParameterModeTestBinding" type="tns:ParameterModeTest">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="echoInSimpleTypes">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="ParameterModeTestService">
+    <port name="ParameterModeTestPort" binding="tns:ParameterModeTestBinding">
+      <soap:address location="http://@jboss.bind.address@:8000/W2JRLParameterModeTest/jaxws/ParameterModeTest" />
+    </port>
+  </service>
+</definitions>
+

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="EchoService" targetNamespace="http://TestEndpoint.org" 
+	xmlns="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:tns="http://TestEndpoint.org"
+        xmlns:x1="http://TestEndpoint.org/xsd" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:wsp="http://www.w3.org/ns/ws-policy"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:wsa="http://www.w3.org/2005/08/addressing"
+	xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata">
+  <types>
+   <schema xmlns="http://www.w3.org/2001/XMLSchema"
+               targetNamespace="http://TestEndpoint.org/xsd"
+               xmlns:xmime="http://www.w3.org/2005/05/xmlmime" 
+               elementFormDefault="qualified">
+                 <complexType name="DataType">
+                     <sequence>
+                         <element name="request" type="string"/>
+                         <element name="doc" type="base64Binary" xmime:expectedContentTypes="image/jpeg"/>
+                     </sequence>
+                 </complexType>
+
+                 <complexType name="ResponseType">
+                     <sequence>
+                         <element name="response" type="string"/>
+                         <element name="reply" type="base64Binary" xmime:expectedContentTypes="image/jpeg"/>
+                     </sequence>
+                 </complexType>
+
+                 <element name="MtomRequest" type="x1:DataType"/>
+                 <element name="MtomResponse" type="x1:ResponseType"/>
+    </schema>
+  </types>
+  <message name="MTOMInRequest">
+        <part name="data" element="x1:MtomRequest"/>
+  </message>
+  <message name="MTOMInResponse">
+        <part name="result" element="x1:MtomResponse"/>
+  </message>
+
+  
+  <portType name="MTOMTest">
+     <operation name="MTOMIn">
+        <input message="tns:MTOMInRequest" />
+        <output message="tns:MTOMInResponse" />
+     </operation>
+  </portType>
+  
+  
+  <binding name="MTOMBindind" type="tns:MTOMTest">
+   <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+   <operation name="MTOMIn">
+     <soap:operation soapAction=""/>
+       <input>
+         <soap:body use="literal"/>
+       </input>
+       <output>
+          <soap:body use="literal"/>
+       </output>
+   </operation>
+  </binding>
+
+  <service name="TestEndpointService">
+    <port name="MTOMTestPort" binding="tns:MTOMBindind">
+      <soap:address location="http://@jboss.bind.address@:8080/jaxws3140-server"/>
+    </port>
+  </service>
+</definitions>

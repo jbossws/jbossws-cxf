@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name='TestService' targetNamespace='http://org.jboss.ws/samples/holder' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://org.jboss.ws/samples/holder/types' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://org.jboss.ws/samples/holder' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types/>
+ <message name='HolderTestService_echoBigDecimal'>
+  <part name='BigDecimal_1' type='xsd:decimal'/>
+ </message>
+ <message name='HolderTestService_echoBigDecimalResponse'>
+  <part name='BigDecimal_1' type='xsd:decimal'/>
+ </message>
+ <message name='HolderTestService_echoBigInteger'>
+  <part name='BigInteger_1' type='xsd:integer'/>
+ </message>
+ <message name='HolderTestService_echoBigIntegerResponse'>
+  <part name='BigInteger_1' type='xsd:integer'/>
+ </message>
+ <message name='HolderTestService_echoBoolean'>
+  <part name='boolean_1' type='xsd:boolean'/>
+ </message>
+ <message name='HolderTestService_echoBooleanResponse'>
+  <part name='boolean_1' type='xsd:boolean'/>
+ </message>
+ <message name='HolderTestService_echoBooleanWrapper'>
+  <part name='Boolean_1' type='xsd:boolean'/>
+ </message>
+ <message name='HolderTestService_echoBooleanWrapperResponse'>
+  <part name='Boolean_1' type='xsd:boolean'/>
+ </message>
+ <message name='HolderTestService_echoByte'>
+  <part name='byte_1' type='xsd:byte'/>
+ </message>
+ <message name='HolderTestService_echoByteResponse'>
+  <part name='byte_1' type='xsd:byte'/>
+ </message>
+ <message name='HolderTestService_echoByteArray'>
+  <part name='arrayOfbyte_1' type='xsd:base64Binary'/>
+ </message>
+ <message name='HolderTestService_echoByteArrayResponse'>
+  <part name='arrayOfbyte_1' type='xsd:base64Binary'/>
+ </message>
+ <message name='HolderTestService_echoByteWrapper'>
+  <part name='Byte_1' type='xsd:byte'/>
+ </message>
+ <message name='HolderTestService_echoByteWrapperResponse'>
+  <part name='Byte_1' type='xsd:byte'/>
+ </message>
+ <message name='HolderTestService_echoCalendar'>
+  <part name='Calendar_1' type='xsd:dateTime'/>
+ </message>
+ <message name='HolderTestService_echoCalendarResponse'>
+  <part name='Calendar_1' type='xsd:dateTime'/>
+ </message>
+ <message name='HolderTestService_echoDouble'>
+  <part name='double_1' type='xsd:double'/>
+ </message>
+ <message name='HolderTestService_echoDoubleResponse'>
+  <part name='double_1' type='xsd:double'/>
+ </message>
+ <message name='HolderTestService_echoDoubleWrapper'>
+  <part name='Double_1' type='xsd:double'/>
+ </message>
+ <message name='HolderTestService_echoDoubleWrapperResponse'>
+  <part name='Double_1' type='xsd:double'/>
+ </message>
+ <message name='HolderTestService_echoFloat'>
+  <part name='float_1' type='xsd:float'/>
+ </message>
+ <message name='HolderTestService_echoFloatResponse'>
+  <part name='float_1' type='xsd:float'/>
+ </message>
+ <message name='HolderTestService_echoFloatWrapper'>
+  <part name='Float_1' type='xsd:float'/>
+ </message>
+ <message name='HolderTestService_echoFloatWrapperResponse'>
+  <part name='Float_1' type='xsd:float'/>
+ </message>
+ <message name='HolderTestService_echoInt'>
+  <part name='int_1' type='xsd:int'/>
+ </message>
+ <message name='HolderTestService_echoIntResponse'>
+  <part name='int_1' type='xsd:int'/>
+ </message>
+ <message name='HolderTestService_echoIntegerWrapper'>
+  <part name='Integer_1' type='xsd:int'/>
+ </message>
+ <message name='HolderTestService_echoIntegerWrapperResponse'>
+  <part name='Integer_1' type='xsd:int'/>
+ </message>
+ <message name='HolderTestService_echoLong'>
+  <part name='long_1' type='xsd:long'/>
+ </message>
+ <message name='HolderTestService_echoLongResponse'>
+  <part name='long_1' type='xsd:long'/>
+ </message>
+ <message name='HolderTestService_echoLongWrapper'>
+  <part name='Long_1' type='xsd:long'/>
+ </message>
+ <message name='HolderTestService_echoLongWrapperResponse'>
+  <part name='Long_1' type='xsd:long'/>
+ </message>
+ <message name='HolderTestService_echoQName'>
+  <part name='QName_1' type='xsd:QName'/>
+ </message>
+ <message name='HolderTestService_echoQNameResponse'>
+  <part name='QName_1' type='xsd:QName'/>
+ </message>
+ <message name='HolderTestService_echoShort'>
+  <part name='short_1' type='xsd:short'/>
+ </message>
+ <message name='HolderTestService_echoShortResponse'>
+  <part name='short_1' type='xsd:short'/>
+ </message>
+ <message name='HolderTestService_echoShortWrapper'>
+  <part name='Short_1' type='xsd:short'/>
+ </message>
+ <message name='HolderTestService_echoShortWrapperResponse'>
+  <part name='Short_1' type='xsd:short'/>
+ </message>
+ <message name='HolderTestService_echoString'>
+  <part name='String_1' type='xsd:string'/>
+ </message>
+ <message name='HolderTestService_echoStringResponse'>
+  <part name='String_1' type='xsd:string'/>
+ </message>
+ <portType name='HolderTestService'>
+  <operation name='echoBigDecimal' parameterOrder='BigDecimal_1'>
+   <input message='tns:HolderTestService_echoBigDecimal'/>
+   <output message='tns:HolderTestService_echoBigDecimalResponse'/>
+  </operation>
+  <operation name='echoBigInteger' parameterOrder='BigInteger_1'>
+   <input message='tns:HolderTestService_echoBigInteger'/>
+   <output message='tns:HolderTestService_echoBigIntegerResponse'/>
+  </operation>
+  <operation name='echoBoolean' parameterOrder='boolean_1'>
+   <input message='tns:HolderTestService_echoBoolean'/>
+   <output message='tns:HolderTestService_echoBooleanResponse'/>
+  </operation>
+  <operation name='echoBooleanWrapper' parameterOrder='Boolean_1'>
+   <input message='tns:HolderTestService_echoBooleanWrapper'/>
+   <output message='tns:HolderTestService_echoBooleanWrapperResponse'/>
+  </operation>
+  <operation name='echoByte' parameterOrder='byte_1'>
+   <input message='tns:HolderTestService_echoByte'/>
+   <output message='tns:HolderTestService_echoByteResponse'/>
+  </operation>
+  <operation name='echoByteArray' parameterOrder='arrayOfbyte_1'>
+   <input message='tns:HolderTestService_echoByteArray'/>
+   <output message='tns:HolderTestService_echoByteArrayResponse'/>
+  </operation>
+  <operation name='echoByteWrapper' parameterOrder='Byte_1'>
+   <input message='tns:HolderTestService_echoByteWrapper'/>
+   <output message='tns:HolderTestService_echoByteWrapperResponse'/>
+  </operation>
+  <operation name='echoCalendar' parameterOrder='Calendar_1'>
+   <input message='tns:HolderTestService_echoCalendar'/>
+   <output message='tns:HolderTestService_echoCalendarResponse'/>
+  </operation>
+  <operation name='echoDouble' parameterOrder='double_1'>
+   <input message='tns:HolderTestService_echoDouble'/>
+   <output message='tns:HolderTestService_echoDoubleResponse'/>
+  </operation>
+  <operation name='echoDoubleWrapper' parameterOrder='Double_1'>
+   <input message='tns:HolderTestService_echoDoubleWrapper'/>
+   <output message='tns:HolderTestService_echoDoubleWrapperResponse'/>
+  </operation>
+  <operation name='echoFloat' parameterOrder='float_1'>
+   <input message='tns:HolderTestService_echoFloat'/>
+   <output message='tns:HolderTestService_echoFloatResponse'/>
+  </operation>
+  <operation name='echoFloatWrapper' parameterOrder='Float_1'>
+   <input message='tns:HolderTestService_echoFloatWrapper'/>
+   <output message='tns:HolderTestService_echoFloatWrapperResponse'/>
+  </operation>
+  <operation name='echoInt' parameterOrder='int_1'>
+   <input message='tns:HolderTestService_echoInt'/>
+   <output message='tns:HolderTestService_echoIntResponse'/>
+  </operation>
+  <operation name='echoIntegerWrapper' parameterOrder='Integer_1'>
+   <input message='tns:HolderTestService_echoIntegerWrapper'/>
+   <output message='tns:HolderTestService_echoIntegerWrapperResponse'/>
+  </operation>
+  <operation name='echoLong' parameterOrder='long_1'>
+   <input message='tns:HolderTestService_echoLong'/>
+   <output message='tns:HolderTestService_echoLongResponse'/>
+  </operation>
+  <operation name='echoLongWrapper' parameterOrder='Long_1'>
+   <input message='tns:HolderTestService_echoLongWrapper'/>
+   <output message='tns:HolderTestService_echoLongWrapperResponse'/>
+  </operation>
+  <operation name='echoQName' parameterOrder='QName_1'>
+   <input message='tns:HolderTestService_echoQName'/>
+   <output message='tns:HolderTestService_echoQNameResponse'/>
+  </operation>
+  <operation name='echoShort' parameterOrder='short_1'>
+   <input message='tns:HolderTestService_echoShort'/>
+   <output message='tns:HolderTestService_echoShortResponse'/>
+  </operation>
+  <operation name='echoShortWrapper' parameterOrder='Short_1'>
+   <input message='tns:HolderTestService_echoShortWrapper'/>
+   <output message='tns:HolderTestService_echoShortWrapperResponse'/>
+  </operation>
+  <operation name='echoString' parameterOrder='String_1'>
+   <input message='tns:HolderTestService_echoString'/>
+   <output message='tns:HolderTestService_echoStringResponse'/>
+  </operation>
+ </portType>
+ <binding name='HolderTestServiceBinding' type='tns:HolderTestService'>
+  <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='echoBigDecimal'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoBigInteger'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoBoolean'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoBooleanWrapper'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoByte'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoByteArray'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoByteWrapper'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoCalendar'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoDouble'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoDoubleWrapper'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoFloat'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoFloatWrapper'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoInt'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoIntegerWrapper'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoLong'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoLongWrapper'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoQName'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoShort'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoShortWrapper'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoString'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/holder' use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='TestService'>
+  <port binding='tns:HolderTestServiceBinding' name='HolderTestServicePort'>
+   <soap:address location='REPLACE_WITH_ACTUAL_URL'/>
+  </port>
+ </service>
+</definitions>

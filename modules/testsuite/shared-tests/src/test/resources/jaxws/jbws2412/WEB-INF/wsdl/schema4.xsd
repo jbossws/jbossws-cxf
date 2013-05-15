@@ -1,0 +1,5 @@
+<schema targetNamespace='http://org.jboss.test.ws/jbws2412/schema4'
+  xmlns='http://www.w3.org/2001/XMLSchema'>
+  <import namespace="http://org.jboss.test.ws/jbws2412/schema2" schemaLocation="./schema2.xsd"/>
+  <import namespace="http://org.jboss.test.ws/jbws2412/schema3" schemaLocation="./schema3.xsd"/> 
+</schema>

@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!DOCTYPE root [
+  <!ENTITY hello1 "Hello">
+  <!ENTITY hello2 "&hello1; &hello1;">
+  <!ENTITY hello3 "&hello2; &hello2;">
+  <!ENTITY hello4 "&hello3; &hello3;">
+  <!ENTITY hello5 "&hello4; &hello4;">
+  <!ENTITY hello6 "&hello5; &hello5;">
+  <!ENTITY hello7 "&hello6; &hello6;">
+  <!ENTITY hello8 "&hello7; &hello7;">
+  <!ENTITY hello9 "&hello8; &hello8;">
+  <!ENTITY hello10 "&hello9; &hello9;">
+
+  <!ENTITY hello11 "&hello10; &hello10;">
+  <!ENTITY hello12 "&hello11; &hello11;">
+  <!ENTITY hello13 "&hello12; &hello12;">
+  <!ENTITY hello14 "&hello13; &hello13;">
+  <!ENTITY hello15 "&hello14; &hello14;">
+  <!ENTITY hello16 "&hello15; &hello15;">
+  <!ENTITY hello17 "&hello16; &hello16;">
+  <!ENTITY hello18 "&hello17; &hello17;">
+  <!ENTITY hello19 "&hello18; &hello18;">
+  <!ENTITY hello20 "&hello19; &hello19;">
+
+  <!ENTITY hello21 "&hello20; &hello20;">
+  <!ENTITY hello22 "&hello21; &hello21;">
+  <!ENTITY hello23 "&hello22; &hello22;">
+  <!ENTITY hello24 "&hello23; &hello23;">
+  <!ENTITY hello25 "&hello24; &hello24;">
+  <!ENTITY hello26 "&hello25; &hello25;">
+  <!ENTITY hello27 "&hello26; &hello26;">
+  <!ENTITY hello28 "&hello27; &hello27;">
+  <!ENTITY hello29 "&hello28; &hello28;">
+  <!ENTITY hello30 "&hello29; &hello29;">
+
+  <!ENTITY hello31 "&hello30; &hello30;">
+  <!ENTITY hello32 "&hello31; &hello31;">
+  <!ENTITY hello33 "&hello32; &hello32;">
+  <!ENTITY hello34 "&hello33; &hello33;">
+  <!ENTITY hello35 "&hello34; &hello34;">
+  <!ENTITY hello36 "&hello35; &hello35;">
+  <!ENTITY hello37 "&hello36; &hello36;">
+  <!ENTITY hello38 "&hello37; &hello37;">
+  <!ENTITY hello39 "&hello38; &hello38;">
+  <!ENTITY hello40 "&hello39; &hello39;">
+
+  <!ENTITY hello41 "&hello40; &hello40;">
+  <!ENTITY hello42 "&hello41; &hello41;">
+  <!ENTITY hello43 "&hello42; &hello42;">
+  <!ENTITY hello44 "&hello43; &hello43;">
+  <!ENTITY hello45 "&hello44; &hello44;">
+  <!ENTITY hello46 "&hello45; &hello45;">
+  <!ENTITY hello47 "&hello46; &hello46;">
+  <!ENTITY hello48 "&hello47; &hello47;">
+  <!ENTITY hello49 "&hello48; &hello48;">
+  <!ENTITY hello50 "&hello49; &hello49;">
+
+  <!ENTITY hello51 "&hello50; &hello50;">
+  <!ENTITY hello52 "&hello51; &hello51;">
+  <!ENTITY hello53 "&hello52; &hello52;">
+  <!ENTITY hello54 "&hello53; &hello53;">
+  <!ENTITY hello55 "&hello54; &hello54;">
+  <!ENTITY hello56 "&hello55; &hello55;">
+  <!ENTITY hello57 "&hello56; &hello56;">
+  <!ENTITY hello58 "&hello57; &hello57;">
+  <!ENTITY hello59 "&hello58; &hello58;">
+  <!ENTITY hello60 "&hello59; &hello59;">
+
+  <!ENTITY hello61 "&hello60; &hello60;">
+  <!ENTITY hello62 "&hello61; &hello61;">
+  <!ENTITY hello63 "&hello62; &hello62;">
+  <!ENTITY hello64 "&hello63; &hello63;">
+  <!ENTITY hello65 "&hello64; &hello64;">
+  <!ENTITY hello66 "&hello65; &hello65;">
+  <!ENTITY hello67 "&hello66; &hello66;">
+  <!ENTITY hello68 "&hello67; &hello67;">
+  <!ENTITY hello69 "&hello68; &hello68;">
+  <!ENTITY hello70 "&hello69; &hello69;">
+
+  <!ENTITY hello71 "&hello70; &hello70;">
+  <!ENTITY hello72 "&hello71; &hello71;">
+  <!ENTITY hello73 "&hello72; &hello72;">
+  <!ENTITY hello74 "&hello73; &hello73;">
+  <!ENTITY hello75 "&hello74; &hello74;">
+  <!ENTITY hello76 "&hello75; &hello75;">
+  <!ENTITY hello77 "&hello76; &hello76;">
+  <!ENTITY hello78 "&hello77; &hello77;">
+  <!ENTITY hello79 "&hello78; &hello78;">
+  <!ENTITY hello80 "&hello79; &hello79;">
+
+  <!ENTITY hello81 "&hello80; &hello80;">
+  <!ENTITY hello82 "&hello81; &hello81;">
+  <!ENTITY hello83 "&hello82; &hello82;">
+  <!ENTITY hello84 "&hello83; &hello83;">
+  <!ENTITY hello85 "&hello84; &hello84;">
+  <!ENTITY hello86 "&hello85; &hello85;">
+  <!ENTITY hello87 "&hello86; &hello86;">
+  <!ENTITY hello88 "&hello87; &hello87;">
+  <!ENTITY hello89 "&hello88; &hello88;">
+  <!ENTITY hello90 "&hello89; &hello89;">
+
+  <!ENTITY hello91 "&hello90; &hello90;">
+  <!ENTITY hello92 "&hello91; &hello91;">
+  <!ENTITY hello93 "&hello92; &hello92;">
+  <!ENTITY hello94 "&hello93; &hello93;">
+  <!ENTITY hello95 "&hello94; &hello94;">
+  <!ENTITY hello96 "&hello95; &hello95;">
+  <!ENTITY hello97 "&hello96; &hello96;">
+  <!ENTITY hello98 "&hello97; &hello97;">
+  <!ENTITY hello99 "&hello98; &hello98;">
+  <!ENTITY hello100 "&hello99; &hello99;">
+
+  <!ENTITY hello101 "&hello100; &hello100;">
+  <!ENTITY hello102 "&hello101; &hello101;">
+  <!ENTITY hello103 "&hello102; &hello102;">
+  <!ENTITY hello104 "&hello103; &hello103;">
+  <!ENTITY hello105 "&hello104; &hello104;">
+  <!ENTITY hello106 "&hello105; &hello105;">
+  <!ENTITY hello107 "&hello106; &hello106;">
+  <!ENTITY hello108 "&hello107; &hello107;">
+  <!ENTITY hello109 "&hello108; &hello108;">
+  <!ENTITY hello110 "&hello109; &hello109;">
+
+  <!ENTITY hello111 "&hello110; &hello110;">
+  <!ENTITY hello112 "&hello111; &hello111;">
+  <!ENTITY hello113 "&hello112; &hello112;">
+  <!ENTITY hello114 "&hello113; &hello113;">
+  <!ENTITY hello115 "&hello114; &hello114;">
+  <!ENTITY hello116 "&hello115; &hello115;">
+  <!ENTITY hello117 "&hello116; &hello116;">
+  <!ENTITY hello118 "&hello117; &hello117;">
+  <!ENTITY hello119 "&hello118; &hello118;">
+  <!ENTITY hello120 "&hello119; &hello119;">
+
+  <!ENTITY hello121 "&hello120; &hello120;">
+  <!ENTITY hello122 "&hello121; &hello121;">
+  <!ENTITY hello123 "&hello122; &hello122;">
+  <!ENTITY hello124 "&hello123; &hello123;">
+  <!ENTITY hello125 "&hello124; &hello124;">
+  <!ENTITY hello126 "&hello125; &hello125;">
+  <!ENTITY hello127 "&hello126; &hello126;">
+  <!ENTITY hello128 "&hello127; &hello127;">
+]>
+<env:Envelope xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>
+  <env:Header/>
+  <env:Body>
+    <ns1:echoString xmlns:ns1='http://jbws1582.jaxws.ws.test.jboss.org/'>
+      <arg0>&hello128;</arg0>
+    </ns1:echoString>
+  </env:Body>
+</env:Envelope>

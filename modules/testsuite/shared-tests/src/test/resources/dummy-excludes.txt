@@ -1,0 +1,13 @@
+# Always excludes
+org/jboss/test/ws/interop/**
+org/jboss/test/ws/benchmark/**
+
+# EJB3/Injection excludes
+org/jboss/test/ws/jaxws/endpoint/**
+org/jboss/test/ws/jaxws/samples/handlerchain/HandlerChainClientTestCase.*
+org/jboss/test/ws/jaxws/samples/webserviceref/**
+org/jboss/test/ws/jaxws/jbws1581/**
+org/jboss/test/ws/jaxws/serviceref/**
+
+org/jboss/test/ws/jaxrpc/samples/jmstransport/JMSTransportTestCase.*
+org/jboss/test/ws/jaxrpc/samples/jmstransport/OrganizationJMSEndpoint.*

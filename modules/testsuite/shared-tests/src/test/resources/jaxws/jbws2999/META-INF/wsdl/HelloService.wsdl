@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://Hello.org" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="HelloService" targetNamespace="http://Hello.org">
+  <types />
+  <message name="Hello_helloRequest">
+    <part name="Param1" type="xsd:string" />
+  </message>
+  <message name="Hello_helloResponse">
+    <part name="result" type="xsd:string" />
+  </message>
+  <portType name="Hello">
+    <operation name="helloEcho" parameterOrder="Param1">
+      <input message="tns:Hello_helloRequest" />
+      <output message="tns:Hello_helloResponse" />
+    </operation>
+  </portType>
+  <binding name="HelloBinding" type="tns:Hello">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <operation name="helloEcho">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://Hello.org" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://Hello.org" />
+      </output>
+    </operation>
+  </binding>
+  <service name="HelloService">
+    <port name="Hello" binding="tns:HelloBinding">
+      <soap:address location="http://foo:9999/bar"/>
+    </port>
+  </service>
+</definitions>

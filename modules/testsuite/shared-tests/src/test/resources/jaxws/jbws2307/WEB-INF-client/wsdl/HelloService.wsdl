@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions name="HelloService" targetNamespace="http://helloservice.org/wsdl" xmlns:tns="http://helloservice.org/wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <types/>
+  <message name="Hello_hello">
+    <part name="String_1" type="xsd:string"/></message>
+  <message name="Hello_helloResponse">
+    <part name="result" type="xsd:string"/></message>
+  <message name="getMessageContextTest"/>
+  <message name="getMessageContextTestResponse">
+    <part name="result" type="xsd:boolean"/></message>
+  <message name="getServletContextTest"/>
+  <message name="getServletContextTestResponse">
+    <part name="result" type="xsd:boolean"/></message>
+  <message name="getUserPrincipalTest"/>
+  <message name="getUserPrincipalTestResponse">
+    <part name="result" type="xsd:boolean"/></message>
+  <message name="isUserInRoleTest">
+    <part name="String_1" type="xsd:string"/></message>
+  <message name="isUserInRoleTestResponse">
+    <part name="result" type="xsd:boolean"/></message>
+  <portType name="Hello">
+    <operation name="hello" parameterOrder="String_1">
+      <input message="tns:Hello_hello"/>
+      <output message="tns:Hello_helloResponse"/></operation>
+    <operation name="getMessageContextTest" >
+      <input message="tns:getMessageContextTest"/>
+      <output message="tns:getMessageContextTestResponse"/></operation>
+    <operation name="getServletContextTest" >
+      <input message="tns:getServletContextTest"/>
+      <output message="tns:getServletContextTestResponse"/></operation>
+    <operation name="getUserPrincipalTest" >
+      <input message="tns:getUserPrincipalTest"/>
+      <output message="tns:getUserPrincipalTestResponse"/></operation>
+    <operation name="isUserInRoleTest" parameterOrder="String_1">
+      <input message="tns:isUserInRoleTest"/>
+      <output message="tns:isUserInRoleTestResponse"/></operation>
+  </portType>
+  <binding name="HelloBinding" type="tns:Hello">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+    <operation name="hello">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal" namespace="http://helloservice.org/wsdl"/></input>
+      <output>
+        <soap:body use="literal" namespace="http://helloservice.org/wsdl"/></output></operation>
+    <operation name="getMessageContextTest">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal" namespace="http://helloservice.org/wsdl"/></input>
+      <output>
+        <soap:body use="literal" namespace="http://helloservice.org/wsdl"/></output></operation>
+    <operation name="getServletContextTest">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal" namespace="http://helloservice.org/wsdl"/></input>
+      <output>
+        <soap:body use="literal" namespace="http://helloservice.org/wsdl"/></output></operation>
+    <operation name="getUserPrincipalTest">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal" namespace="http://helloservice.org/wsdl"/></input>
+      <output>
+        <soap:body use="literal" namespace="http://helloservice.org/wsdl"/></output></operation>
+    <operation name="isUserInRoleTest">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal" namespace="http://helloservice.org/wsdl"/></input>
+      <output>
+        <soap:body use="literal" namespace="http://helloservice.org/wsdl"/></output></operation>
+  </binding>
+  <service name="HelloService">
+    <port name="HelloPort" binding="tns:HelloBinding">
+      <soap:address location="http://@jboss.bind.address@:8080/jaxws-jbws2307-service/jaxws/Hello"/></port></service></definitions>

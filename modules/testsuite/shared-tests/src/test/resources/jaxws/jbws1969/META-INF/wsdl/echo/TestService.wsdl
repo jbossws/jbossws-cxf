@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="EndpointService" 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://org.jboss.ws/jbws1969"
+    targetNamespace="http://org.jboss.ws/jbws1969">
+
+    <types>
+        <xsd:schema>
+            <xsd:import namespace="http://org.jboss.ws/jbws1969" schemaLocation="TestService.xsd" />
+        </xsd:schema>
+    </types>
+
+    <message name='Endpoint_echo'>
+        <part element='tns:echo' name='echo'></part>
+    </message>
+    <message name='Endpoint_echoResponse'>
+        <part element='tns:echoResponse' name='echoResponse'></part>
+    </message>
+    <portType name='Endpoint'>
+        <operation name='echo' parameterOrder='echo'>
+            <input message='tns:Endpoint_echo'></input>
+            <output message='tns:Endpoint_echoResponse'></output>
+        </operation>
+    </portType>
+    <binding name='EndpointBinding' type='tns:Endpoint'>
+        <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+        <operation name='echo'>
+            <soap:operation soapAction=''/>
+            <input>
+                <soap:body use='literal'/>
+            </input>
+            <output>
+                <soap:body use='literal'/>
+            </output>
+    </operation>
+    </binding>
+    <service name='EndpointService'>
+        <port binding='tns:EndpointBinding' name='EndpointPort'>
+            <soap:address location='http://127.0.0.1:8080/jaxws-jbws1969'/>
+        </port>
+    </service>
+</definitions>

@@ -1,0 +1,51 @@
+<definitions name='TestEndpointService' targetNamespace='http://org.jboss.test.ws/jbws2412' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://org.jboss.test.ws/jbws2412' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <xs:schema targetNamespace='http://org.jboss.test.ws/jbws2412' version='1.0' xmlns:tns='http://org.jboss.test.ws/jbws2412' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+  
+   <xs:import namespace="http://org.jboss.test.ws/jbws2412/schema1" schemaLocation="./schema1.xsd"/>
+   <xs:import namespace="http://org.jboss.test.ws/jbws2412/schema4" schemaLocation="./schema4.xsd"/>
+  
+   <xs:element name='echo' type='tns:echo'/>
+   <xs:element name='echoResponse' type='tns:echoResponse'/>
+   <xs:complexType name='echo'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='arg0' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='echoResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='return' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+ </types>
+ <message name='TestEndpoint_echoResponse'>
+  <part element='tns:echoResponse' name='echoResponse'></part>
+ </message>
+ <message name='TestEndpoint_echo'>
+  <part element='tns:echo' name='echo'></part>
+ </message>
+ <portType name='TestEndpoint'>
+  <operation name='echo' parameterOrder='echo'>
+   <input message='tns:TestEndpoint_echo'></input>
+   <output message='tns:TestEndpoint_echoResponse'></output>
+  </operation>
+ </portType>
+ <binding name='TestEndpointBinding' type='tns:TestEndpoint'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='echo'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='TestEndpointService'>
+  <port binding='tns:TestEndpointBinding' name='TestEndpointPort'>
+   <soap:address location='http://127.0.0.1:8080/jaxws-jbws2412'/>
+  </port>
+ </service>
+</definitions>

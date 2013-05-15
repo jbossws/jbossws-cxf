@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+  version="2.4">
+
+  <servlet>
+    <servlet-name>ValidService</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws2150.ValidService</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>InvalidService</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws2150.InvalidService</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ValidSecureService</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws2150.ValidSecureService</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>InvalidSecureService</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws2150.InvalidSecureService</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ValidService</servlet-name>
+    <url-pattern>/ValidURL</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InvalidService</servlet-name>
+    <url-pattern>/InvalidURL</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ValidSecureService</servlet-name>
+    <url-pattern>/ValidSecureURL</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InvalidSecureService</servlet-name>
+    <url-pattern>/InvalidSecureURL</url-pattern>
+  </servlet-mapping>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>ValidURL</web-resource-name>
+      <url-pattern>/ValidURL</url-pattern>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <user-data-constraint>
+      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>InvalidURL</web-resource-name>
+      <url-pattern>/InvalidURL</url-pattern>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <user-data-constraint>
+      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>ValidSecureURL</web-resource-name>
+      <url-pattern>/ValidSecureURL</url-pattern>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <user-data-constraint>
+      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>InvalidSecureURL</web-resource-name>
+      <url-pattern>/InvalidSecureURL</url-pattern>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <user-data-constraint>
+      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+
+</web-app>

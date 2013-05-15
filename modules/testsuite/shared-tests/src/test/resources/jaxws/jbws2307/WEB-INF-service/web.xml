@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+  <display-name>jbws2307_testcase_service</display-name>
+  <servlet>
+    <servlet-name>HelloImpl</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws2307.HelloImpl</servlet-class>
+    <load-on-startup>0</load-on-startup>
+    <security-role-ref>
+      <role-name>FRN</role-name>
+      <role-link>friend</role-link>
+    </security-role-ref>
+    <!-- <security-role-ref>
+      <role-name>ADM</role-name>
+      <role-link>Administrator</role-link>
+    </security-role-ref>
+    <security-role-ref>
+      <role-name>MGR</role-name>
+      <role-link>Manager</role-link>
+    </security-role-ref>
+    <security-role-ref>
+      <role-name>EMP</role-name>
+      <role-link>Employee</role-link>
+    </security-role-ref> -->
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HelloImpl</servlet-name>
+    <url-pattern>/jaxws/Hello</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>54</session-timeout>
+  </session-config>
+   <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>WSHelloSecureService</web-resource-name>
+      <url-pattern>/jaxws/*</url-pattern>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <!-- <auth-constraint>
+      <role-name>Administrator</role-name>
+    </auth-constraint> -->
+    <auth-constraint>
+      <role-name>friend</role-name>
+    </auth-constraint>
+    <user-data-constraint>
+      <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>default</realm-name>
+  </login-config>
+  <!-- <security-role>
+    <role-name>Administrator</role-name>
+  </security-role>
+  <security-role>
+    <role-name>Manager</role-name>
+  </security-role>
+  <security-role>
+    <role-name>Employee</role-name>
+  </security-role>
+  <security-role>
+    <role-name>Guest</role-name>
+  </security-role> -->
+  <security-role>
+    <role-name>friend</role-name>
+  </security-role>
+</web-app>

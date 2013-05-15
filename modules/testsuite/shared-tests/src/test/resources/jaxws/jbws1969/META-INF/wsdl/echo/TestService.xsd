@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema version="1.0" xmlns="http://www.w3.org/2001/XMLSchema" 
+    elementFormDefault="qualified" attributeFormDefault="unqualified" 
+    targetNamespace="http://org.jboss.ws/jbws1969"
+    xmlns:tns="http://org.jboss.ws/jbws1969">
+
+    <element name='echo' type='tns:echo'/>
+    <element name='echoResponse' type='tns:echoResponse'/>
+    <complexType name='echo'>
+        <sequence>
+            <element minOccurs='0' name='arg0' type='string'/>
+        </sequence>
+    </complexType>
+    <complexType name='echoResponse'>
+        <sequence>
+            <element minOccurs='0' name='return' type='string'/>
+        </sequence>
+    </complexType>
+</schema>

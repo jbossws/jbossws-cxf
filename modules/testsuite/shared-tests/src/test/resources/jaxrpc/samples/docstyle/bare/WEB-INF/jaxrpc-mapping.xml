@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?><java-wsdl-mapping version='1.1' xmlns='http://java.sun.com/xml/ns/j2ee' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://java.sun.com/xml/ns/j2ee http://www.ibm.com/webservices/xsd/j2ee_jaxrpc_mapping_1_1.xsd'>
+ <package-mapping>
+  <package-type>org.jboss.test.ws.jaxrpc.samples.docstyle.bare</package-type>
+  <namespaceURI>http://org.jboss.ws/samples/docstyle/bare/types</namespaceURI>
+ </package-mapping>
+ <java-xml-type-mapping>
+  <java-type>org.jboss.test.ws.jaxrpc.samples.docstyle.bare.TrivialOrder</java-type>
+  <root-type-qname xmlns:typeNS='http://org.jboss.ws/samples/docstyle/bare/types'>typeNS:TrivialOrder</root-type-qname>
+  <qname-scope>complexType</qname-scope>
+  <variable-mapping>
+   <java-variable-name>person</java-variable-name>
+   <xml-element-name>person</xml-element-name>
+  </variable-mapping>
+  <variable-mapping>
+   <java-variable-name>product</java-variable-name>
+   <xml-element-name>product</xml-element-name>
+  </variable-mapping>
+ </java-xml-type-mapping>
+ <java-xml-type-mapping>
+  <java-type>org.jboss.test.ws.jaxrpc.samples.docstyle.bare.TrivialOrderResponse</java-type>
+  <root-type-qname xmlns:typeNS='http://org.jboss.ws/samples/docstyle/bare/types'>typeNS:TrivialOrderResponse</root-type-qname>
+  <qname-scope>complexType</qname-scope>
+  <variable-mapping>
+   <java-variable-name>result</java-variable-name>
+   <xml-element-name>result</xml-element-name>
+  </variable-mapping>
+ </java-xml-type-mapping>
+ <service-interface-mapping>
+  <service-interface>org.jboss.test.ws.jaxrpc.samples.docstyle.bare.SampleService</service-interface>
+  <wsdl-service-name xmlns:serviceNS='http://org.jboss.ws/samples/docstyle/bare'>serviceNS:SampleService</wsdl-service-name>
+  <port-mapping>
+   <port-name>TrivialServicePort</port-name>
+   <java-port-name>TrivialServicePort</java-port-name>
+  </port-mapping>
+ </service-interface-mapping>
+ <service-endpoint-interface-mapping>
+  <service-endpoint-interface>org.jboss.test.ws.jaxrpc.samples.docstyle.bare.TrivialService</service-endpoint-interface>
+  <wsdl-port-type xmlns:portTypeNS='http://org.jboss.ws/samples/docstyle/bare'>portTypeNS:TrivialService</wsdl-port-type>
+  <wsdl-binding xmlns:bindingNS='http://org.jboss.ws/samples/docstyle/bare'>bindingNS:TrivialServiceBinding</wsdl-binding>
+  <service-endpoint-method-mapping>
+   <java-method-name>purchase</java-method-name>
+   <wsdl-operation>purchase</wsdl-operation>
+   <method-param-parts-mapping>
+    <param-position>0</param-position>
+    <param-type>org.jboss.test.ws.jaxrpc.samples.docstyle.bare.TrivialOrder</param-type>
+    <wsdl-message-mapping>
+     <wsdl-message xmlns:wsdlMsgNS='http://org.jboss.ws/samples/docstyle/bare'>wsdlMsgNS:TrivialService_purchase</wsdl-message>
+     <wsdl-message-part-name>purchase</wsdl-message-part-name>
+     <parameter-mode>IN</parameter-mode>
+    </wsdl-message-mapping>
+   </method-param-parts-mapping>
+   <wsdl-return-value-mapping>
+    <method-return-value>org.jboss.test.ws.jaxrpc.samples.docstyle.bare.TrivialOrderResponse</method-return-value>
+    <wsdl-message xmlns:wsdlMsgNS='http://org.jboss.ws/samples/docstyle/bare'>wsdlMsgNS:TrivialService_purchaseResponse</wsdl-message>
+    <wsdl-message-part-name>purchaseResponse</wsdl-message-part-name>
+   </wsdl-return-value-mapping>
+  </service-endpoint-method-mapping>
+ </service-endpoint-interface-mapping>
+</java-wsdl-mapping>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions name='HolderService' targetNamespace='http://holder.jaxws.ws.test.jboss.org/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://holder.jaxws.ws.test.jboss.org/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <xs:schema targetNamespace='http://holder.jaxws.ws.test.jboss.org/' version='1.0' xmlns:tns='http://holder.jaxws.ws.test.jboss.org/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:element name='addInOut' type='tns:addInOut'/>
+   <xs:element name='addInOutResponse' type='tns:addInOutResponse'/>
+   <xs:element name='echoInOuts' type='tns:echoInOuts'/>
+   <xs:element name='echoInOutsResponse' type='tns:echoInOutsResponse'/>
+   <xs:element name='echoMixed' type='tns:echoMixed'/>
+   <xs:element name='echoMixedResponse' type='tns:echoMixedResponse'/>
+   <xs:element name='echoOuts' type='tns:echoOuts'/>
+   <xs:element name='echoOutsResponse' type='tns:echoOutsResponse'/>
+   <xs:element name='in' nillable='true' type='xs:string'/>
+   <xs:element name='inout' nillable='true' type='xs:string'/>
+   <xs:element name='out' nillable='true' type='xs:string'/>
+   <xs:complexType name='echoOuts'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='in1' type='xs:int'/>
+     <xs:element minOccurs='0' name='in2' type='xs:string'/>
+     <xs:element minOccurs='0' name='in3' type='xs:long'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='echoOutsResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='return' type='xs:long'/>
+     <xs:element minOccurs='0' name='out1' type='xs:int'/>
+     <xs:element minOccurs='0' name='out2' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='echoInOuts'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='in1' type='xs:long'/>
+     <xs:element minOccurs='0' name='inout1' type='xs:int'/>
+     <xs:element minOccurs='0' name='inout2' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='echoInOutsResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='return' type='xs:long'/>
+     <xs:element minOccurs='0' name='inout1' type='xs:int'/>
+     <xs:element minOccurs='0' name='inout2' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='echoMixed'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='in1' type='xs:int'/>
+     <xs:element minOccurs='0' name='in2' type='xs:string'/>
+     <xs:element minOccurs='0' name='inout1' type='xs:int'/>
+     <xs:element minOccurs='0' name='inout2' type='xs:string'/>
+     <xs:element minOccurs='0' name='in3' type='xs:long'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='echoMixedResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='return' type='xs:long'/>
+     <xs:element minOccurs='0' name='inout1' type='xs:int'/>
+     <xs:element minOccurs='0' name='inout2' type='xs:string'/>
+     <xs:element minOccurs='0' name='out1' type='xs:int'/>
+     <xs:element minOccurs='0' name='out2' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='addInOut'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='sum' type='xs:int'/>
+     <xs:element name='add' type='xs:int'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='addInOutResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='sum' type='xs:int'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+ </types>
+ <message name='Holder_echoBareOutResponse'>
+  <part element='tns:out' name='out'/>
+ </message>
+ <message name='Holder_addInOutResponse'>
+  <part element='tns:addInOutResponse' name='addInOutResponse'/>
+ </message>
+ <message name='Holder_echoOutsResponse'>
+  <part element='tns:echoOutsResponse' name='echoOutsResponse'/>
+ </message>
+ <message name='Holder_echoMixed'>
+  <part element='tns:echoMixed' name='echoMixed'/>
+ </message>
+ <message name='Holder_echoInOuts'>
+  <part element='tns:echoInOuts' name='echoInOuts'/>
+ </message>
+ <message name='Holder_echoBareOut'>
+  <part element='tns:in' name='in'/>
+ </message>
+ <message name='Holder_echoBareInOut'>
+  <part element='tns:inout' name='inout'/>
+ </message>
+ <message name='Holder_echoMixedResponse'>
+  <part element='tns:echoMixedResponse' name='echoMixedResponse'/>
+ </message>
+ <message name='Holder_echoInOutsResponse'>
+  <part element='tns:echoInOutsResponse' name='echoInOutsResponse'/>
+ </message>
+ <message name='Holder_echoOuts'>
+  <part element='tns:echoOuts' name='echoOuts'/>
+ </message>
+ <message name='Holder_echoBareInOutResponse'>
+  <part element='tns:inout' name='inout'/>
+ </message>
+ <message name='Holder_addInOut'>
+  <part element='tns:addInOut' name='addInOut'/>
+ </message>
+ <portType name='Holder'>
+  <operation name='addInOut' parameterOrder='addInOut'>
+   <input message='tns:Holder_addInOut'/>
+   <output message='tns:Holder_addInOutResponse'/>
+  </operation>
+  <operation name='echoBareInOut' parameterOrder='inout'>
+   <input message='tns:Holder_echoBareInOut'/>
+   <output message='tns:Holder_echoBareInOutResponse'/>
+  </operation>
+  <operation name='echoBareOut' parameterOrder='in out'>
+   <input message='tns:Holder_echoBareOut'/>
+   <output message='tns:Holder_echoBareOutResponse'/>
+  </operation>
+  <operation name='echoInOuts' parameterOrder='echoInOuts'>
+   <input message='tns:Holder_echoInOuts'/>
+   <output message='tns:Holder_echoInOutsResponse'/>
+  </operation>
+  <operation name='echoMixed' parameterOrder='echoMixed'>
+   <input message='tns:Holder_echoMixed'/>
+   <output message='tns:Holder_echoMixedResponse'/>
+  </operation>
+  <operation name='echoOuts' parameterOrder='echoOuts'>
+   <input message='tns:Holder_echoOuts'/>
+   <output message='tns:Holder_echoOutsResponse'/>
+  </operation>
+ </portType>
+ <binding name='HolderBinding' type='tns:Holder'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='addInOut'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoBareInOut'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoBareOut'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoInOuts'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoMixed'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='echoOuts'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='HolderService'>
+  <port binding='tns:HolderBinding' name='HolderPort'>
+   <soap:address location='http://@jboss.bind.address@:8080/jaxws-holder/HolderService'/>
+  </port>
+ </service>
+</definitions>

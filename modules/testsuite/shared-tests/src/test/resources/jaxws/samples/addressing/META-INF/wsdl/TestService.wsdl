@@ -1,0 +1,62 @@
+<definitions name='TestService' targetNamespace='http://org.jboss.ws/samples/wsaddressing' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://org.jboss.ws/samples/wsaddressing' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types></types>
+ <message name='StatefulEndpoint_addItem'>
+  <part name='String_1' type='xsd:string'/>
+ </message>
+ <message name='StatefulEndpoint_getItemsResponse'>
+  <part name='result' type='xsd:string'/>
+ </message>
+ <message name='StatefulEndpoint_checkout'></message>
+ <message name='StatefulEndpoint_getItems'></message>
+ <message name='StatefulEndpoint_addItemResponse'></message>
+ <message name='StatefulEndpoint_checkoutResponse'></message>
+ <portType name='StatefulEndpoint'>
+  <operation name='addItem' parameterOrder='String_1'>
+   <input message='tns:StatefulEndpoint_addItem'/>
+   <output message='tns:StatefulEndpoint_addItemResponse'/>
+  </operation>
+  <operation name='checkout'>
+   <input message='tns:StatefulEndpoint_checkout'/>
+   <output message='tns:StatefulEndpoint_checkoutResponse'/>
+  </operation>
+  <operation name='getItems'>
+   <input message='tns:StatefulEndpoint_getItems'/>
+   <output message='tns:StatefulEndpoint_getItemsResponse'/>
+  </operation>
+ </portType>
+ <binding name='StatefulEndpointBinding' type='tns:StatefulEndpoint'>
+  <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='addItem'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/wsaddressing' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/wsaddressing' use='literal'/>
+   </output>
+  </operation>
+  <operation name='checkout'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/wsaddressing' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/wsaddressing' use='literal'/>
+   </output>
+  </operation>
+  <operation name='getItems'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body namespace='http://org.jboss.ws/samples/wsaddressing' use='literal'/>
+   </input>
+   <output>
+    <soap:body namespace='http://org.jboss.ws/samples/wsaddressing' use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='TestService'>
+  <port binding='tns:StatefulEndpointBinding' name='StatefulEndpointPort'>
+   <soap:address location='http://@jboss.bind.address@:8080/jaxws-samples-wsaddressing/TestService'/>
+  </port>
+ </service>
+</definitions>

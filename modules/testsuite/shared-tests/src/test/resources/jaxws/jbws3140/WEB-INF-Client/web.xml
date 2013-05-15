@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+  <display-name>ServletTestClient</display-name>
+  <servlet>
+    <servlet-name>ServletTestClient</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws3140.ServletTestClient</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletTestClient</servlet-name>
+    <url-pattern>/ServletTest</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>60</session-timeout>
+  </session-config>
+
+  <service-ref>
+    <service-ref-name>service/mtomTest</service-ref-name>
+    <service-interface>org.jboss.test.ws.jaxws.jbws3140.EndpointService</service-interface>
+    <service-ref-type>org.jboss.test.ws.jaxws.jbws3140.MTOMTest</service-ref-type>
+    <wsdl-file>WEB-INF/wsdl/TestEndpoint.wsdl</wsdl-file>
+    <service-qname xmlns:servicens="http://TestEndpoint.org">servicens:TestEndpointService</service-qname>
+    <port-component-ref>
+      <service-endpoint-interface>org.jboss.test.ws.jaxws.jbws3140.MTOMTest</service-endpoint-interface>
+      <enable-mtom>true</enable-mtom>
+      <mtom-threshold>750</mtom-threshold>
+      <addressing>
+	    <enabled>true</enabled>
+        <responses>ANONYMOUS</responses>
+      </addressing>
+    </port-component-ref>
+  </service-ref>
+  </web-app>
