@@ -178,7 +178,6 @@
     <path id="integration.target.client.classpath">
       <!-- included from thirdparty local dir as it's not installed on AS - START -->
       <pathelement location="${thirdparty.dir}/jbossws-${jbossws.integration.target}-tests-integration.jar"/>
-      <pathelement location="${thirdparty.dir}/jbossws-shared-testsuite.jar"/>
       <!-- included from thirdparty local dir as it's not installed on AS - END -->
       <pathelement location="${jboss.home}/jboss-modules.jar"/>
       <fileset dir="${jboss.home}/modules/org/jboss/logging/main/">
@@ -342,7 +341,6 @@
     <path id="integration.target.client.classpath">
       <!-- included from thirdparty local dir as it's not installed on AS - START -->
       <pathelement location="${thirdparty.dir}/jbossws-${jbossws.integration.target}-tests-integration.jar"/>
-      <pathelement location="${thirdparty.dir}/jbossws-shared-testsuite.jar"/>
       <!-- included from thirdparty local dir as it's not installed on AS - END -->
       <pathelement location="${jboss.home}/jboss-modules.jar"/>
       <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/logging/main/">
@@ -506,7 +504,6 @@
     <path id="integration.target.client.classpath">
       <!-- included from thirdparty local dir as it's not installed on AS - START -->
       <pathelement location="${thirdparty.dir}/jbossws-${jbossws.integration.target}-tests-integration.jar"/>
-      <pathelement location="${thirdparty.dir}/jbossws-shared-testsuite.jar"/>
       <!-- included from thirdparty local dir as it's not installed on AS - END -->
       <pathelement location="${jboss.home}/jboss-modules.jar"/>
       <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/logging/main/">

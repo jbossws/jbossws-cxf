@@ -84,19 +84,6 @@
          <artifactId>jbossws-native-services</artifactId>
       </dependency>
 
-      <!--test-suite-->
-      <dependency>
-         <groupId>org.jboss.ws</groupId>
-         <artifactId>jbossws-shared-testsuite</artifactId>
-         <type>zip</type>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.ws</groupId>
-         <artifactId>jbossws-shared-testsuite</artifactId>
-        <scope>test</scope>
-      </dependency>
-
       <!-- Spring -->
       <dependency>
         <groupId>org.springframework</groupId>

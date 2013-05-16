@@ -21,17 +21,7 @@
       <outputDirectory>jbossws-cxf-src-dist/modules/</outputDirectory>
       <excludes>
         <exclude>**/target/**</exclude>
-        <exclude>**/shared-tests/**</exclude>
       </excludes>
-    </fileSet>
-    <fileSet>
-      <directory>../testsuite/shared-tests</directory>
-      <outputDirectory>jbossws-cxf-src-dist/modules/testsuite/shared-tests</outputDirectory>
-      <includes>
-        <include>src/test/etc/</include>
-        <include>scripts/</include>
-        <include>pom.xml</include>
-      </includes>
     </fileSet>
     <fileSet>
       <directory>../../</directory>
@@ -45,21 +35,4 @@
     </fileSet>
   </fileSets>
 
-  <dependencySets>
-    <dependencySet>
-      <outputDirectory>jbossws-cxf-src-dist/modules/testsuite/shared-tests/src/test</outputDirectory>
-      <useStrictFiltering>true</useStrictFiltering>
-      <scope>test</scope>
-      <unpack>true</unpack>
-      <includes>
-        <include>*:jbossws-shared-testsuite:zip</include>
-      </includes>
-      <unpackOptions>
-        <includes>
-          <include>**/*</include>
-        </includes>
-      </unpackOptions>
-      <useProjectArtifact>false</useProjectArtifact>
-    </dependencySet>
-  </dependencySets> 
 </assembly>

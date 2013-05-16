@@ -87,6 +87,34 @@
         <include>resources/jaxws/samples/**</include>
       </includes>
     </fileSet>
+    <!-- Test utils -->
+    <fileSet>
+      <directory>../testsuite/test-utils/src/main</directory>
+      <outputDirectory>jbossws-cxf-bin-dist/tests</outputDirectory>
+      <includes>
+        <include>java/org/jboss/wsf/test/**</include>
+      </includes>
+    </fileSet>
+    <!-- Stack agnostic tests -->
+    <fileSet>
+      <directory>../testsuite/shared-tests/src/test</directory>
+      <outputDirectory>jbossws-cxf-bin-dist/tests</outputDirectory>
+      <includes>
+        <include>ant-import/**</include>
+        <include>java/org/jboss/test/helper/**</include>
+        <include>java/org/jboss/test/ws/jaxrpc/samples/**</include>
+        <include>java/org/jboss/test/ws/jaxws/samples/**</include>
+        <include>java/org/jboss/test/ws/jaxws/smoke/**</include>
+        <include>java/org/jboss/test/ws/appclient/**</include>
+        <include>java/org/jboss/test/ws/management/**</include>
+        <include>java/org/jboss/test/ws/saaj/**</include>
+        <include>resources/jaxrpc/samples/**</include>
+        <include>resources/jaxws/samples/**</include>
+        <include>resources/jaxws/smoke/**</include>
+        <include>resources/management/**</include>
+        <include>resources/saaj/**</include>
+      </includes>
+    </fileSet>
     <!-- Appclient patches -->
     <fileSet>
       <directory>../testsuite/src/test/resources/</directory>
@@ -100,34 +128,4 @@
       </includes>
     </fileSet>
   </fileSets>
-
-   <dependencySets> 
-         <dependencySet>
-            <outputDirectory>jbossws-cxf-bin-dist/tests</outputDirectory>
-            <useStrictFiltering>true</useStrictFiltering>
-            <unpack>true</unpack>
-            <scope>test</scope>
-            <includes>
-              <include>*:jbossws-shared-testsuite:zip</include>
-            </includes>
-            <unpackOptions>
-              <includes>
-                <include>ant-import/**</include>
-                <include>java/org/jboss/test/helper/**</include>
-                <include>java/org/jboss/test/ws/jaxrpc/samples/**</include>
-                <include>java/org/jboss/test/ws/jaxws/samples/**</include>
-                <include>java/org/jboss/test/ws/jaxws/smoke/**</include>
-                <include>java/org/jboss/test/ws/appclient/**</include>
-                <include>java/org/jboss/test/ws/management/**</include>
-                <include>java/org/jboss/test/ws/saaj/**</include>
-                <include>resources/jaxrpc/samples/**</include>
-                <include>resources/jaxws/samples/**</include>
-                <include>resources/jaxws/smoke/**</include>
-                <include>resources/management/**</include>
-                <include>resources/saaj/**</include>
-              </includes>
-            </unpackOptions>
-            <useProjectArtifact>false</useProjectArtifact>
-         </dependencySet>
-   </dependencySets>
 </assembly>
