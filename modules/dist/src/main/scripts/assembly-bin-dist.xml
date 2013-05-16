@@ -87,6 +87,13 @@
         <include>resources/jaxws/samples/**</include>
       </includes>
     </fileSet>
+    <fileSet>
+      <directory>../testsuite/cxf-tests/scripts</directory>
+      <outputDirectory>jbossws-cxf-bin-dist/tests/ant-import</outputDirectory>
+      <includes>
+        <include>cxf-samples-jars-jaxws.xml</include>
+      </includes>
+    </fileSet>
     <!-- Test utils -->
     <fileSet>
       <directory>../testsuite/test-utils/src/main</directory>
@@ -115,17 +122,18 @@
         <include>resources/saaj/**</include>
       </includes>
     </fileSet>
+    <!-- Testsuite build -->
+    <fileSet>
+      <directory>src/main/distro</directory>
+      <outputDirectory>jbossws-cxf-bin-dist/tests/ant-import</outputDirectory>
+      <includes>
+        <include>build-testsuite.xml</include>
+      </includes>
+    </fileSet>
     <!-- Appclient patches -->
     <fileSet>
       <directory>../testsuite/src/test/resources/</directory>
       <outputDirectory>jbossws-cxf-bin-dist/tests/etc/appclient</outputDirectory>
-    </fileSet>
-    <fileSet>
-      <directory>../testsuite/cxf-tests/scripts</directory>
-      <outputDirectory>jbossws-cxf-bin-dist/tests/ant-import</outputDirectory>
-      <includes>
-        <include>cxf-samples-jars-jaxws.xml</include>
-      </includes>
     </fileSet>
   </fileSets>
 </assembly>
