@@ -23,6 +23,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-client</artifactId>
+      <version>${project.version}</version>
+      <scope>runtime</scope> <!-- override scope from parent dependency to make sure tests are not compiled using (JBWS-)CXF classes -->
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
