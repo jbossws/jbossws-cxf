@@ -32,6 +32,7 @@ import java.net.UnknownHostException;
 import java.util.Map;
 
 import javax.management.MBeanServerConnection;
+import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import javax.xml.namespace.QName;
@@ -260,11 +261,38 @@ public class JBossWSTestHelper
    {
        String host = getServerHost();
        String urlString = System.getProperty("jmx.service.url", "service:jmx:remoting-jmx://" + host + ":" + 9999);
-       try {
-           JMXServiceURL serviceURL = new JMXServiceURL(urlString);
-           return JMXConnectorFactory.connect(serviceURL, null).getMBeanServerConnection();
-       } catch (IOException ex) {
-           throw new IllegalStateException("Cannot obtain MBeanServerConnection to: " + urlString, ex);
+       JMXServiceURL serviceURL = null;
+       JMXConnector connector = null;
+       try
+       {
+         serviceURL = new JMXServiceURL(urlString);
+       }
+       catch (MalformedURLException e1)
+       {
+         //NO_OP
+       }
+       //add more tries to get the connection. Workaround to fix some test failures caused by connection is not established in 5 seconds
+       for (int i = 0 ; i < 5; i++) {
+         try {
+             connector = JMXConnectorFactory.connect(serviceURL, null);           
+         } catch (IOException ex) {
+             throw new IllegalStateException("Cannot obtain MBeanServerConnection to: " + urlString, ex);
+         } catch (RuntimeException e) {
+             if (e.getMessage().contains("WAITING")) {
+                continue;
+             } else {
+                throw e;
+             }
+         }         
+       } 
+       
+       try
+       {
+         return connector.getMBeanServerConnection();
+       }
+       catch (Exception e)
+       {
+          throw new IllegalStateException("Cannot obtain MBeanServerConnection to: " + urlString, e);
        }
    }
    
