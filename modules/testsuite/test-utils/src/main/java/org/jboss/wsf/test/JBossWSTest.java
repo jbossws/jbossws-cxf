@@ -178,9 +178,9 @@ public abstract class JBossWSTest extends TestCase
       try
       {  
          inputJob.start();
-         inputJob.join(5000);
+         inputJob.join(60000);
          outputJob.start();
-         outputJob.join(5000);
+         outputJob.join(60000);
          int statusCode = p.waitFor();
          String fallbackMessage = "Process did exit with status " + statusCode; 
          assertTrue(message != null ? message : fallbackMessage, statusCode == 0);
