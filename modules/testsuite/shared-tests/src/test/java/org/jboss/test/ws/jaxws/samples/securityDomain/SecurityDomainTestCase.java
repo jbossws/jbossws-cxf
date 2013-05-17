@@ -72,6 +72,54 @@ public class SecurityDomainTestCase extends JBossWSTest
       return Service.create(wsdlURL, serviceName).getPort(SecureEndpoint.class);
    }
 
+   
+   public void testUnauthenticated() throws Exception
+   {
+      SecureEndpoint port1 = getAuthzPort();
+      
+      try {
+         port1.echoForAll("Hello");
+         fail("Authentication exception expected!");
+      } catch (Exception e) {
+         //expected web layer exception
+         assertTrue(e.getMessage().contains("Could not send Message"));
+         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("401: Unauthorized"));
+      }
+      
+      try {
+         port1.echo("Hello");
+         fail("Authentication exception expected!");
+      } catch (Exception e) {
+         //expected web layer exception
+         assertTrue(e.getMessage().contains("Could not send Message"));
+         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("401: Unauthorized"));
+      }
+      
+      try {
+         port1.restrictedEcho("Hello");
+         fail("Authentication exception expected!");
+      } catch (Exception e) {
+         //expected web layer exception
+         assertTrue(e.getMessage().contains("Could not send Message"));
+         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("401: Unauthorized"));
+      }
+   }
+   
+   public void testUnauthorized() throws Exception
+   {
+      SecureEndpoint port2 = getAuthzPort();
+      ((BindingProvider)port2).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "john");
+      ((BindingProvider)port2).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "bar");
+      try {
+         port2.restrictedEcho("Hello");
+         fail("Authorization exception expected!");
+      } catch (Exception e) {
+         //expected EJB3 layer authorization exception
+         assertTrue("Exception message: " + e.getMessage(), e.getMessage().contains("not allowed"));
+      }
+   }
+   
+   
    public void testAuthorizedAccess() throws Exception
    {
       SecureEndpoint port = getAuthzPort();
@@ -99,7 +147,7 @@ public class SecurityDomainTestCase extends JBossWSTest
       } catch (Exception e) {
          //expected web layer exception
          assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue(e.getCause().getMessage().contains("403: Forbidden"));
+         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("403: Forbidden"));
       }
       try {
          port.echo("Hello");
@@ -107,7 +155,7 @@ public class SecurityDomainTestCase extends JBossWSTest
       } catch (Exception e) {
          //expected web layer exception
          assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue(e.getCause().getMessage().contains("403: Forbidden"));
+         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("403: Forbidden"));
       }
       try {
          port.restrictedEcho("Hello");
@@ -115,53 +163,7 @@ public class SecurityDomainTestCase extends JBossWSTest
       } catch (Exception e) {
          //expected web layer exception
          assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue(e.getCause().getMessage().contains("403: Forbidden"));
-      }
-   }
-   
-   public void testUnauthenticated() throws Exception
-   {
-      SecureEndpoint port = getAuthzPort();
-      
-      try {
-         port.echoForAll("Hello");
-         fail("Authentication exception expected!");
-      } catch (Exception e) {
-         //expected web layer exception
-         assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue(e.getCause().getMessage().contains("401: Unauthorized"));
-      }
-      
-      try {
-         port.echo("Hello");
-         fail("Authentication exception expected!");
-      } catch (Exception e) {
-         //expected web layer exception
-         assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue(e.getCause().getMessage().contains("401: Unauthorized"));
-      }
-      
-      try {
-         port.restrictedEcho("Hello");
-         fail("Authentication exception expected!");
-      } catch (Exception e) {
-         //expected web layer exception
-         assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue(e.getCause().getMessage().contains("401: Unauthorized"));
-      }
-   }
-   
-   public void testUnauthorized() throws Exception
-   {
-      SecureEndpoint port = getAuthzPort();
-      ((BindingProvider)port).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "john");
-      ((BindingProvider)port).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "bar");
-      try {
-         port.restrictedEcho("Hello");
-         fail("Authorization exception expected!");
-      } catch (Exception e) {
-         //expected EJB3 layer authorization exception
-         assertTrue(e.getMessage().contains("not allowed"));
+         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("403: Forbidden"));
       }
    }
    
