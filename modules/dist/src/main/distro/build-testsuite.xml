@@ -542,8 +542,8 @@
       <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/logmanager/main/">
         <include name="jboss-logmanager-*.jar"/>
       </fileset>
-      <fileset dir="${jboss.home}/modules/system/layers/base/org/apache/log4j/main/">
-        <include name="log4j-*.jar"/>
+      <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/log4j/logmanager/main/">
+        <include name="log4j-jboss-logmanager-*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/modules/system/layers/base/javax/mail/api/main/">
         <include name="mail-*.jar"/>
