@@ -106,7 +106,7 @@
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <unpack>false</unpack>
             <includes>
-              <include>org.jboss.as:jboss-as-webservices-tests-integration:jar</include>
+              <include>org.wildfly:wildfly-webservices-tests-integration:jar</include>
             </includes>
             <outputFileNameMapping>jbossws-wildfly800-tests-integration.jar</outputFileNameMapping>
             <scope>provided</scope>
