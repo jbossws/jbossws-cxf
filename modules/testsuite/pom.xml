@@ -803,8 +803,8 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.jboss.as</groupId>
-          <artifactId>jboss-as-webservices-tests-integration</artifactId>
+          <groupId>org.wildfly</groupId>
+          <artifactId>wildfly-webservices-tests-integration</artifactId>
           <version>${jboss.version}</version>
         </dependency>
       </dependencies>

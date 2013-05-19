@@ -165,8 +165,8 @@
         <version>${jbossws.jboss720.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.jboss.as</groupId>
-        <artifactId>jboss-as-webservices-tests-integration</artifactId>
+        <groupId>org.wildfly</groupId>
+        <artifactId>wildfly-webservices-tests-integration</artifactId>
         <version>${wildfly800.version}</version>
       </dependency>
       <dependency>
