@@ -581,7 +581,7 @@
       <fileset dir="${jboss.home}/modules/system/layers/base/javax/security/jacc/api/main/">
         <include name="jboss-jacc-api*.jar"/>
       </fileset>
-      <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/remoting3/main/">
+      <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/remoting/main/">
         <include name="jboss-remoting-*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/marshalling/river/main/">
