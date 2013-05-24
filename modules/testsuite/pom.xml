@@ -806,12 +806,6 @@
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
           <version>${jboss.version}</version>
-          <exclusions> <!-- Temp exclude while waiting for AS to be fixed -->
-            <exclusion>
-              <groupId>org.jboss.remoting3</groupId>
-              <artifactId>jboss-remoting</artifactId>
-            </exclusion>
-          </exclusions>
         </dependency>
       </dependencies>
       <build>
