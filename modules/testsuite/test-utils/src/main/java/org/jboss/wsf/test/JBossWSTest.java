@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -61,6 +61,8 @@ import org.w3c.dom.NodeList;
 public abstract class JBossWSTest extends TestCase
 {
    protected static Logger log = Logger.getLogger(JBossWSTest.class.getName());
+   public static final String SYSPROP_COPY_JOB_TIMEOUT = "test.copy.job.timeout";
+   private static final int COPY_JOB_TIMEOUT = Integer.getInteger(SYSPROP_COPY_JOB_TIMEOUT, File.pathSeparatorChar == ':' ? 5000 : 60000); //60s on Windows, 5s on UNIX and Mac
 
    public JBossWSTest()
    {
@@ -171,16 +173,14 @@ public abstract class JBossWSTest extends TestCase
       CopyJob inputStreamJob = new CopyJob(p.getInputStream(), os == null ? System.out : os);
       CopyJob errorStreamJob = new CopyJob(p.getErrorStream(), System.err);
       // unfortunately the following threads are needed because of Windows behavior
-      System.out.println("Process input stream:");
-      System.err.println("Process error stream:");
       Thread inputJob = new Thread(inputStreamJob);
       Thread outputJob = new Thread(errorStreamJob);
       try
       {  
          inputJob.start();
-         inputJob.join(60000);
+         inputJob.join(COPY_JOB_TIMEOUT);
          outputJob.start();
-         outputJob.join(60000);
+         outputJob.join(COPY_JOB_TIMEOUT);
          int statusCode = p.waitFor();
          String fallbackMessage = "Process did exit with status " + statusCode; 
          assertTrue(message != null ? message : fallbackMessage, statusCode == 0);
