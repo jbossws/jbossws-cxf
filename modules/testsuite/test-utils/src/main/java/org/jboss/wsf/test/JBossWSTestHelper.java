@@ -58,9 +58,11 @@ public class JBossWSTestHelper
    private static final String SYSPROP_JBOSS_BIND_ADDRESS = "jboss.bind.address";
    private static final String SYSPROP_TEST_ARCHIVE_DIRECTORY = "test.archive.directory";
    private static final String SYSPROP_TEST_RESOURCES_DIRECTORY = "test.resources.directory";
+   private static final String SYSPROP_AS_SERVER_CONN_RETRIEVAL_ATTEMPTS = "test.as.server.connection.retrieval.attempts";
    private static final String TEST_USERNAME = "test.username";
    private static final String TEST_PASSWORD = "test.password";
    private static final boolean DEPLOY_PROCESS_ENABLED = !Boolean.getBoolean("disable.test.archive.deployment");
+   private static final int AS_SERVER_CONN_RETRIEVAL_ATTEMPTS = Integer.getInteger(SYSPROP_AS_SERVER_CONN_RETRIEVAL_ATTEMPTS, 5);
    private static Deployer DEPLOYER;
 
    private static MBeanServerConnection server;
@@ -259,41 +261,49 @@ public class JBossWSTestHelper
    
    private static MBeanServerConnection getAS7ServerConnection(String integrationTarget)
    {
-       String host = getServerHost();
-       String urlString = System.getProperty("jmx.service.url", "service:jmx:remoting-jmx://" + host + ":" + 9999);
-       JMXServiceURL serviceURL = null;
-       JMXConnector connector = null;
-       try
-       {
+      final String urlString = System.getProperty("jmx.service.url", "service:jmx:remoting-jmx://" + getServerHost() + ":" + 9999);
+      JMXServiceURL serviceURL = null;
+      JMXConnector connector = null;
+      try
+      {
          serviceURL = new JMXServiceURL(urlString);
-       }
-       catch (MalformedURLException e1)
-       {
-         //NO_OP
-       }
-       //add more tries to get the connection. Workaround to fix some test failures caused by connection is not established in 5 seconds
-       for (int i = 0 ; i < 5; i++) {
-         try {
-             connector = JMXConnectorFactory.connect(serviceURL, null);           
-         } catch (IOException ex) {
-             throw new IllegalStateException("Cannot obtain MBeanServerConnection to: " + urlString, ex);
-         } catch (RuntimeException e) {
-             if (e.getMessage().contains("WAITING")) {
-                continue;
-             } else {
-                throw e;
-             }
-         }         
-       } 
-       
-       try
-       {
+      }
+      catch (MalformedURLException e1)
+      {
+         throw new IllegalStateException(e1);
+      }
+      //add more tries to get the connection. Workaround to fix some test failures caused by connection is not established in 5 seconds
+      for (int i = 0; i < AS_SERVER_CONN_RETRIEVAL_ATTEMPTS && connector == null; i++)
+      {
+         try
+         {
+            connector = JMXConnectorFactory.connect(serviceURL, null);
+         }
+         catch (IOException ex)
+         {
+            throw new IllegalStateException("Cannot obtain MBeanServerConnection to: " + urlString, ex);
+         }
+         catch (RuntimeException e)
+         {
+            if (e.getMessage().contains("WAITING") && i < AS_SERVER_CONN_RETRIEVAL_ATTEMPTS - 1)
+            {
+               continue;
+            }
+            else
+            {
+               throw e;
+            }
+         }
+      }
+
+      try
+      {
          return connector.getMBeanServerConnection();
-       }
-       catch (Exception e)
-       {
-          throw new IllegalStateException("Cannot obtain MBeanServerConnection to: " + urlString, e);
-       }
+      }
+      catch (Exception e)
+      {
+         throw new IllegalStateException("Cannot obtain MBeanServerConnection to: " + urlString, e);
+      }
    }
    
    public static String getIntegrationTarget()
