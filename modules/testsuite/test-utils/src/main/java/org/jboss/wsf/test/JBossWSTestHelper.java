@@ -63,23 +63,37 @@ public class JBossWSTestHelper
    private static final String TEST_PASSWORD = "test.password";
    private static final boolean DEPLOY_PROCESS_ENABLED = !Boolean.getBoolean("disable.test.archive.deployment");
    private static final int AS_SERVER_CONN_RETRIEVAL_ATTEMPTS = Integer.getInteger(SYSPROP_AS_SERVER_CONN_RETRIEVAL_ATTEMPTS, 5);
-   private static Deployer DEPLOYER;
+   private static final String testArchiveDir = System.getProperty(SYSPROP_TEST_ARCHIVE_DIRECTORY);
+   private static final String testResourcesDir = System.getProperty(SYSPROP_TEST_RESOURCES_DIRECTORY);
+   private static final String integrationTarget;
+   private static final String implInfo;
+   
+   private static volatile Deployer deployer;
+   private static volatile MBeanServerConnection server;
+   
+   static {
+      integrationTarget = System.getProperty(SYSPROP_JBOSSWS_INTEGRATION_TARGET);
+      if (integrationTarget == null)
+         throw new IllegalStateException("Cannot obtain system property: " + SYSPROP_JBOSSWS_INTEGRATION_TARGET);
+      Object obj = getImplementationObject();
+      implInfo = obj.getClass().getPackage().getName();
+   }
 
-   private static MBeanServerConnection server;
-   private static String integrationTarget;
-   private static String implInfo;
-   private static String testArchiveDir;
-   private static String testResourcesDir;
-
-   private static synchronized Deployer getDeployer()
+   private static Deployer getDeployer()
    {
       //lazy loading of deployer
-      if (DEPLOYER == null)
+      if (deployer == null)
       {
-         SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-         DEPLOYER = spiProvider.getSPI(Deployer.class);
+         synchronized (JBossWSTestHelper.class)
+         {
+            if (deployer == null)
+            {
+               SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
+               deployer = spiProvider.getSPI(Deployer.class);
+            }
+         }
       }
-      return DEPLOYER;
+      return deployer;
    }
 
    /** Deploy the given archive to the server
@@ -183,11 +197,6 @@ public class JBossWSTestHelper
 
    private static String getImplementationInfo()
    {
-      if (implInfo == null)
-      {
-         Object obj = getImplementationObject();
-         implInfo = obj.getClass().getPackage().getName();
-      }
       return implInfo;
    }
 
@@ -246,14 +255,20 @@ public class JBossWSTestHelper
    {
       if (server == null)
       {
-         String integrationTarget = getIntegrationTarget();
-         if (integrationTarget.startsWith("jboss7") || integrationTarget.startsWith("wildfly8") || integrationTarget.startsWith("jboss8"))
+         synchronized (JBossWSTestHelper.class)
          {
-            server = getAS7ServerConnection(integrationTarget);
-         }
-         else
-         {
-            throw new IllegalStateException("Unsupported target container: " + integrationTarget);
+            if (server == null)
+            {
+               String integrationTarget = getIntegrationTarget();
+               if (integrationTarget.startsWith("jboss7") || integrationTarget.startsWith("wildfly8") || integrationTarget.startsWith("jboss8"))
+               {
+                  server = getAS7ServerConnection(integrationTarget);
+               }
+               else
+               {
+                  throw new IllegalStateException("Unsupported target container: " + integrationTarget);
+               }
+            }
          }
       }
       return server;
@@ -308,14 +323,6 @@ public class JBossWSTestHelper
    
    public static String getIntegrationTarget()
    {
-      if (integrationTarget == null)
-      {
-         integrationTarget = System.getProperty(SYSPROP_JBOSSWS_INTEGRATION_TARGET);
-
-         if (integrationTarget == null)
-            throw new IllegalStateException("Cannot obtain system property: " + SYSPROP_JBOSSWS_INTEGRATION_TARGET);
-      }
-
       return integrationTarget;
    }
 
@@ -363,17 +370,11 @@ public class JBossWSTestHelper
 
    public static String getTestArchiveDir()
    {
-      if (testArchiveDir == null)
-         testArchiveDir = System.getProperty(SYSPROP_TEST_ARCHIVE_DIRECTORY);
-
       return testArchiveDir;
    }
 
    public static String getTestResourcesDir()
    {
-      if (testResourcesDir == null)
-         testResourcesDir = System.getProperty(SYSPROP_TEST_RESOURCES_DIRECTORY);
-
       return testResourcesDir;
    }
    
