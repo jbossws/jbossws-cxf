@@ -74,11 +74,10 @@ final class AppclientHelper
    static Process deployAppclient(final String archive, final OutputStream appclientOS, final String... appclientArgs) throws Exception
    {
       final AppclientProcess ap = newAppclientProcess(archive, appclientOS, appclientArgs);
-      final String appclientEarName = getAppclientEarName(archive);
-      final String appclientFullName = getAppclientFullName(archive); 
-      final String patternToMatch = "Deployed \"" + appclientEarName + "\"";
-      final String errorMessage = "Cannot deploy " + appclientFullName + " to appclient";
-      awaitOutput(ap.output, patternToMatch, errorMessage);
+      final String patternToMatch = "Deployed \"" + getAppclientEarName(archive) + "\"";
+      if (!awaitOutput(ap.output, patternToMatch)) {
+         throw new RuntimeException("Cannot deploy " + getAppclientFullName(archive) + " to appclient");
+      }
       appclients.put(archive, ap);
       return ap.process;
    }
@@ -181,12 +180,11 @@ final class AppclientHelper
    {
       final File killFile = new File(getKillFileName(archive));
       killFile.createNewFile();
-      final String appclientFullName = getAppclientFullName(archive);
-      final String patternToMatch = "stopped in";
-      final String errorMessage = "Cannot undeploy " + appclientFullName + " from appclient";
       try
       {
-         awaitOutput(os, patternToMatch, errorMessage);
+         if (!awaitOutput(os, "stopped in")) {
+            throw new RuntimeException("Cannot undeploy " + getAppclientFullName(archive) + " from appclient");
+         }
       }
       finally
       {
@@ -197,17 +195,18 @@ final class AppclientHelper
       }
    }
 
-   private static void awaitOutput(final OutputStream os, final String patternToMatch, final String errorMessage) throws InterruptedException {
+   private static boolean awaitOutput(final OutputStream os, final String patternToMatch) throws InterruptedException {
       int countOfAttempts = 0;
       final int maxCountOfAttempts = 240; // max wait time: 2 minutes
       while (!os.toString().contains(patternToMatch))
-      {    	 
+      {      
          Thread.sleep(500);
          if (countOfAttempts++ == maxCountOfAttempts)
          {
-            throw new RuntimeException(errorMessage);
+            return false;
          }
       }
+      return true;
    }
    
    private static String getKillFileName(final String archive)
