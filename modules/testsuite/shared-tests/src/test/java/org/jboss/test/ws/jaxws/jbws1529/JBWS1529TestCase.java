@@ -44,7 +44,6 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS1529TestCase extends JBossWSTest
 {
-   private String targetNS = "http://jbws1529.jaxws.ws.test.jboss.org/";
    private JBWS1529 proxy;
 
    public static Test suite()
@@ -57,11 +56,18 @@ public class JBWS1529TestCase extends JBossWSTest
    {
       super.setUp();
 
-      QName serviceName = new QName(targetNS, "JBWS1529Service");
+      QName serviceName = new QName("http://jbws1529.jaxws.ws.test.jboss.org/", "JBWS1529Service");
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws1529/TestService?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       proxy = (JBWS1529)service.getPort(JBWS1529.class);
+   }
+   
+   @Override
+   protected void tearDown() throws Exception
+   {
+      proxy = null;
+      super.tearDown();
    }
    
    public void testWSDLReader() throws Exception

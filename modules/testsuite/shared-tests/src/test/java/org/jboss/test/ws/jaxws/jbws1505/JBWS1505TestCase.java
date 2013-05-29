@@ -57,6 +57,14 @@ public class JBWS1505TestCase extends JBossWSTest
       Service service = Service.create(wsdlURL, serviceName);
       port = service.getPort(Interface2.class);
    }
+   
+   @Override
+   protected void tearDown() throws Exception
+   {
+      wsdlURL = null;
+      port = null;
+      super.tearDown();
+   }
 
    /**
     * All methods on the SEI should be mapped.

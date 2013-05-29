@@ -24,7 +24,6 @@ package org.jboss.test.ws.jaxws.jbws2486;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
@@ -39,28 +38,19 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS2486TestCase extends JBossWSTest
 {
-   private String targetNS = "http://jbws2486.jaxws.ws.test.jboss.org/";
-   private JBWS2486 proxy;
-
    public static Test suite()
    {
       return new JBossWSTestSetup(JBWS2486TestCase.class, "jaxws-jbws2486.war");
    }
 
-   @Override
-   protected void setUp() throws Exception
+   public void testIssue() throws Exception
    {
-      super.setUp();
-
-      QName serviceName = new QName(targetNS, "JBWS2486Service");
+      QName serviceName = new QName("http://jbws2486.jaxws.ws.test.jboss.org/", "JBWS2486Service");
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws2486/JBWS2486Service?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
-      proxy = (JBWS2486)service.getPort(JBWS2486.class);
-   }
-
-   public void testIssue() throws Exception
-   {
+      JBWS2486 proxy = (JBWS2486)service.getPort(JBWS2486.class);
+      
       String serviceInstanceId = proxy.getServiceInstanceId();
       for (int i = 1; i <= 10; i++)
       {
