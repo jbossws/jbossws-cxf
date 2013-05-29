@@ -46,28 +46,12 @@ public class JBWS2591TestCase extends JBossWSTest
    private String JBOSS_HOME;
    private String TEST_DIR;
 
-   private String origJavaHome;
-
    protected void setUp() throws Exception
    {
       super.setUp();
 
       JBOSS_HOME = System.getProperty("jboss.home");
       TEST_DIR = createResourceFile("..").getAbsolutePath();
-      origJavaHome = System.getProperty("java.home");
-
-      // the script requires the system JAVA_HOME, which points to the JDK not the JRE            
-      if (origJavaHome.indexOf(FS + "jre") != -1)
-      {
-         String JDK_HOME = origJavaHome.substring(0, origJavaHome.indexOf(FS + "jre"));
-         System.setProperty("java.home", JDK_HOME);
-      }
-   }
-
-   protected void tearDown() throws Exception
-   {
-      // reset surefire's JAVA_HOME
-      System.setProperty("java.home", origJavaHome);
    }
 
    public void testWSConsumeFromCommandLine() throws Exception

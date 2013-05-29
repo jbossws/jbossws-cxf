@@ -48,8 +48,6 @@ public class ScriptTestCase extends JBossWSTest
    protected String CLASSES_DIR;
    protected String TEST_DIR;
 
-   protected String origJavaHome;
-   
    protected void setUp() throws Exception
    {
       super.setUp();
@@ -59,15 +57,6 @@ public class ScriptTestCase extends JBossWSTest
       //JBWS-2479
       ENDPOINT_CLASS = "org.jboss.test.ws.jaxws.smoke.tools.CalculatorBean";
       TEST_DIR = createResourceFile("..").getAbsolutePath();
-      origJavaHome = System.getProperty("java.home");
-      
-	  
-      // the script requires the system JAVA_HOME, which points to the JDK not the JRE            
-	  if(origJavaHome.indexOf(FS + "jre")!=-1)
-      {
-         String JDK_HOME = origJavaHome.substring(0, origJavaHome.indexOf(FS + "jre"));
-         System.setProperty("java.home", JDK_HOME);
-      }
    }
    
    public void testScritpsAvailable()
@@ -76,11 +65,5 @@ public class ScriptTestCase extends JBossWSTest
       assertTrue(new File(JBOSS_HOME + FS + "bin" + FS + "wsprovide" + ".bat").exists());
       assertTrue(new File(JBOSS_HOME + FS + "bin" + FS + "wsconsume" + ".sh").exists());
       assertTrue(new File(JBOSS_HOME + FS + "bin" + FS + "wsconsume" + ".bat").exists());
-   }
-
-   protected void tearDown() throws Exception
-   {
-      // reset surefire's JAVA_HOME
-      System.setProperty("java.home", origJavaHome);
    }
 }
