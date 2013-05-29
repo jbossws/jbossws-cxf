@@ -64,19 +64,15 @@ import org.jboss.wsf.stack.cxf.configuration.BusHolder;
  */
 public class RequestHandlerImpl implements RequestHandler
 {
-   private static RequestHandlerImpl me;
+   private static RequestHandlerImpl me = new RequestHandlerImpl();
    
    RequestHandlerImpl()
    {
       //NOOP
    }
    
-   static synchronized RequestHandlerImpl getInstance()
+   static RequestHandlerImpl getInstance()
    {
-      if (me == null)
-      {
-         me = new RequestHandlerImpl();
-      }
       return me;
    }
 
