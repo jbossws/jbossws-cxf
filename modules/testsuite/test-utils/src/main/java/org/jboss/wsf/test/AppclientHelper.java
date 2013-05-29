@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,7 +54,7 @@ final class AppclientHelper
    private static final String EXT = ":".equals(PS) ? ".sh" : ".bat";
    private static final String appclientScript = JBOSS_HOME + FS + "bin" + FS + "appclient" + EXT;
    private static final Semaphore s = new Semaphore(1, true); //one appclient only can be running at the same time ATM
-   private static Map<String, AppclientProcess> appclients = new HashMap<String, AppclientProcess>(1);
+   private static Map<String, AppclientProcess> appclients = Collections.synchronizedMap(new HashMap<String, AppclientProcess>(2));
    private static ExecutorService executors = Executors.newCachedThreadPool(AppclientDaemonFactory.INSTANCE);
    private static String appclientOutputDir;
    
@@ -198,10 +199,10 @@ final class AppclientHelper
 
    private static void awaitOutput(final OutputStream os, final String patternToMatch, final String errorMessage) throws InterruptedException {
       int countOfAttempts = 0;
-      final int maxCountOfAttempts = 120; // max wait time: 2 minutes
+      final int maxCountOfAttempts = 240; // max wait time: 2 minutes
       while (!os.toString().contains(patternToMatch))
       {    	 
-         Thread.sleep(1000);
+         Thread.sleep(500);
          if (countOfAttempts++ == maxCountOfAttempts)
          {
             throw new RuntimeException(errorMessage);
