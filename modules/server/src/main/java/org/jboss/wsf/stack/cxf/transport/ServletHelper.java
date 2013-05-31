@@ -41,7 +41,6 @@ import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.ws.common.injection.InjectionHelper;
 import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.Reference;
@@ -61,9 +60,8 @@ public class ServletHelper
 {
    public static Endpoint initEndpoint(ServletConfig servletConfig, String servletName)
    {
-      ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
-      SPIProvider spiProvider = SPIProviderResolver.getInstance(cl).getProvider();
-      EndpointRegistry epRegistry = spiProvider.getSPI(EndpointRegistryFactory.class, cl).getEndpointRegistry();
+      final ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
+      final EndpointRegistry epRegistry = SPIProvider.getInstance().getSPI(EndpointRegistryFactory.class, cl).getEndpointRegistry();
 
       ServletContext context = servletConfig.getServletContext();
       String contextPath = context.getContextPath();

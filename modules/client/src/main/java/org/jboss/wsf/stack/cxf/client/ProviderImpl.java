@@ -54,7 +54,6 @@ import org.jboss.ws.api.configuration.AbstractClientFeature;
 import org.jboss.ws.common.configuration.ConfigHelper;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.management.ServerConfigFactory;
@@ -536,8 +535,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       {
          try {
             final ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
-            SPIProvider spiProvider = SPIProviderResolver.getInstance(cl).getProvider();
-            serverConfig = spiProvider.getSPI(ServerConfigFactory.class, cl).getServerConfig();
+            serverConfig = SPIProvider.getInstance().getSPI(ServerConfigFactory.class, cl).getServerConfig();
          } catch (Exception e) {
             Loggers.ROOT_LOGGER.cannotRetrieveServerConfigIgnoreForClients(e);
          } finally {
