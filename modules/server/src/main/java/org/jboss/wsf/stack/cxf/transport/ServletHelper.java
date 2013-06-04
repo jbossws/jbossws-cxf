@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -76,14 +76,11 @@ public class ServletHelper
       if (contextPath.startsWith("/"))
          contextPath = contextPath.substring(1);
 
-      final StringBuilder name = new StringBuilder(Endpoint.SEPID_DOMAIN + ":");
-      name.append(Endpoint.SEPID_PROPERTY_CONTEXT + "=" + contextPath + ",");
-      name.append(Endpoint.SEPID_PROPERTY_ENDPOINT + "=" + servletName);
-      Endpoint endpoint = epRegistry.getEndpoint(ObjectNameFactory.create(name.toString()));
+      final ObjectName oname = ObjectNameFactory.create(Endpoint.SEPID_DOMAIN + ":" + Endpoint.SEPID_PROPERTY_CONTEXT
+            + "=" + contextPath + "," + Endpoint.SEPID_PROPERTY_ENDPOINT + "=" + servletName);
+      Endpoint endpoint = epRegistry.getEndpoint(oname);
       if (endpoint == null)
       {
-         ObjectName oname = ObjectNameFactory.create(Endpoint.SEPID_DOMAIN + ":" + Endpoint.SEPID_PROPERTY_CONTEXT
-               + "=" + contextPath + "," + Endpoint.SEPID_PROPERTY_ENDPOINT + "=" + servletName);
          throw Messages.MESSAGES.cannotObtainEndpoint(oname);
       }
 
