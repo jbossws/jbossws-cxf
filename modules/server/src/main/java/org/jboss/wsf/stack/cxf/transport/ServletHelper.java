@@ -76,18 +76,10 @@ public class ServletHelper
       if (contextPath.startsWith("/"))
          contextPath = contextPath.substring(1);
 
-      Endpoint endpoint = null;
-      for (ObjectName sepId : epRegistry.getEndpoints())
-      {
-         String propContext = sepId.getKeyProperty(Endpoint.SEPID_PROPERTY_CONTEXT);
-         String propEndpoint = sepId.getKeyProperty(Endpoint.SEPID_PROPERTY_ENDPOINT);
-         if (servletName.equals(propEndpoint) && contextPath.equals(propContext))
-         {
-            endpoint = epRegistry.getEndpoint(sepId);
-            break;
-         }
-      }
-
+      final StringBuilder name = new StringBuilder(Endpoint.SEPID_DOMAIN + ":");
+      name.append(Endpoint.SEPID_PROPERTY_CONTEXT + "=" + contextPath + ",");
+      name.append(Endpoint.SEPID_PROPERTY_ENDPOINT + "=" + servletName);
+      Endpoint endpoint = epRegistry.getEndpoint(ObjectNameFactory.create(name.toString()));
       if (endpoint == null)
       {
          ObjectName oname = ObjectNameFactory.create(Endpoint.SEPID_DOMAIN + ":" + Endpoint.SEPID_PROPERTY_CONTEXT
