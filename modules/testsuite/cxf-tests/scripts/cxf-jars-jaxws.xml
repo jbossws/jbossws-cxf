@@ -203,6 +203,17 @@
         <include name="org/jboss/test/ws/jaxws/cxf/endpoint/HelloWorld*.class"/>
       </classes>
     </war>
+  	
+    <!-- jaxws-cxf-fastinfoset -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-fastinfoset.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/fastinfoset/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/fastinfoset/HelloWorld*.class"/>
+      </classes>
+      <manifest>
+        <attribute name="Dependencies" value="org.apache.cxf"/>
+      </manifest>
+    </war>
+  	
 
     <!-- jaxws-cxf-gzip -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-gzip.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/gzip/WEB-INF/web.xml">

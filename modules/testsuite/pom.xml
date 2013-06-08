@@ -656,6 +656,9 @@
                  <!--# [AS7-537] Fixed on AS 8 or greater -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/noIntegration/AS7537TestCase**</exclude>
 
+                 <!--# [JBWS-3560] fastinfoset module is required in as712  -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
+
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
               </excludes>
@@ -720,6 +723,8 @@
                  <!--# [AS7-537] Fixed on AS 8 or greater -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/noIntegration/AS7537TestCase**</exclude>
 
+                 <!--# [JBWS-3560] fastinfoset module is required in as713  -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
@@ -782,6 +787,9 @@
                  <!--# [AS7-537] Fixed on AS 8 or greater -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/noIntegration/AS7537TestCase**</exclude>
 
+                 <!--# [JBWS-3560] fastinfoset module is required in as720  -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
+
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
               </excludes>
@@ -840,6 +848,9 @@
 
                  <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
                  <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
+
+                 <!--# [JBWS-3560] fastinfoset module is required in wildfly800  -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
 
                  <!-- # [JBWS-3620] Authentication failures w/ Undertow -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
