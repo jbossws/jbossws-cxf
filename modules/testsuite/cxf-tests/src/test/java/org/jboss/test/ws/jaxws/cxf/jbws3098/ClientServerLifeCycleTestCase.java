@@ -56,35 +56,45 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
    public void testClientLifeCycleManager()
    {
       Bus bus = BusFactory.newInstance().createBus();
-      assertNotNull("Cannot find ClientLifeCycleManager impl in current bus", bus.getExtension(ClientLifeCycleManager.class));
-      bus.shutdown(true);
+      try {
+         assertNotNull("Cannot find ClientLifeCycleManager impl in current bus", bus.getExtension(ClientLifeCycleManager.class));
+      } finally {
+         bus.shutdown(true);
+      }
    }
 
    public void testServerLifeCycleManager()
    {
       Bus bus = BusFactory.newInstance().createBus();
-      assertNotNull("Cannot find ServerLifeCycleManager impl in current bus", bus.getExtension(ServerLifeCycleManager.class));
-      bus.shutdown(true);
+      try {
+         assertNotNull("Cannot find ServerLifeCycleManager impl in current bus", bus.getExtension(ServerLifeCycleManager.class));
+      } finally {
+         bus.shutdown(true);
+      }
    }
 
    public void testCustomClientLifeCycleListener() throws Exception
    {
-      URL wsdlOneURL = new URL(endpointOneURL + "?wsdl");
-      QName serviceOneName = new QName(targetNS, "ServiceOne");
-      Service serviceOne = Service.create(wsdlOneURL, serviceOneName);
-      Bus bus = BusFactory.getThreadDefaultBus(false);
-      CustomClientLifeCycleListener listener = new CustomClientLifeCycleListener();
-      ClientLifeCycleManager mgr = bus.getExtension(ClientLifeCycleManager.class);
+      Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
       try {
-         mgr.registerListener(listener);
-         assertEquals(0, listener.getCount());
-         EndpointOne portOne = (EndpointOne)serviceOne.getPort(EndpointOne.class);
-         assertEquals(1, listener.getCount());
-         assertEquals("Foo", portOne.echo("Foo"));
+         URL wsdlOneURL = new URL(endpointOneURL + "?wsdl");
+         QName serviceOneName = new QName(targetNS, "ServiceOne");
+         Service serviceOne = Service.create(wsdlOneURL, serviceOneName);
+         CustomClientLifeCycleListener listener = new CustomClientLifeCycleListener();
+         ClientLifeCycleManager mgr = bus.getExtension(ClientLifeCycleManager.class);
+         try {
+            mgr.registerListener(listener);
+            assertEquals(0, listener.getCount());
+            EndpointOne portOne = (EndpointOne)serviceOne.getPort(EndpointOne.class);
+            assertEquals(1, listener.getCount());
+            assertEquals("Foo", portOne.echo("Foo"));
+         } finally {
+            mgr.unRegisterListener(listener);
+         }
       } finally {
-         mgr.unRegisterListener(listener);
+         bus.shutdown(true);
       }
-      
    }
 
    private class CustomClientLifeCycleListener implements ClientLifeCycleListener

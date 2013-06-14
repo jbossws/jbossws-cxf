@@ -26,7 +26,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
@@ -50,27 +49,31 @@ public class FastInfosetTestCase extends JBossWSTest
    
    
    public void testInfoset() throws Exception
-   {  
-      ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
-      ByteArrayOutputStream in = new java.io.ByteArrayOutputStream();
-      LoggingInInterceptor login = new LoggingInInterceptor(new PrintWriter(in));
-      LoggingOutInterceptor logout = new LoggingOutInterceptor(new PrintWriter(out));
-      Bus bus = BusFactory.getThreadDefaultBus();
-      bus.getInInterceptors().add(login);
-      bus.getOutInterceptors().add(logout);
-      
-      URL wsdlURL = new URL(endpointURl + "?wsdl");
-      QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldService");
-      Service service = Service.create(wsdlURL, serviceName);
-      QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldImplPort");
-      HelloWorld port = (HelloWorld) service.getPort(portQName, HelloWorld.class);
-      ((BindingProvider)port).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:9090/jaxws-cxf-fastinfoset/HelloWorldService/HelloWorldImpl");
-      assertEquals("helloworld" , port.echo("helloworld"));      
-      assertTrue("request is expected fastinfoset", new String(out.toByteArray()).indexOf("application/fastinfoset") > -1);
-      assertTrue("response is expected fastinfoset", new String(in.toByteArray()).indexOf("application/fastinfoset") > -1);
-      out.close();
-      in.close();
-      
+   {
+      ByteArrayOutputStream out = new ByteArrayOutputStream();
+      ByteArrayOutputStream in = new ByteArrayOutputStream();
+      PrintWriter pwIn = new PrintWriter(in);
+      PrintWriter pwOut = new PrintWriter(out);
+      Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
+      try {
+         bus.getInInterceptors().add(new LoggingInInterceptor(pwIn));
+         bus.getOutInterceptors().add(new LoggingOutInterceptor(pwOut));
+   
+         URL wsdlURL = new URL(endpointURl + "?wsdl");
+         QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldService");
+         Service service = Service.create(wsdlURL, serviceName);
+         QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldImplPort");
+         HelloWorld port = (HelloWorld) service.getPort(portQName, HelloWorld.class);
+         assertEquals("helloworld", port.echo("helloworld"));
+         assertTrue("request is expected fastinfoset", out.toString().indexOf("application/fastinfoset") > -1);
+         assertTrue("response is expected fastinfoset", in.toString().indexOf("application/fastinfoset") > -1);
+      } finally {
+         bus.shutdown(true);
+         pwOut.close();
+         pwIn.close();
+      }
+
    }
    
 

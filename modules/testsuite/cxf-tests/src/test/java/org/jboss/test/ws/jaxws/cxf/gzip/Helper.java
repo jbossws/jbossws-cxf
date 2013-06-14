@@ -77,7 +77,7 @@ public class Helper implements ClientHelper
       Client client = ClientProxy.getClient(port);
       GZIPFeature gzipFeature = new GZIPFeature();
       gzipFeature.setThreshold(0);
-      gzipFeature.initialize(client, BusFactory.getThreadDefaultBus());
+      gzipFeature.initialize(client, null); //bus parameter not actually used
       return ("foo".equals(port.echo("foo")));
    }
    
