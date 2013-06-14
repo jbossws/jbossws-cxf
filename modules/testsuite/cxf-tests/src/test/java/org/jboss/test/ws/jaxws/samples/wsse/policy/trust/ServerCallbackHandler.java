@@ -18,24 +18,23 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
-import java.io.IOException;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import org.apache.ws.security.WSPasswordCallback;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ServerCallbackHandler implements CallbackHandler {
+import org.jboss.wsf.stack.cxf.extensions.security.PasswordCallbackHandler;
 
-    public void handle(Callback[] callbacks) throws IOException,
-            UnsupportedCallbackException {
-        for (int i = 0; i < callbacks.length; i++) {
-            if (callbacks[i] instanceof WSPasswordCallback) { // CXF
-                WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
-                if ("myservicekey".equals(pc.getIdentifier())) {
-                    pc.setPassword("skpass");
-                    break;
-                }
-            }
-        }
-    }
+public class ServerCallbackHandler extends PasswordCallbackHandler
+{
+
+   public ServerCallbackHandler()
+   {
+      super(getInitMap());
+   }
+
+   private static Map<String, String> getInitMap()
+   {
+      Map<String, String> passwords = new HashMap<String, String>();
+      passwords.put("myservicekey", "skpass");
+      return passwords;
+   }
 }

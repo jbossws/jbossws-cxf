@@ -162,7 +162,7 @@
           <include name="bob.properties" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>
     </war>
 
@@ -184,7 +184,7 @@
           <include name="bob.properties" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>
     </war>
 
@@ -206,7 +206,7 @@
           <include name="bob.properties" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>
     </war>
 
@@ -235,7 +235,7 @@
           <include name="bob.properties" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>
     </war>
 
@@ -265,7 +265,7 @@
           <include name="bob.properties" />
        </zipfileset>
        <manifest>
-        <attribute name="Dependencies" value="org.apache.ws.security"/>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
       </manifest>
     </war>
 
@@ -292,7 +292,7 @@
         <include name="bob.jks" />
       </metainf>
       <manifest>
-        <attribute name="Dependencies" value="org.apache.ws.security"/>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
       </manifest>
     </jar>
 
@@ -314,7 +314,7 @@
           <include name="bob.properties" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security"/>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>
     </war>
 
@@ -336,7 +336,7 @@
           <include name="bob.properties" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security"/>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>
     </war>
 
@@ -353,7 +353,7 @@
           <include name="bob.properties" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client, org.apache.ws.security"/>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>
     </war>
 
@@ -374,7 +374,7 @@
           <include name="bob2.properties" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>
     </war>
 
@@ -400,7 +400,7 @@
           <include name="META-INF/jaxws-client-config.xml" />
       </zipfileset>
       <manifest>
-        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services, org.apache.ws.security"/>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services"/>
       </manifest>
     </war>
 
@@ -431,7 +431,7 @@
           <include name="serviceKeystore.properties" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>
     </war>
 
@@ -452,7 +452,7 @@
           <include name="stsKeystore.properties" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf.impl annotations"/> <!-- cxf impl required to extend STS impl -->
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl annotations"/> <!-- cxf impl required to extend STS impl -->
        </manifest>
     </war>
 
@@ -481,7 +481,7 @@
           <include name="stsKeystore.properties" />
        </zipfileset>
        <manifest>
-          <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf,org.picketlink"/>
+          <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client,org.picketlink"/>
        </manifest>
     </war>
 
@@ -503,7 +503,7 @@
           <include name="JavaFirstPolicy.xml" />
        </zipfileset>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.cxf,org.apache.ws.security"/>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>
     </war>
 
@@ -521,7 +521,7 @@
           <include name="wsdl/*"/>
        </webinf>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security"/>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>
     </war>
 
@@ -540,7 +540,7 @@
           <include name="wsdl/*"/>
        </webinf>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
        </manifest>
     </war>
 
@@ -559,7 +559,7 @@
           <include name="wsdl/*"/>
        </webinf>
        <manifest>
-         <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
        </manifest>
     </war>
 
@@ -575,7 +575,7 @@
           <include name="jaxws-endpoint-config.xml"/>
        </metainf>
        <manifest>
-          <attribute name="Dependencies" value="org.apache.ws.security,org.apache.cxf"/>
+          <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>
     </jar>
 

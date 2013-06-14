@@ -21,22 +21,22 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.oasis;
 
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import org.apache.ws.security.WSPasswordCallback;
+import org.jboss.wsf.stack.cxf.extensions.security.PasswordCallbackHandler;
 
-public class ServerUsernamePasswordCallback implements CallbackHandler
+public class ServerUsernamePasswordCallback extends PasswordCallbackHandler
 {
-   public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
-   {
-      WSPasswordCallback pc = (WSPasswordCallback)callbacks[0];
-      final String id = pc.getIdentifier();
-      if ("kermit".equals(id))
-         pc.setPassword("thefrog");
-      else if ("alice".equals(id) || "bob".equals(id))
-         pc.setPassword("password");
+   public ServerUsernamePasswordCallback() {
+      super(getInitMap());
+   }
+   
+   private static Map<String, String> getInitMap() {
+      Map<String, String> passwords = new HashMap<String, String>();
+      passwords.put("kermit", "thefrog");
+      passwords.put("alice", "password");
+      passwords.put("bob", "password");
+      return passwords;
    }
 }

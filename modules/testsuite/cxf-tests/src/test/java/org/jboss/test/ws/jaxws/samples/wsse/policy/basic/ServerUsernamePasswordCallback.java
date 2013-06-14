@@ -21,20 +21,21 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import org.apache.ws.security.WSPasswordCallback;
+import org.jboss.wsf.stack.cxf.extensions.security.PasswordCallbackHandler;
 
-public class ServerUsernamePasswordCallback implements CallbackHandler
+public class ServerUsernamePasswordCallback extends PasswordCallbackHandler
 {
-   public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
+   public ServerUsernamePasswordCallback()
    {
-      WSPasswordCallback pc = (WSPasswordCallback)callbacks[0];
-      //this CallbackHandler is meant for use with WSS4J 1.6, see http://ws.apache.org/wss4j/wss4j16.html
-      if ("kermit".equals(pc.getIdentifier()))
-         pc.setPassword("thefrog");
+      super(getInitMap());
+   }
+   
+   private static Map<String, String> getInitMap() {
+      Map<String, String> passwords = new HashMap<String, String>();
+      passwords.put("kermit", "thefrog");
+      return passwords;
    }
 }
