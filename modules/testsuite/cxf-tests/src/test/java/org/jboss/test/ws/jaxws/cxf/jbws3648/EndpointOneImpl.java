@@ -26,7 +26,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
-import org.jboss.wsf.stack.cxf.policy.PolicySets;
+import org.jboss.ws.api.annotation.PolicySets;
 
 @WebService(name = "EndpointOne", targetNamespace = "http://org.jboss.ws.jaxws.cxf/jbws3648", serviceName = "ServiceOne")
 @SOAPBinding(style = SOAPBinding.Style.RPC)

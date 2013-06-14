@@ -53,11 +53,11 @@ import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
+import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
 import org.jboss.wsf.stack.cxf.interceptor.EnableDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
-import org.jboss.wsf.stack.cxf.policy.PolicySetsAnnotationListener;
 
 /**
  * A wrapper of the Bus for performing most of the configurations required on it by JBossWS

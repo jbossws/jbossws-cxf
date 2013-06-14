@@ -24,7 +24,8 @@ package org.jboss.test.ws.jaxws.cxf.jbws3648;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.jboss.wsf.stack.cxf.policy.PolicySets;
+import org.jboss.ws.api.annotation.PolicySets;
+
 
 @WebService(name = "EndpointThree", targetNamespace = "http://org.jboss.ws.jaxws.cxf/jbws3648")
 @SOAPBinding(style = SOAPBinding.Style.RPC)

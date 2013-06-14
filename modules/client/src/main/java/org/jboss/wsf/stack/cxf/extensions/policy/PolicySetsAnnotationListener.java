@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.policy;
+package org.jboss.wsf.stack.cxf.extensions.policy;
 
 import static org.jboss.wsf.stack.cxf.Loggers.ROOT_LOGGER;
 
@@ -46,6 +46,7 @@ import org.apache.cxf.service.model.OperationInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.ws.policy.PolicyConstants;
 import org.apache.neethi.Constants;
+import org.jboss.ws.api.annotation.PolicySets;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

@@ -25,7 +25,7 @@ import javax.jws.WebService;
 
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
-import org.jboss.wsf.stack.cxf.policy.PolicySets;
+import org.jboss.ws.api.annotation.PolicySets;
 
 @WebService(
    portName = "AnnotatedSecurityServicePort",
