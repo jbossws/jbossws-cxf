@@ -63,7 +63,7 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
       Bus bus = holder.getBus();
       TestLifeCycleListener listener = new TestLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(listener);
-      holder.configure(null, null, null);
+      holder.configure(null, null, null, null);
       holder.close();
       assertEquals("preShutdown method on listener should be called exactly once; number of actual calls: "
                   + listener.getCount(), 1, listener.getCount());
@@ -74,7 +74,7 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
       Bus bus = holder.getBus();
       TestLifeCycleListener listener = new TestLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(listener);
-      holder.configure(null, null, null);
+      holder.configure(null, null, null, null);
       bus.shutdown(true);
       holder.close();
       assertEquals("preShutdown method on listener should be called exactly once; number of actual calls: "
@@ -86,7 +86,7 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
       Bus bus = holder.getBus();
       TestLifeCycleListener listener = new TestLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(listener);
-      holder.configure(null, null, null);
+      holder.configure(null, null, null, null);
       assertEquals("preShutdown method on listener shouldn't be called before holder is closed: number of actual calls: "
                   + listener.getCount(), 0, listener.getCount());
       holder.close();

@@ -79,15 +79,16 @@ public class NonSpringBusHolder extends BusHolder
     * @param resolver               The ResourceResolver to configure, if any
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     * @param wsmd                   The current JBossWebservicesMetaData, if any
+    * @param depRuntimeClassLoader  The current deployment classloader
     */
    @Override
-   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd)
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, ClassLoader depRuntimeClassLoader)
    {
       if (configured)
       {
          throw Messages.MESSAGES.busAlreadyConfigured(bus);
       }
-      super.configure(resolver, configurer, wsmd);
+      super.configure(resolver, configurer, wsmd, depRuntimeClassLoader);
 
       for (DDEndpoint dde : metadata.getEndpoints())
       {

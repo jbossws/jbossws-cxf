@@ -340,6 +340,23 @@
        </manifest>
     </war>
 
+    <!-- jaxws-samples-wsse-policy-sign-encrypt-gcm-code-first -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-encrypt-gcm-code-first.war" needxmlfile='false'>
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/AnnotatedService*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/KeystorePasswordCallback.class"/>
+       </classes>
+       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/gcm/WEB-INF" prefix="WEB-INF/classes">
+          <include name="bob.jks" />
+          <include name="bob.properties" />
+       </zipfileset>
+       <manifest>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client, org.apache.ws.security"/>
+       </manifest>
+    </war>
+
     <!-- jaxws-samples-wsse-policy-sign-encrypt-mc -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-encrypt-mc.war" needxmlfile='false'>

@@ -126,7 +126,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          
          Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
                new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile(), epConfigName, epConfigFile);
-         holder.configure(resolver, configurer, wsmd);
+         holder.configure(resolver, configurer, wsmd, dep.getRuntimeClassLoader());
          dep.addAttachment(BusHolder.class, holder);
       }
       finally

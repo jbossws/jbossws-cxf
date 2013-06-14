@@ -211,4 +211,7 @@ public interface Messages {
     @Message(id = 24090, value = "Could not read from config file: %s")
     RuntimeException couldNotReadConfigFile(String file);
     
+    @Message(id = 24093, value = "Error parsing policy attachment: %s")
+    RuntimeException errorParsingPolicyAttachment(String uri, @Cause Throwable cause);
+    
 }

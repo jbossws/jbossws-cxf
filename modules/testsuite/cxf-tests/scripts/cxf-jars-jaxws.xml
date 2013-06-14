@@ -343,6 +343,41 @@
       </manifest>
     </jar>
 
+    <!-- jaxws-cxf-jbws3648 -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3648.war" needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3648/EndpointOneImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3648/EndpointTwo*.class"/>
+      </classes>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
+      </manifest>
+    </war>
+
+    <!-- jaxws-cxf-jbws3648-b -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3648-b.war" needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3648/EndpointFour*.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3648/EndpointThree*.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3648/KeystorePasswordCallback.class"/>
+      </classes>
+      <zipfileset dir="${tests.output.dir}/test-resources/jaxws/cxf/jbws3648-b/WEB-INF" prefix="WEB-INF/classes">
+        <include name="bob.jks" />
+        <include name="bob.properties" />
+      </zipfileset>
+      <zipfileset dir="${tests.output.dir}/test-resources/jaxws/cxf/jbws3648-b/policies" 
+          prefix="WEB-INF/classes/META-INF/policies"/>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client, org.apache.ws.security"/>
+      </manifest>
+    </war>
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3648-b-client.jar">
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/jbws3648-b/META-INF">
+        <include name="alice.properties" />
+        <include name="alice.jks" />
+      </metainf>
+    </jar>
+
     <!-- jaxws-cxf-logging -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-logging.jar">
       <fileset dir="${tests.output.dir}/test-classes">

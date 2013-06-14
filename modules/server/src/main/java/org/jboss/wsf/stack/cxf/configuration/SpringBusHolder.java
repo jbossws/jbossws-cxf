@@ -122,15 +122,16 @@ public class SpringBusHolder extends BusHolder
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     * @param dep                    The current JBossWS-SPI Deployment
     * @param wsmd                   The current JBossWebservicesMetaData, if any
+    * @param depRuntimeClassLoader  The current deployment classloader
     */
    @Override
-   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd)
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, ClassLoader depRuntimeClassLoader)
    {
       if (configured)
       {
          throw MESSAGES.busAlreadyConfigured(ctx);
       }
-      super.configure(resolver, configurer, wsmd);
+      super.configure(resolver, configurer, wsmd, depRuntimeClassLoader);
       
       GenericApplicationContext jbosswsCxfContext = null;
       //load stuff from provided jbossws-cxf.xml DD

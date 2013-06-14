@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsp:Policy wsu:Id="WS-RM_Policy_spec_example_binding_policy"
+            xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+            xmlns:wsp="http://www.w3.org/ns/ws-policy">
+  <wsrmp:RMAssertion xmlns:wsrmp="http://schemas.xmlsoap.org/ws/2005/02/rm/policy">
+    <wsrmp:InactivityTimeout Milliseconds="600000"/>
+    <wsrmp:BaseRetransmissionInterval Milliseconds="3000"/>
+    <wsrmp:ExponentialBackoff/>
+    <wsrmp:AcknowledgementInterval Milliseconds="200"/>
+  </wsrmp:RMAssertion>
+</wsp:Policy>

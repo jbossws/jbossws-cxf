@@ -200,4 +200,8 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = DEBUG)
     @Message(id = 24091, value = "Could not get WSDL from %s, aborting soap:address rewrite.")
     void abortSoapAddressRewrite(String wsdlLocation, @Cause Throwable cause);
+    
+    @LogMessage(level = INFO)
+    @Message(id = 24092, value = "Adding %s policy attachment with id='%s' to honor requirement from %s.")
+    void addingPolicyAttachment(Object placement, String refId, Class<?> cls);
 }
