@@ -58,7 +58,7 @@ public class SampleSTS extends SecurityTokenServiceProvider
       super();
       
       StaticSTSProperties props = new StaticSTSProperties();
-      props.setSignaturePropertiesFile("stsKeystore.properties");
+      props.setSignatureCryptoProperties("stsKeystore.properties");
       props.setSignatureUsername("mystskey");
       props.setCallbackHandlerClass(STSCallbackHandler.class.getName());
       props.setIssuer("DoubleItSTSIssuer");
