@@ -94,6 +94,7 @@
     <commons.logging.version>1.1.1</commons.logging.version>
     <log4j.version>1.2.16</log4j.version>
     <activation.version>1.1</activation.version>
+    <fastinfoset.version>1.2.12</fastinfoset.version>
     <neethi.version>3.0.2</neethi.version>
     <opensaml.version>2.5.3</opensaml.version>
     <saaj.api.version>1.0.1.Final</saaj.api.version>
@@ -1240,6 +1241,17 @@
         <groupId>org.jboss.spec.javax.jms</groupId>
         <artifactId>jboss-jms-api_1.1_spec</artifactId>
         <version>${jms.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.fastinfoset</groupId>
+        <artifactId>FastInfoset</artifactId>
+        <version>${fastinfoset.version}</version>
+        <exclusions>
+           <exclusion>
+             <groupId>javax.xml.bind</groupId>
+             <artifactId>jsr173_api</artifactId>
+           </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.easymock</groupId>
