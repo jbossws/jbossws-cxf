@@ -32,7 +32,7 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>4.2.0-SNAPSHOT</version>
+  <version>4.2.0.CR1</version>
   
   <!-- Parent -->
   <parent>
@@ -43,9 +43,9 @@
   
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/trunk</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/trunk</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/trunk</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.2.0.CR1</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.2.0.CR1</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/tags/jbossws-cxf-4.2.0.CR1</url>
   </scm>
   
   <!-- Modules -->
@@ -59,13 +59,13 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.api.version>1.0.2-SNAPSHOT</jbossws.api.version>
-    <jbossws.spi.version>2.2.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>2.2.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.common.tools.version>1.2.0-SNAPSHOT</jbossws.common.tools.version>
-    <jbossws.jboss712.version>4.2.0-SNAPSHOT</jbossws.jboss712.version>
-    <jbossws.jboss713.version>4.2.0-SNAPSHOT</jbossws.jboss713.version>
-    <jbossws.jboss720.version>4.2.0-SNAPSHOT</jbossws.jboss720.version>
+    <jbossws.api.version>1.0.2.CR1</jbossws.api.version>
+    <jbossws.spi.version>2.2.0.CR1</jbossws.spi.version>
+    <jbossws.common.version>2.2.0.CR1</jbossws.common.version>
+    <jbossws.common.tools.version>1.2.0.CR1</jbossws.common.tools.version>
+    <jbossws.jboss712.version>4.2.0.Beta1</jbossws.jboss712.version>
+    <jbossws.jboss713.version>4.2.0.Beta1</jbossws.jboss713.version>
+    <jbossws.jboss720.version>4.2.0.CR1</jbossws.jboss720.version>
     <jbossws.native.version>4.1.1.Final</jbossws.native.version>
     <jboss712.version>7.1.2.Final</jboss712.version>
     <jboss713.version>7.1.3.Final</jboss713.version>
