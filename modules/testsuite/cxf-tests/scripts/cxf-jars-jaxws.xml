@@ -343,6 +343,17 @@
       </manifest>
     </jar>
 
+    <!-- jaxws-cxf-jbws3593 -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3593.war" needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3593/EndpointBean.class" />
+      	<include name="org/jboss/test/ws/jaxws/cxf/jbws3593/MTOMOutInterceptor.class" />
+      </classes>
+      <manifest>
+        <attribute name="Dependencies" value="org.apache.cxf"/>
+      </manifest>
+    </war>
+  	
     <!-- jaxws-cxf-jbws3648 -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3648.war" needxmlfile='false'>
       <classes dir="${tests.output.dir}/test-classes">
