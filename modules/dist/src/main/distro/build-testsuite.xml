@@ -552,7 +552,7 @@
         <include name="jboss-servlet-api_3.1_spec-*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/modules/system/layers/base/javax/transaction/api/main/">
-        <include name="jboss-transaction-api_1.1_spec-*.jar"/>
+        <include name="jboss-transaction-api_1.2_spec-*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/threads/main/">
         <include name="jboss-threads-*.jar"/>
