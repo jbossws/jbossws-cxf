@@ -275,6 +275,7 @@ public class MetadataBuilder
       if (wsdlLocation == null) {
          wsdlLocation = ddep.getAnnotationWsdlLocation();
       }
+      final ServerConfig sc = AbstractServerConfig.getServerIntegrationServerConfig();
       if (wsdlLocation != null) {
          URL wsdlUrl = dep.getResourceResolver().resolveFailSafe(wsdlLocation);
          if (wsdlUrl != null) {
@@ -282,7 +283,6 @@ public class MetadataBuilder
             //do not try rewriting addresses for not-http binding
             String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
             
-            final ServerConfig sc = AbstractServerConfig.getServerIntegrationServerConfig();
             String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc);
             //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF do not force host/port values for
             //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
@@ -292,6 +292,11 @@ public class MetadataBuilder
             }
          } else {
             METADATA_LOGGER.abortSoapAddressRewrite(wsdlLocation, null);
+         }
+      } else {
+         //same comment as above regarding auto rewrite...
+         if (!SoapAddressRewriteHelper.isAutoRewriteOn(sc)) {
+            ddep.setPublishedEndpointUrl(ddep.getAddress()); //force computed address for code first endpoints
          }
       }
    }

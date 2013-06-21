@@ -103,10 +103,9 @@ public abstract class BusHolder
       if (bus.getExtension(PolicyEngine.class) != null) 
       {
          bus.getExtension(PolicyEngine.class).setAlternativeSelector(getAlternativeSelector(props));
-      }
-      
-      setAdditionalWorkQueues(bus, props);
-      setCXFManagement(bus, props);
+      }     
+      setCXFManagement(bus, props); //*first* enabled cxf management if required, *then* add anything else which could be manageable (e.g. work queues)
+      setAdditionalWorkQueues(bus, props); 
    }
    
    

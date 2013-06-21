@@ -33,6 +33,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
@@ -52,6 +53,7 @@ import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
 import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 
 /**
@@ -88,7 +90,7 @@ public class RequestHandlerImpl implements RequestHandler
       if (false == requestHandled)
       {
          Long beginTime = initRequestMetrics(ep);
-         HttpServletResponseExt response = new HttpServletResponseExt(res);
+         HttpServletResponseWrapper response = new HttpServletResponseWrapper(res);
          try
          {
             ServletConfig cfg = (ServletConfig)context.getAttribute(ServletConfig.class.getName());
@@ -193,38 +195,38 @@ public class RequestHandlerImpl implements RequestHandler
     * @return true if there was a query handler that successfully handled the request, false otherwise
     * @throws ServletException if some problem occurs
     */
-   private boolean handleQuery(HttpServletRequest req, HttpServletResponse res, AbstractHTTPDestination dest, Bus bus)
+   private final boolean handleQuery(HttpServletRequest req, HttpServletResponse res, AbstractHTTPDestination dest, Bus bus)
    throws ServletException
    {
-      boolean hasQuery = (null != req.getQueryString()) && (req.getQueryString().length() > 0);
-      boolean queryHandlerRegistryExists = bus.getExtension(QueryHandlerRegistry.class) != null;
-      
-      if (hasQuery && queryHandlerRegistryExists)
+      final String queryString = req.getQueryString();
+      if ((null != queryString) && (queryString.length() > 0))
       {
-         String ctxUri = req.getRequestURI();
-         String baseUri = req.getRequestURL().toString() + "?" + req.getQueryString();
-         EndpointInfo endpointInfo = dest.getEndpointInfo();
-         ServerConfig serverConfig = AbstractServerConfig.getServerIntegrationServerConfig();
-         if (serverConfig.isModifySOAPAddress()) {
-            endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL,
-                  ServerConfig.UNDEFINED_HOSTNAME.equals(serverConfig.getWebServiceHost()));
-         }
-
-         for (QueryHandler queryHandler : bus.getExtension(QueryHandlerRegistry.class).getHandlers())
-         {
-            if (queryHandler.isRecognizedQuery(baseUri, ctxUri, endpointInfo))
+         final QueryHandlerRegistry qhr = bus.getExtension(QueryHandlerRegistry.class);
+         if (qhr != null) {
+            final String ctxUri = req.getRequestURI();
+            final String baseUri = req.getRequestURL().toString() + "?" + queryString;
+            final EndpointInfo endpointInfo = dest.getEndpointInfo();
+            final boolean autoRewrite = SoapAddressRewriteHelper.isAutoRewriteOn(
+                  AbstractServerConfig.getServerIntegrationServerConfig());
+            endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS, autoRewrite);
+            endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL, autoRewrite);
+   
+            for (QueryHandler queryHandler : qhr.getHandlers())
             {
-               res.setContentType(queryHandler.getResponseContentType(baseUri, ctxUri));
-               try
+               if (queryHandler.isRecognizedQuery(baseUri, ctxUri, endpointInfo))
                {
-                  OutputStream out = res.getOutputStream();
-                  queryHandler.writeResponse(baseUri, ctxUri, endpointInfo, out);
-                  out.flush();
-                  return true;
-               }
-               catch (Exception e)
-               {
-                  throw new ServletException(e);
+                  res.setContentType(queryHandler.getResponseContentType(baseUri, ctxUri));
+                  try
+                  {
+                     OutputStream out = res.getOutputStream();
+                     queryHandler.writeResponse(baseUri, ctxUri, endpointInfo, out);
+                     out.flush();
+                     return true;
+                  }
+                  catch (Exception e)
+                  {
+                     throw new ServletException(e);
+                  }
                }
             }
          }

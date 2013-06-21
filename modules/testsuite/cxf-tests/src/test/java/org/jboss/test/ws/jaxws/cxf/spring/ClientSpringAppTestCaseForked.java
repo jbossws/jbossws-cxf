@@ -31,37 +31,22 @@ import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
- * An application embedding Spring jars acts as a client to an existing WS endpoint.
- * This testcase verifies the spring availability in the app does not badly affect ws functionalities. 
+ * This test is an addition to the org.jboss.test.ws.jaxws.cxf.spring.ClientSpringAppTestCase that runs
+ * in forked mode as it requires setting sys props during test and hence can't be executed concurrently.
  *
  * @author alessio.soldano@jboss.com
- * @since 02-Apr-2012
+ * @since 21-Jun-2013
  */
-public final class ClientSpringAppTestCase extends JBossWSTest
+public final class ClientSpringAppTestCaseForked extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(ClientSpringAppTestCase.class, "jaxws-cxf-spring-client.war, jaxws-cxf-spring.war");
+      return new JBossWSCXFTestSetup(ClientSpringAppTestCaseForked.class, "jaxws-cxf-spring-client.war, jaxws-cxf-spring.war");
    }
 
-   public void testSpringAvailability() throws Exception
+   public void testJBossWSCXFBus() throws Exception
    {
-      assertEquals("1", runTestInContainer("testSpringAvailability", Helper.class.getName()));
-   }
-
-   public void testJBossWSCXFSpringBus() throws Exception
-   {
-      assertEquals("1", runTestInContainer("testJBossWSCXFSpringBus", Helper.class.getName()));
-   }
-
-   public void testJAXWSClient() throws Exception
-   {
-      assertEquals("1", runTestInContainer("testJAXWSClient", Helper.class.getName()));
-   }
-
-   public void testSpringFunctionalities() throws Exception
-   {
-      assertEquals("1", runTestInContainer("testSpringFunctionalities", Helper.class.getName()));
+      assertEquals("1", runTestInContainer("testJBossWSCXFBus", Helper.class.getName()));
    }
 
    private String runTestInContainer(String test, String helper) throws Exception
