@@ -53,6 +53,7 @@ import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
 import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 
 /**
@@ -202,6 +203,7 @@ public class RequestHandlerImpl implements RequestHandler
             final String baseUri = req.getRequestURL().toString() + "?" + queryString;
             final EndpointInfo endpointInfo = dest.getEndpointInfo();
             final ServerConfig serverConfig = AbstractServerConfig.getServerIntegrationServerConfig();
+            endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS, SoapAddressRewriteHelper.isAutoRewriteOn(serverConfig));
             if (serverConfig.isModifySOAPAddress()) {
                endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL,
                      ServerConfig.UNDEFINED_HOSTNAME.equals(serverConfig.getWebServiceHost()));

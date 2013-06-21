@@ -690,6 +690,7 @@
 		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2150.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2150/WEB-INF/web.xml">
 			<classes dir="${tests.output.dir}/test-classes">
 				<include name="org/jboss/test/ws/jaxws/jbws2150/*Service*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2150/CodeFirstService.class" />
 			</classes>
 			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2150/WEB-INF">
 				<include name="wsdl/**" />
@@ -698,10 +699,17 @@
 		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2150-sec.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2150/WEB-INF/web-sec.xml">
 			<classes dir="${tests.output.dir}/test-classes">
 				<include name="org/jboss/test/ws/jaxws/jbws2150/*Service*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws2150/CodeFirstService.class" />
 			</classes>
 			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2150/WEB-INF">
 				<include name="wsdl/**" />
 			</webinf>
+		</war>
+		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2150-codefirst.war" needxmlfile="false">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws2150/CodeFirstService.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws2150/ServiceIface.class" />
+			</classes>
 		</war>
 
 		<!-- jaxws-jbws2183 -->
