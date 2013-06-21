@@ -295,7 +295,7 @@ public class MetadataBuilder
       } else {
          //same comment as above regarding auto rewrite...
          if (!SoapAddressRewriteHelper.isAutoRewriteOn(sc)) {
-            ddep.setPublishedEndpointUrl(ddep.getAddress()); //force compute address for code first endpoints
+            ddep.setPublishedEndpointUrl(ddep.getAddress()); //force computed address for code first endpoints
          }
       }
    }

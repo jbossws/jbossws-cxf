@@ -202,12 +202,10 @@ public class RequestHandlerImpl implements RequestHandler
             final String ctxUri = req.getRequestURI();
             final String baseUri = req.getRequestURL().toString() + "?" + queryString;
             final EndpointInfo endpointInfo = dest.getEndpointInfo();
-            final ServerConfig serverConfig = AbstractServerConfig.getServerIntegrationServerConfig();
-            endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS, SoapAddressRewriteHelper.isAutoRewriteOn(serverConfig));
-            if (serverConfig.isModifySOAPAddress()) {
-               endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL,
-                     ServerConfig.UNDEFINED_HOSTNAME.equals(serverConfig.getWebServiceHost()));
-            }
+            final boolean autoRewrite = SoapAddressRewriteHelper.isAutoRewriteOn(
+                  AbstractServerConfig.getServerIntegrationServerConfig());
+            endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS, autoRewrite);
+            endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL, autoRewrite);
    
             for (QueryHandler queryHandler : qhr.getHandlers())
             {
