@@ -102,6 +102,27 @@
       </manifest>
     </war>
 
+    <!-- jaxws-cxf-in_container_client -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-in_container_client.war" needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/in_container_client/HelloWorld*.class"/>
+      </classes>
+    </war>
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-in_container_client-client.war"  needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/in_container_client/HelloWorld.class"/>
+      	<include name="org/jboss/test/ws/jaxws/cxf/in_container_client/Helper.class"/>
+        <include name="org/jboss/wsf/test/TestServlet.class"/>
+        <include name="org/jboss/wsf/test/ClientHelper.class"/>
+      </classes>
+      <classes dir="${tests.output.dir}/test-resources/jaxws/cxf/in_container_client/">
+         <include name="cxf.xml"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/in_container_client/WEB-INF">
+        <include name="jboss-deployment-structure.xml"/>
+      </webinf>
+    </war>
+
     <!-- jaxws-cxf-mixtype-->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-mixtype.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/mixtype/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">

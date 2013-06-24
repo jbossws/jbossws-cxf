@@ -1,0 +1,10 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="cxf.default.workqueue" class="org.apache.cxf.workqueue.AutomaticWorkQueueImpl"> 
+    <property name="name" value="cxf.default.workqueue"/> 
+    <property name="queueSize" value="10"/> 
+  </bean>
+  
+</beans>
