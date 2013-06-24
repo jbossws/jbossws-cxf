@@ -83,13 +83,18 @@ public class TestUtils
    }
    
    public static void removeTestCaseClientConfiguration(String testConfigName) {
-      Iterator<ClientConfig> it = getServerConfig().getClientConfigs().iterator();
+      ServerConfig sc = getServerConfig();
+      Iterator<ClientConfig> it = sc.getClientConfigs().iterator();
+      ClientConfig toBeRemoved = null;
       while (it.hasNext()) {
          ClientConfig c = it.next();
          if (testConfigName.equals(c.getConfigName())) {
-            it.remove();
+            toBeRemoved = c;
             break;
          }
+      }
+      if (toBeRemoved != null) {
+         sc.getClientConfigs().remove(toBeRemoved);
       }
    }
    
