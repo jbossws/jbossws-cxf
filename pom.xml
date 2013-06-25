@@ -32,7 +32,7 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>4.1.4-SNAPSHOT</version>
+  <version>4.1.4.Final</version>
   
   <!-- Parent -->
   <parent>
@@ -43,9 +43,9 @@
   
   <!-- Source Control Management -->
   <scm>
-    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/branches/jbossws-cxf-4.1.x</connection>
-    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/branches/jbossws-cxf-4.1.x</developerConnection>
-    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/branches/jbossws-cxf-4.1.x</url>
+    <connection>scm:svn:http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.1.4.Final</connection>
+    <developerConnection>scm:svn:https://svn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.1.4.Final</developerConnection>
+    <url>http://fisheye.jboss.com/viewrep/JBossWS/stack/cxf/tags/jbossws-cxf-4.1.4.Final</url>
   </scm>
   
   <!-- Modules -->
@@ -60,10 +60,10 @@
   <!-- Properties -->
   <properties>
     <jbossws.api.version>1.0.1.Final</jbossws.api.version>
-    <jbossws.spi.version>2.1.3-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>2.1.2-SNAPSHOT</jbossws.common.version>
+    <jbossws.spi.version>2.1.3.Final</jbossws.spi.version>
+    <jbossws.common.version>2.1.2.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.1.0.Final</jbossws.common.tools.version>
-    <jbossws.shared.testsuite.version>4.1.3-SNAPSHOT</jbossws.shared.testsuite.version>
+    <jbossws.shared.testsuite.version>4.1.3.Final</jbossws.shared.testsuite.version>
     <jbossws.jboss711.version>4.1.1.Final</jbossws.jboss711.version>
     <jbossws.jboss712.version>4.1.1.Final</jbossws.jboss712.version>
     <jbossws.jboss713.version>4.1.1.Final</jbossws.jboss713.version>
