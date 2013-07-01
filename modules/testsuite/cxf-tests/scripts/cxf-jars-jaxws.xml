@@ -67,7 +67,7 @@
         <attribute name="Dependencies" value="org.apache.cxf"/>
       </manifest>
     </jar>
-  	
+ 	
     <!-- jaxws-cxf-bus-servlet-client -->
     <war destfile="${tests.output.dir}/test-libs/jaxws-cxf-bus-servlet-client.war"
     	manifest="${tests.output.dir}/test-resources/jaxws/cxf/bus/META-INF/MANIFEST.MF"
@@ -388,6 +388,34 @@
         <include name="alice.jks" />
       </metainf>
     </jar>
+  	
+  	<!-- jaxws-cxf-jbws3655-->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3655-jaxws.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3655/HelloWs.class"/>
+      	<include name="org/jboss/test/ws/jaxws/cxf/jbws3655/HelloWsImpl.class"/>
+      	<include name="org/jboss/test/ws/jaxws/cxf/jbws3655/HelloRequest.class"/>
+      	<include name="org/jboss/test/ws/jaxws/cxf/jbws3655/HelloResponse.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/jbws3655/META-INF">
+          <include name="**/*" />
+      	  <exclude name="**/application.xml"/>
+      </metainf>
+    </jar>
+  	
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3655-ejb.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+      	<include name="org/jboss/test/ws/jaxws/cxf/jbws3655/HelloWSEJBImpl.class"/>
+      </fileset>
+    </jar>
+  	
+    <ear destfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3655.ear" appxml="${tests.output.dir}/test-resources/jaxws/cxf/jbws3655/META-INF/application.xml">
+       <zipfileset dir="${tests.output.dir}/test-libs/" prefix="lib">
+    		<include name="jaxws-cxf-jbws3655-jaxws.jar"/>
+       </zipfileset>
+       <fileset dir="${tests.output.dir}/test-libs/" includes="jaxws-cxf-jbws3655-ejb.jar"/>
+    </ear>
+  	
 
     <!-- jaxws-cxf-logging -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-logging.jar">
