@@ -481,6 +481,17 @@
       </manifest>
     </war>
   	
+    <!-- jaxws-cxf-servletCtx -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-servletCtx.war" needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/servletCtx/EndpointOneImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/servletCtx/EndpointOne.class"/>
+      </classes>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.logging"/>
+      </manifest>
+    </war>
+
     <!-- jaxws-cxf-spring -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-spring.war" needxmlfile='false'>
        <classes dir="${tests.output.dir}/test-classes">
