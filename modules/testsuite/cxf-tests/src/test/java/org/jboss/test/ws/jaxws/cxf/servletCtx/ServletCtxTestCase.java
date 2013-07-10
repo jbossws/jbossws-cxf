@@ -67,6 +67,12 @@ public class ServletCtxTestCase extends JBossWSTest
       assertEquals("Hello", retObj);
       assertEquals(1, portOne.getCount1() - count1);
       assertEquals(1, portOne.getCount2() - count2);
+      count1 = portOne.getCount1();
+      count2 = portOne.getCount2();
+      portOne.echoOneWay("Hi");
+      Thread.sleep(3000);
+      assertEquals(1, portOne.getCount1() - count1);
+      assertEquals(1, portOne.getCount2() - count2);
    }
 
    public void testConcurrentInvocations() throws Exception
