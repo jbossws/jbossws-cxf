@@ -19,32 +19,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.exception;
+package org.jboss.test.ws.jaxws.samples.exception.server;
 
-import junit.framework.Test;
+import javax.xml.namespace.QName;
+import javax.xml.soap.SOAPConstants;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFactory;
+import javax.xml.soap.SOAPFault;
+import javax.xml.ws.soap.SOAPFaultException;
 
-import org.jboss.wsf.test.JBossWSTestSetup;
-
-/**
- * Test JAX-WS exception handling with EJB3 endpoints
- *
- * @author <a href="jason.greene@jboss.com">Jason T. Greene</a>
- * @author alessio.soldano@jboss.com
- */
-public class ExceptionEJB3TestCase extends ExceptionTestCase
+public class SOAP12EndpointImpl extends EndpointImpl
 {
-   public static Test suite()
+   public void throwSoapFaultException()
    {
-      return new JBossWSTestSetup(ExceptionEJB3TestCase.class, "jaxws-samples-exception.jar");
-   }
-
-   protected ExceptionHelper getHelper()
-   {
-      return new ExceptionEJB3Helper("http://" + getServerHost() + ":8080/jaxws-samples-exception/ExceptionEndpointEJB3Impl");
-   }
-   
-   protected SOAP12ExceptionHelper getSOAP12Helper()
-   {
-      return new SOAP12ExceptionEJB3Helper("http://" + getServerHost() + ":8080/jaxws-samples-exception/SOAP12ExceptionEndpointEJB3Impl");
+      // This should be thrown as-is
+      try
+      {
+         SOAPFactory factory = SOAPFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
+         SOAPFault fault = factory.createFault("this is a fault string!", SOAPConstants.SOAP_VERSIONMISMATCH_FAULT);
+         fault.setFaultActor("mr.actor");
+         fault.appendFaultSubcode(new QName("http://ws.gss.redhat.com/", "NullPointerException"));
+         fault.addDetail().addChildElement("test");
+         throw new SOAPFaultException(fault);
+      }
+      catch (SOAPException s)
+      {
+         throw new RuntimeException(s);
+      }
    }
 }

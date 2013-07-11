@@ -52,11 +52,35 @@ public class ExceptionServletTestCase extends JBossWSTest
       assertEquals("1", runTestInContainer("testApplicationException"));
    }
    
+   public void testRuntimeExceptionSOAP12() throws Exception
+   {
+      assertEquals("1", runTestInContainerSOAP12("testRuntimeException"));
+   }
+
+   public void testSoapFaultExceptionSOAP12() throws Exception
+   {
+      assertEquals("1", runTestInContainerSOAP12("testSoapFaultException"));
+   }
+
+   public void testApplicationExceptionSOAP12() throws Exception
+   {
+      assertEquals("1", runTestInContainerSOAP12("testApplicationException"));
+   }
+   
    private String runTestInContainer(String test) throws Exception
    {
       URL url = new URL("http://" + getServerHost()
             + ":8080/jaxws-samples-exception-client?path=/jaxws-samples-exception-jse/ExceptionEndpointService&method=" + test
             + "&helper=" + ExceptionHelper.class.getName());
+      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+      return br.readLine();
+   }
+   
+   private String runTestInContainerSOAP12(String test) throws Exception
+   {
+      URL url = new URL("http://" + getServerHost()
+            + ":8080/jaxws-samples-exception-client?path=/jaxws-samples-exception-jse/SOAP12ExceptionEndpointService&method=" + test
+            + "&helper=" + SOAP12ExceptionHelper.class.getName());
       BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
       return br.readLine();
    }

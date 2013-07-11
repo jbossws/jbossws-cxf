@@ -21,6 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.samples.exception;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
@@ -46,7 +49,7 @@ public class ExceptionTestCase extends JBossWSTest
       }
       catch (Exception e)
       {
-         fail(e.getMessage());
+         fail(e);
       }
    }
 
@@ -58,7 +61,7 @@ public class ExceptionTestCase extends JBossWSTest
       }
       catch (Exception e)
       {
-         fail(e.getMessage());
+         fail(e);
       }
    }
 
@@ -70,12 +73,61 @@ public class ExceptionTestCase extends JBossWSTest
       }
       catch (Exception e)
       {
-         fail(e.getMessage());
+         fail(e);
       }
+   }
+   
+   public void testSOAP12RuntimeException() throws Exception
+   {
+      try
+      {
+         getSOAP12Helper().testRuntimeException();
+      }
+      catch (Exception e)
+      {
+         fail(e);
+      }
+   }
+
+   public void testSOAP12SoapFaultException() throws Exception
+   {
+      try
+      {
+         getSOAP12Helper().testSoapFaultException();
+      }
+      catch (Exception e)
+      {
+         fail(e);
+      }
+   }
+
+   public void testSOAP12ApplicationException() throws Exception
+   {
+      try
+      {
+         getSOAP12Helper().testApplicationException();
+      }
+      catch (Exception e)
+      {
+         fail(e);
+      }
+   }
+   
+   private static void fail(Exception e) {
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+      PrintStream ps = new PrintStream(bos);
+      e.printStackTrace(ps);
+      fail(bos.toString());
+      ps.close();
    }
    
    protected ExceptionHelper getHelper()
    {
       return new ExceptionHelper("http://" + getServerHost() + ":8080/jaxws-samples-exception-jse/ExceptionEndpointService");
+   }
+   
+   protected SOAP12ExceptionHelper getSOAP12Helper()
+   {
+      return new SOAP12ExceptionHelper("http://" + getServerHost() + ":8080/jaxws-samples-exception-jse/SOAP12ExceptionEndpointService");
    }
 }

@@ -9,9 +9,17 @@
     <servlet-name>ExceptionEndpointService</servlet-name>
     <servlet-class>org.jboss.test.ws.jaxws.samples.exception.server.ExceptionEndpointImpl</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>SOAP12ExceptionEndpointService</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.samples.exception.server.SOAP12ExceptionEndpointImpl</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>ExceptionEndpointService</servlet-name>
     <url-pattern>/ExceptionEndpointService</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SOAP12ExceptionEndpointService</servlet-name>
+    <url-pattern>/SOAP12ExceptionEndpointService</url-pattern>
   </servlet-mapping>
 </web-app>

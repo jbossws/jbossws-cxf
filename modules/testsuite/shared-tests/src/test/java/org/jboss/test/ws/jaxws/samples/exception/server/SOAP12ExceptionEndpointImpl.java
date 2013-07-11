@@ -19,32 +19,15 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.exception;
+package org.jboss.test.ws.jaxws.samples.exception.server;
 
-import junit.framework.Test;
+import javax.jws.WebService;
+import javax.xml.ws.BindingType;
+import javax.xml.ws.soap.SOAPBinding;
 
-import org.jboss.wsf.test.JBossWSTestSetup;
-
-/**
- * Test JAX-WS exception handling with EJB3 endpoints
- *
- * @author <a href="jason.greene@jboss.com">Jason T. Greene</a>
- * @author alessio.soldano@jboss.com
- */
-public class ExceptionEJB3TestCase extends ExceptionTestCase
+@WebService(endpointInterface = "org.jboss.test.ws.jaxws.samples.exception.server.ExceptionEndpoint")
+@BindingType(SOAPBinding.SOAP12HTTP_BINDING)
+public class SOAP12ExceptionEndpointImpl extends SOAP12EndpointImpl implements ExceptionEndpoint
 {
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(ExceptionEJB3TestCase.class, "jaxws-samples-exception.jar");
-   }
-
-   protected ExceptionHelper getHelper()
-   {
-      return new ExceptionEJB3Helper("http://" + getServerHost() + ":8080/jaxws-samples-exception/ExceptionEndpointEJB3Impl");
-   }
    
-   protected SOAP12ExceptionHelper getSOAP12Helper()
-   {
-      return new SOAP12ExceptionEJB3Helper("http://" + getServerHost() + ":8080/jaxws-samples-exception/SOAP12ExceptionEndpointEJB3Impl");
-   }
 }

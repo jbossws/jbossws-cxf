@@ -113,8 +113,10 @@
       <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/samples/exception/server/jaxws/**"/>
       	<include name="org/jboss/test/ws/jaxws/samples/exception/server/EndpointImpl.class"/>
+      	<include name="org/jboss/test/ws/jaxws/samples/exception/server/SOAP12EndpointImpl.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/exception/server/ExceptionEndpoint.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/exception/server/ExceptionEndpointImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/exception/server/SOAP12ExceptionEndpointImpl.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/exception/server/UserException.class"/>
       	<include name="org/jboss/test/ws/jaxws/samples/exception/server/ServerHandler.class"/>
       	<include name="org/jboss/test/ws/jaxws/samples/exception/server/jaxws-handlers-server.xml"/>
@@ -124,8 +126,10 @@
       <fileset dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/samples/exception/server/jaxws/**"/>
         <include name="org/jboss/test/ws/jaxws/samples/exception/server/EndpointImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/exception/server/SOAP12EndpointImpl.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/exception/server/ExceptionEndpoint.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/exception/server/ExceptionEndpointEJB3Impl.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/exception/server/SOAP12ExceptionEndpointEJB3Impl.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/exception/server/UserException.class"/>
       	<include name="org/jboss/test/ws/jaxws/samples/exception/server/ServerHandler.class"/>
       	<include name="org/jboss/test/ws/jaxws/samples/exception/server/jaxws-handlers-server.xml"/>
@@ -135,6 +139,7 @@
       <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/samples/exception/client/**"/>
       	<include name="org/jboss/test/ws/jaxws/samples/exception/ExceptionHelper.class"/>
+      	<include name="org/jboss/test/ws/jaxws/samples/exception/SOAP12ExceptionHelper.class"/>
       	<include name="org/jboss/test/helper/ClientHelper.class"/>
       	<include name="org/jboss/test/helper/TestServlet.class"/>
       </classes>

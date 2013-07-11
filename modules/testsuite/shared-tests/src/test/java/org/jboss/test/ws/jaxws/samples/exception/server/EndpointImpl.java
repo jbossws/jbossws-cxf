@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.exception.server;
 
-import javax.xml.namespace.QName;
+import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.soap.SOAPFault;
@@ -40,7 +40,7 @@ public class EndpointImpl
       try
       {
          SOAPFactory factory = SOAPFactory.newInstance();
-         SOAPFault fault = factory.createFault("this is a fault string!", new QName("http://foo", "FooCode"));
+         SOAPFault fault = factory.createFault("this is a fault string!", SOAPConstants.SOAP_VERSIONMISMATCH_FAULT);
          fault.setFaultActor("mr.actor");
          fault.addDetail().addChildElement("test");
          throw new SOAPFaultException(fault);

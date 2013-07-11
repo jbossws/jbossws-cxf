@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2011, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,30 +21,31 @@
  */
 package org.jboss.test.ws.jaxws.samples.exception;
 
-import junit.framework.Test;
+import java.net.URL;
 
-import org.jboss.wsf.test.JBossWSTestSetup;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
 
-/**
- * Test JAX-WS exception handling with EJB3 endpoints
- *
- * @author <a href="jason.greene@jboss.com">Jason T. Greene</a>
- * @author alessio.soldano@jboss.com
- */
-public class ExceptionEJB3TestCase extends ExceptionTestCase
+import org.jboss.test.ws.jaxws.samples.exception.client.ExceptionEndpoint;
+
+public class SOAP12ExceptionEJB3Helper extends SOAP12ExceptionHelper
 {
-   public static Test suite()
+   public SOAP12ExceptionEJB3Helper(String targetEndpoint)
    {
-      return new JBossWSTestSetup(ExceptionEJB3TestCase.class, "jaxws-samples-exception.jar");
-   }
-
-   protected ExceptionHelper getHelper()
-   {
-      return new ExceptionEJB3Helper("http://" + getServerHost() + ":8080/jaxws-samples-exception/ExceptionEndpointEJB3Impl");
+      super(targetEndpoint);
    }
    
-   protected SOAP12ExceptionHelper getSOAP12Helper()
+   public SOAP12ExceptionEJB3Helper()
    {
-      return new SOAP12ExceptionEJB3Helper("http://" + getServerHost() + ":8080/jaxws-samples-exception/SOAP12ExceptionEndpointEJB3Impl");
+      super();
+   }
+   
+   protected ExceptionEndpoint getProxy() throws Exception
+   {
+      QName serviceName = new QName(targetNS, "SOAP12ExceptionEndpointEJB3ImplService");
+      URL wsdlURL = new URL(targetEndpoint + "?wsdl");
+
+      Service service = Service.create(wsdlURL, serviceName);
+      return service.getPort(ExceptionEndpoint.class);
    }
 }

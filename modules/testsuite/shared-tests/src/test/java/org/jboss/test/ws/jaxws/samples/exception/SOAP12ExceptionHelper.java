@@ -33,24 +33,24 @@ import org.jboss.test.ws.jaxws.samples.exception.client.UserException;
 import org.jboss.test.ws.jaxws.samples.exception.client.UserException_Exception;
 import org.w3c.dom.Element;
 
-public class ExceptionHelper implements ClientHelper
+public class SOAP12ExceptionHelper implements ClientHelper
 {
    protected String targetEndpoint;
    protected String targetNS = "http://server.exception.samples.jaxws.ws.test.jboss.org/";
    
-   public ExceptionHelper(String targetEndpoint)
+   public SOAP12ExceptionHelper(String targetEndpoint)
    {
       this.targetEndpoint = targetEndpoint;
    }
    
-   public ExceptionHelper()
+   public SOAP12ExceptionHelper()
    {
       //NOOP
    }
    
    protected ExceptionEndpoint getProxy() throws Exception
    {
-      QName serviceName = new QName(targetNS, "ExceptionEndpointImplService");
+      QName serviceName = new QName(targetNS, "SOAP12ExceptionEndpointImplService");
       URL wsdlURL = new URL(targetEndpoint + "?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
@@ -84,7 +84,7 @@ public class ExceptionHelper implements ClientHelper
       catch (SOAPFaultException e)
       {
          String faultString = e.getFault().getFaultString();
-         assertTrue(faultString.indexOf("OH NO, A RUNTIME EXCEPTION OCCURED.") >= 0);
+         assertTrue(faultString.indexOf("oh no, a runtime exception occured.") >= 0);
       }
    }
 
@@ -97,10 +97,13 @@ public class ExceptionHelper implements ClientHelper
       }
       catch (SOAPFaultException e)
       {
-         assertEquals("THIS IS A FAULT STRING!", e.getFault().getFaultString());
+         assertEquals("this is a fault string!", e.getFault().getFaultString());
          assertEquals("mr.actor", e.getFault().getFaultActor());
          assertEquals("VersionMismatch", e.getFault().getFaultCodeAsName().getLocalName());
          assertEquals("http://www.w3.org/2003/05/soap-envelope", e.getFault().getFaultCodeAsName().getURI());
+         final QName subcode = (QName)e.getFault().getFaultSubcodes().next();
+         assertEquals("http://ws.gss.redhat.com/", subcode.getNamespaceURI());
+         assertEquals("NullPointerException", subcode.getLocalPart());
          assertEquals("test", ((Element)e.getFault().getDetail().getChildElements().next()).getLocalName());
       }
    }
@@ -115,7 +118,7 @@ public class ExceptionHelper implements ClientHelper
       catch (UserException_Exception e)
       {
          UserException ue = e.getFaultInfo();
-         assertEquals("SOME VALIDATION ERROR", ue.getMessage());
+         assertEquals("Some validation error", ue.getMessage());
          assertEquals("validation", ue.getErrorCategory());
          assertEquals(123, ue.getErrorCode());
       }
