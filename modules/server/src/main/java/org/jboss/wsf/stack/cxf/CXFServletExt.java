@@ -141,4 +141,9 @@ public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegat
       // filtering not supported, move on
       chain.doFilter(request, response);
    }
+
+   protected Bus getBus()
+   {
+      return bus;
+   }
 }
