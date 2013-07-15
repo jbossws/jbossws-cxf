@@ -78,7 +78,7 @@
                 <sp:OnlySignEntireHeadersAndBody/>
                 <sp:AlgorithmSuite>
                    <wsp:Policy>
-                      <sp-cxf:Basic192GCM xmlns:sp-cxf="http://cxf.apache.org/custom/security-policy"/>
+                      <sp-cxf:Basic256GCM xmlns:sp-cxf="http://cxf.apache.org/custom/security-policy"/>
                    </wsp:Policy>
                 </sp:AlgorithmSuite>
              </wsp:Policy>
