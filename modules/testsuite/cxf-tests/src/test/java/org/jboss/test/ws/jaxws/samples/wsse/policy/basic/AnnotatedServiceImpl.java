@@ -42,7 +42,7 @@ import org.jboss.ws.api.annotation.PolicySets;
       @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.basic.KeystorePasswordCallback")
       }
 )
-@PolicySets("AsymmetricBinding_X509v1_GCM192OAEP_ProtectTokens")
+@PolicySets("AsymmetricBinding_X509v1_GCM256OAEP_ProtectTokens")
 public class AnnotatedServiceImpl implements AnnotatedServiceIface
 {
    public String sayHello()

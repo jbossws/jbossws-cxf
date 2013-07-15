@@ -64,7 +64,7 @@ public final class AnnotatedSignEncryptTestCase extends JBossWSTest
          br.close();
       }
       String wsdl = sb.toString();
-      assertTrue(wsdl.contains("AsymmetricBinding_X509v1_GCM192OAEP_ProtectTokens_binding_policy"));
+      assertTrue(wsdl.contains("AsymmetricBinding_X509v1_GCM256OAEP_ProtectTokens_binding_policy"));
    }
    
    public void test() throws Exception
