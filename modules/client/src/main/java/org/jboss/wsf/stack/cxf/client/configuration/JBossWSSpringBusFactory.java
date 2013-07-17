@@ -120,18 +120,18 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
       }
       catch (BeansException ex)
       {
-         ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
+         ClassLoader contextLoader = SecurityActions.getContextClassLoader();
          if (contextLoader != BusApplicationContext.class.getClassLoader())
          {
             Loggers.ROOT_LOGGER.appContextCreationFailedWillTryWithNewTCCL(contextLoader, BusApplicationContext.class.getClassLoader(), ex);
-            Thread.currentThread().setContextClassLoader(BusApplicationContext.class.getClassLoader());
+            SecurityActions.setContextClassLoader(BusApplicationContext.class.getClassLoader());
             try
             {
                return new BusApplicationContext(cfgFiles, includeDefaults, getApplicationContext());
             }
             finally
             {
-               Thread.currentThread().setContextClassLoader(contextLoader);
+               SecurityActions.setContextClassLoader(contextLoader);
             }
          }
          else

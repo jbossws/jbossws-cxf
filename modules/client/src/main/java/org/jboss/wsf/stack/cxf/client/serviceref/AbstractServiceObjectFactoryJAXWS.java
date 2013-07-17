@@ -25,6 +25,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -121,10 +123,29 @@ public abstract class AbstractServiceObjectFactoryJAXWS
    {
       if (className != null)
       {
-         return Thread.currentThread().getContextClassLoader().loadClass(className);
+         return getContextClassLoader().loadClass(className);
       }
 
       return null;
+   }
+   
+   static ClassLoader getContextClassLoader()
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         return Thread.currentThread().getContextClassLoader();
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>()
+         {
+            public ClassLoader run()
+            {
+               return Thread.currentThread().getContextClassLoader();
+            }
+         });
+      }
    }
 
    private String getServiceClassName(final UnifiedServiceRefMetaData serviceRefMD)

@@ -118,10 +118,10 @@ public class CXFProviderImpl extends WSContractProvider
    {
       // Swap the context classloader
       // The '--classpath' switch might provide an URLClassLoader
-      ClassLoader oldLoader = Thread.currentThread().getContextClassLoader();
+      ClassLoader oldLoader = SecurityActions.getContextClassLoader();
 
       if (loader != null)
-         Thread.currentThread().setContextClassLoader(loader);
+         SecurityActions.setContextClassLoader(loader);
 
       try
       {
@@ -213,7 +213,7 @@ public class CXFProviderImpl extends WSContractProvider
       }
       finally
       {
-         Thread.currentThread().setContextClassLoader(oldLoader);
+         SecurityActions.setContextClassLoader(oldLoader);
       }
    }
 

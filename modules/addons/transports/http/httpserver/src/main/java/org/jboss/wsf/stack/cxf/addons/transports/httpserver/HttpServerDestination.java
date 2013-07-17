@@ -47,7 +47,6 @@ import org.jboss.com.sun.net.httpserver.HttpHandler;
  * @since 19-Aug-2010
  *
  */
-@SuppressWarnings("restriction")
 public class HttpServerDestination extends JAXWSHttpSpiDestination
 {
    static final Logger LOG = LogUtils.getL7dLogger(HttpServerDestination.class);
@@ -121,7 +120,7 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
       {
          throw new Fault(e);
       }
-      engine.addHandler(addr, new Handler(this, Thread.currentThread().getContextClassLoader()));
+      engine.addHandler(addr, new Handler(this, SecurityActions.getContextClassLoader()));
    }
 
    /**
@@ -147,10 +146,10 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
       @Override
       public void handle(HttpExchange ex) throws IOException
       {
-         ClassLoader origClassLoader = Thread.currentThread().getContextClassLoader();
+         ClassLoader origClassLoader = SecurityActions.getContextClassLoader();
          try
          {
-            Thread.currentThread().setContextClassLoader(this.classLoader);
+            SecurityActions.setContextClassLoader(this.classLoader);
             this.handle(new HttpExchangeDelegate(ex));
          }
          catch (Exception e)
@@ -167,7 +166,7 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
          }
          finally
          {
-            Thread.currentThread().setContextClassLoader(origClassLoader);
+            SecurityActions.setContextClassLoader(origClassLoader);
          }
       }
    }
