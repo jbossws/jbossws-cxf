@@ -660,9 +660,6 @@
                  <!--# [JBWS-3560] fastinfoset module is required in as712  -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
 
-                 <!--# [CXF-5116] DelegatingInputStream created in AbstractHTTPDestination is cached into wrong Message instance -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/servletCtx/ServletCtxTestCase*</exclude>
-
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
               </excludes>
@@ -730,9 +727,6 @@
                  <!--# [JBWS-3560] fastinfoset module is required in as713  -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
 
-                 <!--# [CXF-5116] DelegatingInputStream created in AbstractHTTPDestination is cached into wrong Message instance -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/servletCtx/ServletCtxTestCase*</exclude>
-
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
               </excludes>
@@ -796,9 +790,6 @@
 
                  <!--# [JBWS-3560] fastinfoset module is required in as720  -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
-
-                 <!--# [CXF-5116] DelegatingInputStream created in AbstractHTTPDestination is cached into wrong Message instance -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/servletCtx/ServletCtxTestCase*</exclude>
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
