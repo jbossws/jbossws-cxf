@@ -130,7 +130,7 @@ public class BeanCustomizer
       {
          parameters = new TLSClientParameters();
          parameters.setUseHttpsURLConnectionDefaultSslSocketFactory(true);
-         if (Boolean.getBoolean("org.jboss.security.ignoreHttpsHost"))
+         if (SecurityActions.getBoolean("org.jboss.security.ignoreHttpsHost"))
          {
             parameters.setDisableCNCheck(true);
          }

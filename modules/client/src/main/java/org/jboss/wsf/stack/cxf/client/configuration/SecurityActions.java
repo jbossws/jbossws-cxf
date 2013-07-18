@@ -79,6 +79,25 @@ class SecurityActions
       }
    }
    
+   static boolean getBoolean(final String propName)
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         return Boolean.getBoolean(propName);
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<Boolean>()
+         {
+            public Boolean run()
+            {
+               return Boolean.getBoolean(propName);
+            }
+         });
+      }
+   }
+   
    /**
     * Return the current value of the specified system property
     * 
