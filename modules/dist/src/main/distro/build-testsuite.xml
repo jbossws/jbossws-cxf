@@ -657,6 +657,8 @@
         </fileset>
         <filterset>
           <filter token="jboss.bind.address" value="${node0}"/>
+          <filter token="remote.protocol" value="${remote.protocol}"/>
+          <filter token="remote.port" value="${remote.port}"/>
         </filterset>
       </copy>
       <copy todir="${tests.output.dir}/test-classes">

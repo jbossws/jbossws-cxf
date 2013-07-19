@@ -75,9 +75,27 @@
         <equals arg1="${jbossws.integration.target}" arg2="wildfly800"/>
       </or>
     </condition>
-    
+
     <property name="deploy.structure" value="${output.dir}/deploy-${jbossws.integration.target}"/>
     <property name="excludesfile" value="${tests.dir}/resources/test-excludes-${jbossws.integration.target}.txt"/>
+
+    <condition property="remote.port" value="8080">
+        <isset property="jbossws.integration.wildfly80x"/>
+    </condition>
+    <condition property="remote.protocol" value="http-remoting">
+        <isset property="jbossws.integration.wildfly80x"/>
+    </condition>
+
+    <condition property="remote.port" value="4447">
+       <not>
+        <isset property="jbossws.integration.wildfly80x"/>
+       </not>
+    </condition>
+    <condition property="remote.protocol" value="remote">
+       <not>
+        <isset property="jbossws.integration.wildfly80x"/>
+       </not>
+    </condition>
   </target>
   
   <target name="tests-init" depends="init,tests-classpath">
