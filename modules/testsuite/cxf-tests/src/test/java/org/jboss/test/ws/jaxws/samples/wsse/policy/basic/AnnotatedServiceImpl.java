@@ -26,6 +26,7 @@ import javax.jws.WebService;
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
 import org.jboss.ws.api.annotation.PolicySets;
+import org.jboss.wsf.stack.cxf.extensions.policy.Constants;
 
 @WebService(
    portName = "AnnotatedSecurityServicePort",
@@ -42,7 +43,7 @@ import org.jboss.ws.api.annotation.PolicySets;
       @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.basic.KeystorePasswordCallback")
       }
 )
-@PolicySets("AsymmetricBinding_X509v1_GCM256OAEP_ProtectTokens")
+@PolicySets(Constants.AsymmetricBinding_X509v1_GCM256OAEP_ProtectTokens_POLICY_SET)
 public class AnnotatedServiceImpl implements AnnotatedServiceIface
 {
    public String sayHello()
