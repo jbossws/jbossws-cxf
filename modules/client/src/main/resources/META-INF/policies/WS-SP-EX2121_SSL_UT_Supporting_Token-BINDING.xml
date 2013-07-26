@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsp:Policy wsu:Id="WS-SP-EX2121_binding_policy"
+            xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+            xmlns:wsp="http://www.w3.org/ns/ws-policy"
+            xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+    <sp:TransportBinding>
+        <wsp:Policy>
+            <sp:TransportToken>
+                <wsp:Policy>
+                    <sp:HttpsToken>
+                        <wsp:Policy/>
+                    </sp:HttpsToken>
+                </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+                <wsp:Policy>
+                    <sp:Basic128 />
+                </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+                <wsp:Policy>
+                    <sp:Strict />
+                </wsp:Policy>
+            </sp:Layout>
+            <sp:IncludeTimestamp />
+        </wsp:Policy>
+    </sp:TransportBinding>
+    <sp:SupportingTokens>
+        <wsp:Policy>
+            <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+                <wsp:Policy/>
+            </sp:UsernameToken>
+        </wsp:Policy>
+    </sp:SupportingTokens>
+</wsp:Policy>
