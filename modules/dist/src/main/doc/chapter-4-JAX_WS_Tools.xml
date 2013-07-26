@@ -496,7 +496,8 @@ options:
   -b, --binding=&lt;file&gt;        One or more JAX-WS or JAXB binding files
   -k, --keep                  Keep/Generate Java source
   -c  --catalog=&lt;file&gt;        Oasis XML Catalog file for entity resolution
-  -p  --package=&lt;name&gt;        The target package for generated source
+  -j  --clientjar=&lt;name&gt;      Create a jar file of the generated artifacts for calling the webservice
+  -p  --package=&lt;name&gt;        The target package for generated source
   -w  --wsdlLocation=&lt;loc&gt;    Value to use for @WebServiceClient.wsdlLocation
   -o, --output=&lt;directory&gt;    The directory to put generated artifacts
   -s, --source=&lt;directory&gt;    The directory to put Java source
@@ -669,7 +670,7 @@ ${project.build.testOutputDirectory}</para>
                   <para>The output directory for Java source.</para>
                 </entry>
                 <entry>
-                  <para>${project.build.directory}/wsconsume/java</para>
+                  <para>${project.build.directory}/generated-sources/wsconsume</para>
                 </entry>
               </row>
               <row>
@@ -1292,6 +1293,17 @@ ${project.build.testOutputDirectory}</para>
                 </entry>
                 <entry>
                   <para>false</para>
+                </entry>
+              </row>
+              <row>
+                <entry>
+                  <para>portSoapAddress</para>
+                </entry>
+                <entry>
+                  <para>The generated port soap:address in the WSDL</para>
+                </entry>
+                <entry>
+                  <para> </para>
                 </entry>
               </row>
               <row>

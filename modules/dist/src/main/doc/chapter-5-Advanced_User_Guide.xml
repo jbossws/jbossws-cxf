@@ -413,7 +413,7 @@ public class ServiceImpl implements ServiceIface
           <para>
             The
             <code>configFile</code>
-            attribute is used to specify with config file, if any, is to be used to load the configuration; if
+            attribute is used to specify which config file, if any, is to be used to load the configuration; if
             <code>configFile</code>
             is not set, the application server configurations are used.
           </para>
@@ -747,12 +747,231 @@ public class EndpointEJB implements EndpointInterface
             <para>allowing using  Apache CXF advanced features (including WS-*) on top of JBoss  Application server without requiring the user to deal with / setup /  care about the required integration steps for running in such a  container.</para>
           </listitem>
         </itemizedlist>
-        <para>In order for achieving the goals above, the  JBossWS-CXF integration supports the JBoss endpoint  deployment and comes with many internal customizations on top of Apache CXF.</para>
+        <para>In order for achieving the goals above, the  JBossWS-CXF integration supports the JBoss ws endpoint  deployment mechanism and comes with many internal customizations on top of Apache CXF.</para>
         <para>
           In the next sections a list of technical suggestions and notes on the integration is provided; please also refer to the
           <ulink url="http://cxf.apache.org/docs/index.html">Apache CXF official documentation</ulink>
           for in-depth details on the CXF architecture.
         </para>
+      </section>
+      <section id="sid-3866786_ApacheCXFintegration-BuildingWSapplicationstheJBossway">
+        
+        <title>Building WS applications the JBoss way</title>
+        <para>
+          The Apache CXF client and endpoint configuration as explained in the
+          <ulink url="http://cxf.apache.org/docs/index.html">Apache CXF official user guide</ulink>
+          is heavily based on Spring. Apache CXF basically parses Spring
+          <code>cxf.xml</code>
+          descriptors; those may contain any basic bean plus specific ws client and endpoint beans which CXF has custom parsers for. Apache CXF can be used to deploy webservice endpoints on any servlet container by including its libraries in the deployment; in such a scenario Spring basically serves as a convenient configuration option, given direct Apache CXF API usage won't be very handy. Similar reasoning applies on client side, where a Spring based descriptor offers a shortcut for setting up Apache CXF internals.
+        </para>
+        <para>This said, nowadays almost any Apache CXF functionality can be configured and used through direct API usage, without Spring.</para>
+        <section id="sid-3866786_ApacheCXFintegration-Portableapplications">
+          
+          <title>Portable applications</title>
+          <para>The JBoss Application Server is much more then a servlet container; it actually provides users with a fully compliant target platform for Java EE applications.</para>
+          <para>
+            Generally speaking,
+            <emphasis role="italics">users are encouraged to write portable applications</emphasis>
+            by relying only on
+            <emphasis role="italics">JAX-WS specification</emphasis>
+            whenever possible. That would by the way ensure easy migrations to and from other compliant platforms. Being a Java EE container, JBoss Application Server already comes with a JAX-WS compliant implementation, which is basically Apache CXF plus the JBossWS-CXF integration layer. So users just need to write their JAX-WS application;
+            <emphasis role="italics">no need for embedding any Apache CXF or any ws related dependency library in user deployments</emphasis>
+            . Please refer to the
+            <xref linkend="sid-3866716"/>
+            section of the documentation for getting started.
+          </para>
+          <para>
+            WS-* usage (including WS-Security, WS-Addressing, WS-ReliableMessaging, ...) should also be configured in the most portable way; that is by
+            <emphasis role="italics">relying on proper WS-Policy assertions</emphasis>
+            on the endpoint WSDL contracts, so that client and endpoint configuration is basically a matter of setting few ws context properties. The WS-* related sections of this documentation cover all the details on configuring applications making use of WS-* through policies.
+          </para>
+          <para>
+            As a consequence of the reasoning above, the JBossWS-CXF integration is currently built directly on the Apache CXF API and aims at allowing users to configure webservice clients and endpoints
+            <emphasis role="italics">without Spring descriptors</emphasis>
+            .
+          </para>
+          <para>
+            <emphasis role="strong">The following two paragraphs provide few directions on how to deploy or use applications explicitly relying on Apache CXF, users should however prefer the portable application approach whenever possible.</emphasis>
+          </para>
+        </section>
+        <section id="sid-3866786_ApacheCXFintegration-DirectApacheCXFAPIusage">
+          
+          <title>Direct Apache CXF API usage</title>
+          <para>Whenever users can't really meet their application requirements with JAX-WS plus WS-Policy, it is of course still possible to rely on direct Apache CXF API usage (given that's included in the AS), loosing the Java EE portability of the application. That could be the case of a user needing specific Apache CXF functionalities, or having to consume WS-* enabled endpoints advertised through legacy wsdl contracts without WS-Policy assertions.</para>
+          <para>
+            On server side, direct Apache CXF API usage might not be always possible or end up being not very easy. For this reason, the JBossWS integration comes with a convenient alternative through customization options in the
+            <code>jboss-webservices.xml</code>
+            descriptor described below on this page.
+          </para>
+        </section>
+        <section id="sid-3866786_ApacheCXFintegration-Springdescriptorsusage">
+          
+          <title>Spring descriptors usage</title>
+          <para>
+            Finally, in some cases, users might still want to consume Spring descriptors (
+            <emphasis role="strong">discouraged approach</emphasis>
+            ); that's possibly the case of applications developed on and being migrated from different environments. For such scenarios, the installation of Spring Framework libraries on application server is the suggested approach. That can be performed using the JBossWS-CXF installation script or by manually populating a
+            <emphasis role="italics">org.springframework.spring</emphasis>
+            JBoss AS module with the required Spring jars. For writing the
+            <code>module.xml</code>
+            descriptor for such a module please refer the relevant JBoss AS documentation on creating modules; in any case it would look similar to:
+          </para>
+          <informalexample>
+            <programlisting>&lt;module xmlns="urn:jboss:module:1.1" name="org.springframework.spring"&gt;
+    &lt;resources&gt;
+        &lt;!-- List references to jar resources here --&gt;
+    &lt;/resources&gt;
+    &lt;dependencies&gt;
+        &lt;module name="javax.api" /&gt;
+        &lt;module name="javax.jms.api" /&gt;
+        &lt;module name="javax.annotation.api" /&gt;
+        &lt;module name="org.apache.commons.logging" /&gt;
+        &lt;module name="org.jboss.vfs" /&gt;
+    &lt;/dependencies&gt;
+&lt;/module&gt;</programlisting>
+          </informalexample>
+          <para>
+            The other webservices modules on JBoss AS already have an optional dependency on
+            <emphasis role="italics">org.springframework.spring</emphasis>
+            module and will hence automatically consume it.
+          </para>
+          <para>Once the Spring module is available on target application server, Spring based Apache CXF buses can be built up.</para>
+          <section id="sid-3866786_ApacheCXFintegration-Clientside">
+            
+            <title>Client side</title>
+            <para>
+              Whenever Spring is available in the current thread classloader (possibly as a consequence of having set a dependency to the above mentioned
+              <code>org.springframework.spring</code>
+              module) and the classloader can successfully locate a valid Spring descriptor resource, a Spring based
+              <code>Bus</code>
+              will be created if required. So user can either:
+            </para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                  programmatically use a
+                  <code>SpringBusFactory</code>
+                  (or the
+                  <code>JBossWSBusFactory</code>
+                  if the JBossWS additions are available) to load a Spring Bus from a given
+                  <emphasis role="italics">cxf.xml</emphasis>
+                  descriptor; that can include any CXF customization or client bean;
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  build a JAX-WS client and let the JAX-WS Provider implementation internally build a Spring based
+                  <code>Bus</code>
+                  using the available
+                  <emphasis role="italics">cxf.xml</emphasis>
+                  resource retrieved from the current classloader (usually found in
+                  <emphasis role="italics">META-INF/cxf.xml</emphasis>
+                  ).
+                </para>
+              </listitem>
+            </itemizedlist>
+            <para>
+              Consider having a look at
+              <link linkend="sid-4784150">this page</link>
+              for directions on setting module dependencies, especially if willing to create a ws client within a Spring Bus and running in-container.
+            </para>
+            <para>
+              Finally please be sure to check the section below on
+              <code>Bus</code>
+              usage any time you're building a
+              <code>Bus</code>
+              on client side.
+            </para>
+          </section>
+          <section id="sid-3866786_ApacheCXFintegration-Serverside">
+            
+            <title>Server side</title>
+            <para>It is possible to customize the  JBossWS integration with Apache CXF by incorporating a CXF configuration file into the endpoint deployment archive. The convention is the following:</para>
+            <itemizedlist>
+              <listitem>
+                <para>
+                  the descriptor file name must be
+                  <emphasis role="strong">jbossws-cxf.xml</emphasis>
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  for POJO deployments it is located in
+                  <emphasis role="strong">WEB-INF</emphasis>
+                  directory
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  for EJB3 deployments it is located in
+                  <emphasis role="strong">META-INF</emphasis>
+                  directory
+                </para>
+              </listitem>
+            </itemizedlist>
+            <para>
+              The
+              <emphasis role="italics">jbossws-cxf.xml</emphasis>
+              is parsed similarly to a common
+              <emphasis role="italics">cxf.xml</emphasis>
+              in order for building up a
+              <code>Bus</code>
+              for the WS deployment; the endpoint beans included in the deployment are to be specified using the
+              <code>&lt;jaxws:endpoint&gt;</code>
+              tag the same they would be specified in a
+              <emphasis role="italics">cxf.xml</emphasis>
+              descriptor (a example from the testsuite can be seen
+              <ulink url="http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.1.3.Final/modules/testsuite/cxf-spring-tests/src/test/resources/jaxws/cxf/descriptor/WEB-INF/jbossws-cxf.xml">here</ulink>
+              ). The application server HTTP engine will be serving the endpoints.
+            </para>
+            <para>
+              If there is no
+              <code>&lt;jaxws:endpoint&gt;</code>
+              defined in
+              <emphasis role="italics">jbossws-cxf.xml</emphasis>
+              ,  the endpoint classes mentioned in
+              <emphasis role="italics">WEB-INF/web.xml</emphasis>
+              will be automatically transformed to
+              <code>&lt;jaxws:endpoint&gt;</code>
+              entries in the Spring configuration and loaded by JBossWS-CXF. This allows using the jbossws-cxf.xml to customize the bus without having to manually duplicate the endpoint information in the descriptor. The following is an example of configuring an endpoint through
+              <emphasis role="italics">web.xml</emphasis>
+              with Aegis databinding setup from
+              <emphasis role="italics">jbossws-cxf.xml</emphasis>
+              :
+            </para>
+            <informalexample>
+              <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4"&gt;
+    &lt;servlet&gt;
+        &lt;servlet-name&gt;AegisGroupQueryService&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;org.jboss.test.ws.jaxws.cxf.aegis.AegisGroupQueryImpl&lt;/servlet-class&gt;
+    &lt;/servlet&gt;
+    &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;AegisGroupQueryService&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;
+&lt;/web-app&gt;</programlisting>
+            </informalexample>
+            <informalexample>
+              <programlisting>&lt;beans xmlns='http://www.springframework.org/schema/beans'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:beans='http://www.springframework.org/schema/beans'
+	xmlns:jaxws='http://cxf.apache.org/jaxws'
+	xsi:schemaLocation='http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://www.w3.org/2006/07/ws-policy http://www.w3.org/2006/07/ws-policy.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd'&gt;
+	&lt;bean id="aegisBean" class="org.apache.cxf.aegis.databinding.AegisDatabinding" scope="prototype" /&gt;
+	&lt;bean name="{http://aegis.cxf.jaxws.ws.test.jboss.org/}AegisGroupQueryImplPort.jaxws-endpoint" abstract="true"&gt;
+		&lt;property name="dataBinding" ref="aegisBean" /&gt;
+	&lt;/bean&gt;
+&lt;/beans&gt; </programlisting>
+            </informalexample>
+            <para>
+              The
+              <emphasis role="italics">jbossws-cxf.xml</emphasis>
+              approach can be used for the very few scenarios Apache CXF can be configured for only using Spring descriptor, e.g. for some advanced WS-RM customizations.
+            </para>
+          </section>
+        </section>
       </section>
       <section id="sid-3866786_ApacheCXFintegration-Bususage">
         
@@ -896,12 +1115,14 @@ public static void setThreadDefaultBus(Bus bus)
         <para>
           The  JBossWS-CXF server side integration takes care of internally creating  proper Apache CXF structures (including a
           <code>Bus</code>
-          instance, of course) for  the ws endpoint deployment.
+          instance, of course) for  the provided ws deployment. Should the deployment include multiple endpoints, those would all live within the same Apache CXF Bus, which would of course be completely separated by the other deployments' bus instances.
         </para>
         <para>
           While JBossWS sets sensible defaults for most of the Apache CXF configuration options on server side, users might want to fine tune the
           <code>Bus</code>
-          instance that's created for their deployments.
+          instance that's created for their deployment; a
+          <code>jboss-webservices.xml</code>
+          descriptor can be used for deployment level customizations.
         </para>
         <section id="sid-3866786_ApacheCXFintegration-Deploymentdescriptorproperties">
           
@@ -1069,39 +1290,17 @@ public static void setThreadDefaultBus(Bus bus)
               .
             </para>
           </section>
-        </section>
-        <section id="sid-3866786_ApacheCXFintegration-Springbasedconfiguration">
-          
-          <title>Spring based configuration</title>
-          <para>
-            It is possible to customize the  JBossWS and CXF integration by incorporating the CXF configuration file  to the endpoint deployment archive. In order for that to be possible,  JBossWS-CXF requires Spring to be installed in the application server.  The Spring Framework libraries installation can be performed using the JBossWS-CXF installation or by manually populating the
-            <emphasis role="italics">org.springframework.spring</emphasis>
-            module that's in JBoss AS 7 and which the other webservices modules already have an optional dependency on.
-          </para>
-          <para>The convention is the following:</para>
-          <itemizedlist>
-            <listitem>
-              <para>
-                file name must be
-                <emphasis role="strong">jbossws-cxf.xml</emphasis>
-              </para>
-            </listitem>
-            <listitem>
-              <para>
-                for POJO deployments it is located in
-                <emphasis role="strong">WEB-INF</emphasis>
-                directory
-              </para>
-            </listitem>
-            <listitem>
-              <para>
-                for EJB3 deployments it is located in
-                <emphasis role="strong">META-INF</emphasis>
-                directory
-              </para>
-            </listitem>
-          </itemizedlist>
-          <para>Providing  custom CXF configuration to the endpoint deployment is useful in cases  when users want to use features that are not part of standard JAX-WS  specification (CXF specific) and that can't be setup in the application classes' code. An example are some advanced WS-RM customizations.</para>
+          <section id="sid-3866786_ApacheCXFintegration-WSDiscoveryenablement">
+            
+            <title>Discovery enablement</title>
+            <para>
+              WS-Discovery support can be turned on in
+              <code>jboss-webservices</code>
+              for the current deployment. Further details available
+              <link linkend="sid-66486377">here</link>
+              .
+            </para>
+          </section>
         </section>
       </section>
     </section>
@@ -1387,7 +1586,7 @@ proxy.sayHello("World");</programlisting>
           <para>Recent versions of Apache CXF, however, introduced support for WS-Security Policy, which aims at moving most of the security configuration into the service contract (through policies), so that clients can easily be configured almost completely automatically from that. This way users do not need to manually deal with configuring / installing the required interceptors; the Apache CXF WS-Policy engine internally takes care of that instead.</para>
           <section id="sid-3866795_WS-Security-WSSecurityPolicysupport">
             
-            <title>Security Policy support</title>
+            <title>WS-Security Policy support</title>
             <para>
               WS-SecurityPolicy describes the actions that are required to securely communicate with a service advertised in a given WSDL contract. The WSDL bindings / operations reference WS-Policy fragments with the security requirements to interact with the service. The
               <ulink url="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/ws-securitypolicy.html">WS-SecurityPolicy specification</ulink>
@@ -3398,7 +3597,7 @@ Dependencies: org.apache.ws.security,org.apache.cxf,org.picketlink</programlisti
           </informalexample>
           <para>Here is how the PicketLink STS endpoint is packaged:</para>
           <informalexample>
-            <programlisting>alessio@inuyasha /dati/jbossws/stack/cxf/trunk $ jar -tvf ./modules/testsuite/cxf-tests/target/test-libs/jaxws-samples-wsse-policy-trustPicketLink-sts.war 
+            <programlisting>alessio@inuyasha /dati/jbossws/stack/cxf/trunk $ jar -tvf ./modules/testsuite/cxf-tests/target/test-libs/jaxws-samples-wsse-policy-trustPicketLink-sts.war
      0 Mon Sep 03 17:38:38 CEST 2012 META-INF/
    174 Mon Sep 03 17:38:36 CEST 2012 META-INF/MANIFEST.MF
      0 Mon Sep 03 17:38:38 CEST 2012 WEB-INF/
@@ -4441,6 +4640,418 @@ public class ProxyAuthenticator extends Authenticator
 
 Authenticator.setDefault(new ProxyAuthenticator(PROXY_USER, PROXY_PWD));</programlisting>
         </informalexample>
+      </section>
+    </section>
+    <section id="sid-66486377">
+      
+      <title>WS-Discovery</title>
+      <para>
+        Apache CXF includes support for
+        <emphasis role="italics">Web Services Dynamic Discovery</emphasis>
+        (
+        <ulink url="http://docs.oasis-open.org/ws-dd/discovery/1.1/os/wsdd-discovery-1.1-spec-os.html">WS-Discovery</ulink>
+        ), which is a protocol to enable dynamic discovery of services available on the local network. The protocol implies using a
+        <code>UDP</code>
+        based multicast transport to announce new services and probe for existing services. A managed mode where a discovery proxy is used to reduce the amount of required multicast traffic is also covered by the protocol.
+      </para>
+      <para>
+        JBossWS integrates the
+        <emphasis role="italics">WS-Discovery</emphasis>
+        <ulink url="http://cxf.apache.org/docs/ws-discovery.html">functionalities</ulink>
+        provided by Apache CXF into the application server.
+      </para>
+      <section id="sid-66486377_WS-Discovery-EnablingWSDiscovery">
+        
+        <title>Enabling WS-Discovery</title>
+        <para>
+          Apache CXF enables
+          <emphasis role="italics">WS-Discovery</emphasis>
+          depending on the availability of its runtime component; given that's always shipped in the application server, JBossWS integration requires using the
+          <code>cxf.ws-discovery.enabled</code>
+          <ulink url="https://docs.jboss.org/author/display/JBWS/Advanced+User+Guide#AdvancedUserGuide-Configurationthroughdeploymentdescriptor">property</ulink>
+          usage for enabling
+          <emphasis role="italics">WS-Discovery</emphasis>
+          for a given deployment. By default
+          <emphasis role="italics">WS-Discovery</emphasis>
+          is disabled on the application server. Below is an example of
+          <emphasis role="italics">jboss-webservices.xml</emphasis>
+          descriptor to be used for enabling
+          <emphasis role="italics">WS-Discovery</emphasis>
+          :
+        </para>
+        <informalexample>
+          <programlisting>&lt;webservices xmlns="http://www.jboss.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  version="1.2" xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee"&gt;
+
+  &lt;property&gt;
+    &lt;name&gt;cxf.ws-discovery.enabled&lt;/name&gt;
+    &lt;value&gt;true&lt;/value&gt;
+  &lt;/property&gt;
+
+&lt;/webservices&gt;</programlisting>
+        </informalexample>
+        <para>
+          By default, a
+          <emphasis role="italics">WS-Discovery</emphasis>
+          service endpoint (SOAP-over-UDP bound) will be started the first time a WS-Discovery enabled deployment is processed on the application server. Every ws endpoint belonging to
+          <emphasis role="italics">WS-Discovery</emphasis>
+          enabled deployments will be automatically registered into such a
+          <emphasis role="italics">WS-Discovery</emphasis>
+          service endpoint (
+          <code>Hello</code>
+          messages). The service will reply to
+          <code>Probe</code>
+          and
+          <code>Resolve</code>
+          messages received on
+          <code>UDP</code>
+          port
+          <code>3702</code>
+          (including multicast messages sent to
+          <code>IPv4</code>
+          address
+          <code>239.255.255.250</code>
+          , as per
+          <ulink url="http://docs.oasis-open.org/ws-dd/discovery/1.1/os/wsdd-discovery-1.1-spec-os.html#_Toc234231816">specification</ulink>
+          ). Endpoints will eventually be automatically unregistered using
+          <code>Bye</code>
+          messages upon undeployment.
+        </para>
+      </section>
+      <section id="sid-66486377_WS-Discovery-Probingservices">
+        
+        <title>Probing services</title>
+        <para>
+          Apache CXF comes with a
+          <emphasis role="italics">WS-Discovery</emphasis>
+          API that can be used to probe / resolve services. When running in-container, a JBoss module
+          <link linkend="sid-4784150">dependency</link>
+          to the the
+          <code>org.apache.cxf.impl</code>
+          module is to be set to have access to
+          <emphasis role="italics">WS-Discovery</emphasis>
+          client functionalities.
+        </para>
+        <para>
+          The
+          <ulink url="http://svn.apache.org/viewvc/cxf/tags/cxf-2.7.5/services/ws-discovery/ws-discovery-api/src/main/java/org/apache/cxf/ws/discovery/WSDiscoveryClient.java?revision=1481139&amp;view=markup">org.apache.cxf.ws.discovery.WSDiscoveryClient</ulink>
+          class provides the
+          <emphasis role="italics">probe</emphasis>
+          and
+          <emphasis role="italics">resolve</emphasis>
+          methods which also accepts filters on scopes. Users can rely on them for locating available endpoints on the network. Please have a look at the JBossWS testsuite which includes a
+          <ulink url="http://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.2.0.Beta1/modules/testsuite/cxf-tests/src/test/java/org/jboss/test/ws/jaxws/samples/wsdd/WSDiscoveryTestCase.java">sample</ulink>
+          on CXF WS-Discovery usage.
+        </para>
+      </section>
+    </section>
+    <section id="sid-68354567">
+      
+      <title>WS-Policy</title>
+      <section id="sid-68354567_WS-Policy-ApacheCXFWSPolicysupport">
+        
+        <title>Apache CXF WS-Policy support</title>
+        <para>
+          JBossWS policy support rely on the Apache CXF WS-Policy framework, which is compliant with the
+          <ulink url="http://www.w3.org/TR/2007/REC-ws-policy-20070904/">Web Services Policy 1.5 - Framework</ulink>
+          and
+          <ulink url="http://www.w3.org/TR/2007/REC-ws-policy-attach-20070904/">Web Services Policy 1.5 - Attachment</ulink>
+          specifications.
+          
+          Users can work with policies in different ways:
+        </para>
+        <itemizedlist>
+          <listitem>
+            <para>by adding policy assertions to wsdl contracts and letting the runtime consume them and behave accordingly;</para>
+          </listitem>
+          <listitem>
+            <para>by specifying endpoint policy attachments using either CXF annotations or features.</para>
+          </listitem>
+        </itemizedlist>
+        <para>
+          Of course users can also make direct use of the Apache CXF policy framework,
+          <ulink url="http://cxf.apache.org/docs/developing-assertions.html">defining custom assertions</ulink>
+          , etc.
+        </para>
+        <para>Finally, JBossWS provides some additional annotations for simplified policy attachment.</para>
+        <section id="sid-68354567_WS-Policy-Contractfirstapproach">
+          
+          <title>Contract-first approach</title>
+          <para>WS-Policies can be attached and referenced in wsdl elements (the specifications describe all possible alternatives). Apache CXF automatically recognizes, reads and uses policies defined in the wsdl.</para>
+          <para>
+            Users should hence develop endpoints using the
+            <emphasis role="italics">contract-first</emphasis>
+            approach, that is explicitly providing the contract for their services. Here is a excerpt taken from a wsdl including a WS-Addressing policy:
+          </para>
+          <informalexample>
+            <programlisting>&lt;wsdl:definitions name="Foo" targetNamespace="http://ws.jboss.org/foo"
+...
+&lt;wsdl:service name="FooService"&gt;
+    &lt;wsdl:port binding="tns:FooBinding" name="FooPort"&gt;
+        &lt;soap:address location="http://localhost:80800/foo"/&gt;
+        &lt;wsp:Policy xmlns:wsp="http://www.w3.org/ns/ws-policy"&gt;
+             &lt;wsam:Addressing xmlns:wsam="http://www.w3.org/2007/02/addressing/metadata"&gt;
+                 &lt;wsp:Policy/&gt;
+              &lt;/wsam:Addressing&gt;
+         &lt;/wsp:Policy&gt;
+    &lt;/wsdl:port&gt;
+&lt;/wsdl:service&gt;
+&lt;/wsdl:definitions&gt;</programlisting>
+          </informalexample>
+          <para>Of course, CXF also acts upon policies specified in wsdl documents consumed on client side.</para>
+        </section>
+        <section id="sid-68354567_WS-Policy-Codefirstapproach">
+          
+          <title>Code-first approach</title>
+          <para>
+            For those preferring code-first (java-first) endpoint development, Apache CXF comes with
+            <code>org.apache.cxf.annotations.Policy</code>
+            and
+            <code>org.apache.cxf.annotations.Policies</code>
+            annotations to be used for attaching policy fragments to the wsdl generated at deploy time.
+          </para>
+          <para>Here is an example of a code-first endpoint including @Policy annotation:</para>
+          <informalexample>
+            <programlisting>import javax.jws.WebService;
+import org.apache.cxf.annotations.Policy;
+
+@WebService(portName = "MyServicePort",
+            serviceName = "MyService",
+            name = "MyServiceIface",
+            targetNamespace = "http://www.jboss.org/jbossws/foo")
+@Policy(placement = Policy.Placement.BINDING, uri = "JavaFirstPolicy.xml")
+public class MyServiceImpl {
+   public String sayHello() {
+      return "Hello World!";
+   }
+}</programlisting>
+          </informalexample>
+          <para>
+            The referenced descriptor is to be added to the deployment and will include the policy to be attached; the attachment position in the contracts is defined through the
+            <code>placement</code>
+            attribute. Here is a descriptor example:
+          </para>
+          <informalexample>
+            <programlisting>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;wsp:Policy wsu:Id="MyPolicy" xmlns:wsp="http://www.w3.org/ns/ws-policy"
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+    &lt;wsp:ExactlyOne&gt;
+        &lt;wsp:All&gt;
+            &lt;sp:SupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"&gt;
+                &lt;wsp:Policy&gt;
+                    &lt;sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient"&gt;
+                        &lt;wsp:Policy&gt;
+                            &lt;sp:WssUsernameToken10/&gt;
+                        &lt;/wsp:Policy&gt;
+                    &lt;/sp:UsernameToken&gt;
+                &lt;/wsp:Policy&gt;
+            &lt;/sp:SupportingTokens&gt;
+        &lt;/wsp:All&gt;
+    &lt;/wsp:ExactlyOne&gt;
+&lt;/wsp:Policy&gt;</programlisting>
+          </informalexample>
+        </section>
+      </section>
+      <section id="sid-68354567_WS-Policy-JBossWSadditions">
+        
+        <title>JBossWS additions</title>
+        <section id="sid-68354567_WS-Policy-Policysets">
+          
+          <title>Policy sets</title>
+          <para>
+            Both approaches above require users to actually write their policies' assertions; while this offer great flexibility and control of the actual contract, providing the assertions might end up being quite a challenging task for complex policies. For this reason, the JBossWS integration provides
+            <emphasis role="italics">policy sets</emphasis>
+            , which are basically pre-defined groups of policy assertions corresponding to well known / common needs. Each set has a label allowing users to specify it in the
+            <code>@org.jboss.ws.api.annotation.PolicySets</code>
+            annotation to have the policy assertions for that set attached to the annotated endpoint. Multiple labels can also be specified. Here is an example of the @PolicySets annotation on a service endpoint interface:
+          </para>
+          <informalexample>
+            <programlisting>import javax.jws.WebService;
+import org.jboss.ws.api.annotation.PolicySets;
+
+@WebService(name = "EndpointTwo", targetNamespace = "http://org.jboss.ws.jaxws.cxf/jbws3648")
+@PolicySets({"WS-RM_Policy_spec_example", "WS-SP-EX223_WSS11_Anonymous_X509_Sign_Encrypt", "WS-Addressing"})
+public interface EndpointTwo
+{
+   String echo(String input);
+}</programlisting>
+          </informalexample>
+          <para>The three sets specified in @PolicySets will cause the wsdl generated for the endpoint having this interface to be enriched with some policy assertions for WS-RM, WS-Security and WS-Addressing.</para>
+          <para>
+            The labels' list of known sets is stored in the
+            <code>META-INF/policies/org.jboss.wsf.stack.cxf.extensions.policy.PolicyAttachmentStore</code>
+            file within the
+            <code>jbossws-cxf-client.jar</code>
+            (
+            <code>org.jboss.ws.cxf:jbossws-cxf-client</code>
+            maven artifact). Actual policy fragments for each set are also stored in the same artifact at
+            <code>META-INF/policies/&lt;set-label&gt;-&lt;attachment-position&gt;.xml</code>
+            .
+          </para>
+          <para>Here is a list of the available policy sets:</para>
+          <informaltable>
+            <tgroup cols="2">
+              <thead>
+                <row>
+                  <entry>
+                    <para>Label</para>
+                  </entry>
+                  <entry>
+                    <para>Description</para>
+                  </entry>
+                </row>
+              </thead>
+              <tbody>
+                <row>
+                  <entry>
+                    <para>WS-Addressing</para>
+                  </entry>
+                  <entry>
+                    <para>Basic WS-Addressing policy</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>
+                      WS-RM_Policy_spec_example
+                      
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>The basic WS-RM policy example in the WS-RM specification</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>WS-SP-EX2121_SSL_UT_Supporting_Token</para>
+                  </entry>
+                  <entry>
+                    <para>
+                      The group of policy assertions used in the section 2.1.2.1 example of the WS-Security Policy Examples 1.0 specification
+                      
+                    </para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>
+                      WS-SP-EX213_WSS10_UT_Mutual_Auth_X509_Sign_Encrypt
+                      
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      The group of policy assertions used in the section 2.1.3 example of the WS-Security Policy Examples 1.0 specification
+                      
+                    </para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>
+                      WS-SP-EX214_WSS11_User_Name_Cert_Sign_Encrypt
+                      
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      The group of policy assertions used in the section 2.1.4 example of the WS-Security Policy Examples 1.0 specification
+                      
+                    </para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>
+                      WS-SP-EX221_WSS10_Mutual_Auth_X509_Sign_Encrypt
+                      
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>The group of policy assertions used in the section 2.2.1 example of the WS-Security Policy Examples 1.0 specification</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>
+                      WS-SP-EX222_WSS10_Mutual_Auth_X509_Sign_Encrypt
+                      
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      The group of policy assertions used in the section 2.2.2 example of the WS-Security Policy Examples 1.0 specification
+                      
+                    </para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>
+                      WS-SP-EX223_WSS11_Anonymous_X509_Sign_Encrypt
+                      
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      The group of policy assertions used in the section 2.2.3 example of the WS-Security Policy Examples 1.0 specification
+                      
+                    </para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>
+                      WS-SP-EX224_WSS11_Mutual_Auth_X509_Sign_Encrypt
+                      
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      The group of policy assertions used in the section 2.2.4 example of the WS-Security Policy Examples 1.0 specification
+                      
+                    </para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>
+                      AsymmetricBinding_X509v1_TripleDesRsa15_EncryptBeforeSigning_ProtectTokens
+                      
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>A WS-Security policy for asymmetric binding (encrypt before signing) using X.509v1 tokens, 3DES + RSA 1.5 algorithms and with token protections enabled</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>
+                      AsymmetricBinding_X509v1_GCM256OAEP_ProtectTokens
+                      
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>The same as before, but using custom Apache CXF algorithm suite including GCM 256 + RSA OAEP algorithms</para>
+                  </entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </informaltable>
+          <warning>
+            <para>Always verify the contents of the generated wsdl contract, as policy sets are potentially subject to updates between JBossWS releases. This is especially important when dealing with security related policies; the provided sets are to be considered as convenient configuration options only; users remain responsible for the policies in their contracts.</para>
+          </warning>
+          <tip>
+            <para>
+              The
+              <code>org.jboss.wsf.stack.cxf.extensions.policy.Constants</code>
+              interface has convenient String constants for the available policy set labels.
+            </para>
+          </tip>
+          <tip>
+            <para>If you feel a new set should be added, just propose it by writing the user forum!</para>
+          </tip>
+        </section>
       </section>
     </section>
   </chapter>

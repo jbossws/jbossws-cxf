@@ -25,110 +25,158 @@
       <important>
         <para>The JBoss Web Services APIs are always available by default whenever the webservices subsystem is available on AS7. So users just use them, no need for explicit dependencies declaration for those modules.</para>
       </important>
-      <para>The convenient method for configuring deployment dependencies is adding them into the MANIFEST.MF file:</para>
-      <informalexample>
-        <programlisting>Manifest-Version: 1.0
+      <section id="sid-4784150_JBossModules-UsingMANIFEST.MF">
+        
+        <title>Using MANIFEST.MF</title>
+        <para>The convenient method for configuring deployment dependencies is adding them into the MANIFEST.MF file:</para>
+        <informalexample>
+          <programlisting>Manifest-Version: 1.0
 Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export,foo.bar</programlisting>
-      </informalexample>
-      <para>
-        Here above
-        <emphasis role="italics">org.jboss.ws.cxf.jbossws-cxf-client</emphasis>
-        and
-        <emphasis role="italics">foo.bar</emphasis>
-        are the modules you want to set dependencies to;
-        <emphasis role="italics">services</emphasis>
-        tells the modules framework that you want to also import
-        <emphasis role="italics">META-INF/services/..</emphasis>
-        declarations from the dependency, while
-        <emphasis role="italics">export</emphasis>
-        exports the classes in the module so that you can actually use them in your code.
-      </para>
-      <note>
-        <para>When using annotations on your endpoints / handlers such as the Apache CXF ones (@InInterceptor, @GZIP, ...) remember to add the proper module dependency in your manifest. Otherwise your annotations are not picked up and added to the annotation index by JBoss Application Server 7, resulting in them being completely and silently ignored.</para>
-      </note>
-      <section id="sid-4784150_JBossModules-UsingJAXB">
-        
-        <title>Using JAXB</title>
-        <para>In  order for successfully use JAXB contexts, etc. in your client or  endpoint running in-container, you need to properly setup a JAXB  implementation; that is performed setting the following dependency:</para>
-        <informalexample>
-          <programlisting>Dependencies: com.sun.xml.bind services export</programlisting>
         </informalexample>
-      </section>
-      <section id="sid-4784150_JBossModules-UsingApacheCXF">
-        
-        <title>Using Apache CXF</title>
         <para>
-          In order for using Apache CXF APIs and implementation classes you need to add a dependency to the
-          <emphasis role="italics">org.apache.cxf</emphasis>
-          module:
-        </para>
-        <informalexample>
-          <programlisting>Dependencies: org.apache.cxf services</programlisting>
-        </informalexample>
-        <para>However, please note that would not come with any JBossWS-CXF customizations nor additional extensions. For this reason, and generally speaking for simplifying user configuration, a client side aggregation module is available with all the WS dependencies users might need.</para>
-      </section>
-      <section id="sid-4784150_JBossModules-ClientsideWSaggregationmodule">
-        
-        <title>Client side WS aggregation module</title>
-      </section>
-    </section>
-    <section id="sid-4784150_JBossModules-">
-      
-      <title/>
-      <para>Whenever you simply want to use all the JBoss Web Services  feature/functionalities, you can set a dependency to the convenient  client module.</para>
-      <informalexample>
-        <programlisting>Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export</programlisting>
-      </informalexample>
-      <para>
-        Please note the
-        <emphasis role="italics">services</emphasis>
-        option above: that's strictly required in order for you to get the  JBossWS-CXF version of classes that are retrieved using the
-        <emphasis role="italics">Service API</emphasis>
-        ,  the
-        <code>Bus</code>
-        for instance.
-      </para>
-      <note>
-        <para>Be careful as issues because of misconfiguration here can be  quite hard to track down, because the Apache CXF behaviour would be  sensibly different.</para>
-      </note>
-      <para>
-        
-      </para>
-      <important>
-        <para>
-          The
-          <emphasis role="italics">services</emphasis>
-          option is almost always needed when declaring dependencies on
+          Here above
           <emphasis role="italics">org.jboss.ws.cxf.jbossws-cxf-client</emphasis>
           and
-          <emphasis role="italics">org.apache.cxf</emphasis>
-          modules. The reason for this is in it affecting the loading of classes through the
-          <emphasis role="italics">Service API</emphasis>
-          , which is what is used to wire most of the JBossWS components as well as all Apache CXF Bus extensions.
+          <emphasis role="italics">foo.bar</emphasis>
+          are the modules you want to set dependencies to;
+          <emphasis role="italics">services</emphasis>
+          tells the modules framework that you want to also import
+          <emphasis role="italics">META-INF/services/..</emphasis>
+          declarations from the dependency, while
+          <emphasis role="italics">export</emphasis>
+          exports the classes from the module to any other module that might be depending on the module implicitly created for your deployment.
         </para>
-      </important>
-      <section id="sid-4784150_JBossModules-UsingSpring">
-        
-        <title>Using Spring</title>
-        <para>
-          The JBossWS-CXF modules have optional dependencies to the
-          <emphasis role="italics">org.springframework.spring</emphasis>
-          module. So either create that manually in the application server or use the JBossWS-CXF installation scripts for doing that.
-        </para>
+        <note>
+          <para>When using annotations on your endpoints / handlers such as the Apache CXF ones (@InInterceptor, @GZIP, ...) remember to add the proper module dependency in your manifest. Otherwise your annotations are not picked up and added to the annotation index by JBoss Application Server 7, resulting in them being completely and silently ignored.</para>
+        </note>
+        <section id="sid-4784150_JBossModules-UsingJAXB">
+          
+          <title>Using JAXB</title>
+          <para>In  order for successfully directly using JAXB contexts, etc. in your client or  endpoint running in-container, you need to properly setup a JAXB  implementation; that is performed setting the following dependency:</para>
+          <informalexample>
+            <programlisting>Dependencies: com.sun.xml.bind services export</programlisting>
+          </informalexample>
+        </section>
+        <section id="sid-4784150_JBossModules-UsingApacheCXF">
+          
+          <title>Using Apache CXF</title>
+          <para>
+            In order for using Apache CXF APIs and implementation classes you need to add a dependency to the
+            <emphasis role="italics">org.apache.cxf</emphasis>
+            (API) module and / or
+            <emphasis role="italics">org.apache.cxf.impl</emphasis>
+            (implementation) module:
+          </para>
+          <informalexample>
+            <programlisting>Dependencies: org.apache.cxf services</programlisting>
+          </informalexample>
+          <para>However, please note that would not come with any JBossWS-CXF customizations nor additional extensions. For this reason, and generally speaking for simplifying user configuration, a client side aggregation module is available with all the WS dependencies users might need.</para>
+        </section>
+        <section id="sid-4784150_JBossModules-ClientsideWSaggregationmodule">
+          
+          <title>Client side WS aggregation module</title>
+          <para>Whenever you simply want to use all the JBoss Web Services  feature/functionalities, you can set a dependency to the convenient  client module.</para>
+          <informalexample>
+            <programlisting>Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services</programlisting>
+          </informalexample>
+          <para>
+            Please note the
+            <emphasis role="italics">services</emphasis>
+            option above: that's strictly required in order for you to get the  JBossWS-CXF version of classes that are retrieved using the
+            <emphasis role="italics">Service API</emphasis>
+            ,  the
+            <code>Bus</code>
+            for instance.
+          </para>
+          <note>
+            <para>Be careful as issues because of misconfiguration here can be  quite hard to track down, because the Apache CXF behaviour would be  sensibly different.</para>
+          </note>
+          <para>
+            
+          </para>
+          <important>
+            <para>
+              The
+              <emphasis role="italics">services</emphasis>
+              option is almost always needed when declaring dependencies on
+              <emphasis role="italics">org.jboss.ws.cxf.jbossws-cxf-client</emphasis>
+              and
+              <emphasis role="italics">org.apache.cxf</emphasis>
+              modules. The reason for this is in it affecting the loading of classes through the
+              <emphasis role="italics">Service API</emphasis>
+              , which is what is used to wire most of the JBossWS components as well as all Apache CXF Bus extensions.
+            </para>
+          </important>
+        </section>
+        <section id="sid-4784150_JBossModules-UsingSpring">
+          
+          <title>Using Spring</title>
+          <para>
+            The JBossWS-CXF modules have optional dependencies to the
+            <emphasis role="italics">org.springframework.spring</emphasis>
+            module. So either create that manually in the application server or use the JBossWS-CXF installation scripts for doing that.
+          </para>
+        </section>
+        <section id="sid-4784150_JBossModules-Annotationscanning">
+          
+          <title>Annotation scanning</title>
+          <para>
+            The application server uses an annotation index for detecting JAX-WS endpoints in user deployments. When declaring WS endpoints whose class belongs to a different module (for instance referring that in the
+            <code>web.xml</code>
+            descriptor), be sure to have an
+            <code>annotations</code>
+            type dependency in place. Without that, your endpoints would simply be ignored as they won't appear as annotated classes to the webservices subsystem.
+          </para>
+          <informalexample>
+            <programlisting>Dependencies: org.foo annotations</programlisting>
+          </informalexample>
+        </section>
       </section>
-      <section id="sid-4784150_JBossModules-Annotationscanning">
+      <section id="sid-4784150_JBossModules-Usingjbossdeploymentdescriptor.xml">
         
-        <title>Annotation scanning</title>
-        <para>
-          The application server uses an annotation index for detecting JAX-WS endpoints in user deployments. When declaring WS endpoints whose class belongs to a different module (for instance referring that in the
-          <code>web.xml</code>
-          descriptor), be sure to have an
-          <code>annotations</code>
-          type dependency in place. Without that, your endpoints would simply be ignored as they won't appear as annotated classes to the webservices subsystem.
-        </para>
-        <informalexample>
-          <programlisting>Dependencies: org.foo annotations</programlisting>
-        </informalexample>
+        <title>Using jboss-deployment-descriptor.xml</title>
+        <para>In some circumstances, the convenient approach of setting module dependencies in MANIFEST.MF might not work. An example is the need for importing/exporting specific resources from a given module dependency. Users should hence add a jboss-deployment-structure.xml descriptor to their deployment and set module dependencies in it.</para>
+        <section id="sid-4784150_JBossModules-SpringbasedincontainerBuscreation">
+          
+          <title>Spring based in-container Bus creation</title>
+          <para>
+            A noteworthy scenario requiring explicit module dependencies declaration is whenever a Spring beans descriptor based Bus is created by users in a in-container client. Spring basically resolves any beans declared in the descriptor (e.g.
+            <emphasis role="italics">cxf.xml</emphasis>
+            ), as well as any transitively referenced internal CXF descriptor, using the thread context classloader. That is the classloader associated to the deployment, which is different from the classloader used by JBossWS internally. As a consequence, in this scenario a
+            <emphasis role="italics">jboss-deployment-structure.xml</emphasis>
+            as follows is required:
+            
+          </para>
+          <informalexample>
+            <programlisting>&lt;jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2"&gt;
+    &lt;deployment&gt;
+        &lt;dependencies&gt;
+            &lt;module name="org.jboss.ws.cxf.jbossws-cxf-client" services="import" /&gt;
+            &lt;module name="org.apache.cxf.impl"&gt;
+                &lt;imports&gt;
+                    &lt;include path="META-INF"/&gt;
+                    &lt;include path="META-INF/cxf"/&gt;
+                &lt;/imports&gt;
+            &lt;/module&gt;
+            &lt;module name="org.springframework.spring"&gt;
+                &lt;imports&gt;
+                    &lt;include path="META-INF"/&gt;
+                &lt;/imports&gt;
+            &lt;/module&gt;
+        &lt;/dependencies&gt;
+    &lt;/deployment&gt;
+&lt;/jboss-deployment-structure&gt;</programlisting>
+          </informalexample>
+          <para>
+            The first dependency (
+            <emphasis role="italics">org.jboss.ws.cxf.jbossws-cxf-client</emphasis>
+            ) loads JBossWS customizations as well as Apache CXF APIs first. The second dependency (
+            <emphasis role="italics">org.apache.cxf.impl</emphasis>
+            ) loads the Apache CXF internals (in particular the CXF SpringBus class), required by Spring to load the Bus using the deployment classloader. Finally, the third dependency (
+            <emphasis role="italics">org.springframework.spring</emphasis>
+            ) is needed to allow resolution of Spring schemas when running offline.
+          </para>
+        </section>
       </section>
     </section>
   </chapter>
