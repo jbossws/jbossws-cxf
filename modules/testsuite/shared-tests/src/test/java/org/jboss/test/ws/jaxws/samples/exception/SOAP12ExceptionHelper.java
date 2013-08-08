@@ -105,6 +105,7 @@ public class SOAP12ExceptionHelper implements ClientHelper
          assertEquals("http://ws.gss.redhat.com/", subcode.getNamespaceURI());
          assertEquals("NullPointerException", subcode.getLocalPart());
          assertEquals("test", ((Element)e.getFault().getDetail().getChildElements().next()).getLocalName());
+         assertEquals("it", e.getFault().getFaultReasonLocales().next().toString());
       }
    }
 
