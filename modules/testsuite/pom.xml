@@ -662,6 +662,9 @@
                  <!--# [JBWS-3560] fastinfoset module is required in as712  -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
 
+                 <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
+
                  <!--# [CXF-5197] No Java extensionType found to represent {http://www.w3.org/2006/05/addressing/wsdl}UsingAddressing  -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsa/AddressingTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2960/JBWS2960TestCase*</exclude>
@@ -733,6 +736,9 @@
                  <!--# [JBWS-3560] fastinfoset module is required in as713  -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
 
+                 <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
+
                  <!--# [CXF-5197] No Java extensionType found to represent {http://www.w3.org/2006/05/addressing/wsdl}UsingAddressing  -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsa/AddressingTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2960/JBWS2960TestCase*</exclude>
@@ -801,6 +807,9 @@
                  <!--# [JBWS-3560] fastinfoset module is required in as720  -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
 
+                 <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
+
                  <!--# [CXF-5197] No Java extensionType found to represent {http://www.w3.org/2006/05/addressing/wsdl}UsingAddressing  -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsa/AddressingTestCase*</exclude>
                  <exclude>org/jboss/test/ws/jaxws/jbws2960/JBWS2960TestCase*</exclude>
@@ -868,6 +877,9 @@
 
                  <!-- # [JBWS-3620] Authentication failures w/ Undertow -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
+
+                 <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
 
                  <!--# [CXF-5197] No Java extensionType found to represent {http://www.w3.org/2006/05/addressing/wsdl}UsingAddressing  -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsa/AddressingTestCase*</exclude>

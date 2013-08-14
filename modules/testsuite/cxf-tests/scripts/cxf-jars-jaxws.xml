@@ -415,7 +415,13 @@
        </zipfileset>
        <fileset dir="${tests.output.dir}/test-libs/" includes="jaxws-cxf-jbws3655-ejb.jar"/>
     </ear>
-  	
+  
+    <!-- jaxws-cxf-jbws3679 -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3679.war"  webxml="${tests.output.dir}/test-resources/jaxws/cxf/jbws3679/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3679/*.class"/>
+      </classes>
+    </war>
 
     <!-- jaxws-cxf-logging -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-logging.jar">

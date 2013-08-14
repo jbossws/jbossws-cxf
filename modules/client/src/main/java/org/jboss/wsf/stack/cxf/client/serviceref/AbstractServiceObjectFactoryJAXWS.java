@@ -24,6 +24,7 @@ package org.jboss.wsf.stack.cxf.client.serviceref;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -205,9 +206,19 @@ public abstract class AbstractServiceObjectFactoryJAXWS
          throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
    {
       final WebServiceFeature[] features = getFeatures(serviceRefMD);
-      final URL wsdlURL = this.getWsdlURL(serviceRefMD, serviceClass);
       final QName serviceQName = this.getServiceQName(serviceRefMD, serviceClass);
-
+      URL wsdlURL = this.getWsdlURL(serviceRefMD, serviceClass);
+      if (wsdlURL == null && serviceRefMD.getDeployedServiceAddresses().get(serviceQName) != null)
+      {
+         try
+         {
+            wsdlURL = new URL(serviceRefMD.getDeployedServiceAddresses().get(serviceQName) + "?wsdl");
+         }
+         catch (MalformedURLException e)
+         {
+            //ignore
+         }
+      }
       Service target = null;
       if (serviceClass == Service.class)
       {

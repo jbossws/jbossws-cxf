@@ -74,6 +74,7 @@ public class MetadataBuilder
    
    public DDBeans build(Deployment dep)
    {
+	  Map<QName, String> serviceNameAddressMap = new HashMap<QName, String>();
       Map<String, SOAPAddressWSDLParser> soapAddressWsdlParsers = new HashMap<String, SOAPAddressWSDLParser>();
       DDBeans dd = new DDBeans();
       for (Endpoint ep : dep.getService().getEndpoints())
@@ -89,7 +90,9 @@ public class MetadataBuilder
 
          METADATA_LOGGER.addingServiceEndpointMetadata(METADATA_LOGGER.isDebugEnabled() ? ddep.toStringExtended() : ddep.toString());
          dd.addEndpoint(ddep);
+         serviceNameAddressMap.put(ddep.getServiceName(), ddep.getAddress());
       }
+      dep.setProperty("ServiceAddressMap", serviceNameAddressMap);
       return dd;
    }
    
