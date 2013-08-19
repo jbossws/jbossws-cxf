@@ -176,7 +176,7 @@ public abstract class AbstractServiceObjectFactoryJAXWS
       Object port = null;
       if (serviceClass != Service.class)
       {
-         for (Method method : serviceClass.getDeclaredMethods())
+         for (Method method : getDeclaredMethods(serviceClass))
          {
             String methodName = method.getName();
             Class<?> retType = method.getReturnType();
@@ -200,6 +200,14 @@ public abstract class AbstractServiceObjectFactoryJAXWS
       }
 
       return retVal;
+   }
+   
+   private static Method[] getDeclaredMethods(final Class<?> cls) {
+       return AccessController.doPrivileged(new PrivilegedAction<Method[]>() {
+           public Method[] run() {
+               return cls.getDeclaredMethods();
+           }
+       });
    }
 
    private Service instantiateService(final UnifiedServiceRefMetaData serviceRefMD, final Class<?> serviceClass)

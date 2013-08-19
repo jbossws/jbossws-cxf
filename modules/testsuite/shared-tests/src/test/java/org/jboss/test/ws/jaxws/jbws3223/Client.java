@@ -109,7 +109,7 @@ public class Client
       }
    }
    
-   static ClassLoader getContextClassLoader()
+   private static ClassLoader getContextClassLoader()
    {
       SecurityManager sm = System.getSecurityManager();
       if (sm == null)
@@ -127,7 +127,7 @@ public class Client
       }
    }
    
-   static void setContextClassLoader(final ClassLoader classLoader)
+   private static void setContextClassLoader(final ClassLoader classLoader)
    {
       if (System.getSecurityManager() == null)
       {
