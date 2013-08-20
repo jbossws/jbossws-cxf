@@ -46,12 +46,12 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.com
  * @since 05-Oct-2006
  */
-public class JBWS1178TestCase extends JBossWSTest
+public class JBWS1178TestCaseForked extends JBossWSTest
 {
 
    public static Test suite()
    {
-      TestSetup testSetup = new JBossWSTestSetup(JBWS1178TestCase.class, "jaxws-jbws1178.war")
+      TestSetup testSetup = new JBossWSTestSetup(JBWS1178TestCaseForked.class, "jaxws-jbws1178.war")
       {
          private final ObjectName objectName = ObjectNameFactory.create("jboss.ws:service=ServerConfig");
          private String webServiceHost;
