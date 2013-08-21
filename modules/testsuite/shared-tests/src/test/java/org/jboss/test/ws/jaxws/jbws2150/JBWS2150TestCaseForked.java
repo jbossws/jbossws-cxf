@@ -38,9 +38,12 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
+import junit.framework.Test;
+
 import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestSetup;
 
 import com.ibm.wsdl.extensions.soap.SOAPAddressImpl;
 
@@ -64,24 +67,38 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
    private static final String NAMESPACE = "http://test.jboss.org/addressrewrite";
    private static final String NAMESPACE_IMP = "http://test.jboss.org/addressrewrite/wsdlimp";
 
-   private Boolean modifySOAPAddress;
-   private String webServiceHost;
+   protected static class JBWS2150TestSetup extends JBossWSTestSetup {
+      
+      protected static Boolean modifySOAPAddress;
+      protected static String webServiceHost;
+      
+      public JBWS2150TestSetup() {
+         super(JBWS2150TestCaseForked.class, null);
+      }
 
-   public void setUp() throws Exception
-   {
-      if (modifySOAPAddress == null)
+      public void setUp() throws Exception
       {
          modifySOAPAddress = (Boolean)getServer().getAttribute(SERVER_CONFIG_OBJECT_NAME, "ModifySOAPAddress");
          webServiceHost = (String)getServer().getAttribute(SERVER_CONFIG_OBJECT_NAME, "WebServiceHost");
+         super.setUp();
       }
    }
 
+   public static Test suite()
+   {
+      return new JBWS2150TestSetup();
+   }
+   
    public void tearDown() throws Exception
    {
-      Attribute attr = new Attribute("ModifySOAPAddress", modifySOAPAddress);
+      Attribute attr = new Attribute("ModifySOAPAddress", JBWS2150TestSetup.modifySOAPAddress);
       getServer().setAttribute(SERVER_CONFIG_OBJECT_NAME, attr);
-      attr = new Attribute("WebServiceHost", webServiceHost);
+      attr = new Attribute("WebServiceHost", JBWS2150TestSetup.webServiceHost);
       getServer().setAttribute(SERVER_CONFIG_OBJECT_NAME, attr);
+   }
+
+   private String getWebServiceHost() {
+      return JBWS2150TestSetup.webServiceHost;
    }
 
    /**
@@ -97,15 +114,15 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       {
          final Map<String, String> wsdlLocationsMap = new HashMap<String, String>();
          final String serverHost = getServerHost();
-         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", webServiceHost);
-         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", webServiceHost);
-         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", webServiceHost);
-         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", webServiceHost);
+         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", getWebServiceHost());
+         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", getWebServiceHost());
+         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", getWebServiceHost());
+         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", getWebServiceHost());
          if (isTestsuiteServerHostLocalhost()) {
-            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", webServiceHost);
-            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", webServiceHost);
-            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", webServiceHost);
-            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", webServiceHost);
+            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", getWebServiceHost());
+            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", getWebServiceHost());
+            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", getWebServiceHost());
+            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", getWebServiceHost());
          }
          
          for (Entry<String, String> entry : wsdlLocationsMap.entrySet()) {
@@ -253,15 +270,15 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       {
          final Map<String, String> wsdlLocationsSecMap = new HashMap<String, String>();
          final String serverHost = getServerHost();
-         wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/ValidURL?wsdl", webServiceHost);
-         wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/InvalidURL?wsdl", webServiceHost);
-         wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/ValidSecureURL?wsdl", webServiceHost);
-         wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/InvalidSecureURL?wsdl", webServiceHost);
+         wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/ValidURL?wsdl", getWebServiceHost());
+         wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/InvalidURL?wsdl", getWebServiceHost());
+         wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/ValidSecureURL?wsdl", getWebServiceHost());
+         wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/InvalidSecureURL?wsdl", getWebServiceHost());
          if (isTestsuiteServerHostLocalhost()) {
-            wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/ValidURL?wsdl", webServiceHost);
-            wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/InvalidURL?wsdl", webServiceHost);
-            wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/ValidSecureURL?wsdl", webServiceHost);
-            wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/InvalidSecureURL?wsdl", webServiceHost);
+            wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/ValidURL?wsdl", getWebServiceHost());
+            wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/InvalidURL?wsdl", getWebServiceHost());
+            wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/ValidSecureURL?wsdl", getWebServiceHost());
+            wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/InvalidSecureURL?wsdl", getWebServiceHost());
          }
          
          for (Entry<String, String> entry : wsdlLocationsSecMap.entrySet()) {
@@ -354,15 +371,15 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       {
          final Map<String, String> wsdlLocationsMap = new HashMap<String, String>();
          final String serverHost = getServerHost();
-         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", webServiceHost);
-         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", webServiceHost);
-         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", webServiceHost);
-         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", webServiceHost);
+         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", getWebServiceHost());
+         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", getWebServiceHost());
+         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", getWebServiceHost());
+         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", getWebServiceHost());
          if (isTestsuiteServerHostLocalhost()) {
-            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", webServiceHost);
-            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", webServiceHost);
-            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", webServiceHost);
-            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", webServiceHost);
+            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", getWebServiceHost());
+            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", getWebServiceHost());
+            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", getWebServiceHost());
+            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", getWebServiceHost());
          }
          
          for (Entry<String, String> entry : wsdlLocationsMap.entrySet()) {
@@ -400,9 +417,9 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       deploy("jaxws-jbws2150-codefirst.war");
       try
       {
-         checkWsdlAndInvokeCodeFirstEndpoint(getServerHost(), webServiceHost, false);
+         checkWsdlAndInvokeCodeFirstEndpoint(getServerHost(), getWebServiceHost(), false);
          if (isTestsuiteServerHostLocalhost()) {
-            checkWsdlAndInvokeCodeFirstEndpoint("127.0.0.1", webServiceHost, false);
+            checkWsdlAndInvokeCodeFirstEndpoint("127.0.0.1", getWebServiceHost(), false);
          }
       }
       finally
@@ -422,9 +439,9 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       deploy("jaxws-jbws2150-codefirst.war");
       try
       {
-         checkWsdlAndInvokeCodeFirstEndpoint(getServerHost(), webServiceHost, false);
+         checkWsdlAndInvokeCodeFirstEndpoint(getServerHost(), getWebServiceHost(), false);
          if (isTestsuiteServerHostLocalhost()) {
-            checkWsdlAndInvokeCodeFirstEndpoint("127.0.0.1", webServiceHost, false);
+            checkWsdlAndInvokeCodeFirstEndpoint("127.0.0.1", getWebServiceHost(), false);
          }
       }
       finally
@@ -516,6 +533,12 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       ServiceIface endpoint = getEndpoint(wsdlLocation, "CodeFirstService");
       if (setTargetAddress) {
          ((BindingProvider)endpoint).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, addr);
+      } else {
+         //We can end up building multiple clients in the same bus and those clients might be built against
+         //different endpoints that are however published at the same address (at different time of course).
+         //So we explicitly set the BindingProvider.ENDPOINT_ADDRESS_PROPERTY in the req ctx to the soap:address
+         //from the wsdl to prevent caching related issues.
+         ((BindingProvider)endpoint).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, address);
       }
       assertEquals(endpoint.echo("hello"), "hello");
    }
