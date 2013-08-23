@@ -71,6 +71,16 @@ final class AppclientHelper
       // forbidden instantiation
    }
 
+   /**
+    * Triggers appclient deployment and returns the corresponding Process
+    * Please note the provided output stream (if any) is not automatically closed.
+    * 
+    * @param archive
+    * @param appclientOS
+    * @param appclientArgs
+    * @return
+    * @throws Exception
+    */
    static Process deployAppclient(final String archive, final OutputStream appclientOS, final String... appclientArgs) throws Exception
    {
       final AppclientProcess ap = newAppclientProcess(archive, appclientOS, appclientArgs);
@@ -138,6 +148,10 @@ final class AppclientHelper
                args.add(appclientArg);
             }
          }
+         
+         //note on output streams closing: we're not caring about closing any here as it's quite a complex thing due to the TeeOutputStream nesting;
+         //we're however still safe, given the ap.output is a ByteArrayOutputStream (whose .close() does nothing), ap.log is explicitly closed at
+         //undeploy and closing appclientOS is a caller responsibility.
          
          ap.log = new FileOutputStream(new File(getAppclientOutputDir(), appclientShortName + ".log-" + System.currentTimeMillis()));
          final OutputStream logOutputStreams = (appclientOS == null) ? ap.log : new TeeOutputStream(ap.log, appclientOS);
