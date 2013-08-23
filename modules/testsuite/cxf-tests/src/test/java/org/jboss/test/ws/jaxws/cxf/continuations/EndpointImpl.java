@@ -38,36 +38,38 @@ import org.apache.cxf.continuations.ContinuationProvider;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.BARE)
 public class EndpointImpl
 {
-   private Executor executor = Executors.newCachedThreadPool();
+   private final Executor executor = Executors.newCachedThreadPool();
    private static final int TIMEOUT = 2000;
 
    @Resource
-   WebServiceContext ctx;
+   private WebServiceContext ctx;
 
    public String echo(String user)
    {
       final ContinuationProvider cp = (ContinuationProvider) ctx.getMessageContext().get(ContinuationProvider.class.getName());
       final Continuation c = cp.getContinuation();
-      if (c.isNew())
+      synchronized (c)
       {
-         FutureTask<String> task = new FutureTask<String>(new MyCallable(user, c));
-         c.setObject(task);
-         executor.execute(task);
-         c.suspend(TIMEOUT);
-      }
-      else
-      {
-         @SuppressWarnings("unchecked")
-         FutureTask<String> task = (FutureTask<String>) c.getObject();
-         if (task.isDone())
+         if (c.isNew())
          {
-            try
+            FutureTask<String> task = new FutureTask<String>(new MyCallable(user, c));
+            c.setObject(task);
+            executor.execute(task);
+         }
+         else
+         {
+            @SuppressWarnings("unchecked")
+            FutureTask<String> task = (FutureTask<String>) c.getObject();
+            if (task.isDone())
             {
-               return task.get();
-            }
-            catch (Exception e)
-            {
-               throw new RuntimeException(e);
+               try
+               {
+                  return task.get();
+               }
+               catch (Exception e)
+               {
+                  throw new RuntimeException(e);
+               }
             }
          }
          c.suspend(TIMEOUT);
@@ -78,8 +80,8 @@ public class EndpointImpl
    private class MyCallable implements Callable<String>
    {
 
-      private String user;
-      private Continuation c;
+      private final String user;
+      private final Continuation c;
 
       public MyCallable(String user, Continuation c)
       {
