@@ -33,6 +33,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.RespectBindingFeature;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceClient;
@@ -77,8 +78,16 @@ public abstract class AbstractServiceObjectFactoryJAXWS
             {
                final QName portQName = this.getPortQName(targetClassName, serviceImplClass, serviceRef);
                final WebServiceFeature[] portFeatures = this.getFeatures(targetClassName, serviceImplClass, serviceRef);
-
-               return instantiatePort(serviceClass, targetClass, serviceInstance, portQName, portFeatures);
+               String forcedAddress = null;
+               //if there is no wsdlLocation, always use the local deployed endpoint address to initialize port
+               URL wsdlURL = this.getWsdlURL(serviceRef, serviceClass);
+               final QName serviceQName = this.getServiceQName(serviceRef, serviceClass);
+               if (wsdlURL == null && serviceRef.getDeployedServiceAddresses().get(serviceQName) != null)
+               {
+                  forcedAddress = serviceRef.getDeployedServiceAddresses().get(serviceQName);
+               }
+               return instantiatePort(serviceClass, targetClass, serviceInstance, portQName, portFeatures,
+                     forcedAddress);
             }
          }
          finally
@@ -168,7 +177,7 @@ public abstract class AbstractServiceObjectFactoryJAXWS
    }
 
    private Object instantiatePort(final Class<?> serviceClass, final Class<?> targetClass, final Service target,
-         final QName portQName, final WebServiceFeature[] features) throws NoSuchMethodException,
+         final QName portQName, final WebServiceFeature[] features, final String endpointAddress) throws NoSuchMethodException,
          InstantiationException, IllegalAccessException, InvocationTargetException
    {
       Object retVal = null;
@@ -198,7 +207,10 @@ public abstract class AbstractServiceObjectFactoryJAXWS
          port = method.invoke(target, args);
          retVal = port;
       }
-
+      if (endpointAddress != null)
+      {
+         ((BindingProvider) retVal).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpointAddress);
+      }
       return retVal;
    }
    
