@@ -414,7 +414,7 @@ public class CXFConsumerImpl extends WSContractConsumer
                final JavaFileObject obj = it.next();
                final String objName = obj.getName();
                Class<?> clazz = null;
-               final String className = packageName + "." + objName.substring(0, objName.length() - 6);
+               final String className = getFullClassName(packageName, objName);
                try
                {
                   clazz = classLoader.loadClass(className);
@@ -452,6 +452,24 @@ public class CXFConsumerImpl extends WSContractConsumer
          }
          return files;
       }
+   }
+   
+   private static String getFullClassName(String packageName, String objName)
+   {
+      // * OpenJDK returns objName strings like:
+      // "/usr/java/java-1.6.0-openjdk-1.6.0.0.x86_64/lib/ct.sym(META-INF/sym/rt.jar/java/lang/AbstractMethodError.class)"
+      // * Oracle & IBM JDK return objName strings like:
+      // "AbstractMethodError.class"
+      // ... from either of those we need to get
+      // "java.lang.AbstractMethodError"
+      String cn = objName.substring(0, objName.indexOf(".class"));
+      int startIdx = Math.max(cn.lastIndexOf("."), cn.lastIndexOf("/"));
+      if (startIdx > 0)
+      {
+         cn = cn.substring(startIdx + 1);
+      }
+      // objName.substring(0, objName.length() - 6)
+      return packageName + "." + cn;
    }
 
    final class JavaFileObjectImpl extends SimpleJavaFileObject
