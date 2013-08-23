@@ -51,6 +51,7 @@ final class AppclientHelper
    private static final String JBOSS_HOME = System.getProperty("jboss.home");
    private static final String FS = System.getProperty("file.separator"); // '/' on unix, '\' on windows
    private static final String PS = System.getProperty("path.separator"); // ':' on unix, ';' on windows
+   private static final int TIMEOUT = Integer.getInteger("appclient.timeout", 120);
    private static final String EXT = ":".equals(PS) ? ".sh" : ".bat";
    private static final String appclientScript = JBOSS_HOME + FS + "bin" + FS + "appclient" + EXT;
    private static final Semaphore s = new Semaphore(1, true); //one appclient only can be running at the same time ATM
@@ -211,7 +212,7 @@ final class AppclientHelper
 
    private static boolean awaitOutput(final OutputStream os, final String patternToMatch) throws InterruptedException {
       int countOfAttempts = 0;
-      final int maxCountOfAttempts = 240; // max wait time: 2 minutes
+      final int maxCountOfAttempts = TIMEOUT * 2; // max wait time: default 2 minutes
       while (!os.toString().contains(patternToMatch))
       {      
          Thread.sleep(500);
