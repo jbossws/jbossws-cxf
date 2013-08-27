@@ -40,12 +40,12 @@ public final class JMSEndpointAPITestCaseForked extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JMSEndpointAPITestCaseForked.class, "jaxws-cxf-jms-api-as7.war");
+      return new JBossWSCXFTestSetup(JMSEndpointAPITestCaseForked.class, "jaxws-cxf-jms-api.war");
    }
    
    public void testServerSide() throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-api-as7");
+      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-api");
       BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
       assertEquals("true", br.readLine());
    }
