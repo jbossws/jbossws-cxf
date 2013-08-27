@@ -237,6 +237,21 @@
       </manifest>
     </war>
   	
+    <!-- jaxws-cxf-jms-http-deployment-test-servlet-as7 -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-http-deployment-test-servlet-as7.war"
+    	needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jms_http/DeploymentTestServlet.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jms_http/HelloWorld.class"/>
+      </classes>
+      <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/cxf/jms_http/WEB-INF-as7/wsdl" 
+          prefix="WEB-INF/classes/META-INF/wsdl"/>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq"/>
+      </manifest>
+    </war>
+  	
     <!-- jaxws-cxf-jms-http-deployment-test-servlet -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-http-deployment-test-servlet.war"
     	needxmlfile='false'>

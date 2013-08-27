@@ -112,7 +112,11 @@ public class JMSEndpointOnlyDeploymentTestCaseForked extends JBossWSTest
 
       Properties env = new Properties();
       env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-      env.put(Context.PROVIDER_URL, "http-remoting://" + getServerHost() + ":8080");
+      if (isTargetJBoss7()) {
+         env.put(Context.PROVIDER_URL, "remote://" + getServerHost() + ":4447");
+      } else {
+         env.put(Context.PROVIDER_URL, "http-remoting://" + getServerHost() + ":8080");
+      }
       env.put(Context.SECURITY_PRINCIPAL, JBossWSTestHelper.getTestUsername());
       env.put(Context.SECURITY_CREDENTIALS, JBossWSTestHelper.getTestPassword());
       InitialContext context = null;

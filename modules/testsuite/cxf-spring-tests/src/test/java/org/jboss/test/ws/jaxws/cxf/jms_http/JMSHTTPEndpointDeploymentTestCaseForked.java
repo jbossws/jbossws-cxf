@@ -50,20 +50,23 @@ public final class JMSHTTPEndpointDeploymentTestCaseForked extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JMSHTTPEndpointDeploymentTestCaseForked.class, "jaxws-cxf-jms-http-deployment-test-servlet.war," +
-      		(isTargetJBoss7() ? "jaxws-cxf-jms-http-deployment-as7.war" : "jaxws-cxf-jms-http-deployment.war"));
+      return new JBossWSCXFTestSetup(JMSHTTPEndpointDeploymentTestCaseForked.class, (isTargetJBoss7() ? 
+            "jaxws-cxf-jms-http-deployment-test-servlet-as7.war, jaxws-cxf-jms-http-deployment-as7.war" :
+            "jaxws-cxf-jms-http-deployment-test-servlet.war, jaxws-cxf-jms-http-deployment.war"));
    }
    
    public void testJMSEndpointServerSide() throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-http-deployment-test-servlet");
+      final String suffix = isTargetJBoss7() ? "-as7" : "";
+      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-http-deployment-test-servlet" + suffix);
       BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
       assertEquals("true", br.readLine());
    }
    
    public void testJMSEndpointClientSide() throws Exception
    {
-      URL wsdlUrl = getResourceURL("jaxws/cxf/jms_http/WEB-INF/wsdl/HelloWorldService.wsdl");
+      final String suffix = isTargetJBoss7() ? "-as7" : "";
+      URL wsdlUrl = getResourceURL("jaxws/cxf/jms_http/WEB-INF" + suffix + "/wsdl/HelloWorldService.wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
 
       Service service = Service.create(wsdlUrl, serviceName);
@@ -81,7 +84,8 @@ public final class JMSHTTPEndpointDeploymentTestCaseForked extends JBossWSTest
    
    public void testHTTPEndpointClientSide() throws Exception
    {
-      URL wsdlUrl = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-http-deployment?wsdl");
+      final String suffix = isTargetJBoss7() ? "-as7" : "";
+      URL wsdlUrl = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-http-deployment" + suffix + "?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
 
       Service service = Service.create(wsdlUrl, serviceName);

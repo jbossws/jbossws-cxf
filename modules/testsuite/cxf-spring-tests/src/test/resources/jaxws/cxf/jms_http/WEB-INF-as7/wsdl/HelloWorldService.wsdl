@@ -70,7 +70,7 @@
       <soap:address location="jms:queue:testQueue"/>
     </wsdl:port>
     <wsdl:port binding="tns:HttpHelloWorldServiceSoapBinding" name="HttpHelloWorldImplPort">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-cxf-jms-http-deployment"/>
+      <soap:address location="http://@jboss.bind.address@:8080/jaxws-cxf-jms-http-deployment-as7"/>
     </wsdl:port>
   </wsdl:service>
   <wsdl:service name="HelloWorldServiceLocal">
