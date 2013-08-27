@@ -63,7 +63,8 @@ public class JMSEndpointOnlyDeploymentTestCaseForked extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JMSEndpointOnlyDeploymentTestCaseForked.class, "jaxws-cxf-jms-only-deployment-test-servlet.war,jaxws-cxf-jms-only-deployment.jar");
+      return new JBossWSCXFTestSetup(JMSEndpointOnlyDeploymentTestCaseForked.class, "jaxws-cxf-jms-only-deployment-test-servlet.war, " +
+            (isTargetJBoss7() ? "jaxws-cxf-jms-only-deployment-as7.jar" : "jaxws-cxf-jms-only-deployment.jar"));
    }
    
    public void testJMSEndpointServerSide() throws Exception
@@ -75,7 +76,8 @@ public class JMSEndpointOnlyDeploymentTestCaseForked extends JBossWSTest
    
    public void testJMSEndpointClientSide() throws Exception
    {
-      URL wsdlUrl = getResourceURL("jaxws/cxf/jms/META-INF-as7/wsdl/HelloWorldService.wsdl");
+      final String suffix = isTargetJBoss7() ? "-as7" : "";
+      URL wsdlUrl = getResourceURL("jaxws/cxf/jms/META-INF" + suffix + "/wsdl/HelloWorldService.wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
 
       Service service = Service.create(wsdlUrl, serviceName);
@@ -110,7 +112,7 @@ public class JMSEndpointOnlyDeploymentTestCaseForked extends JBossWSTest
 
       Properties env = new Properties();
       env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-      env.put(Context.PROVIDER_URL, "remote://" + getServerHost() + ":4447");
+      env.put(Context.PROVIDER_URL, "http-remoting://" + getServerHost() + ":8080");
       env.put(Context.SECURITY_PRINCIPAL, JBossWSTestHelper.getTestUsername());
       env.put(Context.SECURITY_CREDENTIALS, JBossWSTestHelper.getTestPassword());
       InitialContext context = null;

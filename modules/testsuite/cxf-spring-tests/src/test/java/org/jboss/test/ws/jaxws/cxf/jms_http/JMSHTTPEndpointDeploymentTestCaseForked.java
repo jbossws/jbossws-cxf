@@ -50,7 +50,8 @@ public final class JMSHTTPEndpointDeploymentTestCaseForked extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JMSHTTPEndpointDeploymentTestCaseForked.class, "jaxws-cxf-jms-http-deployment-test-servlet.war,jaxws-cxf-jms-http-deployment.war");
+      return new JBossWSCXFTestSetup(JMSHTTPEndpointDeploymentTestCaseForked.class, "jaxws-cxf-jms-http-deployment-test-servlet.war," +
+      		(isTargetJBoss7() ? "jaxws-cxf-jms-http-deployment-as7.war" : "jaxws-cxf-jms-http-deployment.war"));
    }
    
    public void testJMSEndpointServerSide() throws Exception

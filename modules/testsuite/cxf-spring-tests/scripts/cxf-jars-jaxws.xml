@@ -154,22 +154,22 @@
     </war>
 
     <!-- jaxws-cxf-jms-api -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-api-as7.war"
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-api.war"
     	needxmlfile='false'>
       <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/cxf/jms/TestServlet.class"/>
         <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld*.class"/>
       </classes>
       <zipfileset
-          dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF-as7/wsdl" 
+          dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF/wsdl" 
           prefix="WEB-INF/classes/META-INF/wsdl"/>
       <manifest>
         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq"/>
       </manifest>
     </war>
   	
-    <!-- jaxws-cxf-jms-only-deployment -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-only-deployment.jar">
+    <!-- jaxws-cxf-jms-only-deployment-as7 -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-only-deployment-as7.jar">
       <fileset dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld*.class"/>
       </fileset>
@@ -180,6 +180,33 @@
         <attribute name="Dependencies" value="org.hornetq"/>
       </manifest>
     </jar>
+  	
+    <!-- jaxws-cxf-jms-only-deployment -->
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-only-deployment.jar">
+      <fileset dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld*.class"/>
+      </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF">
+        <include name="wsdl/**/*" />
+      </metainf>
+      <manifest>
+        <attribute name="Dependencies" value="org.hornetq"/>
+      </manifest>
+    </jar>
+  	
+    <!-- jaxws-cxf-jms-http-deployment-as7 -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-http-deployment-as7.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jms_http/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jms_http/HelloWorld*.class"/>
+        <include name="org/jboss/test/ws/jaxws/cxf/jms_http/HttpHelloWorld*.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/jms_http/WEB-INF-as7">
+        <include name="wsdl/**"/>
+      </webinf>
+      <manifest>
+        <attribute name="Dependencies" value="org.hornetq"/>
+      </manifest>
+    </war>
   	
     <!-- jaxws-cxf-jms-http-deployment -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-http-deployment.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jms_http/WEB-INF/web.xml">
@@ -203,7 +230,7 @@
         <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld.class"/>
       </classes>
       <zipfileset
-          dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF-as7/wsdl" 
+          dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF/wsdl" 
           prefix="WEB-INF/classes/META-INF/wsdl"/>
       <manifest>
         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq"/>
