@@ -84,6 +84,16 @@
           prefix="WEB-INF/wsdl"/>
     </war>
 
+    <!-- jaxws-cxf-bus-wsdl -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-bus-wsdl.war" needxmlfile="false">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/bus/WSDLServlet.class"/>
+      </classes>
+      <classes dir="${tests.output.dir}/test-resources/jaxws/cxf/bus">
+        <include name="*AddressEndpoint.wsdl"/>
+      </classes>
+    </war>
+
     <!-- jaxws-cxf-clientConfig -->
 	<war warfile="${tests.output.dir}/test-libs/jaxws-cxf-clientConfig.war" needxmlfile="false">
 		<classes dir="${tests.output.dir}/test-classes">
