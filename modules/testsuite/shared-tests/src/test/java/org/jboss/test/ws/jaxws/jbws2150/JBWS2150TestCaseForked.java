@@ -24,6 +24,8 @@ package org.jboss.test.ws.jaxws.jbws2150;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -37,6 +39,7 @@ import javax.wsdl.xml.WSDLReader;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
+import javax.xml.ws.WebServiceFeature;
 
 import junit.framework.Test;
 
@@ -533,12 +536,6 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       ServiceIface endpoint = getEndpoint(wsdlLocation, "CodeFirstService");
       if (setTargetAddress) {
          ((BindingProvider)endpoint).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, addr);
-      } else {
-         //We can end up building multiple clients in the same bus and those clients might be built against
-         //different endpoints that are however published at the same address (at different time of course).
-         //So we explicitly set the BindingProvider.ENDPOINT_ADDRESS_PROPERTY in the req ctx to the soap:address
-         //from the wsdl to prevent caching related issues.
-         ((BindingProvider)endpoint).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, address);
       }
       assertEquals(endpoint.echo("hello"), "hello");
    }
@@ -561,7 +558,17 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
 
    private ServiceIface getEndpoint(String wsdlLocation, String serviceName) throws Exception
    {
-      Service service = Service.create(new URL(wsdlLocation), new QName(NAMESPACE, serviceName));
+      List<WebServiceFeature> features =  new LinkedList<WebServiceFeature>();
+      if (isIntegrationCXF()) {
+         //Setting UseNewBusFeature as the tests here deploy / undeploy endpoints with different wsdl at the same URL
+         //so we need to avoid caching issues related to the WSDLManager in the CXF Bus.
+         
+         //Service service = Service.create(new URL(wsdlLocation), new QName(NAMESPACE, serviceName), new UseNewBusFeature())
+         
+         Class<?> clazz = Class.forName("org.jboss.wsf.stack.cxf.client.UseNewBusFeature");
+         features.add((WebServiceFeature)clazz.newInstance());
+      }
+      Service service = Service.create(new URL(wsdlLocation), new QName(NAMESPACE, serviceName), features.toArray(new WebServiceFeature[features.size()]));
       QName portName = service.getPorts().next();
       return service.getPort(portName, ServiceIface.class);
    }
