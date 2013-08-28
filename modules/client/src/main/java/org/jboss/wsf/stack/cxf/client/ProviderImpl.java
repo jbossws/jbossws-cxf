@@ -37,7 +37,6 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.EndpointContext;
 import javax.xml.ws.EndpointReference;
-import javax.xml.ws.WebServiceException;
 import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.Service.Mode;
 import javax.xml.ws.spi.Invoker;
@@ -51,7 +50,6 @@ import org.apache.cxf.jaxws.DispatchImpl;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.jboss.ws.api.configuration.AbstractClientFeature;
-import org.jboss.ws.common.configuration.ConfigHelper;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
@@ -185,13 +183,31 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       try
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
-         Bus bus = setValidThreadDefaultBus();
+         boolean createNewBus = false; 
          for (WebServiceFeature f : features) {
-             if (!f.getClass().getName().startsWith("javax.xml.ws")) {
+             final String fName = f.getClass().getName();
+             if (!fName.startsWith("javax.xml.ws") && !fName.startsWith("org.jboss.ws")) {
                  throw Messages.MESSAGES.unknownFeature(f.getClass().getName());
              }
+             if (fName.equals(UseNewBusFeature.class.getName())) {
+                createNewBus = f.isEnabled();
+             }
          }
-         return new JBossWSServiceImpl(bus, wsdlDocumentLocation, serviceName, serviceClass, features);
+         if (!createNewBus) {
+            Bus bus = setValidThreadDefaultBus();
+            return new JBossWSServiceImpl(bus, wsdlDocumentLocation, serviceName, serviceClass, features);
+         } else { //honor the UseNewBusFeature
+            Bus orig = null;
+            try {
+               orig = BusFactory.getThreadDefaultBus(false);
+               Bus bus = BusFactory.newInstance().createBus();
+               return new JBossWSServiceImpl(bus, wsdlDocumentLocation, serviceName, serviceClass, features);
+            } finally {
+               if (orig != null) {
+                  BusFactory.setThreadDefaultBus(orig);
+               }
+            }
+         }
       }
       finally
       {
