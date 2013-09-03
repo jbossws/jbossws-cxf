@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
+import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
 import junit.framework.Test;
 
@@ -48,6 +49,8 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public final class WSDiscoveryTestCase extends JBossWSTest
 {
+   private static final int TIMEOUT = Integer.getInteger(WSDiscoveryTestCase.class.getName() + ".timeout", 2000);
+   
    public static Test suite()
    {
       return new JBossWSCXFTestSetup(WSDiscoveryTestCase.class, "jaxws-samples-wsdd.war,jaxws-samples-wsdd2.war");
@@ -58,17 +61,19 @@ public final class WSDiscoveryTestCase extends JBossWSTest
       Bus bus = null;
       try {
          bus = BusFactory.newInstance().createBus();
-         
          WSDiscoveryClient client = new WSDiscoveryClient(bus);
          ProbeType pt = new ProbeType();
          ScopesType scopes = new ScopesType();
          pt.setScopes(scopes);
-         ProbeMatchesType pmts = client.probe(pt);
+         ProbeMatchesType pmts = client.probe(pt, TIMEOUT);
          assertNotNull(pmts);
          assertEquals(3, pmts.getProbeMatch().size());
          List<ResolveMatchType> rmts = new LinkedList<ResolveMatchType>();
          for (ProbeMatchType pmt : pmts.getProbeMatch()) {
-            rmts.add(client.resolve(pmt.getEndpointReference()));
+            W3CEndpointReference epr = pmt.getEndpointReference();
+            ResolveMatchType rmt = client.resolve(epr, TIMEOUT);
+            assertNotNull("Could not resolve (timeout = " + TIMEOUT  + " ms) reference: " + epr, rmt);
+            rmts.add(rmt);
          }
          
          final QName typeName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsdd", "ServiceIface");
@@ -91,12 +96,15 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          ProbeType pt = new ProbeType();
          ScopesType scopes = new ScopesType();
          pt.setScopes(scopes);
-         ProbeMatchesType pmts = client.probe(pt);
+         ProbeMatchesType pmts = client.probe(pt, TIMEOUT);
          assertNotNull(pmts);
          assertEquals(3, pmts.getProbeMatch().size());
          List<ResolveMatchType> rmts = new LinkedList<ResolveMatchType>();
          for (ProbeMatchType pmt : pmts.getProbeMatch()) {
-            rmts.add(client.resolve(pmt.getEndpointReference()));
+            W3CEndpointReference epr = pmt.getEndpointReference();
+            ResolveMatchType rmt = client.resolve(epr, TIMEOUT);
+            assertNotNull("Could not resolve (timeout = " + TIMEOUT  + " ms) reference: " + epr, rmt);
+            rmts.add(rmt);
          }
          
          int i = 0;
