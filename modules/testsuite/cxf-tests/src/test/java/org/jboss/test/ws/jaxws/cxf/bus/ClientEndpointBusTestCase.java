@@ -45,7 +45,7 @@ public class ClientEndpointBusTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(ClientEndpointBusTestCase.class, "jaxws-cxf-bus.war");
+      return new JBossWSCXFTestSetup(ClientEndpointBusTestCase.class, isTargetJBoss7() ? "jaxws-cxf-bus-as7.war" : "jaxws-cxf-bus.war");
    }
    
    public void testClient() throws Exception

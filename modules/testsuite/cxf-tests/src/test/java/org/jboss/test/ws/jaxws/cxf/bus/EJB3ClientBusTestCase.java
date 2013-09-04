@@ -39,18 +39,19 @@ public class EJB3ClientBusTestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(EJB3ClientBusTestCase.class, "jaxws-cxf-bus.war");
+      return new JBossWSCXFTestSetup(EJB3ClientBusTestCase.class, isTargetJBoss7() ? "jaxws-cxf-bus-as7.war" : "jaxws-cxf-bus.war");
    }
    
    public void testSingleDeploy() throws Exception
    {
-      deploy("jaxws-cxf-bus-ejb3-client.jar");
+      final boolean as7 = isTargetJBoss7();
+      deploy(as7 ? "jaxws-cxf-bus-ejb3-client-as7.jar" : "jaxws-cxf-bus-ejb3-client.jar");
       InitialContext iniCtx = null;
       try
       {
          String host = getServerHost();
          iniCtx = getServerInitialContext();
-         Object obj = iniCtx.lookup("ejb:/jaxws-cxf-bus-ejb3-client//EJB3Client!" + EJB3ClientRemoteInterface.class.getName());
+         Object obj = iniCtx.lookup((as7 ? "ejb:/jaxws-cxf-bus-ejb3-client-as7//EJB3Client!" : "ejb:/jaxws-cxf-bus-ejb3-client//EJB3Client!") + EJB3ClientRemoteInterface.class.getName());
          EJB3ClientRemoteInterface ejb3Remote = (EJB3ClientRemoteInterface)obj;
          ejb3Remote.testBusCreation();
          ejb3Remote.testSOAPConnection(host);
@@ -63,7 +64,7 @@ public class EJB3ClientBusTestCase extends JBossWSTest
          {
             iniCtx.close();
          }
-         undeploy("jaxws-cxf-bus-ejb3-client.jar");
+         undeploy(as7 ? "jaxws-cxf-bus-ejb3-client-as7.jar" : "jaxws-cxf-bus-ejb3-client.jar");
       }
    }
 }
