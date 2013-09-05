@@ -41,8 +41,8 @@ import javax.jws.WebService;
 public class EndpointImpl
 {
 
-   private StringBuilder builder = new StringBuilder();
-   private File file;
+   private final StringBuffer builder = new StringBuffer();
+   private volatile File file;
    
    public EndpointImpl()
    {
@@ -65,8 +65,10 @@ public class EndpointImpl
    @PreDestroy
    protected void destroy()
    {
-      this.builder.append("destroy()");
-      this.writeTestLog();
+      if (file != null) {
+         this.builder.append("destroy()");
+         this.writeTestLog();
+      }
    }
    
    private void writeTestLog()
