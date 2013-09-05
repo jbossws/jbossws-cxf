@@ -338,6 +338,7 @@
 			</fileset>
 			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws1581/META-INF">
 				<include name="wsdl/**" />
+				<include name="permissions.xml" />
 			</metainf>
 		</jar>
 
@@ -484,6 +485,7 @@
 			</fileset>
 			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws1815/META-INF">
 				<include name="wsdl/my-service.wsdl" />
+				<include name="permissions.xml" />
 			</metainf>
 		</jar>
 
@@ -532,6 +534,7 @@
 				<include name="jboss.xml" />
 				<include name="jboss-ejb3.xml" />
 				<include name="jboss-webservices.xml" />
+				<include name="permissions.xml" />
 			</metainf>
 		</jar>
 
@@ -588,6 +591,9 @@
 				<include name="org/jboss/test/ws/jaxws/jbws2000/*.class" />
 				<exclude name="org/jboss/test/ws/jaxws/jbws2000/*TestCase.class" />
 			</fileset>
+            <metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2000/META-INF">
+				<include name="permissions.xml" />
+			</metainf>
 		</jar>
 
 		<!-- jaxws-jbws2009 -->
@@ -775,6 +781,7 @@
 			</fileset>
 			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2257/META-INF">
 				<include name="wsdl/**" />
+				<include name="permissions.xml" />
 			</metainf>
 		</jar>
 
@@ -789,6 +796,9 @@
 			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws2259/WEB-INF">
 				<include name="jaxws-endpoint-config.xml" />
 			</webinf>
+            <zipfileset dir="${tests.output.dir}/test-resources/jaxws/jbws2259/META-INF" prefix="META-INF">
+                <include name="permissions.xml"/>
+            </zipfileset>
 		</war>
 
 		<!-- jaxws-jbws2268 -->
@@ -797,6 +807,9 @@
 				<include name="org/jboss/test/ws/jaxws/jbws2268/*.class"/>
 				<exclude name="org/jboss/test/ws/jaxws/jbws2268/*TestCase.class"/>
 			</classes>
+            <zipfileset dir="${tests.output.dir}/test-resources/jaxws/jbws2268/META-INF" prefix="META-INF">
+                <include name="permissions.xml"/>
+            </zipfileset>
 		</war>
 	    
 		<!-- jaxws-jbws2278 -->
@@ -1059,7 +1072,7 @@
 			</metainf>
 		</jar>
 
-                <!-- jaxws-jbws3026 -->
+        <!-- jaxws-jbws3026 -->
 		<jar destfile="${tests.output.dir}/test-libs/jaxws-jbws3026-ejb.jar">
 			<fileset dir="${tests.output.dir}/test-classes">
 				<include name="org/jboss/test/ws/jaxws/jbws3026/MyBean*.class" />
@@ -1071,6 +1084,9 @@
 				<include name="org/jboss/test/ws/jaxws/jbws3026/MyBeanRemote.class"/>
 				<exclude name="org/jboss/test/ws/jaxws/jbws3026/*TestCase.class" />
 			</classes>
+            <zipfileset dir="${tests.output.dir}/test-resources/jaxws/jbws3026/META-INF" prefix="META-INF">
+                <include name="permissions.xml"/>
+            </zipfileset>
 		</war>
 
 		<!-- jaxws-jbws3034 -->
@@ -1155,7 +1171,7 @@
 		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws3223-servlet.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3223/WEB-INF/web.xml">
 			<classes dir="${tests.output.dir}/test-classes">
 				<include name="org/jboss/test/ws/jaxws/jbws3223/TestServlet.class" />
-				<include name="org/jboss/test/ws/jaxws/jbws3223/Client.class" />
+				<include name="org/jboss/test/ws/jaxws/jbws3223/Client*.class" />
 				<include name="org/jboss/test/ws/jaxws/jbws3223/EndpointInterface.class" />
 			</classes>
 			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3223/WEB-INF">
@@ -1276,6 +1292,9 @@
             <webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3441/WEB-INF">
                 <include name="beans.xml" />
             </webinf>
+            <zipfileset dir="${tests.output.dir}/test-resources/jaxws/jbws3441/META-INF" prefix="META-INF">
+                <include name="permissions.xml"/>
+            </zipfileset>
         </war>
 
         <!-- jaxws-jbws3477-custom-provider -->
@@ -1359,6 +1378,9 @@
 				<include name="org/jboss/test/ws/jaxws/endpoint/EndpointBean.class" />
 				<include name="org/jboss/test/ws/jaxws/endpoint/EndpointInterface.class" />
 			</classes>
+            <zipfileset dir="${tests.output.dir}/test-resources/jaxws/endpoint/META-INF" prefix="META-INF">
+                <include name="permissions.xml"/>
+            </zipfileset>
 		</war>
 
 		<!-- jaxws namespace -->

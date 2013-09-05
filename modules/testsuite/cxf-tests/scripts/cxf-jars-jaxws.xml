@@ -56,22 +56,6 @@
       </manifest>
     </war>
   	
-    <!-- jaxws-cxf-bus-as7 -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-bus-as7.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/bus/WEB-INF/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/ClientEndpoint.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/ClientEndpointImpl.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/Endpoint.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/EndpointImpl.class"/>
-      </classes>
-      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/bus/WEB-INF">
-        <include name="jboss-web.xml"/>
-      </webinf>
-      <manifest>
-        <attribute name="Dependencies" value="org.apache.cxf"/>
-      </manifest>
-    </war>
-  	
     <!-- jaxws-cxf-bus-ejb3-client -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-bus-ejb3-client.jar">
       <fileset dir="${tests.output.dir}/test-classes">
@@ -85,24 +69,6 @@
       <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/bus/META-INF">
         <include name="wsdl/**/*" />
       	<include name="permissions.xml"/>
-      </metainf>
-      <manifest>
-        <attribute name="Dependencies" value="org.apache.cxf"/>
-      </manifest>
-    </jar>
- 	
-    <!-- jaxws-cxf-bus-ejb3-client-as7 -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-bus-ejb3-client-as7.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/Endpoint.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/EndpointService.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/EJB3Client.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/EJB3ClientRemoteInterface.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/AbstractClient.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/BusTestException.class"/>
-      </fileset>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/bus/META-INF">
-        <include name="wsdl/**/*" />
       </metainf>
       <manifest>
         <attribute name="Dependencies" value="org.apache.cxf"/>

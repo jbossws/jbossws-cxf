@@ -60,6 +60,11 @@
       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/context/WEB-INF">
         <include name="jboss-web.xml"/>
       </webinf>
+      <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/samples/context/META-INF" 
+          prefix="META-INF">
+        <include name="permissions.xml"/>
+      </zipfileset>
       <manifest>
         <attribute name="Dependencies" value="org.jboss.ws.common"/>
       </manifest>
@@ -121,6 +126,11 @@
       	<include name="org/jboss/test/ws/jaxws/samples/exception/server/ServerHandler.class"/>
       	<include name="org/jboss/test/ws/jaxws/samples/exception/server/jaxws-handlers-server.xml"/>
       </classes>
+      <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/samples/exception/META-INF" 
+          prefix="META-INF">
+        <include name="permissions.xml"/>
+      </zipfileset>
     </war>
   	<jar destfile="${tests.output.dir}/test-libs/jaxws-samples-exception.jar">
       <fileset dir="${tests.output.dir}/test-classes">
@@ -134,6 +144,9 @@
       	<include name="org/jboss/test/ws/jaxws/samples/exception/server/ServerHandler.class"/>
       	<include name="org/jboss/test/ws/jaxws/samples/exception/server/jaxws-handlers-server.xml"/>
       </fileset>
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/exception/META-INF">
+        <include name="permissions.xml"/>
+      </metainf>
     </jar>
     <war warfile="${tests.output.dir}/test-libs/jaxws-samples-exception-client.war" needxmlfile='false'>
       <classes dir="${tests.output.dir}/test-classes">
@@ -165,6 +178,9 @@
       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/httpbinding/shared">
         <include name="wsdl/HttpBinding.wsdl"/>
       </webinf>
+      <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/httpbinding/jaxb/META-INF" prefix="META-INF">
+        <include name="permissions.xml"/>
+      </zipfileset>
     </war>
     <war warfile="${tests.output.dir}/test-libs/jaxws-samples-httpbinding-payload.war" webxml="${tests.output.dir}/test-resources/jaxws/samples/httpbinding/payload/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
@@ -237,6 +253,11 @@
       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/provider/jaxb/WEB-INF">
         <include name="wsdl/Provider.wsdl"/>
       </webinf>
+      <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/samples/provider/jaxb/META-INF" 
+          prefix="META-INF">
+        <include name="permissions.xml"/>
+      </zipfileset>
     </war>
     <war warfile="${tests.output.dir}/test-libs/jaxws-samples-provider-message.war" webxml="${tests.output.dir}/test-resources/jaxws/samples/provider/message/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">
@@ -265,6 +286,7 @@
       </fileset>
       <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/advanced/retail/META-INF">
         <include name="wsdl/*"/>
+      	<include name="permissions.xml"/>
       </metainf>
       <manifest>
         <attribute name="Dependencies" value="org.jboss.logging"/>
@@ -336,6 +358,7 @@
         <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/serviceref/META-INF">
            <include name="ejb-jar.xml"/>
            <include name="jboss.xml"/>
+           <include name="permissions.xml"/>
            <include name="wsdl/**"/>
         </metainf>
      </jar>
@@ -492,6 +515,7 @@
       <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/webserviceref/META-INF">
         <include name="jboss.xml"/>
         <include name="wsdl/**"/>
+      	<include name="permissions.xml"/>
       </metainf>
     </jar>
   	
