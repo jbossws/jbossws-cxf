@@ -260,6 +260,8 @@
             </goals>
             <configuration>
               <skip>false</skip>
+              <excludes combine.children="append">
+              </excludes>
               <includes>
                 <include>**/*Test.java</include>
                 <include>**/*TestCase.java</include>
@@ -851,7 +853,7 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
-              <excludes>
+              <excludes combine.children="append">
                  <!--# JAX-RPC removed in EE 7 -->
                  <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
 
@@ -882,6 +884,27 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!--
+    Name:  secmgr
+    Descr: Additional testsuite exclusions when running against a container with security manager enabled 
+    -->
+    <profile>
+      <id>secmgr</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes combine.children="append">
+                <!-- [UNDERTOW-102] Permission check failed for ("java.lang.RuntimePermission" "MODIFY_UNDERTOW_SECURITY_CONTEXT") -->
+                <exclude>org/jboss/test/ws/jaxws/samples/asynch/AsynchTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
