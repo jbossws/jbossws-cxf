@@ -897,6 +897,11 @@
     -->
     <profile>
       <id>secmgr</id>
+      <activation>
+        <property>
+          <name>secmgr</name>
+        </property>
+      </activation>
       <build>
         <plugins>
           <plugin>
