@@ -29,6 +29,7 @@
     <org.littleshoot.littleproxy.version>0.4</org.littleshoot.littleproxy.version>
     <org.slf4j.version>1.6.1</org.slf4j.version>
     <gnu.getopt.version>1.0.13</gnu.getopt.version>
+    <bc.version>1.46</bc.version>
     <log4j.version>1.2.14</log4j.version>
     <remote.port>4447</remote.port>
     <remote.protocol>remote</remote.protocol>
@@ -112,6 +113,12 @@
           <artifactId>ehcache-core</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk16</artifactId>
+      <version>${bc.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

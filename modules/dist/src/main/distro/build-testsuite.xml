@@ -619,6 +619,9 @@
       <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/remote-naming/main/">
         <include name="jboss-remote-naming-*.jar"/>
       </fileset>
+      <fileset dir="${jboss.home}/modules/system/layers/base/org/bouncycastle/main/">
+        <include name="bcprov-*.jar"/>
+      </fileset>
       <pathelement location="${tools.jar}"/>
     </path>
   </target>
