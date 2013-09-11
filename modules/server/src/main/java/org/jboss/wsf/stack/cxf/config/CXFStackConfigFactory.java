@@ -21,6 +21,13 @@
  */
 package org.jboss.wsf.stack.cxf.config;
 
+import static org.jboss.wsf.stack.cxf.Loggers.ROOT_LOGGER;
+
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+
+import org.apache.ws.security.WSSConfig;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.management.StackConfig;
 import org.jboss.wsf.spi.management.StackConfigFactory;
 
@@ -41,6 +48,28 @@ public class CXFStackConfigFactory extends StackConfigFactory
 
 class CXFStackConfig implements StackConfig
 {
+   
+   public CXFStackConfig()
+   {
+      final ClassLoader orig = getContextClassLoader();
+      //try early configuration of xmlsec engine through WSS4J:
+      //* to avoid doing this later when the TCCL won't have visibility over the xmlsec internals
+      //* to make sure any ws client will also have full xmlsec functionalities setup (BC enabled, etc.)
+      try
+      {
+         setContextClassLoader(ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
+         WSSConfig.init();
+      }
+      catch (Exception e)
+      {
+         ROOT_LOGGER.couldNotInitSecurityEngine();
+         ROOT_LOGGER.errorGettingWSSConfig(e);
+      }
+      finally
+      {
+         setContextClassLoader(orig);
+      }
+   }
 
    public String getImplementationTitle()
    {
@@ -52,4 +81,50 @@ class CXFStackConfig implements StackConfig
       return getClass().getPackage().getImplementationVersion();
    }
    
+   /**
+    * Get context classloader.
+    * 
+    * @return the current context classloader
+    */
+   private static ClassLoader getContextClassLoader()
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         return Thread.currentThread().getContextClassLoader();
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+            public ClassLoader run()
+            {
+               return Thread.currentThread().getContextClassLoader();
+            }
+         });
+      }
+   }
+   
+   /**
+    * Set context classloader.
+    *
+    * @param classLoader the classloader
+    */
+   private static void setContextClassLoader(final ClassLoader classLoader)
+   {
+      if (System.getSecurityManager() == null)
+      {
+         Thread.currentThread().setContextClassLoader(classLoader);
+      }
+      else
+      {
+         AccessController.doPrivileged(new PrivilegedAction<Object>()
+         {
+            public Object run()
+            {
+               Thread.currentThread().setContextClassLoader(classLoader);
+               return null;
+            }
+         });
+      }
+   }
 }

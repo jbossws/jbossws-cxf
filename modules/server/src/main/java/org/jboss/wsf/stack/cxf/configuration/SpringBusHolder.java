@@ -38,7 +38,6 @@ import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.http.HttpDestinationFactory;
 import org.apache.cxf.transport.servlet.ServletDestinationFactory;
-import org.apache.ws.security.WSSConfig;
 import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
@@ -162,17 +161,6 @@ public class SpringBusHolder extends BusHolder
                throw MESSAGES.unableToLoadConfigurationFrom(additionXml, e);
             }
          }
-      }
-      //try early configuration of xmlsec engine through WSS4J to avoid doing this
-      //later when the TCCL won't have visibility over the xmlsec internals
-      try
-      {
-         WSSConfig.getNewInstance();
-      }
-      catch (Exception e)
-      {
-         DEPLOYMENT_LOGGER.couldNotInitSecurityEngine();
-         DEPLOYMENT_LOGGER.errorGettingWSSConfig(e);
       }
       configured = true;
    }

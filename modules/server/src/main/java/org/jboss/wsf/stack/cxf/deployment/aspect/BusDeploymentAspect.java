@@ -92,7 +92,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          BusHolder holder = null;
 
          //set the runtime classloader (pointing to the deployment unit) to allow CXF accessing to the classes;
-         //use origClassLoader (which on AS7 is set to ASIL aggregation module's classloader by TCCLDeploymentProcessClassLoader) as
+         //use origClassLoader (which on AS7 is set to ASIL aggregation module's classloader by TCCLDeploymentProcessor) as
          //parent to make sure user provided libs in the deployment do no mess up the WS endpoint's deploy if they duplicates
          //libraries already available on the application server modules.
          SecurityActions.setContextClassLoader(new DelegateClassLoader(dep.getRuntimeClassLoader(), origClassLoader));
