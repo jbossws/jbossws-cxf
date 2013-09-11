@@ -925,6 +925,64 @@
     </profile>
 
     <!--
+    Name:  exclude-integration-tests-BC-related
+    Descr: Additional exclusions of integration tests which require installed JCE Provider Bouncy Castle (AS 7.x)
+    -->
+    <profile>
+      <id>exclude-integration-tests-BC-related</id>
+      <activation>
+        <property>
+          <name>exclude-integration-tests-BC-related</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes combine.children="append">
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignEncryptGCMTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/AnnotatedSignEncryptTestCase*</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    
+    <!--
+    Name:  exclude-integration-tests-unlimited-strength-related
+    Descr: Additional exclusions of integration tests which require installed JCE Unlimited Strength Jurisdiction Policy Files
+    -->
+    <profile>
+      <id>exclude-integration-tests-unlimited-strength-related</id>
+      <activation>
+        <property>
+          <name>exclude-integration-tests-unlimited-strength-related</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes combine.children="append">
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples22xTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples23xTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignEncryptGCMTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/AnnotatedSignEncryptTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3648/PolicyAttachmentTestCase*</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
     Name:  no-jboss-bind-address
     Descr: Set the default jboss.bind.address
 
