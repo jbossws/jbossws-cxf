@@ -669,10 +669,6 @@
                  <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
 
-                 <!--# [CXF-5197] No Java extensionType found to represent {http://www.w3.org/2006/05/addressing/wsdl}UsingAddressing  -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsa/AddressingTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2960/JBWS2960TestCase*</exclude>
-
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
               </excludes>
@@ -743,10 +739,6 @@
                  <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
 
-                 <!--# [CXF-5197] No Java extensionType found to represent {http://www.w3.org/2006/05/addressing/wsdl}UsingAddressing  -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsa/AddressingTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2960/JBWS2960TestCase*</exclude>
-
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
               </excludes>
@@ -813,10 +805,6 @@
 
                  <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
-
-                 <!--# [CXF-5197] No Java extensionType found to represent {http://www.w3.org/2006/05/addressing/wsdl}UsingAddressing  -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsa/AddressingTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2960/JBWS2960TestCase*</exclude>
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
@@ -885,10 +873,6 @@
                  <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
 
-                 <!--# [CXF-5197] No Java extensionType found to represent {http://www.w3.org/2006/05/addressing/wsdl}UsingAddressing  -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsa/AddressingTestCase*</exclude>
-                 <exclude>org/jboss/test/ws/jaxws/jbws2960/JBWS2960TestCase*</exclude>
-                 
                  <!-- # [WFLY-2019] Upgrade PicketLink to 2.5.1.Final incomplete (missing org.picketlink module) -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
 
