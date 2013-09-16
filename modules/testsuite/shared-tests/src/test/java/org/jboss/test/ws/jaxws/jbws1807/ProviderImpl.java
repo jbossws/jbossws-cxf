@@ -39,6 +39,7 @@ import javax.xml.ws.http.HTTPBinding;
 import org.jboss.logging.Logger;
 import org.jboss.test.helper.DOMWriter;
 import org.jboss.ws.api.util.DOMUtils;
+import org.w3c.dom.Element;
 
 @WebServiceProvider(wsdlLocation = "WEB-INF/wsdl/provider.wsdl", portName = "ProviderPort", serviceName = "ProviderService", targetNamespace = "http://ws.com/")
 @ServiceMode(value = Service.Mode.PAYLOAD)
@@ -52,10 +53,12 @@ public class ProviderImpl implements Provider<Source>
    {
       try
       {
-         String input = DOMWriter.printNode(DOMUtils.sourceToElement(source, getDocumentBuilder()), false);
+         Element elem = DOMUtils.sourceToElement(source, getDocumentBuilder());
+         String value = DOMUtils.getChildElements(elem, "arg0", true).next().getTextContent();
+         String input = DOMWriter.printNode(elem, false);
          log.info("invoke: " + input);
          
-         String reply = "<reply>" + input + "</reply>";
+         String reply = "<myns:reply xmlns:myns='http://ws.com/'><return>" + value + "</return></myns:reply>";
          return new StreamSource(new ByteArrayInputStream(reply.getBytes()));
       }
       catch (IOException ex)

@@ -72,10 +72,10 @@ public class JBWS1807TestCase extends JBossWSTest
       service.addPort(portName, HTTPBinding.HTTP_BINDING, TARGET_ENDPOINT_ADDRESS);
 
       Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
-      Source resPayload = dispatch.invoke(new DOMSource(DOMUtils.parse("<input>hello</input>")));
+      Source resPayload = dispatch.invoke(new DOMSource(DOMUtils.parse("<ns2:input xmlns:ns2='http://ws.com/'><arg0>hello</arg0></ns2:input>")));
 
       Element docElement = DOMUtils.sourceToElement(resPayload);
-      Element response = ((Element)DOMUtils.getChildElements(docElement, "input").next());
+      Element response = ((Element)DOMUtils.getChildElements(docElement, "return").next());
       assertEquals("hello", response.getTextContent());
    }
 }
