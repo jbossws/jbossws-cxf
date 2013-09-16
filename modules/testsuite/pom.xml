@@ -873,7 +873,7 @@
                  <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
 
-                 <!-- # [WFLY-2019] Upgrade PicketLink to 2.5.1.Final incomplete (missing org.picketlink module) -->
+                 <!-- # [WFLY-2077] Upgrade PicketLink to 2.5.1.Final incomplete (missing org.picketlink module) -->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
 
                  <!-- Manually setup KDC before run this test-->
