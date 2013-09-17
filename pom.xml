@@ -72,7 +72,7 @@
     <jboss720.version>7.2.0.Final</jboss720.version>
     <wildfly800.version>8.0.0.Beta1-SNAPSHOT</wildfly800.version>
     <ejb.api.version>1.0.1.Final</ejb.api.version>
-    <cxf.version>2.7.7</cxf.version>
+    <cxf.version>2.7.6</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
     <cxf.xjcplugins.version>2.6.1</cxf.xjcplugins.version>
     <jboss.common.core.version>2.2.17.GA</jboss.common.core.version>
@@ -104,7 +104,7 @@
     <velocity.version>1.7</velocity.version>
     <xerces.version>2.9.1</xerces.version>
     <xmlsec.version>1.5.5</xmlsec.version>
-    <wss4j.version>1.6.12</wss4j.version>
+    <wss4j.version>1.6.11</wss4j.version>
     <wstx.version>4.2.0</wstx.version>
     <spring.version>3.0.7.RELEASE</spring.version>
   </properties>
