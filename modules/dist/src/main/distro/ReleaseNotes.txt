@@ -28,27 +28,37 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    [JBWS-???] - ...
+    * [JBWS-3652] - AbstractServerConfig.toIPv6URLFormat should not add brackets to IPv6 hostname
+    * [JBWS-3661] - Allow multiple subcodes in a SOAP 1.2 fault
+    * [JBWS-3677] - Save container registry in ServerConfigService.start() instead of install()
+    * [JBWS-3679] - @WebServiceRef injection of co-located client with no specified wsdlLocation is not working
+    * [JBWS-3684] - AbstractServerConfig is not fully thread safe
+    * [JBWS-3687] - Intermittent failures caused by JBWS1178TestCase
+    * [JBWS-3695] - Fix transient failures in ContinuationsTestCase
+    * [JBWS-3697] - WSConsume fails on OpenJDK 6
 
 Enhancement
 
-    [JBWS-???] - ...
+    * [JBWS-3666] - Eclipse import of existing maven projects - remove errors "Plugin execution not covered by lifecycle configuration"
+    * [JBWS-3692] - Fix transient failures in JBWS2150TestCaseForked
+    * [JBWS-3694] - CopyJob fix & improvement
 
 Feature Request
 
-    [JBWS-???] - ...
+    * [JBWS-3699] - Add WebServiceFeature for creating JAXWS Service in a new CXF Bus
 
 Task
 
-    [JBWS-???] - ...
-
-Sub-task
-
-    [JBWS-???] - ...
+    * [JBWS-3681] - Add to testsuite profiles allowing to exclude tests requiring Bouncy Castle JCE provider or unlimited strength cryptography installed
+    * [JBWS-3685] - JBossWS testsuite execution against WFLY w/ security manager enabled
+    * [JBWS-3696] - Make AppclientHelper timeout configurable
+    * [JBWS-3698] - Fix regressions in SOAP-over-JMS testcases on WildFly 8.0.0.Alpha3
+    * [JBWS-3703] - Early initialize WSSConfig (including BouncyCaste JCE provider registration)
+    * [JBWS-3705] - Fix JBWS1807TestCase
 
 Errata
 
-    See: https://issues.jboss.org/browse/JBWS-???
+    See: https://issues.jboss.org/browse/JBWS-3706
 
 This version of "${project.name}" is based on Apache CXF ${cxf.version}
 
