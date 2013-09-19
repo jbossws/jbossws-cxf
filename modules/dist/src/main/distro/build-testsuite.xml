@@ -477,8 +477,8 @@
       <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/logging/main/">
         <include name="jboss-logging-*.jar"/>
       </fileset>
-      <fileset dir="${jboss.home}/modules/system/layers/base/org/picketlink/main/">
-        <include name="picketlink-core*.jar"/>
+      <fileset dir="${jboss.home}/modules/system/layers/base/org/picketlink/federation/main/">
+        <include name="picketlink-*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/modules/system/layers/base/javax/ejb/api/main/">
         <include name="jboss-ejb-api_3.2_spec-*.jar"/>
@@ -560,8 +560,11 @@
       <fileset dir="${jboss.home}/modules/system/layers/base/org/picketbox/main/">
         <include name="picketbox-*.jar"/>
       </fileset>
-      <fileset dir="${jboss.home}/modules/system/layers/base/org/picketlink/main/">
-        <include name="picketlink-core*.jar"/>
+      <fileset dir="${jboss.home}/modules/system/layers/base/org/picketlink/federation/main/">
+        <include name="picketlink-*.jar"/>
+      </fileset>
+      <fileset dir="${jboss.home}/modules/system/layers/base/org/picketlink/core/main/">
+        <include name="picketlink-*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/modules/system/layers/base/javax/ejb/api/main/">
         <include name="jboss-ejb-api_3.2_spec-*.jar"/>
