@@ -56,6 +56,7 @@ import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
 import org.jboss.wsf.stack.cxf.interceptor.EnableDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
+import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 
@@ -158,6 +159,7 @@ public abstract class BusHolder
       bus.getInInterceptors().add(new EndpointAssociationInterceptor());
       bus.getInInterceptors().add(new EnableDecoupledFaultInterceptor());
       bus.getInInterceptors().add(new NsCtxSelectorStoreInterceptor());
+      bus.getInInterceptors().add(new HandlerAuthInterceptor());
    }
    
    protected static void setResourceResolver(Bus bus, ResourceResolver resourceResolver)

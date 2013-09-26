@@ -214,4 +214,7 @@ public interface Messages {
     @Message(id = 24093, value = "Error parsing policy attachment: %s")
     RuntimeException errorParsingPolicyAttachment(String uri, @Cause Throwable cause);
     
+    @Message(id = 24094, value = "Authorization failed, principal=%s")
+    SecurityException authorizationFailed(String principal);
+    
 }
