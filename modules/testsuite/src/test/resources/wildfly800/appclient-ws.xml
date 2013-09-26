@@ -20,7 +20,7 @@
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
 
-<server xmlns="urn:jboss:domain:1.3">
+<server xmlns="urn:jboss:domain:2.0">
 
     <extensions>
         <extension module="org.jboss.as.connector"/>
@@ -30,6 +30,7 @@
         <extension module="org.jboss.as.naming"/>
         <extension module="org.jboss.as.remoting"/>
         <extension module="org.jboss.as.security"/>
+        <extension module="org.jboss.as.transactions"/>
         <extension module="org.jboss.as.webservices"/>
     </extensions>
 
@@ -99,7 +100,16 @@
         <subsystem xmlns="urn:jboss:domain:remoting:1.1">
             <connector name="remoting-connector" socket-binding="remoting"/>
         </subsystem>
-        <subsystem xmlns="urn:jboss:domain:webservices:1.1"/>
+        <subsystem xmlns="urn:jboss:domain:transactions:2.0">
+            <core-environment>
+                <process-id>
+                    <uuid/>
+                </process-id>
+            </core-environment>
+            <recovery-environment socket-binding="txn-recovery-environment" status-socket-binding="txn-status-manager"/>
+            <coordinator-environment default-timeout="300"/>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:webservices:1.2"/>
     </profile>
 
     <interfaces>
@@ -110,6 +120,8 @@
 
     <socket-binding-group name="standard-sockets" default-interface="public">
         <socket-binding name="remoting" port="4448"/>
+        <socket-binding name="txn-recovery-environment" port="44712"/>
+        <socket-binding name="txn-status-manager" port="44713"/>
     </socket-binding-group>
 
 </server>
