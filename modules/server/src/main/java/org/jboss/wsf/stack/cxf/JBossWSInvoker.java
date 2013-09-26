@@ -98,7 +98,7 @@ import org.jboss.wsf.spi.invocation.NamespaceContextSelectorWrapperFactory;
 public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
 {
    private Object targetBean;
-   private NamespaceContextSelectorWrapperFactory nsCtxSelectorFactory;
+   private final NamespaceContextSelectorWrapperFactory nsCtxSelectorFactory;
 
    public JBossWSInvoker() {
       super((Factory)null); //no need for a factory
