@@ -74,14 +74,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PingMeResponse }
-     * 
-     */
-    public PingMeResponse createPingMeResponse() {
-        return new PingMeResponse();
-    }
-
-    /**
      * Create an instance of {@link SayHi }
      * 
      */
