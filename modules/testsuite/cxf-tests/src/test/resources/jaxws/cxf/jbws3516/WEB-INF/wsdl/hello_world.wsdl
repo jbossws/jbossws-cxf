@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="HelloWorld" xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://jboss.org/hello_world" xmlns:x1="http://jboss.org/hello_world/types"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://jboss.org/hello_world" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	<wsdl:types>
+		<schema targetNamespace="http://jboss.org/hello_world/types"
+			xmlns="http://www.w3.org/2001/XMLSchema" xmlns:x1="http://jboss.org/hello_world/types"
+			elementFormDefault="qualified">
+			<element name="sayHi">
+				<complexType>
+					<sequence>
+						<element name="request" type="string" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="sayHiResponse">
+				<complexType>
+					<sequence>
+						<element name="responseType" type="string" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="pingMe">
+				<complexType />
+			</element>
+			<element name="faultDetail">
+				<complexType>
+					<sequence>
+						<element name="minor" type="short" />
+						<element name="major" type="short" />
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</wsdl:types>
+
+	<wsdl:message name="sayHiRequest">
+		<wsdl:part name="in" element="x1:sayHi" />
+	</wsdl:message>
+	<wsdl:message name="sayHiResponse">
+		<wsdl:part name="out" element="x1:sayHiResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="sayHiFault">
+		<wsdl:part name="faultDetail" element="x1:faultDetail" />
+	</wsdl:message>
+
+	<wsdl:message name="pingMeRequest">
+		<wsdl:part name="in" element="x1:pingMe" />
+	</wsdl:message>
+	<wsdl:portType name="Greeter">
+		<wsdl:operation name="sayHi">
+			<wsdl:input message="tns:sayHiRequest" />
+			<wsdl:output message="tns:sayHiResponse" />
+			<wsdl:fault name="sayHiFault" message="tns:sayHiFault" />
+		</wsdl:operation>
+		<wsdl:operation name="pingMe">
+			<wsdl:input message="tns:pingMeRequest" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="Greeter_SOAPBinding" type="tns:Greeter">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<operation name="sayHi">
+			<soap:operation style="document" soapAction="sayHiAction" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="pingMe">
+			<soap:operation style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+		</operation>
+	</wsdl:binding>
+
+	<wsdl:service name="SOAPService">
+		<wsdl:port name="SoapPort" binding="tns:Greeter_SOAPBinding">
+			<soap:address location="http://localhost:8080/helloworld" />
+		</wsdl:port>
+	</wsdl:service>
+</definitions>

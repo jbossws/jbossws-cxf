@@ -360,6 +360,22 @@
       </manifest>
     </jar>
 
+    <!-- jaxws-cxf-jbws3516 -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3516.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/cxf/jbws3516/WEB-INF/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3516/*.class"/>
+      	<exclude name="org/jboss/test/ws/jaxws/cxf/jbws3516/*TestCase.class"/>
+       </classes>
+       <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/cxf/jbws3516/WEB-INF/wsdl" 
+          prefix="WEB-INF/wsdl"/>
+        <manifest>
+          <attribute name="Dependencies" value="org.apache.cxf.impl"/>
+        </manifest>
+    </war>
+  	
     <!-- jaxws-cxf-jbws3593 -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3593.war" needxmlfile='false'>
       <classes dir="${tests.output.dir}/test-classes">
