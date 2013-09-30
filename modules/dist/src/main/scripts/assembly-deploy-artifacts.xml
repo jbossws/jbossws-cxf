@@ -164,7 +164,7 @@
             <useProjectArtifact>false</useProjectArtifact>
           </dependencySet>
 
-         <dependencySet>
+          <dependencySet>
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <unpack>false</unpack>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
@@ -173,7 +173,18 @@
             </includes>
             <scope>test</scope>
             <useProjectArtifact>false</useProjectArtifact>
-         </dependencySet>
+          </dependencySet>
+          
+          <dependencySet>
+            <outputDirectory>deploy-artifacts/lib</outputDirectory>
+            <unpack>false</unpack>
+            <includes>
+              <include>org.jboss.shrinkwrap:*:jar</include>
+            </includes>
+            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+            <scope>test</scope>
+            <useProjectArtifact>false</useProjectArtifact>
+          </dependencySet>
 
     </dependencySets>
 </assembly>

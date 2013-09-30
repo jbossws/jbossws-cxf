@@ -21,6 +21,9 @@
  */
 package org.jboss.test.ws.saaj.jbws3084;
 
+import static org.jboss.wsf.test.JBossWSTestHelper.getTestResourcesDir;
+
+import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -36,19 +39,36 @@ import javax.xml.soap.SOAPMessage;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper.WarDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * [JBWS-3084] Enable control of chunked encoding when using SOAPConnection.
  *
  * @author sberyozk@redhat.com
+ * @author alessio.soldano@jboss.com
  */
 public class JBWS3084TestCase extends JBossWSTest
 {
+   private static WarDeployment createWarDeployment(String name) {
+      return new WarDeployment(name) { {
+         archive
+            .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+            .addClass(ServiceIface.class)
+            .addClass(ServiceImpl.class)
+            .addClass(InputStreamDataSource.class)
+            .addAsWebInfResource(new File(getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/wsdl/SaajService.wsdl"), "wsdl/SaajService.wsdl")
+            .setWebXML(new File(getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/web.xml"));
+         }
+      };
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS3084TestCase.class, "saaj-soap-connection.war");
+      return new JBossWSTestSetup(JBWS3084TestCase.class, createWarDeployment("saaj-soap-connection.war").writeToFile().getName());
    }
 
    public void testSoapConnectionPostWithoutChunkedEncoding() throws Exception

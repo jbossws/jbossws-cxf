@@ -41,6 +41,10 @@ import javax.xml.ws.Service;
 import javax.xml.ws.Service.Mode;
 import javax.xml.ws.soap.SOAPBinding;
 
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.exporter.ZipExporter;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.SPIProviderResolver;
 import org.jboss.wsf.spi.deployer.Deployer;
@@ -412,5 +416,60 @@ public class JBossWSTestHelper
    public static void removeHttpsConnector() throws Exception
    {
       getDeployer().removeHttpsConnector();
+   }
+
+   public static abstract class BaseDeployment<T extends org.jboss.shrinkwrap.api.Archive<T>>
+   {
+      protected T archive;
+
+      public BaseDeployment(Class<T> clazz, String name)
+      {
+         archive = ShrinkWrap.create(clazz, name);
+      }
+
+      public T create()
+      {
+         return archive;
+      }
+
+      public T writeToFile()
+      {
+         File archiveDir = assertArchiveDirExists(JBossWSTestHelper.getTestArchiveDir());
+         File file = new File(archiveDir, archive.getName());
+         archive.as(ZipExporter.class).exportTo(file, true);
+         return archive;
+      }
+
+      private File assertArchiveDirExists(String testArchiveDir)
+      {
+         File archiveDir = new File(testArchiveDir);
+         if (!archiveDir.exists())
+         {
+            if (testArchiveDir == null)
+               throw new IllegalArgumentException("Cannot create archive - system property '"
+                     + JBossWSTestHelper.SYSPROP_TEST_ARCHIVE_DIRECTORY + "' not set.");
+            if (!archiveDir.mkdirs())
+               ;
+            throw new IllegalArgumentException("Cannot create archive - can not create test archive directory '"
+                  + archiveDir.getAbsolutePath() + "' not set.");
+         }
+         return archiveDir;
+      }
+   }
+
+   public static abstract class WarDeployment extends BaseDeployment<WebArchive>
+   {
+      public WarDeployment(String name)
+      {
+         super(WebArchive.class, name);
+      }
+   }
+
+   public static abstract class JarDeployment extends BaseDeployment<JavaArchive>
+   {
+      public JarDeployment(String name)
+      {
+         super(JavaArchive.class, name);
+      }
    }
 }
