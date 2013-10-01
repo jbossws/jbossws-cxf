@@ -50,7 +50,7 @@
   </wsdl:binding>
   <wsdl:service name="EndpointService">
     <wsdl:port binding="tns:EndpointServiceSoapBinding" name="EndpointPort">
-      <soap:address location="http://localhost:8080/jaxws-cxf-bus/EndpointService/InvalidEndpoint" />
+      <soap:address location="http://@jboss.bind.address@:8080/jaxws-cxf-bus/EndpointService/InvalidEndpoint" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

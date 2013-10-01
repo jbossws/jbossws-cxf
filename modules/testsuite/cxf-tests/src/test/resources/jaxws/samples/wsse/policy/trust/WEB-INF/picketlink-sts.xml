@@ -19,7 +19,7 @@
 	</TokenProviders>
 	<!-- Erroneously mandatory element below (in PLINK 2.1.8.Final / 2.5.1.Final) -->
 	<ServiceProviders>
-            <ServiceProvider Endpoint="http://localhost:8080/jaxws-samples-wsse-policy-trust/SecurityService"
+            <ServiceProvider Endpoint="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-trust/SecurityService"
                  TokenType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0"
                  TruststoreAlias="myservicekey"/>
     </ServiceProviders>
