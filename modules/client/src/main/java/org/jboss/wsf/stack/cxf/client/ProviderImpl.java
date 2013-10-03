@@ -21,6 +21,12 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
+import static org.jboss.wsf.stack.cxf.client.Constants.NEW_BUS_STRATEGY;
+import static org.jboss.wsf.stack.cxf.client.Constants.TCCL_BUS_STRATEGY;
+import static org.jboss.wsf.stack.cxf.client.Constants.THREAD_BUS_STRATEGY;
+import static org.jboss.wsf.stack.cxf.client.SecurityActions.getContextClassLoader;
+import static org.jboss.wsf.stack.cxf.client.SecurityActions.setContextClassLoader;
+
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -37,8 +43,8 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.EndpointContext;
 import javax.xml.ws.EndpointReference;
-import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.Service.Mode;
+import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.spi.Invoker;
 import javax.xml.ws.spi.ServiceDelegate;
 
@@ -158,16 +164,19 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    @Override
    public ServiceDelegate createServiceDelegate(URL url, QName qname, Class cls)
    {
+      final String busStrategy = ClientBusSelector.selectStrategy();
       ClassLoader origClassLoader = getContextClassLoader();
       boolean restoreTCCL = false;
+      Bus orig = null;
       try
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
-         Bus bus = setValidThreadDefaultBus();
-         return new JBossWSServiceImpl(bus, url, qname, cls);
+         orig = BusFactory.getThreadDefaultBus(false);
+         return new JBossWSServiceImpl(getOrCreateBus(busStrategy, origClassLoader), url, qname, cls);
       }
       finally
       {
+         restoreThreadDefaultBus(busStrategy, orig);
          if (restoreTCCL)
             setContextClassLoader(origClassLoader);
       }
@@ -178,41 +187,53 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    public ServiceDelegate createServiceDelegate(URL wsdlDocumentLocation, QName serviceName, Class serviceClass,
          WebServiceFeature... features)
    {
+      //check feature types
+      for (WebServiceFeature f : features) {
+         final String fName = f.getClass().getName();
+         if (!fName.startsWith("javax.xml.ws") && !fName.startsWith("org.jboss.ws")) {
+             throw Messages.MESSAGES.unknownFeature(f.getClass().getName());
+         }
+      }
+      
+      final String busStrategy = ClientBusSelector.selectStrategy(features);
       ClassLoader origClassLoader = getContextClassLoader();
       boolean restoreTCCL = false;
+      Bus orig = null;
       try
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
-         boolean createNewBus = false; 
-         for (WebServiceFeature f : features) {
-             final String fName = f.getClass().getName();
-             if (!fName.startsWith("javax.xml.ws") && !fName.startsWith("org.jboss.ws")) {
-                 throw Messages.MESSAGES.unknownFeature(f.getClass().getName());
-             }
-             if (fName.equals(UseNewBusFeature.class.getName())) {
-                createNewBus = f.isEnabled();
-             }
-         }
-         if (!createNewBus) {
-            Bus bus = setValidThreadDefaultBus();
-            return new JBossWSServiceImpl(bus, wsdlDocumentLocation, serviceName, serviceClass, features);
-         } else { //honor the UseNewBusFeature
-            Bus orig = null;
-            try {
-               orig = BusFactory.getThreadDefaultBus(false);
-               Bus bus = BusFactory.newInstance().createBus();
-               return new JBossWSServiceImpl(bus, wsdlDocumentLocation, serviceName, serviceClass, features);
-            } finally {
-               if (orig != null) {
-                  BusFactory.setThreadDefaultBus(orig);
-               }
-            }
-         }
+         orig = BusFactory.getThreadDefaultBus(false);
+         return new JBossWSServiceImpl(getOrCreateBus(busStrategy, origClassLoader), wsdlDocumentLocation, serviceName, serviceClass, features);
       }
       finally
       {
+         restoreThreadDefaultBus(busStrategy, orig);
          if (restoreTCCL)
             setContextClassLoader(origClassLoader);
+      }
+   }
+   
+   private static Bus getOrCreateBus(String strategy, ClassLoader threadContextClassLoader) {
+      Bus bus = null;
+      if (THREAD_BUS_STRATEGY.equals(strategy))
+      {
+         bus = ProviderImpl.setValidThreadDefaultBus();
+      }
+      else if (NEW_BUS_STRATEGY.equals(strategy))
+      {
+         bus = new JBossWSBusFactory().createBus();
+      }
+      else if (TCCL_BUS_STRATEGY.equals(strategy))
+      {
+         bus = JBossWSBusFactory.getClassLoaderDefaultBus(threadContextClassLoader);
+      }
+      return bus;
+   }
+   
+   private static void restoreThreadDefaultBus(final String busStrategy, final Bus origBus) {
+      if (origBus != null && !busStrategy.equals(Constants.THREAD_BUS_STRATEGY))
+      {
+         BusFactory.setThreadDefaultBus(origBus);
       }
    }
    
@@ -259,7 +280,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       Bus bus = BusFactory.getThreadDefaultBus(false);
       if (bus == null)
       {
-         bus = BusFactory.newInstance().createBus(); //this also set thread local bus internally as it's not set yet 
+         bus = new JBossWSBusFactory().createBus(); //this also set thread local bus internally as it's not set yet 
       }
       return bus;
    }
@@ -278,54 +299,6 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             public DelegateClassLoader run()
             {
                return new DelegateClassLoader(clientClassLoader, origClassLoader);
-            }
-         });
-      }
-   }
-
-   /**
-    * Get context classloader.
-    *
-    * @return the current context classloader
-    */
-   static ClassLoader getContextClassLoader()
-   {
-      SecurityManager sm = System.getSecurityManager();
-      if (sm == null)
-      {
-         return Thread.currentThread().getContextClassLoader();
-      }
-      else
-      {
-         return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>()
-         {
-            public ClassLoader run()
-            {
-               return Thread.currentThread().getContextClassLoader();
-            }
-         });
-      }
-   }
-   
-   /**
-    * Set context classloader.
-    *
-    * @param classLoader the classloader
-    */
-   static void setContextClassLoader(final ClassLoader classLoader)
-   {
-      if (System.getSecurityManager() == null)
-      {
-         Thread.currentThread().setContextClassLoader(classLoader);
-      }
-      else
-      {
-         AccessController.doPrivileged(new PrivilegedAction<Object>()
-         {
-            public Object run()
-            {
-               Thread.currentThread().setContextClassLoader(classLoader);
-               return null;
             }
          });
       }

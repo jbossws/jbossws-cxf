@@ -204,4 +204,8 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = INFO)
     @Message(id = 24092, value = "Adding %s policy attachment with id='%s' to honor requirement from %s.")
     void addingPolicyAttachment(Object placement, String refId, Class<?> cls);
+    
+    @LogMessage(level = WARN)
+    @Message(id = 24095, value = "Unknown strategy '%s' requested for selecting the Apache CXF Bus to be used for building JAXWS clients; default strategy will be used.")
+    void unknownJAXWSClientBusStrategy(String strategy);
 }

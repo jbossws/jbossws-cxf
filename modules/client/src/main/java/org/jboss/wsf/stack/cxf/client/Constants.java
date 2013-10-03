@@ -43,4 +43,9 @@ public class Constants
    public static final String CXF_MANAGEMENT_ENABLED = "cxf.management.enabled";
    public static final String CXF_MANAGEMENT_INSTALL_RESPONSE_TIME_INTERCEPTORS = "cxf.management.installResponseTimeInterceptors";
    public static final String CXF_WS_DISCOVERY_ENABLED = "cxf.ws-discovery.enabled";
+   
+   public static final String JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY = "org.jboss.ws.cxf.jaxws-client.bus.strategy";
+   public static final String THREAD_BUS_STRATEGY = "THREAD_BUS";
+   public static final String NEW_BUS_STRATEGY = "NEW_BUS";
+   public static final String TCCL_BUS_STRATEGY = "TCCL_BUS";
 }

@@ -217,4 +217,7 @@ public interface Messages {
     @Message(id = 24094, value = "Authorization failed, principal=%s")
     SecurityException authorizationFailed(String principal);
     
+    @Message(id = 24096, value = "Multiple incompatible JAXWS client Bus features provided")
+    IllegalArgumentException incompatibleJAXWSClientBusFeatureProvided();
+    
 }

@@ -22,10 +22,14 @@
 package org.jboss.wsf.stack.cxf.client.configuration;
 
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.buslifecycle.BusLifeCycleListener;
+import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 
 /**
@@ -43,6 +47,8 @@ import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
  */
 public class JBossWSBusFactory extends BusFactory
 {
+   private static final Map<ClassLoader, Bus> classLoaderBusses = new WeakHashMap<ClassLoader, Bus>();
+   
    private JBossWSSpringBusFactory springBusFactory;
    private JBossWSNonSpringBusFactory nonSpringBusFactory;
    
@@ -118,7 +124,7 @@ public class JBossWSBusFactory extends BusFactory
       return getNonSpringBusFactory().createBus(extensions, properties);
    }
    
-   public JBossWSSpringBusFactory getSpringBusFactory()
+   public synchronized JBossWSSpringBusFactory getSpringBusFactory()
    {
       if (springBusFactory == null)
       {
@@ -127,7 +133,7 @@ public class JBossWSBusFactory extends BusFactory
       return springBusFactory;
    }
 
-   public JBossWSNonSpringBusFactory getNonSpringBusFactory()
+   public synchronized JBossWSNonSpringBusFactory getNonSpringBusFactory()
    {
       if (nonSpringBusFactory == null)
       {
@@ -156,6 +162,71 @@ public class JBossWSBusFactory extends BusFactory
       finally
       {
          SecurityActions.setContextClassLoader(origClassLoader);
+      }
+   }
+   
+   /**
+    * Gets the default bus for the given classloader
+    * 
+    * @param classloader
+    * @return
+    */
+   public static Bus getClassLoaderDefaultBus(final ClassLoader classloader) {
+      Bus classLoaderBus;
+      synchronized (classLoaderBusses) {
+         classLoaderBus = classLoaderBusses.get(classloader);
+         if (classLoaderBus == null) {
+            classLoaderBus = new JBossWSBusFactory().createBus();
+            //register a listener for cleaning up the bus from the classloader association in the JBossWSBusFactory
+            BusLifeCycleListener listener = new ClassLoaderDefaultBusLifeCycleListener(classLoaderBus);
+            classLoaderBus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(listener);
+            classLoaderBusses.put(classloader, classLoaderBus);
+         }
+      }
+      return classLoaderBus;
+   }
+   
+   /**
+    * Removes a bus from being the default bus for any classloader
+    * 
+    * @param bus
+    */
+   public static void clearDefaultBusForAnyClassLoader(final Bus bus) {
+      synchronized (classLoaderBusses) {
+         for (final Iterator<Bus> iterator = classLoaderBusses.values().iterator();
+             iterator.hasNext();) {
+             Bus itBus = iterator.next();
+             if (bus == null || itBus == null|| bus.equals(itBus)) {
+                 iterator.remove();
+             }
+         }
+     }
+   }
+   
+   private static class ClassLoaderDefaultBusLifeCycleListener implements BusLifeCycleListener {
+
+      private final Bus bus;
+      
+      public ClassLoaderDefaultBusLifeCycleListener(final Bus bus) {
+         this.bus = bus;
+      }
+      
+      @Override
+      public void initComplete()
+      {
+         // NOOP
+      }
+
+      @Override
+      public void preShutdown()
+      {
+         // NOOP
+      }
+
+      @Override
+      public void postShutdown()
+      {
+         JBossWSBusFactory.clearDefaultBusForAnyClassLoader(this.bus);
       }
    }
 }
