@@ -44,7 +44,7 @@ public class HandlerAuthTestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      JBossWSTestSetup testSetup = new JBossWSTestSetup(HandlerAuthTestCase.class, "jaxws-handlerauth.jar");
+      JBossWSTestSetup testSetup = new JBossWSTestSetup(HandlerAuthTestCase.class, "jaxws-handlerauth.jar,jaxws-handlerauth2.jar");
       Map<String, String> authenticationOptions = new HashMap<String, String>();
       authenticationOptions.put("usersProperties",
             getResourceFile("jaxws/handlerauth/jbossws-users.properties").getAbsolutePath());
@@ -53,13 +53,23 @@ public class HandlerAuthTestCase extends JBossWSTest
       testSetup.addSecurityDomainRequirement("handlerauth-security-domain", authenticationOptions);
       return testSetup;
    }
-
-   public void testAuth() throws Exception
-   {
+   
+   public void testAuthSOAPHandler() throws Exception {
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/handlerauth?wsdl");
       Service service = Service.create(wsdlURL, new QName("http://ws/", "SecureEndpointImplService"));
       SecureEndpoint port = service.getPort(new QName("http://ws/", "SecureEndpointPort"), SecureEndpoint.class);
-      
+      testAuth(port);
+   }
+
+   public void testAuthLogicalHandler() throws Exception {
+      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/handlerauth2?wsdl");
+      Service service = Service.create(wsdlURL, new QName("http://ws/", "SecureEndpointImpl2Service"));
+      SecureEndpoint port = service.getPort(new QName("http://ws/", "SecureEndpoint2Port"), SecureEndpoint.class);
+      testAuth(port);
+   }
+
+   private void testAuth(final SecureEndpoint port) throws Exception
+   {
       setUser((BindingProvider)port, "John", "foo");
       int count = port.getHandlerCounter();
       int newCount;

@@ -176,9 +176,20 @@
 		<!-- jaxws-handlerauth -->
 		<jar destfile="${tests.output.dir}/test-libs/jaxws-handlerauth.jar">
 			<fileset dir="${tests.output.dir}/test-classes">
-				<include name="org/jboss/test/ws/jaxws/handlerauth/SecureEndpoint*.class" />
+				<include name="org/jboss/test/ws/jaxws/handlerauth/SecureEndpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/handlerauth/SecureEndpointImpl.class" />
 				<include name="org/jboss/test/ws/jaxws/handlerauth/SimpleHandler.class" />
 				<include name="org/jboss/test/ws/jaxws/handlerauth/handlers.xml" />
+			</fileset>
+		</jar>
+
+		<!-- jaxws-handlerauth2 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-handlerauth2.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/handlerauth/SecureEndpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/handlerauth/SecureEndpointImpl2.class" />
+				<include name="org/jboss/test/ws/jaxws/handlerauth/LogicalSimpleHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/handlerauth/handlers2.xml" />
 			</fileset>
 		</jar>
 

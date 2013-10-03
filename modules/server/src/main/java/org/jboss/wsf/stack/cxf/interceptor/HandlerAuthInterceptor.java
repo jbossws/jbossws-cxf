@@ -24,7 +24,6 @@ package org.jboss.wsf.stack.cxf.interceptor;
 import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
 import java.lang.reflect.Method;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.ws.handler.Handler;
@@ -34,6 +33,7 @@ import javax.xml.ws.handler.MessageContext;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxws.context.WrappedMessageContext;
 import org.apache.cxf.jaxws.handler.HandlerChainInvoker;
+import org.apache.cxf.jaxws.handler.logical.LogicalHandlerInInterceptor;
 import org.apache.cxf.jaxws.handler.soap.SOAPHandlerInterceptor;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.apache.cxf.message.Exchange;
@@ -61,20 +61,25 @@ public class HandlerAuthInterceptor extends AbstractPhaseInterceptor<Message>
    {
       super(Phase.PRE_PROTOCOL_FRONTEND);
       addBefore(SOAPHandlerInterceptor.class.getName());
+      addBefore(LogicalHandlerInInterceptor.class.getName());
    }
 
    @Override
    public void handleMessage(Message message) throws Fault
    {
-      Exchange ex = message.getExchange();
+      final Exchange ex = message.getExchange();
       HandlerChainInvoker invoker = ex.get(HandlerChainInvoker.class);
       if (null == invoker)
       {
-         org.apache.cxf.endpoint.Endpoint endpoint = ex.getEndpoint();
-         if (endpoint instanceof JaxWsEndpointImpl) {
-            JaxWsEndpointImpl ep = (JaxWsEndpointImpl)endpoint;
-            invoker = new JBossWSHandlerChainInvoker(ep.getJaxwsBinding().getHandlerChain(), isOutbound(message, ex));
-            ex.put(HandlerChainInvoker.class, invoker);
+         final org.apache.cxf.endpoint.Endpoint endpoint = ex.getEndpoint();
+         if (endpoint instanceof JaxWsEndpointImpl) { // JAXWS handlers are not assigned to different endpoint types 
+            final JaxWsEndpointImpl ep = (JaxWsEndpointImpl)endpoint;
+            @SuppressWarnings("rawtypes")
+            final List<Handler> handlerChain = ep.getJaxwsBinding().getHandlerChain();
+            if (handlerChain != null && !handlerChain.isEmpty()) { //save
+               invoker = new JBossWSHandlerChainInvoker(handlerChain, isOutbound(message, ex));
+               ex.put(HandlerChainInvoker.class, invoker);
+            }
          }
       }
    }
@@ -117,7 +122,7 @@ public class HandlerAuthInterceptor extends AbstractPhaseInterceptor<Message>
          Endpoint ep = exchange.get(Endpoint.class);
          EJBMethodSecurityAttributeProvider attributeProvider = ep
                .getAttachment(EJBMethodSecurityAttributeProvider.class);
-         if (attributeProvider != null) //ejb endpoints only can associated with this...
+         if (attributeProvider != null) //ejb endpoints only can be associated with this...
          {
             SecurityContext secCtx = message.get(SecurityContext.class);
             BindingOperationInfo bop = exchange.get(BindingOperationInfo.class);
