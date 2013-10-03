@@ -34,6 +34,7 @@ import junit.framework.Test;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -93,7 +94,7 @@ public class MessageLoggingTestCase extends JBossWSTest
          bus.getInInterceptors().add(myLoggingInterceptor);
          BusFactory.setThreadDefaultBus(bus);
 
-         Service service = Service.create(wsdlURL, serviceName);
+         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          QName portQName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingFeatureEndpointPort");
          port = (LoggingEndpoint)service.getPort(portQName, LoggingEndpoint.class);
          String content = "foo";

@@ -32,6 +32,7 @@ import org.apache.cxf.configuration.Configurer;
 import org.jboss.jaxb.intros.BindingCustomizationFactory;
 import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.ws.api.binding.JAXBBindingCustomization;
+import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSConfigurer;
 import org.jboss.wsf.test.ClientHelper;
 
@@ -66,7 +67,7 @@ public class Helper implements ClientHelper
          URL wsdlURL = new URL(endpointAddress + "?wsdl");
          QName serviceName = new QName("http://org.jboss.ws/cxf/jaxbintros", "EndpointBeanService");
 
-         Service service = Service.create(wsdlURL, serviceName);
+         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          Endpoint port = service.getPort(Endpoint.class);
          UserType user = new UserType();
          QName qname = new QName("ns", "local", "prefix");

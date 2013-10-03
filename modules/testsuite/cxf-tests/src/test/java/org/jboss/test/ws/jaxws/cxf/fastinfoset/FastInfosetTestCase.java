@@ -34,6 +34,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
+import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -62,7 +63,7 @@ public class FastInfosetTestCase extends JBossWSTest
    
          URL wsdlURL = new URL(endpointURl + "?wsdl");
          QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldService");
-         Service service = Service.create(wsdlURL, serviceName);
+         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldImplPort");
          HelloWorld port = (HelloWorld) service.getPort(portQName, HelloWorld.class);
          assertEquals("helloworld", port.echo("helloworld"));

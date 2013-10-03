@@ -35,6 +35,7 @@ import org.apache.cxf.transport.common.gzip.GZIPFeature;
 import org.apache.cxf.transport.common.gzip.GZIPOutInterceptor;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
+import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.ClientHelper;
 
 public class Helper implements ClientHelper
@@ -167,7 +168,7 @@ public class Helper implements ClientHelper
    {
       URL wsdlURL = new URL(gzipFeatureEndpointURL + "?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/gzip", "HelloWorldService");
-      Service service = Service.create(wsdlURL, serviceName);
+      Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
       QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/gzip", "HelloWorldImplPort");
       return (HelloWorld) service.getPort(portQName, HelloWorld.class);
    }

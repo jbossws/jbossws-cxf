@@ -34,6 +34,7 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.ClientLifeCycleListener;
 import org.apache.cxf.endpoint.ClientLifeCycleManager;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
+import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -80,7 +81,7 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
       try {
          URL wsdlOneURL = new URL(endpointOneURL + "?wsdl");
          QName serviceOneName = new QName(targetNS, "ServiceOne");
-         Service serviceOne = Service.create(wsdlOneURL, serviceOneName);
+         Service serviceOne = Service.create(wsdlOneURL, serviceOneName, new UseThreadBusFeature());
          CustomClientLifeCycleListener listener = new CustomClientLifeCycleListener();
          ClientLifeCycleManager mgr = bus.getExtension(ClientLifeCycleManager.class);
          try {

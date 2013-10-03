@@ -35,6 +35,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -61,7 +62,7 @@ public class PolicyAttachmentTestCase extends JBossWSTest
          
          URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3648-b/ServiceThree" + "?wsdl");
          QName serviceName = new QName("http://org.jboss.ws.jaxws.cxf/jbws3648", "ServiceThree");
-         Service service = Service.create(wsdlURL, serviceName);
+         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          EndpointThree proxy = (EndpointThree)service.getPort(EndpointThree.class);
          setupWsse((BindingProvider)proxy);
          
@@ -86,7 +87,7 @@ public class PolicyAttachmentTestCase extends JBossWSTest
          
          URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3648-b/ServiceFour" + "?wsdl");
          QName serviceName = new QName("http://org.jboss.ws.jaxws.cxf/jbws3648", "ServiceFour");
-         Service service = Service.create(wsdlURL, serviceName);
+         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          EndpointFour proxy = (EndpointFour)service.getPort(EndpointFour.class);
          setupWsse((BindingProvider)proxy);
          

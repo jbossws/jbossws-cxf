@@ -32,6 +32,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.ws.policy.IgnorablePolicyInterceptorProvider;
 import org.apache.cxf.ws.policy.PolicyInterceptorProviderRegistry;
+import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -65,7 +66,7 @@ public class PolicyInterceptorProviderTestCase extends JBossWSTest
          
          URL wsdlURL = new URL(endpointAddress + "?wsdl");
          QName serviceName = new QName("http://policy.cxf.jaxws.ws.test.jboss.org/", "PIPService");
-         Service service = Service.create(wsdlURL, serviceName);
+         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          QName portQName = new QName("http://policy.cxf.jaxws.ws.test.jboss.org/", "PIPEndpointPort");
          PIPEndpoint port = (PIPEndpoint)service.getPort(portQName, PIPEndpoint.class);
 
@@ -86,7 +87,7 @@ public class PolicyInterceptorProviderTestCase extends JBossWSTest
          
          URL wsdlURL = new URL(endpointAddress + "?wsdl");
          QName serviceName = new QName("http://policy.cxf.jaxws.ws.test.jboss.org/", "PIPService");
-         Service service = Service.create(wsdlURL, serviceName);
+         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          QName portQName = new QName("http://policy.cxf.jaxws.ws.test.jboss.org/", "PIPEndpointPort");
          PIPEndpoint port = (PIPEndpoint)service.getPort(portQName, PIPEndpoint.class);
 
