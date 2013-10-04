@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><xs:schema xmlns:tns="http://hello/test3" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://hello/test3" version="1.0">
+<xs:element name="doHello" type="tns:doHello"/>
+<xs:element name="doHelloResponse" type="tns:doHelloResponse"/>
+<xs:complexType name="doHello">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:helloRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="helloRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="hello" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="doHelloResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:helloResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="helloResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="multiHello" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -455,6 +455,35 @@
         <include name="org/jboss/test/ws/jaxws/cxf/jbws3679/*.class"/>
       </classes>
     </war>
+  	
+    <!-- jaxws-cxf-jbws3713 -->
+	<war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3713.war" needxmlfile="false">
+		<classes dir="${tests.output.dir}/test-classes">
+			<include name="org/jboss/test/ws/jaxws/cxf/jbws3713/Hello*.class" />
+		</classes>
+        <zipfileset dir="${tests.output.dir}/test-resources/jaxws/cxf/jbws3713/WEB-INF/wsdl" prefix="WEB-INF/wsdl"/>
+	</war>
+	<war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3713-client.war" needxmlfile="false">
+		<classes dir="${tests.output.dir}/test-classes">
+			<include name="org/jboss/test/ws/jaxws/cxf/jbws3713/BusCounter.class" />
+			<include name="org/jboss/test/ws/jaxws/cxf/jbws3713/ClientServlet*.class" />
+			<include name="org/jboss/test/ws/jaxws/cxf/jbws3713/Hello*.class" />
+			<exclude name="org/jboss/test/ws/jaxws/cxf/jbws3713/HelloWSImpl.class" />
+			<include name="org/jboss/test/ws/jaxws/cxf/jbws3713/Helper*.class" />
+		</classes>
+        <manifest>
+            <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl"/> <!-- cxf impl required for ClientProxy -->
+        </manifest>
+	</war>
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3713-client.jar" manifest="${tests.output.dir}/test-resources/jaxws/cxf/jbws3713/META-INF/MANIFEST.MF">
+		<fileset dir="${tests.output.dir}/test-classes">
+			<include name="org/jboss/test/ws/jaxws/cxf/jbws3713/BusCounter.class" />
+			<include name="org/jboss/test/ws/jaxws/cxf/jbws3713/Hello*.class" />
+			<exclude name="org/jboss/test/ws/jaxws/cxf/jbws3713/HelloWSImpl.class" />
+			<include name="org/jboss/test/ws/jaxws/cxf/jbws3713/Helper*.class" />
+			<include name="org/jboss/test/ws/jaxws/cxf/jbws3713/TestClient.class" />
+		</fileset>
+	</jar>
 
     <!-- jaxws-cxf-logging -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-logging.jar">
