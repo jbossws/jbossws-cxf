@@ -28,6 +28,9 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,6 +48,19 @@ import javax.servlet.http.HttpServletResponse;
 public class TestServlet extends HttpServlet
 {
    private static final long serialVersionUID = 1L;
+   private static final Pattern VALID_IPV6_PATTERN;
+   private static final String ipv6Pattern = "^([\\dA-F]{1,4}:|((?=.*(::))(?!.*\\3.+\\3))\\3?)([\\dA-F]{1,4}(\\3|:\\b)|\\2){5}(([\\dA-F]{1,4}(\\3|:\\b|$)|\\2){2}|(((2[0-4]|1\\d|[1-9])?\\d|25[0-5])\\.?\\b){4})\\z";
+   static
+   {
+      try
+      {
+         VALID_IPV6_PATTERN = Pattern.compile(ipv6Pattern, Pattern.CASE_INSENSITIVE);
+      }
+      catch (PatternSyntaxException e)
+      {
+         throw new RuntimeException(e);
+      }
+   }
 
    @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
@@ -58,11 +74,7 @@ public class TestServlet extends HttpServlet
       try
       {
          ClientHelper helper = (ClientHelper) Class.forName(helperClassName).newInstance();
-         String jbossBindAddress = System.getProperty("jboss.bind.address", "localhost");
-         if (jbossBindAddress.startsWith(":"))
-         {
-            jbossBindAddress = "[" + jbossBindAddress + "]"; 
-         }
+         String jbossBindAddress = toIPv6URLFormat(System.getProperty("jboss.bind.address", "localhost"));
          helper.setTargetEndpoint("http://" + jbossBindAddress + ":8080" + path);
          List<String> failedTests = new LinkedList<String>();
          List<String> errorTests = new LinkedList<String>();
@@ -114,6 +126,22 @@ public class TestServlet extends HttpServlet
       catch (Exception e)
       {
          throw new ServletException(e);
+      }
+   }
+   
+   private String toIPv6URLFormat(final String host)
+   {
+      boolean isIPv6URLFormatted = false;
+      //strip out IPv6 URL formatting if already provided...
+      if (host.startsWith("[") && host.endsWith("]")) {
+         isIPv6URLFormatted = true;
+      }
+      //return IPv6 URL formatted address
+      if (isIPv6URLFormatted) {
+         return host;
+      } else {
+         Matcher m = VALID_IPV6_PATTERN.matcher(host);
+         return m.matches() ? "[" + host + "]" : host;
       }
    }
    
