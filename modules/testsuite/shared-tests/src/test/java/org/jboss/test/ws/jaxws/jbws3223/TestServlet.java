@@ -31,6 +31,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.ws.common.utils.AddressUtils;
+
 @SuppressWarnings("serial")
 public class TestServlet extends HttpServlet
 {
@@ -40,12 +42,7 @@ public class TestServlet extends HttpServlet
       String param = req.getParameter("param");
       boolean clCheck = Boolean.parseBoolean(req.getParameter("clCheck"));
       Client client = new Client(clCheck);
-      String jbossBindAddress = System.getProperty("jboss.bind.address", "localhost");
-      if (jbossBindAddress.startsWith(":"))
-      {
-         jbossBindAddress = "[" + jbossBindAddress + "]"; 
-      }
-      URL wsdlURL = new URL("http://" + jbossBindAddress + ":8080/jaxws-jbws3223?wsdl");
+      URL wsdlURL = new URL("http://" + getHost() + ":8080/jaxws-jbws3223?wsdl");
       String retStr = client.run(param, wsdlURL);
       
       // Return the result
@@ -54,5 +51,22 @@ public class TestServlet extends HttpServlet
       pw.close();
    }
    
+   private static String getHost() {
+      return toIPv6URLFormat(System.getProperty("jboss.bind.address", "localhost"));
+   }
+   
+   private static String toIPv6URLFormat(final String host)
+   {
+      boolean isIPv6URLFormatted = false;
+      if (host.startsWith("[") && host.endsWith("]")) {
+         isIPv6URLFormatted = true;
+      }
+      //return IPv6 URL formatted address
+      if (isIPv6URLFormatted) {
+         return host;
+      } else {
+         return AddressUtils.isValidIPv6Address(host) ? "[" + host + "]" : host;
+      }
+   }
    
 }

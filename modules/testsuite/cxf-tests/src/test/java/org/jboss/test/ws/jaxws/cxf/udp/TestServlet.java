@@ -34,6 +34,7 @@ import javax.xml.ws.Service;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.jboss.ws.common.utils.AddressUtils;
 
 @WebServlet(name = "TestServlet", urlPatterns = "/*")
 public class TestServlet extends HttpServlet
@@ -77,11 +78,20 @@ public class TestServlet extends HttpServlet
    }
    
    private static String getHost() {
-      String hostName = System.getProperty("jboss.bind.address", "localhost");
-      if (hostName.startsWith(":"))
-      {
-         hostName = "[" + hostName + "]";
+      return toIPv6URLFormat(System.getProperty("jboss.bind.address", "localhost"));
+   }
+   
+   private static String toIPv6URLFormat(final String host)
+   {
+      boolean isIPv6URLFormatted = false;
+      if (host.startsWith("[") && host.endsWith("]")) {
+         isIPv6URLFormatted = true;
       }
-      return hostName;
+      //return IPv6 URL formatted address
+      if (isIPv6URLFormatted) {
+         return host;
+      } else {
+         return AddressUtils.isValidIPv6Address(host) ? "[" + host + "]" : host;
+      }
    }
 }

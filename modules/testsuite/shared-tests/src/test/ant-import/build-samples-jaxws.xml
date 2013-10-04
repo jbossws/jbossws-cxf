@@ -562,6 +562,9 @@
       <webinf dir="${tests.output.dir}/test-resources/publish/WEB-INF" erroronmissingdir="false">
       	<include name="wsdl/**"/>
       </webinf>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.common" />
+      </manifest>
     </war>
   	
     <!-- management-recording-as7.jar -->

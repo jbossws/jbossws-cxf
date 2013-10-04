@@ -1193,6 +1193,9 @@
 			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3223/WEB-INF">
 				<include name="wsdl/**" />
 			</webinf>
+            <manifest>
+				<attribute name="Dependencies" value="org.jboss.ws.common" />
+			</manifest>
 		</war>
 
 		<!-- jaxws-jbws3250 -->

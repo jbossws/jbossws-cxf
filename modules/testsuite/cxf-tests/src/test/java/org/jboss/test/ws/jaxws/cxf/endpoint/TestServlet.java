@@ -26,6 +26,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.xml.ws.Endpoint;
 
+import org.jboss.ws.common.utils.AddressUtils;
+
 /**
  * @author Magesh Kumar B <mageshbk@jboss.com> (C) 2011 Red Hat Inc.
  */
@@ -36,11 +38,7 @@ public class TestServlet extends HttpServlet
     @Override
     public void init(ServletConfig config) throws ServletException
     {
-        String hostName = System.getProperty("jboss.bind.address", "localhost");
-        if (hostName.startsWith(":"))
-        {
-           hostName = "[" + hostName + "]";
-        }
+        String hostName = toIPv6URLFormat(System.getProperty("jboss.bind.address", "localhost"));
         String serviceURL = "http://" + hostName + ":18080/HelloWorldService";
         _endpoint = Endpoint.publish(serviceURL, new HelloWorldImpl(Thread.currentThread().getContextClassLoader()));
     }
@@ -49,5 +47,19 @@ public class TestServlet extends HttpServlet
     public void destroy()
     {
         _endpoint.stop();
+    }
+    
+    private String toIPv6URLFormat(final String host)
+    {
+       boolean isIPv6URLFormatted = false;
+       if (host.startsWith("[") && host.endsWith("]")) {
+          isIPv6URLFormatted = true;
+       }
+       //return IPv6 URL formatted address
+       if (isIPv6URLFormatted) {
+          return host;
+       } else {
+          return AddressUtils.isValidIPv6Address(host) ? "[" + host + "]" : host;
+       }
     }
 }

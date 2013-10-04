@@ -219,6 +219,9 @@
         <include name="org/jboss/test/ws/jaxws/cxf/endpoint/TestServlet.class"/>
         <include name="org/jboss/test/ws/jaxws/cxf/endpoint/HelloWorld*.class"/>
       </classes>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.common"/>
+      </manifest>
     </war>
   	
     <!-- jaxws-cxf-fastinfoset -->
@@ -545,7 +548,7 @@
           dir="${tests.output.dir}/test-resources/jaxws/cxf/udp/META-INF/wsdl" 
           prefix="WEB-INF/classes/META-INF/wsdl"/>
       <manifest>
-        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services"/>
+        <attribute name="Dependencies" value="org.jboss.ws.common,org.jboss.ws.cxf.jbossws-cxf-client services"/>
       </manifest>
     </war>
   	

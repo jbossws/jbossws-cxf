@@ -22,14 +22,8 @@
 package org.jboss.test.ws.publish;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 
@@ -41,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import org.jboss.ws.common.utils.AddressUtils;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.metadata.webservices.PortComponentMetaData;
@@ -89,11 +84,7 @@ public class EndpointPublishServlet extends HttpServlet
          }
          
          //call endpoint
-         String jbossBindAddress = System.getProperty("jboss.bind.address", "localhost");
-         if (jbossBindAddress.startsWith(":"))
-         {
-            jbossBindAddress = "[" + jbossBindAddress + "]"; 
-         }
+         String jbossBindAddress = toIPv6URLFormat(System.getProperty("jboss.bind.address", "localhost"));
          invoke(new URL("http://" + jbossBindAddress + ":8080/ep-publish-test/pattern?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService"));
          invoke(new URL("http://" + jbossBindAddress + ":8080/ep-publish-test/pattern2?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService2"));
          invoke(new URL("http://" + jbossBindAddress + ":8080/ep-publish-test/pattern3?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService3"));
@@ -122,6 +113,20 @@ public class EndpointPublishServlet extends HttpServlet
                res.getWriter().print(e.getMessage());
             }
          }
+      }
+   }
+   
+   private static String toIPv6URLFormat(final String host)
+   {
+      boolean isIPv6URLFormatted = false;
+      if (host.startsWith("[") && host.endsWith("]")) {
+         isIPv6URLFormatted = true;
+      }
+      //return IPv6 URL formatted address
+      if (isIPv6URLFormatted) {
+         return host;
+      } else {
+         return AddressUtils.isValidIPv6Address(host) ? "[" + host + "]" : host;
       }
    }
 
