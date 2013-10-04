@@ -36,6 +36,7 @@ import junit.framework.Test;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.jboss.wsf.stack.cxf.client.UseNewBusFeature;
+import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -71,7 +72,7 @@ public class BusReuseTestCase extends JBossWSTest
       Bus bus = BusFactory.newInstance().createBus();
       try {
          BusFactory.setThreadDefaultBus(bus);
-         Endpoint port = getPort(WSDL_ADDRESS, bus); //invalid
+         Endpoint port = getPort(WSDL_ADDRESS, bus, new UseThreadBusFeature()); //invalid
          try {
             performInvocation(port);
             fail("Failure expected, as the wsdl soap:address is not valid!");
@@ -79,7 +80,7 @@ public class BusReuseTestCase extends JBossWSTest
             assertTrue(wse.getCause().getMessage().contains("InvalidEndpoint"));
          }
          
-         port = getPort(WSDL_ADDRESS, bus); //valid
+         port = getPort(WSDL_ADDRESS, bus, new UseThreadBusFeature()); //valid
          try {
             performInvocation(port);
             fail("Failure expected, as the WSDLManager for the bus will return the invalid wsdl");
@@ -87,7 +88,7 @@ public class BusReuseTestCase extends JBossWSTest
             assertTrue(wse.getCause().getMessage().contains("InvalidEndpoint"));
          }
          
-         port = getPort(WSDL_ADDRESS, bus); //invalid
+         port = getPort(WSDL_ADDRESS, bus, new UseThreadBusFeature()); //invalid
          
          port = getPort(WSDL_ADDRESS, bus, new UseNewBusFeature()); //valid
          //the port should now actually be built against the valid wsdl
@@ -95,7 +96,7 @@ public class BusReuseTestCase extends JBossWSTest
          //so the invocation is expected to succeed
          performInvocation(port);
          
-         port = getPort(WSDL_ADDRESS, bus); //invalid
+         port = getPort(WSDL_ADDRESS, bus, new UseThreadBusFeature()); //invalid
          
          port = getPort(WSDL_ADDRESS, bus, new UseNewBusFeature(false)); //valid
          try {
