@@ -25,6 +25,8 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.xml.ws.WebServiceRef;
 
+import org.jboss.logging.Logger;
+
 /**
  * This class verifies the default bus is not changed by
  * basic client use (creation of bus through BusFactory.newInstance().createBus(),
@@ -46,9 +48,14 @@ public class EJB3Client
       AbstractClient.testBusCreation();
    }
    
-   public void testSOAPConnection(String host) throws BusTestException, Exception
+   public void testSOAPConnection(String host) throws BusTestException
    {
-      AbstractClient.testSOAPConnection(host);
+      try {
+         AbstractClient.testSOAPConnection(host);
+      } catch (Exception e) {
+         Logger.getLogger(this.getClass()).error("Could not run 'testSOAPConnection'", e);
+         throw new BusTestException(e.getMessage());
+      }
    }
    
    public void testWebServiceRef() throws BusTestException
@@ -56,8 +63,13 @@ public class EJB3Client
       AbstractClient.testWebServiceRef(port);
    }
    
-   public void testWebServiceClient(String host) throws BusTestException, Exception
+   public void testWebServiceClient(String host) throws BusTestException
    {
-      AbstractClient.testWebServiceClient(host);
+      try {
+         AbstractClient.testWebServiceClient(host);
+      } catch (Exception e) {
+         Logger.getLogger(this.getClass()).error("Could not run 'testWebServiceClient'", e);
+         throw new BusTestException(e.getMessage());
+      }
    }
 }
