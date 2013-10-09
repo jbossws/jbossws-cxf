@@ -21,9 +21,7 @@
  */
 package org.jboss.test.ws.management.recording;
 
-import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +32,12 @@ import javax.management.ObjectName;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import org.jboss.ws.api.monitoring.Record;
+import org.jboss.ws.api.monitoring.RecordFilter;
 import org.jboss.ws.common.monitoring.AndFilter;
 import org.jboss.ws.common.monitoring.HostFilter;
 import org.jboss.ws.common.monitoring.NotFilter;
 import org.jboss.ws.common.monitoring.OperationFilter;
-import org.jboss.ws.api.monitoring.Record;
-import org.jboss.ws.api.monitoring.RecordFilter;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 
@@ -134,7 +132,8 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       port.echo1("Test getRecordsByClientHost");
       
       //We have client and server on the same host here...
-      String host = getClientHostName(getServerHost());
+      String host = "localhost".equals(getServerHost()) ? "127.0.0.1" : getServerHost();
+      if ("[::1]".equals(host)) host = "0:0:0:0:0:0:0:1"; // IPv6 hack
       
       Map<String, List<Record>> localhostRecords = (Map<String, List<Record>>)server.invoke(oname, "getRecordsByClientHost", new Object[] { host },
             new String[] { "java.lang.String" });
@@ -143,14 +142,6 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       
       assertTrue("No records for " + host, localhostRecords.size() > 0);
       assertTrue("There are records for 72.21.203.1", amazonRecords.size() == 0);
-   }
-   
-   private static String getClientHostName(String host) throws UnknownHostException {
-      //AS8 (using Undertow) actually does reverse lookup in ServletRequest::getRemoteHost(), AS720 doesn't...
-      final String ip = InetAddress.getByName(host).getHostAddress();
-      String clientHost = (ip.equals(host) || isTargetJBoss7()) ? ip : InetAddress.getByName(ip).getHostName();
-      if ("[::1]".equals(clientHost)) clientHost = "0:0:0:0:0:0:0:1"; // IPv6 hack
-      return clientHost;
    }
    
    @SuppressWarnings("unchecked")
