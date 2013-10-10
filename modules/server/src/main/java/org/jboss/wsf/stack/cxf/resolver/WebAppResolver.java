@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf.resolver;
 
 import org.jboss.wsf.spi.management.EndpointResolver;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.EndpointState;
 
 import javax.management.ObjectName;
 import java.util.Iterator;
@@ -54,13 +55,15 @@ public class WebAppResolver implements EndpointResolver
       while(endpoints.hasNext())
       {
          Endpoint auxEndpoint = endpoints.next();
-         ObjectName sepId = auxEndpoint.getName();
-         String propContext = sepId.getKeyProperty(Endpoint.SEPID_PROPERTY_CONTEXT);
-         String propEndpoint = sepId.getKeyProperty(Endpoint.SEPID_PROPERTY_ENDPOINT);
-         if (servletName.equals(propEndpoint) && contextPath.equals(propContext))
-         {
-            endpoint = auxEndpoint;
-            break;
+         if (EndpointState.STARTED.equals(auxEndpoint.getState())) {
+            ObjectName sepId = auxEndpoint.getName();
+            String propContext = sepId.getKeyProperty(Endpoint.SEPID_PROPERTY_CONTEXT);
+            String propEndpoint = sepId.getKeyProperty(Endpoint.SEPID_PROPERTY_ENDPOINT);
+            if (servletName.equals(propEndpoint) && contextPath.equals(propContext))
+            {
+               endpoint = auxEndpoint;
+               break;
+            }
          }
       }
 
