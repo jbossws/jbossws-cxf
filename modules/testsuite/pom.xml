@@ -887,9 +887,6 @@
                  <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
 
-                 <!--# [WFLY-308] Provide facility for running ejb3 ws endpoints authorization independently  -->
-                 <exclude>org/jboss/test/ws/jaxws/handlerauth/HandlerAuthTestCase*</exclude>
-
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
               </excludes>
