@@ -671,9 +671,6 @@
                  <!--# [JBWS-3560] fastinfoset module is required in as712  -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
 
-                 <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
-
                  <!--# [WFLY-308] Provide facility for running ejb3 ws endpoints authorization independently  -->
                  <exclude>org/jboss/test/ws/jaxws/handlerauth/HandlerAuthTestCase*</exclude>
 
@@ -744,9 +741,6 @@
                  <!--# [JBWS-3560] fastinfoset module is required in as713  -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
 
-                 <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
-                 
                  <!--# [WFLY-308] Provide facility for running ejb3 ws endpoints authorization independently  -->
                  <exclude>org/jboss/test/ws/jaxws/handlerauth/HandlerAuthTestCase*</exclude>
 
@@ -814,9 +808,6 @@
                  <!--# [JBWS-3560] fastinfoset module is required in as720  -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
 
-                 <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
-                 
                  <!--# [WFLY-308] Provide facility for running ejb3 ws endpoints authorization independently  -->
                  <exclude>org/jboss/test/ws/jaxws/handlerauth/HandlerAuthTestCase*</exclude>
 
@@ -883,9 +874,6 @@
 
                  <!-- # [JBWS-3620] Authentication failures w/ Undertow -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
-
-                 <!--# [JBWS-3679] @WebServiceRef injection of co-located client with no specified wsdlLocation is not working   -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
