@@ -438,15 +438,56 @@ public class ServiceImpl implements ServiceIface
         <section id="sid-41713670_Predefinedclientandendpointconfigurations-Clientconfigurationassignment">
           
           <title>Client configuration assignment</title>
-          <para>JBossWS API comes with facility classes for assigning configurations when building up a client; JAXWS handlers can be read from client configurations as follows:</para>
-          <informalexample>
-            <programlisting>import org.jboss.ws.api.configuration.ClientConfigUtil;
+          <section id="sid-41713670_Predefinedclientandendpointconfigurations-JAXWSFeature">
+            
+            <title>JAXWS Feature</title>
+            <para>
+              The most practical way of setting a configuration is using
+              <code>org.jboss.ws.api.configuration.ClientConfigFeature</code>
+              , a JAXWS
+              <code>Feature</code>
+              extension provided by JBossWS:
+            </para>
+            <informalexample>
+              <programlisting>
+import org.jboss.ws.api.configuration.ClientConfigFeature;
+
+...
+
+Service service = Service.create(wsdlURL, serviceName);
+Endpoint port = service.getPort(Endpoint.class, new ClientConfigFeature("META-INF/jaxws-client-config.xml", "Custom Client Config"));
+port.echo("Kermit");
+
+... or ....
+
+port = service.getPort(Endpoint.class, new ClientConfigFeature("META-INF/jaxws-client-config.xml", "Custom Client Config"), true); //setup properties too from the configuration
+port.echo("Kermit");
+... or ...
+
+port = service.getPort(Endpoint.class, new ClientConfigFeature(null, testConfigName)); //reads from current container configurations if available
+port.echo("Kermit");
+</programlisting>
+            </informalexample>
+            <para>
+              JBossWS internally parses the  specified configuration file, if any, after having resolved it as a  resources using the current thread context classloader. The
+              <ulink url="http://anonsvn.jboss.org/repos/jbossws/spi/tags/jbossws-spi-2.1.0.Beta1/src/main/resources/schema/jbossws-jaxws-config_4_0.xsd">jbossws-jaxws-config schema</ulink>
+              defines the descriptor contents and is included in the
+              <emphasis role="italics">jbossws-spi</emphasis>
+              artifact.
+            </para>
+          </section>
+          <section id="sid-41713670_Predefinedclientandendpointconfigurations-Explicitsetup">
+            
+            <title>Explicit setup</title>
+            <para>Alternatively, JBossWS API facility classes can be used for assigning configurations when building up a client; JAXWS handlers can be read from client configurations as follows:</para>
+            <informalexample>
+              <programlisting>import org.jboss.ws.api.configuration.ClientConfigUtil;
 import org.jboss.ws.api.configuration.ClientConfigurer;
 
 ...
 
 Service service = Service.create(wsdlURL, serviceName);
-Endpoint port = (Endpoint)service.getPort(Endpoint.class);
+Endpoint port = service.getPort(Endpoint.class);
 BindingProvider bp = (BindingProvider)port;
 ClientConfigUtil.setConfigHandlers(bp, "META-INF/jaxws-client-config.xml", "Custom Client Config 1");
 port.echo("Kermit");
@@ -465,19 +506,19 @@ port.echo("Kermit");
 
 ...
 
-configurer.setConfigHandlers(bp, null, "Container Custom Client Config"); //reads from container configurations
+configurer.setConfigHandlers(bp, null, "Container Custom Client Config"); //reads from current container configurations if available
 port.echo("Kermit");
 </programlisting>
-          </informalexample>
-          <para>... similarly, properties are read from client configurations as follows:</para>
-          <informalexample>
-            <programlisting>import org.jboss.ws.api.configuration.ClientConfigUtil;
+            </informalexample>
+            <para>... similarly, properties are read from client configurations as follows:</para>
+            <informalexample>
+              <programlisting>import org.jboss.ws.api.configuration.ClientConfigUtil;
 import org.jboss.ws.api.configuration.ClientConfigurer;
 
 ...
 
 Service service = Service.create(wsdlURL, serviceName);
-Endpoint port = (Endpoint)service.getPort(Endpoint.class);
+Endpoint port = service.getPort(Endpoint.class);
 
 ClientConfigUtil.setConfigProperties(port, "META-INF/jaxws-client-config.xml", "Custom Client Config 1");
 port.echo("Kermit");
@@ -496,19 +537,20 @@ port.echo("Kermit");
 
 ...
 
-configurer.setConfigProperties(port, null, "Container Custom Client Config"); //reads from container configurations
+configurer.setConfigProperties(port, null, "Container Custom Client Config"); //reads from current container configurations if available
 port.echo("Kermit");
 </programlisting>
-          </informalexample>
-          <para>
-            The default
-            <code>ClientConfigurer</code>
-            implementation parses the specified configuration file, if any, after having resolved it as a resources using the current thread context classloader. The
-            <ulink url="http://anonsvn.jboss.org/repos/jbossws/spi/tags/jbossws-spi-2.1.0.Beta1/src/main/resources/schema/jbossws-jaxws-config_4_0.xsd">jbossws-jaxws-config schema</ulink>
-            defines the descriptor contents and is included in the
-            <emphasis role="italics">jbossws-spi</emphasis>
-            artifact.
-          </para>
+            </informalexample>
+            <para>
+              The default
+              <code>ClientConfigurer</code>
+              implementation parses the specified configuration file, if any, after having resolved it as a resources using the current thread context classloader. The
+              <ulink url="http://anonsvn.jboss.org/repos/jbossws/spi/tags/jbossws-spi-2.1.0.Beta1/src/main/resources/schema/jbossws-jaxws-config_4_0.xsd">jbossws-jaxws-config schema</ulink>
+              defines the descriptor contents and is included in the
+              <emphasis role="italics">jbossws-spi</emphasis>
+              artifact.
+            </para>
+          </section>
         </section>
       </section>
       <section id="sid-41713670_Predefinedclientandendpointconfigurations-Applicationserverconfigurations">
