@@ -21,16 +21,19 @@
  */
 package org.jboss.test.ws.jaxws.cxf.httpproxy;
 
+import io.netty.handler.codec.http.HttpRequest;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Authenticator;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.Queue;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -46,10 +49,10 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.apache.cxf.transports.http.configuration.ProxyServerType;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.littleshoot.proxy.DefaultHttpProxyServer;
-import org.littleshoot.proxy.HttpFilter;
+import org.littleshoot.proxy.ChainedProxy;
+import org.littleshoot.proxy.ChainedProxyAdapter;
+import org.littleshoot.proxy.ChainedProxyManager;
 import org.littleshoot.proxy.HttpProxyServer;
-import org.littleshoot.proxy.ProxyAuthorizationHandler;
 
 /**
  * Tests / samples for WS client using HTTP Proxy
@@ -164,19 +167,37 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
    @Override
    protected void setUp() throws Exception
    {
-      proxyServer = new DefaultHttpProxyServer(++proxyPort, new HashMap<String, HttpFilter>(),
-            getServerHost() + ":8080", null, null);
-      ProxyAuthorizationHandler authorizationHandler = new ProxyAuthorizationHandler()
+      org.littleshoot.proxy.ProxyAuthenticator proxyAuthenticator = new org.littleshoot.proxy.ProxyAuthenticator()
       {
-
          @Override
          public boolean authenticate(String user, String pwd)
          {
             return (PROXY_USER.equals(user) && PROXY_PWD.equals(pwd));
          }
       };
-      proxyServer.addProxyAuthenticationHandler(authorizationHandler);
-      proxyServer.start();
+      InetSocketAddress address = new InetSocketAddress(getServerHost(), ++proxyPort);
+      ChainedProxyManager chainProxyManager = new ChainedProxyManager()
+      {
+         @Override
+         public void lookupChainedProxies(HttpRequest httpRequest, Queue<ChainedProxy> chainedProxies)
+         {
+            chainedProxies.add(new ChainedProxyAdapter()
+            {
+               @Override
+               public InetSocketAddress getChainedProxyAddress()
+               {
+                  return new InetSocketAddress(getServerHost(), 8080);
+               }
+
+            });
+         }
+      };
+      proxyServer = org.littleshoot.proxy.impl.DefaultHttpProxyServer
+                            .bootstrap()
+                            .withChainProxyManager(chainProxyManager)
+                            .withAddress(address)
+                            .withProxyAuthenticator(proxyAuthenticator)
+                            .start();
    }
 
    @Override

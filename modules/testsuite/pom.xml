@@ -26,7 +26,7 @@
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <log4j.output.dir>${project.build.directory}</log4j.output.dir>
     <appclient.output.dir>${project.build.directory}/appclient-logs</appclient.output.dir>
-    <org.littleshoot.littleproxy.version>0.4</org.littleshoot.littleproxy.version>
+    <org.littleshoot.littleproxy.version>1.0.0-beta2</org.littleshoot.littleproxy.version>
     <org.slf4j.version>1.6.1</org.slf4j.version>
     <gnu.getopt.version>1.0.13</gnu.getopt.version>
     <bc.version>1.46</bc.version>
