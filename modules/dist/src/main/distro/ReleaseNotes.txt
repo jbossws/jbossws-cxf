@@ -58,6 +58,45 @@ The JBossWS Team
 Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
+jbossws-cxf-4.2.2.Final
+-----------------------
+
+Bug
+
+    * [JBWS-3680] - SOAP 1.2 fault reason xml:lang attribute not properly parsed on client side
+    * [JBWS-3690] - XMLJavaTypeAdapter not working in Exception Classes
+    * [JBWS-3710] - appclient test failures against WFLY master
+    * [JBWS-3712] - Wrong processing of compressed zero (::) format IPv6 addresses
+    * [JBWS-3715] - Custom SOAPConnectionFactory not used in-container
+    * [JBWS-3717] - EndpointResolver implementations do not verify endpoint state before using endpoint
+    * [JBWS-3719] - ServiceContainerEndpointRegistry#getRegisteredEndpoints() returns set containing null
+    * [JBWS-3720] - Missing SOAPHandler compatible extension of ConfigDelegateHandler
+
+Enhancement
+
+    * [JBWS-3667] - Support to create deployment archives directly in testcase using shrinkwrap
+
+Feature Request
+
+    * [JBWS-3713] - Allow better control over Apache CXF bus creation for JAXWS clients
+
+Task
+
+    * [JBWS-3378] - JSR 109 - explicit JAXWS handler authorization for EJB3 endpoints
+    * [JBWS-3625] - Fix the WS-I BSP test failures  
+    * [JBWS-3688] - Upgrade to Apache CXF 2.7.7
+    * [JBWS-3714] - Fix test support classes for use with non compressed-zero format IPv6 addresses
+    * [JBWS-3716] - Reveal hidden exception when running EJB3ClientBusTestCase with IPv6
+    * [JBWS-3718] - Upgrade to JBossWS Native 4.1.2.Final
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3706
+
+This version of "JBoss Web Services - Stack CXF Distribution" is based on Apache CXF 2.7.7
+
+
+-----------------------
 jbossws-cxf-4.2.1.Final
 -----------------------
 
