@@ -469,7 +469,7 @@
         <include name="activation-*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/modules/system/layers/base/javax/mail/api/main/">
-        <include name="mail-*.jar"/>
+        <include name="javax.mail-*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/common-core/main/">
         <include name="jboss-common-core-*.jar"/>
@@ -546,7 +546,7 @@
         <include name="log4j-jboss-logmanager-*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/modules/system/layers/base/javax/mail/api/main/">
-        <include name="mail-*.jar"/>
+        <include name="javax.mail-*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/modules/system/layers/base/javax/servlet/api/main/">
         <include name="jboss-servlet-api_3.1_spec-*.jar"/>
