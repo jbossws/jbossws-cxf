@@ -54,6 +54,8 @@ import org.littleshoot.proxy.ChainedProxyAdapter;
 import org.littleshoot.proxy.ChainedProxyManager;
 import org.littleshoot.proxy.HttpProxyServer;
 
+import com.barchart.udt.SocketUDT;
+
 /**
  * Tests / samples for WS client using HTTP Proxy
  * 
@@ -67,7 +69,7 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
    private static final String PROXY_PWD = "bar";
    private static final String ENDPOINT_PATH = "/jaxws-cxf-httpproxy/HelloWorldService/HelloWorldImpl";
    private HttpProxyServer proxyServer;
-
+   
    public static Test suite()
    {
       return new JBossWSCXFTestSetup(HTTPProxyTestCaseForked.class, "jaxws-cxf-httpproxy.war");
@@ -75,6 +77,11 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
 
    public void testHttpProxy() throws Exception
    {
+      if (checkNativeLibraries()) {
+         initProxyServer();
+      } else {
+         return;
+      }
       final String testHost = "unreachable-testHttpProxy";
       HelloWorld port = getPort(getResourceURL("jaxws/cxf/httpproxy/HelloWorldService.wsdl"), testHost);
       final String hi = "Hi!";
@@ -119,6 +126,11 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
    
    public void testHttpProxyUsingHTTPClientPolicy() throws Exception
    {
+      if (checkNativeLibraries()) {
+         initProxyServer();
+      } else {
+         return;
+      }
       final String testHost = "unreachable-testHttpProxyUsingHTTPClientPolicy";
       HelloWorld port = getPort(getResourceURL("jaxws/cxf/httpproxy/HelloWorldService.wsdl"), testHost);
       final String hi = "Hi!";
@@ -164,8 +176,7 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       assertEquals(hi, port.echo(hi));
    }
    
-   @Override
-   protected void setUp() throws Exception
+   private void initProxyServer() throws Exception
    {
       org.littleshoot.proxy.ProxyAuthenticator proxyAuthenticator = new org.littleshoot.proxy.ProxyAuthenticator()
       {
@@ -235,6 +246,11 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
 
    public void testWSDLHttpProxy() throws Exception
    {
+      if (checkNativeLibraries()) {
+         initProxyServer();
+      } else {
+         return;
+      }
       setProxySystemProperties();
       try
       {
@@ -251,6 +267,11 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
 
    public void testWSDLNoHttpProxy() throws Exception
    {
+      if (checkNativeLibraries()) {
+         initProxyServer();
+      } else {
+         return;
+      }
       clearProxySystemProperties();
       String endpointAddress = "http://unreachable-testWSDLNoHttpProxy" + ENDPOINT_PATH;
       try
@@ -262,6 +283,20 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       {
          assertTrue(e.getMessage().contains("unreachable-testWSDLNoHttpProxy"));
       }
+   }
+   
+   private boolean checkNativeLibraries() {
+      boolean result;
+      try {
+         result = SocketUDT.INIT_OK;
+      } catch (Exception e) {
+         result = false;
+      }
+      if (!result) {
+         System.out.println("Native libraries not available or not loadble, skipping test. " +
+         		"Check logs for more details and see https://github.com/adamfisk/LittleProxy/issues/110");
+      }
+      return result;
    }
    
    private static StringBuffer readContent(URL url) throws Exception
