@@ -289,7 +289,7 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       boolean result;
       try {
          result = SocketUDT.INIT_OK;
-      } catch (Exception e) {
+      } catch (Throwable e) {
          result = false;
       }
       if (!result) {
