@@ -81,6 +81,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
          sslOptions.put("server-identity.ssl.keystore-password", "changeit");
          sslOptions.put("server-identity.ssl.alias", "tomcat");
          //enable SSL mutual authentication (https client cert is checked on server side)
+         sslOptions.put("verify-client", "REQUESTED");
          sslOptions.put("authentication.truststore.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.truststore"));
          sslOptions.put("authentication.truststore.keystore-password", "changeit");
       }
