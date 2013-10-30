@@ -64,7 +64,7 @@ public class JBWS2000TestCase extends JBossWSTest
 
    public void testFileTransfer() throws Exception
    {
-      GeneratorDataSource source = new GeneratorDataSource(1024 * 1204 * 150);
+      GeneratorDataSource source = new GeneratorDataSource(1024 * 1204 * 8); //avoid going beyond Undertow default max post size
       DataHandler dh = new DataHandler(source);
 
       boolean success = port.transferFile("JBWS2000.data", dh);
