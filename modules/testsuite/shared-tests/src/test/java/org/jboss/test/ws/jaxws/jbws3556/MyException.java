@@ -21,52 +21,51 @@
  */
 package org.jboss.test.ws.jaxws.jbws3556;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 public class MyException extends Exception {
-    private String from;
-    private int id;
-    private String summary;
 
-    public MyException() {} // mandatory constructor
+   private static final long serialVersionUID = -1349782382698409653L;
+   private String from;
+   private int id;
+   private String summary;
 
-    public MyException(String from, int id, String message, String summary) {
-        super(message);
-        this.from = from;
-        this.id = id;
-        this.summary = summary;
-    }
+   public MyException() {} // mandatory constructor
 
-    // mandatory from setter
-    public void setFrom(String from) {
-        this.from = from;
-    }
+   public MyException(String from, int id, String message, String summary) {
+      super(message);
+      this.from = from;
+      this.id = id;
+      this.summary = summary;
+   }
+
+   // mandatory from setter
+   public void setFrom(String from) {
+      this.from = from;
+   }
 
     // mandatory id setter
-    public void setId(int id) {
-        this.id = id;
-    }
+   public void setId(int id) {
+      this.id = id;
+   }
 
-    // mandatory summary setter
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
+   // mandatory summary setter
+   public void setSummary(String summary) {
+      this.summary = summary;
+   }
 
-    public String getFrom() {
-        return from;
-    }
+   public String getFrom() {
+      return from;
+   }
 
-    public int getId() {
-        return id;
-    }
+   public int getId() {
+      return id;
+   }
 
-    public String getSummary() {
-        return summary;
-    }
+   public String getSummary() {
+      return summary;
+   }
 
-    public String toString() {
-        return from + "," + id + "," + getMessage() + "," + summary;
-    }
+   @Override
+   public String toString() {
+      return from + "," + id + "," + getMessage() + "," + summary;
+   }
 }

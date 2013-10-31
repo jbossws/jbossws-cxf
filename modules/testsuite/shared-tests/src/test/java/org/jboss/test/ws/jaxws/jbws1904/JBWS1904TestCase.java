@@ -37,7 +37,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * [JBWS-1904] Explicitly set the namespace of a WebFault
- * 
+ *
  * http://jira.jboss.org/jira/browse/JBWS-1904
  *
  * @author alessio.soldano@jboss.com
@@ -53,12 +53,12 @@ public class JBWS1904TestCase extends JBossWSTest
    public void testWSDLSchema() throws Exception
    {
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws1904?wsdl");
-      
+
       Document doc = DOMUtils.getDocumentBuilder().parse(wsdlURL.toString());
       NodeList schemas = ((Element)doc.getDocumentElement()
          .getElementsByTagNameNS("http://schemas.xmlsoap.org/wsdl/", "types").item(0))
             .getElementsByTagNameNS("http://www.w3.org/2001/XMLSchema", "schema");
-      
+
       boolean firstTypeFound = false;
       boolean secondTypeFound = false;
       for (int i = 0; i < schemas.getLength(); i++)
@@ -66,7 +66,7 @@ public class JBWS1904TestCase extends JBossWSTest
          Element schema = (Element)schemas.item(i);
          if (schema.getAttribute("targetNamespace").equals("http://org.jboss.ws/jbws1904/faults"))
          {
-            Iterator elements = DOMUtils.getChildElements(schema, new QName("http://www.w3.org/2001/XMLSchema", "element"));
+            Iterator<?> elements = DOMUtils.getChildElements(schema, new QName("http://www.w3.org/2001/XMLSchema", "element"));
             while (elements.hasNext())
             {
                Element e = (Element)elements.next();
@@ -80,7 +80,7 @@ public class JBWS1904TestCase extends JBossWSTest
          }
          if (schema.getAttribute("targetNamespace").equals("http://org.jboss.ws/jbws1904/exceptions"))
          {
-            Iterator elements = DOMUtils.getChildElements(schema, new QName("http://www.w3.org/2001/XMLSchema", "complexType"));
+            Iterator<?> elements = DOMUtils.getChildElements(schema, new QName("http://www.w3.org/2001/XMLSchema", "complexType"));
             while (elements.hasNext())
             {
                Element e = (Element)elements.next();

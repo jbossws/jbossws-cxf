@@ -22,12 +22,8 @@
 package org.jboss.test.ws.jaxws.jbws2937;
 
 import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.ParameterStyle;
-
 import javax.ejb.Stateless;
 
 import org.jboss.ws.api.annotation.WebContext;

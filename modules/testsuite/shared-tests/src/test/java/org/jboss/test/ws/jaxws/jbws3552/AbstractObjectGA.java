@@ -22,7 +22,6 @@
 package org.jboss.test.ws.jaxws.jbws3552;
 
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlTransient
 public class AbstractObjectGA {

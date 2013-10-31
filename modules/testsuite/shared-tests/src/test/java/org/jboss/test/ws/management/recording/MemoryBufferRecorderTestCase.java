@@ -49,16 +49,18 @@ import org.jboss.wsf.test.JBossWSTestHelper;
  */
 public class MemoryBufferRecorderTestCase extends JBossWSTest
 {
-   private String endpointURL = "http://" + getServerHost() + ":8080/management-recording/EndpointImpl";
-   private String targetNS = "http://recording.management.ws.test.jboss.org/";
+   private final String endpointURL = "http://" + getServerHost() + ":8080/management-recording/EndpointImpl";
+   private final String targetNS = "http://recording.management.ws.test.jboss.org/";
    private String endpointObjectName;
 
+   @Override
    protected void setUp() throws Exception
    {
       endpointObjectName = "jboss.ws:context=management-recording,endpoint=EndpointWithConfigImpl";
       JBossWSTestHelper.deploy("management-recording-as7.jar");
    }
-   
+
+   @Override
    protected void tearDown() throws Exception
    {
       JBossWSTestHelper.undeploy("management-recording-as7.jar");
@@ -79,7 +81,7 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       int endSize = (Integer)server.getAttribute(oname, "Size");
       assertEquals(3, endSize - startSize);
    }
-   
+
    @SuppressWarnings("unchecked")
    public void testGetRecordsByOperation() throws Exception
    {
@@ -95,7 +97,7 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
             "java.lang.String", "java.lang.String" });
       Map<String, List<Record>> echo2Records = (Map<String, List<Record>>)server.invoke(oname, "getRecordsByOperation", new Object[] { targetNS, "echo2" }, new String[] {
             "java.lang.String", "java.lang.String" });
-      
+
       assertFalse(echo1Records.isEmpty());
       assertFalse(echo2Records.isEmpty());
       for (List<Record> list : echo1Records.values())
@@ -119,8 +121,8 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
          }
       }
    }
-   
-   
+
+
    @SuppressWarnings("unchecked")
    public void testGetRecordsByClientHost() throws Exception
    {
@@ -162,16 +164,15 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
 
       RecordFilter[] filters = new RecordFilter[] {operationFilter, hostFilter};
       Map<String, List<Record>> startRecords = (Map<String, List<Record>>)server.invoke(oname, "getMatchingRecords", new Object[] { filters }, new String[] { filters.getClass().getName() });
-      
+
       port.echo1("Test getMatchingRecords");
       port.echo2("Test getMatchingRecords");
-      
+
       Map<String, List<Record>> stopRecords = (Map<String, List<Record>>)server.invoke(oname, "getMatchingRecords", new Object[] { filters }, new String[] { filters.getClass().getName() });
-      
+
       assertEquals(1, stopRecords.keySet().size() - startRecords.keySet().size());
    }
-   
-   @SuppressWarnings("unchecked")
+
    public void testAddRemoveFilter() throws Exception
    {
       Endpoint port = getPort();
@@ -187,24 +188,24 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       port.echo1("Test testAddRemoveFilter");
       port.echo2("Test testAddRemoveFilter");
       assertEquals(1, (Integer)server.getAttribute(oname, "Size") - size);
-      
+
       //Clean filters...
       server.setAttribute(oname, new Attribute("Filters", new LinkedList<RecordFilter>()));
       size = (Integer)server.getAttribute(oname, "Size");
       port.echo1("Test testAddRemoveFilter");
       port.echo2("Test testAddRemoveFilter");
       assertEquals(2, (Integer)server.getAttribute(oname, "Size") - size);
-      
+
       NotFilter notFilter = new NotFilter(operationFilter);
       AndFilter andFilter = new AndFilter(operationFilter, notFilter);
-      
+
       //Adding And filter...
       server.invoke(oname, "addFilter", new Object[] { andFilter }, new String[] { RecordFilter.class.getName() });
       size = (Integer)server.getAttribute(oname, "Size");
       port.echo1("Test testAddRemoveFilter");
       port.echo2("Test testAddRemoveFilter");
       assertEquals(0, (Integer)server.getAttribute(oname, "Size") - size);
-      
+
       //Clean filters...
       server.setAttribute(oname, new Attribute("Filters", new LinkedList<RecordFilter>()));
       size = (Integer)server.getAttribute(oname, "Size");
@@ -212,7 +213,7 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       port.echo2("Test testAddRemoveFilter");
       assertEquals(2, (Integer)server.getAttribute(oname, "Size") - size);
    }
-   
+
    private void setRecording(boolean recording) throws Exception
    {
       MBeanServerConnection server = getServer();
@@ -221,13 +222,12 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       server.setAttribute(oname, attribute);
       assertEquals(recording, server.getAttribute(oname, "Recording"));
    }
-   
+
    private Endpoint getPort() throws Exception
    {
       URL wsdlURL = new URL(endpointURL + "?wsdl");
       QName serviceName = new QName(targetNS, "EndpointService");
       Service service = Service.create(wsdlURL, serviceName);
-      Endpoint port = (Endpoint)service.getPort(Endpoint.class);
-      return port;
+      return service.getPort(Endpoint.class);
    }
 }

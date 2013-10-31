@@ -26,34 +26,38 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlTransient
 public class AdaptedExceptionFA extends Exception {
-    private String message;
-    private String description;
-    @XmlJavaTypeAdapter(value = ComplexObjectFAAdapter.class)
-    private ComplexObjectFA complexObject;
 
-    public AdaptedExceptionFA() {
-        super();
-    }
+   private static final long serialVersionUID = -65572237575182644L;
+   private String message;
+   private String description;
+   @XmlJavaTypeAdapter(value = ComplexObjectFAAdapter.class)
+   private ComplexObjectFA complexObject;
 
-    public AdaptedExceptionFA(String message, String description, ComplexObjectFA complexObject) {
-        this.message = message;
-        this.description = description;
-        this.complexObject = complexObject;
-    }
+   public AdaptedExceptionFA() {
+      super();
+   }
 
-    public String getMessage() {
-        return message;
-    }
+   public AdaptedExceptionFA(String message, String description, ComplexObjectFA complexObject) {
+      this.message = message;
+      this.description = description;
+      this.complexObject = complexObject;
+   }
 
-    public String getDescription() {
-        return description;
-    }
+   @Override
+   public String getMessage() {
+      return message;
+   }
 
-    public ComplexObjectFA getComplexObject() {
-        return complexObject;
-    }
+   public String getDescription() {
+      return description;
+   }
 
-    public String toString() {
-        return message + "," + description + "," + complexObject;
-    }
+   public ComplexObjectFA getComplexObject() {
+      return complexObject;
+   }
+
+   @Override
+   public String toString() {
+      return message + "," + description + "," + complexObject;
+   }
 }

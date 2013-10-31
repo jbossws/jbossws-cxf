@@ -29,40 +29,41 @@ public class UserException_Exception
     extends Exception
 {
 
-    /**
-     * Java type that goes as soapenv:Fault detail element.
-     * 
-     */
-    private UserException faultInfo;
+   private static final long serialVersionUID = -2070541986440051888L;
+   /**
+    * Java type that goes as soapenv:Fault detail element.
+    *
+    */
+   private final UserException faultInfo;
 
-    /**
-     * 
-     * @param faultInfo
-     * @param message
-     */
-    public UserException_Exception(String message, UserException faultInfo) {
-        super(message);
-        this.faultInfo = faultInfo;
-    }
+   /**
+    *
+    * @param faultInfo
+    * @param message
+    */
+   public UserException_Exception(String message, UserException faultInfo) {
+      super(message);
+      this.faultInfo = faultInfo;
+   }
 
-    /**
-     * 
-     * @param faultInfo
-     * @param message
-     * @param cause
-     */
-    public UserException_Exception(String message, UserException faultInfo, Throwable cause) {
-        super(message, cause);
-        this.faultInfo = faultInfo;
-    }
+   /**
+    *
+    * @param faultInfo
+    * @param message
+    * @param cause
+    */
+   public UserException_Exception(String message, UserException faultInfo, Throwable cause) {
+      super(message, cause);
+      this.faultInfo = faultInfo;
+   }
 
-    /**
-     * 
-     * @return
-     *     returns fault bean: org.jboss.test.ws.jaxws.samples.exception.client.UserException
-     */
-    public UserException getFaultInfo() {
-        return faultInfo;
-    }
+   /**
+    *
+    * @return
+    *     returns fault bean: org.jboss.test.ws.jaxws.samples.exception.client.UserException
+    */
+   public UserException getFaultInfo() {
+      return faultInfo;
+   }
 
 }

@@ -50,6 +50,7 @@ public class POJOImpl implements POJOIface
    private Boolean _boolean1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setBoolean1(Boolean b)
    {
       this._boolean1 = b;
@@ -65,6 +66,7 @@ public class POJOImpl implements POJOIface
    private Byte _byte1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setByte1(Byte b)
    {
       this._byte1 = b;
@@ -80,6 +82,7 @@ public class POJOImpl implements POJOIface
    private Character _character1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setCharacter1(Character c)
    {
       this._character1 = c;
@@ -95,6 +98,7 @@ public class POJOImpl implements POJOIface
    private Short _short1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setShort1(Short i)
    {
       this._short1 = i;
@@ -296,6 +300,7 @@ public class POJOImpl implements POJOIface
       this.correctState = correctInitialization;
    }
 
+   @Override
    @WebMethod
    public String echo(String msg)
    {

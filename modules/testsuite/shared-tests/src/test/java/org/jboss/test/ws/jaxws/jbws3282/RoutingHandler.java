@@ -21,27 +21,25 @@
  */
 package org.jboss.test.ws.jaxws.jbws3282;
 
-import javax.xml.soap.Name;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPBodyElement;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.soap.SOAPHeader;
-import javax.xml.soap.SOAPHeaderElement;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.handler.GenericSOAPHandler;
 
-public class RoutingHandler extends GenericSOAPHandler
+public class RoutingHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
    // Provide logging
    private static Logger log = Logger.getLogger(RoutingHandler.class);
 
+   @Override
    protected boolean handleInbound(MessageContext msgContext)
    {
       log.info("handleInbound");
@@ -49,7 +47,7 @@ public class RoutingHandler extends GenericSOAPHandler
       try
       {
          SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
-         SOAPHeader soapHeader = soapMessage.getSOAPHeader();
+         soapMessage.getSOAPHeader();
          SOAPBody soapBody = soapMessage.getSOAPBody();
 
 //         SOAPFactory soapFactory = SOAPFactory.newInstance();
@@ -70,6 +68,7 @@ public class RoutingHandler extends GenericSOAPHandler
       return true;
    }
 
+   @Override
    protected boolean handleOutbound(MessageContext msgContext)
    {
       log.info("handleOutbound");
@@ -77,7 +76,7 @@ public class RoutingHandler extends GenericSOAPHandler
       try
       {
          SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
-         SOAPHeader soapHeader = soapMessage.getSOAPHeader();
+         soapMessage.getSOAPHeader();
          SOAPBody soapBody = soapMessage.getSOAPBody();
 
 //         SOAPFactory soapFactory = SOAPFactory.newInstance();

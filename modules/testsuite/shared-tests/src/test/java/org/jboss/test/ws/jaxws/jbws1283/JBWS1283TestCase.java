@@ -21,11 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws1283;
 
-import junit.framework.Test;
-
-import org.jboss.ws.api.handler.GenericSOAPHandler;
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.AttachmentPart;
@@ -34,19 +33,22 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
+import junit.framework.Test;
+
+import org.jboss.ws.api.handler.GenericSOAPHandler;
+import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * [JBWS-1283] Attachment dropped on outbound messages if they have been added through a handler
  */
 public class JBWS1283TestCase extends JBossWSTest
 {
-   private String targetNS = "http://org.jboss.test.ws/jbws1283";
+   private final String targetNS = "http://org.jboss.test.ws/jbws1283";
    private JBWS1283Endpoint port;
 
    public static Test suite()
@@ -63,13 +65,14 @@ public class JBWS1283TestCase extends JBossWSTest
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws1283/JBWS1283Service/JBWS1283EndpointImpl?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
-      port = (JBWS1283Endpoint)service.getPort(JBWS1283Endpoint.class);
+      port = service.getPort(JBWS1283Endpoint.class);
    }
 
    public void testAttachmentResponse() throws Exception
    {
       // Add a client-side handler that verifes existence of the attachment
       BindingProvider bindingProvider = (BindingProvider)port;
+      @SuppressWarnings("rawtypes")
       List<Handler> handlerChain = new ArrayList<Handler>();
       handlerChain.add(new VerifyAttachmentHandler());
       bindingProvider.getBinding().setHandlerChain(handlerChain);
@@ -78,12 +81,13 @@ public class JBWS1283TestCase extends JBossWSTest
    }
 
    // handler that verifies the attachment that have been added on the server-side
-   static class VerifyAttachmentHandler extends GenericSOAPHandler
+   static class VerifyAttachmentHandler extends GenericSOAPHandler<LogicalMessageContext>
    {
+      @Override
       protected boolean handleInbound(MessageContext msgContext)
       {
          SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
-         Iterator it = soapMessage.getAttachments();
+         Iterator<?> it = soapMessage.getAttachments();
          while(it.hasNext())
          {
             try

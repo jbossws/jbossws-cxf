@@ -21,7 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3593;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,18 +32,19 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.handler.GenericSOAPHandler;
 
-public class ClientHandler extends GenericSOAPHandler
+public class ClientHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
    private static Logger log = Logger.getLogger(ClientHandler.class);
-   
+
    private boolean checkMtom;
-   
+
    public ClientHandler(boolean checkMtom) {
       super();
       this.checkMtom = checkMtom;
@@ -103,7 +103,8 @@ public class ClientHandler extends GenericSOAPHandler
 
       try
       {
-         Map<String, List> headers = (Map)msgContext.get(MessageContext.HTTP_RESPONSE_HEADERS);
+         @SuppressWarnings("unchecked")
+         Map<String, List<String>> headers = (Map<String, List<String>>)msgContext.get(MessageContext.HTTP_RESPONSE_HEADERS);
          List<String> ctype = (headers == null) ? null : headers.get("Content-Type");
          if (ctype == null)
          {

@@ -23,25 +23,27 @@ package org.jboss.test.ws.jaxws.jbws3552;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ExtendedAdaptedExceptionCA extends AdaptedExceptionCA {
-    private int code;
 
-    public ExtendedAdaptedExceptionCA() {
-    }
+   private static final long serialVersionUID = 7670761656012577959L;
+   private int code;
 
-    public ExtendedAdaptedExceptionCA(int code, String message, String description, ComplexObjectCA complexObject) {
-        super(message, description, complexObject);
-        this.code = code;
-    }
+   public ExtendedAdaptedExceptionCA() {
+   }
 
-    public int getCode() {
-        return code;
-    }
+   public ExtendedAdaptedExceptionCA(int code, String message, String description, ComplexObjectCA complexObject) {
+      super(message, description, complexObject);
+      this.code = code;
+   }
 
-    public String toString() {
-        return code + "," + super.toString();
-    }
+   public int getCode() {
+      return code;
+   }
+
+   @Override
+   public String toString() {
+      return code + "," + super.toString();
+   }
 }

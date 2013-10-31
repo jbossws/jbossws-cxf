@@ -60,20 +60,20 @@ public class OneWayTestCase extends JBossWSTest
       QName serviceName = new QName(targetNS, "PingEndpointService");
       QName portName = new QName(targetNS, "PingEndpointPort");
       Service service = Service.create(wsdlURL, serviceName);
-      Dispatch dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
+      Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
       
       String payload = "<ns1:ping xmlns:ns1='http://oneway.samples.jaxws.ws.test.jboss.org/'/>";
       dispatch.invokeOneWay(new StreamSource(new StringReader(payload)));
 
-      //sleep 3 sec as invokeOneWay is supposed to be non-blocking subject to the capabilities of the underlying protocol
-      Thread.sleep(3000);
+      //sleep 5 sec as invokeOneWay is supposed to be non-blocking subject to the capabilities of the underlying protocol
+      Thread.sleep(5000);
  
       payload = "<ns1:feedback xmlns:ns1='http://oneway.samples.jaxws.ws.test.jboss.org/'/>";
-      Source retObj = (Source)dispatch.invoke(new StreamSource(new StringReader(payload)));
+      Source retObj = dispatch.invoke(new StreamSource(new StringReader(payload)));
       
       Element docElement = DOMUtils.sourceToElement(retObj);
       Element retElement = DOMUtils.getFirstChildElement(docElement);
-      String retPayload = DOMWriter.printNode(retElement, false);
+      DOMWriter.printNode(retElement, false);
       assertEquals("return", retElement.getNodeName());
       assertEquals("result: ok", retElement.getTextContent());
    }

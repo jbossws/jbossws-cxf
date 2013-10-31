@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.jbws1702.types;
 
-import javax.xml.bind.annotation.XmlSeeAlso;
-
 /**
  *
  *

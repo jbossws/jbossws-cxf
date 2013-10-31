@@ -21,15 +21,16 @@
  */
 package org.jboss.test.ws.jaxws.jbws1694;
 
-import junit.framework.Test;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.Holder;
 import java.net.URL;
 
-import org.jboss.wsf.test.JBossWSTestSetup;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Holder;
+import javax.xml.ws.Service;
+
+import junit.framework.Test;
+
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * @author Heiko.Braun@jboss.com
@@ -54,8 +55,8 @@ public class JBWS1694TestCase extends JBossWSTest
 
       Basket basket = new Basket();
       basket.setCustomerId("4567");
-      
-      Receipt receipt = port.submitBasket(new Holder(inout), basket);
+
+      Receipt receipt = port.submitBasket(new Holder<Header>(inout), basket);
       assertTrue(receipt.getMsg().equals("1234"));
    }
 

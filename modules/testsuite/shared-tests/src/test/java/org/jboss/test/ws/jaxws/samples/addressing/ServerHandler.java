@@ -22,6 +22,7 @@
 package org.jboss.test.ws.jaxws.samples.addressing;
 
 import javax.xml.namespace.QName;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.MessageContext.Scope;
 
@@ -41,7 +42,7 @@ import org.w3c.dom.NodeList;
  * @author Thomas.Diesler@jboss.org
  * @since 24-Nov-2005
  */
-public class ServerHandler extends GenericSOAPHandler
+public class ServerHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
    // Provide logging
    private static Logger log = Logger.getLogger(ServerHandler.class);
@@ -91,20 +92,20 @@ public class ServerHandler extends GenericSOAPHandler
    public boolean handleOutbound(MessageContext msgContext)
    {
       log.info("handleResponse");
-      
+
       MAPBuilder builder = MAPBuilderFactory.getInstance().getBuilderInstance();
       MAP inProps = builder.inboundMap(msgContext);
       MAP outProps = builder.newMap();
       outProps.initializeAsDestination(inProps.getReplyTo());
-      
+
       outProps.installOutboundMapOnServerSide(msgContext, outProps);
       msgContext.setScope(builder.newConstants().getServerAddressingPropertiesOutbound(), Scope.APPLICATION);
 
       return true;
    }
-   
+
    // ---------------- DOM Util methods -------------------
-   
+
    /** Get the qname of the given node.
     */
    protected static QName getElementQName(Element el)
@@ -142,7 +143,7 @@ public class ServerHandler extends GenericSOAPHandler
                   nsElement = getParentElement(nsElement);
             }
          }
-         
+
          if (namespaceURI.equals("") && el.getNamespaceURI() != null)
          {
             namespaceURI = el.getNamespaceURI();
@@ -165,7 +166,7 @@ public class ServerHandler extends GenericSOAPHandler
       qname = new QName(namespaceURI, localPart, prefix);
       return qname;
    }
-   
+
    /** Gets parent element or null if there is none
     */
    protected static Element getParentElement(Node node)
@@ -173,7 +174,7 @@ public class ServerHandler extends GenericSOAPHandler
       Node parent = node.getParentNode();
       return (parent instanceof Element ? (Element)parent : null);
    }
-   
+
    /** Get the concatenated text content, or null.
     */
    protected static String getTextContent(Node node)

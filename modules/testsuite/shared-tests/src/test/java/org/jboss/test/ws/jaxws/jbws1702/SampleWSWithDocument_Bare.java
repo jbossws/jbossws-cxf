@@ -47,8 +47,9 @@ public class SampleWSWithDocument_Bare implements SampleWSBareSEI
 
   /**
    * In .NET Client (C#) only the content information of ClassB is being submitted.  (--> propC is unknown)
-   */  
-  public ResponseWrapperB getClassCAsClassB() {
+   */
+  @Override
+public ResponseWrapperB getClassCAsClassB() {
     ClassC classC= new ClassC();
     classC.setPropA("propA");
     classC.setPropB("propB");
@@ -61,8 +62,9 @@ public class SampleWSWithDocument_Bare implements SampleWSBareSEI
 
   /**
    * Method that make ClassC available for all clients using this web service.
-   */  
-  public ResponseWrapperC getClassC() {
+   */
+  @Override
+public ResponseWrapperC getClassC() {
     ClassC data = (ClassC) getClassCAsClassB().getData();
     ResponseWrapperC resp = new ResponseWrapperC();
     resp.setData(data);

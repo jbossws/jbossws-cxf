@@ -23,6 +23,7 @@ package org.jboss.test.ws.jaxws.jbws2528;
 
 public class NameException extends Exception
 {
+   private static final long serialVersionUID = 2135105904993579964L;
    private String first = "";
 
    public NameException(String first)

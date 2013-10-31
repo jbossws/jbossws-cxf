@@ -32,12 +32,16 @@ import javax.servlet.http.HttpServletResponse;
 
 public class EnvEntryServlet extends HttpServlet
 {
+
+   private static final long serialVersionUID = 3721966035455821502L;
+
    @Resource(name = "jaxws/entry1")
    String strValue;
 
    @Resource(name = "jaxws/entry2")
    Integer intValue;
 
+   @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
    {
       PrintWriter pw = new PrintWriter(res.getWriter());

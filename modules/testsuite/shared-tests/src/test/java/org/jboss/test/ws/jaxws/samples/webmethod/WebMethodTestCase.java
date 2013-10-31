@@ -52,8 +52,8 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class WebMethodTestCase extends JBossWSTest
 {
-   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-samples-webmethod/TestService";
-   private String targetNS = "http://webmethod.samples.jaxws.ws.test.jboss.org/";
+   private final String endpointURL = "http://" + getServerHost() + ":8080/jaxws-samples-webmethod/TestService";
+   private final String targetNS = "http://webmethod.samples.jaxws.ws.test.jboss.org/";
 
    public static Test suite()
    {
@@ -66,7 +66,7 @@ public class WebMethodTestCase extends JBossWSTest
       QName serviceName = new QName(targetNS, "EndpointService");
 
       Service service = Service.create(wsdlURL, serviceName);
-      Endpoint port = (Endpoint)service.getPort(Endpoint.class);
+      Endpoint port = service.getPort(Endpoint.class);
 
       Object retObj = port.echo("Hello");
       assertEquals("Hello", retObj);
@@ -77,14 +77,14 @@ public class WebMethodTestCase extends JBossWSTest
       MessageFactory msgFactory = MessageFactory.newInstance();
       SOAPConnection con = SOAPConnectionFactory.newInstance().createConnection();
 
-      String reqEnv = 
-         "<env:Envelope xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>" + 
-         " <env:Header/>" + 
-         " <env:Body>" + 
-         "  <ns1:echoString xmlns:ns1='" + targetNS + "'>" + 
-         "   <arg0>Hello</arg0>" + 
-         "  </ns1:echoString>" + 
-         " </env:Body>" + 
+      String reqEnv =
+         "<env:Envelope xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>" +
+         " <env:Header/>" +
+         " <env:Body>" +
+         "  <ns1:echoString xmlns:ns1='" + targetNS + "'>" +
+         "   <arg0>Hello</arg0>" +
+         "  </ns1:echoString>" +
+         " </env:Body>" +
          "</env:Envelope>";
       SOAPMessage reqMsg = msgFactory.createMessage(null, new ByteArrayInputStream(reqEnv.getBytes()));
 
@@ -102,14 +102,14 @@ public class WebMethodTestCase extends JBossWSTest
       MessageFactory msgFactory = MessageFactory.newInstance();
       SOAPConnection con = SOAPConnectionFactory.newInstance().createConnection();
 
-      String reqEnv = 
-         "<env:Envelope xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>" + 
-         " <env:Header/>" + 
-         " <env:Body>" + 
-         "  <ns1:noWebMethod xmlns:ns1='" + targetNS + "'>" + 
-         "   <String_1>Hello</String_1>" + 
-         "  </ns1:noWebMethod>" + 
-         " </env:Body>" + 
+      String reqEnv =
+         "<env:Envelope xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>" +
+         " <env:Header/>" +
+         " <env:Body>" +
+         "  <ns1:noWebMethod xmlns:ns1='" + targetNS + "'>" +
+         "   <String_1>Hello</String_1>" +
+         "  </ns1:noWebMethod>" +
+         " </env:Body>" +
          "</env:Envelope>";
       SOAPMessage reqMsg = msgFactory.createMessage(null, new ByteArrayInputStream(reqEnv.getBytes()));
 
@@ -128,19 +128,13 @@ public class WebMethodTestCase extends JBossWSTest
       QName serviceName = new QName(targetNS, "EndpointService");
       QName portName = new QName(targetNS, "EndpointPort");
 
-      String reqPayload = 
-         "<ns1:noWebMethod xmlns:ns1='" + targetNS + "'>" + 
-         " <String_1>Hello</String_1>" + 
+      String reqPayload =
+         "<ns1:noWebMethod xmlns:ns1='" + targetNS + "'>" +
+         " <String_1>Hello</String_1>" +
          "</ns1:noWebMethod>";
 
-      String expPayload = 
-         "<env:Fault xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>" + 
-         " <faultcode>env:Client</faultcode>" + 
-         " <faultstring>Endpoint {http://webmethod.samples.jaxws.ws.test.jboss.org/}EndpointPort does not contain operation meta data for: {http://webmethod.samples.jaxws.ws.test.jboss.org/}noWebMethod</faultstring>" + 
-         "</env:Fault>";
-
       Service service = Service.create(wsdlURL, serviceName);
-      Dispatch dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
+      Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
       try
       {
          dispatch.invoke(new StreamSource(new StringReader(reqPayload)));

@@ -55,9 +55,9 @@ public class JBWS2183TestCase extends JBossWSTest
       WSDLReader wsdlReader = WSDLFactory.newInstance().newWSDLReader();
       Definition wsdlDefinition = wsdlReader.readWSDL(wsdlURL.toString());
       assertNotNull(wsdlDefinition);
-      for (Iterator it = wsdlDefinition.getAllBindings().values().iterator(); it.hasNext(); )
+      for (Iterator<?> it = wsdlDefinition.getAllBindings().values().iterator(); it.hasNext(); )
       {
-         List extElements = ((Binding)it.next()).getExtensibilityElements();
+         List<?> extElements = ((Binding)it.next()).getExtensibilityElements();
          boolean found = false;
          for (int i = 0; i < extElements.size(); i++)
          {

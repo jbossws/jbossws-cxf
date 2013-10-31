@@ -51,8 +51,6 @@ public class HttpServerDestination extends JAXWSHttpSpiDestination
 {
    static final Logger LOG = LogUtils.getL7dLogger(HttpServerDestination.class);
 
-   private static final long serialVersionUID = 1L;
-
    private HttpServerEngineFactory serverEngineFactory;
    private HttpServerEngine engine;
    private URL url;

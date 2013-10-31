@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.XmlType;
     "lastName"
 })
 public class Customer implements Serializable {
+
+   private static final long serialVersionUID = 8072660329498454521L;
    private String firstName;
    private String lastName;
    private String creditCardDetails;
@@ -50,7 +52,7 @@ public class Customer implements Serializable {
    public void setLastName(String lastName) {
       this.lastName = lastName;
    }
-   
+
    public String getCreditCardDetails() {
       return creditCardDetails;
    }

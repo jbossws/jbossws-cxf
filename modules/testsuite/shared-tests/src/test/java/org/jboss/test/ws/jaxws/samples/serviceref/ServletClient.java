@@ -23,15 +23,16 @@ package org.jboss.test.ws.jaxws.samples.serviceref;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.soap.SOAPBinding;
 
@@ -39,22 +40,25 @@ import org.jboss.logging.Logger;
 
 public class ServletClient extends HttpServlet
 {
+   private static final long serialVersionUID = -5214608199882450292L;
+
    // Provide logging
    private static Logger log = Logger.getLogger(ServletClient.class);
 
    @WebServiceRef(name="service3")
    EndpointService injectedService = null;
 
+   @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
    {
       String inStr = req.getParameter("echo");
       log.info("doGet: " + inStr);
 
-      ArrayList ports = new ArrayList();
+      List<Endpoint> ports = new ArrayList<Endpoint>();
       try
       {
          InitialContext iniCtx = new InitialContext();
-         ports.add((Endpoint)((Service)iniCtx.lookup("java:comp/env/service1")).getPort(Endpoint.class));
+         ports.add(((Service)iniCtx.lookup("java:comp/env/service1")).getPort(Endpoint.class));
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/service2")).getEndpointPort());
       }
       catch (Exception ex)
@@ -65,11 +69,12 @@ public class ServletClient extends HttpServlet
 
       for (int i = 0; i < ports.size(); i++)
       {
-         Endpoint port = (Endpoint)ports.get(i);
+         Endpoint port = ports.get(i);
 
          BindingProvider bp = (BindingProvider)port;
+         @SuppressWarnings("unused")
          boolean mtomEnabled = ((SOAPBinding)bp.getBinding()).isMTOMEnabled();
-         boolean expectedSetting = (i==0) ? false : true;
+         //boolean expectedSetting = (i==0) ? false : true;
 
          //if(mtomEnabled != expectedSetting)
          //   throw new WebServiceException("MTOM settings (enabled="+expectedSetting+") not overridden through service-ref" );
@@ -81,7 +86,7 @@ public class ServletClient extends HttpServlet
 
       // Test the injected service as well
       Endpoint injectedPort = injectedService.getEndpointPort();
-      String outStr = injectedPort.echo(" injected service");      
+      String outStr = injectedPort.echo(" injected service");
       if (outStr.equals(" injected service") == false)
          throw new WebServiceException("Invalid echo return on injected service/port: " + inStr);
 

@@ -25,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -33,15 +34,16 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
 
 /**
  * Test handker to test MTOM detection.
- * 
+ *
  * @author darran.lofthouse@jboss.com
  * @since 27th March 2009
  * @see https://jira.jboss.org/jira/browse/JBWS-2259
  */
-public class CustomHandler extends GenericSOAPHandler
+public class CustomHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
    private static final Logger log = Logger.getLogger(CustomHandler.class);
 
+   @Override
    public boolean handleMessage(final MessageContext msgContext)
    {
 

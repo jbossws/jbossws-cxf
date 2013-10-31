@@ -33,17 +33,20 @@ import org.jboss.logging.Logger;
 
 /**
  * Client servlet using the injected service
- * 
+ *
  * @author richard.opalka@jboss.com
  */
 public class ClientServlet extends HttpServlet
 {
 
-   private Logger log = Logger.getLogger(ClientServlet.class);
+   private static final long serialVersionUID = -2150764371358503995L;
+
+   private final Logger log = Logger.getLogger(ClientServlet.class);
 
    @WebServiceRef(name="service/jbws2527service")
    HelloService service;
 
+   @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
    {
       boolean result = false;

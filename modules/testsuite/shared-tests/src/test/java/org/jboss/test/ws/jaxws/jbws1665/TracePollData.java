@@ -31,6 +31,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TracePollData", propOrder = { "traces", "mark", "more" })
 public class TracePollData implements Serializable {
+   
+   private static final long serialVersionUID = -1210126441804051453L;
+   
    @XmlElement(required=true,nillable=true)
    protected TraceData[] traces;
    @XmlElement(required = true, nillable = true)

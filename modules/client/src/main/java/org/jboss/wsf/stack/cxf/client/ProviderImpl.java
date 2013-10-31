@@ -72,11 +72,11 @@ import org.w3c.dom.Element;
 /**
  * A custom javax.xml.ws.spi.Provider implementation
  * extending the CXF one while adding few customizations.
- * 
+ *
  * This also ensures a proper context classloader is set
  * (required on JBoss AS 7, as the TCCL does not include
  * implementation classes by default)
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 27-Aug-2010
  *
@@ -86,13 +86,13 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    private static final boolean jbossModulesEnv;
    private static ServerConfig serverConfig = null;
    private static boolean serverConfigInit = false;
-   
+
    static {
       //check if running in a JBoss Modules environment: the jbossws-cxf and cxf classes come
       //from different classloader when using jboss-modules (no flat classloader)
       jbossModulesEnv = (ProviderImpl.class.getClassLoader() != org.apache.cxf.jaxws22.spi.ProviderImpl.class.getClassLoader());
    }
-   
+
    @Override
    protected org.apache.cxf.jaxws.EndpointImpl createEndpointImpl(Bus bus, String bindingId, Object implementor,
          WebServiceFeature... features)
@@ -105,7 +105,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       }
       return super.createEndpointImpl(bus, bindingId, implementor, features);
    }
-   
+
    @Override
    public Endpoint createEndpoint(String bindingId, Object implementor) {
       ClassLoader origClassLoader = getContextClassLoader();
@@ -122,7 +122,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             setContextClassLoader(origClassLoader);
       }
    }
-   
+
    @Override
    public Endpoint createEndpoint(String bindingId,
          Object implementor,
@@ -141,7 +141,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             setContextClassLoader(origClassLoader);
       }
    }
-   
+
    @Override
    public Endpoint createEndpoint(String bindingId, Class<?> implementorClass,
          Invoker invoker, WebServiceFeature ... features) {
@@ -236,10 +236,10 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          BusFactory.setThreadDefaultBus(origBus);
       }
    }
-   
+
    /**
     * Ensure the current context classloader can load this ProviderImpl class.
-    * 
+    *
     * @return true if the TCCL has been changed, false otherwise
     */
    static boolean checkAndFixContextClassLoader(ClassLoader origClassLoader)
@@ -257,7 +257,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          //In general, we need to change the TCCL using the classloader that has been used
          //to load this javax.xml.ws.spi.Provider impl, which is the jaxws-client module.
          ClassLoader clientClassLoader = ProviderImpl.class.getClassLoader();
-         
+
          //first ensure the default bus is loaded through the client classloader only
          //(no deployment classloader contribution)
          if (BusFactory.getDefaultBus(false) == null)
@@ -271,7 +271,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       }
       return false;
    }
-   
+
    static Bus setValidThreadDefaultBus()
    {
       //we need to prevent using the default bus when the current
@@ -303,7 +303,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          });
       }
    }
-   
+
    /**
     * A javax.xml.ws.Endpoint implementation delegating to a provided one
     * that sets the TCCL before doing publish.
@@ -452,7 +452,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       {
          delegate.setEndpointContext(ctxt);
       }
-      
+
       @Override
       //jaxws2.2 api
       public void publish(javax.xml.ws.spi.http.HttpContext context)
@@ -460,26 +460,26 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          delegate.publish(context);
       }
    }
-   
+
    /**
     * An extension of the org.apache.cxf.jaxws.ServiceImpl allowing for
     * setting JBossWS client default config handlers.
     *
     */
    static final class JBossWSServiceImpl extends ServiceImpl {
-      
+
       public JBossWSServiceImpl(Bus b, URL url, QName name, Class<?> cls, WebServiceFeature ... f) {
          super(b, url, name, cls, f);
       }
-      
+
       @Override
-      protected <T> T createPort(QName portName, EndpointReferenceType epr, Class<T> serviceEndpointInterface, 
+      protected <T> T createPort(QName portName, EndpointReferenceType epr, Class<T> serviceEndpointInterface,
             WebServiceFeature... features) {
          T port = super.createPort(portName, epr, serviceEndpointInterface, features);
          setupClient(port, features);
          return port;
       }
-      
+
       @Override
       public <T> Dispatch<T> createDispatch(QName portName,
             Class<T> type,
@@ -490,7 +490,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          setupClient(dispatch, features);
          return dispatch;
       }
-      
+
       protected void setupClient(Object obj, WebServiceFeature... features) {
          Binding binding = ((BindingProvider)obj).getBinding();
          Client client = obj instanceof DispatchImpl<?> ? ((DispatchImpl<?>)obj).getClient() : ClientProxy.getClient(obj);
@@ -516,7 +516,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          }
       }
    }
-   
+
    //lazy get the server config (and try once per classloader only)
    private static synchronized ServerConfig getServerConfig()
    {

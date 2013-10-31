@@ -41,6 +41,7 @@ public class JAXWS2976TestCase extends junit.framework.TestCase
       try
       {
          Dispatch<Source> source = createDispatchSource();
+         @SuppressWarnings("rawtypes")
          List<Handler> handlers = new ArrayList<Handler>();
          handlers.add(new SOAPHandler());
          source.getBinding().setHandlerChain(handlers);
@@ -51,7 +52,7 @@ public class JAXWS2976TestCase extends junit.framework.TestCase
          //expected and do nothing
       }
    }
-   
+
    private Dispatch<Source> createDispatchSource() throws Exception
    {
       javax.xml.ws.Service service = javax.xml.ws.Service.create(new QName("http://ws.jboss.org", "HelloService"));

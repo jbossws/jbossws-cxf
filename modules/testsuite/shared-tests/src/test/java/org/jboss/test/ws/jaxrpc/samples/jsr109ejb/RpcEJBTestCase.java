@@ -55,6 +55,7 @@ public class RpcEJBTestCase extends JBossWSTest
       });
    }
 
+   @Override
    protected void setUp() throws Exception
    {
       super.setUp();
@@ -65,6 +66,7 @@ public class RpcEJBTestCase extends JBossWSTest
       }
    }
 
+   @SuppressWarnings("unchecked")
    protected <T> T getService(final Class<T> clazz, final String serviceName, final String portName) throws Exception {
       ServiceFactory serviceFactory = ServiceFactory.newInstance();
       Service service = serviceFactory.createService(new URL(TARGET_ENDPOINT_URL + "?wsdl"), new QName(TARGET_NAMESPACE, serviceName));
@@ -75,7 +77,7 @@ public class RpcEJBTestCase extends JBossWSTest
    {
       String hello = "Hello";
       String world = "world!";
-      
+
       Object retObj = port.echoString(hello, world);
       assertEquals(hello + world, retObj);
    }
@@ -84,7 +86,7 @@ public class RpcEJBTestCase extends JBossWSTest
    {
       String hello = "Hello";
       SimpleUserType userType = new SimpleUserType(1, 2);
-      
+
       Object retObj = port.echoSimpleUserType(hello, userType);
       assertEquals(userType, retObj);
    }

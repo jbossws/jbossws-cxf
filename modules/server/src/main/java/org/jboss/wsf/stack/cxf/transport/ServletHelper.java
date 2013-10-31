@@ -51,7 +51,7 @@ import org.jboss.wsf.spi.management.EndpointRegistryFactory;
 import org.jboss.wsf.stack.cxf.Messages;
 
 /**
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 16-Jun-2010
  *
@@ -90,17 +90,17 @@ public class ServletHelper
       return endpoint;
    }
 
-   @SuppressWarnings("unchecked")
    private static void injectServiceAndHandlerResources(Endpoint endpoint)
    {
       ServerFactoryBean factory = endpoint.getAttachment(ServerFactoryBean.class);
       if (factory != null)
       {
+         @SuppressWarnings("rawtypes")
          List<Handler> chain = ((JaxWsEndpointImpl) factory.getServer().getEndpoint()).getJaxwsBinding()
                .getHandlerChain();
          if (chain != null)
          {
-            for (Handler handler : chain)
+            for (Handler<?> handler : chain)
             {
                final Reference handlerReference = endpoint.getInstanceProvider().getInstance(handler.getClass().getName());
                if (!handlerReference.isInitialized()) {
@@ -112,7 +112,7 @@ public class ServletHelper
          }
       }
    }
-   
+
    public static void callPreDestroy(Endpoint endpoint)
    {
       ServerFactoryBean factory = endpoint.getAttachment(ServerFactoryBean.class);
@@ -121,7 +121,7 @@ public class ServletHelper
          if (isJaxwsJseEndpoint(endpoint) && factory.getServiceBean() != null)
          {
             final Reference epReference = endpoint.getInstanceProvider().getInstance(factory.getServiceBean().getClass().getName());
-            final Object epInstance = epReference.getValue(); 
+            final Object epInstance = epReference.getValue();
             InjectionHelper.callPreDestroyMethod(epInstance);
          }
       }

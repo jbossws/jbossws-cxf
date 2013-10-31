@@ -26,11 +26,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
-import javax.naming.InitialContext;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.soap.SOAPBinding;
 
 import junit.framework.Test;
 
@@ -67,7 +64,7 @@ public class ServiceRefClientTestCase extends JBossWSTest
       URL wsdlURL = getResourceURL("jaxws/samples/serviceref/META-INF/wsdl/Endpoint.wsdl");
       QName qname = new QName("http://serviceref.samples.jaxws.ws.test.jboss.org/", "EndpointService");
       Service service = Service.create(wsdlURL, qname);
-      Endpoint port = (Endpoint)service.getPort(Endpoint.class);
+      Endpoint port = service.getPort(Endpoint.class);
 
       String request = "DynamicProxy";
       String response = port.echo(request);

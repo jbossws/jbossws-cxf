@@ -26,37 +26,41 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.ws.api.handler.GenericSOAPHandler;
 
 /**
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 30-Sep-2008
  */
-public class TestHandler extends GenericSOAPHandler
+public class TestHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
-   private String envelopeNamespace;
-   private String contentType;
-   
+   private final String envelopeNamespace;
+   private final String contentType;
+
    public TestHandler(String envelopeNamespace, String contentType)
    {
       super();
       this.envelopeNamespace = envelopeNamespace;
       this.contentType = contentType;
    }
-   
+
+   @Override
    public void close(MessageContext context)
    {
    }
 
+   @Override
    public boolean handleFault(MessageContext context)
    {
       return handleMessage(context);
    }
 
+   @Override
    public boolean handleInbound(MessageContext context)
    {
       try
@@ -72,7 +76,8 @@ public class TestHandler extends GenericSOAPHandler
          throw new RuntimeException(e);
       }
    }
-   
+
+   @Override
    public boolean handleOutbound(MessageContext context)
    {
       try
@@ -88,7 +93,7 @@ public class TestHandler extends GenericSOAPHandler
          throw new RuntimeException(e);
       }
    }
-   
+
    private void checkEnvelope(SOAPMessage soapMessage) throws SOAPException
    {
       SOAPPart part = soapMessage.getSOAPPart();

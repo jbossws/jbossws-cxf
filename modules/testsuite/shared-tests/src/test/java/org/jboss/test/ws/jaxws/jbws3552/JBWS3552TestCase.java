@@ -33,7 +33,7 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * [JBWS-3552] @XmlJavaTypeAdapter ignored on exception classes.
- * 
+ *
  * Suffixes abbreviations used in this test case in class names are:
  * <ul>
  *   <li>CA - class level access</li>
@@ -108,7 +108,7 @@ public class JBWS3552TestCase extends JBossWSTest {
             System.out.println("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol");
             return;
         }
-        EndpointIface endpoint = getProxy();
+        EndpointIface endpoint = getProxy();//FIXME [CXF-4600] Exception inheritance not working over SOAP protocol
         try {
             endpoint.throwExceptionCA();
             fail("Expected exception not thrown");
@@ -132,7 +132,7 @@ public class JBWS3552TestCase extends JBossWSTest {
             System.out.println("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol");
             return;
         }
-        EndpointIface endpoint = getProxy();
+        EndpointIface endpoint = getProxy();//FIXME [CXF-4600] Exception inheritance not working over SOAP protocol
         try {
             endpoint.throwExceptionFA();
             fail("Expected exception not thrown");
@@ -156,7 +156,7 @@ public class JBWS3552TestCase extends JBossWSTest {
             System.out.println("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol");
             return;
         }
-        EndpointIface endpoint = getProxy();
+        EndpointIface endpoint = getProxy();//FIXME [CXF-4600] Exception inheritance not working over SOAP protocol
         try {
             endpoint.throwExceptionGA();
             fail("Expected exception not thrown");
@@ -180,7 +180,7 @@ public class JBWS3552TestCase extends JBossWSTest {
             System.out.println("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol");
             return;
         }
-        EndpointIface endpoint = getProxy();
+        EndpointIface endpoint = getProxy();//FIXME [CXF-4600] Exception inheritance not working over SOAP protocol
         try {
             endpoint.throwExceptionMA();
             fail("Expected exception not thrown");

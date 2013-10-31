@@ -21,16 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.jbws1665;
 
-import java.rmi.RemoteException;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import javax.ejb.FinderException;
-import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;

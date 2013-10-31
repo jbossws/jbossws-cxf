@@ -26,22 +26,25 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ExtendedAdaptedExceptionFA extends AdaptedExceptionFA {
-    private int code;
 
-    public ExtendedAdaptedExceptionFA() {
-        super();
-    }
+   private static final long serialVersionUID = -958651977478166159L;
+   private int code;
 
-    public ExtendedAdaptedExceptionFA(int code, String message, String description, ComplexObjectFA complexObject) {
-        super(message, description, complexObject);
-        this.code = code;
-    }
+   public ExtendedAdaptedExceptionFA() {
+      super();
+   }
 
-    public int getCode() {
-        return code;
-    }
+   public ExtendedAdaptedExceptionFA(int code, String message, String description, ComplexObjectFA complexObject) {
+      super(message, description, complexObject);
+      this.code = code;
+   }
 
-    public String toString() {
-        return code + "," + super.toString();
-    }
+   public int getCode() {
+      return code;
+   }
+
+   @Override
+   public String toString() {
+      return code + "," + super.toString();
+   }
 }

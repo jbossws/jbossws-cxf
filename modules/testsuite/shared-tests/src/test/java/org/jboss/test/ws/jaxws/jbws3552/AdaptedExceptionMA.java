@@ -26,46 +26,49 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlTransient
 public class AdaptedExceptionMA extends Exception {
-    private String message;
-    private String description;
-    private ComplexObjectMA complexObject;
+   private static final long serialVersionUID = -50115093835509488L;
+   private String message;
+   private String description;
+   private ComplexObjectMA complexObject;
 
-    public AdaptedExceptionMA() {
-        super();
-    }
+   public AdaptedExceptionMA() {
+      super();
+   }
 
-    public AdaptedExceptionMA(String message, String description, ComplexObjectMA complexObject) {
-        this.message = message;
-        this.description = description;
-        this.complexObject = complexObject;
-    }
+   public AdaptedExceptionMA(String message, String description, ComplexObjectMA complexObject) {
+      this.message = message;
+      this.description = description;
+      this.complexObject = complexObject;
+   }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+   public void setMessage(String message) {
+      this.message = message;
+   }
 
-    public String getMessage() {
-        return message;
-    }
+   @Override
+   public String getMessage() {
+      return message;
+   }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+   public void setDescription(String description) {
+      this.description = description;
+   }
 
-    public String getDescription() {
-        return description;
-    }
+   public String getDescription() {
+      return description;
+   }
 
-    public void setComplexObject(ComplexObjectMA complexObject) {
-        this.complexObject = complexObject;
-    }
+   public void setComplexObject(ComplexObjectMA complexObject) {
+      this.complexObject = complexObject;
+   }
 
-    @XmlJavaTypeAdapter(value = ComplexObjectMAAdapter.class)
-    public ComplexObjectMA getComplexObject() {
-        return complexObject;
-    }
+   @XmlJavaTypeAdapter(value = ComplexObjectMAAdapter.class)
+   public ComplexObjectMA getComplexObject() {
+      return complexObject;
+   }
 
-    public String toString() {
-        return message + "," + description + "," + complexObject;
-    }
+   @Override
+   public String toString() {
+      return message + "," + description + "," + complexObject;
+   }
 }

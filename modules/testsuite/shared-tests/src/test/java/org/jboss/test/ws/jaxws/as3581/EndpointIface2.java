@@ -22,7 +22,6 @@
 
 package org.jboss.test.ws.jaxws.as3581;
 
-import javax.jws.Oneway;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 

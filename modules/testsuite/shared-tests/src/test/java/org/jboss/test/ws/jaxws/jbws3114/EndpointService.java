@@ -24,7 +24,6 @@ package org.jboss.test.ws.jaxws.jbws3114;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.jws.HandlerChain;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;

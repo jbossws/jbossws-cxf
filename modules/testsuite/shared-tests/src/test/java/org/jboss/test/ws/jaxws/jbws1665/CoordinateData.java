@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class CoordinateData implements Serializable {
-  public BigDecimal latitude;
-  public BigDecimal longitude;
+   private static final long serialVersionUID = -3224420997451408837L;
+   public BigDecimal latitude;
+   public BigDecimal longitude;
 }

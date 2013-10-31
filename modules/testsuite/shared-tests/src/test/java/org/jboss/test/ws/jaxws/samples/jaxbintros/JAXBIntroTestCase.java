@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
 
 /**
  * Test the JAXBIntroduction features.
- * 
+ *
  * jaxb-intros.xml can reside under META-INF or WEB-INF and should be
  * picked up by JAXBIntroduction deployment aspect on server side.
  *
@@ -45,14 +45,13 @@ import org.w3c.dom.Element;
 public class JAXBIntroTestCase extends JBossWSTest
 {
 
-   private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-samples-jaxbintros/EndpointService";
+   private final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-samples-jaxbintros/EndpointService";
 
    public static Test suite()
    {
       return new JBossWSTestSetup(JAXBIntroTestCase.class, "jaxws-samples-jaxbintros.jar");
    }
 
-   @SuppressWarnings("unchecked")
    public void testWSDLAccess() throws Exception
    {
       URL wsdlURL = new URL(endpointAddress + "?wsdl");

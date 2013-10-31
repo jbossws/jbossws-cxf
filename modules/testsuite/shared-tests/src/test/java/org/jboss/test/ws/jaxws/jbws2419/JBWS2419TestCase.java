@@ -30,10 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.activation.DataHandler;
-import javax.wsdl.Binding;
-import javax.wsdl.Definition;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPConstants;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
@@ -64,9 +61,10 @@ public class JBWS2419TestCase extends JBossWSTest
       URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "/soap12?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/jbws2419", "SOAP12EndpointBeanService");
       Service service = Service.create(wsdlURL, qname);
-      SOAP12Endpoint port = (SOAP12Endpoint)service.getPort(SOAP12Endpoint.class);
+      SOAP12Endpoint port = service.getPort(SOAP12Endpoint.class);
 
       BindingProvider provider = (BindingProvider)port;
+      @SuppressWarnings("rawtypes")
       List<Handler> handlerChain = new ArrayList<Handler>();
       handlerChain.addAll(provider.getBinding().getHandlerChain());
       handlerChain.add(new SOAP12ClientHandler());
@@ -83,9 +81,10 @@ public class JBWS2419TestCase extends JBossWSTest
       URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "/soap11?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/jbws2419", "SOAP11EndpointBeanService");
       Service service = Service.create(wsdlURL, qname);
-      SOAP11Endpoint port = (SOAP11Endpoint)service.getPort(SOAP11Endpoint.class);
+      SOAP11Endpoint port = service.getPort(SOAP11Endpoint.class);
 
       BindingProvider provider = (BindingProvider)port;
+      @SuppressWarnings("rawtypes")
       List<Handler> handlerChain = new ArrayList<Handler>();
       handlerChain.addAll(provider.getBinding().getHandlerChain());
       handlerChain.add(new SOAP11ClientHandler());

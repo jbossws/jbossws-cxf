@@ -31,6 +31,8 @@ import org.apache.cxf.transport.servlet.CXFNonSpringServlet;
 public class CXFEndpointServlet extends CXFNonSpringServlet
 {
 
+   private static final long serialVersionUID = -7460429764356482207L;
+
    @Override
    public void loadBus(ServletConfig servletConfig)
    {

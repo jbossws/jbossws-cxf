@@ -32,13 +32,14 @@ import javax.xml.ws.WebFault;
 @WebFault
 public class SimpleException extends Exception
 {
+   private static final long serialVersionUID = 2450327016126474657L;
    private Integer number;
-   
+
    public SimpleException()
    {
       super();
    }
-   
+
    public SimpleException(String message, Integer number)
    {
       super(message);

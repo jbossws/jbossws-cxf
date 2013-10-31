@@ -41,8 +41,8 @@ import org.w3c.dom.Element;
 
 /**
  * [JBWS-1611] SOAPAction is not sent in dispatch requests
- * 
- * http://jira.jboss.org/jira/browse/JBWS-1611 
+ *
+ * http://jira.jboss.org/jira/browse/JBWS-1611
  *
  * @author Thomas.Diesler@jboss.org
  * @since 14-Jun-2007
@@ -62,14 +62,14 @@ public class JBWS1611TestCase extends JBossWSTest
       QName serviceName = new QName(targetNS, "PingEndpointService");
       QName portName = new QName(targetNS, "PingEndpointPort");
       Service service = Service.create(wsdlURL, serviceName);
-      Dispatch dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
+      Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
 
       dispatch.getRequestContext().put(BindingProvider.SOAPACTION_USE_PROPERTY, true);
       dispatch.getRequestContext().put(BindingProvider.SOAPACTION_URI_PROPERTY, "uri:placeBuyOrder");
-      
+
       String payload = "<ns1:ping xmlns:ns1='" + targetNS + "'/>";
-      Source retObj = (Source)dispatch.invoke(new StreamSource(new StringReader(payload)));
-      
+      Source retObj = dispatch.invoke(new StreamSource(new StringReader(payload)));
+
       Element docElement = DOMUtils.sourceToElement(retObj);
       Element retElement = DOMUtils.getFirstChildElement(docElement);
       assertEquals("return", retElement.getLocalName());

@@ -43,16 +43,17 @@ import org.jboss.test.ws.jaxws.benchmark.test.complex.types.Statistics;
 import org.jboss.test.ws.jaxws.benchmark.test.complex.types.ValidationFault_Exception;
 
 /**
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 21-Sep-2009
  *
  */
 public class ComplexTest implements BenchmarkTest
 {
-   private String endpointURL = "http://" + Runner.getServerAddress() + "/jaxws-benchmark-complex/RegistrationServiceImpl";
-   private String targetNS = "http://complex.test.benchmark.jaxws.ws.test.jboss.org";
+   private final String endpointURL = "http://" + Runner.getServerAddress() + "/jaxws-benchmark-complex/RegistrationServiceImpl";
+   private final String targetNS = "http://complex.test.benchmark.jaxws.ws.test.jboss.org";
 
+   @Override
    public Object prepare() throws Exception
    {
       URL wsdlURL = new URL(endpointURL + "?wsdl");
@@ -62,6 +63,7 @@ public class ComplexTest implements BenchmarkTest
       return service.getPort(Registration.class);
    }
 
+   @Override
    public void performIteration(Object port) throws Exception
    {
       testRegistration((Registration)port);
@@ -69,7 +71,7 @@ public class ComplexTest implements BenchmarkTest
       testOtherPackage((Registration)port);
       testBulkRegistration((Registration)port);
    }
-   
+
    public void testRegistration(Registration port) throws Exception
    {
       Customer customer = getFredJackson();
@@ -89,7 +91,7 @@ public class ComplexTest implements BenchmarkTest
       InvoiceCustomer customer = getInvoiceFredJackson();
       customer.getReferredCustomers().add(getJohnDoe());
       customer.getReferredCustomers().add(getAlCapone());
-      
+
       port.registerForInvoice(customer);
    }
 
@@ -107,7 +109,7 @@ public class ComplexTest implements BenchmarkTest
       customers.add(getFredJackson());
       customers.add(getJohnDoe());
 
-      List<Long> result = port.bulkRegister(customers, getCalendar());
+      port.bulkRegister(customers, getCalendar());
 
       customers.clear();
       customers.add(getFredJackson());
@@ -125,7 +127,7 @@ public class ComplexTest implements BenchmarkTest
          //OK
       }
    }
-   
+
    private Customer getFredJackson()
    {
       Name name = new Name();
@@ -267,5 +269,5 @@ public class ComplexTest implements BenchmarkTest
       XMLGregorianCalendar cal = calFactory.newXMLGregorianCalendar(2002, 4, 5, 0, 0, 0, 0, 0);
       return cal;
    }
-   
+
 }

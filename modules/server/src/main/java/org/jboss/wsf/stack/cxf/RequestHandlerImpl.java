@@ -52,13 +52,12 @@ import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
-import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 
 /**
  * A request handler
- * 
+ *
  * @author Thomas.Diesler@jboss.org
  * @author alessio.soldano@jboss.com
  * @since 21-May-2007
@@ -66,12 +65,12 @@ import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 public class RequestHandlerImpl implements RequestHandler
 {
    private static RequestHandlerImpl me = new RequestHandlerImpl();
-   
+
    RequestHandlerImpl()
    {
       //NOOP
    }
-   
+
    static RequestHandlerImpl getInstance()
    {
       return me;
@@ -81,8 +80,8 @@ public class RequestHandlerImpl implements RequestHandler
    {
       Bus bus = ep.getService().getDeployment().getAttachment(BusHolder.class).getBus();
       AbstractHTTPDestination dest = findDestination(req, bus);
-      
-      boolean requestHandled = handleQuery(req, res, dest, bus); 
+
+      boolean requestHandled = handleQuery(req, res, dest, bus);
       if (false == requestHandled)
       {
          Long beginTime = initRequestMetrics(ep);
@@ -116,7 +115,7 @@ public class RequestHandlerImpl implements RequestHandler
    {
       throw new NotImplementedException();
    }
-   
+
    /**
     * Finds destination based on request URI
     * @param requestURI to be recognized
@@ -138,7 +137,7 @@ public class RequestHandlerImpl implements RequestHandler
       {
          EndpointInfo endpointInfo = destination.getEndpointInfo();
          String address = endpointInfo.getAddress();
-         
+
          String path = address;
          try
          {
@@ -148,7 +147,7 @@ public class RequestHandlerImpl implements RequestHandler
          {
             // ignore
          }
-         
+
          if (path != null)
          {
             if (requestURI.equals(path))
@@ -164,10 +163,10 @@ public class RequestHandlerImpl implements RequestHandler
 
       if (returnValue == null)
          throw Messages.MESSAGES.cannotObtainDestinationFor(requestURI);
-      
+
       return returnValue;
    }
-   
+
    private static DestinationRegistry getDestinationRegistryFromBus(Bus bus) throws ServletException {
       DestinationFactoryManager dfm = bus.getExtension(DestinationFactoryManager.class);
       try {
@@ -182,7 +181,7 @@ public class RequestHandlerImpl implements RequestHandler
       }
       return null;
   }
-   
+
    /**
     * When request includes query it tries to lookup the query handler and tries to handle the request message
     * @param req request
@@ -206,7 +205,7 @@ public class RequestHandlerImpl implements RequestHandler
                   AbstractServerConfig.getServerIntegrationServerConfig());
             endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS, autoRewrite);
             endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL, autoRewrite);
-   
+
             for (QueryHandler queryHandler : qhr.getHandlers())
             {
                if (queryHandler.isRecognizedQuery(baseUri, ctxUri, endpointInfo))
@@ -227,10 +226,10 @@ public class RequestHandlerImpl implements RequestHandler
             }
          }
       }
-         
+
       return false;
    }
-   
+
    private long initRequestMetrics(Endpoint endpoint)
    {
       long beginTime = 0;

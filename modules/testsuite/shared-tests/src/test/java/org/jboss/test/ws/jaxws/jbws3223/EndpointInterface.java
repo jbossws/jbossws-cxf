@@ -21,9 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.jbws3223;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;

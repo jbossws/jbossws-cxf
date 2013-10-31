@@ -33,6 +33,7 @@ import org.jboss.ws.common.utils.AddressUtils;
  */
 public class TestServlet extends HttpServlet
 {
+    private static final long serialVersionUID = -2137273317393754516L;
     private Endpoint _endpoint;
 
     @Override

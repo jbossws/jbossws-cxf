@@ -23,6 +23,7 @@ package org.jboss.test.ws.jaxws.namespace;
 
 import java.util.Set;
 
+import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPException;
 import javax.xml.ws.WebServiceException;
@@ -35,36 +36,40 @@ import org.jboss.test.helper.DOMWriter;
 
 /**
  * A simple SOAPHandler checking the exchanged message uses the SEI namespace.
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 04-Jul-2008
  */
-public class CustomHandler implements SOAPHandler
+public class CustomHandler implements SOAPHandler<SOAPMessageContext>
 {
    private static final Logger log = Logger.getLogger(CustomHandler.class);
 
-   public Set getHeaders()
+   @Override
+   public Set<QName> getHeaders()
    {
       //don't care
       return null;
    }
 
+   @Override
    public void close(MessageContext arg0)
    {
       //nothing to do
    }
 
-   public boolean handleFault(MessageContext arg0)
+   @Override
+   public boolean handleFault(SOAPMessageContext arg0)
    {
       throw new UnsupportedOperationException();
    }
 
-   public boolean handleMessage(MessageContext context)
+   @Override
+   public boolean handleMessage(SOAPMessageContext context)
    {
       log.debug("handleMessage...");
       try
       {
-         SOAPMessageContext msgContext = (SOAPMessageContext)context;
+         SOAPMessageContext msgContext = context;
          SOAPBody body = msgContext.getMessage().getSOAPBody();
          String bodyStr = DOMWriter.printNode(body, false);
          if (bodyStr.indexOf("http://example.org/sei") < 0)

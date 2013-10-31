@@ -25,7 +25,6 @@ import org.jboss.test.ws.jaxws.jbws1702.types.ClassB;
 import org.jboss.test.ws.jaxws.jbws1702.types.ClassC;
 
 import javax.jws.WebService;
-import javax.jws.WebMethod;
 import javax.jws.soap.SOAPBinding;
 
 /**

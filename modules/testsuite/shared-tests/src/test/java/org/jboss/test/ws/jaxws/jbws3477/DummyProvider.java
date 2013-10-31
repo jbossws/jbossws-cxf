@@ -28,6 +28,7 @@ import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.EndpointReference;
+import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.spi.ServiceDelegate;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
@@ -37,30 +38,26 @@ import org.w3c.dom.Element;
 public class DummyProvider extends javax.xml.ws.spi.Provider
 {
    @Override
-   public ServiceDelegate createServiceDelegate(URL wsdlDocumentLocation, QName serviceName, Class serviceClass)
+   public ServiceDelegate createServiceDelegate(URL wsdlDocumentLocation, QName serviceName, Class<? extends Service> serviceClass)
    {
-      // TODO Auto-generated method stub
       return null;
    }
 
    @Override
    public Endpoint createEndpoint(String bindingId, Object implementor)
    {
-      // TODO Auto-generated method stub
       return null;
    }
 
    @Override
    public Endpoint createAndPublishEndpoint(String address, Object implementor)
    {
-      // TODO Auto-generated method stub
       return null;
    }
 
    @Override
    public EndpointReference readEndpointReference(Source eprInfoset)
    {
-      // TODO Auto-generated method stub
       return null;
    }
 
@@ -68,7 +65,6 @@ public class DummyProvider extends javax.xml.ws.spi.Provider
    public <T> T getPort(EndpointReference endpointReference, Class<T> serviceEndpointInterface,
          WebServiceFeature... features)
    {
-      // TODO Auto-generated method stub
       return null;
    }
 
@@ -76,7 +72,6 @@ public class DummyProvider extends javax.xml.ws.spi.Provider
    public W3CEndpointReference createW3CEndpointReference(String address, QName serviceName, QName portName,
          List<Element> metadata, String wsdlDocumentLocation, List<Element> referenceParameters)
    {
-      // TODO Auto-generated method stub
       return null;
    }
 }

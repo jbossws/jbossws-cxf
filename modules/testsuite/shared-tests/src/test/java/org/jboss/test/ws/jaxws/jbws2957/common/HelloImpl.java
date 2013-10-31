@@ -24,8 +24,6 @@ package org.jboss.test.ws.jaxws.jbws2957.common;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 
-import org.jboss.ws.api.annotation.WebContext;
-
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
@@ -38,6 +36,7 @@ import org.jboss.ws.api.annotation.WebContext;
 )
 public class HelloImpl implements HelloIface
 {
+   @Override
    public String sayHello()
    {
       return "Hello";

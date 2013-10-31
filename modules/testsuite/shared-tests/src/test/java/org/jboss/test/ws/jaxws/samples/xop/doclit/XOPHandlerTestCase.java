@@ -21,20 +21,21 @@
  */
 package org.jboss.test.ws.jaxws.samples.xop.doclit;
 
-import junit.framework.Test;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.jboss.wsf.test.JBossWSTestSetup;
-
+import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.SOAPBinding;
-import javax.activation.DataHandler;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.InputStream;
+
+import junit.framework.Test;
+
+import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Test service endpoint capability to process inlined and optimized
@@ -58,6 +59,7 @@ public class XOPHandlerTestCase extends XOPBase
       return new JBossWSTestSetup(XOPHandlerTestCase.class, "jaxws-samples-xop-doclit.war");
    }
 
+   @Override
    protected void setUp() throws Exception
    {
 
@@ -66,8 +68,9 @@ public class XOPHandlerTestCase extends XOPBase
 
       Service service = Service.create(wsdlURL, serviceName);
       port = service.getPort(MTOMEndpoint.class);
-      binding = (SOAPBinding)((BindingProvider)port).getBinding();      
+      binding = (SOAPBinding)((BindingProvider)port).getBinding();
 
+      @SuppressWarnings("rawtypes")
       List<Handler> handlerChain = new ArrayList<Handler>();
       handlerChain.addAll(binding.getHandlerChain());
       handlerChain.add(new MTOMProtocolHandler());
@@ -78,6 +81,7 @@ public class XOPHandlerTestCase extends XOPBase
     * Consumption of inlined data should will always result on 'application/octet-stream'
     * @throws Exception
     */
+   @Override
    public void testDataHandlerRoundtrip() throws Exception
    {
       getBinding().setMTOMEnabled(true);
@@ -93,6 +97,7 @@ public class XOPHandlerTestCase extends XOPBase
     * Consumption of inlined data should will always result on 'application/octet-stream'
     * @throws Exception
     */
+   @Override
    public void testDataHandlerResponseOptimzed() throws Exception
    {
       getBinding().setMTOMEnabled(false);

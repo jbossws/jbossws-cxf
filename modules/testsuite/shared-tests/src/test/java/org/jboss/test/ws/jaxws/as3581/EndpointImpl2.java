@@ -22,10 +22,7 @@
 
 package org.jboss.test.ws.jaxws.as3581;
 
-import javax.jws.Oneway;
 import javax.jws.WebService;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>

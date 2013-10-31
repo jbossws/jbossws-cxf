@@ -33,6 +33,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "TraceData", propOrder = { "type", "source", "time",
       "coordinate", "mileage", "heading", "speed", "property" })
 public class TraceData implements Serializable {
+   
+   private static final long serialVersionUID = 1556686846129761858L;
+   
    @XmlElement(required=true)
    private short type;
    @XmlElement(required=true)

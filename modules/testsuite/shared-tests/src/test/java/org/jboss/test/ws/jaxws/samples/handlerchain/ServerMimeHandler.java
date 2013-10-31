@@ -28,6 +28,7 @@ import java.util.Map;
 
 import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPMessage;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -41,13 +42,13 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author alessio.soldano@jboss.com
  * @since 08-Oct-2005
  */
-public class ServerMimeHandler extends GenericSOAPHandler
+public class ServerMimeHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
-   // Provide logging
    private static Logger log = Logger.getLogger(ServerMimeHandler.class);
-   
+
    private boolean setCookieOnResponse;
 
+   @Override
    protected boolean handleInbound(MessageContext msgContext)
    {
       log.info("handleInbound");
@@ -56,7 +57,7 @@ public class ServerMimeHandler extends GenericSOAPHandler
       SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
       MimeHeaders mimeHeaders = soapMessage.getMimeHeaders();
       String[] cookies = mimeHeaders.getHeader("Cookie");
-      
+
       // proper approach through MessageContext.HTTP_REQUEST_HEADERS
       if (cookies == null) {
          @SuppressWarnings("unchecked")
@@ -66,7 +67,7 @@ public class ServerMimeHandler extends GenericSOAPHandler
             cookies = l.toArray(new String[l.size()]);
          }
       }
-      
+
       if (cookies != null && cookies.length == 1 && cookies[0].equals("client-cookie=true"))
          setCookieOnResponse = true;
 
@@ -74,22 +75,23 @@ public class ServerMimeHandler extends GenericSOAPHandler
    }
 
 
+   @Override
    protected boolean handleOutbound(MessageContext msgContext)
    {
       log.info("handleOutbound");
-      
+
       if (setCookieOnResponse)
       {
          // legacy JBossWS-Native approach
          SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
          MimeHeaders mimeHeaders = soapMessage.getMimeHeaders();
          mimeHeaders.setHeader("Set-Cookie", "server-cookie=true");
-         
+
          // proper approach through MessageContext.HTTP_REQUEST_HEADERS
          Map<String, List<String>> httpHeaders = new HashMap<String, List<String>>();
          httpHeaders.put("Set-Cookie", Collections.singletonList("server-cookie=true"));
          msgContext.put(MessageContext.HTTP_REQUEST_HEADERS, httpHeaders);
-         
+
          setCookieOnResponse = false;
       }
 

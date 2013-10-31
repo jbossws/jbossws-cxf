@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2419;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.internet.ContentType;
@@ -32,6 +32,7 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -44,17 +45,18 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author mageshbk@jboss.com
  * @since 20-Feb-2009
  */
-public class SOAP12ClientHandler extends GenericSOAPHandler
+public class SOAP12ClientHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
    private static Logger log = Logger.getLogger(SOAP12ClientHandler.class);
 
+   @Override
    public boolean handleInbound(MessageContext msgContext)
    {
       log.info("handleInbound");
 
       try
       {
-         SOAPEnvelope soapEnvelope = (SOAPEnvelope)((SOAPMessageContext)msgContext).getMessage().getSOAPPart().getEnvelope();
+         SOAPEnvelope soapEnvelope = ((SOAPMessageContext)msgContext).getMessage().getSOAPPart().getEnvelope();
          String nsURI = soapEnvelope.getNamespaceURI();
 
          log.info("nsURI=" + nsURI);
@@ -95,8 +97,9 @@ public class SOAP12ClientHandler extends GenericSOAPHandler
       try
       {
          //Metro does not process this header into the message
-         Map<String,ArrayList> headers = (Map)msgContext.get(MessageContext.HTTP_REQUEST_HEADERS);
-         ArrayList<String> ctype = (headers == null) ? null : headers.get("Content-Type");
+         @SuppressWarnings("unchecked")
+         Map<String, List<String>> headers = (Map<String, List<String>>)msgContext.get(MessageContext.HTTP_REQUEST_HEADERS);
+         List<String> ctype = (headers == null) ? null : headers.get("Content-Type");
          if (ctype == null)
          {
             //Cxf stores it in lower case

@@ -57,6 +57,7 @@ public class EJB3Impl implements EJB3Iface
    private Boolean _boolean1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setBoolean1(Boolean b)
    {
       this._boolean1 = b;
@@ -72,6 +73,7 @@ public class EJB3Impl implements EJB3Iface
    private Byte _byte1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setByte1(Byte b)
    {
       this._byte1 = b;
@@ -87,6 +89,7 @@ public class EJB3Impl implements EJB3Iface
    private Character _character1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setCharacter1(Character c)
    {
       this._character1 = c;
@@ -102,6 +105,7 @@ public class EJB3Impl implements EJB3Iface
    private Short _short1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setShort1(Short i)
    {
       this._short1 = i;
@@ -303,6 +307,7 @@ public class EJB3Impl implements EJB3Iface
       this.correctState = correctInitialization;
    }
 
+   @Override
    public String echo(String msg)
    {
       if (!this.correctState)

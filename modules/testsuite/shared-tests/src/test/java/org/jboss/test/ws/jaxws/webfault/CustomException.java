@@ -33,21 +33,22 @@ import javax.xml.ws.WebFault;
 @WebFault(name = "myCustomFault", targetNamespace= "org.jboss.test.ws.jaxws.webfault.exceptions")
 public class CustomException extends Exception
 {
+   private static final long serialVersionUID = 5054777794472486392L;
    private Integer number;
    @XmlTransient
    private String transientString;
-   
+
    public CustomException()
    {
       super();
    }
-   
+
    public CustomException(String message, Integer number)
    {
       super(message);
       this.number = number;
    }
-   
+
    public CustomException(String message, Integer number, String transientString)
    {
       super(message);

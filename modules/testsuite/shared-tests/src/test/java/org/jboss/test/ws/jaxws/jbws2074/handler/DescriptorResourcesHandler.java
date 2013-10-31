@@ -26,6 +26,7 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -40,7 +41,7 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  *
  * @author ropalka@redhat.com
  */
-public class DescriptorResourcesHandler extends GenericSOAPHandler
+public class DescriptorResourcesHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
    // provide logging
    private static final Logger log = Logger.getLogger(DescriptorResourcesHandler.class);
@@ -55,6 +56,7 @@ public class DescriptorResourcesHandler extends GenericSOAPHandler
    private Boolean _boolean1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setBoolean1(Boolean b)
    {
       this._boolean1 = b;
@@ -70,6 +72,7 @@ public class DescriptorResourcesHandler extends GenericSOAPHandler
    private Byte _byte1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setByte1(Byte b)
    {
       this._byte1 = b;
@@ -85,6 +88,7 @@ public class DescriptorResourcesHandler extends GenericSOAPHandler
    private Character _character1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setCharacter1(Character c)
    {
       this._character1 = c;
@@ -100,6 +104,7 @@ public class DescriptorResourcesHandler extends GenericSOAPHandler
    private Short _short1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setShort1(Short i)
    {
       this._short1 = i;
@@ -115,6 +120,7 @@ public class DescriptorResourcesHandler extends GenericSOAPHandler
    private Integer _integer1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setInteger1(Integer i)
    {
       this._integer1 = i;
@@ -130,6 +136,7 @@ public class DescriptorResourcesHandler extends GenericSOAPHandler
    private Long _long1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setLong1(Long l)
    {
       this._long1 = l;
@@ -145,6 +152,7 @@ public class DescriptorResourcesHandler extends GenericSOAPHandler
    private Float _float1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setFloat1(Float f)
    {
       this._float1 = f;
@@ -160,6 +168,7 @@ public class DescriptorResourcesHandler extends GenericSOAPHandler
    private Double _double1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setDouble1(Double d)
    {
       this._double1 = d;
@@ -175,6 +184,7 @@ public class DescriptorResourcesHandler extends GenericSOAPHandler
    private String string1;
 
    // XML driven injection
+   @SuppressWarnings("unused")
    private void setString1(String s)
    {
       this.string1 = s;

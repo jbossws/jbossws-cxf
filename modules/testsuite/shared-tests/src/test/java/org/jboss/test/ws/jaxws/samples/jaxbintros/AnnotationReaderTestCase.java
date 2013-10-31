@@ -41,22 +41,22 @@ public class AnnotationReaderTestCase extends JBossWSTest
 {
    public void testUnmarshal() throws Exception
    {
-      String reqString = 
-         "   <ns1:user xmlns:ns1='http://org.jboss.ws/provider' string='Kermit'>" + 
-         "      <qname>The Frog</qname>" + 
+      String reqString =
+         "   <ns1:user xmlns:ns1='http://org.jboss.ws/provider' string='Kermit'>" +
+         "      <qname>The Frog</qname>" +
          "    </ns1:user>";
 
       Map<String, Object> jaxbConfig = BindingCustomizationFactory.getBindingCustomization(new FileInputStream(getResourceFile(
             "jaxws/samples/jaxbintros/META-INF/jaxb-intros.xml").getPath()), "http://org.jboss.ws/provider");
-      
+
       JAXBContext jaxbContext = JAXBContext.newInstance(new Class[] { UserType.class }, jaxbConfig);
       Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-      JAXBElement jbe = unmarshaller.unmarshal(new StreamSource(new ByteArrayInputStream(reqString.getBytes())
+      JAXBElement<UserType> jbe = unmarshaller.unmarshal(new StreamSource(new ByteArrayInputStream(reqString.getBytes())
 
       ), UserType.class);
 
-      UserType ut = (UserType)jbe.getValue();
+      UserType ut = jbe.getValue();
       assertEquals("Kermit", ut.getString());
       assertEquals("The Frog", ut.getQname().getLocalPart());
 

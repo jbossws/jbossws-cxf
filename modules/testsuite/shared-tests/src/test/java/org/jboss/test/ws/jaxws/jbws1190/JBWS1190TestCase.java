@@ -21,13 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws1190;
 
-import java.net.URL;
-
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;

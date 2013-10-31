@@ -25,7 +25,6 @@ import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.rmi.RemoteException;
 
-import javax.naming.InitialContext;
 import javax.xml.namespace.QName;
 import javax.xml.rpc.Call;
 import javax.xml.rpc.Service;

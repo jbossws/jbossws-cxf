@@ -35,6 +35,7 @@ import org.jboss.logging.Logger;
  * @author Thomas.Diesler@jboss.org
  * @since 05-Feb-2005
  */
+@SuppressWarnings("serial")
 public class JaxRpcEJBEndpoint implements SessionBean
 {
    // Provide logging
@@ -58,6 +59,7 @@ public class JaxRpcEJBEndpoint implements SessionBean
 
    // EJB Lifecycle ----------------------------------------------------------------------
 
+   @Override
    public void setSessionContext(SessionContext context) throws EJBException, RemoteException
    {
       this.context = context;
@@ -67,14 +69,17 @@ public class JaxRpcEJBEndpoint implements SessionBean
    {
    }
 
+   @Override
    public void ejbRemove()
    {
    }
 
+   @Override
    public void ejbActivate()
    {
    }
 
+   @Override
    public void ejbPassivate()
    {
    }

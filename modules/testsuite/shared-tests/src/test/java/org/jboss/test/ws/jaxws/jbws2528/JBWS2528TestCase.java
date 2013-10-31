@@ -34,11 +34,11 @@ import javax.xml.namespace.QName;
 
 import org.jboss.wsf.test.JBossWSTest;
 
-/** 
+/**
  * [JBWS-2528] Missing parameterOrder in portType/operation
- * 
+ *
  * http://jira.jboss.org/jira/browse/JBWS-2528
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 12-Mar-2009
  */
@@ -54,6 +54,7 @@ public class JBWS2528TestCase extends JBossWSTest
    private String CLASSES_DIR;
    private String TEST_DIR;
 
+   @Override
    protected void setUp() throws Exception
    {
       super.setUp();
@@ -70,12 +71,13 @@ public class JBWS2528TestCase extends JBossWSTest
       String absOutput = destDir.getAbsolutePath();
       String command = JBOSS_HOME + FS + "bin" + FS + "wsprovide" + EXT + " -k -w -o " + absOutput + " --classpath " + CLASSES_DIR + " " + ENDPOINT_CLASS;
       executeCommand(command, "wsprovide");
-      
+
       URL wsdlURL = new File(destDir, "JBWS2528EndpointService.wsdl").toURI().toURL();
       WSDLReader wsdlReader = WSDLFactory.newInstance().newWSDLReader();
       Definition wsdlDefinition = wsdlReader.readWSDL(wsdlURL.toString());
       PortType portType = wsdlDefinition.getPortType(new QName("http://jbws2528.jaxws.ws.test.jboss.org/", "JBWS2528Endpoint"));
       Operation op = (Operation)portType.getOperations().get(0);
+      @SuppressWarnings("unchecked")
       List<String> parOrder = op.getParameterOrdering();
       assertEquals("id", parOrder.get(0));
       assertEquals("Name", parOrder.get(1));

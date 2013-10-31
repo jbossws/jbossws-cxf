@@ -21,15 +21,13 @@
  */
 package org.jboss.test.ws.jaxws.jbws1841;
 
-import org.jboss.logging.Logger;
-
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.xml.ws.WebServiceRef;
 
 /**
  * A test bean that delegates to a web service provided through serviceref injection.
- * 
+ *
  * @author <a href="mailto:bdecoste@jboss.com">William DeCoste</a>
  * @author alessio.soldano@jboss.com
  */
@@ -37,7 +35,6 @@ import javax.xml.ws.WebServiceRef;
 @Remote(StatelessRemote.class)
 public class StatelessBean implements StatelessRemote
 {
-   private static final Logger log = Logger.getLogger(StatelessBean.class);
 
    @WebServiceRef(value = EndpointService.class, mappedName="jbossws-client/service/TestService", wsdlLocation="META-INF/wsdl/TestService.wsdl")
    EndpointInterface endpoint1;
@@ -62,6 +59,7 @@ public class StatelessBean implements StatelessRemote
    }
 
 
+   @Override
    public String echo1(String string) throws Exception
    {
       if(null==endpoint1)
@@ -70,6 +68,7 @@ public class StatelessBean implements StatelessRemote
       return endpoint1.echo(string);
    }
 
+   @Override
    public String echo2(String string) throws Exception
    {
       if(null==_endpoint2)
@@ -78,6 +77,7 @@ public class StatelessBean implements StatelessRemote
       return _endpoint2.echo(string);
    }
 
+   @Override
    public String echo3(String string) throws Exception
    {
       if(null==endpoint3)
@@ -86,6 +86,7 @@ public class StatelessBean implements StatelessRemote
       return endpoint3.echo(string);
    }
 
+   @Override
    public String echo4(String string) throws Exception
    {
       if(null==_endpoint4)

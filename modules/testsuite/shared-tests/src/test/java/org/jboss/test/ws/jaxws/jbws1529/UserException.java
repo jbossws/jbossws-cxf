@@ -23,4 +23,6 @@ package org.jboss.test.ws.jaxws.jbws1529;
 
 public class UserException extends Exception
 {
+
+   private static final long serialVersionUID = -8096532540220639948L;
 }

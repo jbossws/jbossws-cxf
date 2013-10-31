@@ -52,8 +52,8 @@ import org.w3c.dom.Element;
  */
 public class AsynchronousDispatchTestCase extends JBossWSTest
 {
-   private String targetNS = "http://org.jboss.ws/jaxws/asynchronous";
-   private String reqPayload = "<ns2:echo xmlns:ns2='" + targetNS + "'><String_1>Hello</String_1></ns2:echo>";
+   private final String targetNS = "http://org.jboss.ws/jaxws/asynchronous";
+   private final String reqPayload = "<ns2:echo xmlns:ns2='" + targetNS + "'><String_1>Hello</String_1></ns2:echo>";
    private Exception handlerException;
    private boolean asyncHandlerCalled;
 
@@ -65,19 +65,20 @@ public class AsynchronousDispatchTestCase extends JBossWSTest
    public void testInvokeAsynch() throws Exception
    {
       Source reqObj = new StreamSource(new StringReader(reqPayload));
-      Response response = createDispatch().invokeAsync(reqObj);
-      verifyResponse((Source)response.get(3000, TimeUnit.MILLISECONDS));
+      Response<Source> response = createDispatch().invokeAsync(reqObj);
+      verifyResponse(response.get(3000, TimeUnit.MILLISECONDS));
    }
 
    public void testInvokeAsynchHandler() throws Exception
    {
-      AsyncHandler handler = new AsyncHandler()
+      AsyncHandler<Source> handler = new AsyncHandler<Source>()
       {
-         public void handleResponse(Response response)
+         @Override
+         public void handleResponse(Response<Source> response)
          {
             try
             {
-               verifyResponse((Source)response.get());
+               verifyResponse(response.get());
                asyncHandlerCalled = true;
             }
             catch (Exception ex)
@@ -87,7 +88,7 @@ public class AsynchronousDispatchTestCase extends JBossWSTest
          }
       };
       StreamSource reqObj = new StreamSource(new StringReader(reqPayload));
-      Future future = createDispatch().invokeAsync(reqObj, handler);
+      Future<?> future = createDispatch().invokeAsync(reqObj, handler);
       future.get(1000, TimeUnit.MILLISECONDS);
 
       if (handlerException != null)
@@ -96,14 +97,13 @@ public class AsynchronousDispatchTestCase extends JBossWSTest
       assertTrue("Async handler called", asyncHandlerCalled);
    }
 
-   private Dispatch createDispatch() throws MalformedURLException
+   private Dispatch<Source> createDispatch() throws MalformedURLException
    {
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-asynchronous?wsdl");
       QName serviceName = new QName(targetNS, "EndpointBeanService");
       QName portName = new QName(targetNS, "EndpointPort");
       Service service = Service.create(wsdlURL, serviceName);
-      Dispatch dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
-      return dispatch;
+      return service.createDispatch(portName, Source.class, Mode.PAYLOAD);
    }
 
    private void verifyResponse(Source result) throws IOException

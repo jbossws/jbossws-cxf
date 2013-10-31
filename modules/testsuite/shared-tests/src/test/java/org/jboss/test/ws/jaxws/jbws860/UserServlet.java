@@ -34,9 +34,11 @@ import org.jboss.logging.Logger;
  */
 public class UserServlet extends HttpServlet
 {
-   // Provide logging
+
+   private static final long serialVersionUID = 3588167896299003098L;
    private static Logger log = Logger.getLogger(InventoryWebService.class);
 
+   @Override
    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException
    {
       log.info("doGet");

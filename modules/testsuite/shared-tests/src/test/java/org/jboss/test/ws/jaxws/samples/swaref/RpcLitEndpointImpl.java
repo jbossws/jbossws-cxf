@@ -21,18 +21,18 @@
  */
 package org.jboss.test.ws.jaxws.samples.swaref;
 
-import org.jboss.ws.api.annotation.WebContext;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.activation.DataHandler;
 import javax.ejb.Stateless;
-import javax.jws.WebService;
 import javax.jws.WebMethod;
+import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlAttachmentRef;
 import javax.xml.ws.WebServiceException;
-import javax.activation.DataHandler;
-import java.rmi.RemoteException;
-import java.io.IOException;
-import java.io.InputStream;
+
+import org.jboss.ws.api.annotation.WebContext;
 
 @Stateless
 @WebService(name="RpcLitEndpoint", serviceName="RpcLitEndpointService")
@@ -40,9 +40,10 @@ import java.io.InputStream;
 @WebContext(contextRoot = "jaxws-swaref")
 public class RpcLitEndpointImpl implements RpcLitEndpoint
 {
+   @Override
    @WebMethod
    @XmlAttachmentRef
-   public DataHandler parameterAnnotation(@XmlAttachmentRef DataHandler data) 
+   public DataHandler parameterAnnotation(@XmlAttachmentRef DataHandler data)
    {
       try
       {
@@ -56,11 +57,12 @@ public class RpcLitEndpointImpl implements RpcLitEndpoint
       }
       catch (IOException e)
       {
-         throw new WebServiceException(e); 
+         throw new WebServiceException(e);
       }
 
    }
 
+   @Override
    @WebMethod
    public DocumentPayload beanAnnotation(DocumentPayload payload)
    {

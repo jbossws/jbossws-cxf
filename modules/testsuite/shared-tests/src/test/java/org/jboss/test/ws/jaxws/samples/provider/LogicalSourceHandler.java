@@ -46,7 +46,7 @@ import org.w3c.dom.Element;
  * @author Thomas.Diesler@jboss.org
  * @since 24-Nov-2005
  */
-public class LogicalSourceHandler extends GenericLogicalHandler
+public class LogicalSourceHandler extends GenericLogicalHandler<LogicalMessageContext>
 {
    // provide logging
    private static final Logger log = Logger.getLogger(LogicalSourceHandler.class);
@@ -99,7 +99,7 @@ public class LogicalSourceHandler extends GenericLogicalHandler
          throw new WebServiceException(ex);
       }
    }
-   
+
    private DocumentBuilder getDocumentBuilder()
    {
       DocumentBuilderFactory factory = null;

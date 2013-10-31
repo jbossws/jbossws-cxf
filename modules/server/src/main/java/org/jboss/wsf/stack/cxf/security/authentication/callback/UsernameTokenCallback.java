@@ -33,7 +33,7 @@ import org.jboss.security.auth.callback.MapCallback;
 /**
  * An implementation of DigestCallback that generates password
  * digests according to the UsernameTokenProfile 1.0 specification.
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 12-Mar-2008
  *
@@ -48,8 +48,7 @@ public class UsernameTokenCallback implements DigestCallback
 
    private MapCallback info;
 
-   @SuppressWarnings("unchecked")
-   public void init(Map options)
+   public void init(Map<String,Object> options)
    {
       // Ask for MapCallback to obtain the digest parameters
       info = new MapCallback();

@@ -22,37 +22,40 @@
 package org.jboss.test.ws.jaxws.jbws3552;
 
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlTransient
 public class AdaptedExceptionCA extends Exception {
-    private String message;
-    private String description;
-    private ComplexObjectCA complexObject;
 
-    public AdaptedExceptionCA() {
-        super();
-    }
+   private static final long serialVersionUID = 3891004410967817L;
+   private String message;
+   private String description;
+   private ComplexObjectCA complexObject;
 
-    public AdaptedExceptionCA(String message, String description, ComplexObjectCA complexObject) {
-        this.message = message;
-        this.description = description;
-        this.complexObject = complexObject;
-    }
+   public AdaptedExceptionCA() {
+      super();
+   }
 
-    public String getMessage() {
-        return message;
-    }
+   public AdaptedExceptionCA(String message, String description, ComplexObjectCA complexObject) {
+      this.message = message;
+      this.description = description;
+      this.complexObject = complexObject;
+   }
 
-    public String getDescription() {
-        return description;
-    }
+   @Override
+   public String getMessage() {
+      return message;
+   }
 
-    public ComplexObjectCA getComplexObject() {
-        return complexObject;
-    }
+   public String getDescription() {
+      return description;
+   }
 
-    public String toString() {
-        return message + "," + description + "," + complexObject;
-    }
+   public ComplexObjectCA getComplexObject() {
+      return complexObject;
+   }
+
+   @Override
+   public String toString() {
+      return message + "," + description + "," + complexObject;
+   }
 }

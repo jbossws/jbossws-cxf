@@ -44,7 +44,7 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class AsynchronousProxyTestCase extends JBossWSTest
 {
-   private String targetNS = "http://org.jboss.ws/jaxws/asynchronous";
+   private final String targetNS = "http://org.jboss.ws/jaxws/asynchronous";
    private Exception handlerException;
    private boolean asyncHandlerCalled;
 
@@ -63,10 +63,10 @@ public class AsynchronousProxyTestCase extends JBossWSTest
    public void testInvokeAsync() throws Exception
    {
       Endpoint port = createProxy();
-      Response response = port.echoAsync("Async");
+      Response<String> response = port.echoAsync("Async");
 
       // access future
-      String retStr = (String) response.get();
+      String retStr = response.get();
       assertEquals("Async", retStr);
    }
 
@@ -74,12 +74,13 @@ public class AsynchronousProxyTestCase extends JBossWSTest
    {
       AsyncHandler<String> handler = new AsyncHandler<String>()
       {
-         public void handleResponse(Response response)
+         @Override
+         public void handleResponse(Response<String> response)
          {
             try
             {
                System.out.println("AsyncHandler.handleResponse() method called");
-               String retStr = (String) response.get(5000, TimeUnit.MILLISECONDS);
+               String retStr = response.get(5000, TimeUnit.MILLISECONDS);
                assertEquals("Hello", retStr);
                asyncHandlerCalled = true;
             }
@@ -91,7 +92,7 @@ public class AsynchronousProxyTestCase extends JBossWSTest
       };
 
       Endpoint port = createProxy();
-      Future future = port.echoAsync("Hello", handler);
+      Future<?> future = port.echoAsync("Hello", handler);
       long start = System.currentTimeMillis();
       future.get(5000, TimeUnit.MILLISECONDS);
       long end = System.currentTimeMillis();
@@ -108,6 +109,6 @@ public class AsynchronousProxyTestCase extends JBossWSTest
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-asynchronous?wsdl");
       QName serviceName = new QName(targetNS, "EndpointBeanService");
       Service service = Service.create(wsdlURL, serviceName);
-      return (Endpoint)service.getPort(Endpoint.class);
+      return service.getPort(Endpoint.class);
    }
 }

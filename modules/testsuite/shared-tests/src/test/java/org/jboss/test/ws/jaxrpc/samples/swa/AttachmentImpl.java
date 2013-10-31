@@ -54,6 +54,7 @@ public class AttachmentImpl implements Attachment, ServiceLifecycle
 
    /** Service endpoint method for image/gif
     */
+   @Override
    public String sendMimeImageGIF(String message, Object mimepart) throws RemoteException
    {
       StringBuffer buffer = new StringBuffer();
@@ -69,6 +70,7 @@ public class AttachmentImpl implements Attachment, ServiceLifecycle
 
    /** Service endpoint method for image/jpeg
     */
+   @Override
    public String sendMimeImageJPEG(String message, Image mimepart) throws RemoteException
    {
       StringBuffer buffer = new StringBuffer();
@@ -84,6 +86,7 @@ public class AttachmentImpl implements Attachment, ServiceLifecycle
 
    /** Service endpoint method for text/plain
     */
+   @Override
    public String sendMimeTextPlain(String message, String mimepart) throws RemoteException
    {
       StringBuffer buffer = new StringBuffer();
@@ -99,6 +102,7 @@ public class AttachmentImpl implements Attachment, ServiceLifecycle
 
    /** Service endpoint method for multipart/*
     */
+   @Override
    public String sendMimeMultipart(String message, MimeMultipart mimepart) throws RemoteException
    {
       StringBuffer buffer = new StringBuffer();
@@ -114,6 +118,7 @@ public class AttachmentImpl implements Attachment, ServiceLifecycle
 
    /** Service endpoint method for text/xml
     */
+   @Override
    public String sendMimeTextXML(String message, Object mimepart) throws RemoteException
    {
       StringBuffer buffer = new StringBuffer();
@@ -129,6 +134,7 @@ public class AttachmentImpl implements Attachment, ServiceLifecycle
 
    /** Service endpoint method for application/xml
     */
+   @Override
    public String sendMimeApplicationXML(String message, Source mimepart) throws RemoteException
    {
       StringBuffer buffer = new StringBuffer();
@@ -153,7 +159,7 @@ public class AttachmentImpl implements Attachment, ServiceLifecycle
       SOAPMessageContext msgContext = (SOAPMessageContext)context.getMessageContext();
       SOAPMessage soapMessage = msgContext.getMessage();
 
-      Iterator attachments = soapMessage.getAttachments();
+      Iterator<?> attachments = soapMessage.getAttachments();
       if (attachments.hasNext())
       {
          AttachmentPart ap = (AttachmentPart)attachments.next();
@@ -190,7 +196,7 @@ public class AttachmentImpl implements Attachment, ServiceLifecycle
       {
          if (content instanceof AttachmentPart)
             content = ((AttachmentPart)content).getContent();
-         
+
          if (contentType.equals("image/gif") || contentType.equals("image/jpeg"))
          {
             if ((content instanceof Image) == false)
@@ -249,11 +255,13 @@ public class AttachmentImpl implements Attachment, ServiceLifecycle
 
    // ServiceLifecycle *******************************************************************************************
 
+   @Override
    public void init(Object context) throws ServiceException
    {
       this.context = (ServletEndpointContext)context;
    }
 
+   @Override
    public void destroy()
    {
       this.context = null;

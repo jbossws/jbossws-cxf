@@ -38,7 +38,7 @@ import org.jboss.logging.Logger;
 
 /**
  * Client servlet using the injected service
- * 
+ *
  * @author alessio.soldano@jboss.com
  */
 @MTOM
@@ -47,11 +47,15 @@ import org.jboss.logging.Logger;
 @WebServiceRef(name="service/jbws2307service/asdf", type=HelloService.class)
 public class ClientServlet extends HttpServlet
 {
-   private Logger log = Logger.getLogger(ClientServlet.class);
-   
+
+   private static final long serialVersionUID = 323764398209417742L;
+
+   private final Logger log = Logger.getLogger(ClientServlet.class);
+
    @WebServiceRef(name="service/jbws2307service")
    HelloService service;
-   
+
+   @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
    {
       boolean result = false;

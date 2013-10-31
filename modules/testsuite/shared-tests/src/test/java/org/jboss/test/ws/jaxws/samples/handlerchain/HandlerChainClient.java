@@ -83,16 +83,19 @@ public class HandlerChainClient
    {
       PortInfo info = new PortInfo()
       {
+         @Override
          public String getBindingID()
          {
             return "http://schemas.xmlsoap.org/wsdl/soap/http";
          }
 
+         @Override
          public QName getPortName()
          {
             return null;
          }
 
+         @Override
          public QName getServiceName()
          {
             return null;
@@ -100,6 +103,7 @@ public class HandlerChainClient
       };
 
       HandlerResolver resolver = service1.getHandlerResolver();
+      @SuppressWarnings("rawtypes")
       List<Handler> handlerChain = resolver.getHandlerChain(info);
       if("[LogHandler, AuthorizationHandler, RoutingHandler, MimeHandler]".equals(handlerChain.toString()) == false)
          throw new IllegalStateException("Unexpected resolver handlers: " + handlerChain);

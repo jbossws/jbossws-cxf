@@ -21,16 +21,17 @@
  */
 package org.jboss.test.ws.jaxws.samples.advanced.retail.handler;
 
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.handler.GenericSOAPHandler;
 
-public class SOAPMessageTrace extends GenericSOAPHandler
+public class SOAPMessageTrace extends GenericSOAPHandler<LogicalMessageContext>
 {
    private static final Logger log = Logger.getLogger(SOAPMessageTrace.class);
 
-   private Timer timer = Timer.getInstance();
+   private final Timer timer = Timer.getInstance();
 
    @Override
    public boolean handleInbound(MessageContext msgContext)

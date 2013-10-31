@@ -67,7 +67,7 @@ public class WebServiceRefClientTestCase extends JBossWSTest
       URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
       QName serviceQName = new QName("http://org.jboss.ws/wsref", "EndpointService");
       Service service = Service.create(wsdlURL, serviceQName);
-      Endpoint port = (Endpoint)service.getPort(Endpoint.class);
+      Endpoint port = service.getPort(Endpoint.class);
 
       String helloWorld = "Hello World!";
       Object retObj = port.echo(helloWorld);
@@ -80,7 +80,7 @@ public class WebServiceRefClientTestCase extends JBossWSTest
       {
          final String appclientArg = "Hello World!";
          final OutputStream appclientOS = new ByteArrayOutputStream();
-         final Process appclientProcess = JBossWSTestHelper.deployAppclient("jaxws-samples-webserviceref-appclient.ear#jaxws-samples-webserviceref-appclient.jar", appclientOS, appclientArg);
+         JBossWSTestHelper.deployAppclient("jaxws-samples-webserviceref-appclient.ear#jaxws-samples-webserviceref-appclient.jar", appclientOS, appclientArg);
          // wait till appclient stops
          String appclientLog = appclientOS.toString();
          while (!appclientLog.contains("stopped in")) {

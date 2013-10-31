@@ -29,7 +29,7 @@ import javax.xml.ws.handler.MessageContext;
 
 import org.jboss.ws.api.handler.GenericLogicalHandler;
 
-public class LogicalJAXBHandler extends GenericLogicalHandler
+public class LogicalJAXBHandler extends GenericLogicalHandler<LogicalMessageContext>
 {
    @Override
    public boolean handleOutbound(MessageContext msgContext)
@@ -43,6 +43,7 @@ public class LogicalJAXBHandler extends GenericLogicalHandler
       return appendHandlerName(msgContext, "Inbound");
    }
 
+   @SuppressWarnings("unchecked")
    private boolean appendHandlerName(MessageContext msgContext, String direction)
    {
       try
@@ -52,10 +53,10 @@ public class LogicalJAXBHandler extends GenericLogicalHandler
          JAXBContext jaxb = JAXBContext.newInstance(Echo.class.getPackage().getName());
          Object payload = logicalContext.getMessage().getPayload(jaxb);
 
-         JAXBElement jaxbElement = null;
+         JAXBElement<Object> jaxbElement = null;
          if (payload instanceof JAXBElement)
          {
-            jaxbElement = (JAXBElement)payload;
+            jaxbElement = (JAXBElement<Object>)payload;
             payload = jaxbElement.getValue();
          }
 

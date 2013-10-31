@@ -26,7 +26,6 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.util.GregorianCalendar;
 
-import javax.naming.InitialContext;
 import javax.xml.namespace.QName;
 import javax.xml.rpc.Service;
 import javax.xml.rpc.ServiceFactory;
@@ -67,7 +66,7 @@ public class HolderTestCase extends JBossWSTest
 {
    private static final String TARGET_ENDPOINT_URL = "http://" + getServerHost() + ":8080/jaxrpc-samples-holder";
    private static final String TARGET_NAMESPACE = "http://org.jboss.ws/samples/holder";
-   
+
    private static HolderTestService port;
 
    public static Test suite()
@@ -80,6 +79,7 @@ public class HolderTestCase extends JBossWSTest
       });
    }
 
+   @Override
    protected void setUp() throws Exception
    {
       super.setUp();
@@ -89,7 +89,8 @@ public class HolderTestCase extends JBossWSTest
          port = getService(HolderTestService.class, "TestService", "HolderTestServicePort");
       }
    }
-   
+
+   @SuppressWarnings("unchecked")
    protected <T> T getService(final Class<T> clazz, final String serviceName, final String portName) throws Exception {
       ServiceFactory serviceFactory = ServiceFactory.newInstance();
       Service service = serviceFactory.createService(new URL(TARGET_ENDPOINT_URL + "?wsdl"), new QName(TARGET_NAMESPACE, serviceName));

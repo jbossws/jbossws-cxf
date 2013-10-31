@@ -22,7 +22,9 @@
 package org.jboss.test.ws.jaxrpc.samples.serviceref;
 
 import java.io.IOException;
+import java.rmi.Remote;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletException;
@@ -36,19 +38,20 @@ import org.jboss.logging.Logger;
 
 public class ServletClient extends HttpServlet
 {
-   // Provide logging
+   private static final long serialVersionUID = -4284019979423081541L;
    private static Logger log = Logger.getLogger(ServletClient.class);
 
+   @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
    {
       String inStr = req.getParameter("echo");
       log.info("doGet: " + inStr);
 
-      ArrayList ports = new ArrayList();
+      List<Remote> ports = new ArrayList<Remote>();
       try
       {
          InitialContext iniCtx = new InitialContext();
-         ports.add((TestEndpoint)((Service)iniCtx.lookup("java:comp/env/service1")).getPort(TestEndpoint.class));
+         ports.add(((Service)iniCtx.lookup("java:comp/env/service1")).getPort(TestEndpoint.class));
          ports.add(((TestEndpointService)iniCtx.lookup("java:comp/env/service2")).getTestEndpointPort());
       }
       catch (Exception ex)

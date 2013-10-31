@@ -46,23 +46,26 @@ public class ClientSideHandler extends GenericHandler
 
    protected QName[] headers;
 
+   @Override
    public QName[] getHeaders()
    {
       return headers;
    }
 
+   @Override
    public void init(HandlerInfo info)
    {
       log.info("init: " + info);
       headers = info.getHeaders();
-      
-      Map configMap = info.getHandlerConfig();
+
+      Map<?, ?> configMap = info.getHandlerConfig();
       String value1 = (String)configMap.get("ClientParam1");
       String value2 = (String)configMap.get("ClientParam2");
       if (!"value1".equals(value1) || !"value2".equals(value2))
          throw new IllegalStateException("Invalid handler config: " + configMap);
    }
 
+   @Override
    public boolean handleRequest(MessageContext msgContext)
    {
       log.info("handleRequest");
@@ -120,6 +123,7 @@ public class ClientSideHandler extends GenericHandler
       return true;
    }
 
+   @Override
    public boolean handleResponse(MessageContext msgContext)
    {
       log.info("handleResponse");

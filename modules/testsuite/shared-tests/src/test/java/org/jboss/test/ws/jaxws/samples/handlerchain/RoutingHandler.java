@@ -31,6 +31,7 @@ import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPHeaderElement;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -43,11 +44,12 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author Thomas.Diesler@jboss.org
  * @since 08-Oct-2005
  */
-public class RoutingHandler extends GenericSOAPHandler
+public class RoutingHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
    // Provide logging
    private static Logger log = Logger.getLogger(RoutingHandler.class);
 
+   @Override
    protected boolean handleInbound(MessageContext msgContext)
    {
       log.info("handleInbound");
@@ -76,6 +78,7 @@ public class RoutingHandler extends GenericSOAPHandler
       return true;
    }
 
+   @Override
    protected boolean handleOutbound(MessageContext msgContext)
    {
       log.info("handleOutbound");

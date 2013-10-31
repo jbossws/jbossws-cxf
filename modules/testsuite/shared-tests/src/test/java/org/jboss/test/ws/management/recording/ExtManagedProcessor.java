@@ -24,7 +24,8 @@ package org.jboss.test.ws.management.recording;
 import java.io.Serializable;
 
 public class ExtManagedProcessor extends MyManagedProcessor implements Serializable {
-   
+
+   private static final long serialVersionUID = 908532514661675105L;
    private String extAttribute;
 
    public String getExtAttribute() {

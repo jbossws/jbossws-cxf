@@ -55,33 +55,32 @@ import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
-@SuppressWarnings("unchecked")
-public class ServerHandler implements SOAPHandler
+public class ServerHandler implements SOAPHandler<SOAPMessageContext>
 {
 
    @Override
-   public Set getHeaders()
+   public Set<QName> getHeaders()
    {
       // FIXME getHeaders
-      return new HashSet();
+      return new HashSet<QName>();
    }
 
    @Override
    public void close(MessageContext arg0)
    {
-      
+
    }
 
    @Override
-   public boolean handleFault(MessageContext msgContext)
+   public boolean handleFault(SOAPMessageContext msgContext)
    {
       return true;
    }
 
    @Override
-   public boolean handleMessage(MessageContext msgContext)
+   public boolean handleMessage(SOAPMessageContext msgContext)
    {
-      SOAPMessage message = ((SOAPMessageContext)msgContext).getMessage();
+      SOAPMessage message = msgContext.getMessage();
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       try
       {
@@ -93,16 +92,16 @@ public class ServerHandler implements SOAPHandler
       }
       catch (Exception e)
       {
-        
+
       }
-      
+
       return true;
    }
-   
+
    private void appendContentToRequestElement(SOAPMessage message, boolean wsaEnabled) {
       try
       {
-         Iterator ite = message.getSOAPBody().getChildElements(new QName("http://TestEndpoint.org/xsd", "MtomRequest"));
+         Iterator<?> ite = message.getSOAPBody().getChildElements(new QName("http://TestEndpoint.org/xsd", "MtomRequest"));
          SOAPElement element = (SOAPElement)ite.next();
          SOAPElement requestElement = (SOAPElement)element.getChildElements(new QName("", "request")).next();
          if (wsaEnabled)
@@ -116,10 +115,10 @@ public class ServerHandler implements SOAPHandler
       }
       catch (SOAPException e)
       {
-         
+
       }
    }
-   
+
    protected Boolean isOutbound(MessageContext msgContext)
    {
       Boolean outbound = (Boolean)msgContext.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
@@ -128,18 +127,18 @@ public class ServerHandler implements SOAPHandler
 
       return outbound;
    }
-   
+
    public boolean isMTOMEnabled(String str) {
-      
+
       if (str.indexOf("http://www.w3.org/2004/08/xop/include") > -1) {
          return true;
       }
       return false;
-      
+
    }
-   
+
    public boolean isWSAEnabled(String str) {
-      if (str.indexOf("Action") > -1) 
+      if (str.indexOf("Action") > -1)
       {
          return true;
       }

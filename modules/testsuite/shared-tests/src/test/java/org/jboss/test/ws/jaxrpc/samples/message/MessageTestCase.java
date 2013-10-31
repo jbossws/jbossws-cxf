@@ -24,7 +24,6 @@ package org.jboss.test.ws.jaxrpc.samples.message;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
 
-import javax.naming.InitialContext;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -47,9 +46,9 @@ import javax.xml.transform.dom.DOMSource;
 
 import junit.framework.Test;
 
+import org.jboss.ws.api.util.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
-import org.jboss.ws.api.util.DOMUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -135,7 +134,7 @@ public class MessageTestCase extends JBossWSTest
       Service service = serviceFactory.createService(new URL(TARGET_ENDPOINT + "?wsdl"), new QName(TARGET_NAMESPACE, "MessageService"));
       return (MessageTestService)service.getPort(new QName(TARGET_NAMESPACE, "MessageTestServicePort"), MessageTestService.class);
    }
-   
+
    private SOAPElement convertToSOAPElement(Element reqElement) throws TransformerException, SOAPException
    {
       SOAPElement parent = SOAPFactory.newInstance().createElement("dummy");

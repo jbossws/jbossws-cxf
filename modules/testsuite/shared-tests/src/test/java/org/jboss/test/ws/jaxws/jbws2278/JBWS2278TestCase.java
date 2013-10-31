@@ -38,7 +38,7 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * [JBWS-2278] JBossWS is picking the wrong binding when both Soap1.1 and Soap1.2 bindings are provided for a port
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 30-Sep-2008
  * @see https://jira.jboss.org/jira/browse/JBWS-2278
@@ -53,6 +53,7 @@ public class JBWS2278TestCase extends JBossWSTest
       return new JBossWSTestSetup(JBWS2278TestCase.class, "jaxws-jbws2278.war");
    }
 
+   @Override
    public void setUp() throws Exception
    {
       super.setUp();
@@ -63,10 +64,12 @@ public class JBWS2278TestCase extends JBossWSTest
       port11 = service.getPort(new QName("http://org.jboss.test.ws/jbws2278", "TestEndpointSoap11Port"), TestEndpoint.class);
       port12 = service.getPort(new QName("http://org.jboss.test.ws/jbws2278", "TestEndpointSoap12Port"), TestEndpoint.class);
 
+      @SuppressWarnings("rawtypes")
       List<Handler> handlerChain11 = new ArrayList<Handler>();
       handlerChain11.add(new TestHandler(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE, SOAPConstants.SOAP_1_1_CONTENT_TYPE));
       ((BindingProvider)port11).getBinding().setHandlerChain(handlerChain11);
-      
+
+      @SuppressWarnings("rawtypes")
       List<Handler> handlerChain12 = new ArrayList<Handler>();
       handlerChain12.add(new TestHandler(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, SOAPConstants.SOAP_1_2_CONTENT_TYPE));
       ((BindingProvider)port12).getBinding().setHandlerChain(handlerChain12);
@@ -104,7 +107,7 @@ public class JBWS2278TestCase extends JBossWSTest
          assertTrue(e.getMessage().startsWith("Simulated failure"));
       }
    }
-   
+
    public void testCallSoap12() throws Exception
    {
       final String message = "Hello!!";

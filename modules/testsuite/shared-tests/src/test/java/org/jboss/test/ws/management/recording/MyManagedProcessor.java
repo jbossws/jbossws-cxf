@@ -26,13 +26,16 @@ import java.io.Serializable;
 import org.jboss.ws.common.monitoring.MemoryBufferRecorder;
 
 public class MyManagedProcessor extends MemoryBufferRecorder implements MyManagedProcessorMBean, Serializable {
-   
+
+   private static final long serialVersionUID = 8403680807812334470L;
    private String attribute;
-   
+
+   @Override
    public String getAttribute() {
       return attribute;
    }
-   
+
+   @Override
    public void setAttribute(String attribute) {
       this.attribute = attribute;
    }

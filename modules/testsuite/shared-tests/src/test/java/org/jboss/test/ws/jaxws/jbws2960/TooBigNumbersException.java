@@ -23,7 +23,8 @@ package org.jboss.test.ws.jaxws.jbws2960;
 
 public class TooBigNumbersException extends Exception
 {
-    final String detail;
+   private static final long serialVersionUID = -2054170431941891229L;
+   private final String detail;
 
     public TooBigNumbersException(String message, String detail)
     {

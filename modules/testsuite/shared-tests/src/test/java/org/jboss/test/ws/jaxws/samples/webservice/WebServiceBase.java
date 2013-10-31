@@ -23,8 +23,6 @@ package org.jboss.test.ws.jaxws.samples.webservice;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.rmi.RemoteException;
-
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 

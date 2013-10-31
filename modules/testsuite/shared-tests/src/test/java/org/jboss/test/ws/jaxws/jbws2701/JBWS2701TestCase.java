@@ -41,7 +41,7 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS2701TestCase extends JBossWSTest
 {
-   private String endpointAddress = "http://" + this.getServerHost() + ":8080/jaxws-jbws2701/EndpointService/EndpointImpl";
+   private final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-jbws2701/EndpointService/EndpointImpl";
 
    public static Test suite()
    {

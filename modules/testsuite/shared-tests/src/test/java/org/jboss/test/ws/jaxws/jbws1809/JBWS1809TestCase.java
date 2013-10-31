@@ -21,17 +21,16 @@
  */
 package org.jboss.test.ws.jaxws.jbws1809;
 
+import java.net.URL;
+import java.util.Iterator;
+
 import junit.framework.Test;
 
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import java.net.URL;
-import java.util.Iterator;
 
 /**
  * Test the JAXBIntroduction features.
@@ -56,7 +55,7 @@ public class JBWS1809TestCase extends JBossWSTest
       Element types = (Element)((Element)doc.getDocumentElement()
          .getElementsByTagNameNS("http://schemas.xmlsoap.org/wsdl/", "types").item(0))
             .getElementsByTagNameNS("http://www.w3.org/2001/XMLSchema", "schema").item(0);
-      Iterator it = DOMUtils.getChildElements(types, "complexType");
+      Iterator<?> it = DOMUtils.getChildElements(types, "complexType");
 
       boolean foundAttributeDeclaration = false;
       while(it.hasNext())
@@ -64,7 +63,7 @@ public class JBWS1809TestCase extends JBossWSTest
          Element next = (Element)it.next();
          if(DOMUtils.getAttributeValue(next, "name").equals("docRequest"))
          {
-            Iterator it2 = DOMUtils.getChildElements(next, "attribute");
+            Iterator<?> it2 = DOMUtils.getChildElements(next, "attribute");
 
             while(it2.hasNext())
             {

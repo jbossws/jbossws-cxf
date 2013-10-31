@@ -28,7 +28,6 @@ import java.net.URL;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.Detail;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPConnection;
@@ -55,7 +54,7 @@ public class JBWS1815TestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws1815/ProviderImpl";
 
-   private String msgString =
+   private final String msgString =
       "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:my=\"http://www.my-company.it/ws/my-test\">" +
       "  <soapenv:Header/>" +
       "  <soapenv:Body>" +
@@ -102,7 +101,7 @@ public class JBWS1815TestCase extends JBossWSTest
       SOAPMessage reqMsg = msgFactory.createMessage(null, new ByteArrayInputStream(msgString.getBytes()));
       return reqMsg;
    }
-   
+
    private DocumentBuilder getDocumentBuilder()
    {
       DocumentBuilderFactory factory = null;

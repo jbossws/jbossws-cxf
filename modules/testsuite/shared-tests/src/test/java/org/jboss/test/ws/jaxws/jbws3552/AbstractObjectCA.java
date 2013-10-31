@@ -22,7 +22,6 @@
 package org.jboss.test.ws.jaxws.jbws3552;
 
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlTransient
 public class AbstractObjectCA {
@@ -52,7 +51,8 @@ public class AbstractObjectCA {
         return complexObject;
     }
 
-    public String toString() {
+    @Override
+   public String toString() {
         return message + "," + description + "," + complexObject;
     }
 }

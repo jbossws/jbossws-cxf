@@ -24,6 +24,7 @@ package org.jboss.test.ws.jaxws.jbws1665;
 import java.io.Serializable;
 
 public class PropertyData implements Serializable {
+   private static final long serialVersionUID = 3950792904670354528L;
    private String key;
    private String value;
 

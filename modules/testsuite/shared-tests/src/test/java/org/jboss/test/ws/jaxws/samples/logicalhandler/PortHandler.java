@@ -27,6 +27,7 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -39,11 +40,11 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author Thomas.Diesler@jboss.org
  * @since 24-Nov-2005
  */
-public class PortHandler extends GenericSOAPHandler
+public class PortHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
    // provide logging
    private static final Logger log = Logger.getLogger(PortHandler.class);
-   
+
    @Override
    public boolean handleOutbound(MessageContext msgContext)
    {
@@ -63,14 +64,14 @@ public class PortHandler extends GenericSOAPHandler
          SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
          SOAPElement soapElement = getFirstChildElement(soapMessage.getSOAPBody());
          soapElement = getFirstChildElement(soapElement);
-         
+
          String oldValue = soapElement.getValue();
          String newValue = oldValue + ":" + direction + ":PortHandler";
          soapElement.setValue(newValue);
-         
+
          log.debug("oldValue: " + oldValue);
          log.debug("newValue: " + newValue);
-         
+
          return true;
       }
       catch (SOAPException ex)
@@ -78,10 +79,10 @@ public class PortHandler extends GenericSOAPHandler
          throw new WebServiceException(ex);
       }
    }
-   
+
    private SOAPElement getFirstChildElement(SOAPElement parentNode)
    {
-      Iterator i = parentNode.getChildElements();
+      Iterator<?> i = parentNode.getChildElements();
       while (i.hasNext())
       {
          Object currentNode = i.next();
@@ -90,7 +91,7 @@ public class PortHandler extends GenericSOAPHandler
             return (SOAPElement) currentNode;
          }
       }
-      
+
       return null;
    }
 }

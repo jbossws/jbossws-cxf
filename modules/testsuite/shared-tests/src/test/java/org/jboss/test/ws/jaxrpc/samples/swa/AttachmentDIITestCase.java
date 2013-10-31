@@ -23,7 +23,6 @@ package org.jboss.test.ws.jaxrpc.samples.swa;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -62,7 +61,7 @@ public class AttachmentDIITestCase extends JBossWSTest
    {
       return new JBossWSTestSetup(AttachmentDIITestCase.class, "jaxrpc-samples-swa.war");
    }
-   
+
    /** Send a multipart message with a text/plain attachment part
     */
    public void testSendMimeImageGIF() throws Exception

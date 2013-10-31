@@ -23,22 +23,24 @@ package org.jboss.test.ws.jaxrpc.samples.exception;
 
 /**
  * JAX-RPC 1.1 WSDLFault
- * 
+ *
  * A service specific Java exception (mapped from a wsdl:fault and the corresponding
  * wsdl:message) extends the class java.lang.Exception directly or indirectly.
- * 
+ *
  * The single message part in the wsdl:message (referenced from the wsdl:fault
  * element) may be either a type or an element. If the former, it can be either a
  * xsd:complexType or a simple XML type.
- * 
+ *
  * Each element inside the xsd:complexType is mapped to a getter method and a
  * parameter in the constructor of the Java exception. Mapping of these elements follows
  * the standard XML to Java type mapping.
- * 
+ *
  * @author Thomas.Diesler@jboss.com
  */
 public class UserMessageException extends Exception
 {
+
+   private static final long serialVersionUID = 7299607115764670748L;
 
    public UserMessageException(String message)
    {

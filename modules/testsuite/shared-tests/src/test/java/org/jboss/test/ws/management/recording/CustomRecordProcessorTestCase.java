@@ -35,22 +35,24 @@ import org.jboss.wsf.test.JBossWSTestHelper;
 /**
  * This test case shows how to dynamically add a custom record processor
  * to a given endpoint.
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 6-Aug-2008
  */
 public class CustomRecordProcessorTestCase extends JBossWSTest
 {
-   private String endpointURL = "http://" + getServerHost() + ":8080/management-recording/EndpointImpl";
-   private String targetNS = "http://recording.management.ws.test.jboss.org/";
+   private final String endpointURL = "http://" + getServerHost() + ":8080/management-recording/EndpointImpl";
+   private final String targetNS = "http://recording.management.ws.test.jboss.org/";
    private String endpointObjectName;
 
+   @Override
    protected void setUp() throws Exception
    {
       endpointObjectName = "jboss.ws:context=management-recording,endpoint=EndpointWithConfigImpl";
       JBossWSTestHelper.deploy("management-recording-as7.jar");
    }
-   
+
+   @Override
    protected void tearDown() throws Exception
    {
       JBossWSTestHelper.undeploy("management-recording-as7.jar");
@@ -62,14 +64,16 @@ public class CustomRecordProcessorTestCase extends JBossWSTest
       QName serviceName = new QName(targetNS, "EndpointService");
 
       Service service = Service.create(wsdlURL, serviceName);
-      Endpoint port = (Endpoint)service.getPort(Endpoint.class);
-      System.out.println("FIXME: [JBWS-3330] RMI class loader disabled / CNFE with remote classloader");
+      @SuppressWarnings("unused")
+      Endpoint port = service.getPort(Endpoint.class);
+      System.out.println("FIXME: [JBWS-3330] RMI class loader disabled / CNFE with remote classloader");//FIXME [JBWS-3330] RMI class loader disabled / CNFE with remote classloader
 //      addCustomProcessor();
 //      Object retObj = port.echo1("Hello");
 //      assertEquals("Hello", retObj);
 //      checkCustomProcessorJob();
    }
-   
+
+   @SuppressWarnings("unused")
    private void addCustomProcessor() throws Exception
    {
       ObjectName oname = new ObjectName(endpointObjectName);
@@ -80,7 +84,8 @@ public class CustomRecordProcessorTestCase extends JBossWSTest
       myProcessor.setExtAttribute("ExtAttribute value");
       getServer().invoke(oname, "addRecordProcessor", new Object[] { myProcessor }, new String[] { RecordProcessor.class.getName() });
    }
-   
+
+   @SuppressWarnings("unused")
    private void checkCustomProcessorJob() throws Exception
    {
       MBeanServerConnection server = getServer();

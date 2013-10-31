@@ -21,10 +21,13 @@
  */
 package org.jboss.test.ws.jaxws.samples.advanced.retail;
 
-import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * @author Heiko Braun <heiko.braun@jboss.com>
@@ -37,6 +40,8 @@ import java.util.List;
    propOrder = { "orderNum", "state", "customer", "items" }
 )
 public class Order implements Serializable {
+
+   private static final long serialVersionUID = -2683933732949647802L;
 
    public enum OrderState {TRANSIENT, PREPARED, VERIFIED, PROCESSED}
 
@@ -83,7 +88,8 @@ public class Order implements Serializable {
       this.state = state;
    }
 
+   @Override
    public String toString() {
-      return "Order {num="+orderNum+"}";   
+      return "Order {num="+orderNum+"}";
    }
 }

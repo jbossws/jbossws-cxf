@@ -51,10 +51,12 @@ public class OrderMgmtBean implements OrderMgmt
 
    @WebServiceRef(wsdlLocation = "META-INF/wsdl/CCVerificationService.wsdl")
    private CCVerificationService verificationService;
+   @SuppressWarnings("unused")
    private CCVerification verificationPort;
 
    @WebServiceRef(wsdlLocation = "META-INF/wsdl/ProfileMgmtService.wsdl")
    private ProfileMgmtService profileService;
+   @SuppressWarnings("unused")
    private ProfileMgmt profilePort;
 
    @PostConstruct
@@ -84,6 +86,7 @@ public class OrderMgmtBean implements OrderMgmt
     * @param order
     * @return OrderStaus
     */
+   @Override
    public OrderStatus prepareOrder(Order order)
    {
 

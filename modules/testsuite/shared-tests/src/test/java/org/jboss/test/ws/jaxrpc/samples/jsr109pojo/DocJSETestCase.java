@@ -55,6 +55,7 @@ public class DocJSETestCase extends JBossWSTest
       });
    }
 
+   @Override
    protected void setUp() throws Exception
    {
       super.setUp();
@@ -65,6 +66,7 @@ public class DocJSETestCase extends JBossWSTest
       }
    }
 
+   @SuppressWarnings("unchecked")
    protected <T> T getService(final Class<T> clazz, final String serviceName, final String portName) throws Exception {
       ServiceFactory serviceFactory = ServiceFactory.newInstance();
       Service service = serviceFactory.createService(new URL(TARGET_ENDPOINT_URL + "?wsdl"), new QName(TARGET_NAMESPACE, serviceName));

@@ -31,8 +31,10 @@ import javax.xml.ws.WebFault;
 @WebFault(faultBean="org.jboss.test.ws.jaxws.samples.exception.server.jaxws.UserExceptionBean")
 public class UserException extends Exception
 {
-   private int errorCode;
-   private String errorCategory;
+
+   private static final long serialVersionUID = -4005685987159367861L;
+   private final int errorCode;
+   private final String errorCategory;
 
    public UserException(String errorCategory, int errorCode, String message)
    {

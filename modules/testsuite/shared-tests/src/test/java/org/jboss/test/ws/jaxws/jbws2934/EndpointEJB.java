@@ -23,13 +23,7 @@ package org.jboss.test.ws.jaxws.jbws2934;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.Style;
-import javax.xml.ws.WebServiceException;
-
 import javax.ejb.Stateless;
-import org.jboss.ws.api.annotation.AuthMethod;
-import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;
 
 /**

@@ -21,23 +21,25 @@
  */
 package org.jboss.test.ws.jaxws.jbws1505;
 
-import junit.framework.Test;
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import java.net.URL;
+import java.util.Map;
 
 import javax.wsdl.Definition;
 import javax.wsdl.factory.WSDLFactory;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import java.net.URL;
-import java.util.Map;
+
+import junit.framework.Test;
+
+import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * [JBWS-1505] Verify wsdl generation on SEI inheritance.
  */
 public class JBWS1505TestCase extends JBossWSTest
 {
-   private String targetNS = "http://org.jboss.test.ws/jbws1505";
+   private final String targetNS = "http://org.jboss.test.ws/jbws1505";
    private Interface2 port;
    private URL wsdlURL;
 
@@ -74,7 +76,7 @@ public class JBWS1505TestCase extends JBossWSTest
    public void testWSDLGeneration() throws Exception
    {
       Definition wsdl = WSDLFactory.newInstance().newWSDLReader().readWSDL(wsdlURL.toString());
-      Map services = wsdl.getAllServices();
+      Map<?, ?> services = wsdl.getAllServices();
       assertTrue(services.size() == 1); // a simple port
       javax.wsdl.Service service = (javax.wsdl.Service)services.values().iterator().next();
       javax.wsdl.Port port = (javax.wsdl.Port)service.getPorts().values().iterator().next();

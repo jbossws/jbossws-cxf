@@ -23,7 +23,6 @@ package org.jboss.test.ws.jaxrpc.samples.handler;
 
 import java.net.URL;
 
-import javax.naming.InitialContext;
 import javax.xml.namespace.QName;
 import javax.xml.rpc.Service;
 import javax.xml.rpc.ServiceFactory;
@@ -31,9 +30,9 @@ import javax.xml.rpc.holders.StringHolder;
 
 import junit.framework.Test;
 
+import org.jboss.wsf.test.CleanupOperation;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
-import org.jboss.wsf.test.CleanupOperation;
 
 /**
  * Test bound and unbound headers
@@ -58,6 +57,7 @@ public class HeaderClientTestCase extends JBossWSTest
       });
    }
 
+   @Override
    protected void setUp() throws Exception
    {
       super.setUp();
@@ -67,7 +67,8 @@ public class HeaderClientTestCase extends JBossWSTest
          port = getService(HeaderTestService.class, "TestService", "HeaderTestServicePort");
       }
    }
-   
+
+   @SuppressWarnings("unchecked")
    protected <T> T getService(final Class<T> clazz, final String serviceName, final String portName) throws Exception {
       ServiceFactory serviceFactory = ServiceFactory.newInstance();
       Service service = serviceFactory.createService(new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl"), new QName(TARGET_NAMESPACE, serviceName));

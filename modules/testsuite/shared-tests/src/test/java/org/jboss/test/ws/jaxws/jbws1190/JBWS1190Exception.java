@@ -22,12 +22,14 @@
 package org.jboss.test.ws.jaxws.jbws1190;
 
 /**
- * 
+ *
  * @author darran.lofthouse@jboss.com
  * @since 19-October-2006
  */
 public class JBWS1190Exception extends RuntimeException
 {
+
+   private static final long serialVersionUID = -1939843134103998709L;
 
    public JBWS1190Exception()
    {

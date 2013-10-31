@@ -21,7 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.holder;
 
-import java.io.File;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Holder;

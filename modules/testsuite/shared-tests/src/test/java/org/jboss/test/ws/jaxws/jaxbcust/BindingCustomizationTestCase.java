@@ -34,13 +34,14 @@ import org.jboss.wsf.spi.deployment.EndpointState;
 /**
  * @author Heiko.Braun@jboss.com
  * @author alessio.soldano@jboss.com
- * 
+ *
  * @since 28-Jun-2007
  */
 public class BindingCustomizationTestCase extends TestCase {
 
    DeploymentModelFactory deploymentModelFactory;
 
+   @Override
    protected void setUp() throws Exception
    {
       super.setUp();
@@ -49,6 +50,7 @@ public class BindingCustomizationTestCase extends TestCase {
       deploymentModelFactory = spiProvider.getSPI(DeploymentModelFactory.class);
    }
 
+   @SuppressWarnings("unchecked")
    public void testCustomizationWriteAccess() throws Exception
    {
       Endpoint endpoint = deploymentModelFactory.newHttpEndpoint(null);
@@ -70,6 +72,7 @@ public class BindingCustomizationTestCase extends TestCase {
       }
    }
 
+   @SuppressWarnings("unchecked")
    public void testCustomizationReadAccess() throws Exception
    {
       Endpoint endpoint = deploymentModelFactory.newHttpEndpoint(null);

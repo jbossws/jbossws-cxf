@@ -23,7 +23,6 @@ package org.jboss.test.ws.jaxws.binding;
 
 import static javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING;
 
-import javax.annotation.Resource;
 import javax.jws.HandlerChain;
 import javax.jws.WebService;
 import javax.xml.ws.BindingType;

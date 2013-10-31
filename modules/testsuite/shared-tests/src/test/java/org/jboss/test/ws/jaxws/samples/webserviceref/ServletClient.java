@@ -48,6 +48,9 @@ import org.jboss.logging.Logger;
 )
 public class ServletClient extends HttpServlet
 {
+
+   private static final long serialVersionUID = -3990736104626758280L;
+
    // Provide logging
    private static Logger log = Logger.getLogger(ServletClient.class);
 
@@ -66,7 +69,7 @@ public class ServletClient extends HttpServlet
       this.service5 = service;
    }
    private EndpointService service5;
-   
+
    // Test on method without name
    @WebServiceRef
    public void setService6(EndpointService service)
@@ -74,7 +77,7 @@ public class ServletClient extends HttpServlet
       this.service6 = service;
    }
    private EndpointService service6;
-   
+
    // Test on field with name and value
    @WebServiceRef(name = "Port2", value = EndpointService.class)
    public Endpoint port2;
@@ -88,20 +91,20 @@ public class ServletClient extends HttpServlet
    {
       String inStr = req.getParameter("echo");
       log.info("doGet: " + inStr);
-      
+
       ArrayList<Endpoint> ports = new ArrayList<Endpoint>();
       try
       {
          InitialContext iniCtx = new InitialContext();
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/service1")).getEndpointPort());
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/service2")).getEndpointPort());
-         ports.add((Endpoint)service3.getPort(Endpoint.class));
+         ports.add(service3.getPort(Endpoint.class));
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/EndpointService3")).getEndpointPort());
-         ports.add((Endpoint)service4.getPort(Endpoint.class));
+         ports.add(service4.getPort(Endpoint.class));
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/" + getClass().getName() + "/service4")).getEndpointPort());
-         ports.add((Endpoint)service5.getPort(Endpoint.class));
+         ports.add(service5.getPort(Endpoint.class));
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/EndpointService5")).getEndpointPort());
-         ports.add((Endpoint)service6.getPort(Endpoint.class));
+         ports.add(service6.getPort(Endpoint.class));
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/" + getClass().getName() + "/service6")).getEndpointPort());
          ports.add((Endpoint)iniCtx.lookup("java:comp/env/port1"));
          ports.add(port2);
@@ -114,14 +117,14 @@ public class ServletClient extends HttpServlet
          log.error("Cannot add port", ex);
          throw new WebServiceException(ex);
       }
-      
+
       for (Endpoint port : ports)
       {
          String outStr = port.echo(inStr);
          if (inStr.equals(outStr) == false)
             throw new WebServiceException("Invalid echo return: " + inStr);
       }
-      
+
       res.getWriter().print(inStr);
    }
 }

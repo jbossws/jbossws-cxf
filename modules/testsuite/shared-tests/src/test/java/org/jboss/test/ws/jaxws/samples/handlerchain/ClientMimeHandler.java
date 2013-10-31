@@ -28,6 +28,7 @@ import java.util.Map;
 
 import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPMessage;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -41,13 +42,14 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author alessio.soldano@jboss.com
  * @since 08-Oct-2005
  */
-public class ClientMimeHandler extends GenericSOAPHandler
+public class ClientMimeHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
    // Provide logging
    private static Logger log = Logger.getLogger(ClientMimeHandler.class);
-   
+
    public static String inboundCookie;
 
+   @Override
    protected boolean handleOutbound(MessageContext msgContext)
    {
       log.info("handleOutbound");
@@ -56,17 +58,18 @@ public class ClientMimeHandler extends GenericSOAPHandler
       SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
       MimeHeaders mimeHeaders = soapMessage.getMimeHeaders();
       mimeHeaders.setHeader("Cookie", "client-cookie=true");
-      
+
       // proper approach through MessageContext.HTTP_REQUEST_HEADERS
       Map<String, List<String>> httpHeaders = new HashMap<String, List<String>>();
       httpHeaders.put("Cookie", Collections.singletonList("client-cookie=true"));
       msgContext.put(MessageContext.HTTP_REQUEST_HEADERS, httpHeaders);
 
       inboundCookie = null;
-      
+
       return true;
    }
 
+   @Override
    protected boolean handleInbound(MessageContext msgContext)
    {
       log.info("handleInbound");
@@ -75,7 +78,7 @@ public class ClientMimeHandler extends GenericSOAPHandler
       SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
       MimeHeaders mimeHeaders = soapMessage.getMimeHeaders();
       String[] cookies = mimeHeaders.getHeader("Set-Cookie");
-      
+
       // proper approach through MessageContext.HTTP_RESPONSE_HEADERS
       if (cookies == null) {
          @SuppressWarnings("unchecked")
@@ -85,7 +88,7 @@ public class ClientMimeHandler extends GenericSOAPHandler
             cookies = l.toArray(new String[l.size()]);
          }
       }
-      
+
       if (cookies != null && cookies.length == 1)
          inboundCookie = cookies[0];
 

@@ -49,7 +49,7 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class SOAPBindingTestCase extends JBossWSTest
 {
-   private String targetNS = "http://soapbinding.samples.jaxws.ws.test.jboss.org/";
+   private final String targetNS = "http://soapbinding.samples.jaxws.ws.test.jboss.org/";
 
    public static Test suite()
    {
@@ -62,7 +62,7 @@ public class SOAPBindingTestCase extends JBossWSTest
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-soapbinding/ExampleService?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
-      ExampleSEI port = (ExampleSEI)service.getPort(ExampleSEI.class);
+      ExampleSEI port = service.getPort(ExampleSEI.class);
 
       Object retObj = port.concat("first", "second", "third");
       assertEquals("first|second|third", retObj);
@@ -74,7 +74,7 @@ public class SOAPBindingTestCase extends JBossWSTest
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-soapbinding/DocBareService?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
-      DocBare port = (DocBare)service.getPort(DocBare.class);
+      DocBare port = service.getPort(DocBare.class);
 
       SubmitBareRequest poReq = new SubmitBareRequest("Ferrari");
       SubmitBareResponse poRes = port.submitPO(poReq);
@@ -89,9 +89,11 @@ public class SOAPBindingTestCase extends JBossWSTest
 
       Service service = Service.create(wsdlURL, serviceName);
       JAXBContext jbc = JAXBContext.newInstance(new Class[] { SubmitBareRequest.class, SubmitBareResponse.class });
+      @SuppressWarnings("rawtypes")
       Dispatch dispatch = service.createDispatch(portName, jbc, Mode.PAYLOAD);
 
       SubmitBareRequest poReq = new SubmitBareRequest("Ferrari");
+      @SuppressWarnings("unchecked")
       SubmitBareResponse poRes = (SubmitBareResponse)dispatch.invoke(poReq);
       assertEquals("Ferrari", poRes.getProduct());
    }
@@ -103,7 +105,7 @@ public class SOAPBindingTestCase extends JBossWSTest
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-soapbinding/DocBareService?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
-      Dispatch dispatch = service.createDispatch(portName, SOAPMessage.class, Mode.MESSAGE);
+      Dispatch<SOAPMessage> dispatch = service.createDispatch(portName, SOAPMessage.class, Mode.MESSAGE);
 
       String reqEnv =
       "<env:Envelope xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>" +
@@ -116,7 +118,7 @@ public class SOAPBindingTestCase extends JBossWSTest
       "</env:Envelope>";
 
       SOAPMessage reqMsg = MessageFactory.newInstance().createMessage(null, new ByteArrayInputStream(reqEnv.getBytes()));
-      SOAPMessage resMsg = (SOAPMessage)dispatch.invoke(reqMsg);
+      SOAPMessage resMsg = dispatch.invoke(reqMsg);
 
       QName qname = new QName(targetNS, "SubmitPOResponse");
       SOAPElement soapElement = (SOAPElement)resMsg.getSOAPBody().getChildElements(qname).next();
@@ -131,7 +133,7 @@ public class SOAPBindingTestCase extends JBossWSTest
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-soapbinding/DocBareService?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
-      Dispatch dispatch = service.createDispatch(portName, SOAPMessage.class, Mode.MESSAGE);
+      Dispatch<SOAPMessage> dispatch = service.createDispatch(portName, SOAPMessage.class, Mode.MESSAGE);
 
       String requestNamespace = "http://namespace/request";
       String resultNamespace = "http://namespace/result";
@@ -147,7 +149,7 @@ public class SOAPBindingTestCase extends JBossWSTest
       "</env:Envelope>";
 
       SOAPMessage reqMsg = MessageFactory.newInstance().createMessage(null, new ByteArrayInputStream(reqEnv.getBytes()));
-      SOAPMessage resMsg = (SOAPMessage)dispatch.invoke(reqMsg);
+      SOAPMessage resMsg = dispatch.invoke(reqMsg);
 
       QName qname = new QName(resultNamespace, "SubmitBareResponse");
       SOAPElement soapElement = (SOAPElement)resMsg.getSOAPBody().getChildElements(qname).next();
@@ -161,11 +163,11 @@ public class SOAPBindingTestCase extends JBossWSTest
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-soapbinding/DocWrappedService?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
-      DocWrapped port = (DocWrapped)service.getPort(DocWrapped.class);
+      DocWrapped port = service.getPort(DocWrapped.class);
 
       String poRes = port.submitPO("Ferrari");
       assertEquals("Ferrari", poRes);
-      
+
       poRes = port.submitNamespacedPO("Ferrari", "message");
       assertEquals("Ferrari", poRes);
    }
@@ -189,9 +191,9 @@ public class SOAPBindingTestCase extends JBossWSTest
       QName serviceName = new QName(targetNS, "DocWrappedService");
       QName portName = new QName(targetNS, "DocWrappedPort");
       Service service = Service.create(wsdlURL, serviceName);
-      Dispatch dispatch = service.createDispatch(portName, SOAPMessage.class, Mode.MESSAGE);
+      Dispatch<SOAPMessage> dispatch = service.createDispatch(portName, SOAPMessage.class, Mode.MESSAGE);
 
-      SOAPMessage resMsg = (SOAPMessage) dispatch.invoke(reqMsg);
+      SOAPMessage resMsg = dispatch.invoke(reqMsg);
 
       QName qname = new QName(targetNS, "SubmitPOResponse");
       SOAPElement soapElement = (SOAPElement)resMsg.getSOAPBody().getChildElements(qname).next();

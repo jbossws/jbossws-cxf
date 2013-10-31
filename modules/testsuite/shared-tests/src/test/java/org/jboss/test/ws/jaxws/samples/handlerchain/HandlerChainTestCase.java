@@ -51,16 +51,16 @@ public class HandlerChainTestCase extends JBossWSTest
       return new JBossWSTestSetup(HandlerChainTestCase.class, "jaxws-samples-handlerchain.war");
    }
 
-   @SuppressWarnings("unchecked")
    public void testDynamicHandlerChain() throws Exception
    {
       QName serviceName = new QName(targetNS, "EndpointImplService");
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-handlerchain/TestService?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
-      Endpoint port = (Endpoint)service.getPort(Endpoint.class);
+      Endpoint port = service.getPort(Endpoint.class);
 
       BindingProvider bindingProvider = (BindingProvider)port;
+      @SuppressWarnings("rawtypes")
       List<Handler> handlerChain = new ArrayList<Handler>();
       handlerChain.add(new LogHandler());
       handlerChain.add(new AuthorizationHandler());
@@ -79,7 +79,7 @@ public class HandlerChainTestCase extends JBossWSTest
       URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-handlerchain/TestService?wsdl");
 
       Service service = new EndpointWithHandlerChainService(wsdlURL, serviceName);
-      EndpointWithHandlerChain port = (EndpointWithHandlerChain)service.getPort(EndpointWithHandlerChain.class);
+      EndpointWithHandlerChain port = service.getPort(EndpointWithHandlerChain.class);
 
       String resStr = port.echo("Kermit");
       assertEquals("Kermit|LogOut|AuthOut|RoutOut|RoutIn|AuthIn|LogIn|endpoint|LogOut|AuthOut|RoutOut|RoutIn|AuthIn|LogIn", resStr);

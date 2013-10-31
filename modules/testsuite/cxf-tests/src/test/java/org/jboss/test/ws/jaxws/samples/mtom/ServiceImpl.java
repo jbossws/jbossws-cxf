@@ -22,7 +22,6 @@
 package org.jboss.test.ws.jaxws.samples.mtom;
 
 import javax.jws.WebService;
-import javax.xml.ws.soap.Addressing;
 
 @WebService
 (
@@ -34,6 +33,7 @@ import javax.xml.ws.soap.Addressing;
 )
 public class ServiceImpl implements ServiceIface
 {
+   @Override
    public String sayHello()
    {
       return "Hello World!";

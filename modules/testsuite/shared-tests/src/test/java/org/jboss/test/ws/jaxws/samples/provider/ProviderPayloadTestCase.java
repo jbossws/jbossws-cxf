@@ -38,16 +38,15 @@ import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceException;
 import javax.xml.ws.Service.Mode;
+import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.SOAPBinding;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
-import org.jboss.ws.common.DOMUtils;
-import org.jboss.ws.common.DOMWriter;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -59,11 +58,11 @@ import org.w3c.dom.Node;
  */
 public class ProviderPayloadTestCase extends JBossWSTest
 {
-   private String reqString =
+   private final String reqString =
       "<ns1:somePayload xmlns:ns1='http://org.jboss.ws/provider'>Hello</ns1:somePayload>";
 
-   private String resString =
-      "<ns1:somePayload xmlns:ns1='http://org.jboss.ws/provider'>Hello:Inbound:LogicalSourceHandler:Outbound:LogicalSourceHandler</ns1:somePayload>";
+//   private String resString =
+//      "<ns1:somePayload xmlns:ns1='http://org.jboss.ws/provider'>Hello:Inbound:LogicalSourceHandler:Outbound:LogicalSourceHandler</ns1:somePayload>";
 
    public static Test suite()
    {
@@ -81,7 +80,7 @@ public class ProviderPayloadTestCase extends JBossWSTest
    {
       Dispatch<Source> dispatch = createDispatch("ProviderEndpoint");
       Source resPayload = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
-      
+
       verifyResponse(resPayload);
    }
 
@@ -132,7 +131,7 @@ public class ProviderPayloadTestCase extends JBossWSTest
 
       Service service = Service.create(serviceName);
       service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING, endpointAddress.toExternalForm());
-      
+
       Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
       return dispatch;
    }

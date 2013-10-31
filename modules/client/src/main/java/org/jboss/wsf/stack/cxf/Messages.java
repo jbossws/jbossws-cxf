@@ -41,6 +41,7 @@ import org.jboss.wsf.spi.deployment.DeploymentType;
  * 
  * @author alessio.soldano@jboss.com
  */
+@SuppressWarnings("deprecation")
 @MessageBundle(projectCode = "JBWS")
 public interface Messages {
 

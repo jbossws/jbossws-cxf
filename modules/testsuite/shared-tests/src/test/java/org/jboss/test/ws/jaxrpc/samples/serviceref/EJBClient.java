@@ -21,8 +21,10 @@
  */
 package org.jboss.test.ws.jaxrpc.samples.serviceref;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJBException;
 import javax.ejb.SessionBean;
@@ -35,20 +37,23 @@ import org.jboss.logging.Logger;
 
 public class EJBClient implements SessionBean
 {
-   // Provide logging
+   private static final long serialVersionUID = -1530599243366798329L;
+
+// Provide logging
    private static Logger log = Logger.getLogger(EJBClient.class);
 
+   @SuppressWarnings("unused")
    private SessionContext context;
 
    public String echo(String inStr) throws RemoteException
    {
       log.info("echo: " + inStr);
 
-      ArrayList ports = new ArrayList();
+      List<Remote> ports = new ArrayList<Remote>();
       try
       {
          InitialContext iniCtx = new InitialContext();
-         ports.add((TestEndpoint)((Service)iniCtx.lookup("java:comp/env/service1")).getPort(TestEndpoint.class));
+         ports.add(((Service)iniCtx.lookup("java:comp/env/service1")).getPort(TestEndpoint.class));
          ports.add(((TestEndpointService)iniCtx.lookup("java:comp/env/service2")).getTestEndpointPort());
       }
       catch (Exception ex)
@@ -70,6 +75,7 @@ public class EJBClient implements SessionBean
 
    // EJB Lifecycle ----------------------------------------------------------------------
 
+   @Override
    public void setSessionContext(SessionContext context) throws EJBException, RemoteException
    {
       this.context = context;
@@ -79,14 +85,17 @@ public class EJBClient implements SessionBean
    {
    }
 
+   @Override
    public void ejbRemove()
    {
    }
 
+   @Override
    public void ejbActivate()
    {
    }
 
+   @Override
    public void ejbPassivate()
    {
    }

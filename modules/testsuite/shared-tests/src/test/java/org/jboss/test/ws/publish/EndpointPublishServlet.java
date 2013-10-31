@@ -46,7 +46,7 @@ import org.jboss.wsf.spi.publish.EndpointPublisher;
 import org.jboss.wsf.spi.publish.EndpointPublisherFactory;
 
 /**
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 01-Apr-2011
  *
@@ -171,7 +171,7 @@ public class EndpointPublishServlet extends HttpServlet
       webserviceDescription2.addPortComponent(portComponent2);
       return metadata;
    }
-   
+
    private static void invoke(URL wsdlURL, QName serviceName) throws Exception {
       Service service = Service.create(wsdlURL, serviceName);
       org.jboss.test.ws.publish.Endpoint port = service.getPort(org.jboss.test.ws.publish.Endpoint.class);

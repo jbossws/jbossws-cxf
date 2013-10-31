@@ -26,6 +26,7 @@ import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -38,10 +39,11 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author Alessio Soldano, alessio.soldano@jboss.com
  * @since 31-Oct-2007
  */
-public class ClientHandler2 extends GenericSOAPHandler
+public class ClientHandler2 extends GenericSOAPHandler<LogicalMessageContext>
 {
    private static Logger log = Logger.getLogger(ClientHandler2.class);
 
+   @Override
    public boolean handleInbound(MessageContext msgContext)
    {
       log.info("handleInbound");
@@ -69,6 +71,7 @@ public class ClientHandler2 extends GenericSOAPHandler
       }
    }
 
+   @Override
    protected boolean handleOutbound(MessageContext msgContext)
    {
       log.info("handleOutbound");

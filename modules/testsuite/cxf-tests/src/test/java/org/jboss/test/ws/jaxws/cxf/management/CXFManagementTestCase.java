@@ -4,7 +4,6 @@ import java.util.Set;
 
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
-import javax.naming.InitialContext;
 
 import junit.framework.Test;
 
@@ -22,8 +21,8 @@ public class CXFManagementTestCase extends JBossWSTest
    public void testJMXBean() throws Exception {
       MBeanServerConnection server = getServer();
       ObjectName name = new ObjectName("org.apache.cxf:*");
-      Set cxfBeans = server.queryMBeans(name, null);
-      assertTrue(cxfBeans.size() > 0); 
+      Set<?> cxfBeans = server.queryMBeans(name, null);
+      assertTrue(cxfBeans.size() > 0);
    }
 
 }

@@ -21,33 +21,34 @@
  */
 package org.jboss.test.ws.jaxws.samples.xop.doclit;
 
-import org.jboss.logging.Logger;
-import org.jboss.ws.api.handler.GenericSOAPHandler;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
+
+import org.jboss.ws.api.handler.GenericSOAPHandler;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * A MTOM handler should see the conceptual payload,
  * which means an inlined representation of the binary data.
  * It checks existence of the xop:Include element.
  */
-public class MTOMProtocolHandler extends GenericSOAPHandler
+public class MTOMProtocolHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
-   private Logger log = Logger.getLogger(MTOMProtocolHandler.class);
 
+   @Override
    protected boolean handleOutbound(MessageContext msgContext)
    {
       return verifyXOPPackage(msgContext);
    }
 
+   @Override
    protected boolean handleInbound(MessageContext msgContext)
    {
       return verifyXOPPackage(msgContext);
@@ -64,7 +65,7 @@ public class MTOMProtocolHandler extends GenericSOAPHandler
          boolean found = scanNodes(body.getChildNodes());
 
          if(found) throw new IllegalStateException("XOP request not properly inlined");
-                  
+
       }
       catch (SOAPException ex)
       {

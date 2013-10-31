@@ -32,8 +32,6 @@ import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.WebServiceRefs;
 
 import org.jboss.logging.Logger;
-import org.jboss.test.ws.jaxws.samples.webserviceref.EndpointService;
-import org.jboss.test.ws.jaxws.samples.webserviceref.Endpoint;
 
 // Test on type with wsdlLocation
 @WebServiceRef(name = "service1", value = EndpointService.class, type = EndpointService.class, wsdlLocation = "META-INF/wsdl/Endpoint.wsdl")
@@ -92,12 +90,14 @@ public class EndpointClientOne
    static Endpoint port5;
 
    static InitialContext iniCtx;
-   
+
+   @SuppressWarnings("unchecked")
    private static void setInitialCtx() throws NamingException
    {
       if (iniCtx == null)
       {
          InitialContext ctx = new InitialContext();
+         @SuppressWarnings("rawtypes")
          Hashtable env = ctx.getEnvironment();
          env.put(Context.URL_PKG_PREFIXES, "org.jboss.naming.client");
          env.put("j2ee.clientName", "jbossws-client");
@@ -116,13 +116,13 @@ public class EndpointClientOne
          setInitialCtx();
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/service1")).getEndpointPort());
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/service2")).getEndpointPort());
-         ports.add((Endpoint)service3.getPort(Endpoint.class));
+         ports.add(service3.getPort(Endpoint.class));
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/EndpointService3")).getEndpointPort());
-         ports.add((Endpoint)service4.getPort(Endpoint.class));
+         ports.add(service4.getPort(Endpoint.class));
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/" + EndpointClientOne.class.getName() + "/service4")).getEndpointPort());
-         ports.add((Endpoint)service5.getPort(Endpoint.class));
+         ports.add(service5.getPort(Endpoint.class));
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/EndpointService5")).getEndpointPort());
-         ports.add((Endpoint)service6.getPort(Endpoint.class));
+         ports.add(service6.getPort(Endpoint.class));
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/" + EndpointClientOne.class.getName() + "/service6")).getEndpointPort());
          ports.add((Endpoint)iniCtx.lookup("java:comp/env/port1"));
          ports.add(port2);

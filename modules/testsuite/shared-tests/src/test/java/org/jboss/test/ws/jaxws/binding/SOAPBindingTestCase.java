@@ -65,13 +65,14 @@ public class SOAPBindingTestCase extends JBossWSTest
 
       WSDLReader wsdlReader = WSDLFactory.newInstance().newWSDLReader();
       Definition wsdl = wsdlReader.readWSDL(wsdlURL.toString());
-      
+
       String port = "SOAPEndpointPort";
       QName serviceQName = new QName("http://org.jboss.ws/jaxws/binding", "SOAPEndpointService");
       Binding wsdlBinding = wsdl.getService(serviceQName).getPort(port).getBinding();
       assertNotNull("Cannot find binding for port: " + port, wsdlBinding);
 
       String transport = null;
+      @SuppressWarnings("unchecked")
       List<ExtensibilityElement> extList = wsdlBinding.getExtensibilityElements();
       for (ExtensibilityElement ext : extList)
       {
@@ -100,9 +101,10 @@ public class SOAPBindingTestCase extends JBossWSTest
       URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/binding", "SOAPEndpointService");
       Service service = Service.create(wsdlURL, qname);
-      SOAPEndpoint port = (SOAPEndpoint)service.getPort(SOAPEndpoint.class);
+      SOAPEndpoint port = service.getPort(SOAPEndpoint.class);
 
       BindingProvider provider = (BindingProvider)port;
+      @SuppressWarnings("rawtypes")
       List<Handler> handlerChain = new ArrayList<Handler>();
       handlerChain.addAll(provider.getBinding().getHandlerChain());
       handlerChain.add(new ClientHandler());

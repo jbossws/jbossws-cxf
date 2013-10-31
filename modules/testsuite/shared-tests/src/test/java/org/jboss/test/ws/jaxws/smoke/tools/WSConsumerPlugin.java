@@ -21,12 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.smoke.tools;
 
-import org.jboss.ws.api.tools.WSContractConsumer;
-import org.jboss.wsf.test.JBossWSTest;
-
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.ws.WebServiceFeature;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileReader;
+import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -34,6 +33,12 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.ws.WebServiceFeature;
+
+import org.jboss.ws.api.tools.WSContractConsumer;
+import org.jboss.wsf.test.JBossWSTest;
 
 /**
  * @author Heiko.Braun <heiko.braun@jboss.com>
@@ -50,8 +55,8 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
    // default is off
    boolean toogleMessageOut = Boolean.getBoolean(WSConsumerPlugin.class.getName()+".verbose");
 
-   private File workDirectory;
-   
+   private final File workDirectory;
+
    protected boolean integrationNative;
    protected boolean integrationMetro;
    protected boolean integrationCXF;
@@ -62,7 +67,7 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
       // create a new consumer for every test case
       consumer = WSContractConsumer.newInstance();
       consumer.setNoCompile(true);
-      
+
       if (toogleMessageOut)
       {
          consumer.setMessageStream(System.out);
@@ -71,7 +76,7 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
       // shared output directory, we go out of the test-resources directory
       outputDirectory = createResourceFile("../wsconsume/java");
       workDirectory = createResourceFile("../work");
-   }  
+   }
 
    /**
     * Specifies the JAX-WS and JAXB binding files to use on import operations.
@@ -89,7 +94,7 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
       consumeWSDL();
 
       File sei = loadEndpointInterface("testBindingFiles");
-     
+
       boolean containsAsyncOperations = false;
       BufferedReader bin = new BufferedReader( new FileReader(sei) );
 
@@ -104,6 +109,7 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
 
          l = bin.readLine();
       }
+      bin.close();
 
       assertTrue("External binding file was ignored", containsAsyncOperations);
 
@@ -169,11 +175,11 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
 
       File sei = new File(workDirectory, "wsconsumeNoCPSources/java/org/jboss/test/ws/tools/testSourceDirectory/EndpointInterface.java");
       assertTrue("Expected sei not generated in the expected directory " + outputDir.getPath() , sei.exists());
-      
+
       File notExistSei = new File(workDirectory, "wsconsumeNoCPOutput/java/org/jboss/test/ws/tools/testSourceDirectory/EndpointInterface.java");
       assertFalse("Directory " + sourceDir.getPath() + "  is expected to empty", notExistSei.exists());
    }
-   
+
    public void testNoCompileNoKeep() throws Exception
    {
       File sourceDir = new File(workDirectory, "wsconsumeNoCPNoKeepsource/java/");
@@ -187,12 +193,12 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
 
       File sourceSei = new File(workDirectory, "wsconsumeNoCPNoKeepsource/java/org/jboss/test/ws/tools/testSourceDirectory/EndpointInterface.java");
       assertFalse("Directory " + sourceDir.getPath() + "  is expected to be empty", sourceSei.exists());
-      
+
       File outputSei = new File(workDirectory, "wsconsumeNoCPNoKeepOutput/java/org/jboss/test/ws/tools/testSourceDirectory/EndpointInterface.java");
       assertFalse("Directory " + sourceDir.getPath() + "  is expected to be empty", outputSei.exists());
    }
-   
-   
+
+
    /**
     * Enables/Disables Java source generation.
     *
@@ -212,7 +218,7 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
 
       File seiSource = new File(sourceDir, "org/jboss/test/ws/tools/testGenerateSource/EndpointInterface.java");
       assertTrue("SEI not generated", seiSource.exists());
-      
+
       sourceDir = new File(workDirectory, "wsconsumeGenerateSource2/java/");
       consumer.setTargetPackage("org.jboss.test.ws.tools.testGenerateSource2");
       consumer.setSourceDirectory(sourceDir);
@@ -245,7 +251,7 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
 
       File seiSource = new File(outputDirectory, "org/jboss/test/ws/tools/testTargetPackage/EndpointInterface.java");
       assertTrue("SEI not generated", seiSource.exists());
-   
+
       File seiClass = loadEndpointInterface("testTargetPackage");
       assertTrue("Cannot load SEI class", seiClass.exists());
    }
@@ -258,13 +264,13 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
    {
       consumer.setTargetPackage("org.jboss.test.ws.tools.testWsdlLocation");
       consumer.setWsdlLocation("http://foo.bar.com/endpoint?wsdl");
-      consumer.setGenerateSource(true);     
+      consumer.setGenerateSource(true);
 
       consumeWSDL();
 
       File sei = loadEndpointInterface("testWsdlLocation", "TestService.java");
       BufferedReader bin = new BufferedReader( new FileReader(sei) );
-      
+
       boolean match = false;
       boolean annotationFound = false;
       String l = bin.readLine();
@@ -281,8 +287,9 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
          }
          l = bin.readLine();
       }
-     
-      assertTrue("@WebServiceClient not generated on service interface", match);      
+      bin.close();
+
+      assertTrue("@WebServiceClient not generated on service interface", match);
    }
 
    /**
@@ -340,7 +347,7 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
       consumer.setGenerateSource(true);
       consumer.setTarget("2.1");
       consumer.setNoCompile(false);
-      
+
       consumeWSDL();
       ClassLoader loader = getArtefactClassLoader();
       Class<?> service = loader.loadClass("org.jboss.test.ws.tools.testTarget.TestService");
@@ -362,10 +369,10 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
       }
 
       assertTrue("JAX-WS 2.1 extensions not generated with 'target=2.1'", featureSig);
-      
+
       Class<?> sei = loader.loadClass("org.jboss.test.ws.tools.testTarget.EndpointInterface");
       assertTrue("@XmlSeeAlso expected on SEI (types not referenced by the Port in the wsdl)", sei.isAnnotationPresent(XmlSeeAlso.class));
-      
+
       boolean featureConstructor = false;
       for (Constructor<?> c : service.getConstructors()) {
          for (Class<?> pt : c.getParameterTypes())
@@ -396,7 +403,7 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
       File service = new File(outputDirectory, "org/jboss/test/ws/tools/testSOAP12Extension/TestService.java");
       assertTrue("Service not generated", service.exists());
    }
-   
+
    public void testAdditionalHeaders() throws Exception
    {
       consumer.setTargetPackage("org.jboss.test.ws.tools.testAdditionalHeaders1");
@@ -423,7 +430,7 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
       consumer.setOutputDirectory(outputDirectory);
       consumer.consume(getResourceFile("jaxws/smoke/tools/wsdl/TestService.wsdl").getCanonicalPath());
    }
-   
+
    private File loadEndpointInterface(String testName, String... fileName) throws MalformedURLException, ClassNotFoundException
    {
       String name = fileName.length> 0 ? fileName[0] : "EndpointInterface.java";
@@ -432,7 +439,7 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
       if(!sei.exists()) throw new IllegalStateException(sei.getAbsolutePath() + " doesn't exist!");
       return sei;
    }
-   
+
    private ClassLoader getArtefactClassLoader() throws Exception {
       URLClassLoader loader = new URLClassLoader(
         new URL[] { outputDirectory.toURI().toURL() },
@@ -441,7 +448,7 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
 
       return loader;
    }
-   
+
    public boolean getIsNative()
    {
       return integrationNative;
@@ -452,11 +459,13 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
       return integrationCXF;
    }
 
+   @Override
    public void setIsNative(boolean integrationNative)
    {
       this.integrationNative = integrationNative;
    }
 
+   @Override
    public void setIsCXF(boolean integrationCXF)
    {
       this.integrationCXF = integrationCXF;

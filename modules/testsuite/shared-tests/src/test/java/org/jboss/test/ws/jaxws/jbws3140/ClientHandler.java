@@ -25,38 +25,38 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
-@SuppressWarnings("unchecked")
-public class ClientHandler implements SOAPHandler
+public class ClientHandler implements SOAPHandler<SOAPMessageContext>
 {
 
    @Override
-   public Set getHeaders()
+   public Set<QName> getHeaders()
    {
       // FIXME getHeaders
-      return new HashSet();
+      return new HashSet<QName>();
    }
 
    @Override
    public void close(MessageContext arg0)
    {
-      
+
    }
 
    @Override
-   public boolean handleFault(MessageContext msgContext)
+   public boolean handleFault(SOAPMessageContext msgContext)
    {
       return true;
    }
 
    @Override
-   public boolean handleMessage(MessageContext msgContext)
+   public boolean handleMessage(SOAPMessageContext msgContext)
    {
-      SOAPMessage message = ((SOAPMessageContext)msgContext).getMessage();
+      SOAPMessage message = msgContext.getMessage();
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       try
       {
@@ -64,34 +64,34 @@ public class ClientHandler implements SOAPHandler
       }
       catch (Exception e)
       {
-       //do nothing 
+       //do nothing
       }
       if (isOutbound(msgContext))
       {
-          if (isMTOMEnabled(bout.toString())) 
+          if (isMTOMEnabled(bout.toString()))
           {
              ServletTestClient.resultTrace.append("--ClientMTOMEnabled");
           }
-          else 
+          else
           {
              ServletTestClient.resultTrace.append("--ClientMTOMNotEnabled");
           }
       }
       else
-      {  
-         if (isMTOMEnabled(bout.toString())) 
+      {
+         if (isMTOMEnabled(bout.toString()))
          {
             ServletTestClient.resultTrace.append("--ServerMTOMEnabled");
          }
-         else 
+         else
          {
             ServletTestClient.resultTrace.append("--ServerMTOMNotEnabled");
          }
-         if (isWSAEnabled(bout.toString())) 
+         if (isWSAEnabled(bout.toString()))
          {
             ServletTestClient.resultTrace.append("--ServerAddressingEnabled");
          }
-         else 
+         else
          {
             ServletTestClient.resultTrace.append("--ServerAddressingNotEnabled");
          }
@@ -99,7 +99,7 @@ public class ClientHandler implements SOAPHandler
       }
       return true;
    }
-   
+
    protected Boolean isOutbound(MessageContext msgContext)
    {
       Boolean outbound = (Boolean)msgContext.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
@@ -108,18 +108,18 @@ public class ClientHandler implements SOAPHandler
 
       return outbound;
    }
-   
+
    public boolean isMTOMEnabled(String str) {
-      
+
       if (str.indexOf("http://www.w3.org/2004/08/xop/include") > -1) {
          return true;
       }
       return false;
-      
+
    }
-   
+
    public boolean isWSAEnabled(String str) {
-      if (str.indexOf("Action") > -1) 
+      if (str.indexOf("Action") > -1)
       {
          return true;
       }

@@ -44,7 +44,7 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * [JBWS-2448] This test verify the MTOMFeature correctly enable MTOM on client side.
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 14-Jan-2009
  */
@@ -66,10 +66,10 @@ public class MTOMFeatureTestCase extends JBossWSTest {
 		return service.getPort(MTOMEndpoint.class, new MTOMFeature(mtomEnabled));
 	}
 
-	@SuppressWarnings("unchecked")
 	private static void addMTOMCheckHandler(MTOMEndpoint port) {
 		SOAPBinding binding = (SOAPBinding) ((BindingProvider) port).getBinding();
-		List<Handler> handlerChain = new ArrayList<Handler>();
+		@SuppressWarnings("rawtypes")
+        List<Handler> handlerChain = new ArrayList<Handler>();
 		handlerChain.addAll(binding.getHandlerChain());
 		handlerChain.add(new MTOMCheckClientHandler());
 		binding.setHandlerChain(handlerChain);
@@ -100,7 +100,7 @@ public class MTOMFeatureTestCase extends JBossWSTest {
 		assertEquals("Server data", content);
 		assertEquals("text/plain", contentType);
 	}
-	
+
 	public void testErrorWithoutMTOMRequest() throws Exception {
 		DataHandler dh = new DataHandler("DataHandlerResponseOptimzed", "text/plain");
 		MTOMEndpoint port = getPort(false);

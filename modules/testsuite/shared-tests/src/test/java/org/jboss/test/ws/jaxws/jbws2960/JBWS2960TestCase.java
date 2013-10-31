@@ -54,6 +54,7 @@ public class JBWS2960TestCase extends JBossWSTest
    private static final QName POLICY_REFERENCE_QNAME = new QName("http://www.w3.org/ns/ws-policy", "PolicyReference");
    private final File wsdlFile = JBossWSTestHelper.getResourceFile("jaxws/jbws2960/AddNumbersService.wsdl");
 
+   @Override
    public void setUp()
    {
       assertNotNull("WSDL not found", wsdlFile);
@@ -83,14 +84,13 @@ public class JBWS2960TestCase extends JBossWSTest
      </binding>
    </definitions>
     */
-   @SuppressWarnings("unchecked")
    public void testPolicyReference() throws Exception
    {
       Definition wsdl = getWSDLDefinition(wsdlFile.getAbsolutePath());
-      List definitionExtElements = wsdl.getExtensibilityElements();
+      List<?> definitionExtElements = wsdl.getExtensibilityElements();
       QName serviceQName = new QName("http://foobar.org/", "AddNumbersService");
-      Port wsdlPort = wsdl.getService(serviceQName).getPort("AddNumbersPort"); 
-      List bindingExtElements = wsdlPort.getBinding().getExtensibilityElements();
+      Port wsdlPort = wsdl.getService(serviceQName).getPort("AddNumbersPort");
+      List<?> bindingExtElements = wsdlPort.getBinding().getExtensibilityElements();
       Element policyElement = this.getRequiredElement(definitionExtElements, POLICY_QNAME);
       Element policyReferenceElement = this.getRequiredElement(bindingExtElements, POLICY_REFERENCE_QNAME);
       String wsuIdAttrValue = policyElement.getAttributeNS("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd", "Id");
@@ -238,8 +238,7 @@ public class JBWS2960TestCase extends JBossWSTest
       return wsdlReader.readWSDL(null, wsdlLocation);
    }
 
-   @SuppressWarnings("unchecked")
-   private Element getRequiredElement(final List extElements, final QName elementQName)
+   private Element getRequiredElement(final List<?> extElements, final QName elementQName)
    {
       assertNotNull("No extensibility elements found", extElements);
       assertTrue("No extensibility elements found", extElements.size() > 0);

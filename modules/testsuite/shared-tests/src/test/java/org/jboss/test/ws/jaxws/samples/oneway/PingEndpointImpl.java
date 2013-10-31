@@ -41,7 +41,7 @@ public class PingEndpointImpl
    // Provide logging
    private static Logger log = Logger.getLogger(PingEndpointImpl.class);
 
-   private static String feedback;
+   private static volatile String feedback;
    
    @WebMethod
    @Oneway
@@ -55,6 +55,6 @@ public class PingEndpointImpl
    public String feedback()
    {
       log.info("feedback");
-      return "result: ok";
+      return "result: " + feedback;
    }
 }

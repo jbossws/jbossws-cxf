@@ -21,7 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.samples.serviceref;
 
-import org.jboss.logging.Logger;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -30,12 +32,12 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.SOAPBinding;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
+
+import org.jboss.logging.Logger;
 
 @Remote(EJBRemote.class)
 @Stateless
-public class EJBClient 
+public class EJBClient
 {
    // Provide logging
    private static Logger log = Logger.getLogger(EJBClient.class);
@@ -44,12 +46,12 @@ public class EJBClient
    {
       log.info("echo: " + inStr);
 
-      ArrayList ports = new ArrayList(2);
+      List<Endpoint> ports = new ArrayList<Endpoint>(2);
 
       try
       {
          InitialContext iniCtx = new InitialContext();
-         ports.add((Endpoint)((Service)iniCtx.lookup("java:comp/env/service1")).getPort(Endpoint.class));
+         ports.add(((Service)iniCtx.lookup("java:comp/env/service1")).getPort(Endpoint.class));
          ports.add(((EndpointService)iniCtx.lookup("java:comp/env/service2")).getEndpointPort());
       }
       catch (Exception ex)
@@ -59,11 +61,12 @@ public class EJBClient
 
       for (int i = 0; i < ports.size(); i++)
       {
-         Endpoint port = (Endpoint)ports.get(i);
+         Endpoint port = ports.get(i);
 
          BindingProvider bp = (BindingProvider)port;
+         @SuppressWarnings("unused")
          boolean mtomEnabled = ((SOAPBinding)bp.getBinding()).isMTOMEnabled();
-         boolean expectedSetting = (i==0) ? false : true;
+         //boolean expectedSetting = (i==0) ? false : true;
 
          //if(mtomEnabled != expectedSetting)
          //   throw new WebServiceException("MTOM settings (enabled="+expectedSetting+") not overridden through service-ref" );

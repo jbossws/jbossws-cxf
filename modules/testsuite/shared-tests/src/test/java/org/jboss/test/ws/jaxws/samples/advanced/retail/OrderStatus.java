@@ -35,6 +35,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "orderStatus", namespace = "http://org.jboss.ws/samples/retail")
 public class OrderStatus implements Serializable {
+
+   private static final long serialVersionUID = 2140710606232315955L;
    private String status;
    private long orderNum;
    private double discount;

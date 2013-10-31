@@ -39,7 +39,7 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * JBWS2978TestCase.
- * 
+ *
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
 public class JBWS2978TestCase extends JBossWSTest
@@ -61,6 +61,7 @@ public class JBWS2978TestCase extends JBossWSTest
       return new JBossWSTestSetup(JBWS2978TestCase.class, "jaxws-jbws2978.war");
    }
 
+   @Override
    public void setUp() throws Exception
    {
       super.setUp();
@@ -73,11 +74,11 @@ public class JBWS2978TestCase extends JBossWSTest
    {
       try
       {
-         Dispatch dispatch = service.createDispatch(new QName("http://ws.jboss.org", "AddNumbersPort"), SOAPMessage.class ,
+         Dispatch<SOAPMessage> dispatch = service.createDispatch(new QName("http://ws.jboss.org", "AddNumbersPort"), SOAPMessage.class ,
                Service.Mode.MESSAGE);
          SOAPMessage reqMsg = MessageFactory.newInstance().createMessage(null,
                new ByteArrayInputStream(requestMessage.getBytes()));
-         BindingProvider bp = (BindingProvider)dispatch;
+         BindingProvider bp = dispatch;
          java.util.Map<String, Object> requestContext = bp.getRequestContext();
          requestContext.put(BindingProvider.SOAPACTION_URI_PROPERTY, "mismatchAction");
          dispatch.invoke(reqMsg);

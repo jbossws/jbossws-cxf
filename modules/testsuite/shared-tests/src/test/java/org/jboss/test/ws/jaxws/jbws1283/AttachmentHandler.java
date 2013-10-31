@@ -21,27 +21,29 @@
  */
 package org.jboss.test.ws.jaxws.jbws1283;
 
-import org.jboss.ws.api.handler.GenericSOAPHandler;
-
 import javax.activation.DataHandler;
 import javax.xml.soap.AttachmentPart;
 import javax.xml.soap.SOAPMessage;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
+import org.jboss.ws.api.handler.GenericSOAPHandler;
+
 /**
  * Appends attachments to outbound message.
- * 
+ *
  * @author Heiko.Braun@jboss.com
  */
-public class AttachmentHandler extends GenericSOAPHandler
+public class AttachmentHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
-	protected boolean handleOutbound(MessageContext msgContext)
+	@Override
+   protected boolean handleOutbound(MessageContext msgContext)
    {
 		System.out.println("AttachmentHandler: Adding attachment ot message");
 		SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
-		AttachmentPart attachment = soapMessage.createAttachmentPart(new DataHandler("Server data", "text/plain"));		
+		AttachmentPart attachment = soapMessage.createAttachmentPart(new DataHandler("Server data", "text/plain"));
 		soapMessage.addAttachmentPart(attachment);
 		return true;
-   }	
+   }
 }

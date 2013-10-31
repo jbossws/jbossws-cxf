@@ -25,6 +25,7 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
+import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -37,11 +38,11 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author Thomas.Diesler@jboss.org
  * @since 24-Nov-2005
  */
-public class ProtocolHandler extends GenericSOAPHandler
+public class ProtocolHandler extends GenericSOAPHandler<LogicalMessageContext>
 {
    // provide logging
    private static final Logger log = Logger.getLogger(ProtocolHandler.class);
-   
+
    @Override
    public boolean handleOutbound(MessageContext msgContext)
    {
@@ -61,14 +62,14 @@ public class ProtocolHandler extends GenericSOAPHandler
          SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
          SOAPElement soapElement = (SOAPElement)soapMessage.getSOAPBody().getChildElements().next();
          soapElement = (SOAPElement)soapElement.getChildElements().next();
-         
+
          String oldValue = soapElement.getValue();
          String newValue = oldValue + ":" + direction + ":ProtocolHandler";
          soapElement.setValue(newValue);
-         
+
          log.debug("oldValue: " + oldValue);
          log.debug("newValue: " + newValue);
-         
+
          return true;
       }
       catch (SOAPException ex)

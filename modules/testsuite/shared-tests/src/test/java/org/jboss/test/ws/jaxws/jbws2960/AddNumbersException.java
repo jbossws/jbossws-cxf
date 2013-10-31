@@ -23,7 +23,8 @@ package org.jboss.test.ws.jaxws.jbws2960;
 
 public class AddNumbersException extends Exception
 {
-    final String detail;
+   private static final long serialVersionUID = 5785884276886890172L;
+   private final String detail;
 
     public AddNumbersException(String message, String detail)
     {

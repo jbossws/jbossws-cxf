@@ -44,14 +44,15 @@ import org.jboss.wsf.stack.cxf.transport.ServletHelper;
 
 /**
  * An extension to the CXF servlet
- * 
+ *
  * @author Thomas.Diesler@jboss.org
  * @author alessio.soldano@jboss.com
- * 
+ *
  * @since 21-Apr-2007
  */
 public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegate
 {
+   private static final long serialVersionUID = -1820187716558491952L;
    protected Endpoint endpoint;
    protected Bus bus;
 
@@ -86,13 +87,13 @@ public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegat
    {
       ServletHelper.callRequestHandler(req, res, getServletContext(), bus, endpoint);
    }
-   
+
    @Override
-   public void destroy() 
+   public void destroy()
    {
       ServletHelper.callPreDestroy(endpoint);
    }
-   
+
    @Override
    public void doHead(HttpServletRequest request, HttpServletResponse response, ServletContext context)
          throws ServletException, IOException

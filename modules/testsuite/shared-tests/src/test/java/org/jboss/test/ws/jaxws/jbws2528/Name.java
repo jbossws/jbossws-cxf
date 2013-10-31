@@ -24,6 +24,7 @@ package org.jboss.test.ws.jaxws.jbws2528;
 public class Name implements java.io.Serializable
 {
 
+   private static final long serialVersionUID = -5109464454812898061L;
    private String firstName = "";
    private String lastName = "";
 
@@ -57,6 +58,7 @@ public class Name implements java.io.Serializable
       this.lastName = lastName;
    }
 
+   @Override
    public String toString()
    {
       return "First Name:" + firstName + " Last Name:" + lastName;

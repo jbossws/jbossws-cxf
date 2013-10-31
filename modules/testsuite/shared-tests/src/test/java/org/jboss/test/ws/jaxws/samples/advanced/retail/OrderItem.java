@@ -28,6 +28,8 @@ import java.io.Serializable;
  * @since Nov 7, 2006
  */
 public class OrderItem implements Serializable {
+
+   private static final long serialVersionUID = -6875110053330633338L;
    private String name;
    private double price;
 
