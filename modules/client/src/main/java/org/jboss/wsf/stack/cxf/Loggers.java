@@ -210,10 +210,10 @@ public interface Loggers extends BasicLogger
     void unknownJAXWSClientBusStrategy(String strategy);
     
     @LogMessage(level = WARN)
-    @Message(id = 24096, value = "No application policy found for security domain '%s'")
+    @Message(id = 24097, value = "No application policy found for security domain '%s'")
     void noApplicationPolicy(String securityDomain);
     
     @LogMessage(level = WARN)
-    @Message(id = 24097, value = "No JASPIAuthenticationInfo found for security domain '%s'")
+    @Message(id = 24098, value = "No JASPIAuthenticationInfo found for security domain '%s'")
     void noJaspiApplicationPolicy(String securityDomain);
 }
