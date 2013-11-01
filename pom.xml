@@ -108,6 +108,7 @@
     <wstx.version>4.2.0</wstx.version>
     <spring.version>3.0.7.RELEASE</spring.version>
     <shrinkwrap.version>1.1.3</shrinkwrap.version>
+    <jaspi.api.version>1.0.0.Alpha1</jaspi.api.version>
   </properties>
 
 
@@ -1149,6 +1150,11 @@
         <groupId>org.jboss.spec.javax.servlet</groupId>
         <artifactId>jboss-servlet-api_3.0_spec</artifactId>
         <version>${servlet.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.spec.javax.security.auth.message</groupId>
+        <artifactId>jboss-jaspi-api_1.1_spec</artifactId>
+        <version>${jaspi.api.version}</version>
       </dependency>
      
       <!-- jboss provided -->

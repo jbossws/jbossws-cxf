@@ -57,7 +57,9 @@ import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
 import org.jboss.wsf.stack.cxf.interceptor.EnableDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
+import org.jboss.wsf.stack.cxf.interceptor.JaspiSeverInInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
+import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 
 /**
@@ -95,7 +97,7 @@ public abstract class BusHolder
     * @param wsmd                   The current JBossWebservicesMetaData, if any
     * @param depRuntimeClassLoader  The current deployment classloader
     */
-   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, ClassLoader depRuntimeClassLoader)
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, ClassLoader depRuntimeClassLoader, JaspiServerAuthenticator authenticator)
    {
       bus.setProperty(org.jboss.wsf.stack.cxf.client.Constants.DEPLOYMENT_BUS, true);
       busHolderListener = new BusHolderLifeCycleListener();
@@ -106,6 +108,11 @@ public abstract class BusHolder
          bus.setExtension(configurer, Configurer.class);
       }
       setInterceptors(bus);
+      
+      if (authenticator != null) {
+         bus.getInInterceptors().add(new JaspiSeverInInterceptor(authenticator));
+      }
+      
       setResourceResolver(bus, resolver);
       
       Map<String, String> props = (wsmd == null) ? null : wsmd.getProperties();

@@ -45,6 +45,7 @@ import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringBusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
+import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
@@ -71,7 +72,7 @@ public class NonSpringBusHolder extends BusHolder
       //Force servlet transport to prevent CXF from using Jetty / http server or other transports
       bus.setExtension(new ServletDestinationFactory(), HttpDestinationFactory.class);
    }
-
+   
    /**
     * Update the Bus held by the this instance using the provided parameters.
     * This basically prepares the bus for being used with JBossWS.
@@ -81,14 +82,14 @@ public class NonSpringBusHolder extends BusHolder
     * @param wsmd                   The current JBossWebservicesMetaData, if any
     * @param depRuntimeClassLoader  The current deployment classloader
     */
-   @Override
-   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, ClassLoader depRuntimeClassLoader)
+   
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, ClassLoader depRuntimeClassLoader, JaspiServerAuthenticator authenticator)
    {
       if (configured)
       {
          throw Messages.MESSAGES.busAlreadyConfigured(bus);
       }
-      super.configure(resolver, configurer, wsmd, depRuntimeClassLoader);
+      super.configure(resolver, configurer, wsmd, depRuntimeClassLoader, authenticator);
 
       for (DDEndpoint dde : metadata.getEndpoints())
       {

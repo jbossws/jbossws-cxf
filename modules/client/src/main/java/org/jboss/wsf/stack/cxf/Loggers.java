@@ -208,4 +208,12 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = WARN)
     @Message(id = 24095, value = "Unknown strategy '%s' requested for selecting the Apache CXF Bus to be used for building JAXWS clients; default strategy will be used.")
     void unknownJAXWSClientBusStrategy(String strategy);
+    
+    @LogMessage(level = WARN)
+    @Message(id = 24096, value = "No application policy found for security domain '%s'")
+    void noApplicationPolicy(String securityDomain);
+    
+    @LogMessage(level = WARN)
+    @Message(id = 24097, value = "No JASPIAuthenticationInfo found for security domain '%s'")
+    void noJaspiApplicationPolicy(String securityDomain);
 }
