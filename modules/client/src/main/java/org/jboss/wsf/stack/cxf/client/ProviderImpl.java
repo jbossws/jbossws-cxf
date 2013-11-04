@@ -222,10 +222,18 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       else if (NEW_BUS_STRATEGY.equals(strategy))
       {
          bus = new JBossWSBusFactory().createBus();
+         //to prevent issues with CXF code using the default thread bus instead of the one returned here,
+         //set the new bus as thread one, given the line above could have not done this if the current
+         //thread is already assigned a bus
+         BusFactory.setThreadDefaultBus(bus);
       }
       else if (TCCL_BUS_STRATEGY.equals(strategy))
       {
          bus = JBossWSBusFactory.getClassLoaderDefaultBus(threadContextClassLoader);
+         //to prevent issues with CXF code using the default thread bus instead of the one returned here,
+         //set the bus as thread one, given the line above could have not done this if we already had a
+         //bus for the classloader and hence we did not create a new one
+         BusFactory.setThreadDefaultBus(bus);
       }
       return bus;
    }
