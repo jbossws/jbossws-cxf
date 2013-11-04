@@ -21,6 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.handlerauth;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.handler.LogicalHandler;
 import javax.xml.ws.handler.LogicalMessageContext;
@@ -28,7 +30,7 @@ import javax.xml.ws.handler.MessageContext;
 
 public class LogicalSimpleHandler implements LogicalHandler<LogicalMessageContext>
 {
-   public static volatile int counter = 0;
+   public static AtomicInteger counter = new AtomicInteger(0);
 
    @Override
    public boolean handleMessage(LogicalMessageContext context)
@@ -36,7 +38,7 @@ public class LogicalSimpleHandler implements LogicalHandler<LogicalMessageContex
       Boolean isOutbound = (Boolean) context.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
       String operation = ((QName) context.get(MessageContext.WSDL_OPERATION)).getLocalPart();
       if (!isOutbound && !operation.equals("getHandlerCounter")) {
-         counter++;
+         counter.incrementAndGet();
       }
       return true;
    }

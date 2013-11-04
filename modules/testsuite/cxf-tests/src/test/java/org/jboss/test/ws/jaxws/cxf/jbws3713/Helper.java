@@ -29,6 +29,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -68,12 +69,12 @@ public class Helper
       final BusCounter busCounter = new BusCounter();
       final ThreadFactory threadFactory = new ThreadFactory()
       {
-         private volatile int i = 0;
+         private AtomicInteger i = new AtomicInteger(0);
          
          @Override
          public Thread newThread(Runnable r)
          {
-            return new Thread(r, "JBWS3373-thread-" + i++ + "-" + strategy);
+            return new Thread(r, "JBWS3373-thread-" + i.getAndIncrement() + "-" + strategy);
          }
       };
       ExecutorService es = Executors.newFixedThreadPool(size, threadFactory);

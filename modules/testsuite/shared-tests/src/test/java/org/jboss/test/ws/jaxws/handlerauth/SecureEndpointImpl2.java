@@ -90,7 +90,7 @@ public class SecureEndpointImpl2 implements SecureEndpoint
    }
    
    public int getHandlerCounter() {
-      return LogicalSimpleHandler.counter;
+      return LogicalSimpleHandler.counter.get();
    }
    
    
