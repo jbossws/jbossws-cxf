@@ -48,5 +48,10 @@ public class TestClient
       String serverHost = args[0];
       String resStr = testPortAccess(serverHost);
       System.out.println(Provider.provider().getClass().getName() + ", " + resStr);
+      
+      //wait a bit before returning as the log processing can be aysnch, the test client
+      //relies on the log contents and the log streams are closed by the system when the
+      //process terminates
+      Thread.sleep(1000);
    }
 }

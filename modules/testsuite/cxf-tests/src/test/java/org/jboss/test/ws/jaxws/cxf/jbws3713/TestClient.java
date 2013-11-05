@@ -33,5 +33,10 @@ public class TestClient
       int ret1 = new HelperUsignThreadLocal().run(new URL(wsdlAddress), Integer.parseInt(threadPoolSize), Integer.parseInt(invocations));
       int ret2 = new Helper().run(new URL(wsdlAddress), Integer.parseInt(threadPoolSize), Integer.parseInt(invocations));
       System.out.println(String.valueOf(ret1) + " " + String.valueOf(ret2));
+      
+      //wait a bit before returning as the log processing can be aysnch, the test client
+      //relies on the log contents and the log streams are closed by the system when the
+      //process terminates
+      Thread.sleep(1000);
    }
 }

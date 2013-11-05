@@ -24,6 +24,7 @@ package org.jboss.test.ws.jaxws.jbws1666;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 
 import javax.xml.ws.spi.Provider;
 
@@ -84,13 +85,18 @@ public class JBWS1666TestCase extends JBossWSTest
       final String command = javaCmd + props + " -jar " + f.getAbsolutePath() + " " + getServerHost();
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       executeCommand(command, bout);
-      String res = null;
-      if (bout.toByteArray() != null) {
-          String output = new String(bout.toByteArray());
-          BufferedReader reader = new BufferedReader(new java.io.StringReader(output));
-          res = reader.readLine();
-      }
       //check result (includes check on Provider impl, which might be affected by missing javax.xml.ws.api module dependency
-      assertEquals(Provider.provider().getClass().getName() + ", " + TestClient.REQ_STR, res);
+      assertEquals(Provider.provider().getClass().getName() + ", " + TestClient.REQ_STR, readFirstLine(bout));
+   }
+   
+   private static String readFirstLine(ByteArrayOutputStream bout) throws IOException {
+      bout.flush();
+      final byte[] bytes = bout.toByteArray();
+      if (bytes != null) {
+          BufferedReader reader = new BufferedReader(new java.io.StringReader(new String(bytes)));
+          return reader.readLine();
+      } else {
+         return null;
+      }
    }
 }
