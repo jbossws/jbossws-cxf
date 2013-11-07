@@ -105,10 +105,10 @@ public abstract class BusHolder
       {
          bus.setExtension(configurer, Configurer.class);
       }
-      setInterceptors(bus);
-      setResourceResolver(bus, resolver);
-      
       Map<String, String> props = (wsmd == null) ? null : wsmd.getProperties();
+      
+      setInterceptors(bus, props);
+      setResourceResolver(bus, resolver);
       
       if (bus.getExtension(PolicyEngine.class) != null) 
       {
@@ -152,14 +152,18 @@ public abstract class BusHolder
    public abstract Configurer createServerConfigurer(BindingCustomization customization,
          WSDLFilePublisher wsdlPublisher, List<Endpoint> depEndpoints, UnifiedVirtualFile root, String epConfigName, String epConfigFile);
    
-   protected static void setInterceptors(Bus bus)
+   protected static void setInterceptors(Bus bus, Map<String, String> props)
    {
       //Install the EndpointAssociationInterceptor for linking every message exchange
       //with the proper spi Endpoint retrieved in CXFServletExt
       bus.getInInterceptors().add(new EndpointAssociationInterceptor());
       bus.getInInterceptors().add(new EnableDecoupledFaultInterceptor());
       bus.getInInterceptors().add(new NsCtxSelectorStoreInterceptor());
-      bus.getInInterceptors().add(new HandlerAuthInterceptor());
+      
+      final String p = (props != null) ? props.get(Constants.JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS) : null;
+      if (p == null || (!"true".equalsIgnoreCase(p) && !"1".equalsIgnoreCase(p))) {
+         bus.getInInterceptors().add(new HandlerAuthInterceptor());
+      }
    }
    
    protected static void setResourceResolver(Bus bus, ResourceResolver resourceResolver)
