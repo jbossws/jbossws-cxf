@@ -60,8 +60,8 @@
   <!-- Properties -->
   <properties>
     <jbossws.api.version>1.0.2.Final</jbossws.api.version>
-    <jbossws.spi.version>2.2.3-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>2.2.4-SNAPSHOT</jbossws.common.version>
+    <jbossws.spi.version>2.2.2.Final</jbossws.spi.version>
+    <jbossws.common.version>2.2.3.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.2.0.Final</jbossws.common.tools.version>
     <jbossws.jboss712.version>4.2.1.Final</jbossws.jboss712.version>
     <jbossws.jboss713.version>4.2.1.Final</jbossws.jboss713.version>
