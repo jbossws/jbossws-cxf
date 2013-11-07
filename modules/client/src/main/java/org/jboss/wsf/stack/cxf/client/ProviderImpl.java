@@ -72,8 +72,37 @@ import org.w3c.dom.Element;
 /**
  * A custom javax.xml.ws.spi.Provider implementation
  * extending the CXF one while adding few customizations.
+ * 
+ * The most important customization is on the CXF Bus used
+ * the Endpoint.publish() or client.
+ * In particular, when a client is created, the thread
+ * default bus changes depending on the selected strategy:
+ * 
+ *  * Thread default busses with THREAD_BUS strategy
+ *  ------------------------------------------------------------------
+ *  |BEFORE client creation | USED for client | AFTER client creation|
+ *  ------------------------------------------------------------------
+ *  |         NULL          |      NEW        |        NEW           |
+ *  |          X            |       X         |         X            |
+ *  ------------------------------------------------------------------
+ *  
+ *  * Thread default busses with NEW_BUS strategy:
+ *  ------------------------------------------------------------------
+ *  |BEFORE client creation | USED for client | AFTER client creation|
+ *  ------------------------------------------------------------------
+ *  |         NULL          |      NEW        |        NULL          |
+ *  |          X            |      NEW        |         X            |
+ *  ------------------------------------------------------------------
+ *  
+ *  * Thread default busses with TCCL_BUS strategy:
+ *  ------------------------------------------------------------------
+ *  |BEFORE client creation | USED for client | AFTER client creation|
+ *  ------------------------------------------------------------------
+ *  |         NULL          |      TCCL       |        NULL          |
+ *  |          X            |      TCCL       |         X            |
+ *  ------------------------------------------------------------------
  *
- * This also ensures a proper context classloader is set
+ * This class also ensures a proper context classloader is set
  * (required on JBoss AS 7, as the TCCL does not include
  * implementation classes by default)
  *
@@ -239,7 +268,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    }
    
    private static void restoreThreadDefaultBus(final String busStrategy, final Bus origBus) {
-      if (origBus != null && !busStrategy.equals(Constants.THREAD_BUS_STRATEGY))
+      if (origBus != null || !busStrategy.equals(Constants.THREAD_BUS_STRATEGY))
       {
          BusFactory.setThreadDefaultBus(origBus);
       }
