@@ -293,7 +293,7 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
          result = false;
       }
       if (!result) {
-         System.out.println("Native libraries not available or not loadble, skipping test. " +
+         System.out.println("Native libraries not available or not loadable, skipping test. " +
          		"Check logs for more details and see https://github.com/adamfisk/LittleProxy/issues/110");
       }
       return result;
