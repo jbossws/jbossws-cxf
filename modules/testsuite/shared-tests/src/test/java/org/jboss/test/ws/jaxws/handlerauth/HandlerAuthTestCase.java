@@ -44,7 +44,7 @@ public class HandlerAuthTestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      JBossWSTestSetup testSetup = new JBossWSTestSetup(HandlerAuthTestCase.class, "jaxws-handlerauth.jar,jaxws-handlerauth2.jar");
+      JBossWSTestSetup testSetup = new JBossWSTestSetup(HandlerAuthTestCase.class, "jaxws-handlerauth.jar,jaxws-handlerauth2.jar,jaxws-handlerauth3.jar");
       Map<String, String> authenticationOptions = new HashMap<String, String>();
       authenticationOptions.put("usersProperties",
             getResourceFile("jaxws/handlerauth/jbossws-users.properties").getAbsolutePath());
@@ -68,6 +68,67 @@ public class HandlerAuthTestCase extends JBossWSTest
       testAuth(port);
    }
 
+   public void testNoHandlerAuth() throws Exception {
+      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/handlerauth3?wsdl");
+      Service service = Service.create(wsdlURL, new QName("http://ws/", "SecureEndpointImpl3Service"));
+      SecureEndpoint port = service.getPort(new QName("http://ws/", "SecureEndpoint3Port"), SecureEndpoint.class);
+      setUser((BindingProvider)port, "John", "foo");
+      int count = port.getHandlerCounter();
+      int newCount;
+      
+      assertEquals("Hello, Mr. John", port.sayHello("John"));
+      newCount = port.getHandlerCounter();
+      assertEquals(++count, newCount);
+      
+      assertEquals("Bye, Mr. John", port.sayBye("John"));
+      newCount = port.getHandlerCounter();
+      assertEquals(++count, newCount);
+      
+      try {
+         port.deniedMethod();
+         fail("Exception expected!");
+      } catch (Exception e) {
+         newCount = port.getHandlerCounter();
+         assertEquals(++count, newCount); //verify count is increased
+      }
+      
+      port.ping();
+      newCount = port.getHandlerCounter();
+      assertEquals(++count, newCount);
+      
+      assertEquals("foo", port.echo("foo"));
+      newCount = port.getHandlerCounter();
+      assertEquals(++count, newCount);
+      
+      
+      //Change user...
+      setUser((BindingProvider)port, "Bob", "bar");
+      
+      assertEquals("Hello, Mr. Bob", port.sayHello("Bob"));
+      newCount = port.getHandlerCounter();
+      assertEquals(++count, newCount);
+      
+      try {
+         port.sayBye("Bob");
+         fail("Exception expected!");
+      } catch (Exception e) {
+         newCount = port.getHandlerCounter();
+         assertEquals(++count, newCount); //verify count is increased
+      }
+      
+      try {
+         port.deniedMethod();
+         fail("Exception expected!");
+      } catch (Exception e) {
+         newCount = port.getHandlerCounter();
+         assertEquals(++count, newCount); //verify count is increased
+      }
+      
+      assertEquals("foo2", port.echo("foo2"));
+      newCount = port.getHandlerCounter();
+      assertEquals(++count, newCount);
+   }
+
    private void testAuth(final SecureEndpoint port) throws Exception
    {
       setUser((BindingProvider)port, "John", "foo");
@@ -84,6 +145,7 @@ public class HandlerAuthTestCase extends JBossWSTest
       
       try {
          port.deniedMethod();
+         fail("Exception expected!");
       } catch (Exception e) {
          assertTrue(e.getMessage().contains("JBWS024094"));
          newCount = port.getHandlerCounter();
@@ -108,6 +170,7 @@ public class HandlerAuthTestCase extends JBossWSTest
       
       try {
          port.sayBye("Bob");
+         fail("Exception expected!");
       } catch (Exception e) {
          assertTrue(e.getMessage().contains("JBWS024094"));
          newCount = port.getHandlerCounter();
@@ -116,6 +179,7 @@ public class HandlerAuthTestCase extends JBossWSTest
       
       try {
          port.deniedMethod();
+         fail("Exception expected!");
       } catch (Exception e) {
          assertTrue(e.getMessage().contains("JBWS024094"));
          newCount = port.getHandlerCounter();

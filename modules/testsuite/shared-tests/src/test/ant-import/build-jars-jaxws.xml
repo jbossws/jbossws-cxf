@@ -193,6 +193,19 @@
 			</fileset>
 		</jar>
 
+		<!-- jaxws-handlerauth3 -->
+		<jar destfile="${tests.output.dir}/test-libs/jaxws-handlerauth3.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/handlerauth/SecureEndpoint.class" />
+				<include name="org/jboss/test/ws/jaxws/handlerauth/SecureEndpointImpl3.class" />
+				<include name="org/jboss/test/ws/jaxws/handlerauth/SimpleHandler.class" />
+				<include name="org/jboss/test/ws/jaxws/handlerauth/handlers.xml" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/handlerauth/META-INF">
+				<include name="jboss-webservices.xml" />
+			</metainf>
+		</jar>
+
 		<!-- jaxws-handlerscope -->
 		<war warfile="${tests.output.dir}/test-libs/jaxws-handlerscope.war" webxml="${tests.output.dir}/test-resources/jaxws/handlerscope/WEB-INF/web.xml">
 			<classes dir="${tests.output.dir}/test-classes">
