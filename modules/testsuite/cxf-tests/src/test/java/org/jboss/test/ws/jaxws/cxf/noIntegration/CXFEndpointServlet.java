@@ -24,7 +24,6 @@ package org.jboss.test.ws.jaxws.cxf.noIntegration;
 import javax.servlet.ServletConfig;
 import javax.xml.ws.Endpoint;
 
-import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.transport.servlet.CXFNonSpringServlet;
 
@@ -39,8 +38,13 @@ public class CXFEndpointServlet extends CXFNonSpringServlet
       super.loadBus(servletConfig);
 
       // You could add the endpoint publish codes here
-      Bus bus = getBus();
-      BusFactory.setThreadDefaultBus(bus);
-      Endpoint.publish("/Echo1", new EchoImpl());
+      try {
+         Endpoint.publish("/Echo1", new EchoImpl());
+      } finally {
+         //free the thread default bus association in the current thread which
+         //is serving the servlet init, as it can have side effect on other
+         //servlet(s) deployed afterwards
+         BusFactory.setThreadDefaultBus(null);
+      }
    }
 }
