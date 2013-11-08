@@ -365,15 +365,16 @@ public class ValidatingHelloImpl implements Hello {
       <section id="sid-41713670_Predefinedclientandendpointconfigurations-Overview">
         
         <title>Overview</title>
+        <para>JBossWS enables extra setup configuration data to be predefined and  associated with an endpoint. Endpoint configurations can include JAX-WS  handlers and key/value properties declarations that control JBossWS and  Apache CXF internals. Predefined endpoint configurations can be used  for JAX-WS client and JAX-WS endpoint setup.</para>
         <para>
-          JBossWS comes with a concept of
-          <emphasis role="italics">predefined configurations</emphasis>
-          , which are kind of basic templates that can be used for both JAX-WS client and JAX-WS endpoint setup. Configurations can include JAX-WS handlers as well as basic key/value properties declarations.
+          Endpoint configurations can be defined in the webservice subsystem  and in a deployment descriptor file within the application. There can  be many endpoint configuration definitions in the webservice subsystem  and in an application. Each endpoint configuration must have a name  that is unique within the server.  Configurations defined in an  application are local to the application. Endpoint implementations  declare the use of a specific configuration through the use of the
+          <code>org.jboss.ws.api.annotation.EndpointConfig</code>
+          annotation. An endpoint  configuration defined in the webservices subsystem is available to all  deployed applications on the server container and can be referenced by name in the  annotation. An endpoint configuration defined in an application must be  referenced by deployment descriptor file name and the configuration  name in the annotation.
         </para>
         <section id="sid-41713670_Predefinedclientandendpointconfigurations-Handlers">
           
           <title>Handlers</title>
-          <para>For each endpoint configuration, both PRE and POST handler chains can be specified. Each handler chain may include JAXWS handlers. For outbound messages, PRE handler chain handlers are meant to be executed before any handler attached to the endpoints using standard JAXWS means (e.g. using @HandlerChain), while POST handler chain handlers are executed after usual endpoint handlers. For inbound messages, the opposite applies.</para>
+          <para>Each endpoint configuration may be associated with zero or more PRE and   POST handler chains. Each handler chain may include JAXWS handlers.   For outbound messages the PRE handler chains are executed before any   handler that is attached to the endpoint using the standard means, such   as with annotation @HandlerChain, and POST handler chains are executed   after those objects have executed. For inbound messages the POST   handler chains are executed before any handler that is attached to the   endpoint using the standard means and the PRE handler chains are   executed after those objects have executed.</para>
           <informalexample>
             <programlisting>* Server inbound messages
 Client --&gt; ... --&gt; POST HANDLER --&gt; ENDPOINT HANDLERS --&gt; PRE HANDLERS --&gt; Endpoint
@@ -396,9 +397,9 @@ Endpoint --&gt; PRE HANDLER --&gt; ENDPOINT HANDLERS --&gt; POST HANDLERS --&gt;
           
           <title>Endpoint configuration assignment</title>
           <para>
-            JAX-WS endpoints can be assigned to a given configuration by annotating them with the
+            Annotation
             <code>org.jboss.ws.api.annotation.EndpointConfig</code>
-            annotation:
+            is used to assign  an endpoint configuration to a JAX-WS endpoint implementation. When  assigning a configuration that is defined in the webservices subsystem  only the configuration name is specified.  When assigning a  configuration that is defined in the application, the relative path to  the deployment descriptor and the configuration name must be specified.
           </para>
           <informalexample>
             <programlisting>@EndpointConfig(configFile = "WEB-INF/jaxws-endpoint-config.xml", configName = "Custom WS-Security Endpoint")
@@ -410,30 +411,16 @@ public class ServiceImpl implements ServiceIface
    }
 }</programlisting>
           </informalexample>
+        </section>
+        <section id="sid-41713670_Predefinedclientandendpointconfigurations-EndpointConfigurationDeploymentDescriptor">
+          
+          <title>Endpoint Configuration Deployment Descriptor</title>
           <para>
-            The
-            <code>configFile</code>
-            attribute is used to specify which config file, if any, is to be used to load the configuration; if
-            <code>configFile</code>
-            is not set, the application server configurations are used.
+            Java EE archives that can contain JAX-WS endpoint implementations can also contain predefined endpoint configurations. All endpoint configuration definitions for a given archive must be provided in a single deployment descriptor file. The file must reside in directory WEB-INF for a web application and directory META-INF for a client and EJB application. The file name must end with extension .xml and be an implementation of schema
+            <ulink url="http://anonsvn.jboss.org/repos/jbossws/spi/tags/jbossws-spi-2.1.0.Beta1/src/main/resources/schema/jbossws-jaxws-config_4_0.xsd">jbossws-jaxws-config</ulink>
+            . Common practice is to use the file name jaxws-endpoint-config.xml but this is not required.
           </para>
-          <para>
-            The
-            <code>configName</code>
-            attributed is used to specify the name of the configuration to be used.
-          </para>
-          <para>
-            Alternatively, configurations can be assigned to endpoints through the
-            <link linkend="sid-3866738">jboss-webservices.xml deployment descriptor</link>
-            .
-          </para>
-          <para>
-            The configuration file, if any, needs to be included in the endpoint deployment; the
-            <ulink url="http://anonsvn.jboss.org/repos/jbossws/spi/tags/jbossws-spi-2.1.0.Beta1/src/main/resources/schema/jbossws-jaxws-config_4_0.xsd">jbossws-jaxws-config schema</ulink>
-            defines its contents and is included in the
-            <emphasis role="italics">jbossws-spi</emphasis>
-            artifact.
-          </para>
+          <para>Many  endpoint configurations can be defined within the deployment descriptor  file. Each configuration must have a name that is unique within the  server on which the application is deployed. The configuration name is  not referencable by endpoint implementations outside the application.</para>
         </section>
         <section id="sid-41713670_Predefinedclientandendpointconfigurations-Clientconfigurationassignment">
           
@@ -469,7 +456,7 @@ port.echo("Kermit");
 </programlisting>
             </informalexample>
             <para>
-              JBossWS internally parses the  specified configuration file, if any, after having resolved it as a  resources using the current thread context classloader. The
+              JBossWS parses the specified configuration file.  The configuration file  must be found as a resource by the classloader of the current thread. The
               <ulink url="http://anonsvn.jboss.org/repos/jbossws/spi/tags/jbossws-spi-2.1.0.Beta1/src/main/resources/schema/jbossws-jaxws-config_4_0.xsd">jbossws-jaxws-config schema</ulink>
               defines the descriptor contents and is included in the
               <emphasis role="italics">jbossws-spi</emphasis>
@@ -479,7 +466,7 @@ port.echo("Kermit");
           <section id="sid-41713670_Predefinedclientandendpointconfigurations-Explicitsetup">
             
             <title>Explicit setup</title>
-            <para>Alternatively, JBossWS API facility classes can be used for assigning configurations when building up a client; JAXWS handlers can be read from client configurations as follows:</para>
+            <para>Alternatively, JBossWS API comes with facility classes that can be used  for assigning configurations when building a client. JAXWS handlers  read from client configurations as follows:</para>
             <informalexample>
               <programlisting>import org.jboss.ws.api.configuration.ClientConfigUtil;
 import org.jboss.ws.api.configuration.ClientConfigurer;
@@ -1041,7 +1028,7 @@ public class EndpointEJB implements EndpointInterface
             <code>BusFactory</code>
             to be  used leverages the Service API, basically looking for optional  configurations in
             <emphasis role="italics">META-INF/services/...</emphasis>
-            location using the current  thread context classloader. JBossWS-CXF integration comes with his own  implementation of
+            location using the current  thread context classloader. JBossWS-CXF integration comes with its own  implementation of
             <code>BusFactory</code>
             ,
             <code>org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory</code>
@@ -1109,9 +1096,9 @@ public static void setThreadDefaultBus(Bus bus)
             <emphasis role="italics">getThreadDefaultBus()</emphasis>
             and
             <emphasis role="italics">getThreadDefaultBus(true)</emphasis>
-            first fallback to retrieving the configured global default bus before  actually trying creating a new instance (and the created new instance is  set as global default bus if that was not there set yet).
+            first fallback to retrieving the configured global default bus before  actually trying creating a new instance (and the created new instance is  set as global default bus if that was not set there yet).
           </para>
-          <para>The  drawback of this mechanism (which is basically fine in JSE environment)  is that when running in a JBoss AS container you need to be careful in  order not to (mis)use a bus over multiple applications (assuming the  Apache CXF classes are loaded by the same classloader, which is  currently the case with AS6 and 7).</para>
+          <para>The  drawback of this mechanism (which is basically fine in JSE environment)  is that when running in a JBoss AS container you need to be careful in  order not to (mis)use a bus over multiple applications (assuming the  Apache CXF classes are loaded by the same classloader, which is  currently the case with JBoss AS6, JBoss AS7 and WildFly).</para>
           <para>Here is a list of general suggestions to avoid problems when running in-container:</para>
           <itemizedlist>
             <listitem>
@@ -1138,8 +1125,9 @@ public static void setThreadDefaultBus(Bus bus)
               <para>keep  in mind thread pooling whenever you customize a thread default bus  instance (for instance adding bus scope interceptors, ...), as that  thread and bus might be later reused; so either shutdown the bus when  you're done or explicitly remove it from the BusFactory thread  association.</para>
             </listitem>
           </itemizedlist>
+          <para>Finally, remember that each time you explictly  create a new Bus instance (factory.createBus()) that is set as thread  default bus and global default bus if those are not set yet.</para>
           <para>
-            Finally, remember that each time you explictly  create a new Bus instance (factory.createBus()) that is set as thread  default bus and global default bus if those are not set yet. The JAXWS
+            The JAXWS
             <code>Provider</code>
             implementation also creates
             <code>Bus</code>
@@ -1147,8 +1135,155 @@ public static void setThreadDefaultBus(Bus bus)
             <code>Provider</code>
             makes sure the default  bus is never internally used and instead a new
             <code>Bus</code>
-            is created if  required.
+            is created if  required (more details on this in the next paragraph).
           </para>
+        </section>
+        <section id="sid-3866786_ApacheCXFintegration-BusselectionstrategiesforJAXWSclients">
+          
+          <title>Bus selection strategies for JAXWS clients</title>
+          <para>
+            JAXWS clients require an Apache CXF Bus to be available; the client is registered within the Bus and the Bus affects the client behavior (e.g. through the configured CXF interceptors). The way a bus is internally selected for serving a given JAXWS client is very important, especially for in-container clients; for this reason, JBossWS users can choose the preferred Bus selection strategy. The strategy is enforced in the
+            <code>javax.xml.ws.spi.Provider</code>
+            implementation from the JBossWS integration, being that called whenever a JAXWS
+            <code>Service</code>
+            (client) is requested.
+          </para>
+          <section id="sid-3866786_ApacheCXFintegration-Threadbusstrategy%28THREADBUS%29">
+            
+            <title>Thread bus strategy (THREAD_BUS)</title>
+            <para>Each time the vanilla JAXWS api is used to create a Bus, the JBossWS-CXF integration will automatically make sure a Bus is currently associated to the current thread in the BusFactory. If that's not the case, a new Bus is created and linked to the current thread (to prevent the user from relying on the default Bus). The Apache CXF engine will then create the client using the current thread Bus.</para>
+            <para>This is the default strategy, and the most straightforward one in Java SE environments; it lets users automatically reuse a previously created Bus instance and allows using customized Bus that can possibly be created and associated to the thread before building up a JAXWS client.</para>
+            <para>The drawback of the strategy is that the link between the Bus instance and the thread needs to be eventually cleaned up (when not needed anymore). This is really evident in a Java EE environment (hence when running in-container), as threads from pools (e.g. serving web requests) are re-used.</para>
+            <para>
+              When relying on this strategy, the safest approach to be sure of cleaning up the link is to surround the JAXWS client with a
+              <code>try/finally</code>
+              block as below:
+            </para>
+            <informalexample>
+              <programlisting>try {
+  Service service = Service.create(wsdlURL, serviceQName);
+  MyEndpoint port = service.getPort(MyEndpoint.class);
+  //...
+} finally {
+  BusFactory.setThreadDefaultBus(null);
+  // OR (if you don't need the bus and the client anymore)
+  Bus bus = BusFactory.getThreadDefaultBus(false);
+  bus.shutdown(true);
+}</programlisting>
+            </informalexample>
+          </section>
+          <section id="sid-3866786_ApacheCXFintegration-Newbusstrategy%28NEWBUS%29">
+            
+            <title>New bus strategy (NEW_BUS)</title>
+            <para>Another strategy is to have the JAXWS Provider from the JBossWS integration create a new Bus each time a JAXWS client is built. The main benefit of this approach is that a fresh bus won't rely on any formerly cached information (e.g. cached WSDL / schemas) which might have changed after the previous client creation. The main drawback is of course worse performance as the Bus creation takes time.</para>
+            <para>If there's a bus already associated to the current thread before the JAXWS client creation, that is automatically restored when returning control to the user; in other words, the newly created bus will be used only for the created JAXWS client but won't stay associated to the current thread at the end of the process. Similarly, if the thread was not associated to any bus before the client creation, no bus will be associated to the thread at the end of the client creation.</para>
+          </section>
+          <section id="sid-3866786_ApacheCXFintegration-Threadcontextclassloaderbusstrategy%28TCCLBUS%29">
+            
+            <title>Thread context classloader bus strategy (TCCL_BUS)</title>
+            <para>The last strategy is to have the bus created for serving the client be associated to the current thread context classloader (TCCL). That basically means the same Bus instance is shared by JAXWS clients running when the same TCCL is set. This is particularly interesting as each web application deployment usually has its own context classloader, so this strategy is possibly a way to keep the number of created Bus instances bound to the application number in a JBoss AS container.</para>
+            <para>If there's a bus already associated to the current thread before the  JAXWS client creation, that is automatically restored when returning  control to the user; in other words, the bus corresponding to the current thread context classloader will be used  only for the created JAXWS client but won't stay associated to the current thread at the end of the process. If the thread was not associated to any bus before the  client creation, a new bus will be created (and later user for any other client built with this strategy and the same TCCL in place); no bus will be associated to the thread at the end of  the client creation.</para>
+          </section>
+          <section id="sid-3866786_ApacheCXFintegration-Strategyconfiguration">
+            
+            <title>Strategy configuration</title>
+            <para>
+              Users can request a given Bus selection strategy to be used for the client being built by specifying one of the following JBossWS features (which extend
+              <code>javax</code>
+              <code>.</code>
+              <code>xml</code>
+              <code>.</code>
+              <code>ws</code>
+              <code>.</code>
+              <code>WebServiceFeature</code>
+              ):
+            </para>
+            <informaltable>
+              <tgroup cols="2">
+                <thead>
+                  <row>
+                    <entry>
+                      <para>Feature</para>
+                    </entry>
+                    <entry>
+                      <para>Strategy</para>
+                    </entry>
+                  </row>
+                </thead>
+                <tbody>
+                  <row>
+                    <entry>
+                      <para>
+                        <code>org.jboss.wsf.stack.cxf.client.UseThreadBusFeature</code>
+                      </para>
+                    </entry>
+                    <entry>
+                      <para>THREAD_BUS</para>
+                    </entry>
+                  </row>
+                  <row>
+                    <entry>
+                      <para>
+                        <code>org</code>
+                        <code>.</code>
+                        <code>jboss</code>
+                        <code>.</code>
+                        <code>wsf</code>
+                        <code>.</code>
+                        <code>stack</code>
+                        <code>.</code>
+                        <code>cxf</code>
+                        <code>.</code>
+                        <code>client.</code>
+                        <code>UseNewBusFeature</code>
+                      </para>
+                    </entry>
+                    <entry>
+                      <para>NEW_BUS</para>
+                    </entry>
+                  </row>
+                  <row>
+                    <entry>
+                      <para>
+                        <code>org</code>
+                        <code>.</code>
+                        <code>jboss</code>
+                        <code>.</code>
+                        <code>wsf</code>
+                        <code>.</code>
+                        <code>stack</code>
+                        <code>.</code>
+                        <code>cxf</code>
+                        <code>.</code>
+                        <code>client.</code>
+                        <code>UseTCCLBusFeature</code>
+                      </para>
+                    </entry>
+                    <entry>
+                      <para>TCCL_BUS</para>
+                    </entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </informaltable>
+            <para>The feature is specified as follows:</para>
+            <informalexample>
+              <programlisting>Service service = Service.create(wsdlURL, serviceQName, new UseThreadBusFeature());</programlisting>
+            </informalexample>
+            <para>
+              If no feature is explicitly specified, the system default strategy is used, which can be modified through the
+              <code>org.jboss.ws.cxf.jaxws-client.bus.strategy</code>
+              system property when starting the JVM. The valid values for the property are
+              <code>THREAD_BUS</code>
+              ,
+              <code>NEW_BUS</code>
+              and
+              <code>TCCL_BUS</code>
+              . The default is
+              <code>THREAD_BUS</code>
+              .
+            </para>
+          </section>
         </section>
       </section>
       <section id="sid-3866786_ApacheCXFintegration-ServerSideIntegrationCustomization">
