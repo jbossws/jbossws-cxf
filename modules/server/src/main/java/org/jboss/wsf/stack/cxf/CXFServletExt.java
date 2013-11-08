@@ -52,7 +52,6 @@ import org.jboss.wsf.stack.cxf.transport.ServletHelper;
  */
 public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegate
 {
-   private static final long serialVersionUID = -1820187716558491952L;
    protected Endpoint endpoint;
    protected Bus bus;
 
