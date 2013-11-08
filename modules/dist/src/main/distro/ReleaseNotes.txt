@@ -28,27 +28,24 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    [JBWS-???] - ...
-
-Enhancement
-
-    [JBWS-???] - ...
+    * [JBWS-3727] - NPE in org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor
 
 Feature Request
 
-    [JBWS-???] - ...
+    * [JBWS-3730] - Allow disabling JAXWS handler authorization for EJB3 endpoints
 
 Task
 
-    [JBWS-???] - ...
-
-Sub-task
-
-    [JBWS-???] - ...
+    * [JBWS-3663] - Remove eclipse warnings
+    * [JBWS-3723] - Remove io.netty:netty exclusion from jbossws-native dependency in jbossws-cxf main pom
+    * [JBWS-3725] - Set verify-client flag on htts listener in WSSecurityPolicyExamples23xTestCase
+    * [JBWS-3726] - Fix InContainerClientBusStrategyTestCase failures on IBM JDK
+    * [JBWS-3729] - Fix org.jboss.test.ws.jaxws.cxf.noIntegration.CXFEndpointServlet
+    * [JBWS-3731] - Control and document behavior regarding thread default bus changes depending on client bus selection strategy
 
 Errata
 
-    See: https://issues.jboss.org/browse/JBWS-???
+    See: https://issues.jboss.org/browse/JBWS-3706
 
 This version of "${project.name}" is based on Apache CXF ${cxf.version}
 
