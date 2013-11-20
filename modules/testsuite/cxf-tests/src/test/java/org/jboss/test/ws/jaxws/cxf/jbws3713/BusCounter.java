@@ -28,13 +28,13 @@ import org.apache.cxf.Bus;
 
 public class BusCounter
 {
-   private final Set<String> set = new HashSet<String>();
+   private final Set<Bus> set = new HashSet<Bus>();
 
    public void count(final Bus bus)
    {
       synchronized (set)
       {
-         set.add(bus.getId());
+         set.add(bus);
       }
    }
    
@@ -44,4 +44,5 @@ public class BusCounter
          return set.size();
       }
    }
+   
 }

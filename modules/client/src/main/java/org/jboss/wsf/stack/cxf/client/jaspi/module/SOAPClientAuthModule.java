@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.jaspi.module;
+package org.jboss.wsf.stack.cxf.client.jaspi.module;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,6 @@ import org.apache.cxf.message.ExchangeImpl;
 import org.apache.cxf.message.MessageImpl;
 import org.apache.ws.security.WSSConfig;
 import org.jboss.security.SimplePrincipal;
-import org.jboss.wsf.stack.cxf.jaspi.interceptor.WSS4JOutInterceptor;
 
 /** 
  * @author <a href="ema@redhat.com">Jim Ma</a>

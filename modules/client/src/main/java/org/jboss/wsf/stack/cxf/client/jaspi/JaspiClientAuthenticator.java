@@ -1,4 +1,4 @@
-package org.jboss.wsf.stack.cxf.jaspi;
+package org.jboss.wsf.stack.cxf.client.jaspi;
 
 import java.util.Properties;
 

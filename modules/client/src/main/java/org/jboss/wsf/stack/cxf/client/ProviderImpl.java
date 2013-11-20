@@ -32,8 +32,13 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.Executor;
 
+import javax.security.auth.message.config.AuthConfigFactory;
+import javax.security.auth.message.config.AuthConfigProvider;
+import javax.security.auth.message.config.ClientAuthConfig;
+import javax.security.auth.message.config.ServerAuthConfig;
 import javax.xml.bind.JAXBContext;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
@@ -55,10 +60,17 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.DispatchImpl;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
+import org.jboss.security.auth.callback.JBossCallbackHandler;
+import org.jboss.security.auth.login.AuthenticationInfo;
+import org.jboss.security.auth.login.BaseAuthenticationInfo;
+import org.jboss.security.auth.login.JASPIAuthenticationInfo;
+import org.jboss.security.config.ApplicationPolicy;
+import org.jboss.security.config.SecurityConfiguration;
 import org.jboss.ws.api.configuration.AbstractClientFeature;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.management.ServerConfigFactory;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
@@ -67,13 +79,102 @@ import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
 import org.jboss.wsf.stack.cxf.client.configuration.HandlerChainSortInterceptor;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
+import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientAuthenticator;
+import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientInInterceptor;
+import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientOutInterceptor;
+import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
+import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConfigProvider;
+import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConstants;
 import org.w3c.dom.Element;
 
 /**
  * A custom javax.xml.ws.spi.Provider implementation
  * extending the CXF one while adding few customizations.
+ * 
+ * The most important customization is on the CXF Bus used
+ * the Endpoint.publish() or client.
+ * In particular, when a client is created, the thread
+ * default bus, thread context classloader bus and the
+ * bus used for the client being created depend on the
+ * selected strategy:
+ * 
+ *  * THREAD_BUS strategy
+ *   
+ *   Bus used for client
+ *   =======================================
+ *   |                       | Client Bus  |
+ *   =======================================
+ *   |  Default  |   NULL    | New bus (Z) |
+ *   |   Thread  |-------------------------|
+ *   |    Bus    |   Bus X   |    Bus X    |
+ *   =======================================
+ *   
+ *   State of buses before and after client creation
+ *   =======================================
+ *   |  Bus     |   BEFORE  |      AFTER   |
+ *   =======================================
+ *   |  Default |   NULL    |  New bus (Z) |
+ *   |  Thread  |--------------------------|
+ *   |   Bus    |   Bus X   |   Bus X      |
+ *   =======================================
+ *   |   TCCL   |   NULL    |    NULL      |
+ *   |   Bus    |--------------------------|
+ *   |          |   Bus Y   |    Bus Y     |
+ *   =======================================
+ * 
+ * 
+ *  * NEW_BUS strategy
+ *   
+ *   Bus used for client
+ *   =======================================
+ *   |                       | Client Bus  |
+ *   =======================================
+ *   |  Default  |   NULL    |    New bus  |
+ *   |   Thread  |-------------------------|
+ *   |    Bus    |   Bus X   |    New bus  |
+ *   =======================================
+ *   
+ *   State of buses before and after client creation
+ *   =======================================
+ *   |  Bus     |   BEFORE  |      AFTER   |
+ *   =======================================
+ *   |  Default |   NULL    |      NULL    |
+ *   |  Thread  |--------------------------|
+ *   |   Bus    |   Bus X   |      Bus X   |
+ *   =======================================
+ *   |   TCCL   |   NULL    |      NULL    |
+ *   |   Bus    |--------------------------|
+ *   |          |   Bus Y   |      Bus Y   |
+ *   =======================================
+ * 
+ * 
+ *  * TCCL_BUS strategy
+ *   
+ *   Bus used for client
+ *   =======================================
+ *   |                       | Client Bus  |
+ *   =======================================
+ *   |   TCCL    |   NULL    | New bus (Z) |
+ *   |   Bus     |-------------------------|
+ *   |           |   Bus Y   |   Bus Y     |
+ *   =======================================
+ *   
+ *   State of buses before and after client creation
+ *   =======================================
+ *   |  Bus     |   BEFORE  |    AFTER     |
+ *   =======================================
+ *   |  Default |   NULL    |    NULL      |
+ *   |  Thread  |--------------------------|
+ *   |   Bus    |   Bus X   |    Bus X     |
+ *   =======================================
+ *   |   TCCL   |   NULL    |  New bus (Z) |
+ *   |   Bus    |--------------------------|
+ *   |          |   Bus Y   |    Bus Y     |
+ *   =======================================
+ * 
+ * 
  *
- * This also ensures a proper context classloader is set
+ * This class also ensures a proper context classloader is set
  * (required on JBoss AS 7, as the TCCL does not include
  * implementation classes by default)
  *
@@ -222,16 +323,24 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       else if (NEW_BUS_STRATEGY.equals(strategy))
       {
          bus = new JBossWSBusFactory().createBus();
+         //to prevent issues with CXF code using the default thread bus instead of the one returned here,
+         //set the new bus as thread one, given the line above could have not done this if the current
+         //thread is already assigned a bus
+         BusFactory.setThreadDefaultBus(bus);
       }
       else if (TCCL_BUS_STRATEGY.equals(strategy))
       {
          bus = JBossWSBusFactory.getClassLoaderDefaultBus(threadContextClassLoader);
+         //to prevent issues with CXF code using the default thread bus instead of the one returned here,
+         //set the bus as thread one, given the line above could have not done this if we already had a
+         //bus for the classloader and hence we did not create a new one
+         BusFactory.setThreadDefaultBus(bus);
       }
       return bus;
    }
    
    private static void restoreThreadDefaultBus(final String busStrategy, final Bus origBus) {
-      if (origBus != null && !busStrategy.equals(Constants.THREAD_BUS_STRATEGY))
+      if (origBus != null || !busStrategy.equals(Constants.THREAD_BUS_STRATEGY))
       {
          BusFactory.setThreadDefaultBus(origBus);
       }
@@ -494,7 +603,14 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       protected void setupClient(Object obj, WebServiceFeature... features) {
          Binding binding = ((BindingProvider)obj).getBinding();
          Client client = obj instanceof DispatchImpl<?> ? ((DispatchImpl<?>)obj).getClient() : ClientProxy.getClient(obj);
+         
          client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
+         JaspiClientAuthenticator clientAuthenticator = getJaspiAuthenticator(client) ;
+         if (clientAuthenticator != null) {
+            client.getInInterceptors().add(new JaspiClientInInterceptor(clientAuthenticator));
+            client.getOutInterceptors().add(new JaspiClientOutInterceptor(clientAuthenticator));
+         }
+         
          if (jbossModulesEnv) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
             ServerConfig sc = getServerConfig();
             if (sc != null) {
@@ -515,6 +631,43 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             }
          }
       }
+      
+      private JaspiClientAuthenticator getJaspiAuthenticator(Client client) {
+         //TODO:Decide where to get the client jaspi security domain
+         String securityDomain = "jaspi-client";
+         ApplicationPolicy appPolicy = SecurityConfiguration.getApplicationPolicy(securityDomain);
+         if (appPolicy == null) {
+            Loggers.ROOT_LOGGER.noApplicationPolicy(securityDomain);
+            return null;
+         }
+         BaseAuthenticationInfo bai = appPolicy.getAuthenticationInfo();
+         if (bai == null || bai instanceof AuthenticationInfo) {
+            Loggers.ROOT_LOGGER.noJaspiApplicationPolicy(securityDomain);
+            return null;
+         } 
+         JASPIAuthenticationInfo jai = (JASPIAuthenticationInfo) bai;
+       
+         String contextRoot = client.getEndpoint().getEndpointInfo().getName().toString();
+         String appId = "localhost " + contextRoot;
+         AuthConfigFactory factory = AuthConfigFactory.getFactory();
+         AuthConfigProvider provider = factory.getConfigProvider("soap", appId, null);;
+
+         JBossCallbackHandler callbackHandler = new JBossCallbackHandler();
+         try
+         {
+            ClientAuthConfig clientConfig = provider.getClientAuthConfig("soap", appId, callbackHandler);
+            return new JaspiClientAuthenticator(clientConfig, securityDomain, jai);
+         }
+         catch (Exception e)
+         {
+            //ignore
+         }
+         
+         return null;
+         
+      }
+      
+      
    }
 
    //lazy get the server config (and try once per classloader only)
@@ -533,5 +686,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       }
       return serverConfig;
    }
+   
+
 
 }

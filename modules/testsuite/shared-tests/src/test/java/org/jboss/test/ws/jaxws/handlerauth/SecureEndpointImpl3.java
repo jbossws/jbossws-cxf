@@ -51,14 +51,14 @@ import org.jboss.ws.api.annotation.WebContext;
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;
 
-@WebService(name = "SecureEndpoint2", targetNamespace = "http://ws/")
-@HandlerChain(file = "handlers2.xml")
-@WebContext(contextRoot = "/handlerauth2", urlPattern = "/*", authMethod = "BASIC", transportGuarantee = "NONE", secureWSDLAccess = false)
+@WebService(name = "SecureEndpoint3", targetNamespace = "http://ws/")
+@HandlerChain(file = "handlers.xml")
+@WebContext(contextRoot = "/handlerauth3", urlPattern = "/*", authMethod = "BASIC", transportGuarantee = "NONE", secureWSDLAccess = false)
 @Stateless
 @SecurityDomain("handlerauth-security-domain")
 @RolesAllowed({"user", "friend"})
 @DeclareRoles({"user", "friend"})
-public class SecureEndpointImpl2 implements SecureEndpoint
+public class SecureEndpointImpl3 implements SecureEndpoint
 {
    private Logger log = Logger.getLogger(this.getClass());
    
@@ -90,7 +90,7 @@ public class SecureEndpointImpl2 implements SecureEndpoint
    }
    
    public int getHandlerCounter() {
-      return LogicalSimpleHandler.counter.get();
+      return SimpleHandler.counter.get();
    }
    
    

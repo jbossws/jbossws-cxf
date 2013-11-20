@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf</artifactId>
-    <version>4.2.3-SNAPSHOT</version>
+    <version>4.3.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   
@@ -220,11 +220,20 @@
       <groupId>org.jboss.spec.javax.xml.soap</groupId>
       <artifactId>jboss-saaj-api_1.3_spec</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.security.auth.message</groupId>
+      <artifactId>jboss-jaspi-api_1.1_spec</artifactId>
+    </dependency>
+    
 
     <!-- jboss provided -->
     <dependency>
       <groupId>org.jboss</groupId>
       <artifactId>jboss-common-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.picketbox</groupId>
+      <artifactId>picketbox</artifactId>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>

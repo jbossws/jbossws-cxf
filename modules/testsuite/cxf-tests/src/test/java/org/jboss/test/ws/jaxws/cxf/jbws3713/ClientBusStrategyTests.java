@@ -24,6 +24,7 @@ package org.jboss.test.ws.jaxws.cxf.jbws3713;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -68,17 +69,22 @@ public class ClientBusStrategyTests extends JBossWSTest //*Tests does not match 
       final String command = javaCmd + props + " -jar " + f.getAbsolutePath() + " " + wsdlAddress + " " + threadPoolSize + " " + invocations;
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       executeCommand(command, bout);
-      String res = null;
-      if (bout.toByteArray() != null) {
-          String output = new String(bout.toByteArray());
-          BufferedReader reader = new BufferedReader(new java.io.StringReader(output));
-          res = reader.readLine();
-      }
-      StringTokenizer st = new StringTokenizer(res, " ");
+      StringTokenizer st = new StringTokenizer(readFirstLine(bout), " ");
       List<Integer> list = new LinkedList<Integer>();
       while (st.hasMoreTokens()) {
          list.add(Integer.parseInt(st.nextToken()));
       }
       return list;
+   }
+   
+   private static String readFirstLine(ByteArrayOutputStream bout) throws IOException {
+      bout.flush();
+      final byte[] bytes = bout.toByteArray();
+      if (bytes != null) {
+          BufferedReader reader = new BufferedReader(new java.io.StringReader(new String(bytes)));
+          return reader.readLine();
+      } else {
+         return null;
+      }
    }
 }

@@ -92,7 +92,7 @@ public class JBWS3293DispatchTestCase extends JBossWSTest
       StreamSource reqObj = new StreamSource(new StringReader(reqPayload));
       Dispatch<Source> dispatch = createDispatch();
       Future<?> future = dispatch.invokeAsync(reqObj, handler);
-      future.get(1000, TimeUnit.MILLISECONDS);
+      future.get(3000, TimeUnit.MILLISECONDS);
 
       if (handlerException != null)
          throw handlerException;

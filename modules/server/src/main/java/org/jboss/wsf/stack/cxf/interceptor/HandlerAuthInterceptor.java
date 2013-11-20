@@ -24,6 +24,7 @@ package org.jboss.wsf.stack.cxf.interceptor;
 import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
 import java.lang.reflect.Method;
+import java.security.Principal;
 import java.util.List;
 
 import javax.xml.ws.handler.Handler;
@@ -147,7 +148,8 @@ public class HandlerAuthInterceptor extends AbstractPhaseInterceptor<Message>
                   }
                }
             }
-            throw MESSAGES.authorizationFailed(secCtx.getUserPrincipal().getName());
+            final Principal p = secCtx.getUserPrincipal();
+            throw MESSAGES.authorizationFailed(p != null ? p.getName() : null);
          }
       }
    }

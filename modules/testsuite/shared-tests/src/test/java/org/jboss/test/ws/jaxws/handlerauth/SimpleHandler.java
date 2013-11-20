@@ -22,6 +22,7 @@
 package org.jboss.test.ws.jaxws.handlerauth;
 
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.handler.MessageContext;
@@ -30,7 +31,7 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 public class SimpleHandler implements SOAPHandler<SOAPMessageContext>
 {
-   public static volatile int counter = 0;
+   public static AtomicInteger counter = new AtomicInteger(0);
 
    @Override
    public boolean handleMessage(SOAPMessageContext context)
@@ -38,7 +39,7 @@ public class SimpleHandler implements SOAPHandler<SOAPMessageContext>
       Boolean isOutbound = (Boolean) context.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
       String operation = ((QName) context.get(MessageContext.WSDL_OPERATION)).getLocalPart();
       if (!isOutbound && !operation.equals("getHandlerCounter")) {
-         counter++;
+         counter.incrementAndGet();
       }
       return true;
    }
