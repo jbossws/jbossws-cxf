@@ -49,7 +49,8 @@ import org.jboss.wsf.stack.cxf.jaspi.validator.UsernameTokenValidator;
  */
 public class SOAPServerAuthModule extends AbstractServerAuthModule {
 	private String securityDomainName = null;
-
+   private WSSConfig wssConfig = WSSConfig.getNewInstance();
+   private WSS4JInInterceptor wss4jInterceptor = new WSS4JInInterceptor();
 	public SOAPServerAuthModule() {
 		supportedTypes.add(Object.class);
 		supportedTypes.add(SOAPMessage.class);
@@ -63,8 +64,7 @@ public class SOAPServerAuthModule extends AbstractServerAuthModule {
 
 	@Override
 	public AuthStatus validateRequest(MessageInfo messageInfo,
-			Subject clientSubject, Subject serviceSubject) throws AuthException {
-		//TODO:look at what we need to do with options	
+			Subject clientSubject, Subject serviceSubject) throws AuthException {	   
 		return validate(clientSubject, messageInfo) ? AuthStatus.SUCCESS : AuthStatus.FAILURE;
 	}
 	
@@ -93,11 +93,12 @@ public class SOAPServerAuthModule extends AbstractServerAuthModule {
 		cxfSoapMessage.setContent(SOAPMessage.class, soapMessage);
 		cxfSoapMessage.put(Message.HTTP_REQUEST_METHOD, "POST");
 
-					
-		WSSConfig wssConfig = WSSConfig.getNewInstance();
-		setJASPICValidator(wssConfig, clientSubject);		
+		setJASPICValidator(wssConfig, clientSubject);
 		cxfSoapMessage.put(WSSConfig.class.getName(), wssConfig);
-		
+	   
+		for (Object key : options.keySet()) {
+		   cxfSoapMessage.put((String)key, options.get(key));
+		}
 		//set the wss4j config from messageinfo
 		if (messageInfo.getMap().get(JBossWSAuthConstants.WSS4J_CONFIG) != null) {
 			Properties props = (Properties)messageInfo.getMap().get(JBossWSAuthConstants.WSS4J_CONFIG);
@@ -105,8 +106,6 @@ public class SOAPServerAuthModule extends AbstractServerAuthModule {
 	            cxfSoapMessage.put(e.getKey().toString(), e.getValue());
 	        }
 		}
-	
-		WSS4JInInterceptor wss4jInterceptor = new WSS4JInInterceptor();
 		wss4jInterceptor.handleMessage(cxfSoapMessage);
 		
 		return true;
@@ -119,7 +118,6 @@ public class SOAPServerAuthModule extends AbstractServerAuthModule {
 	}
 
 	protected void setJASPICValidator(WSSConfig wssconfig, Subject subject) {
-		//TODO: add other validator
 		UsernameTokenValidator usernameTokenValidator = new UsernameTokenValidator(subject);
 		usernameTokenValidator.setContextName(getSecurityDomainName());
 		wssconfig.setValidator(WSSecurityEngine.USERNAME_TOKEN, usernameTokenValidator);

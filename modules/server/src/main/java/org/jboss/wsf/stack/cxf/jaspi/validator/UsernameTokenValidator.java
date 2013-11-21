@@ -45,8 +45,8 @@ public class UsernameTokenValidator extends JAASUsernameTokenValidator {
 	
 	//wss4j's JAASUsernameTokenValidator only supports plain text password
 	//TODO: support other type password
-    private static org.apache.commons.logging.Log log = 
-            org.apache.commons.logging.LogFactory.getLog(UsernameTokenValidator.class);
+/*    private static org.apache.commons.logging.Log log = 
+            org.apache.commons.logging.LogFactory.getLog(UsernameTokenValidator.class);*/
     public Credential validate(Credential credential, RequestData data) throws WSSecurityException {
         if (credential == null || credential.getUsernametoken() == null) {
             throw new WSSecurityException(WSSecurityException.FAILURE, "noCredential");
@@ -59,25 +59,18 @@ public class UsernameTokenValidator extends JAASUsernameTokenValidator {
         
         user = usernameToken.getName();
         String pwType = usernameToken.getPasswordType();
-        if (log.isDebugEnabled()) {
-            log.debug("UsernameToken user " + usernameToken.getName());
-            log.debug("UsernameToken password type " + pwType);
-        }
         
         if (usernameToken.isHashed()) {
-            log.warn("Authentication failed as hashed username token not supported");
             throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
         }
         
         password = usernameToken.getPassword();
         
         if (!WSConstants.PASSWORD_TEXT.equals(pwType)) {
-            log.warn("Password type " + pwType + " not supported");
             throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);        	
         }
         
         if (!(user != null && user.length() > 0 && password != null && password.length() > 0)) {
-            log.warn("User or password empty");
             throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
         }
         
@@ -89,7 +82,6 @@ public class UsernameTokenValidator extends JAASUsernameTokenValidator {
             credential.setSubject(subject);
 
         } catch (LoginException ex) {
-            log.info("Authentication failed", ex);
             throw new WSSecurityException(
                 WSSecurityException.FAILED_AUTHENTICATION, null, null, ex
             );

@@ -182,7 +182,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
       }
       catch (Exception e)
       {
-         //ignore
+         e.printStackTrace();
       }
       
       return null;

@@ -39,7 +39,7 @@ public class JBossWSAuthConfigProvider implements AuthConfigProvider {
 	public JBossWSAuthConfigProvider(Properties props, AuthConfigFactory factory) {
 		contextProperties = props;
 		if (factory != null) {
-			factory.registerConfigProvider(this, "SOAP", null,"JBossWS AuthConfigProvider");
+			factory.registerConfigProvider(this, "soap", null,"JBossWS AuthConfigProvider");
 		}
 
 	}

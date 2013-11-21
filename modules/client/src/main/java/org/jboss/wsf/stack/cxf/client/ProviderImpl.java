@@ -82,9 +82,6 @@ import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientAuthenticator;
 import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientInInterceptor;
 import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientOutInterceptor;
-import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
-import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConfigProvider;
-import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConstants;
 import org.w3c.dom.Element;
 
 /**

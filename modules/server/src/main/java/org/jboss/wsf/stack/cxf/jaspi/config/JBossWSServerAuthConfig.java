@@ -45,7 +45,7 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.cxf.common.util.StringUtils;
 import org.jboss.security.auth.callback.JBossCallbackHandler;
 import org.jboss.security.auth.container.config.AuthModuleEntry;
 import org.jboss.security.auth.login.JASPIAuthenticationInfo;
@@ -180,7 +180,7 @@ public class JBossWSServerAuthConfig implements ServerAuthConfig {
          if (soapActions != null && soapActions.length > 0)
          {
             authContext = soapActions[0];
-            if (StringUtils.isNotEmpty(authContext))
+            if (!StringUtils.isEmpty(authContext))
             {
                return authContext;
             }

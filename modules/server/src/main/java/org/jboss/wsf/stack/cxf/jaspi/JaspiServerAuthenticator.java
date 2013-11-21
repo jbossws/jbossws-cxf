@@ -75,6 +75,7 @@ public class JaspiServerAuthenticator
       try
       {
          ServerAuthContext sctx = serverConfig.getAuthContext(authContextID, clientSubject, serverContextProperties);
+         
          authStatus = sctx.validateRequest(messageInfo, clientSubject, null);
       }
       catch (AuthException e)
