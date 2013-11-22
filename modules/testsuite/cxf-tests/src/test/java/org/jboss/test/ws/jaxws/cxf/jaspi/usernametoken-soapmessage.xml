@@ -11,9 +11,9 @@
 			</wsu:Timestamp>
 			<wsse:UsernameToken
 				wsu:Id="UsernameToken-4313b55e-cbcd-438f-8408-c19f1016b208">
-				<wsse:Username>jbossws</wsse:Username>
+				<wsse:Username>kermit</wsse:Username>
 				<wsse:Password
-					Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">jbossws</wsse:Password>
+					Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">thefrog</wsse:Password>
 			</wsse:UsernameToken>
 		</wsse:Security>
 	</soap:Header>
