@@ -25,7 +25,6 @@
               <include>org.jboss.ws.cxf:jbossws-cxf-factories:jar</include>
               <include>org.apache.cxf:cxf-*</include>
               <include>org.apache.cxf.xjcplugins:cxf-*</include>
-              <include>javax.jws:jsr181-api:jar</include>
               <include>javax.xml.bind:jaxb-api:jar</include>
               <include>com.sun.xml.bind:jaxb-impl:jar</include>
               <include>com.sun.xml.bind:jaxb-xjc:jar</include>
