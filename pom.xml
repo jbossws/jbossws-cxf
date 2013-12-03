@@ -65,7 +65,7 @@
     <jbossws.common.tools.version>1.2.0.Final</jbossws.common.tools.version>
     <jbossws.jboss712.version>4.2.1.Final</jbossws.jboss712.version>
     <jbossws.jboss713.version>4.2.1.Final</jbossws.jboss713.version>
-    <jbossws.jboss720.version>4.2.2.Final</jbossws.jboss720.version>
+    <jbossws.jboss720.version>4.3.0-SNAPSHOT</jbossws.jboss720.version>
     <jbossws.native.version>4.1.2.Final</jbossws.native.version>
     <jboss712.version>7.1.2.Final</jboss712.version>
     <jboss713.version>7.1.3.Final</jboss713.version>
