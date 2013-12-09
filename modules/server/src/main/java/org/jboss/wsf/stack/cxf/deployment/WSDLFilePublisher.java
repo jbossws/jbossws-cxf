@@ -90,6 +90,8 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
 
             // Publish XMLSchema imports
             publishSchemaImports(wsdlPublishURL, doc.getDocumentElement(), published, expLocation);
+
+            dep.addAttachment(WSDLFilePublisher.class, this);
          }
          else
          {
@@ -105,7 +107,48 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
          throw Messages.MESSAGES.cannotPublishWSDLTo(serviceName, wsdlFile, e);
       }
    }
-   
+
+   public void unpublishWsdlFiles()
+   {
+      String deploymentName = dep.getCanonicalName();
+
+      if (deploymentName.startsWith("http://"))
+      {
+          deploymentName = deploymentName.replace("http://", "http-");
+      }
+
+       try {
+
+           File publishDir = new File(serverConfig.getServerDataDir().getCanonicalPath()
+               + "/wsdl/" + deploymentName);
+           if (publishDir.exists())
+           {
+               File[] wsdlFileList = publishDir.listFiles();
+               if (wsdlFileList != null)
+               {
+                   for (int i = 0; i < wsdlFileList.length; i++)
+                   {
+                       File f = wsdlFileList[i];
+                       if (f.delete())
+                       {
+                           Loggers.DEPLOYMENT_LOGGER.deletedWsdlFile(f.getAbsolutePath());
+                       } else {
+                           Loggers.DEPLOYMENT_LOGGER.couldNotDeleteWsdlFile(f.getAbsolutePath());
+                       }
+                   }
+               }
+           }
+
+           if (!publishDir.delete())
+           {
+               Loggers.DEPLOYMENT_LOGGER.couldNotDeleteWsdlDirectory(publishDir.getAbsolutePath());
+           }
+
+       } catch (IOException e) {
+           Loggers.DEPLOYMENT_LOGGER.couldNotCreateWsdlDataPath();
+       }
+   }
+
    private static Document getWsdlDocument(Bus bus, Definition def) throws WSDLException
    {
       WSDLWriter wsdlWriter = bus.getExtension(WSDLManager.class).getWSDLFactory().newWSDLWriter();

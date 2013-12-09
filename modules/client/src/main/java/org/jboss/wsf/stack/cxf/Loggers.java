@@ -208,4 +208,20 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = WARN)
     @Message(id = 24095, value = "Unknown strategy '%s' requested for selecting the Apache CXF Bus to be used for building JAXWS clients; default strategy will be used.")
     void unknownJAXWSClientBusStrategy(String strategy);
+
+    @LogMessage(level = WARN)
+    @Message(id = 24097, value = "Could not delete wsdl file %s")
+    void couldNotDeleteWsdlFile(String filename);
+
+    @LogMessage(level = DEBUG)
+    @Message(id = 24098, value = "Deleted wsdl file %s")
+    void deletedWsdlFile(String filename);
+
+    @LogMessage(level = WARN)
+    @Message(id = 24099, value = "Could not create wsdl data path.")
+    void couldNotCreateWsdlDataPath();
+
+    @LogMessage(level = WARN)
+    @Message(id = 24100, value = "Could not delete wsdl directory %s")
+    void couldNotDeleteWsdlDirectory(String filename);
 }

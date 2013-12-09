@@ -74,6 +74,12 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
       if (holder != null)
       {
          holder.close();
+
+         WSDLFilePublisher wsdlFilePublisher = dep.getAttachment(WSDLFilePublisher.class);
+         if (wsdlFilePublisher != null)
+         {
+           wsdlFilePublisher.unpublishWsdlFiles();
+         }
       }
    }
 
