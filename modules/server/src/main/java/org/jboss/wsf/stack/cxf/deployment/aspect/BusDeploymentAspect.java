@@ -138,7 +138,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
             epConfigFile = wsmd.getConfigFile();
          }
          
-         JaspiServerAuthenticator jaspiAuthenticator = getJaspiAuthenticator(dep);
+         JaspiServerAuthenticator jaspiAuthenticator = getJaspiAuthenticator(dep, wsmd);
          
          Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
                new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile(), epConfigName, epConfigFile);
@@ -152,9 +152,14 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
       }
    }
 
-   private JaspiServerAuthenticator getJaspiAuthenticator(Deployment dep) {
-      //TODO: get security-domain from jboss-webservices.xml and get hostname
-      String securityDomain = "jaspi";
+   private JaspiServerAuthenticator getJaspiAuthenticator(Deployment dep, JBossWebservicesMetaData wsmd) {
+      String securityDomain = null;
+      if (wsmd != null) {
+         securityDomain = wsmd.getProperty(JaspiServerAuthenticator.JASPI_SECURITY_DOMAIN);
+      }
+      if (securityDomain == null) {
+         return null;
+      }
       ApplicationPolicy appPolicy = SecurityConfiguration.getApplicationPolicy(securityDomain);
       if (appPolicy == null) {
          Loggers.ROOT_LOGGER.noApplicationPolicy(securityDomain);

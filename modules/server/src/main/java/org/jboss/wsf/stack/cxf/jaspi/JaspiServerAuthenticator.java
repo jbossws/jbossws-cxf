@@ -49,6 +49,7 @@ import org.jboss.security.auth.message.GenericMessageInfo;
  */
 public class JaspiServerAuthenticator
 {
+   public static final String JASPI_SECURITY_DOMAIN = "jaspi.security.domain";
    private ServerAuthConfig serverConfig;
    private String securityDomain;
    private JASPIAuthenticationInfo jpi;

@@ -298,7 +298,7 @@
       </classes>
 
        <webinf dir="${tests.output.dir}/test-resources//jaxws/cxf/jaspi/WEB-INF">
-          <include name="jboss-web.xml"/>
+          <include name="jboss-*.xml"/>
        </webinf>
     </war>
   	
