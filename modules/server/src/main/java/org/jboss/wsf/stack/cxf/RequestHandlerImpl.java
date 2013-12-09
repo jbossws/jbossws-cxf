@@ -24,6 +24,7 @@ package org.jboss.wsf.stack.cxf;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
@@ -64,7 +65,7 @@ import org.jboss.wsf.stack.cxf.configuration.BusHolder;
  */
 public class RequestHandlerImpl implements RequestHandler
 {
-   private static RequestHandlerImpl me = new RequestHandlerImpl();
+   private static final RequestHandlerImpl me = new RequestHandlerImpl();
 
    RequestHandlerImpl()
    {
@@ -191,7 +192,7 @@ public class RequestHandlerImpl implements RequestHandler
     * @throws ServletException if some problem occurs
     */
    private final boolean handleQuery(HttpServletRequest req, HttpServletResponse res, AbstractHTTPDestination dest, Bus bus)
-   throws ServletException
+   throws ServletException, IOException
    {
       final String queryString = req.getQueryString();
       if ((null != queryString) && (queryString.length() > 0))
@@ -225,6 +226,16 @@ public class RequestHandlerImpl implements RequestHandler
                }
             }
          }
+      }
+      else if ("GET".equals(req.getMethod()))
+      {
+         //reject HTTP GET without query string (only support messages sent w/ POST)
+         res.setStatus(405);
+         res.setContentType("text/plain");
+         Writer out = res.getWriter();
+         out.write("HTTP GET not supported");
+         out.close();
+         return true;
       }
 
       return false;
