@@ -222,7 +222,7 @@ public interface Messages {
     @Message(id = 24096, value = "Multiple incompatible JAXWS client Bus features provided")
     IllegalArgumentException incompatibleJAXWSClientBusFeatureProvided();
 
-    @Message(id = 24097, value = "Could not find endpoint config name: %s")
+    @Message(id = 24101, value = "Could not find endpoint config name: %s")
     WSFDeploymentException couldNotFindEndpointConfigName(String name);
     
 }
