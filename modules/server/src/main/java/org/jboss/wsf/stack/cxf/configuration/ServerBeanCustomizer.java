@@ -135,13 +135,19 @@ public class ServerBeanCustomizer extends BeanCustomizer
          {
             //use endpoint configs from AS domain
             ServerConfig sc = AbstractServerConfig.getServerIntegrationServerConfig();
+            boolean isSetEndpointConfig = false;
             for (org.jboss.wsf.spi.metadata.config.EndpointConfig config : sc.getEndpointConfigs())
             {
                if (config.getConfigName().equals(configName))
                {
                   endpoint.setEndpointConfig(config);
+                  isSetEndpointConfig = true;
                   break;
                }
+            }
+
+            if (!isSetEndpointConfig){
+                throw Messages.MESSAGES.couldNotFindEndpointConfigName(configName);
             }
          }
          else
