@@ -51,24 +51,6 @@
             <phase>package</phase>
           </execution>
           <execution>
-            <id>jboss712</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>jboss712</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss712/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>jboss713</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>jboss713</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss713/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
-          <execution>
             <id>jboss720</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>

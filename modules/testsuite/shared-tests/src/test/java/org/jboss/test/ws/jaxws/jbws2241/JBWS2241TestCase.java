@@ -43,7 +43,7 @@ public class JBWS2241TestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2241TestCase.class, isTargetJBoss71() ? "jaxws-jbws2241-as71.jar" : "jaxws-jbws2241.jar", true);
+      return new JBossWSTestSetup(JBWS2241TestCase.class, "jaxws-jbws2241.jar", true);
    }
 
    private EndpointInterface getPort(String user, String pwd) throws MalformedURLException {

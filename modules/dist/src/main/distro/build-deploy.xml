@@ -25,98 +25,6 @@
 <project>
 
   <!-- ================================================================== -->
-  <!-- Prepare Deployment Structure JBoss-7.1.x                           -->
-  <!-- ================================================================== -->
-
-  <target name="deploy-structure-jboss71x" depends="prepare-deploy">
-    <delete dir="${deploy.structure}"/>
-
-    <path id="jboss.ant.tasks.classpath">
-      <fileset dir="${deploy.artifacts.dir}">
-        <include name="**/jbossws-common-tools.jar"/>
-        <include name="**/jandex.jar"/>
-      </fileset>
-    </path>
-    <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jboss.ant.tasks.classpath"/>
-    <taskdef name="jandex" classname="org.jboss.jandex.JandexAntTask" classpathref="jboss.ant.tasks.classpath"/>
-
-    <jandex run="true" verbose="false" newJar="true">
-      <fileset dir="${deploy.artifacts.dir}/lib">
-        <include name="cxf*security.jar"/>
-      </fileset>
-    </jandex>
-    <antcall target="deploy-jbossws-cxf-modules-as7" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/modules"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="jbossid" value="${jbossws.integration.target}"/>
-      <param name="modules-jbossid" value="jboss710"/>
-    </antcall>
-  	<copy toDir="${deploy.structure}/modules">
-      <fileset dir="${deploy.artifacts.dir}/modules/jboss710">
-        <include name="**/jboss/as/webservices/**/module.xml"/>
-      </fileset>
-    </copy>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Deployment jboss712                                                -->
-  <!-- ================================================================== -->
-
-  <target name="target-jboss712">
-    <property name="jbossws.integration.target" value="jboss712"/>
-    <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
-  </target>
-
-  <target name="deploy-jboss712" depends="undeploy-jboss712,deploy-structure-jboss71x,check-spring,install-spring-module71x" description="Deploy jbossws to jboss712">
-    <fail message="Not available: ${jboss712.available.file}" unless="jboss712.available"/>
-    <copy todir="${jboss712.home}" overwrite="true" verbose="true">
-      <fileset dir="${deploy.structure}">
-        <exclude name="**/jboss/as/webservices/**/module.xml"/>
-      </fileset>
-    </copy>
-    <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
-    <installModules targetDir="${jboss712.home}/modules">
-      <fileset dir="${deploy.structure}/modules">
-        <include name="**/jboss/as/webservices/**/module.xml"/>
-      </fileset>
-    </installModules>
-  </target>
-
-  <target name="undeploy-jboss712" depends="target-jboss712,init" description="Remove jbossws from jboss712">
-    <fail message="Not available: ${jboss712.available.file}" unless="jboss712.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${jboss712.home}/modules" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Deployment jboss713                                                -->
-  <!-- ================================================================== -->
-
-  <target name="target-jboss713">
-    <property name="jbossws.integration.target" value="jboss713"/>
-    <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
-  </target>
-
-  <target name="deploy-jboss713" depends="undeploy-jboss713,deploy-structure-jboss71x,check-spring,install-spring-module71x" description="Deploy jbossws to jboss713">
-    <fail message="Not available: ${jboss713.available.file}" unless="jboss713.available"/>
-    <copy todir="${jboss713.home}" overwrite="true" verbose="true">
-      <fileset dir="${deploy.structure}">
-        <exclude name="**/jboss/as/webservices/**/module.xml"/>
-      </fileset>
-    </copy>
-    <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
-    <installModules targetDir="${jboss713.home}/modules">
-      <fileset dir="${deploy.structure}/modules">
-        <include name="**/jboss/as/webservices/**/module.xml"/>
-      </fileset>
-    </installModules>
-  </target>
-
-  <target name="undeploy-jboss713" depends="target-jboss713,init" description="Remove jbossws from jboss713">
-    <fail message="Not available: ${jboss713.available.file}" unless="jboss713.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${jboss713.home}/modules" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
-  </target>
-
-  <!-- ================================================================== -->
   <!-- Prepare Deployment Structure JBoss-7.2.x                           -->
   <!-- ================================================================== -->
 
@@ -252,14 +160,6 @@
         <istrue value="${spring}"/>
       </and>
     </condition>
-  </target>
-
-  <target name="install-spring-module71x" if="spring-required">
-    <antcall target="deploy-spring-module" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/modules"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="modules-jbossid" value="jboss710"/>
-    </antcall>
   </target>
 
   <target name="install-spring-module72x" if="spring-required">
