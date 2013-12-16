@@ -21,6 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsdd;
 
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,7 +36,6 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.ws.discovery.WSDiscoveryClient;
 import org.apache.cxf.ws.discovery.wsdl.ProbeMatchType;
-import org.apache.cxf.ws.discovery.wsdl.ProbeMatchesType;
 import org.apache.cxf.ws.discovery.wsdl.ProbeType;
 import org.apache.cxf.ws.discovery.wsdl.ResolveMatchType;
 import org.apache.cxf.ws.discovery.wsdl.ScopesType;
@@ -65,11 +66,10 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          ProbeType pt = new ProbeType();
          ScopesType scopes = new ScopesType();
          pt.setScopes(scopes);
-         ProbeMatchesType pmts = client.probe(pt, TIMEOUT);
-         assertNotNull(pmts);
-         assertEquals(3, pmts.getProbeMatch().size());
+         List<ProbeMatchType> pmts = filterProbeMatchesForHost(client.probe(pt).getProbeMatch(), getServerHost());
+         
          List<ResolveMatchType> rmts = new LinkedList<ResolveMatchType>();
-         for (ProbeMatchType pmt : pmts.getProbeMatch()) {
+         for (ProbeMatchType pmt : pmts) {
             W3CEndpointReference epr = pmt.getEndpointReference();
             ResolveMatchType rmt = client.resolve(epr, TIMEOUT);
             assertNotNull("Could not resolve (timeout = " + TIMEOUT  + " ms) reference: " + epr, rmt);
@@ -86,6 +86,34 @@ public final class WSDiscoveryTestCase extends JBossWSTest
       }
    }
    
+   private List<ProbeMatchType> filterProbeMatchesForHost(List<ProbeMatchType> probes, String serverHost)
+   {
+      final List<ProbeMatchType> filtered = new ArrayList<ProbeMatchType>();
+      for (ProbeMatchType probeMatchType : probes)
+      {
+         final List<String> addresses = probeMatchType.getXAddrs();
+         if (addresses == null || addresses.isEmpty()) {
+            //add Probe Match if it has no address (which is optional and might be omitted on probe match result)
+            filtered.add(probeMatchType);
+         } else {
+            for (String addr : addresses) {
+               try {
+                  final URL url = new URL(addr);
+                  //add Probe Match only if it's from the current serverHost (for test purposes we do not want
+                  //to consider match results that might be coming from other services on the same network)
+                  if (url.getHost().contains(serverHost)) {
+                     filtered.add(probeMatchType);
+                     break;
+                  }
+               } catch (Exception e) {
+                  //ignore and move on
+               }
+            }
+         }
+      }
+      return filtered;
+   }
+
    public void testInvocation() throws Exception
    {
       Bus bus = null;
@@ -96,11 +124,10 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          ProbeType pt = new ProbeType();
          ScopesType scopes = new ScopesType();
          pt.setScopes(scopes);
-         ProbeMatchesType pmts = client.probe(pt, TIMEOUT);
-         assertNotNull(pmts);
-         assertEquals(3, pmts.getProbeMatch().size());
+         List<ProbeMatchType> pmts = filterProbeMatchesForHost(client.probe(pt).getProbeMatch(), getServerHost());
+         
          List<ResolveMatchType> rmts = new LinkedList<ResolveMatchType>();
-         for (ProbeMatchType pmt : pmts.getProbeMatch()) {
+         for (ProbeMatchType pmt : pmts) {
             W3CEndpointReference epr = pmt.getEndpointReference();
             ResolveMatchType rmt = client.resolve(epr, TIMEOUT);
             assertNotNull("Could not resolve (timeout = " + TIMEOUT  + " ms) reference: " + epr, rmt);
