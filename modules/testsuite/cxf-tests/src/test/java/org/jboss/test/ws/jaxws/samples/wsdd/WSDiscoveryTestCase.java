@@ -66,7 +66,7 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          ProbeType pt = new ProbeType();
          ScopesType scopes = new ScopesType();
          pt.setScopes(scopes);
-         List<ProbeMatchType> pmts = filterProbeMatchesForHost(client.probe(pt).getProbeMatch(), getServerHost());
+         List<ProbeMatchType> pmts = filterProbeMatchesForHost(client.probe(pt, TIMEOUT).getProbeMatch(), getServerHost());
          
          List<ResolveMatchType> rmts = new LinkedList<ResolveMatchType>();
          for (ProbeMatchType pmt : pmts) {
@@ -124,7 +124,7 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          ProbeType pt = new ProbeType();
          ScopesType scopes = new ScopesType();
          pt.setScopes(scopes);
-         List<ProbeMatchType> pmts = filterProbeMatchesForHost(client.probe(pt).getProbeMatch(), getServerHost());
+         List<ProbeMatchType> pmts = filterProbeMatchesForHost(client.probe(pt, TIMEOUT).getProbeMatch(), getServerHost());
          
          List<ResolveMatchType> rmts = new LinkedList<ResolveMatchType>();
          for (ProbeMatchType pmt : pmts) {
