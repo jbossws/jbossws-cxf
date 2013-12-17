@@ -29,8 +29,10 @@ import java.util.Properties;
 import javax.security.auth.message.config.AuthConfigFactory;
 import javax.security.auth.message.config.AuthConfigProvider;
 import javax.security.auth.message.config.ServerAuthConfig;
+import javax.security.auth.message.config.ServerAuthContext;
 import javax.xml.ws.spi.Provider;
 
+import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.Configurer;
 import org.jboss.security.auth.callback.JBossCallbackHandler;
@@ -138,7 +140,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
             epConfigFile = wsmd.getConfigFile();
          }
          
-         JaspiServerAuthenticator jaspiAuthenticator = getJaspiAuthenticator(dep, wsmd);
+         JaspiServerAuthenticator jaspiAuthenticator = getJaspiAuthenticator(dep, wsmd, holder.getBus());
          
          Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
                new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile(), epConfigName, epConfigFile);
@@ -152,7 +154,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
       }
    }
 
-   private JaspiServerAuthenticator getJaspiAuthenticator(Deployment dep, JBossWebservicesMetaData wsmd) {
+   private JaspiServerAuthenticator getJaspiAuthenticator(Deployment dep, JBossWebservicesMetaData wsmd, Bus bus) {
       String securityDomain = null;
       if (wsmd != null) {
          securityDomain = wsmd.getProperty(JaspiServerAuthenticator.JASPI_SECURITY_DOMAIN);
@@ -183,11 +185,17 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
       try
       {
          ServerAuthConfig serverConfig = provider.getServerAuthConfig(JBossWSAuthConstants.SOAP_LAYER, appId, callbackHandler);
-         return new JaspiServerAuthenticator(serverConfig, securityDomain, jai);
+         Properties serverContextProperties = new Properties();
+         serverContextProperties.put("security-domain", securityDomain);
+         serverContextProperties.put("jaspi-policy", jai);
+         serverContextProperties.put(Bus.class, bus);
+         String authContextID = dep.getSimpleName();
+         ServerAuthContext sctx = serverConfig.getAuthContext(authContextID, null, serverContextProperties);
+         return new JaspiServerAuthenticator(sctx);
       }
       catch (Exception e)
       {
-         e.printStackTrace();
+         Loggers.DEPLOYMENT_LOGGER.cannotCreateServerAuthContext(securityDomain);
       }
       
       return null;

@@ -21,13 +21,9 @@
  */
 package org.jboss.wsf.stack.cxf.jaspi;
 
-import java.util.Properties;
-
-import javax.security.auth.Subject;
 import javax.security.auth.message.AuthException;
 import javax.security.auth.message.AuthStatus;
 import javax.security.auth.message.MessageInfo;
-import javax.security.auth.message.config.ServerAuthConfig;
 import javax.security.auth.message.config.ServerAuthContext;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPMessage;
@@ -42,138 +38,104 @@ import org.apache.cxf.interceptor.InterceptorChain;
 import org.apache.cxf.interceptor.OutgoingChainInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageImpl;
-import org.jboss.security.auth.login.JASPIAuthenticationInfo;
 import org.jboss.security.auth.message.GenericMessageInfo;
-/** 
+
+/**
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-public class JaspiServerAuthenticator
-{
-   public static final String JASPI_SECURITY_DOMAIN = "jaspi.security.domain";
-   private ServerAuthConfig serverConfig;
-   private String securityDomain;
-   private JASPIAuthenticationInfo jpi;
+public class JaspiServerAuthenticator {
+	public static final String JASPI_SECURITY_DOMAIN = "jaspi.security.domain";
+	private ServerAuthContext sctx;
 
-   public JaspiServerAuthenticator(ServerAuthConfig serverConfig, String securityDomain, JASPIAuthenticationInfo jpi)
-   {
+	public JaspiServerAuthenticator(ServerAuthContext sctx) {
+		this.sctx = sctx;
+	}
 
-      this.serverConfig = serverConfig;
-      this.securityDomain = securityDomain;
-      this.jpi = jpi;
-   }
+	public void validateRequest(SoapMessage message) {
+		SOAPMessage soapMessage = message.getContent(SOAPMessage.class);
+		MessageInfo messageInfo = new GenericMessageInfo(soapMessage, null);
+		AuthStatus authStatus;
+		try {
+			authStatus = sctx.validateRequest(messageInfo, null, null);
+		} catch (AuthException e) {
+			if (isSOAP12(message)) {
+				SoapFault soap12Fault = new SoapFault(e.getMessage(), Soap12
+						.getInstance().getReceiver());
+				throw soap12Fault;
+			} else {
+				throw new SoapFault(e.getMessage(), new QName("",
+						"japsi AuthException"));
+			}
+		}
+		Message response = null;
+		if (messageInfo.getResponseMessage() != null
+				&& !message.getExchange().isOneWay()) {
 
-   public void validateRequest(SoapMessage message)
-   {
-      SOAPMessage soapMessage = message.getContent(SOAPMessage.class);
-      MessageInfo messageInfo = new GenericMessageInfo(soapMessage, null);
-      String authContextID = serverConfig.getAuthContextID(messageInfo);
+			Endpoint e = message.getExchange().get(Endpoint.class);
 
-      Properties serverContextProperties = new Properties();
-      serverContextProperties.put("security-domain", securityDomain);
-      serverContextProperties.put("jaspi-policy", jpi);
-      Subject clientSubject = new Subject();
-      AuthStatus authStatus = null;
-      try
-      {
-         ServerAuthContext sctx = serverConfig.getAuthContext(authContextID, clientSubject, serverContextProperties);
-         
-         authStatus = sctx.validateRequest(messageInfo, clientSubject, null);
-      }
-      catch (AuthException e)
-      {
-         if (isSOAP12(message))
-         {
-            SoapFault soap12Fault = new SoapFault(e.getMessage(), Soap12.getInstance().getReceiver());
-            throw soap12Fault;
-         }
-         else
-         {
-            throw new SoapFault(e.getMessage(), new QName("", "japsi AuthException"));
-         }
-      }
-      Message response = null;
-      if (messageInfo.getResponseMessage() != null && !message.getExchange().isOneWay())
-      {
+			response = new MessageImpl();
+			response.setExchange(message.getExchange());
+			response = e.getBinding().createMessage(response);
+			message.getExchange().setOutMessage(response);
+			response.setContent(SOAPMessage.class,
+					messageInfo.getResponseMessage());
+			if (AuthStatus.SEND_CONTINUE == authStatus) {
+				response.put(Message.RESPONSE_CODE, Integer.valueOf(303));
+			}
+			if (AuthStatus.SEND_FAILURE == authStatus) {
+				response.put(Message.RESPONSE_CODE, Integer.valueOf(500));
+			}
 
-         Endpoint e = message.getExchange().get(Endpoint.class);
+			message.getInterceptorChain().abort();
+			InterceptorChain chain = OutgoingChainInterceptor
+					.getOutInterceptorChain(message.getExchange());
+			response.setInterceptorChain(chain);
+			chain.doInterceptStartingAfter(response,
+					SoapPreProtocolOutInterceptor.class.getName());
 
-         response = new MessageImpl();
-         response.setExchange(message.getExchange());
-         response = e.getBinding().createMessage(response);
-         message.getExchange().setOutMessage(response);
-         response.setContent(SOAPMessage.class, messageInfo.getResponseMessage());
-         if (AuthStatus.SEND_CONTINUE == authStatus)
-         {
-            response.put(Message.RESPONSE_CODE, Integer.valueOf(303));
-         }
-         if (AuthStatus.SEND_FAILURE == authStatus)
-         {
-            response.put(Message.RESPONSE_CODE, Integer.valueOf(500));
-         }
+		}
 
-         message.getInterceptorChain().abort();
-         InterceptorChain chain = OutgoingChainInterceptor.getOutInterceptorChain(message.getExchange());
-         response.setInterceptorChain(chain);
-         chain.doInterceptStartingAfter(response, SoapPreProtocolOutInterceptor.class.getName());
+	}
 
-      }
+	public void secureResponse(SoapMessage message) {
+		SOAPMessage request = message.getExchange().getInMessage()
+				.get(SOAPMessage.class);
+		SOAPMessage response = message.getContent(SOAPMessage.class);
+		MessageInfo messageInfo = new GenericMessageInfo(request, response);
+		AuthStatus authStatus = null;
+		try {
+			authStatus = sctx.secureResponse(messageInfo, null);
+		} catch (AuthException e) {
+			if (isSOAP12(message)) {
+				SoapFault soap12Fault = new SoapFault(e.getMessage(), Soap12
+						.getInstance().getReceiver());
+				throw soap12Fault;
+			} else {
+				throw new SoapFault(e.getMessage(), new QName("",
+						"japsi AuthException"));
+			}
+		}
+		if (messageInfo.getResponseMessage() != null
+				&& !message.getExchange().isOneWay()) {
+			if (AuthStatus.SEND_CONTINUE == authStatus) {
+				message.put(Message.RESPONSE_CODE, Integer.valueOf(303));
+			}
+			if (AuthStatus.SEND_FAILURE == authStatus) {
+				message.put(Message.RESPONSE_CODE, Integer.valueOf(500));
+			}
+		}
 
-   }
+	}
 
-   public void secureResponse(SoapMessage message)
-   {
-      SOAPMessage request = message.getExchange().getInMessage().get(SOAPMessage.class);
-      SOAPMessage response = message.getContent(SOAPMessage.class);
-      MessageInfo messageInfo = new GenericMessageInfo(request, response);
-      String authContextID = serverConfig.getAuthContextID(messageInfo);
-
-      Properties serverContextProperties = new Properties();
-      serverContextProperties.put("security-domain", securityDomain);
-      serverContextProperties.put("jaspi-policy", jpi);
-      Subject clientSubject = new Subject();
-      AuthStatus authStatus = null;
-      try
-      {
-         ServerAuthContext sctx = serverConfig.getAuthContext(authContextID, clientSubject, serverContextProperties);
-         authStatus = sctx.secureResponse(messageInfo, null);
-      }
-      catch (AuthException e)
-      {
-         if (isSOAP12(message))
-         {
-            SoapFault soap12Fault = new SoapFault(e.getMessage(), Soap12.getInstance().getReceiver());
-            throw soap12Fault;
-         }
-         else
-         {
-            throw new SoapFault(e.getMessage(), new QName("", "japsi AuthException"));
-         }
-      }
-      if (messageInfo.getResponseMessage() != null && !message.getExchange().isOneWay())
-      {
-         if (AuthStatus.SEND_CONTINUE == authStatus)
-         {
-            message.put(Message.RESPONSE_CODE, Integer.valueOf(303));
-         }
-         if (AuthStatus.SEND_FAILURE == authStatus)
-         {
-            message.put(Message.RESPONSE_CODE, Integer.valueOf(500));
-         }
-      }
-
-   }
-
-   private boolean isSOAP12(Message message)
-   {
-      if (message.getExchange().getBinding() instanceof SoapBinding)
-      {
-         SoapBinding binding = (SoapBinding)message.getExchange().getBinding();
-         if (binding.getSoapVersion() == Soap12.getInstance())
-         {
-            return true;
-         }
-      }
-      return false;
-   }
+	private boolean isSOAP12(Message message) {
+		if (message.getExchange().getBinding() instanceof SoapBinding) {
+			SoapBinding binding = (SoapBinding) message.getExchange()
+					.getBinding();
+			if (binding.getSoapVersion() == Soap12.getInstance()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

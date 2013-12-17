@@ -216,4 +216,9 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = WARN)
     @Message(id = 24098, value = "No JASPIAuthenticationInfo found for security domain '%s'")
     void noJaspiApplicationPolicy(String securityDomain);
+    
+    @LogMessage(level = WARN)
+    @Message(id = 24099, value = "Can not create Jaspi ServerAuthContext for security domain '%s'")
+    void cannotCreateServerAuthContext(String securityDomain);
+    
 }

@@ -63,8 +63,6 @@ public class JBossWSClientAuthConfig extends JBossClientAuthConfig
 
       Map<String, Map> mapOptionsByName = new HashMap<String, Map>();
 
-      String secDomain = (String)properties.get("security-domain");
-
       JASPIAuthenticationInfo jai = (JASPIAuthenticationInfo)properties.get("jaspi-policy");
       AuthModuleEntry[] amearr = jai.getAuthModuleEntry();
 
