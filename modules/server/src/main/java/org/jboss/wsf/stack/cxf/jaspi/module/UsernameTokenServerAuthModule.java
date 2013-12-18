@@ -32,7 +32,6 @@ import javax.security.auth.message.MessagePolicy;
 import javax.xml.soap.SOAPMessage;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.security.auth.container.modules.AbstractServerAuthModule;
@@ -44,7 +43,7 @@ import org.jboss.wsf.stack.cxf.security.authentication.JaspiSubjectCreatingInter
 public class UsernameTokenServerAuthModule extends AbstractServerAuthModule
 {
    private String securityDomainName = null;
-   private Endpoint endpoint = null;
+   private javax.xml.ws.Endpoint endpoint = null;
    private Bus bus = null;
    private InterceptorProvider ip = null;
 
@@ -52,7 +51,7 @@ public class UsernameTokenServerAuthModule extends AbstractServerAuthModule
    public void initialize(MessagePolicy requestPolicy, MessagePolicy responsePolicy, CallbackHandler handler, Map options) throws AuthException
    {
       super.initialize(requestPolicy, responsePolicy, handler, options);
-      endpoint = (Endpoint)options.get(Endpoint.class);
+      endpoint = (javax.xml.ws.Endpoint)options.get(javax.xml.ws.Endpoint.class);
       if (endpoint == null && options.get(Bus.class) != null)
       {
          bus = (Bus)options.get(Bus.class);
@@ -60,7 +59,7 @@ public class UsernameTokenServerAuthModule extends AbstractServerAuthModule
          ip = (InterceptorProvider)bus;
       }
       if (endpoint != null) {
-         endpoint.put(SecurityConstants.VALIDATE_TOKEN, false);
+         endpoint.getProperties().put(SecurityConstants.VALIDATE_TOKEN, false);
          ip = (InterceptorProvider)endpoint;
       }
       if (ip != null)

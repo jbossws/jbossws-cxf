@@ -47,7 +47,6 @@ import javax.xml.soap.SOAPPart;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.common.util.StringUtils;
-import org.apache.cxf.interceptor.InterceptorProvider;
 import org.jboss.security.auth.callback.JBossCallbackHandler;
 import org.jboss.security.auth.container.config.AuthModuleEntry;
 import org.jboss.security.auth.login.JASPIAuthenticationInfo;
@@ -94,7 +93,6 @@ public class JBossWSServerAuthConfig implements ServerAuthConfig {
             moduleCL = locator.get(jbossModule);
       }
 
-      InterceptorProvider ip = (InterceptorProvider)contextProperties.get(InterceptorProvider.class);
       for (AuthModuleEntry ame : amearr)
       {
          if (ame.getLoginModuleStackHolderName() != null)
@@ -106,9 +104,10 @@ public class JBossWSServerAuthConfig implements ServerAuthConfig {
                ServerAuthModule sam = this.createSAM(moduleCL, ame.getAuthModuleName(), ame.getLoginModuleStackHolderName());
 
                Map options = new HashMap();
-               options.put(InterceptorProvider.class, ip);
                Bus bus = (Bus)properties.get(Bus.class);
                options.put(Bus.class, bus);
+               javax.xml.ws.Endpoint endpoint = (javax.xml.ws.Endpoint)properties.get(javax.xml.ws.Endpoint.class);
+               options.put(javax.xml.ws.Endpoint.class, endpoint);
                
                sam.initialize(null, null, callbackHandler, options);
                modules.add(sam);
