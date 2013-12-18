@@ -33,34 +33,36 @@ import javax.security.auth.message.config.ServerAuthConfig;
 /** 
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-public class JBossWSAuthConfigProvider implements AuthConfigProvider {
-	private Properties contextProperties;
-	
-	public JBossWSAuthConfigProvider(Properties props, AuthConfigFactory factory) {
-		contextProperties = props;
-		if (factory != null) {
-			factory.registerConfigProvider(this, "soap", null,"JBossWS AuthConfigProvider");
-		}
+public class JBossWSAuthConfigProvider implements AuthConfigProvider
+{
+   private Properties contextProperties;
 
-	}
-	
-	@Override
-	public ClientAuthConfig getClientAuthConfig(String layer,
-			String appContext, CallbackHandler handler) throws AuthException, SecurityException {
-		return new JBossWSClientAuthConfig(layer, appContext, handler, contextProperties);
-	}
+   public JBossWSAuthConfigProvider(Properties props, AuthConfigFactory factory)
+   {
+      contextProperties = props;
+      if (factory != null)
+      {
+         factory.registerConfigProvider(this, "soap", null, "JBossWS AuthConfigProvider");
+      }
 
-	@Override
-	public ServerAuthConfig getServerAuthConfig(String layer,
-			String appContext, CallbackHandler handler) throws AuthException,
-			SecurityException {
-		return new JBossWSServerAuthConfig(layer, appContext, handler, contextProperties);
-	}
+   }
 
-	@Override
-	public void refresh() {
-		
-		
-	}
-	
+   @Override
+   public ClientAuthConfig getClientAuthConfig(String layer, String appContext, CallbackHandler handler) throws AuthException, SecurityException
+   {
+      return new JBossWSClientAuthConfig(layer, appContext, handler, contextProperties);
+   }
+
+   @Override
+   public ServerAuthConfig getServerAuthConfig(String layer, String appContext, CallbackHandler handler) throws AuthException, SecurityException
+   {
+      return new JBossWSServerAuthConfig(layer, appContext, handler, contextProperties);
+   }
+
+   @Override
+   public void refresh()
+   {
+
+   }
+
 }

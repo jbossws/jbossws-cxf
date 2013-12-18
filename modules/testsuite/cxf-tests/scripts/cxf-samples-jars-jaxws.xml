@@ -553,7 +553,8 @@
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
        </classes>
        <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/jaspi/WEB-INF">
-          <include name="jboss-*.xml"/>
+          <!--include name="jboss-*.xml"/-->
+       	  <include name="jaxws-*.xml"/>
           <include name="wsdl/*"/>
        </webinf>
        <manifest>

@@ -32,8 +32,6 @@ import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.message.AuthException;
 import javax.security.auth.message.MessageInfo;
-import javax.security.auth.message.config.AuthConfig;
-import javax.security.auth.message.config.ServerAuthConfig;
 import javax.security.auth.message.config.ServerAuthContext;
 import javax.security.auth.message.module.ServerAuthModule;
 import javax.xml.namespace.QName;
@@ -50,29 +48,22 @@ import org.apache.cxf.common.util.StringUtils;
 import org.jboss.security.auth.callback.JBossCallbackHandler;
 import org.jboss.security.auth.container.config.AuthModuleEntry;
 import org.jboss.security.auth.login.JASPIAuthenticationInfo;
+import org.jboss.security.auth.message.config.JBossServerAuthConfig;
 import org.jboss.security.config.ControlFlag;
 import org.jboss.security.plugins.ClassLoaderLocator;
 import org.jboss.security.plugins.ClassLoaderLocatorFactory;
 /** 
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-//TODO: Refactor JBossServerAuthConfig,  this class should extend JBossServerAuthConfig,  
-public class JBossWSServerAuthConfig implements ServerAuthConfig {
-	private String layer;
-	private String appContextId;
+public class JBossWSServerAuthConfig extends JBossServerAuthConfig {
 	private CallbackHandler callbackHandler = new JBossCallbackHandler();
 	@SuppressWarnings("rawtypes")
 	private List modules = new ArrayList();
-	@SuppressWarnings({"rawtypes" })
-	private Map contextProperties;
 
 	@SuppressWarnings("rawtypes")
 	public JBossWSServerAuthConfig(String layer, String appContext,
 			CallbackHandler handler, Map properties) {
-		this.layer = layer;
-		this.appContextId = appContext;
-		this.callbackHandler = handler;
-		this.contextProperties = properties;
+		super(layer, appContext, handler, properties);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -141,32 +132,6 @@ public class JBossWSServerAuthConfig implements ServerAuthConfig {
       return serverAuthContext;
 	}
 
-	/**
-	 * @see AuthConfig#getAppContext()
-	 */
-	public String getAppContext() {
-		return this.appContextId;
-	}
-
-	/**
-	 * @see AuthConfig#getMessageLayer()
-	 */
-	public String getMessageLayer() {
-		return this.layer;
-	}
-
-	/**
-	 * @see AuthConfig#refresh()
-	 */
-	public void refresh() {
-	}
-
-	// Custom Methods
-	@SuppressWarnings({ "rawtypes" })
-	public List getServerAuthModules() {
-		return this.modules;
-	}
-	
 	@SuppressWarnings("rawtypes")
    public String getAuthContextID(MessageInfo messageInfo)
    {

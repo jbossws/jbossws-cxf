@@ -20,11 +20,12 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.jboss.wsf.stack.cxf.jaspi.config;
+
 /** 
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-public class JBossWSAuthConstants {
-	public static final String WSS4J_CONFIG = "wss4j.config";
-	public static final String SOAP_LAYER = "soap";
+public class JBossWSAuthConstants
+{
+   public static final String SOAP_LAYER = "soap";
 
 }

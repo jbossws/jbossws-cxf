@@ -23,6 +23,8 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi;
 
 import javax.jws.WebService;
 
+import org.jboss.ws.api.annotation.EndpointConfig;
+
 @WebService
 (
    portName = "SecurityServicePort",
@@ -31,6 +33,8 @@ import javax.jws.WebService;
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy",
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceIface"
 )
+@EndpointConfig(configFile = "WEB-INF/jaxws-endpoint-config.xml", configName = "jaspiSecurityDomain")
+
 public class ServiceImpl implements ServiceIface
 {
    public String sayHello()

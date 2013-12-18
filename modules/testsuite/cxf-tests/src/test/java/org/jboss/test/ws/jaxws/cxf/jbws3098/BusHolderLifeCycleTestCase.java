@@ -26,6 +26,7 @@ import java.net.URL;
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
