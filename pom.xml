@@ -17,7 +17,7 @@
   <artifactId>jbossws-cxf</artifactId>
   <packaging>pom</packaging>
   
-  <version>3.1.2-SNAPSHOT</version>
+  <version>3.1.2.SP15</version>
   
   <!-- Parent -->
   <parent>
