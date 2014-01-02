@@ -51,6 +51,7 @@ import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.interceptor.JaspiSeverInInterceptor;
+import org.jboss.wsf.stack.cxf.interceptor.JaspiSeverOutInterceptor;
 import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
 import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConfigProvider;
 import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConstants;
@@ -176,7 +177,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
             }
          }
          
-         if (endpoint.getProperties().get(JaspiServerAuthenticator.JASPI_SECURITY_DOMAIN) !=null) {
+         if (endpoint.getProperties().get(JaspiServerAuthenticator.JASPI_SECURITY_DOMAIN) != null) {
             String  jaspiSecurityDomain = (String)endpoint.getProperties().get(JaspiServerAuthenticator.JASPI_SECURITY_DOMAIN);
             addJaspiInterceptor(endpoint, jaspiSecurityDomain);    
           } 
@@ -245,6 +246,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
          ServerAuthContext sctx = serverConfig.getAuthContext(authContextID, null, serverContextProperties);
          serverAuthenticator = new JaspiServerAuthenticator(sctx);
          endpoint.getInInterceptors().add(new JaspiSeverInInterceptor(serverAuthenticator));
+         endpoint.getOutInterceptors().add(new JaspiSeverOutInterceptor(serverAuthenticator));
       }
       catch (Exception e)
       {

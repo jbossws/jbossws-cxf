@@ -58,6 +58,7 @@ import org.jboss.wsf.stack.cxf.interceptor.EnableDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.JaspiSeverInInterceptor;
+import org.jboss.wsf.stack.cxf.interceptor.JaspiSeverOutInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
@@ -113,6 +114,7 @@ public abstract class BusHolder
       
       if (authenticator != null) {
          bus.getInInterceptors().add(new JaspiSeverInInterceptor(authenticator));
+         bus.getOutInterceptors().add(new JaspiSeverOutInterceptor(authenticator));
       }
       
       setResourceResolver(bus, resolver);

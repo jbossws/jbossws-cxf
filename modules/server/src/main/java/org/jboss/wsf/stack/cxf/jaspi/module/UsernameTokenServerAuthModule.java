@@ -89,9 +89,9 @@ public class UsernameTokenServerAuthModule extends AbstractServerAuthModule
       return AuthStatus.SUCCESS;
    }
 
-   public AuthStatus secureResponse(MessageInfo arg0, Subject arg1) throws AuthException
+   public AuthStatus secureResponse(MessageInfo messageInfo, Subject arg1) throws AuthException
    {
-      throw new UnsupportedOperationException();
+      return AuthStatus.SUCCESS;
    }
 
    protected String getSecurityDomainName()

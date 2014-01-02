@@ -61,7 +61,6 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
             }
 
             Map<String, String> authModuleOptions = new HashMap<String, String>();
-            //authModuleOptions.put("action", "UsernameToken Timestamp");
             JBossWSTestHelper.addJaspiSecurityDomain("jaspi", "jaas-lm-stack", loginModuleOptions, "org.jboss.wsf.stack.cxf.jaspi.module.UsernameTokenServerAuthModule",
                   authModuleOptions);
             super.setUp();
@@ -106,7 +105,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
    }
 
    private void setupWsse(ServiceIface proxy, String username)
-   {
+   {   
       ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.USERNAME, username);
       ((BindingProvider)proxy).getRequestContext()
             .put(SecurityConstants.CALLBACK_HANDLER, "org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.UsernamePasswordCallback");

@@ -21,37 +21,79 @@
  */
 package org.jboss.wsf.stack.cxf.interceptor;
 
+import java.util.ListIterator;
+
 import javax.xml.soap.SOAPMessage;
 
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.interceptor.AbstractSoapInterceptor;
+import org.apache.cxf.binding.soap.interceptor.SoapOutInterceptor;
 import org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor;
 import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.interceptor.Interceptor;
+import org.apache.cxf.interceptor.StaxOutInterceptor;
+import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
 import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
+
 /** 
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
 public class JaspiSeverOutInterceptor extends AbstractSoapInterceptor
 {
    private JaspiServerAuthenticator authManager;
+   private static final SAAJOutInterceptor SAAJ_OUT = new SAAJOutInterceptor();
+
    public JaspiSeverOutInterceptor(JaspiServerAuthenticator authManager)
    {
-      super(Phase.POST_PROTOCOL_ENDING);
-      addAfter(SAAJOutInterceptor.SAAJOutEndingInterceptor.class.getName());
+      super(Phase.PRE_STREAM);
+      addAfter(StaxOutInterceptor.class.getName());
       this.authManager = authManager;
    }
 
    @Override
    public void handleMessage(SoapMessage message) throws Fault
    {
-
-      if (message.getContent(SOAPMessage.class) == null)
+      if (!chainAlreadyContainsSAAJ(message))
       {
-         SAAJOutInterceptor saajout = new SAAJOutInterceptor();
-         saajout.handleMessage(message);
+         SAAJ_OUT.handleMessage(message);
       }
-      authManager.secureResponse(message);
+      message.getInterceptorChain().add(new JaspiServerOutEndingInterceptor());
+
+   }
+
+   private static boolean chainAlreadyContainsSAAJ(SoapMessage message)
+   {
+      ListIterator<Interceptor<? extends Message>> listIterator = message.getInterceptorChain().getIterator();
+      while (listIterator.hasNext())
+      {
+         if (listIterator.next() instanceof SAAJOutInterceptor)
+         {
+            return true;
+         }
+      }
+      return false;
+   }
+
+   public class JaspiServerOutEndingInterceptor extends AbstractSoapInterceptor
+   {
+      public JaspiServerOutEndingInterceptor()
+      {
+         super(Phase.WRITE_ENDING);
+         addAfter(SoapOutInterceptor.SoapOutEndingInterceptor.class.getName());
+      }
+
+      @Override
+      public void handleMessage(SoapMessage message) throws Fault
+      {
+         if (message.getContent(SOAPMessage.class) == null)
+         {
+            return;
+         }
+         authManager.secureResponse(message);
+
+      }
+
    }
 
 }
