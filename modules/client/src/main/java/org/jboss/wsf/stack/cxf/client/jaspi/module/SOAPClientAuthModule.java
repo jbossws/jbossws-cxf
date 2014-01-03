@@ -90,33 +90,6 @@ public class SOAPClientAuthModule implements ClientAuthModule
    {
 
       SOAPMessage soapMessage = (SOAPMessage)messageInfo.getRequestMessage();
-      SoapVersion soapVersion = null;
-      try
-      {
-         String ns = soapMessage.getSOAPBody().getNamespaceURI();
-         soapVersion = SoapVersionFactory.getInstance().getSoapVersion(ns);
-      }
-      catch (SOAPException e)
-      {
-         throw new AuthException(e.getMessage());
-      }
-      if (soapVersion == null)
-      {
-         throw new AuthException("Invalid soap message");
-      }
-
-      Exchange exchange = new ExchangeImpl();
-      MessageImpl messageImpl = new MessageImpl();
-      messageImpl.setExchange(exchange);
-      SoapMessage cxfSoapMessage = new SoapMessage(messageImpl);
-      cxfSoapMessage.setVersion(soapVersion);
-      cxfSoapMessage.setContent(SOAPMessage.class, soapMessage);
-
-      WSSConfig wssConfig = WSSConfig.getNewInstance();
-      cxfSoapMessage.put(WSSConfig.class.getName(), wssConfig);
-
-      WSS4JOutInterceptor wss4jOutInterceptor = new WSS4JOutInterceptor(options);
-      wss4jOutInterceptor.createEndingInterceptor().handleMessage(cxfSoapMessage);
       return AuthStatus.SUCCESS;
    }
 

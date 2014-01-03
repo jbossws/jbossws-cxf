@@ -82,6 +82,8 @@ import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientAuthenticator;
 import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientInInterceptor;
 import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientOutInterceptor;
+import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConfigProvider;
+import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConstants;
 import org.w3c.dom.Element;
 
 /**
@@ -647,8 +649,10 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          String contextRoot = client.getEndpoint().getEndpointInfo().getName().toString();
          String appId = "localhost " + contextRoot;
          AuthConfigFactory factory = AuthConfigFactory.getFactory();
-         AuthConfigProvider provider = factory.getConfigProvider("soap", appId, null);;
-
+         
+         Properties properties = new Properties();
+         AuthConfigProvider provider = new JBossWSAuthConfigProvider(properties, factory);
+         provider = factory.getConfigProvider(JBossWSAuthConstants.SOAP_LAYER, appId, null);
          JBossCallbackHandler callbackHandler = new JBossCallbackHandler();
          try
          {

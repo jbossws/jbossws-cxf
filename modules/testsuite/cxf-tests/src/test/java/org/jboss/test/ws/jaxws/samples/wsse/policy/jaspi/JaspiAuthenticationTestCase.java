@@ -25,6 +25,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.security.auth.login.Configuration;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
@@ -33,6 +34,7 @@ import junit.extensions.TestSetup;
 import junit.framework.Test;
 
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.security.auth.login.XMLLoginConfigImpl;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
@@ -75,7 +77,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
       };
       return testSetup;
    }
-
+   
    public void testAuthenticated() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
@@ -102,6 +104,23 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
       {
          //OK
       }
+   }
+   public void testClientAuthModule() throws Exception
+   {   
+      //load client side jaspi config
+      XMLLoginConfigImpl xli = XMLLoginConfigImpl.getInstance();
+      Configuration.setConfiguration(xli);   
+      URL configURL = Thread.currentThread().getContextClassLoader()
+            .getResource("org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/config/jaspi-config-client.xml");
+      xli.setConfigURL(configURL);
+      xli.loadConfig();
+      
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+      URL wsdlURL = new URL(serviceURL + "?wsdl");     
+      Service service = Service.create(wsdlURL, serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
+      setupWsse(proxy, "kermit");
+      assertEquals("Secure Hello World!", proxy.sayHello());
    }
 
    private void setupWsse(ServiceIface proxy, String username)

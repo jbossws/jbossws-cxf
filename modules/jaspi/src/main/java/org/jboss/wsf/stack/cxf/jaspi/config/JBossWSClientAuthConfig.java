@@ -24,15 +24,26 @@ package org.jboss.wsf.stack.cxf.jaspi.config;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.message.AuthException;
+import javax.security.auth.message.MessageInfo;
 import javax.security.auth.message.config.ClientAuthContext;
 import javax.security.auth.message.module.ClientAuthModule;
+import javax.xml.namespace.QName;
+import javax.xml.soap.MimeHeaders;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPElement;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.jboss.security.auth.container.config.AuthModuleEntry;
 import org.jboss.security.auth.login.JASPIAuthenticationInfo;
 import org.jboss.security.auth.message.config.JBossClientAuthConfig;
@@ -111,6 +122,65 @@ public class JBossWSClientAuthConfig extends JBossClientAuthConfig
    public List getClientAuthModules()
    {
       return modules;
+   }
+   
+   
+   @SuppressWarnings("rawtypes")
+   public String getAuthContextID(MessageInfo messageInfo)
+   {
+      SOAPMessage request = (SOAPMessage)messageInfo.getRequestMessage();
+      if (request == null)
+      {
+         return null;
+      }
+      String authContext = null;
+      MimeHeaders headers = request.getMimeHeaders();
+      if (headers != null)
+      {
+         String[] soapActions = headers.getHeader("SOAPAction");
+         if (soapActions != null && soapActions.length > 0)
+         {
+            authContext = soapActions[0];
+            if (!StringUtils.isEmpty(authContext))
+            {
+               return authContext;
+            }
+         }
+      }
+
+      SOAPPart soapMessage = request.getSOAPPart();
+      if (soapMessage != null)
+      {
+         try
+         {
+            SOAPEnvelope envelope = soapMessage.getEnvelope();
+            if (envelope != null)
+            {
+               SOAPBody body = envelope.getBody();
+               if (body != null)
+               {
+                  
+                  Iterator it = body.getChildElements();
+                  while (it.hasNext())
+                  {
+                     Object o = it.next();
+                     if (o instanceof SOAPElement)
+                     {
+                        QName name = ((SOAPElement)o).getElementQName();
+                        return name.getLocalPart();
+
+                     }
+                  }
+               }
+            }
+         }
+         catch (SOAPException se)
+         {
+            //ignore;
+         }
+      }
+
+      return null;
    }
 
 }
