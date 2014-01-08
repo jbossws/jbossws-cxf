@@ -427,7 +427,7 @@
       <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/sasl/main/">
         <include name="jboss-sasl-*.jar"/>
       </fileset>
-      <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/netty/main/">
+      <fileset dir="${jboss.home}/modules/system/layers/base/io/netty/main/">
         <include name="netty-*.jar"/>
       </fileset>
       <fileset dir="${jboss.home}/modules/system/layers/base/org/jboss/xb/main/">
