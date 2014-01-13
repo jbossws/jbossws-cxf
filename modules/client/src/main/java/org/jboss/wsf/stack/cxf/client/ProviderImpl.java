@@ -604,11 +604,6 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          Client client = obj instanceof DispatchImpl<?> ? ((DispatchImpl<?>)obj).getClient() : ClientProxy.getClient(obj);
          
          client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
-         JaspiClientAuthenticator clientAuthenticator = getJaspiAuthenticator(client) ;
-         if (clientAuthenticator != null) {
-            client.getInInterceptors().add(new JaspiClientInInterceptor(clientAuthenticator));
-            client.getOutInterceptors().add(new JaspiClientOutInterceptor(clientAuthenticator));
-         }
          
          if (jbossModulesEnv) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
             ServerConfig sc = getServerConfig();
@@ -629,46 +624,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
                }
             }
          }
-      }
-      
-      private JaspiClientAuthenticator getJaspiAuthenticator(Client client) {
-         //TODO:Decide where to get the client jaspi security domain
-         String securityDomain = "jaspi-client";
-         ApplicationPolicy appPolicy = SecurityConfiguration.getApplicationPolicy(securityDomain);
-         if (appPolicy == null) {
-            Loggers.ROOT_LOGGER.noApplicationPolicy(securityDomain);
-            return null;
-         }
-         BaseAuthenticationInfo bai = appPolicy.getAuthenticationInfo();
-         if (bai == null || bai instanceof AuthenticationInfo) {
-            Loggers.ROOT_LOGGER.noJaspiApplicationPolicy(securityDomain);
-            return null;
-         } 
-         JASPIAuthenticationInfo jai = (JASPIAuthenticationInfo) bai;
-       
-         String contextRoot = client.getEndpoint().getEndpointInfo().getName().toString();
-         String appId = "localhost " + contextRoot;
-         AuthConfigFactory factory = AuthConfigFactory.getFactory();
-         
-         Properties properties = new Properties();
-         AuthConfigProvider provider = new JBossWSAuthConfigProvider(properties, factory);
-         provider = factory.getConfigProvider(JBossWSAuthConstants.SOAP_LAYER, appId, null);
-         JBossCallbackHandler callbackHandler = new JBossCallbackHandler();
-         try
-         {
-            ClientAuthConfig clientConfig = provider.getClientAuthConfig("soap", appId, callbackHandler);
-            return new JaspiClientAuthenticator(clientConfig, securityDomain, jai);
-         }
-         catch (Exception e)
-         {
-            //ignore
-         }
-         
-         return null;
-         
-      }
-      
-      
+      }      
    }
 
    //lazy get the server config (and try once per classloader only)

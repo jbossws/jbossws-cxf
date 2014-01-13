@@ -49,7 +49,7 @@ import org.jboss.security.SimplePrincipal;
  */
 public class SOAPClientAuthModule implements ClientAuthModule
 {
-
+   public static String log;
    @SuppressWarnings("rawtypes")
    private List<Class> supportedTypes = new ArrayList<Class>();
    private SimplePrincipal principal = null;
@@ -88,7 +88,7 @@ public class SOAPClientAuthModule implements ClientAuthModule
    @SuppressWarnings({ "unchecked" })
    public AuthStatus secureRequest(MessageInfo messageInfo, Subject source) throws AuthException
    {
-
+      log = "secureRequest";
       SOAPMessage soapMessage = (SOAPMessage)messageInfo.getRequestMessage();
       return AuthStatus.SUCCESS;
    }

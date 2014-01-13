@@ -38,6 +38,7 @@
       <copy todir="@{targetdir}/org/jboss/ws/jaxws-client/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-cxf-client.jar"/>
+          <include name="**/jbossws-cxf-jaspi.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/jaxws-jboss-httpserver-httpspi/main" flatten="false" overwrite="true">

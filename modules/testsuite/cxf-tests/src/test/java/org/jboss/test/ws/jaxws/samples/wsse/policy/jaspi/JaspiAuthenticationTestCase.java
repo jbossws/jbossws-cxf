@@ -21,6 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +48,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      TestSetup testSetup = new JBossWSCXFTestSetup(JaspiAuthenticationTestCase.class, "jaxws-samples-wsse-policy-username-jaspi.war") {
+      TestSetup testSetup = new JBossWSCXFTestSetup(JaspiAuthenticationTestCase.class, "jaxws-samples-wsse-policy-username-jaspi.war, jaxws-samples-wsse-policy-username-jaspi-client.war") {
 
          public void setUp() throws Exception
          {
@@ -65,12 +67,15 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
             Map<String, String> authModuleOptions = new HashMap<String, String>();
             JBossWSTestHelper.addJaspiSecurityDomain("jaspi", "jaas-lm-stack", loginModuleOptions, "org.jboss.wsf.stack.cxf.jaspi.module.UsernameTokenServerAuthModule",
                   authModuleOptions);
+            JBossWSTestHelper.addJaspiSecurityDomain("clientJaspi", "jaas-lm-stack", loginModuleOptions, "org.jboss.wsf.stack.cxf.client.jaspi.module.SOAPClientAuthModule",
+                  authModuleOptions);
             super.setUp();
          }
 
          public void tearDown() throws Exception
          {
             JBossWSTestHelper.removeSecurityDomain("jaspi");
+            JBossWSTestHelper.removeSecurityDomain("clientJaspi");
             super.tearDown();
 
          }
@@ -122,6 +127,25 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
       setupWsse(proxy, "kermit");
       assertEquals("Secure Hello World!", proxy.sayHello());
    }
+   
+   
+   public void testInContainerClientAuthModule() throws Exception
+   {
+      Helper helper = new Helper();
+      helper.setTargetEndpoint("http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-jaspi");
+      assertEquals("1", runTestInContainer("testJaspiClient"));
+   }
+   
+   
+   private String runTestInContainer(String test) throws Exception
+   {
+      URL url = new URL("http://" + getServerHost()
+            + ":8080/jaxws-samples-wsse-policy-username-jaspi-client?path=/jaxws-samples-wsse-policy-username-jaspi&method=" + test
+            + "&helper=" + Helper.class.getName());
+      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+      return br.readLine();
+   }
+   
 
    private void setupWsse(ServiceIface proxy, String username)
    {   
