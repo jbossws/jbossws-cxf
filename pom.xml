@@ -79,7 +79,9 @@
     <picketbox.version>4.0.17.Final</picketbox.version>
     <picketlink.version>2.1.7.Final</picketlink.version>
     <jaxws-jboss-httpserver-httpspi.version>1.0.1.GA</jaxws-jboss-httpserver-httpspi.version>
+    <jaxws-undertow-httpspi.version>1.0.0-SNAPSHOT</jaxws-undertow-httpspi.version>
     <httpserver.version>1.0.0.Final</httpserver.version>
+    <io.undertow.version>1.0.0.Beta30</io.undertow.version>
     <jaxb.api.version>1.0.4.Final</jaxb.api.version>
     <jaxb.impl.version>2.2.5</jaxb.impl.version>
     <jaxrpc.api.version>1.0.1.Final</jaxrpc.api.version>
@@ -151,6 +153,11 @@
         <groupId>org.jboss.ws.projects</groupId>
         <artifactId>jaxws-jboss-httpserver-httpspi</artifactId>
         <version>${jaxws-jboss-httpserver-httpspi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws.projects</groupId>
+        <artifactId>jaxws-undertow-httpspi</artifactId>
+        <version>${jaxws-undertow-httpspi.version}</version>
       </dependency>
 
       <!-- CXF dependencies -->
@@ -944,6 +951,17 @@
         <groupId>org.jboss.com.sun.httpserver</groupId>
         <artifactId>httpserver</artifactId>
         <version>${httpserver.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.undertow</groupId>
+        <artifactId>undertow-core</artifactId>
+        <version>${io.undertow.version}</version>
+        <exclusions>
+            <exclusion>
+                <groupId>io.undertow</groupId>
+                <artifactId>undertow-build-config</artifactId>
+            </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.opensaml</groupId>

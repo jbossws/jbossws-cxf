@@ -40,9 +40,9 @@
           <include name="**/jbossws-cxf-client.jar"/>
         </fileset>
       </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/jaxws-jboss-httpserver-httpspi/main" flatten="false" overwrite="true">
+      <copy todir="@{targetdir}/org/jboss/ws/jaxws-undertow-httpspi/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jaxws-jboss-httpserver-httpspi.jar"/>
+          <include name="**/jaxws-undertow-httpspi.jar"/>
         </fileset>
      </copy>
      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-server/main" flatten="false" overwrite="true">
@@ -55,9 +55,9 @@
           <include name="**/jbossws-cxf-factories.jar"/>
         </fileset>
       </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-transports-httpserver/main" flatten="false" overwrite="true">
+      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-transports-undertow/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-transports-httpserver.jar"/>
+          <include name="**/jbossws-cxf-transports-undertow.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-transports-udp/main" flatten="false" overwrite="true">
