@@ -85,7 +85,7 @@ public class UndertowServerEngineTest extends TestCase {
       factory = new UndertowServerEngineFactory(bus);
       UndertowServerEngine engine = factory.createHttpServerEngine("localhost", 9234, "http");
       assertTrue("http".equals(engine.getProtocol()));
-      System.out.println("[JBWS-3079] FIXME: Add support for https protocol");
+      System.out.println("[JBWS-3702] FIXME: Add support for https protocol");
       //UndertowServerEngine engine2 = factory.createHttpServerEngine("localhost", 9235, "https");
       //assertTrue("https".equals(engine2.getProtocol()));
       factory.destroyForPort(9234);
