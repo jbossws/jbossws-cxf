@@ -21,6 +21,9 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.TestCase;
 
 import org.apache.cxf.ws.policy.PolicyEngine;
@@ -59,8 +62,9 @@ public class BusHolderTest extends TestCase
    private static String setupPropertyAndGetAlternativeSelector(String alternative) {
       JBossWebservicesMetaData wsmd = null;
       if (alternative != null) {
-         wsmd = new JBossWebservicesMetaData(null);
-         wsmd.setProperty(Constants.CXF_POLICY_ALTERNATIVE_SELECTOR_PROP, alternative);
+         Map<String, String> props = new HashMap<String, String>();
+         props.put(Constants.CXF_POLICY_ALTERNATIVE_SELECTOR_PROP, alternative);
+         wsmd = new JBossWebservicesMetaData(null, null, null, null, props, null, null);
       }
       BusHolder holder = new NonSpringBusHolder(new DDBeans());
       try {
