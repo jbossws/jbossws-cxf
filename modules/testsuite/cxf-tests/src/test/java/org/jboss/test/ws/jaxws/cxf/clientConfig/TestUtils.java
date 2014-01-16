@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.clientConfig;
 
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.Map;
 
 import org.jboss.wsf.spi.SPIProvider;
@@ -41,12 +41,7 @@ public class TestUtils
 {
    public static ClientConfig getAndVerifyDefaultClientConfiguration() throws Exception {
       ServerConfig sc = getServerConfig();
-      ClientConfig defaultConfig = null;
-      for (ClientConfig c : sc.getClientConfigs()) {
-         if (ClientConfig.STANDARD_CLIENT_CONFIG.equals(c.getConfigName())) {
-            defaultConfig = c;
-         }
-      }
+      ClientConfig defaultConfig = sc.getClientConfig(ClientConfig.STANDARD_CLIENT_CONFIG);
       if (defaultConfig == null) {
          throw new Exception("Missing AS client config '" + ClientConfig.STANDARD_CLIENT_CONFIG + "'!");
       }
@@ -57,45 +52,21 @@ public class TestUtils
       return defaultConfig;
    }
    
-   public static void cleanupClientConfig() throws Exception {
+   public static void registerClientConfigAndReload(ClientConfig config) {
       ServerConfig sc = getServerConfig();
-      ClientConfig defaultConfig = null;
-      for (ClientConfig c : sc.getClientConfigs()) {
-         if (ClientConfig.STANDARD_CLIENT_CONFIG.equals(c.getConfigName())) {
-            defaultConfig = c;
-         }
-      }
-      if (defaultConfig == null) {
-         throw new Exception("Missing AS client config '" + ClientConfig.STANDARD_CLIENT_CONFIG + "'!");
-      }
-      Map<String, String> props = defaultConfig.getProperties();
-      if (props == null || props.isEmpty()) {
-         throw new Exception("'" + ClientConfig.STANDARD_CLIENT_CONFIG + "' property set is already empty!");
-      }
-      props.clear();
+      sc.registerClientConfig(config);
+      sc.reloadClientConfigs();
    }
    
    public static void addTestCaseClientConfiguration(String testConfigName) {
-      ClientConfig config = new ClientConfig();
-      config.setConfigName(testConfigName);
-      config.setProperty("propT", "valueT");
-      getServerConfig().addClientConfig(config);
+      ClientConfig config = new ClientConfig(testConfigName, null, null, Collections.singletonMap("propT", "valueT"), null);
+      registerClientConfigAndReload(config);
    }
    
    public static void removeTestCaseClientConfiguration(String testConfigName) {
       ServerConfig sc = getServerConfig();
-      Iterator<ClientConfig> it = sc.getClientConfigs().iterator();
-      ClientConfig toBeRemoved = null;
-      while (it.hasNext()) {
-         ClientConfig c = it.next();
-         if (testConfigName.equals(c.getConfigName())) {
-            toBeRemoved = c;
-            break;
-         }
-      }
-      if (toBeRemoved != null) {
-         sc.getClientConfigs().remove(toBeRemoved);
-      }
+      sc.unregisterClientConfig(new ClientConfig(testConfigName, null, null, null, null));
+      sc.reloadClientConfigs();
    }
    
    private static ServerConfig getServerConfig()

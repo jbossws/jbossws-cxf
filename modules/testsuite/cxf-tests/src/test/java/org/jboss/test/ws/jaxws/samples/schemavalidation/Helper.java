@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.samples.schemavalidation;
 
 import java.net.URL;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -48,6 +48,8 @@ public class Helper implements ClientHelper
 {
    private String address;
    
+   private static final EndpointConfig defaultEndpointConfig = getServerConfig().getEndpointConfig(EndpointConfig.STANDARD_ENDPOINT_CONFIG);
+   
    public boolean testDefaultClientValidation() throws Exception
    {
       // first verify schema validation is not enabled yet: a wsdl with schema restrictions is used on client side,
@@ -69,10 +71,11 @@ public class Helper implements ClientHelper
          return false;
       }
       
+      final ClientConfig defClientConfig = (ClientConfig)getAndVerifyDefaultConfiguration(true);
       // then modify default conf to enable default client schema validation
       try
       {
-         modifyDefaultClientConfiguration(getAndVerifyDefaultConfiguration(true));
+         modifyDefaultConfiguration(true);
          
          service = Service.create(wsdlURL, serviceName);
          proxy = (Hello) service.getPort(portName, Hello.class);
@@ -95,18 +98,19 @@ public class Helper implements ClientHelper
       finally
       {
          // -- restore default conf --
-         cleanupConfig(true);
+         registerClientConfigAndReload(defClientConfig);
          // --
       }
    }
    
    public boolean enableDefaultEndpointSchemaValidation() throws Exception {
-      modifyDefaultClientConfiguration(getAndVerifyDefaultConfiguration(false));
+      getAndVerifyDefaultConfiguration(false);
+      modifyDefaultConfiguration(false);
       return true;
    }
    
    public boolean disableDefaultEndpointSchemaValidation() throws Exception {
-      cleanupConfig(false);
+      registerEndpointConfigAndReload(defaultEndpointConfig);
       return true;
    }
    
@@ -116,16 +120,9 @@ public class Helper implements ClientHelper
       this.address = address;
    }
    
-   protected static AbstractCommonConfig getAndVerifyDefaultConfiguration(boolean client) throws Exception {
-      ServerConfig sc = getServerConfig();
-      AbstractCommonConfig defaultConfig = null;
-      final List<? extends AbstractCommonConfig> cfgs = client ? sc.getClientConfigs() : sc.getEndpointConfigs();
+   protected AbstractCommonConfig getAndVerifyDefaultConfiguration(boolean client) throws Exception {
       final String DEFCFG = client ? ClientConfig.STANDARD_CLIENT_CONFIG : EndpointConfig.STANDARD_ENDPOINT_CONFIG;
-      for (AbstractCommonConfig c : cfgs) {
-         if (DEFCFG.equals(c.getConfigName())) {
-            defaultConfig = c;
-         }
-      }
+      final AbstractCommonConfig defaultConfig = client ? getServerConfig().getClientConfig(DEFCFG) : defaultEndpointConfig;
       if (defaultConfig == null) {
          throw new Exception("Missing AS config '" + DEFCFG + "'!");
       }
@@ -136,28 +133,26 @@ public class Helper implements ClientHelper
       return defaultConfig;
    }
    
-   protected static void modifyDefaultClientConfiguration(AbstractCommonConfig defaultConfig) {
-      defaultConfig.setProperty("schema-validation-enabled", "true");
+   protected static void modifyDefaultConfiguration(final boolean client) {
+      final Map<String, String> props = new HashMap<String, String>();
+      props.put("schema-validation-enabled", "true");
+      if (client) {
+         registerClientConfigAndReload(new ClientConfig(ClientConfig.STANDARD_CLIENT_CONFIG, null, null, props, null));
+      } else {
+         registerEndpointConfigAndReload(new EndpointConfig(EndpointConfig.STANDARD_ENDPOINT_CONFIG, null, null, props, null));
+      }
    }
    
-   protected static void cleanupConfig(boolean client) throws Exception {
+   protected static void registerClientConfigAndReload(ClientConfig config) {
       ServerConfig sc = getServerConfig();
-      AbstractCommonConfig defaultConfig = null;
-      final List<? extends AbstractCommonConfig> cfgs = client ? sc.getClientConfigs() : sc.getEndpointConfigs();
-      final String DEFCFG = client ? ClientConfig.STANDARD_CLIENT_CONFIG : EndpointConfig.STANDARD_ENDPOINT_CONFIG;
-      for (AbstractCommonConfig c : cfgs) {
-         if (DEFCFG.equals(c.getConfigName())) {
-            defaultConfig = c;
-         }
-      }
-      if (defaultConfig == null) {
-         throw new Exception("Missing AS config '" + DEFCFG + "'!");
-      }
-      Map<String, String> props = defaultConfig.getProperties();
-      if (props == null || props.isEmpty()) {
-         throw new Exception("'" + DEFCFG + "' is already empty!");
-      }
-      props.clear();
+      sc.registerClientConfig(config);
+      sc.reloadClientConfigs();
+   }
+   
+   protected static void registerEndpointConfigAndReload(EndpointConfig config) {
+      ServerConfig sc = getServerConfig();
+      sc.registerEndpointConfig(config);
+      sc.reloadEndpointConfigs();
    }
    
    private static ServerConfig getServerConfig()

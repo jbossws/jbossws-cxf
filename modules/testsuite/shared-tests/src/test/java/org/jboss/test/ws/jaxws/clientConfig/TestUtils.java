@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.clientConfig;
 
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,12 +46,7 @@ public class TestUtils
 {
    public static ClientConfig getAndVerifyDefaultClientConfiguration() throws Exception {
       ServerConfig sc = getServerConfig();
-      ClientConfig defaultConfig = null;
-      for (ClientConfig c : sc.getClientConfigs()) {
-         if (ClientConfig.STANDARD_CLIENT_CONFIG.equals(c.getConfigName())) {
-            defaultConfig = c;
-         }
-      }
+      ClientConfig defaultConfig = sc.getClientConfig(ClientConfig.STANDARD_CLIENT_CONFIG);
       if (defaultConfig == null) {
          throw new Exception("Missing AS client config '" + ClientConfig.STANDARD_CLIENT_CONFIG + "'!");
       }
@@ -63,65 +58,33 @@ public class TestUtils
       return defaultConfig;
    }
    
-   public static void modifyDefaultClientConfiguration(ClientConfig defaultConfig) {
-      UnifiedHandlerChainMetaData uhcmd = new UnifiedHandlerChainMetaData();
-      UnifiedHandlerMetaData handler = new UnifiedHandlerMetaData();
-      handler.setHandlerClass("org.jboss.test.ws.jaxws.clientConfig.LogHandler");
-      handler.setHandlerName("Log Handler");
-      uhcmd.addHandler(handler);
-      List<UnifiedHandlerChainMetaData> postHC = new LinkedList<UnifiedHandlerChainMetaData>();
-      postHC.add(uhcmd);
-      defaultConfig.setPostHandlerChains(postHC);
+   public static void changeDefaultClientConfiguration() {
+      UnifiedHandlerMetaData handler = new UnifiedHandlerMetaData("org.jboss.test.ws.jaxws.clientConfig.LogHandler", "Log Handler", null, null, null, null);
+      UnifiedHandlerChainMetaData uhcmd = new UnifiedHandlerChainMetaData(null, null, null, Collections.singletonList(handler), false, null);
+      List<UnifiedHandlerChainMetaData> postHC = Collections.singletonList(uhcmd);
+      
+      ClientConfig newDefaultClientConfig = new ClientConfig(ClientConfig.STANDARD_CLIENT_CONFIG, null, postHC, null, null);
+      setClientConfigAndReload(newDefaultClientConfig);
    }
    
-   public static void cleanupClientConfig() throws Exception {
+   public static void setClientConfigAndReload(ClientConfig config) {
       ServerConfig sc = getServerConfig();
-      ClientConfig defaultConfig = null;
-      for (ClientConfig c : sc.getClientConfigs()) {
-         if (ClientConfig.STANDARD_CLIENT_CONFIG.equals(c.getConfigName())) {
-            defaultConfig = c;
-         }
-      }
-      if (defaultConfig == null) {
-         throw new Exception("Missing AS client config '" + ClientConfig.STANDARD_CLIENT_CONFIG + "'!");
-      }
-      List<UnifiedHandlerChainMetaData> preHC = defaultConfig.getPreHandlerChains();
-      List<UnifiedHandlerChainMetaData> postHC = defaultConfig.getPostHandlerChains();
-      if ((preHC == null || preHC.isEmpty()) && (postHC == null || postHC.isEmpty())) {
-         throw new Exception("'" + ClientConfig.STANDARD_CLIENT_CONFIG + "' is already empty!");
-      }
-      defaultConfig.setPostHandlerChains(null);
-      defaultConfig.setPreHandlerChains(null);
+      sc.registerClientConfig(config);
+      sc.reloadClientConfigs();
    }
    
    public static void addTestCaseClientConfiguration(String testConfigName) {
-      UnifiedHandlerChainMetaData uhcmd = new UnifiedHandlerChainMetaData();
-      UnifiedHandlerMetaData handler = new UnifiedHandlerMetaData();
-      handler.setHandlerClass("org.jboss.test.ws.jaxws.clientConfig.RoutingHandler");
-      handler.setHandlerName("Routing Handler");
-      uhcmd.addHandler(handler);
-      ClientConfig config = new ClientConfig();
-      config.setConfigName(testConfigName);
+      UnifiedHandlerMetaData handler = new UnifiedHandlerMetaData("org.jboss.test.ws.jaxws.clientConfig.RoutingHandler", "Routing Handler", null, null, null, null);
+      UnifiedHandlerChainMetaData uhcmd = new UnifiedHandlerChainMetaData(null, null, null, Collections.singletonList(handler), false, null);
       List<UnifiedHandlerChainMetaData> preHC = new LinkedList<UnifiedHandlerChainMetaData>();
       preHC.add(uhcmd);
-      config.setPreHandlerChains(preHC);
-      getServerConfig().addClientConfig(config);
+      setClientConfigAndReload(new ClientConfig(testConfigName, preHC, null, null, null));
    }
    
    public static void removeTestCaseClientConfiguration(String testConfigName) {
       ServerConfig sc = getServerConfig();
-      Iterator<ClientConfig> it = sc.getClientConfigs().iterator();
-      ClientConfig toBeRemoved = null;
-      while (it.hasNext()) {
-         ClientConfig c = it.next();
-         if (testConfigName.equals(c.getConfigName())) {
-            toBeRemoved = c;
-            break;
-         }
-      }
-      if (toBeRemoved != null) {
-         sc.getClientConfigs().remove(toBeRemoved);
-      }
+      sc.unregisterClientConfig(new ClientConfig(testConfigName, null, null, null, null));
+      sc.reloadClientConfigs();
    }
    
    private static ServerConfig getServerConfig()

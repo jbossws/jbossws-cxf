@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -116,40 +116,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
       assertEquals("1", runTestInContainer("testConfigurationChangeOnDispatch"));
    }
 
-   /**
-    * Verifies the default client configuration from AS model is used
-    * 
-    * @throws Exception
-    */
-   public void testDefaultClientConfigurationInContainer() throws Exception {
-      assertEquals("1", runTestInContainer("testDefaultClientConfiguration"));
-   }
-   
-   public void testDefaultClientConfigurationOnDispatchInContainer() throws Exception {
-      assertEquals("1", runTestInContainer("testDefaultClientConfigurationOnDispatch"));
-   }
-   
-   /**
-    * Verifies a client configuration from AS model can be set
-    * 
-    * @throws Exception
-    */
-   public void testCustomClientConfigurationInContainer() throws Exception {
-      assertEquals("1", runTestInContainer("testCustomClientConfiguration"));
-   }
-   
-   public void testCustomClientConfigurationOnDispatchInContainer() throws Exception {
-      assertEquals("1", runTestInContainer("testCustomClientConfigurationOnDispatch"));
-   }
-   
-   public void testCustomClientConfigurationUsingFeatureInContainer() throws Exception {
-      assertEquals("1", runTestInContainer("testCustomClientConfigurationUsingFeature"));
-   }
-   
-   public void testCustomClientConfigurationOnDispatchUsingFeatureInContainer() throws Exception {
-      assertEquals("1", runTestInContainer("testCustomClientConfigurationOnDispatchUsingFeature"));
-   }
-   
    // -------------------------
    
    private Helper getHelper() {

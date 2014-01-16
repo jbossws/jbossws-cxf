@@ -38,6 +38,7 @@ import org.jboss.ws.api.configuration.ClientConfigFeature;
 import org.jboss.ws.api.configuration.ClientConfigUtil;
 import org.jboss.ws.api.configuration.ClientConfigurer;
 import org.jboss.ws.common.DOMUtils;
+import org.jboss.wsf.spi.metadata.config.ClientConfig;
 
 /**
  * Verifies client configuration setup
@@ -213,11 +214,12 @@ public class Helper implements ClientHelper
    {
       QName serviceName = new QName("http://clientConfig.jaxws.ws.test.jboss.org/", "EndpointImplService");
       URL wsdlURL = new URL(address + "?wsdl");
+      final ClientConfig defaultClientConfig = TestUtils.getAndVerifyDefaultClientConfiguration();
 
       // -- modify default conf --
       try
       {
-         TestUtils.modifyDefaultClientConfiguration(TestUtils.getAndVerifyDefaultClientConfiguration());
+         TestUtils.changeDefaultClientConfiguration();
          // --
 
          Service service = Service.create(wsdlURL, serviceName);
@@ -235,7 +237,7 @@ public class Helper implements ClientHelper
       finally
       {
          // -- restore default conf --
-         TestUtils.cleanupClientConfig();
+         TestUtils.setClientConfigAndReload(defaultClientConfig);
          // --
       }
    }
@@ -246,11 +248,12 @@ public class Helper implements ClientHelper
       QName serviceName = new QName("http://clientConfig.jaxws.ws.test.jboss.org/", "EndpointImplService");
       QName portName = new QName("http://clientConfig.jaxws.ws.test.jboss.org/", "EndpointPort");
       URL wsdlURL = new URL(address + "?wsdl");
+      final ClientConfig defaultClientConfig = TestUtils.getAndVerifyDefaultClientConfiguration();
 
       // -- modify default conf --
       try
       {
-         TestUtils.modifyDefaultClientConfiguration(TestUtils.getAndVerifyDefaultClientConfiguration());
+         TestUtils.changeDefaultClientConfiguration();
          // --
 
          Service service = Service.create(wsdlURL, serviceName);
@@ -269,7 +272,7 @@ public class Helper implements ClientHelper
       finally
       {
          // -- restore default conf --
-         TestUtils.cleanupClientConfig();
+         TestUtils.setClientConfigAndReload(defaultClientConfig);
          // --
       }
    }

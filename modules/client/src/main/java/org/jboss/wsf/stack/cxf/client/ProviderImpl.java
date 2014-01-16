@@ -589,12 +589,11 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          if (jbossModulesEnv) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
             ServerConfig sc = getServerConfig();
             if (sc != null) {
-               for (ClientConfig config : sc.getClientConfigs()) {
-                  if (config.getConfigName().equals(ClientConfig.STANDARD_CLIENT_CONFIG)) {
-                     CXFClientConfigurer helper = new CXFClientConfigurer();
-                     helper.setupConfigHandlers(binding, config);
-                     helper.setConfigProperties(client, config.getProperties());
-                  }
+               ClientConfig config = sc.getClientConfig(ClientConfig.STANDARD_CLIENT_CONFIG);
+               if (config != null) {
+                  CXFClientConfigurer helper = new CXFClientConfigurer();
+                  helper.setupConfigHandlers(binding, config);
+                  helper.setConfigProperties(client, config.getProperties());
                }
             }
          }

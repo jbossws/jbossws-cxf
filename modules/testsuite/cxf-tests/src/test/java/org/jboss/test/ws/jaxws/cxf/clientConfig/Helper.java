@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.cxf.clientConfig;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPMessage;
@@ -34,6 +36,7 @@ import org.apache.cxf.jaxws.DispatchImpl;
 import org.jboss.ws.api.configuration.ClientConfigFeature;
 import org.jboss.ws.api.configuration.ClientConfigUtil;
 import org.jboss.ws.api.configuration.ClientConfigurer;
+import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.test.ClientHelper;
 
 /**
@@ -139,11 +142,15 @@ public class Helper implements ClientHelper
    public boolean testDefaultClientConfiguration() throws Exception
    {
       final URL wsdlURL = new URL(address + "?wsdl");
+      final ClientConfig defaultClientConfig = TestUtils.getAndVerifyDefaultClientConfiguration();
       
       // -- modify default conf --
       try
       {
-         TestUtils.getAndVerifyDefaultClientConfiguration().setProperty("propA", "valueA");
+         
+         final Map<String, String> props = new HashMap<String, String>();
+         props.put("propA", "valueA");
+         TestUtils.registerClientConfigAndReload(new ClientConfig(defaultClientConfig.getConfigName(), null, null, props, null));
          // --
          
          Service service = Service.create(wsdlURL, serviceName);
@@ -154,7 +161,7 @@ public class Helper implements ClientHelper
       finally
       {
          // -- restore default conf --
-         TestUtils.cleanupClientConfig();
+         TestUtils.registerClientConfigAndReload(defaultClientConfig);
          // --
       }
    }
@@ -162,11 +169,14 @@ public class Helper implements ClientHelper
    public boolean testDefaultClientConfigurationOnDispatch() throws Exception
    {
       final URL wsdlURL = new URL(address + "?wsdl");
+      final ClientConfig defaultClientConfig = TestUtils.getAndVerifyDefaultClientConfiguration();
       
       // -- modify default conf --
       try
       {
-         TestUtils.getAndVerifyDefaultClientConfiguration().setProperty("propA", "valueA");
+         final Map<String, String> props = new HashMap<String, String>();
+         props.put("propA", "valueA");
+         TestUtils.registerClientConfigAndReload(new ClientConfig(defaultClientConfig.getConfigName(), null, null, props, null));
          // --
          
          Service service = Service.create(wsdlURL, serviceName);
@@ -177,7 +187,7 @@ public class Helper implements ClientHelper
       finally
       {
          // -- restore default conf --
-         TestUtils.cleanupClientConfig();
+         TestUtils.registerClientConfigAndReload(defaultClientConfig);
          // --
       }
    }
