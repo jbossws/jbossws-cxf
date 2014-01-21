@@ -34,6 +34,7 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.ws.api.configuration.ClientConfigUtil;
 import org.jboss.wsf.test.ClientHelper;
+import org.jboss.wsf.test.CryptoHelper;
 
 public class SignEncryptHelper implements ClientHelper
 {
@@ -91,7 +92,7 @@ public class SignEncryptHelper implements ClientHelper
       }
       catch (SOAPFaultException e)
       {
-         throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
+         throw CryptoHelper.checkAndWrapException(e);
       }
    }
    
