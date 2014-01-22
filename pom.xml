@@ -83,7 +83,7 @@
     <httpserver.version>1.0.0.Final</httpserver.version>
     <io.undertow.version>1.0.0.Beta30</io.undertow.version>
     <jaxb.api.version>1.0.4.Final</jaxb.api.version>
-    <jaxb.impl.version>2.2.5</jaxb.impl.version>
+    <jaxb.impl.version>2.2.6</jaxb.impl.version>
     <jaxrpc.api.version>1.0.1.Final</jaxrpc.api.version>
     <jaxws.api.version>2.0.2.Final</jaxws.api.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
