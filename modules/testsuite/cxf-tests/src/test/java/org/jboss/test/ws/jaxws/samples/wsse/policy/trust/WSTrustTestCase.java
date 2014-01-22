@@ -116,4 +116,60 @@ public class WSTrustTestCase extends JBossWSTest
          bus.shutdown(true);
       }
    }
+
+   /**
+    * No CallbackHandler is provided in STSCLient.  Username and password provided instead.
+    *
+    * @throws Exception
+    */
+   public void testNoClientCallback() throws Exception {
+      Bus bus = BusFactory.newInstance().createBus();
+      try {
+         BusFactory.setThreadDefaultBus(bus);
+
+         final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+         final URL wsdlURL = new URL(serviceURL + "?wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         ServiceIface proxy = (ServiceIface) service.getPort(ServiceIface.class);
+
+         final QName stsServiceName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "SecurityTokenService");
+         final QName stsPortName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "UT_Port");
+         WSTrustTestUtils.setupWsseAndSTSClientNoCallbackHandler(proxy, bus, stsURL + "?wsdl", stsServiceName, stsPortName);
+
+         assertEquals("WS-Trust Hello World!", proxy.sayHello());
+      } finally {
+         bus.shutdown(true);
+      }
+   }
+
+   /**
+    * No SIGNATURE_USERNAME is provided to the service.  Service will use the
+    * client's keystore alias in its place.
+    *
+    * @throws Exception
+    */
+   public void testNoSignatureUsername() throws Exception
+   {
+      Bus bus = BusFactory.newInstance().createBus();
+      try
+      {
+         BusFactory.setThreadDefaultBus(bus);
+
+         final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+         final URL wsdlURL = new URL(serviceURL + "?wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         ServiceIface proxy = (ServiceIface) service.getPort(ServiceIface.class);
+
+         final QName stsServiceName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "SecurityTokenService");
+         final QName stsPortName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "UT_Port");
+         WSTrustTestUtils.setupWsseAndSTSClientNoSignatureUsername(proxy, bus, stsURL + "?wsdl", stsServiceName, stsPortName);
+
+         assertEquals("WS-Trust Hello World!", proxy.sayHello());
+      }
+      finally
+      {
+         bus.shutdown(true);
+      }
+   }
+
 }
