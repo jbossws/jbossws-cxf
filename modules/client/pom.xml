@@ -220,6 +220,16 @@
       <groupId>org.jboss.spec.javax.xml.soap</groupId>
       <artifactId>jboss-saaj-api_1.3_spec</artifactId>
     </dependency>
+    
+    <!-- [JBWS-3722] Explicit JAXB dependencies to ensure the dependency management from jbossws-cxf pom.xml applies -->
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-xjc</artifactId>
+    </dependency>
 
     <!-- jboss provided -->
     <dependency>
