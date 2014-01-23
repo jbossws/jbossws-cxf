@@ -737,6 +737,9 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
+
+                 <!-- # [JBWS-3620]:Enable it after the fix merged to upstream-->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3670/*TestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
