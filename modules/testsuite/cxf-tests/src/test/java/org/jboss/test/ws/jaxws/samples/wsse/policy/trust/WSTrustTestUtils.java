@@ -127,11 +127,58 @@ public class WSTrustTestUtils
       ctx.put(SecurityConstants.STS_CLIENT, createSTSClient(bus, stsWsdlLocation, stsService, stsPort));
    }
 
+   /**
+    * Request a security token that allows it to act as if it were somebody else.
+    *
+    * @param proxy
+    * @param bus
+    * @param stsWsdlLocation
+    * @param stsService
+    * @param stsPort
+    */
+   public static void setupWsseAndSTSClientActAs(ServiceIface proxy, Bus bus, String stsWsdlLocation, QName stsService, QName stsPort) {
+      Map<String, Object> ctx = ((BindingProvider) proxy).getRequestContext();
+
+      ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
+      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
+      // the 2 following are required here.
+      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
+
+      STSClient stsClient = new STSClient(bus);
+      Map<String, Object> props = stsClient.getProperties();
+      props.put(SecurityConstants.USERNAME, "alice");
+      props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
+
+      props.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
+
+      props.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
+      props.put(SecurityConstants.STS_TOKEN_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
+
+      ctx.put(SecurityConstants.STS_CLIENT, stsClient);
+   }
+
    private static String appendIssuedTokenSuffix(String prop)
    {
       return prop + ".it";
    }
 
+    /**
+     * Create and configure an STSClient for use by service ServiceImpl.
+     *
+     * Whenever an "<sp:IssuedToken>" policy is configured on a WSDL port, as is the
+     * case for ServiceImpl, a STSClient must be created and configured in
+     * order for the service to connect to the STS-server to obtain a token.
+     *
+     * @param bus
+     * @param stsWsdlLocation
+     * @param stsService
+     * @param stsPort
+     * @return
+     */
    private static STSClient createSTSClient(Bus bus, String stsWsdlLocation, QName stsService, QName stsPort){
       STSClient stsClient = new STSClient(bus);
       if (stsWsdlLocation != null) {

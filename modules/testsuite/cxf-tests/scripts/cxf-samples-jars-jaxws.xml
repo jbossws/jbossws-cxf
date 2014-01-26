@@ -465,25 +465,65 @@
       </metainf>
     </jar>
 
+
+    <!-- jaxws-samples-wsse-policy-trust-actas -->
+    <war
+      warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trust-actas.war"
+      needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include
+          name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/ActAsServiceIface.class"/>
+        <include
+          name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/ActAsServiceImpl.class"/>
+        <include
+          name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/ActAsOutInterceptor.class"/>
+        <include
+          name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
+        <include
+          name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/ActAsCallbackHandler.class"/>
+      </classes>
+      <webinf
+        dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
+        <include name="wsdl/ActAs*"/>
+      </webinf>
+      <zipfileset
+        dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF"
+        prefix="WEB-INF/classes">
+        <include name="actasstore.jks"/>
+        <include name="actasKeystore.properties"/>
+      </zipfileset>
+      <manifest>
+        <attribute name="Dependencies"
+                   value="org.jboss.ws.cxf.jbossws-cxf-client"/>
+      </manifest>
+    </war>
+
     <!-- jaxws-samples-wsse-policy-trustPicketLink-sts -->
     <war
-       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trustPicketLink-sts.war" needxmlfile='false'>
-       <classes dir="${tests.output.dir}/test-classes">
-          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/PicketLinkSTService.class"/>
-          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/STSCallbackHandler.class"/>
-       </classes>
-       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
-          <include name="wsdl/PicketLinkSTS.wsdl"/>
-          <include name="jboss-web.xml"/>
-       </webinf>
-       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF" prefix="WEB-INF/classes">
-          <include name="stsstore.jks" />
-          <include name="picketlink-sts.xml" />
-          <include name="stsKeystore.properties" />
-       </zipfileset>
-       <manifest>
-          <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client,org.picketlink"/>
-       </manifest>
+      warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trustPicketLink-sts.war"
+      needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include
+          name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/PicketLinkSTService.class"/>
+        <include
+          name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/STSCallbackHandler.class"/>
+      </classes>
+      <webinf
+        dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
+        <include name="wsdl/PicketLinkSTS.wsdl"/>
+        <include name="jboss-web.xml"/>
+      </webinf>
+      <zipfileset
+        dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF"
+        prefix="WEB-INF/classes">
+        <include name="stsstore.jks"/>
+        <include name="picketlink-sts.xml"/>
+        <include name="stsKeystore.properties"/>
+      </zipfileset>
+      <manifest>
+        <attribute name="Dependencies"
+                   value="org.jboss.ws.cxf.jbossws-cxf-client,org.picketlink"/>
+      </manifest>
     </war>
 
     <!-- jaxws-samples-wsse-policy-username-unsecure-transport -->
