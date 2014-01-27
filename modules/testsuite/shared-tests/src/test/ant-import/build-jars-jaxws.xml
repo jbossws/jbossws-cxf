@@ -1366,6 +1366,13 @@
 			</classes>
 		</war>
 
+		<!-- jaxws-jbws3753 -->
+		<war destfile="${tests.output.dir}/test-libs/jaxws-jbws3753.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3753/WEB-INF/web.xml">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3753/Service*.class" />
+			</classes>
+		</war>
+
 		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws3367-usecase2.war" needxmlfile="false">
 			<classes dir="${tests.output.dir}/test-classes">
 				<include name="org/jboss/test/ws/jaxws/jbws3367/EndpointIface.class" />
