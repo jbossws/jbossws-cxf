@@ -132,33 +132,29 @@ public class RequestHandlerImpl implements RequestHandler
       {
          throw Messages.MESSAGES.cannotObtainRegistry(DestinationRegistry.class.getName());
       }
+      //first try looking up the destination in the registry map
+      final AbstractHTTPDestination dest = destRegistry.getDestinationForPath(requestURI, true);
+      if (dest != null) {
+         return dest;
+      }
+      //if there's no direct match, iterate on the destinations to see if there's valid "catch-all" destination
+      //(servlet-based endpoints, with "/*" url-pattern in web.xml)
       Collection<AbstractHTTPDestination> destinations = destRegistry.getDestinations();
       AbstractHTTPDestination returnValue = null;
       for (AbstractHTTPDestination destination : destinations)
       {
-         EndpointInfo endpointInfo = destination.getEndpointInfo();
-         String address = endpointInfo.getAddress();
-
-         String path = address;
+         String path = destination.getEndpointInfo().getAddress();
          try
          {
-            path = new URL(address).getPath();
+            path = new URL(path).getPath();
          }
          catch (MalformedURLException ex)
          {
             // ignore
          }
 
-         if (path != null)
-         {
-            if (requestURI.equals(path))
-            {
-               return destination; // exact match
-            }
-            else if (requestURI.startsWith(path))
-            {
-               returnValue = destination; // fallback
-            }
+         if (path != null && requestURI.startsWith(path)) {
+            returnValue = destination;
          }
       }
 

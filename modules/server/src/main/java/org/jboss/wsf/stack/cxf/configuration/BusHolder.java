@@ -40,6 +40,7 @@ import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.service.factory.FactoryBeanListener;
 import org.apache.cxf.service.factory.FactoryBeanListenerManager;
+import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.workqueue.AutomaticWorkQueue;
 import org.apache.cxf.workqueue.AutomaticWorkQueueImpl;
 import org.apache.cxf.workqueue.WorkQueueManager;
@@ -59,6 +60,7 @@ import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
+import org.jboss.wsf.stack.cxf.transport.JBossWSDestinationRegistryImpl;
 
 /**
  * A wrapper of the Bus for performing most of the configurations required on it by JBossWS
@@ -114,6 +116,10 @@ public abstract class BusHolder
       {
          bus.getExtension(PolicyEngine.class).setAlternativeSelector(getAlternativeSelector(props));
       }     
+      if (bus.getExtension(DestinationRegistry.class) == null)
+      {
+         bus.setExtension(new JBossWSDestinationRegistryImpl(), DestinationRegistry.class);
+      }
       setCXFManagement(bus, props); //*first* enabled cxf management if required, *then* add anything else which could be manageable (e.g. work queues)
       setAdditionalWorkQueues(bus, props); 
       setWSDiscovery(bus, props);
