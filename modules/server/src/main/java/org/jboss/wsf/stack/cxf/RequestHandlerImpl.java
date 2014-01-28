@@ -28,6 +28,7 @@ import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -66,6 +67,7 @@ import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 public class RequestHandlerImpl implements RequestHandler
 {
    private static final RequestHandlerImpl me = new RequestHandlerImpl();
+   private static final Pattern pathPattern = Pattern.compile("/{2,}");
 
    RequestHandlerImpl()
    {
@@ -132,6 +134,7 @@ public class RequestHandlerImpl implements RequestHandler
       {
          throw Messages.MESSAGES.cannotObtainRegistry(DestinationRegistry.class.getName());
       }
+      requestURI = pathPattern.matcher(requestURI).replaceAll("/");
       //first try looking up the destination in the registry map
       final AbstractHTTPDestination dest = destRegistry.getDestinationForPath(requestURI, true);
       if (dest != null) {
