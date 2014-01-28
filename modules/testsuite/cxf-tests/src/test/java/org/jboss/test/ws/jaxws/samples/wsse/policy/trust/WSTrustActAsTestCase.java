@@ -24,9 +24,11 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 import junit.framework.Test;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.jboss.wsf.test.CryptoHelper;
 import org.jboss.wsf.test.JBossWSTest;
 
 import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import java.net.URL;
 
@@ -38,7 +40,7 @@ import java.net.URL;
  */
 public class WSTrustActAsTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trust/SecurityService";
+   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trust-actas/ActAsService";
    private final String stsURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trust-sts/SecurityTokenService";
 
    public static Test suite()
@@ -60,16 +62,19 @@ public class WSTrustActAsTestCase extends JBossWSTest
       {
          BusFactory.setThreadDefaultBus(bus);
 
-         final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+         final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/actaswssecuritypolicy", "ActAsService");
          final URL wsdlURL = new URL(serviceURL + "?wsdl");
          Service service = Service.create(wsdlURL, serviceName);
-         ServiceIface proxy = (ServiceIface) service.getPort(ServiceIface.class);
+         ActAsServiceIface proxy = (ActAsServiceIface) service.getPort(ActAsServiceIface.class);
 
+         /* TODO explain why this is not needed for setup and then remove
          final QName stsServiceName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "SecurityTokenService");
          final QName stsPortName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "UT_Port");
-         WSTrustTestUtils.setupWsseAndSTSClientActAs(proxy, bus, stsURL + "?wsdl", stsServiceName, stsPortName);
+         */
+         WSTrustTestUtils.setupWsseAndSTSClientActAs((BindingProvider) proxy, bus);
 
-         assertEquals("WS-Trust Hello World!", proxy.sayHello());
+         assertEquals("ActAs WS-Trust Hello World!", proxy.sayHello());
+
       }
       finally
       {

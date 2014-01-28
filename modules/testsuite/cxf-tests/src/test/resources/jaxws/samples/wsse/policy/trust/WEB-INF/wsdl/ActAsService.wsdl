@@ -12,7 +12,8 @@
         xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
   <types>
     <xsd:schema>
-      <xsd:import namespace="http://www.jboss.org/jbossws/ws-extensions/actaswssecuritypolicy" schemaLocation="ActAsService_schema1.xsd"/>
+      <xsd:import namespace="http://www.jboss.org/jbossws/ws-extensions/actaswssecuritypolicy"
+                  schemaLocation="ActAsService_schema1.xsd"/>
     </xsd:schema>
   </types>
   <message name="sayHello">
@@ -44,7 +45,7 @@
   </binding>
   <service name="ActAsService">
     <port name="ActAsServicePort" binding="tns:ActAsServicePortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-trust/ActAsService"/>
+      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-trust-actas/ActAsService"/>
     </port>
   </service>
   

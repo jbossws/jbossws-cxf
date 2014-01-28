@@ -65,9 +65,14 @@ public class SampleSTS extends SecurityTokenServiceProvider
       
       List<ServiceMBean> services = new LinkedList<ServiceMBean>();
       StaticService service = new StaticService();
-      service.setEndpoints(Arrays.asList("http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
-            "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
-            "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService"));
+      service.setEndpoints(Arrays.asList(
+         "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
+         "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
+         "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
+         "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
+         "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
+         "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService"
+      ));
       services.add(service);
       
       TokenIssueOperation issueOperation = new TokenIssueOperation();

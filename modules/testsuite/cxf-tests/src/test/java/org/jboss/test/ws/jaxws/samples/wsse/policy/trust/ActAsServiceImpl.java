@@ -40,14 +40,14 @@ import javax.jws.WebService;
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/actaswssecuritypolicy",
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.ActAsServiceIface"
 )
-//TODO: fix endpointProperties
+
 @EndpointProperties(value = {
-      @EndpointProperty(key = "ws-security.signature.username", value = "myservicekey"),
-      @EndpointProperty(key = "ws-security.signature.properties", value = "serviceKeystore.properties"),
-      @EndpointProperty(key = "ws-security.encryption.properties", value = "serviceKeystore.properties"),
+      @EndpointProperty(key = "ws-security.signature.username", value = "myactaskey"),
+      @EndpointProperty(key = "ws-security.signature.properties", value =  "actasKeystore.properties"),
+      @EndpointProperty(key = "ws-security.encryption.properties", value = "actasKeystore.properties"),
       @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.ActAsCallbackHandler")
 })
-@InInterceptors(interceptors = {"org.jboss.test.ws.jaxws.samples.wsse.policy.trust.ActAsOutInterceptor"})
+//---@InInterceptors(interceptors = {"org.jboss.test.ws.jaxws.samples.wsse.policy.trust.ActAsOutInterceptor"})
 public class ActAsServiceImpl implements ActAsServiceIface
 {
    public String sayHello()

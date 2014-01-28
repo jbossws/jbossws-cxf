@@ -40,9 +40,6 @@ public class ClientCallbackHandler implements CallbackHandler {
                 } else if ("bob".equals(pc.getIdentifier())) {
                     pc.setPassword("trombone");
                     break;
-                } else if ("eve".equals(pc.getIdentifier())) {
-                    pc.setPassword("evekpass");
-                    break;
                 }
             }
         }

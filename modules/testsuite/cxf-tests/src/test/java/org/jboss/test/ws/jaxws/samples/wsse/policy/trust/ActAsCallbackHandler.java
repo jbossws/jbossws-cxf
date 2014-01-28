@@ -18,38 +18,27 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
-import org.apache.ws.security.WSPasswordCallback;
-
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import java.io.IOException;
+import org.jboss.wsf.stack.cxf.extensions.security.PasswordCallbackHandler;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User: rsearls@redhat.com
  * Date: 1/26/14
  */
-public class ActAsCallbackHandler implements CallbackHandler {
+public class ActAsCallbackHandler extends PasswordCallbackHandler {
 
-    public void handle(Callback[] callbacks) throws IOException,
-            UnsupportedCallbackException {
-        for (int i = 0; i < callbacks.length; i++) {
-            if (callbacks[i] instanceof WSPasswordCallback) {
-                WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
-                if ("myclientkey".equals(pc.getIdentifier())) {
-                    pc.setPassword("ckpass");
-                    break;
-                } else if ("alice".equals(pc.getIdentifier())) {
-                    pc.setPassword("clarinet");
-                    break;
-                } else if ("bob".equals(pc.getIdentifier())) {
-                    pc.setPassword("trombone");
-                    break;
-                } else if ("eve".equals(pc.getIdentifier())) {
-                    pc.setPassword("evekpass");
-                    break;
-                }
-            }
-        }
-    }
+   public ActAsCallbackHandler()
+   {
+      super(getInitMap());
+   }
+
+   private static Map<String, String> getInitMap()
+   {
+      Map<String, String> passwords = new HashMap<String, String>();
+      passwords.put("myactaskey", "aspass");
+      passwords.put("alice", "aspass");
+      return passwords;
+   }
+
 }

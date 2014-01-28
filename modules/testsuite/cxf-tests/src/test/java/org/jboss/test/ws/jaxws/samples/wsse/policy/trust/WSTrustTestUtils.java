@@ -132,17 +132,14 @@ public class WSTrustTestUtils
     *
     * @param proxy
     * @param bus
-    * @param stsWsdlLocation
-    * @param stsService
-    * @param stsPort
     */
-   public static void setupWsseAndSTSClientActAs(ServiceIface proxy, Bus bus, String stsWsdlLocation, QName stsService, QName stsPort) {
-      Map<String, Object> ctx = ((BindingProvider) proxy).getRequestContext();
+   public static void setupWsseAndSTSClientActAs(BindingProvider proxy, Bus bus) {
+
+      Map<String, Object> ctx = proxy.getRequestContext();
 
       ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
       ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-      ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
-      // the 2 following are required here.
+      ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myactaskey");
       ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
       ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
 
@@ -150,10 +147,8 @@ public class WSTrustTestUtils
       Map<String, Object> props = stsClient.getProperties();
       props.put(SecurityConstants.USERNAME, "alice");
       props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-
       props.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
-
       props.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
       props.put(SecurityConstants.STS_TOKEN_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
