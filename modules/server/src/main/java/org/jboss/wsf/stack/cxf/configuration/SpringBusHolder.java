@@ -39,6 +39,7 @@ import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.http.HttpDestinationFactory;
 import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
@@ -121,16 +122,16 @@ public class SpringBusHolder extends BusHolder
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     * @param dep                    The current JBossWS-SPI Deployment
     * @param wsmd                   The current JBossWebservicesMetaData, if any
-    * @param depRuntimeClassLoader  The current deployment classloader
+    * @param dep                    The current deployment
     */
    @Override
-   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, ClassLoader depRuntimeClassLoader)
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, Deployment dep)
    {
       if (configured)
       {
          throw MESSAGES.busAlreadyConfigured(ctx);
       }
-      super.configure(resolver, configurer, wsmd, depRuntimeClassLoader);
+      super.configure(resolver, configurer, wsmd, dep);
       
       GenericApplicationContext jbosswsCxfContext = null;
       //load stuff from provided jbossws-cxf.xml DD

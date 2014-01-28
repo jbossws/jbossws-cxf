@@ -48,7 +48,10 @@ import org.apache.cxf.ws.discovery.listeners.WSDiscoveryServerListener;
 import org.apache.cxf.ws.policy.AlternativeSelector;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
+import org.jboss.ws.api.annotation.PolicySets;
 import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.wsf.spi.deployment.AnnotationsInfo;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
@@ -95,9 +98,9 @@ public abstract class BusHolder
     * @param resolver               The ResourceResolver to configure, if any
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     * @param wsmd                   The current JBossWebservicesMetaData, if any
-    * @param depRuntimeClassLoader  The current deployment classloader
+    * @param dep                    The current deployment
     */
-   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, ClassLoader depRuntimeClassLoader)
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, Deployment dep)
    {
       bus.setProperty(org.jboss.wsf.stack.cxf.client.Constants.DEPLOYMENT_BUS, true);
       busHolderListener = new BusHolderLifeCycleListener();
@@ -124,8 +127,11 @@ public abstract class BusHolder
       setAdditionalWorkQueues(bus, props); 
       setWSDiscovery(bus, props);
       
-      policySetsListener = new PolicySetsAnnotationListener(depRuntimeClassLoader);
-      bus.getExtension(FactoryBeanListenerManager.class).addListener(policySetsListener);
+      AnnotationsInfo ai = dep.getAttachment(AnnotationsInfo.class);
+      if (ai == null || ai.hasAnnotatedClasses(PolicySets.class.getName())) {
+         policySetsListener = new PolicySetsAnnotationListener(dep.getRuntimeClassLoader());
+         bus.getExtension(FactoryBeanListenerManager.class).addListener(policySetsListener);
+      }
    }
    
    

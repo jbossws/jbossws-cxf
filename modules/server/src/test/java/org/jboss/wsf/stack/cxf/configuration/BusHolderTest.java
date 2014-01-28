@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.FirstAlternativeSelector;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
+import org.jboss.ws.common.deployment.DefaultDeploymentModelFactory;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
@@ -68,7 +69,7 @@ public class BusHolderTest extends TestCase
       }
       BusHolder holder = new NonSpringBusHolder(new DDBeans());
       try {
-         holder.configure(null, null, wsmd, null);
+         holder.configure(null, null, wsmd, new DefaultDeploymentModelFactory().newDeployment("testDeployment", null));
          return holder.getBus().getExtension(PolicyEngine.class).getAlternativeSelector().getClass().getName();
       } finally {
          holder.close();
