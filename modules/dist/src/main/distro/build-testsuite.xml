@@ -170,6 +170,8 @@
     The 's.extra.classpath' contains stack specific jars that are needed to run the stack specific tests.
     -->
     <path id="integration.target.client.classpath">
+      <!-- Use httpserver based transport -->
+      <pathelement location="${thirdparty.dir}/jbossws-cxf-transports-httpserver.jar"/>
       <!-- included from thirdparty local dir as it's not installed on AS - START -->
       <pathelement location="${thirdparty.dir}/jbossws-${jbossws.integration.target}-tests-integration.jar"/>
       <!-- included from thirdparty local dir as it's not installed on AS - END -->
@@ -333,6 +335,8 @@
     The 's.extra.classpath' contains stack specific jars that are needed to run the stack specific tests.
     -->
     <path id="integration.target.client.classpath">
+      <!-- Use undertow based transport -->
+      <pathelement location="${thirdparty.dir}/jbossws-cxf-transports-undertow.jar"/>
       <!-- included from thirdparty local dir as it's not installed on AS - START -->
       <pathelement location="${thirdparty.dir}/jbossws-${jbossws.integration.target}-tests-integration.jar"/>
       <!-- included from thirdparty local dir as it's not installed on AS - END -->
