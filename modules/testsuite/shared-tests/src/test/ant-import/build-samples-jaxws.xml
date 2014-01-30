@@ -562,6 +562,9 @@
       <webinf dir="${tests.output.dir}/test-resources/publish/WEB-INF" erroronmissingdir="false">
       	<include name="wsdl/**"/>
       </webinf>
+      <zipfileset dir="${tests.output.dir}/test-resources/publish/META-INF" prefix="META-INF">
+        <include name="permissions.xml"/>
+      </zipfileset>
       <manifest>
         <attribute name="Dependencies" value="org.jboss.ws.common" />
       </manifest>

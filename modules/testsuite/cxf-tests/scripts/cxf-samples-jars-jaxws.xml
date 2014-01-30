@@ -94,6 +94,7 @@
     <jar destfile="${tests.output.dir}/test-libs/jaxws-samples-schemavalidation-client.jar">
       <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/schemavalidation/META-INF">
         <include name="jaxws-client-config.xml" />
+        <include name="permissions.xml" />
       </metainf>
     </jar>
   	
