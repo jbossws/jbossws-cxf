@@ -56,11 +56,10 @@ import org.apache.cxf.jaxws.DispatchImpl;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.jboss.ws.api.configuration.AbstractClientFeature;
+import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.ws.common.utils.DelegateClassLoader;
-import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.management.ServerConfig;
-import org.jboss.wsf.spi.management.ServerConfigFactory;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
@@ -166,16 +165,6 @@ import org.w3c.dom.Element;
  */
 public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
 {
-   private static final boolean jbossModulesEnv;
-   private static ServerConfig serverConfig = null;
-   private static boolean serverConfigInit = false;
-
-   static {
-      //check if running in a JBoss Modules environment: the jbossws-cxf and cxf classes come
-      //from different classloader when using jboss-modules (no flat classloader)
-      jbossModulesEnv = (ProviderImpl.class.getClassLoader() != org.apache.cxf.jaxws22.spi.ProviderImpl.class.getClassLoader());
-   }
-
    @Override
    protected org.apache.cxf.jaxws.EndpointImpl createEndpointImpl(Bus bus, String bindingId, Object implementor,
          WebServiceFeature... features)
@@ -586,8 +575,8 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          Binding binding = ((BindingProvider)obj).getBinding();
          Client client = obj instanceof DispatchImpl<?> ? ((DispatchImpl<?>)obj).getClient() : ClientProxy.getClient(obj);
          client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
-         if (jbossModulesEnv) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
-            ServerConfig sc = getServerConfig();
+         if (ClassLoaderProvider.isSet()) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
+            ServerConfig sc = AbstractServerConfig.getServerIntegrationServerConfig();
             if (sc != null) {
                ClientConfig config = sc.getClientConfig(ClientConfig.STANDARD_CLIENT_CONFIG);
                if (config != null) {
@@ -605,23 +594,6 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             }
          }
       }
-   }
-
-   //lazy get the server config (and try once per classloader only)
-   private static synchronized ServerConfig getServerConfig()
-   {
-      if (!serverConfigInit)
-      {
-         try {
-            final ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
-            serverConfig = SPIProvider.getInstance().getSPI(ServerConfigFactory.class, cl).getServerConfig();
-         } catch (Exception e) {
-            Loggers.ROOT_LOGGER.cannotRetrieveServerConfigIgnoreForClients(e);
-         } finally {
-            serverConfigInit = true;
-         }
-      }
-      return serverConfig;
    }
 
 }
