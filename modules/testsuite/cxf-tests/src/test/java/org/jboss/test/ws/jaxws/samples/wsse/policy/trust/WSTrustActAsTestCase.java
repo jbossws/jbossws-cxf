@@ -74,7 +74,6 @@ public class WSTrustActAsTestCase extends JBossWSTest
          WSTrustTestUtils.setupWsseAndSTSClientActAs((BindingProvider) proxy, bus);
 
          assertEquals("ActAs WS-Trust Hello World!", proxy.sayHello());
-
       }
       finally
       {

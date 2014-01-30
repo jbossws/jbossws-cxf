@@ -21,6 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -145,7 +147,7 @@ public class WSTrustTestUtils
 
       STSClient stsClient = new STSClient(bus);
       Map<String, Object> props = stsClient.getProperties();
-      props.put(SecurityConstants.USERNAME, "alice");
+      props.put(SecurityConstants.USERNAME, "bob" /*"alice"*/);
       props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
       props.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
@@ -155,6 +157,7 @@ public class WSTrustTestUtils
 
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
    }
+
 
    private static String appendIssuedTokenSuffix(String prop)
    {

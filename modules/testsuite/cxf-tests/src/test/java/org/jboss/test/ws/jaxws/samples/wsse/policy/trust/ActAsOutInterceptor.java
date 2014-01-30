@@ -27,6 +27,9 @@ import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.interceptor.Fault;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 /**
  * User: rsearls@redhat.com
  * Date: 1/26/14
@@ -34,14 +37,13 @@ import org.apache.cxf.interceptor.Fault;
 public class ActAsOutInterceptor extends AbstractPhaseInterceptor<Message> {
 
     public ActAsOutInterceptor () {
-        // This can be in any stage before the WS-SP interceptors
-        // setup the STS client and issued token interceptor.
         super(Phase.SETUP);
     }
 
     @Override
     public void handleMessage(Message message) throws Fault {
-        String tmpStr = "<wst:ActAs xmlns:wst=\"http://docs.oasis-open.org/ws-sx/ws-trust/200512\">eve</wst:ActAs>";
+
+        String tmpStr = "<wst:ActAs xmlns:wst=\"http://docs.oasis-open.org/ws-sx/ws-trust/200512\">myactaskey</wst:ActAs>";
         message.put(SecurityConstants.STS_TOKEN_ACT_AS, tmpStr);
     }
 

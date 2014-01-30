@@ -37,7 +37,7 @@ public class ActAsCallbackHandler extends PasswordCallbackHandler {
    {
       Map<String, String> passwords = new HashMap<String, String>();
       passwords.put("myactaskey", "aspass");
-      passwords.put("alice", "aspass");
+      passwords.put("alice", "clarinet");
       return passwords;
    }
 
