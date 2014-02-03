@@ -25,6 +25,7 @@ import static org.jboss.wsf.stack.cxf.Loggers.METADATA_LOGGER;
 import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
 import java.net.URL;
+import java.security.AccessController;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -282,7 +283,7 @@ public class MetadataBuilder
       if (wsdlLocation == null) {
          wsdlLocation = ddep.getAnnotationWsdlLocation();
       }
-      final ServerConfig sc = AbstractServerConfig.getServerIntegrationServerConfig();
+      final ServerConfig sc = getServerConfig();
       if (wsdlLocation != null) {
          URL wsdlUrl = dep.getResourceResolver().resolveFailSafe(wsdlLocation);
          if (wsdlUrl != null) {
@@ -318,6 +319,13 @@ public class MetadataBuilder
          soapAddressWsdlParsers.put(key, parser);
          return parser;
       }
+   }
+   
+   private static ServerConfig getServerConfig() {
+      if(System.getSecurityManager() == null) {
+         return AbstractServerConfig.getServerIntegrationServerConfig();
+      }
+      return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
    }
    
    /**

@@ -22,6 +22,7 @@
 package org.jboss.wsf.stack.cxf.configuration;
 
 import java.io.IOException;
+import java.security.AccessController;
 import java.util.List;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
@@ -134,7 +135,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
          if (configFile == null)
          {
             //use endpoint configs from AS domain
-            ServerConfig sc = AbstractServerConfig.getServerIntegrationServerConfig();
+            ServerConfig sc = getServerConfig();
             org.jboss.wsf.spi.metadata.config.EndpointConfig config = sc.getEndpointConfig(configName);
             if (config != null) {
                endpoint.setEndpointConfig(config);
@@ -157,6 +158,13 @@ public class ServerBeanCustomizer extends BeanCustomizer
             }
          }
       }
+   }
+   
+   private static ServerConfig getServerConfig() {
+      if(System.getSecurityManager() == null) {
+         return AbstractServerConfig.getServerIntegrationServerConfig();
+      }
+      return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
    }
    
    public void setDeploymentRoot(UnifiedVirtualFile deploymentRoot)

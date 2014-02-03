@@ -576,7 +576,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          Client client = obj instanceof DispatchImpl<?> ? ((DispatchImpl<?>)obj).getClient() : ClientProxy.getClient(obj);
          client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
          if (ClassLoaderProvider.isSet()) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
-            ServerConfig sc = AbstractServerConfig.getServerIntegrationServerConfig();
+            ServerConfig sc = getServerConfig();
             if (sc != null) {
                ClientConfig config = sc.getClientConfig(ClientConfig.STANDARD_CLIENT_CONFIG);
                if (config != null) {
@@ -593,6 +593,13 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
                }
             }
          }
+      }
+      
+      private static ServerConfig getServerConfig() {
+         if(System.getSecurityManager() == null) {
+            return AbstractServerConfig.getServerIntegrationServerConfig();
+         }
+         return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
       }
    }
 

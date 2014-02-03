@@ -27,6 +27,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.AccessController;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
@@ -54,6 +55,7 @@ import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
+import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 
@@ -201,8 +203,7 @@ public class RequestHandlerImpl implements RequestHandler
             final String ctxUri = req.getRequestURI();
             final String baseUri = req.getRequestURL().toString() + "?" + queryString;
             final EndpointInfo endpointInfo = dest.getEndpointInfo();
-            final boolean autoRewrite = SoapAddressRewriteHelper.isAutoRewriteOn(
-                  AbstractServerConfig.getServerIntegrationServerConfig());
+            final boolean autoRewrite = SoapAddressRewriteHelper.isAutoRewriteOn(getServerConfig());
             endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS, autoRewrite);
             endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL, autoRewrite);
 
@@ -238,6 +239,13 @@ public class RequestHandlerImpl implements RequestHandler
       }
 
       return false;
+   }
+   
+   private static ServerConfig getServerConfig() {
+      if(System.getSecurityManager() == null) {
+         return AbstractServerConfig.getServerIntegrationServerConfig();
+      }
+      return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
    }
 
    private long initRequestMetrics(Endpoint endpoint)
