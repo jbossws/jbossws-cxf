@@ -553,28 +553,6 @@
       </classes>
     </war>
 
-    <!-- endpoint-publish.war -->  	
-    <war warfile="${tests.output.dir}/test-libs/endpoint-publish.war" needxmlfile='false'>
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/publish/**/*.class"/>
-      	<include name="org/jboss/test/ws/publish/EndpointImpl5.xml"/>
-      	<include name="org/jboss/test/ws/publish/TestService.xml"/>
-        <exclude name="org/jboss/test/ws/publish/*TestCase.class"/>
-      </classes>
-      <classes dir="${tests.output.dir}/test-classes/org/jboss/test/ws/publish" erroronmissingdir="false">
-        <include name="WEB-INF/wsdl/**" />
-      </classes>
-      <webinf dir="${tests.output.dir}/test-resources/publish/WEB-INF" erroronmissingdir="false">
-      	<include name="wsdl/**"/>
-      </webinf>
-      <zipfileset dir="${tests.output.dir}/test-resources/publish/META-INF" prefix="META-INF">
-        <include name="permissions.xml"/>
-      </zipfileset>
-      <manifest>
-        <attribute name="Dependencies" value="org.jboss.ws.common" />
-      </manifest>
-    </war>
-  	
     <!-- management-recording-as7.jar -->
     <jar destfile="${tests.output.dir}/test-libs/management-recording-as7.jar">
       <fileset dir="${tests.output.dir}/test-classes">
