@@ -111,6 +111,11 @@
         <include name="jaxws-samples-eardeployment-ejb3.jar"/>
         <include name="jaxws-samples-eardeployment-pojo.war"/>
       </fileset>
+      <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/samples/eardeployment/META-INF" 
+          prefix="META-INF">
+        <include name="permissions.xml"/>
+      </zipfileset>
     </jar>
 
     <!-- jaxws-samples-exception -->
