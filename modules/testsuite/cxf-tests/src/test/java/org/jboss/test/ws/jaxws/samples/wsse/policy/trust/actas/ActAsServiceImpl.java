@@ -25,20 +25,18 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
-import org.apache.cxf.interceptor.OutInterceptors;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.actas.ActAsCallbackHandler;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.actas.ActAsServiceIface;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.WSTrustAppUtils;
 
 import javax.jws.WebService;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
 
 /**
  * User: rsearls@redhat.com
@@ -61,7 +59,7 @@ import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
       @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.actas.ActAsCallbackHandler")
 })
 
-@OutInterceptors(interceptors = {"org.jboss.test.ws.jaxws.samples.wsse.policy.trust.actas.ActAsOutInterceptor"})
+//TODO  @OutInterceptors(interceptors = {"org.jboss.test.ws.jaxws.samples.wsse.policy.trust.actas.ActAsOutInterceptor"})
 public class ActAsServiceImpl implements ActAsServiceIface
 {
    public String sayHello() {

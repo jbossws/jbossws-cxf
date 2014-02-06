@@ -58,13 +58,19 @@ public class ActAsOutInterceptor extends AbstractPhaseInterceptor<Message> {
             dumpMsgInfo(key, (org.apache.cxf.service.model.MessageInfo)o);
 
          } else if (o instanceof org.apache.cxf.service.model.BindingMessageInfo) {
-            org.apache.cxf.service.model.BindingMessageInfo bMsgInfo = (org.apache.cxf.service.model.BindingMessageInfo)o;
+            org.apache.cxf.service.model.BindingMessageInfo bMsgInfo =
+               (org.apache.cxf.service.model.BindingMessageInfo)o;
             org.apache.cxf.service.model.MessageInfo mInfo = bMsgInfo.getMessageInfo();
             dumpMsgInfo(key, mInfo);
 
-         } else {
-               System.out.println("##ACTAS key: " + key + "  value++: " + o.getClass().getCanonicalName());
-
+         } else if (o instanceof ArrayList) {
+            for (Object obj: (ArrayList)o){
+               System.out.println("##ACTAS arrayItem: " + obj.getClass().getCanonicalName());
+            }
+         }
+         else {
+               System.out.println("##ACTAS key: " + key + "  value++: "
+                  + o.getClass().getCanonicalName());
          }
       }
 
