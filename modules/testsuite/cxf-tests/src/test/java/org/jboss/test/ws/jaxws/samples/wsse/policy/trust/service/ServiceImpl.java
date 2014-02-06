@@ -19,13 +19,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service;
 
 import javax.jws.WebService;
 
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
-import org.apache.cxf.interceptor.InInterceptors;
 
 @WebService
 (
@@ -33,13 +32,13 @@ import org.apache.cxf.interceptor.InInterceptors;
    serviceName = "SecurityService",
    wsdlLocation = "WEB-INF/wsdl/SecurityService.wsdl",
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy",
-   endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.ServiceIface"
+   endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface"
 )
 @EndpointProperties(value = {
       @EndpointProperty(key = "ws-security.signature.username", value = "myservicekey"),
       @EndpointProperty(key = "ws-security.signature.properties", value = "serviceKeystore.properties"),
       @EndpointProperty(key = "ws-security.encryption.properties", value = "serviceKeystore.properties"),
-      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.ServerCallbackHandler")      
+      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServerCallbackHandler")
 })
 public class ServiceImpl implements ServiceIface
 {

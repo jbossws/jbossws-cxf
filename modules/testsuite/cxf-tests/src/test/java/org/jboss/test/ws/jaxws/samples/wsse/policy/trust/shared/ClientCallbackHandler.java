@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared;
 
 import java.io.IOException;
 import javax.security.auth.callback.Callback;

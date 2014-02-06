@@ -16,16 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.onbehalfof;
+
+import org.jboss.wsf.stack.cxf.extensions.security.PasswordCallbackHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jboss.wsf.stack.cxf.extensions.security.PasswordCallbackHandler;
+/**
+ * User: rsearls@redhat.com
+ * Date: 1/26/14
+ */
+public class OnBehalfOfCallbackHandler extends PasswordCallbackHandler {
 
-public class STSCallbackHandler extends PasswordCallbackHandler
-{
-   public STSCallbackHandler()
+   public OnBehalfOfCallbackHandler()
    {
       super(getInitMap());
    }
@@ -33,7 +37,10 @@ public class STSCallbackHandler extends PasswordCallbackHandler
    private static Map<String, String> getInitMap()
    {
       Map<String, String> passwords = new HashMap<String, String>();
-      passwords.put("mystskey", "stskpass");
+      passwords.put("myactaskey", "aspass");
+      passwords.put("alice", "clarinet");
+      passwords.put("bob", "trombone");
       return passwords;
    }
+
 }

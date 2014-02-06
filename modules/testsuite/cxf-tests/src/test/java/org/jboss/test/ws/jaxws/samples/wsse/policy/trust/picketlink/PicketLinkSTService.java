@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.picketlink;
 
 import javax.annotation.Resource;
 import javax.xml.ws.Service;
@@ -45,7 +45,7 @@ import org.picketlink.identity.federation.core.wstrust.PicketLinkSTS;
 @EndpointProperties(value = {
       @EndpointProperty(key = "ws-security.signature.username", value = "mystskey"),
       @EndpointProperty(key = "ws-security.signature.properties", value = "stsKeystore.properties"),
-      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.STSCallbackHandler"),
+      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.sts.STSCallbackHandler"),
       @EndpointProperty(key = "ws-security.validate.token", value = "false") //to let the JAAS integration deal with validation through the interceptor below    
 })
 @InInterceptors(interceptors = {"org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor"})

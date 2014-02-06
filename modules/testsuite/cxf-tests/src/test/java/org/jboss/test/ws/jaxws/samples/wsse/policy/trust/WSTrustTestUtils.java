@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,8 +30,11 @@ import javax.xml.ws.BindingProvider;
 import org.apache.cxf.Bus;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.ClientCallbackHandler;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.UsernameTokenCallbackHandler;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
 
 /**
  * Some client util methods for WS-Trust testcases 
@@ -145,9 +146,52 @@ public class WSTrustTestUtils
       ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
       ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
 
+
+      UsernameTokenCallbackHandler ch = new UsernameTokenCallbackHandler();
+      String str = ch.getUsernameTokenString("myactaskey", null);
+      //System.out.println("##ut: " + str);
+
+      //String tmpStr ="<wsse:UsernameToken  xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\" wsu:Id=\"id-myactaskey\"> <wsse:Username>myactaskey</wsse:Username> </wsse:UsernameToken>";
+      ctx.put(SecurityConstants.STS_TOKEN_ACT_AS, /*tmpStr*/str);
+
+
       STSClient stsClient = new STSClient(bus);
       Map<String, Object> props = stsClient.getProperties();
-      props.put(SecurityConstants.USERNAME, "bob" /*"alice"*/);
+      props.put(SecurityConstants.USERNAME, "bob");
+      props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
+      props.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
+      props.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
+      props.put(SecurityConstants.STS_TOKEN_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
+
+      ctx.put(SecurityConstants.STS_CLIENT, stsClient);
+   }
+
+   //-
+
+   /**
+    * Request a security token that allows it to act on the behalf of somebody else.
+    *
+    * @param proxy
+    * @param bus
+    */
+   public static void setupWsseAndSTSClientOnBehalfOf(BindingProvider proxy, Bus bus) {
+
+      Map<String, Object> ctx = proxy.getRequestContext();
+
+      ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
+      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myactaskey");
+      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
+      ctx.put(SecurityConstants.USERNAME,"alice");
+      ctx.put(SecurityConstants.PASSWORD, "clarinet");
+
+      STSClient stsClient = new STSClient(bus);
+      stsClient.setOnBehalfOf(new UsernameTokenCallbackHandler());
+
+      Map<String, Object> props = stsClient.getProperties();
       props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
       props.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");

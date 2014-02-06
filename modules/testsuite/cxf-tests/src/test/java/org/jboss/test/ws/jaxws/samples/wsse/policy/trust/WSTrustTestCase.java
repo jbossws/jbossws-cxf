@@ -32,6 +32,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.jboss.wsf.test.CryptoHelper;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
 
 /**
  * WS-Trust test case

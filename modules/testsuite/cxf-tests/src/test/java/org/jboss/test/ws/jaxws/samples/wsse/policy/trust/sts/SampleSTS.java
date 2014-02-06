@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.sts;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -35,8 +35,10 @@ import org.apache.cxf.sts.operation.TokenIssueOperation;
 import org.apache.cxf.sts.operation.TokenValidateOperation;
 import org.apache.cxf.sts.service.ServiceMBean;
 import org.apache.cxf.sts.service.StaticService;
+import org.apache.cxf.sts.token.delegation.UsernameTokenDelegationHandler;
 import org.apache.cxf.sts.token.provider.SAMLTokenProvider;
 import org.apache.cxf.sts.token.validator.SAMLTokenValidator;
+import org.apache.cxf.sts.token.validator.UsernameTokenValidator;
 import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
 
 @WebServiceProvider(serviceName = "SecurityTokenService",
@@ -47,7 +49,7 @@ import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
 @EndpointProperties(value = {
       @EndpointProperty(key = "ws-security.signature.username", value = "mystskey"),
       @EndpointProperty(key = "ws-security.signature.properties", value = "stsKeystore.properties"),
-      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.STSCallbackHandler"),
+      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.sts.STSCallbackHandler"),
       @EndpointProperty(key = "ws-security.validate.token", value = "false") //to let the JAAS integration deal with validation through the interceptor below
 })
 @InInterceptors(interceptors = {"org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor"})
@@ -69,15 +71,24 @@ public class SampleSTS extends SecurityTokenServiceProvider
          "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
          "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
          "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
+
          "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
          "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
-         "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService"
+         "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
+
+         "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService",
+         "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService",
+         "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService"
       ));
       services.add(service);
       
       TokenIssueOperation issueOperation = new TokenIssueOperation();
       issueOperation.setServices(services);
       issueOperation.getTokenProviders().add(new SAMLTokenProvider());
+      // required for OnBehalfOf
+      issueOperation.getTokenValidators().add(new UsernameTokenValidator());
+      // added for OnBehalfOf and ActAs
+      issueOperation.getDelegationHandlers().add(new UsernameTokenDelegationHandler());
       issueOperation.setStsProperties(props);
       
       TokenValidateOperation validateOperation = new TokenValidateOperation();

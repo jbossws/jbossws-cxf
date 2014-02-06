@@ -19,35 +19,21 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.onbehalfof;
 
-import org.apache.cxf.phase.AbstractPhaseInterceptor;
-import org.apache.cxf.phase.Phase;
-import org.apache.cxf.ws.security.SecurityConstants;
-import org.apache.cxf.message.Message;
-import org.apache.cxf.interceptor.Fault;
-
-import java.util.ArrayList;
-import java.util.Set;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 
 /**
  * User: rsearls@redhat.com
  * Date: 1/26/14
  */
-public class ActAsOutInterceptor extends AbstractPhaseInterceptor<Message> {
-
-    public ActAsOutInterceptor () {
-        super(Phase.SETUP);
-    }
-
-    @Override
-    public void handleMessage(Message message) throws Fault {
-
-        String tmpStr = "<wst:ActAs xmlns:wst=\"http://docs.oasis-open.org/ws-sx/ws-trust/200512\">myactaskey</wst:ActAs>";
-        message.put(SecurityConstants.STS_TOKEN_ACT_AS, tmpStr);
-    }
-
-    @Override
-    public void handleFault(Message message) {
-    }
+@WebService
+(
+   targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/onbehalfofwssecuritypolicy"
+)
+public interface OnBehalfOfServiceIface
+{
+   @WebMethod
+   String sayHello();
 }
