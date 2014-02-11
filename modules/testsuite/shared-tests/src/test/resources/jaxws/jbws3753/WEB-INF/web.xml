@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+  version="2.4">
+
+  <servlet>
+    <servlet-name>ServiceA</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws3753.ServiceAImpl</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ServiceB</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws3753.ServiceBImpl</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Service</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws3753.ServiceImpl</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ServiceA</servlet-name>
+    <url-pattern>/serviceA</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ServiceB</servlet-name>
+    <url-pattern>/serviceB</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Service</servlet-name>
+    <url-pattern>/service</url-pattern>
+  </servlet-mapping>
+
+</web-app>
+

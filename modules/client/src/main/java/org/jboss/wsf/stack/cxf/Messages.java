@@ -35,6 +35,7 @@ import org.jboss.logging.Message;
 import org.jboss.logging.MessageBundle;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.DeploymentType;
+import org.jboss.wsf.spi.deployment.WSFDeploymentException;
 
 /**
  * JBossWS-CXF exception messages
@@ -220,5 +221,8 @@ public interface Messages {
     
     @Message(id = 24096, value = "Multiple incompatible JAXWS client Bus features provided")
     IllegalArgumentException incompatibleJAXWSClientBusFeatureProvided();
+
+    @Message(id = 24101, value = "Could not find endpoint config name: %s")
+    WSFDeploymentException couldNotFindEndpointConfigName(String name);
     
 }

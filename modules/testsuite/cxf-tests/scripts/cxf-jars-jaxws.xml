@@ -120,6 +120,9 @@
 		<classes dir="${tests.output.dir}/test-resources/jaxws/cxf/clientConfig">
 			<include name="META-INF/jaxws-client-config.xml"/>
 		</classes>
+                <zipfileset dir="${tests.output.dir}/test-resources/jaxws/cxf/clientConfig/META-INF" prefix="META-INF">
+                        <include name="permissions.xml"/>
+                </zipfileset>
 		<manifest>
             <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- Apache CXF impl required for testing purposes -->
         </manifest>
@@ -487,6 +490,14 @@
 			<include name="org/jboss/test/ws/jaxws/cxf/jbws3713/TestClient.class" />
 		</fileset>
 	</jar>
+
+	<!-- jaxws-cxf-jbws3745 -->
+	<war destfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3745.war"
+			 webxml="${tests.output.dir}/test-resources/jaxws/cxf/jbws3745/WEB-INF/web.xml">
+		<classes dir="${tests.output.dir}/test-classes">
+			<include name="org/jboss/test/ws/jaxws/cxf/jbws3745/SimpleService*.class" />
+		</classes>
+	</war>
 
     <!-- jaxws-cxf-logging -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-logging.jar">

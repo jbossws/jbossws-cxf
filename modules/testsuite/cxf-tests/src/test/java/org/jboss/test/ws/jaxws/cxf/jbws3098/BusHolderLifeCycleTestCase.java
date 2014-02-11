@@ -26,7 +26,11 @@ import java.net.URL;
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
+<<<<<<< .working
 import org.jboss.wsf.spi.deployment.Deployment;
+=======
+import org.jboss.ws.common.deployment.DefaultDeploymentModelFactory;
+>>>>>>> .merge-right.r18336
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
@@ -64,7 +68,7 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
       Bus bus = holder.getBus();
       TestLifeCycleListener listener = new TestLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(listener);
-      holder.configure(null, null, null, null, null);
+      holder.configure(null, null, null, new DefaultDeploymentModelFactory().newDeployment("testDeployment", null), null);
       holder.close();
       assertEquals("preShutdown method on listener should be called exactly once; number of actual calls: "
                   + listener.getCount(), 1, listener.getCount());
@@ -75,7 +79,7 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
       Bus bus = holder.getBus();
       TestLifeCycleListener listener = new TestLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(listener);
-      holder.configure(null, null, null, null, null);
+      holder.configure(null, null, null, new DefaultDeploymentModelFactory().newDeployment("testDeployment", null), null);
       bus.shutdown(true);
       holder.close();
       assertEquals("preShutdown method on listener should be called exactly once; number of actual calls: "
@@ -87,7 +91,7 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
       Bus bus = holder.getBus();
       TestLifeCycleListener listener = new TestLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(listener);
-      holder.configure(null, null, null, null, null);
+      holder.configure(null, null, null, new DefaultDeploymentModelFactory().newDeployment("testDeployment", null), null);
       assertEquals("preShutdown method on listener shouldn't be called before holder is closed: number of actual calls: "
                   + listener.getCount(), 0, listener.getCount());
       holder.close();

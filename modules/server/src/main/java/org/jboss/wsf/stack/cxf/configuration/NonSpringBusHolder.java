@@ -37,6 +37,7 @@ import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.rm.RMManager;
 import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
@@ -80,16 +81,18 @@ public class NonSpringBusHolder extends BusHolder
     * @param resolver               The ResourceResolver to configure, if any
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     * @param wsmd                   The current JBossWebservicesMetaData, if any
-    * @param depRuntimeClassLoader  The current deployment classloader
+    * @param dep                    The current deployment
     */
-   
-   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, ClassLoader depRuntimeClassLoader, JaspiServerAuthenticator authenticator)
+
+   @Override
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, Deployment dep, JaspiServerAuthenticator authenticator)
    {
       if (configured)
       {
          throw Messages.MESSAGES.busAlreadyConfigured(bus);
       }
-      super.configure(resolver, configurer, wsmd, depRuntimeClassLoader, authenticator);
+      super.configure(resolver, configurer, wsmd, dep, authenticator);
+
 
       for (DDEndpoint dde : metadata.getEndpoints())
       {

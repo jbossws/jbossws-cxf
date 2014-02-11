@@ -32,6 +32,7 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.wsf.test.CryptoHelper;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -155,7 +156,11 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
       reqCtx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
       reqCtx.put(SecurityConstants.SIGNATURE_USERNAME, "alice");
       reqCtx.put(SecurityConstants.ENCRYPT_USERNAME, "bob");
-      assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) SAML1.1 Sender Vouches with X.509 Certificates, Sign, Optional Encrypt"));
+      try {
+         assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) SAML1.1 Sender Vouches with X.509 Certificates, Sign, Optional Encrypt"));
+      } catch (Exception e) {
+         throw CryptoHelper.checkAndWrapException(e);
+      }
    }
 
    /**
@@ -177,7 +182,11 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
       reqCtx.put(SecurityConstants.SIGNATURE_USERNAME, "alice");
       reqCtx.put(SecurityConstants.ENCRYPT_USERNAME, "bob");
       reqCtx.put(SecurityConstants.SELF_SIGN_SAML_ASSERTION, "true");
-      assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) SAML1.1 Holder of Key, Sign, Optional Encrypt"));
+      try {
+         assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) SAML1.1 Holder of Key, Sign, Optional Encrypt"));
+      } catch (Exception e) {
+         throw CryptoHelper.checkAndWrapException(e);
+      }
    }
 
    /**
@@ -257,6 +266,10 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
       reqCtx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
       reqCtx.put(SecurityConstants.SIGNATURE_USERNAME, "alice");
       reqCtx.put(SecurityConstants.ENCRYPT_USERNAME, "bob");
-      assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) SAML1.1/2.0 Sender Vouches with X.509 Certificate, Sign, Encrypt"));
+      try {
+         assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) SAML1.1/2.0 Sender Vouches with X.509 Certificate, Sign, Encrypt"));
+      } catch (Exception e) {
+         throw CryptoHelper.checkAndWrapException(e);
+      }
    }
 }

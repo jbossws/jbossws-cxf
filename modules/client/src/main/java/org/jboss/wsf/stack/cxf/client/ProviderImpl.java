@@ -32,13 +32,8 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.Executor;
 
-import javax.security.auth.message.config.AuthConfigFactory;
-import javax.security.auth.message.config.AuthConfigProvider;
-import javax.security.auth.message.config.ClientAuthConfig;
-import javax.security.auth.message.config.ServerAuthConfig;
 import javax.xml.bind.JAXBContext;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
@@ -60,30 +55,17 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.DispatchImpl;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
-import org.jboss.security.auth.callback.JBossCallbackHandler;
-import org.jboss.security.auth.login.AuthenticationInfo;
-import org.jboss.security.auth.login.BaseAuthenticationInfo;
-import org.jboss.security.auth.login.JASPIAuthenticationInfo;
-import org.jboss.security.config.ApplicationPolicy;
-import org.jboss.security.config.SecurityConfiguration;
 import org.jboss.ws.api.configuration.AbstractClientFeature;
+import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.ws.common.utils.DelegateClassLoader;
-import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
-import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.management.ServerConfig;
-import org.jboss.wsf.spi.management.ServerConfigFactory;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
 import org.jboss.wsf.stack.cxf.client.configuration.HandlerChainSortInterceptor;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
-import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientAuthenticator;
-import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientInInterceptor;
-import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientOutInterceptor;
-import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConfigProvider;
-import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConstants;
 import org.w3c.dom.Element;
 
 /**
@@ -183,16 +165,6 @@ import org.w3c.dom.Element;
  */
 public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
 {
-   private static final boolean jbossModulesEnv;
-   private static ServerConfig serverConfig = null;
-   private static boolean serverConfigInit = false;
-
-   static {
-      //check if running in a JBoss Modules environment: the jbossws-cxf and cxf classes come
-      //from different classloader when using jboss-modules (no flat classloader)
-      jbossModulesEnv = (ProviderImpl.class.getClassLoader() != org.apache.cxf.jaxws22.spi.ProviderImpl.class.getClassLoader());
-   }
-
    @Override
    protected org.apache.cxf.jaxws.EndpointImpl createEndpointImpl(Bus bus, String bindingId, Object implementor,
          WebServiceFeature... features)
@@ -604,16 +576,15 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          Client client = obj instanceof DispatchImpl<?> ? ((DispatchImpl<?>)obj).getClient() : ClientProxy.getClient(obj);
          
          client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
-         
-         if (jbossModulesEnv) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
+
+         if (ClassLoaderProvider.isSet()) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
             ServerConfig sc = getServerConfig();
             if (sc != null) {
-               for (ClientConfig config : sc.getClientConfigs()) {
-                  if (config.getConfigName().equals(ClientConfig.STANDARD_CLIENT_CONFIG)) {
-                     CXFClientConfigurer helper = new CXFClientConfigurer();
-                     helper.setupConfigHandlers(binding, config);
-                     helper.setConfigProperties(client, config.getProperties());
-                  }
+               ClientConfig config = sc.getClientConfig(ClientConfig.STANDARD_CLIENT_CONFIG);
+               if (config != null) {
+                  CXFClientConfigurer helper = new CXFClientConfigurer();
+                  helper.setupConfigHandlers(binding, config);
+                  helper.setConfigProperties(client, config.getProperties());
                }
             }
          }
@@ -625,23 +596,13 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             }
          }
       }      
-   }
-
-   //lazy get the server config (and try once per classloader only)
-   private static synchronized ServerConfig getServerConfig()
-   {
-      if (!serverConfigInit)
-      {
-         try {
-            final ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
-            serverConfig = SPIProvider.getInstance().getSPI(ServerConfigFactory.class, cl).getServerConfig();
-         } catch (Exception e) {
-            Loggers.ROOT_LOGGER.cannotRetrieveServerConfigIgnoreForClients(e);
-         } finally {
-            serverConfigInit = true;
+      
+      private static ServerConfig getServerConfig() {
+         if(System.getSecurityManager() == null) {
+            return AbstractServerConfig.getServerIntegrationServerConfig();
          }
+         return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
       }
-      return serverConfig;
    }
    
 

@@ -17,6 +17,7 @@
   <!-- Modules -->
   <modules>
     <module>transports/http/httpserver</module>
+    <module>transports/http/undertow</module>
     <module>transports/udp</module>
   </modules>
 

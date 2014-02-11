@@ -152,6 +152,16 @@
         <attribute name="Dependencies" value="org.apache.cxf,org.jboss.ws.cxf.jbossws-cxf-server"/>
       </manifest>
     </war>
+  	 <!-- jaxws-cxf-jbws-3670-->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3670.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jbws3670/WEB-INF/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3670/HelloWorldService*.class"/>
+      	<include name="org/jboss/test/ws/jaxws/cxf/jbws3670/TestBean.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/jbws3670/WEB-INF">
+        <include name="jbossws-cxf.xml"/>
+      </webinf>
+    </war>
 
     <!-- jaxws-cxf-jms-api -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-api.war"

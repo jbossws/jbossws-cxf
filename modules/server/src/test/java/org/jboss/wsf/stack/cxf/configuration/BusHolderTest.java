@@ -21,11 +21,15 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.TestCase;
 
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.FirstAlternativeSelector;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
+import org.jboss.ws.common.deployment.DefaultDeploymentModelFactory;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
@@ -59,12 +63,13 @@ public class BusHolderTest extends TestCase
    private static String setupPropertyAndGetAlternativeSelector(String alternative) {
       JBossWebservicesMetaData wsmd = null;
       if (alternative != null) {
-         wsmd = new JBossWebservicesMetaData(null);
-         wsmd.setProperty(Constants.CXF_POLICY_ALTERNATIVE_SELECTOR_PROP, alternative);
+         Map<String, String> props = new HashMap<String, String>();
+         props.put(Constants.CXF_POLICY_ALTERNATIVE_SELECTOR_PROP, alternative);
+         wsmd = new JBossWebservicesMetaData(null, null, null, null, props, null, null);
       }
       BusHolder holder = new NonSpringBusHolder(new DDBeans());
       try {
-         holder.configure(null, null, wsmd, null, null);
+         holder.configure(null, null, wsmd, new DefaultDeploymentModelFactory().newDeployment("testDeployment", null), null);
          return holder.getBus().getExtension(PolicyEngine.class).getAlternativeSelector().getClass().getName();
       } finally {
          holder.close();

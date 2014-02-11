@@ -57,13 +57,6 @@
     <fail message="jbossws.integration.target not set" unless="jbossws.integration.target"/>
     <echo message="integration.target=${jbossws.integration.target}"/>
     
-    <condition property="jbossws.integration.jboss71x" value="true">
-      <or>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss712"/>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss713"/>
-      </or>
-    </condition>
-    
     <condition property="jbossws.integration.jboss72x" value="true">
       <or>
         <equals arg1="${jbossws.integration.target}" arg2="jboss720"/>
@@ -96,6 +89,9 @@
         <exclude name="**/jbossws-native-services.jar"/>
         <exclude name="**/jbossws-jboss*.jar"/>
       	<exclude name="**/jbossws-wildfly*.jar"/>
+      	<!-- httpserver vs undertow transport selection in build-testsuite (container specific) -->
+      	<exclude name="**/jbossws-cxf-transports-httpserver.jar"/>
+      	<exclude name="**/jbossws-cxf-transports-undertow.jar"/>
       </fileset>
       <fileset dir="${thirdparty.dir}">
         <exclude name="**/jbossws*.jar"/>

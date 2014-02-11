@@ -115,16 +115,6 @@ public class ServletHelper
 
    public static void callPreDestroy(Endpoint endpoint)
    {
-      ServerFactoryBean factory = endpoint.getAttachment(ServerFactoryBean.class);
-      if (factory != null)
-      {
-         if (isJaxwsJseEndpoint(endpoint) && factory.getServiceBean() != null)
-         {
-            final Reference epReference = endpoint.getInstanceProvider().getInstance(factory.getServiceBean().getClass().getName());
-            final Object epInstance = epReference.getValue();
-            InjectionHelper.callPreDestroyMethod(epInstance);
-         }
-      }
    }
 
    public static void callRequestHandler(HttpServletRequest req, HttpServletResponse res, ServletContext ctx, Bus bus,

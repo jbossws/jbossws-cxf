@@ -64,16 +64,12 @@
     <jbossws.spi.version>2.3.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>2.3.0-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.2.0.Final</jbossws.common.tools.version>
-    <jbossws.jboss712.version>4.2.1.Final</jbossws.jboss712.version>
-    <jbossws.jboss713.version>4.2.1.Final</jbossws.jboss713.version>
     <jbossws.jboss720.version>4.3.0-SNAPSHOT</jbossws.jboss720.version>
     <jbossws.native.version>4.1.2.Final</jbossws.native.version>
-    <jboss712.version>7.1.2.Final</jboss712.version>
-    <jboss713.version>7.1.3.Final</jboss713.version>
     <jboss720.version>7.2.0.Final</jboss720.version>
-    <wildfly800.version>8.0.0.Beta2-SNAPSHOT</wildfly800.version>
+    <wildfly800.version>8.0.0.Final-SNAPSHOT</wildfly800.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
-    <cxf.version>2.7.8</cxf.version>
+    <cxf.version>2.7.10</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
     <cxf.xjcplugins.version>2.6.1</cxf.xjcplugins.version>
     <jboss.common.core.version>2.2.17.GA</jboss.common.core.version>
@@ -84,9 +80,11 @@
     <picketbox.version>4.0.17.Final</picketbox.version>
     <picketlink.version>2.1.7.Final</picketlink.version>
     <jaxws-jboss-httpserver-httpspi.version>1.0.1.GA</jaxws-jboss-httpserver-httpspi.version>
+    <jaxws-undertow-httpspi.version>1.0.1-SNAPSHOT</jaxws-undertow-httpspi.version>
     <httpserver.version>1.0.0.Final</httpserver.version>
+    <io.undertow.version>1.0.0.Beta33</io.undertow.version>
     <jaxb.api.version>1.0.4.Final</jaxb.api.version>
-    <jaxb.impl.version>2.2.5</jaxb.impl.version>
+    <jaxb.impl.version>2.2.6</jaxb.impl.version>
     <jaxrpc.api.version>1.0.1.Final</jaxrpc.api.version>
     <jaxws.api.version>2.0.2.Final</jaxws.api.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
@@ -105,7 +103,7 @@
     <velocity.version>1.7</velocity.version>
     <xerces.version>2.9.1</xerces.version>
     <xmlsec.version>1.5.6</xmlsec.version>
-    <wss4j.version>1.6.13</wss4j.version>
+    <wss4j.version>1.6.14</wss4j.version>
     <wstx.version>4.2.0</wstx.version>
     <spring.version>3.0.7.RELEASE</spring.version>
     <shrinkwrap.version>1.1.3</shrinkwrap.version>
@@ -140,26 +138,6 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss712-server-integration</artifactId>
-        <version>${jbossws.jboss712.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss712-tests-integration</artifactId>
-        <version>${jbossws.jboss712.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss713-server-integration</artifactId>
-        <version>${jbossws.jboss713.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss713-tests-integration</artifactId>
-        <version>${jbossws.jboss713.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss720-server-integration</artifactId>
         <version>${jbossws.jboss720.version}</version>
       </dependency>
@@ -177,6 +155,11 @@
         <groupId>org.jboss.ws.projects</groupId>
         <artifactId>jaxws-jboss-httpserver-httpspi</artifactId>
         <version>${jaxws-jboss-httpserver-httpspi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws.projects</groupId>
+        <artifactId>jaxws-undertow-httpspi</artifactId>
+        <version>${jaxws-undertow-httpspi.version}</version>
       </dependency>
 
       <!-- CXF dependencies -->
@@ -972,6 +955,17 @@
         <version>${httpserver.version}</version>
       </dependency>
       <dependency>
+        <groupId>io.undertow</groupId>
+        <artifactId>undertow-core</artifactId>
+        <version>${io.undertow.version}</version>
+        <exclusions>
+            <exclusion>
+                <groupId>io.undertow</groupId>
+                <artifactId>undertow-build-config</artifactId>
+            </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
         <groupId>org.opensaml</groupId>
         <artifactId>opensaml</artifactId>
         <version>${opensaml.version}</version>
@@ -1365,32 +1359,8 @@
     </profile>
 
     <!--
-    Name:  jboss712
-    Descr: JBoss-7.1.2 specific options
-    -->
-    <profile>
-      <id>jboss712</id>
-      <properties>
-        <jbossws.integration.target>jboss712</jbossws.integration.target>
-        <jboss.home>${jboss712.home}</jboss.home>
-      </properties>
-    </profile>
-
-    <!--
-    Name:  jboss713
-    Descr: JBoss-7.1.3 specific options
-    -->
-    <profile>
-      <id>jboss713</id>
-      <properties>
-        <jbossws.integration.target>jboss713</jbossws.integration.target>
-        <jboss.home>${jboss713.home}</jboss.home>
-      </properties>
-    </profile>
-
-    <!--
-    Name:  jboss711
-    Descr: JBoss-7.1.1 specific options
+    Name:  jboss720
+    Descr: JBoss-7.2.0 specific options
     -->
     <profile>
       <id>jboss720</id>

@@ -40,6 +40,7 @@ import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.service.factory.FactoryBeanListener;
 import org.apache.cxf.service.factory.FactoryBeanListenerManager;
+import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.workqueue.AutomaticWorkQueue;
 import org.apache.cxf.workqueue.AutomaticWorkQueueImpl;
 import org.apache.cxf.workqueue.WorkQueueManager;
@@ -47,7 +48,10 @@ import org.apache.cxf.ws.discovery.listeners.WSDiscoveryServerListener;
 import org.apache.cxf.ws.policy.AlternativeSelector;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
+import org.jboss.ws.api.annotation.PolicySets;
 import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.wsf.spi.deployment.AnnotationsInfo;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
@@ -62,6 +66,7 @@ import org.jboss.wsf.stack.cxf.interceptor.JaspiSeverOutInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
+import org.jboss.wsf.stack.cxf.transport.JBossWSDestinationRegistryImpl;
 
 /**
  * A wrapper of the Bus for performing most of the configurations required on it by JBossWS
@@ -96,9 +101,10 @@ public abstract class BusHolder
     * @param resolver               The ResourceResolver to configure, if any
     * @param configurer             The JBossWSCXFConfigurer to install in the bus, if any
     * @param wsmd                   The current JBossWebservicesMetaData, if any
-    * @param depRuntimeClassLoader  The current deployment classloader
+    * @param dep                    The current deployment
     */
-   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, ClassLoader depRuntimeClassLoader, JaspiServerAuthenticator authenticator)
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, Deployment dep, JaspiServerAuthenticator authenticator)
+
    {
       bus.setProperty(org.jboss.wsf.stack.cxf.client.Constants.DEPLOYMENT_BUS, true);
       busHolderListener = new BusHolderLifeCycleListener();
@@ -123,12 +129,19 @@ public abstract class BusHolder
       {
          bus.getExtension(PolicyEngine.class).setAlternativeSelector(getAlternativeSelector(props));
       }     
+      if (bus.getExtension(DestinationRegistry.class) == null)
+      {
+         bus.setExtension(new JBossWSDestinationRegistryImpl(), DestinationRegistry.class);
+      }
       setCXFManagement(bus, props); //*first* enabled cxf management if required, *then* add anything else which could be manageable (e.g. work queues)
       setAdditionalWorkQueues(bus, props); 
       setWSDiscovery(bus, props);
       
-      policySetsListener = new PolicySetsAnnotationListener(depRuntimeClassLoader);
-      bus.getExtension(FactoryBeanListenerManager.class).addListener(policySetsListener);
+      AnnotationsInfo ai = dep.getAttachment(AnnotationsInfo.class);
+      if (ai == null || ai.hasAnnotatedClasses(PolicySets.class.getName())) {
+         policySetsListener = new PolicySetsAnnotationListener(dep.getRuntimeClassLoader());
+         bus.getExtension(FactoryBeanListenerManager.class).addListener(policySetsListener);
+      }
    }
    
    

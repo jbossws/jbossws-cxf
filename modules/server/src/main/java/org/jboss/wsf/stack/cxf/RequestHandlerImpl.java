@@ -24,9 +24,12 @@ package org.jboss.wsf.stack.cxf;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.AccessController;
 import java.util.Collection;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -52,6 +55,7 @@ import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
+import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 
@@ -64,7 +68,8 @@ import org.jboss.wsf.stack.cxf.configuration.BusHolder;
  */
 public class RequestHandlerImpl implements RequestHandler
 {
-   private static RequestHandlerImpl me = new RequestHandlerImpl();
+   private static final RequestHandlerImpl me = new RequestHandlerImpl();
+   private static final Pattern pathPattern = Pattern.compile("/{2,}");
 
    RequestHandlerImpl()
    {
@@ -131,33 +136,30 @@ public class RequestHandlerImpl implements RequestHandler
       {
          throw Messages.MESSAGES.cannotObtainRegistry(DestinationRegistry.class.getName());
       }
+      requestURI = pathPattern.matcher(requestURI).replaceAll("/");
+      //first try looking up the destination in the registry map
+      final AbstractHTTPDestination dest = destRegistry.getDestinationForPath(requestURI, true);
+      if (dest != null) {
+         return dest;
+      }
+      //if there's no direct match, iterate on the destinations to see if there's valid "catch-all" destination
+      //(servlet-based endpoints, with "/*" url-pattern in web.xml)
       Collection<AbstractHTTPDestination> destinations = destRegistry.getDestinations();
       AbstractHTTPDestination returnValue = null;
       for (AbstractHTTPDestination destination : destinations)
       {
-         EndpointInfo endpointInfo = destination.getEndpointInfo();
-         String address = endpointInfo.getAddress();
-
-         String path = address;
+         String path = destination.getEndpointInfo().getAddress();
          try
          {
-            path = new URL(address).getPath();
+            path = new URL(path).getPath();
          }
          catch (MalformedURLException ex)
          {
             // ignore
          }
 
-         if (path != null)
-         {
-            if (requestURI.equals(path))
-            {
-               return destination; // exact match
-            }
-            else if (requestURI.startsWith(path))
-            {
-               returnValue = destination; // fallback
-            }
+         if (path != null && requestURI.startsWith(path)) {
+            returnValue = destination;
          }
       }
 
@@ -191,7 +193,7 @@ public class RequestHandlerImpl implements RequestHandler
     * @throws ServletException if some problem occurs
     */
    private final boolean handleQuery(HttpServletRequest req, HttpServletResponse res, AbstractHTTPDestination dest, Bus bus)
-   throws ServletException
+   throws ServletException, IOException
    {
       final String queryString = req.getQueryString();
       if ((null != queryString) && (queryString.length() > 0))
@@ -201,8 +203,7 @@ public class RequestHandlerImpl implements RequestHandler
             final String ctxUri = req.getRequestURI();
             final String baseUri = req.getRequestURL().toString() + "?" + queryString;
             final EndpointInfo endpointInfo = dest.getEndpointInfo();
-            final boolean autoRewrite = SoapAddressRewriteHelper.isAutoRewriteOn(
-                  AbstractServerConfig.getServerIntegrationServerConfig());
+            final boolean autoRewrite = SoapAddressRewriteHelper.isAutoRewriteOn(getServerConfig());
             endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS, autoRewrite);
             endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL, autoRewrite);
 
@@ -226,8 +227,25 @@ public class RequestHandlerImpl implements RequestHandler
             }
          }
       }
+      else if ("GET".equals(req.getMethod()))
+      {
+         //reject HTTP GET without query string (only support messages sent w/ POST)
+         res.setStatus(405);
+         res.setContentType("text/plain");
+         Writer out = res.getWriter();
+         out.write("HTTP GET not supported");
+         out.close();
+         return true;
+      }
 
       return false;
+   }
+   
+   private static ServerConfig getServerConfig() {
+      if(System.getSecurityManager() == null) {
+         return AbstractServerConfig.getServerIntegrationServerConfig();
+      }
+      return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
    }
 
    private long initRequestMetrics(Endpoint endpoint)

@@ -47,6 +47,7 @@ import org.jboss.ws.common.integration.WSConstants;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
 import org.jboss.wsf.spi.metadata.j2ee.JSEArchiveMetaData;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
@@ -90,6 +91,12 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
       if (holder != null)
       {
          holder.close();
+
+         WSDLFilePublisher wsdlFilePublisher = dep.getAttachment(WSDLFilePublisher.class);
+         if (wsdlFilePublisher != null)
+         {
+           wsdlFilePublisher.unpublishWsdlFiles();
+         }
       }
    }
 
@@ -144,8 +151,16 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          
          Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
                new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile(), epConfigName, epConfigFile);
-         holder.configure(resolver, configurer, wsmd, dep.getRuntimeClassLoader(), jaspiAuthenticator);
+         holder.configure(resolver, configurer, wsmd, dep, jaspiAuthenticator);
+
          dep.addAttachment(BusHolder.class, holder);
+         if (holder instanceof SpringBusHolder)
+         {
+            for (Endpoint endpoint : dep.getService().getEndpoints())
+            {
+                 endpoint.setProperty("SpringBus", true);
+            }
+         }
       }
       finally
       {

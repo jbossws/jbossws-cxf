@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,6 +22,7 @@
 package org.jboss.wsf.stack.cxf.configuration;
 
 import java.io.IOException;
+import java.security.AccessController;
 import java.util.List;
 import java.util.Properties;
 
@@ -152,14 +153,12 @@ public class ServerBeanCustomizer extends BeanCustomizer
          if (configFile == null)
          {
             //use endpoint configs from AS domain
-            ServerConfig sc = AbstractServerConfig.getServerIntegrationServerConfig();
-            for (org.jboss.wsf.spi.metadata.config.EndpointConfig config : sc.getEndpointConfigs())
-            {
-               if (config.getConfigName().equals(configName))
-               {
-                  endpoint.setEndpointConfig(config);
-                  break;
-               }
+            ServerConfig sc = getServerConfig();
+            org.jboss.wsf.spi.metadata.config.EndpointConfig config = sc.getEndpointConfig(configName);
+            if (config != null) {
+               endpoint.setEndpointConfig(config);
+            } else {
+                throw Messages.MESSAGES.couldNotFindEndpointConfigName(configName);
             }
          }
          else
@@ -183,6 +182,13 @@ public class ServerBeanCustomizer extends BeanCustomizer
           } 
          
       }
+   }
+   
+   private static ServerConfig getServerConfig() {
+      if(System.getSecurityManager() == null) {
+         return AbstractServerConfig.getServerIntegrationServerConfig();
+      }
+      return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
    }
    
    public void setDeploymentRoot(UnifiedVirtualFile deploymentRoot)

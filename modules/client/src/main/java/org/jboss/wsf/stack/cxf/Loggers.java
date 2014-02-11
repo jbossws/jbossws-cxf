@@ -210,15 +210,30 @@ public interface Loggers extends BasicLogger
     void unknownJAXWSClientBusStrategy(String strategy);
     
     @LogMessage(level = WARN)
-    @Message(id = 24097, value = "No application policy found for security domain '%s'")
+    @Message(id = 24097, value = "Could not delete wsdl file %s")
+    void couldNotDeleteWsdlFile(String filename);
+
+    @LogMessage(level = DEBUG)
+    @Message(id = 24098, value = "Deleted wsdl file %s")
+    void deletedWsdlFile(String filename);
+
+    @LogMessage(level = WARN)
+    @Message(id = 24099, value = "Could not create wsdl data path.")
+    void couldNotCreateWsdlDataPath();
+
+    @LogMessage(level = WARN)
+    @Message(id = 24100, value = "Could not delete wsdl directory %s")
+    void couldNotDeleteWsdlDirectory(String filename);
+    
+    @LogMessage(level = WARN)
+    @Message(id = 24102, value = "No application policy found for security domain '%s'")
     void noApplicationPolicy(String securityDomain);
     
     @LogMessage(level = WARN)
-    @Message(id = 24098, value = "No JASPIAuthenticationInfo found for security domain '%s'")
+    @Message(id = 24103, value = "No JASPIAuthenticationInfo found for security domain '%s'")
     void noJaspiApplicationPolicy(String securityDomain);
     
     @LogMessage(level = WARN)
-    @Message(id = 24099, value = "Can not create Jaspi ServerAuthContext for security domain '%s'")
+    @Message(id = 24104, value = "Can not create Jaspi ServerAuthContext for security domain '%s'")
     void cannotCreateServerAuthContext(String securityDomain);
-    
 }

@@ -144,31 +144,28 @@ public class EndpointPublishServlet extends HttpServlet
    // | /some/complex/pattern/* | foo.Bar        | some.complex.pattern | used pattern url with dots instead of / and removed all wildcards |
    // +-------------------------+----------------+----------------------+-------------------------------------------------------------------+
    private WebservicesMetaData createMetaData() {
-      WebservicesMetaData metadata = new WebservicesMetaData();
-      WebserviceDescriptionMetaData webserviceDescription = new WebserviceDescriptionMetaData(metadata);
-      metadata.addWebserviceDescription(webserviceDescription);
-      webserviceDescription.setWsdlFile("WEB-INF/wsdl/EndpointImpl4.xml");
-      PortComponentMetaData portComponent = new PortComponentMetaData(webserviceDescription);
-      portComponent.setPortComponentName("PortComponent4"); //unique ID
-      portComponent.setServiceEndpointInterface("org.jboss.test.ws.publish.EndpointImpl4");
-      portComponent.setWsdlPort(new QName("http://publish.ws.test.jboss.org/", "EndpointPort4"));
-      portComponent.setWsdlService(new QName("http://publish.ws.test.jboss.org/", "EndpointService4"));
-      // mandatory servlet link (because endpoint is POJO) - needed for proper matching of endpoint with WebservicesMD
-      portComponent.setServletLink("pattern4");
-      // if endpoint ^ would be EJB, users have to use setEjbLink() method instead
-      webserviceDescription.addPortComponent(portComponent);
-      WebserviceDescriptionMetaData webserviceDescription2 = new WebserviceDescriptionMetaData(metadata);
-      metadata.addWebserviceDescription(webserviceDescription2);
-      webserviceDescription2.setWsdlFile("org/jboss/test/ws/publish/EndpointImpl5.xml"); //test JBWS-3540
-      PortComponentMetaData portComponent2 = new PortComponentMetaData(webserviceDescription2);
-      portComponent2.setPortComponentName("PortComponent5"); //unique ID
-      portComponent2.setServiceEndpointInterface("org.jboss.test.ws.publish.EndpointImpl5");
-      portComponent2.setWsdlPort(new QName("http://publish.ws.test.jboss.org/", "EndpointPort5"));
-      portComponent2.setWsdlService(new QName("http://publish.ws.test.jboss.org/", "EndpointService5"));
-      // mandatory servlet link (because endpoint is POJO) - needed for proper matching of endpoint with WebservicesMD
-      portComponent2.setServletLink("pattern5");
-      // if endpoint ^ would be EJB, users have to use setEjbLink() method instead
-      webserviceDescription2.addPortComponent(portComponent2);
+      PortComponentMetaData portComponent = new PortComponentMetaData("PortComponent4", //unique ID
+            new QName("http://publish.ws.test.jboss.org/","EndpointPort4"),
+            "org.jboss.test.ws.publish.EndpointImpl4",
+            null, // if endpoint ^ was an EJB, user would have to use this parameter to set ejbLink
+            "pattern4", // mandatory servlet link (because endpoint is POJO) - needed for proper matching of endpoint with WebservicesMD
+            null, null,
+            new QName("http://publish.ws.test.jboss.org/", "EndpointService4"),
+            null, null);
+      WebserviceDescriptionMetaData webserviceDescription = new WebserviceDescriptionMetaData(null, "WEB-INF/wsdl/EndpointImpl4.xml", null, portComponent);
+      
+      PortComponentMetaData portComponent2 = new PortComponentMetaData("PortComponent5", //unique ID
+            new QName("http://publish.ws.test.jboss.org/","EndpointPort5"),
+            "org.jboss.test.ws.publish.EndpointImpl5",
+            null, // if endpoint ^ was an EJB, user would have to use this parameter to set ejbLink
+            "pattern5", // mandatory servlet link (because endpoint is POJO) - needed for proper matching of endpoint with WebservicesMD
+            null, null,
+            new QName("http://publish.ws.test.jboss.org/", "EndpointService5"),
+            null, null);
+      WebserviceDescriptionMetaData webserviceDescription2 = new WebserviceDescriptionMetaData(null, "org/jboss/test/ws/publish/EndpointImpl5.xml", //test JBWS-3540
+            null, portComponent2);
+      
+      WebservicesMetaData metadata = new WebservicesMetaData(null, new WebserviceDescriptionMetaData[]{webserviceDescription, webserviceDescription2});
       return metadata;
    }
 

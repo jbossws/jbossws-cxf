@@ -151,34 +151,16 @@ public class JBossWSTestHelper
        return target.startsWith("jboss7");
    }
 
-   public static boolean isTargetJBoss71()
-   {
-       String target = getIntegrationTarget();
-       return target.startsWith("jboss71");
-   }
-
    public static boolean isTargetJBoss72()
    {
        String target = getIntegrationTarget();
        return target.startsWith("jboss72");
    }
 
-   @Deprecated
-   public static boolean isTargetJBoss8()
-   {
-      return isTargetJBoss8();
-   }
-   
    public static boolean isTargetWildFly8()
    {
        String target = getIntegrationTarget();
        return target.startsWith("wildfly8");
-   }
-
-   @Deprecated
-   public static boolean isTargetJBoss80()
-   {
-       return isTargetWildFly80();
    }
 
    public static boolean isTargetWildFly80()

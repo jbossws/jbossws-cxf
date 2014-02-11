@@ -1,0 +1,25 @@
+<beans xmlns='http://www.springframework.org/schema/beans'
+       xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+       xmlns:beans='http://www.springframework.org/schema/beans'
+       xmlns:jaxws='http://cxf.apache.org/jaxws'
+       xmlns:cxf='http://cxf.apache.org/core'
+       xsi:schemaLocation='http://www.springframework.org/schema/beans
+  						http://www.springframework.org/schema/beans/spring-beans.xsd
+  						http://cxf.apache.org/jaxws
+  						http://cxf.apache.org/schemas/jaxws.xsd
+  						http://cxf.apache.org/core
+  						http://cxf.apache.org/schemas/core.xsd'>
+
+   <jaxws:endpoint id="helloWorldServiceEndpoint"
+                   address="http://@jboss.bind.address@:8080/jaxws-cxf-jbws3670/helloworld"
+                   implementor="#helloWorldServiceBean">
+                          
+   </jaxws:endpoint>
+     
+   <bean id="testBean" class="org.jboss.test.ws.jaxws.cxf.jbws3670.TestBean" />  
+     
+   <bean id="helloWorldServiceBean" class="org.jboss.test.ws.jaxws.cxf.jbws3670.HelloWorldService">
+      <constructor-arg ref="testBean" />
+   </bean>
+   
+</beans>

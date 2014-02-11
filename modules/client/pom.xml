@@ -228,9 +228,16 @@
     <dependency>
       <groupId>org.jboss.spec.javax.security.auth.message</groupId>
       <artifactId>jboss-jaspi-api_1.1_spec</artifactId>
+    </dependency>    
+    <!-- [JBWS-3722] Explicit JAXB dependencies to ensure the dependency management from jbossws-cxf pom.xml applies -->
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
     </dependency>
-    
-
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-xjc</artifactId>
+    </dependency>
     <!-- jboss provided -->
     <dependency>
       <groupId>org.jboss</groupId>
