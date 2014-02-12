@@ -594,7 +594,7 @@
 
     <!-- jaxws-samples-wsse-policy-username -->
     <war
-       warfile="${tests.output.dir}/test-libs/jaxws-samples--username.war"
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username.war"
        webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/username/WEB-INF/web.xml">
        <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/Service*.class"/>
