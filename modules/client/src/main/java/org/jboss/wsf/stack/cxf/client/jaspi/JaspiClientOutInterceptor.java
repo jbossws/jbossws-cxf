@@ -40,7 +40,8 @@ import org.apache.cxf.phase.Phase;
  */
 public class JaspiClientOutInterceptor extends AbstractSoapInterceptor
 {
-   private JaspiClientAuthenticator authManager;
+   private final JaspiClientAuthenticator authManager;
+   
    public JaspiClientOutInterceptor(JaspiClientAuthenticator authManager)
    {
       super(Phase.PRE_PROTOCOL);

@@ -33,7 +33,8 @@ import org.apache.cxf.phase.Phase;
  */
 public class JaspiClientInInterceptor extends AbstractSoapInterceptor
 {
-   private JaspiClientAuthenticator authManager;
+   private final JaspiClientAuthenticator authManager;
+   
    public JaspiClientInInterceptor(JaspiClientAuthenticator authManager)
    {
       super(Phase.POST_PROTOCOL_ENDING);

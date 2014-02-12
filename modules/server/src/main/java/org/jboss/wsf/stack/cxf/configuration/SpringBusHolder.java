@@ -46,7 +46,6 @@ import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
-import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
 import org.jboss.wsf.stack.cxf.spring.handler.NamespaceHandlerResolver;
 import org.jboss.wsf.stack.cxf.spring.parser.JaxwsEndpointDefinitionParser.JBossWSSpringEndpointImpl;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -126,15 +125,14 @@ public class SpringBusHolder extends BusHolder
     * @param dep                    The current deployment
     */
    @Override
-   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, Deployment dep, JaspiServerAuthenticator authenticator)
-
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, Deployment dep)
    {
       if (configured)
       {
          throw MESSAGES.busAlreadyConfigured(ctx);
       }
 
-      super.configure(resolver, configurer, wsmd, dep, authenticator);
+      super.configure(resolver, configurer, wsmd, dep);
       
       GenericApplicationContext jbosswsCxfContext = null;
       //load stuff from provided jbossws-cxf.xml DD

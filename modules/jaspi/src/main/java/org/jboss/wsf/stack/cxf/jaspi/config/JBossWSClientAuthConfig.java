@@ -58,7 +58,7 @@ public class JBossWSClientAuthConfig extends JBossClientAuthConfig
 {
 
    @SuppressWarnings("rawtypes")
-   private List modules = new ArrayList();
+   private final List modules = new ArrayList();
    private CallbackHandler callbackHandler;
 
    @SuppressWarnings("rawtypes")

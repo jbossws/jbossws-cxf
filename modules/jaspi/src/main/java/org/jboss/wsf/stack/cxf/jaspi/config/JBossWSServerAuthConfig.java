@@ -56,9 +56,9 @@ import org.jboss.security.plugins.ClassLoaderLocatorFactory;
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
 public class JBossWSServerAuthConfig extends JBossServerAuthConfig {
-	private CallbackHandler callbackHandler = new JBossCallbackHandler();
+	private final CallbackHandler callbackHandler = new JBossCallbackHandler();
 	@SuppressWarnings("rawtypes")
-	private List modules = new ArrayList();
+	private final List modules = new ArrayList();
 
 	@SuppressWarnings("rawtypes")
 	public JBossWSServerAuthConfig(String layer, String appContext,

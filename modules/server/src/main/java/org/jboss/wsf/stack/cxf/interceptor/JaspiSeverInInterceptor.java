@@ -41,7 +41,8 @@ import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
  */
 public class JaspiSeverInInterceptor extends AbstractSoapInterceptor
 {
-   private JaspiServerAuthenticator authManager;
+   private final JaspiServerAuthenticator authManager;
+   
    public JaspiSeverInInterceptor(JaspiServerAuthenticator authManager)
    {
       super(Phase.PRE_PROTOCOL);

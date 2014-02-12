@@ -21,9 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.jaspi.config;
 
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,9 +39,9 @@ import org.jboss.security.config.ControlFlag;
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
 public class JBossWSClientAuthContext implements ClientAuthContext {
-   private List<ClientAuthModule> modules = new ArrayList<ClientAuthModule>();
+   private final List<ClientAuthModule> modules;
    @SuppressWarnings("rawtypes")
-   private Map<String, Map> moduleOptionsByName = new HashMap<String, Map>();
+   private final Map<String, Map> moduleOptionsByName;
    protected List<ControlFlag> controlFlags = new ArrayList<ControlFlag>();
 
    @SuppressWarnings("rawtypes")

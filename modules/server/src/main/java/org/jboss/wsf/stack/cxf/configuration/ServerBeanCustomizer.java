@@ -176,11 +176,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
             }
          }
          
-         if (endpoint.getProperties().get(JaspiServerAuthenticator.JASPI_SECURITY_DOMAIN) != null) {
-            String  jaspiSecurityDomain = (String)endpoint.getProperties().get(JaspiServerAuthenticator.JASPI_SECURITY_DOMAIN);
-            addJaspiInterceptor(endpoint, jaspiSecurityDomain);    
-          } 
-         
+         addJaspiInterceptors(endpoint);
       }
    }
    
@@ -216,8 +212,8 @@ public class ServerBeanCustomizer extends BeanCustomizer
       this.epConfigFile = epConfigFile;
    }
    
-   
-   private void addJaspiInterceptor(EndpointImpl endpoint, String securityDomain) {
+   private void addJaspiInterceptors(EndpointImpl endpoint) {
+      String securityDomain = (String)endpoint.getProperties().get(JaspiServerAuthenticator.JASPI_SECURITY_DOMAIN);
       if (securityDomain == null) {
          return;
       }
@@ -256,7 +252,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
       }
       catch (Exception e)
       {
-         Loggers.DEPLOYMENT_LOGGER.cannotCreateServerAuthContext(securityDomain);
+         Loggers.DEPLOYMENT_LOGGER.cannotCreateServerAuthContext(securityDomain, e);
       }     
    }
 

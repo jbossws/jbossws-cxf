@@ -32,16 +32,8 @@ import javax.security.auth.message.AuthStatus;
 import javax.security.auth.message.MessageInfo;
 import javax.security.auth.message.MessagePolicy;
 import javax.security.auth.message.module.ClientAuthModule;
-import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
-import org.apache.cxf.binding.soap.SoapMessage;
-import org.apache.cxf.binding.soap.SoapVersion;
-import org.apache.cxf.binding.soap.SoapVersionFactory;
-import org.apache.cxf.message.Exchange;
-import org.apache.cxf.message.ExchangeImpl;
-import org.apache.cxf.message.MessageImpl;
-import org.apache.ws.security.WSSConfig;
 import org.jboss.security.SimplePrincipal;
 
 /** 

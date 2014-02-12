@@ -24,9 +24,9 @@ import org.jboss.security.auth.message.GenericMessageInfo;
 public class JaspiClientAuthenticator
 {
    public static final String JASPI_SECURITY_DOMAIN = "jaspi.security.domain";
-   private ClientAuthConfig clientConfig;
-   private String securityDomain;
-   private JASPIAuthenticationInfo jpi;
+   private final ClientAuthConfig clientConfig;
+   private final String securityDomain;
+   private final JASPIAuthenticationInfo jpi;
 
    public JaspiClientAuthenticator(ClientAuthConfig clientConfig, String securityDomain, JASPIAuthenticationInfo jpi)
    {
@@ -46,6 +46,7 @@ public class JaspiClientAuthenticator
       serverContextProperties.put("security-domain", securityDomain);
       serverContextProperties.put("jaspi-policy", jpi);
       Subject clientSubject = new Subject();
+      @SuppressWarnings("unused")
       AuthStatus authStatus = null;
       try
       {
@@ -79,6 +80,7 @@ public class JaspiClientAuthenticator
       serverContextProperties.put("security-domain", securityDomain);
       serverContextProperties.put("jaspi-policy", jpi);
       Subject clientSubject = new Subject();
+      @SuppressWarnings("unused")
       AuthStatus authStatus = null;
       try
       {

@@ -235,5 +235,5 @@ public interface Loggers extends BasicLogger
     
     @LogMessage(level = WARN)
     @Message(id = 24104, value = "Can not create Jaspi ServerAuthContext for security domain '%s'")
-    void cannotCreateServerAuthContext(String securityDomain);
+    void cannotCreateServerAuthContext(String securityDomain, @Cause Throwable cause);
 }

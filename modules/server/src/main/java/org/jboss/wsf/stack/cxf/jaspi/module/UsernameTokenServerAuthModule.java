@@ -42,19 +42,17 @@ import org.jboss.wsf.stack.cxf.security.authentication.JaspiSubjectCreatingInter
  */
 public class UsernameTokenServerAuthModule extends AbstractServerAuthModule
 {
-   private String securityDomainName = null;
-   private javax.xml.ws.Endpoint endpoint = null;
-   private Bus bus = null;
-   private InterceptorProvider ip = null;
+   private final String securityDomainName;
 
    @SuppressWarnings("rawtypes")
    public void initialize(MessagePolicy requestPolicy, MessagePolicy responsePolicy, CallbackHandler handler, Map options) throws AuthException
    {
       super.initialize(requestPolicy, responsePolicy, handler, options);
-      endpoint = (javax.xml.ws.Endpoint)options.get(javax.xml.ws.Endpoint.class);
+      final javax.xml.ws.Endpoint endpoint = (javax.xml.ws.Endpoint)options.get(javax.xml.ws.Endpoint.class);
+      InterceptorProvider ip = null;
       if (endpoint == null && options.get(Bus.class) != null)
       {
-         bus = (Bus)options.get(Bus.class);
+         final Bus bus = (Bus)options.get(Bus.class);
          bus.setProperty(SecurityConstants.VALIDATE_TOKEN, false);
          ip = (InterceptorProvider)bus;
       }
@@ -74,6 +72,7 @@ public class UsernameTokenServerAuthModule extends AbstractServerAuthModule
    {
       supportedTypes.add(Object.class);
       supportedTypes.add(SOAPMessage.class);
+      securityDomainName = null;
    }
 
    public UsernameTokenServerAuthModule(String lmshName)

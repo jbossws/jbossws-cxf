@@ -46,7 +46,6 @@ import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringBusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringConfigurer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
-import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
@@ -85,13 +84,13 @@ public class NonSpringBusHolder extends BusHolder
     */
 
    @Override
-   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, Deployment dep, JaspiServerAuthenticator authenticator)
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, Deployment dep)
    {
       if (configured)
       {
          throw Messages.MESSAGES.busAlreadyConfigured(bus);
       }
-      super.configure(resolver, configurer, wsmd, dep, authenticator);
+      super.configure(resolver, configurer, wsmd, dep);
 
 
       for (DDEndpoint dde : metadata.getEndpoints())

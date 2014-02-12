@@ -24,7 +24,13 @@ package org.jboss.wsf.stack.cxf.configuration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Map.Entry;
+
+import javax.security.auth.message.config.AuthConfigFactory;
+import javax.security.auth.message.config.AuthConfigProvider;
+import javax.security.auth.message.config.ServerAuthConfig;
+import javax.security.auth.message.config.ServerAuthContext;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
@@ -48,6 +54,12 @@ import org.apache.cxf.ws.discovery.listeners.WSDiscoveryServerListener;
 import org.apache.cxf.ws.policy.AlternativeSelector;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
+import org.jboss.security.auth.callback.JBossCallbackHandler;
+import org.jboss.security.auth.login.AuthenticationInfo;
+import org.jboss.security.auth.login.BaseAuthenticationInfo;
+import org.jboss.security.auth.login.JASPIAuthenticationInfo;
+import org.jboss.security.config.ApplicationPolicy;
+import org.jboss.security.config.SecurityConfiguration;
 import org.jboss.ws.api.annotation.PolicySets;
 import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.AnnotationsInfo;
@@ -55,6 +67,7 @@ import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
+import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
@@ -65,6 +78,8 @@ import org.jboss.wsf.stack.cxf.interceptor.JaspiSeverInInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.JaspiSeverOutInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
+import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConfigProvider;
+import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConstants;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 import org.jboss.wsf.stack.cxf.transport.JBossWSDestinationRegistryImpl;
 
@@ -103,8 +118,7 @@ public abstract class BusHolder
     * @param wsmd                   The current JBossWebservicesMetaData, if any
     * @param dep                    The current deployment
     */
-   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, Deployment dep, JaspiServerAuthenticator authenticator)
-
+   public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, Deployment dep)
    {
       bus.setProperty(org.jboss.wsf.stack.cxf.client.Constants.DEPLOYMENT_BUS, true);
       busHolderListener = new BusHolderLifeCycleListener();
@@ -118,6 +132,7 @@ public abstract class BusHolder
       
       setInterceptors(bus, props);
       
+      final JaspiServerAuthenticator authenticator = getJaspiAuthenticator(dep, wsmd);
       if (authenticator != null) {
          bus.getInInterceptors().add(new JaspiSeverInInterceptor(authenticator));
          bus.getOutInterceptors().add(new JaspiSeverOutInterceptor(authenticator));
@@ -289,6 +304,52 @@ public abstract class BusHolder
          }
       }
       return selector;
+   }
+   
+   private JaspiServerAuthenticator getJaspiAuthenticator(Deployment dep, JBossWebservicesMetaData wsmd) {
+      String securityDomain = null;
+      if (wsmd != null) {
+         securityDomain = wsmd.getProperty(JaspiServerAuthenticator.JASPI_SECURITY_DOMAIN);
+      }
+      if (securityDomain == null) {
+         return null;
+      }
+      ApplicationPolicy appPolicy = SecurityConfiguration.getApplicationPolicy(securityDomain);
+      if (appPolicy == null) {
+         Loggers.ROOT_LOGGER.noApplicationPolicy(securityDomain);
+         return null;
+      }
+      BaseAuthenticationInfo bai = appPolicy.getAuthenticationInfo();
+      if (bai == null || bai instanceof AuthenticationInfo) {
+         Loggers.ROOT_LOGGER.noJaspiApplicationPolicy(securityDomain);
+         return null;
+      } 
+      JASPIAuthenticationInfo jai = (JASPIAuthenticationInfo) bai;
+    
+      String contextRoot = dep.getService().getContextRoot();
+      String appId = "localhost " + contextRoot;
+      AuthConfigFactory factory = AuthConfigFactory.getFactory();
+      Properties properties = new Properties();
+      AuthConfigProvider provider = new JBossWSAuthConfigProvider(properties, factory);
+      provider = factory.getConfigProvider(JBossWSAuthConstants.SOAP_LAYER, appId, null);
+
+      JBossCallbackHandler callbackHandler = new JBossCallbackHandler();
+      try
+      {
+         ServerAuthConfig serverConfig = provider.getServerAuthConfig(JBossWSAuthConstants.SOAP_LAYER, appId, callbackHandler);
+         Properties serverContextProperties = new Properties();
+         serverContextProperties.put("security-domain", securityDomain);
+         serverContextProperties.put("jaspi-policy", jai);
+         serverContextProperties.put(Bus.class, bus);
+         String authContextID = dep.getSimpleName();
+         ServerAuthContext sctx = serverConfig.getAuthContext(authContextID, null, serverContextProperties);
+         return new JaspiServerAuthenticator(sctx);
+      }
+      catch (Exception e)
+      {
+         Loggers.DEPLOYMENT_LOGGER.cannotCreateServerAuthContext(securityDomain, e);
+      }
+      return null;
    }
    
    private static AutomaticWorkQueue createWorkQueue(String name, Map<String, String> props) {

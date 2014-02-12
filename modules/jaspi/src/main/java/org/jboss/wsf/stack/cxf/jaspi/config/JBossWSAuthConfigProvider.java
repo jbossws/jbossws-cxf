@@ -35,7 +35,7 @@ import javax.security.auth.message.config.ServerAuthConfig;
  */
 public class JBossWSAuthConfigProvider implements AuthConfigProvider
 {
-   private Properties contextProperties;
+   private final Properties contextProperties;
 
    public JBossWSAuthConfigProvider(Properties props, AuthConfigFactory factory)
    {

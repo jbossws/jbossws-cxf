@@ -41,7 +41,7 @@ import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
  */
 public class JaspiSeverOutInterceptor extends AbstractSoapInterceptor
 {
-   private JaspiServerAuthenticator authManager;
+   private final JaspiServerAuthenticator authManager;
    private static final SAAJOutInterceptor SAAJ_OUT = new SAAJOutInterceptor();
 
    public JaspiSeverOutInterceptor(JaspiServerAuthenticator authManager)
@@ -91,9 +91,7 @@ public class JaspiSeverOutInterceptor extends AbstractSoapInterceptor
             return;
          }
          authManager.secureResponse(message);
-
       }
-
    }
 
 }

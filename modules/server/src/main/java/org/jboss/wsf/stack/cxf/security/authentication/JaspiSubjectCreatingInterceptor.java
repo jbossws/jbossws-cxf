@@ -13,14 +13,12 @@ import org.apache.cxf.security.SecurityContext;
 import org.apache.ws.security.WSUsernameTokenPrincipal;
 import org.jboss.security.auth.callback.JBossCallbackHandler;
 import org.jboss.security.plugins.JBossAuthenticationManager;
-import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.security.SecurityDomainContext;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
 
 public class JaspiSubjectCreatingInterceptor extends SubjectCreatingPolicyInterceptor
 {
-   private JBossAuthenticationManager authenticationManger;
+   private final JBossAuthenticationManager authenticationManger;
    
    public JaspiSubjectCreatingInterceptor(String securityDomain) {
       super();
@@ -31,8 +29,6 @@ public class JaspiSubjectCreatingInterceptor extends SubjectCreatingPolicyInterc
    @Override
    public void handleMessage(Message message) throws Fault
    {
-      Endpoint ep = message.getExchange().get(Endpoint.class);
-      SecurityDomainContext sdc = ep.getSecurityDomainContext();
       SecurityContext context = message.get(SecurityContext.class);
       if (context == null || context.getUserPrincipal() == null)
       {
@@ -50,7 +46,7 @@ public class JaspiSubjectCreatingInterceptor extends SubjectCreatingPolicyInterc
             throw Messages.MESSAGES.unsupportedTokenType(token.getTokenType());
          }
          UsernameToken ut = (UsernameToken) token;
-         subject = helper.createSubject(authenticationManger,ut.getName(), ut.getPassword(), ut.isHashed(), ut.getNonce(), ut.getCreatedTime());
+         subject = helper.createSubject(authenticationManger, ut.getName(), ut.getPassword(), ut.isHashed(), ut.getNonce(), ut.getCreatedTime());
 
       }
       else
@@ -61,7 +57,7 @@ public class JaspiSubjectCreatingInterceptor extends SubjectCreatingPolicyInterc
             throw Messages.MESSAGES.couldNotGetSubjectInfo();
          }
          WSUsernameTokenPrincipal up = (WSUsernameTokenPrincipal) p;
-         subject = createSubject(sdc, up.getName(), up.getPassword(), up.isPasswordDigest(), up.getNonce(), up.getCreatedTime());
+         subject = helper.createSubject(authenticationManger, up.getName(), up.getPassword(), up.isPasswordDigest(), up.getNonce(), up.getCreatedTime());
       }
 
       Principal principal = getPrincipal(context.getUserPrincipal(), subject);
