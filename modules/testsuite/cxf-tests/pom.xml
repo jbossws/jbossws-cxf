@@ -37,7 +37,12 @@
     </dependency>
     <dependency>
       <groupId>org.picketlink</groupId>
-      <artifactId>picketlink-core</artifactId>
+      <artifactId>picketlink-common</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.picketlink</groupId>
+      <artifactId>picketlink-federation</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

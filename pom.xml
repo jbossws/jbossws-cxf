@@ -76,8 +76,8 @@
     <jboss-logging-processor.version>1.0.3.Final</jboss-logging-processor.version>
     <jboss.jandex.version>1.0.3.Final</jboss.jandex.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
-    <picketbox.version>4.0.17.Final</picketbox.version>
-    <picketlink.version>2.1.7.Final</picketlink.version>
+    <picketbox.version>4.0.19.Final</picketbox.version>
+    <picketlink.version>2.5.2.Final</picketlink.version>
     <jaxws-jboss-httpserver-httpspi.version>1.0.1.GA</jaxws-jboss-httpserver-httpspi.version>
     <jaxws-undertow-httpspi.version>1.0.1-SNAPSHOT</jaxws-undertow-httpspi.version>
     <httpserver.version>1.0.0.Final</httpserver.version>
@@ -1253,7 +1253,13 @@
       <!-- Other test dependencies -->
       <dependency>
         <groupId>org.picketlink</groupId>
-        <artifactId>picketlink-core</artifactId>
+        <artifactId>picketlink-common</artifactId>
+        <version>${picketlink.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.picketlink</groupId>
+        <artifactId>picketlink-federation</artifactId>
         <version>${picketlink.version}</version>
         <scope>test</scope>
       </dependency>
