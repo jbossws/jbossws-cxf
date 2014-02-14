@@ -27,7 +27,7 @@ import javax.jws.soap.SOAPBinding;
 /**
  * Endpoint.
  * 
- * @author <a href="ema@redhat.com">Jim Ma</a>
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 @WebService(name = "Endpoint", targetNamespace = "http://ws.jboss.org/jbws3033")
 @SOAPBinding(style = SOAPBinding.Style.RPC)

@@ -29,7 +29,7 @@ import javax.xml.ws.Service;
 
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.ws.api.configuration.ClientConfigUtil;
-import org.jboss.wsf.stack.cxf.client.jaspi.module.SOAPClientAuthModule;
+import org.jboss.wsf.stack.cxf.jaspi.client.module.SOAPClientAuthModule;
 import org.jboss.wsf.test.ClientHelper;
 
 public class Helper implements ClientHelper

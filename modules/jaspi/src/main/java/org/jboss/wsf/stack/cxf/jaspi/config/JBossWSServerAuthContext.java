@@ -20,8 +20,10 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.jboss.wsf.stack.cxf.jaspi.config;
+
 /** 
- * @author <a href="ema@redhat.com">Jim Ma</a>
+ * JBossWS ServerAuthContext implementation
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 import java.util.List;
 import java.util.Map;
@@ -31,13 +33,15 @@ import javax.security.auth.message.AuthException;
 import javax.security.auth.message.module.ServerAuthModule;
 
 import org.jboss.security.auth.message.config.JBossServerAuthContext;
-@SuppressWarnings({"rawtypes" })
-public class JBossWSServerAuthContext extends JBossServerAuthContext {
 
-	public JBossWSServerAuthContext(List<ServerAuthModule> modules,
-			Map<String, Map> moduleNameToOptions, CallbackHandler cbh)
-			throws AuthException {
-		super(modules, moduleNameToOptions, cbh);
-	}
+@SuppressWarnings({"rawtypes"})
+public class JBossWSServerAuthContext extends JBossServerAuthContext
+{
+
+   public JBossWSServerAuthContext(List<ServerAuthModule> modules, Map<String, Map> moduleNameToOptions,
+         CallbackHandler cbh) throws AuthException
+   {
+      super(modules, moduleNameToOptions, cbh);
+   }
 
 }

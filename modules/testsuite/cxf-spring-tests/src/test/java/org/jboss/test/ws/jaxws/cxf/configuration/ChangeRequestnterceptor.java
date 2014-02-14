@@ -31,7 +31,7 @@ import org.apache.cxf.phase.Phase;
 /**
  * The cxf interceptor to change the request "Hello" to "ChangedRequest"
  * 
- * @author <a href="ema@redhat.com">Jim Ma</a>
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 public class ChangeRequestnterceptor extends AbstractPhaseInterceptor<Message>
 {

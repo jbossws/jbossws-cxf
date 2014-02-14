@@ -34,7 +34,7 @@ import org.jboss.wsf.test.JBossWSTest;
 /**
  * To test configure bean by name auto wire
  * 
- * @author <a href="ema@redhat.com">Jim Ma</a>
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 public class JBossWSCXFConfigurerTestCase extends JBossWSTest
 {

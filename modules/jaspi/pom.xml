@@ -16,8 +16,22 @@
   <!-- Dependencies -->
   <dependencies>
     <dependency>
+      <groupId>org.jboss.ws</groupId>
+      <artifactId>jbossws-spi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.servlet</groupId>
+      <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-frontend-jaxws</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-ws-security</artifactId>
     </dependency>
 
     <dependency>
@@ -28,6 +42,20 @@
     <dependency>
       <groupId>org.jboss.spec.javax.security.auth.message</groupId>
       <artifactId>jboss-jaspi-api_1.1_spec</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.logging</groupId>
+      <artifactId>jboss-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.logging</groupId>
+      <artifactId>jboss-logging-processor</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>

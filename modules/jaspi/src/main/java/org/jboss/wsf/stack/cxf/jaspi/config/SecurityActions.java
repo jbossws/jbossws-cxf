@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.jaspi.config;
 /** 
- * @author <a href="ema@redhat.com">Jim Ma</a>
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 import java.security.AccessController;
 import java.security.PrivilegedAction;

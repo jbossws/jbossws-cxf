@@ -22,31 +22,17 @@
 package org.jboss.wsf.stack.cxf.client.configuration;
 
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
-
-import javax.security.auth.message.config.AuthConfigFactory;
-import javax.security.auth.message.config.AuthConfigProvider;
-import javax.security.auth.message.config.ClientAuthConfig;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.DispatchImpl;
-import org.jboss.security.auth.callback.JBossCallbackHandler;
-import org.jboss.security.auth.login.AuthenticationInfo;
-import org.jboss.security.auth.login.BaseAuthenticationInfo;
-import org.jboss.security.auth.login.JASPIAuthenticationInfo;
-import org.jboss.security.config.ApplicationPolicy;
-import org.jboss.security.config.SecurityConfiguration;
 import org.jboss.ws.common.configuration.ConfigHelper;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
-import org.jboss.wsf.stack.cxf.Loggers;
-import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientAuthenticator;
-import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientInInterceptor;
-import org.jboss.wsf.stack.cxf.client.jaspi.JaspiClientOutInterceptor;
-import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConfigProvider;
-import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConstants;
+import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 
 /**
  * CXF extension of common ClientConfigurer
@@ -76,53 +62,19 @@ public class CXFClientConfigurer extends ConfigHelper
       setConfigProperties(cxfClient, props);
       
       //config jaspi
-      JaspiClientAuthenticator clientAuthenticator = getJaspiAuthenticator(cxfClient, props) ;
-      if (clientAuthenticator != null) {
-         cxfClient.getInInterceptors().add(new JaspiClientInInterceptor(clientAuthenticator));
-         cxfClient.getOutInterceptors().add(new JaspiClientOutInterceptor(clientAuthenticator));
-      }
-      
-   }
-   
-   
-   private JaspiClientAuthenticator getJaspiAuthenticator(Client client, Map<String, String> properties) {
-      String securityDomain = properties.get(JaspiClientAuthenticator.JASPI_SECURITY_DOMAIN);
-      if (securityDomain == null) {
-         return null;            
-      }
-      ApplicationPolicy appPolicy = SecurityConfiguration.getApplicationPolicy(securityDomain);
-      if (appPolicy == null) {
-         Loggers.ROOT_LOGGER.noApplicationPolicy(securityDomain);
-         return null;
-      }
-      BaseAuthenticationInfo bai = appPolicy.getAuthenticationInfo();
-      if (bai == null || bai instanceof AuthenticationInfo) {
-         Loggers.ROOT_LOGGER.noJaspiApplicationPolicy(securityDomain);
-         return null;
-      } 
-      JASPIAuthenticationInfo jai = (JASPIAuthenticationInfo) bai;
-    
-      String contextRoot = client.getEndpoint().getEndpointInfo().getName().toString();
-      String appId = "localhost " + contextRoot;
-      AuthConfigFactory factory = AuthConfigFactory.getFactory();
-      
-      Properties props = new Properties();
-      AuthConfigProvider provider = new JBossWSAuthConfigProvider(props, factory);
-      provider = factory.getConfigProvider(JBossWSAuthConstants.SOAP_LAYER, appId, null);
-      JBossCallbackHandler callbackHandler = new JBossCallbackHandler();
       try
       {
-         ClientAuthConfig clientConfig = provider.getClientAuthConfig("soap", appId, callbackHandler);
-         return new JaspiClientAuthenticator(clientConfig, securityDomain, jai);
+         JASPIAuthenticationProvider japsiProvider = SPIProvider.getInstance().getSPI(JASPIAuthenticationProvider.class);
+         if (japsiProvider != null)
+         {
+            japsiProvider.enableClientAuthentication(cxfClient, props);
+         }
       }
-      catch (Exception e)
+      catch (WSFException e)
       {
-         //ignore
+         // ignore
       }
-      
-      return null;
-      
-   }   
+   }
    
    public void setConfigProperties(Client client, Map<String, String> properties) {
       client.getEndpoint().putAll(properties);

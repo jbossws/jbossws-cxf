@@ -11,24 +11,29 @@ import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.security.SecurityContext;
 import org.apache.ws.security.WSUsernameTokenPrincipal;
-import org.jboss.security.auth.callback.JBossCallbackHandler;
 import org.jboss.security.plugins.JBossAuthenticationManager;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
 
-public class JaspiSubjectCreatingInterceptor extends SubjectCreatingPolicyInterceptor
+/* 
+ * Interceptor to authenticate principal with provided jaspi JBossAuthenticationManager
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
+ */
+public class AutenticationMgrSubjectCreatingInterceptor extends SubjectCreatingPolicyInterceptor
 {
-   private final JBossAuthenticationManager authenticationManger;
    
-   public JaspiSubjectCreatingInterceptor(String securityDomain) {
-      super();
-      authenticationManger = new JBossAuthenticationManager(securityDomain, new JBossCallbackHandler());         
+   public AutenticationMgrSubjectCreatingInterceptor() {
+      super();        
    }
   
 
    @Override
    public void handleMessage(Message message) throws Fault
    {
+	  JBossAuthenticationManager authenticationManger = message.get(JBossAuthenticationManager.class);
+	  if (authenticationManger == null) {
+		  return;
+	  }
       SecurityContext context = message.get(SecurityContext.class);
       if (context == null || context.getUserPrincipal() == null)
       {

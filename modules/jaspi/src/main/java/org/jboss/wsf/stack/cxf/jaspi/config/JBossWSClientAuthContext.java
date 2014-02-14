@@ -36,46 +36,55 @@ import javax.security.auth.message.module.ClientAuthModule;
 import org.jboss.security.config.ControlFlag;
 
 /**
- * @author <a href="ema@redhat.com">Jim Ma</a>
+ * JBossWS ClientAuthContext implementation to {@link #secureRequest(MessageInfo, Subject)} 
+ * <p>and {@link #validateResponse(MessageInfo, Subject, Subject)} 
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
-public class JBossWSClientAuthContext implements ClientAuthContext {
+public class JBossWSClientAuthContext implements ClientAuthContext
+{
    private final List<ClientAuthModule> modules;
+
    @SuppressWarnings("rawtypes")
    private final Map<String, Map> moduleOptionsByName;
+
    protected List<ControlFlag> controlFlags = new ArrayList<ControlFlag>();
 
    @SuppressWarnings("rawtypes")
-   public JBossWSClientAuthContext(List<ClientAuthModule> modules,
-         Map<String, Map> moduleNameToOptions, CallbackHandler cbh)
-         throws AuthException {
+   public JBossWSClientAuthContext(List<ClientAuthModule> modules, Map<String, Map> moduleNameToOptions,
+         CallbackHandler cbh) throws AuthException
+   {
       this.modules = modules;
       this.moduleOptionsByName = moduleNameToOptions;
-      for (ClientAuthModule cam : modules) {
-         cam.initialize(null, null, cbh,
-               moduleOptionsByName.get(cam.getClass().getName()));
+      for (ClientAuthModule cam : modules)
+      {
+         cam.initialize(null, null, cbh, moduleOptionsByName.get(cam.getClass().getName()));
       }
    }
 
    @Override
-   public void cleanSubject(MessageInfo messageInfo, Subject subject)
-         throws AuthException {
-      for (ClientAuthModule cam : modules) {
+   public void cleanSubject(MessageInfo messageInfo, Subject subject) throws AuthException
+   {
+      for (ClientAuthModule cam : modules)
+      {
          cam.cleanSubject(messageInfo, subject);
       }
 
    }
 
-   public void setControlFlags(List<ControlFlag> controlFlags) {
+   public void setControlFlags(List<ControlFlag> controlFlags)
+   {
       this.controlFlags = controlFlags;
    }
 
    @Override
-   public AuthStatus secureRequest(MessageInfo messageInfo,
-         Subject clientSubject) throws AuthException {
+   public AuthStatus secureRequest(MessageInfo messageInfo, Subject clientSubject) throws AuthException
+   {
       AuthStatus status = null;
-      for (ClientAuthModule sam : modules) {
+      for (ClientAuthModule sam : modules)
+      {
          status = sam.secureRequest(messageInfo, clientSubject);
-         if (status == AuthStatus.FAILURE) {
+         if (status == AuthStatus.FAILURE)
+         {
             break;
          }
       }
@@ -83,12 +92,15 @@ public class JBossWSClientAuthContext implements ClientAuthContext {
    }
 
    @Override
-   public AuthStatus validateResponse(MessageInfo messageInfo,
-         Subject clientSubject, Subject serviceSubject) throws AuthException {
+   public AuthStatus validateResponse(MessageInfo messageInfo, Subject clientSubject, Subject serviceSubject)
+         throws AuthException
+   {
       AuthStatus status = null;
-      for (ClientAuthModule sam : modules) {
+      for (ClientAuthModule sam : modules)
+      {
          status = sam.secureRequest(messageInfo, clientSubject);
-         if (status == AuthStatus.FAILURE) {
+         if (status == AuthStatus.FAILURE)
+         {
             break;
          }
       }

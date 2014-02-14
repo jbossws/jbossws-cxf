@@ -29,7 +29,7 @@ import java.util.Properties;
 /**
  * DDJmsAddressBean.
  * 
- * @author <a href="ema@redhat.com">Jim Ma</a>
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 public class DDJmsAddressBean
 {

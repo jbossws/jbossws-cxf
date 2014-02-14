@@ -27,6 +27,7 @@ import java.util.Map;
 
 import javax.xml.ws.spi.Provider;
 
+import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.Configurer;
 import org.jboss.ws.api.binding.BindingCustomization;
@@ -136,6 +137,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          holder.configure(resolver, configurer, wsmd, dep);
 
          dep.addAttachment(BusHolder.class, holder);
+         dep.addAttachment(Bus.class, holder.getBus());
          if (holder instanceof SpringBusHolder)
          {
             for (Endpoint endpoint : dep.getService().getEndpoints())

@@ -35,10 +35,12 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.security.auth.container.modules.AbstractServerAuthModule;
-import org.jboss.wsf.stack.cxf.security.authentication.JaspiSubjectCreatingInterceptor;
+import org.jboss.wsf.stack.cxf.jaspi.interceptor.JaspiSubjectCreatingInitInterceptor;
 
-/** 
- * @author <a href="ema@redhat.com">Jim Ma</a>
+
+/**
+ * This ServerAuthModule class adds JaspiSubjectCreatingInitInterceptor to authenticate principal and populates Subject  
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 public class UsernameTokenServerAuthModule extends AbstractServerAuthModule
 {
@@ -62,7 +64,7 @@ public class UsernameTokenServerAuthModule extends AbstractServerAuthModule
       }
       if (ip != null)
       {
-         JaspiSubjectCreatingInterceptor jaspiInterceptor = new JaspiSubjectCreatingInterceptor(securityDomainName);
+         JaspiSubjectCreatingInitInterceptor jaspiInterceptor = new JaspiSubjectCreatingInitInterceptor(securityDomainName);
          ip.getInInterceptors().add(jaspiInterceptor);
       }
 

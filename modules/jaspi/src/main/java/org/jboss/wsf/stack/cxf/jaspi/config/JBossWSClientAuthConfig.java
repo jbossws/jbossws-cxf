@@ -52,29 +52,34 @@ import org.jboss.security.plugins.ClassLoaderLocator;
 import org.jboss.security.plugins.ClassLoaderLocatorFactory;
 
 /**
- * @author <a href="ema@redhat.com">Jim Ma</a>
+ * JBossWS ClientAuthConfig implementation to obtain ClientAuthContext
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 public class JBossWSClientAuthConfig extends JBossClientAuthConfig
 {
 
    @SuppressWarnings("rawtypes")
    private final List modules = new ArrayList();
+
    private CallbackHandler callbackHandler;
 
    @SuppressWarnings("rawtypes")
    public JBossWSClientAuthConfig(String layer, String appContext, CallbackHandler handler, Map properties)
    {
       super(layer, appContext, handler, properties);
+      callbackHandler = handler;
    }
 
-   @SuppressWarnings({ "rawtypes", "unchecked" })
-   public ClientAuthContext getAuthContext(String authContextID, Subject clientSubject, Map properties) throws AuthException
+   @SuppressWarnings(
+   {"rawtypes", "unchecked"})
+   public ClientAuthContext getAuthContext(String authContextID, Subject clientSubject, Map properties)
+         throws AuthException
    {
       List<ControlFlag> controlFlags = new ArrayList<ControlFlag>();
 
       Map<String, Map> mapOptionsByName = new HashMap<String, Map>();
 
-      JASPIAuthenticationInfo jai = (JASPIAuthenticationInfo)properties.get("jaspi-policy");
+      JASPIAuthenticationInfo jai = (JASPIAuthenticationInfo) properties.get("jaspi-policy");
       AuthModuleEntry[] amearr = jai.getAuthModuleEntry();
 
       ClassLoader moduleCL = null;
@@ -105,30 +110,32 @@ public class JBossWSClientAuthConfig extends JBossClientAuthConfig
          }
       }
 
-      JBossWSClientAuthContext clientAuthContext = new JBossWSClientAuthContext(modules, mapOptionsByName, this.callbackHandler);
+      JBossWSClientAuthContext clientAuthContext = new JBossWSClientAuthContext(modules, mapOptionsByName,
+            this.callbackHandler);
       clientAuthContext.setControlFlags(controlFlags);
       return clientAuthContext;
    }
 
-   @SuppressWarnings({ "unchecked", "rawtypes" })
+   @SuppressWarnings(
+   {"unchecked", "rawtypes"})
    private ClientAuthModule createCAM(ClassLoader moduleCL, String name) throws Exception
    {
       Class clazz = SecurityActions.loadClass(moduleCL, name);
       Constructor ctr = clazz.getConstructor(new Class[0]);
-      return (ClientAuthModule)ctr.newInstance(new Object[0]);
+      return (ClientAuthModule) ctr.newInstance(new Object[0]);
    }
 
-   @SuppressWarnings({ "rawtypes" })
+   @SuppressWarnings(
+   {"rawtypes"})
    public List getClientAuthModules()
    {
       return modules;
    }
-   
-   
+
    @SuppressWarnings("rawtypes")
    public String getAuthContextID(MessageInfo messageInfo)
    {
-      SOAPMessage request = (SOAPMessage)messageInfo.getRequestMessage();
+      SOAPMessage request = (SOAPMessage) messageInfo.getRequestMessage();
       if (request == null)
       {
          return null;
@@ -159,14 +166,14 @@ public class JBossWSClientAuthConfig extends JBossClientAuthConfig
                SOAPBody body = envelope.getBody();
                if (body != null)
                {
-                  
+
                   Iterator it = body.getChildElements();
                   while (it.hasNext())
                   {
                      Object o = it.next();
                      if (o instanceof SOAPElement)
                      {
-                        QName name = ((SOAPElement)o).getElementQName();
+                        QName name = ((SOAPElement) o).getElementQName();
                         return name.getLocalPart();
 
                      }

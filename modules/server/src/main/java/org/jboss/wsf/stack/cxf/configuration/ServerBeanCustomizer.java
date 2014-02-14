@@ -24,38 +24,25 @@ package org.jboss.wsf.stack.cxf.configuration;
 import java.io.IOException;
 import java.security.AccessController;
 import java.util.List;
-import java.util.Properties;
-
-import javax.security.auth.message.config.AuthConfigFactory;
-import javax.security.auth.message.config.AuthConfigProvider;
-import javax.security.auth.message.config.ServerAuthConfig;
-import javax.security.auth.message.config.ServerAuthContext;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
-import org.jboss.security.auth.callback.JBossCallbackHandler;
-import org.jboss.security.auth.login.AuthenticationInfo;
-import org.jboss.security.auth.login.BaseAuthenticationInfo;
-import org.jboss.security.auth.login.JASPIAuthenticationInfo;
-import org.jboss.security.config.ApplicationPolicy;
-import org.jboss.security.config.SecurityConfiguration;
 import org.jboss.ws.api.annotation.EndpointConfig;
 import org.jboss.ws.common.management.AbstractServerConfig;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.WSFException;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
 import org.jboss.wsf.spi.metadata.config.ConfigRoot;
+import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 import org.jboss.wsf.stack.cxf.JBossWSInvoker;
-import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
-import org.jboss.wsf.stack.cxf.interceptor.JaspiSeverInInterceptor;
-import org.jboss.wsf.stack.cxf.interceptor.JaspiSeverOutInterceptor;
-import org.jboss.wsf.stack.cxf.jaspi.JaspiServerAuthenticator;
-import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConfigProvider;
-import org.jboss.wsf.stack.cxf.jaspi.config.JBossWSAuthConstants;
+import org.jboss.wsf.stack.cxf.security.authentication.AutenticationMgrSubjectCreatingInterceptor;
 
 /**
  * 
@@ -175,8 +162,20 @@ public class ServerBeanCustomizer extends BeanCustomizer
                throw Messages.MESSAGES.couldNotReadConfigFile(configFile);
             }
          }
-         
-         addJaspiInterceptors(endpoint);
+         try
+         {
+            final JASPIAuthenticationProvider jaspiProvider = SPIProvider.getInstance().getSPI(JASPIAuthenticationProvider.class,
+                  ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
+            if (jaspiProvider != null)
+            {
+               jaspiProvider.enableServerAuthentication(endpoint, depEndpoints.get(0));
+               endpoint.getInInterceptors().add(new AutenticationMgrSubjectCreatingInterceptor());
+            }
+         }
+         catch (WSFException e)
+         {
+            //ignore
+         }
       }
    }
    
@@ -212,48 +211,6 @@ public class ServerBeanCustomizer extends BeanCustomizer
       this.epConfigFile = epConfigFile;
    }
    
-   private void addJaspiInterceptors(EndpointImpl endpoint) {
-      String securityDomain = (String)endpoint.getProperties().get(JaspiServerAuthenticator.JASPI_SECURITY_DOMAIN);
-      if (securityDomain == null) {
-         return;
-      }
-      ApplicationPolicy appPolicy = SecurityConfiguration.getApplicationPolicy(securityDomain);
-      if (appPolicy == null) {
-         Loggers.ROOT_LOGGER.noApplicationPolicy(securityDomain);
-         return;
-      }
-      BaseAuthenticationInfo bai = appPolicy.getAuthenticationInfo();
-      if (bai == null || bai instanceof AuthenticationInfo) {
-         Loggers.ROOT_LOGGER.noJaspiApplicationPolicy(securityDomain);
-         return;
-      } 
-      JASPIAuthenticationInfo jai = (JASPIAuthenticationInfo) bai;
-      String contextRoot = depEndpoints.get(0).getService().getContextRoot();
-      String appId = "localhost " + contextRoot;
-      AuthConfigFactory factory = AuthConfigFactory.getFactory();
-      Properties properties = new Properties();
-      AuthConfigProvider provider = new JBossWSAuthConfigProvider(properties, factory);
-      provider = factory.getConfigProvider(JBossWSAuthConstants.SOAP_LAYER, appId, null);
-
-      JBossCallbackHandler callbackHandler = new JBossCallbackHandler();
-      JaspiServerAuthenticator serverAuthenticator = null;
-      try
-      {
-         ServerAuthConfig serverConfig = provider.getServerAuthConfig(JBossWSAuthConstants.SOAP_LAYER, appId, callbackHandler);
-         Properties serverContextProperties = new Properties();
-         serverContextProperties.put("security-domain", securityDomain);
-         serverContextProperties.put("jaspi-policy", jai);
-         serverContextProperties.put(javax.xml.ws.Endpoint.class, endpoint);
-         String authContextID = endpoint.getBeanName();
-         ServerAuthContext sctx = serverConfig.getAuthContext(authContextID, null, serverContextProperties);
-         serverAuthenticator = new JaspiServerAuthenticator(sctx);
-         endpoint.getInInterceptors().add(new JaspiSeverInInterceptor(serverAuthenticator));
-         endpoint.getOutInterceptors().add(new JaspiSeverOutInterceptor(serverAuthenticator));
-      }
-      catch (Exception e)
-      {
-         Loggers.DEPLOYMENT_LOGGER.cannotCreateServerAuthContext(securityDomain, e);
-      }     
-   }
+   
 
 }

@@ -31,7 +31,12 @@ import javax.security.auth.message.config.ClientAuthConfig;
 import javax.security.auth.message.config.ServerAuthConfig;
 
 /** 
- * @author <a href="ema@redhat.com">Jim Ma</a>
+ * Factory class used to getJBossWSClientAuthConfig and JBossWSServerAuthConfig
+ * <p>I
+ * It is used to Obtain JBosswSClientAuthConfig and JBossWSServerAuthConfig
+ * @see org.jboss.wsf.stack.cxf.jaspi.config.JBosswSClientAuthConfig
+ * @see org.jboss.wsf.stack.cxf.jaspi.config.JBossWSServerAuthConfig
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 public class JBossWSAuthConfigProvider implements AuthConfigProvider
 {
@@ -48,13 +53,15 @@ public class JBossWSAuthConfigProvider implements AuthConfigProvider
    }
 
    @Override
-   public ClientAuthConfig getClientAuthConfig(String layer, String appContext, CallbackHandler handler) throws AuthException, SecurityException
+   public ClientAuthConfig getClientAuthConfig(String layer, String appContext, CallbackHandler handler)
+         throws AuthException, SecurityException
    {
       return new JBossWSClientAuthConfig(layer, appContext, handler, contextProperties);
    }
 
    @Override
-   public ServerAuthConfig getServerAuthConfig(String layer, String appContext, CallbackHandler handler) throws AuthException, SecurityException
+   public ServerAuthConfig getServerAuthConfig(String layer, String appContext, CallbackHandler handler)
+         throws AuthException, SecurityException
    {
       return new JBossWSServerAuthConfig(layer, appContext, handler, contextProperties);
    }

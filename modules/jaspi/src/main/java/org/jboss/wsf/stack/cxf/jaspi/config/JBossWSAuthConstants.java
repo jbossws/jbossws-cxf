@@ -21,8 +21,9 @@
  */
 package org.jboss.wsf.stack.cxf.jaspi.config;
 
-/** 
- * @author <a href="ema@redhat.com">Jim Ma</a>
+/**
+ * Define the jaspi authentication property name 
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 public class JBossWSAuthConstants
 {

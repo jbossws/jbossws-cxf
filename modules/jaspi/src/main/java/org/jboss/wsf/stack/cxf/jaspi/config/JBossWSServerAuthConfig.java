@@ -52,27 +52,34 @@ import org.jboss.security.auth.message.config.JBossServerAuthConfig;
 import org.jboss.security.config.ControlFlag;
 import org.jboss.security.plugins.ClassLoaderLocator;
 import org.jboss.security.plugins.ClassLoaderLocatorFactory;
-/** 
- * @author <a href="ema@redhat.com">Jim Ma</a>
+
+/**
+ * JBossWS ServerAuthConfig implentation to obtain JBossWSServerAuthContext
+ * @see org.jboss.wsf.stack.cxf.jaspi.config.JBossWSServerAuthContext
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
-public class JBossWSServerAuthConfig extends JBossServerAuthConfig {
-	private final CallbackHandler callbackHandler = new JBossCallbackHandler();
-	@SuppressWarnings("rawtypes")
-	private final List modules = new ArrayList();
+public class JBossWSServerAuthConfig extends JBossServerAuthConfig
+{
+   private final CallbackHandler callbackHandler = new JBossCallbackHandler();
 
-	@SuppressWarnings("rawtypes")
-	public JBossWSServerAuthConfig(String layer, String appContext,
-			CallbackHandler handler, Map properties) {
-		super(layer, appContext, handler, properties);
-	}
+   @SuppressWarnings("rawtypes")
+   private final List modules = new ArrayList();
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-   public ServerAuthContext getAuthContext(String authContextID, Subject serviceSubject, Map properties) throws AuthException
+   @SuppressWarnings("rawtypes")
+   public JBossWSServerAuthConfig(String layer, String appContext, CallbackHandler handler, Map properties)
+   {
+      super(layer, appContext, handler, properties);
+   }
+
+   @SuppressWarnings(
+   {"rawtypes", "unchecked"})
+   public ServerAuthContext getAuthContext(String authContextID, Subject serviceSubject, Map properties)
+         throws AuthException
    {
       List<ControlFlag> controlFlags = new ArrayList<ControlFlag>();
 
       Map<String, Map> mapOptionsByName = new HashMap<String, Map>();
-      JASPIAuthenticationInfo jai = (JASPIAuthenticationInfo)properties.get("jaspi-policy");
+      JASPIAuthenticationInfo jai = (JASPIAuthenticationInfo) properties.get("jaspi-policy");
       AuthModuleEntry[] amearr = jai.getAuthModuleEntry();
 
       ClassLoader moduleCL = null;
@@ -92,14 +99,15 @@ public class JBossWSServerAuthConfig extends JBossServerAuthConfig {
             {
                mapOptionsByName.put(ame.getAuthModuleName(), ame.getOptions());
                controlFlags.add(ame.getControlFlag());
-               ServerAuthModule sam = this.createSAM(moduleCL, ame.getAuthModuleName(), ame.getLoginModuleStackHolderName());
+               ServerAuthModule sam = this.createSAM(moduleCL, ame.getAuthModuleName(),
+                     ame.getLoginModuleStackHolderName());
 
                Map options = new HashMap();
-               Bus bus = (Bus)properties.get(Bus.class);
+               Bus bus = (Bus) properties.get(Bus.class);
                options.put(Bus.class, bus);
-               javax.xml.ws.Endpoint endpoint = (javax.xml.ws.Endpoint)properties.get(javax.xml.ws.Endpoint.class);
+               javax.xml.ws.Endpoint endpoint = (javax.xml.ws.Endpoint) properties.get(javax.xml.ws.Endpoint.class);
                options.put(javax.xml.ws.Endpoint.class, endpoint);
-               
+
                sam.initialize(null, null, callbackHandler, options);
                modules.add(sam);
             }
@@ -127,15 +135,16 @@ public class JBossWSServerAuthConfig extends JBossServerAuthConfig {
          }
       }
 
-      JBossWSServerAuthContext serverAuthContext = new JBossWSServerAuthContext(modules, mapOptionsByName, this.callbackHandler);
+      JBossWSServerAuthContext serverAuthContext = new JBossWSServerAuthContext(modules, mapOptionsByName,
+            this.callbackHandler);
       serverAuthContext.setControlFlags(controlFlags);
       return serverAuthContext;
-	}
+   }
 
-	@SuppressWarnings("rawtypes")
+   @SuppressWarnings("rawtypes")
    public String getAuthContextID(MessageInfo messageInfo)
    {
-      SOAPMessage request = (SOAPMessage)messageInfo.getRequestMessage();
+      SOAPMessage request = (SOAPMessage) messageInfo.getRequestMessage();
       if (request == null)
       {
          return null;
@@ -166,14 +175,14 @@ public class JBossWSServerAuthConfig extends JBossServerAuthConfig {
                SOAPBody body = envelope.getBody();
                if (body != null)
                {
-                  
+
                   Iterator it = body.getChildElements();
                   while (it.hasNext())
                   {
                      Object o = it.next();
                      if (o instanceof SOAPElement)
                      {
-                        QName name = ((SOAPElement)o).getElementQName();
+                        QName name = ((SOAPElement) o).getElementQName();
                         return name.getLocalPart();
 
                      }
@@ -190,24 +199,29 @@ public class JBossWSServerAuthConfig extends JBossServerAuthConfig {
       return null;
    }
 
-	public boolean isProtected() {
-		throw new UnsupportedOperationException();
-	}
+   public boolean isProtected()
+   {
+      throw new UnsupportedOperationException();
+   }
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private ServerAuthModule createSAM(ClassLoader moduleCL, String name)
-			throws Exception {
-		Class clazz = SecurityActions.loadClass(moduleCL, name);
-		Constructor ctr = clazz.getConstructor(new Class[0]);
-		return (ServerAuthModule) ctr.newInstance(new Object[0]);
-	}
+   @SuppressWarnings(
+   {"unchecked", "rawtypes"})
+   private ServerAuthModule createSAM(ClassLoader moduleCL, String name) throws Exception
+   {
+      Class clazz = SecurityActions.loadClass(moduleCL, name);
+      Constructor ctr = clazz.getConstructor(new Class[0]);
+      return (ServerAuthModule) ctr.newInstance(new Object[0]);
+   }
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private ServerAuthModule createSAM(ClassLoader moduleCL, String name,
-			String lmshName) throws Exception {
-		Class clazz = SecurityActions.loadClass(moduleCL, name);
-		Constructor ctr = clazz.getConstructor(new Class[] { String.class });
-		return (ServerAuthModule) ctr.newInstance(new Object[] { lmshName });
-	}
+   @SuppressWarnings(
+   {"unchecked", "rawtypes"})
+   private ServerAuthModule createSAM(ClassLoader moduleCL, String name, String lmshName) throws Exception
+   {
+      Class clazz = SecurityActions.loadClass(moduleCL, name);
+      Constructor ctr = clazz.getConstructor(new Class[]
+      {String.class});
+      return (ServerAuthModule) ctr.newInstance(new Object[]
+      {lmshName});
+   }
 
 }

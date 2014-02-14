@@ -27,7 +27,7 @@ import javax.jws.WebService;
 /**
  * EndpointImpl.
  * 
- * @author <a href="ema@redhat.com">Jim Ma</a>
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 @WebService(name = "Endpoint", serviceName = "EndpointService", targetNamespace = "http://org.jboss.ws/jbws3033", endpointInterface = "org.jboss.test.ws.jaxws.cxf.configuration.Endpoint")
 
