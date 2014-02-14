@@ -149,10 +149,8 @@ public class WSTrustTestUtils
 
       UsernameTokenCallbackHandler ch = new UsernameTokenCallbackHandler();
       String str = ch.getUsernameTokenString("myactaskey", null);
-      //System.out.println("##ut: " + str);
 
-      //String tmpStr ="<wsse:UsernameToken  xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\" wsu:Id=\"id-myactaskey\"> <wsse:Username>myactaskey</wsse:Username> </wsse:UsernameToken>";
-      ctx.put(SecurityConstants.STS_TOKEN_ACT_AS, /*tmpStr*/str);
+      ctx.put(SecurityConstants.STS_TOKEN_ACT_AS, str);
 
 
       STSClient stsClient = new STSClient(bus);
@@ -167,8 +165,6 @@ public class WSTrustTestUtils
 
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
    }
-
-   //-
 
    /**
     * Request a security token that allows it to act on the behalf of somebody else.
