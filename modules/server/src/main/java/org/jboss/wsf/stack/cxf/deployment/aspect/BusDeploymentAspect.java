@@ -27,6 +27,7 @@ import java.util.Map;
 
 import javax.xml.ws.spi.Provider;
 
+import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.Configurer;
 import org.jboss.ws.api.binding.BindingCustomization;
@@ -35,6 +36,7 @@ import org.jboss.ws.common.integration.WSConstants;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
 import org.jboss.wsf.spi.metadata.j2ee.JSEArchiveMetaData;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
@@ -134,6 +136,13 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
                new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile(), epConfigName, epConfigFile);
          holder.configure(resolver, configurer, wsmd, dep.getRuntimeClassLoader());
          dep.addAttachment(BusHolder.class, holder);
+         if (holder instanceof SpringBusHolder)
+         {
+            for (Endpoint endpoint : dep.getService().getEndpoints())
+            {
+                 endpoint.setProperty("SpringBus", true);
+            }
+         }
       }
       finally
       {
