@@ -170,7 +170,7 @@ public class DefaultJASPIAuthenticationProvider implements JASPIAuthenticationPr
 
    public boolean enableServerAuthentication(Object target, Endpoint endpoint)
    {
-      if (target instanceof EndpointImpl) {
+      if (!(target instanceof EndpointImpl)) {
          Loggers.ROOT_LOGGER.cannotEnableJASPIAuthentication(target.getClass().getSimpleName());
          return false;
       }

@@ -31,6 +31,7 @@ import org.apache.cxf.jaxws.DispatchImpl;
 import org.jboss.ws.common.configuration.ConfigHelper;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.WSFException;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 
@@ -63,8 +64,9 @@ public class CXFClientConfigurer extends ConfigHelper
       
       //config jaspi
       try
-      {
-         JASPIAuthenticationProvider japsiProvider = SPIProvider.getInstance().getSPI(JASPIAuthenticationProvider.class);
+      {  
+         JASPIAuthenticationProvider japsiProvider = SPIProvider.getInstance().getSPI(JASPIAuthenticationProvider.class, 
+               ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
          if (japsiProvider != null)
          {
             japsiProvider.enableClientAuthentication(cxfClient, props);

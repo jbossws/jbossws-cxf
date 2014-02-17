@@ -67,7 +67,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
             Map<String, String> authModuleOptions = new HashMap<String, String>();
             JBossWSTestHelper.addJaspiSecurityDomain("jaspi", "jaas-lm-stack", loginModuleOptions, "org.jboss.wsf.stack.cxf.jaspi.module.UsernameTokenServerAuthModule",
                   authModuleOptions);
-            JBossWSTestHelper.addJaspiSecurityDomain("clientJaspi", "jaas-lm-stack", loginModuleOptions, "org.jboss.wsf.stack.cxf.client.jaspi.module.SOAPClientAuthModule",
+            JBossWSTestHelper.addJaspiSecurityDomain("clientJaspi", "jaas-lm-stack", loginModuleOptions, "org.jboss.wsf.stack.cxf.jaspi.client.module.SOAPClientAuthModule",
                   authModuleOptions);
             super.setUp();
          }
