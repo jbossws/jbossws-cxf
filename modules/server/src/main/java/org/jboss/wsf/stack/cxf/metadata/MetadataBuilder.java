@@ -225,6 +225,7 @@ public class MetadataBuilder
          portName = name + "Port";
       }
       
+      String annWsdlLocation;
       if (anWebService != null && anWebService.endpointInterface().length() > 0)
       {
          seiName = anWebService.endpointInterface();
@@ -248,8 +249,12 @@ public class MetadataBuilder
          if (seiAnnotation.portName().length() > 0 || seiAnnotation.serviceName().length() > 0 || seiAnnotation.endpointInterface().length() > 0)
             throw MESSAGES.webserviceAnnotationSEIAttributes(seiName);
 
+         annWsdlLocation = !"".equals(anWebService.wsdlLocation()) ? anWebService.wsdlLocation() : seiAnnotation.wsdlLocation();
       }
-      final String annWsdlLocation = (anWebService != null) ? anWebService.wsdlLocation() : anWebServiceProvider.wsdlLocation();
+      else
+      {
+         annWsdlLocation = (anWebService != null) ? anWebService.wsdlLocation() : anWebServiceProvider.wsdlLocation();
+      }
       
       DDEndpoint result = new DDEndpoint();
       
@@ -286,7 +291,7 @@ public class MetadataBuilder
             String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
             
             String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc);
-            //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF do not force host/port values for
+            //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF does not force host/port values for
             //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
             //which causes CXF to override any address in the published wsdl.
             if (!SoapAddressRewriteHelper.isAutoRewriteOn(sc)) {

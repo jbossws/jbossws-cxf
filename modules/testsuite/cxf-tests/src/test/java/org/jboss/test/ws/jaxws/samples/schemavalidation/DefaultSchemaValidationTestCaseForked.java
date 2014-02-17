@@ -55,13 +55,11 @@ public class DefaultSchemaValidationTestCaseForked extends JBossWSTest
     * @throws Exception
     */
    public void testDefaultClientValidation() throws Exception {
-      if (!isTargetJBoss71()) {
-         try {
-            JBossWSTestHelper.deploy("jaxws-samples-schemavalidation.war");
-            assertEquals("1", runInContainer("testDefaultClientValidation"));
-         } finally {
-            JBossWSTestHelper.undeploy("jaxws-samples-schemavalidation.war");
-         }
+      try {
+         JBossWSTestHelper.deploy("jaxws-samples-schemavalidation.war");
+         assertEquals("1", runInContainer("testDefaultClientValidation"));
+      } finally {
+         JBossWSTestHelper.undeploy("jaxws-samples-schemavalidation.war");
       }
    }
    

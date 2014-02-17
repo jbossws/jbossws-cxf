@@ -76,31 +76,85 @@ import org.w3c.dom.Element;
  * The most important customization is on the CXF Bus used
  * the Endpoint.publish() or client.
  * In particular, when a client is created, the thread
- * default bus changes depending on the selected strategy:
+ * default bus, thread context classloader bus and the
+ * bus used for the client being created depend on the
+ * selected strategy:
  * 
- *  * Thread default busses with THREAD_BUS strategy
- *  ------------------------------------------------------------------
- *  |BEFORE client creation | USED for client | AFTER client creation|
- *  ------------------------------------------------------------------
- *  |         NULL          |      NEW        |        NEW           |
- *  |          X            |       X         |         X            |
- *  ------------------------------------------------------------------
- *  
- *  * Thread default busses with NEW_BUS strategy:
- *  ------------------------------------------------------------------
- *  |BEFORE client creation | USED for client | AFTER client creation|
- *  ------------------------------------------------------------------
- *  |         NULL          |      NEW        |        NULL          |
- *  |          X            |      NEW        |         X            |
- *  ------------------------------------------------------------------
- *  
- *  * Thread default busses with TCCL_BUS strategy:
- *  ------------------------------------------------------------------
- *  |BEFORE client creation | USED for client | AFTER client creation|
- *  ------------------------------------------------------------------
- *  |         NULL          |      TCCL       |        NULL          |
- *  |          X            |      TCCL       |         X            |
- *  ------------------------------------------------------------------
+ *  * THREAD_BUS strategy
+ *   
+ *   Bus used for client
+ *   =======================================
+ *   |                       | Client Bus  |
+ *   =======================================
+ *   |  Default  |   NULL    | New bus (Z) |
+ *   |   Thread  |-------------------------|
+ *   |    Bus    |   Bus X   |    Bus X    |
+ *   =======================================
+ *   
+ *   State of buses before and after client creation
+ *   =======================================
+ *   |  Bus     |   BEFORE  |      AFTER   |
+ *   =======================================
+ *   |  Default |   NULL    |  New bus (Z) |
+ *   |  Thread  |--------------------------|
+ *   |   Bus    |   Bus X   |   Bus X      |
+ *   =======================================
+ *   |   TCCL   |   NULL    |    NULL      |
+ *   |   Bus    |--------------------------|
+ *   |          |   Bus Y   |    Bus Y     |
+ *   =======================================
+ * 
+ * 
+ *  * NEW_BUS strategy
+ *   
+ *   Bus used for client
+ *   =======================================
+ *   |                       | Client Bus  |
+ *   =======================================
+ *   |  Default  |   NULL    |    New bus  |
+ *   |   Thread  |-------------------------|
+ *   |    Bus    |   Bus X   |    New bus  |
+ *   =======================================
+ *   
+ *   State of buses before and after client creation
+ *   =======================================
+ *   |  Bus     |   BEFORE  |      AFTER   |
+ *   =======================================
+ *   |  Default |   NULL    |      NULL    |
+ *   |  Thread  |--------------------------|
+ *   |   Bus    |   Bus X   |      Bus X   |
+ *   =======================================
+ *   |   TCCL   |   NULL    |      NULL    |
+ *   |   Bus    |--------------------------|
+ *   |          |   Bus Y   |      Bus Y   |
+ *   =======================================
+ * 
+ * 
+ *  * TCCL_BUS strategy
+ *   
+ *   Bus used for client
+ *   =======================================
+ *   |                       | Client Bus  |
+ *   =======================================
+ *   |   TCCL    |   NULL    | New bus (Z) |
+ *   |   Bus     |-------------------------|
+ *   |           |   Bus Y   |   Bus Y     |
+ *   =======================================
+ *   
+ *   State of buses before and after client creation
+ *   =======================================
+ *   |  Bus     |   BEFORE  |    AFTER     |
+ *   =======================================
+ *   |  Default |   NULL    |    NULL      |
+ *   |  Thread  |--------------------------|
+ *   |   Bus    |   Bus X   |    Bus X     |
+ *   =======================================
+ *   |   TCCL   |   NULL    |  New bus (Z) |
+ *   |   Bus    |--------------------------|
+ *   |          |   Bus Y   |    Bus Y     |
+ *   =======================================
+ * 
+ * 
  *
  * This class also ensures a proper context classloader is set
  * (required on JBoss AS 7, as the TCCL does not include

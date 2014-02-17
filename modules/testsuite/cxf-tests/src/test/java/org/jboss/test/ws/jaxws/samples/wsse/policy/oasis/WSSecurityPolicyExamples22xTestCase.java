@@ -31,6 +31,7 @@ import junit.framework.Test;
 
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.basic.KeystorePasswordCallback;
+import org.jboss.wsf.test.CryptoHelper;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -68,7 +69,11 @@ public final class WSSecurityPolicyExamples22xTestCase extends JBossWSTest
       Service service = Service.create(new URL(serviceURL + "SecurityService221?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService221Port"), ServiceIface.class);
       setupWsse(proxy);
-      assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) X.509 Certificates, Sign, Encrypt"));
+      try {
+         assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) X.509 Certificates, Sign, Encrypt"));
+      } catch (Exception e) {
+         throw CryptoHelper.checkAndWrapException(e);
+      }
    }
 
    /**
@@ -86,7 +91,11 @@ public final class WSSecurityPolicyExamples22xTestCase extends JBossWSTest
       Service service = Service.create(new URL(serviceURL + "SecurityService222?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService222Port"), ServiceIface.class);
       setupWsse(proxy);
-      assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) Mutual Authentication with X.509 Certificates, Sign, Encrypt"));
+      try {
+         assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) Mutual Authentication with X.509 Certificates, Sign, Encrypt"));
+      } catch (Exception e) {
+         throw CryptoHelper.checkAndWrapException(e);
+      }
    }
 
    /**
@@ -104,7 +113,11 @@ public final class WSSecurityPolicyExamples22xTestCase extends JBossWSTest
       Service service = Service.create(new URL(serviceURL + "SecurityService223?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService223Port"), ServiceIface.class);
       setupWsse(proxy);
-      assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) Anonymous with X.509 Certificates, Sign, Encrypt"));
+      try {
+         assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) Anonymous with X.509 Certificates, Sign, Encrypt"));
+      } catch (Exception e) {
+         throw CryptoHelper.checkAndWrapException(e);
+      }
    }
 
    /**
@@ -122,7 +135,11 @@ public final class WSSecurityPolicyExamples22xTestCase extends JBossWSTest
       Service service = Service.create(new URL(serviceURL + "SecurityService224?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService224Port"), ServiceIface.class);
       setupWsse(proxy);
-      assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) Mutual Authentication with X.509 Certificates, Sign, Encrypt"));
+      try {
+         assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) Mutual Authentication with X.509 Certificates, Sign, Encrypt"));
+      } catch (Exception e) {
+         throw CryptoHelper.checkAndWrapException(e);
+      }
    }
 
    private void setupWsse(ServiceIface proxy)

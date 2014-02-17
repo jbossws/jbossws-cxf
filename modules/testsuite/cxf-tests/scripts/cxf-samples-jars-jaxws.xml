@@ -389,6 +389,7 @@
     <war warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-sign-encrypt-client.war" needxmlfile='false'>
       <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/wsf/test/ClientHelper.class"/>
+        <include name="org/jboss/wsf/test/CryptoHelper.class"/>
         <include name="org/jboss/wsf/test/TestServlet.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignEncryptHelper.class"/>
       	<include name="org/jboss/test/ws/jaxws/samples/wsse/policy/basic/ServiceIface.class"/>

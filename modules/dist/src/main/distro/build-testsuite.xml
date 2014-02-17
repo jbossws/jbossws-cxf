@@ -31,12 +31,6 @@
   <target name="tests-prepare" depends="prepare">
     
     <!-- Define jboss.home -->
-    <condition property="jboss.home" value="${jboss712.home}">
-      <equals arg1="${jbossws.integration.target}" arg2="jboss712"/>
-    </condition>
-    <condition property="jboss.home" value="${jboss713.home}">
-      <equals arg1="${jbossws.integration.target}" arg2="jboss713"/>
-    </condition>
     <condition property="jboss.home" value="${jboss720.home}">
       <equals arg1="${jbossws.integration.target}" arg2="jboss720"/>
     </condition>
@@ -120,7 +114,7 @@
     </tstamp>
   </target>
   
-  <target name="tests-classpath" depends="tests-classpath-jboss71x,tests-classpath-jboss72x,tests-classpath-wildfly80x">
+  <target name="tests-classpath" depends="tests-classpath-jboss72x,tests-classpath-wildfly80x">
     <path id="tests.javac.classpath">
       <path refid="ws.stack.classpath"/>
       <path refid="integration.target.javac.classpath"/>
@@ -128,169 +122,6 @@
     <path id="tests.client.classpath">
       <path refid="ws.stack.classpath"/>
       <path refid="integration.target.client.classpath"/>
-    </path>
-  </target>
-
-  <target name="tests-classpath-jboss71x" depends="tests-prepare" if="jbossws.integration.jboss71x">
-    
-    <!-- Java Endorsed -->
-    <condition property="endorsed.dirs" value="${jboss.home}/modules/javax/xml/ws/api/main/">
-      <isset property="jboss.home"/>
-    </condition>
-    
-    <path id="integration.target.javac.classpath">
-      <fileset dir="${jboss.home}/modules/javax/activation/api/main/">
-        <include name="activation-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/javax/mail/api/main/">
-        <include name="mail-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/common-core/main/">
-        <include name="jboss-common-core-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/logging/main/">
-        <include name="jboss-logging-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/picketlink/main/">
-        <include name="picketlink-core*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/javax/ejb/api/main/">
-        <include name="jboss-ejb-api_3.1_spec-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/ejb3/main/">
-        <include name="jboss-ejb3-ext-api-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/javax/servlet/api/main/">
-        <include name="jboss-servlet-api_3.0_spec-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/javax/annotation/api/main/">
-        <include name="jboss-annotations-api_1.1_spec-*.jar"/>
-      </fileset>
-    </path>
-    
-    <!-- 
-    The 's.client.classpath' contains jars that are available in the target container's client directory.
-    There jars apply to all supported stacks. It MUST NOT contains jars from a local thirdparty dir.
-    
-    The 'ws.stack.classpath' contains jars that come with a specific stack distribution.
-    The 's.extra.classpath' contains stack specific jars that are needed to run the stack specific tests.
-    -->
-    <path id="integration.target.client.classpath">
-      <!-- included from thirdparty local dir as it's not installed on AS - START -->
-      <pathelement location="${thirdparty.dir}/jbossws-${jbossws.integration.target}-tests-integration.jar"/>
-      <!-- included from thirdparty local dir as it's not installed on AS - END -->
-      <pathelement location="${jboss.home}/jboss-modules.jar"/>
-      <fileset dir="${jboss.home}/modules/org/jboss/logging/main/">
-        <include name="jboss-logging-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/as/controller/main/">
-        <include name="jboss-as-controller-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/as/controller-client/main/">
-        <include name="jboss-as-controller-client-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/as/server/main/">
-        <include name="jboss-as-server-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/as/protocol/main/">
-        <include name="jboss-as-protocol-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/dmr/main/">
-        <include name="jboss-dmr-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/marshalling/main/">
-        <include name="jboss-marshalling-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/slf4j/main/">
-        <include name="slf4j-api-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/slf4j/jcl-over-slf4j/main/">
-        <include name="jcl-over-slf4j-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/slf4j/impl/main/">
-        <include name="slf4j-jboss-logmanager-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/logmanager/main/">
-        <include name="jboss-logmanager-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/apache/log4j/main/">
-        <include name="log4j-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/javax/mail/api/main/">
-        <include name="mail-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/javax/servlet/api/main/">
-        <include name="jboss-servlet-api_3.0_spec-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/javax/transaction/api/main/">
-        <include name="jboss-transaction-api_1.1_spec-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/threads/main/">
-        <include name="jboss-threads-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/picketbox/main/">
-        <include name="picketbox-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/picketlink/main/">
-        <include name="picketlink-core*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/javax/ejb/api/main/">
-        <include name="jboss-ejb-api_3.1_spec-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/ejb-client/main/">
-        <include name="jboss-ejb-client-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/apache/xerces/main/">
-        <include name="xercesImpl-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/common-core/main/">
-        <include name="jboss-common-core-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/javassist/main/">
-        <include name="javassist-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/javax/security/jacc/api/main/">
-        <include name="jboss-jacc-api*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/remoting3/main/">
-        <include name="jboss-remoting-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/marshalling/river/main/">
-        <include name="jboss-marshalling-river-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/remoting3/remoting-jmx/main/">
-        <include name="remoting-jmx-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/sasl/main/">
-        <include name="jboss-sasl-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/netty/main/">
-        <include name="netty-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/xb/main/">
-        <include name="jbossxb-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/joda/time/main/">
-        <include name="joda-time-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/apache/xalan/main/">
-        <include name="serializer-*.jar"/>
-        <include name="xalan-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/codehaus/woodstox/main/">
-        <include name="woodstox-core-asl-*.jar"/>
-        <include name="stax2-api-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/xnio/main/">
-        <include name="xnio-api-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/xnio/nio/main/">
-        <include name="xnio-nio-*.jar"/>
-      </fileset>
-      <fileset dir="${jboss.home}/modules/org/jboss/remote-naming/main/">
-        <include name="jboss-remote-naming-*.jar"/>
-      </fileset>
-      <pathelement location="${tools.jar}"/>
     </path>
   </target>
 	  

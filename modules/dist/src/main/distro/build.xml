@@ -57,13 +57,6 @@
     <fail message="jbossws.integration.target not set" unless="jbossws.integration.target"/>
     <echo message="integration.target=${jbossws.integration.target}"/>
     
-    <condition property="jbossws.integration.jboss71x" value="true">
-      <or>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss712"/>
-        <equals arg1="${jbossws.integration.target}" arg2="jboss713"/>
-      </or>
-    </condition>
-    
     <condition property="jbossws.integration.jboss72x" value="true">
       <or>
         <equals arg1="${jbossws.integration.target}" arg2="jboss720"/>

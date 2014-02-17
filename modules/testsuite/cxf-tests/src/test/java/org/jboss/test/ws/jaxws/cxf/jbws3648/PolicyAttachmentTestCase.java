@@ -36,6 +36,7 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
+import org.jboss.wsf.test.CryptoHelper;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -91,7 +92,11 @@ public class PolicyAttachmentTestCase extends JBossWSTest
          EndpointFour proxy = (EndpointFour)service.getPort(EndpointFour.class);
          setupWsse((BindingProvider)proxy);
          
-         assertEquals("Foo4", proxy.echo("Foo4"));
+         try {
+            assertEquals("Foo4", proxy.echo("Foo4"));
+         } catch (Exception e) {
+            throw CryptoHelper.checkAndWrapException(e);
+         }
          final String m = bos.toString();
          assertTrue("WS-Addressing was not enabled!", m.contains("http://www.w3.org/2005/08/addressing") && m.contains("http://www.w3.org/2005/08/addressing/anonymous"));
          assertTrue("WS-Security was not enabled!", m.contains("http://www.w3.org/2001/04/xmlenc#rsa-1_5") && m.contains("http://www.w3.org/2001/04/xmlenc#aes256-cbc"));

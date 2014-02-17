@@ -30,6 +30,7 @@ import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.jboss.wsf.test.CryptoHelper;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
@@ -72,8 +73,12 @@ public class WSTrustTestCase extends JBossWSTest
          final QName stsServiceName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "SecurityTokenService");
          final QName stsPortName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "UT_Port");
          WSTrustTestUtils.setupWsseAndSTSClient(proxy, bus, stsURL + "?wsdl", stsServiceName, stsPortName);
-         
-         assertEquals("WS-Trust Hello World!", proxy.sayHello());
+
+         try {
+            assertEquals("WS-Trust Hello World!", proxy.sayHello());
+         } catch (Exception e) {
+            throw CryptoHelper.checkAndWrapException(e);
+         }
       }
       finally
       {
@@ -100,7 +105,11 @@ public class WSTrustTestCase extends JBossWSTest
          
          WSTrustTestUtils.setupWsse(proxy, bus);
          
-         assertEquals("WS-Trust Hello World!", proxy.sayHello());
+         try {
+            assertEquals("WS-Trust Hello World!", proxy.sayHello());
+         } catch (Exception e) {
+            throw CryptoHelper.checkAndWrapException(e);
+         }
       }
       finally
       {

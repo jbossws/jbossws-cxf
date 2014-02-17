@@ -30,6 +30,7 @@ import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.jboss.wsf.test.CryptoHelper;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
@@ -66,7 +67,11 @@ public final class WSTrustPicketLinkTestCase extends JBossWSTest
          final QName stsPortName = new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTSPort");
          WSTrustTestUtils.setupWsseAndSTSClient(proxy, bus, stsURL + "?wsdl", stsServiceName, stsPortName);
          
-         assertEquals("WS-Trust Hello World!", proxy.sayHello());
+         try {
+            assertEquals("WS-Trust Hello World!", proxy.sayHello());
+         } catch (Exception e) {
+            throw CryptoHelper.checkAndWrapException(e);
+         }
       }
       finally
       {

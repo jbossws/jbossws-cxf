@@ -107,15 +107,11 @@ public class CXFClientConfigurationTestCase extends JBossWSTest
     * @throws Exception
     */
    public void testDefaultClientConfigurationInContainer() throws Exception {
-      if (!isTargetJBoss71()) {
-         assertEquals("1", runTestInContainer("testDefaultClientConfiguration"));
-      }
+      assertEquals("1", runTestInContainer("testDefaultClientConfiguration"));
    }
    
    public void testDefaultClientConfigurationOnDispatchInContainer() throws Exception {
-      if (!isTargetJBoss71()) {
-         assertEquals("1", runTestInContainer("testDefaultClientConfigurationOnDispatch"));
-      }
+      assertEquals("1", runTestInContainer("testDefaultClientConfigurationOnDispatch"));
    }
    
    /**

@@ -777,19 +777,6 @@
 				<include name="jboss-webservices.xml" />
 			</metainf>
 		</jar>
-		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws2241-as71.jar">
-			<fileset dir="${tests.output.dir}/test-classes">
-				<include name="org/jboss/test/ws/jaxws/jbws2241/EJB3Bean.class" />
-				<include name="org/jboss/test/ws/jaxws/jbws2241/EJB3RemoteInterface.class" />
-				<include name="org/jboss/test/ws/jaxws/jbws2241/EndpointInterface.class" />
-				<include name="org/jboss/test/ws/jaxws/jbws2241/EndpointService.class" />
-			</fileset>
-			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws2241/META-INF-as71">
-				<include name="jboss.xml" />
-				<include name="jboss-ejb3.xml" />
-				<include name="jboss-webservices.xml" />
-			</metainf>
-		</jar>
 
 		<!-- jaxws-jbws2250 -->
 		<war warfile="${tests.output.dir}/test-libs/jaxws-jbws2250.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws2250/WEB-INF/web.xml">
