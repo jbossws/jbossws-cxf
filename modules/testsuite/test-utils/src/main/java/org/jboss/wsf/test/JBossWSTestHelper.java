@@ -246,9 +246,13 @@ public class JBossWSTestHelper
             if (server == null)
             {
                String integrationTarget = getIntegrationTarget();
-               if (integrationTarget.startsWith("jboss7") || integrationTarget.startsWith("wildfly8") || integrationTarget.startsWith("jboss8"))
+               if (integrationTarget.startsWith("jboss7"))
                {
-                  server = getAS7ServerConnection(integrationTarget);
+                  server = getServerConnection("service:jmx:remoting-jmx://" + getServerHost() + ":" + 9999);
+               }
+               else if (integrationTarget.startsWith("wildfly8"))
+               {
+                  server = getServerConnection("service:jmx:http-remoting-jmx://" + getServerHost() + ":" + 9990);
                }
                else
                {
@@ -260,7 +264,7 @@ public class JBossWSTestHelper
       return server;
    }
    
-   private static MBeanServerConnection getAS7ServerConnection(String integrationTarget)
+   private static MBeanServerConnection getServerConnection(String jmxServiceUrl)
    {
       final String urlString = System.getProperty("jmx.service.url", "service:jmx:remoting-jmx://" + getServerHost() + ":" + 9999);
       JMXServiceURL serviceURL = null;
