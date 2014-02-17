@@ -266,7 +266,7 @@ public class JBossWSTestHelper
    
    private static MBeanServerConnection getServerConnection(String jmxServiceUrl)
    {
-      final String urlString = System.getProperty("jmx.service.url", "service:jmx:remoting-jmx://" + getServerHost() + ":" + 9999);
+      final String urlString = System.getProperty("jmx.service.url", jmxServiceUrl);
       JMXServiceURL serviceURL = null;
       JMXConnector connector = null;
       try
