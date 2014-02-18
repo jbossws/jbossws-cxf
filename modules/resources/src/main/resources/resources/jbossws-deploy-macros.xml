@@ -356,6 +356,7 @@
     <delete verbose="true">
       <fileset dir="${jboss.modules}">
         <include name="**/org/jboss/as/webservices/main/jboss-as-webservices-server-integration*"/>
+        <include name="**/org/jboss/as/webservices/main/wildfly-webservices-server-integration*"/>
       </fileset>
     </delete>
   </target>
