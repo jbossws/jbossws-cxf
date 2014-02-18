@@ -59,6 +59,7 @@ import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
+import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
@@ -118,21 +119,22 @@ public abstract class BusHolder
       Map<String, String> props = (wsmd == null) ? null : wsmd.getProperties();
       
       setInterceptors(bus, props);
+      dep.addAttachment(Bus.class, bus);
 
       try
       {
          final JASPIAuthenticationProvider jaspiProvider = SPIProvider.getInstance().getSPI(
                JASPIAuthenticationProvider.class,
                ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
-         if (jaspiProvider != null)
+         
+         if (jaspiProvider != null && jaspiProvider.enableServerAuthentication(dep, wsmd))
          {
-            jaspiProvider.enableServerAuthentication(dep, wsmd);
             bus.getInInterceptors().add(new AutenticationMgrSubjectCreatingInterceptor());
          }
       }
       catch (WSFException e)
       {
-         // ignore
+         Loggers.DEPLOYMENT_LOGGER.cannotFindJaspiClasses();
       }
       
       setResourceResolver(bus, resolver);

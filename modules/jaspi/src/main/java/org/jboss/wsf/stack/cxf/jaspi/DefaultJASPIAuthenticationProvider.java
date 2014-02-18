@@ -105,7 +105,7 @@ public class DefaultJASPIAuthenticationProvider implements JASPIAuthenticationPr
       }
       catch (Exception e)
       {
-         //ignore
+         Loggers.DEPLOYMENT_LOGGER.cannotCreateServerAuthContext(securityDomain, e);
       }
 
       return false;

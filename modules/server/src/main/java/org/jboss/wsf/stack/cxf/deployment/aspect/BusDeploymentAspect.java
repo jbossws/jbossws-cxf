@@ -137,7 +137,6 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          holder.configure(resolver, configurer, wsmd, dep);
 
          dep.addAttachment(BusHolder.class, holder);
-         dep.addAttachment(Bus.class, holder.getBus());
          if (holder instanceof SpringBusHolder)
          {
             for (Endpoint endpoint : dep.getService().getEndpoints())

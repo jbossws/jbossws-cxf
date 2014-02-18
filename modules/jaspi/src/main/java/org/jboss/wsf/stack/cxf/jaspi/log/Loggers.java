@@ -42,18 +42,18 @@ public interface Loggers extends BasicLogger
     Loggers DEPLOYMENT_LOGGER = org.jboss.logging.Logger.getMessageLogger(Loggers.class, "org.jboss.ws.cxf.deployment");
 
     @LogMessage(level = WARN)
-    @Message(id = 24102, value = "No application policy found for security domain '%s'")
+    @Message(id = 24201, value = "No application policy found for security domain '%s'")
     void noApplicationPolicy(String securityDomain);
     
     @LogMessage(level = WARN)
-    @Message(id = 24103, value = "No JASPIAuthenticationInfo found for security domain '%s'")
+    @Message(id = 24202, value = "No JASPIAuthenticationInfo found for security domain '%s'")
     void noJaspiApplicationPolicy(String securityDomain);
     
     @LogMessage(level = WARN)
-    @Message(id = 24104, value = "Can not create Jaspi ServerAuthContext for security domain '%s'")
+    @Message(id = 24203, value = "Can not create Jaspi ServerAuthContext for security domain '%s'")
     void cannotCreateServerAuthContext(String securityDomain, @Cause Throwable cause);
     
     @LogMessage(level = WARN)
-    @Message(id = 24105, value = "Can not enable Jaspi authentication for '%s' instance")
+    @Message(id = 24204, value = "Can not enable Jaspi authentication for '%s' instance")
     void cannotEnableJASPIAuthentication(String classname);
 }

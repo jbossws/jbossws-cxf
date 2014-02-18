@@ -224,16 +224,8 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = WARN)
     @Message(id = 24100, value = "Could not delete wsdl directory %s")
     void couldNotDeleteWsdlDirectory(String filename);
-    
-    @LogMessage(level = WARN)
-    @Message(id = 24102, value = "No application policy found for security domain '%s'")
-    void noApplicationPolicy(String securityDomain);
-    
-    @LogMessage(level = WARN)
-    @Message(id = 24103, value = "No JASPIAuthenticationInfo found for security domain '%s'")
-    void noJaspiApplicationPolicy(String securityDomain);
-    
-    @LogMessage(level = WARN)
-    @Message(id = 24104, value = "Can not create Jaspi ServerAuthContext for security domain '%s'")
-    void cannotCreateServerAuthContext(String securityDomain, @Cause Throwable cause);
+   
+    @LogMessage(level = INFO)
+    @Message(id = 24102, value = "jaspi authentication isn't enabled, can not find jaspi modules and classes")
+    void cannotFindJaspiClasses();
 }

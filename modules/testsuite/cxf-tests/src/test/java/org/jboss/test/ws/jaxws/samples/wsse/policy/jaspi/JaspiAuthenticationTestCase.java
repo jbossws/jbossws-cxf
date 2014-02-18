@@ -40,15 +40,19 @@ import org.jboss.security.auth.login.XMLLoginConfigImpl;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-
-//TODO: reuse jaas test
+/**
+ * TestCase to demonstrate jaspi authentication 
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
+ */
 public final class JaspiAuthenticationTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-jaspi";
+   private final String serviceEndpointURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-endpoint-jaspi";
+   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-jbws-jaspi";
 
    public static Test suite()
    {
-      TestSetup testSetup = new JBossWSCXFTestSetup(JaspiAuthenticationTestCase.class, "jaxws-samples-wsse-policy-username-jaspi.war, jaxws-samples-wsse-policy-username-jaspi-client.war") {
+      TestSetup testSetup = new JBossWSCXFTestSetup(JaspiAuthenticationTestCase.class, "jaxws-samples-wsse-policy-username-endpoint-jaspi.war, " +
+      		"jaxws-samples-wsse-policy-username-jbws-jaspi.war , jaxws-samples-wsse-policy-username-jaspi-client.war") {
 
          public void setUp() throws Exception
          {
@@ -68,7 +72,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
             JBossWSTestHelper.addJaspiSecurityDomain("jaspi", "jaas-lm-stack", loginModuleOptions, "org.jboss.wsf.stack.cxf.jaspi.module.UsernameTokenServerAuthModule",
                   authModuleOptions);
             JBossWSTestHelper.addJaspiSecurityDomain("clientJaspi", "jaas-lm-stack", loginModuleOptions, "org.jboss.wsf.stack.cxf.jaspi.client.module.SOAPClientAuthModule",
-                  authModuleOptions);
+                  authModuleOptions);            
             super.setUp();
          }
 
@@ -83,7 +87,9 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
       return testSetup;
    }
    
-   public void testAuthenticated() throws Exception
+
+   
+   public void testWebserviceMDEnableAuthenticated() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
       URL wsdlURL = new URL(serviceURL + "?wsdl");
@@ -92,11 +98,22 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
       setupWsse(proxy, "kermit");
       assertEquals("Secure Hello World!", proxy.sayHello());
    }
-
+   
+ 
+   public void testEndpointEnableAuthenticated() throws Exception
+   {
+      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+      URL wsdlURL = new URL(serviceEndpointURL + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
+      setupWsse(proxy, "kermit");
+      assertEquals("Secure Hello World!", proxy.sayHello());
+   }
+   
    public void testUnauthenticated() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      URL wsdlURL = new URL(serviceEndpointURL + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy, "snoopy");
@@ -121,7 +138,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
       xli.loadConfig();
       
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");     
+      URL wsdlURL = new URL(serviceEndpointURL + "?wsdl");     
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy, "kermit");
@@ -132,7 +149,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
    public void testInContainerClientAuthModule() throws Exception
    {
       Helper helper = new Helper();
-      helper.setTargetEndpoint("http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-jaspi");
+      helper.setTargetEndpoint("http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-endpoint-jaspi");
       assertEquals("1", runTestInContainer("testJaspiClient"));
    }
    
@@ -140,7 +157,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
    private String runTestInContainer(String test) throws Exception
    {
       URL url = new URL("http://" + getServerHost()
-            + ":8080/jaxws-samples-wsse-policy-username-jaspi-client?path=/jaxws-samples-wsse-policy-username-jaspi&method=" + test
+            + ":8080/jaxws-samples-wsse-policy-username-jaspi-client?path=/jaxws-samples-wsse-policy-username-endpoint-jaspi&method=" + test
             + "&helper=" + Helper.class.getName());
       BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
       return br.readLine();
@@ -153,4 +170,5 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
       ((BindingProvider)proxy).getRequestContext()
             .put(SecurityConstants.CALLBACK_HANDLER, "org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.UsernamePasswordCallback");
    }
+   
 }

@@ -631,14 +631,14 @@
   	
     <!-- jaxws-samples-wsse-policy-username-jaspi -->
     <war
-       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username-jaspi.war"
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username-endpoint-jaspi.war"
        webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/jaspi/WEB-INF/web.xml">
        <classes dir="${tests.output.dir}/test-classes">
-          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/Service*.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/ServiceIface.class"/>
+     	  <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/ServiceEndpointImpl.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
        </classes>
        <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/jaspi/WEB-INF">
-          <!--include name="jboss-*.xml"/-->
        	  <include name="jaxws-*.xml"/>
           <include name="wsdl/*"/>
        </webinf>
@@ -646,6 +646,24 @@
          <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
        </manifest>
     </war>
+
+    <!-- jaxws-samples-wsse-policy-username-jaspi-jbossws -->
+    <war
+       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-username-jbws-jaspi.war"
+       webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/jaspi/WEB-INF2/web.xml">
+       <classes dir="${tests.output.dir}/test-classes">
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/ServiceIface.class"/>
+       	  <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/ServiceImpl.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/*.class"/>
+       </classes>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/jaspi/WEB-INF2">
+          <include name="jboss-*.xml"/>
+          <include name="wsdl/*"/>
+       </webinf>
+       <manifest>
+         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor in deployment -->
+       </manifest>
+    </war>  	
   	
     <!-- jaxws-samples-wsse-policy-username-jaspi-client -->
     <war

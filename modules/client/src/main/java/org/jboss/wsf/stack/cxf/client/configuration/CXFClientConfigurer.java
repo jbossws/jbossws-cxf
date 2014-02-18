@@ -34,6 +34,7 @@ import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
+import org.jboss.wsf.stack.cxf.Loggers;
 
 /**
  * CXF extension of common ClientConfigurer
@@ -74,7 +75,7 @@ public class CXFClientConfigurer extends ConfigHelper
       }
       catch (WSFException e)
       {
-         // ignore
+         Loggers.DEPLOYMENT_LOGGER.cannotFindJaspiClasses();
       }
    }
    

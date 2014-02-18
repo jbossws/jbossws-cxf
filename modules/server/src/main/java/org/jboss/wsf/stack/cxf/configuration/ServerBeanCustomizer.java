@@ -38,6 +38,7 @@ import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
 import org.jboss.wsf.spi.metadata.config.ConfigRoot;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 import org.jboss.wsf.stack.cxf.JBossWSInvoker;
+import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
@@ -166,15 +167,14 @@ public class ServerBeanCustomizer extends BeanCustomizer
          {
             final JASPIAuthenticationProvider jaspiProvider = SPIProvider.getInstance().getSPI(JASPIAuthenticationProvider.class,
                   ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
-            if (jaspiProvider != null)
+            if (jaspiProvider != null && jaspiProvider.enableServerAuthentication(endpoint, depEndpoints.get(0)))
             {
-               jaspiProvider.enableServerAuthentication(endpoint, depEndpoints.get(0));
                endpoint.getInInterceptors().add(new AutenticationMgrSubjectCreatingInterceptor());
             }
          }
          catch (WSFException e)
          {
-            //ignore
+            Loggers.DEPLOYMENT_LOGGER.cannotFindJaspiClasses();
          }
       }
    }
