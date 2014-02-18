@@ -68,6 +68,15 @@
               <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly800/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
+          <execution>
+            <id>wildfly801</id>
+            <goals><goal>jar</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>wildfly801</classifier>
+              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly801/jbossws.beans</classesDirectory>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>

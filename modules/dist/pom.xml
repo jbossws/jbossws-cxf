@@ -56,6 +56,13 @@
 
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>
+         <artifactId>jbossws-cxf-resources</artifactId>
+         <version>${project.version}</version>
+         <classifier>wildfly801</classifier>     
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-server</artifactId>
          <version>${project.version}</version>     
       </dependency>
@@ -119,6 +126,11 @@
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-jboss720-server-integration</artifactId>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly800-server-integration</artifactId>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -186,6 +198,9 @@
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-wildfly800.txt">
                                     <param name="targetName" expression="wildfly800" />
                                 </xslt>
+                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-wildfly801.txt">
+                                    <param name="targetName" expression="wildfly801" />
+                                </xslt>
                             </target>
                         </configuration>
                         <goals>
@@ -215,6 +230,11 @@
         <dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-jboss720-tests-integration</artifactId>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-wildfly800-tests-integration</artifactId>
           <scope>provided</scope>
         </dependency>
         <dependency>

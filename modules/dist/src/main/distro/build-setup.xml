@@ -35,9 +35,11 @@
 
     <property name="jboss720.available.file" value="${jboss720.home}/jboss-modules.jar"/>
     <property name="wildfly800.available.file" value="${wildfly800.home}/jboss-modules.jar"/>
+    <property name="wildfly801.available.file" value="${wildfly801.home}/jboss-modules.jar"/>
 
     <available property="jboss720.available" file="${jboss720.available.file}"/>
     <available property="wildfly800.available" file="${wildfly800.available.file}"/>   
+    <available property="wildfly801.available" file="${wildfly801.available.file}"/>   
 
     <tstamp>
       <format property="build.id" pattern="yyyyMMddHHmm"/>

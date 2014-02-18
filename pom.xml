@@ -64,9 +64,11 @@
     <jbossws.common.version>2.3.0-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.2.0.Final</jbossws.common.tools.version>
     <jbossws.jboss720.version>4.3.0-SNAPSHOT</jbossws.jboss720.version>
+    <jbossws.wildfly800.version>4.3.0-SNAPSHOT</jbossws.wildfly800.version>
     <jbossws.native.version>4.2.0.CR1</jbossws.native.version>
     <jboss720.version>7.2.0.Final</jboss720.version>
-    <wildfly800.version>8.0.0.Final-SNAPSHOT</wildfly800.version>
+    <wildfly800.version>8.0.0.Final</wildfly800.version>
+    <wildfly801.version>8.0.1.Final-SNAPSHOT</wildfly801.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
     <cxf.version>2.7.10</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
@@ -145,9 +147,19 @@
         <version>${jbossws.jboss720.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly800-server-integration</artifactId>
+        <version>${jbossws.wildfly800.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly800-tests-integration</artifactId>
+        <version>${jbossws.wildfly800.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.wildfly</groupId>
         <artifactId>wildfly-webservices-tests-integration</artifactId>
-        <version>${wildfly800.version}</version>
+        <version>${wildfly801.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
@@ -1378,6 +1390,18 @@
       <properties>
         <jbossws.integration.target>wildfly800</jbossws.integration.target>
         <jboss.home>${wildfly800.home}</jboss.home>
+      </properties>
+    </profile>
+
+    <!--
+    Name:  wildfly801
+    Descr: WildFly-8.0.1 specific options
+    -->
+    <profile>
+      <id>wildfly801</id>
+      <properties>
+        <jbossws.integration.target>wildfly801</jbossws.integration.target>
+        <jboss.home>${wildfly801.home}</jboss.home>
       </properties>
     </profile>
 

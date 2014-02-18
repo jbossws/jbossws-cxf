@@ -111,7 +111,7 @@
             <includes>
               <include>org.wildfly:wildfly-webservices-tests-integration:jar</include>
             </includes>
-            <outputFileNameMapping>jbossws-wildfly800-tests-integration.jar</outputFileNameMapping>
+            <outputFileNameMapping>jbossws-wildfly801-tests-integration.jar</outputFileNameMapping>
             <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>
          </dependencySet>
