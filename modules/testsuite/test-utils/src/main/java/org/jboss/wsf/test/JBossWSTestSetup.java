@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.management.MBeanServerConnection;
 import javax.naming.NamingException;
@@ -57,6 +58,8 @@ public class JBossWSTestSetup extends TestSetup
    private static Logger log = Logger.getLogger(JBossWSTestSetup.class);
    
    private static final String JBOSSWS_SEC_DOMAIN = "JBossWS";
+   private static final String SYSPROP_HTTPS_CONNECTION_REUSE_TIMEOUT = "test.https.connection.reuse.timeout";
+   private static final int HTTPS_CONNECTION_REUSE_TIMEOUT = Integer.getInteger(SYSPROP_HTTPS_CONNECTION_REUSE_TIMEOUT, 5000);
 
    private String[] archives = new String[0];
    private OutputStream appclientOutputStream;
@@ -66,6 +69,8 @@ public class JBossWSTestSetup extends TestSetup
    private boolean defaultSecurityDomainRequirement = false;
    private Map<String, String> httpsConnOptions;
    private CleanupOperation cleanupOp;
+   
+   private static volatile AtomicLong lastHttpsConnectorRemoval = new AtomicLong(0);
 
    public JBossWSTestSetup(Class<?> testClass, String archiveList)
    {
@@ -249,6 +254,17 @@ public class JBossWSTestSetup extends TestSetup
          URLClassLoader cl = new URLClassLoader(urls, parent);
          Thread.currentThread().setContextClassLoader(cl);
       }
+      if (httpsConnOptions != null) {
+         final long lr = lastHttpsConnectorRemoval.get();
+         if (lr != 0) {
+            final long wait = HTTPS_CONNECTION_REUSE_TIMEOUT - (System.currentTimeMillis() - lr);
+            if (wait > 0) {
+               log.info("Will sleep for " + wait + " ms...");
+               Thread.sleep(wait);
+               log.debug("Going on!");
+            }
+         }
+      }
    }
    
    private static void performDeploy(String archive) throws Exception
@@ -311,6 +327,7 @@ public class JBossWSTestSetup extends TestSetup
          if (httpsConnOptions != null)
          {
             JBossWSTestHelper.removeHttpsConnector();
+            lastHttpsConnectorRemoval.set(System.currentTimeMillis());
          }
       }
    }
