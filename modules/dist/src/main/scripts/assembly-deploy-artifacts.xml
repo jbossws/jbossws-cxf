@@ -97,7 +97,7 @@
             <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws:jbossws-jboss*-tests-integration:jar</include>
-              <include>org.jboss.ws:jbossws-wildlfy*-tests-integration:jar</include>
+              <include>org.jboss.ws:jbossws-wildfly*-tests-integration:jar</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
             <scope>provided</scope>
