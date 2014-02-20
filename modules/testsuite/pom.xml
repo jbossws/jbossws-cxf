@@ -243,6 +243,7 @@
         <configuration>
           <skip>true</skip>
           <failIfNoTests>false</failIfNoTests>
+          <runOrder>alphabetical</runOrder>
         </configuration>
         <executions>
           <execution>
@@ -543,6 +544,24 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <testFailureIgnore>true</testFailureIgnore>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+    Name:  fast
+    Descr: Slightly faster testsuite execution, using 'balanced' surefire runOrder
+    -->
+    <profile>
+      <id>fast</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <runOrder>balanced</runOrder>
             </configuration>
           </plugin>
         </plugins>
