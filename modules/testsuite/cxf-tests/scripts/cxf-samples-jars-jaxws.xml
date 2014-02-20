@@ -535,6 +535,7 @@
         prefix="META-INF">
         <include name="clientstore.jks"/>
         <include name="clientKeystore.properties"/>
+        <include name="permissions.xml"/>
       </zipfileset>
       <manifest>
         <attribute name="Dependencies"
