@@ -30,6 +30,8 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 import java.net.URL;
 
 /**
@@ -53,6 +55,16 @@ public class JBWS1841TestCase extends JBossWSTest
          public void cleanUp() {
             port = null;
             remote = null;
+            if (ctx != null)
+            {
+               final InitialContext c = ctx;
+               ctx = null;
+               try {
+                  c.close();
+               } catch (NamingException ne) {
+                  throw new RuntimeException(ne);
+               }
+            }
          }
       });
    }
@@ -67,15 +79,6 @@ public class JBWS1841TestCase extends JBossWSTest
 
          ctx = getServerInitialContext();
          remote = (StatelessRemote)ctx.lookup("ejb:/jaxws-jbws1841//" + StatelessBean.class.getSimpleName() + "!" + StatelessRemote.class.getName());
-      }
-   }
-
-   protected void tearDown() throws Exception
-   {
-      if (ctx != null)
-      {
-         ctx.close();
-         ctx = null;
       }
    }
 
