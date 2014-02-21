@@ -23,7 +23,11 @@ package org.jboss.test.ws.jaxws.cxf.udp;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
 import java.net.URL;
+import java.util.Enumeration;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Endpoint;
@@ -58,6 +62,10 @@ public final class UDPEndpointAPITestCase extends JBossWSTest
    
    public void testClientSide() throws Exception
    {
+      if (!isProperNetworkSetup()) {
+         System.out.println("Skipping broadcast test: no non-loopback IPv4 interface available");
+         return;
+      }
       Bus bus = BusFactory.newInstance().createBus();
       BusFactory.setThreadDefaultBus(bus);
       Object implementor = new HelloWorldImpl();
@@ -76,6 +84,36 @@ public final class UDPEndpointAPITestCase extends JBossWSTest
          ep.stop();
          bus.shutdown(true);
       }
+   }
+   
+   private boolean isProperNetworkSetup() throws Exception {
+      Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+      int count = 0;
+      while (interfaces.hasMoreElements())
+      {
+         NetworkInterface networkInterface = interfaces.nextElement();
+         if (!networkInterface.isUp() || networkInterface.isLoopback() || !isBroadcastAddressAvailable(networkInterface))
+         {
+            continue;
+         }
+         count++;
+      }
+      if (count == 0)
+      {
+         //no non-loopbacks, cannot do broadcasts
+         return false;
+      }
+      return true;
+   }
+   
+   private boolean isBroadcastAddressAvailable(NetworkInterface networkInterface) {
+      for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+         InetAddress broadcast = interfaceAddress.getBroadcast();
+         if (broadcast != null) {
+             return true;
+         }
+      }
+      return false;
    }
    
 }
