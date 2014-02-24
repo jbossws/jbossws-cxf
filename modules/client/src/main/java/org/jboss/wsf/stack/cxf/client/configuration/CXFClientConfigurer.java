@@ -29,7 +29,12 @@ import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.DispatchImpl;
 import org.jboss.ws.common.configuration.ConfigHelper;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.WSFException;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
+import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
+import org.jboss.wsf.stack.cxf.Loggers;
 
 /**
  * CXF extension of common ClientConfigurer
@@ -57,6 +62,21 @@ public class CXFClientConfigurer extends ConfigHelper
          savePropList(cxfClient, props);
       }
       setConfigProperties(cxfClient, props);
+      
+      //config jaspi
+      try
+      {  
+         JASPIAuthenticationProvider japsiProvider = SPIProvider.getInstance().getSPI(JASPIAuthenticationProvider.class, 
+               ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
+         if (japsiProvider != null)
+         {
+            japsiProvider.enableClientAuthentication(cxfClient, props);
+         }
+      }
+      catch (WSFException e)
+      {
+         Loggers.DEPLOYMENT_LOGGER.cannotFindJaspiClasses();
+      }
    }
    
    public void setConfigProperties(Client client, Map<String, String> properties) {

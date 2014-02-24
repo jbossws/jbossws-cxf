@@ -30,6 +30,7 @@
             <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws.cxf:jbossws-cxf-client:jar</include>
+              <include>org.jboss.ws.cxf:jbossws-cxf-jaspi:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-factories:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-server:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-transports-httpserver:jar</include>

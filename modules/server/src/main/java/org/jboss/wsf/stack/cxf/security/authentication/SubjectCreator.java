@@ -35,6 +35,7 @@ import javax.security.auth.callback.CallbackHandler;
 
 import org.apache.cxf.common.security.SimplePrincipal;
 import org.jboss.security.auth.callback.CallbackHandlerPolicyContextHandler;
+import org.jboss.security.plugins.JBossAuthenticationManager;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
@@ -124,8 +125,67 @@ public class SubjectCreator
       }
       return subject;
    }
+   //TODO:refactor this
+   public Subject createSubject(JBossAuthenticationManager manager, String name, String password, boolean isDigest, String nonce, String created)
+   {
+      if (isDigest)
+      {
+         verifyUsernameToken(nonce, created);
+         // It is not possible at the moment to figure out if the digest has been created 
+         // using the original nonce bytes or the bytes of the (Base64)-encoded nonce, some 
+         // legacy clients might use the (Base64)-encoded nonce bytes when creating a digest; 
+         // lets default to true and assume the nonce has been Base-64 encoded, given that 
+         // WSS4J client Base64-decodes the nonce before creating the digest
 
-   private void verifyUsernameToken(String nonce, String created)
+         CallbackHandler handler = new UsernameTokenCallbackHandler(nonce, created, decodeNonce);
+         CallbackHandlerPolicyContextHandler.setCallbackHandler(handler);
+      }
+
+      // authenticate and populate Subject
+      
+
+      Principal principal = new SimplePrincipal(name);
+      Subject subject = new Subject();
+
+      boolean TRACE = SECURITY_LOGGER.isTraceEnabled();
+      if (TRACE)
+         SECURITY_LOGGER.aboutToAuthenticate(manager.getSecurityDomain());
+
+      try
+      {
+         ClassLoader tccl = SecurityActions.getContextClassLoader();
+         //allow PicketBox to see jbossws modules' classes
+         SecurityActions.setContextClassLoader(createDelegateClassLoader(ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader(), tccl));
+         try
+         {
+            if (manager.isValid(principal, password, subject) == false)
+            {
+               throw MESSAGES.authenticationFailed(principal.getName());
+            }
+         }
+         finally
+         {
+            SecurityActions.setContextClassLoader(tccl);
+         }
+      }
+      finally
+      {
+         if (isDigest)
+         {
+            // does not remove the TL entry completely but limits the potential
+            // growth to a number of available threads in a container 
+            CallbackHandlerPolicyContextHandler.setCallbackHandler(null);
+         }
+      }
+
+      if (TRACE)
+         SECURITY_LOGGER.authenticated(name);
+
+      return subject;
+   }
+   
+
+   protected void verifyUsernameToken(String nonce, String created)
    {
       if (created != null)
       {

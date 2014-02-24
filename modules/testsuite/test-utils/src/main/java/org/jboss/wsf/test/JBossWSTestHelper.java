@@ -389,6 +389,13 @@ public class JBossWSTestHelper
       getDeployer().addSecurityDomain(name, authenticationOptions);
    }
    
+   public static void addJaspiSecurityDomain(String name, String loginModuleStackName, Map<String, String> loginModuleOptions, String authModuleName,
+         Map<String, String> authModuleOptions) throws Exception
+   {
+      getDeployer().addJaspiSecurityDomain(name, loginModuleStackName, loginModuleOptions, authModuleName, authModuleOptions);
+   }
+   
+   
    public static void removeSecurityDomain(String name) throws Exception
    {
       getDeployer().removeSecurityDomain(name);

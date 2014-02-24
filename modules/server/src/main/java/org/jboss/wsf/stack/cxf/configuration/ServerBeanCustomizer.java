@@ -28,16 +28,22 @@ import java.util.List;
 import org.apache.cxf.frontend.ServerFactoryBean;
 import org.jboss.ws.api.annotation.EndpointConfig;
 import org.jboss.ws.common.management.AbstractServerConfig;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.WSFException;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
 import org.jboss.wsf.spi.metadata.config.ConfigRoot;
+import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 import org.jboss.wsf.stack.cxf.JBossWSInvoker;
+import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
+import org.jboss.wsf.stack.cxf.security.authentication.AutenticationMgrSubjectCreatingInterceptor;
 
 /**
  * 
@@ -150,12 +156,25 @@ public class ServerBeanCustomizer extends BeanCustomizer
             {
                UnifiedVirtualFile vf = deploymentRoot.findChild(configFile);
                ConfigRoot config = ConfigMetaDataParser.parse(vf.toURL());
-               endpoint.setEndpointConfig(config.getEndpointConfigByName(configName));
+               endpoint.setEndpointConfig(config.getEndpointConfigByName(configName));  
             }
             catch (IOException e)
             {
                throw Messages.MESSAGES.couldNotReadConfigFile(configFile);
             }
+         }
+         try
+         {
+            final JASPIAuthenticationProvider jaspiProvider = SPIProvider.getInstance().getSPI(JASPIAuthenticationProvider.class,
+                  ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
+            if (jaspiProvider != null && jaspiProvider.enableServerAuthentication(endpoint, depEndpoints.get(0)))
+            {
+               endpoint.getInInterceptors().add(new AutenticationMgrSubjectCreatingInterceptor());
+            }
+         }
+         catch (WSFException e)
+         {
+            Loggers.DEPLOYMENT_LOGGER.cannotFindJaspiClasses();
          }
       }
    }
@@ -191,5 +210,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
    {
       this.epConfigFile = epConfigFile;
    }
+   
+   
 
 }

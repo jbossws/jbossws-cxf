@@ -60,12 +60,12 @@ import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
  */
 public class SubjectCreatingInterceptor extends WSS4JInInterceptor
 {
+   protected SubjectCreator helper = new SubjectCreator();
+  
    private static final Logger LOG = LogUtils.getL7dLogger(SubjectCreatingInterceptor.class);
    
    private ThreadLocal<SecurityDomainContext> sdc = new ThreadLocal<SecurityDomainContext>();
-   
-   private SubjectCreator helper = new SubjectCreator();
-   
+  
    private boolean supportDigestPasswords;
 
    public SubjectCreatingInterceptor()

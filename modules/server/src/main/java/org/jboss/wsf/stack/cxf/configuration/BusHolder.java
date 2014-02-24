@@ -50,11 +50,16 @@ import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
 import org.jboss.ws.api.annotation.PolicySets;
 import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.WSFException;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.AnnotationsInfo;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
+import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
+import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
@@ -63,6 +68,7 @@ import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
+import org.jboss.wsf.stack.cxf.security.authentication.AutenticationMgrSubjectCreatingInterceptor;
 import org.jboss.wsf.stack.cxf.transport.JBossWSDestinationRegistryImpl;
 
 /**
@@ -113,6 +119,24 @@ public abstract class BusHolder
       Map<String, String> props = (wsmd == null) ? null : wsmd.getProperties();
       
       setInterceptors(bus, props);
+      dep.addAttachment(Bus.class, bus);
+
+      try
+      {
+         final JASPIAuthenticationProvider jaspiProvider = SPIProvider.getInstance().getSPI(
+               JASPIAuthenticationProvider.class,
+               ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
+         
+         if (jaspiProvider != null && jaspiProvider.enableServerAuthentication(dep, wsmd))
+         {
+            bus.getInInterceptors().add(new AutenticationMgrSubjectCreatingInterceptor());
+         }
+      }
+      catch (WSFException e)
+      {
+         Loggers.DEPLOYMENT_LOGGER.cannotFindJaspiClasses();
+      }
+      
       setResourceResolver(bus, resolver);
       
       if (bus.getExtension(PolicyEngine.class) != null) 
@@ -280,6 +304,8 @@ public abstract class BusHolder
       }
       return selector;
    }
+   
+   
    
    private static AutomaticWorkQueue createWorkQueue(String name, Map<String, String> props) {
       int mqs = parseInt(props.get(Constants.CXF_QUEUE_MAX_QUEUE_SIZE_PROP), 256);

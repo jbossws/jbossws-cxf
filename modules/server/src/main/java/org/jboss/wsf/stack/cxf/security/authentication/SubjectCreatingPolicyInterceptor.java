@@ -51,7 +51,7 @@ import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
  */
 public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<Message>
 {
-   private SubjectCreator helper = new SubjectCreator();
+   protected SubjectCreator helper = new SubjectCreator();
 
    public SubjectCreatingPolicyInterceptor()
    {
@@ -99,7 +99,7 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
       message.put(SecurityContext.class, createSecurityContext(principal, subject));
    }
 
-   private Subject createSubject(SecurityDomainContext sdc, String name, String password, boolean isDigest, String nonce, String creationTime)
+   protected Subject createSubject(SecurityDomainContext sdc, String name, String password, boolean isDigest, String nonce, String creationTime)
    {
       Subject subject = null;
       try

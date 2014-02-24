@@ -73,6 +73,11 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-jaspi</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-factories</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -870,6 +875,7 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
+
               </excludes>
             </configuration>
           </plugin>
