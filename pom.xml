@@ -50,7 +50,7 @@
   
   <!-- Modules -->
   <modules>
-    <!--module>modules/jaspi</module-->
+    <module>modules/jaspi</module>
     <module>modules/server</module>
     <module>modules/client</module>
     <module>modules/endorsed</module>
