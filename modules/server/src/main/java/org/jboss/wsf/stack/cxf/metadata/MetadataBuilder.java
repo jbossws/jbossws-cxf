@@ -268,7 +268,10 @@ public class MetadataBuilder
       result.setServiceName(new QName(serviceNS, serviceName));
       Map<String, Object> props = new HashMap<String, Object>();
       for (String k : ep.getProperties()) {
-         props.put(k, ep.getProperty(k));
+         final Object v = ep.getProperty(k);
+         if (v != null) { //do not add null props [JBWS-3766]
+            props.put(k, v);
+         }
       }
       result.setProperties(props);
       if (!missingServicePortAttr && annWsdlLocation.length() > 0) {
