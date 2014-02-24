@@ -63,7 +63,7 @@ public final class UDPEndpointAPITestCase extends JBossWSTest
    public void testClientSide() throws Exception
    {
       if (!isProperNetworkSetup()) {
-         System.out.println("Skipping broadcast test: no non-loopback IPv4 interface available");
+         System.out.println("Skipping broadcast test: no non-loopback IPv4 interface available"); //IPv6 does not support broadcast, so some IPv4 nonloopback interface with broacast is required
          return;
       }
       Bus bus = BusFactory.newInstance().createBus();
@@ -88,22 +88,15 @@ public final class UDPEndpointAPITestCase extends JBossWSTest
    
    private boolean isProperNetworkSetup() throws Exception {
       Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-      int count = 0;
       while (interfaces.hasMoreElements())
       {
          NetworkInterface networkInterface = interfaces.nextElement();
-         if (!networkInterface.isUp() || networkInterface.isLoopback() || !isBroadcastAddressAvailable(networkInterface))
+         if (networkInterface.isUp() && !networkInterface.isLoopback() && isBroadcastAddressAvailable(networkInterface))
          {
-            continue;
+            return true;
          }
-         count++;
       }
-      if (count == 0)
-      {
-         //no non-loopbacks, cannot do broadcasts
-         return false;
-      }
-      return true;
+      return false;
    }
    
    private boolean isBroadcastAddressAvailable(NetworkInterface networkInterface) {
