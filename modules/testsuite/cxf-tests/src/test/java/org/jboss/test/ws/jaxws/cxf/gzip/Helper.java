@@ -74,25 +74,45 @@ public class Helper implements ClientHelper
    
    public boolean testGZIPUsingFeatureOnClient() throws Exception
    {
-      HelloWorld port = getPort();
-      Client client = ClientProxy.getClient(port);
-      GZIPFeature gzipFeature = new GZIPFeature();
-      gzipFeature.setThreshold(0);
-      gzipFeature.initialize(client, null); //bus parameter not actually used
-      return ("foo".equals(port.echo("foo")));
+      Bus bus = BusFactory.newInstance().createBus();
+      try
+      {
+         BusFactory.setThreadDefaultBus(bus);
+         
+         HelloWorld port = getPort();
+         Client client = ClientProxy.getClient(port);
+         GZIPFeature gzipFeature = new GZIPFeature();
+         gzipFeature.setThreshold(0);
+         gzipFeature.initialize(client, null); //bus parameter not actually used
+         return ("foo".equals(port.echo("foo")));
+      }
+      finally
+      {
+         bus.shutdown(true);
+      }
    }
    
    public boolean testGZIPServerSideOnlyInterceptorOnClient() throws Exception
    {
-      HelloWorld port = getPort();
-      Client client = ClientProxy.getClient(port);
-      HTTPConduit conduit = (HTTPConduit)client.getConduit();
-      HTTPClientPolicy policy = conduit.getClient();
-      //enable Accept gzip, otherwise the server will not try to reply using gzip
-      policy.setAcceptEncoding("gzip;q=1.0, identity; q=0.5, *;q=0");
-      //add interceptor for decoding gzip message
-      client.getInInterceptors().add(new GZIPEnforcingInInterceptor());
-      return ("foo".equals(port.echo("foo")));
+      Bus bus = BusFactory.newInstance().createBus();
+      try
+      {
+         BusFactory.setThreadDefaultBus(bus);
+         
+         HelloWorld port = getPort();
+         Client client = ClientProxy.getClient(port);
+         HTTPConduit conduit = (HTTPConduit)client.getConduit();
+         HTTPClientPolicy policy = conduit.getClient();
+         //enable Accept gzip, otherwise the server will not try to reply using gzip
+         policy.setAcceptEncoding("gzip;q=1.0, identity; q=0.5, *;q=0");
+         //add interceptor for decoding gzip message
+         client.getInInterceptors().add(new GZIPEnforcingInInterceptor());
+         return ("foo".equals(port.echo("foo")));
+      }
+      finally
+      {
+         bus.shutdown(true);
+      }
    }
    
    public boolean testFailureGZIPServerSideOnlyInterceptorOnClient() throws Exception

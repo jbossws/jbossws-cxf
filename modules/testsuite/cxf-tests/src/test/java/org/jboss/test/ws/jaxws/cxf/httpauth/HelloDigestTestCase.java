@@ -31,9 +31,12 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transport.http.auth.DigestAuthSupplier;
+import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -65,36 +68,47 @@ public class HelloDigestTestCase extends JBossWSTest
 
    public void testDigest() throws Exception
    {
-      QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
-      URL wsdlURL = getResourceURL("jaxws/cxf/httpauth/WEB-INF/wsdl/hello.wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
-      Hello proxy = (Hello)service.getPort(Hello.class);
-      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
-      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "jbossws");
-      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "jbossws");
-      HTTPConduit cond = (HTTPConduit)ClientProxy.getClient(proxy).getConduit();
-      cond.setAuthSupplier(new DigestAuthSupplier());
-      int result = proxy.helloRequest("number");
-      assertEquals(100, result);
-      
+      final Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
+      try {
+         QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
+         URL wsdlURL = getResourceURL("jaxws/cxf/httpauth/WEB-INF/wsdl/hello.wsdl");
+         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
+         Hello proxy = (Hello)service.getPort(Hello.class);
+         ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+         ((BindingProvider)proxy).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "jbossws");
+         ((BindingProvider)proxy).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "jbossws");
+         HTTPConduit cond = (HTTPConduit)ClientProxy.getClient(proxy).getConduit();
+         cond.setAuthSupplier(new DigestAuthSupplier());
+         int result = proxy.helloRequest("number");
+         assertEquals(100, result);
+      } finally {
+         bus.shutdown(true);
+      }
    }
    
    public void testDigestAuthFail() throws Exception
    {
-      QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
-      URL wsdlURL = getResourceURL("jaxws/cxf/httpauth/WEB-INF/wsdl/hello.wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
-      Hello proxy = (Hello)service.getPort(Hello.class);
-      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
-      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "jbossws");
-      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "wrongPwd");
-      HTTPConduit cond = (HTTPConduit)ClientProxy.getClient(proxy).getConduit();
-      cond.setAuthSupplier(new DigestAuthSupplier());
+      final Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
       try {
-         proxy.helloRequest("number");
-         fail("Authorization exception expected!");
-      } catch (Exception e) {
-         assertTrue(e.getCause().getMessage().contains("Authorization"));
+         QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
+         URL wsdlURL = getResourceURL("jaxws/cxf/httpauth/WEB-INF/wsdl/hello.wsdl");
+         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
+         Hello proxy = (Hello)service.getPort(Hello.class);
+         ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+         ((BindingProvider)proxy).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "jbossws");
+         ((BindingProvider)proxy).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "wrongPwd");
+         HTTPConduit cond = (HTTPConduit)ClientProxy.getClient(proxy).getConduit();
+         cond.setAuthSupplier(new DigestAuthSupplier());
+         try {
+            proxy.helloRequest("number");
+            fail("Authorization exception expected!");
+         } catch (Exception e) {
+            assertTrue(e.getCause().getMessage().contains("Authorization"));
+         }
+      } finally {
+         bus.shutdown(true);
       }
    }
    

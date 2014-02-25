@@ -32,10 +32,13 @@ import javax.xml.ws.soap.AddressingFeature;
 
 import junit.framework.Test;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
+import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -99,31 +102,37 @@ public final class AddressingTestCase extends JBossWSTest
     */
    public void testDecoupledEndpointForLongLastingProcessingOfInvocations() throws Exception
    {
-      // construct proxy
-      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsaddressing", "AddressingService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
-      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
-      
-      Client client = ClientProxy.getClient(proxy);
-      HTTPConduit conduit = (HTTPConduit)client.getConduit();
-      HTTPClientPolicy policy = conduit.getClient();
-      //set low connection and receive timeouts to ensure the http client can't keep the connection open till the response is received
-      policy.setConnectionTimeout(5000); //5 secs
-      policy.setReceiveTimeout(10000); //10 secs
-      //please note you might want to set the synchronous timeout for long waits, as CXF ClientImpl would simply drop waiting for the response after that (default 60 secs)
-//      ((ClientImpl)client).setSynchronousTimeout(value);
-      
+      final Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
       try {
-         proxy.sayHello("Sleepy"); //this takes at least 30 secs
-         fail("Timeout exception expected");
-      } catch (WebServiceException e) {
-         assertTrue(e.getCause() instanceof SocketTimeoutException);
+         // construct proxy
+         QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsaddressing", "AddressingService");
+         URL wsdlURL = new URL(serviceURL + "?wsdl");
+         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
+         ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
+         
+         Client client = ClientProxy.getClient(proxy);
+         HTTPConduit conduit = (HTTPConduit)client.getConduit();
+         HTTPClientPolicy policy = conduit.getClient();
+         //set low connection and receive timeouts to ensure the http client can't keep the connection open till the response is received
+         policy.setConnectionTimeout(5000); //5 secs
+         policy.setReceiveTimeout(10000); //10 secs
+         //please note you might want to set the synchronous timeout for long waits, as CXF ClientImpl would simply drop waiting for the response after that (default 60 secs)
+//          ((ClientImpl)client).setSynchronousTimeout(value);
+         
+         try {
+            proxy.sayHello("Sleepy"); //this takes at least 30 secs
+            fail("Timeout exception expected");
+         } catch (WebServiceException e) {
+            assertTrue(e.getCause() instanceof SocketTimeoutException);
+         }
+         
+         policy.setDecoupledEndpoint("http://" + getServerHost() + ":18181/jaxws-samples-wsa/decoupled-endpoint");
+         String response = proxy.sayHello("Sleepy"); //this takes at least 30 secs... but now the client doesn't time out
+         assertEquals("Hello Sleepy!", response);
+      } finally {
+         bus.shutdown(true);
       }
-      
-      policy.setDecoupledEndpoint("http://" + getServerHost() + ":18181/jaxws-samples-wsa/decoupled-endpoint");
-      String response = proxy.sayHello("Sleepy"); //this takes at least 30 secs... but now the client doesn't time out
-      assertEquals("Hello Sleepy!", response);
    }
    
    
