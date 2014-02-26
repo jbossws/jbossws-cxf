@@ -32,10 +32,9 @@ import org.apache.cxf.transport.http.HttpDestinationFactory;
 
 
 /**
- * Factory for HttpServerDestination
+ * Factory for UndertowServerDestination
  * 
  * @author alessio.soldano@jboss.com
- * @since 22-Apr-2011
  *
  */
 @NoJSR250Annotations()

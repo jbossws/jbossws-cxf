@@ -13,6 +13,10 @@
         <name>publishEndpoint</name>
     </permission>
     <permission>
+        <class-name>java.lang.RuntimePermission</class-name>
+        <name>org.jboss.ws.START_UNDERTOW_SERVER_ENGINE</name>
+    </permission>
+    <permission>
         <class-name>java.net.SocketPermission</class-name>
         <name>*</name>
         <actions>accept,connect,listen,resolve</actions>

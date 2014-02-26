@@ -21,7 +21,11 @@
  */
 package org.jboss.wsf.stack.cxf.addons.transports.undertow;
 
+import io.undertow.server.HttpHandler;
+
 import java.net.InetSocketAddress;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,18 +33,17 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.common.logging.LogUtils;
 import org.jboss.ws.undertow_httpspi.PathUtils;
 import org.jboss.ws.undertow_httpspi.UndertowServer;
-import io.undertow.server.HttpHandler;
 
 /**
- * A server engine that internally uses the JDK6 httpserver
+ * A server engine that internally uses Undertow
  * 
  * @author alessio.soldano@jboss.com
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
- * @since 19-Aug-2010
  *
  */
 public class UndertowServerEngine
 {
+   private static final RuntimePermission START_UNDERTOW_SERVER_ENGINE = new RuntimePermission("org.jboss.ws.START_UNDERTOW_SERVER_ENGINE");
    private static final Logger LOG = LogUtils.getL7dLogger(UndertowServerEngine.class);
    private Bus bus;
    private UndertowServerEngineFactory factory;
@@ -86,7 +89,18 @@ public class UndertowServerEngine
 
          server = new UndertowServer(isa.getPort(), isa.getHostName());
          server.getPathHandler().addExactPath(PathUtils.getContextPath(address) + PathUtils.getPath(address), handler);
-         server.start();
+         final SecurityManager sm = System.getSecurityManager();
+         if (sm == null) {
+            server.start();
+         } else {
+             sm.checkPermission(START_UNDERTOW_SERVER_ENGINE);
+             AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                 public Object run() {
+                    server.start();
+                    return null;
+                 }
+             });
+         }
       }
       server.getPathHandler().addExactPath(PathUtils.getContextPath(address) + PathUtils.getPath(address), handler);
       
