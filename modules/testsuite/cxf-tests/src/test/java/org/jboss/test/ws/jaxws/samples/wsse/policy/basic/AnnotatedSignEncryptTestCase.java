@@ -31,6 +31,7 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.apache.cxf.message.Message;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.wsf.test.CryptoHelper;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
@@ -76,6 +77,7 @@ public final class AnnotatedSignEncryptTestCase extends JBossWSTest
          Service service = Service.create(wsdlURL, serviceName);
          AnnotatedServiceIface proxy = (AnnotatedServiceIface)service.getPort(AnnotatedServiceIface.class);
          setupWsse(proxy);
+         ((BindingProvider)proxy).getRequestContext().put(Message.RECEIVE_TIMEOUT, 90000);
          assertEquals("Secure Hello World!", proxy.sayHello());
       } catch (Exception e) {
          throw CryptoHelper.checkAndWrapException(e);
