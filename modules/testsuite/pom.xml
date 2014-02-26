@@ -698,6 +698,9 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
+
+                 <!--There is no jbossws-cxf-jaspi installed in as720-->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/Jaspi*TestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
