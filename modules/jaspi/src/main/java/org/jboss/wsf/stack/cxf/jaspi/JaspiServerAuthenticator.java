@@ -73,7 +73,7 @@ public class JaspiServerAuthenticator
          }
          else
          {
-            throw new SoapFault(e.getMessage(), new QName("", "japsi AuthException"));
+            throw new SoapFault(e.getMessage(), new QName("", "jaspi AuthException"));
          }
       }
       Message response = null;
@@ -124,7 +124,7 @@ public class JaspiServerAuthenticator
          }
          else
          {
-            throw new SoapFault(e.getMessage(), new QName("", "japsi AuthException"));
+            throw new SoapFault(e.getMessage(), new QName("", "jaspi AuthException"));
          }
       }
       if (messageInfo.getResponseMessage() != null && !message.getExchange().isOneWay())

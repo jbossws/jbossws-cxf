@@ -218,10 +218,8 @@ public class JBossWSServerAuthConfig extends JBossServerAuthConfig
    private ServerAuthModule createSAM(ClassLoader moduleCL, String name, String lmshName) throws Exception
    {
       Class clazz = SecurityActions.loadClass(moduleCL, name);
-      Constructor ctr = clazz.getConstructor(new Class[]
-      {String.class});
-      return (ServerAuthModule) ctr.newInstance(new Object[]
-      {lmshName});
+      Constructor ctr = clazz.getConstructor(new Class[] {String.class});
+      return (ServerAuthModule) ctr.newInstance(new Object[] {lmshName});
    }
 
 }
