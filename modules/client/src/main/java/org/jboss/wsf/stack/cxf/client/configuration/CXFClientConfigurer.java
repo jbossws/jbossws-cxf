@@ -28,9 +28,8 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.DispatchImpl;
+import org.jboss.ws.api.util.ServiceLoader;
 import org.jboss.ws.common.configuration.ConfigHelper;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
@@ -64,18 +63,15 @@ public class CXFClientConfigurer extends ConfigHelper
       setConfigProperties(cxfClient, props);
       
       //config jaspi
-      try
-      {  
-         JASPIAuthenticationProvider japsiProvider = SPIProvider.getInstance().getSPI(JASPIAuthenticationProvider.class, 
-               ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
-         if (japsiProvider != null)
-         {
-            japsiProvider.enableClientAuthentication(cxfClient, props);
-         }
-      }
-      catch (WSFException e)
+      JASPIAuthenticationProvider japsiProvider = (JASPIAuthenticationProvider) ServiceLoader.loadService(
+            JASPIAuthenticationProvider.class.getName(), null, ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
+      if (japsiProvider != null)
       {
-         Loggers.DEPLOYMENT_LOGGER.cannotFindJaspiClasses();
+         japsiProvider.enableClientAuthentication(cxfClient, props);
+      }
+      else
+      {
+         Loggers.SECURITY_LOGGER.cannotFindJaspiClasses();
       }
    }
    

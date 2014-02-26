@@ -225,7 +225,7 @@ public interface Loggers extends BasicLogger
     @Message(id = 24100, value = "Could not delete wsdl directory %s")
     void couldNotDeleteWsdlDirectory(String filename);
 
-    @LogMessage(level = INFO)
-    @Message(id = 24102, value = "jaspi authentication isn't enabled, can not find jaspi modules and classes")
+    @LogMessage(level = DEBUG)
+    @Message(id = 24102, value = "JASPI authentication isn't enabled, can not find JASPI modules and classes")
     void cannotFindJaspiClasses();
 }
