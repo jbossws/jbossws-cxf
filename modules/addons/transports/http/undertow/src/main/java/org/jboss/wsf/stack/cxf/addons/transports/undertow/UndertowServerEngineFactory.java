@@ -45,7 +45,7 @@ import org.apache.cxf.common.logging.LogUtils;
 public class UndertowServerEngineFactory implements BusLifeCycleListener
 {
    private static final Logger LOG = LogUtils.getL7dLogger(UndertowServerEngineFactory.class);
-   private static Map<Integer, UndertowServerEngine> portMap = new HashMap<Integer, UndertowServerEngine>();
+   private static final Map<Integer, UndertowServerEngine> portMap = new HashMap<Integer, UndertowServerEngine>();
 
    private BusLifeCycleManager lifeCycleManager;
    private Bus bus;

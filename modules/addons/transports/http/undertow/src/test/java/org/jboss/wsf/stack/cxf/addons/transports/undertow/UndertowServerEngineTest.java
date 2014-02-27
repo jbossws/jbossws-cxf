@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,12 +23,14 @@ package org.jboss.wsf.stack.cxf.addons.transports.undertow;
 
 import io.undertow.server.HttpServerExchange;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -39,11 +41,9 @@ import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.configuration.spring.ConfigurerImpl;
 import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMocksControl;
-import org.jboss.wsf.stack.cxf.addons.transports.undertow.UndertowServerEngine;
-import org.jboss.wsf.stack.cxf.addons.transports.undertow.UndertowServerEngineFactory;
 
 /**
- * Tests for HttpServerEngine
+ * Tests for UndertowServerEngineTest
  * 
  * @author Magesh Kumar B <mageshbk@jboss.com> (C) 2011 Red Hat Inc.
  * @author alessio.soldano@jboss.com
@@ -155,7 +155,13 @@ public class UndertowServerEngineTest extends TestCase {
       try
       {
          HttpURLConnection connection1 = (HttpURLConnection) url.openConnection();
-         connection1.getInputStream();
+         StringBuilder sb = new StringBuilder();
+         BufferedReader br = new BufferedReader(new InputStreamReader(connection1.getInputStream()));
+         String line;
+         while ((line = br.readLine()) != null) {
+            sb.append(line);
+         }
+         assertEquals("Hello", sb.toString());
          connection1.disconnect();
       }
       catch (IOException e)
