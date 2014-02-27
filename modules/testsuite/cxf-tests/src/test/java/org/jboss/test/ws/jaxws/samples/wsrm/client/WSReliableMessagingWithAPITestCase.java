@@ -24,6 +24,7 @@ package org.jboss.test.ws.jaxws.samples.wsrm.client;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
@@ -54,9 +55,10 @@ public final class WSReliableMessagingWithAPITestCase extends JBossWSTest
    {
       super.setUp();
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsrm", "SimpleService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      URL wsdlURL = getResourceURL("jaxws/samples/wsrm/WEB-INF/wsdl/SimpleService.wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       proxy = (SimpleService)service.getPort(SimpleService.class);
+      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
    }
 
    public void test() throws Exception
