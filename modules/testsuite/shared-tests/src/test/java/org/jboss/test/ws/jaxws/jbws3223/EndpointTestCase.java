@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.jbws3223;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.wsdl.Definition;
@@ -32,6 +30,7 @@ import javax.wsdl.xml.WSDLReader;
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -65,8 +64,7 @@ public class EndpointTestCase extends JBossWSTest
    public void testServletAccess() throws Exception
    {
       URL url = new URL("http://" + getServerHost() + ":8080/jaxws-jbws3223-servlet?param=hello-world&clCheck=true");
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      assertEquals("hello-world", br.readLine());
+      assertEquals("hello-world", IOUtils.readAndCloseStream(url.openStream()));
    }
    
    private void readWSDL(URL wsdlURL) throws Exception

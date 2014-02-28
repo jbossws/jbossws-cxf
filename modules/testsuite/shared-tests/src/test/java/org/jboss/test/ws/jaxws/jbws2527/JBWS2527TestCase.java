@@ -21,13 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.jbws2527;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -59,9 +57,7 @@ public class JBWS2527TestCase extends JBossWSTest
          deploy("jaxws-jbws2527-service.war");
          deploy("jaxws-jbws2527-client.war");
 
-         HttpURLConnection con = (HttpURLConnection)new URL("http://" + getServerHost() + ":8080/jaxws-jbws2527-client/jbws2527").openConnection();
-         BufferedReader isr = new BufferedReader(new InputStreamReader(con.getInputStream()));
-         assertEquals("true", isr.readLine());
+         assertEquals("true", IOUtils.readAndCloseStream(new URL("http://" + getServerHost() + ":8080/jaxws-jbws2527-client/jbws2527").openStream()));
       }
       finally
       {

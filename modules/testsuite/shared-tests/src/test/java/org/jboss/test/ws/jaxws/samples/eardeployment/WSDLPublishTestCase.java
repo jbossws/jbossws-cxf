@@ -21,10 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.samples.eardeployment;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -33,6 +31,7 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -106,8 +105,7 @@ public class WSDLPublishTestCase extends JBossWSTest
       if (wsdlFileDir == null)
       {
          URL url = new URL("http://" + getServerHost() + ":8080/earjse/support");
-         BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-         wsdlFileDir = new File(br.readLine(), "wsdl");
+         wsdlFileDir = new File(IOUtils.readAndCloseStream(url.openStream()), "wsdl");
       }
       return wsdlFileDir;
    }

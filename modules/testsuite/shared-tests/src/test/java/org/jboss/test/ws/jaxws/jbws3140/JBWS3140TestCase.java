@@ -21,12 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.jbws3140;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
-
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 
@@ -39,8 +36,7 @@ public class JBWS3140TestCase extends JBossWSTest
       try {
          JBossWSTestHelper.deploy("jbws3140-responses-server.war");
          JBossWSTestHelper.deploy("jbws3140-client.war");
-         HttpURLConnection connection = (HttpURLConnection) new URL(servletClientURL + "?mtom=small").openConnection();
-         String result = readConnection(connection).toString();
+         String result = IOUtils.readAndCloseStream(new URL(servletClientURL + "?mtom=small").openStream());
          assertTrue("SOAPFaultException is expected but received: " + result, result.indexOf("SOAPFaultException") > -1);
          String expectedDetail = "A header representing a Message Addressing Property is not valid";
          assertTrue("Expected message wasn't found in response: " + result, result.indexOf(expectedDetail) > -1);
@@ -55,8 +51,7 @@ public class JBWS3140TestCase extends JBossWSTest
       try {
          JBossWSTestHelper.deploy("jbws3140-server.war");
          JBossWSTestHelper.deploy("jbws3140-client.war");
-         HttpURLConnection connection = (HttpURLConnection) new URL(servletClientURL + "?mtom=small").openConnection();
-         String result = readConnection(connection).toString();
+         String result = IOUtils.readAndCloseStream(new URL(servletClientURL + "?mtom=small").openStream());
          String expected ="--ClientMTOMEnabled--ServerMTOMEnabled--ServerAddressingEnabled--ClientAddressingEnabled";
          assertTrue("Expected string wasn't found in response: " + result, result.indexOf(expected) > -1);
       } finally {
@@ -64,22 +59,4 @@ public class JBWS3140TestCase extends JBossWSTest
          JBossWSTestHelper.undeploy("jbws3140-client.war");
       }
    }
-
-   private ByteArrayOutputStream readConnection(HttpURLConnection connection) 
-   {
-      ByteArrayOutputStream bout = new ByteArrayOutputStream();
-      byte[] buffer = new byte[1024];
-      int count = 0;
-      try
-      {
-         while( (count = connection.getInputStream().read(buffer, 0, 1024)) > -1) {
-            bout.write(buffer, 0, count);
-         }
-      }
-      catch (IOException e)
-      {
-      }
-      return bout;
-   }
-
 }

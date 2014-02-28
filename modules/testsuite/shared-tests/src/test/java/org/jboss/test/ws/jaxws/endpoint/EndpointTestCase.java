@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.endpoint;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.wsdl.Definition;
@@ -34,6 +32,7 @@ import javax.xml.ws.Service;
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -73,8 +72,7 @@ public class EndpointTestCase extends JBossWSTest
    public void testServletAccess() throws Exception
    {
       URL url = new URL("http://" + getServerHost() + ":8080/jaxws-endpoint-servlet?param=hello-world");
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      assertEquals("hello-world", br.readLine());
+      assertEquals("hello-world", IOUtils.readAndCloseStream(url.openStream()));
    }
    
    public void testWSAccess() throws Exception

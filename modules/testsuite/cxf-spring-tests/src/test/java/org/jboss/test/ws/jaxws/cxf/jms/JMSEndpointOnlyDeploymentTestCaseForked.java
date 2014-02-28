@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jms;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Properties;
 
@@ -47,6 +45,7 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.jms.JMSConduit;
 import org.apache.cxf.transport.jms.JNDIConfiguration;
 import org.jboss.ws.common.DOMUtils;
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
@@ -70,8 +69,7 @@ public class JMSEndpointOnlyDeploymentTestCaseForked extends JBossWSTest
    public void testJMSEndpointServerSide() throws Exception
    {
       URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-only-deployment-test-servlet");
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      assertEquals("true", br.readLine());
+      assertEquals("true", IOUtils.readAndCloseStream(url.openStream()));
    }
    
    public void testJMSEndpointClientSide() throws Exception

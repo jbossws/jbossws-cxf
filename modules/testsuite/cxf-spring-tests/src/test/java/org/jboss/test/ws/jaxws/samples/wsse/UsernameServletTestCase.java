@@ -21,12 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -58,7 +57,6 @@ public final class UsernameServletTestCase extends JBossWSTest
       URL url = new URL("http://" + getServerHost()
             + ":8080/jaxws-samples-wsse-username-client?path=/jaxws-samples-wsse-username&method=" + test
             + "&helper=" + UsernameHelper.class.getName());
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      return br.readLine();
+      return IOUtils.readAndCloseStream(url.openStream());
    }
 }

@@ -21,12 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.jbws3477;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -80,8 +79,6 @@ public class JaxWsSpiProviderTestCase extends JBossWSTest
    }
    
    private static void runServerTest(URL url) throws Exception {
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      String retStr = br.readLine();
-      assertEquals("OK", retStr);
+      assertEquals("OK", IOUtils.readAndCloseStream(url.openStream()));
    }
 }

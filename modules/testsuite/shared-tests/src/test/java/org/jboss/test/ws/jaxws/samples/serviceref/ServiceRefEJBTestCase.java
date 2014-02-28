@@ -31,6 +31,7 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.test.ws.jaxws.samples.serviceref.EJBRemote;
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -55,7 +56,7 @@ public class ServiceRefEJBTestCase extends JBossWSTest
       URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
       InputStream inputStream = wsdlURL.openStream();
       assertNotNull(inputStream);
-      inputStream.close();
+      IOUtils.readAndCloseStream(inputStream);
    }
 
    public void testDynamicProxy() throws Exception

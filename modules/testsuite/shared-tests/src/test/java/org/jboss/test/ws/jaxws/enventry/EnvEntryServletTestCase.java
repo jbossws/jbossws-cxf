@@ -21,12 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.enventry;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -46,9 +45,6 @@ public class EnvEntryServletTestCase extends JBossWSTest
    public void testEndpoint() throws Exception
    {
       URL url = new URL("http://" + getServerHost() + ":8080/jaxws-enventry-servlet");
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      String line = br.readLine();
-
-      assertEquals("web:8", line);
+      assertEquals("web:8", IOUtils.readAndCloseStream(url.openStream()));
    }
 }

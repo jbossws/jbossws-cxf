@@ -21,12 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.exception;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -72,8 +71,7 @@ public class ExceptionServletTestCase extends JBossWSTest
       URL url = new URL("http://" + getServerHost()
             + ":8080/jaxws-samples-exception-client?path=/jaxws-samples-exception-jse/ExceptionEndpointService&method=" + test
             + "&helper=" + ExceptionHelper.class.getName());
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      return br.readLine();
+      return IOUtils.readAndCloseStream(url.openStream());
    }
    
    private String runTestInContainerSOAP12(String test) throws Exception
@@ -81,7 +79,6 @@ public class ExceptionServletTestCase extends JBossWSTest
       URL url = new URL("http://" + getServerHost()
             + ":8080/jaxws-samples-exception-client?path=/jaxws-samples-exception-jse/SOAP12ExceptionEndpointService&method=" + test
             + "&helper=" + SOAP12ExceptionHelper.class.getName());
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      return br.readLine();
+      return IOUtils.readAndCloseStream(url.openStream());
    }
 }

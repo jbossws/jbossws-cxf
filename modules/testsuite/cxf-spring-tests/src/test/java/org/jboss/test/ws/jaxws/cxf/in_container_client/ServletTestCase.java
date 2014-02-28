@@ -21,12 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.cxf.in_container_client;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -55,7 +54,6 @@ public class ServletTestCase extends JBossWSTest
       URL url = new URL("http://" + getServerHost()
             + ":8080/jaxws-cxf-in_container_client-client?path=/jaxws-cxf-in_container_client/HelloWorldService&method=" + test
             + "&helper=" + Helper.class.getName());
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      return br.readLine();
+      return IOUtils.readAndCloseStream(url.openStream());
    }
 }

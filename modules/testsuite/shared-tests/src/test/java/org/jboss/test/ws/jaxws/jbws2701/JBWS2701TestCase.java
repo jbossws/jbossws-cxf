@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.jbws2701;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -30,6 +28,7 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -51,15 +50,7 @@ public class JBWS2701TestCase extends JBossWSTest
    public void testWSDL() throws Exception
    {
       URL url = new URL(endpointAddress + "?wsdl");
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      String line = br.readLine();
-      StringBuilder sb = new StringBuilder();
-      while (line != null)
-      {
-         sb.append(line);
-         line = br.readLine();
-      }
-      assertTrue(sb.toString().contains("classA"));
+      assertTrue(IOUtils.readAndCloseStream(url.openStream()).contains("classA"));
    }
 
    public void testEndpoint() throws Exception

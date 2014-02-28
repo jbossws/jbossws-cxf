@@ -29,6 +29,7 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -69,5 +70,6 @@ public class JBWS1357TestCase extends JBossWSTest
       URL jsp = new URL("http://" + getServerHost() + ":8080/jaxws-jbws1357/hello.jsp");
       HttpURLConnection conn = (HttpURLConnection) jsp.openConnection();
       assertEquals(conn.getResponseCode(), 200);
+      IOUtils.readAndCloseStream(conn.getInputStream());
    }
 }

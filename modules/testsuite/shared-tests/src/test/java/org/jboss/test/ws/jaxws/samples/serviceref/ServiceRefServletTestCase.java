@@ -21,16 +21,17 @@
  */
 package org.jboss.test.ws.jaxws.samples.serviceref;
 
-import junit.framework.Test;
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import java.io.InputStream;
+import java.net.URL;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.InputStream;
-import java.net.URL;
+
+import junit.framework.Test;
+
+import org.jboss.ws.common.IOUtils;
+import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * Test the JAXWS <service-ref>
@@ -54,7 +55,7 @@ public class ServiceRefServletTestCase extends JBossWSTest
       URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
       InputStream inputStream = wsdlURL.openStream();
       assertNotNull(inputStream);
-      inputStream.close();
+      IOUtils.readAndCloseStream(inputStream);
    }
   
    public void testDynamicProxy() throws Exception
@@ -72,9 +73,7 @@ public class ServiceRefServletTestCase extends JBossWSTest
    public void testServletClient() throws Exception
    {
       URL url = new URL(TARGET_ENDPOINT_ADDRESS + "-servlet-client?echo=HelloWorld");
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      String retStr = br.readLine();
-      assertEquals("HelloWorld", retStr);
+      assertEquals("HelloWorld", IOUtils.readAndCloseStream(url.openStream()));
    }
 
 }

@@ -21,9 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.jbws860;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.wsdl.Definition;
@@ -32,6 +29,7 @@ import javax.wsdl.xml.WSDLReader;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -58,8 +56,6 @@ public class JBWS860TestCase extends JBossWSTest
 
    public void testServletAccess() throws Exception
    {     
-      HttpURLConnection con = (HttpURLConnection)new URL("http://" + getServerHost() + ":8080/test/TestServlet").openConnection();
-      BufferedReader isr = new BufferedReader(new InputStreamReader(con.getInputStream()));
-      assertEquals("Hello", isr.readLine());
+      assertEquals("Hello", IOUtils.readAndCloseStream(new URL("http://" + getServerHost() + ":8080/test/TestServlet").openStream()));
    }
 }
