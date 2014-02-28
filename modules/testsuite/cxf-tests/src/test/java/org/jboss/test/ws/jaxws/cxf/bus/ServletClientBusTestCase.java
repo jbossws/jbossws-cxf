@@ -21,12 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.cxf.bus;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -51,27 +50,17 @@ public class ServletClientBusTestCase extends JBossWSTest
       deploy("jaxws-cxf-bus-servlet-client.war");
       try
       {
-         
-         
          URL url = new URL(TARGET_ENDPOINT_ADDRESS + "?method=testBusCreation");
-         BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-         String retStr = br.readLine();
-         assertEquals("OK testBusCreation", retStr);
+         assertEquals("OK testBusCreation", IOUtils.readAndCloseStream(url.openStream()));
          
          url = new URL(TARGET_ENDPOINT_ADDRESS + "?method=testSOAPConnection&host=" + getServerHost());
-         br = new BufferedReader(new InputStreamReader(url.openStream()));
-         retStr = br.readLine();
-         assertEquals("OK testSOAPConnection", retStr);
+         assertEquals("OK testSOAPConnection", IOUtils.readAndCloseStream(url.openStream()));
          
          url = new URL(TARGET_ENDPOINT_ADDRESS + "?method=testWebServiceRef");
-         br = new BufferedReader(new InputStreamReader(url.openStream()));
-         retStr = br.readLine();
-         assertEquals("OK testWebServiceRef", retStr);
+         assertEquals("OK testWebServiceRef", IOUtils.readAndCloseStream(url.openStream()));
          
          url = new URL(TARGET_ENDPOINT_ADDRESS + "?method=testWebServiceClient&host=" + getServerHost());
-         br = new BufferedReader(new InputStreamReader(url.openStream()));
-         retStr = br.readLine();
-         assertEquals("OK testWebServiceClient", retStr);
+         assertEquals("OK testWebServiceClient", IOUtils.readAndCloseStream(url.openStream()));
       }
       finally
       {

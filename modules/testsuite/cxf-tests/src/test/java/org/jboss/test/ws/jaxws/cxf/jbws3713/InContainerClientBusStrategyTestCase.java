@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3713;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -30,6 +28,7 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
@@ -90,9 +89,7 @@ public class InContainerClientBusStrategyTestCase extends JBossWSTest
    private static int callServlet(String pattern, String strategy, int threads, int calls) throws Exception {
       URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3713-client/" + pattern + "?strategy="
             + strategy + "&host=" + getServerHost() + "&threads=" + threads + "&calls=" + calls);
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      String retStr = br.readLine();
-      return Integer.parseInt(retStr);
+      return Integer.parseInt(IOUtils.readAndCloseStream(url.openStream()));
    }
 
    private HelloWs getPort(String publishURL) throws Exception

@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.samples.schemavalidation;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -32,6 +30,7 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.test.ws.jaxws.samples.schemavalidation.types.HelloResponse;
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
@@ -125,8 +124,7 @@ public class DefaultSchemaValidationTestCaseForked extends JBossWSTest
       URL url = new URL("http://" + getServerHost()
             + ":8080/jaxws-samples-schemavalidation-client?path=/jaxws-samples-schemavalidation/hello&method=" + test
             + "&helper=" + Helper.class.getName());
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      return br.readLine();
+      return IOUtils.readAndCloseStream(url.openStream());
    }
 
    

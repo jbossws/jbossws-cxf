@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.cxf.udp;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
@@ -37,6 +35,7 @@ import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -56,8 +55,7 @@ public final class UDPEndpointAPITestCase extends JBossWSTest
    public void testServerSide() throws Exception
    {
       URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-udp-api");
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      assertEquals("true", br.readLine());
+      assertEquals("true", IOUtils.readAndCloseStream(url.openStream()));
    }
    
    public void testClientSide() throws Exception

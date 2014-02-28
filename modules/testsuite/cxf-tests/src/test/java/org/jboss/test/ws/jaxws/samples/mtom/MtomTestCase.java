@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.mtom;
 
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -85,10 +86,15 @@ public final class MtomTestCase extends JBossWSTest
       out.close();
 
       assertEquals(200, conn.getResponseCode());
-      String response = IOUtils.readStringFromStream(conn.getInputStream());
-
-      assertTrue(response.contains("--uuid"));
-      assertTrue(response.contains("<return>Hello World!</return>"));
+      final InputStream is = conn.getInputStream();
+      try {
+         String response = IOUtils.readStringFromStream(is);
+   
+         assertTrue(response.contains("--uuid"));
+         assertTrue(response.contains("<return>Hello World!</return>"));
+      } finally {
+         is.close();
+      }
    }
 
    public void testMtomNotUsed() throws Exception

@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -33,6 +31,7 @@ import junit.framework.Test;
 
 import org.apache.cxf.message.Message;
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.CryptoHelper;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
@@ -55,18 +54,7 @@ public final class AnnotatedSignEncryptTestCase extends JBossWSTest
    public void testWsdl() throws Exception
    {
       URL wsdlURL = new URL(serviceURL + "?wsdl");
-      BufferedReader br = new BufferedReader(new InputStreamReader(wsdlURL.openStream(), "UTF-8"));
-      StringBuilder sb = new StringBuilder();
-      try {
-         String s;
-         while ((s = br.readLine()) != null) {
-            sb.append(s);
-         }
-      } finally {
-         br.close();
-      }
-      String wsdl = sb.toString();
-      assertTrue(wsdl.contains("AsymmetricBinding_X509v1_GCM256OAEP_ProtectTokens_binding_policy"));
+      assertTrue(IOUtils.readAndCloseStream(wsdlURL.openStream()).contains("AsymmetricBinding_X509v1_GCM256OAEP_ProtectTokens_binding_policy"));
    }
    
    public void test() throws Exception

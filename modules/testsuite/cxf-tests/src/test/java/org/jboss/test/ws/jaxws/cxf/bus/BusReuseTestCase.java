@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.cxf.bus;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -35,6 +33,7 @@ import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.stack.cxf.client.UseNewBusFeature;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
@@ -111,20 +110,7 @@ public class BusReuseTestCase extends JBossWSTest
    }
    
    private String readWsdl(String addr) throws Exception {
-      BufferedReader in = null;
-      try {
-         in = new BufferedReader(new InputStreamReader(new URL(addr).openStream()));
-         StringBuffer sb = new StringBuffer();
-         String line;
-         while ((line = in.readLine()) != null) {
-            sb.append(line);
-         }
-         return sb.toString();
-      } finally {
-         if (in != null) {
-            in.close();
-         }
-      }
+      return IOUtils.readAndCloseStream(new URL(addr).openStream());
    }
    
    protected static void performInvocation(Endpoint endpoint)

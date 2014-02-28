@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +35,7 @@ import junit.framework.Test;
 
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.security.auth.login.XMLLoginConfigImpl;
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
@@ -159,8 +158,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
       URL url = new URL("http://" + getServerHost()
             + ":8080/jaxws-samples-wsse-policy-username-jaspi-client?path=/jaxws-samples-wsse-policy-username-endpoint-jaspi&method=" + test
             + "&helper=" + Helper.class.getName());
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      return br.readLine();
+      return IOUtils.readAndCloseStream(url.openStream());
    }
    
 

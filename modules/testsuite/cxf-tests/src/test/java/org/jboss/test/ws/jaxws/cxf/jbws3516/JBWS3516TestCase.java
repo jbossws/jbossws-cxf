@@ -21,9 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3516;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Map;
 
@@ -37,9 +34,9 @@ import junit.framework.Test;
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.AttributedURIType;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
-import org.apache.cxf.ws.addressing.impl.AddressingPropertiesImpl;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
-
+import org.apache.cxf.ws.addressing.impl.AddressingPropertiesImpl;
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -127,11 +124,6 @@ public class JBWS3516TestCase extends JBossWSTest
    private String getTargetServletResult() throws Exception
    {
       URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3516/target/result");
-      InputStream ins = url.openStream();
-      BufferedReader br = new BufferedReader(new InputStreamReader(ins));
-      String result = br.readLine();
-      br.close();
-      ins.close();
-      return result;
+      return IOUtils.readAndCloseStream(url.openStream());
    }
 }

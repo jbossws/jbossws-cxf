@@ -16,12 +16,11 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3679;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -37,10 +36,7 @@ public class JBWS3679TestCase extends JBossWSTest
    public void testSchemaImport() throws Exception
    {
       URL url = new URL(endpointAddress);
-      BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-      String retStr = br.readLine();
-      assertEquals("Echoded with:input", retStr);
-
+      assertEquals("Echoded with:input", IOUtils.readAndCloseStream(url.openStream()));
    }
 
 }

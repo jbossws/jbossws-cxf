@@ -21,12 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3648;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import junit.framework.Test;
 
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -63,17 +62,7 @@ public class PolicyAttachmentWSDLTestCase extends JBossWSTest
    }
    
    private void checkPolicyAttachments(URL wsdlURL, String[] refIds) throws Exception {
-      BufferedReader br = new BufferedReader(new InputStreamReader(wsdlURL.openStream(), "UTF-8"));
-      StringBuilder sb = new StringBuilder();
-      try {
-         String s;
-         while ((s = br.readLine()) != null) {
-            sb.append(s);
-         }
-      } finally {
-         br.close();
-      }
-      String wsdl = sb.toString();
+      final String wsdl = IOUtils.readAndCloseStream(wsdlURL.openStream());
       for (String refId : refIds) {
          assertTrue("WSDL does not contain '" + refId + "'", wsdl.contains(refId));
       }
