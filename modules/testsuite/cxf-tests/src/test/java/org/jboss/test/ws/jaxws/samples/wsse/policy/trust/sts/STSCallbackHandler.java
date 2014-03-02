@@ -34,7 +34,7 @@ public class STSCallbackHandler extends PasswordCallbackHandler
    {
       Map<String, String> passwords = new HashMap<String, String>();
       passwords.put("mystskey", "stskpass");
-      passwords.put("alice", "clarinet"); //rls JUST-A-TEST
+      passwords.put("alice", "clarinet");
       return passwords;
    }
 }

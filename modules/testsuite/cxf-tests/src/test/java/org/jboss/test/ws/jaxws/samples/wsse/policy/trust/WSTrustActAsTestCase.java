@@ -67,10 +67,6 @@ public class WSTrustActAsTestCase extends JBossWSTest
          Service service = Service.create(wsdlURL, serviceName);
          ActAsServiceIface proxy = (ActAsServiceIface) service.getPort(ActAsServiceIface.class);
 
-         /* TODO explain why this is not needed for setup and then remove
-         final QName stsServiceName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "SecurityTokenService");
-         final QName stsPortName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "UT_Port");
-         */
          WSTrustTestUtils.setupWsseAndSTSClientActAs((BindingProvider) proxy, bus);
 
          assertEquals("ActAs WS-Trust Hello World!", proxy.sayHello());
