@@ -29,6 +29,7 @@ import javax.xml.ws.BindingProvider;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.apache.cxf.ws.security.tokenstore.SecurityToken;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.ClientCallbackHandler;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.UsernameTokenCallbackHandler;
@@ -198,6 +199,27 @@ public class WSTrustTestUtils
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
    }
 
+   public static void setupWsseAndSTSClientBearer(BindingProvider proxy, Bus bus) {
+
+      Map<String, Object> ctx = proxy.getRequestContext();
+      ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
+      ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
+
+      STSClient stsClient = new STSClient(bus);
+      Map<String, Object> props = stsClient.getProperties();
+      props.put(SecurityConstants.USERNAME, "alice");
+      props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
+      props.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
+      props.put(SecurityConstants.SIGNATURE_PROPERTIES,
+         Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
+      //todo: rls explain required use
+      stsClient.setTokenType("http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0");
+      stsClient.setKeyType("http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer");
+
+      // CXF is ignoring this because of the proxy WSDL policy type X509Token
+      ctx.put(SecurityConstants.STS_CLIENT, stsClient);
+   }
 
    private static String appendIssuedTokenSuffix(String prop)
    {

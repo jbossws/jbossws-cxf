@@ -541,6 +541,49 @@
                    value="org.jboss.ws.cxf.jbossws-cxf-client, org.apache.cxf.impl"/>
       </manifest>
     </war>
+
+    <!-- jaxws-samples-wsse-policy-trust-sts-bearer -->
+    <war
+      warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trust-sts-bearer.war"
+      webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF/bearer/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/stsbearer/SampleSTSBearer.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/stsbearer/STSBearerCallbackHandler.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
+        <include name="wsdl/bearer-ws-trust*"/>
+        <include name="jboss-web.xml"/>
+      </webinf>
+      <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF" prefix="WEB-INF/classes">
+        <include name="stsstore.jks" />
+        <include name="stsKeystore.properties" />
+      </zipfileset>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl annotations"/> <!-- cxf impl required to extend STS impl -->
+      </manifest>
+    </war>
+
+    <!-- jaxws-samples-wsse-policy-trust-bearer -->
+    <war
+      warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trust-bearer.war" needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/bearer/BearerIface.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/bearer/BearerImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/bearer/BearerCallbackHandler.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
+        <include name="wsdl/Bearer*"/>
+      </webinf>
+      <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF" prefix="WEB-INF/classes">
+        <include name="servicestore.jks" />
+        <include name="serviceKeystore.properties" />
+      </zipfileset>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
+      </manifest>
+    </war>
+
     <!-- jaxws-samples-wsse-policy-trustPicketLink-sts -->
     <war
       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trustPicketLink-sts.war"
