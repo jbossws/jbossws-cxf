@@ -57,8 +57,14 @@
           <wsp:Policy>
             <sp:InitiatorToken>
               <wsp:Policy>
-                <sp:X509Token
-                  sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+
+                <sp:IssuedToken
+                  IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+                  <sp:RequestSecurityTokenTemplate>
+                    <wsp:Policy>
+                      <sp:WssX509V3Token10 />
+                    </wsp:Policy>
+                  </sp:RequestSecurityTokenTemplate>
                   <wsp:Policy>
                     <sp:WssX509V3Token10 />
                   </wsp:Policy>
@@ -71,7 +77,8 @@
                                         EndpointName="UT_Port">stsns:SecurityTokenService</wsaw:ServiceName>
                     </wsaws:Metadata>
                   </sp:Issuer>
-                </sp:X509Token>
+                </sp:IssuedToken>
+
               </wsp:Policy>
             </sp:InitiatorToken>
             <sp:RecipientToken>

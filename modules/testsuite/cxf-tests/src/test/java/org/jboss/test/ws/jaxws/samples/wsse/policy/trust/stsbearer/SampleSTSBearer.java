@@ -72,7 +72,13 @@ public class SampleSTSBearer extends SecurityTokenServiceProvider
       List<ServiceMBean> services = new LinkedList<ServiceMBean>();
       StaticService service = new StaticService();
       service.setEndpoints(Arrays.asList(
-         "https://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/myBearerService.*"
+         // for STS testing only
+         "https://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/myBearerService.*",
+
+         // bearer serivce addresses
+         "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/BearerService",
+         "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/BearerService",
+         "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/BearerService"
       ));
 
       services.add(service);

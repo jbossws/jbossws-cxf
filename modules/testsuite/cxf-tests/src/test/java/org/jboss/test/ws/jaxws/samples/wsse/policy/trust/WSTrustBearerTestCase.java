@@ -63,7 +63,7 @@ public class WSTrustBearerTestCase extends JBossWSTest
    /**
     * @throws Exception
     */
-   public void TMP_DISABLE_testBearer() throws Exception
+   public void testBearer() throws Exception
    {
       Bus bus = BusFactory.newInstance().createBus();
       try
@@ -89,7 +89,7 @@ public class WSTrustBearerTestCase extends JBossWSTest
     * TMEP: Just for isolating testing of STS' generation of Bearer security token
     * @throws Exception
     */
-   public void testSTSBearer() throws Exception
+   public void TMP_DISABLE_testSTSBearer() throws Exception
    {
       final QName stsServiceName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "SecurityTokenService");
       final QName stsPortName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "UT_Port");
