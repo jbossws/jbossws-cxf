@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.transport;
 
-import static org.jboss.ws.common.integration.WSHelper.isJaxwsJseEndpoint;
-
 import java.io.IOException;
 import java.util.List;
 
