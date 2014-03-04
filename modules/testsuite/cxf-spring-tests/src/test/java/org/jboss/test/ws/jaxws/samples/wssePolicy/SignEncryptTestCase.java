@@ -62,7 +62,7 @@ public final class SignEncryptTestCase extends JBossWSTest
       }
       catch (SOAPFaultException e)
       {
-         throw new Exception("Please check that the Bouncy Castle provider is installed.", e);
+         throw new Exception("Error " + e.getMessage() + " - please check that the Bouncy Castle provider is installed.", e);
       }
    }
    
