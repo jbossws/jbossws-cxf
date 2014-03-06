@@ -78,6 +78,13 @@ public class WSTrustBearerTestCase extends JBossWSTest
          WSTrustTestUtils.setupWsseAndSTSClientBearer((BindingProvider) proxy, bus);
 
          assertEquals("Bearer WS-Trust Hello World!", proxy.sayHello());
+ /*
+         try {
+            proxy.sayHello();
+         } catch (Exception e) {    // rls added
+            e.printStackTrace(); // rls added
+         }  // rls added
+ */
       }
       finally
       {

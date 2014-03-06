@@ -40,6 +40,9 @@ public class ClientCallbackHandler implements CallbackHandler {
                 } else if ("bob".equals(pc.getIdentifier())) {
                     pc.setPassword("trombone");
                     break;
+                } else if ("myservicekey".equals(pc.getIdentifier())) {  // rls test  added for bearer test
+                   pc.setPassword("skpass");
+                   break;
                 }
             }
         }

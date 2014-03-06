@@ -35,6 +35,8 @@ public class BearerCallbackHandler extends PasswordCallbackHandler
    {
       Map<String, String> passwords = new HashMap<String, String>();
       passwords.put("myservicekey", "skpass");
+
+      passwords.put("myclientkey", "ckpass"); // rls added
       return passwords;
    }
 }

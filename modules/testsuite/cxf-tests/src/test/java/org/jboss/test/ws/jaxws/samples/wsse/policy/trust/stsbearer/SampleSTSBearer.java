@@ -45,8 +45,7 @@ import java.util.List;
 @EndpointProperties(value = {
       @EndpointProperty(key = "ws-security.signature.username", value = "mystskey"),
       @EndpointProperty(key = "ws-security.signature.properties", value = "stsKeystore.properties"),
-      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.stsbearer.STSBearerCallbackHandler"),
-      @EndpointProperty(key = "ws-security.validate.token", value = "false") //to let the JAAS integration deal with validation through the interceptor below
+      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.stsbearer.STSBearerCallbackHandler")
 })
 public class SampleSTSBearer extends SecurityTokenServiceProvider
 {
