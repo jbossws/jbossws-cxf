@@ -29,6 +29,8 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.test.ws.jaxws.samples.wsrm.generated.SimpleService;
 import org.jboss.wsf.test.JBossWSTest;
@@ -43,28 +45,28 @@ import org.jboss.wsf.test.JBossWSTest;
 public final class WSReliableMessagingWithAPITestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsrm-api/SimpleService";
-   private SimpleService proxy;
    
    public static Test suite()
    {
       return new JBossWSCXFTestSetup(WSReliableMessagingWithAPITestCase.class, "jaxws-samples-wsrm-api.war");
    }
 
-   @Override
-   protected void setUp() throws Exception
-   {
-      super.setUp();
-      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsrm", "SimpleService");
-      URL wsdlURL = getResourceURL("jaxws/samples/wsrm/WEB-INF/wsdl/SimpleService.wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
-      proxy = (SimpleService)service.getPort(SimpleService.class);
-      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
-   }
-
    public void test() throws Exception
    {
-      proxy.ping(); // one way call
-      assertEquals("Hello World!", proxy.echo("Hello World!")); // request response call
+      final Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
+      try {
+         QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsrm", "SimpleService");
+         URL wsdlURL = getResourceURL("jaxws/samples/wsrm/WEB-INF/wsdl/SimpleService.wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         SimpleService proxy = (SimpleService)service.getPort(SimpleService.class);
+         ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+         
+         proxy.ping(); // one way call
+         assertEquals("Hello World!", proxy.echo("Hello World!")); // request response call
+      } finally {
+         bus.shutdown(true);
+      }
    }
    
 }
