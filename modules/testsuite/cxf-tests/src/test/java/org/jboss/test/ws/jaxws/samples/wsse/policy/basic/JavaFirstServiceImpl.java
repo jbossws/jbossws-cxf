@@ -23,8 +23,9 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
 import javax.jws.WebService;
 
+import org.apache.cxf.annotations.EndpointProperties;
+import org.apache.cxf.annotations.EndpointProperty;
 import org.apache.cxf.annotations.Policy;
-import org.jboss.ws.api.annotation.EndpointConfig;
 
 @WebService
 (
@@ -34,7 +35,10 @@ import org.jboss.ws.api.annotation.EndpointConfig;
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy"
 )
 @Policy(placement = Policy.Placement.BINDING, uri = "JavaFirstPolicy.xml")
-@EndpointConfig(configFile = "WEB-INF/jaxws-endpoint-config.xml", configName = "Custom WS-Security Endpoint")
+@EndpointProperties(value = {
+      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.basic.ServerUsernamePasswordCallback")
+      }
+)
 public class JavaFirstServiceImpl //Not extending JavaFirstServiceIface for testing purposes only, to avoid having to
                                   //move the @Policy annotation in the interface, which is also used on client side. 
 {
