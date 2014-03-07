@@ -355,6 +355,9 @@
           <include name="bob.jks" />
           <include name="bob.properties" />
        </zipfileset>
+       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/basic/gcm/WEB-INF">
+           <include name="jboss-webservices.xml"/>
+       </webinf>
        <manifest>
          <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
        </manifest>

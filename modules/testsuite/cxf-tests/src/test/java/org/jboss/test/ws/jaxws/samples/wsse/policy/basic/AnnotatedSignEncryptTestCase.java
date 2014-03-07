@@ -22,7 +22,11 @@
 package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
 import java.net.URL;
+import java.util.Iterator;
+import java.util.Set;
 
+import javax.management.MBeanServerConnection;
+import javax.management.ObjectName;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
@@ -71,6 +75,26 @@ public final class AnnotatedSignEncryptTestCase extends JBossWSTest
          throw CryptoHelper.checkAndWrapException(e);
       }
    }
+   
+   public void testResponseTime() throws Exception {
+      MBeanServerConnection server = getServer();
+      ObjectName sayhelloCounter =  new ObjectName("org.apache.cxf:operation=\"sayHello\",*"); 
+      Set<?> s = server.queryNames(sayhelloCounter, null);        
+      Iterator<?> it = s.iterator();
+      
+      while (it.hasNext()) {
+          ObjectName mbean = (ObjectName)it.next();      
+          System.out.println("Object Name         : " + mbean);
+          Object val = server.getAttribute(mbean, "NumInvocations");
+          System.out.println("Number invocation   : " + val);
+          Object totalTime = server.getAttribute(mbean, "TotalHandlingTime"); 
+          System.out.println("Total handling time : " + totalTime);
+          Object maxTime = server.getAttribute(mbean, "MaxResponseTime"); 
+          System.out.println("Max Respone time    : " + maxTime);
+      }
+   }
+   
+   
 
    private void setupWsse(AnnotatedServiceIface proxy)
    {
