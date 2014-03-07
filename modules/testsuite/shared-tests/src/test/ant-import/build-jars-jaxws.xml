@@ -1391,6 +1391,17 @@
 			</classes>
 		</war>
 
+		<!-- jaxws-jbws3736 -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-jbws3736.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/jbws3736/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/jbws3736/*TestCase.class" />
+			</fileset>
+			<metainf dir="${tests.output.dir}/test-resources/jaxws/jbws3736/META-INF">
+				<include name="wsdl/*" />
+			</metainf>
+		</jar>
+
 		<!-- jaxws-jbws3753 -->
 		<war destfile="${tests.output.dir}/test-libs/jaxws-jbws3753.war" webxml="${tests.output.dir}/test-resources/jaxws/jbws3753/WEB-INF/web.xml">
 			<classes dir="${tests.output.dir}/test-classes">
