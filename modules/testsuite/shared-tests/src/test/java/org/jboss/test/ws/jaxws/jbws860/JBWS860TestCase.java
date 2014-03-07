@@ -56,6 +56,6 @@ public class JBWS860TestCase extends JBossWSTest
 
    public void testServletAccess() throws Exception
    {     
-      assertEquals("Hello", IOUtils.readAndCloseStream(new URL("http://" + getServerHost() + ":8080/test/TestServlet").openStream()));
+      assertTrue(IOUtils.readAndCloseStream(new URL("http://" + getServerHost() + ":8080/test/TestServlet").openStream()).startsWith("Hello"));
    }
 }
