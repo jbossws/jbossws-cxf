@@ -64,6 +64,6 @@ public class JBWS3736TestCase extends JBossWSTest
       //we expect the published wsdl to have the https protocol in the soap:address because the original wsdl provided
       //in the deployment has that. This shows that the reference to the wsdl in endpoint interface has been processed
       //when rewriting the soap:address. If we got http protocol here, the fix won't be in place.
-      assertTrue(wsdl.contains("https://" + getServerHost() + ":8080/jaxws-jbws3736"));
+      assertTrue(wsdl.contains("https://" + getServerHost() + ":8443/jaxws-jbws3736"));
    }
 }
