@@ -1433,6 +1433,14 @@
 			</zipfileset>
 		</war>
 
+		<!-- jaxws-misc -->
+		<jar jarfile="${tests.output.dir}/test-libs/jaxws-misc.jar">
+			<fileset dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/misc/*.class" />
+				<exclude name="org/jboss/test/ws/jaxws/misc/*TestCase.class" />
+			</fileset>
+		</jar>
+
 		<!-- jaxws namespace -->
 		<war warfile="${tests.output.dir}/test-libs/jaxws-namespace.war" webxml="${tests.output.dir}/test-resources/jaxws/namespace/WEB-INF/web.xml">
 			<classes dir="${tests.output.dir}/test-classes">
