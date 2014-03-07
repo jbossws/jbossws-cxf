@@ -65,7 +65,7 @@ public final class AnnotatedSignEncryptTestCase extends JBossWSTest
          Service service = Service.create(wsdlURL, serviceName);
          AnnotatedServiceIface proxy = (AnnotatedServiceIface)service.getPort(AnnotatedServiceIface.class);
          setupWsse(proxy);
-         ((BindingProvider)proxy).getRequestContext().put(Message.RECEIVE_TIMEOUT, 90000);
+         ((BindingProvider)proxy).getRequestContext().put(Message.RECEIVE_TIMEOUT, 120000);
          assertEquals("Secure Hello World!", proxy.sayHello());
       } catch (Exception e) {
          throw CryptoHelper.checkAndWrapException(e);
