@@ -25,10 +25,13 @@ import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
 import org.apache.cxf.sts.StaticSTSProperties;
 import org.apache.cxf.sts.operation.TokenIssueOperation;
+import org.apache.cxf.sts.operation.TokenValidateOperation;
 import org.apache.cxf.sts.service.EncryptionProperties;
 import org.apache.cxf.sts.service.ServiceMBean;
 import org.apache.cxf.sts.service.StaticService;
+import org.apache.cxf.sts.token.delegation.HOKDelegationHandler;
 import org.apache.cxf.sts.token.provider.SAMLTokenProvider;
+import org.apache.cxf.sts.token.validator.SAMLTokenValidator;
 import org.apache.cxf.ws.security.policy.SPConstants;
 import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
 
@@ -49,6 +52,7 @@ import java.util.List;
 })
 public class SampleSTSBearer extends SecurityTokenServiceProvider
 {
+
    public SampleSTSBearer() throws Exception
    {
       super();
@@ -58,35 +62,31 @@ public class SampleSTSBearer extends SecurityTokenServiceProvider
       props.setSignatureUsername("mystskey");
       props.setCallbackHandlerClass(STSBearerCallbackHandler.class.getName());
       props.setEncryptionCryptoProperties("stsKeystore.properties");
-      props.setEncryptionUsername("useReqSigCert");
-
-      // programmatic setting of the same encryption algorithm as in WSDL (sp:TripleDes)
-      EncryptionProperties eProps = new EncryptionProperties();
-      eProps.setEncryptionAlgorithm(SPConstants.TRIPLE_DES);
-      props.setEncryptionProperties(eProps);
-
+      props.setEncryptionUsername("myservicekey");
       props.setIssuer("DoubleItSTSIssuer");
-
 
       List<ServiceMBean> services = new LinkedList<ServiceMBean>();
       StaticService service = new StaticService();
       service.setEndpoints(Arrays.asList(
          // for STS testing only
          "https://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/myBearerService.*",
-
          // bearer serivce addresses
          "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/BearerService",
          "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/BearerService",
          "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/BearerService"
       ));
-
       services.add(service);
       
       TokenIssueOperation issueOperation = new TokenIssueOperation();
       issueOperation.getTokenProviders().add(new SAMLTokenProvider());
+      issueOperation.getDelegationHandlers().add(new HOKDelegationHandler());
       issueOperation.setServices(services);
-      issueOperation.setEncryptIssuedToken(true);  //todo: rls explain this
       issueOperation.setStsProperties(props);
       this.setIssueOperation(issueOperation);
+
+      TokenValidateOperation validationOperation = new TokenValidateOperation();
+      validationOperation.getTokenValidators().add(new SAMLTokenValidator());
+      validationOperation.setStsProperties(props);
+      this.setValidateOperation(validationOperation);
    }
 }

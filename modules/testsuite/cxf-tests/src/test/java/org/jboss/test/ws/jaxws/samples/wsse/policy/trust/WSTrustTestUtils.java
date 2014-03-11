@@ -202,40 +202,19 @@ public class WSTrustTestUtils
    public static void setupWsseAndSTSClientBearer(BindingProvider proxy, Bus bus) {
 
       Map<String, Object> ctx = proxy.getRequestContext();
-      ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-      ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
-      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES,
-         Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-
-      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES,
-         Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-      //- used in at org.apache.cxf.ws.security.wss4j.policyhandlers.AsymmetricBindingHandler.doEncryption(AsymmetricBindingHandler.java:461)
-      //- value MUST be myclientkey. 647 Merlin checks if alias isKeyEntry of keystore. Using
-      //- clientstore.jks.   It appears signature and encrypt must be the same.
-      ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myclientkey" /*"myservicekey"*/);
-      ctx.put(SecurityConstants.TIMESTAMP_FUTURE_TTL, "1200"); // rls DEBUGGING only  (20 min)
 
       STSClient stsClient = new STSClient(bus);
+
       Map<String, Object> props = stsClient.getProperties();
       props.put(SecurityConstants.USERNAME, "alice");
       props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-      props.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
-      props.put(SecurityConstants.SIGNATURE_PROPERTIES,
+      props.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
+      props.put(SecurityConstants.STS_TOKEN_PROPERTIES,
          Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
-      //todo: rls explain required use
-      stsClient.setTokenType("http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0");
-      stsClient.setKeyType("http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer");
 
-      /*//- rls testing
-      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES,
-         Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-      ctx.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey"); //"myservicekey");
-      //----
-      */
-
-      // CXF is ignoring this because of the proxy WSDL policy type X509Token
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
+
    }
 
    private static String appendIssuedTokenSuffix(String prop)

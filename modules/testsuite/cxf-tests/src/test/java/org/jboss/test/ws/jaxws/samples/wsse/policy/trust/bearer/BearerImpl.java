@@ -26,6 +26,9 @@ import org.apache.cxf.annotations.EndpointProperty;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
 
 import javax.jws.WebService;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
+import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 
 @WebService
 (
@@ -36,11 +39,17 @@ import javax.jws.WebService;
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.bearer.BearerIface"
 )
 @EndpointProperties(value = {
-      @EndpointProperty(key = "ws-security.signature.username", value = "myclientkey" ),  // "myservicekey"
-      @EndpointProperty(key = "ws-security.signature.properties", value = "xclientKeystore.properties"), // rls test serviceKeystore.properties
-      @EndpointProperty(key = "ws-security.encryption.properties", value = "xclientKeystore.properties"), // rls test serviceKeystore.properties
-      @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.bearer.BearerCallbackHandler")
+   @EndpointProperty(key = "ws-security.is-bsp-compliant", value = "false"),
+   //- @EndpointProperty(key = "ws-security.signature.username", value = "myservicekey" ),
+   @EndpointProperty(key = "ws-security.signature.properties", value = "serviceKeystore.properties"),
+   //-  @EndpointProperty(key = "ws-security.encryption.properties", value = "serviceKeystore.properties"),
+   @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.bearer.BearerCallbackHandler")
 })
+/**
+@ServletSecurity(
+   @HttpConstraint(transportGuarantee = TransportGuarantee.CONFIDENTIAL
+   ))
+ **/
 public class BearerImpl implements BearerIface
 {
    public String sayHello()
