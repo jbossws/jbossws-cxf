@@ -499,6 +499,15 @@
 		</classes>
 	</war>
 
+    <!-- jaxws-cxf-jbws3773 -->
+    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3773.war"
+    	needxmlfile='false'>
+       <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/cxf/jbws3773/*.class"/>
+      	<exclude name="org/jboss/test/ws/jaxws/cxf/jbws3773/*TestCase.class"/>
+       </classes>
+    </war>
+  	
     <!-- jaxws-cxf-logging -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-logging.jar">
       <fileset dir="${tests.output.dir}/test-classes">
