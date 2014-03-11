@@ -701,6 +701,9 @@
 
                  <!--There is no jbossws-cxf-jaspi installed in as720-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/Jaspi*TestCase*</exclude>
+                 
+                 <!-- [JBWS-3773][CXF-5602] HttpServletRequestSnapshot is not created for requests with WSA ReplyTo prop set -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws3773/**</exclude>
 
                 <!-- [JBWS-3738] test still under development -->
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustBearerTestCase*</exclude>
