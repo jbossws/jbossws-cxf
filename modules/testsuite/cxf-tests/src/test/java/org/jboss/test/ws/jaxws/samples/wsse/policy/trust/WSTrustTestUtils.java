@@ -21,21 +21,19 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.ws.security.SecurityConstants;
-import org.apache.cxf.ws.security.tokenstore.SecurityToken;
 import org.apache.cxf.ws.security.trust.STSClient;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.ClientCallbackHandler;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.UsernameTokenCallbackHandler;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Some client util methods for WS-Trust testcases 
@@ -205,16 +203,20 @@ public class WSTrustTestUtils
 
       STSClient stsClient = new STSClient(bus);
 
-      Map<String, Object> props = stsClient.getProperties();
-      props.put(SecurityConstants.USERNAME, "alice");
-      props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-      props.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
-      props.put(SecurityConstants.STS_TOKEN_PROPERTIES,
-         Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-      props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
+      ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
+      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
+      ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.USERNAME), "alice");
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.CALLBACK_HANDLER), new ClientCallbackHandler());
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_USERNAME), "mystskey");
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USERNAME), "myclientkey");
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO), "true");
 
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
-
    }
 
    private static String appendIssuedTokenSuffix(String prop)

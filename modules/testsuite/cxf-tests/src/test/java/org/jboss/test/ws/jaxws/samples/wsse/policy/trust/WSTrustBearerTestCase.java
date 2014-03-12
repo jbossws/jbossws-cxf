@@ -24,6 +24,7 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 import java.net.URL;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -64,65 +65,57 @@ import javax.net.ssl.TrustManagerFactory;
  */
 public class WSTrustBearerTestCase extends JBossWSTest
 {
-   private final String httpsserviceURL = "https://" + getServerHost()
+   private final String serviceURL = "https://" + getServerHost()
       + ":8443/jaxws-samples-wsse-policy-trust-bearer/BearerService";
-
-   private final String serviceURL = "http://" + getServerHost()
-      + ":8080/jaxws-samples-wsse-policy-trust-bearer/BearerService";
 
    public static Test suite()
    {
-      // NOTE skip setting up security-domain in server config.  This was done manually.
-      JBossWSCXFTestSetup testSetup = new JBossWSCXFTestSetup(WSTrustBearerTestCase.class,
-            "jaxws-samples-wsse-policy-trust-client.jar jaxws-samples-wsse-policy-trust-sts-bearer.war jaxws-samples-wsse-policy-trust-bearer.war");
+      //deploy client, STS and service; start a security domain to be used by the STS for authenticating client
+      JBossWSCXFTestSetup testSetup = WSTrustTestUtils.getTestSetup(WSTrustBearerTestCase.class,
+         "jaxws-samples-wsse-policy-trust-client.jar jaxws-samples-wsse-policy-trust-sts-bearer.war jaxws-samples-wsse-policy-trust-bearer.war");
 
+      // setup the https connector in the server config file.
+      Map<String, String> sslOptions = new HashMap<String, String>();
+      if (isTargetJBoss7())
+      {
+         sslOptions.put("certificate-key-file", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+         sslOptions.put("password", "changeit");
+         sslOptions.put("verify-client", "false");
+         sslOptions.put("key-alias", "tomcat");
+      }
+      else
+      {
+         sslOptions.put("server-identity.ssl.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+         sslOptions.put("server-identity.ssl.keystore-password", "changeit");
+         sslOptions.put("server-identity.ssl.alias", "tomcat");
+      }
+
+      testSetup.setHttpsConnectorRequirement(sslOptions);
       return testSetup;
 
    }
 
-   public void testAllInOneBearer() throws Exception
+   public void testBearer() throws Exception
    {
 
       Bus bus = BusFactory.newInstance().createBus();
       try
       {
-         String tmpServiceURL = httpsserviceURL;   //serviceURL
-
-         setHTTPConduit(tmpServiceURL, bus);
+         // Must create and register conduit for https before creating service
+         // and set in bus before setting default bus.
+         setHTTPConduit(serviceURL, bus);
          BusFactory.setThreadDefaultBus(bus);
 
-
-         //------------------------------
          final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/bearerwssecuritypolicy", "BearerService");
-         final URL wsdlURL = new URL(tmpServiceURL + "?wsdl");
+         final URL wsdlURL = new URL(serviceURL + "?wsdl");
          Service service = Service.create(wsdlURL, serviceName);
          BearerIface proxy = (BearerIface) service.getPort(BearerIface.class);
 
-         Map<String, Object> ctx = ((BindingProvider)proxy).getRequestContext();
-
-         STSClient stsClient = new STSClient(bus);
-
-         ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-         ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-         ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-         ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
-         ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
-         ctx.put(appendIssuedTokenSuffix(SecurityConstants.USERNAME), "alice");
-         ctx.put(appendIssuedTokenSuffix(SecurityConstants.CALLBACK_HANDLER), new ClientCallbackHandler());
-         ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-         ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_USERNAME), "mystskey");
-         ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USERNAME), "myclientkey");
-         ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-         ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO), "true");
-         
-         ctx.put(SecurityConstants.STS_CLIENT, stsClient);
-
-
-         proxy.sayHello();
+         WSTrustTestUtils.setupWsseAndSTSClientBearer((BindingProvider) proxy, bus);
+         assertEquals("Bearer WS-Trust Hello World!", proxy.sayHello());
 
       } catch(Exception e){
-         e.printStackTrace();
-         assertTrue(false);
+         assertTrue("Failed test setup of conduit.", false);
       }
    }
 
@@ -136,8 +129,8 @@ public class WSTrustBearerTestCase extends JBossWSTest
          endpointInfo.getTarget());
 
       TLSClientParameters tlsParams = new TLSClientParameters();
-      tlsParams.setSecureSocketProtocol("SSL");  //TLSv1  // SSL .. try this
-      setKeyManagers(tlsParams, "ckpass", "META-INF/clientstore.jks");
+      tlsParams.setSecureSocketProtocol("SSL");
+      setKeyManagers(tlsParams, "ckpass", "cspass", "META-INF/clientstore.jks");
       tlsParams.setDisableCNCheck(true);
 
       httpConduit.setTlsClientParameters(tlsParams);
@@ -145,19 +138,16 @@ public class WSTrustBearerTestCase extends JBossWSTest
       JBossWSConfigurer configurer = (JBossWSConfigurer)bus.getExtension(Configurer.class);
       BeanCustomizer customizer = configurer.getCustomizer();
       customizer.customize(httpConduit);
-
    }
 
 
-   private TLSClientParameters setKeyManagers(TLSClientParameters tlsParams,
-                                              String keyPassword, String keyStoreLoc)
-      throws KeyStoreException, Exception {
+   private TLSClientParameters setKeyManagers(TLSClientParameters tlsParams, String keyPassword,
+                                              String keyStorePasswd, String keyStoreLoc) throws Exception {
 
-      keyStoreLoc =  "META-INF/clientstore.jks";
       InputStream inStream = Thread.currentThread().getContextClassLoader()
          .getResourceAsStream(keyStoreLoc);
       KeyStore keyStore = KeyStore.getInstance("JKS");
-      keyStore.load(inStream, "cspass".toCharArray());
+      keyStore.load(inStream, keyStorePasswd.toCharArray());
       inStream.close();
 
 
@@ -167,26 +157,19 @@ public class WSTrustBearerTestCase extends JBossWSTest
          : null;
       KeyManagerFactory keyMF = KeyManagerFactory.getInstance(alg);
       keyMF.init(keyStore, keyPass);
-      KeyManager[] myKeyManagers =  keyMF.getKeyManagers();
+      KeyManager[] myKeyManagers = keyMF.getKeyManagers();
       tlsParams.setKeyManagers(myKeyManagers);
 
       inStream = Thread.currentThread().getContextClassLoader()
          .getResourceAsStream(keyStoreLoc);
       KeyStore trustStore = KeyStore.getInstance("JKS");
-      trustStore.load(inStream, "cspass".toCharArray());
+      trustStore.load(inStream, keyStorePasswd.toCharArray());
       inStream.close();
       TrustManagerFactory trustMF = TrustManagerFactory.getInstance(alg);
       trustMF.init(trustStore);
       TrustManager[] myTrustStoreKeyManagers = trustMF.getTrustManagers();
       tlsParams.setTrustManagers(myTrustStoreKeyManagers);
       return tlsParams;
-   }
-
-
-
-   private static String appendIssuedTokenSuffix(String prop)
-   {
-      return prop + ".it";
    }
 
 }

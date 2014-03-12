@@ -34,7 +34,6 @@ public class STSBearerCallbackHandler extends PasswordCallbackHandler
    {
       Map<String, String> passwords = new HashMap<String, String>();
       passwords.put("mystskey", "stskpass");
-      passwords.put("myclientkey", "ckpass");
       passwords.put("alice", "clarinet");
       return passwords;
    }
