@@ -52,7 +52,8 @@
   </binding>
   <service name="BearerService">
     <port name="BearerServicePort" binding="tns:BearerServicePortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-trust-bearer/BearerService"/>
+      <soap:address location="https://@jboss.bind.address@:8443/jaxws-samples-wsse-policy-trust-bearer/BearerService"/>
+
     </port>
   </service>
 
@@ -63,7 +64,7 @@
         <wsam:Addressing wsp:Optional="false">
           <wsp:Policy />
         </wsam:Addressing>
-        <!--
+        <!-- -->
         <sp:TransportBinding
           xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
           <wsp:Policy>
@@ -86,7 +87,7 @@
             </sp:Layout>
             <sp:IncludeTimestamp />
           </wsp:Policy>
-        </sp:TransportBinding>-->
+        </sp:TransportBinding>
 
         <sp:SignedSupportingTokens
           xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">

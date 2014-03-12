@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
 import java.net.URL;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -32,13 +34,27 @@ import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.configuration.jsse.TLSClientParameters;
+import org.apache.cxf.transport.ConduitInitiator;
+import org.apache.cxf.transport.ConduitInitiatorManager;
+import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transport.http.URLConnectionHTTPConduit;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.basic.UsernameOverTransportTestCase;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.bearer.BearerIface;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.ClientCallbackHandler;
+import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSConfigurer;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-
+import org.apache.cxf.service.model.EndpointInfo;
+import java.io.InputStream;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 
 /**
  * A demo of using SAML Bearer key type
@@ -48,17 +64,20 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public class WSTrustBearerTestCase extends JBossWSTest
 {
+   private final String httpsserviceURL = "https://" + getServerHost()
+      + ":8443/jaxws-samples-wsse-policy-trust-bearer/BearerService";
 
    private final String serviceURL = "http://" + getServerHost()
       + ":8080/jaxws-samples-wsse-policy-trust-bearer/BearerService";
 
    public static Test suite()
    {
-      //deploy client, STS and service; start a security domain to be used by the STS for authenticating client
-      JBossWSCXFTestSetup testSetup = WSTrustTestUtils.getTestSetup(WSTrustBearerTestCase.class,
+      // NOTE skip setting up security-domain in server config.  This was done manually.
+      JBossWSCXFTestSetup testSetup = new JBossWSCXFTestSetup(WSTrustBearerTestCase.class,
             "jaxws-samples-wsse-policy-trust-client.jar jaxws-samples-wsse-policy-trust-sts-bearer.war jaxws-samples-wsse-policy-trust-bearer.war");
 
       return testSetup;
+
    }
 
    public void testAllInOneBearer() throws Exception
@@ -67,12 +86,15 @@ public class WSTrustBearerTestCase extends JBossWSTest
       Bus bus = BusFactory.newInstance().createBus();
       try
       {
+         String tmpServiceURL = httpsserviceURL;   //serviceURL
 
+         setHTTPConduit(tmpServiceURL, bus);
          BusFactory.setThreadDefaultBus(bus);
+
 
          //------------------------------
          final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/bearerwssecuritypolicy", "BearerService");
-         final URL wsdlURL = new URL(serviceURL + "?wsdl");
+         final URL wsdlURL = new URL(tmpServiceURL + "?wsdl");
          Service service = Service.create(wsdlURL, serviceName);
          BearerIface proxy = (BearerIface) service.getPort(BearerIface.class);
 
@@ -103,7 +125,65 @@ public class WSTrustBearerTestCase extends JBossWSTest
          assertTrue(false);
       }
    }
-   
+
+   private void setHTTPConduit(String tmpServiceURL, Bus bus) throws Exception {
+
+      URL myWsdlURL = new URL(tmpServiceURL + "?wsdl");
+      EndpointInfo endpointInfo = new EndpointInfo();
+      endpointInfo.setName(new QName("http://cxf.apache.org", "TransportURIResolver"));
+      endpointInfo.setAddress(myWsdlURL.toURI().toString());
+      HTTPConduit httpConduit = new URLConnectionHTTPConduit(bus, endpointInfo,
+         endpointInfo.getTarget());
+
+      TLSClientParameters tlsParams = new TLSClientParameters();
+      tlsParams.setSecureSocketProtocol("SSL");  //TLSv1  // SSL .. try this
+      setKeyManagers(tlsParams, "ckpass", "META-INF/clientstore.jks");
+      tlsParams.setDisableCNCheck(true);
+
+      httpConduit.setTlsClientParameters(tlsParams);
+
+      JBossWSConfigurer configurer = (JBossWSConfigurer)bus.getExtension(Configurer.class);
+      BeanCustomizer customizer = configurer.getCustomizer();
+      customizer.customize(httpConduit);
+
+   }
+
+
+   private TLSClientParameters setKeyManagers(TLSClientParameters tlsParams,
+                                              String keyPassword, String keyStoreLoc)
+      throws KeyStoreException, Exception {
+
+      keyStoreLoc =  "META-INF/clientstore.jks";
+      InputStream inStream = Thread.currentThread().getContextClassLoader()
+         .getResourceAsStream(keyStoreLoc);
+      KeyStore keyStore = KeyStore.getInstance("JKS");
+      keyStore.load(inStream, "cspass".toCharArray());
+      inStream.close();
+
+
+      String alg = KeyManagerFactory.getDefaultAlgorithm();
+      char[] keyPass = keyPassword != null
+         ? keyPassword.toCharArray()
+         : null;
+      KeyManagerFactory keyMF = KeyManagerFactory.getInstance(alg);
+      keyMF.init(keyStore, keyPass);
+      KeyManager[] myKeyManagers =  keyMF.getKeyManagers();
+      tlsParams.setKeyManagers(myKeyManagers);
+
+      inStream = Thread.currentThread().getContextClassLoader()
+         .getResourceAsStream(keyStoreLoc);
+      KeyStore trustStore = KeyStore.getInstance("JKS");
+      trustStore.load(inStream, "cspass".toCharArray());
+      inStream.close();
+      TrustManagerFactory trustMF = TrustManagerFactory.getInstance(alg);
+      trustMF.init(trustStore);
+      TrustManager[] myTrustStoreKeyManagers = trustMF.getTrustManagers();
+      tlsParams.setTrustManagers(myTrustStoreKeyManagers);
+      return tlsParams;
+   }
+
+
+
    private static String appendIssuedTokenSuffix(String prop)
    {
       return prop + ".it";
