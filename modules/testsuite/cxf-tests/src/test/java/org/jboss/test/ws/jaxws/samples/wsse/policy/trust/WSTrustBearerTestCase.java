@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,8 +22,6 @@
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
 import java.net.URL;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,27 +33,9 @@ import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.configuration.Configurer;
-import org.apache.cxf.configuration.jsse.TLSClientParameters;
-import org.apache.cxf.transport.ConduitInitiator;
-import org.apache.cxf.transport.ConduitInitiatorManager;
-import org.apache.cxf.transport.http.HTTPConduit;
-import org.apache.cxf.transport.http.URLConnectionHTTPConduit;
-import org.apache.cxf.ws.security.SecurityConstants;
-import org.apache.cxf.ws.security.trust.STSClient;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.basic.UsernameOverTransportTestCase;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.bearer.BearerIface;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.ClientCallbackHandler;
-import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSConfigurer;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.apache.cxf.service.model.EndpointInfo;
-import java.io.InputStream;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
 
 /**
  * A demo of using SAML Bearer key type
@@ -65,8 +45,7 @@ import javax.net.ssl.TrustManagerFactory;
  */
 public class WSTrustBearerTestCase extends JBossWSTest
 {
-   private final String serviceURL = "https://" + getServerHost()
-      + ":8443/jaxws-samples-wsse-policy-trust-bearer/BearerService";
+   private final String serviceURL = "https://" + getServerHost() + ":8443/jaxws-samples-wsse-policy-trust-bearer/BearerService";
 
    public static Test suite()
    {
@@ -89,31 +68,28 @@ public class WSTrustBearerTestCase extends JBossWSTest
          sslOptions.put("server-identity.ssl.keystore-password", "changeit");
          sslOptions.put("server-identity.ssl.alias", "tomcat");
       }
-
       testSetup.setHttpsConnectorRequirement(sslOptions);
       return testSetup;
-
    }
 
    public void testBearer() throws Exception
    {
-
       Bus bus = BusFactory.newInstance().createBus();
       try
       {
-
          BusFactory.setThreadDefaultBus(bus);
 
          final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/bearerwssecuritypolicy", "BearerService");
-         final URL wsdlURL = new URL(serviceURL + "?wsdl");
-         Service service = Service.create(wsdlURL, serviceName);
+         Service service = Service.create(new URL(serviceURL + "?wsdl"), serviceName);
          BearerIface proxy = (BearerIface) service.getPort(BearerIface.class);
 
          WSTrustTestUtils.setupWsseAndSTSClientBearer((BindingProvider) proxy, bus);
          assertEquals("Bearer WS-Trust Hello World!", proxy.sayHello());
 
-      } catch(Exception e){
-         assertTrue("Failed test setup of conduit.", false);
+      }
+      finally
+      {
+         bus.shutdown(true);
       }
    }
 

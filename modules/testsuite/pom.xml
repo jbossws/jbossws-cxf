@@ -793,8 +793,6 @@
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
 
-                <!-- [JBWS-3738] test still under development -->
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustBearerTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -885,8 +883,6 @@
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
 
-                <!-- [JBWS-3738] test still under development -->
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustBearerTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
