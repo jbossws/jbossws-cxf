@@ -101,9 +101,7 @@ public class WSTrustBearerTestCase extends JBossWSTest
       Bus bus = BusFactory.newInstance().createBus();
       try
       {
-         // Must create and register conduit for https before creating service
-         // and set in bus before setting default bus.
-         setHTTPConduit(serviceURL, bus);
+
          BusFactory.setThreadDefaultBus(bus);
 
          final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/bearerwssecuritypolicy", "BearerService");
@@ -117,59 +115,6 @@ public class WSTrustBearerTestCase extends JBossWSTest
       } catch(Exception e){
          assertTrue("Failed test setup of conduit.", false);
       }
-   }
-
-   private void setHTTPConduit(String tmpServiceURL, Bus bus) throws Exception {
-
-      URL myWsdlURL = new URL(tmpServiceURL + "?wsdl");
-      EndpointInfo endpointInfo = new EndpointInfo();
-      endpointInfo.setName(new QName("http://cxf.apache.org", "TransportURIResolver"));
-      endpointInfo.setAddress(myWsdlURL.toURI().toString());
-      HTTPConduit httpConduit = new URLConnectionHTTPConduit(bus, endpointInfo,
-         endpointInfo.getTarget());
-
-      TLSClientParameters tlsParams = new TLSClientParameters();
-      tlsParams.setSecureSocketProtocol("SSL");
-      setKeyManagers(tlsParams, "ckpass", "cspass", "META-INF/clientstore.jks");
-      tlsParams.setDisableCNCheck(true);
-
-      httpConduit.setTlsClientParameters(tlsParams);
-
-      JBossWSConfigurer configurer = (JBossWSConfigurer)bus.getExtension(Configurer.class);
-      BeanCustomizer customizer = configurer.getCustomizer();
-      customizer.customize(httpConduit);
-   }
-
-
-   private TLSClientParameters setKeyManagers(TLSClientParameters tlsParams, String keyPassword,
-                                              String keyStorePasswd, String keyStoreLoc) throws Exception {
-
-      InputStream inStream = Thread.currentThread().getContextClassLoader()
-         .getResourceAsStream(keyStoreLoc);
-      KeyStore keyStore = KeyStore.getInstance("JKS");
-      keyStore.load(inStream, keyStorePasswd.toCharArray());
-      inStream.close();
-
-
-      String alg = KeyManagerFactory.getDefaultAlgorithm();
-      char[] keyPass = keyPassword != null
-         ? keyPassword.toCharArray()
-         : null;
-      KeyManagerFactory keyMF = KeyManagerFactory.getInstance(alg);
-      keyMF.init(keyStore, keyPass);
-      KeyManager[] myKeyManagers = keyMF.getKeyManagers();
-      tlsParams.setKeyManagers(myKeyManagers);
-
-      inStream = Thread.currentThread().getContextClassLoader()
-         .getResourceAsStream(keyStoreLoc);
-      KeyStore trustStore = KeyStore.getInstance("JKS");
-      trustStore.load(inStream, keyStorePasswd.toCharArray());
-      inStream.close();
-      TrustManagerFactory trustMF = TrustManagerFactory.getInstance(alg);
-      trustMF.init(trustStore);
-      TrustManager[] myTrustStoreKeyManagers = trustMF.getTrustManagers();
-      tlsParams.setTrustManagers(myTrustStoreKeyManagers);
-      return tlsParams;
    }
 
 }
