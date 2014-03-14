@@ -55,7 +55,78 @@ This version of "${project.name}" is based on Apache CXF ${cxf.version}
 Enjoy,
 The JBossWS Team
 
+
 Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-4.3.0.Final
+-----------------------
+
+Bug
+
+    * [JBWS-3620] - Authentication failures w/ Undertow
+    * [JBWS-3670] - Spring declared endpoints, AS components and injection
+    * [JBWS-3707] - AbstractCommonConfig is not thread safe
+    * [JBWS-3709] - WSDiscoveryTestCase failures related to network environment
+    * [JBWS-3721] - UDP endpoint failure in pure IPv6 environment
+    * [JBWS-3722] - jbossws-cxf-client is using 2.1 version of jaxb-impl
+    * [JBWS-3736] - soap:address rewrite does not consider wsdlLocation in SEI @WebService
+    * [JBWS-3741] - WebService doesn't support "//" 
+    * [JBWS-3742] - EndpointMetricsImpl is not thread-safe
+    * [JBWS-3749] - update build-testsuite.xml to reflect new location of netty module in wildfly 8.0.0
+    * [JBWS-3766] - Null value of POJOEndpoint.viewName causes NullPointerException when building service on JDK 1.8
+    * [JBWS-3772] - ServerConfig#getWebServiceSecurePort returns wrong default value on WFLY
+
+Enhancement
+
+    * [JBWS-3662] - dynamic registration of Bouncy Castle JCE provider in cxf specific tests
+    * [JBWS-3689] - Ensure consistent state of server config is always used
+    * [JBWS-3691] - Prevent race condition in default webservice port retrieval mechanism
+    * [JBWS-3702] - Provide an Undertow based alternative to jbossws-cxf-transports-httpserver
+    * [JBWS-3708] - Enforce client/endpoint config immutability at runtime
+    * [JBWS-3737] - Build PolicyAttachmentStore when the first @PolicySets annotation is found
+    * [JBWS-3739] - Enforce jbossws-spi metadata immutability
+    * [JBWS-3743] - Block HTTP GET requests with no query string
+    * [JBWS-3747] - Higher precision in endpoint metrics
+    * [JBWS-3753] - Improve destination matching when processing requests
+    * [JBWS-3756] - Add permission checks to sensitive public static methods
+
+Feature Request
+
+    * [JBWS-3676] - Minor dependency cleanup in jbossws-common
+    * [JBWS-3734] - Upgrade to Apache CXF 2.7.8
+    * [JBWS-3744] - Remove published wsdl files during app undeployment
+    * [JBWS-3745] - Allow disabling Nagle's algorithm on Web Service calls
+    * [JBWS-3752] - Upgrade to Apache CXF 2.7.10
+    * [JBWS-3767] - Implement JASPIC SOAP profile
+
+Task
+
+    * [JBWS-3664] - Upgrade JavaEE specs dependencies to latest versions
+    * [JBWS-3728] - Add a callback handler mechanism for controlling attribute updates in AbstractServerConfig
+    * [JBWS-3732] - Check for endpoint-config existence when processing @EndpointConfig
+    * [JBWS-3740] - Drop JBoss AS 7.1.x integration
+    * [JBWS-3746] - Hudson cleanup
+    * [JBWS-3751] - Upgrade to Apache WSS4J 1.6.14
+    * [JBWS-3754] - Fix Netty dependency version issues (testsuite against WFLY 8)
+    * [JBWS-3755] - Provide mechanism for knowing when running in-container
+    * [JBWS-3762] - Upgrade PicketLink and PicketBox dependencies
+    * [JBWS-3765] - Run integration tests in alphabetical order to increase error reproducibility
+    * [JBWS-3768] - Fix issues with CXF Conduit re-use and tests modifying client conduits
+    * [JBWS-3769] - Ensure URLConnection inputstreams are properly closed in the testsuite
+    * [JBWS-3774] - JBossWS 4.3.0.Final errata
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3774
+
+Migration notes
+
+    See: https://community.jboss.org/wiki/JBossWS430MigrationNotes
+
+
+This version of "JBoss Web Services - Stack CXF Distribution" is based on Apache CXF 2.7.10
+
 
 -----------------------
 jbossws-cxf-4.2.3.Final
