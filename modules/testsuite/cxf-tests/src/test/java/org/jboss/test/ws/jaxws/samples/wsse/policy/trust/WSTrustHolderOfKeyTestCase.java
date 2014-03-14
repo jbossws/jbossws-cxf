@@ -42,7 +42,7 @@ import java.util.Map;
  * User: rsearls@redhat.com
  * Date: 3/14/14
  */
-public class WSTrustHolderOfTrustTestCase extends JBossWSTest
+public class WSTrustHolderOfKeyTestCase extends JBossWSTest
 {
    private final String serviceURL = "https://" + getServerHost()
       + ":8443/jaxws-samples-wsse-policy-trust-holderofkey/HolderOfKeyService";
@@ -50,7 +50,7 @@ public class WSTrustHolderOfTrustTestCase extends JBossWSTest
    public static Test suite()
    {
       //deploy client, STS and service; start a security domain to be used by the STS for authenticating client
-      JBossWSCXFTestSetup testSetup = WSTrustTestUtils.getTestSetup(WSTrustHolderOfTrustTestCase.class,
+      JBossWSCXFTestSetup testSetup = WSTrustTestUtils.getTestSetup(WSTrustHolderOfKeyTestCase.class,
          "jaxws-samples-wsse-policy-trust-client.jar jaxws-samples-wsse-policy-trust-sts-holderofkey.war jaxws-samples-wsse-policy-trust-holderofkey.war");
 
       // setup the https connector in the server config file.
