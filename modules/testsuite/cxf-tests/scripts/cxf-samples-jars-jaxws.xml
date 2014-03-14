@@ -572,7 +572,51 @@
         <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
       </classes>
       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
-        <include name="wsdl/Bearer*"/>
+        <include name="wsdl/BearerService.wsdl"/>
+        <include name="wsdl/BearerService_schema1.xsd"/>
+      </webinf>
+      <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF" prefix="WEB-INF/classes">
+        <include name="servicestore.jks" />
+        <include name="serviceKeystore.properties" />
+      </zipfileset>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client"/>
+      </manifest>
+    </war>
+
+    <!-- jaxws-samples-wsse-policy-trust-sts-holderofkey -->
+    <war
+      warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trust-sts-holderofkey.war"
+      webxml="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF/holderofkey/web.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/stsholderofkey/SampleSTSHolderOfKey.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/stsbearer/STSBearerCallbackHandler.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
+        <include name="wsdl/bearer-ws-trust*"/>
+        <include name="jboss-web.xml"/>
+      </webinf>
+      <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF" prefix="WEB-INF/classes">
+        <include name="stsstore.jks" />
+        <include name="stsKeystore.properties" />
+      </zipfileset>
+      <manifest>
+        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl annotations"/> <!-- cxf impl required to extend STS impl -->
+      </manifest>
+    </war>
+
+
+    <!-- jaxws-samples-wsse-policy-trust-holderofkey -->
+    <war
+      warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trust-holderofkey.war" needxmlfile='false'>
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/holderofkey/HolderOfKeyIface.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/holderofkey/HolderOfKeyImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
+      </classes>
+      <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
+        <include name="wsdl/HolderOfKeyService.wsdl"/>
+        <include name="wsdl/HolderOfKeyService_schema1.xsd"/>
       </webinf>
       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF" prefix="WEB-INF/classes">
         <include name="servicestore.jks" />
