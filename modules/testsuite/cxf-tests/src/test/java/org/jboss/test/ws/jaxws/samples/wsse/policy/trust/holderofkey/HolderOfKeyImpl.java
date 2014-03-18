@@ -15,7 +15,9 @@ import javax.jws.WebService;
       endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.holderofkey.HolderOfKeyIface"
    )
 @EndpointProperties(value = {
-   @EndpointProperty(key = "ws-security.signature.properties", value = "serviceKeystore.properties")
+   @EndpointProperty(key = "ws-security.is-bsp-compliant", value = "false"),
+   @EndpointProperty(key = "ws-security.signature.properties", value = "serviceKeystore.properties"),
+   @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.holderofkey.HolderOfKeyCallbackHandler")
 })
 public class HolderOfKeyImpl implements HolderOfKeyIface
 {

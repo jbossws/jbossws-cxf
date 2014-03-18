@@ -593,7 +593,7 @@
         <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/stsbearer/STSBearerCallbackHandler.class"/>
       </classes>
       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
-        <include name="wsdl/bearer-ws-trust*"/>
+        <include name="wsdl/holderofkey-ws-trust*"/>
         <include name="jboss-web.xml"/>
       </webinf>
       <zipfileset dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF" prefix="WEB-INF/classes">
@@ -610,8 +610,7 @@
     <war
       warfile="${tests.output.dir}/test-libs/jaxws-samples-wsse-policy-trust-holderofkey.war" needxmlfile='false'>
       <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/holderofkey/HolderOfKeyIface.class"/>
-        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/holderofkey/HolderOfKeyImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/holderofkey/HolderOfKey*.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
       </classes>
       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
