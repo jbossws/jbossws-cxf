@@ -33,6 +33,7 @@ import org.apache.cxf.sts.token.provider.SAMLTokenProvider;
 import org.apache.cxf.sts.token.validator.SAMLTokenValidator;
 import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.stsbearer.STSBearerCallbackHandler;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.stsholderofkey.STSHolderOfKeyCallbackHandler;
 
 import javax.xml.ws.WebServiceProvider;
 import java.util.Arrays;
@@ -49,9 +50,8 @@ import java.util.List;
    wsdlLocation = "WEB-INF/wsdl/holderofkey-ws-trust-1.4-service.wsdl")
 //be sure to have dependency on org.apache.cxf module when on AS7, otherwise Apache CXF annotations are ignored
 @EndpointProperties(value = {
-//   @EndpointProperty(key = "ws-security.signature.username", value = "mystskey"),
    @EndpointProperty(key = "ws-security.signature.properties", value = "stsKeystore.properties"),
-   @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.stsbearer.STSBearerCallbackHandler")
+   @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.stsholderofkey.STSHolderOfKeyCallbackHandler")
 })
 public class SampleSTSHolderOfKey extends SecurityTokenServiceProvider
 {
@@ -63,7 +63,7 @@ public class SampleSTSHolderOfKey extends SecurityTokenServiceProvider
       StaticSTSProperties props = new StaticSTSProperties();
       props.setSignatureCryptoProperties("stsKeystore.properties");
       props.setSignatureUsername("mystskey");
-      props.setCallbackHandlerClass(STSBearerCallbackHandler.class.getName());
+      props.setCallbackHandlerClass(STSHolderOfKeyCallbackHandler.class.getName());
       props.setEncryptionCryptoProperties("stsKeystore.properties");
       props.setEncryptionUsername("myservicekey");
       props.setIssuer("DoubleItSTSIssuer");
@@ -80,15 +80,9 @@ public class SampleSTSHolderOfKey extends SecurityTokenServiceProvider
 
       TokenIssueOperation issueOperation = new TokenIssueOperation();
       issueOperation.getTokenProviders().add(new SAMLTokenProvider());
-      issueOperation.getDelegationHandlers().add(new HOKDelegationHandler());
       issueOperation.setServices(services);
       issueOperation.setStsProperties(props);
       this.setIssueOperation(issueOperation);
-
-      TokenValidateOperation validationOperation = new TokenValidateOperation();
-      validationOperation.getTokenValidators().add(new SAMLTokenValidator());
-      validationOperation.setStsProperties(props);
-      this.setValidateOperation(validationOperation);
 
    }
 }

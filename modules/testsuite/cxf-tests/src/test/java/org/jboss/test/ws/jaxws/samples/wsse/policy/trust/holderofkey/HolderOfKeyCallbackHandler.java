@@ -41,9 +41,6 @@ public class HolderOfKeyCallbackHandler extends PasswordCallbackHandler {
    {
       Map<String, String> passwords = new HashMap<String, String>();
       passwords.put("myservicekey", "skpass");
-      passwords.put("alice", "clarinet");
-      passwords.put("mystskey", "stskpass");
-      passwords.put("myclientkey", "ckpass");
       return passwords;
    }
 }

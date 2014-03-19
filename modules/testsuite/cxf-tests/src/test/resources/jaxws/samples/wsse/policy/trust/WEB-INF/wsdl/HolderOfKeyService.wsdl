@@ -58,31 +58,31 @@
           <wsp:Policy />
         </wsam:Addressing>
 
-        <sp:TransportBinding
-          xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
-          <wsp:Policy>
-            <sp:TransportToken>
-              <wsp:Policy>
-                <sp:HttpsToken>
-                  <wsp:Policy/>
-                </sp:HttpsToken>
-              </wsp:Policy>
-            </sp:TransportToken>
-            <sp:AlgorithmSuite>
-              <wsp:Policy>
-                <sp:TripleDes />
-              </wsp:Policy>
-            </sp:AlgorithmSuite>
-            <sp:Layout>
-              <wsp:Policy>
-                <sp:Lax />
-              </wsp:Policy>
-            </sp:Layout>
-            <sp:IncludeTimestamp />
-          </wsp:Policy>
-        </sp:TransportBinding>
+          <sp:TransportBinding
+            xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+            <wsp:Policy>
+              <sp:TransportToken>
+                <wsp:Policy>
+                  <sp:HttpsToken>
+                    <wsp:Policy/>
+                  </sp:HttpsToken>
+                </wsp:Policy>
+              </sp:TransportToken>
+              <sp:AlgorithmSuite>
+                <wsp:Policy>
+                  <sp:TripleDes />
+                </wsp:Policy>
+              </sp:AlgorithmSuite>
+              <sp:Layout>
+                <wsp:Policy>
+                  <sp:Lax />
+                </wsp:Policy>
+              </sp:Layout>
+              <sp:IncludeTimestamp />
+            </wsp:Policy>
+          </sp:TransportBinding>
 
-        <sp:SignedSupportingTokens
+        <sp:SignedEndorsingSupportingTokens
           xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
           <wsp:Policy>
             <sp:IssuedToken
@@ -109,7 +109,8 @@
 
             </sp:IssuedToken>
           </wsp:Policy>
-        </sp:SignedSupportingTokens>
+        </sp:SignedEndorsingSupportingTokens>
+
         <sp:Wss11>
           <wsp:Policy>
             <sp:MustSupportRefIssuerSerial />
