@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,20 +21,21 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
-import junit.framework.Test;
-import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.bearer.BearerIface;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.holderofkey.HolderOfKeyIface;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
-import org.jboss.wsf.test.JBossWSTest;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+
+import junit.framework.Test;
+
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.holderofkey.HolderOfKeyIface;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.wsf.test.JBossWSTest;
 
 /**
  * A demo of using SAML Holder-of-key
