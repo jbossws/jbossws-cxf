@@ -74,14 +74,8 @@ public class SampleSTSBearer extends SecurityTokenServiceProvider
       
       TokenIssueOperation issueOperation = new TokenIssueOperation();
       issueOperation.getTokenProviders().add(new SAMLTokenProvider());
-      issueOperation.getDelegationHandlers().add(new HOKDelegationHandler());
       issueOperation.setServices(services);
       issueOperation.setStsProperties(props);
       this.setIssueOperation(issueOperation);
-
-      TokenValidateOperation validationOperation = new TokenValidateOperation();
-      validationOperation.getTokenValidators().add(new SAMLTokenValidator());
-      validationOperation.setStsProperties(props);
-      this.setValidateOperation(validationOperation);
    }
 }
