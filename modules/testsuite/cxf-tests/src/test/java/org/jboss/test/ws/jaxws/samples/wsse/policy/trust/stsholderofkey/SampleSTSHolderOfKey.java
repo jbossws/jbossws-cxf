@@ -25,15 +25,10 @@ import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
 import org.apache.cxf.sts.StaticSTSProperties;
 import org.apache.cxf.sts.operation.TokenIssueOperation;
-import org.apache.cxf.sts.operation.TokenValidateOperation;
 import org.apache.cxf.sts.service.ServiceMBean;
 import org.apache.cxf.sts.service.StaticService;
-import org.apache.cxf.sts.token.delegation.HOKDelegationHandler;
 import org.apache.cxf.sts.token.provider.SAMLTokenProvider;
-import org.apache.cxf.sts.token.validator.SAMLTokenValidator;
 import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.stsbearer.STSBearerCallbackHandler;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.stsholderofkey.STSHolderOfKeyCallbackHandler;
 
 import javax.xml.ws.WebServiceProvider;
 import java.util.Arrays;
