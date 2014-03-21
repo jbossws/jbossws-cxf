@@ -32,7 +32,7 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>4.3.0-SNAPSHOT</version>
+  <version>4.3.1-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
@@ -61,12 +61,12 @@
   <!-- Properties -->
   <properties>
     <jbossws.api.version>1.0.2.Final</jbossws.api.version>
-    <jbossws.spi.version>2.3.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>2.3.0-SNAPSHOT</jbossws.common.version>
+    <jbossws.spi.version>2.3.0.Final</jbossws.spi.version>
+    <jbossws.common.version>2.3.0.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.2.0.Final</jbossws.common.tools.version>
-    <jbossws.jboss720.version>4.3.0-SNAPSHOT</jbossws.jboss720.version>
-    <jbossws.wildfly800.version>4.3.0-SNAPSHOT</jbossws.wildfly800.version>
-    <jbossws.native.version>4.2.0.CR1</jbossws.native.version>
+    <jbossws.jboss720.version>4.3.0.Final</jbossws.jboss720.version>
+    <jbossws.wildfly800.version>4.3.0.Final</jbossws.wildfly800.version>
+    <jbossws.native.version>4.2.0.Final</jbossws.native.version>
     <jboss720.version>7.2.0.Final</jboss720.version>
     <wildfly800.version>8.0.0.Final</wildfly800.version>
     <wildfly801.version>8.0.1.Final-SNAPSHOT</wildfly801.version>
