@@ -116,9 +116,9 @@ public abstract class JBWS3060Tests extends JBossWSTest //*Tests does not match 
    
    private static class CallableOne implements Callable<Boolean>
    {
-      private EndpointOne port;
-      private boolean oneway;
-      private int seqNum;
+      private final EndpointOne port;
+      private final boolean oneway;
+      private final int seqNum;
       
       public CallableOne(EndpointOne port, boolean oneway, int seqNum)
       {
@@ -145,9 +145,9 @@ public abstract class JBWS3060Tests extends JBossWSTest //*Tests does not match 
    
    private static class CallableTwo implements Callable<Boolean>
    {
-      private EndpointTwo port;
-      private boolean oneway;
-      private int seqNum;
+      private final EndpointTwo port;
+      private final boolean oneway;
+      private final int seqNum;
       
       public CallableTwo(EndpointTwo port, boolean oneway, int seqNum)
       {

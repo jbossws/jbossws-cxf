@@ -55,8 +55,12 @@ abstract class AbstractTestCase extends JBossWSTest
       URL wsdlURL = new URL(getEndpointAddress() + "?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
-      for (int i = 0; i < THREADS_COUNT; i++)
+      for (int i = 0; i < THREADS_COUNT; i++) {
          proxies[i] = service.getPort(Endpoint.class);
+         //Make the request context threadsafe as we'll be setting the ENDPOINT_ADDRESS_PROPERTY in it;
+         //see http://cxf.apache.org/faq.html#FAQ-AreJAX-WSclientproxiesthreadsafe? for more details
+         ((BindingProvider)proxies[i]).getRequestContext().put("thread.local.request.context", "true");
+      }
    }
 
    public void testEndpointConcurrently() throws Exception
@@ -92,7 +96,7 @@ abstract class AbstractTestCase extends JBossWSTest
       private final String jobName;
       private final Endpoint proxy; 
       private final int countOfRequests;
-      private Exception exception;
+      private volatile Exception exception;
       private final String endpointAddress; 
       private static final Logger log = Logger.getLogger(TestJob.class);
 
