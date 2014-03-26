@@ -970,6 +970,8 @@
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples22xTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples23xTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustActAsTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustBearerTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustHolderOfKeyTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustOnBehalfOfTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustPicketLinkTestCase*</exclude>
