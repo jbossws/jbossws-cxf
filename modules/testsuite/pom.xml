@@ -704,9 +704,6 @@
                  
                  <!-- [JBWS-3773][CXF-5602] HttpServletRequestSnapshot is not created for requests with WSA ReplyTo prop set -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3773/**</exclude>
-
-                <!--[JBWS-3738] still under development -->
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustHolderOfKeyTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -795,9 +792,6 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
-
-                <!--[JBWS-3738] still under development -->
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustHolderOfKeyTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -887,9 +881,6 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
-
-                <!--[JBWS-3738] still under development -->
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustHolderOfKeyTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
