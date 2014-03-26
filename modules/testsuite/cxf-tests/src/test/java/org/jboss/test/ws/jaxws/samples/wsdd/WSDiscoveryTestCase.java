@@ -151,7 +151,7 @@ public final class WSDiscoveryTestCase extends JBossWSTest
    
    private void checkResolveMatches(List<ResolveMatchType> rmts, String address, QName type) {
       List<ResolveMatchType> rmtList = getByAddress(rmts, address);
-      assertEquals(1, rmtList.size());
+      assertTrue("Number of matches can not be 0.", (rmtList.size() > 0));
       assertEquals(type, rmtList.get(0).getTypes().iterator().next());
    }
    
