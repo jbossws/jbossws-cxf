@@ -151,10 +151,31 @@ public final class WSDiscoveryTestCase extends JBossWSTest
    
    private void checkResolveMatches(List<ResolveMatchType> rmts, String address, QName type) {
       List<ResolveMatchType> rmtList = getByAddress(rmts, address);
-      assertTrue("Number of matches can not be 0.", (rmtList.size() > 0));
+
+      //assertTrue("Number of matches can not be 0.", (rmtList.size() > 0));
+      assertEquals(dbgDumpList(rmtList), 1, rmtList.size());
       assertEquals(type, rmtList.get(0).getTypes().iterator().next());
    }
-   
+
+   // tmp method for debugging jenkins runs.
+   // report uuid of the endpoint
+   private String dbgDumpList(List<ResolveMatchType> rmtList){
+      StringBuilder dbgStr = new StringBuilder().append("\n");
+
+      if(rmtList.size() > 1){
+         for(ResolveMatchType rmt: rmtList){
+            String tmpStr = rmt.getEndpointReference().toString();
+            int start = tmpStr.indexOf("<Address>");
+            int end = tmpStr.indexOf("</Address>");
+            if (start > -1 && end > -1){
+               String uuidStr = tmpStr.substring(start+9, end);
+               dbgStr.append(rmt.getXAddrs().get(0) +"  " + uuidStr + "\n");
+            }
+         }
+      }
+      return dbgStr.toString();
+   }
+
    private List<ResolveMatchType> getByAddress(List<ResolveMatchType> rmts, String address)
    {
       List<ResolveMatchType> list = new LinkedList<ResolveMatchType>();
