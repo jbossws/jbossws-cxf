@@ -27,7 +27,6 @@ import java.util.Map;
 
 import javax.xml.ws.spi.Provider;
 
-import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.Configurer;
 import org.jboss.ws.api.binding.BindingCustomization;
@@ -56,7 +55,7 @@ import org.jboss.wsf.stack.cxf.resolver.JBossWSResourceResolver;
  */
 public final class BusDeploymentAspect extends AbstractDeploymentAspect
 {
-   
+
    @Override
    public void start(final Deployment dep)
    {
@@ -68,7 +67,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
       }
       startDeploymentBus(dep);
    }
-   
+
    @Override
    public void stop(final Deployment dep)
    {
@@ -118,7 +117,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
             DDBeans metadata = dep.getAttachment(DDBeans.class);
             holder = new NonSpringBusHolder(metadata);
          }
-         
+
          String epConfigName = null;
          String epConfigFile = null;
          JSEArchiveMetaData jsemd = dep.getAttachment(JSEArchiveMetaData.class);
@@ -131,7 +130,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
             epConfigName = wsmd.getConfigName();
             epConfigFile = wsmd.getConfigFile();
          }
-         
+
          Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
                new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile(), epConfigName, epConfigFile);
          holder.configure(resolver, configurer, wsmd, dep);
@@ -162,5 +161,5 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          throw new RuntimeException(e);
       }
    }
-   
+
 }

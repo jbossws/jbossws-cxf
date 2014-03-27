@@ -29,8 +29,6 @@ import org.apache.cxf.frontend.ServerFactoryBean;
 import org.jboss.ws.api.annotation.EndpointConfig;
 import org.jboss.ws.api.util.ServiceLoader;
 import org.jboss.ws.common.management.AbstractServerConfig;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
@@ -47,7 +45,7 @@ import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.security.authentication.AutenticationMgrSubjectCreatingInterceptor;
 
 /**
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 16-Jun-2010
  */
@@ -56,13 +54,13 @@ public class ServerBeanCustomizer extends BeanCustomizer
    private WSDLFilePublisher wsdlPublisher;
 
    private List<Endpoint> depEndpoints;
-   
+
    private UnifiedVirtualFile deploymentRoot;
-   
+
    private String epConfigName;
-   
+
    private String epConfigFile;
-   
+
    @Override
    public void customize(Object beanInstance)
    {
@@ -107,11 +105,11 @@ public class ServerBeanCustomizer extends BeanCustomizer
 
          // setup our invoker for http endpoints if invoker is not configured in jbossws-cxf.xml DD
          boolean isHttpEndpoint = endpoint.getAddress() != null && endpoint.getAddress().substring(0, 5).toLowerCase().startsWith("http");
-         if ((endpoint.getInvoker() == null) && isHttpEndpoint) 
+         if ((endpoint.getInvoker() == null) && isHttpEndpoint)
          {
             endpoint.setInvoker(new JBossWSInvoker());
          }
-         
+
          // ** Endpoint configuration setup **
          // 1) default values
          String configName = org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG;
@@ -157,7 +155,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
             {
                UnifiedVirtualFile vf = deploymentRoot.findChild(configFile);
                ConfigRoot config = ConfigMetaDataParser.parse(vf.toURL());
-               endpoint.setEndpointConfig(config.getEndpointConfigByName(configName));  
+               endpoint.setEndpointConfig(config.getEndpointConfigByName(configName));
             }
             catch (IOException e)
             {
@@ -180,14 +178,14 @@ public class ServerBeanCustomizer extends BeanCustomizer
          }
       }
    }
-   
+
    private static ServerConfig getServerConfig() {
       if(System.getSecurityManager() == null) {
          return AbstractServerConfig.getServerIntegrationServerConfig();
       }
       return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
    }
-   
+
    public void setDeploymentRoot(UnifiedVirtualFile deploymentRoot)
    {
       this.deploymentRoot = deploymentRoot;
@@ -202,7 +200,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
    {
       this.depEndpoints = endpoints;
    }
-   
+
    public void setEpConfigName(String epConfigName)
    {
       this.epConfigName = epConfigName;
@@ -212,7 +210,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
    {
       this.epConfigFile = epConfigFile;
    }
-   
-   
+
+
 
 }

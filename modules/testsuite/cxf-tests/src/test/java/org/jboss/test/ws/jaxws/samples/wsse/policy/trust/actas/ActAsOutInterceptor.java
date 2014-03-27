@@ -64,7 +64,7 @@ public class ActAsOutInterceptor extends AbstractPhaseInterceptor<Message> {
             dumpMsgInfo(key, mInfo);
 
          } else if (o instanceof ArrayList) {
-            for (Object obj: (ArrayList)o){
+            for (Object obj: (ArrayList<?>)o){
                System.out.println("##ACTAS arrayItem: " + obj.getClass().getCanonicalName());
             }
          }

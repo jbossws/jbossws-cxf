@@ -21,35 +21,20 @@
  */
 package org.jboss.test.ws.jaxws.handlerauth;
 
-import javax.jws.Oneway;
-import javax.jws.WebService;
-import javax.ejb.Stateless;
+import javax.annotation.Resource;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-
-import javax.jws.WebMethod;
-
-import java.util.Enumeration;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
-import javax.xml.ws.handler.soap.SOAPMessageContext;
-import javax.xml.ws.handler.soap.SOAPHandler;
+import javax.ejb.Stateless;
 import javax.jws.HandlerChain;
-import javax.xml.soap.SOAPMessage;
-import javax.annotation.PostConstruct;
+import javax.jws.Oneway;
+import javax.jws.WebService;
+import javax.xml.ws.WebServiceContext;
 
-import java.io.PrintStream;
-import java.util.Map;
-import java.util.Set;
-
-import org.jboss.ws.api.annotation.WebContext;
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;
+import org.jboss.ws.api.annotation.WebContext;
 
 @WebService(name = "SecureEndpoint2", targetNamespace = "http://ws/")
 @HandlerChain(file = "handlers2.xml")
@@ -61,7 +46,7 @@ import org.jboss.logging.Logger;
 public class SecureEndpointImpl2 implements SecureEndpoint
 {
    private Logger log = Logger.getLogger(this.getClass());
-   
+
    @Resource
    WebServiceContext context;
 
@@ -88,23 +73,23 @@ public class SecureEndpointImpl2 implements SecureEndpoint
          return "Mr. " + name + ", you authenticated as \'" + principalName + "\'";
       }
    }
-   
+
    public int getHandlerCounter() {
       return LogicalSimpleHandler.counter.get();
    }
-   
-   
+
+
    @Oneway
    @RolesAllowed("friend")
    public void ping() {
       //NOOP
    }
-   
+
    @DenyAll
    public void deniedMethod() {
       //NOOP
    }
-   
+
    @PermitAll
    public String echo(String s) {
       return s;

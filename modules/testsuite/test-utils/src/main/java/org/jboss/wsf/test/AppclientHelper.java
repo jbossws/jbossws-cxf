@@ -58,7 +58,7 @@ final class AppclientHelper
    private static Map<String, AppclientProcess> appclients = Collections.synchronizedMap(new HashMap<String, AppclientProcess>(2));
    private static ExecutorService executors = Executors.newCachedThreadPool(AppclientDaemonFactory.INSTANCE);
    private static String appclientOutputDir;
-   
+
    private static class AppclientProcess {
       public Process process;
       public CopyJob outTask;
@@ -66,7 +66,7 @@ final class AppclientHelper
       public OutputStream output;
       public OutputStream log;
    }
-   
+
    private AppclientHelper()
    {
       // forbidden instantiation
@@ -75,7 +75,7 @@ final class AppclientHelper
    /**
     * Triggers appclient deployment and returns the corresponding Process
     * Please note the provided output stream (if any) is not automatically closed.
-    * 
+    *
     * @param archive
     * @param appclientOS
     * @param appclientArgs
@@ -149,15 +149,16 @@ final class AppclientHelper
                args.add(appclientArg);
             }
          }
-         
+
          //note on output streams closing: we're not caring about closing any here as it's quite a complex thing due to the TeeOutputStream nesting;
          //we're however still safe, given the ap.output is a ByteArrayOutputStream (whose .close() does nothing), ap.log is explicitly closed at
          //undeploy and closing appclientOS is a caller responsibility.
-         
+
          ap.log = new FileOutputStream(new File(getAppclientOutputDir(), appclientShortName + ".log-" + System.currentTimeMillis()));
+         @SuppressWarnings("resource")
          final OutputStream logOutputStreams = (appclientOS == null) ? ap.log : new TeeOutputStream(ap.log, appclientOS);
          printLogTrailer(logOutputStreams, appclientFullName);
-         
+
          final ProcessBuilder pb = new ProcessBuilder().command(args);
          // always propagate IPv6 related properties
          final StringBuilder javaOptsValue = new StringBuilder();
@@ -179,7 +180,7 @@ final class AppclientHelper
          throw e;
       }
    }
-   
+
    private static void printLogTrailer(OutputStream logOutputStreams, String appclientFullName) {
       final PrintWriter pw = new PrintWriter(logOutputStreams);
       pw.write("Starting appclient process: " + appclientFullName + "...\n");
@@ -188,7 +189,7 @@ final class AppclientHelper
 
    private static String undoIPv6Brackets(final String s)
    {
-      return s.startsWith("[") ? s.substring(1, s.length() - 1) : s; 
+      return s.startsWith("[") ? s.substring(1, s.length() - 1) : s;
    }
 
    private static void shutdownAppclient(final String archive, final OutputStream os) throws IOException, InterruptedException
@@ -214,7 +215,7 @@ final class AppclientHelper
       int countOfAttempts = 0;
       final int maxCountOfAttempts = TIMEOUT * 2; // max wait time: default 2 minutes
       while (!os.toString().contains(patternToMatch))
-      {      
+      {
          Thread.sleep(500);
          if (countOfAttempts++ == maxCountOfAttempts)
          {
@@ -223,7 +224,7 @@ final class AppclientHelper
       }
       return true;
    }
-   
+
    private static String getKillFileName(final String archive)
    {
       final int sharpIndex = archive.indexOf('#');
@@ -250,7 +251,7 @@ final class AppclientHelper
       }
       return appclientOutputDir;
    }
-   
+
    private static String getAppclientFullName(final String archive)
    {
       final int sharpIndex = archive.indexOf('#');
@@ -269,7 +270,7 @@ final class AppclientHelper
       final int sharpIndex = archive.indexOf('#');
       return archive.substring(0, sharpIndex);
    }
-   
+
    // [JBPAPP-10027] appclient threads are always daemons (to don't block JVM shutdown)
    private static class AppclientDaemonFactory implements ThreadFactory {
        static final AppclientDaemonFactory INSTANCE = new AppclientDaemonFactory();
@@ -289,5 +290,5 @@ final class AppclientHelper
            return t;
        }
    }
-   
+
 }

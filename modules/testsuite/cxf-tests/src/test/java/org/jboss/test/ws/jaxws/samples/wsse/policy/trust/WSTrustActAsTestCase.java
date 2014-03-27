@@ -41,7 +41,6 @@ import java.net.URL;
 public class WSTrustActAsTestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trust-actas/ActAsService";
-   private final String stsURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trust-sts/SecurityTokenService";
 
    public static Test suite()
    {

@@ -37,8 +37,8 @@ import javax.xml.soap.SOAPMessage;
 import org.jboss.security.SimplePrincipal;
 
 /**
- * SOAPClientAuthModule 
- * TODO: Investigate what we can do with this module 
+ * SOAPClientAuthModule
+ * TODO: Investigate what we can do with this module
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 public class SOAPClientAuthModule implements ClientAuthModule
@@ -62,7 +62,7 @@ public class SOAPClientAuthModule implements ClientAuthModule
    private CallbackHandler handler = null;
 
    @SuppressWarnings(
-   {"rawtypes"})
+   {"rawtypes", "unused"})
    private Map options = null;
 
    public SOAPClientAuthModule()
@@ -87,12 +87,10 @@ public class SOAPClientAuthModule implements ClientAuthModule
       this.options = options;
    }
 
-   @SuppressWarnings(
-   {"unchecked"})
    public AuthStatus secureRequest(MessageInfo messageInfo, Subject source) throws AuthException
    {
       log = "secureRequest";
-      SOAPMessage soapMessage = (SOAPMessage) messageInfo.getRequestMessage();
+      messageInfo.getRequestMessage();
       return AuthStatus.SUCCESS;
    }
 
