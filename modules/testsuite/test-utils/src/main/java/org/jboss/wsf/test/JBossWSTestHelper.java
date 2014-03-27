@@ -71,10 +71,10 @@ public class JBossWSTestHelper
    private static final String testResourcesDir = System.getProperty(SYSPROP_TEST_RESOURCES_DIRECTORY);
    private static final String integrationTarget;
    private static final String implInfo;
-   
+
    private static volatile Deployer deployer;
    private static volatile MBeanServerConnection server;
-   
+
    static {
       integrationTarget = System.getProperty(SYSPROP_JBOSSWS_INTEGRATION_TARGET);
       if (integrationTarget == null)
@@ -204,19 +204,15 @@ public class JBossWSTestHelper
     */
    public static String getServerHost()
    {
-      final String host = System.getProperty(SYSPROP_JBOSS_BIND_ADDRESS, "localhost"); 
+      final String host = System.getProperty(SYSPROP_JBOSS_BIND_ADDRESS, "localhost");
       return toIPv6URLFormat(host);
    }
-   
+
    private static String toIPv6URLFormat(final String host)
    {
       try
       {
-         if (host.startsWith(":"))
-         {
-            throw new IllegalArgumentException("JBossWS test suite requires IPv6 addresses to be wrapped with [] brackets. Expected format is: [" + host + "]");
-         }
-         if (host.startsWith("["))
+         if (host.startsWith("[") || host.startsWith(":"))
          {
             if (System.getProperty("java.net.preferIPv4Stack") == null)
             {
@@ -263,7 +259,7 @@ public class JBossWSTestHelper
       }
       return server;
    }
-   
+
    private static MBeanServerConnection getServerConnection(String jmxServiceUrl)
    {
       final String urlString = System.getProperty("jmx.service.url", jmxServiceUrl);
@@ -310,7 +306,7 @@ public class JBossWSTestHelper
          throw new IllegalStateException("Cannot obtain MBeanServerConnection to: " + urlString, e);
       }
    }
-   
+
    public static String getIntegrationTarget()
    {
       return integrationTarget;
@@ -367,13 +363,13 @@ public class JBossWSTestHelper
    {
       return testResourcesDir;
    }
-   
+
    public static String getTestUsername() {
       String prop = System.getProperty(TEST_USERNAME);
       if (prop == null || "".equals(prop) || ("${" + TEST_USERNAME + "}").equals(prop)) {
          prop = "kermit";
       }
-      return prop; 
+      return prop;
    }
 
    public static String getTestPassword() {
@@ -381,31 +377,31 @@ public class JBossWSTestHelper
       if (prop == null || "".equals(prop) || ("${" + TEST_PASSWORD + "}").equals(prop)) {
          prop = "thefrog";
       }
-      return prop; 
+      return prop;
    }
 
    public static void addSecurityDomain(String name, Map<String,String> authenticationOptions) throws Exception
    {
       getDeployer().addSecurityDomain(name, authenticationOptions);
    }
-   
+
    public static void addJaspiSecurityDomain(String name, String loginModuleStackName, Map<String, String> loginModuleOptions, String authModuleName,
          Map<String, String> authModuleOptions) throws Exception
    {
       getDeployer().addJaspiSecurityDomain(name, loginModuleStackName, loginModuleOptions, authModuleName, authModuleOptions);
    }
-   
-   
+
+
    public static void removeSecurityDomain(String name) throws Exception
    {
       getDeployer().removeSecurityDomain(name);
    }
-   
+
    public static void addHttpsConnector(Map<String, String> options) throws Exception
    {
       getDeployer().addHttpsConnector(options);
    }
-   
+
    public static void removeHttpsConnector() throws Exception
    {
       getDeployer().removeHttpsConnector();

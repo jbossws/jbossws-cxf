@@ -41,11 +41,7 @@ public class WSTrustAppUtils {
    {
       try
       {
-         if (host.startsWith(":"))
-         {
-            throw new IllegalArgumentException("JBossWS test suite requires IPv6 addresses to be wrapped with [] brackets. Expected format is: [" + host + "]");
-         }
-         if (host.startsWith("["))
+         if (host.startsWith("[") || host.startsWith(":"))
          {
             if (System.getProperty("java.net.preferIPv4Stack") == null)
             {
