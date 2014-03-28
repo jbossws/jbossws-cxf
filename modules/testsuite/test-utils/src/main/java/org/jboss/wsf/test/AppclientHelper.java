@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -135,7 +136,9 @@ final class AppclientHelper
          ap.output = new ByteArrayOutputStream();
          final List<String> args = new LinkedList<String>();
          args.add(appclientScript);
-         args.add("--appclient-config=appclient-ws.xml");
+         String appclientConfigName = System.getProperty("APPCLIENT_CONFIG_NAME", "appclient-ws.xml");
+         String configArg = "--appclient-config=" + appclientConfigName;
+         args.add(configArg);
          args.add(appclientFullName);
          if (appclientOS == null)
          {
@@ -165,7 +168,12 @@ final class AppclientHelper
          javaOptsValue.append("-Djboss.bind.address=").append(undoIPv6Brackets(System.getProperty("jboss.bind.address", "localhost"))).append(" ");
          javaOptsValue.append("-Djava.net.preferIPv4Stack=").append(System.getProperty("java.net.preferIPv4Stack", "true")).append(" ");
          javaOptsValue.append("-Djava.net.preferIPv6Addresses=").append(System.getProperty("java.net.preferIPv6Addresses", "false")).append(" ");
+         String appclientDebugOpts = System.getProperty("APPCLIENT_DEBUG_OPTS", null);
+         if (appclientDebugOpts != null && appclientDebugOpts.trim().length() > 0)
+            javaOptsValue.append(appclientDebugOpts).append(" ");
          pb.environment().put("JAVA_OPTS", javaOptsValue.toString());
+         System.out.println("JAVA_OPTS=\"" + javaOptsValue.toString() + "\"");
+         System.out.println("Starting " + appclientScript + " " + configArg + " " + appclientFullName + (appclientArgs == null ? "" :  " with args " + Arrays.asList(appclientArgs)));
          ap.process = pb.start();
          // appclient out
          ap.outTask = new CopyJob(ap.process.getInputStream(), new TeeOutputStream(ap.output, logOutputStreams));
