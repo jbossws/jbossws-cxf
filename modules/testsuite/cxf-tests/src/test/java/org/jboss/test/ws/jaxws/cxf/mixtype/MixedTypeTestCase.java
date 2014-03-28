@@ -35,6 +35,7 @@ public class MixedTypeTestCase extends JBossWSTest
 {
    private final String endpointURL = "http://" + getServerHost() + ":8080/mixtype/ServiceOne/EndpointOne";
    private final String endpoint2URL = "http://" + getServerHost() + ":8080/mixtype/ServiceOne/EndpointTwo";
+   private final String anotherEndpoint2URL = "http://" + getServerHost() + ":8080/mixtype/ServiceOne/AnotherEndpointTwo";
    private final String ejbEndpointURL = "http://" + getServerHost() + ":8080/mixtype/EJBServiceOne/EndpointOneEJB3Impl";
 
    private String targetNS = "http://org.jboss.ws.jaxws.cxf/mixtype";
@@ -70,6 +71,18 @@ public class MixedTypeTestCase extends JBossWSTest
    {
       //verify everything works with an endpoint extending another one impl
       URL wsdlOneURL = new URL(endpoint2URL + "?wsdl");
+      QName serviceOneName = new QName(targetNS, "ServiceOne");
+      Service service = Service.create(wsdlOneURL, serviceOneName);
+      EndpointOne endpoint = (EndpointOne)service.getPort(new QName(targetNS, "EndpointTwoPort"), EndpointOne.class);
+      int initialCount = endpoint.getCount();
+      assertEquals("mixedType", endpoint.echo("mixedType"));
+      assertEquals(1, endpoint.getCount() - initialCount);
+   }
+   
+   public void testEndpoint2WithAnotherURLPattern() throws Exception
+   {
+      //verify everything works with an endpoint extending another one impl
+      URL wsdlOneURL = new URL(anotherEndpoint2URL + "?wsdl");
       QName serviceOneName = new QName(targetNS, "ServiceOne");
       Service service = Service.create(wsdlOneURL, serviceOneName);
       EndpointOne endpoint = (EndpointOne)service.getPort(new QName(targetNS, "EndpointTwoPort"), EndpointOne.class);

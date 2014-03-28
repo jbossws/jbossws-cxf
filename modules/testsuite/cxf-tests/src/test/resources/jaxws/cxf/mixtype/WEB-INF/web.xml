@@ -10,6 +10,10 @@
   <servlet>
     <servlet-name>Ep2Servlet</servlet-name>
     <servlet-class>org.jboss.test.ws.jaxws.cxf.mixtype.EndpointTwoImpl</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Ep2Servlet2</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.cxf.mixtype.EndpointTwoImpl</servlet-class>
   </servlet> 
   <servlet-mapping>
     <servlet-name>Ep1Servlet</servlet-name>
@@ -18,5 +22,9 @@
   <servlet-mapping>
     <servlet-name>Ep2Servlet</servlet-name>
     <url-pattern>/ServiceOne/EndpointTwo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Ep2Servlet2</servlet-name>
+    <url-pattern>/ServiceOne/AnotherEndpointTwo</url-pattern>
   </servlet-mapping>
 </web-app>
