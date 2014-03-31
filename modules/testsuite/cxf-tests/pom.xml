@@ -38,13 +38,11 @@
     <dependency>
       <groupId>org.picketlink</groupId>
       <artifactId>picketlink-common</artifactId>
-      <version>2.5.1.Final</version> <!-- rls -->
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.picketlink</groupId>
       <artifactId>picketlink-federation</artifactId>
-      <version>2.5.2.Final</version>
       <scope>test</scope>
     </dependency>
     <dependency>
