@@ -94,24 +94,6 @@
                   </target>
                 </configuration>
               </execution>
-              <execution>
-                <id>appclient-patch</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <configuration>
-                  <target>
-                    <copy
-                      file="${project.build.directory}/../../src/test/resources/${jbossws.integration.target}/appclient-ws.xml"
-                      tofile="${jboss.home}/appclient/configuration/appclient-ws.xml"
-                      failonerror="false"
-                      verbose="true"
-                      overwrite="true"
-                    />
-                  </target>
-                </configuration>
-              </execution>
             </executions>
           </plugin>
           <plugin> <!-- This copies jbossws-cxf-factories jar to endorsed dir before the integration-tests are run -->

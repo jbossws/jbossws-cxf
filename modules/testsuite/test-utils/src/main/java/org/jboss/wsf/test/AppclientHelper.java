@@ -136,7 +136,7 @@ final class AppclientHelper
          ap.output = new ByteArrayOutputStream();
          final List<String> args = new LinkedList<String>();
          args.add(appclientScript);
-         String appclientConfigName = System.getProperty("APPCLIENT_CONFIG_NAME", "appclient-ws.xml");
+         String appclientConfigName = System.getProperty("APPCLIENT_CONFIG_NAME", "appclient.xml");
          String configArg = "--appclient-config=" + appclientConfigName;
          args.add(configArg);
          args.add(appclientFullName);

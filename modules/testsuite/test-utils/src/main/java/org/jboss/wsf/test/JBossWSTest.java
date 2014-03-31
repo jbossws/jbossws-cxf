@@ -284,16 +284,6 @@ public abstract class JBossWSTest extends TestCase
        return env;
    }
 
-   /** Gets the appclient remote env context.
-    * Every test calling this method have to ensure InitialContext.close()
-    * method is called at end of test to clean up all associated caches.
-    */
-   public static InitialContext getAppclientInitialContext() throws NamingException, IOException
-   {
-       final Hashtable<String, String> env = getEnvironment("appclient.jndi.properties");
-       return new InitialContext(env);
-   }
-
    /** Get the server remote env context
     * Every test calling this method have to ensure InitialContext.close()
     * method is called at end of test to clean up all associated caches.

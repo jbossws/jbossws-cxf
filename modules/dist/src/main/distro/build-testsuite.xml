@@ -44,15 +44,6 @@
     <!-- Verify required properties that must be set before this file is imported -->
     <fail message="Tests output dir not set." unless="tests.output.dir"/>
 
-    <!-- appclient patch -->
-    <copy
-      file="${basedir}/tests/etc/appclient/${jbossws.integration.target}/appclient-ws.xml"
-      tofile="${jboss.home}/appclient/configuration/appclient-ws.xml"
-      failonerror="false"
-      overwrite="true"
-      verbose="true"
-    />
-
     <!-- Verify availabililty of tools.jar -->
     <condition property="tools.jar" value="${java.home}/lib/tools.jar">
       <available file="${java.home}/lib/tools.jar"/>
