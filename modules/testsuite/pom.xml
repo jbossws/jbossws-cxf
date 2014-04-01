@@ -881,6 +881,9 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
+
+                <!--[WFLY-3187] Uncomment this after it is merged-->
+                <exclude>org/jboss/test/ws/jaxws/cxf/mixtype/MixedTypeTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
