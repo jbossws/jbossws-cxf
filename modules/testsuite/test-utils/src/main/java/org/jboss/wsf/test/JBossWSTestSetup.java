@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.concurrent.atomic.AtomicLong;
 
 import javax.management.MBeanServerConnection;
 import javax.naming.NamingException;
@@ -70,7 +69,7 @@ public class JBossWSTestSetup extends TestSetup
    private Map<String, String> httpsConnOptions;
    private CleanupOperation cleanupOp;
    
-   private static volatile AtomicLong lastHttpsConnectorRemoval = new AtomicLong(0);
+   private static volatile long lastHttpsConnectorRemoval = 0;
 
    public JBossWSTestSetup(Class<?> testClass, String archiveList)
    {
@@ -255,7 +254,7 @@ public class JBossWSTestSetup extends TestSetup
          Thread.currentThread().setContextClassLoader(cl);
       }
       if (httpsConnOptions != null) {
-         final long lr = lastHttpsConnectorRemoval.get();
+         final long lr = lastHttpsConnectorRemoval;
          if (lr != 0) {
             final long wait = HTTPS_CONNECTION_REUSE_TIMEOUT - (System.currentTimeMillis() - lr);
             if (wait > 0) {
@@ -327,7 +326,7 @@ public class JBossWSTestSetup extends TestSetup
          if (httpsConnOptions != null)
          {
             JBossWSTestHelper.removeHttpsConnector();
-            lastHttpsConnectorRemoval.set(System.currentTimeMillis());
+            lastHttpsConnectorRemoval = System.currentTimeMillis();
          }
       }
    }
