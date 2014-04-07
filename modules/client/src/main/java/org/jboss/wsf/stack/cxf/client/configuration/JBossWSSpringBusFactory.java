@@ -29,7 +29,9 @@ import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.resource.ResourceManager;
 import org.jboss.wsf.stack.cxf.Loggers;
+import org.jboss.wsf.stack.cxf.client.injection.JBossWSResourceInjectionResolver;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -146,6 +148,12 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
       JBossWSSpringConfigurer configurer = new JBossWSSpringConfigurer(bus.getExtension(Configurer.class));
       configurer.setCustomizer(new BeanCustomizer());
       bus.setExtension(configurer, Configurer.class);
+   }
+   
+   protected void initializeBus(Bus bus) {
+      super.initializeBus(bus);
+      final ResourceManager resourceManager = bus.getExtension(ResourceManager.class);
+      resourceManager.addResourceResolver(JBossWSResourceInjectionResolver.getInstance());
    }
 
    void registerAppContextLifeCycleListener(final Bus bus, final BusApplicationContext bac)

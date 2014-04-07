@@ -28,7 +28,9 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.bus.CXFBusFactory;
 import org.apache.cxf.bus.extension.ExtensionManagerBus;
 import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.resource.ResourceManager;
 import org.jboss.wsf.stack.cxf.client.ProviderImpl;
+import org.jboss.wsf.stack.cxf.client.injection.JBossWSResourceInjectionResolver;
 
 /**
  * 
@@ -58,5 +60,11 @@ public class JBossWSNonSpringBusFactory extends CXFBusFactory
       initializeBus(bus);
       bus.initialize();
       return bus;
+   }
+   
+   protected void initializeBus(Bus bus) {
+      super.initializeBus(bus);
+      final ResourceManager resourceManager = bus.getExtension(ResourceManager.class);
+      resourceManager.addResourceResolver(JBossWSResourceInjectionResolver.getInstance());
    }
 }
