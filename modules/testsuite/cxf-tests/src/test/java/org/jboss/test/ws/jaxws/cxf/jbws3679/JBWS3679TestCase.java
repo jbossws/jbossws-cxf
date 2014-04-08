@@ -33,10 +33,15 @@ public class JBWS3679TestCase extends JBossWSTest
       return new JBossWSTestSetup(JBWS3679TestCase.class, "jaxws-cxf-jbws3679.war");
    }
 
-   public void testSchemaImport() throws Exception
+   public void testServletClient() throws Exception
    {
       URL url = new URL(endpointAddress);
       assertEquals("Echoded with:input", IOUtils.readAndCloseStream(url.openStream()));
    }
 
+   public void testCDIClient() throws Exception
+   {
+      URL url = new URL(endpointAddress + "?client=CDI");
+      assertEquals("Echoded with:cdiInput", IOUtils.readAndCloseStream(url.openStream()));
+   }
 }

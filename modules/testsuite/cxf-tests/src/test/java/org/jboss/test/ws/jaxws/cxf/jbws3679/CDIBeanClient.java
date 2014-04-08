@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc., and individual contributors
+ * Copyright 2014, Red Hat, Inc., and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -18,30 +18,24 @@ package org.jboss.test.ws.jaxws.cxf.jbws3679;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.annotation.PostConstruct;
+import javax.inject.Named;
 import javax.xml.ws.WebServiceRef;
 
-public class ServletClient extends HttpServlet
+@Named
+public class CDIBeanClient
 {
-   private static final long serialVersionUID = 1L;
    @WebServiceRef(value = EndpointOneService.class)
-   private EndpointOne endpointOne;
-   
-   @Inject
-   private CDIBeanClient cdiClient;
+   public EndpointOne endpointOne;
 
-   @Override
-   protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
-   {
-      String clientParam = req.getParameter("client");
-      if ("CDI".equals(clientParam)) {
-         res.getWriter().write(cdiClient.performCall());
-      } else {
-         res.getWriter().write(endpointOne.echo("input"));
+   @PostConstruct
+   public void start() {
+      if (endpointOne == null) {
+         throw new RuntimeException("WebServiceRef not injected in CDI bean!");
       }
+   }
+   
+   public String performCall() {
+      return endpointOne.echo("cdiInput");
    }
 }
