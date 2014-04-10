@@ -709,6 +709,9 @@
                  
                  <!-- [JBWS-3773][CXF-5602] HttpServletRequestSnapshot is not created for requests with WSA ReplyTo prop set -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3773/**</exclude>
+
+                 <!-- [WELD-1328] @WebServiceRef injection not working w/ Weld 1.x -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/**</exclude>
               </excludes>
             </configuration>
           </plugin>
