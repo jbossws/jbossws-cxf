@@ -32,28 +32,28 @@
 
 	<target name="build-jars-jaxws" description="Build the deployments.">
 
-	    <!-- endpoint-publish.war -->  	
-	    <war warfile="${tests.output.dir}/test-libs/endpoint-publish.war" needxmlfile='false'>
-	      <classes dir="${tests.output.dir}/test-classes">
-	        <include name="org/jboss/test/ws/publish/**/*.class"/>
-	      	<include name="org/jboss/test/ws/publish/EndpointImpl5.xml"/>
-	      	<include name="org/jboss/test/ws/publish/TestService.xml"/>
-	        <exclude name="org/jboss/test/ws/publish/*TestCase.class"/>
-	      </classes>
-	      <classes dir="${tests.output.dir}/test-classes/org/jboss/test/ws/publish">
-	        <include name="WEB-INF/wsdl/**" />
-	      </classes>
-	      <webinf dir="${tests.output.dir}/test-resources/publish/WEB-INF">
-	      	<include name="wsdl/**"/>
-	      </webinf>
-	      <zipfileset dir="${tests.output.dir}/test-resources/publish/META-INF" prefix="META-INF">
-	        <include name="permissions.xml"/>
-	      </zipfileset>
-	      <manifest>
-	        <attribute name="Dependencies" value="org.jboss.ws.common" />
-	      </manifest>
-	    </war>
-	  	
+		<!-- endpoint-publish.war -->
+		<war warfile="${tests.output.dir}/test-libs/endpoint-publish.war" needxmlfile='false'>
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/publish/**/*.class" />
+				<include name="org/jboss/test/ws/publish/EndpointImpl5.xml" />
+				<include name="org/jboss/test/ws/publish/TestService.xml" />
+				<exclude name="org/jboss/test/ws/publish/*TestCase.class" />
+			</classes>
+			<classes dir="${tests.output.dir}/test-classes/org/jboss/test/ws/publish">
+				<include name="WEB-INF/wsdl/**" />
+			</classes>
+			<webinf dir="${tests.output.dir}/test-resources/publish/WEB-INF">
+				<include name="wsdl/**" />
+			</webinf>
+			<zipfileset dir="${tests.output.dir}/test-resources/publish/META-INF" prefix="META-INF">
+				<include name="permissions.xml" />
+			</zipfileset>
+			<manifest>
+				<attribute name="Dependencies" value="org.jboss.ws.common" />
+			</manifest>
+		</war>
+
 		<!-- jaxws-anonymous -->
 		<war warfile="${tests.output.dir}/test-libs/jaxws-anonymous.war" webxml="${tests.output.dir}/test-resources/jaxws/anonymous/WEB-INF/web.xml">
 			<classes dir="${tests.output.dir}/test-classes">
@@ -116,6 +116,17 @@
 			</classes>
 		</war>
 
+		<!-- jaxws-calendar -->
+		<war warfile="${tests.output.dir}/test-libs/jaxws-calendar.war" needxmlfile="false">
+			<classes dir="${tests.output.dir}/test-classes">
+				<include name="org/jboss/test/ws/jaxws/calendar/CalendarEndpoint*.class" />
+				<include name="org/jboss/test/ws/jaxws/calendar/Echo*.class" />
+				<include name="org/jboss/test/ws/jaxws/calendar/Adapter*.class" />
+				<include name="org/jboss/test/ws/jaxws/calendar/package-info.class" />
+				<include name="org/jboss/test/ws/jaxws/calendar/ObjectFactory*.class" />
+			</classes>
+		</war>
+
 		<!-- jaxws-classloading-service -->
 		<jar destfile="${tests.output.dir}/test-libs/jaxws-classloading-service.jar">
 			<fileset dir="${tests.output.dir}/test-classes">
@@ -153,7 +164,7 @@
 				<include name="META-INF/jaxws-client-config.xml" />
 			</classes>
 			<zipfileset dir="${tests.output.dir}/test-resources/jaxws/clientConfig/META-INF" prefix="META-INF">
-				<include name="permissions.xml"/>
+				<include name="permissions.xml" />
 			</zipfileset>
 			<manifest>
 				<attribute name="Dependencies" value="org.jboss.ws.common" />
@@ -1218,7 +1229,7 @@
 			<webinf dir="${tests.output.dir}/test-resources/jaxws/jbws3223/WEB-INF">
 				<include name="wsdl/**" />
 			</webinf>
-            <manifest>
+			<manifest>
 				<attribute name="Dependencies" value="org.jboss.ws.common" />
 			</manifest>
 		</war>
