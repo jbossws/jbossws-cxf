@@ -33,7 +33,7 @@ want to provide their own jbossws-cxf.xml Spring configuration file.
    You should see no errors.
 
 If you have any questions, please post to the userforum:
-http://www.jboss.org/index.html?module=bb&op=viewforum&f=276
+https://community.jboss.org/en/jbossws
 
 Enjoy,
 The JBossWS Team
