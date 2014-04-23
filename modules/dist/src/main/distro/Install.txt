@@ -1,6 +1,6 @@
 
 ${project.name}
-http://www.jboss.org/jbossws/
+http://jbossws.jboss.org
 
 Version: jbossws-cxf-${project.version}
 

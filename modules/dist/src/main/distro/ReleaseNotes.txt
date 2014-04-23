@@ -1,13 +1,13 @@
 
 ${project.name}
-http://www.jboss.org/jbossws/
+http://jbossws.jboss.org
 
 Version: jbossws-cxf-${project.version}
 
 Release Notes
 =============
 
-The project home page (http://www.jboss.org/jbossws) and the official documentation
+The project home page (http://jbossws.jboss.org) and the official documentation
 (https://docs.jboss.org/author/display/JBWS) are usually good starting points.
 They contain the User Guide and Quick Start instructions.
 
@@ -15,7 +15,7 @@ A list of examples that accompany the UserGuide can be found in the tests direct
 that ship with the distribution.
 
 If you have any questions, please post to the JBossWS User Forum
-http://www.jboss.org/index.html?module=bb&op=viewforum&f=276
+https://community.jboss.org/en/jbossws
 
 For details see the change log.
 https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Achangelog-panel
