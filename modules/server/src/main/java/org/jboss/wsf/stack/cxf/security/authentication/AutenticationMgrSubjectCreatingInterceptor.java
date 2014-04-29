@@ -31,7 +31,7 @@ import org.apache.cxf.common.security.UsernameToken;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.security.SecurityContext;
-import org.apache.ws.security.WSUsernameTokenPrincipal;
+import org.apache.wss4j.common.principal.UsernameTokenPrincipal;
 import org.jboss.security.plugins.JBossAuthenticationManager;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
@@ -79,10 +79,10 @@ public class AutenticationMgrSubjectCreatingInterceptor extends SubjectCreatingP
       {
          //Try authenticating using WSS4J internal info (previously set into SecurityContext by WSS4JInInterceptor)
          Principal p = context.getUserPrincipal();
-         if (!(p instanceof WSUsernameTokenPrincipal)) {
+         if (!(p instanceof UsernameTokenPrincipal)) {
             throw Messages.MESSAGES.couldNotGetSubjectInfo();
          }
-         WSUsernameTokenPrincipal up = (WSUsernameTokenPrincipal) p;
+         UsernameTokenPrincipal up = (UsernameTokenPrincipal) p;
          subject = helper.createSubject(authenticationManger, up.getName(), up.getPassword(), up.isPasswordDigest(), up.getNonce(), up.getCreatedTime());
       }
 

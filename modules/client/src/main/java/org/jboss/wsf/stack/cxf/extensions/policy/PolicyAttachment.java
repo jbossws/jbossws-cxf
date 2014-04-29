@@ -84,7 +84,11 @@ public class PolicyAttachment
       }
       finally
       {
-         StaxUtils.close(reader);
+         try {
+            StaxUtils.close(reader);
+         } catch (Exception e) {
+            //ignore
+         }
          if (is != null) {
             try {
                is.close();

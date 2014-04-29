@@ -35,7 +35,6 @@ import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.AttributedURIType;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
-import org.apache.cxf.ws.addressing.impl.AddressingPropertiesImpl;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
@@ -52,7 +51,7 @@ public class JBWS3516TestCase extends JBossWSTest
    public void testOneWayFaultTo() throws Exception
    {
       Greeter greeter = initPort();
-      AddressingProperties addrProperties = new AddressingPropertiesImpl();
+      AddressingProperties addrProperties = new AddressingProperties();
       EndpointReferenceType faultTo = new EndpointReferenceType();
       AttributedURIType epr = new AttributedURIType();
       epr.setValue("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3516/target/faultTo");
@@ -81,7 +80,7 @@ public class JBWS3516TestCase extends JBossWSTest
    {
       Greeter greeter = initPort();
 
-      AddressingProperties addrProperties = new AddressingPropertiesImpl();
+      AddressingProperties addrProperties = new AddressingProperties();
 
       EndpointReferenceType faultTo = new EndpointReferenceType();
       AttributedURIType epr = new AttributedURIType();

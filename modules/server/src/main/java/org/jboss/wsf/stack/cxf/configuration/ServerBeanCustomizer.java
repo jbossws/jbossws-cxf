@@ -26,6 +26,8 @@ import java.security.AccessController;
 import java.util.List;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
+import org.apache.cxf.transport.http.DestinationRegistry;
+import org.apache.cxf.transport.http.HTTPTransportFactory;
 import org.jboss.ws.api.annotation.EndpointConfig;
 import org.jboss.ws.api.util.ServiceLoader;
 import org.jboss.ws.common.management.AbstractServerConfig;
@@ -43,6 +45,7 @@ import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.security.authentication.AutenticationMgrSubjectCreatingInterceptor;
+import org.jboss.wsf.stack.cxf.transport.JBossWSDestinationRegistryImpl;
 
 /**
  *
@@ -86,6 +89,13 @@ public class ServerBeanCustomizer extends BeanCustomizer
                   depEndpoint.addAttachment(ServerFactoryBean.class, factory);
                }
             }
+         }
+      }
+      if (beanInstance instanceof HTTPTransportFactory) {
+         HTTPTransportFactory factory = (HTTPTransportFactory) beanInstance;
+         DestinationRegistry oldRegistry = factory.getRegistry();
+         if (!(oldRegistry instanceof JBossWSDestinationRegistryImpl)) {
+            factory.setRegistry(new JBossWSDestinationRegistryImpl());
          }
       }
       super.customize(beanInstance);

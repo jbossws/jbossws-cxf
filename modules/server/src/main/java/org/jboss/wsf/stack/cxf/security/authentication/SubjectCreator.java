@@ -24,6 +24,7 @@ package org.jboss.wsf.stack.cxf.security.authentication;
 import static org.jboss.wsf.stack.cxf.Loggers.SECURITY_LOGGER;
 import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
+import java.io.ByteArrayOutputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.Principal;
@@ -61,6 +62,13 @@ public class SubjectCreator
    private NonceStore nonceStore;
 
    private boolean decodeNonce = true;
+   
+   public Subject createSubject(SecurityDomainContext ctx, String name, String password, boolean isDigest, byte[] nonce, String created)
+   {
+      //TODO, revisit
+      final String sNonce = convertNonce(nonce);
+      return createSubject(ctx, name, password, isDigest, sNonce, created);
+   }
    
    public Subject createSubject(SecurityDomainContext ctx, String name, String password, boolean isDigest, String nonce, String created)
    {
@@ -125,6 +133,12 @@ public class SubjectCreator
       }
       return subject;
    }
+   public Subject createSubject(JBossAuthenticationManager manager, String name, String password, boolean isDigest, byte[] nonce, String created)
+   {
+      //TODO revisit
+      final String sNonce = convertNonce(nonce);
+      return createSubject(manager, name, password, isDigest, sNonce, created);
+   }
    //TODO:refactor this
    public Subject createSubject(JBossAuthenticationManager manager, String name, String password, boolean isDigest, String nonce, String created)
    {
@@ -182,6 +196,28 @@ public class SubjectCreator
          SECURITY_LOGGER.authenticated(name);
 
       return subject;
+   }
+   
+   private String convertNonce(byte[] nonce)
+   {
+      //TODO, revisit
+      try
+      {
+         if (nonce != null)
+         {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bos.write(nonce);
+            return bos.toString();
+         }
+         else
+         {
+            return null;
+         }
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
    }
    
 

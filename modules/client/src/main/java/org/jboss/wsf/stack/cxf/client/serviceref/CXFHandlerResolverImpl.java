@@ -40,9 +40,12 @@
  */
 package org.jboss.wsf.stack.cxf.client.serviceref;
 
+import static org.jboss.wsf.stack.cxf.Loggers.DEPLOYMENT_LOGGER;
 import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
 import java.io.File;
+
+import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.spi.metadata.ParserConstants;
 
 import java.io.IOException;
@@ -55,9 +58,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.handler.HandlerResolver;
@@ -66,7 +73,6 @@ import javax.xml.ws.handler.PortInfo;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.common.injection.ResourceInjector;
-import org.apache.cxf.helpers.XMLUtils;
 import org.apache.cxf.jaxws.handler.HandlerChainBuilder;
 import org.apache.cxf.jaxws.javaee.PortComponentHandlerType;
 import org.apache.cxf.resource.DefaultResourceManager;
@@ -89,6 +95,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
    private final Class<?> clazz;
    private final ClassLoader classLoader;
    private final Bus bus;
+   private static DocumentBuilder builder;
 
    public CXFHandlerResolverImpl(Bus bus, String handlerFile, Class<?> clazz)
    {
@@ -151,7 +158,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
             throw MESSAGES.handlerConfigFileNotFound(handlerFile);
          }
 
-         Document doc = XMLUtils.parse(is);
+         Document doc = getDocumentBuilder().parse(is);
          Element el = doc.getDocumentElement();
          if (!ParserConstants.JAVAEE_NS.equals(el.getNamespaceURI()) 
                || !ParserConstants.HANDLER_CHAINS.equals(el.getLocalName())) {
@@ -196,7 +203,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          if (cur instanceof Element) {
             el = (Element)cur;
             if (!el.getNamespaceURI().equals(ParserConstants.JAVAEE_NS)) {
-               String xml = XMLUtils.toString(el);
+               String xml = "{" + el.getNamespaceURI() + "}" + el.getLocalName();
                throw MESSAGES.invalidElementInHandler(handlerFile, xml);
             }
             String name = el.getLocalName();
@@ -369,6 +376,36 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          context = JAXBContext.newInstance(PortComponentHandlerType.class);
       }
       return context;
+   }
+   
+   private static synchronized DocumentBuilder getDocumentBuilder()
+   {
+      if (builder == null)
+      {
+         final ClassLoader classLoader = SecurityActions.getContextClassLoader();
+         SecurityActions.setContextClassLoader(CXFHandlerResolverImpl.class.getClassLoader());
+         try
+         {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setValidating(false);
+            factory.setNamespaceAware(true);
+            factory.setExpandEntityReferences(false);
+            try
+            {
+               factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            }
+            catch (ParserConfigurationException pce)
+            {
+               DEPLOYMENT_LOGGER.error(pce);
+            }
+            builder = DOMUtils.newDocumentBuilder(factory);
+         }
+         finally
+         {
+            SecurityActions.setContextClassLoader(classLoader);
+         }
+      }
+      return builder;
    }
 
 }

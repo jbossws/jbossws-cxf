@@ -55,7 +55,8 @@
               <include>org.apache.neethi:neethi:jar</include>
               <include>wsdl4j:wsdl4j:jar</include>
               <include>org.apache.ws.xmlschema:xmlschema-core:jar</include>
-              <include>org.apache.ws.security:wss4j:jar</include>
+              <include>org.apache.wss4j:wss4j-*:jar</include>
+              <include>org.jasypt:jasypt:jar</include>
               <include>org.apache.santuario:xmlsec:jar</include>
               <include>asm:asm:jar</include>
               <include>org.apache.velocity:velocity:jar</include>
@@ -77,7 +78,6 @@
             <unpack>false</unpack>
             <includes>
               <include>org.springframework:spring-aop:jar</include>
-              <include>org.springframework:spring-asm:jar</include>
               <include>org.springframework:spring-beans:jar</include>
               <include>org.springframework:spring-context:jar</include>
               <include>org.springframework:spring-core:jar</include>

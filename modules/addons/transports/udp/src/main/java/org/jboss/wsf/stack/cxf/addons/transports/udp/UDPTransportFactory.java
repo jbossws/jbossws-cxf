@@ -30,8 +30,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.Resource;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.common.injection.NoJSR250Annotations;
 import org.apache.cxf.common.logging.LogUtils;
@@ -44,7 +42,7 @@ import org.apache.cxf.transport.DestinationFactory;
 import org.apache.cxf.ws.addressing.AttributedURIType;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 
-@NoJSR250Annotations(unlessNull = { "bus" })
+@NoJSR250Annotations
 public class UDPTransportFactory extends AbstractTransportFactory
     implements DestinationFactory, ConduitInitiator {
    
@@ -64,22 +62,16 @@ public class UDPTransportFactory extends AbstractTransportFactory
         this(null);
     }
     public UDPTransportFactory(Bus b) {
-        super(DEFAULT_NAMESPACES, null);
-        bus = b;
-        register();
+        super(DEFAULT_NAMESPACES);
     }
     
-    @Resource(name = "cxf")
-    public void setBus(Bus b) {
-        super.setBus(b);
-    }
-
-    public Destination getDestination(EndpointInfo ei) throws IOException {
-        return getDestination(ei, null);
+    public Destination getDestination(EndpointInfo ei, Bus bus) throws IOException {
+        return getDestination(ei, null, bus);
     }
 
     protected Destination getDestination(EndpointInfo ei,
-                                         EndpointReferenceType reference)
+                                         EndpointReferenceType reference,
+                                         Bus bus)
         throws IOException {
         if (reference == null) {
             reference = createReference(ei);
@@ -88,11 +80,11 @@ public class UDPTransportFactory extends AbstractTransportFactory
     }
 
 
-    public Conduit getConduit(EndpointInfo ei) throws IOException {
-        return getConduit(ei, null);
+    public Conduit getConduit(EndpointInfo ei, Bus bus) throws IOException {
+        return getConduit(ei, null, bus);
     }
 
-    public Conduit getConduit(EndpointInfo ei, EndpointReferenceType target) throws IOException {
+    public Conduit getConduit(EndpointInfo ei, EndpointReferenceType target, Bus bus) throws IOException {
         LOG.log(Level.FINE, "Creating conduit for {0}", ei.getAddress());
         if (target == null) {
             target = createReference(ei);

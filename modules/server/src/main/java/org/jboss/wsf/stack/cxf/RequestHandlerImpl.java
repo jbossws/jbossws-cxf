@@ -47,8 +47,6 @@ import org.apache.cxf.transport.DestinationFactoryManager;
 import org.apache.cxf.transport.http.AbstractHTTPDestination;
 import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.transport.http.HTTPTransportFactory;
-import org.apache.cxf.transports.http.QueryHandler;
-import org.apache.cxf.transports.http.QueryHandlerRegistry;
 import org.jboss.util.NotImplementedException;
 import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -83,32 +81,52 @@ public class RequestHandlerImpl implements RequestHandler
 
    public void handleHttpRequest(Endpoint ep, HttpServletRequest req, HttpServletResponse res, ServletContext context) throws ServletException, IOException
    {
+      final boolean isGet = "GET".equals(req.getMethod());
+      final boolean isGetWithQueryString = isGet && hasQueryString(req);
+      if (isGet && !isGetWithQueryString)
+      {
+         //reject HTTP GET without query string (only support messages sent w/ POST)
+         res.setStatus(405);
+         res.setContentType("text/plain");
+         Writer out = res.getWriter();
+         out.write("HTTP GET not supported");
+         out.close();
+         return;
+      }
+      
+      Long beginTime = initRequestMetrics(ep);
       Bus bus = ep.getService().getDeployment().getAttachment(BusHolder.class).getBus();
       AbstractHTTPDestination dest = findDestination(req, bus);
-
-      boolean requestHandled = handleQuery(req, res, dest, bus);
-      if (false == requestHandled)
+      HttpServletResponseWrapper response = new HttpServletResponseWrapper(res);
+      try
       {
-         Long beginTime = initRequestMetrics(ep);
-         HttpServletResponseWrapper response = new HttpServletResponseWrapper(res);
-         try
-         {
-            ServletConfig cfg = (ServletConfig)context.getAttribute(ServletConfig.class.getName());
-            dest.invoke(cfg, context, req, response);
+         ServletConfig cfg = (ServletConfig)context.getAttribute(ServletConfig.class.getName());
+         if (isGetWithQueryString) {
+            final EndpointInfo endpointInfo = dest.getEndpointInfo();
+            final boolean autoRewrite = SoapAddressRewriteHelper.isAutoRewriteOn(getServerConfig());
+            endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS, autoRewrite);
+            endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL, autoRewrite);
          }
-         catch (IOException e)
-         {
-            throw new ServletException(e);
-         }
-         if (response.getStatus() < 500)
-         {
-            processResponseMetrics(ep, beginTime);
-         }
-         else
-         {
-            processFaultMetrics(ep, beginTime);
-         }
+         dest.invoke(cfg, context, req, response);
       }
+      catch (IOException e)
+      {
+         throw new ServletException(e);
+      }
+      if (response.getStatus() < 500)
+      {
+         processResponseMetrics(ep, beginTime);
+      }
+      else
+      {
+         processFaultMetrics(ep, beginTime);
+      }
+   }
+   
+   private boolean hasQueryString(HttpServletRequest req)
+   {
+      final String queryString = req.getQueryString();
+      return ((null != queryString) && (queryString.length() > 0));
    }
 
    public void handleRequest(Endpoint endpoint, InputStream inStream, OutputStream outStream, InvocationContext context)
@@ -182,67 +200,12 @@ public class RequestHandlerImpl implements RequestHandler
           throw Messages.MESSAGES.cannotObtainDestinationFactoryForHttpTransport(e);
       }
       return null;
-  }
-
-   /**
-    * When request includes query it tries to lookup the query handler and tries to handle the request message
-    * @param req request
-    * @param res response
-    * @param dest destination
-    * @return true if there was a query handler that successfully handled the request, false otherwise
-    * @throws ServletException if some problem occurs
-    */
-   private final boolean handleQuery(HttpServletRequest req, HttpServletResponse res, AbstractHTTPDestination dest, Bus bus)
-   throws ServletException, IOException
-   {
-      final String queryString = req.getQueryString();
-      if ((null != queryString) && (queryString.length() > 0))
-      {
-         final QueryHandlerRegistry qhr = bus.getExtension(QueryHandlerRegistry.class);
-         if (qhr != null) {
-            final String ctxUri = req.getRequestURI();
-            final String baseUri = req.getRequestURL().toString() + "?" + queryString;
-            final EndpointInfo endpointInfo = dest.getEndpointInfo();
-            final boolean autoRewrite = SoapAddressRewriteHelper.isAutoRewriteOn(getServerConfig());
-            endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS, autoRewrite);
-            endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL, autoRewrite);
-
-            for (QueryHandler queryHandler : qhr.getHandlers())
-            {
-               if (queryHandler.isRecognizedQuery(baseUri, ctxUri, endpointInfo))
-               {
-                  res.setContentType(queryHandler.getResponseContentType(baseUri, ctxUri));
-                  try
-                  {
-                     OutputStream out = res.getOutputStream();
-                     queryHandler.writeResponse(baseUri, ctxUri, endpointInfo, out);
-                     out.flush();
-                     return true;
-                  }
-                  catch (Exception e)
-                  {
-                     throw new ServletException(e);
-                  }
-               }
-            }
-         }
-      }
-      else if ("GET".equals(req.getMethod()))
-      {
-         //reject HTTP GET without query string (only support messages sent w/ POST)
-         res.setStatus(405);
-         res.setContentType("text/plain");
-         Writer out = res.getWriter();
-         out.write("HTTP GET not supported");
-         out.close();
-         return true;
-      }
-
-      return false;
    }
    
-   private static ServerConfig getServerConfig() {
-      if(System.getSecurityManager() == null) {
+   private static ServerConfig getServerConfig()
+   {
+      if (System.getSecurityManager() == null)
+      {
          return AbstractServerConfig.getServerIntegrationServerConfig();
       }
       return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);

@@ -126,7 +126,7 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
       } else if (o != null) {
          params = new MessageContentsList(o);
       }
-      return invoke(exchange, targetBean, adjustMethodAndParams(md.getMethod(bop), exchange, params), params);
+      return invoke(exchange, targetBean, adjustMethodAndParams(md.getMethod(bop), exchange, params, targetBean.getClass()), params);
    }
 
    /**

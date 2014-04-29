@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,74 +19,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.config;
-
-import static org.jboss.wsf.stack.cxf.Loggers.ROOT_LOGGER;
+package org.jboss.wsf.stack.cxf.client.serviceref;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
-import org.apache.wss4j.dom.WSSConfig;
-import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
-import org.jboss.wsf.spi.management.StackConfig;
-import org.jboss.wsf.spi.management.StackConfigFactory;
-
 /**
  * 
  * @author alessio.soldano@jboss.com
- * @since 25-May-2009
+ * @since 03-Oct-2013
  *
  */
-public class CXFStackConfigFactory extends StackConfigFactory
+class SecurityActions
 {
-   @Override
-   public StackConfig getStackConfig()
-   {
-      return new CXFStackConfig();
-   }
-}
-
-class CXFStackConfig implements StackConfig
-{
-   
-   public CXFStackConfig()
-   {
-      final ClassLoader orig = getContextClassLoader();
-      //try early configuration of xmlsec engine through WSS4J:
-      //* to avoid doing this later when the TCCL won't have visibility over the xmlsec internals
-      //* to make sure any ws client will also have full xmlsec functionalities setup (BC enabled, etc.)
-      try
-      {
-         setContextClassLoader(ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
-         WSSConfig.init();
-      }
-      catch (Exception e)
-      {
-         ROOT_LOGGER.couldNotInitSecurityEngine();
-         ROOT_LOGGER.errorGettingWSSConfig(e);
-      }
-      finally
-      {
-         setContextClassLoader(orig);
-      }
-   }
-
-   public String getImplementationTitle()
-   {
-      return getClass().getPackage().getImplementationTitle();
-   }
-
-   public String getImplementationVersion()
-   {
-      return getClass().getPackage().getImplementationVersion();
-   }
-   
    /**
     * Get context classloader.
-    * 
+    *
     * @return the current context classloader
     */
-   private static ClassLoader getContextClassLoader()
+   static ClassLoader getContextClassLoader()
    {
       SecurityManager sm = System.getSecurityManager();
       if (sm == null)
@@ -95,7 +46,8 @@ class CXFStackConfig implements StackConfig
       }
       else
       {
-         return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+         return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>()
+         {
             public ClassLoader run()
             {
                return Thread.currentThread().getContextClassLoader();
@@ -109,7 +61,7 @@ class CXFStackConfig implements StackConfig
     *
     * @param classLoader the classloader
     */
-   private static void setContextClassLoader(final ClassLoader classLoader)
+   static void setContextClassLoader(final ClassLoader classLoader)
    {
       if (System.getSecurityManager() == null)
       {
@@ -126,5 +78,24 @@ class CXFStackConfig implements StackConfig
             }
          });
       }
+   }
+   
+   /**
+    * Return the current value of the specified system property
+    * 
+    * @param name
+    * @param defaultValue
+    * @return
+    */
+   static String getSystemProperty(final String name, final String defaultValue)
+   {
+      PrivilegedAction<String> action = new PrivilegedAction<String>()
+      {
+         public String run()
+         {
+            return System.getProperty(name, defaultValue);
+         }
+      };
+      return AccessController.doPrivileged(action);
    }
 }

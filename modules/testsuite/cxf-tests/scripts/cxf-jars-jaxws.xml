@@ -575,6 +575,11 @@
         <attribute name="Dependencies" value="org.jboss.ws.common,org.jboss.ws.cxf.jbossws-cxf-client services"/>
       </manifest>
     </war>
+    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-udp-api-client.jar">
+      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/udp/META-INF">
+        <include name="wsdl/*" />
+      </metainf>
+    </jar>
   	
     <!-- jaxws-cxf-servletCtx -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-servletCtx.war" needxmlfile='false'>

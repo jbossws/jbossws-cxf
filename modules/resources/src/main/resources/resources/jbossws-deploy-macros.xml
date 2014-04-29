@@ -68,13 +68,13 @@
       </copy>
       <copy todir="@{targetdir}/org/apache/cxf/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/cxf-api*.jar"/>
+          <include name="**/cxf-core*.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/apache/cxf/impl/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/cxf-*.jar"/>
-          <exclude name="**/cxf-api*.jar"/>
+          <exclude name="**/cxf-core*.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/api/main" flatten="false" overwrite="true">
@@ -109,7 +109,8 @@
       </copy>
       <copy todir="@{targetdir}/org/apache/ws/security/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/wss4j.jar"/>
+          <include name="**/wss4j-*.jar"/>
+          <include name="**/jasypt.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/apache/ws/xmlschema/main" flatten="false" overwrite="true">
@@ -190,13 +191,13 @@
       </copy>
       <copy todir="@{targetdir}/org/apache/cxf/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/cxf-api*.jar"/>
+          <include name="**/cxf-core*.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/apache/cxf/impl/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/cxf-*.jar"/>
-          <exclude name="**/cxf-api*.jar"/>
+          <exclude name="**/cxf-core*.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/api/main" flatten="false" overwrite="true">
@@ -231,7 +232,8 @@
       </copy>
       <copy todir="@{targetdir}/org/apache/ws/security/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/wss4j.jar"/>
+          <include name="**/wss4j-*.jar"/>
+          <include name="**/jasypt.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/apache/ws/xmlschema/main" flatten="false" overwrite="true">

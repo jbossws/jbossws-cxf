@@ -32,7 +32,7 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>4.3.1-SNAPSHOT</version>
+  <version>5.0.0-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
@@ -71,9 +71,9 @@
     <wildfly800.version>8.0.0.Final</wildfly800.version>
     <wildfly801.version>8.0.1.Final-SNAPSHOT</wildfly801.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
-    <cxf.version>2.7.11</cxf.version>
+    <cxf.version>3.0.0-SNAPSHOT</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
-    <cxf.xjcplugins.version>2.6.1</cxf.xjcplugins.version>
+    <cxf.xjcplugins.version>2.7.0</cxf.xjcplugins.version>
     <jboss.common.core.version>2.2.17.GA</jboss.common.core.version>
     <jboss-logging.version>3.1.2.GA</jboss-logging.version>
     <jboss-logging-processor.version>1.0.3.Final</jboss-logging-processor.version>
@@ -96,18 +96,18 @@
     <log4j.version>1.2.16</log4j.version>
     <activation.version>1.1</activation.version>
     <fastinfoset.version>1.2.12</fastinfoset.version>
-    <neethi.version>3.0.2</neethi.version>
-    <opensaml.version>2.5.3</opensaml.version>
+    <neethi.version>3.0.3</neethi.version>
+    <opensaml.version>2.6.0</opensaml.version>
     <saaj.api.version>1.0.3.Final</saaj.api.version>
     <servlet.api.version>1.0.2.Final</servlet.api.version>
     <stax.api.version>1.0-2</stax.api.version>
     <jms.api.version>1.0.1.Final</jms.api.version>
     <velocity.version>1.7</velocity.version>
     <xerces.version>2.9.1</xerces.version>
-    <xmlsec.version>1.5.6</xmlsec.version>
-    <wss4j.version>1.6.15</wss4j.version>
+    <xmlsec.version>2.0.0-SNAPSHOT</xmlsec.version>
+    <wss4j.version>2.0.0-SNAPSHOT</wss4j.version>
     <wstx.version>4.2.0</wstx.version>
-    <spring.version>3.0.7.RELEASE</spring.version>
+    <spring.version>3.2.8.RELEASE</spring.version>
     <shrinkwrap.version>1.1.3</shrinkwrap.version>
     <jaspi.api.version>1.0.0.Alpha1</jaspi.api.version>
     <javax.inject.version>1</javax.inject.version>
@@ -186,6 +186,10 @@
             <artifactId>saaj-api</artifactId>
           </exclusion>
           <exclusion>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-javamail_1.4_spec</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
           </exclusion>
@@ -252,10 +256,6 @@
           </exclusion>
           <exclusion>
              <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
-          <exclusion>
-             <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
           </exclusion> 
           <exclusion>
@@ -319,10 +319,6 @@
           </exclusion>
           <exclusion>
              <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
-          <exclusion>
-             <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
           </exclusion> 
           <exclusion>
@@ -356,10 +352,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
           </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
           <exclusion>
              <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
@@ -401,10 +393,6 @@
           </exclusion>
           <exclusion>
              <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
-          <exclusion>
-             <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
           </exclusion> 
           <exclusion>
@@ -443,13 +431,13 @@
             <artifactId>geronimo-jms_1.1_spec</artifactId>
           </exclusion>
           <exclusion>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jta_1.1_spec</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
           </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
           <exclusion>
              <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
@@ -509,10 +497,6 @@
           </exclusion>
           <exclusion>
              <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
-          <exclusion>
-             <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
           </exclusion> 
           <exclusion>
@@ -554,10 +538,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
           </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
           <exclusion>
              <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
@@ -609,10 +589,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
           </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
           <exclusion>
              <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
@@ -678,10 +654,6 @@
           </exclusion>
           <exclusion>
              <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
-          <exclusion>
-             <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
           </exclusion> 
           <exclusion>
@@ -715,10 +687,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
           </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
           <exclusion>
              <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
@@ -756,10 +724,6 @@
           </exclusion>
           <exclusion>
              <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
-          <exclusion>
-             <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
           </exclusion> 
           <exclusion>
@@ -793,10 +757,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
           </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
           <exclusion>
              <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
@@ -834,10 +794,6 @@
           </exclusion>
           <exclusion>
              <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
-          </exclusion>   
-          <exclusion>
-             <groupId>org.springframework</groupId>
              <artifactId>spring-beans</artifactId>
           </exclusion> 
           <exclusion>
@@ -870,10 +826,6 @@
           <exclusion>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-asm</artifactId>
           </exclusion>
           <exclusion>
              <groupId>org.springframework</groupId>
@@ -946,10 +898,36 @@
         <groupId>org.apache.santuario</groupId>
         <artifactId>xmlsec</artifactId>
         <version>${xmlsec.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
-        <groupId>org.apache.ws.security</groupId>
-        <artifactId>wss4j</artifactId>
+        <groupId>org.apache.wss4j</groupId>
+        <artifactId>wss4j-ws-security-common</artifactId>
+        <version>${wss4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.wss4j</groupId>
+        <artifactId>wss4j-ws-security-dom</artifactId>
+        <version>${wss4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.wss4j</groupId>
+        <artifactId>wss4j-ws-security-stax</artifactId>
+        <version>${wss4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.wss4j</groupId>
+        <artifactId>wss4j-policy</artifactId>
+        <version>${wss4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.wss4j</groupId>
+        <artifactId>wss4j-ws-security-policy-stax</artifactId>
         <version>${wss4j.version}</version>
       </dependency>
       <dependency>
@@ -1060,12 +1038,6 @@
         <version>${spring.version}</version>
         <scope>provided</scope>
       </dependency>
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-asm</artifactId>
-         <version>${spring.version}</version>
-         <scope>provided</scope>
-      </dependency>   
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-beans</artifactId>

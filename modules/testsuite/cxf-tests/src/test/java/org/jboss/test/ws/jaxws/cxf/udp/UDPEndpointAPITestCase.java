@@ -49,7 +49,7 @@ public final class UDPEndpointAPITestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(UDPEndpointAPITestCase.class, "jaxws-cxf-udp-api.war");
+      return new JBossWSCXFTestSetup(UDPEndpointAPITestCase.class, "jaxws-cxf-udp-api.war,jaxws-cxf-udp-api-client.jar");
    }
    
    public void testServerSide() throws Exception

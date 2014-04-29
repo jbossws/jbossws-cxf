@@ -35,7 +35,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.security.SecurityContext;
-import org.apache.ws.security.WSUsernameTokenPrincipal;
+import org.apache.wss4j.common.principal.UsernameTokenPrincipal;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
 import org.jboss.wsf.stack.cxf.Loggers;
@@ -88,18 +88,36 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
       {
          //Try authenticating using WSS4J internal info (previously set into SecurityContext by WSS4JInInterceptor)
          Principal p = context.getUserPrincipal();
-         if (!(p instanceof WSUsernameTokenPrincipal)) {
+         if (!(p instanceof UsernameTokenPrincipal)) {
             throw Messages.MESSAGES.couldNotGetSubjectInfo();
          }
-         WSUsernameTokenPrincipal up = (WSUsernameTokenPrincipal) p;
+         UsernameTokenPrincipal up = (UsernameTokenPrincipal) p;
          subject = createSubject(sdc, up.getName(), up.getPassword(), up.isPasswordDigest(), up.getNonce(), up.getCreatedTime());
       }
 
       Principal principal = getPrincipal(context.getUserPrincipal(), subject);
       message.put(SecurityContext.class, createSecurityContext(principal, subject));
    }
-
+   
    protected Subject createSubject(SecurityDomainContext sdc, String name, String password, boolean isDigest, String nonce, String creationTime)
+   {
+      Subject subject = null;
+      try
+      {
+         subject = helper.createSubject(sdc, name, password, isDigest, nonce, creationTime);
+      }
+      catch (Exception ex)
+      {
+         throw Messages.MESSAGES.authenticationFailedSubjectNotCreated(ex);
+      }
+      if (subject == null || subject.getPrincipals().size() == 0)
+      {
+         throw Messages.MESSAGES.authenticationFailedSubjectInvalid();
+      }
+      return subject;
+   }
+
+   protected Subject createSubject(SecurityDomainContext sdc, String name, String password, boolean isDigest, byte[] nonce, String creationTime)
    {
       Subject subject = null;
       try

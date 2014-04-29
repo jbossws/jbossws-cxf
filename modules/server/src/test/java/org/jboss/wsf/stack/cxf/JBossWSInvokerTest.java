@@ -60,6 +60,7 @@ public class JBossWSInvokerTest extends TestCase
    public void testMessageContextThreadLocal()
    {
       TestInvoker invoker = new TestInvoker();
+      invoker.setTargetBean(this); //just to avoid internal NPE
       Exchange exchange = getTestExchange();
       Object obj = invoker.invoke(exchange, null);
       String res = obj instanceof List<?> ? ((List<?>)obj).get(0).toString() : obj.toString();
