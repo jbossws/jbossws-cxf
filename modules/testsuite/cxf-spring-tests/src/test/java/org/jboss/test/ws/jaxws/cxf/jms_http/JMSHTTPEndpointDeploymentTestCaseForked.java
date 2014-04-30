@@ -32,7 +32,7 @@ import junit.framework.Test;
 
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.jms.JMSConduit;
-import org.apache.cxf.transport.jms.JNDIConfiguration;
+import org.apache.cxf.transport.jms.JMSConfiguration;
 import org.jboss.test.ws.jaxws.cxf.jms.HelloWorld;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
@@ -93,10 +93,10 @@ public final class JMSHTTPEndpointDeploymentTestCaseForked extends JBossWSTest
    
    private void setupProxy(HelloWorld proxy) {
       JMSConduit conduit = (JMSConduit)ClientProxy.getClient(proxy).getConduit();
-      JNDIConfiguration jndiConfig = conduit.getJmsConfig().getJndiConfig();
-      jndiConfig.setConnectionUserName(JBossWSTestHelper.getTestUsername());
-      jndiConfig.setConnectionPassword(JBossWSTestHelper.getTestPassword());
-      Properties props = conduit.getJmsConfig().getJndiTemplate().getEnvironment();
+      JMSConfiguration config = conduit.getJmsConfig();
+      config.setUserName(JBossWSTestHelper.getTestUsername());
+      config.setPassword(JBossWSTestHelper.getTestPassword());
+      Properties props = conduit.getJmsConfig().getJndiEnvironment();
       props.put(Context.SECURITY_PRINCIPAL, JBossWSTestHelper.getTestUsername());
       props.put(Context.SECURITY_CREDENTIALS, JBossWSTestHelper.getTestPassword());
    }
