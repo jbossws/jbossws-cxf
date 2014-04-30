@@ -40,10 +40,10 @@ import org.jboss.wsf.stack.cxf.Messages;
  * Interceptor to authenticate principal with provided jaspi JBossAuthenticationManager
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
-public class AutenticationMgrSubjectCreatingInterceptor extends SubjectCreatingPolicyInterceptor
+public class AuthenticationMgrSubjectCreatingInterceptor extends SubjectCreatingPolicyInterceptor
 {
    
-   public AutenticationMgrSubjectCreatingInterceptor() {
+   public AuthenticationMgrSubjectCreatingInterceptor() {
       super();        
    }
   

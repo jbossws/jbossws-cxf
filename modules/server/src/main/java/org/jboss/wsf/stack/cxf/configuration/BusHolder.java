@@ -67,7 +67,7 @@ import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
-import org.jboss.wsf.stack.cxf.security.authentication.AutenticationMgrSubjectCreatingInterceptor;
+import org.jboss.wsf.stack.cxf.security.authentication.AuthenticationMgrSubjectCreatingInterceptor;
 
 /**
  * A wrapper of the Bus for performing most of the configurations required on it by JBossWS
@@ -127,7 +127,7 @@ public abstract class BusHolder
          
          if (jaspiProvider != null && jaspiProvider.enableServerAuthentication(dep, wsmd))
          {
-            bus.getInInterceptors().add(new AutenticationMgrSubjectCreatingInterceptor());
+            bus.getInInterceptors().add(new AuthenticationMgrSubjectCreatingInterceptor());
          }
       }
       catch (WSFException e)
