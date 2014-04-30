@@ -16,6 +16,7 @@
         <entry key="action" value="Timestamp Signature Encrypt"/>
         <entry key="signaturePropFile" value="bob.properties"/>
         <entry key="decryptionPropFile" value="bob.properties"/>
+        <entry key="allowRSA15KeyTransportAlgorithm" value="true"/>
         <entry key="passwordCallbackClass" value="org.jboss.test.ws.jaxws.samples.wsse.KeystorePasswordCallback"/>
       </map>
     </constructor-arg>

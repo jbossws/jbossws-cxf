@@ -99,6 +99,7 @@ public final class SignEncryptTestCase extends JBossWSTest
       inProps.put("signaturePropFile", "META-INF/alice.properties");
       inProps.put("passwordCallbackClass", "org.jboss.test.ws.jaxws.samples.wsse.KeystorePasswordCallback");
       inProps.put("decryptionPropFile", "META-INF/alice.properties");
+      inProps.put("allowRSA15KeyTransportAlgorithm", "true");
       WSS4JInInterceptor wssIn = new WSS4JInInterceptor(inProps); //response
       cxfEndpoint.getInInterceptors().add(wssIn);
       cxfEndpoint.getInInterceptors().add(new SAAJInInterceptor());
