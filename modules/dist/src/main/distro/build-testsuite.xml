@@ -37,8 +37,8 @@
     <condition property="jboss.home" value="${wildfly800.home}">
       <equals arg1="${jbossws.integration.target}" arg2="wildfly800"/>
     </condition>
-    <condition property="jboss.home" value="${wildfly801.home}">
-      <equals arg1="${jbossws.integration.target}" arg2="wildfly801"/>
+    <condition property="jboss.home" value="${wildfly810.home}">
+      <equals arg1="${jbossws.integration.target}" arg2="wildfly810"/>
     </condition>
     
     <!-- Verify required properties that must be set before this file is imported -->

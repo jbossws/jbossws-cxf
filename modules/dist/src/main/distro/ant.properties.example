@@ -5,9 +5,9 @@
 # Optional JBoss Home
 jboss720.home=@jboss720.home@
 wildfly800.home=@wildfly800.home@
-wildfly801.home=@wildfly801.home@
+wildfly810.home=@wildfly810.home@
 
-# The JBoss server under test. This can be [jboss720|wildfly800|wildfly801]
+# The JBoss server under test. This can be [jboss720|wildfly800|wildfly810]
 jbossws.integration.target=jboss720
 
 # The JBoss settings

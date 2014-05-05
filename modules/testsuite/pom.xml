@@ -812,14 +812,14 @@
     </profile>
     
     <!--
-    Name:  wildfly801
-    Descr: WildFly-8.0.1 specific options
+    Name:  wildfly810
+    Descr: WildFly-8.1.0 specific options
     -->
     <profile>
-      <id>wildfly801</id>
+      <id>wildfly810</id>
       <properties>
-        <jboss.version>${wildfly801.version}</jboss.version>
-        <jbossws.integration.target>wildfly801</jbossws.integration.target>
+        <jboss.version>${wildfly810.version}</jboss.version>
+        <jbossws.integration.target>wildfly810</jbossws.integration.target>
         <remote.port>8080</remote.port>
         <remote.protocol>http-remoting</remote.protocol>
       </properties>
