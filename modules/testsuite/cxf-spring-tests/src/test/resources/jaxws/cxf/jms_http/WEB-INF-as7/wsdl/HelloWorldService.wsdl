@@ -75,6 +75,7 @@
   </wsdl:service>
   <wsdl:service name="HelloWorldServiceLocal">
     <soapjms:jndiConnectionFactoryName>java:/ConnectionFactory</soapjms:jndiConnectionFactoryName>
+    <soapjms:jndiURL></soapjms:jndiURL>
     <wsdl:port binding="tns:HelloWorldServiceSoapBinding" name="HelloWorldImplPort">
       <soap:address location="jms:queue:testQueue"/>
     </wsdl:port>
