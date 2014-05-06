@@ -37,13 +37,18 @@
 
   <!-- Modules -->
   <modules>
-    <module>test-utils</module>
     <module>cxf-tests</module>
     <module>shared-tests</module>
   </modules>
 
   <!-- Dependencies -->
   <dependencies>
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-test-utils</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-common</artifactId>
