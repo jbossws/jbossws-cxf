@@ -33,4 +33,27 @@
     </dependency>
   </dependencies>
 
+  <profiles>
+    <profile>
+      <id>exclude-udp-unit-tests</id>
+      <activation>
+        <property>
+          <name>exclude-udp-tests</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes combine.children="append">
+                <exclude>org/jboss/wsf/stack/cxf/addons/transports/udp/UDPTransportTest*</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
 </project>
