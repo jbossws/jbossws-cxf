@@ -28,6 +28,7 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.apache.cxf.endpoint.Client;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
@@ -66,5 +67,6 @@ public class BasicRPCTestCase extends JBossWSTest
 
       Object retObj = port.echo("Hello");
       assertEquals("Hello", retObj);
+      ((Client)port).destroy();
    }
 }

@@ -28,6 +28,7 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.apache.cxf.endpoint.Client;
 import org.jboss.test.ws.jaxws.samples.wsrm.generated.SimpleService;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
@@ -57,11 +58,19 @@ public final class SimpleServiceTestCase extends JBossWSTest
       Service service = Service.create(wsdlURL, serviceName);
       proxy = (SimpleService)service.getPort(SimpleService.class);
    }
+   
+   @Override
+   protected void tearDown() throws Exception
+   {
+      if (proxy != null) {
+         ((Client)proxy).destroy();
+      }
+   }
 
    public void test() throws Exception
    {
-      proxy.ping(); // one way call
       assertEquals("Hello World!", proxy.echo("Hello World!")); // request responce call
+      proxy.ping(); // one way call
    }
    
 }

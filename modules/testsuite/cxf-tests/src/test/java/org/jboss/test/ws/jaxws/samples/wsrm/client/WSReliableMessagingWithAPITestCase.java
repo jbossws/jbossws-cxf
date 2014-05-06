@@ -62,8 +62,8 @@ public final class WSReliableMessagingWithAPITestCase extends JBossWSTest
          SimpleService proxy = (SimpleService)service.getPort(SimpleService.class);
          ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
          
-         proxy.ping(); // one way call
          assertEquals("Hello World!", proxy.echo("Hello World!")); // request response call
+         proxy.ping(); // one way call
       } finally {
          bus.shutdown(true);
       }
