@@ -96,7 +96,7 @@
     </fileSet>
     <!-- Test utils -->
     <fileSet>
-      <directory>../testsuite/test-utils/src/main</directory>
+      <directory>../test-utils/src/main</directory>
       <outputDirectory>jbossws-cxf-bin-dist/tests</outputDirectory>
       <includes>
         <include>java/org/jboss/wsf/test/**</include>
