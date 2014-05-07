@@ -10,6 +10,10 @@
     </permission>
     <permission>
         <class-name>java.lang.RuntimePermission</class-name>
+        <name>createClassLoader</name>
+    </permission>
+    <permission>
+        <class-name>java.lang.RuntimePermission</class-name>
         <name>org.apache.cxf.permission</name>
         <actions>resolveUri</actions>
     </permission>
