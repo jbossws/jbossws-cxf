@@ -77,6 +77,15 @@
               <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly810/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
+          <execution>
+            <id>wildfly900</id>
+            <goals><goal>jar</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>wildfly900</classifier>
+              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly900/jbossws.beans</classesDirectory>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>

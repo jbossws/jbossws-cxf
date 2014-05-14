@@ -830,6 +830,98 @@
       </properties>
       <dependencies>
         <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-wildfly810-tests-integration</artifactId>
+        </dependency>
+        <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
+        <dependency>
+          <groupId>org.littleshoot</groupId>
+          <artifactId>littleproxy</artifactId>
+          <version>${org.littleshoot.littleproxy.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-api</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>net.sf.ehcache</groupId>
+              <artifactId>ehcache-core</artifactId>
+            </exclusion>
+            <!-- Let the container messaging subsystem control the Netty dependency version  -->
+            <exclusion>
+              <groupId>io.netty</groupId>
+              <artifactId>netty-all</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <compilerArguments>
+                <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+              </compilerArguments>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
+              <excludes combine.children="append">
+                 <!--# JAX-RPC removed in EE 7 -->
+                 <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
+
+                 <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
+
+                 <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
+
+                 <!--# [JBWS-2561] XOP request not properly inlined-->
+                 <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
+
+                 <!--# [JBWS-2480] Soap attachments are dropped on server response-->
+                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
+
+                 <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
+                 <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
+
+                 <!-- # [JBWS-3620] Authentication failures w/ Undertow -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
+
+                 <!-- [JBWS-3686] Restore WSTrustActAsTestCase and WSTrustOnBehalfOfTestCase -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustActAsTestCase.*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustOnBehalfOfTestCase.*</exclude>
+
+                 <!-- Manually setup KDC before run this test-->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!--
+    Name:  wildfly900
+    Descr: WildFly-9.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly900</id>
+      <properties>
+        <jboss.version>${wildfly900.version}</jboss.version>
+        <jbossws.integration.target>wildfly900</jbossws.integration.target>
+        <remote.port>8080</remote.port>
+        <remote.protocol>http-remoting</remote.protocol>
+      </properties>
+      <dependencies>
+        <dependency>
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
           <version>${jboss.version}</version>
@@ -908,7 +1000,7 @@
         </plugins>
       </build>
     </profile>
-    
+
     <!--
     Name:  secmgr
     Descr: Additional testsuite exclusions when running against a container with security manager enabled 

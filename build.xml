@@ -77,9 +77,12 @@
     <condition property="wildfly810.home" value="${profiles.profile.properties.wildfly810.home}">
       <isset property="profiles.profile.properties.wildfly810.home"/>
     </condition>
+    <condition property="wildfly900.home" value="${profiles.profile.properties.wildfly900.home}">
+      <isset property="profiles.profile.properties.wildfly900.home"/>
+    </condition>
 
 
-    <fail message="Application server home not set, jboss720.home=value, wildfly800.home=value or wildfly810.home=value to set">
+    <fail message="Application server home not set, jboss720.home=value, wildfly800.home=value, wildfly810.home=value or wildfly900.home to set">
      <condition>
       <and>
        <not>
@@ -91,6 +94,9 @@
        <not>
          <isset property="wildfly810.home"/>
        </not>
+       <not>
+         <isset property="wildfly900.home"/>
+       </not>
       </and>
      </condition>
     </fail>
@@ -99,6 +105,7 @@
     <echo message="jboss720.home=${jboss720.home}"/>
     <echo message="wildfly800.home=${wildfly800.home}"/>
     <echo message="wildfly810.home=${wildfly810.home}"/>
+    <echo message="wildfly900.home=${wildfly900.home}"/>
   </target>
 
   <target name="init" depends="mvn-settings,prepare,os-init">

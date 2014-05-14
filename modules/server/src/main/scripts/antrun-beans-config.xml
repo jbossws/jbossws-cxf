@@ -48,6 +48,16 @@
       tofile="${dest.dir}/jbossws-wildfly810/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
     />
 
+    <copy
+      file="${src.dir}/jbossws-cxf-config-as9.xml"
+      tofile="${dest.dir}/jbossws-wildfly900/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
+    />
+  	
+    <copy
+      file="${src.dir}/jbossws-cxf-config-as9.xml"
+      tofile="${dest.dir}/jbossws-wildfly900/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
+    />
+
   </target>
 
 </project>

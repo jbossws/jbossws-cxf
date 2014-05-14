@@ -169,6 +169,12 @@ public class JBossWSTestHelper
        return target.startsWith("wildfly80");
    }
 
+   public static boolean isTargetWildFly9()
+   {
+       String target = getIntegrationTarget();
+       return target.startsWith("wildfly9");
+   }
+
    public static boolean isIntegrationNative()
    {
       String vendor = getImplementationInfo();
@@ -246,7 +252,7 @@ public class JBossWSTestHelper
                {
                   server = getServerConnection("service:jmx:remoting-jmx://" + getServerHost() + ":" + 9999);
                }
-               else if (integrationTarget.startsWith("wildfly8"))
+               else if (integrationTarget.startsWith("wildfly"))
                {
                   server = getServerConnection("service:jmx:http-remoting-jmx://" + getServerHost() + ":" + 9990);
                }
