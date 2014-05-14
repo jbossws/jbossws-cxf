@@ -80,11 +80,10 @@ public abstract class AbstractServiceObjectFactoryJAXWS
                final WebServiceFeature[] portFeatures = this.getFeatures(targetClassName, serviceImplClass, serviceRef);
                String forcedAddress = null;
                //if there is no wsdlLocation, always use the local deployed endpoint address to initialize port
-               URL wsdlURL = this.getWsdlURL(serviceRef, serviceClass);
-               final QName serviceQName = this.getServiceQName(serviceRef, serviceClass);
-               if (wsdlURL == null && serviceRef.getDeployedServiceAddresses().get(serviceQName) != null)
+               if (getWsdlURL(serviceRef, serviceClass) == null)
                {
-                  forcedAddress = serviceRef.getDeployedServiceAddresses().get(serviceQName);
+                  final QName serviceQName = this.getServiceQName(serviceRef, serviceClass);
+                  forcedAddress = serviceRef.getDeployedServiceAddress(serviceQName);
                }
                return instantiatePort(serviceClass, targetClass, serviceInstance, portQName, portFeatures,
                      forcedAddress);
@@ -228,15 +227,19 @@ public abstract class AbstractServiceObjectFactoryJAXWS
       final WebServiceFeature[] features = getFeatures(serviceRefMD);
       final QName serviceQName = this.getServiceQName(serviceRefMD, serviceClass);
       URL wsdlURL = this.getWsdlURL(serviceRefMD, serviceClass);
-      if (wsdlURL == null && serviceRefMD.getDeployedServiceAddresses().get(serviceQName) != null)
+      if (wsdlURL == null)
       {
-         try
+         final String deployedServiceAddress = serviceRefMD.getDeployedServiceAddress(serviceQName);
+         if (deployedServiceAddress != null)
          {
-            wsdlURL = new URL(serviceRefMD.getDeployedServiceAddresses().get(serviceQName) + "?wsdl");
-         }
-         catch (MalformedURLException e)
-         {
-            //ignore
+            try
+            {
+               wsdlURL = new URL(deployedServiceAddress + "?wsdl");
+            }
+            catch (MalformedURLException e)
+            {
+               //ignore
+            }
          }
       }
       Service target = null;
@@ -308,7 +311,7 @@ public abstract class AbstractServiceObjectFactoryJAXWS
             // use the @WebServiceClien(wsdlLocation=...) if the service ref wsdl location returned at this time would be null
             if (webServiceClientAnnotation.wsdlLocation().length() > 0)
             {
-               serviceRefMD.setWsdlOverride(webServiceClientAnnotation.wsdlLocation());
+               return serviceRefMD.getWsdlLocation(webServiceClientAnnotation.wsdlLocation());
             }
          }
       }
