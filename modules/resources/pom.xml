@@ -51,15 +51,6 @@
             <phase>package</phase>
           </execution>
           <execution>
-            <id>jboss720</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>jboss720</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-jboss720/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
-          <execution>
             <id>wildfly800</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>

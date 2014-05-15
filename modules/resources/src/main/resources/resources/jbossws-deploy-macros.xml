@@ -2,7 +2,7 @@
 
 <!--
   ~ JBoss, Home of Professional Open Source.
-  ~ Copyright 2011, Red Hat, Inc., and individual contributors
+  ~ Copyright 2014, Red Hat, Inc., and individual contributors
   ~ as indicated by the @author tags. See the copyright.txt file in the
   ~ distribution for a full listing of individual contributors.
   ~
@@ -256,135 +256,6 @@
     </sequential>
   </macrodef>
 
-  <macrodef name="macro-deploy-jbossws-modules-as7">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-    <attribute name="jbossid"/>
-    <attribute name="modules-jbossid"/>
-    <sequential>
-      <!-- libraries -->
-      <copy todir="@{targetdir}/org/jboss/ws/jaxws-client/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-client.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/jaxws-jboss-httpserver-httpspi/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jaxws-jboss-httpserver-httpspi.jar"/>
-        </fileset>
-     </copy>
-     <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-server/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-server.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-factories/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-factories.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-transports-httpserver/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-transports-httpserver.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-transports-udp/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-transports-udp.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/native/jbossws-native-core/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-native-core.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/native/jbossws-native-services/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-native-services.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/cxf/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/cxf-core*.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/cxf/impl/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/cxf-*.jar"/>
-          <exclude name="**/cxf-core*.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/api/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-api.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/common/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-common.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/tools/common/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-common-tools.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/spi/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-spi.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/neethi/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/neethi.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/santuario/xmlsec/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/xmlsec.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/ws/security/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/wss4j-*.jar"/>
-          <include name="**/jasypt.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/ws/xmlschema/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/xmlschema-core.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/opensaml/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/opensaml.jar"/>
-          <include name="**/openws.jar"/>
-          <include name="**/xmltooling.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/codehaus/woodstox/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/woodstox-core-asl.jar"/>
-          <include name="**/stax2-api.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/as/webservices/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-resources-@{jbossid}.jar"/>
-          <include name="**/jbossws-@{jbossid}-server-integration.jar"/>
-        </fileset>
-      </copy>
-      <!-- module.xml files -->
-      <installModules targetDir="@{targetdir}">
-        <fileset dir="@{thirdpartydir}/modules/@{modules-jbossid}">
-          <include name="**/module.xml"/>
-          <exclude name="**/jboss/as/webservices/**/module.xml"/>
-          <exclude name="**/spring/**/module.xml"/>
-        </fileset>
-      </installModules>
-    </sequential>
-  </macrodef>
-
   <!-- ================================================================== -->
   <!-- Deploy JBossWS                                                     -->
   <!-- ================================================================== -->
@@ -396,12 +267,6 @@
     <fail message="modifyjbossintegration must be specified" unless="modifyjbossintegration"/>
   </target>
 
-  <target name="deploy-jbossws-cxf-modules-as7">
-    <fail message="installserver must be specified" unless="installserver"/>
-    <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
-    <macro-deploy-jbossws-modules-as7 targetdir="${installserver}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}" modules-jbossid="${modules-jbossid}"/>
-  </target>
-	
   <target name="deploy-jbossws-cxf-modules-as8">
     <fail message="installserver must be specified" unless="installserver"/>
     <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>

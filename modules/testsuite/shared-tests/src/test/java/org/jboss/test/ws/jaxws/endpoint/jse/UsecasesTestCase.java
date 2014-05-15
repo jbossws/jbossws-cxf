@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2009, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -26,8 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.Currency;
-import java.util.Locale;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -56,9 +54,6 @@ public final class UsecasesTestCase extends JBossWSTest
    private static int port1 = 8871;
    private static int port2 = 8872;
    
-   @SuppressWarnings("unused")
-   private static Currency currency = Currency.getInstance(Locale.US); //workaround for JBWS-3623
-
    public void testDifferentPortsSameContext() throws Exception
    {
       String publishURL1 = "http://" + getServerHost() + ":" + port1 + "/jaxws-endpoint/";

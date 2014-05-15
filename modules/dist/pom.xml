@@ -30,12 +30,6 @@
 
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>
-         <artifactId>jbossws-cxf-transports-httpserver</artifactId>
-         <version>${project.version}</version>     
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-transports-undertow</artifactId>
          <version>${project.version}</version>     
       </dependency>
@@ -44,13 +38,6 @@
          <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-transports-udp</artifactId>
          <version>${project.version}</version>     
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.ws.cxf</groupId>
-         <artifactId>jbossws-cxf-resources</artifactId>
-         <version>${project.version}</version>
-         <classifier>jboss720</classifier>     
       </dependency>
 
       <dependency>
@@ -134,11 +121,6 @@
       <!-- container integration -->
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss720-server-integration</artifactId>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly800-server-integration</artifactId>
         <scope>provided</scope>
       </dependency>
@@ -206,9 +188,6 @@
                         <configuration>
                             <target>
                                 <mkdir dir="${basedir}/target/exclude-file" />
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-jboss720.txt">
-                                    <param name="targetName" expression="jboss720" />
-                                </xslt>
                                 <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-wildfly800.txt">
                                     <param name="targetName" expression="wildfly800" />
                                 </xslt>
@@ -244,11 +223,6 @@
       </activation>
       <dependencies>
         <!-- Libraries required for running binary distro testsuite and not available on server-->
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-jboss720-tests-integration</artifactId>
-          <scope>provided</scope>
-        </dependency>
         <dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-wildfly800-tests-integration</artifactId>

@@ -55,19 +55,9 @@ public class WSTrustBearerTestCase extends JBossWSTest
 
       // setup the https connector in the server config file.
       Map<String, String> sslOptions = new HashMap<String, String>();
-      if (isTargetJBoss7())
-      {
-         sslOptions.put("certificate-key-file", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
-         sslOptions.put("password", "changeit");
-         sslOptions.put("verify-client", "false");
-         sslOptions.put("key-alias", "tomcat");
-      }
-      else
-      {
-         sslOptions.put("server-identity.ssl.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
-         sslOptions.put("server-identity.ssl.keystore-password", "changeit");
-         sslOptions.put("server-identity.ssl.alias", "tomcat");
-      }
+      sslOptions.put("server-identity.ssl.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
+      sslOptions.put("server-identity.ssl.keystore-password", "changeit");
+      sslOptions.put("server-identity.ssl.alias", "tomcat");
       testSetup.setHttpsConnectorRequirement(sslOptions);
       return testSetup;
    }

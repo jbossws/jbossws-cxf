@@ -33,14 +33,11 @@
               <include>org.jboss.ws.cxf:jbossws-cxf-jaspi:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-factories:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-server:jar</include>
-              <include>org.jboss.ws.cxf:jbossws-cxf-transports-httpserver:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-transports-undertow:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-transports-udp:jar</include>
               <include>org.jboss.ws.native:jbossws-native-core:jar</include>
               <include>org.jboss.ws.native:jbossws-native-services:jar</include>
-              <include>org.jboss.ws.projects:jaxws-jboss-httpserver-httpspi:jar</include>
               <include>org.jboss.ws.projects:jaxws-undertow-httpspi:jar</include>
-              <include>org.jboss.com.sun.httpserver:httpserver:jar</include>
               <include>io.undertow:undertow-core:jar</include>
               <include>org.apache.cxf:cxf-*</include>
               <include>org.apache.cxf.services.sts:cxf-services-sts-core:jar</include>

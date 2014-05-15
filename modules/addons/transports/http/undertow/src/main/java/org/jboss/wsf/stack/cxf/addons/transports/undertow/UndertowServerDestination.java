@@ -38,7 +38,7 @@ import org.apache.cxf.transport.http_jaxws_spi.JAXWSHttpSpiDestination;
 import org.jboss.ws.undertow_httpspi.UndertowHttpExchange;
 
 /**
- * HTTP destination to be used with the JDK6 httpserver; this extends the
+ * HTTP destination to be used with Undertow; this extends the
  * basic JAXWSHttpSpiDestination with all the mechanisms for properly
  * handling destination and factory life-cycles.
  * 

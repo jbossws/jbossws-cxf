@@ -151,7 +151,7 @@ public class UndertowServerEngineFactory implements BusLifeCycleListener
 
    public synchronized void postShutdown()
    {
-      // shut down the httpserver in the portMap
+      // shut down the engine in the portMap
       // To avoid the CurrentModificationException,
       // do not use portMap.vaules directly
       UndertowServerEngine[] engines = null;

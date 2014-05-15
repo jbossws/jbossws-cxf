@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -200,16 +200,6 @@ public abstract class JBossWSTest extends TestCase
    public static MBeanServerConnection getServer() throws NamingException
    {
       return JBossWSTestHelper.getServer();
-   }
-
-   public static boolean isTargetJBoss7()
-   {
-      return JBossWSTestHelper.isTargetJBoss7();
-   }
-
-   public static boolean isTargetJBoss72()
-   {
-      return JBossWSTestHelper.isTargetJBoss72();
    }
 
    public static boolean isIntegrationNative()

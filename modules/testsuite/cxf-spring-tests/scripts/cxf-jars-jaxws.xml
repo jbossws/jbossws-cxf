@@ -2,7 +2,7 @@
 
 <!--
   ~ JBoss, Home of Professional Open Source.
-  ~ Copyright 2011, Red Hat, Inc., and individual contributors
+  ~ Copyright 2014, Red Hat, Inc., and individual contributors
   ~ as indicated by the @author tags. See the copyright.txt file in the
   ~ distribution for a full listing of individual contributors.
   ~
@@ -25,14 +25,6 @@
 <project>
 
   <description>JBossWS test archive builder</description>
-
-  <!-- ============================================================================== -->
-  <!-- Building                                                                       -->
-  <!--                                                                                -->
-  <!-- Where to create your tests                                                     -->
-  <!-- http://www.jboss.com/index.html?module=bb&op=viewtopic&p=4144172#4144172       -->
-  <!--                                                                                -->
-  <!-- ============================================================================== -->
 
   <target name="build-jars-jaxws" description="Build the deployments.">
 
@@ -178,19 +170,6 @@
       </manifest>
     </war>
   	
-    <!-- jaxws-cxf-jms-only-deployment-as7 -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-only-deployment-as7.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/jms/HelloWorld*.class"/>
-      </fileset>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF-as7">
-        <include name="wsdl/**/*" />
-      </metainf>
-      <manifest>
-        <attribute name="Dependencies" value="org.hornetq"/>
-      </manifest>
-    </jar>
-  	
     <!-- jaxws-cxf-jms-only-deployment -->
     <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-only-deployment.jar">
       <fileset dir="${tests.output.dir}/test-classes">
@@ -203,20 +182,6 @@
         <attribute name="Dependencies" value="org.hornetq"/>
       </manifest>
     </jar>
-  	
-    <!-- jaxws-cxf-jms-http-deployment-as7 -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-http-deployment-as7.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jms_http/WEB-INF/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/jms_http/HelloWorld*.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/jms_http/HttpHelloWorld*.class"/>
-      </classes>
-      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/jms_http/WEB-INF-as7">
-        <include name="wsdl/**"/>
-      </webinf>
-      <manifest>
-        <attribute name="Dependencies" value="org.hornetq"/>
-      </manifest>
-    </war>
   	
     <!-- jaxws-cxf-jms-http-deployment -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-http-deployment.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/jms_http/WEB-INF/web.xml">
@@ -241,21 +206,6 @@
       </classes>
       <zipfileset
           dir="${tests.output.dir}/test-resources/jaxws/cxf/jms/META-INF/wsdl" 
-          prefix="WEB-INF/classes/META-INF/wsdl"/>
-      <manifest>
-        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq"/>
-      </manifest>
-    </war>
-  	
-    <!-- jaxws-cxf-jms-http-deployment-test-servlet-as7 -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jms-http-deployment-test-servlet-as7.war"
-    	needxmlfile='false'>
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/jms_http/DeploymentTestServlet.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/jms_http/HelloWorld.class"/>
-      </classes>
-      <zipfileset
-          dir="${tests.output.dir}/test-resources/jaxws/cxf/jms_http/WEB-INF-as7/wsdl" 
           prefix="WEB-INF/classes/META-INF/wsdl"/>
       <manifest>
         <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq"/>

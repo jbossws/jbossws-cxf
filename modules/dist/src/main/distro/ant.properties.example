@@ -3,18 +3,17 @@
 #
 
 # Optional JBoss Home
-jboss720.home=@jboss720.home@
 wildfly800.home=@wildfly800.home@
 wildfly810.home=@wildfly810.home@
 wildfly900.home=@wildfly900.home@
 
-# The JBoss server under test. This can be [jboss720|wildfly800|wildfly810|wildfly900]
+# The JBoss server under test. This can be [wildfly800|wildfly810|wildfly900]
 jbossws.integration.target=wildfly800
 
 # The JBoss settings
 jboss.bind.address=localhost
 
-# JBoss Management console authentication (AS 7.1.x)
+# Management console authentication
 jbossws.deployer.authentication.username=admin
 jbossws.deployer.authentication.password=admin
 

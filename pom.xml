@@ -2,7 +2,7 @@
 
 <!--
   ~ JBoss, Home of Professional Open Source.
-  ~ Copyright 2011, Red Hat, Inc., and individual contributors
+  ~ Copyright 2014, Red Hat, Inc., and individual contributors
   ~ as indicated by the @author tags. See the copyright.txt file in the
   ~ distribution for a full listing of individual contributors.
   ~
@@ -65,11 +65,9 @@
     <jbossws.spi.version>3.0.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>3.0.0-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.2.0.Final</jbossws.common.tools.version>
-    <jbossws.jboss720.version>5.0.0-SNAPSHOT</jbossws.jboss720.version>
     <jbossws.wildfly800.version>5.0.0-SNAPSHOT</jbossws.wildfly800.version>
     <jbossws.wildfly810.version>5.0.0-SNAPSHOT</jbossws.wildfly810.version>
     <jbossws.native.version>4.2.0.Final</jbossws.native.version>
-    <jboss720.version>7.2.0.Final</jboss720.version>
     <wildfly800.version>8.0.0.Final</wildfly800.version>
     <wildfly810.version>8.1.0.CR2</wildfly810.version>
     <wildfly900.version>9.0.0.Alpha1-SNAPSHOT</wildfly900.version>
@@ -84,10 +82,8 @@
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <picketbox.version>4.0.19.Final</picketbox.version>
     <picketlink.version>2.5.2.Final</picketlink.version>
-    <jaxws-jboss-httpserver-httpspi.version>1.0.1.GA</jaxws-jboss-httpserver-httpspi.version>
     <jaxws-undertow-httpspi.version>1.0.1.Beta1</jaxws-undertow-httpspi.version>
-    <httpserver.version>1.0.0.Final</httpserver.version>
-    <io.undertow.version>1.0.0.Beta33</io.undertow.version>
+    <io.undertow.version>1.0.10.Final</io.undertow.version>
     <jaxb.api.version>1.0.4.Final</jaxb.api.version>
     <jaxb.impl.version>2.2.6</jaxb.impl.version>
     <jaxrpc.api.version>1.0.1.Final</jaxrpc.api.version>
@@ -144,16 +140,6 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss720-server-integration</artifactId>
-        <version>${jbossws.jboss720.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-jboss720-tests-integration</artifactId>
-        <version>${jbossws.jboss720.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly800-server-integration</artifactId>
         <version>${jbossws.wildfly800.version}</version>
       </dependency>
@@ -176,11 +162,6 @@
         <groupId>org.wildfly</groupId>
         <artifactId>wildfly-webservices-tests-integration</artifactId>
         <version>${wildfly900.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws.projects</groupId>
-        <artifactId>jaxws-jboss-httpserver-httpspi</artifactId>
-        <version>${jaxws-jboss-httpserver-httpspi.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
@@ -954,11 +935,6 @@
         <version>${cxf.asm.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.jboss.com.sun.httpserver</groupId>
-        <artifactId>httpserver</artifactId>
-        <version>${httpserver.version}</version>
-      </dependency>
-      <dependency>
         <groupId>io.undertow</groupId>
         <artifactId>undertow-core</artifactId>
         <version>${io.undertow.version}</version>
@@ -1365,18 +1341,6 @@
       <modules>
          <module>modules/dist</module>
       </modules>
-    </profile>
-
-    <!--
-    Name:  jboss720
-    Descr: JBoss-7.2.0 specific options
-    -->
-    <profile>
-      <id>jboss720</id>
-      <properties>
-        <jbossws.integration.target>jboss720</jbossws.integration.target>
-        <jboss.home>${jboss720.home}</jboss.home>
-      </properties>
     </profile>
 
     <!--

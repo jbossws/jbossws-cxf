@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -145,18 +145,6 @@ public class JBossWSTestHelper
       }
    }
 
-   public static boolean isTargetJBoss7()
-   {
-       String target = getIntegrationTarget();
-       return target.startsWith("jboss7");
-   }
-
-   public static boolean isTargetJBoss72()
-   {
-       String target = getIntegrationTarget();
-       return target.startsWith("jboss72");
-   }
-
    public static boolean isTargetWildFly8()
    {
        String target = getIntegrationTarget();
@@ -248,11 +236,7 @@ public class JBossWSTestHelper
             if (server == null)
             {
                String integrationTarget = getIntegrationTarget();
-               if (integrationTarget.startsWith("jboss7"))
-               {
-                  server = getServerConnection("service:jmx:remoting-jmx://" + getServerHost() + ":" + 9999);
-               }
-               else if (integrationTarget.startsWith("wildfly"))
+               if (integrationTarget.startsWith("wildfly"))
                {
                   server = getServerConnection("service:jmx:http-remoting-jmx://" + getServerHost() + ":" + 9990);
                }
