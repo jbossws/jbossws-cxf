@@ -111,7 +111,7 @@
     </tstamp>
   </target>
   
-  <target name="tests-classpath" depends="tests-classpath-jboss72x,tests-classpath-wildfly80x">
+  <target name="tests-classpath" depends="tests-classpath-jboss72x,tests-classpath-wildfly80x,tests-classpath-wildfly90x">
     <path id="tests.javac.classpath">
       <path refid="ws.stack.classpath"/>
       <path refid="integration.target.javac.classpath"/>
