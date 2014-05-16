@@ -22,9 +22,8 @@
 package org.jboss.test.ws.jaxws.samples.addressing;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.MessageContext.Scope;
+import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.addressing.MAP;
@@ -42,7 +41,7 @@ import org.w3c.dom.NodeList;
  * @author Thomas.Diesler@jboss.org
  * @since 24-Nov-2005
  */
-public class ServerHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class ServerHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    // Provide logging
    private static Logger log = Logger.getLogger(ServerHandler.class);
@@ -50,7 +49,7 @@ public class ServerHandler extends GenericSOAPHandler<LogicalMessageContext>
    private static final QName IDQN = StatefulEndpointImpl.IDQN;
 
    @Override
-   public boolean handleInbound(MessageContext msgContext)
+   public boolean handleInbound(SOAPMessageContext msgContext)
    {
       log.info("handleRequest");
 
@@ -89,7 +88,7 @@ public class ServerHandler extends GenericSOAPHandler<LogicalMessageContext>
    }
 
    @Override
-   public boolean handleOutbound(MessageContext msgContext)
+   public boolean handleOutbound(SOAPMessageContext msgContext)
    {
       log.info("handleResponse");
 

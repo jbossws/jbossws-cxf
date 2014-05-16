@@ -32,7 +32,6 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -45,18 +44,18 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author mageshbk@jboss.com
  * @since 20-Feb-2009
  */
-public class SOAP12ClientHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class SOAP12ClientHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    private static Logger log = Logger.getLogger(SOAP12ClientHandler.class);
 
    @Override
-   public boolean handleInbound(MessageContext msgContext)
+   public boolean handleInbound(SOAPMessageContext msgContext)
    {
       log.info("handleInbound");
 
       try
       {
-         SOAPEnvelope soapEnvelope = ((SOAPMessageContext)msgContext).getMessage().getSOAPPart().getEnvelope();
+         SOAPEnvelope soapEnvelope = msgContext.getMessage().getSOAPPart().getEnvelope();
          String nsURI = soapEnvelope.getNamespaceURI();
 
          log.info("nsURI=" + nsURI);

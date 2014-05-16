@@ -27,26 +27,24 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.handler.GenericSOAPHandler;
 
-public class AuthorizationHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class AuthorizationHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    // Provide logging
    private static Logger log = Logger.getLogger(AuthorizationHandler.class);
 
    @Override
-   protected boolean handleInbound(MessageContext msgContext)
+   protected boolean handleInbound(SOAPMessageContext msgContext)
    {
       log.info("handleInbound");
 
       try
       {
-         SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+         SOAPMessage soapMessage = msgContext.getMessage();
          SOAPBody soapBody = soapMessage.getSOAPBody();
 
          SOAPBodyElement soapBodyElement = (SOAPBodyElement)soapBody.getChildElements().next();
@@ -63,13 +61,13 @@ public class AuthorizationHandler extends GenericSOAPHandler<LogicalMessageConte
    }
 
    @Override
-   protected boolean handleOutbound(MessageContext msgContext)
+   protected boolean handleOutbound(SOAPMessageContext msgContext)
    {
       log.info("handleOutbound");
 
       try
       {
-         SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+         SOAPMessage soapMessage = msgContext.getMessage();
          SOAPBody soapBody = soapMessage.getSOAPBody();
 
          SOAPBodyElement soapBodyElement = (SOAPBodyElement)soapBody.getChildElements().next();

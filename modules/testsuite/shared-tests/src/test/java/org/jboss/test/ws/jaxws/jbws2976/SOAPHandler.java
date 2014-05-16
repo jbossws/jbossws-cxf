@@ -21,18 +21,17 @@
  */
 package org.jboss.test.ws.jaxws.jbws2976;
 
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.ws.api.handler.GenericSOAPHandler;
 
 /**
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-public class SOAPHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class SOAPHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    @Override
-   protected boolean handleInbound(final MessageContext msgContext)
+   protected boolean handleInbound(final SOAPMessageContext msgContext)
    {
       //do nothing
       return true;

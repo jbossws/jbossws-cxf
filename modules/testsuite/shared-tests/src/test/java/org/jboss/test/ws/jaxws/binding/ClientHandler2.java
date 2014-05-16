@@ -26,8 +26,6 @@ import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.logging.Logger;
@@ -39,18 +37,18 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author Alessio Soldano, alessio.soldano@jboss.com
  * @since 31-Oct-2007
  */
-public class ClientHandler2 extends GenericSOAPHandler<LogicalMessageContext>
+public class ClientHandler2 extends GenericSOAPHandler<SOAPMessageContext>
 {
    private static Logger log = Logger.getLogger(ClientHandler2.class);
 
    @Override
-   public boolean handleInbound(MessageContext msgContext)
+   public boolean handleInbound(SOAPMessageContext msgContext)
    {
       log.info("handleInbound");
 
       try
       {
-         SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+         SOAPMessage soapMessage = msgContext.getMessage();
          soapMessage.saveChanges(); // force changes save to make sure headers are copied to the message
 
          MimeHeaders mimeHeaders = soapMessage.getMimeHeaders();
@@ -72,13 +70,13 @@ public class ClientHandler2 extends GenericSOAPHandler<LogicalMessageContext>
    }
 
    @Override
-   protected boolean handleOutbound(MessageContext msgContext)
+   protected boolean handleOutbound(SOAPMessageContext msgContext)
    {
       log.info("handleOutbound");
 
       try
       {
-         SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+         SOAPMessage soapMessage = msgContext.getMessage();
          soapMessage.saveChanges(); // force changes save to make sure headers are copied to the message
 
          MimeHeaders mimeHeaders = soapMessage.getMimeHeaders();

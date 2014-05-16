@@ -24,8 +24,6 @@ package org.jboss.test.ws.jaxws.jbws3034;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.ws.api.handler.GenericSOAPHandler;
@@ -33,15 +31,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ServerSOAPHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class ServerSOAPHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    @Override
-   protected boolean handleOutbound(final MessageContext msgContext)
+   protected boolean handleOutbound(final SOAPMessageContext msgContext)
    {
       try
       {
-         SOAPMessageContext smc = (SOAPMessageContext) msgContext;
-         SOAPMessage message = smc.getMessage();
+         SOAPMessage message = msgContext.getMessage();
 
          SOAPBody body = message.getSOAPBody();
          Document document = body.extractContentAsDocument();

@@ -25,8 +25,6 @@ import java.io.ByteArrayOutputStream;
 
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.logging.Logger;
@@ -39,15 +37,15 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @since 27th March 2009
  * @see https://jira.jboss.org/jira/browse/JBWS-2259
  */
-public class CustomHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class CustomHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    private static final Logger log = Logger.getLogger(CustomHandler.class);
 
    @Override
-   public boolean handleMessage(final MessageContext msgContext)
+   public boolean handleMessage(final SOAPMessageContext msgContext)
    {
 
-      SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+      SOAPMessage soapMessage = msgContext.getMessage();
       try
       {
          ByteArrayOutputStream baos = new ByteArrayOutputStream();

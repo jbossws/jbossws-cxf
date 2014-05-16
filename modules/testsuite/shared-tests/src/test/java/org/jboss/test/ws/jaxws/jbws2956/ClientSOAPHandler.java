@@ -25,22 +25,21 @@ import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFault;
 import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.handler.soap.SOAPMessageContext;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import org.jboss.ws.api.handler.GenericSOAPHandler;
 
-public class ClientSOAPHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class ClientSOAPHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    @Override
-   protected boolean handleInbound(final MessageContext msgContext)
+   protected boolean handleInbound(final SOAPMessageContext msgContext)
    {
       //do nothing
       return true;
    }
 
-   protected boolean handleOutbound(final MessageContext msgContext)
+   protected boolean handleOutbound(final SOAPMessageContext msgContext)
    {
       try
       {

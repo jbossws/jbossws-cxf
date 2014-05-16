@@ -31,8 +31,6 @@ import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPHeaderElement;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.logging.Logger;
@@ -44,19 +42,19 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author Thomas.Diesler@jboss.org
  * @since 08-Oct-2005
  */
-public class LogHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class LogHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    // Provide logging
    private static Logger log = Logger.getLogger(LogHandler.class);
 
    @Override
-   protected boolean handleInbound(MessageContext msgContext)
+   protected boolean handleInbound(SOAPMessageContext msgContext)
    {
       log.info("handleInbound");
 
       try
       {
-         SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+         SOAPMessage soapMessage = msgContext.getMessage();
          SOAPHeader soapHeader = getFailsafeSOAPHeader(soapMessage);
          SOAPBody soapBody = soapMessage.getSOAPBody();
 
@@ -79,13 +77,13 @@ public class LogHandler extends GenericSOAPHandler<LogicalMessageContext>
    }
 
    @Override
-   protected boolean handleOutbound(MessageContext msgContext)
+   protected boolean handleOutbound(SOAPMessageContext msgContext)
    {
       log.info("handleOutbound");
 
       try
       {
-         SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+         SOAPMessage soapMessage = msgContext.getMessage();
          SOAPHeader soapHeader = getFailsafeSOAPHeader(soapMessage);
          SOAPBody soapBody = soapMessage.getSOAPBody();
 

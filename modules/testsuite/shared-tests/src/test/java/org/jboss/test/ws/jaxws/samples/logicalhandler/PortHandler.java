@@ -27,8 +27,6 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.logging.Logger;
@@ -40,28 +38,28 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author Thomas.Diesler@jboss.org
  * @since 24-Nov-2005
  */
-public class PortHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class PortHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    // provide logging
    private static final Logger log = Logger.getLogger(PortHandler.class);
 
    @Override
-   public boolean handleOutbound(MessageContext msgContext)
+   public boolean handleOutbound(SOAPMessageContext msgContext)
    {
       return appendHandlerName(msgContext, "Outbound");
    }
 
    @Override
-   public boolean handleInbound(MessageContext msgContext)
+   public boolean handleInbound(SOAPMessageContext msgContext)
    {
       return appendHandlerName(msgContext, "Inbound");
    }
 
-   private boolean appendHandlerName(MessageContext msgContext, String direction)
+   private boolean appendHandlerName(SOAPMessageContext msgContext, String direction)
    {
       try
       {
-         SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+         SOAPMessage soapMessage = msgContext.getMessage();
          SOAPElement soapElement = getFirstChildElement(soapMessage.getSOAPBody());
          soapElement = getFirstChildElement(soapElement);
 

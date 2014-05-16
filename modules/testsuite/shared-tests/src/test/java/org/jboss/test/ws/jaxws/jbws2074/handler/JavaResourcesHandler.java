@@ -27,7 +27,6 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -42,7 +41,7 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  *
  * @author ropalka@redhat.com
  */
-public class JavaResourcesHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class JavaResourcesHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    // provide logging
    private static final Logger log = Logger.getLogger(JavaResourcesHandler.class);
@@ -304,13 +303,13 @@ public class JavaResourcesHandler extends GenericSOAPHandler<LogicalMessageConte
    }
 
    @Override
-   public boolean handleOutbound(MessageContext msgContext)
+   public boolean handleOutbound(SOAPMessageContext msgContext)
    {
       return ensureInjectionsAndInitialization(msgContext, "Outbound");
    }
 
    @Override
-   public boolean handleInbound(MessageContext msgContext)
+   public boolean handleInbound(SOAPMessageContext msgContext)
    {
       return ensureInjectionsAndInitialization(msgContext, "Inbound");
    }

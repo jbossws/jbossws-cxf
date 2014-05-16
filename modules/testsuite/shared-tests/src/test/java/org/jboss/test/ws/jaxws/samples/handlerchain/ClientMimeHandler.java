@@ -28,7 +28,6 @@ import java.util.Map;
 
 import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -42,7 +41,7 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author alessio.soldano@jboss.com
  * @since 08-Oct-2005
  */
-public class ClientMimeHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class ClientMimeHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    // Provide logging
    private static Logger log = Logger.getLogger(ClientMimeHandler.class);
@@ -50,12 +49,12 @@ public class ClientMimeHandler extends GenericSOAPHandler<LogicalMessageContext>
    public static String inboundCookie;
 
    @Override
-   protected boolean handleOutbound(MessageContext msgContext)
+   protected boolean handleOutbound(SOAPMessageContext msgContext)
    {
       log.info("handleOutbound");
 
       // legacy JBossWS-Native approach
-      SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+      SOAPMessage soapMessage = msgContext.getMessage();
       MimeHeaders mimeHeaders = soapMessage.getMimeHeaders();
       mimeHeaders.setHeader("Cookie", "client-cookie=true");
 
@@ -70,12 +69,12 @@ public class ClientMimeHandler extends GenericSOAPHandler<LogicalMessageContext>
    }
 
    @Override
-   protected boolean handleInbound(MessageContext msgContext)
+   protected boolean handleInbound(SOAPMessageContext msgContext)
    {
       log.info("handleInbound");
 
       //legacy JBossWS-Native approach
-      SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+      SOAPMessage soapMessage = msgContext.getMessage();
       MimeHeaders mimeHeaders = soapMessage.getMimeHeaders();
       String[] cookies = mimeHeaders.getHeader("Set-Cookie");
 

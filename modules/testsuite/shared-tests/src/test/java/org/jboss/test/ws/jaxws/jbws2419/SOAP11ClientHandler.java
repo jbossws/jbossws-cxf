@@ -45,18 +45,18 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author mageshbk@jboss.com
  * @since 20-Feb-2009
  */
-public class SOAP11ClientHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class SOAP11ClientHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    private static Logger log = Logger.getLogger(SOAP11ClientHandler.class);
 
    @Override
-   public boolean handleInbound(MessageContext msgContext)
+   public boolean handleInbound(SOAPMessageContext msgContext)
    {
       log.info("handleInbound");
 
       try
       {
-         SOAPEnvelope soapEnvelope = ((SOAPMessageContext)msgContext).getMessage().getSOAPPart().getEnvelope();
+         SOAPEnvelope soapEnvelope = msgContext.getMessage().getSOAPPart().getEnvelope();
          String nsURI = soapEnvelope.getNamespaceURI();
 
          log.info("nsURI=" + nsURI);

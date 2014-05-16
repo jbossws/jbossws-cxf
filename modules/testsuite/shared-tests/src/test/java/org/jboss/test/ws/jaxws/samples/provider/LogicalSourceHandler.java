@@ -52,13 +52,13 @@ public class LogicalSourceHandler extends GenericLogicalHandler<LogicalMessageCo
    private static final Logger log = Logger.getLogger(LogicalSourceHandler.class);
 
    @Override
-   public boolean handleOutbound(MessageContext msgContext)
+   public boolean handleOutbound(LogicalMessageContext msgContext)
    {
       return appendHandlerName(msgContext, "Outbound");
    }
 
    @Override
-   public boolean handleInbound(MessageContext msgContext)
+   public boolean handleInbound(LogicalMessageContext msgContext)
    {
       return appendHandlerName(msgContext, "Inbound");
    }

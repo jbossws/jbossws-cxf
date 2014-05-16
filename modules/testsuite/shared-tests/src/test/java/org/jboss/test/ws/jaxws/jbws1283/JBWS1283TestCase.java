@@ -33,8 +33,6 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import junit.framework.Test;
@@ -81,12 +79,12 @@ public class JBWS1283TestCase extends JBossWSTest
    }
 
    // handler that verifies the attachment that have been added on the server-side
-   static class VerifyAttachmentHandler extends GenericSOAPHandler<LogicalMessageContext>
+   static class VerifyAttachmentHandler extends GenericSOAPHandler<SOAPMessageContext>
    {
       @Override
-      protected boolean handleInbound(MessageContext msgContext)
+      protected boolean handleInbound(SOAPMessageContext msgContext)
       {
-         SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+         SOAPMessage soapMessage = msgContext.getMessage();
          Iterator<?> it = soapMessage.getAttachments();
          while(it.hasNext())
          {

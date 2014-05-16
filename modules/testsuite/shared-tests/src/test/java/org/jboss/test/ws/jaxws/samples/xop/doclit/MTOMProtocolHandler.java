@@ -26,7 +26,6 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -39,17 +38,17 @@ import org.w3c.dom.NodeList;
  * which means an inlined representation of the binary data.
  * It checks existence of the xop:Include element.
  */
-public class MTOMProtocolHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class MTOMProtocolHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
 
    @Override
-   protected boolean handleOutbound(MessageContext msgContext)
+   protected boolean handleOutbound(SOAPMessageContext msgContext)
    {
       return verifyXOPPackage(msgContext);
    }
 
    @Override
-   protected boolean handleInbound(MessageContext msgContext)
+   protected boolean handleInbound(SOAPMessageContext msgContext)
    {
       return verifyXOPPackage(msgContext);
    }

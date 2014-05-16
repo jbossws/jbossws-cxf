@@ -28,7 +28,6 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -41,7 +40,7 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  *
  * @author <a href="mailto:richard.opalka@jboss.org">Richard Opalka</a>
  */
-public class TestHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class TestHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    // provide logging
    private static final Logger log = Logger.getLogger(TestHandler.class);
@@ -79,13 +78,13 @@ public class TestHandler extends GenericSOAPHandler<LogicalMessageContext>
    }
 
    @Override
-   public boolean handleOutbound(MessageContext msgContext)
+   public boolean handleOutbound(SOAPMessageContext msgContext)
    {
       return ensureInjectionsAndInitialization(msgContext, "Outbound");
    }
 
    @Override
-   public boolean handleInbound(MessageContext msgContext)
+   public boolean handleInbound(SOAPMessageContext msgContext)
    {
       return ensureInjectionsAndInitialization(msgContext, "Inbound");
    }

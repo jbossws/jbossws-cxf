@@ -26,7 +26,6 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
-import javax.xml.ws.handler.LogicalMessageContext;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
@@ -37,7 +36,7 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author alessio.soldano@jboss.com
  * @since 30-Sep-2008
  */
-public class TestHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class TestHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    private final String envelopeNamespace;
    private final String contentType;
@@ -55,17 +54,17 @@ public class TestHandler extends GenericSOAPHandler<LogicalMessageContext>
    }
 
    @Override
-   public boolean handleFault(MessageContext context)
+   public boolean handleFault(SOAPMessageContext context)
    {
       return handleMessage(context);
    }
 
    @Override
-   public boolean handleInbound(MessageContext context)
+   public boolean handleInbound(SOAPMessageContext context)
    {
       try
       {
-         SOAPMessage soapMessage = ((SOAPMessageContext)context).getMessage();
+         SOAPMessage soapMessage = context.getMessage();
          soapMessage.saveChanges();
          checkEnvelope(soapMessage);
          checkContentType(soapMessage);
@@ -78,11 +77,11 @@ public class TestHandler extends GenericSOAPHandler<LogicalMessageContext>
    }
 
    @Override
-   public boolean handleOutbound(MessageContext context)
+   public boolean handleOutbound(SOAPMessageContext context)
    {
       try
       {
-         SOAPMessage soapMessage = ((SOAPMessageContext)context).getMessage();
+         SOAPMessage soapMessage = context.getMessage();
          soapMessage.saveChanges();
          checkEnvelope(soapMessage);
          checkContentType(soapMessage);

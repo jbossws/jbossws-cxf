@@ -29,8 +29,6 @@ import javax.xml.soap.SOAPBodyElement;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.ws.api.handler.GenericSOAPHandler;
@@ -41,15 +39,15 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author alessio.soldano@jboss.org
  * @since 12-Feb-2008
  */
-public class ServerHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class ServerHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    @Override
    @SuppressWarnings("unchecked")
-   public boolean handleFault(MessageContext msgContext)
+   public boolean handleFault(SOAPMessageContext msgContext)
    {
       try
       {
-         SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+         SOAPMessage soapMessage = msgContext.getMessage();
          SOAPBody soapBody = soapMessage.getSOAPBody();
          SOAPBodyElement soapBodyElement = (SOAPBodyElement)soapBody.getChildElements().next();
          SOAPElement faultStringElement = (SOAPElement)soapBodyElement.getChildElements(new QName("faultstring")).next();

@@ -32,13 +32,13 @@ import org.jboss.ws.api.handler.GenericLogicalHandler;
 public class LogicalJAXBHandler extends GenericLogicalHandler<LogicalMessageContext>
 {
    @Override
-   public boolean handleOutbound(MessageContext msgContext)
+   public boolean handleOutbound(LogicalMessageContext msgContext)
    {
       return appendHandlerName(msgContext, "Outbound");
    }
 
    @Override
-   public boolean handleInbound(MessageContext msgContext)
+   public boolean handleInbound(LogicalMessageContext msgContext)
    {
       return appendHandlerName(msgContext, "Inbound");
    }

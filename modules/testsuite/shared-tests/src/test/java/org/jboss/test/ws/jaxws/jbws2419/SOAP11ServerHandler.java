@@ -45,12 +45,12 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
  * @author mageshbk@jboss.com
  * @since 20-Feb-2009
  */
-public class SOAP11ServerHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class SOAP11ServerHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    private static Logger log = Logger.getLogger(SOAP11ServerHandler.class);
 
    @Override
-   public boolean handleInbound(MessageContext msgContext)
+   public boolean handleInbound(SOAPMessageContext msgContext)
    {
       log.info("handleInbound");
 
