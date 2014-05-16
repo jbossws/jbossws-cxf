@@ -67,7 +67,6 @@
     <jbossws.common.tools.version>1.2.0.Final</jbossws.common.tools.version>
     <jbossws.wildfly800.version>5.0.0-SNAPSHOT</jbossws.wildfly800.version>
     <jbossws.wildfly810.version>5.0.0-SNAPSHOT</jbossws.wildfly810.version>
-    <jbossws.native.version>4.2.0.Final</jbossws.native.version>
     <wildfly800.version>8.0.0.Final</wildfly800.version>
     <wildfly810.version>8.1.0.CR2</wildfly810.version>
     <wildfly900.version>9.0.0.Alpha1-SNAPSHOT</wildfly900.version>
@@ -86,7 +85,6 @@
     <io.undertow.version>1.0.10.Final</io.undertow.version>
     <jaxb.api.version>1.0.4.Final</jaxb.api.version>
     <jaxb.impl.version>2.2.6</jaxb.impl.version>
-    <jaxrpc.api.version>1.0.1.Final</jaxrpc.api.version>
     <jaxws.api.version>2.0.2.Final</jaxws.api.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <commons-collections.version>3.2.1</commons-collections.version>
@@ -849,11 +847,6 @@
       </dependency>
 
       <dependency>
-        <groupId>org.jboss.spec.javax.xml.rpc</groupId>
-        <artifactId>jboss-jaxrpc-api_1.1_spec</artifactId>
-        <version>${jaxrpc.api.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.jboss.spec.javax.xml.soap</groupId>
         <artifactId>jboss-saaj-api_1.3_spec</artifactId>
         <version>${saaj.api.version}</version>
@@ -1062,52 +1055,6 @@
          <artifactId>spring-jms</artifactId>
          <version>${spring.version}</version>
          <scope>provided</scope>
-      </dependency>
-
-      <!-- JBossWS Native dependencies for installation and testsuite only -->
-      <dependency>
-         <groupId>org.jboss.ws.native</groupId>
-         <artifactId>jbossws-native-core</artifactId>
-         <version>${jbossws.native.version}</version>
-         <exclusions>
-            <exclusion>
-               <groupId>javax.servlet</groupId>
-               <artifactId>servlet-api</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.jboss</groupId>
-               <artifactId>jbossxb</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.javassist</groupId>
-               <artifactId>javassist</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.jboss</groupId>
-               <artifactId>jboss-common-core</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>xerces</groupId>
-               <artifactId>xercesImpl</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>javax.mail</groupId>
-               <artifactId>mail</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.jboss.netty</groupId>
-               <artifactId>netty</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>wsdl4j</groupId>
-               <artifactId>wsdl4j</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.ws.native</groupId>
-         <artifactId>jbossws-native-services</artifactId>
-         <version>${jbossws.native.version}</version>
       </dependency>
 
       <dependency>

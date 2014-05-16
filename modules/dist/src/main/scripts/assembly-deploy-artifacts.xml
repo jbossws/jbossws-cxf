@@ -35,8 +35,6 @@
               <include>org.jboss.ws.cxf:jbossws-cxf-server:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-transports-undertow:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-transports-udp:jar</include>
-              <include>org.jboss.ws.native:jbossws-native-core:jar</include>
-              <include>org.jboss.ws.native:jbossws-native-services:jar</include>
               <include>org.jboss.ws.projects:jaxws-undertow-httpspi:jar</include>
               <include>io.undertow:undertow-core:jar</include>
               <include>org.apache.cxf:cxf-*</include>
@@ -153,15 +151,6 @@
             <outputFileNameMapping>jaxws-api.jar</outputFileNameMapping>
             <includes>
               <include>org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.2_spec:jar</include>
-            </includes>
-            <useProjectArtifact>false</useProjectArtifact>
-          </dependencySet>
-          <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>
-            <outputFileNameMapping>jaxrpc-api.jar</outputFileNameMapping>
-            <includes>
-              <include>org.jboss.spec.javax.xml.rpc:jboss-jaxrpc-api_1.1_spec:jar</include>
             </includes>
             <useProjectArtifact>false</useProjectArtifact>
           </dependencySet>

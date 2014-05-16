@@ -521,7 +521,6 @@
         <fileset dir="@{srcdir}/resources">
           <include name="**/*.wsdl"/>
           <include name="**/*.xml"/>
-          <exclude name="jaxrpc/samples-override/**"/>
         </fileset>
         <filterset>
           <filter token="java.home" value="${java.home}"/>

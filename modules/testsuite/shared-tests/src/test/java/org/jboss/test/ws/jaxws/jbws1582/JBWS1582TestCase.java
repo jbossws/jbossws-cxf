@@ -81,11 +81,6 @@ public class JBWS1582TestCase extends JBossWSTest
       {
          assertTrue(response.contains("Error reading XMLStreamReader"));
       }
-      else if(isIntegrationNative()) 
-      {
-         assertTrue(response.contains("DOCTYPE is disallowed when the feature"));
-         assertTrue(response.contains("http://apache.org/xml/features/disallow-doctype-decl"));
-      }
       else
       {
          throw new IllegalStateException("Unknown SOAP stack in use");
@@ -99,11 +94,6 @@ public class JBWS1582TestCase extends JBossWSTest
       if (isIntegrationCXF())
       {
          assertTrue(response.contains("Error reading XMLStreamReader"));
-      }
-      else if(isIntegrationNative()) 
-      {
-         assertTrue(response.contains("DOCTYPE is disallowed when the feature"));
-         assertTrue(response.contains("http://apache.org/xml/features/disallow-doctype-decl"));
       }
       else
       {

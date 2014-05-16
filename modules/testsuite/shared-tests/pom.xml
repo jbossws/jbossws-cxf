@@ -90,7 +90,6 @@
                     <ant antfile="scripts/antrun-wsprovide.xml" target="wsprovide"/>
                     <ant antfile="src/test/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws"/>
                     <ant antfile="src/test/ant-import/build-samples-jaxws.xml" target="build-samples-jaxws"/>
-                    <ant antfile="src/test/ant-import/build-samples-jaxrpc.xml" target="build-samples-jaxrpc"/>
                   </target>
                 </configuration>
               </execution>

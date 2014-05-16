@@ -163,12 +163,6 @@ public class JBossWSTestHelper
        return target.startsWith("wildfly9");
    }
 
-   public static boolean isIntegrationNative()
-   {
-      String vendor = getImplementationInfo();
-      return vendor.toLowerCase().indexOf("jboss") != -1;
-   }
-
    public static boolean isIntegrationCXF()
    {
       String vendor = getImplementationInfo();

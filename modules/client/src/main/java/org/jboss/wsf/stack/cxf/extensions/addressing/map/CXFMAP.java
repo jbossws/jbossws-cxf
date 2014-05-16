@@ -57,10 +57,6 @@ public class CXFMAP implements MAP
     */
    private AddressingProperties implementation;
 
-   /**
-    * JBossWS Native specific constructor
-    * @param implementation
-    */
    CXFMAP(AddressingProperties implementation)
    {
       this.implementation = implementation;

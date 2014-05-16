@@ -79,11 +79,9 @@
   
   <target name="tests-init" depends="init,tests-classpath">
     <!-- JBossWS jars first to override META-INF/services declarations duplicated in CXF jars (alternative is using endorsing) -->
-    <!-- Avoid including jbossws-native-services.jar, we just need and want jbossws-native-core for jaxrpc tests -->
     <path id="ws.stack.classpath">
       <fileset dir="${thirdparty.dir}">
       	<include name="**/jbossws*.jar"/>
-        <exclude name="**/jbossws-native-services.jar"/>
         <exclude name="**/jbossws-jboss*.jar"/>
       	<exclude name="**/jbossws-wildfly*.jar"/>
       </fileset>
@@ -115,7 +113,6 @@
   
   <target name="tests-jars" depends="tests-compile,tests-copy-resources">
     <ant antfile="${tests.dir}/ant-import/build-samples-jaxws.xml" target="build-samples-jaxws" inheritall="true"/>
-    <ant antfile="${tests.dir}/ant-import/build-samples-jaxrpc.xml" target="build-samples-jaxrpc" inheritall="true"/>
     <ant antfile="${tests.dir}/ant-import/cxf-samples-jars-jaxws.xml" target="build-jars-jaxws" inheritall="true"/>
   </target>
   

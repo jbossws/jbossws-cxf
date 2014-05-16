@@ -151,7 +151,7 @@ public abstract class PluginBase extends JBossWSTest
    
    protected void readIntegrationStack()
    {
-      this.integrationNative = isIntegrationNative();
+      this.integrationNative = false;
       this.integrationCXF = isIntegrationCXF();
    }
 }

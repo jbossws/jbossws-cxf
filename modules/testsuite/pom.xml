@@ -87,11 +87,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.jboss.ws.native</groupId>
-      <artifactId>jbossws-native-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
@@ -682,9 +677,6 @@
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
               <excludes combine.children="append">
-                 <!--# JAX-RPC removed in EE 7 -->
-                 <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
-
                  <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
 
@@ -774,9 +766,6 @@
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
               <excludes combine.children="append">
-                 <!--# JAX-RPC removed in EE 7 -->
-                 <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
-
                  <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
 
@@ -867,9 +856,6 @@
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
               <excludes combine.children="append">
-                 <!--# JAX-RPC removed in EE 7 -->
-                 <exclude>org/jboss/test/ws/jaxrpc/**</exclude>
-
                  <!--# [CXF-1519] Explicitly set the namespace of a WebFault-->
                  <exclude>org/jboss/test/ws/jaxws/jbws1904/**</exclude>
 

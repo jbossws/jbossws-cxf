@@ -138,31 +138,6 @@ public abstract class XOPBase extends JBossWSTest
       assertTrue(response.getData() instanceof Source);
    }
 
-   public void testAttachmentpartSwap() throws Exception
-   {
-      if (!isIntegrationNative())
-      {
-         //early return for non-native stack integration, as the test basically
-         //check for native stack specific implementation details
-         return;
-      }
-      getBinding().setMTOMEnabled(true);
-
-      DataHandler dh = new DataHandler(new GeneratorDataSource(1024 * 128));
-      DHResponse response = getPort().echoDataHandler(new DHRequest(dh));
-      assertNotNull(response);
-      assertNotNull(response.getDataHandler().getContent());
-
-      File tmpDir = new File(System.getProperty("jboss.home") + FS + "standalone" + FS + "tmp" + FS + "jbossws");
-      assertTrue("Temp dir doesn't exist: " + tmpDir, tmpDir.exists());
-
-      //[JBWS-2834]: windows file delete issue
-      /*for (String fileName : tmpDir.list())
-      {
-         assertTrue("Attachment part swap file does still exist: " + fileName, fileName.indexOf("JBossWSattachment") == -1);
-      }*/
-   }
-
    protected Object getContent(DataHandler dh) throws IOException
    {
       Object content = dh.getContent();

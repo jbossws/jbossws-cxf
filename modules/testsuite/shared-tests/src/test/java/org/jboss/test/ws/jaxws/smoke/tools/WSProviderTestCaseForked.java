@@ -94,8 +94,6 @@ public class WSProviderTestCaseForked extends PluginBase
     */
    protected boolean filtered(String jarName)
    {
-      return (isIntegrationNative() &&
-        (jarName.indexOf("jaxws-rt")!=-1 || jarName.indexOf("jaxws-tools")!=-1)
-        );
+      return false;
    }
 }

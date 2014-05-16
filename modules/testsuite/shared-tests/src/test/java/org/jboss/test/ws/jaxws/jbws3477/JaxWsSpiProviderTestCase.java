@@ -48,9 +48,6 @@ public class JaxWsSpiProviderTestCase extends JBossWSTest
       if (isIntegrationCXF()) {
          defaultProvider = "org.jboss.wsf.stack.cxf.client.ProviderImpl";
       }
-      else if (isIntegrationNative()) {
-         defaultProvider = "org.jboss.ws.core.jaxws.spi.ProviderImpl";
-      }
    }
    
    public void testClientSide()

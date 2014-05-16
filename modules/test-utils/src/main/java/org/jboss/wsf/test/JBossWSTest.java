@@ -202,11 +202,6 @@ public abstract class JBossWSTest extends TestCase
       return JBossWSTestHelper.getServer();
    }
 
-   public static boolean isIntegrationNative()
-   {
-      return JBossWSTestHelper.isIntegrationNative();
-   }
-
    public static boolean isIntegrationCXF()
    {
       return JBossWSTestHelper.isIntegrationCXF();
