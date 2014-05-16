@@ -39,7 +39,7 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.handler.GenericSOAPHandler;
 
-public class ClientHandler extends GenericSOAPHandler<LogicalMessageContext>
+public class ClientHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    private static Logger log = Logger.getLogger(ClientHandler.class);
 
@@ -50,13 +50,13 @@ public class ClientHandler extends GenericSOAPHandler<LogicalMessageContext>
       this.checkMtom = checkMtom;
    }
 
-   public boolean handleInbound(MessageContext msgContext)
+   public boolean handleInbound(SOAPMessageContext msgContext)
    {
       log.info("handleInbound");
 
       try
       {
-         SOAPEnvelope soapEnvelope = (SOAPEnvelope)((SOAPMessageContext)msgContext).getMessage().getSOAPPart().getEnvelope();
+         SOAPEnvelope soapEnvelope = (SOAPEnvelope)msgContext.getMessage().getSOAPPart().getEnvelope();
          String nsURI = soapEnvelope.getNamespaceURI();
 
          log.info("nsURI=" + nsURI);
@@ -97,7 +97,7 @@ public class ClientHandler extends GenericSOAPHandler<LogicalMessageContext>
       return true;
    }
 
-   protected ContentType getContentType(MessageContext msgContext)
+   protected ContentType getContentType(SOAPMessageContext msgContext)
    {
       ContentType contentType = null;
 
@@ -116,7 +116,7 @@ public class ClientHandler extends GenericSOAPHandler<LogicalMessageContext>
          if (ctype == null)
          {
             //Native has already processed this header into the message
-            SOAPMessage soapMessage = ((SOAPMessageContext)msgContext).getMessage();
+            SOAPMessage soapMessage = msgContext.getMessage();
             MimeHeaders mimeHeaders = soapMessage.getMimeHeaders();
             String[] ct = mimeHeaders.getHeader("Content-Type");
             log.info("ct="+ct);
