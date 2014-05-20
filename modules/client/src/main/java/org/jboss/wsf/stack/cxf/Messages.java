@@ -34,7 +34,6 @@ import org.jboss.logging.Cause;
 import org.jboss.logging.Message;
 import org.jboss.logging.MessageBundle;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.DeploymentType;
 import org.jboss.wsf.spi.deployment.WSFDeploymentException;
 
 /**
@@ -194,9 +193,6 @@ public interface Messages {
     
     @Message(id = 24076, value = "Service %s, cannot publish wsdl to: %s")
     RuntimeException cannotPublishWSDLTo(QName serviceName, File file, @Cause Throwable cause);
-    
-    @Message(id = 24082, value = "Unsupported deployment type: %s")
-    IllegalStateException unsupportedDeploymentType(DeploymentType depType);
     
     @Message(id = 24083, value = "Endpoint %s is not defined in jbossws-cxf.xml")
     IllegalStateException endpointNotDefineInJbwsCxf(String ep);

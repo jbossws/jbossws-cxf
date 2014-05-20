@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.deployment.aspect;
 
-import static org.jboss.wsf.spi.deployment.DeploymentType.JAXRPC;
-import static org.jboss.ws.common.integration.WSHelper.isJaxrpcDeployment;
 import static org.jboss.ws.common.integration.WSHelper.isJseDeployment;
 import static org.jboss.ws.common.integration.WSHelper.isWarArchive;
 import static org.jboss.wsf.stack.cxf.Loggers.DEPLOYMENT_LOGGER;
@@ -35,7 +33,6 @@ import org.jboss.ws.common.integration.AbstractDeploymentAspect;
 import org.jboss.ws.common.integration.WSConstants;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
@@ -96,10 +93,6 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
     */
    private URL getCXFConfigFromDeployment(Deployment dep)
    {
-      if (isJaxrpcDeployment(dep))
-      {
-         throw Messages.MESSAGES.unsupportedDeploymentType(JAXRPC);
-      }
       String metadir = null;
       if (isJseDeployment(dep) || isWarArchive(dep))
       {

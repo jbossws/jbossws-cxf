@@ -34,41 +34,34 @@
         </entry>
       </map>
     </property>
-    <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 
   <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.DescriptorDeploymentAspect">
     <property name="requires" class="java.lang.String">EndpointAddress,JAXBIntros</property>
     <property name="provides" class="java.lang.String">StackDescriptor</property>
-    <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 
   <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.ResourceResolverDeploymentAspect">
     <property name="provides" class="java.lang.String">ResourceResolver</property>
-    <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 
   <deploymentAspect class="org.jboss.ws.common.deployment.EndpointHandlerDeploymentAspect">
     <property name="requires" class="java.lang.String">ContainerMetaData</property>
     <property name="provides" class="java.lang.String">StackEndpointHandler</property>
-    <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 
   <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.CXFInstanceProviderDeploymentAspect">
     <property name="requires" class="java.lang.String">ContainerMetaData,BusHolder</property>
     <property name="provides" class="java.lang.String">StackInstanceProvider</property>
-    <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 
   <deploymentAspect class="org.jboss.ws.common.deployment.JAXBIntroDeploymentAspect">
     <property name="provides" class="java.lang.String">JAXBIntros</property>
-    <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 
   <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.BusDeploymentAspect">
     <property name="provides" class="java.lang.String">BusHolder</property>
     <property name="requires" class="java.lang.String">ResourceResolver,StackDescriptor</property>
-    <property name="forJaxRpc" class="boolean">false</property>
   </deploymentAspect>
 
 </deploymentAspects>

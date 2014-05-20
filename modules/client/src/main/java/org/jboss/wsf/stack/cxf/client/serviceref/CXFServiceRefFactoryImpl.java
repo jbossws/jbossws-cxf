@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,8 +23,6 @@ package org.jboss.wsf.stack.cxf.client.serviceref;
 
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 import org.jboss.wsf.spi.serviceref.ServiceRefFactory;
-import org.jboss.wsf.spi.serviceref.ServiceRefType;
-import org.jboss.wsf.stack.cxf.Messages;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
@@ -34,10 +32,6 @@ final class CXFServiceRefFactoryImpl implements ServiceRefFactory
    @Override
    public Object newServiceRef(final UnifiedServiceRefMetaData serviceRefUMDM)
    {
-       if (serviceRefUMDM.getType() == ServiceRefType.JAXWS) {
-           return new CXFServiceObjectFactoryJAXWS().getObjectInstance(serviceRefUMDM);
-       } else {
-           throw Messages.MESSAGES.jaxrpcServiceRefNotSupported();
-       }
+      return new CXFServiceObjectFactoryJAXWS().getObjectInstance(serviceRefUMDM);
    }
 }
