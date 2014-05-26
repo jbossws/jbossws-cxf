@@ -39,7 +39,7 @@ import org.jboss.wsf.stack.cxf.Loggers;
  */
 public class JBossWSResourceResolver implements ResourceResolver
 {
-   private org.jboss.wsf.spi.deployment.ResourceResolver resolver;
+   private final org.jboss.wsf.spi.deployment.ResourceResolver resolver;
    
    public JBossWSResourceResolver(org.jboss.wsf.spi.deployment.ResourceResolver resolver)
    {

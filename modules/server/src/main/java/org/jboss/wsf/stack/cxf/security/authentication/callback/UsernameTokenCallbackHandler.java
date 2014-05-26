@@ -39,11 +39,11 @@ import org.jboss.security.auth.callback.MapCallback;
  */
 public class UsernameTokenCallbackHandler implements CallbackHandler
 {
-   private String nonce;
+   private final String nonce;
 
-   private String created;
+   private final String created;
 
-   private boolean decodeNonce;
+   private final boolean decodeNonce;
 
    public UsernameTokenCallbackHandler(String nonce, String created, boolean decodeNonce)
    {

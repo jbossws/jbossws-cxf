@@ -39,7 +39,7 @@ import org.w3c.dom.Element;
  */
 public class CXFMAPEndpoint implements MAPEndpoint
 {
-   private EndpointReferenceType implementation;
+   private final EndpointReferenceType implementation;
 
    CXFMAPEndpoint(EndpointReferenceType implementation)
    {

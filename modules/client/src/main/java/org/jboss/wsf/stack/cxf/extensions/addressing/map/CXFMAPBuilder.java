@@ -46,7 +46,7 @@ import org.jboss.ws.api.addressing.MAPRelatesTo;
  */
 public class CXFMAPBuilder implements MAPBuilder
 {
-   private static MAPBuilder theBuilder = new CXFMAPBuilder();
+   private static final MAPBuilder theBuilder = new CXFMAPBuilder();
 
    public static MAPBuilder getBuilder()
    {

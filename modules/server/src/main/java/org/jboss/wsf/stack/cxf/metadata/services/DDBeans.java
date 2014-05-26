@@ -43,11 +43,11 @@ import org.jboss.ws.common.IOUtils;
 public class DDBeans
 {
    // The Required services.
-   private List<DDEndpoint> endpoints = new ArrayList<DDEndpoint>();
+   private final List<DDEndpoint> endpoints = new ArrayList<DDEndpoint>();
    // Optional additional beans.
-   private List<DDBean> beans = new LinkedList<DDBean>();
+   private final List<DDBean> beans = new LinkedList<DDBean>();
    
-   private List<DDJmsAddressBean> addressBeans = new LinkedList<DDJmsAddressBean>();
+   private final List<DDJmsAddressBean> addressBeans = new LinkedList<DDJmsAddressBean>();
    
    // The derived temp file
    private File tmpFile;

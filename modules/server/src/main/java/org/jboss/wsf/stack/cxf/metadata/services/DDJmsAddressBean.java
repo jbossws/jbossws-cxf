@@ -33,9 +33,9 @@ import java.util.Properties;
  */
 public class DDJmsAddressBean
 {
-   private String portName;
-   private Properties properties;
-   private boolean isRequest = true;
+   private final String portName;
+   private final Properties properties;
+   private final boolean isRequest;
    
    public DDJmsAddressBean(String portName, boolean isRequest, Properties properties)
    {

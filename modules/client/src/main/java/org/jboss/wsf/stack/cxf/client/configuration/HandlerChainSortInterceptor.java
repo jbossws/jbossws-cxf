@@ -44,9 +44,9 @@ import org.jboss.ws.common.configuration.ConfigDelegateHandlerComparator;
  */
 public class HandlerChainSortInterceptor extends AbstractPhaseInterceptor<Message>
 {
-   private Binding binding;
+   private final Binding binding;
    @SuppressWarnings("rawtypes")
-   private static Comparator<Handler> comparator = new ConfigDelegateHandlerComparator<Handler>();
+   private static final Comparator<Handler> comparator = new ConfigDelegateHandlerComparator<Handler>();
 
    public HandlerChainSortInterceptor(Binding b)
    {

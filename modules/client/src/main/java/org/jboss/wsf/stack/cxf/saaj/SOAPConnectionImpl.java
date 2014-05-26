@@ -58,7 +58,7 @@ import org.apache.cxf.transport.http.HTTPConduit;
 
 public class SOAPConnectionImpl extends SOAPConnection 
 {
-   private boolean closed = false;
+   private volatile boolean closed = false;
 
     @Override
     public SOAPMessage call(SOAPMessage msgOut, Object addressObject) throws SOAPException 

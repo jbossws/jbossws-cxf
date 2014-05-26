@@ -60,21 +60,22 @@ import org.w3c.dom.Element;
 public class PolicySetsAnnotationListener implements FactoryBeanListener
 {
    private final Map<Class<?>, EndpointPolicyAttachments> epaMap = new HashMap<Class<?>, EndpointPolicyAttachments>();
-   private PolicyAttachmentStore store;
+   private final PolicyAttachmentStore store;
    
    public PolicySetsAnnotationListener() {
       this.store = PolicyAttachmentStore.getDefaultInstance();
    }
    
    public PolicySetsAnnotationListener(ClassLoader cl) {
-      this.store = PolicyAttachmentStore.getDefaultInstance();
+      PolicyAttachmentStore tmp = PolicyAttachmentStore.getDefaultInstance();
       if (cl != null) {
          PolicyAttachmentStore pas = new PolicyAttachmentStore(cl);
          if (!pas.isEmpty()) {
-            pas.merge(this.store);
-            this.store = pas;
+            pas.merge(tmp);
+            tmp = pas;
          }
       }
+      this.store = tmp;
    }
    
    public PolicySetsAnnotationListener(PolicyAttachmentStore store) {

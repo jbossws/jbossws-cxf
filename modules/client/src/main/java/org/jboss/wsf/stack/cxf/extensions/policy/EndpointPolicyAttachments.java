@@ -39,7 +39,7 @@ import org.apache.cxf.annotations.Policy.Placement;
  */
 public class EndpointPolicyAttachments
 {
-   private Map<Placement, List<PolicyAttachment>> attachmentMap;
+   private final Map<Placement, List<PolicyAttachment>> attachmentMap;
    
    private EndpointPolicyAttachments(Map<Placement, List<PolicyAttachment>> attachmentMap) {
       this.attachmentMap = attachmentMap;

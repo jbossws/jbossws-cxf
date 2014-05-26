@@ -35,8 +35,8 @@ import org.jboss.ws.api.addressing.MAPRelatesTo;
  */
 public class CXFMAPRelatesTo implements MAPRelatesTo
 {
-   private String relatesTo;
-   private QName type;
+   private final String relatesTo;
+   private final QName type;
 
    CXFMAPRelatesTo(String relatesTo, QName type)
    {
@@ -56,7 +56,7 @@ public class CXFMAPRelatesTo implements MAPRelatesTo
 
    public void setType(QName type)
    {
-      this.type = type;
+      throw new UnsupportedOperationException();
    }
 
 }

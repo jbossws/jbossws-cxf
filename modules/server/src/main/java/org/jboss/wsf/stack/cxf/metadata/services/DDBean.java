@@ -32,8 +32,8 @@ import java.io.Writer;
  */
 public class DDBean
 {
-   private String beanName;
-   private String beanClass;
+   private final String beanName;
+   private final String beanClass;
 
    public DDBean(String beanName, String beanClass)
    {

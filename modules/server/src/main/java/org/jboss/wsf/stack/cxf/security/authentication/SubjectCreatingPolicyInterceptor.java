@@ -51,7 +51,7 @@ import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
  */
 public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<Message>
 {
-   protected SubjectCreator helper = new SubjectCreator();
+   protected final SubjectCreator helper = new SubjectCreator();
 
    public SubjectCreatingPolicyInterceptor()
    {

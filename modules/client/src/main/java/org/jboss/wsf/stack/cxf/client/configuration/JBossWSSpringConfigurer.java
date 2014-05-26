@@ -39,7 +39,7 @@ import org.springframework.context.ApplicationContextAware;
 public class JBossWSSpringConfigurer implements JBossWSConfigurer, ApplicationContextAware, BusExtension
 {
    private BeanCustomizer customizer;
-   private Configurer delegate;
+   private final Configurer delegate;
    
    public JBossWSSpringConfigurer(Configurer delegate)
    {

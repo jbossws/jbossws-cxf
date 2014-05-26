@@ -40,7 +40,7 @@ import org.jboss.wsf.spi.invocation.NamespaceContextSelectorWrapperFactory;
  */
 public class NsCtxSelectorStoreInterceptor extends AbstractPhaseInterceptor<Message>
 {
-   private NamespaceContextSelectorWrapperFactory factory;
+   private final NamespaceContextSelectorWrapperFactory factory;
    
    public NsCtxSelectorStoreInterceptor()
    {

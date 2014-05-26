@@ -45,8 +45,8 @@ import org.w3c.dom.Element;
  */
 public class PolicyAttachment
 {
-   private Placement placement;
-   private String uri;
+   private final Placement placement;
+   private final String uri;
 
    public PolicyAttachment(Placement placement, String uri)
    {

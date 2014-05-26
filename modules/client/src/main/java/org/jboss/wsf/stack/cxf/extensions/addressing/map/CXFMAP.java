@@ -55,7 +55,7 @@ public class CXFMAP implements MAP
    /**
     * the wrapped instance which this class delegates to
     */
-   private AddressingProperties implementation;
+   private final AddressingProperties implementation;
 
    CXFMAP(AddressingProperties implementation)
    {

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -30,12 +30,6 @@ import org.jboss.wsf.spi.invocation.RequestHandler;
  */
 public class RequestHandlerFactoryImpl extends RequestHandlerFactory
 {
-   @Deprecated
-   public RequestHandler newRequestHandler()
-   {
-      return new RequestHandlerImpl();  
-   }
-   
    public RequestHandler getRequestHandler()
    {
       return RequestHandlerImpl.getInstance();  
