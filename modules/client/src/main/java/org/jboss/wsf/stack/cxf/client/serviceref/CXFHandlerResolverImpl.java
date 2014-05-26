@@ -109,20 +109,22 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
    @SuppressWarnings("rawtypes")
    public List<Handler> getHandlerChain(PortInfo portInfo)
    {
-      List<Handler> handlerChain = handlerMap.get(portInfo);
-      if (handlerChain == null) {
-         QName portQName = portInfo.getPortName();
-         QName serviceQName = portInfo.getServiceName();
-         String bindingId = portInfo.getBindingID();
-         handlerChain = createHandlerChain(portInfo, portQName, serviceQName, bindingId);
-         handlerMap.put(portInfo, handlerChain);
+      synchronized (handlerMap)
+      {
+         List<Handler> handlerChain = handlerMap.get(portInfo);
+         if (handlerChain == null) {
+            QName portQName = portInfo.getPortName();
+            QName serviceQName = portInfo.getServiceName();
+            String bindingId = portInfo.getBindingID();
+            handlerChain = createHandlerChain(portInfo, portQName, serviceQName, bindingId);
+            handlerMap.put(portInfo, handlerChain);
+            
+            for (Handler h : handlerChain) {
+               configHandler(h);
+            }       
+         }
+         return handlerChain;
       }
-      
-      for (Handler h : handlerChain) {
-         configHandler(h);
-      }       
-      
-      return handlerChain;
    }
    
    /**
@@ -149,7 +151,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
    }
    
    @SuppressWarnings("rawtypes")
-   public List<Handler> createHandlerChain(PortInfo portInfo, QName portQName, QName serviceQName, String bindingID) {
+   protected List<Handler> createHandlerChain(PortInfo portInfo, QName portQName, QName serviceQName, String bindingID) {
       List<Handler> chain = new ArrayList<Handler>();
       InputStream is = getInputStream();
       try {
