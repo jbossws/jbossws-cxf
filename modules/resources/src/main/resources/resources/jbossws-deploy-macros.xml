@@ -75,6 +75,7 @@
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/cxf-*.jar"/>
           <exclude name="**/cxf-core*.jar"/>
+          <exclude name="**/cxf-rt-transports-http-hc.jar"/> 
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/api/main" flatten="false" overwrite="true">
@@ -189,6 +190,7 @@
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/cxf-*.jar"/>
           <exclude name="**/cxf-core*.jar"/>
+          <exclude name="**/cxf-rt-transports-http-hc.jar"/>        
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/api/main" flatten="false" overwrite="true">
