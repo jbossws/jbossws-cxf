@@ -28,10 +28,10 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
+import junit.framework.Test;
+
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-
-import junit.framework.Test;
 
 /**
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
@@ -40,7 +40,7 @@ import junit.framework.Test;
 public class AsyncClientTestCase extends JBossWSTest
 {
    private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-asyncclient";
-
+         
    public static Test suite()
    {
       return new JBossWSCXFTestSetup(AsyncClientTestCase.class, "jaxws-cxf-asyncclient.war");
@@ -48,14 +48,40 @@ public class AsyncClientTestCase extends JBossWSTest
 
    public void testAsycClienWithHCAddress() throws Exception
    {
-      QName serviceName = new QName("http://org.jboss.ws/cxf/asyncclient", "EndpointImplService");
-      URL wsdlURL = new URL(endpointAddress + "?wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
-      Endpoint proxy = service.getPort(Endpoint.class);
+      
+      Endpoint proxy = initPort();
       BindingProvider provider = (BindingProvider)proxy;
       Map<String, Object> requestContext = provider.getRequestContext();
       requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "hc://" + endpointAddress);
       assertEquals("Echo:1000", proxy.echo(1000));
    }
+   
+   
+   public void testAsycClienWithMsgProp() throws Exception
+   {
+      Endpoint proxy = initPort();
+      BindingProvider provider = (BindingProvider)proxy;
+      Map<String, Object> requestContext = provider.getRequestContext();
+      requestContext.put("use.async.http.conduit", Boolean.TRUE);
+      assertEquals("Echo:1000", proxy.echo(1000));
+   }
+   
+   public void testAsycClienAsyncOperation() throws Exception
+   {
+      Endpoint proxy = initPort();
+      BindingProvider provider = (BindingProvider)proxy;
+      Map<String, Object> requestContext = provider.getRequestContext();
+      requestContext.put("use.async.http.conduit", Boolean.TRUE);
+      assertEquals("Echo:1000", proxy.echoAsync(1000).get());
+   }
+
+   private Endpoint initPort() throws Exception {
+      QName serviceName = new QName("http://org.jboss.ws/cxf/asyncclient", "EndpointImplService");
+      URL wsdlURL = new URL(endpointAddress + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      Endpoint proxy = service.getPort(Endpoint.class);
+      return proxy;
+   }
+   
    
 }

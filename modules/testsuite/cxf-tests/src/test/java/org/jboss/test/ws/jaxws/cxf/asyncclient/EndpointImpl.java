@@ -21,9 +21,13 @@
  */
 package org.jboss.test.ws.jaxws.cxf.asyncclient;
 
+import java.util.concurrent.Future;
+
 import javax.annotation.Resource;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.xml.ws.AsyncHandler;
+import javax.xml.ws.Response;
 import javax.xml.ws.WebServiceContext;
 
 import org.apache.cxf.continuations.Continuation;
@@ -33,7 +37,7 @@ import org.apache.cxf.continuations.ContinuationProvider;
  *
  */
 @WebService(name = "EndpointService", targetNamespace = "http://org.jboss.ws/cxf/asyncclient")
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
+@SOAPBinding(style = SOAPBinding.Style.RPC, use = SOAPBinding.Use.LITERAL)
 public class EndpointImpl
 {
    @Resource
@@ -54,5 +58,13 @@ public class EndpointImpl
         return "Echo:" + time;
    }
    
+   public Response<String> echoAsync(long time)
+   {
+      return null;
+   }
+   
+   public Future<String> echoAsync(final long time, final AsyncHandler<String> handler) {
+      return null;
+   }
    
 }
