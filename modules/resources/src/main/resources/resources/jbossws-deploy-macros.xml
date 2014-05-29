@@ -75,7 +75,6 @@
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/cxf-*.jar"/>
           <exclude name="**/cxf-core*.jar"/>
-          <exclude name="**/cxf-rt-transports-http-hc.jar"/> 
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/api/main" flatten="false" overwrite="true">
@@ -97,8 +96,16 @@
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-spi.jar"/>
         </fileset>
+       </copy>
+      <copy todir="@{targetdir}/org/apache/httpcomponents/asyncclient" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">       
+          <include name="**/httpcore.jar"/>
+          <include name="**/httpcore-nio.jar"/>
+          <include name="**/httpasyncclient.jar"/>
+          <include name="**/httpclient.jar"/>
+        </fileset>
       </copy>
-	      <copy todir="@{targetdir}/org/apache/neethi/main" flatten="false" overwrite="true">
+      <copy todir="@{targetdir}/org/apache/neethi/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/neethi.jar"/>
         </fileset>
@@ -189,8 +196,7 @@
       <copy todir="@{targetdir}/org/apache/cxf/impl/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/cxf-*.jar"/>
-          <exclude name="**/cxf-core*.jar"/>
-          <exclude name="**/cxf-rt-transports-http-hc.jar"/>        
+          <exclude name="**/cxf-core*.jar"/>      
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/api/main" flatten="false" overwrite="true">
@@ -211,6 +217,14 @@
       <copy todir="@{targetdir}/org/jboss/ws/spi/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-spi.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/apache/httpcomponents/asyncclient" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">       
+          <include name="**/httpcore.jar"/>
+          <include name="**/httpcore-nio.jar"/>
+          <include name="**/httpasyncclient.jar"/>
+          <include name="**/httpclient.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/apache/neethi/main" flatten="false" overwrite="true">
