@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -58,6 +58,8 @@ import org.jboss.wsf.spi.security.EJBMethodSecurityAttributeProvider;
  */
 public class HandlerAuthInterceptor extends AbstractPhaseInterceptor<Message>
 {
+   private static final String KEY = HandlerAuthInterceptor.class.getName() + ".SECURITY_EXCEPTION";
+   
    public HandlerAuthInterceptor()
    {
       super(Phase.PRE_PROTOCOL_FRONTEND);
@@ -111,6 +113,24 @@ public class HandlerAuthInterceptor extends AbstractPhaseInterceptor<Message>
          checkAuthorization(context);
          return super.invokeProtocolHandlers(requestor, context);
       }
+      
+      @Override
+      public boolean invokeLogicalHandlersHandleFault(boolean requestor, LogicalMessageContext context)
+      {
+         if (context.containsKey(KEY)) {
+            return true;
+         }
+         return super.invokeLogicalHandlersHandleFault(requestor, context);
+      }
+
+      @Override
+      public boolean invokeProtocolHandlersHandleFault(boolean requestor, MessageContext context)
+      {
+         if (context.containsKey(KEY)) {
+            return true;
+         }
+         return super.invokeProtocolHandlersHandleFault(requestor, context);
+      }
 
       protected void checkAuthorization(MessageContext ctx)
       {
@@ -149,6 +169,7 @@ public class HandlerAuthInterceptor extends AbstractPhaseInterceptor<Message>
                }
             }
             final Principal p = secCtx.getUserPrincipal();
+            ctx.put(KEY, true);
             throw MESSAGES.authorizationFailed(p != null ? p.getName() : null);
          }
       }

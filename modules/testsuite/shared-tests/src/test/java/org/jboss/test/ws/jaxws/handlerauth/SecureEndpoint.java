@@ -33,6 +33,8 @@ public interface SecureEndpoint
    
    int getHandlerCounter();
    
+   int getHandlerCounterOutbound();
+   
    @Oneway
    void ping();
    
