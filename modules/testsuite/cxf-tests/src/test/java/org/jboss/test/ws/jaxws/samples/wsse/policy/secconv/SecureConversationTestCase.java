@@ -29,6 +29,7 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.basic.KeystorePasswordCallback;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
@@ -59,17 +60,22 @@ public final class SecureConversationTestCase extends JBossWSTest
       URL wsdlURL = new URL(serviceURL + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
-      setupWsse(proxy);
+      setupWsse(proxy, true);
       assertTrue(proxy.sayHello().startsWith("Secure Conversation Hello World!"));
       assertTrue(proxy.sayHello().startsWith("Secure Conversation Hello World!"));
    }
 
-   private void setupWsse(ServiceIface proxy)
+   private void setupWsse(ServiceIface proxy, boolean streaming)
    {
       ((BindingProvider)proxy).getRequestContext().put("ws-security.callback-handler.sct", new KeystorePasswordCallback());
       ((BindingProvider)proxy).getRequestContext().put("ws-security.signature.properties.sct", Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
       ((BindingProvider)proxy).getRequestContext().put("ws-security.encryption.properties.sct", Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
       ((BindingProvider)proxy).getRequestContext().put("ws-security.signature.username.sct", "alice");
       ((BindingProvider)proxy).getRequestContext().put("ws-security.encryption.username.sct", "bob");
+      if (streaming)
+      {
+         ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.ENABLE_STREAMING_SECURITY, "true");
+         ((BindingProvider)proxy).getResponseContext().put(SecurityConstants.ENABLE_STREAMING_SECURITY, "true");
+      }
    }
 }
