@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.WebServiceRefs;
+import javax.xml.ws.soap.SOAPFaultException;
 
 import org.jboss.logging.Logger;
 
@@ -85,6 +86,12 @@ public class ServletClient extends HttpServlet
    // Test on field with value
    @WebServiceRef(value = EndpointService.class)
    public Endpoint port3;
+   
+   @WebServiceRef(value = MultipleEndpointService.class)
+   public Endpoint port7;
+   
+   @WebServiceRef(value = MultipleEndpointService.class)
+   public Endpoint port8;
 
    @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
@@ -111,6 +118,7 @@ public class ServletClient extends HttpServlet
          ports.add((Endpoint)iniCtx.lookup("java:comp/env/Port2"));
          ports.add(port3);
          ports.add((Endpoint)iniCtx.lookup("java:comp/env/" + getClass().getName() + "/port3"));
+         ports.add(port8);
       }
       catch (Exception ex)
       {
@@ -123,6 +131,14 @@ public class ServletClient extends HttpServlet
          String outStr = port.echo(inStr);
          if (inStr.equals(outStr) == false)
             throw new WebServiceException("Invalid echo return: " + inStr);
+      }
+      try {
+         port7.echo("Foo");
+         throw new WebServiceException("Expected exception due to SOAP 1.2 message sent to a SOAP 1.1 endpoint");
+      } catch (SOAPFaultException sfe) {
+         if (!sfe.getMessage().contains("SOAP 1.2")) {
+            throw new WebServiceException("Expected reference to SOAP version mismatch in error message, but got: " + sfe.getMessage());
+         }
       }
 
       res.getWriter().print(inStr);

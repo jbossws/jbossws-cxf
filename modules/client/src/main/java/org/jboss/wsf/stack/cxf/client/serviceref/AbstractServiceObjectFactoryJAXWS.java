@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -29,13 +29,16 @@ import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.RespectBindingFeature;
 import javax.xml.ws.Service;
+import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.soap.AddressingFeature;
@@ -54,6 +57,8 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
  */
 public abstract class AbstractServiceObjectFactoryJAXWS
 {
+   private static enum PortMatch {YES, NO, MAYBE};
+   
    public final Object getObjectInstance(UnifiedServiceRefMetaData serviceRef)
    {
       try
@@ -179,11 +184,11 @@ public abstract class AbstractServiceObjectFactoryJAXWS
          final QName portQName, final WebServiceFeature[] features, final String endpointAddress) throws NoSuchMethodException,
          InstantiationException, IllegalAccessException, InvocationTargetException
    {
-      Object retVal = null;
-
       Object port = null;
+      Object candidatePort = null;
       if (serviceClass != Service.class)
       {
+         final Set<Method> signatureMatchingMethods = new HashSet<Method>();
          for (Method method : getDeclaredMethods(serviceClass))
          {
             String methodName = method.getName();
@@ -191,26 +196,49 @@ public abstract class AbstractServiceObjectFactoryJAXWS
             if (methodName.startsWith("get") && targetClass.isAssignableFrom(retType))
             {
                final Method targetMethod = getMethodFor(methodName, features, serviceClass);
+               signatureMatchingMethods.add(targetMethod);
+            }
+         }
+         for (Method method : signatureMatchingMethods)
+         {
+            PortMatch matchResult = portNameMatches(portQName, method);
+            if (matchResult.equals(PortMatch.YES)) {
                final Object[] args = getArgumentsFor(features);
-               port = targetMethod.invoke(target, args);
-               retVal = port;
+               port = method.invoke(target, args);
                break;
+            } else if (matchResult.equals(PortMatch.MAYBE)) {
+               final Object[] args = getArgumentsFor(features);
+               candidatePort = method.invoke(target, args);
             }
          }
       }
-
+      if (port == null)
+      {
+         port = candidatePort;
+      }
       if (port == null)
       {
          Method method = getMethodFor("getPort", portQName, features, serviceClass);
          Object[] args = getArgumentsFor(portQName, features, targetClass);
          port = method.invoke(target, args);
-         retVal = port;
       }
       if (endpointAddress != null)
       {
-         ((BindingProvider) retVal).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpointAddress);
+         ((BindingProvider) port).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpointAddress);
       }
-      return retVal;
+      return port;
+   }
+   
+   private static PortMatch portNameMatches(final QName portQName, final Method targetMethod) {
+      final String portName = portQName != null ? portQName.getLocalPart() : null;
+      if (portName == null) { //no port specified, so we *might* have a valid match...
+         return PortMatch.MAYBE;
+      }
+      WebEndpoint webEndpointAnnotation = targetMethod.getAnnotation(WebEndpoint.class);
+      if (webEndpointAnnotation == null || webEndpointAnnotation.name() == null || webEndpointAnnotation.name().isEmpty()) {
+         return PortMatch.MAYBE; // no way to match, no port specified using @WebEndpoint
+      }
+      return webEndpointAnnotation.name().equals(portName) ? PortMatch.YES : PortMatch.NO;
    }
    
    private static Method[] getDeclaredMethods(final Class<?> cls) {

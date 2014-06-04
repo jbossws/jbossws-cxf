@@ -497,6 +497,7 @@
       <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/samples/webserviceref/ServletClient.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/webserviceref/EndpointService.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/webserviceref/MultipleEndpointService.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/webserviceref/Endpoint.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/webserviceref/EchoResponse.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/webserviceref/Echo.class"/>

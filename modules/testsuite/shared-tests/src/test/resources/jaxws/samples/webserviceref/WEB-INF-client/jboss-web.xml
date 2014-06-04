@@ -84,5 +84,31 @@
         <service-qname>{http://org.jboss.ws/wsref}EndpointService</service-qname>
         <wsdl-override>WEB-INF/wsdl/Endpoint.wsdl</wsdl-override>
       </service-ref>
+
+      <!--
+      @WebServiceRef(value = MultipleEndpointService.class)
+      -->      
+      <service-ref>
+        <service-ref-name>org.jboss.test.ws.jaxws.samples.webserviceref.ServletClient/port7</service-ref-name>
+        <service-qname>{http://org.jboss.ws/wsref}EndpointService</service-qname>
+        <wsdl-override>WEB-INF/wsdl/MultipleEndpoint.wsdl</wsdl-override>
+        <port-component-ref>
+          <service-endpoint-interface>org.jboss.test.ws.jaxws.samples.webserviceref.Endpoint</service-endpoint-interface>
+          <port-qname>{http://org.jboss.ws/wsref}EndpointPort2</port-qname>
+        </port-component-ref>
+      </service-ref>
+  
+      <!--
+      @WebServiceRef(value = MultipleEndpointService.class)
+      -->      
+      <service-ref>
+        <service-ref-name>org.jboss.test.ws.jaxws.samples.webserviceref.ServletClient/port8</service-ref-name>
+        <service-qname>{http://org.jboss.ws/wsref}EndpointService</service-qname>
+        <wsdl-override>WEB-INF/wsdl/MultipleEndpoint.wsdl</wsdl-override>
+        <port-component-ref>
+          <service-endpoint-interface>org.jboss.test.ws.jaxws.samples.webserviceref.Endpoint</service-endpoint-interface>
+          <port-qname>{http://org.jboss.ws/wsref}EndpointPort</port-qname>
+        </port-component-ref>
+      </service-ref>
   
 </jboss-web>
