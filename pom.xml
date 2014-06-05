@@ -68,7 +68,7 @@
     <jbossws.wildfly800.version>5.0.0-SNAPSHOT</jbossws.wildfly800.version>
     <jbossws.wildfly810.version>5.0.0-SNAPSHOT</jbossws.wildfly810.version>
     <wildfly800.version>8.0.0.Final</wildfly800.version>
-    <wildfly810.version>8.1.0.CR2</wildfly810.version>
+    <wildfly810.version>8.1.0.Final</wildfly810.version>
     <wildfly900.version>9.0.0.Alpha1-SNAPSHOT</wildfly900.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
     <cxf.version>3.0.0</cxf.version>
