@@ -230,7 +230,7 @@ public class MetadataBuilder
       if (anWebService != null && anWebService.endpointInterface().length() > 0)
       {
          seiName = anWebService.endpointInterface();
-         ClassLoader runtimeClassLoader = dep.getRuntimeClassLoader();
+         ClassLoader runtimeClassLoader = dep.getClassLoader();
          if(null == runtimeClassLoader)
             throw MESSAGES.runtimeLoaderCannotBeNull(dep);
          

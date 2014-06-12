@@ -147,7 +147,7 @@ public abstract class BusHolder
       
       AnnotationsInfo ai = dep.getAttachment(AnnotationsInfo.class);
       if (ai == null || ai.hasAnnotatedClasses(PolicySets.class.getName())) {
-         policySetsListener = new PolicySetsAnnotationListener(dep.getRuntimeClassLoader());
+         policySetsListener = new PolicySetsAnnotationListener(dep.getClassLoader());
          bus.getExtension(FactoryBeanListenerManager.class).addListener(policySetsListener);
       }
    }
