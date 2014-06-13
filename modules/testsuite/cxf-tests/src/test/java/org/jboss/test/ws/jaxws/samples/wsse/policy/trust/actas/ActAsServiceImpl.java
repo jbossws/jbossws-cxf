@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -63,19 +63,7 @@ import java.util.Map;
 public class ActAsServiceImpl implements ActAsServiceIface
 {
    public String sayHello() {
-      try {
-         ServiceIface proxy = setupService();
-         return "ActAs " + proxy.sayHello();
-      } catch (MalformedURLException e) {
-         e.printStackTrace();
-      }
-      return null;
-   }
-
-   private  ServiceIface setupService()throws MalformedURLException {
-      ServiceIface proxy = null;
       Bus bus = BusFactory.newInstance().createBus();
-
       try {
          BusFactory.setThreadDefaultBus(bus);
 
@@ -83,7 +71,7 @@ public class ActAsServiceImpl implements ActAsServiceIface
          final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
          final URL wsdlURL = new URL(serviceURL + "?wsdl");
          Service service = Service.create(wsdlURL, serviceName);
-         proxy = (ServiceIface) service.getPort(ServiceIface.class);
+         ServiceIface proxy = (ServiceIface) service.getPort(ServiceIface.class);
 
          Map<String, Object> ctx = ((BindingProvider) proxy).getRequestContext();
          ctx.put(SecurityConstants.CALLBACK_HANDLER, new ActAsCallbackHandler());
@@ -106,11 +94,13 @@ public class ActAsServiceImpl implements ActAsServiceIface
 
          ctx.put(SecurityConstants.STS_CLIENT, stsClient);
 
+         return "ActAs " + proxy.sayHello();
+      } catch (MalformedURLException e) {
+         e.printStackTrace();
+         return null;
       } finally {
          bus.shutdown(true);
       }
-
-      return proxy;
    }
 
 }
