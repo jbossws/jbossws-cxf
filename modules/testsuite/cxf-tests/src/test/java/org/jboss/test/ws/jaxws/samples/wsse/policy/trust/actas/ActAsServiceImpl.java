@@ -59,7 +59,6 @@ import java.util.Map;
       @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.trust.actas.ActAsCallbackHandler")
 })
 
-//TODO  @OutInterceptors(interceptors = {"org.jboss.test.ws.jaxws.samples.wsse.policy.trust.actas.ActAsOutInterceptor"})
 public class ActAsServiceImpl implements ActAsServiceIface
 {
    public String sayHello() {
