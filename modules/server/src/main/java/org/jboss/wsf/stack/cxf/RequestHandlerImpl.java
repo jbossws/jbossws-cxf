@@ -93,8 +93,8 @@ public class RequestHandlerImpl implements RequestHandler
          out.close();
          return;
       }
-      
-      Long beginTime = initRequestMetrics(ep);
+      final boolean statisticsEnabled = getServerConfig().isStatisticsEnabled();
+      Long beginTime = statisticsEnabled == true ? initRequestMetrics(ep) : 0;
       Bus bus = ep.getService().getDeployment().getAttachment(BusHolder.class).getBus();
       AbstractHTTPDestination dest = findDestination(req, bus);
       HttpServletResponseWrapper response = new HttpServletResponseWrapper(res);
@@ -113,11 +113,11 @@ public class RequestHandlerImpl implements RequestHandler
       {
          throw new ServletException(e);
       }
-      if (response.getStatus() < 500)
+      if (response.getStatus() < 500 && statisticsEnabled)
       {
          processResponseMetrics(ep, beginTime);
       }
-      else
+      if (response.getStatus() >= 500 && statisticsEnabled)
       {
          processFaultMetrics(ep, beginTime);
       }
