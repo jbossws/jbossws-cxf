@@ -154,8 +154,6 @@ public class ServerBeanCustomizer extends BeanCustomizer
             org.jboss.wsf.spi.metadata.config.EndpointConfig config = sc.getEndpointConfig(configName);
             if (config != null) {
                endpoint.setEndpointConfig(config);
-            } else {
-                throw Messages.MESSAGES.couldNotFindEndpointConfigName(configName);
             }
          }
          else
