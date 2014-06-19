@@ -22,13 +22,19 @@
 package org.jboss.test.ws.jaxws.jbws3552;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.ArchivePath;
+import org.jboss.shrinkwrap.api.Filter;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -44,8 +50,25 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author <a href="ropalka@redhat.com">Richard Opalka</a>
  */
 public class JBWS3552TestCase extends JBossWSTest {
+   
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3552.war") { {
+         archive
+               .addManifest()
+               .addPackages(false, new Filter<ArchivePath>() {
+                  @Override
+                  public boolean include(ArchivePath path)
+                  {
+                     return !path.get().contains("TestCase");
+                  }}, "org.jboss.test.ws.jaxws.jbws3552");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+    
     public static Test suite() {
-        return new JBossWSTestSetup(JBWS3552TestCase.class, "jaxws-jbws3552.war");
+        return new JBossWSTestSetup(JBWS3552TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
     }
 
     private EndpointIface getProxy() throws Exception {

@@ -21,12 +21,19 @@
  */
 package org.jboss.test.ws.jaxws.jbws3477;
 
+import static org.jboss.wsf.test.JBossWSTestHelper.getTestResourcesDir;
+
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,9 +46,30 @@ public class JaxWsSpiProviderTestCase extends JBossWSTest
 {
    private String defaultProvider; 
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3477-custom-provider.war") { {
+         archive
+               .addManifest()
+               .addAsManifestResource(new File(getTestResourcesDir() + "/jaxws/jbws3477/META-INF/services/javax.xml.ws.spi.Provider"), "services/javax.xml.ws.spi.Provider")
+               .addClass(org.jboss.test.ws.jaxws.jbws3477.DummyProvider.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3477.Helper.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3477.TestServlet.class);
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3477.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3477.Helper.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3477.TestServlet.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(JaxWsSpiProviderTestCase.class, "jaxws-jbws3477-custom-provider.war,jaxws-jbws3477.war");
+      return new JBossWSTestSetup(JaxWsSpiProviderTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    protected void setUp() {

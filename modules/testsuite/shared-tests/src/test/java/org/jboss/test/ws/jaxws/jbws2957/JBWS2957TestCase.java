@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2957;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -28,10 +29,10 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
-
 import org.jboss.test.ws.jaxws.jbws2957.common.HelloIface;
+import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * [JBWS-2957] Tests EJB3 service in web inf lib directory.
@@ -40,6 +41,28 @@ import org.jboss.test.ws.jaxws.jbws2957.common.HelloIface;
  */
 public class JBWS2957TestCase extends JBossWSTest
 {
+   static {
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws2957-ejbinwarwebinflib_ejb.jar") { {
+         archive
+            .addManifest()
+            .addClass(org.jboss.test.ws.jaxws.jbws2957.common.HelloIface.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws2957.common.HelloImpl.class);
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.WarDeployment("jaxws-jbws2957-ejbinwarwebinflib_web.war") { {
+         archive
+            .addManifest()
+            .addAsLibrary(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws2957-ejbinwarwebinflib_ejb.jar"))
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2957/WEB-INF/ejb-jar.xml"), "ejb-jar.xml")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2957/WEB-INF/wsdl/HelloService.wsdl"), "wsdl/HelloService.wsdl");
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws2957-ejbinwarwebinflib.ear") { {
+            archive.addManifest().addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws2957-ejbinwarwebinflib_web.war"));
+         }
+      });
+   }
+   
    public static Test suite()
    {
       return new JBossWSTestSetup(JBWS2957TestCase.class, "jaxws-jbws2957-ejbinwarwebinflib.ear");

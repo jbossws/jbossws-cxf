@@ -21,8 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.binding;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.wsdl.Binding;
@@ -41,6 +43,8 @@ import javax.xml.ws.handler.Handler;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -53,9 +57,24 @@ public class SOAPBindingTestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-binding";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-binding.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.binding.SOAPEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.binding.SOAPEndpointBean.class)
+               .addClass(org.jboss.test.ws.jaxws.binding.ServerHandler.class)
+               .addAsResource("org/jboss/test/ws/jaxws/binding/jaxws-server-handlers.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/binding/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(SOAPBindingTestCase.class, "jaxws-binding.war");
+      return new JBossWSTestSetup(SOAPBindingTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    // [JBWS-1761] - WSProvide ignores SOAPBinding declaration

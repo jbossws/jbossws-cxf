@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2634;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -28,8 +29,10 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.test.ws.jaxws.jbws2634.webservice.EndpointIface;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,6 +42,46 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public final class JBWS2634TestCase extends JBossWSTest
 {
+   static {
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.WarDeployment("jaxws-jbws2634-pojo.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.logging\n"))
+               .addClass(org.jboss.test.ws.jaxws.jbws2634.webservice.POJOBean.class)
+               .addAsResource("org/jboss/test/ws/jaxws/jbws2634/webservice/jaxws-handler.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2634/WEB-INF/web.xml"));
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws2634.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2634.shared.BeanIface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2634.shared.BeanImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2634.shared.handlers.TestHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2634.webservice.AbstractEndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2634.webservice.EndpointIface.class);
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws2634-ejb3.jar") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.logging\n"))
+               .addClass(org.jboss.test.ws.jaxws.jbws2634.webservice.EJB3Bean.class)
+               .addAsResource("org/jboss/test/ws/jaxws/jbws2634/webservice/jaxws-handler.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2634/META-INF/ejb-jar.xml"), "ejb-jar.xml");
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws2634.ear") { {
+         archive
+            .addManifest()
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2634/META-INF/application.xml"), "application.xml")
+            .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws2634-pojo.war"))
+            .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws2634-ejb3.jar"))
+            .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws2634.jar"));
+         }
+      });
+   }
+   
    public static Test suite()
    {
       return new JBossWSTestSetup(JBWS2634TestCase.class, "jaxws-jbws2634.ear");

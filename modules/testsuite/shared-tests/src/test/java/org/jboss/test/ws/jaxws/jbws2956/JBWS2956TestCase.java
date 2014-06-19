@@ -21,21 +21,39 @@
  */
 package org.jboss.test.ws.jaxws.jbws2956;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 public class JBWS2956TestCase extends JBossWSTest
 {
-   
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws2956";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2956.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2956.OnewayEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2956.OnewayEndpointImpl.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2956/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2956/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite() throws Exception
    {
-      return new JBossWSTestSetup(JBWS2956TestCase.class, "jaxws-jbws2956.war");
+      return new JBossWSTestSetup(JBWS2956TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testCall() throws Exception

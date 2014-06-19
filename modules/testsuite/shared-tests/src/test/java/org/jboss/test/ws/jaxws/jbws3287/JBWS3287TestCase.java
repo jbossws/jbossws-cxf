@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws3287;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -43,9 +48,57 @@ public class JBWS3287TestCase extends JBossWSTest
 {
    private static final String targetNS = "http://jbws3287.jaxws.ws.test.jboss.org/";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws3287-C.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.AuthorizationHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.EJB3EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.EndpointHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.LogHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.RoutingHandler.class)
+               .addAsResource("org/jboss/test/ws/jaxws/jbws3287/jaxws-handlers-server.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3287/META-INF/jaxws-endpoint-config.xml"), "jaxws-endpoint-config.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3287/META-INF/jboss-webservices.xml"), "jboss-webservices.xml");
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3287-B.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.AuthorizationHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.EndpointHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.LogHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.RoutingHandler.class)
+               .addAsResource("org/jboss/test/ws/jaxws/jbws3287/jaxws-handlers-server.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3287/WEB-INF/jaxws-endpoint-config.xml"), "jaxws-endpoint-config.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3287/WEB-INF/web-B.xml"));
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3287-A.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.AuthorizationHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.EndpointHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.LogHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3287.RoutingHandler.class)
+               .addAsResource("org/jboss/test/ws/jaxws/jbws3287/jaxws-handlers-server.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3287/WEB-INF/jaxws-endpoint-config.xml"), "jaxws-endpoint-config.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3287/WEB-INF/jboss-webservices.xml"), "jboss-webservices.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3287/WEB-INF/web-A.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS3287TestCase.class, "jaxws-jbws3287-A.war, jaxws-jbws3287-B.war, jaxws-jbws3287-C.jar");
+      return new JBossWSTestSetup(JBWS3287TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testJBossWebservicesXmlDD() throws Exception

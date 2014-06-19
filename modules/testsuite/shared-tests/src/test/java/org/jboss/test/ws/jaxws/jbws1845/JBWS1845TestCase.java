@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.jbws1845;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +31,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -40,9 +44,22 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public final class JBWS1845TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1845.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1845.SpamComplaintWS.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1845.SpamComplaintWSIface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1845.SpamResult.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1845TestCase.class, "jaxws-jbws1845.jar");
+      return new JBossWSTestSetup(JBWS1845TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testIssue() throws Exception

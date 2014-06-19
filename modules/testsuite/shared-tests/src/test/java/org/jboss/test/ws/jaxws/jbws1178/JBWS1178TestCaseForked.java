@@ -21,9 +21,12 @@
  */
 package org.jboss.test.ws.jaxws.jbws1178;
 
+import java.io.File;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.management.Attribute;
@@ -37,6 +40,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -48,10 +53,21 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS1178TestCaseForked extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1178.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1178.EndpointImpl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1178/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite()
    {
-      TestSetup testSetup = new JBossWSTestSetup(JBWS1178TestCaseForked.class, "jaxws-jbws1178.war")
+      TestSetup testSetup = new JBossWSTestSetup(JBWS1178TestCaseForked.class, JBossWSTestHelper.writeToFile(createDeployments()))
       {
          private final ObjectName objectName = ObjectNameFactory.create("jboss.ws:service=ServerConfig");
          private String webServiceHost;

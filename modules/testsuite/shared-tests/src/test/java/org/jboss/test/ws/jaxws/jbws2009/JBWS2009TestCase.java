@@ -21,7 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.jbws2009;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -31,9 +33,11 @@ import junit.framework.Test;
 
 import org.jboss.test.ws.jaxws.jbws2009.generated.CountryCodeType;
 import org.jboss.test.ws.jaxws.jbws2009.generated.CurrencyCodeType;
-import org.jboss.test.ws.jaxws.jbws2009.generated.ServiceType;
 import org.jboss.test.ws.jaxws.jbws2009.generated.GetCountryCodesResponse.Response;
+import org.jboss.test.ws.jaxws.jbws2009.generated.ServiceType;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -47,9 +51,25 @@ public class JBWS2009TestCase extends JBossWSTest
    private String targetNS = "http://jbws2009.jaxws.ws.test.jboss.org/";
    private ServiceType proxy;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2009.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2009.ServiceImpl.class)
+               .addPackage("org.jboss.test.ws.jaxws.jbws2009.generated")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2009/WEB-INF/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2009/WEB-INF/wsdl/schema/common/1.0-SNAPSHOT/CoreComponentTypes.xsd"), "wsdl/schema/common/1.0-SNAPSHOT/CoreComponentTypes.xsd")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2009/WEB-INF/wsdl/schema/imported/my-service/1.0-SNAPSHOT/BaseComponents.xsd"), "wsdl/schema/imported/my-service/1.0-SNAPSHOT/BaseComponents.xsd")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2009/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2009TestCase.class, "jaxws-jbws2009.war");
+      return new JBossWSTestSetup(JBWS2009TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override

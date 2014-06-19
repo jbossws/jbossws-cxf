@@ -22,13 +22,18 @@
 package org.jboss.test.ws.jaxws.jbws2717;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -38,10 +43,21 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS2717TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2717.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2717.EndpointImpl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2717/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2717TestCase.class, "jaxws-jbws2717.war");
+      return new JBossWSTestSetup(JBWS2717TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testXmlDeclarationInWSDL() throws Exception

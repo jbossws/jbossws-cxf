@@ -429,6 +429,18 @@ public class JBossWSTestHelper
          return archiveDir;
       }
    }
+   
+   public static String writeToFile(BaseDeployment<?>... deps) {
+      if (deps == null) {
+         return "";
+      }
+      StringBuilder sb = new StringBuilder();
+      for (BaseDeployment<?> dep : deps) {
+         sb.append(dep.writeToFile().getName());
+         sb.append(" ");
+      }
+      return sb.toString();
+   }
 
    public static abstract class WarDeployment extends BaseDeployment<WebArchive>
    {

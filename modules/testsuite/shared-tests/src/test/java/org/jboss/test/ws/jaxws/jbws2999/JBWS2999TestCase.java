@@ -21,7 +21,10 @@
 */
 package org.jboss.test.ws.jaxws.jbws2999;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,9 +44,25 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS2999TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2999.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2999.CustomHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2999.Hello.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2999.HelloBean.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2999/META-INF/ejb-jar.xml"), "ejb-jar.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2999/META-INF/webservices.xml"), "webservices.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2999/META-INF/wsdl/HelloService.wsdl"), "wsdl/HelloService.wsdl");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite() throws Exception
    {
-      return new JBossWSTestSetup(JBWS2999TestCase.class, "jaxws-jbws2999.jar");
+      return new JBossWSTestSetup(JBWS2999TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    private Hello getPort() throws Exception

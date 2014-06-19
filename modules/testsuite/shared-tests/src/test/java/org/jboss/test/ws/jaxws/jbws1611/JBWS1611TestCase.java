@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.jbws1611;
 
+import java.io.File;
 import java.io.StringReader;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
@@ -36,6 +39,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 
@@ -51,9 +56,21 @@ public class JBWS1611TestCase extends JBossWSTest
 {
    private static final String targetNS = "http://jbws1611.jaxws.ws.test.jboss.org/";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1611.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1611.PingEndpointImpl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1611/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1611TestCase.class, "jaxws-jbws1611.war");
+      return new JBossWSTestSetup(JBWS1611TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWebService() throws Exception

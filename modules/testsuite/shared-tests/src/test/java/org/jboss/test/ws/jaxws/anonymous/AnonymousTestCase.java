@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.anonymous;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -41,9 +46,24 @@ public class AnonymousTestCase extends JBossWSTest
    private String targetNS = "http://anonymous.jaxws.ws.test.jboss.org/";
    private Anonymous proxy;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-anonymous.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.anonymous.Anonymous.class)
+               .addClass(org.jboss.test.ws.jaxws.anonymous.AnonymousImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.anonymous.AnonymousRequest.class)
+               .addClass(org.jboss.test.ws.jaxws.anonymous.AnonymousResponse.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/anonymous/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(AnonymousTestCase.class, "jaxws-anonymous.war");
+      return new JBossWSTestSetup(AnonymousTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override

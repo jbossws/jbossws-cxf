@@ -21,13 +21,19 @@
  */
 package org.jboss.test.ws.jaxws.clientConfig;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestSetup;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Verifies client configuration setup (in-container tests, relying on AS model)
@@ -37,9 +43,44 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class ClientConfigurationTestCaseForked extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-clientConfig-client.jar") { {
+         archive
+               .addManifest()
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/clientConfig/META-INF/jaxws-client-config.xml"), "jaxws-client-config.xml");
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-clientConfig-inContainer-client.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.common\n"))
+               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/clientConfig/META-INF/jaxws-client-config.xml"), "META-INF/jaxws-client-config.xml")
+               .addClass(org.jboss.test.helper.ClientHelper.class)
+               .addClass(org.jboss.test.helper.TestServlet.class)
+               .addClass(org.jboss.test.ws.jaxws.clientConfig.CustomHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.clientConfig.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.clientConfig.Helper.class)
+               .addClass(org.jboss.test.ws.jaxws.clientConfig.LogHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.clientConfig.RoutingHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.clientConfig.TestUtils.class)
+               .addClass(org.jboss.test.ws.jaxws.clientConfig.UserHandler.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/clientConfig/META-INF/permissions.xml"), "permissions.xml");
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-clientConfig.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.clientConfig.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.clientConfig.EndpointImpl.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(ClientConfigurationTestCaseForked.class, "jaxws-clientConfig.war,jaxws-clientConfig-client.jar, jaxws-clientConfig-inContainer-client.war");
+      return new JBossWSTestSetup(ClientConfigurationTestCaseForked.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    /**

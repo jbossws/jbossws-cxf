@@ -23,6 +23,7 @@ package org.jboss.test.ws.jaxws.jbws2183;
 
 import java.net.URL;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.wsdl.Binding;
@@ -35,7 +36,10 @@ import javax.wsdl.xml.WSDLReader;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -44,9 +48,22 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS2183TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2183.jar") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.logging\n"))
+               .addClass(org.jboss.test.ws.jaxws.jbws2183.TestService.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2183.TestServiceImpl.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2183TestCase.class, "jaxws-jbws2183.jar");
+      return new JBossWSTestSetup(JBWS2183TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWsdl() throws Exception

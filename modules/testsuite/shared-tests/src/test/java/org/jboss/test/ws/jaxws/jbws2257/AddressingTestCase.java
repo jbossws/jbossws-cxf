@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws2257;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,9 +44,26 @@ public final class AddressingTestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-jbws2257/AddressingService/ServiceImpl";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2257.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2257.ServiceIface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2257.ServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2257.jaxws.SayHello.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2257.jaxws.SayHelloResponse.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2257/META-INF/permissions.xml"), "permissions.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2257/META-INF/wsdl/AddressingService.wsdl"), "wsdl/AddressingService.wsdl")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2257/META-INF/wsdl/AddressingService_schema1.xsd"), "wsdl/AddressingService_schema1.xsd");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(AddressingTestCase.class, "jaxws-jbws2257.jar");
+      return new JBossWSTestSetup(AddressingTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void test() throws Exception

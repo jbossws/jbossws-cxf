@@ -24,6 +24,7 @@ package org.jboss.test.ws.jaxws.jbws1283;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -39,6 +40,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.api.handler.GenericSOAPHandler;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -49,9 +52,25 @@ public class JBWS1283TestCase extends JBossWSTest
    private final String targetNS = "http://org.jboss.test.ws/jbws1283";
    private JBWS1283Endpoint port;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1283.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1283.AttachmentHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1283.JBWS1283Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1283.JBWS1283EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1283.JBWS1283TestCase.VerifyAttachmentHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1283.JBWS1283TestCase.class)
+               .addAsResource("org/jboss/test/ws/jaxws/jbws1283/jaxws-handlers-server.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1283TestCase.class, "jaxws-jbws1283.jar");
+      return new JBossWSTestSetup(JBWS1283TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override

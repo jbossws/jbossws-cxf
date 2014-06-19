@@ -21,7 +21,12 @@
  */
 package org.jboss.test.ws.jaxws.jbws1702;
 
+import static org.jboss.wsf.test.JBossWSTestHelper.getTestResourcesDir;
+
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -34,6 +39,8 @@ import org.jboss.test.ws.jaxws.jbws1702.types.ClassC;
 import org.jboss.test.ws.jaxws.jbws1702.types.ResponseWrapperB;
 import org.jboss.test.ws.jaxws.jbws1702.types.ResponseWrapperC;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -43,9 +50,33 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS1702TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1702.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1702.JBWS1702TestCase.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1702.SampleWSBareSEI.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1702.SampleWSRpcSEI.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1702.SampleWSWithDocument_Bare.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1702.SampleWSWithDocument_Wrapped.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1702.SampleWSWithRPC_Bare.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1702.SampleWSWrappedSEI.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1702.types.ClassA.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1702.types.ClassB.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1702.types.ClassC.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1702.types.ResponseWrapperB.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1702.types.ResponseWrapperC.class)
+               .addAsWebInfResource(new File(getTestResourcesDir() + "/jaxws/jbws1702/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1702/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1702TestCase.class, "jaxws-jbws1702.war");
+      return new JBossWSTestSetup(JBWS1702TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testInheritanceRpc() throws Exception

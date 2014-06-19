@@ -21,8 +21,13 @@
  */
 package org.jboss.test.ws.jaxws.jbws2934;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -34,9 +39,22 @@ public final class JBWS2934EJBTestCase extends AbstractTestCase
 {
    private final String ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws2934-ejb";
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2934-ejb.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2934.AbstractEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2934.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2934.EndpointEJB.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2934EJBTestCase.class, "jaxws-jbws2934-ejb.jar");
+      return new JBossWSTestSetup(JBWS2934EJBTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override

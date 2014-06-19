@@ -21,9 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.jbws3293;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.MalformedURLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +45,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 
@@ -58,9 +62,22 @@ public class JBWS3293DispatchTestCase extends JBossWSTest
    private Exception handlerException;
    private boolean asyncHandlerCalled;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3293.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3293.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3293.EndpointBean.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3293/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS3293DispatchTestCase.class, "jaxws-jbws3293.war");
+      return new JBossWSTestSetup(JBWS3293DispatchTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testInvokeAsynch() throws Exception

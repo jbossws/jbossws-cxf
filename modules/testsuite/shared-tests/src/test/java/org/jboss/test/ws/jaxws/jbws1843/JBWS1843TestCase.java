@@ -21,7 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.jbws1843;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -30,9 +32,11 @@ import junit.framework.Test;
 
 import org.jboss.test.ws.jaxws.jbws1843.generated.CountryCodeType;
 import org.jboss.test.ws.jaxws.jbws1843.generated.CurrencyCodeType;
-import org.jboss.test.ws.jaxws.jbws1843.generated.Service;
 import org.jboss.test.ws.jaxws.jbws1843.generated.GetCountryCodesResponse.Response;
+import org.jboss.test.ws.jaxws.jbws1843.generated.Service;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -48,9 +52,25 @@ public class JBWS1843TestCase extends JBossWSTest
    private String targetNS = "http://jbws1843.jaxws.ws.test.jboss.org/";
    private Service proxy;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1843.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1843.ServiceImpl.class)
+               .addPackage("org.jboss.test.ws.jaxws.jbws1843.generated")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1843/WEB-INF/wsdl/BaseComponents.xsd"), "wsdl/BaseComponents.xsd")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1843/WEB-INF/wsdl/CoreComponentTypes.xsd"), "wsdl/CoreComponentTypes.xsd")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1843/WEB-INF/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1843/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1843TestCase.class, "jaxws-jbws1843.war");
+      return new JBossWSTestSetup(JBWS1843TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override

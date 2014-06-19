@@ -22,6 +22,7 @@
 package org.jboss.test.ws.jaxws.jbws1582;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +30,8 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -37,6 +40,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -46,6 +51,33 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS1582TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1582-attacked.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1582.AttackedEndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1582.Endpoint.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1582/WEB-INF/wsdl/attack-service.wsdl"), "wsdl/attack-service.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1582/WEB-INF/attack-web.xml"));
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1582.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1582.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1582.EndpointImpl.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1582/WEB-INF/wsdl/service.wsdl"), "wsdl/service.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1582/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
+   static {
+      JBossWSTestHelper.writeToFile(createDeployments());
+   }
+
    private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-jbws1582/TestService";
    private String targetNS = "http://jbws1582.jaxws.ws.test.jboss.org/";
 

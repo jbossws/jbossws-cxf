@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.jbws944;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
@@ -34,6 +36,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -49,9 +53,23 @@ public class JBWS944TestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws944/FooBean01";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws944.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws944.EJB3Bean01.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws944.EJB3RemoteBusinessInterface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws944.EJB3RemoteHome.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws944.EJB3RemoteInterface.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS944TestCase.class, "jaxws-jbws944.jar");
+      return new JBossWSTestSetup(JBWS944TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testRemoteAccess() throws Exception

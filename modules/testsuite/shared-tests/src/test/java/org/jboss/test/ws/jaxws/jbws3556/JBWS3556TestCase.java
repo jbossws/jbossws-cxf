@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.jbws3556;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,14 +31,30 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  * @author <a href="ropalka@redhat.com">Richard Opalka</a>
  */
 public class JBWS3556TestCase extends JBossWSTest {
+
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3556.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3556.EndpointIface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3556.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3556.MyException.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
     public static Test suite() {
-        return new JBossWSTestSetup(JBWS3556TestCase.class, "jaxws-jbws3556.war");
+        return new JBossWSTestSetup(JBWS3556TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
     }
 
     private EndpointIface getProxy() throws Exception {

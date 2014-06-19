@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws860;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.wsdl.Definition;
 import javax.wsdl.factory.WSDLFactory;
@@ -31,6 +34,9 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.WarDeployment;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -41,9 +47,23 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS860TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new WarDeployment("jaxws-jbws860.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws860.InventoryWebService.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws860.UserServlet.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws860/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws860/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS860TestCase.class, "jaxws-jbws860.war");
+      return new JBossWSTestSetup(JBWS860TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testAccessInventoryServiceWsdl() throws Exception

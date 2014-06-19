@@ -21,11 +21,18 @@
  */
 package org.jboss.test.ws.jaxws.jbws1190;
 
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
+
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,10 +46,24 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS1190TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1190.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1190.ConfidentialEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1190.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1190.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1190.JBWS1190Exception.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1190/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1190TestCase.class, "jaxws-jbws1190.war");
+      return new JBossWSTestSetup(JBWS1190TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    public void testEndpointAddress() throws Exception

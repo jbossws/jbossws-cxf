@@ -23,6 +23,8 @@ package org.jboss.test.ws.jaxws.jbws2937;
 
 import java.io.StringReader;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -34,15 +36,19 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Dispatch;
 import javax.xml.ws.EndpointReference;
 import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.Service.Mode;
+import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.soap.AddressingFeature;
 
 import junit.framework.Test;
 
 import org.jboss.logging.Logger;
+import org.jboss.shrinkwrap.api.ArchivePath;
+import org.jboss.shrinkwrap.api.Filter;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -71,9 +77,33 @@ public final class JBWS2937TestCase extends JBossWSTest
    private EndpointReference epr;
    private UserType user;
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2937-client.jar") { {
+         archive
+               .addManifest()
+               .addPackages(false, new Filter<ArchivePath>() {
+                  @Override
+                  public boolean include(ArchivePath path)
+                  {
+                     return !path.get().contains("TestCase");
+                  }
+               }, "org.jboss.test.ws.jaxws.jbws2937");
+         }
+      });
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2937.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2937.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2937.UserType.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2937TestCase.class, "jaxws-jbws2937.jar, jaxws-jbws2937-client.jar");
+      return new JBossWSTestSetup(JBWS2937TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    protected void setUp() throws Exception

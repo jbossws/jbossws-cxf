@@ -21,8 +21,14 @@
  */
 package org.jboss.test.ws.jaxws.jbws2934;
 
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -34,9 +40,23 @@ public final class JBWS2934JSETestCase extends AbstractTestCase
 {
    private final String ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws2934-jse";
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2934-jse.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2934.AbstractEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2934.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2934.EndpointJSE.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2934/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2934JSETestCase.class, "jaxws-jbws2934-jse.war");
+      return new JBossWSTestSetup(JBWS2934JSETestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override

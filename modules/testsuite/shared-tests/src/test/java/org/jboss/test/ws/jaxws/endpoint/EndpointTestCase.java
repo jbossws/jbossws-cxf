@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.endpoint;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.wsdl.Definition;
 import javax.wsdl.factory.WSDLFactory;
@@ -34,6 +37,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -44,10 +49,35 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class EndpointTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-endpoint-servlet.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.endpoint.EndpointBean.class)
+               .addClass(org.jboss.test.ws.jaxws.endpoint.EndpointInterface.class)
+               .addClass(org.jboss.test.ws.jaxws.endpoint.EndpointServlet.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/endpoint/WEB-INF/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/endpoint/WEB-INF/web.xml"));
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-endpoint-ws.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.endpoint.EndpointBean.class)
+               .addClass(org.jboss.test.ws.jaxws.endpoint.EndpointInterface.class)
+               .addClass(org.jboss.test.ws.jaxws.endpoint.WSClientEndpointBean.class)
+               .addClass(org.jboss.test.ws.jaxws.endpoint.WSClientEndpointInterface.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/endpoint/META-INF/permissions.xml"), "permissions.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/endpoint/WEB-INF/web-ws.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite()
    {
-      return new TestSetup(new JBossWSTestSetup(EndpointTestCase.class, "jaxws-endpoint-servlet.war jaxws-endpoint-ws.war"));
+      return new TestSetup(new JBossWSTestSetup(EndpointTestCase.class, JBossWSTestHelper.writeToFile(createDeployments())));
    }
 
    public void testWSDLAccess() throws Exception

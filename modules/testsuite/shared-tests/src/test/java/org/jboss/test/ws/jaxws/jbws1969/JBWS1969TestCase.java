@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws1969;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.wsdl.Definition;
 import javax.wsdl.factory.WSDLFactory;
@@ -30,6 +33,8 @@ import javax.wsdl.xml.WSDLReader;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,9 +44,23 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS1969TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1969.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1969.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1969.EndpointImpl.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1969/META-INF/wsdl/echo/TestService.wsdl"), "wsdl/echo/TestService.wsdl")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1969/META-INF/wsdl/echo/TestService.xsd"), "wsdl/echo/TestService.xsd");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1969TestCase.class, "jaxws-jbws1969.jar");
+      return new JBossWSTestSetup(JBWS1969TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testSubDirectory() throws Exception

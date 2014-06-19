@@ -22,11 +22,13 @@
 package org.jboss.test.ws.jaxws.jbws2419;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.activation.DataHandler;
@@ -39,6 +41,8 @@ import javax.xml.ws.soap.SOAPBinding;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -51,9 +55,29 @@ public class JBWS2419TestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws2419";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2419.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2419.SOAP11Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2419.SOAP11EndpointBean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2419.SOAP11ServerHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2419.SOAP12Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2419.SOAP12EndpointBean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2419.SOAP12ServerHandler.class)
+               .addAsResource("org/jboss/test/ws/jaxws/jbws2419/jaxws-server-handlers1.xml")
+               .addAsResource("org/jboss/test/ws/jaxws/jbws2419/jaxws-server-handlers2.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2419/WEB-INF/wsdl/SOAP12Service.wsdl"), "wsdl/SOAP12Service.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2419/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2419TestCase.class, "jaxws-jbws2419.war");
+      return new JBossWSTestSetup(JBWS2419TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testSOAP12ClientAccess() throws Exception

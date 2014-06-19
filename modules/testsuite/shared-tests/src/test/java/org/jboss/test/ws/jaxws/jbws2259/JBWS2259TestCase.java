@@ -23,6 +23,8 @@ package org.jboss.test.ws.jaxws.jbws2259;
 
 import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -35,6 +37,8 @@ import javax.xml.ws.soap.SOAPBinding;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -46,10 +50,26 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS2259TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2259.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2259.CustomHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2259.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2259.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2259.Photo.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2259/META-INF/permissions.xml"), "permissions.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2259/WEB-INF/jaxws-endpoint-config.xml"), "jaxws-endpoint-config.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2259/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite() throws Exception
    {
-      return new JBossWSTestSetup(JBWS2259TestCase.class, "jaxws-jbws2259.war");
+      return new JBossWSTestSetup(JBWS2259TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testCall() throws Exception

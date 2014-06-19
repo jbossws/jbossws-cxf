@@ -21,12 +21,17 @@
  */
 package org.jboss.test.ws.jaxws.enventry;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -37,9 +42,21 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class EnvEntryServletTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-enventry-servlet.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.enventry.EnvEntryServlet.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/enventry/WEB-INF/servlet-web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(EnvEntryServletTestCase.class, "jaxws-enventry-servlet.war");
+      return new JBossWSTestSetup(EnvEntryServletTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testEndpoint() throws Exception

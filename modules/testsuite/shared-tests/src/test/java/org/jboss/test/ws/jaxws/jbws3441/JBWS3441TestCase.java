@@ -21,7 +21,10 @@
  */ 
 package org.jboss.test.ws.jaxws.jbws3441;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -38,9 +43,28 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS3441TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3441.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3441.EJB3EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3441.EJBInterceptor.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3441.EJBInterceptorImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3441.EndpointIface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3441.POJOEndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3441.POJOInterceptor.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3441.POJOInterceptorImpl.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3441/META-INF/permissions.xml"), "permissions.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3441/WEB-INF/beans.xml"), "beans.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite() throws Exception
    {
-      return new JBossWSTestSetup(JBWS3441TestCase.class, "jaxws-jbws3441.war");
+      return new JBossWSTestSetup(JBWS3441TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    private EndpointIface getPojo() throws Exception

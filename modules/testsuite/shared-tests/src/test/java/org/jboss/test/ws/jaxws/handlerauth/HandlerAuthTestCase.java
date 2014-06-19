@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.handlerauth;
 
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -32,6 +35,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -42,9 +47,42 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class HandlerAuthTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-handlerauth2.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.handlerauth.LogicalSimpleHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerauth.SecureEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerauth.SecureEndpointImpl2.class)
+               .addAsResource("org/jboss/test/ws/jaxws/handlerauth/handlers2.xml");
+         }
+      });
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-handlerauth.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.handlerauth.SecureEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerauth.SecureEndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerauth.SimpleHandler.class)
+               .addAsResource("org/jboss/test/ws/jaxws/handlerauth/handlers.xml");
+         }
+      });
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-handlerauth3.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.handlerauth.SecureEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerauth.SecureEndpointImpl3.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerauth.SimpleHandler.class)
+               .addAsResource("org/jboss/test/ws/jaxws/handlerauth/handlers.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/handlerauth/META-INF/jboss-webservices.xml"), "jboss-webservices.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite()
    {
-      JBossWSTestSetup testSetup = new JBossWSTestSetup(HandlerAuthTestCase.class, "jaxws-handlerauth.jar,jaxws-handlerauth2.jar,jaxws-handlerauth3.jar");
+      JBossWSTestSetup testSetup = new JBossWSTestSetup(HandlerAuthTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
       Map<String, String> authenticationOptions = new HashMap<String, String>();
       authenticationOptions.put("usersProperties",
             getResourceFile("jaxws/handlerauth/jbossws-users.properties").getAbsolutePath());

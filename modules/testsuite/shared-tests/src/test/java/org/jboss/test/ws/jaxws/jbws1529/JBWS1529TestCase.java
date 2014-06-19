@@ -23,6 +23,8 @@ package org.jboss.test.ws.jaxws.jbws1529;
 
 import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.wsdl.Definition;
 import javax.wsdl.factory.WSDLFactory;
@@ -33,6 +35,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -44,11 +48,25 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS1529TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1529.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1529.JBWS1529.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1529.JBWS1529Impl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1529.UserException.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1529/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    private JBWS1529 proxy;
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1529TestCase.class, "jaxws-jbws1529.war");
+      return new JBossWSTestSetup(JBWS1529TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override

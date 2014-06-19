@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws1807;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
@@ -35,6 +38,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 
@@ -50,9 +55,23 @@ public class JBWS1807TestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws1807";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1807.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.helper.DOMWriter.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1807.ProviderImpl.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1807/WEB-INF/wsdl/provider.wsdl"), "wsdl/provider.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1807/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1807TestCase.class, "jaxws-jbws1807.war");
+      return new JBossWSTestSetup(JBWS1807TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWSDLAccess() throws Exception

@@ -25,13 +25,17 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.ws.spi.Provider;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -48,6 +52,40 @@ public class JBWS1666TestCase extends JBossWSTest
 
    java.util.Properties props = System.getProperties();
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1666.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpointImpl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1666/WEB-INF/web.xml"));
+         }
+      });
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1666-client.jar") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Main-Class: org.jboss.test.ws.jaxws.jbws1666.TestClient\n"
+                     + "Dependencies: javax.jws.api,javax.xml.ws.api\n"))
+               .addClass(org.jboss.test.ws.jaxws.jbws1666.TestClient.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpoint.class);
+         }
+      });
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1666-b-client.jar") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Main-Class: org.jboss.test.ws.jaxws.jbws1666.TestClient\n"
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+               .addClass(org.jboss.test.ws.jaxws.jbws1666.TestClient.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpoint.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
+   static {
+      JBossWSTestHelper.writeToFile(createDeployments());
+   }
+
    public static Test suite()
    {
       return new JBossWSTestSetup(JBWS1666TestCase.class, "jaxws-jbws1666.war");

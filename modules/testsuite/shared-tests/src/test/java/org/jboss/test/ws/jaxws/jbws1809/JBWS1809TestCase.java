@@ -21,13 +21,18 @@
  */
 package org.jboss.test.ws.jaxws.jbws1809;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -42,9 +47,24 @@ import org.w3c.dom.Element;
  */
 public class JBWS1809TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1809.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1809.DocRequest.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1809.DocResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1809.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1809.EndpointImpl.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1809/META-INF/jaxb-intros.xml"), "jaxb-intros.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1809TestCase.class, "jaxws-jbws1809.jar");
+      return new JBossWSTestSetup(JBWS1809TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWSDLAccess() throws Exception

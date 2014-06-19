@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.jbws1357;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -31,6 +34,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -43,9 +48,23 @@ public class JBWS1357TestCase extends JBossWSTest
    private String targetNS = "http://jbws1357.jaxws.ws.test.jboss.org/";
    private JBWS1357 proxy;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1357.war") { {
+         archive
+               .addManifest()
+               .addAsWebResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1357/hello.jsp"))
+               .addClass(org.jboss.test.ws.jaxws.jbws1357.JBWS1357.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1357.JBWS1357Impl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1357/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1357TestCase.class, "jaxws-jbws1357.war");
+      return new JBossWSTestSetup(JBWS1357TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override

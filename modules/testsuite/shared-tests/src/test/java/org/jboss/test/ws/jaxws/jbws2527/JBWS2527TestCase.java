@@ -21,12 +21,17 @@
  */
 package org.jboss.test.ws.jaxws.jbws2527;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -36,6 +41,39 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS2527TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2527-service.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2527.Hello.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2527.HelloImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2527.HelloService.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2527/WEB-INF-service/jboss-web.xml"), "jboss-web.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2527/WEB-INF-service/web.xml"), "web.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2527/WEB-INF-service/wsdl/HelloService.wsdl"), "wsdl/HelloService.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2527/WEB-INF-service/web.xml"));
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2527-client.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2527.ClientServlet.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2527.Hello.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2527.HelloService.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2527/WEB-INF-client/jboss-web.xml"), "jboss-web.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2527/WEB-INF-client/web.xml"), "web.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2527/WEB-INF-client/wsdl/HelloService.wsdl"), "wsdl/HelloService.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2527/WEB-INF-client/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
+   static {
+      JBossWSTestHelper.writeToFile(createDeployments());
+   }
+   
    public static Test suite()
    {
       return new JBossWSTestSetup(JBWS2527TestCase.class, "", true);

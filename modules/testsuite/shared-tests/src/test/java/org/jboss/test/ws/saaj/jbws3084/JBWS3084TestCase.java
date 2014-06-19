@@ -27,6 +27,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.AttachmentPart;
@@ -41,6 +43,8 @@ import junit.framework.Test;
 
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestHelper.WarDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
@@ -52,23 +56,25 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS3084TestCase extends JBossWSTest
 {
-   private static WarDeployment createWarDeployment(String name) {
-      return new WarDeployment(name) { {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new WarDeployment("saaj-soap-connection.war") { {
          archive
-            .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
-            .addClass(ServiceIface.class)
-            .addClass(ServiceImpl.class)
-            .addClass(InputStreamDataSource.class)
-            .addAsWebInfResource(new File(getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/wsdl/SaajService.wsdl"), "wsdl/SaajService.wsdl")
-            .setWebXML(new File(getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/web.xml"));
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+               .addClass(ServiceIface.class)
+               .addClass(ServiceImpl.class)
+               .addClass(InputStreamDataSource.class)
+               .addAsWebInfResource(new File(getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/wsdl/SaajService.wsdl"), "wsdl/SaajService.wsdl")
+               .setWebXML(new File(getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/web.xml"));
          }
-      };
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
    }
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS3084TestCase.class, createWarDeployment("saaj-soap-connection.war").writeToFile().getName());
+      return new JBossWSTestSetup(JBWS3084TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testSoapConnectionPostWithoutChunkedEncoding() throws Exception

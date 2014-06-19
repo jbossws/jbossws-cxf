@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws3282;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -43,9 +48,28 @@ public class HandlerChainTestCase extends JBossWSTest
 {
    private static final String targetNS = "http://jbws3282.jaxws.ws.test.jboss.org/";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3282.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3282.AuthorizationHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3282.EndpointHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3282.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3282.LogHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3282.RoutingHandler.class)
+               .addAsResource("org/jboss/test/ws/jaxws/jbws3282/jaxws-handlers-server.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3282/WEB-INF/jaxws-endpoint-config.xml"), "jaxws-endpoint-config.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3282/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(HandlerChainTestCase.class, "jaxws-jbws3282.war");
+      return new JBossWSTestSetup(HandlerChainTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testHandlerChain() throws Exception

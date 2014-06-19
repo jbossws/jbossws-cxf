@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.handlerscope;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -40,9 +45,34 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class HandlerScopeTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-handlerscope.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.GeneralServerHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.InvalidPortServerHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.InvalidServiceServerHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.PortServerHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.PortWildcardServerHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.ProtocolHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.SOAP11ServerHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.SOAP12ServerHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.SOAPEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.SOAPEndpointBean.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.SOAPServerHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.ServiceServerHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.handlerscope.ServiceWildcardServerHandler.class)
+               .addAsResource("org/jboss/test/ws/jaxws/handlerscope/jaxws-server-handlers.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/handlerscope/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(HandlerScopeTestCase.class, "jaxws-handlerscope.war");
+      return new JBossWSTestSetup(HandlerScopeTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testClientAccess() throws Exception
