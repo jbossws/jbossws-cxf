@@ -124,6 +124,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
          // 1) default values
          String configName = org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG;
          String configFile = null;
+         boolean specifiedConfig = false;
          // 2) annotation contribution
          EndpointConfig epConfigAnn = implementor.getClass().getAnnotation(EndpointConfig.class);
          if (epConfigAnn != null)
@@ -136,11 +137,13 @@ public class ServerBeanCustomizer extends BeanCustomizer
             {
                configFile = epConfigAnn.configFile();
             }
+            specifiedConfig = true;
          }
          // 3) descriptor overrides (jboss-webservices.xml or web.xml)
          if (epConfigName != null && !epConfigName.isEmpty())
          {
             configName = epConfigName;
+            specifiedConfig = true;
          }
          if (epConfigFile != null && !epConfigFile.isEmpty())
          {
@@ -154,6 +157,9 @@ public class ServerBeanCustomizer extends BeanCustomizer
             org.jboss.wsf.spi.metadata.config.EndpointConfig config = sc.getEndpointConfig(configName);
             if (config != null) {
                endpoint.setEndpointConfig(config);
+            } 
+            if (config == null && specifiedConfig) {
+            	throw Messages.MESSAGES.couldNotFindEndpointConfigName(configName);
             }
          }
          else
