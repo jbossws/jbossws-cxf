@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.jbws1665;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.wsdl.Definition;
 import javax.wsdl.factory.WSDLFactory;
@@ -30,6 +32,8 @@ import javax.wsdl.xml.WSDLReader;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,12 +43,28 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS1665TestCase extends JBossWSTest
 {
-
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws1665/TrackingService";
+
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1665.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1665.CoordinateData.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1665.JBWS1665TestCase.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1665.PropertyData.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1665.TraceData.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1665.TracePollData.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1665.TrackingServiceBean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1665.TrackingServiceInterface.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1665TestCase.class, "jaxws-jbws1665.jar");
+      return new JBossWSTestSetup(JBWS1665TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWebService() throws Exception

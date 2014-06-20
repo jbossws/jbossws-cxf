@@ -21,18 +21,23 @@
  */
 package org.jboss.test.ws.jaxws.jbws1841;
 
+import java.io.File;
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
 import junit.framework.Test;
 
 import org.jboss.wsf.test.CleanupOperation;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
-import java.net.URL;
 
 /**
  * Serviceref through ejb3 deployment descriptor.
@@ -48,9 +53,31 @@ public class JBWS1841TestCase extends JBossWSTest
    private static EndpointInterface port;
    private static StatelessRemote remote;
    private static InitialContext ctx;
+
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1841.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1841.EJB3Bean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1841.EndpointInterface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1841.EndpointService.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1841.StatelessBean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1841.StatelessRemote.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1841/META-INF/ejb-jar.xml"), "ejb-jar.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1841/META-INF/jboss-ejb3.xml"), "jboss-ejb3.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1841/META-INF/jboss-webservices.xml"), "jboss-webservices.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1841/META-INF/jboss.xml"), "jboss.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1841/META-INF/permissions.xml"), "permissions.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1841/META-INF/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1841TestCase.class, "jaxws-jbws1841.jar", new CleanupOperation() {
+      return new JBossWSTestSetup(JBWS1841TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), new CleanupOperation() {
          @Override
          public void cleanUp() {
             port = null;

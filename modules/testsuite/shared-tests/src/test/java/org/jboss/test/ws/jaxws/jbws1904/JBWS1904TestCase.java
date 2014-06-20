@@ -23,6 +23,8 @@ package org.jboss.test.ws.jaxws.jbws1904;
 
 import java.net.URL;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -30,6 +32,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -45,9 +49,22 @@ import org.w3c.dom.NodeList;
  */
 public class JBWS1904TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1904.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1904.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1904.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1904.UserException.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1904TestCase.class, "jaxws-jbws1904.jar");
+      return new JBossWSTestSetup(JBWS1904TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWSDLSchema() throws Exception

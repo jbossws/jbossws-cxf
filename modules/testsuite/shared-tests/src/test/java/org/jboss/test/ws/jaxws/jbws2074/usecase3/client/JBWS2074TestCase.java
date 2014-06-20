@@ -21,15 +21,21 @@
  */
 package org.jboss.test.ws.jaxws.jbws2074.usecase3.client;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.test.ws.jaxws.jbws2074.usecase3.service.POJOIface;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,6 +45,25 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public final class JBWS2074TestCase extends JBossWSTest
 {
+   static {
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.WarDeployment("jaxws-jbws2074-usecase3.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.logging\n"))
+               .addClass(org.jboss.test.ws.jaxws.jbws2074.usecase3.service.POJOIface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2074.usecase3.service.POJOImpl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2074/usecase3/WEB-INF/web.xml"));
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws2074-usecase3.ear") { {
+         archive
+               .addManifest()
+               .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws2074-usecase3.war"))
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2074/usecase3-ear/META-INF/application.xml"), "application.xml");
+         }
+      });
+   }
+
    public static Test suite()
    {
       return new JBossWSTestSetup(JBWS2074TestCase.class, "");

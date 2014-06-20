@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1581;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.naming.InitialContext;
@@ -43,6 +44,34 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS1581TestCase extends JBossWSTest
 {
+   static {
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.WarDeployment("jaxws-jbws1581-pojo.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1581.EndpointBean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1581.EndpointInterface.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1581/WEB-INF/web.xml"));
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1581-ejb3.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1581.EJB3Bean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1581.EJB3Remote.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1581.EndpointInterface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1581.EndpointService.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1581/META-INF/permissions.xml"), "permissions.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1581/META-INF/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl");
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1581.ear") { {
+         archive
+               .addManifest()
+               .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws1581-pojo.war"));
+         }
+      });
+   }
+
    public static Test suite()
    {
        return new JBossWSTestSetup(JBWS1581TestCase.class, "jaxws-jbws1581-ejb3.jar");

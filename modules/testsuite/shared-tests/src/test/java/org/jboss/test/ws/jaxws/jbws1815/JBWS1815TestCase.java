@@ -22,8 +22,11 @@
 package org.jboss.test.ws.jaxws.jbws1815;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -41,6 +44,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.api.util.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 
@@ -64,9 +69,22 @@ public class JBWS1815TestCase extends JBossWSTest
       "  </soapenv:Body>" +
       "</soapenv:Envelope>";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1815.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1815.ProviderImpl.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1815/META-INF/permissions.xml"), "permissions.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1815/META-INF/wsdl/my-service.wsdl"), "wsdl/my-service.wsdl");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1815TestCase.class, "jaxws-jbws1815.jar");
+      return new JBossWSTestSetup(JBWS1815TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWSDLAccess() throws Exception

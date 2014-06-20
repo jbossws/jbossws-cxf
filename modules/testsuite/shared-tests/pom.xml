@@ -88,7 +88,6 @@
                     <property name="log4j.output.dir" value="${log4j.output.dir}"/>
                     <property name="endorsed.dir" value="${project.build.directory}/endorsed"/>
                     <ant antfile="scripts/antrun-wsprovide.xml" target="wsprovide"/>
-                    <ant antfile="src/test/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws"/>
                     <ant antfile="src/test/ant-import/build-samples-jaxws.xml" target="build-samples-jaxws"/>
                   </target>
                 </configuration>
@@ -114,6 +113,38 @@
                       </includes>
                     </resource>
                   </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>build-benchmarks</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>benchmarks</id>
+                <phase>test-compile</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <property name="maven.test.classpath" refid="maven.test.classpath"/>
+                    <property name="tests.resources.dir" value="${basedir}/src/test/resources"/>
+                    <property name="tests.output.dir" value="${project.build.directory}"/>
+                    <property name="project.version" value="${project.version}"/>
+                    <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml"/>
+                    <property name="log4j.output.dir" value="${log4j.output.dir}"/>
+                    <property name="endorsed.dir" value="${project.build.directory}/endorsed"/>
+                    <ant antfile="src/test/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws"/>
+                  </target>
                 </configuration>
               </execution>
             </executions>

@@ -21,8 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws2278;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -33,7 +35,11 @@ import javax.xml.ws.handler.Handler;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.ArchivePath;
+import org.jboss.shrinkwrap.api.Filter;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -48,9 +54,28 @@ public class JBWS2278TestCase extends JBossWSTest
    private TestEndpoint port11;
    private TestEndpoint port12;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2278.war") { {
+         archive
+               .addManifest()
+               .addPackages(false, new Filter<ArchivePath> () {
+                  @Override
+                  public boolean include(ArchivePath path)
+                  {
+                     return !path.get().contains("TestCase");
+                  }}, "org.jboss.test.ws.jaxws.jbws2278")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2278/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2278/WEB-INF/wsdl/Test.wsdl"), "wsdl/Test.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2278/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite() throws Exception
    {
-      return new JBossWSTestSetup(JBWS2278TestCase.class, "jaxws-jbws2278.war");
+      return new JBossWSTestSetup(JBWS2278TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override

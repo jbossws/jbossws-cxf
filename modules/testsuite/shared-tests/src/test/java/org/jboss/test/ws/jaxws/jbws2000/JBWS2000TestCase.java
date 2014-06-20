@@ -21,19 +21,24 @@
  */
 package org.jboss.test.ws.jaxws.jbws2000;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.soap.SOAPBinding;
 import javax.activation.DataHandler;
+import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
+import javax.xml.ws.Service;
+import javax.xml.ws.soap.SOAPBinding;
 
 import junit.framework.Test;
 
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 import org.jboss.test.ws.jaxws.samples.xop.doclit.GeneratorDataSource;
+import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
  *
@@ -43,9 +48,22 @@ public class JBWS2000TestCase extends JBossWSTest
 
    private FileTransferService port;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2000.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2000.FileTransferService.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2000.FileTransferServiceImpl.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2000/META-INF/permissions.xml"), "permissions.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2000TestCase.class, "jaxws-jbws2000.jar");
+      return new JBossWSTestSetup(JBWS2000TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    protected void setUp() throws Exception

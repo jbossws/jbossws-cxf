@@ -23,6 +23,8 @@ package org.jboss.test.ws.jaxws.misc;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -31,6 +33,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -43,9 +47,21 @@ public class MiscTestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-misc/endpoint";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-misc.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.misc.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.misc.EndpointImpl.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(MiscTestCase.class, "jaxws-misc.jar");
+      return new JBossWSTestSetup(MiscTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testEndpoint() throws Exception

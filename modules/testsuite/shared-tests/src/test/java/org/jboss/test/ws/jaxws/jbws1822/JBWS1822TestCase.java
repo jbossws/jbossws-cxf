@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1822;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -30,6 +31,7 @@ import junit.framework.Test;
 
 import org.jboss.test.ws.jaxws.jbws1822.webservice.EJB3RemoteIface;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -41,6 +43,45 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public final class JBWS1822TestCase extends JBossWSTest
 {
+   static {
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1822-shared.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1822.shared.BeanIface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1822.shared.BeanImpl.class);
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1822-two-ejb3-inside.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1822.shared.BeanIface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1822.shared.BeanImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1822.webservice.EJB3Bean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1822.webservice.EJB3RemoteIface.class);
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1822-one-ejb3-inside.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1822.webservice.EJB3Bean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1822.webservice.EJB3RemoteIface.class);
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1822-two-ejb-modules.ear") { {
+         archive
+               .addManifest()
+               .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws1822-one-ejb3-inside.jar"))
+               .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws1822-shared.jar"));
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1822-one-ejb-module.ear") { {
+         archive
+               .addManifest()
+               .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws1822-two-ejb3-inside.jar"));
+         }
+      });
+   }
+
    public static Test suite()
    {
       return new JBossWSTestSetup(JBWS1822TestCase.class, "");

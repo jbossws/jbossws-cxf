@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.jbws981;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +31,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,10 +43,22 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS981TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws981.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws981.EJB3Bean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws981.EJB3RemoteInterface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws981.EndpointInterface.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS981TestCase.class, "jaxws-jbws981.jar");
+      return new JBossWSTestSetup(JBWS981TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testCall() throws Exception

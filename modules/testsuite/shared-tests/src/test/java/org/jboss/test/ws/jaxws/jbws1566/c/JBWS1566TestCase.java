@@ -23,6 +23,8 @@ package org.jboss.test.ws.jaxws.jbws1566.c;
 
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -35,6 +37,8 @@ import org.jboss.test.ws.jaxws.jbws1566.a.TestEnumeration;
 import org.jboss.test.ws.jaxws.jbws1566.b.BClass;
 import org.jboss.test.ws.jaxws.jbws1566.b.BException;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -47,9 +51,24 @@ public class JBWS1566TestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxwstest/Jaxb20StatelessTestBean";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1566.jar") { {
+         archive
+               .addManifest()
+               .addPackage("org.jboss.test.ws.jaxws.jbws1566.a")
+               .addPackage("org.jboss.test.ws.jaxws.jbws1566.b")
+               .addClass(org.jboss.test.ws.jaxws.jbws1566.c.JBWS1566TestCase.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1566.c.Jaxb20StatelessTestBean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1566.c.Jaxb20TestWSInterface.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1566TestCase.class, "jaxws-jbws1566.jar");
+      return new JBossWSTestSetup(JBWS1566TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWebService() throws Exception

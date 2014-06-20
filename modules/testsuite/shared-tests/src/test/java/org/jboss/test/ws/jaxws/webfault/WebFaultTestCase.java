@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.webfault;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -31,6 +34,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -47,9 +52,24 @@ public class WebFaultTestCase extends JBossWSTest
    private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-webfault";
    private static final String TARGET_NS = "http://webfault.jaxws.ws.test.jboss.org/";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-webfault.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.webfault.CustomException.class)
+               .addClass(org.jboss.test.ws.jaxws.webfault.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.webfault.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.webfault.SimpleException.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/webfault/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(WebFaultTestCase.class, "jaxws-webfault.war");
+      return new JBossWSTestSetup(WebFaultTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    /**

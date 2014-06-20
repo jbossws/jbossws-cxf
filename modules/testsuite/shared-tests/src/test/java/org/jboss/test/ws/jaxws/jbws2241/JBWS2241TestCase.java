@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.jbws2241;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -31,6 +34,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -41,9 +46,25 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS2241TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2241.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2241.EJB3Bean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2241.EJB3RemoteInterface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2241.EndpointInterface.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2241/META-INF/jboss-ejb3.xml"), "jboss-ejb3.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2241/META-INF/jboss-webservices.xml"), "jboss-webservices.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2241/META-INF/jboss.xml"), "jboss.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2241TestCase.class, "jaxws-jbws2241.jar", true);
+      return new JBossWSTestSetup(JBWS2241TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), true);
    }
 
    private EndpointInterface getPort(String user, String pwd) throws MalformedURLException {

@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2074.usecase1.client;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -28,8 +29,10 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.test.ws.jaxws.jbws2074.usecase1.service.POJOIface;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,6 +42,29 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public final class JBWS2074TestCase extends JBossWSTest
 {
+   static {
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.WarDeployment("jaxws-jbws2074-usecase1.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.logging\n"))
+               .addClass(org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2074.handler.JavaResourcesHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2074.handler.ManualResourcesHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2074.usecase1.service.POJOIface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2074.usecase1.service.POJOImpl.class)
+               .addAsResource("org/jboss/test/ws/jaxws/jbws2074/usecase1/service/jaxws-service-handlers.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2074/usecase1/WEB-INF/web.xml"));
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws2074-usecase1.ear") { {
+         archive
+               .addManifest()
+               .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws2074-usecase1.war"))
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2074/usecase1-ear/META-INF/application.xml"), "application.xml");
+         }
+      });
+   }
+
    public static Test suite()
    {
       return new JBossWSTestSetup(JBWS2074TestCase.class, "");

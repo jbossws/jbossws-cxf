@@ -21,12 +21,18 @@
  */
 package org.jboss.test.ws.publish;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -37,9 +43,33 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class EndpointPublishTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("endpoint-publish.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.common\n"))
+               .addAsResource("org/jboss/test/ws/publish/WEB-INF/wsdl/EndpointImpl3.xml", "WEB-INF/wsdl/EndpointImpl3.xml")
+               .addAsResource("org/jboss/test/ws/publish/WEB-INF/wsdl/EndpointImpl4.xml", "WEB-INF/wsdl/EndpointImpl4.xml")
+               .addClass(org.jboss.test.ws.publish.Endpoint.class)
+               .addClass(org.jboss.test.ws.publish.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.publish.EndpointImpl2.class)
+               .addClass(org.jboss.test.ws.publish.EndpointImpl3.class)
+               .addClass(org.jboss.test.ws.publish.EndpointImpl4.class)
+               .addClass(org.jboss.test.ws.publish.EndpointImpl5.class)
+               .addAsResource("org/jboss/test/ws/publish/EndpointImpl5.xml")
+               .addClass(org.jboss.test.ws.publish.EndpointPublishServlet.class)
+               .addAsResource("org/jboss/test/ws/publish/TestService.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/publish/META-INF/permissions.xml"), "permissions.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/publish/WEB-INF/wsdl/EndpointImpl3.xml"), "wsdl/EndpointImpl3.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(EndpointPublishTestCase.class, "endpoint-publish.war");
+      return new JBossWSTestSetup(EndpointPublishTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testEndpointPublish() throws Exception

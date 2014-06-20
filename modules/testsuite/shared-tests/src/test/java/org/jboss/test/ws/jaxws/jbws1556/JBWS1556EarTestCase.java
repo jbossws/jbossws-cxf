@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1556;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -31,6 +32,7 @@ import junit.framework.Test;
 
 import org.jboss.wsf.test.CleanupOperation;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -45,6 +47,23 @@ public class JBWS1556EarTestCase extends JBossWSTest
 {
    private static EndpointInterface port;
    
+   static {
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1556.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1556.EJB3Bean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws1556.UserType.class);
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1556.ear") { {
+         archive
+               .addManifest()
+               .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws1556.jar"))
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1556/META-INF/application.xml"), "application.xml");
+         }
+      });
+   }
+
    public static Test suite()
    {
       return new JBossWSTestSetup(JBWS1556EarTestCase.class, "jaxws-jbws1556.ear", new CleanupOperation() {

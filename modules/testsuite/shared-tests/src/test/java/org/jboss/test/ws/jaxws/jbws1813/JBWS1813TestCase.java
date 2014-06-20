@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1813;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -29,6 +30,7 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -42,6 +44,23 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 public class JBWS1813TestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/test-context";
+
+   static {
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1813.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1813.EndpointImpl.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1813/META-INF/jboss-webservices.xml"), "jboss-webservices.xml");
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1813.ear") { {
+         archive
+               .addManifest()
+               .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws1813.jar"))
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1813/META-INF/application.xml"), "application.xml");
+         }
+      });
+   }
 
    public static Test suite()
    {

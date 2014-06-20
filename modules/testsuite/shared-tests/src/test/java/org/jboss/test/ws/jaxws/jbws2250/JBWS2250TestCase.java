@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws2250;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -42,10 +47,26 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS2250TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2250.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2250.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2250.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2250.Id.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2250.Message.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2250.ObjectFactory.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2250/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2250/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2250TestCase.class, "jaxws-jbws2250.war");
+      return new JBossWSTestSetup(JBWS2250TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testPortAccess() throws Exception

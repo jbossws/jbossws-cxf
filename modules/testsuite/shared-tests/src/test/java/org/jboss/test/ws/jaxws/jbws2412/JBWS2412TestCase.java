@@ -21,7 +21,10 @@
 */
 package org.jboss.test.ws.jaxws.jbws2412;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,10 +44,28 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS2412TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2412.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2412.TestEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2412.TestEndpointImpl.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2412/WEB-INF/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2412/WEB-INF/wsdl/schema1.xsd"), "wsdl/schema1.xsd")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2412/WEB-INF/wsdl/schema2.xsd"), "wsdl/schema2.xsd")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2412/WEB-INF/wsdl/schema3.xsd"), "wsdl/schema3.xsd")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2412/WEB-INF/wsdl/schema4.xsd"), "wsdl/schema4.xsd")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2412/WEB-INF/wsdl/schema5.xsd"), "wsdl/schema5.xsd")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2412/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite() throws Exception
    {
-      return new JBossWSTestSetup(JBWS2412TestCase.class, "jaxws-jbws2412.war");
+      return new JBossWSTestSetup(JBWS2412TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    private TestEndpoint getPort() throws Exception

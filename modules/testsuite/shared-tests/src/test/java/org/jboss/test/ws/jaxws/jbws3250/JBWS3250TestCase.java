@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws3250;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.activation.DataHandler;
 import javax.activation.URLDataSource;
@@ -36,15 +39,31 @@ import junit.framework.Test;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 public class JBWS3250TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3250.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3250.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3250.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3250.MTOMRequest.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3250.MTOMResponse.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3250/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    private String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws3250";
 
    public static Test suite() throws Exception
    {
-      return new JBossWSTestSetup(JBWS3250TestCase.class, "jaxws-jbws3250.war");
+      return new JBossWSTestSetup(JBWS3250TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testMtomSawpFile() throws Exception

@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2150;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
@@ -46,6 +47,8 @@ import junit.framework.Test;
 import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 import com.ibm.wsdl.extensions.soap.SOAPAddressImpl;
@@ -69,6 +72,48 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
    private static final ObjectName SERVER_CONFIG_OBJECT_NAME = ObjectNameFactory.create("jboss.ws:service=ServerConfig");
    private static final String NAMESPACE = "http://test.jboss.org/addressrewrite";
    private static final String NAMESPACE_IMP = "http://test.jboss.org/addressrewrite/wsdlimp";
+
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2150.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2150.InvalidSecureService.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2150.InvalidService.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2150.ServiceIface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2150.ValidSecureService.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2150.ValidService.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2150/WEB-INF/wsdl/Service.wsdl"), "wsdl/Service.wsdl")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2150/WEB-INF/wsdl/inner.wsdl"), "wsdl/inner.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2150/WEB-INF/web.xml"));
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2150-codefirst.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2150.CodeFirstService.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2150.ServiceIface.class);
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2150-sec.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2150.InvalidSecureService.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2150.InvalidService.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2150.ServiceIface.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2150.ValidSecureService.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2150.ValidService.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2150/WEB-INF/wsdl/Service.wsdl"), "wsdl/Service.wsdl")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2150/WEB-INF/wsdl/inner.wsdl"), "wsdl/inner.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2150/WEB-INF/web-sec.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
+   static {
+      JBossWSTestHelper.writeToFile(createDeployments());
+   }
 
    protected static class JBWS2150TestSetup extends JBossWSTestSetup {
       

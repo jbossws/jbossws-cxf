@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws3753;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -38,8 +43,23 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS3753TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3753.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3753.ServiceAImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3753.ServiceBImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3753.ServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3753.ServiceInterface.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3753/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite() {
-      return new JBossWSTestSetup(JBWS3753TestCase.class, "jaxws-jbws3753.war");
+      return new JBossWSTestSetup(JBWS3753TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    public void testService() throws Exception

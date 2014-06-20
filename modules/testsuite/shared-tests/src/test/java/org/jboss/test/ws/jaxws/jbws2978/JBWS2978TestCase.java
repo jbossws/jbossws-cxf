@@ -22,7 +22,10 @@
 package org.jboss.test.ws.jaxws.jbws2978;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
@@ -35,6 +38,8 @@ import javax.xml.ws.soap.SOAPFaultException;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -44,7 +49,6 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS2978TestCase extends JBossWSTest
 {
-
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws2978";
 
    private final String requestMessage = "<S:Envelope xmlns:S='http://schemas.xmlsoap.org/soap/envelope/'><S:Header><To xmlns='http://www.w3.org/2005/08/addressing'>"
@@ -56,9 +60,25 @@ public class JBWS2978TestCase extends JBossWSTest
 
    public Service service = null;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2978.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2978.AddNumbers.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2978.AddNumbersImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2978.AddNumbersRequest.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2978.AddNumbersResponse.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2978/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2978/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite() throws Exception
    {
-      return new JBossWSTestSetup(JBWS2978TestCase.class, "jaxws-jbws2978.war");
+      return new JBossWSTestSetup(JBWS2978TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override

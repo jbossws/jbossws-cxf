@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.wrapped.accessor;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -41,9 +46,26 @@ public class AccessorTestCase extends JBossWSTest
    private String targetNS = "http://accessor.wrapped.jaxws.ws.test.jboss.org/";
    private Accessor proxy;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-wrapped-accessor.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.wrapped.accessor.Accessor.class)
+               .addClass(org.jboss.test.ws.jaxws.wrapped.accessor.AccessorImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.wrapped.accessor.jaxws.FieldAccessor.class)
+               .addClass(org.jboss.test.ws.jaxws.wrapped.accessor.jaxws.FieldAccessorResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.wrapped.accessor.jaxws.MethodAccessor.class)
+               .addClass(org.jboss.test.ws.jaxws.wrapped.accessor.jaxws.MethodAccessorResponse.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/wrapped/accessor/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(AccessorTestCase.class, "jaxws-wrapped-accessor.war");
+      return new JBossWSTestSetup(AccessorTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override

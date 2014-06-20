@@ -34,6 +34,22 @@
 
     <mkdir dir="${tests.output.dir}/test-libs"/>
 
+	<!-- jaxws-classloading-service -->
+	<jar destfile="${tests.output.dir}/test-libs/jaxws-classloading-service.jar">
+		<fileset dir="${tests.output.dir}/test-classes">
+			<include name="org/jboss/test/ws/jaxws/smoke/tools/service/HelloWorld.class" />
+		</fileset>
+	</jar>
+
+	<!-- jaxws-classloading-types -->
+	<jar destfile="${tests.output.dir}/test-libs/jaxws-classloading-types.jar">
+		<fileset dir="${tests.output.dir}/test-classes">
+			<include name="org/jboss/test/ws/jaxws/smoke/tools/service/Message.class" />
+			<include name="org/jboss/test/ws/jaxws/smoke/tools/service/Echo.class" />
+			<include name="org/jboss/test/ws/jaxws/smoke/tools/service/EchoResponse.class" />
+		</fileset>
+	</jar>
+
 	<!-- jaxws-samples-addressing -->
 	<war warfile="${tests.output.dir}/test-libs/jaxws-samples-wsaddressing.war" webxml="${tests.output.dir}/test-resources/jaxws/samples/addressing/WEB-INF/web.xml">
       <classes dir="${tests.output.dir}/test-classes">

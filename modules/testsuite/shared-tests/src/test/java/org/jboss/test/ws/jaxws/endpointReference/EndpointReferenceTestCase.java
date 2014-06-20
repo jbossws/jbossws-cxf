@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.endpointReference;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Result;
@@ -30,8 +32,8 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Dispatch;
 import javax.xml.ws.EndpointReference;
 import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceException;
 import javax.xml.ws.Service.Mode;
+import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.AddressingFeature;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
@@ -39,6 +41,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -60,9 +64,21 @@ public class EndpointReferenceTestCase extends JBossWSTest
 
    private Service service;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-endpointReference.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.endpointReference.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.endpointReference.EndpointImpl.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(EndpointReferenceTestCase.class, "jaxws-endpointReference.jar");
+      return new JBossWSTestSetup(EndpointReferenceTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void setUp() throws Exception

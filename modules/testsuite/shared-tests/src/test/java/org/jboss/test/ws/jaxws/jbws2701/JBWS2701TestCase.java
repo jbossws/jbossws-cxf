@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.jbws2701;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -30,6 +32,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -42,9 +46,22 @@ public class JBWS2701TestCase extends JBossWSTest
 {
    private final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-jbws2701/EndpointService/EndpointImpl";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2701.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws2701.ClassA.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2701.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws2701.EndpointImpl.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2701TestCase.class, "jaxws-jbws2701.jar");
+      return new JBossWSTestSetup(JBWS2701TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWSDL() throws Exception

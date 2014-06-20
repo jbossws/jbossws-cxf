@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws3736;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -31,6 +34,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -43,9 +48,22 @@ public class JBWS3736TestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws3736";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws3736.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3736.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3736.EndpointImpl.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3736/META-INF/wsdl/test.wsdl"), "wsdl/test.wsdl");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS3736TestCase.class, "jaxws-jbws3736.jar");
+      return new JBossWSTestSetup(JBWS3736TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testEndpoint() throws Exception

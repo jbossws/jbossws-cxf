@@ -24,6 +24,8 @@ package org.jboss.test.ws.jaxws.calendar;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -36,7 +38,11 @@ import javax.xml.ws.Service.Mode;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.ArchivePath;
+import org.jboss.shrinkwrap.api.Filter;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -49,9 +55,26 @@ public class CalendarTestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-calendar/EndpointService";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-calendar.war") { {
+         archive
+               .addManifest()
+               .addPackages(false, new Filter<ArchivePath>() {
+                  @Override
+                  public boolean include(ArchivePath path)
+                  {
+                     return !path.get().contains("TestCase");
+                  }
+               }, "org.jboss.test.ws.jaxws.calendar");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(CalendarTestCase.class, "jaxws-calendar.war");
+      return new JBossWSTestSetup(CalendarTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testCalendar() throws Exception

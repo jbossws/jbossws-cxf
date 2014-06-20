@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws3026;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -38,9 +43,32 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public final class JBWS3026TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws3026-ejb.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3026.MyBean.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3026.MyBeanLocal.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3026.MyBeanRemote.class);
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3026-web.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws3026.MyBeanRemote.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3026.MyService.class)
+               .addClass(org.jboss.test.ws.jaxws.jbws3026.MyServiceImpl.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3026/META-INF/permissions.xml"), "permissions.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3026/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS3026TestCase.class, "jaxws-jbws3026-ejb.jar,jaxws-jbws3026-web.war");
+      return new JBossWSTestSetup(JBWS3026TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testUsecase1WithoutSar() throws Exception

@@ -21,7 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.jbws1798;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -31,9 +33,11 @@ import junit.framework.Test;
 
 import org.jboss.test.ws.jaxws.jbws1798.generated.CountryCodeType;
 import org.jboss.test.ws.jaxws.jbws1798.generated.CurrencyCodeType;
-import org.jboss.test.ws.jaxws.jbws1798.generated.ServiceType;
 import org.jboss.test.ws.jaxws.jbws1798.generated.GetCountryCodesResponse.Response;
+import org.jboss.test.ws.jaxws.jbws1798.generated.ServiceType;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -47,9 +51,25 @@ public class JBWS1798TestCase extends JBossWSTest
    private String targetNS = "http://jbws1798.jaxws.ws.test.jboss.org/";
    private ServiceType proxy;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1798.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.jbws1798.ServiceImpl.class)
+               .addPackage("org.jboss.test.ws.jaxws.jbws1798.generated")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1798/WEB-INF/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1798/WEB-INF/wsdl/common/1.0-SNAPSHOT/CoreComponentTypes.xsd"), "wsdl/common/1.0-SNAPSHOT/CoreComponentTypes.xsd")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1798/WEB-INF/wsdl/imported/my-service/1.0-SNAPSHOT/BaseComponents.xsd"), "wsdl/imported/my-service/1.0-SNAPSHOT/BaseComponents.xsd")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1798/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS1798TestCase.class, "jaxws-jbws1798.war");
+      return new JBossWSTestSetup(JBWS1798TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override
