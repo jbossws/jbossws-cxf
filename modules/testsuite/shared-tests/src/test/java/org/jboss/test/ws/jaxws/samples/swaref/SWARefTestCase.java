@@ -21,16 +21,21 @@
  */
 package org.jboss.test.ws.jaxws.samples.swaref;
 
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.activation.DataHandler;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
 import junit.framework.Test;
 
 import org.jboss.wsf.test.CleanupOperation;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
-
-import javax.xml.ws.Service;
-import javax.xml.namespace.QName;
-import javax.activation.DataHandler;
-import java.net.URL;
 
 /**
  * Test SwARef with different binding styles and @XmlAttachmentRef locations.
@@ -49,9 +54,32 @@ public class SWARefTestCase extends JBossWSTest
 
    private static DataHandler data;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-swaref.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.BareEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.BareEndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.DocumentPayload.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.DocumentPayloadWithList.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.DocumentPayloadWithoutRef.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.RpcLitEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.RpcLitEndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.WrappedEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.WrappedEndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.jaxws.BeanAnnotation.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.jaxws.BeanAnnotationResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.jaxws.ParameterAnnotation.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.swaref.jaxws.ParameterAnnotationResponse.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(SWARefTestCase.class, "jaxws-samples-swaref.jar", new CleanupOperation() {
+      return new JBossWSTestSetup(SWARefTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), new CleanupOperation() {
          @Override
          public void cleanUp() {
             data = null;

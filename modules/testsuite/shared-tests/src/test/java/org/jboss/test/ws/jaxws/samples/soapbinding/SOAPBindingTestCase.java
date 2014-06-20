@@ -22,7 +22,10 @@
 package org.jboss.test.ws.jaxws.samples.soapbinding;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.namespace.QName;
@@ -38,6 +41,8 @@ import javax.xml.ws.Service.Mode;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -51,9 +56,32 @@ public class SOAPBindingTestCase extends JBossWSTest
 {
    private final String targetNS = "http://soapbinding.samples.jaxws.ws.test.jboss.org/";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-soapbinding.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.soapbinding.DocBare.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.soapbinding.DocBareServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.soapbinding.DocWrapped.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.soapbinding.DocWrappedServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.soapbinding.ExampleSEI.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.soapbinding.ExampleServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.soapbinding.SubmitBareRequest.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.soapbinding.SubmitBareResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.soapbinding.jaxws.SubmitNamespacedPO.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.soapbinding.jaxws.SubmitNamespacedPOResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.soapbinding.jaxws.SubmitPO.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.soapbinding.jaxws.SubmitPOResponse.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/soapbinding/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(SOAPBindingTestCase.class, "jaxws-samples-soapbinding.war");
+      return new JBossWSTestSetup(SOAPBindingTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testExampleService() throws Exception

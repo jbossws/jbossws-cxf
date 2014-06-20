@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.eardeployment;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.wsdl.Definition;
@@ -32,7 +33,9 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -45,9 +48,48 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class EarTestCase extends JBossWSTest
 {
+   public static final class EarTestCaseDeploymentArchive {
+      public static final String NAME = getName();
+      
+      private static String getName() {
+         JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-eardeployment-ejb3.jar") { {
+            archive
+                  .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                        + "Dependencies: org.jboss.logging\n"))
+                  .addClass(org.jboss.test.ws.jaxws.samples.eardeployment.EJB3Bean.class)
+                  .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/eardeployment/WEB-INF/wsdl/Endpoint.wsdl"), "wsdl/Endpoint.wsdl")
+                  .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/eardeployment/WEB-INF/wsdl/TestService.xsd"), "wsdl/TestService.xsd");
+            }
+         });
+         JBossWSTestHelper.writeToFile(new JBossWSTestHelper.WarDeployment("jaxws-samples-eardeployment-pojo.war") { {
+            archive
+                  .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                        + "Dependencies: org.jboss.logging,org.jboss.ws.common\n"))
+                  .addClass(org.jboss.test.ws.jaxws.samples.eardeployment.JSEBean.class)
+                  .addClass(org.jboss.test.ws.jaxws.samples.eardeployment.SupportServlet.class)
+                  .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/eardeployment/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+                  .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/eardeployment/WEB-INF/wsdl/Endpoint.wsdl"), "wsdl/Endpoint.wsdl")
+                  .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/eardeployment/WEB-INF/wsdl/TestService.xsd"), "wsdl/TestService.xsd")
+                  .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/eardeployment/WEB-INF/web.xml"));
+            }
+         });
+         return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-eardeployment.ear") { {
+            archive
+                  .addManifest()
+                  .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-samples-eardeployment-ejb3.jar"))
+                  .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-samples-eardeployment-pojo.war"));
+            }
+         });
+      }
+      
+      private EarTestCaseDeploymentArchive() {
+         //NO OP
+      }
+   }
+   
    public static Test suite()
    {
-      return new JBossWSTestSetup(EarTestCase.class, "jaxws-samples-eardeployment.ear");
+      return new JBossWSTestSetup(EarTestCase.class, EarTestCaseDeploymentArchive.NAME);
    }
 
    public void testEJB3Endpoint() throws Exception

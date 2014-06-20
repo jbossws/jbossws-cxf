@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.httpbinding;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
@@ -35,9 +38,11 @@ import javax.xml.ws.http.HTTPBinding;
 
 import junit.framework.Test;
 
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 import org.jboss.ws.common.DOMUtils;
+import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 
 /**
@@ -50,9 +55,24 @@ public class HttpPayloadTestCase extends JBossWSTest
 {
    private String reqString = "<ns1:somePayload xmlns:ns1='http://org.jboss.ws/httpbinding'>Hello</ns1:somePayload>";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-httpbinding-payload.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.httpbinding.LogicalSourceHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.httpbinding.ProviderBeanPayload.class)
+               .addAsResource("org/jboss/test/ws/jaxws/samples/httpbinding/httpbinding-handlers.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/httpbinding/shared/wsdl/HttpBinding.wsdl"), "wsdl/HttpBinding.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/httpbinding/payload/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(HttpPayloadTestCase.class, "jaxws-samples-httpbinding-payload.war");
+      return new JBossWSTestSetup(HttpPayloadTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWSDLAccess() throws Exception

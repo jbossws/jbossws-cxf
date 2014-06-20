@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.webparam;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Holder;
@@ -31,6 +34,8 @@ import junit.framework.Test;
 
 import org.jboss.wsf.test.CleanupOperation;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -45,9 +50,23 @@ public class WebParamTestCase extends JBossWSTest
    
    private static PingService port;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-webparam.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.webparam.PingDocument.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.webparam.PingServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.webparam.SecurityHeader.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webparam/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(WebParamTestCase.class, "jaxws-samples-webparam.war", new CleanupOperation() {
+      return new JBossWSTestSetup(WebParamTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), new CleanupOperation() {
          @Override
          public void cleanUp() {
             port = null;

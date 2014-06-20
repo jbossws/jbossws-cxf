@@ -59,7 +59,7 @@ public class AsynchronousDispatchTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(AsynchronousDispatchTestCase.class, "jaxws-samples-asynchronous.war");
+      return new JBossWSTestSetup(AsynchronousDispatchTestCase.class, DeploymentArchive.NAME);
    }
 
    public void testInvokeAsynch() throws Exception

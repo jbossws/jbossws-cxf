@@ -22,7 +22,10 @@
 package org.jboss.test.ws.jaxws.samples.webresult;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
@@ -36,6 +39,8 @@ import junit.framework.Test;
 
 import org.jboss.wsf.test.CleanupOperation;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -50,9 +55,23 @@ public class WebResultTestCase extends JBossWSTest
    
    private static CustomerService port;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-webresult.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.webresult.CustomerRecord.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.webresult.CustomerServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.webresult.USAddress.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webresult/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(WebResultTestCase.class, "jaxws-samples-webresult.war", new CleanupOperation() {
+      return new JBossWSTestSetup(WebResultTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), new CleanupOperation() {
          @Override
          public void cleanUp() {
             port = null;

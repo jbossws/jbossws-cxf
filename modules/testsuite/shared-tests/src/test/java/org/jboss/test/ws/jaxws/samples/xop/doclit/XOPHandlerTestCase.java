@@ -56,7 +56,7 @@ public class XOPHandlerTestCase extends XOPBase
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(XOPHandlerTestCase.class, "jaxws-samples-xop-doclit.war");
+      return new JBossWSTestSetup(XOPHandlerTestCase.class, DeploymentArchive.NAME);
    }
 
    @Override

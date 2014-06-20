@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.context;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -29,8 +32,11 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.CleanupOperation;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -43,9 +49,22 @@ public class WebServiceContextEJBTestCase extends JBossWSTest
 {
    private static Endpoint port;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-context.jar") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.common\n"))
+               .addClass(org.jboss.test.ws.jaxws.samples.context.EndpointEJB.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/context/META-INF/jboss.xml"), "jboss.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(WebServiceContextEJBTestCase.class, "jaxws-samples-context.jar", true, new CleanupOperation() {
+      return new JBossWSTestSetup(WebServiceContextEJBTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), true, new CleanupOperation() {
          @Override
          public void cleanUp() {
             port = null;

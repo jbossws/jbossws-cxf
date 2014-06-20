@@ -412,6 +412,11 @@ public class JBossWSTestHelper
          archive.as(ZipExporter.class).exportTo(file, true);
          return archive;
       }
+      
+      public String getName()
+      {
+         return archive.getName();
+      }
 
       private File assertArchiveDirExists(String testArchiveDir)
       {

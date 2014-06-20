@@ -31,6 +31,7 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.test.ws.jaxws.samples.eardeployment.EarTestCase.EarTestCaseDeploymentArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestSetup;
@@ -49,7 +50,7 @@ public class WSDLPublishTestCase extends JBossWSTest
    public static Test suite()
    {
       testStart = System.currentTimeMillis();
-      return new JBossWSTestSetup(WSDLPublishTestCase.class, "jaxws-samples-eardeployment.ear");
+      return new JBossWSTestSetup(WSDLPublishTestCase.class, EarTestCaseDeploymentArchive.NAME);
    }
 
    public void testEJB3Endpoint() throws Exception

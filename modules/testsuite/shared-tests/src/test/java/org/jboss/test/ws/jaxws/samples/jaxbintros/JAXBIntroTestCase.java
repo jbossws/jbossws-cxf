@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.jaxbintros;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -31,6 +34,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 
@@ -44,12 +49,25 @@ import org.w3c.dom.Element;
  */
 public class JAXBIntroTestCase extends JBossWSTest
 {
-
    private final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-samples-jaxbintros/EndpointService";
+
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-jaxbintros.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.jaxbintros.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.jaxbintros.EndpointBean.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.jaxbintros.UserType.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/jaxbintros/META-INF/jaxb-intros.xml"), "jaxb-intros.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(JAXBIntroTestCase.class, "jaxws-samples-jaxbintros.jar");
+      return new JBossWSTestSetup(JAXBIntroTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWSDLAccess() throws Exception

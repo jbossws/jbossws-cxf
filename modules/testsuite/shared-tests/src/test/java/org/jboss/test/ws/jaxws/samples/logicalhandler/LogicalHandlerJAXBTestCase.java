@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.logicalhandler;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -29,7 +32,10 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -41,9 +47,30 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class LogicalHandlerJAXBTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-logicalhandler-jaxb.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: com.sun.xml.bind export services\n"))
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.Echo.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.EchoResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.LogicalJAXBHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.ObjectFactory.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.PortHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.ProtocolHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.SOAPEndpointJAXB.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.SOAPEndpointJAXBImpl.class)
+               .addAsResource("org/jboss/test/ws/jaxws/samples/logicalhandler/jaxws-server-jaxb-handlers.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/logicalhandler/WEB-INF/web-jaxb.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(LogicalHandlerJAXBTestCase.class, "jaxws-samples-logicalhandler-jaxb.war");
+      return new JBossWSTestSetup(LogicalHandlerJAXBTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testClientAccess() throws Exception

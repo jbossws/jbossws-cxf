@@ -22,9 +22,12 @@
 package org.jboss.test.ws.jaxws.samples.provider;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
@@ -46,6 +49,8 @@ import junit.framework.Test;
 
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -61,12 +66,24 @@ public class ProviderPayloadTestCase extends JBossWSTest
    private final String reqString =
       "<ns1:somePayload xmlns:ns1='http://org.jboss.ws/provider'>Hello</ns1:somePayload>";
 
-//   private String resString =
-//      "<ns1:somePayload xmlns:ns1='http://org.jboss.ws/provider'>Hello:Inbound:LogicalSourceHandler:Outbound:LogicalSourceHandler</ns1:somePayload>";
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-provider-payload.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.provider.LogicalSourceHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.provider.ProviderBeanPayload.class)
+               .addAsResource("org/jboss/test/ws/jaxws/samples/provider/provider-handlers.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/provider/payload/WEB-INF/wsdl/Provider.wsdl"), "wsdl/Provider.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/provider/payload/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(ProviderPayloadTestCase.class, "jaxws-samples-provider-payload.war");
+      return new JBossWSTestSetup(ProviderPayloadTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWSDLAccess() throws Exception

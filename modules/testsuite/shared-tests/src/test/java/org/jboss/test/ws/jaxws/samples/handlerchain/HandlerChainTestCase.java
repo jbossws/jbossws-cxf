@@ -21,8 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.handlerchain;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -33,6 +35,8 @@ import javax.xml.ws.handler.Handler;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -46,9 +50,28 @@ public class HandlerChainTestCase extends JBossWSTest
 {
    private static final String targetNS = "http://handlerchain.samples.jaxws.ws.test.jboss.org/";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-handlerchain.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.handlerchain.AuthorizationHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.handlerchain.ClientMimeHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.handlerchain.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.handlerchain.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.handlerchain.LogHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.handlerchain.RoutingHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.handlerchain.ServerMimeHandler.class)
+               .addAsResource("org/jboss/test/ws/jaxws/samples/handlerchain/jaxws-handlers-server.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/handlerchain/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(HandlerChainTestCase.class, "jaxws-samples-handlerchain.war");
+      return new JBossWSTestSetup(HandlerChainTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testDynamicHandlerChain() throws Exception

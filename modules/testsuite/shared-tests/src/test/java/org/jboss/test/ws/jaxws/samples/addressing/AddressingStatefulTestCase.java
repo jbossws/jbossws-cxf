@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.addressing;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -31,6 +34,8 @@ import junit.framework.Test;
 
 import org.jboss.wsf.test.CleanupOperation;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -45,9 +50,24 @@ public class AddressingStatefulTestCase extends JBossWSTest
    private static AddressingPort port1;
    private static AddressingPort port2;
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsaddressing.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.addressing.ServerHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.addressing.StatefulEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.addressing.StatefulEndpointImpl.class)
+               .addAsResource("org/jboss/test/ws/jaxws/samples/addressing/jaxws-handlers.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/addressing/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(AddressingStatefulTestCase.class, "jaxws-samples-wsaddressing.war", new CleanupOperation() {
+      return new JBossWSTestSetup(AddressingStatefulTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), new CleanupOperation() {
          @Override
          public void cleanUp() {
             port1 = null;

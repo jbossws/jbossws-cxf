@@ -21,8 +21,14 @@
  */
 package org.jboss.test.ws.jaxws.samples.exception;
 
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -33,9 +39,35 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class ExceptionEJB3TestCase extends ExceptionTestCase
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-exception.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.ExceptionEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.ExceptionEndpointEJB3Impl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.SOAP12EndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.SOAP12ExceptionEndpointEJB3Impl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.ServerHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.UserException.class)
+               .addAsResource("org/jboss/test/ws/jaxws/samples/exception/server/jaxws-handlers-server.xml")
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.jaxws.ThrowApplicationException.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.jaxws.ThrowApplicationExceptionResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.jaxws.ThrowRuntimeException.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.jaxws.ThrowRuntimeExceptionResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.jaxws.ThrowSoapFaultException.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.jaxws.ThrowSoapFaultExceptionResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.exception.server.jaxws.UserExceptionBean.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/exception/META-INF/permissions.xml"), "permissions.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(ExceptionEJB3TestCase.class, "jaxws-samples-exception.jar");
+      return new JBossWSTestSetup(ExceptionEJB3TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    protected ExceptionHelper getHelper()

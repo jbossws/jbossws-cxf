@@ -52,7 +52,7 @@ public class XOPWrappedTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(XOPWrappedTestCase.class, "jaxws-samples-xop-doclit.war");
+      return new JBossWSTestSetup(XOPWrappedTestCase.class, DeploymentArchive.NAME);
    }
 
    protected void setUp() throws Exception

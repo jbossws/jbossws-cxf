@@ -23,6 +23,8 @@ package org.jboss.test.ws.jaxws.samples.securityDomain;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -32,6 +34,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -54,9 +58,21 @@ public class PermitAllTestCase extends JBossWSTest
    public final String TARGET_ENDPOINT_ADDRESS_1 = "http://" + getServerHost() + ":8080/jaxws-securityDomain-permitall/one";
    public final String TARGET_ENDPOINT_ADDRESS_2 = "http://" + getServerHost() + ":8080/jaxws-securityDomain-permitall/two";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-securityDomain-permitall.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.PermitAllSecureEndpoint1Impl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.PermitAllSecureEndpoint2Impl.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      JBossWSTestSetup testSetup = new JBossWSTestSetup(PermitAllTestCase.class, "jaxws-samples-securityDomain-permitall.jar");
+      JBossWSTestSetup testSetup = new JBossWSTestSetup(PermitAllTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
       Map<String, String> authenticationOptions = new HashMap<String, String>();
       authenticationOptions.put("usersProperties",
             getResourceFile("jaxws/samples/securityDomain/jbossws-users.properties").getAbsolutePath());

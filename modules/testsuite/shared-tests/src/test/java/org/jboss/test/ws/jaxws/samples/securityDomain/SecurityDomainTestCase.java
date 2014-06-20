@@ -23,6 +23,8 @@ package org.jboss.test.ws.jaxws.samples.securityDomain;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -32,6 +34,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -51,11 +55,20 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class SecurityDomainTestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-securityDomain/authz";
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-securityDomain.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.SecureEndpointImpl.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite()
    {
-      JBossWSTestSetup testSetup = new JBossWSTestSetup(SecurityDomainTestCase.class, "jaxws-samples-securityDomain.jar");
+      JBossWSTestSetup testSetup = new JBossWSTestSetup(SecurityDomainTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
       Map<String, String> authenticationOptions = new HashMap<String, String>();
       authenticationOptions.put("usersProperties",
             getResourceFile("jaxws/samples/securityDomain/jbossws-users.properties").getAbsolutePath());
@@ -67,7 +80,7 @@ public class SecurityDomainTestCase extends JBossWSTest
 
    private SecureEndpoint getAuthzPort() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-securityDomain/authz?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/securityDomain", "SecureEndpointService");
       return Service.create(wsdlURL, serviceName).getPort(SecureEndpoint.class);
    }

@@ -52,7 +52,7 @@ public class XOPBareTestCase extends XOPBase
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(XOPBareTestCase.class, "jaxws-samples-xop-doclit.war");
+      return new JBossWSTestSetup(XOPBareTestCase.class, DeploymentArchive.NAME);
    }
 
    protected void setUp() throws Exception

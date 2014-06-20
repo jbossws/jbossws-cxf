@@ -22,9 +22,12 @@
 package org.jboss.test.ws.jaxws.samples.provider;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
@@ -44,9 +47,11 @@ import javax.xml.ws.soap.SOAPBinding;
 
 import junit.framework.Test;
 
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
 import org.jboss.ws.common.DOMUtils;
+import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.jboss.wsf.test.JBossWSTestSetup;
 import org.w3c.dom.Element;
 
 /**
@@ -74,9 +79,22 @@ public class ProviderMessageTestCase extends JBossWSTest
       "  </soap:Body>" +
       "</soap:Envelope>";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-provider-message.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.provider.ProviderBeanMessage.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/provider/message/WEB-INF/wsdl/Provider.wsdl"), "wsdl/Provider.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/provider/message/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(ProviderMessageTestCase.class, "jaxws-samples-provider-message.war");
+      return new JBossWSTestSetup(ProviderMessageTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testWSDLAccess() throws Exception

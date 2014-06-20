@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.logicalhandler;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -29,6 +32,8 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,9 +44,28 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class LogicalHandlerSourceTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-logicalhandler-source.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.Echo.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.EchoResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.LogicalSourceHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.PortHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.ProtocolHandler.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.SOAPEndpointSourceDocImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.SOAPEndpointSourceRpcImpl.class)
+               .addAsResource("org/jboss/test/ws/jaxws/samples/logicalhandler/jaxws-server-source-handlers.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/logicalhandler/WEB-INF/web-source.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(LogicalHandlerSourceTestCase.class, "jaxws-samples-logicalhandler-source.war");
+      return new JBossWSTestSetup(LogicalHandlerSourceTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testSourceDoc() throws Exception

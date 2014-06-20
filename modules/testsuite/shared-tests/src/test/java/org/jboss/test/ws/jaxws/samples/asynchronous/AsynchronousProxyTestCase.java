@@ -50,7 +50,7 @@ public class AsynchronousProxyTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(AsynchronousProxyTestCase.class, "jaxws-samples-asynchronous.war");
+      return new JBossWSTestSetup(AsynchronousProxyTestCase.class, DeploymentArchive.NAME);
    }
 
    public void testInvokeSync() throws Exception

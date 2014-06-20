@@ -50,17 +50,13 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class MTOMFeatureTestCase extends JBossWSTest {
 
-	public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-samples-xop-doclit/bare";
-
-	protected MTOMEndpoint port;
-
 	public static Test suite() {
-		return new JBossWSTestSetup(MTOMFeatureTestCase.class, "jaxws-samples-xop-doclit.war");
+		return new JBossWSTestSetup(MTOMFeatureTestCase.class, DeploymentArchive.NAME);
 	}
 
 	private MTOMEndpoint getPort(boolean mtomEnabled) throws Exception {
 		QName serviceName = new QName("http://doclit.xop.samples.jaxws.ws.test.jboss.org/", "MTOMService");
-		URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+		URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-xop-doclit/bare?wsdl");
 
 		Service service = Service.create(wsdlURL, serviceName);
 		return service.getPort(MTOMEndpoint.class, new MTOMFeature(mtomEnabled));
