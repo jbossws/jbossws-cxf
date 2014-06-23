@@ -77,7 +77,8 @@ public class EarTestCase extends JBossWSTest
             archive
                   .addManifest()
                   .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-samples-eardeployment-ejb3.jar"))
-                  .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-samples-eardeployment-pojo.war"));
+                  .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-samples-eardeployment-pojo.war"))
+                  .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/eardeployment/META-INF/permissions.xml"), "permissions.xml");
             }
          });
       }
