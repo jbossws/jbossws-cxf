@@ -41,10 +41,6 @@
     <property name="provides" class="java.lang.String">StackDescriptor</property>
   </deploymentAspect>
 
-  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.ResourceResolverDeploymentAspect">
-    <property name="provides" class="java.lang.String">ResourceResolver</property>
-  </deploymentAspect>
-
   <deploymentAspect class="org.jboss.ws.common.deployment.EndpointHandlerDeploymentAspect">
     <property name="requires" class="java.lang.String">ContainerMetaData</property>
     <property name="provides" class="java.lang.String">StackEndpointHandler</property>
@@ -61,7 +57,7 @@
 
   <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.BusDeploymentAspect">
     <property name="provides" class="java.lang.String">BusHolder</property>
-    <property name="requires" class="java.lang.String">ResourceResolver,StackDescriptor</property>
+    <property name="requires" class="java.lang.String">StackDescriptor</property>
   </deploymentAspect>
 
 </deploymentAspects>
