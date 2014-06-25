@@ -48,8 +48,7 @@ public class ServiceRefClientTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      String archives = "jaxws-samples-serviceref.war";
-      return new JBossWSTestSetup(ServiceRefClientTestCase.class, archives);
+      return new JBossWSTestSetup(ServiceRefClientTestCase.class, DeploymentArchives.getServerArchiveFilename());
    }
 
    public void testWSDLAccess() throws Exception
@@ -77,7 +76,7 @@ public class ServiceRefClientTestCase extends JBossWSTest
       try
       {
          final OutputStream appclientOS = new ByteArrayOutputStream();
-         JBossWSTestHelper.deployAppclient("jaxws-samples-serviceref-appclient.ear#jaxws-samples-serviceref-appclient.jar", appclientOS, "Hello World!");
+         JBossWSTestHelper.deployAppclient(DeploymentArchives.getAppclientEarArchiveFilename() + "#" + DeploymentArchives.getAppclientJarArchiveFilename(), appclientOS, "Hello World!");
          // wait till appclient stops
          String appclientLog = appclientOS.toString();
          while (!appclientLog.contains("stopped in")) {
@@ -92,7 +91,7 @@ public class ServiceRefClientTestCase extends JBossWSTest
       }
       finally
       {
-         JBossWSTestHelper.undeployAppclient("jaxws-samples-serviceref-appclient.ear#jaxws-samples-serviceref-appclient.jar", false);
+         JBossWSTestHelper.undeployAppclient(DeploymentArchives.getAppclientEarArchiveFilename() + "#" + DeploymentArchives.getAppclientJarArchiveFilename(), false);
       }
    }
 }

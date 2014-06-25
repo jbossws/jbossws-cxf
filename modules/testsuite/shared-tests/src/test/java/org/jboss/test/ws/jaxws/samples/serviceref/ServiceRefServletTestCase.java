@@ -46,8 +46,7 @@ public class ServiceRefServletTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      String archives = "jaxws-samples-serviceref.war,jaxws-samples-serviceref-servlet-client.war";
-      return new JBossWSTestSetup(ServiceRefServletTestCase.class, archives);
+      return new JBossWSTestSetup(ServiceRefServletTestCase.class, DeploymentArchives.getServerArchiveFilename() + "," + DeploymentArchives.getServletClientArchiveFilename());
    }
 
    public void testWSDLAccess() throws Exception

@@ -444,7 +444,7 @@ public class JBossWSTestHelper
          sb.append(dep.writeToFile().getName());
          sb.append(" ");
       }
-      return sb.toString();
+      return sb.toString().trim();
    }
 
    public static abstract class WarDeployment extends BaseDeployment<WebArchive>

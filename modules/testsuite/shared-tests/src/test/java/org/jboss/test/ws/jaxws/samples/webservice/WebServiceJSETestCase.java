@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.webservice;
 
+import java.io.File;
+
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -34,6 +37,32 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class WebServiceJSETestCase extends WebServiceBase
 {
+   static {
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.WarDeployment("jaxws-samples-webservice03-jse.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.webservice.EndpointInterface03.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.webservice.JSEBean03.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webservice/WEB-INF03/web.xml"));
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.WarDeployment("jaxws-samples-webservice02-jse.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.webservice.JSEBean02.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webservice/WEB-INF02/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webservice/WEB-INF02/web.xml"));
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.WarDeployment("jaxws-samples-webservice01-jse.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.webservice.JSEBean01.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webservice/WEB-INF01/web.xml"));
+         }
+      });
+   }
+
    public static Test suite()
    {
       return new JBossWSTestSetup(WebServiceJSETestCase.class, "");

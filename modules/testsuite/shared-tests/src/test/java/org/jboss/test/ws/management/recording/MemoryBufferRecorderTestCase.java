@@ -32,6 +32,7 @@ import javax.management.ObjectName;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.ws.api.monitoring.Record;
 import org.jboss.ws.api.monitoring.RecordFilter;
 import org.jboss.ws.common.monitoring.AndFilter;
@@ -52,6 +53,17 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
    private final String endpointURL = "http://" + getServerHost() + ":8080/management-recording/EndpointImpl";
    private final String targetNS = "http://recording.management.ws.test.jboss.org/";
    private String endpointObjectName;
+   
+   static {
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("management-recording-as7.jar") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.logging\n"))
+               .addClass(org.jboss.test.ws.management.recording.Endpoint.class)
+               .addClass(org.jboss.test.ws.management.recording.EndpointWithConfigImpl.class);
+         }
+      });
+   }
 
    @Override
    protected void setUp() throws Exception

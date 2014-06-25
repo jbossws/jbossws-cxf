@@ -47,8 +47,7 @@ public class ServiceRefEJBTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      final String archives = "jaxws-samples-serviceref.war,jaxws-samples-serviceref-ejbclient.jar";
-      return new JBossWSTestSetup(ServiceRefEJBTestCase.class, archives);
+      return new JBossWSTestSetup(ServiceRefEJBTestCase.class, DeploymentArchives.getServerArchiveFilename() + "," + DeploymentArchives.getEJBClientArchiveFilename());
    }
 
    public void testWSDLAccess() throws Exception

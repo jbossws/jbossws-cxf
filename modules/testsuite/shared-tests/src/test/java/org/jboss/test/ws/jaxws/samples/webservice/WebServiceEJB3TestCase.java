@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.webservice;
 
+import java.io.File;
+
 import junit.framework.Test;
 
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -34,6 +37,32 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class WebServiceEJB3TestCase extends WebServiceBase
 {
+   static {
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-webservice02-ejb3.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.webservice.EJB3Bean02.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.webservice.EJB3RemoteInterface.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webservice/META-INF02/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl");
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-webservice01-ejb3.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.webservice.EJB3Bean01.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.webservice.EJB3RemoteInterface.class);
+         }
+      });
+      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-webservice03-ejb3.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.webservice.EJB3Bean03.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.webservice.EJB3RemoteInterface.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.webservice.EndpointInterface03.class);
+         }
+      });
+   }
+
    public static Test suite()
    {
       return new JBossWSTestSetup(WebServiceEJB3TestCase.class, "");

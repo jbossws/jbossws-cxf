@@ -50,7 +50,7 @@
 		</fileset>
 	</jar>
 
-     <!-- jaxws-samples-serviceref -->
+     <!-- jaxws-samples-serviceref
      <war warfile="${tests.output.dir}/test-libs/jaxws-samples-serviceref.war" webxml="${tests.output.dir}/test-resources/jaxws/samples/serviceref/WEB-INF/web.xml">
         <classes dir="${tests.output.dir}/test-classes">
            <include name="org/jboss/test/ws/jaxws/samples/serviceref/EndpointImpl.class"/>
@@ -104,50 +104,7 @@
            <include name="permissions.xml"/>
            <include name="wsdl/**"/>
         </metainf>
-     </jar>
-
-    <!-- jaxws-samples-webservice -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-samples-webservice01-jse.war" webxml="${tests.output.dir}/test-resources/jaxws/samples/webservice/WEB-INF01/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/samples/webservice/JSEBean01.class"/>
-      </classes>
-    </war>
-    <war warfile="${tests.output.dir}/test-libs/jaxws-samples-webservice02-jse.war" webxml="${tests.output.dir}/test-resources/jaxws/samples/webservice/WEB-INF02/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/samples/webservice/JSEBean02.class"/>
-      </classes>
-      <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/webservice/WEB-INF02">
-        <include name="wsdl/**"/>
-      </webinf>
-    </war>
-    <war warfile="${tests.output.dir}/test-libs/jaxws-samples-webservice03-jse.war" webxml="${tests.output.dir}/test-resources/jaxws/samples/webservice/WEB-INF03/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/samples/webservice/JSEBean03.class"/>
-        <include name="org/jboss/test/ws/jaxws/samples/webservice/EndpointInterface03.class"/>
-      </classes>
-    </war>
-    <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-webservice01-ejb3.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/samples/webservice/EJB3Bean01.class"/>
-        <include name="org/jboss/test/ws/jaxws/samples/webservice/EJB3RemoteInterface.class"/>
-      </fileset>
-    </jar>
-    <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-webservice02-ejb3.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/samples/webservice/EJB3Bean02.class"/>
-        <include name="org/jboss/test/ws/jaxws/samples/webservice/EJB3RemoteInterface.class"/>
-      </fileset>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/samples/webservice/META-INF02">
-        <include name="wsdl/**"/>
-      </metainf>
-    </jar>
-    <jar jarfile="${tests.output.dir}/test-libs/jaxws-samples-webservice03-ejb3.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/samples/webservice/EJB3Bean03.class"/>
-        <include name="org/jboss/test/ws/jaxws/samples/webservice/EJB3RemoteInterface.class"/>
-        <include name="org/jboss/test/ws/jaxws/samples/webservice/EndpointInterface03.class"/>
-      </fileset>
-    </jar>
+     </jar>-->
 
      <!-- jaxws-samples-webserviceref -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-samples-webserviceref.war" webxml="${tests.output.dir}/test-resources/jaxws/samples/webserviceref/WEB-INF/web.xml">
@@ -227,17 +184,6 @@
       </webinf>
     </war>
 
-    <!-- management-recording-as7.jar -->
-    <jar destfile="${tests.output.dir}/test-libs/management-recording-as7.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/management/recording/Endpoint.class"/>
-      	<include name="org/jboss/test/ws/management/recording/EndpointWithConfigImpl.class"/>
-      </fileset>
-      <manifest>
-        <attribute name="Dependencies" value="org.jboss.logging"/>
-      </manifest>
-    </jar>
-    
     <!-- Please add alphabetically -->
 
   </target>
