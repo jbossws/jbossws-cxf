@@ -18,6 +18,7 @@
     <fileSet>
       <directory>../resources/src/main/resources/modules</directory>
       <outputDirectory>deploy-artifacts/modules</outputDirectory>
+      <filtered>true</filtered>
       <includes>
         <include>**/module.xml</include>
       </includes>
