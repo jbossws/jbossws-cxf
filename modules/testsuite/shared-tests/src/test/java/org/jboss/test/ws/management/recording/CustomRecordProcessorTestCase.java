@@ -49,13 +49,13 @@ public class CustomRecordProcessorTestCase extends JBossWSTest
    protected void setUp() throws Exception
    {
       endpointObjectName = "jboss.ws:context=management-recording,endpoint=EndpointWithConfigImpl";
-      JBossWSTestHelper.deploy("management-recording-as7.jar");
+      JBossWSTestHelper.deploy(ArchiveDeployment.NAME);
    }
 
    @Override
    protected void tearDown() throws Exception
    {
-      JBossWSTestHelper.undeploy("management-recording-as7.jar");
+      JBossWSTestHelper.undeploy(ArchiveDeployment.NAME);
    }
 
    public void testAddCustomProcessor() throws Exception
