@@ -427,8 +427,7 @@ public class JBossWSTestHelper
                throw new IllegalArgumentException("Cannot create archive - system property '"
                      + JBossWSTestHelper.SYSPROP_TEST_ARCHIVE_DIRECTORY + "' not set.");
             if (!archiveDir.mkdirs())
-               ;
-            throw new IllegalArgumentException("Cannot create archive - can not create test archive directory '"
+               throw new IllegalArgumentException("Cannot create archive - can not create test archive directory '"
                   + archiveDir.getAbsolutePath() + "' not set.");
          }
          return archiveDir;
