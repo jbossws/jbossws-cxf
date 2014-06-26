@@ -21,12 +21,17 @@
  */
 package org.jboss.test.ws.jaxws.samples.webservicerefsec;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -39,22 +44,36 @@ public class WebServiceRefSecTestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-samples-webservicerefsec";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-webservicerefsec.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.webservicerefsec.EndpointImpl.class);
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-webservicerefsec-servlet-client.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.webservicerefsec.Client.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.webservicerefsec.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.webservicerefsec.EndpointService.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webservicerefsec/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webservicerefsec/WEB-INF/wsdl/Endpoint.wsdl"), "wsdl/Endpoint.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webservicerefsec/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(WebServiceRefSecTestCase.class, "jaxws-samples-webservicerefsec.jar", true);
+      return new JBossWSTestSetup(WebServiceRefSecTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), true);
    }
 
    public void testServletClient() throws Exception
    {
-      deploy("jaxws-samples-webservicerefsec-servlet-client.war");
-      try
-      {
-         URL url = new URL(TARGET_ENDPOINT_ADDRESS + "-servlet-client?echo=HelloWorld");
-         assertEquals("HelloWorld", IOUtils.readAndCloseStream(url.openStream()));
-      }
-      finally
-      {
-         undeploy("jaxws-samples-webservicerefsec-servlet-client.war");
-      }
+      URL url = new URL(TARGET_ENDPOINT_ADDRESS + "-servlet-client?echo=HelloWorld");
+      assertEquals("HelloWorld", IOUtils.readAndCloseStream(url.openStream()));
    }
 }

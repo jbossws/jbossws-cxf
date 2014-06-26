@@ -46,7 +46,7 @@ public class WebServiceRefClientTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(WebServiceRefClientTestCase.class, "jaxws-samples-webserviceref.war");
+      return new JBossWSTestSetup(WebServiceRefClientTestCase.class, DeploymentArchives.getServerArchiveFilename());
    }
 
    public void testGeneratedService() throws Exception
@@ -76,11 +76,12 @@ public class WebServiceRefClientTestCase extends JBossWSTest
 
    public void testApplicationClient() throws Throwable
    {
+      final String fullAppclientDepName = DeploymentArchives.getAppclientEarArchiveFilename() + "#" + DeploymentArchives.getAppclientJarArchiveFilename();
       try
       {
          final String appclientArg = "Hello World!";
          final OutputStream appclientOS = new ByteArrayOutputStream();
-         JBossWSTestHelper.deployAppclient("jaxws-samples-webserviceref-appclient.ear#jaxws-samples-webserviceref-appclient.jar", appclientOS, appclientArg);
+         JBossWSTestHelper.deployAppclient(fullAppclientDepName, appclientOS, appclientArg);
          // wait till appclient stops
          String appclientLog = appclientOS.toString();
          while (!appclientLog.contains("stopped in")) {
@@ -94,7 +95,7 @@ public class WebServiceRefClientTestCase extends JBossWSTest
       }
       finally
       {
-         JBossWSTestHelper.undeployAppclient("jaxws-samples-webserviceref-appclient.ear#jaxws-samples-webserviceref-appclient.jar", false);
+         JBossWSTestHelper.undeployAppclient(fullAppclientDepName, false);
       }
    }
 }

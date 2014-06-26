@@ -88,7 +88,6 @@
                     <property name="log4j.output.dir" value="${log4j.output.dir}"/>
                     <property name="endorsed.dir" value="${project.build.directory}/endorsed"/>
                     <ant antfile="scripts/antrun-wsprovide.xml" target="wsprovide"/>
-                    <ant antfile="src/test/ant-import/build-samples-jaxws.xml" target="build-samples-jaxws"/>
                   </target>
                 </configuration>
               </execution>

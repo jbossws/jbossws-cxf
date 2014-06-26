@@ -44,7 +44,7 @@ public class WebServiceRefServletTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(WebServiceRefServletTestCase.class, "jaxws-samples-webserviceref.war");
+      return new JBossWSTestSetup(WebServiceRefServletTestCase.class, DeploymentArchives.getServerArchiveFilename());
    }
 
    public void testDynamicProxy() throws Exception
@@ -61,7 +61,7 @@ public class WebServiceRefServletTestCase extends JBossWSTest
 
    public void testServletClient() throws Exception
    {
-      deploy("jaxws-samples-webserviceref-servlet-client.war");
+      deploy(DeploymentArchives.getServletClientArchiveFilename());
       try
       {
          URL url = new URL(TARGET_ENDPOINT_ADDRESS + "-servlet-client?echo=HelloWorld");
@@ -69,7 +69,7 @@ public class WebServiceRefServletTestCase extends JBossWSTest
       }
       finally
       {
-         undeploy("jaxws-samples-webserviceref-servlet-client.war");
+         undeploy(DeploymentArchives.getServletClientArchiveFilename());
       }
    }
 }

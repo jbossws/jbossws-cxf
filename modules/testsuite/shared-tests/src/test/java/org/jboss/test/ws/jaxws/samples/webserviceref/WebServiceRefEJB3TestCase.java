@@ -45,7 +45,7 @@ public class WebServiceRefEJB3TestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(WebServiceRefEJB3TestCase.class, "jaxws-samples-webserviceref.war");
+      return new JBossWSTestSetup(WebServiceRefEJB3TestCase.class, DeploymentArchives.getServerArchiveFilename());
    }
 
    public void testDynamicProxy() throws Exception
@@ -63,7 +63,7 @@ public class WebServiceRefEJB3TestCase extends JBossWSTest
    public void testEJB3Client() throws Exception
    {
       InitialContext iniCtx = null;
-      deploy("jaxws-samples-webserviceref-ejb3-client.jar");
+      deploy(DeploymentArchives.getEJBClientArchiveFilename());
       try
       {
          iniCtx = getServerInitialContext();
@@ -79,7 +79,7 @@ public class WebServiceRefEJB3TestCase extends JBossWSTest
          {
             iniCtx.close();
          }
-         undeploy("jaxws-samples-webserviceref-ejb3-client.jar");
+         undeploy(DeploymentArchives.getEJBClientArchiveFilename());
       }
    }
 }

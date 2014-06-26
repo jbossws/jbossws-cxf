@@ -21,11 +21,36 @@
  */
 package org.jboss.test.ws.jaxws.smoke.tools;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+
 /**
  * @author Heiko.Braun@jboss.com
  */
 public class WSProviderTestCaseForked extends PluginBase
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-classloading-types.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.smoke.tools.service.Echo.class)
+               .addClass(org.jboss.test.ws.jaxws.smoke.tools.service.EchoResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.smoke.tools.service.Message.class);
+         }
+      });
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-classloading-service.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.smoke.tools.service.HelloWorld.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+   
    /**
     * Recreates a tools delegate for every test
     * @throws Exception
@@ -38,6 +63,8 @@ public class WSProviderTestCaseForked extends PluginBase
       Class<?> wspClass = Thread.currentThread().getContextClassLoader()
         .loadClass("org.jboss.test.ws.jaxws.smoke.tools.WSProviderPlugin");
       setDelegate(wspClass);
+      
+      JBossWSTestHelper.writeToFile(createDeployments());
     }
 
 
