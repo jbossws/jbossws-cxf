@@ -32,7 +32,6 @@
     </exports>
 
     <resources>
-        <artifact name="org.wildfly:wildfly-webservices-server-integration:${wildfly900.version}"/>
         <!-- Insert resources here -->
     </resources>
 
