@@ -56,7 +56,7 @@
             <executions>
               <execution>
                 <id>wsconsume</id>
-                <phase>generate-sources</phase>
+                <phase>generate-test-sources</phase>
                 <goals>
                   <goal>run</goal>
                 </goals>
