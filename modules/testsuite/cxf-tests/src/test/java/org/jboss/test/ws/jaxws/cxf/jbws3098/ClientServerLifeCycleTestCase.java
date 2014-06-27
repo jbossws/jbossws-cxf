@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3098;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -37,6 +40,8 @@ import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Verifies the Bus is properly configured with Client/Server LifeCycleManager instances
@@ -49,9 +54,21 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
    private String endpointOneURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3098/ServiceOne/EndpointOne";
    private String targetNS = "http://org.jboss.ws.jaxws.cxf/jbws3098";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3098.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3098.EndpointOneImpl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3098/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(ClientServerLifeCycleTestCase.class, "jaxws-cxf-jbws3098.war");
+      return new JBossWSCXFTestSetup(ClientServerLifeCycleTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testClientLifeCycleManager()

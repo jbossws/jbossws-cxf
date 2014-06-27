@@ -61,7 +61,7 @@ public class ClientBusStrategyTests extends JBossWSTest //*Tests does not match 
       final String jbm = jbh + FS + "modules";
       final String jbmjar = jbh + FS + "jboss-modules.jar";
       
-      final File f = new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-cxf-jbws3713-client.jar");
+      final File f = new File(JBossWSTestHelper.getTestArchiveDir(), DeploymentArchives.CLIENT_JAR);
 
       //java -jar $JBOSS_HOME/jboss-modules.jar -mp $JBOSS_HOME/modules -jar client.jar
       String props = " -Djavax.xml.ws.spi.Provider=" + ProviderImpl.class.getName() + " -Dlog4j.output.dir=" + System.getProperty("log4j.output.dir") +

@@ -39,7 +39,7 @@ public class InContainerClientBusStrategyTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(InContainerClientBusStrategyTestCase.class, "jaxws-cxf-jbws3713.war,jaxws-cxf-jbws3713-client.war");
+      return new JBossWSTestSetup(InContainerClientBusStrategyTestCase.class, DeploymentArchives.SERVER + "," + DeploymentArchives.CLIENT_WAR);
    }
 
    public void testEndpoint() throws Exception

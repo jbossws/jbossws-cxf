@@ -21,6 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.cxf.wsmex;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import junit.framework.Test;
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
@@ -30,6 +33,8 @@ import org.apache.cxf.ws.mex.model._2004_09.MetadataSection;
 import org.jboss.ws.common.DOMWriter;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.w3c.dom.Node;
 
 /**
@@ -42,9 +47,21 @@ public class WSMexTestCase extends JBossWSTest
 {
    private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-wsmex/EndpointService";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-cxf-wsmex.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.cxf.wsmex.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.wsmex.EndpointBean.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(WSMexTestCase.class, "jaxws-cxf-wsmex.jar");
+      return new JBossWSCXFTestSetup(WSMexTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testEndpoint() throws Exception

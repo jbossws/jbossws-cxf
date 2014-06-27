@@ -22,12 +22,17 @@
 package org.jboss.test.ws.jaxws.cxf.jbws3648;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * 
@@ -37,9 +42,23 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public class PolicyAttachmentWSDLTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3648.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointOneImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointTwo.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointTwoImpl.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(PolicyAttachmentWSDLTestCase.class, "jaxws-cxf-jbws3648.war");
+      return new JBossWSCXFTestSetup(PolicyAttachmentWSDLTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testEndpointOneWSDL() throws Exception {

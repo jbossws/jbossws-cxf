@@ -40,7 +40,7 @@ public class GZIPServletTestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(GZIPServletTestCase.class, "jaxws-cxf-gzip.war, jaxws-cxf-gzip-client.war");
+      return new JBossWSCXFTestSetup(GZIPServletTestCase.class, DeploymentArchives.SERVER + ", " + DeploymentArchives.CLIENT);
    }
    
    public void testGZIPUsingFeatureOnBus() throws Exception

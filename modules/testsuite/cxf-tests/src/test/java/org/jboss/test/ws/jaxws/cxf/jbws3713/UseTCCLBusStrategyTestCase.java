@@ -32,7 +32,7 @@ public class UseTCCLBusStrategyTestCase extends ClientBusStrategyTests
 {
    public static Test suite()
    {
-      return new JBossWSTestSetup(UseTCCLBusStrategyTestCase.class, "jaxws-cxf-jbws3713.war");
+      return new JBossWSTestSetup(UseTCCLBusStrategyTestCase.class, DeploymentArchives.SERVER);
    }
 
    public void testClientWithTCCLBusStrategy() throws Exception

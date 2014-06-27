@@ -21,14 +21,20 @@
  */
 package org.jboss.test.ws.jaxws.cxf.endpoint;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -38,6 +44,21 @@ public class EndpointTestCase extends JBossWSTest
 {
     private static String publishURL = "http://" + getServerHost() + ":18080/HelloWorldService";
 
+    public static BaseDeployment<?>[] createDeployments() {
+       List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+       list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-endpoint.war") { {
+          archive
+                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                      + "Dependencies: org.jboss.ws.common\n"))
+                .addClass(org.jboss.test.ws.jaxws.cxf.endpoint.HelloWorld.class)
+                .addClass(org.jboss.test.ws.jaxws.cxf.endpoint.HelloWorldImpl.class)
+                .addClass(org.jboss.test.ws.jaxws.cxf.endpoint.TestServlet.class)
+                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endpoint/WEB-INF/web.xml"));
+          }
+       });
+       return list.toArray(new BaseDeployment<?>[list.size()]);
+    }
+
     public static Test suite()
     {
         return new JBossWSTestSetup(EndpointTestCase.class, "");
@@ -45,17 +66,18 @@ public class EndpointTestCase extends JBossWSTest
 
     public void testClassLoader() throws Exception
     {
-        deploy("jaxws-cxf-endpoint.war");
+        final String deploymentName = JBossWSTestHelper.writeToFile(createDeployments());
+        deploy(deploymentName);
         HelloWorld port = this.getProxy(publishURL);
         String classLoader1 = port.getClassLoader();
         String deploymentClassLoader1 = port.getDeploymentClassLoader();
-        undeploy("jaxws-cxf-endpoint.war");
+        undeploy(deploymentName);
         assertEquals(classLoader1, deploymentClassLoader1);
-        deploy("jaxws-cxf-endpoint.war");
+        deploy(deploymentName);
         port = this.getProxy(publishURL);
         String classLoader2 = port.getClassLoader();
         String deploymentClassLoader2 = port.getDeploymentClassLoader();
-        undeploy("jaxws-cxf-endpoint.war");
+        undeploy(deploymentName);
         assertEquals(classLoader2, deploymentClassLoader2);
         assertFalse(classLoader1.equals(classLoader2));
     }

@@ -21,9 +21,16 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3060;
 
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  *
@@ -35,9 +42,23 @@ public class JBWS3060ServletTestCase extends JBWS3060Tests
    private String endpointOneURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3060-jse/ServiceOne/EndpointOne";
    private String endpointTwoURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3060-jse/ServiceTwo/EndpointTwo";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3060-jse.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.logging\n"))
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3060.EndpointOneImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3060.EndpointTwoImpl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3060/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JBWS3060ServletTestCase.class, "jaxws-cxf-jbws3060-jse.war");
+      return new JBossWSCXFTestSetup(JBWS3060ServletTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    @Override

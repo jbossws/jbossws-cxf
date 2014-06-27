@@ -25,6 +25,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -34,9 +36,12 @@ import junit.framework.Test;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Tests configuration of message exchange logging using API
@@ -49,11 +54,25 @@ public class MessageLoggingTestCase extends JBossWSTest
    private String loggingFeatureEndpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-logging/LoggingFeatureService/LoggingFeatureEndpoint";
    private String loggingInterceptorsEndpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-logging/LoggingInterceptorsService/LoggingInterceptorsEndpoint";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-cxf-logging.jar") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+               .addClass(org.jboss.test.ws.jaxws.cxf.logging.CustomInInterceptor.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.logging.LoggingFeatureEndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.logging.LoggingInterceptorsEndpointImpl.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    private LoggingEndpoint port;
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(MessageLoggingTestCase.class, "jaxws-cxf-logging.jar");
+      return new JBossWSCXFTestSetup(MessageLoggingTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testLoggingFeature() throws Exception

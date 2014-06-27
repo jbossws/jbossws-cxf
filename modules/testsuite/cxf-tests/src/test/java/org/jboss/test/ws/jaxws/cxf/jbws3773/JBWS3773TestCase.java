@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.cxf.jbws3773;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -37,13 +39,28 @@ import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 public class JBWS3773TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3773.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3773.Greeter.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3773.GreeterImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3773.TargetServlet.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS3773TestCase.class, "jaxws-cxf-jbws3773.war");
+      return new JBossWSTestSetup(JBWS3773TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testServletRequestAvailability() throws Exception

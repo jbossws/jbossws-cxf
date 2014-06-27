@@ -25,6 +25,7 @@ import io.netty.handler.codec.http.HttpRequest;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -33,6 +34,8 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import javax.xml.namespace.QName;
@@ -49,6 +52,8 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.apache.cxf.transports.http.configuration.ProxyServerType;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.littleshoot.proxy.ChainedProxy;
 import org.littleshoot.proxy.ChainedProxyAdapter;
 import org.littleshoot.proxy.ChainedProxyManager;
@@ -70,9 +75,22 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
    private static final String ENDPOINT_PATH = "/jaxws-cxf-httpproxy/HelloWorldService/HelloWorldImpl";
    private HttpProxyServer proxyServer;
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-httpproxy.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.cxf.httpproxy.HelloWorld.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.httpproxy.HelloWorldImpl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/httpproxy/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(HTTPProxyTestCaseForked.class, "jaxws-cxf-httpproxy.war");
+      return new JBossWSCXFTestSetup(HTTPProxyTestCaseForked.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testHttpProxy() throws Exception

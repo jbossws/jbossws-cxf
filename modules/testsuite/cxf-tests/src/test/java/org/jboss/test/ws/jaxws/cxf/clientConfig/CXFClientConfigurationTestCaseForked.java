@@ -39,7 +39,7 @@ public class CXFClientConfigurationTestCaseForked extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSTestSetup(CXFClientConfigurationTestCaseForked.class, "jaxws-cxf-clientConfig.war,jaxws-cxf-clientConfig-client.jar,jaxws-cxf-clientConfig-inContainer-client.war");
+      return new JBossWSTestSetup(CXFClientConfigurationTestCaseForked.class, DeploymentArchives.NAMES);
    }
    
    /**

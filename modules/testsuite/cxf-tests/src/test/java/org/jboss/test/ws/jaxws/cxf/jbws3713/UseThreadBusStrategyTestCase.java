@@ -32,7 +32,7 @@ public class UseThreadBusStrategyTestCase extends ClientBusStrategyTests
 {
    public static Test suite()
    {
-      return new JBossWSTestSetup(UseThreadBusStrategyTestCase.class, "jaxws-cxf-jbws3713.war");
+      return new JBossWSTestSetup(UseThreadBusStrategyTestCase.class, DeploymentArchives.SERVER);
    }
 
    public void testClientWithThreadBusStrategy() throws Exception

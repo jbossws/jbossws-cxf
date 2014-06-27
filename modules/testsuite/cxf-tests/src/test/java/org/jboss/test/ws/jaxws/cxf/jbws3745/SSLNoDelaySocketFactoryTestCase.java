@@ -22,8 +22,11 @@
 
 package org.jboss.test.ws.jaxws.cxf.jbws3745;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.net.ssl.SSLSocketFactory;
 import javax.xml.namespace.QName;
@@ -38,6 +41,8 @@ import org.apache.cxf.transport.http.HTTPConduit;
 import org.jboss.wsf.stack.cxf.client.UseNewBusFeature;
 import org.jboss.wsf.stack.cxf.client.socket.tcp.SSLNoDelaySocketFactory;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -56,9 +61,22 @@ public class SSLNoDelaySocketFactoryTestCase extends JBossWSTest
 
    private static final int SERVER_PORT = 8080;
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3745.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3745.SimpleService.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3745.SimpleServiceImpl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3745/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(SSLNoDelaySocketFactoryTestCase.class, "jaxws-cxf-jbws3745.war");
+      return new JBossWSTestSetup(SSLNoDelaySocketFactoryTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void setUp() throws Exception
