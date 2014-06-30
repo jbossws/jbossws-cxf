@@ -39,12 +39,12 @@ public class EJB3ClientBusTestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(EJB3ClientBusTestCase.class, "jaxws-cxf-bus.war");
+      return new JBossWSCXFTestSetup(EJB3ClientBusTestCase.class, DeploymentArchives.SERVER);
    }
    
    public void testSingleDeploy() throws Exception
    {
-      deploy("jaxws-cxf-bus-ejb3-client.jar");
+      deploy(DeploymentArchives.EJB3_CLIENT);
       InitialContext iniCtx = null;
       try
       {
@@ -63,7 +63,7 @@ public class EJB3ClientBusTestCase extends JBossWSTest
          {
             iniCtx.close();
          }
-         undeploy("jaxws-cxf-bus-ejb3-client.jar");
+         undeploy(DeploymentArchives.EJB3_CLIENT);
       }
    }
 }

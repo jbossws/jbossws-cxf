@@ -39,100 +39,7 @@
         <attribute name="Dependencies" value="org.apache.cxf"/>
       </manifest>
     </war>	
-  	
-    <!-- jaxws-cxf-bus -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-bus.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/bus/WEB-INF/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/ClientEndpoint.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/ClientEndpointImpl.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/Endpoint.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/EndpointImpl.class"/>
-      </classes>
-      <zipfileset
-          dir="${tests.output.dir}/test-resources/jaxws/cxf/bus/META-INF" 
-          prefix="META-INF">
-      	<include name="permissions.xml"/>
-      </zipfileset>
-      <manifest>
-        <attribute name="Dependencies" value="org.apache.cxf"/>
-      </manifest>
-    </war>
-  	
-    <!-- jaxws-cxf-bus-ejb3-client -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-bus-ejb3-client.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/Endpoint.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/EndpointService.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/EJB3Client.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/EJB3ClientRemoteInterface.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/AbstractClient.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/BusTestException.class"/>
-      </fileset>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/bus/META-INF">
-        <include name="wsdl/**/*" />
-      	<include name="permissions.xml"/>
-      </metainf>
-      <manifest>
-        <attribute name="Dependencies" value="org.apache.cxf"/>
-      </manifest>
-    </jar>
- 	
-    <!-- jaxws-cxf-bus-servlet-client -->
-    <war destfile="${tests.output.dir}/test-libs/jaxws-cxf-bus-servlet-client.war"
-    	manifest="${tests.output.dir}/test-resources/jaxws/cxf/bus/META-INF/MANIFEST.MF"
-    	webxml="${tests.output.dir}/test-resources/jaxws/cxf/bus/WEB-INF-client/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/Endpoint.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/EndpointService.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/ServletClient.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/AbstractClient.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/BusTestException.class"/>
-      </classes>
-      <zipfileset
-          dir="${tests.output.dir}/test-resources/jaxws/cxf/bus/WEB-INF-client/wsdl" 
-          prefix="WEB-INF/wsdl"/>
-    </war>
 
-    <!-- jaxws-cxf-bus-wsdl -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-bus-wsdl.war" needxmlfile="false">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/bus/WSDLServlet.class"/>
-      </classes>
-      <classes dir="${tests.output.dir}/test-resources/jaxws/cxf/bus">
-        <include name="*AddressEndpoint.wsdl"/>
-      </classes>
-    </war>
-
-    <!-- jaxws-cxf-disabledWSSubsystem -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-disabledWSSubsystem.war"
-    	webxml="${tests.output.dir}/test-resources/jaxws/cxf/noIntegration/moduleImports/WEB-INF/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/noIntegration/EchoImpl.class"/>
-      	<include name="org/jboss/test/ws/jaxws/cxf/noIntegration/CXFEndpointServlet.class"/>
-      </classes>
-      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/noIntegration/moduleImports/WEB-INF">
-        <include name="jboss-deployment-structure.xml"/>
-      </webinf>
-    </war>
-  	
-    <!-- jaxws-cxf-embedded -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-embedded.war"
-    	webxml="${tests.output.dir}/test-resources/jaxws/cxf/noIntegration/embedded/WEB-INF/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/noIntegration/EchoImpl.class"/>
-      </classes>
-      <webinf dir="${tests.output.dir}/test-resources/jaxws/cxf/noIntegration/embedded/WEB-INF">
-        <include name="jboss-deployment-structure.xml"/>
-      	<include name="beans.xml"/>
-      </webinf>
-      <zipfileset
-        dir="${tests.output.dir}/spring/" 
-        prefix="WEB-INF/lib/"/>
-      <zipfileset
-        dir="${tests.output.dir}/cxf-embedded/" 
-        prefix="WEB-INF/lib/"/>
-    </war>
-  	
     <!-- jaxws-cxf-embedded-fail -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-embedded-fail.war"
     	webxml="${tests.output.dir}/test-resources/jaxws/cxf/noIntegration/embedded/WEB-INF/web.xml">
@@ -153,98 +60,6 @@
       </manifest>
     </war>
   	
-    <!-- jaxws-cxf-endorse -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-endorse.war"
-  	  manifest="${tests.output.dir}/test-resources/jaxws/cxf/endorse/META-INF/MANIFEST.MF"
-      webxml="${tests.output.dir}/test-resources/jaxws/cxf/endorse/WEB-INF/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/endorse/TestServlet.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/endorse/Helper.class"/>
-      </classes>
-    </war>
-  	
-    <!-- jaxws-cxf-endorse-no-export -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-endorse-no-export.war"
-      manifest="${tests.output.dir}/test-resources/jaxws/cxf/endorse/META-INF/MANIFEST.MF-no-export"
-      webxml="${tests.output.dir}/test-resources/jaxws/cxf/endorse/WEB-INF/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/endorse/TestServlet.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/endorse/Helper.class"/>
-      </classes>
-    </war>
-  	
-    <!-- jaxws-cxf-http-basic -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-basic-sec.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/basic/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/httpauth/*.class"/>
-      	<exclude name="org/jboss/test/ws/jaxws/cxf/httpauth/*TestCase.class"/>
-      </classes>
-      <zipfileset
-            dir="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/WEB-INF/wsdl/" 
-            prefix="WEB-INF/wsdl/"/>
-      <zipfileset
-            dir="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/basic" 
-            prefix="WEB-INF/"/> 
-    </war>
-  	
-  	<!-- jaxws-cxf-http-digest -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-digest-sec.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/digest/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/httpauth/*.class"/>
-      	<exclude name="org/jboss/test/ws/jaxws/cxf/httpauth/*TestCase.class"/>
-      </classes>   	
-        <zipfileset
-              dir="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/WEB-INF/wsdl/" 
-              prefix="WEB-INF/wsdl/"/>
-        <zipfileset
-              dir="${tests.output.dir}/test-resources/jaxws/cxf/httpauth/digest" 
-              prefix="WEB-INF/"/> 	    	
-    </war>  	
-
-    <!-- jaxws-cxf-jaxbintros -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jaxbintros.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/Endpoint.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/EndpointBean.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/UserType.class"/>
-      </fileset>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/jaxbintros/META-INF">
-        <include name="**/*" />
-      </metainf>
-    </jar>
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-jaxbintros-client.war"
-    	needxmlfile='false'>
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/Helper.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/Endpoint.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/UserType.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/AnnotatedUserEndpoint.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/jaxbintros/AnnotatedUserType.class"/>
-        <include name="org/jboss/wsf/test/TestServlet.class"/>
-        <include name="org/jboss/wsf/test/ClientHelper.class"/>
-      	<include name="test-resources/jaxws/cxf/jaxbintros/META-INF/jaxb-intros.xml"/>
-      </classes>
-      <classes dir="${tests.output.dir}/test-resources/jaxws/cxf/jaxbintros/META-INF">
-        <include name="jaxb-intros.xml"/>
-      </classes>
-      <manifest>
-        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services"/>
-      </manifest>
-    </war>
-
-    <!-- jaxws-cxf-jbws3497 -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3497.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/jbws3497/Endpoint*.class"/>
-      </fileset>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/jbws3497/META-INF">
-        <include name="**/*" />
-      </metainf>
-      <manifest>
-        <attribute name="Dependencies" value="org.apache.cxf,org.jboss.ws.cxf.jbossws-cxf-server"/>
-      </manifest>
-    </jar>
-
     <!-- jaxws-cxf-jbws3516 -->
     <war
        warfile="${tests.output.dir}/test-libs/jaxws-cxf-jbws3516.war"
@@ -286,52 +101,6 @@
        </webinf>
     </war>
   	
-    <!-- jaxws-cxf-mixtype-->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-mixtype.war" webxml="${tests.output.dir}/test-resources/jaxws/cxf/mixtype/WEB-INF/web.xml">
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/mixtype/Endpoint*.class"/>
-      </classes>
-
-       <webinf dir="${tests.output.dir}/test-resources//jaxws/cxf/mixtype/WEB-INF">
-          <include name="jboss-web.xml"/>
-       </webinf>
-    </war>
-
-    <!-- jaxws-cxf-policy -->
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-policy.jar">
-      <fileset dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/policy/PIPEndpointImpl.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/policy/CustomInInterceptor.class"/>
-      	<include name="org/jboss/test/ws/jaxws/cxf/policy/PolicyInterceptorProviderInstallerInterceptor.class"/>
-      </fileset>
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/policy/META-INF">
-        <include name="**/*" />
-      </metainf>
-      <manifest>
-        <attribute name="Dependencies" value="org.apache.cxf.impl"/> <!-- cxf impl required due to custom interceptor using cxf-rt-ws-policy in deployment -->
-      </manifest>
-    </jar>
-
-    <!-- jaxws-cxf-udp-api -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-udp-api.war"
-    	needxmlfile='false'>
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/udp/TestServlet.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/udp/HelloWorld*.class"/>
-      </classes>
-      <zipfileset
-          dir="${tests.output.dir}/test-resources/jaxws/cxf/udp/META-INF/wsdl" 
-          prefix="WEB-INF/classes/META-INF/wsdl"/>
-      <manifest>
-        <attribute name="Dependencies" value="org.jboss.ws.common,org.jboss.ws.cxf.jbossws-cxf-client services"/>
-      </manifest>
-    </war>
-    <jar destfile="${tests.output.dir}/test-libs/jaxws-cxf-udp-api-client.jar">
-      <metainf dir="${tests.output.dir}/test-resources/jaxws/cxf/udp/META-INF">
-        <include name="wsdl/*" />
-      </metainf>
-    </jar>
-  	
     <!-- jaxws-cxf-servletCtx -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-servletCtx.war" needxmlfile='false'>
       <classes dir="${tests.output.dir}/test-classes">
@@ -343,31 +112,6 @@
       </manifest>
     </war>
 
-    <!-- jaxws-cxf-spring -->
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-spring.war" needxmlfile='false'>
-       <classes dir="${tests.output.dir}/test-classes">
-          <include name="org/jboss/test/ws/jaxws/cxf/spring/Endpoint*.class"/>
-       </classes>
-    </war>
-    <war warfile="${tests.output.dir}/test-libs/jaxws-cxf-spring-client.war" needxmlfile='false'>
-      <classes dir="${tests.output.dir}/test-classes">
-        <include name="org/jboss/test/ws/jaxws/cxf/spring/Helper*.class"/>
-        <include name="org/jboss/test/ws/jaxws/cxf/spring/Endpoint.class"/>
-      	<include name="org/jboss/test/ws/jaxws/cxf/spring/Foo.class"/>
-        <include name="org/jboss/wsf/test/TestServlet.class"/>
-        <include name="org/jboss/wsf/test/ClientHelper.class"/>
-      </classes>
-      <zipfileset
-          dir="${tests.output.dir}/test-resources/jaxws/cxf/spring/" 
-          prefix="WEB-INF/classes/"/>
-      <zipfileset
-          dir="${tests.output.dir}/spring/" 
-          prefix="WEB-INF/lib/"/>
-      <manifest>
-        <attribute name="Dependencies" value="org.jboss.ws.cxf.jbossws-cxf-client services"/>
-      </manifest>
-    </war>
-  	
     <!-- saaj-soap-connection -->
     <war
        warfile="${tests.output.dir}/test-libs/saaj-soap-connection.war"

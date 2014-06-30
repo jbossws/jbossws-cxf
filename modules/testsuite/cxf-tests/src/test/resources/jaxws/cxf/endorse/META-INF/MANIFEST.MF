@@ -1,2 +1,0 @@
-Manifest-Version: 1.0
-Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export

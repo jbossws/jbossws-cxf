@@ -53,7 +53,7 @@ public class BusReuseTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(BusReuseTestCase.class, "jaxws-cxf-bus.war, jaxws-cxf-bus-wsdl.war");
+      return new JBossWSCXFTestSetup(BusReuseTestCase.class, DeploymentArchives.SERVER + ", " + DeploymentArchives.SERVER_2);
    }
    
    public void testReuse() throws Exception

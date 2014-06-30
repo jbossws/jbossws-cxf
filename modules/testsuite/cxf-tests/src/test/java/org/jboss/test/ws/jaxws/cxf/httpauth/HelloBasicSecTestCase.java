@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.cxf.httpauth;
 
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -33,6 +36,8 @@ import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 /**
  * @author ema@redhat.com
  * @author alessio.soldano@jboss.com
@@ -41,10 +46,28 @@ public class HelloBasicSecTestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-cxf-basic-sec";
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-basic-sec.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.cxf.httpauth.Hello.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.httpauth.HelloImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.httpauth.HelloRequest.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.httpauth.HelloResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.httpauth.ObjectFactory.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/httpauth/WEB-INF/wsdl/hello.wsdl"), "wsdl/hello.wsdl")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/httpauth/basic/jboss-web.xml"), "jboss-web.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/httpauth/basic/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
       JBossWSCXFTestSetup testSetup;
-      testSetup = new JBossWSCXFTestSetup(HelloBasicSecTestCase.class, "jaxws-cxf-basic-sec.war");
+      testSetup = new JBossWSCXFTestSetup(HelloBasicSecTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
       Map<String, String> authenticationOptions = new HashMap<String, String>();
       authenticationOptions.put("usersProperties",
             getResourceFile("jaxws/cxf/httpauth/WEB-INF/ws-users.properties").getAbsolutePath());

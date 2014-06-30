@@ -22,9 +22,12 @@
 package org.jboss.test.ws.jaxws.cxf.noIntegration;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -33,6 +36,8 @@ import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Verifies a plain Apache CXF ws endpoint war can be deployed on
@@ -50,9 +55,40 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public class EmbeddedCXFTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      final File springDir = new File(new File(JBossWSTestHelper.getTestResourcesDir()).getParentFile(), "spring");
+      final File embeddedCXFDir = new File(new File(JBossWSTestHelper.getTestResourcesDir()).getParentFile(), "cxf-embedded");
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-embedded.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.EchoImpl.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/beans.xml"), "beans.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/jboss-deployment-structure.xml"), "jboss-deployment-structure.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/web.xml"))
+               .addAsLibrary(new File(springDir, "spring-aop-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(springDir, "spring-asm-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(springDir, "spring-beans-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(springDir, "spring-context-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(springDir, "spring-core-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(springDir, "spring-expression-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(springDir, "spring-web-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-api-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-bindings-soap-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-core-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-databinding-jaxb-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-frontend-jaxws-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-frontend-simple-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-transports-http-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-ws-policy-2.6.6.jar"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(EmbeddedCXFTestCase.class, "jaxws-cxf-embedded.war");
+      return new JBossWSCXFTestSetup(EmbeddedCXFTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testEndpointInvocation() throws Exception

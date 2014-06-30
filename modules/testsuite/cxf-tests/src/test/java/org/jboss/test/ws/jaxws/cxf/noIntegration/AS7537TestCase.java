@@ -21,8 +21,14 @@
  */
 package org.jboss.test.ws.jaxws.cxf.noIntegration;
 
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * [AS7-537] Filter Apache CXF and dependencies
@@ -34,6 +40,37 @@ import org.jboss.wsf.test.JBossWSTestHelper;
  */
 public class AS7537TestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      final File springDir = new File(new File(JBossWSTestHelper.getTestResourcesDir()).getParentFile(), "spring");
+      final File embeddedCXFDir = new File(new File(JBossWSTestHelper.getTestResourcesDir()).getParentFile(), "cxf-embedded");
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-embedded-fail.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: javax.wsdl4j.api,org.apache.ws.xmlschema,org.apache.neethi,org.codehaus.woodstox\n"))
+               .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.EchoImpl.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/beans.xml"), "beans.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/web.xml"))
+               .addAsLibrary(new File(springDir, "spring-aop-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(springDir, "spring-asm-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(springDir, "spring-beans-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(springDir, "spring-context-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(springDir, "spring-core-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(springDir, "spring-expression-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(springDir, "spring-web-3.0.3.RELEASE.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-api-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-bindings-soap-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-core-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-databinding-jaxb-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-frontend-jaxws-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-frontend-simple-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-frontend-http-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-ws-policy-2.6.6.jar"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public void testFailureWithoutJBossDeploymentStructure() throws Exception {
       boolean undeploy = true;
       try {

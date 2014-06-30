@@ -21,14 +21,20 @@
  */
 package org.jboss.test.ws.jaxws.cxf.endorse;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.stack.cxf.client.ProviderImpl;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Test required endorsing when using the CXF stack
@@ -38,9 +44,32 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public class EndorseTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-endorse.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export\n"))
+               .addClass(org.jboss.test.ws.jaxws.cxf.endorse.Helper.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.endorse.TestServlet.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endorse/WEB-INF/web.xml"));
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-endorse-no-export.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services\n"))
+               .addClass(org.jboss.test.ws.jaxws.cxf.endorse.Helper.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.endorse.TestServlet.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endorse/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(EndorseTestCase.class, "jaxws-cxf-endorse.war,jaxws-cxf-endorse-no-export.war");
+      return new JBossWSCXFTestSetup(EndorseTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    public void testClientSide()

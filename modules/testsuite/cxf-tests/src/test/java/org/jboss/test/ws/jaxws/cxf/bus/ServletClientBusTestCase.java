@@ -42,12 +42,12 @@ public class ServletClientBusTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(ServletClientBusTestCase.class, "jaxws-cxf-bus.war");
+      return new JBossWSCXFTestSetup(ServletClientBusTestCase.class, DeploymentArchives.SERVER);
    }
    
    public void testSingleDeploy() throws Exception
    {
-      deploy("jaxws-cxf-bus-servlet-client.war");
+      deploy(DeploymentArchives.SERVLET_CLIENT);
       try
       {
          URL url = new URL(TARGET_ENDPOINT_ADDRESS + "?method=testBusCreation");
@@ -64,7 +64,7 @@ public class ServletClientBusTestCase extends JBossWSTest
       }
       finally
       {
-         undeploy("jaxws-cxf-bus-servlet-client.war");
+         undeploy(DeploymentArchives.SERVLET_CLIENT);
       }
    }
 }

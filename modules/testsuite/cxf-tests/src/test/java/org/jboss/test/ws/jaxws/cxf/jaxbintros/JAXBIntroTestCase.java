@@ -50,7 +50,7 @@ public class JAXBIntroTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JAXBIntroTestCase.class, "jaxws-cxf-jaxbintros.jar");
+      return new JBossWSCXFTestSetup(JAXBIntroTestCase.class, DeploymentArchives.SERVER);
    }
 
    public void testWSDLAccess() throws Exception

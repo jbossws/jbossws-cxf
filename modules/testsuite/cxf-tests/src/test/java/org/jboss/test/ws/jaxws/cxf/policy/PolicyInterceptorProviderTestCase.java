@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.cxf.policy;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -32,9 +35,12 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.ws.policy.IgnorablePolicyInterceptorProvider;
 import org.apache.cxf.ws.policy.PolicyInterceptorProviderRegistry;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * @author alessio.soldano@jboss.com
@@ -44,9 +50,23 @@ public class PolicyInterceptorProviderTestCase extends JBossWSTest
 {
    private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-policy/PIPService/PIPEndpoint";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-cxf-policy.jar") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.apache.cxf.impl\n")) //cxf impl required due to custom interceptor using cxf-rt-ws-policy in deployment
+               .addClass(org.jboss.test.ws.jaxws.cxf.policy.PIPEndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.policy.PolicyInterceptorProviderInstallerInterceptor.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/policy/META-INF/unknown-policy.xml"), "unknown-policy.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(PolicyInterceptorProviderTestCase.class, "jaxws-cxf-policy.jar");
+      return new JBossWSCXFTestSetup(PolicyInterceptorProviderTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    /**

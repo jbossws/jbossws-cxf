@@ -42,7 +42,7 @@ public class JAXBIntroServletTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JAXBIntroServletTestCase.class, "jaxws-cxf-jaxbintros.jar, jaxws-cxf-jaxbintros-client.war");
+      return new JBossWSCXFTestSetup(JAXBIntroServletTestCase.class, DeploymentArchives.SERVER + ", " + DeploymentArchives.CLIENT);
    }
    
    /**

@@ -22,9 +22,12 @@
 package org.jboss.test.ws.jaxws.cxf.noIntegration;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -33,6 +36,8 @@ import junit.framework.Test;
 
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Verifies a plain Apache CXF ws endpoint war can be deployed on
@@ -52,9 +57,23 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public class DisabledWSSubsystemTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-disabledWSSubsystem.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.CXFEndpointServlet.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.EchoImpl.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/moduleImports/WEB-INF/jboss-deployment-structure.xml"), "jboss-deployment-structure.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/moduleImports/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(DisabledWSSubsystemTestCase.class, "jaxws-cxf-disabledWSSubsystem.war");
+      return new JBossWSCXFTestSetup(DisabledWSSubsystemTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    public void testEndpointInvocation() throws Exception

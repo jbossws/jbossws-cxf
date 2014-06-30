@@ -21,11 +21,14 @@
  */
 package org.jboss.test.ws.jaxws.cxf.udp;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Endpoint;
@@ -35,9 +38,12 @@ import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Test case for publishing a UDP (SOAP-over-UDP 1.1) endpoint through API
@@ -47,9 +53,30 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public final class UDPEndpointAPITestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-cxf-udp-api-client.jar") { {
+         archive
+               .addManifest()
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/udp/META-INF/wsdl/HelloWorldService.wsdl"), "wsdl/HelloWorldService.wsdl");
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-udp-api.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.common,org.jboss.ws.cxf.jbossws-cxf-client services\n"))
+               .addClass(org.jboss.test.ws.jaxws.cxf.udp.HelloWorld.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.udp.HelloWorldImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.udp.TestServlet.class)
+               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/udp/META-INF/wsdl/HelloWorldService.wsdl"), "META-INF/wsdl/HelloWorldService.wsdl");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(UDPEndpointAPITestCase.class, "jaxws-cxf-udp-api.war,jaxws-cxf-udp-api-client.jar");
+      return new JBossWSCXFTestSetup(UDPEndpointAPITestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    public void testServerSide() throws Exception

@@ -40,7 +40,7 @@ public final class ClientSpringAppTestCaseForked extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(ClientSpringAppTestCaseForked.class, "jaxws-cxf-spring-client.war, jaxws-cxf-spring.war");
+      return new JBossWSCXFTestSetup(ClientSpringAppTestCaseForked.class, DeploymentArchives.SERVER + ", " + DeploymentArchives.CLIENT);
    }
 
    public void testJBossWSCXFBus() throws Exception
