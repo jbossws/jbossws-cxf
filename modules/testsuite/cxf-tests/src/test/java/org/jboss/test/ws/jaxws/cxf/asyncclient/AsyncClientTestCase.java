@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.cxf.asyncclient;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -30,8 +33,11 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
@@ -39,11 +45,24 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public class AsyncClientTestCase extends JBossWSTest
 {
-   private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-asyncclient";
+   private final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-asyncclient";
          
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-asyncclient.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.apache.cxf\n"))
+               .addClass(org.jboss.test.ws.jaxws.cxf.asyncclient.EndpointImpl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/asyncclient/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(AsyncClientTestCase.class, "jaxws-cxf-asyncclient.war");
+      return new JBossWSCXFTestSetup(AsyncClientTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testAsycClienWithHCAddress() throws Exception

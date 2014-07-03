@@ -24,6 +24,7 @@ package org.jboss.test.ws.jaxws.cxf.servletCtx;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -35,8 +36,11 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  *
@@ -47,9 +51,22 @@ public class ServletCtxTestCase extends JBossWSTest
 {
    private String endpointOneURL = "http://" + getServerHost() + ":8080/jaxws-cxf-servletCtx/ServiceOne";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-servletCtx.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.logging\n"))
+               .addClass(org.jboss.test.ws.jaxws.cxf.servletCtx.EndpointOne.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.servletCtx.EndpointOneImpl.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(ServletCtxTestCase.class, "jaxws-cxf-servletCtx.war");
+      return new JBossWSCXFTestSetup(ServletCtxTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    private String targetNS = "http://org.jboss.ws.jaxws.cxf/servletCtx";

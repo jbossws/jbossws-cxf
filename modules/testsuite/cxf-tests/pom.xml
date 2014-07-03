@@ -81,7 +81,6 @@
                   <target>
                     <property name="tests.output.dir" value="${project.build.directory}"/>
                     <property name="tests.resources.dir" value="${basedir}/src/test/resources"/>
-                    <ant antfile="scripts/cxf-jars-jaxws.xml" target="build-jars-jaxws"/>
                     <ant antfile="scripts/cxf-samples-jars-jaxws.xml" target="build-jars-jaxws"/>
                   </target>
                 </configuration>

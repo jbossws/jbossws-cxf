@@ -16,21 +16,43 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3679;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 public class JBWS3679TestCase extends JBossWSTest
 {
    public final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3679/ServletClient";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3679.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3679.CDIBeanClient.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3679.EndpointOne.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3679.EndpointOneImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3679.EndpointOneService.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3679.ServletClient.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3679/WEB-INF/beans.xml"), "beans.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3679/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS3679TestCase.class, "jaxws-cxf-jbws3679.war");
+      return new JBossWSTestSetup(JBWS3679TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testServletClient() throws Exception

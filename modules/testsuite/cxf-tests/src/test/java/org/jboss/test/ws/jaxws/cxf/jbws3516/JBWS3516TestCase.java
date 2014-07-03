@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3516;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -35,17 +38,41 @@ import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.AttributedURIType;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
+import org.jboss.shrinkwrap.api.ArchivePath;
+import org.jboss.shrinkwrap.api.Filter;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 public class JBWS3516TestCase extends JBossWSTest
 {
    public final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3516/helloworld";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3516.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.apache.cxf.impl\n"))
+               .addPackages(false, new Filter<ArchivePath>() {
+                  @Override
+                  public boolean include(ArchivePath object)
+                  {
+                     return !object.get().contains("TestCase");
+                  }}, "org.jboss.test.ws.jaxws.cxf.jbws3516")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3516/WEB-INF/wsdl/hello_world.wsdl"), "wsdl/hello_world.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3516/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS3516TestCase.class, "jaxws-cxf-jbws3516.war");
+      return new JBossWSTestSetup(JBWS3516TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testOneWayFaultTo() throws Exception

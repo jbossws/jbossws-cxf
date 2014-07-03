@@ -39,7 +39,10 @@ import javax.xml.ws.soap.SOAPBinding;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -51,9 +54,22 @@ public class JBWS3593TestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3593/EndpointBean";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3593.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.apache.cxf\n"))
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3593.EndpointBean.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3593.MTOMOutInterceptor.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS3593TestCase.class, "jaxws-cxf-jbws3593.war");
+      return new JBossWSTestSetup(JBWS3593TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testMTOMAccess() throws Exception

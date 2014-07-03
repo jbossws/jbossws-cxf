@@ -64,7 +64,7 @@ public class AS7537TestCase extends JBossWSTest
                .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-databinding-jaxb-2.6.6.jar"))
                .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-frontend-jaxws-2.6.6.jar"))
                .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-frontend-simple-2.6.6.jar"))
-               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-frontend-http-2.6.6.jar"))
+               .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-transports-http-2.6.6.jar"))
                .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-ws-policy-2.6.6.jar"));
          }
       });
@@ -73,8 +73,9 @@ public class AS7537TestCase extends JBossWSTest
 
    public void testFailureWithoutJBossDeploymentStructure() throws Exception {
       boolean undeploy = true;
+      final String deploymentName = JBossWSTestHelper.writeToFile(createDeployments());
       try {
-         JBossWSTestHelper.deploy("jaxws-cxf-embedded-fail.war");
+         JBossWSTestHelper.deploy(deploymentName);
          fail("Deployment failure expected");
       } catch (Exception e) {
          undeploy = false;
@@ -82,7 +83,7 @@ public class AS7537TestCase extends JBossWSTest
       } finally {
          if (undeploy) {
             try {
-               JBossWSTestHelper.undeploy("jaxws-cxf-embedded-fail.war");
+               JBossWSTestHelper.undeploy(deploymentName);
             } catch (Exception e) {
                //ignore
             }
