@@ -45,14 +45,11 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public class WSTrustHolderOfKeyTestCase extends JBossWSTest
 {
-   private final String serviceURL = "https://" + getServerHost()
-      + ":8443/jaxws-samples-wsse-policy-trust-holderofkey/HolderOfKeyService";
-
    public static Test suite()
    {
       //deploy client, STS and service; start a security domain to be used by the STS for authenticating client
       JBossWSCXFTestSetup testSetup = WSTrustTestUtils.getTestSetup(WSTrustHolderOfKeyTestCase.class,
-         "jaxws-samples-wsse-policy-trust-client.jar jaxws-samples-wsse-policy-trust-sts-holderofkey.war jaxws-samples-wsse-policy-trust-holderofkey.war");
+         DeploymentArchives.CLIENT_JAR + " " + DeploymentArchives.STS_HOLDEROFKEY_WAR + " " + DeploymentArchives.SERVER_HOLDEROFKEY_WAR);
 
       // setup the https connector in the server config file.
       Map<String, String> sslOptions = new HashMap<String, String>();
@@ -75,7 +72,7 @@ public class WSTrustHolderOfKeyTestCase extends JBossWSTest
          BusFactory.setThreadDefaultBus(bus);
 
          final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/holderofkeywssecuritypolicy", "HolderOfKeyService");
-         final URL wsdlURL = new URL(serviceURL + "?wsdl");
+         final URL wsdlURL = new URL("https://" + getServerHost() + ":8443/jaxws-samples-wsse-policy-trust-holderofkey/HolderOfKeyService?wsdl");
          Service service = Service.create(wsdlURL, serviceName);
          HolderOfKeyIface proxy = (HolderOfKeyIface) service.getPort(HolderOfKeyIface.class);
 

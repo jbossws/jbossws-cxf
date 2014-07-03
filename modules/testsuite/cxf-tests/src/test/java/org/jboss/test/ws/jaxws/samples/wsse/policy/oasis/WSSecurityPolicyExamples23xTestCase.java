@@ -64,7 +64,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
       System.setProperty("org.jboss.security.ignoreHttpsHost", "true");
       */
       JBossWSCXFTestSetup setup = new JBossWSCXFTestSetup(WSSecurityPolicyExamples23xTestCase.class,
-            "jaxws-samples-wsse-policy-oasis-23x.war,jaxws-samples-wsse-policy-oasis-client.jar");
+            DeploymentArchives.SERVER_23X_WAR + " " + DeploymentArchives.CLIENT_JAR);
       Map<String, String> sslOptions = new HashMap<String, String>();
       sslOptions.put("server-identity.ssl.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
       sslOptions.put("server-identity.ssl.keystore-password", "changeit");

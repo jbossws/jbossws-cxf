@@ -53,7 +53,7 @@ public final class WSSecurityPolicyExamples22xTestCase extends JBossWSTest
    public static Test suite()
    {
       return new JBossWSCXFTestSetup(WSSecurityPolicyExamples22xTestCase.class,
-            "jaxws-samples-wsse-policy-oasis-22x.war,jaxws-samples-wsse-policy-oasis-client.jar");
+            DeploymentArchives.SERVER_22X_WAR + " " + DeploymentArchives.CLIENT_JAR);
    }
    
    /**

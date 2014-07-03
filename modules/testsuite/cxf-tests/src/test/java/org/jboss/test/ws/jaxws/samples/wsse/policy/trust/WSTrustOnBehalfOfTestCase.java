@@ -46,7 +46,7 @@ public class WSTrustOnBehalfOfTestCase extends JBossWSTest
    {
       //deploy client, STS and service; start a security domain to be used by the STS for authenticating client
       return WSTrustTestUtils.getTestSetup(WSTrustOnBehalfOfTestCase.class,
-            "jaxws-samples-wsse-policy-trust-client.jar jaxws-samples-wsse-policy-trust-sts.war jaxws-samples-wsse-policy-trust.war jaxws-samples-wsse-policy-trust-onbehalfof.war");
+            DeploymentArchives.CLIENT_JAR + " " + DeploymentArchives.STS_WAR + " " + DeploymentArchives.SERVER_WAR + " " + DeploymentArchives.SERVER_ONBEHALFOF_WAR);
    }
 
    /**

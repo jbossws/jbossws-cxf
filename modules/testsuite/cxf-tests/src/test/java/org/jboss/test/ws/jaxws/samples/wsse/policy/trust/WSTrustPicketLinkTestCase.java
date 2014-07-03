@@ -42,14 +42,11 @@ import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
  */
 public final class WSTrustPicketLinkTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trust/SecurityService";
-   private final String stsURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trustPicketLink-sts/PicketLinkSTS";
-
    public static Test suite()
    {
       //deploy client, STS and service; start a security domain to be used by the STS for authenticating client
       return WSTrustTestUtils.getTestSetup(WSTrustPicketLinkTestCase.class,
-            "jaxws-samples-wsse-policy-trust-client.jar jaxws-samples-wsse-policy-trustPicketLink-sts.war jaxws-samples-wsse-policy-trust.war");
+            DeploymentArchives.CLIENT_JAR + " " + DeploymentArchives.STS_PICKETLINK_WAR + " " + DeploymentArchives.SERVER_WAR);
    }
 
    public void test() throws Exception
@@ -60,13 +57,14 @@ public final class WSTrustPicketLinkTestCase extends JBossWSTest
          BusFactory.setThreadDefaultBus(bus);
          
          final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-         final URL wsdlURL = new URL(serviceURL + "?wsdl");
+         final URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trust/SecurityService?wsdl");
          Service service = Service.create(wsdlURL, serviceName);
          ServiceIface proxy = (ServiceIface) service.getPort(ServiceIface.class);
          
          final QName stsServiceName = new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTS");
          final QName stsPortName = new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTSPort");
-         WSTrustTestUtils.setupWsseAndSTSClient(proxy, bus, stsURL + "?wsdl", stsServiceName, stsPortName);
+         WSTrustTestUtils.setupWsseAndSTSClient(proxy, bus, "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-trustPicketLink-sts/PicketLinkSTS?wsdl",
+               stsServiceName, stsPortName);
          
          try {
             assertEquals("WS-Trust Hello World!", proxy.sayHello());

@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsdd;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -41,6 +42,8 @@ import org.apache.cxf.ws.discovery.wsdl.ResolveMatchType;
 import org.apache.cxf.ws.discovery.wsdl.ScopesType;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * WS-Discovery 1.1 sample
@@ -52,9 +55,31 @@ public final class WSDiscoveryTestCase extends JBossWSTest
 {
    private static final int TIMEOUT = Integer.getInteger(WSDiscoveryTestCase.class.getName() + ".timeout", 2000);
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsdd2.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.wsdd.AnotherServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsdd.ServiceIface.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsdd.ServiceImpl.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsdd/WEB-INF/jboss-webservices.xml"), "jboss-webservices.xml");
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsdd.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.wsdd.ServiceIface.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsdd.ServiceImpl.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsdd/WEB-INF/jboss-webservices.xml"), "jboss-webservices.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(WSDiscoveryTestCase.class, "jaxws-samples-wsdd.war,jaxws-samples-wsdd2.war");
+      return new JBossWSCXFTestSetup(WSDiscoveryTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    public void testProbeAndResolve() throws Exception

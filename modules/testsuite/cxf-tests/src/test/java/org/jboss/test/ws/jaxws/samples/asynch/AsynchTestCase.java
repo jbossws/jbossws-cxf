@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.asynch;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Future;
 
 import javax.xml.namespace.QName;
@@ -31,8 +34,11 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Asynchronous web services test case (both client and server side async)
@@ -44,9 +50,22 @@ public class AsynchTestCase extends JBossWSTest
 {
    private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-samples-asynch";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-asynch.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.apache.cxf\n"))
+               .addClass(org.jboss.test.ws.jaxws.samples.asynch.EndpointImpl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/asynch/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(AsynchTestCase.class, "jaxws-samples-asynch.war");
+      return new JBossWSCXFTestSetup(AsynchTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testAsyncEndpoint() throws Exception
