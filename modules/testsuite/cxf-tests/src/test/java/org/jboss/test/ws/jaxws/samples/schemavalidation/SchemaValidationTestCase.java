@@ -47,7 +47,7 @@ public class SchemaValidationTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(SchemaValidationTestCase.class, "jaxws-samples-schemavalidation.war,jaxws-samples-schemavalidation-client.jar");
+      return new JBossWSCXFTestSetup(SchemaValidationTestCase.class, DeploymentArchives.SERVER + ", " + DeploymentArchives.CLIENT_JAR);
    }
 
    public void testSchemaValidationEndpoint() throws Exception

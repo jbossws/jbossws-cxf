@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.jaas;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -30,8 +33,11 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * WS-SecurityPolicy (v.1.2) UT testcase with JAAS integration (EJB3)
@@ -43,9 +49,29 @@ public class UsernameAuthorizationEJBTestCase extends JBossWSTest
 {
    public final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-jaas-ejb/SecurityService/EJBServiceImpl";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-policy-username-jaas-ejb.jar") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.EJBServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.ServiceIface.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMe.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMeResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaas/ejb/META-INF/jaxws-endpoint-config.xml"), "jaxws-endpoint-config.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaas/ejb/META-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaas/ejb/META-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(UsernameAuthorizationEJBTestCase.class, "jaxws-samples-wsse-policy-username-jaas-ejb.jar", true);
+      return new JBossWSCXFTestSetup(UsernameAuthorizationEJBTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), true);
    }
 
    public void test() throws Exception

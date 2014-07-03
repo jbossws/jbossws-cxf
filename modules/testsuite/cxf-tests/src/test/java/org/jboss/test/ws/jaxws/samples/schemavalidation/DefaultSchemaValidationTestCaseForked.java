@@ -45,7 +45,7 @@ public class DefaultSchemaValidationTestCaseForked extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(DefaultSchemaValidationTestCaseForked.class, "jaxws-samples-schemavalidation-client.war");
+      return new JBossWSCXFTestSetup(DefaultSchemaValidationTestCaseForked.class, DeploymentArchives.CLIENT_WAR);
    }
    
    /**
@@ -55,10 +55,10 @@ public class DefaultSchemaValidationTestCaseForked extends JBossWSTest
     */
    public void testDefaultClientValidation() throws Exception {
       try {
-         JBossWSTestHelper.deploy("jaxws-samples-schemavalidation.war");
+         JBossWSTestHelper.deploy(DeploymentArchives.SERVER);
          assertEquals("1", runInContainer("testDefaultClientValidation"));
       } finally {
-         JBossWSTestHelper.undeploy("jaxws-samples-schemavalidation.war");
+         JBossWSTestHelper.undeploy(DeploymentArchives.SERVER);
       }
    }
    
@@ -77,7 +77,7 @@ public class DefaultSchemaValidationTestCaseForked extends JBossWSTest
             "http://" + getServerHost() + ":8080/jaxws-samples-schemavalidation/hello");
       HelloResponse hr;
       try {
-         JBossWSTestHelper.deploy("jaxws-samples-schemavalidation.war");
+         JBossWSTestHelper.deploy(DeploymentArchives.SERVER);
          hr = proxy.helloRequest("JBoss");
          assertNotNull(hr);
          assertEquals(2, hr.getReturn());
@@ -85,7 +85,7 @@ public class DefaultSchemaValidationTestCaseForked extends JBossWSTest
          assertNotNull(hr);
          assertEquals(2, hr.getReturn());
       } finally {
-         JBossWSTestHelper.undeploy("jaxws-samples-schemavalidation.war");
+         JBossWSTestHelper.undeploy(DeploymentArchives.SERVER);
       }
       
       // -- modify default conf to enable default endpoint schema validation
@@ -93,7 +93,7 @@ public class DefaultSchemaValidationTestCaseForked extends JBossWSTest
       {
          runInContainer("enableDefaultEndpointSchemaValidation");
          try {
-            JBossWSTestHelper.deploy("jaxws-samples-schemavalidation.war");
+            JBossWSTestHelper.deploy(DeploymentArchives.SERVER);
             hr = proxy.helloRequest("JBoss");
             assertNotNull(hr);
             assertEquals(2, hr.getReturn());
@@ -104,7 +104,7 @@ public class DefaultSchemaValidationTestCaseForked extends JBossWSTest
                assertTrue(e.getMessage().contains("is not facet-valid with respect to enumeration"));
             }
          } finally {
-            JBossWSTestHelper.undeploy("jaxws-samples-schemavalidation.war");
+            JBossWSTestHelper.undeploy(DeploymentArchives.SERVER);
          }
       }
       finally
