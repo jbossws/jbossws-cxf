@@ -48,7 +48,7 @@ public final class AnnotatedSignEncryptTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(AnnotatedSignEncryptTestCase.class, "jaxws-samples-wsse-policy-sign-encrypt-gcm-code-first.war jaxws-samples-wsse-policy-sign-encrypt-client.jar");
+      return new JBossWSCXFTestSetup(AnnotatedSignEncryptTestCase.class, SignEncryptDeploymentArchives.SERVER_GCM_CODEFIRST_WAR + " " + SignEncryptDeploymentArchives.CLIENT_JAR);
    }
 
    public void testWsdl() throws Exception

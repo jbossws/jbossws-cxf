@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsrm.client;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -31,9 +34,12 @@ import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.test.ws.jaxws.samples.wsrm.generated.SimpleService;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Client invoking web service with WS-RM and using no xml descriptor
@@ -46,9 +52,27 @@ public final class WSReliableMessagingWithAPITestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsrm-api/SimpleService";
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsrm-api.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.apache.cxf\n"))
+               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.RMCheckInterceptor.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.SimpleServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.jaxws.Echo.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.jaxws.EchoResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.jaxws.Ping.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm/WEB-INF/wsdl/SimpleService.wsdl"), "wsdl/SimpleService.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(WSReliableMessagingWithAPITestCase.class, "jaxws-samples-wsrm-api.war");
+      return new JBossWSCXFTestSetup(WSReliableMessagingWithAPITestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void test() throws Exception

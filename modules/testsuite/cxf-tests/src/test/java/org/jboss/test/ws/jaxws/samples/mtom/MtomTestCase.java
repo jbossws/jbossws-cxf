@@ -21,10 +21,13 @@
  */
 package org.jboss.test.ws.jaxws.samples.mtom;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -32,9 +35,11 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.apache.cxf.helpers.IOUtils;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.ws.common.DOMUtils;
+import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 /**
@@ -43,12 +48,27 @@ import org.w3c.dom.NodeList;
  */
 public final class MtomTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-mtom.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.mtom.ServiceIface.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.mtom.ServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.mtom.jaxws.SayHello.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.mtom.jaxws.SayHelloResponse.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/mtom/WEB-INF/wsdl/MtomService.wsdl"), "wsdl/MtomService.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/mtom/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-mtom/MtomService";
-   private ServiceIface proxy;   
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(MtomTestCase.class, "jaxws-samples-mtom.war");
+      return new JBossWSCXFTestSetup(MtomTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testMtomWithProxy() throws Exception
@@ -57,7 +77,7 @@ public final class MtomTestCase extends JBossWSTest
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/mtom", "MtomService");
       URL wsdlURL = new URL(serviceURL + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
-      proxy = (ServiceIface)service.getPort(ServiceIface.class);
+      ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       // invoke method
       assertEquals("Hello World!", proxy.sayHello());
    }

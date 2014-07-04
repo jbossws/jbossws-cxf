@@ -42,9 +42,7 @@ public final class SignEncryptTestCase extends JBossWSTest
    public static Test suite()
    {
       return new JBossWSCXFTestSetup(SignEncryptTestCase.class,
-            "jaxws-samples-wsse-policy-sign-encrypt-client.jar " +
-            "jaxws-samples-wsse-policy-sign-encrypt-client.war " +
-            "jaxws-samples-wsse-policy-sign-encrypt.war");
+            SignEncryptDeploymentArchives.CLIENT_JAR + " " + SignEncryptDeploymentArchives.CLIENT_WAR + " " + SignEncryptDeploymentArchives.SERVER_WAR);
    }
    
    public void testClientSide() throws Exception

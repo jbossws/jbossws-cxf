@@ -68,25 +68,6 @@
       </activation>
       <build>
         <plugins>
-          <plugin>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>build-jars</id>
-                <phase>test-compile</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <configuration>
-                  <target>
-                    <property name="tests.output.dir" value="${project.build.directory}"/>
-                    <property name="tests.resources.dir" value="${basedir}/src/test/resources"/>
-                    <ant antfile="scripts/cxf-samples-jars-jaxws.xml" target="build-jars-jaxws"/>
-                  </target>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <plugin> <!-- This copies jbossws-cxf-factories jar to endorsed dir before the integration-tests are run -->
             <artifactId>maven-resources-plugin</artifactId>
             <executions>

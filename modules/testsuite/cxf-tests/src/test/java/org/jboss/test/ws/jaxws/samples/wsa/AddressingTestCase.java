@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsa;
 
+import java.io.File;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -41,6 +44,8 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Client invoking web service using WS-Addressing
@@ -51,9 +56,24 @@ public final class AddressingTestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsa/AddressingService";
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsa.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.wsa.ServiceIface.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsa.ServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsa.jaxws.SayHello.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsa.jaxws.SayHelloResponse.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsa/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(AddressingTestCase.class, "jaxws-samples-wsa.war");
+      return new JBossWSCXFTestSetup(AddressingTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    /**

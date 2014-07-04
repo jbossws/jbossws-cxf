@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -32,8 +35,11 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -46,6 +52,26 @@ public final class UsernameOverTransportTestCase extends JBossWSTest
 {
    private final String serviceURL = "https://" + getServerHost() + ":8443/jaxws-samples-wsse-policy-username";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsse-policy-username.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.basic.ServerUsernamePasswordCallback.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.basic.ServiceIface.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.basic.ServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/username/WEB-INF/jaxws-endpoint-config.xml"), "jaxws-endpoint-config.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/username/WEB-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/username/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/username/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
       /** System properties - currently set at testsuite start time 
@@ -54,7 +80,7 @@ public final class UsernameOverTransportTestCase extends JBossWSTest
       System.setProperty("javax.net.ssl.trustStoreType", "jks");
       System.setProperty("org.jboss.security.ignoreHttpsHost", "true");
       */
-      JBossWSTestSetup setup = new JBossWSCXFTestSetup(UsernameOverTransportTestCase.class, "jaxws-samples-wsse-policy-username.war");
+      JBossWSTestSetup setup = new JBossWSCXFTestSetup(UsernameOverTransportTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
       Map<String, String> sslOptions = new HashMap<String, String>();
       sslOptions.put("server-identity.ssl.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
       sslOptions.put("server-identity.ssl.keystore-password", "changeit");
