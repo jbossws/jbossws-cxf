@@ -7,6 +7,9 @@
         </exclude-subsystems>
         <!-- Dependencies below included for the sake of simplifying test only, would actually come within the deployment in this scenario -->
         <dependencies>
+            <module name="javax.xml.ws.api"/>
+            <module name="javax.xml.soap.api"/>
+            <module name="javax.jws.api"/>
             <module name="javax.wsdl4j.api"/>
             <module name="org.apache.ws.xmlschema"/>
             <module name="org.apache.neethi"/>

@@ -8,6 +8,9 @@
             <module name="org.apache.cxf"/>
             <module name="org.apache.cxf.impl"/>
             <module name="javax.wsdl4j.api"/>
+            <module name="javax.xml.ws.api"/>
+            <module name="javax.xml.soap.api"/>
+            <module name="javax.jws.api"/>
             <module name="org.apache.ws.xmlschema"/>
             <module name="org.apache.neethi"/>
             <module name="org.codehaus.woodstox"/>
