@@ -87,13 +87,6 @@
         <include>resources/jaxws/samples/**</include>
       </includes>
     </fileSet>
-    <fileSet>
-      <directory>../testsuite/cxf-tests/scripts</directory>
-      <outputDirectory>jbossws-cxf-bin-dist/tests/ant-import</outputDirectory>
-      <includes>
-        <include>cxf-samples-jars-jaxws.xml</include>
-      </includes>
-    </fileSet>
     <!-- Test utils -->
     <fileSet>
       <directory>../test-utils/src/main</directory>

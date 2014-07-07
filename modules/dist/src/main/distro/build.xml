@@ -111,9 +111,7 @@
     <macro-copy-resources srcdir="${tests.dir}"/>
   </target>
   
-  <target name="tests-jars" depends="tests-compile,tests-copy-resources">
-    <ant antfile="${tests.dir}/ant-import/cxf-samples-jars-jaxws.xml" target="build-jars-jaxws" inheritall="true"/>
-  </target>
+  <target name="tests-jars" depends="tests-compile,tests-copy-resources"/>
   
   <target name="tests-main" depends="tests-jars" description="Build the test deployments."/>
   
