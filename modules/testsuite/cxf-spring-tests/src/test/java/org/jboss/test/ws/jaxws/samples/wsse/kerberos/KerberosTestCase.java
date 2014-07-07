@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
@@ -38,7 +37,6 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.kerberos.KerberosClient;
 import org.jboss.test.ws.jaxws.samples.wsse.kerberos.contract.DoubleItPortType;
-import org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallback;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
  
@@ -89,7 +87,6 @@ public class KerberosTestCase extends JBossWSTest
 {
   
    private static final String namespace = "http://www.example.org/contract/DoubleIt";
-   private static final QName serviceName = new QName(namespace, "DoubleItService");
    public static Test suite()
    {
       JBossWSCXFTestSetup testSetup;
