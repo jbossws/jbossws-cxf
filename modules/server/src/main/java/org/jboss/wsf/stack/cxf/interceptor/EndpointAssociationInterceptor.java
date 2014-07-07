@@ -21,13 +21,19 @@
  */
 package org.jboss.wsf.stack.cxf.interceptor;
 
+import java.security.AccessController;
+
 import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.management.interceptor.ResponseTimeMessageInInterceptor;
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
+import org.apache.cxf.ws.policy.PolicyInInterceptor;
+import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.EndpointAssociation;
+import org.jboss.wsf.spi.management.ServerConfig;
 
 /**
  * A RECEIVE phase interceptor that sets the @see{org.jboss.wsf.spi.deployment.Endpoint}
@@ -41,10 +47,11 @@ import org.jboss.wsf.spi.invocation.EndpointAssociation;
  */
 public class EndpointAssociationInterceptor extends AbstractPhaseInterceptor<Message>
 {
-
    public EndpointAssociationInterceptor()
    {
       super(Phase.RECEIVE);
+      addBefore(ResponseTimeMessageInInterceptor.class.getName());
+      addBefore(PolicyInInterceptor.class.getName());
    }
    
    @Override
@@ -53,6 +60,22 @@ public class EndpointAssociationInterceptor extends AbstractPhaseInterceptor<Mes
       Endpoint endpoint = EndpointAssociation.getEndpoint();
       Exchange exchange = message.getExchange();
       exchange.put(Endpoint.class, endpoint);
+      String serviceCounterName = endpoint.getName().toString();
+      exchange.put("org.apache.cxf.management.service.counter.name", serviceCounterName + ",metrics=EndpointMetrics");
+      if (!getServerConfig().isStatisticsEnabled())
+      {
+         exchange.put("org.apache.cxf.management.counter.enabled", false);
+      }
    }
+   
+   
+	private static ServerConfig getServerConfig() {
+		if (System.getSecurityManager() == null) {
+			return AbstractServerConfig.getServerIntegrationServerConfig();
+		}
+		return AccessController
+				.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
+	}
+
 
 }

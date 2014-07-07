@@ -21,10 +21,13 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import java.security.AccessController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.management.MBeanServer;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
@@ -33,9 +36,7 @@ import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.counters.CounterRepository;
-import org.apache.cxf.management.interceptor.ResponseTimeMessageInInterceptor;
-import org.apache.cxf.management.interceptor.ResponseTimeMessageInvokerInterceptor;
-import org.apache.cxf.management.interceptor.ResponseTimeMessageOutInterceptor;
+import org.apache.cxf.management.jmx.InstrumentationManagerImpl;
 import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.service.factory.FactoryBeanListener;
@@ -49,6 +50,7 @@ import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
 import org.jboss.ws.api.annotation.PolicySets;
 import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
@@ -56,6 +58,7 @@ import org.jboss.wsf.spi.deployment.AnnotationsInfo;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 import org.jboss.wsf.stack.cxf.Loggers;
@@ -66,7 +69,6 @@ import org.jboss.wsf.stack.cxf.interceptor.EnableDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
-import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 import org.jboss.wsf.stack.cxf.security.authentication.AuthenticationMgrSubjectCreatingInterceptor;
 
 /**
@@ -246,31 +248,17 @@ public abstract class BusHolder
    }
    
    protected static void setCXFManagement(Bus bus, Map<String, String> props) {
-      if (props != null && !props.isEmpty()) {
-         final String p = props.get(Constants.CXF_MANAGEMENT_ENABLED);
-         if ("true".equalsIgnoreCase(p) || "1".equalsIgnoreCase(p)) {
-            InstrumentationManagerExtImpl instrumentationManagerImpl = new InstrumentationManagerExtImpl();
-            instrumentationManagerImpl.setBus(bus);
-            instrumentationManagerImpl.setEnabled(true);
-            instrumentationManagerImpl.initMBeanServer();
-            instrumentationManagerImpl.register();
-            bus.setExtension(instrumentationManagerImpl, InstrumentationManager.class);
-            CounterRepository couterRepository = new CounterRepository();
-            couterRepository.setBus(bus);
-            final String installRespTimeInterceptors = props.get(Constants.CXF_MANAGEMENT_INSTALL_RESPONSE_TIME_INTERCEPTORS);
-            if (installRespTimeInterceptors == null ||
-                  "true".equalsIgnoreCase(installRespTimeInterceptors) ||
-                  "1".equalsIgnoreCase(installRespTimeInterceptors)) {
-               ResponseTimeMessageInInterceptor in = new ResponseTimeMessageInInterceptor();
-               ResponseTimeMessageInvokerInterceptor invoker = new ResponseTimeMessageInvokerInterceptor();
-               ResponseTimeMessageOutInterceptor out = new ResponseTimeMessageOutInterceptor();
-               bus.getInInterceptors().add(in);
-               bus.getInInterceptors().add(invoker);
-               bus.getOutInterceptors().add(out);
-            }
-            bus.setExtension(couterRepository, CounterRepository.class);
-         }
-      }
+      CounterRepository couterRepository = new CounterRepository();
+      couterRepository.setBus(bus);
+      bus.setExtension(couterRepository, CounterRepository.class);
+      
+      AbstractServerConfig serverConfig = (AbstractServerConfig)getServerConfig();
+      if (serverConfig != null && serverConfig.getMbeanServer() != null) {
+    	  bus.setExtension(serverConfig.getMbeanServer(), MBeanServer.class); 
+			InstrumentationManagerImpl instrumentationImpl = (InstrumentationManagerImpl) bus
+					.getExtension(InstrumentationManager.class);
+			instrumentationImpl.init();
+      } 
    }
    
    protected static void setWSDiscovery(Bus bus, Map<String, String> props) {
@@ -278,10 +266,19 @@ public abstract class BusHolder
          final String p = props.get(Constants.CXF_WS_DISCOVERY_ENABLED);
          if ("true".equalsIgnoreCase(p) || "1".equalsIgnoreCase(p)) {
             bus.getExtension(ServerLifeCycleManager.class).registerListener(new WSDiscoveryServerListener(bus));
+                    
          }
       }
    }
    
+	private static ServerConfig getServerConfig() {
+		if (System.getSecurityManager() == null) {
+			return AbstractServerConfig.getServerIntegrationServerConfig();
+		}
+		return AccessController
+				.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
+	}
+
    private static AlternativeSelector getAlternativeSelector(Map<String, String> props) {
       //default to MaximalAlternativeSelector on server side [JBWS-3149]
       AlternativeSelector selector = new MaximalAlternativeSelector();

@@ -52,7 +52,6 @@ import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.RequestHandler;
-import org.jboss.wsf.spi.management.EndpointMetrics;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
@@ -93,8 +92,6 @@ public class RequestHandlerImpl implements RequestHandler
          out.close();
          return;
       }
-      final boolean statisticsEnabled = getServerConfig().isStatisticsEnabled();
-      Long beginTime = statisticsEnabled == true ? initRequestMetrics(ep) : 0;
       Bus bus = ep.getService().getDeployment().getAttachment(BusHolder.class).getBus();
       AbstractHTTPDestination dest = findDestination(req, bus);
       HttpServletResponseWrapper response = new HttpServletResponseWrapper(res);
@@ -112,14 +109,6 @@ public class RequestHandlerImpl implements RequestHandler
       catch (IOException e)
       {
          throw new ServletException(e);
-      }
-      if (response.getStatus() < 500 && statisticsEnabled)
-      {
-         processResponseMetrics(ep, beginTime);
-      }
-      if (response.getStatus() >= 500 && statisticsEnabled)
-      {
-         processFaultMetrics(ep, beginTime);
       }
    }
    
@@ -209,30 +198,5 @@ public class RequestHandlerImpl implements RequestHandler
          return AbstractServerConfig.getServerIntegrationServerConfig();
       }
       return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
-   }
-
-   private long initRequestMetrics(Endpoint endpoint)
-   {
-      long beginTime = 0;
-
-      EndpointMetrics metrics = endpoint.getEndpointMetrics();
-      if (metrics != null)
-         beginTime = metrics.processRequestMessage();
-
-      return beginTime;
-   }
-
-   private void processResponseMetrics(Endpoint endpoint, long beginTime)
-   {
-      EndpointMetrics metrics = endpoint.getEndpointMetrics();
-      if (metrics != null)
-         metrics.processResponseMessage(beginTime);
-   }
-
-   private void processFaultMetrics(Endpoint endpoint, long beginTime)
-   {
-      EndpointMetrics metrics = endpoint.getEndpointMetrics();
-      if (metrics != null)
-         metrics.processFaultMessage(beginTime);
    }
 }
