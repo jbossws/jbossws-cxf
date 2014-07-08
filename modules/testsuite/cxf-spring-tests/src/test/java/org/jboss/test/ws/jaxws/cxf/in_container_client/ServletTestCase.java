@@ -21,13 +21,18 @@
  */
 package org.jboss.test.ws.jaxws.cxf.in_container_client;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * A testcase for verifying a cxf.xml Spring descriptor based Bus can
@@ -39,9 +44,32 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public class ServletTestCase extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-in_container_client-client.war") { {
+         archive
+               .addManifest()
+               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/in_container_client/cxf.xml"), "cxf.xml")
+               .addClass(org.jboss.test.ws.jaxws.cxf.in_container_client.HelloWorld.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.in_container_client.Helper.class)
+               .addClass(org.jboss.wsf.test.ClientHelper.class)
+               .addClass(org.jboss.wsf.test.TestServlet.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/in_container_client/WEB-INF/jboss-deployment-structure.xml"), "jboss-deployment-structure.xml");
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-in_container_client.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.cxf.in_container_client.HelloWorld.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.in_container_client.HelloWorldImpl.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(ServletTestCase.class, "jaxws-cxf-in_container_client.war, jaxws-cxf-in_container_client-client.war");
+      return new JBossWSCXFTestSetup(ServletTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    public void test() throws Exception

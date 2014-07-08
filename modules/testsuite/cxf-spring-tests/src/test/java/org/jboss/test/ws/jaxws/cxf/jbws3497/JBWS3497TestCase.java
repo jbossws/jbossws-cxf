@@ -21,9 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3497;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -35,8 +37,11 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * [JBWS-3497] Add ability to configure the queue depth on the asynchronous (@Oneway) work queue.
@@ -47,17 +52,29 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public class JBWS3497TestCase extends JBossWSTest
 {
-   private String endpointOneURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3497/ServiceOne/EndpointOne";
-   private String targetNS = "http://org.jboss.ws.jaxws.cxf/jbws3497";
-   
    private EndpointOne portOne;
    
    protected int defaultSize = 200;
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3497.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.apache.cxf,org.jboss.ws.cxf.jbossws-cxf-server\n"))
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3497.EndpointOne.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3497.EndpointOneImpl.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3497/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3497/WEB-INF/cxf.xml"), "classes/cxf.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3497/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JBWS3497TestCase.class, "jaxws-cxf-jbws3497.war");
+      return new JBossWSCXFTestSetup(JBWS3497TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    public void testAccess() throws Exception
@@ -101,8 +118,8 @@ public class JBWS3497TestCase extends JBossWSTest
    
    private void initPorts() throws MalformedURLException
    {
-      URL wsdlOneURL = new URL(endpointOneURL + "?wsdl");
-      QName serviceOneName = new QName(targetNS, "ServiceOne");
+      URL wsdlOneURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3497/ServiceOne/EndpointOne?wsdl");
+      QName serviceOneName = new QName("http://org.jboss.ws.jaxws.cxf/jbws3497", "ServiceOne");
       Service serviceOne = Service.create(wsdlOneURL, serviceOneName);
       portOne = (EndpointOne)serviceOne.getPort(EndpointOne.class);
    }

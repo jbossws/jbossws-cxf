@@ -21,15 +21,21 @@
  */
 package org.jboss.test.ws.jaxws.cxf.descriptor;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Test a CXF endpoint with provided jbossws-cxf.xml 
@@ -42,9 +48,25 @@ public class DescriptorJSETestCase extends JBossWSTest
    private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-descriptor/TestService";
    private String targetNS = "http://org.jboss.ws.jaxws.cxf/descriptor";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-descriptor.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.apache.cxf.impl\n")) //cxf impl required due to custom interceptor in deployment
+               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/descriptor/cxf.xml"), "cxf.xml")
+               .addClass(org.jboss.test.ws.jaxws.cxf.descriptor.DescriptorEndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.descriptor.TestLoggingInInterceptor.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/descriptor/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/descriptor/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(DescriptorJSETestCase.class, "jaxws-cxf-descriptor.war");
+      return new JBossWSCXFTestSetup(DescriptorJSETestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testLegalAccess() throws Exception

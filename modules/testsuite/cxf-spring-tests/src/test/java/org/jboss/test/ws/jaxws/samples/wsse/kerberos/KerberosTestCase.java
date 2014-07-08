@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.kerberos;
 
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -36,9 +39,12 @@ import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.kerberos.KerberosClient;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.test.ws.jaxws.samples.wsse.kerberos.contract.DoubleItPortType;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  
 /**
  * This test is excluded. Please modify modules/testsuite/pom.xml to enable this test.  
@@ -87,10 +93,46 @@ public class KerberosTestCase extends JBossWSTest
 {
   
    private static final String namespace = "http://www.example.org/contract/DoubleIt";
+
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsse-kerberos.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.apache.ws.security\n"))
+               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/cxf.xml"), "cxf.xml")
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.kerberos.DoubleItPortTypeImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.kerberos.KeystorePasswordCallback.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.kerberos.contract.DoubleItFault.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsse.kerberos.contract.DoubleItPortType.class)
+               .addPackage("org.jboss.test.ws.jaxws.samples.wsse.kerberos.schema")
+               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/WEB-INF/alice.jks"), "alice.jks")
+               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/WEB-INF/alice.properties"), "alice.properties")
+               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/WEB-INF/bob.jks"), "bob.jks")
+               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/WEB-INF/bob.properties"), "bob.properties")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/WEB-INF/wsdl/DoubleItKerberos.wsdl"), "wsdl/DoubleItKerberos.wsdl")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/WEB-INF/wsdl/DoubleItLogical.wsdl"), "wsdl/DoubleItLogical.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/WEB-INF/web.xml"));
+         }
+      });
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-kerberos-client.jar") { {
+         archive
+               .addManifest()
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos//cxf.xml"), "cxf.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/META-INF/alice.jks"), "alice.jks")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/META-INF/alice.properties"), "alice.properties")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/META-INF/bob.jks"), "bob.jks")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/META-INF/bob.properties"), "bob.properties");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
       JBossWSCXFTestSetup testSetup;
-      testSetup = new JBossWSCXFTestSetup(KerberosTestCase.class, "jaxws-samples-wsse-kerberos-client.jar jaxws-samples-wsse-kerberos.war");      
+      testSetup = new JBossWSCXFTestSetup(KerberosTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));      
       Map<String, String> sslOptions = new HashMap<String, String>();
       sslOptions.put("server-identity.ssl.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
       sslOptions.put("server-identity.ssl.keystore-password", "changeit");

@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsseDigest;
 
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -35,9 +38,12 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallback;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * WS-Security username authorization test case
@@ -51,10 +57,33 @@ public final class UsernameDigestTestCase extends JBossWSTest
 
    private final QName servicePort = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityServicePort");
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsse-username-digest.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-server\n"))
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseDigest.MemoryNonceStore.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseDigest.ServiceIface.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseDigest.ServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseDigest.jaxws.GreetMe.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseDigest.jaxws.GreetMeResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseDigest.jaxws.SayHello.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseDigest.jaxws.SayHelloResponse.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-digest/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-digest/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-digest/WEB-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-digest/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-digest/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
       JBossWSCXFTestSetup testSetup;
-      testSetup = new JBossWSCXFTestSetup(UsernameDigestTestCase.class, "jaxws-samples-wsse-username-digest.war");
+      testSetup = new JBossWSCXFTestSetup(UsernameDigestTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
       Map<String, String> authenticationOptions = new HashMap<String, String>();
       authenticationOptions.put("usersProperties",
             getResourceFile("jaxws/samples/wsse/username-digest/WEB-INF/jbossws-users.properties").getAbsolutePath());

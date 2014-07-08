@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2006, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -42,17 +42,14 @@ import org.w3c.dom.Element;
  */
 public class BasicDocTestCase extends JBossWSTest
 {
-   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-wsrm-basic-doc";
-   private String targetNS = "http://org.jboss.ws.jaxws.cxf/wsrm";
-
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(BasicDocTestCase.class, "jaxws-cxf-wsrm-basic-doc.war,jaxws-cxf-wsrm-basic-client.jar");
+      return new JBossWSCXFTestSetup(BasicDocTestCase.class, DeploymentArchives.DOC_SERVER + " " + DeploymentArchives.CLIENT);
    }
 
    public void testWSDLAccess() throws Exception
    {
-      URL wsdlURL = new URL(endpointURL + "?wsdl");
+      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-wsrm-basic-doc?wsdl");
       Element wsdl = DOMUtils.parse(wsdlURL.openStream());
       assertNotNull(wsdl);
    }
@@ -60,7 +57,7 @@ public class BasicDocTestCase extends JBossWSTest
    public void testClient() throws Exception
    {
       URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-doc/wsrm-basic-doc.wsdl");
-      QName serviceName = new QName(targetNS, "RMService");
+      QName serviceName = new QName("http://org.jboss.ws.jaxws.cxf/wsrm", "RMService");
 
       Service service = Service.create(wsdlURL, serviceName);
       BasicDocEndpoint port = (BasicDocEndpoint)service.getPort(BasicDocEndpoint.class);

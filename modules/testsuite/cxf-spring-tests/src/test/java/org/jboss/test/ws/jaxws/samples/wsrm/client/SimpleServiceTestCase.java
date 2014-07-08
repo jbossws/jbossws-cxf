@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsrm.client;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -32,6 +35,8 @@ import org.apache.cxf.endpoint.Client;
 import org.jboss.test.ws.jaxws.samples.wsrm.generated.SimpleService;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Client invoking web service using WS-RM
@@ -43,9 +48,31 @@ public final class SimpleServiceTestCase extends JBossWSTest
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsrm/SimpleService";
    private SimpleService proxy;
    
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsrm.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.SimpleServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.jaxws.Echo.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.jaxws.EchoResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.jaxws.Ping.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm/WEB-INF/wsdl/SimpleService.wsdl"), "wsdl/SimpleService.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm/WEB-INF/web.xml"));
+         }
+      });
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsrm-client.jar") { {
+         archive
+               .addManifest()
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm/cxf.xml"), "cxf.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(SimpleServiceTestCase.class, "jaxws-samples-wsrm.war,jaxws-samples-wsrm-client.jar");
+      return new JBossWSCXFTestSetup(SimpleServiceTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    @Override

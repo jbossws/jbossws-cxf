@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.wssePolicy;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -30,8 +33,11 @@ import javax.xml.ws.Service;
 import junit.framework.Test;
 
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * WS-Security Policy sign test case
@@ -43,9 +49,38 @@ public final class SignTestCase extends JBossWSTest
 {
    private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wssePolicy-sign";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wssePolicy-sign.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.apache.ws.security\n"))
+               .addClass(org.jboss.test.ws.jaxws.samples.wssePolicy.KeystorePasswordCallback.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wssePolicy.ServiceIface.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wssePolicy.ServiceImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wssePolicy.jaxws.SayHello.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wssePolicy.jaxws.SayHelloResponse.class)
+               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wssePolicy/sign/WEB-INF/bob.jks"), "bob.jks")
+               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wssePolicy/sign/WEB-INF/bob.properties"), "bob.properties")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wssePolicy/sign/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wssePolicy/sign/WEB-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wssePolicy/sign/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wssePolicy/sign/WEB-INF/web.xml"));
+         }
+      });
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-wssePolicy-sign-client.jar") { {
+         archive
+               .addManifest()
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wssePolicy/sign/META-INF/alice.jks"), "alice.jks")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wssePolicy/sign/META-INF/alice.properties"), "alice.properties");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(SignTestCase.class, "jaxws-samples-wssePolicy-sign-client.jar jaxws-samples-wssePolicy-sign.war");
+      return new JBossWSCXFTestSetup(SignTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void test() throws Exception

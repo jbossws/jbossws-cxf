@@ -42,17 +42,14 @@ import org.w3c.dom.Element;
  */
 public class BasicRPCTestCase extends JBossWSTest
 {
-   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-wsrm-basic-rpc";
-   private String targetNS = "http://org.jboss.ws.jaxws.cxf/wsrm";
-
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(BasicRPCTestCase.class, "jaxws-cxf-wsrm-basic-rpc.war,jaxws-cxf-wsrm-basic-client.jar");
+      return new JBossWSCXFTestSetup(BasicRPCTestCase.class, DeploymentArchives.RPC_SERVER + " " + DeploymentArchives.CLIENT);
    }
 
    public void testWSDLAccess() throws Exception
    {
-      URL wsdlURL = new URL(endpointURL + "?wsdl");
+      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-wsrm-basic-rpc?wsdl");
       Element wsdl = DOMUtils.parse(wsdlURL.openStream());
       assertNotNull(wsdl);
    }
@@ -60,7 +57,7 @@ public class BasicRPCTestCase extends JBossWSTest
    public void testClient() throws Exception
    {
       URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-rpc/wsrm-basic-rpc.wsdl");
-      QName serviceName = new QName(targetNS, "RMService");
+      QName serviceName = new QName("http://org.jboss.ws.jaxws.cxf/wsrm", "RMService");
 
       Service service = Service.create(wsdlURL, serviceName);
       BasicRPCEndpoint port = (BasicRPCEndpoint)service.getPort(BasicRPCEndpoint.class);

@@ -21,13 +21,19 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jms;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import junit.framework.Test;
 
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Test case for publishing a JMS (SOAP-over-JMS 1.0) endpoint through API 
@@ -37,9 +43,24 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public final class JMSEndpointAPITestCaseForked extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jms-api.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq\n"))
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl"), "classes/META-INF/wsdl/HelloWorldService.wsdl")
+               .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorld.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorldImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jms.TestServlet.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JMSEndpointAPITestCaseForked.class, "jaxws-cxf-jms-api.war");
+      return new JBossWSCXFTestSetup(JMSEndpointAPITestCaseForked.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    public void testServerSide() throws Exception

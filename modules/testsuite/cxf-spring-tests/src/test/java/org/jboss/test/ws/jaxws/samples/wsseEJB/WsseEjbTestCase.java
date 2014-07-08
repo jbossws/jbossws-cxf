@@ -21,8 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsseEJB;
 
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -37,6 +40,8 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Secure EJB endpoint test
@@ -47,9 +52,28 @@ public class WsseEjbTestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-samples-wsseEJB/EjbEndpointService/EjbEndpoint";
 
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsseEJB.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseEJB.EjbEndpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseEJB.EjbEndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseEJB.GreetMe.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseEJB.GreetMeResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseEJB.SayHello.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseEJB.SayHelloResponse.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.wsseEJB.UsernamePasswordCallback.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsseEJB/META-INF/jboss.xml"), "jboss.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsseEJB/META-INF/jbossws-cxf.xml"), "jbossws-cxf.xml");
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(WsseEjbTestCase.class, "jaxws-samples-wsseEJB.jar", true);
+      return new JBossWSCXFTestSetup(WsseEjbTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), true);
    }
 
    private EjbEndpoint getPort() throws Exception

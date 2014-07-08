@@ -39,7 +39,7 @@ public final class UsernameServletTestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(UsernameServletTestCase.class,"jaxws-samples-wsse-username.war, jaxws-samples-wsse-username-client.war");
+      return new JBossWSCXFTestSetup(UsernameServletTestCase.class, UsernameDeploymentArchives.SERVER_WAR + " " + UsernameDeploymentArchives.CLIENT_WAR);
    }
 
    public void test() throws Exception

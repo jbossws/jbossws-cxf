@@ -21,22 +21,41 @@
  */
 package org.jboss.test.ws.jaxws.cxf.aegis;
 
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Test;
 
 import org.apache.cxf.aegis.databinding.AegisDatabinding;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 public class AegisAnnotationTestCase extends JBossWSTest
 {
-   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-aegis-annotation";
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-aegis-annotation.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.apache.cxf.impl\n")) //cxf impl required due to AegisDataBinding reference in endpoint impl
+               .addClass(org.jboss.test.ws.jaxws.cxf.aegis.AegisAnnotationGroupQuery.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.aegis.AegisAnnotationGroupQueryImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.aegis.Member.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/aegis/jaxws/annotation/WEB-INF/web.xml"));
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
 
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(AegisAnnotationTestCase.class, "jaxws-aegis-annotation.war");
+      return new JBossWSCXFTestSetup(AegisAnnotationTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
    public void testAccessAnnotation() throws Exception
@@ -44,11 +63,12 @@ public class AegisAnnotationTestCase extends JBossWSTest
       ClientProxyFactoryBean proxyFactory = new ClientProxyFactoryBean();
       proxyFactory.setDataBinding(new AegisDatabinding());
       proxyFactory.setServiceClass(AegisGroupQuery.class);
-      proxyFactory.setAddress(endpointURL);
+      proxyFactory.setAddress("http://" + getServerHost() + ":8080/jaxws-aegis-annotation");
       AegisGroupQuery query = (AegisGroupQuery)proxyFactory.create();
+      @SuppressWarnings("unchecked")
       Map<Integer, String> members =  query.getMembers();
-      this.assertEquals(2, members.size());
-      this.assertEquals(true, members.containsKey(2));
+      assertEquals(2, members.size());
+      assertEquals(true, members.containsKey(2));
    }
 
 }

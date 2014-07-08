@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.webserviceref;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -31,6 +32,8 @@ import junit.framework.Test;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Test @javax.xml.ws.WebServiceref with a custom CXF jaxws:client
@@ -43,9 +46,34 @@ public class WebServiceRefServletTestCase extends JBossWSTest
 {
    public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-cxf-webserviceref";
 
+   public static BaseDeployment<?> createClientDeployment() {
+      return new JBossWSTestHelper.WarDeployment("jaxws-cxf-webserviceref-servlet-client.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.cxf.webserviceref.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.webserviceref.EndpointService.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.webserviceref.Handler.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.webserviceref.ServletClient.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/webserviceref/WEB-INF/wsdl/Endpoint.wsdl"), "wsdl/Endpoint.wsdl")
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/webserviceref/WEB-INF-client/jbossws-cxf.xml"), "jbossws-cxf.xml")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/webserviceref/WEB-INF-client/web.xml"));
+         }
+      };
+   }
+
+   public static BaseDeployment<?> createServerDeployment() {
+      return new JBossWSTestHelper.WarDeployment("jaxws-cxf-webserviceref.war") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.cxf.webserviceref.EndpointImpl.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/webserviceref/WEB-INF/web.xml"));
+         }
+      };
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(WebServiceRefServletTestCase.class, "jaxws-cxf-webserviceref.war");
+      return new JBossWSCXFTestSetup(WebServiceRefServletTestCase.class, JBossWSTestHelper.writeToFile(createServerDeployment()));
    }
 
    public void testDynamicProxy() throws Exception
@@ -62,7 +90,8 @@ public class WebServiceRefServletTestCase extends JBossWSTest
 
    public void testServletClient() throws Exception
    {
-      deploy("jaxws-cxf-webserviceref-servlet-client.war");
+      final String clientDepName = JBossWSTestHelper.writeToFile(createClientDeployment());
+      deploy(clientDepName);
       try
       {
          URL url = new URL(TARGET_ENDPOINT_ADDRESS + "-servlet-client?echo=HelloWorld");
@@ -70,7 +99,7 @@ public class WebServiceRefServletTestCase extends JBossWSTest
       }
       finally
       {
-         undeploy("jaxws-cxf-webserviceref-servlet-client.war");
+         undeploy(clientDepName);
       }
    }
 }

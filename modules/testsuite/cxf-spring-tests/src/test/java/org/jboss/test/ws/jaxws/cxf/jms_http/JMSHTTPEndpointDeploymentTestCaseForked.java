@@ -21,7 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jms_http;
 
+import java.io.File;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.naming.Context;
@@ -33,11 +36,13 @@ import junit.framework.Test;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.jms.JMSConduit;
 import org.apache.cxf.transport.jms.JMSConfiguration;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.test.ws.jaxws.cxf.jms.HelloWorld;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Test case for deploying an archive with a JMS (SOAP-over-JMS 1.0) and a HTTP endpoints 
@@ -47,9 +52,34 @@ import org.jboss.wsf.test.JBossWSTestHelper;
  */
 public final class JMSHTTPEndpointDeploymentTestCaseForked extends JBossWSTest
 {
+   public static BaseDeployment<?>[] createDeployments() {
+      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jms-http-deployment.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.hornetq\n"))
+               .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HelloWorld.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HelloWorldImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HttpHelloWorldImpl.class)
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms_http/WEB-INF/wsdl/HelloWorldService.wsdl"), "wsdl/HelloWorldService.wsdl")
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms_http/WEB-INF/web.xml"));
+         }
+      });
+      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jms-http-deployment-test-servlet.war") { {
+         archive
+               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq\n"))
+               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms_http/WEB-INF/wsdl/HelloWorldService.wsdl"), "classes/META-INF/wsdl/HelloWorldService.wsdl")
+               .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.DeploymentTestServlet.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HelloWorld.class);
+         }
+      });
+      return list.toArray(new BaseDeployment<?>[list.size()]);
+   }
+
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(JMSHTTPEndpointDeploymentTestCaseForked.class, "jaxws-cxf-jms-http-deployment-test-servlet.war, jaxws-cxf-jms-http-deployment.war");
+      return new JBossWSCXFTestSetup(JMSHTTPEndpointDeploymentTestCaseForked.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
    
    public void testJMSEndpointServerSide() throws Exception

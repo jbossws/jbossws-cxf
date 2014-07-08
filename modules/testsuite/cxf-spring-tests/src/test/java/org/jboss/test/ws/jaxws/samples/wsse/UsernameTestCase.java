@@ -50,7 +50,7 @@ public final class UsernameTestCase extends JBossWSTest
    
    public static Test suite()
    {
-      return new JBossWSCXFTestSetup(UsernameTestCase.class,"jaxws-samples-wsse-username.war");
+      return new JBossWSCXFTestSetup(UsernameTestCase.class, UsernameDeploymentArchives.SERVER_WAR);
    }
 
    public void test() throws Exception
