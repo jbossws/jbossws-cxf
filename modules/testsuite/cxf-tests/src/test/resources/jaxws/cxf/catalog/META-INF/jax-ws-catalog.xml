@@ -1,0 +1,6 @@
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+
+   <rewriteSystem systemIdStartString="http://org.jboss.ws/cxf/catalogclient"
+                  rewritePrefix="http://org.foo.bar/client"/>
+
+</catalog>
