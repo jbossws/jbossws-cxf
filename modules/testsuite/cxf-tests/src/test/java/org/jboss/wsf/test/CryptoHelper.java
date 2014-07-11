@@ -23,8 +23,6 @@ package org.jboss.wsf.test;
 
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.cxf.binding.soap.SoapFault;
-
 public final class CryptoHelper
 {
    public static Exception checkAndWrapException(Exception e) throws Exception {
@@ -34,7 +32,7 @@ public final class CryptoHelper
       } else if(!isUnlimitedStrengthCryptographyAvailable()) {
          return new Exception("JCE unlimited strength cryptography extension does not seem to be properly installed; either install it " +
                "or run the testuite with '-Dexclude-integration-tests-unlimited-strength-related=true' to exclude this test.", e);
-      } else if (e.getCause() != null && e.getCause() instanceof SoapFault && e.getMessage() != null && e.getMessage().contains("algorithm")) {
+      } else if (e.getCause() != null && e.getCause().getClass().getName().contains("SoapFault") && e.getMessage() != null && e.getMessage().contains("algorithm")) {
          return new Exception("Please check for Bouncy Castle JCE provider and JCE unlimited strenght cryptography extension availability on server side.", e);
       } else {
          return e;
