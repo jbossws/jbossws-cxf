@@ -1,6 +1,11 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
 
+   <!-- client side test -->
    <rewriteSystem systemIdStartString="http://org.jboss.ws/cxf/catalogclient"
                   rewritePrefix="http://org.foo.bar/client"/>
+
+   <!-- server side deployed app test -->
+   <systemSuffix systemIdSuffix="Hello_schema1.xsd" uri="wsdl/foo/Hello_schema1.xsd"/>
+   <rewriteSystem systemIdStartString="META-INF/wsdl" rewritePrefix="wsdl/foo"/>
 
 </catalog>

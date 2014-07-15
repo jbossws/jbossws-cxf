@@ -27,7 +27,7 @@ import org.jboss.test.ws.jaxws.cxf.catalog.HelloWs;
 
 import javax.jws.WebService;
 
-@WebService(wsdlLocation = "META-INF/wsdl/Hello.wsdl",
+@WebService(wsdlLocation = "META-INF/wsdl/HelloService.wsdl",
    name = org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.NAME,
    serviceName = org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.NAME,
    targetNamespace = org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.TARGET_NAMESPACE,

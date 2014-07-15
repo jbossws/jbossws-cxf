@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="HelloService" targetNamespace="http://hello/test" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://hello/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="HelloService"
+                  targetNamespace="http://hello/test"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:tns="http://hello/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
 <schema xmlns="http://www.w3.org/2001/XMLSchema">
   <import namespace="http://hello/test" schemaLocation="Hello_schema1.xsd"/>

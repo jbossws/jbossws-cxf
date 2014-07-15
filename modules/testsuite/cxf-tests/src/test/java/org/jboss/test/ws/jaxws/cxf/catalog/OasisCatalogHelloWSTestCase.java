@@ -38,12 +38,22 @@ public class OasisCatalogHelloWSTestCase extends JBossWSTest
             .addClass(org.jboss.test.ws.jaxws.cxf.catalog.HelloResponse.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.catalog.HelloWsImpl.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.class)
+            .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() +
+               "/jaxws/cxf/catalog/META-INF/jax-ws-catalog.xml")),
+               "META-INF/jax-ws-catalog.xml")
+
+               // stnd file locations required for successful deployment
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
-               + "/jaxws/cxf/catalog/META-INF/wsdl/Hello.wsdl"), "wsdl/Hello.wsdl")
+               + "/jaxws/cxf/catalog/META-INF/wsdl/HelloService.wsdl"), "wsdl/HelloService.wsdl")
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
                + "/jaxws/cxf/catalog/META-INF/wsdl/Hello_schema1.xsd"), "wsdl/Hello_schema1.xsd")
-            .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/catalog/META-INF/jax-ws-catalog.xml")),
-               "META-INF/jax-ws-catalog.xml")
+
+               // sever side catalog maps to these files.
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
+               + "/jaxws/cxf/catalog/META-INF/wsdl/HelloService.wsdl"), "wsdl/foo/HelloService.wsdl")
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
+               + "/jaxws/cxf/catalog/META-INF/wsdl/Hello_schema1.xsd"), "wsdl/foo/Hello_schema1.xsd")
+
          ;
       }
       });
@@ -114,4 +124,25 @@ public class OasisCatalogHelloWSTestCase extends JBossWSTest
       }
    }
 
+
+   public void testCatalogOnServerSide() throws Exception
+   {
+      Bus bus = BusFactory.newInstance().createBus();
+      try {
+         BusFactory.setThreadDefaultBus(bus);
+
+         QName serviceName = new QName(
+            org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.TARGET_NAMESPACE,
+            org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.NAME);
+         URL wsdlURL = new URL(endpointAddress + "?wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         HelloWs proxy = service.getPort(HelloWs.class);
+         HelloRequest helloReq = new HelloRequest();
+         helloReq.setInput("Anyone home?");
+         proxy.doHello(helloReq);
+
+      } finally {
+         bus.shutdown(true);
+      }
+   }
 }
