@@ -391,6 +391,11 @@ public class JBossWSTestHelper
       getDeployer().removeHttpsConnector();
    }
 
+   public static String setSystemProperty(String propName, String propValue) throws Exception
+   {
+      return getDeployer().setSystemProperty(propName, propValue);
+   }
+   
    public static abstract class BaseDeployment<T extends org.jboss.shrinkwrap.api.Archive<T>>
    {
       protected T archive;
