@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.xml.stream.XMLStreamReader;
+
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
@@ -40,6 +42,7 @@ import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.service.factory.FactoryBeanListener;
 import org.apache.cxf.service.factory.FactoryBeanListenerManager;
+import org.apache.cxf.staxutils.XMLStreamReaderWrapper;
 import org.apache.cxf.workqueue.AutomaticWorkQueue;
 import org.apache.cxf.workqueue.AutomaticWorkQueueImpl;
 import org.apache.cxf.workqueue.WorkQueueManager;
@@ -47,6 +50,8 @@ import org.apache.cxf.ws.discovery.listeners.WSDiscoveryServerListener;
 import org.apache.cxf.ws.policy.AlternativeSelector;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
+import org.apache.cxf.wsdl.WSDLManager;
+import org.apache.cxf.wsdl11.WSDLManagerImpl;
 import org.jboss.ws.api.annotation.PolicySets;
 import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.wsf.spi.SPIProvider;
@@ -109,6 +114,7 @@ public abstract class BusHolder
       bus.setProperty(org.jboss.wsf.stack.cxf.client.Constants.DEPLOYMENT_BUS, true);
       busHolderListener = new BusHolderLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(busHolderListener);
+      setWSDLManagerStreamWrapper(bus);
       
       if (configurer != null)
       {
@@ -280,6 +286,18 @@ public abstract class BusHolder
             bus.getExtension(ServerLifeCycleManager.class).registerListener(new WSDiscoveryServerListener(bus));
          }
       }
+   }
+   
+   private static void setWSDLManagerStreamWrapper(Bus bus)
+   {
+      ((WSDLManagerImpl) bus.getExtension(WSDLManager.class)).setXMLStreamReaderWrapper(new XMLStreamReaderWrapper()
+      {
+         @Override
+         public XMLStreamReader wrap(XMLStreamReader reader)
+         {
+            return new SysPropExpandingStreamReader(reader);
+         }
+      });
    }
    
    private static AlternativeSelector getAlternativeSelector(Map<String, String> props) {
