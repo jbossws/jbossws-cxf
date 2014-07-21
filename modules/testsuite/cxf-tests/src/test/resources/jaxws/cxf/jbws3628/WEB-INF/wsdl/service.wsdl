@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://org.jboss.ws.jaxws.cxf/jbws3628" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="ServiceOne" targetNamespace="http://org.jboss.ws.jaxws.cxf/jbws3628">
+  <wsdl:message name="echoResponse">
+    <wsdl:part name="return" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="echo">
+    <wsdl:part name="arg0" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="EndpointOne">
+    <wsdl:operation name="echo">
+      <wsdl:input message="tns:echo" name="echo">
+    </wsdl:input>
+      <wsdl:output message="tns:echoResponse" name="echoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiceOneSoapBinding" type="tns:EndpointOne">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsp:PolicyReference URI="#@org.jboss.wsf.test.JBWS3628TestCase.policy@"/>
+    <wsdl:operation name="echo">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="echo">
+        <soap:body namespace="http://org.jboss.ws.jaxws.cxf/jbws3628" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="echoResponse">
+        <soap:body namespace="http://org.jboss.ws.jaxws.cxf/jbws3628" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServiceOne">
+    <wsdl:port binding="tns:ServiceOneSoapBinding" name="EndpointOnePort">
+      <soap:address location="http://localhost:8080/jaxws-cxf-jbws3628/ServiceOne"/>
+    </wsdl:port>
+  </wsdl:service>
+  
+  <wsp:Policy xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" wsu:Id="WS-RM_Policy">
+	  <wsrmp:RMAssertion xmlns:wsrmp="http://schemas.xmlsoap.org/ws/2005/02/rm/policy">
+    	<wsrmp:InactivityTimeout Milliseconds="600000"/>
+	    <wsrmp:BaseRetransmissionInterval Milliseconds="3000"/>
+	    <wsrmp:ExponentialBackoff/>
+    	<wsrmp:AcknowledgementInterval Milliseconds="200"/>
+  	</wsrmp:RMAssertion>
+  </wsp:Policy>
+  
+  <wsp:Policy xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" wsu:Id="WS-Addressing_policy">
+    <wsam:Addressing>
+      <wsp:Policy/>
+    </wsam:Addressing>
+  </wsp:Policy>
+</wsdl:definitions>
