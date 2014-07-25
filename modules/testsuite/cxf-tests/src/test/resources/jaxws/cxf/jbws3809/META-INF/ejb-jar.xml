@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
+         version="3.1">
+
+   <enterprise-beans>
+
+      <session id="EjbPortComponentUriServiceBean">
+         <display-name>EjbPortComponentUriServiceBean</display-name>
+         <ejb-name>EjbPortComponentUriServiceBean</ejb-name>
+         <business-local>org.jboss.test.ws.jaxws.cxf.jbws3809.BasicEjb
+         </business-local>
+         <ejb-class>org.jboss.test.ws.jaxws.cxf.jbws3809.EjbPortComponentUri
+         </ejb-class>
+         <session-type>Stateless</session-type>
+         <transaction-type>Container</transaction-type>
+      </session>
+
+      <session id="EjbWebContextServiceBean">
+         <display-name>EjbWebContextServiceBean</display-name>
+         <ejb-name>EjbWebContextServiceBean</ejb-name>
+         <business-local>org.jboss.test.ws.jaxws.cxf.jbws3809.BasicEjb
+         </business-local>
+         <ejb-class>org.jboss.test.ws.jaxws.cxf.jbws3809.EjbWebContext
+         </ejb-class>
+         <session-type>Stateless</session-type>
+         <transaction-type>Container</transaction-type>
+      </session>
+
+
+      <session id="EjbWebServiceNoServicenameServiceBean">
+         <display-name>EjbWebServiceNoServicenameServiceBean</display-name>
+         <ejb-name>EjbWebServiceNoServicenameServiceBean</ejb-name>
+         <business-local>org.jboss.test.ws.jaxws.cxf.jbws3809.BasicEjb
+         </business-local>
+         <ejb-class>
+            org.jboss.test.ws.jaxws.cxf.jbws3809.EjbWebServiceNoServicename
+         </ejb-class>
+         <session-type>Stateless</session-type>
+         <transaction-type>Container</transaction-type>
+      </session>
+
+      <session id="DupEjbWebServiceNoServicenameServiceBean">
+         <display-name>DupEjbWebServiceNoServicenameServiceBean</display-name>
+         <ejb-name>DupEjbWebServiceNoServicenameServiceBean</ejb-name>
+         <business-local>org.jboss.test.ws.jaxws.cxf.jbws3809.BasicEjb
+         </business-local>
+         <ejb-class>
+            org.jboss.test.ws.jaxws.cxf.jbws3809.dups.EjbWebServiceNoServicename
+         </ejb-class>
+         <session-type>Stateless</session-type>
+         <transaction-type>Container</transaction-type>
+      </session>
+
+      <session id="EjbWebServiceServicenameServiceBean">
+         <display-name>EjbWebServiceServicenameServiceBean</display-name>
+         <ejb-name>EjbWebServiceServicenameServiceBean</ejb-name>
+         <business-local>org.jboss.test.ws.jaxws.cxf.jbws3809.BasicEjb
+         </business-local>
+         <ejb-class>
+            org.jboss.test.ws.jaxws.cxf.jbws3809.EjbWebServiceServicename
+         </ejb-class>
+         <session-type>Stateless</session-type>
+         <transaction-type>Container</transaction-type>
+      </session>
+
+      <session id="EjbWebServiceDupServicenameServiceBean">
+         <display-name>EjbWebServiceDupServicenameServiceBean</display-name>
+         <ejb-name>EjbWebServiceDupServicenameServiceBean</ejb-name>
+         <business-local>org.jboss.test.ws.jaxws.cxf.jbws3809.BasicEjb
+         </business-local>
+         <ejb-class>
+            org.jboss.test.ws.jaxws.cxf.jbws3809.EjbWebServiceDupServicename
+         </ejb-class>
+         <session-type>Stateless</session-type>
+         <transaction-type>Container</transaction-type>
+      </session>
+
+      <session id="EjbWebServiceProviderServiceBean">
+         <display-name>EjbWebServiceProviderServiceBean</display-name>
+         <ejb-name>EjbWebServiceProviderServiceBean</ejb-name>
+         <business-local>org.jboss.test.ws.jaxws.cxf.jbws3809.BasicEjb
+         </business-local>
+         <ejb-class>org.jboss.test.ws.jaxws.cxf.jbws3809.EjbWebServiceProvider
+         </ejb-class>
+         <session-type>Stateless</session-type>
+         <transaction-type>Container</transaction-type>
+      </session>
+
+   </enterprise-beans>
+
+</ejb-jar>
