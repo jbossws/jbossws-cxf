@@ -73,5 +73,6 @@
           </imports>
         </module>
         <module name="javax.wsdl4j.api" />
+        <module name="org.bouncycastle" />
     </dependencies>
 </module>
