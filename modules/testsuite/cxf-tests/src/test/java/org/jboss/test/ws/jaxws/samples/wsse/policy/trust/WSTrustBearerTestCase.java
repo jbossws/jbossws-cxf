@@ -51,7 +51,7 @@ public class WSTrustBearerTestCase extends JBossWSTest
    {
       //deploy client, STS and service; start a security domain to be used by the STS for authenticating client
       JBossWSCXFTestSetup testSetup = WSTrustTestUtils.getTestSetup(WSTrustBearerTestCase.class,
-         "jaxws-samples-wsse-policy-trust-client.jar jaxws-samples-wsse-policy-trust-sts-bearer.war jaxws-samples-wsse-policy-trust-bearer.war");
+            DeploymentArchives.CLIENT_JAR + " " + DeploymentArchives.STS_BEARER_WAR + " " + DeploymentArchives.SERVER_BEARER_WAR);
 
       // setup the https connector in the server config file.
       Map<String, String> sslOptions = new HashMap<String, String>();
