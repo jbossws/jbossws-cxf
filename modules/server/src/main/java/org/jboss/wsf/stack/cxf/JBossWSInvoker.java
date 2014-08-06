@@ -126,9 +126,13 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
       } else if (o != null) {
          params = new MessageContentsList(o);
       }
+      if (factory != null)
+      {
+         targetBean = this.getServiceObject(exchange);
+      }
       return invoke(exchange, targetBean, adjustMethodAndParams(md.getMethod(bop), exchange, params, targetBean.getClass()), params);
    }
-
+   
    /**
     * This overrides org.apache.cxf.jaxws.AbstractInvoker in order for using the JBossWS integration logic
     * to invoke the JBoss AS target bean.
@@ -139,8 +143,10 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
    {
       Endpoint ep = exchange.get(Endpoint.class);
       final InvocationHandler invHandler = ep.getInvocationHandler();
-      final Invocation inv = createInvocation(invHandler, ep, m, paramArray);
-      
+      final Invocation inv = createInvocation(invHandler, serviceObject, ep, m, paramArray);
+      if (factory != null) {
+         inv.getInvocationContext().setProperty("forceTargetBean", true);
+      }
       Bus threadBus = BusFactory.getThreadDefaultBus(false);
       BusFactory.setThreadDefaultBus(null);
       setNamespaceContextSelector(exchange);
@@ -155,12 +161,12 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
       }
    }
    
-   private Invocation createInvocation(InvocationHandler invHandler, Endpoint ep, Method m, Object[] paramArray) {
+   private Invocation createInvocation(InvocationHandler invHandler, Object serviceObject, Endpoint ep, Method m, Object[] paramArray) {
       Invocation inv = invHandler.createInvocation();
       InvocationContext invContext = inv.getInvocationContext();
       WebServiceContext wsCtx = new WebServiceContextImpl(null);
       invContext.addAttachment(WebServiceContext.class, wsCtx);
-      invContext.setTargetBean(targetBean);
+      invContext.setTargetBean(serviceObject);
       inv.setJavaMethod(m);
       inv.setArgs(paramArray);
       return inv;
