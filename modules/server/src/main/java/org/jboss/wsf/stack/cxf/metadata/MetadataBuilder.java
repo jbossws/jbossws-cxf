@@ -293,7 +293,7 @@ public class MetadataBuilder
             SOAPAddressWSDLParser parser = getCurrentSOAPAddressWSDLParser(wsdlUrl, soapAddressWsdlParsers);
             //do not try rewriting addresses for not-http binding
             String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
-            
+
             String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc);
             //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF does not force host/port values for
             //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
@@ -307,7 +307,8 @@ public class MetadataBuilder
       } else {
          //same comment as above regarding auto rewrite...
          if (!SoapAddressRewriteHelper.isAutoRewriteOn(sc)) {
-            ddep.setPublishedEndpointUrl(ddep.getAddress()); //force computed address for code first endpoints
+            //force computed address for code first endpoints
+            ddep.setPublishedEndpointUrl(SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ddep.getAddress(), sc));
          }
       }
    }
@@ -362,5 +363,5 @@ public class MetadataBuilder
 
       return sb.toString();
    }
-   
+
 }

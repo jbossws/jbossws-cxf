@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -32,6 +32,7 @@ import org.jboss.wsf.spi.management.ServerConfig;
  * Helper for rewriting soap:address in published wsdl
  * 
  * @author alessio.soldano@jboss.com
+ * @author rsears@redhat.com
  * @since 30-Nov-2012
  */
 public class SoapAddressRewriteHelper
@@ -64,6 +65,41 @@ public class SoapAddressRewriteHelper
       }
    }
    
+   /**
+    * Rewrite and get address to be used for CXF published endpoint url prop (rewritten wsdl address).
+    * This method is to be used for code-first endpoints, when no wsdl is provided by the user.
+    * 
+    * @param address        The container computed endpoint address
+    * @param serverConfig   The current ServerConfig
+    * @return
+    */
+   public static String getRewrittenPublishedEndpointUrl(String address, ServerConfig serverConfig)
+   {
+      try
+      {
+         if (isPathRewriteRequired(serverConfig))
+         {
+            final URL url = new URL(address);
+            final String path = url.getPath();
+            final String tmpPath = SEDProcessor.newInstance(serverConfig.getWebServicePathRewriteRule()).processLine(path);
+            final String newUrl=url.toString().replace(path, tmpPath);
+
+            ADDRESS_REWRITE_LOGGER.addressRewritten(address, newUrl);
+            return newUrl;
+         }
+         else
+         {
+            ADDRESS_REWRITE_LOGGER.rewriteNotRequired(address);
+            return address;
+         }
+      }
+      catch (Exception e)
+      {
+         ADDRESS_REWRITE_LOGGER.invalidAddressProvidedUseItWithoutRewriting(address, "");
+         return address;
+      }
+   }
+
    public static boolean isAutoRewriteOn(ServerConfig serverConfig)
    {
       return serverConfig.isModifySOAPAddress() && ServerConfig.UNDEFINED_HOSTNAME.equals(serverConfig.getWebServiceHost());
@@ -142,7 +178,21 @@ public class SoapAddressRewriteHelper
                port = ":" + portNo;
             }
          }
-         String urlStr = uriScheme + "://" + host + port + path;
+
+         StringBuilder sb = new StringBuilder(uriScheme);
+         sb.append("://");
+         sb.append(host);
+         sb.append(port);
+         
+         if (isPathRewriteRequired(serverConfig)) {
+             sb.append(SEDProcessor.newInstance(serverConfig.getWebServicePathRewriteRule()).processLine(path));
+         }
+         else
+         {
+             sb.append(path);
+         }
+         final String urlStr = sb.toString();
+         
          ADDRESS_REWRITE_LOGGER.addressRewritten(origAddress, urlStr);
          return urlStr;
       }
@@ -165,5 +215,14 @@ public class SoapAddressRewriteHelper
       {
          return HTTP;
       }
+   }
+
+
+   public static boolean isPathRewriteRequired(ServerConfig sc){
+      if (!sc.isModifySOAPAddress()) {
+         return false;
+      }
+      final String pathRewriteRule = sc.getWebServicePathRewriteRule();
+      return pathRewriteRule != null && !pathRewriteRule.isEmpty();
    }
 }

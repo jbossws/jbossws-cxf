@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,7 +22,10 @@
 package org.jboss.wsf.stack.cxf.deployment;
 
 import java.io.IOException;
+import java.security.AccessController;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -30,11 +33,21 @@ import javax.xml.namespace.QName;
 import org.apache.cxf.Bus;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.endpoint.Endpoint;
+import org.apache.cxf.frontend.WSDLGetUtils;
+import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
+import org.apache.cxf.message.Message;
 import org.apache.cxf.service.Service;
+import org.apache.cxf.service.model.EndpointInfo;
+import org.apache.cxf.service.model.ServiceInfo;
 import org.jboss.ws.common.configuration.ConfigHelper;
+import org.jboss.ws.common.management.AbstractServerConfig;
+import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.CommonConfig;
 import org.jboss.wsf.stack.cxf.Loggers;
+import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
+import org.jboss.wsf.stack.cxf.interceptor.WSDLSoapAddressRewriteInterceptor;
+
 
 /**
  * An extension of @see org.apache.cxf.jaxws.EndpointImpl for dealing with
@@ -64,11 +77,28 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
    {
       super.getServerFactory().setBlockPostConstruct(true);
       super.doPublish(addr);
+
+      // A custom interceptor is required when the server config attributes for rewriting
+      // the path in a WSDL URL (i.e., <soap:address location= ...) are set
+      replaceWSDLGetInterceptor();
+
       //allow for configuration so that the wsdlPublisher can be set be the JBossWSCXFConfigurer
       configureObject(this);
       setupConfigHandlers();
       //publish the wsdl to data/wsdl
       publishContractToFilesystem();
+   }
+
+   /**
+    * Add interceptor that enables the desired soap:address rewrite
+    */
+   private void replaceWSDLGetInterceptor(){
+      if (SoapAddressRewriteHelper.isPathRewriteRequired(getServerConfig())) {
+         List<Interceptor<? extends Message>> inInterceptors = getInInterceptors();
+         if(!inInterceptors.contains(WSDLSoapAddressRewriteInterceptor.INSTANCE)){
+            inInterceptors.add(WSDLSoapAddressRewriteInterceptor.INSTANCE);
+         }
+      }
    }
 
    /**
@@ -111,8 +141,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
 
    /**
     * Publish the contract to a file using the configured wsdl publisher
-    * 
-    * @param endpoint
+    *
     */
    protected void publishContractToFilesystem()
    {
@@ -128,6 +157,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
                JaxWsImplementorInfo info = new JaxWsImplementorInfo(getImplementorClass());
                wsdlLocation = info.getWsdlLocation();
             }
+            updateCodeFirstSoapAddress();
             wsdlPublisher.publishWsdlFiles(service.getName(), wsdlLocation, this.getBus(), service.getServiceInfos());
          }
          catch (IOException ioe)
@@ -170,6 +200,40 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
    public void setWsdlPublisher(WSDLFilePublisher wsdlPublisher)
    {
       this.wsdlPublisher = wsdlPublisher;
+   }
+
+   /**
+    * For both code-first and wsdl-first scenarios, reset the endpoint address
+    * so that it is written to the generated wsdl file.
+    */
+   private void updateCodeFirstSoapAddress() {
+      ServerConfig servConfig = getServerConfig();
+      if (servConfig.isModifySOAPAddress()) {
+         //- code-first handling
+         List<ServiceInfo> sevInfos = getServer().getEndpoint().getService().getServiceInfos();
+         for (ServiceInfo si: sevInfos){
+            Collection<EndpointInfo > epInfos = si.getEndpoints();
+            for(EndpointInfo ei: epInfos){
+               String publishedEndpointUrl = (String)ei.getProperty(WSDLGetUtils.PUBLISHED_ENDPOINT_URL);
+               if (publishedEndpointUrl != null){
+                  ei.setAddress(publishedEndpointUrl);
+               } else {
+                  //- wsdl-first handling
+                  if (ei.getAddress().contains(ServerConfig.UNDEFINED_HOSTNAME)){
+                     String epurl = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ei.getAddress(), servConfig);
+                     ei.setAddress(epurl);
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   private static ServerConfig getServerConfig() {
+      if(System.getSecurityManager() == null) {
+         return AbstractServerConfig.getServerIntegrationServerConfig();
+      }
+      return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
    }
 
 }
