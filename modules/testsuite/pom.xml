@@ -701,7 +701,7 @@
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
 
-                 <!-- Enable it after backport change to wilfly800 ASIL -->
+                 <!-- [JBWS-3514] Enable it after backport change to wilfly800 ASIL -->
                  <exclude>org/jboss/test/ws/jaxws/samples/session/*TestCase*</exclude>
               </excludes>
             </configuration>
@@ -792,10 +792,10 @@
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
 
-                 <!-- Enable it after backport change to wilfly810 ASIL -->
+                 <!-- [JBWS-3514] Enable it after backport change to wilfly810 ASIL -->
                  <exclude>org/jboss/test/ws/jaxws/samples/session/*TestCase*</exclude>
 
-                 <!-- Enable it after backport change to wilfly810 ASIL ? -->
+                 <!-- [JBWS-3809] Enable it after backport change to wilfly810 ASIL ? -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/jbws3809/*TestCase*</exclude>
               </excludes>
             </configuration>
@@ -886,10 +886,6 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
-
-                 <!-- Enable it after merge to wildfly9 -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/session/*TestCase*</exclude>
-
               </excludes>
             </configuration>
           </plugin>
