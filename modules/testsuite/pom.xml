@@ -703,9 +703,6 @@
 
                  <!-- Enable it after backport change to wilfly800 ASIL -->
                  <exclude>org/jboss/test/ws/jaxws/samples/session/*TestCase*</exclude>
-
-                 <!-- Enable it after backport change to wilfly800 ASIL ? -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3809/*TestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
