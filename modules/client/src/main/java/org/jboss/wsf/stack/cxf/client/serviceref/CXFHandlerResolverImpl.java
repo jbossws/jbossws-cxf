@@ -91,11 +91,9 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
    @SuppressWarnings("rawtypes")
    private final Map<PortInfo, List<Handler>> handlerMap = new HashMap<PortInfo, List<Handler>>();
    private final String handlerFile;
-   private static JAXBContext context;
    private final Class<?> clazz;
    private final ClassLoader classLoader;
    private final Bus bus;
-   private static DocumentBuilder builder;
 
    public CXFHandlerResolverImpl(Bus bus, String handlerFile, Class<?> clazz)
    {
@@ -160,7 +158,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
             throw MESSAGES.handlerConfigFileNotFound(handlerFile);
          }
 
-         Document doc = getDocumentBuilder().parse(is);
+         Document doc = Holder.builder.parse(is);
          Element el = doc.getDocumentElement();
          if (!ParserConstants.JAVAEE_NS.equals(el.getNamespaceURI()) 
                || !ParserConstants.HANDLER_CHAINS.equals(el.getLocalName())) {
@@ -363,7 +361,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
    
    private void processHandlerElement(Element el, @SuppressWarnings("rawtypes") List<Handler> chain) {
       try {
-          JAXBContext ctx = getContextForPortComponentHandlerType();
+          JAXBContext ctx = Holder.context;
           PortComponentHandlerType pt = ctx.createUnmarshaller()
               .unmarshal(el, PortComponentHandlerType.class).getValue();
           chain.addAll(buildHandlerChain(pt, classLoader));
@@ -372,20 +370,16 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       }
   }
 
-   private static synchronized JAXBContext getContextForPortComponentHandlerType()
-   throws JAXBException {
-      if (context == null) {
-         context = JAXBContext.newInstance(PortComponentHandlerType.class);
-      }
-      return context;
-   }
-   
-   private static synchronized DocumentBuilder getDocumentBuilder()
-   {
-      if (builder == null)
+   private static class Holder {
+      
+      static final DocumentBuilder builder = getDocumentBuilder();
+      static final JAXBContext context = getContextForPortComponentHandlerType();
+      
+      private static DocumentBuilder getDocumentBuilder()
       {
          final ClassLoader classLoader = SecurityActions.getContextClassLoader();
          SecurityActions.setContextClassLoader(CXFHandlerResolverImpl.class.getClassLoader());
+         DocumentBuilder builder;
          try
          {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -406,8 +400,21 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          {
             SecurityActions.setContextClassLoader(classLoader);
          }
+         return builder;
       }
-      return builder;
+      
+      private static JAXBContext getContextForPortComponentHandlerType() {
+         JAXBContext context = null;
+         try {
+            context = JAXBContext.newInstance(PortComponentHandlerType.class);
+         } catch (JAXBException e) {
+            e.printStackTrace(); //TODO can this really happen?
+         }
+         return context;
+      }
+            
    }
+   
+   
 
 }

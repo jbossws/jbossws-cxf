@@ -51,10 +51,23 @@ public class SecurityProviderConfig
       }
    }
    private static final boolean NO_LOCAL_BC = SecurityActions.getBoolean(Constants.JBWS_CXF_NO_LOCAL_BC);
-   private static Provider provider;
    
-   private static synchronized Provider getBCProvider() {
-      if (provider == null) {
+   public static void setup(Bus bus) {
+      if (!NO_LOCAL_BC && !BC_GLOBALLY_AVAILABLE) {
+         if (Holder.provider != null) {
+            bus.getInInterceptors().add(Holder.inInterceptor);
+            bus.getOutInterceptors().add(Holder.outInterceptor);
+         }
+      }
+   }
+   
+   private static class Holder {
+      static final Provider provider = getBCProvider();
+      static final Interceptor inInterceptor = new Interceptor(Phase.RECEIVE);
+      static final Interceptor outInterceptor = new Interceptor(Phase.SETUP);
+      
+      private static Provider getBCProvider() {
+         Provider provider = null;
          try {
             Class<?> clazz = SecurityProviderConfig.class.getClassLoader().loadClass("org.bouncycastle.jce.provider.BouncyCastleProvider");
             provider = (Provider)clazz.newInstance();
@@ -64,18 +77,7 @@ public class SecurityProviderConfig
          } catch (Throwable t) {
             Loggers.ROOT_LOGGER.cannotLoadBouncyCastleProvider(Constants.JBWS_CXF_NO_LOCAL_BC, t);
          }
-      }
-      return provider;
-   }
-   
-   
-   public static void setup(Bus bus) {
-      if (!NO_LOCAL_BC && !BC_GLOBALLY_AVAILABLE) {
-         Provider p = getBCProvider();
-         if (p != null) {
-            bus.getInInterceptors().add(new Interceptor(Phase.RECEIVE));
-            bus.getOutInterceptors().add(new Interceptor(Phase.SETUP));
-         }
+         return provider;
       }
    }
    
@@ -90,7 +92,7 @@ public class SecurityProviderConfig
       public void handleMessage(Message message) throws Fault
       {
          Exchange exchange = message.getExchange();
-         exchange.put(Provider.class, getBCProvider());
+         exchange.put(Provider.class, Holder.provider);
       }
    }
    
