@@ -119,6 +119,7 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       
       protected static Boolean modifySOAPAddress;
       protected static String webServiceHost;
+      protected static String webServicePath;
       
       public JBWS2150TestSetup() {
          super(JBWS2150TestCaseForked.class, null);
@@ -128,6 +129,7 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       {
          modifySOAPAddress = (Boolean)getServer().getAttribute(SERVER_CONFIG_OBJECT_NAME, "ModifySOAPAddress");
          webServiceHost = (String)getServer().getAttribute(SERVER_CONFIG_OBJECT_NAME, "WebServiceHost");
+         webServicePath = (String)getServer().getAttribute(SERVER_CONFIG_OBJECT_NAME, "WebServicePathRewriteRule");
          super.setUp();
       }
    }
@@ -142,6 +144,8 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       Attribute attr = new Attribute("ModifySOAPAddress", JBWS2150TestSetup.modifySOAPAddress);
       getServer().setAttribute(SERVER_CONFIG_OBJECT_NAME, attr);
       attr = new Attribute("WebServiceHost", JBWS2150TestSetup.webServiceHost);
+      getServer().setAttribute(SERVER_CONFIG_OBJECT_NAME, attr);
+      attr = new Attribute("WebServicePathRewriteRule", JBWS2150TestSetup.webServicePath);
       getServer().setAttribute(SERVER_CONFIG_OBJECT_NAME, attr);
    }
 
@@ -570,6 +574,168 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       }
    }
    
+   /**
+    * Test soap:address rewrite when a path rewrite rule is specified.
+    *
+    * @throws Exception
+    */
+   public void testRewriteWithPathRule() throws Exception
+   {
+      setModifySOAPAddress(true);
+      final String expectedContext = "xx/jaxws-jbws2150";
+      final String sedCmd = "s/jaxws-jbws2150/xx\\/jaxws-jbws2150/g";
+      setWebServicePathRewriteRule(sedCmd);
+      deploy("jaxws-jbws2150.war");
+      try
+      {
+         final String serverHost = getServerHost();
+         final List<String> wsdlLocations = new LinkedList<String>();
+         wsdlLocations.add("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl");
+         wsdlLocations.add("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl");
+         wsdlLocations.add("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl");
+         wsdlLocations.add("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl");
+
+         for (final String wsdlLocation : wsdlLocations)
+         {
+            Definition definition = getWSDLDefinition(wsdlLocation);
+
+            String address = getPortAddress(definition, "ValidURLService", "ValidURLPort");
+            assertEquals("http://" + serverHost + ":8080/" + expectedContext + "/ValidURL", address);
+
+            address = getPortAddress(definition, "InvalidURLService", "InvalidURLPort");
+            assertEquals("http://" + serverHost + ":8080/" + expectedContext + "/InvalidURL", address);
+
+            address = getPortAddress(definition, "ValidSecureURLService", "ValidSecureURLPort");
+            assertEquals("https://" + serverHost + ":8443/" + expectedContext + "/ValidSecureURL", address);
+
+            address = getPortAddress(definition, "InvalidSecureURLService", "InvalidSecureURLPort");
+            assertEquals("https://" + serverHost + ":8443/" + expectedContext + "/InvalidSecureURL", address);
+
+            //check wsdl import (which is bound to the endpoint currently serving the wsdl)
+            assertTrue(getWsdlImportAddress(definition).contains(expectedContext));
+         }
+      }
+      finally
+      {
+         undeploy("jaxws-jbws2150.war");
+      }
+   }
+
+   /**
+    * Test soap:address rewrite for code-first endpoints when a path rewrite rule is specified
+    *
+    * @throws Exception
+    */
+   public void testRewriteCodeFirstPathRule() throws Exception
+   {
+      setModifySOAPAddress(true);
+      final String expectedContext = "xx/jaxws-jbws2150-codefirst";
+      final String sedCmd = "s/jaxws-jbws2150-codefirst/xx\\/jaxws-jbws2150-codefirst/g";
+      setWebServicePathRewriteRule(sedCmd);
+      deploy("jaxws-jbws2150-codefirst.war");
+      try
+      {
+         final String serverHost = getServerHost();
+         final String wsdlLocation = "http://" + serverHost + ":8080/jaxws-jbws2150-codefirst/CodeFirstService?wsdl";
+
+         Definition definition = getWSDLDefinition(wsdlLocation);
+         String address = getPortAddress(definition, "CodeFirstService", "CodeFirstPort");
+         assertEquals("http://" + serverHost + ":8080/" + expectedContext +"/CodeFirstService", address);
+      }
+      finally
+      {
+         undeploy("jaxws-jbws2150-codefirst.war");
+      }
+   }
+
+   /**
+    * Test soap:address rewrite for code-first endpoints when a path rewrite rule is specified and auto-rewrite is on
+    * (wsdl host prop set to ServerConfig.UNDEFINED_HOSTNAME)
+    * 
+    * @throws Exception
+    */
+   public void testAutoRewriteCodeFirstPathRule() throws Exception
+   {
+      setModifySOAPAddress(true);
+      final String expectedContext = "xx/jaxws-jbws2150-codefirst";
+      final String sedCmd = "s/jaxws-jbws2150-codefirst/xx\\/jaxws-jbws2150-codefirst/g";
+      setWebServicePathRewriteRule(sedCmd);
+      setWebServiceHost(ServerConfig.UNDEFINED_HOSTNAME);
+      deploy("jaxws-jbws2150-codefirst.war");
+      try
+      {
+         String serverHost = getServerHost();
+         final String wsdlLocation = "http://" + serverHost + ":8080/jaxws-jbws2150-codefirst/CodeFirstService?wsdl";
+
+         Definition definition = getWSDLDefinition(wsdlLocation);
+         String address = getPortAddress(definition, "CodeFirstService", "CodeFirstPort");
+         assertEquals("http://" + serverHost + ":8080/" + expectedContext +"/CodeFirstService", address);
+         if (isTestsuiteServerHostLocalhost()) {
+            definition = getWSDLDefinition("http://127.0.0.1:8080/jaxws-jbws2150-codefirst/CodeFirstService?wsdl");
+            address = getPortAddress(definition, "CodeFirstService", "CodeFirstPort");
+            assertEquals("http://127.0.0.1:8080/" + expectedContext +"/CodeFirstService", address);
+         }
+      }
+      finally
+      {
+         undeploy("jaxws-jbws2150-codefirst.war");
+      }
+   }
+
+   /**
+    * Test soap:address rewrite with host configured to ServerConfig.UNDEFINED_HOSTNAME and path rewrite rule specified
+    * 
+    * @throws Exception
+    */
+   public void testAutoRewritePathRule() throws Exception
+   {
+      setModifySOAPAddress(true);
+      final String expectedContext = "xx/jaxws-jbws2150";
+      final String sedCmd = "s/jaxws-jbws2150/xx\\/jaxws-jbws2150/g";
+      setWebServicePathRewriteRule(sedCmd);
+      setWebServiceHost(ServerConfig.UNDEFINED_HOSTNAME);
+      deploy("jaxws-jbws2150.war");
+      try
+      {
+         final Map<String, String> wsdlLocationsMap = new HashMap<String, String>();
+         final String serverHost = getServerHost();
+         wsdlLocationsMap.put("http://" + serverHost  + ":8080/jaxws-jbws2150/ValidURL?wsdl", serverHost);
+         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", serverHost);
+         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", serverHost);
+         wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", serverHost);
+         if (isTestsuiteServerHostLocalhost()) {
+            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", "127.0.0.1");
+            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", "127.0.0.1");
+            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", "127.0.0.1");
+            wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "127.0.0.1");
+         }
+         for (Entry<String, String> entry : wsdlLocationsMap.entrySet()) {
+            String wsdlLocation = entry.getKey();
+            String host = entry.getValue();
+            Definition definition = getWSDLDefinition(wsdlLocation);
+
+            String address = getPortAddress(definition, "ValidURLService", "ValidURLPort");
+            assertEquals("http://" + host + ":8080/" + expectedContext + "/ValidURL", address);
+
+            address = getPortAddress(definition, "InvalidURLService", "InvalidURLPort");
+            assertEquals("http://" + host + ":8080/" + expectedContext + "/InvalidURL", address);
+
+            address = getPortAddress(definition, "ValidSecureURLService", "ValidSecureURLPort");
+            assertEquals("http://" + host + ":8080/" + expectedContext + "/ValidSecureURL", address);
+
+            address = getPortAddress(definition, "InvalidSecureURLService", "InvalidSecureURLPort");
+            assertEquals("http://" + host + ":8080/" + expectedContext + "/InvalidSecureURL", address);
+
+            //check wsdl import (which is bound to the endpoint currently serving the wsdl) 
+            assertTrue(getWsdlImportAddress(definition).contains(expectedContext));
+         }
+      }
+      finally
+      {
+         undeploy("jaxws-jbws2150.war");
+      }
+   }
+   
    private void checkWsdlAndInvokeCodeFirstEndpoint(String testHost, String expectedWsdlHost, boolean setTargetAddress) throws Exception {
       final String addr = "http://" + testHost + ":8080/jaxws-jbws2150-codefirst/CodeFirstService";
       final String wsdlLocation = addr + "?wsdl";
@@ -598,6 +764,12 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
    private void setWebServiceHost(String value) throws Exception
    {
       Attribute attr = new Attribute("WebServiceHost", value);
+      getServer().setAttribute(SERVER_CONFIG_OBJECT_NAME, attr);
+   }
+   
+   public void setWebServicePathRewriteRule(String value) throws Exception
+   {
+      Attribute attr = new Attribute("WebServicePathRewriteRule", value);
       getServer().setAttribute(SERVER_CONFIG_OBJECT_NAME, attr);
    }
 

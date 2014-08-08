@@ -157,7 +157,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
                JaxWsImplementorInfo info = new JaxWsImplementorInfo(getImplementorClass());
                wsdlLocation = info.getWsdlLocation();
             }
-            updateCodeFirstSoapAddress();
+            updateSoapAddress();
             wsdlPublisher.publishWsdlFiles(service.getName(), wsdlLocation, this.getBus(), service.getServiceInfos());
          }
          catch (IOException ioe)
@@ -206,7 +206,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
     * For both code-first and wsdl-first scenarios, reset the endpoint address
     * so that it is written to the generated wsdl file.
     */
-   private void updateCodeFirstSoapAddress() {
+   private void updateSoapAddress() {
       ServerConfig servConfig = getServerConfig();
       if (servConfig.isModifySOAPAddress()) {
          //- code-first handling
