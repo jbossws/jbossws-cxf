@@ -34,9 +34,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.WSDLGetUtils;
-import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.jaxws.support.JaxWsImplementorInfo;
-import org.apache.cxf.message.Message;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
@@ -46,7 +44,6 @@ import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.CommonConfig;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
-import org.jboss.wsf.stack.cxf.interceptor.WSDLSoapAddressRewriteInterceptor;
 
 
 /**
@@ -78,27 +75,11 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
       super.getServerFactory().setBlockPostConstruct(true);
       super.doPublish(addr);
 
-      // A custom interceptor is required when the server config attributes for rewriting
-      // the path in a WSDL URL (i.e., <soap:address location= ...) are set
-      replaceWSDLGetInterceptor();
-
       //allow for configuration so that the wsdlPublisher can be set be the JBossWSCXFConfigurer
       configureObject(this);
       setupConfigHandlers();
       //publish the wsdl to data/wsdl
       publishContractToFilesystem();
-   }
-
-   /**
-    * Add interceptor that enables the desired soap:address rewrite
-    */
-   private void replaceWSDLGetInterceptor(){
-      if (SoapAddressRewriteHelper.isPathRewriteRequired(getServerConfig())) {
-         List<Interceptor<? extends Message>> inInterceptors = getInInterceptors();
-         if(!inInterceptors.contains(WSDLSoapAddressRewriteInterceptor.INSTANCE)){
-            inInterceptors.add(WSDLSoapAddressRewriteInterceptor.INSTANCE);
-         }
-      }
    }
 
    /**

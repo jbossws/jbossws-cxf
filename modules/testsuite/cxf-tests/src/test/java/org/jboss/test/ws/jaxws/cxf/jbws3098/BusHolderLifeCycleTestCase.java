@@ -21,12 +21,15 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3098;
 
+import java.io.File;
 import java.net.URL;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.jboss.ws.common.deployment.DefaultDeploymentModelFactory;
+import org.jboss.ws.common.management.AbstractServerConfig;
+import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
@@ -47,16 +50,72 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
    {
       if (SpringUtils.isSpringAvailable(Thread.currentThread().getContextClassLoader()))
       {
-         simpleShutdownTest(new SpringBusHolder(null, null, new URL[]{}));
-         shutdownTestWithInnerShutdown(new SpringBusHolder(null, null, new URL[]{}));
-         shutdownTestWithNoShutdown(new SpringBusHolder(null, null, new URL[]{}));
+         simpleShutdownTest(newSpringBusHolderInstance());
+         shutdownTestWithInnerShutdown(newSpringBusHolderInstance());
+         shutdownTestWithNoShutdown(newSpringBusHolderInstance());
       }
       else
       {
-         simpleShutdownTest(new NonSpringBusHolder(new DDBeans()));
-         shutdownTestWithInnerShutdown(new NonSpringBusHolder(new DDBeans()));
-         shutdownTestWithNoShutdown(new NonSpringBusHolder(new DDBeans()));
+         simpleShutdownTest(newNonSpringBusHolderInstance());
+         shutdownTestWithInnerShutdown(newNonSpringBusHolderInstance());
+         shutdownTestWithNoShutdown(newNonSpringBusHolderInstance());
       }
+   }
+   
+   private static SpringBusHolder newSpringBusHolderInstance() {
+      return new SpringBusHolder(null, null, new URL[]{}) {
+         protected ServerConfig getServerConfig() {
+            return new AbstractServerConfig()
+            {
+               @Override
+               public File getServerTempDir()
+               {
+                  // TODO Auto-generated method stub
+                  return null;
+               }
+               @Override
+               public File getServerDataDir()
+               {
+                  // TODO Auto-generated method stub
+                  return null;
+               }
+               @Override
+               public File getHomeDir()
+               {
+                  // TODO Auto-generated method stub
+                  return null;
+               }
+            };
+         }
+      };
+   }
+   
+   private static NonSpringBusHolder newNonSpringBusHolderInstance() {
+      return new NonSpringBusHolder(new DDBeans()) {
+         protected ServerConfig getServerConfig() {
+            return new AbstractServerConfig()
+            {
+               @Override
+               public File getServerTempDir()
+               {
+                  // TODO Auto-generated method stub
+                  return null;
+               }
+               @Override
+               public File getServerDataDir()
+               {
+                  // TODO Auto-generated method stub
+                  return null;
+               }
+               @Override
+               public File getHomeDir()
+               {
+                  // TODO Auto-generated method stub
+                  return null;
+               }
+            };
+         }
+      };
    }
    
    private static void simpleShutdownTest(BusHolder holder)

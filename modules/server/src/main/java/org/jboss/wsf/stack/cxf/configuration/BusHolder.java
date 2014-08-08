@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import java.security.AccessController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,7 @@ import org.apache.cxf.wsdl.WSDLManager;
 import org.apache.cxf.wsdl11.WSDLManagerImpl;
 import org.jboss.ws.api.annotation.PolicySets;
 import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
@@ -61,9 +63,11 @@ import org.jboss.wsf.spi.deployment.AnnotationsInfo;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 import org.jboss.wsf.stack.cxf.Loggers;
+import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
@@ -71,6 +75,7 @@ import org.jboss.wsf.stack.cxf.interceptor.EnableDecoupledFaultInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
+import org.jboss.wsf.stack.cxf.interceptor.WSDLSoapAddressRewriteInterceptor;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 import org.jboss.wsf.stack.cxf.security.authentication.AuthenticationMgrSubjectCreatingInterceptor;
 
@@ -188,7 +193,7 @@ public abstract class BusHolder
    public abstract Configurer createServerConfigurer(BindingCustomization customization,
          WSDLFilePublisher wsdlPublisher, List<Endpoint> depEndpoints, UnifiedVirtualFile root, String epConfigName, String epConfigFile);
    
-   protected static void setInterceptors(Bus bus, Map<String, String> props)
+   protected void setInterceptors(Bus bus, Map<String, String> props)
    {
       //Install the EndpointAssociationInterceptor for linking every message exchange
       //with the proper spi Endpoint retrieved in CXFServletExt
@@ -199,6 +204,10 @@ public abstract class BusHolder
       final String p = (props != null) ? props.get(Constants.JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS) : null;
       if ((p == null || (!"true".equalsIgnoreCase(p) && !"1".equalsIgnoreCase(p))) && !Boolean.getBoolean(Constants.JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS)) {
          bus.getInInterceptors().add(new HandlerAuthInterceptor());
+      }
+      
+      if (SoapAddressRewriteHelper.isPathRewriteRequired(getServerConfig())) {
+         bus.getInInterceptors().add(WSDLSoapAddressRewriteInterceptor.INSTANCE);
       }
    }
    
@@ -334,6 +343,13 @@ public abstract class BusHolder
    
    private static long parseLong(String prop, long defaultValue) {
       return prop != null ? Long.parseLong(prop) : defaultValue;
+   }
+   
+   protected ServerConfig getServerConfig() {
+      if(System.getSecurityManager() == null) {
+         return AbstractServerConfig.getServerIntegrationServerConfig();
+      }
+      return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
    }
    
    /**
