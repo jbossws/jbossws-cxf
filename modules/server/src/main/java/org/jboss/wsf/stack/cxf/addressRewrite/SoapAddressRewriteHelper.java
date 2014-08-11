@@ -56,7 +56,10 @@ public class SoapAddressRewriteHelper
       {
          final String origUriScheme = getUriScheme(wsdlAddress); //will be https if the user wants a https address in the wsdl
          final String newUriScheme = getUriScheme(epAddress); //will be https if the user set confidential transport for the endpoint
-         final String uriScheme = (origUriScheme.equals(HTTPS) || newUriScheme.equals(HTTPS)) ? HTTPS : HTTP; 
+         String uriScheme = (origUriScheme.equals(HTTPS) || newUriScheme.equals(HTTPS)) ? HTTPS : HTTP; 
+         if (serverConfig.getWebServiceUriScheme() != null) {
+            uriScheme = serverConfig.getWebServiceUriScheme();
+         }
          return rewriteSoapAddress(serverConfig, wsdlAddress, epAddress, uriScheme);
       }
       else
