@@ -26,7 +26,9 @@ import static org.jboss.wsf.stack.cxf.Loggers.ADDRESS_REWRITE_LOGGER;
 import java.net.URI;
 import java.net.URL;
 
+import org.jboss.wsf.spi.deployment.Service;
 import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.ws.common.Constants;
 
 /**
  * Helper for rewriting soap:address in published wsdl
@@ -48,7 +50,7 @@ public class SoapAddressRewriteHelper
     * @param serverConfig   The current ServerConfig
     * @return               The rewritten soap:address to be used in the wsdl
     */
-   public static String getRewrittenPublishedEndpointUrl(String wsdlAddress, String epAddress, ServerConfig serverConfig) {
+   public static String getRewrittenPublishedEndpointUrl(String wsdlAddress, String epAddress, ServerConfig serverConfig, Service service) {
       if (wsdlAddress == null) {
          return null;
       }
@@ -59,6 +61,9 @@ public class SoapAddressRewriteHelper
          String uriScheme = (origUriScheme.equals(HTTPS) || newUriScheme.equals(HTTPS)) ? HTTPS : HTTP; 
          if (serverConfig.getWebServiceUriScheme() != null) {
             uriScheme = serverConfig.getWebServiceUriScheme();
+         }
+         if (uriScheme == null) {
+            uriScheme = (String)service.getProperty(Constants.FORCE_URI_SCHEME);
          }
          return rewriteSoapAddress(serverConfig, wsdlAddress, epAddress, uriScheme);
       }

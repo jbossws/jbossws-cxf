@@ -294,7 +294,7 @@ public class MetadataBuilder
             //do not try rewriting addresses for not-http binding
             String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
 
-            String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc);
+            String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc, dep.getService());
             //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF does not force host/port values for
             //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
             //which causes CXF to override any address in the published wsdl.
