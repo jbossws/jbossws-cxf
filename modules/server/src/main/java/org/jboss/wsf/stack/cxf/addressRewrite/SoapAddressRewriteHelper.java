@@ -26,9 +26,9 @@ import static org.jboss.wsf.stack.cxf.Loggers.ADDRESS_REWRITE_LOGGER;
 import java.net.URI;
 import java.net.URL;
 
-import org.jboss.wsf.spi.deployment.Service;
 import org.jboss.wsf.spi.management.ServerConfig;
-import org.jboss.ws.common.Constants;
+import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
+import org.jboss.wsf.stack.cxf.client.Constants;
 
 /**
  * Helper for rewriting soap:address in published wsdl
@@ -50,7 +50,7 @@ public class SoapAddressRewriteHelper
     * @param serverConfig   The current ServerConfig
     * @return               The rewritten soap:address to be used in the wsdl
     */
-   public static String getRewrittenPublishedEndpointUrl(String wsdlAddress, String epAddress, ServerConfig serverConfig, Service service) {
+   public static String getRewrittenPublishedEndpointUrl(String wsdlAddress, String epAddress, ServerConfig serverConfig, JBossWebservicesMetaData wsmd) {
       if (wsdlAddress == null) {
          return null;
       }
@@ -63,7 +63,7 @@ public class SoapAddressRewriteHelper
             uriScheme = serverConfig.getWebServiceUriScheme();
          }
          if (uriScheme == null) {
-            uriScheme = (String)service.getProperty(Constants.FORCE_URI_SCHEME);
+            uriScheme = wsmd.getProperty(Constants.JBWS_CXF_WSDL_URI_SCHEME); 
          }
          return rewriteSoapAddress(serverConfig, wsdlAddress, epAddress, uriScheme);
       }
@@ -73,6 +73,11 @@ public class SoapAddressRewriteHelper
       }
    }
    
+   public static String getRewrittenPublishedEndpointUrl(String address, ServerConfig serverConfig) {
+      return getRewrittenPublishedEndpointUrl(address, serverConfig, null);
+   }
+   
+   
    /**
     * Rewrite and get address to be used for CXF published endpoint url prop (rewritten wsdl address).
     * This method is to be used for code-first endpoints, when no wsdl is provided by the user.
@@ -81,13 +86,46 @@ public class SoapAddressRewriteHelper
     * @param serverConfig   The current ServerConfig
     * @return
     */
-   public static String getRewrittenPublishedEndpointUrl(String address, ServerConfig serverConfig)
+   public static String getRewrittenPublishedEndpointUrl(String address, ServerConfig serverConfig, JBossWebservicesMetaData wsmd)
    {
       try
       {
+         final URL tmpurl = new URL(address);
+         String uriScheme = serverConfig.getWebServiceUriScheme();
+         if (uriScheme == null && wsmd != null) {
+            uriScheme = wsmd.getProperty(Constants.JBWS_CXF_WSDL_URI_SCHEME);
+         }
+         if (uriScheme != null) {
+            String port = "";
+            if (HTTPS.equals(uriScheme))
+            {
+               int portNo = serverConfig.getWebServiceSecurePort();
+               if (portNo != 443)
+               {
+                  port = ":" + portNo;
+               }
+            }
+            else
+            {
+               int portNo = serverConfig.getWebServicePort();
+               if (portNo != 80)
+               {
+                  port = ":" + portNo;
+               }
+            }
+            
+             StringBuilder addressBuilder = new StringBuilder();
+             addressBuilder.append(uriScheme);
+             addressBuilder.append("://");
+             addressBuilder.append(tmpurl.getHost());
+             addressBuilder.append(port);
+             addressBuilder.append(tmpurl.getPath());
+             address = addressBuilder.toString();
+             
+         }
+         final URL url = new URL(address);
          if (isPathRewriteRequired(serverConfig))
-         {
-            final URL url = new URL(address);
+         {        
             final String path = url.getPath();
             final String tmpPath = SEDProcessor.newInstance(serverConfig.getWebServicePathRewriteRule()).processLine(path);
             final String newUrl=url.toString().replace(path, tmpPath);

@@ -51,6 +51,7 @@ import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
+import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.spi.metadata.webservices.PortComponentMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebserviceDescriptionMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebservicesMetaData;
@@ -287,6 +288,7 @@ public class MetadataBuilder
          wsdlLocation = ddep.getAnnotationWsdlLocation();
       }
       final ServerConfig sc = getServerConfig();
+      JBossWebservicesMetaData wsmd = dep.getAttachment(JBossWebservicesMetaData.class);
       if (wsdlLocation != null) {
          URL wsdlUrl = dep.getResourceResolver().resolveFailSafe(wsdlLocation);
          if (wsdlUrl != null) {
@@ -294,7 +296,7 @@ public class MetadataBuilder
             //do not try rewriting addresses for not-http binding
             String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
 
-            String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc, dep.getService());
+            String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc, wsmd);
             //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF does not force host/port values for
             //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
             //which causes CXF to override any address in the published wsdl.
@@ -308,7 +310,7 @@ public class MetadataBuilder
          //same comment as above regarding auto rewrite...
          if (!SoapAddressRewriteHelper.isAutoRewriteOn(sc)) {
             //force computed address for code first endpoints
-            ddep.setPublishedEndpointUrl(SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ddep.getAddress(), sc));
+            ddep.setPublishedEndpointUrl(SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ddep.getAddress(), sc, wsmd));
          }
       }
    }
