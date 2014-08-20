@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.interceptor;
 
+import java.util.Map;
+
 import org.apache.cxf.frontend.WSDLGetUtils;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
@@ -33,19 +35,20 @@ import org.jboss.wsf.stack.cxf.interceptor.util.WSDLSoapAddressRewriteUtils;
  * soap:address rewrite
  *
  * @author rsearls@redhat.com
+ * @author alessio.soldano@jboss.com
  * @since 19-May-2014
  */
 public class WSDLSoapAddressRewriteInterceptor extends AbstractPhaseInterceptor<Message> {
-   public static final WSDLSoapAddressRewriteInterceptor INSTANCE =
-      new WSDLSoapAddressRewriteInterceptor();
+   private final WSDLGetUtils wsdlGetUtils;
 
-   public WSDLSoapAddressRewriteInterceptor() {
+   public WSDLSoapAddressRewriteInterceptor(Map<String, String> props) {
       // this must run before WSDLGetInterceptor which is in Phase.READ
       super(Phase.POST_STREAM);
+      this.wsdlGetUtils = new WSDLSoapAddressRewriteUtils(props);
    }
 
    public void handleMessage(Message message) throws Fault {
-      message.setContextualProperty(WSDLGetUtils.class.getName(), new WSDLSoapAddressRewriteUtils());
+      message.setContextualProperty(WSDLGetUtils.class.getName(), wsdlGetUtils);
    }
 
 }

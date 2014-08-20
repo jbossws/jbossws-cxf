@@ -26,6 +26,7 @@ import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
 import java.net.URL;
 import java.security.AccessController;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -288,7 +289,7 @@ public class MetadataBuilder
          wsdlLocation = ddep.getAnnotationWsdlLocation();
       }
       final ServerConfig sc = getServerConfig();
-      JBossWebservicesMetaData wsmd = dep.getAttachment(JBossWebservicesMetaData.class);
+      final Map<String, String> props = getJBossWebServicesMetaDataProperties(dep);
       if (wsdlLocation != null) {
          URL wsdlUrl = dep.getResourceResolver().resolveFailSafe(wsdlLocation);
          if (wsdlUrl != null) {
@@ -296,7 +297,7 @@ public class MetadataBuilder
             //do not try rewriting addresses for not-http binding
             String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
 
-            String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc, wsmd);
+            String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc, props);
             //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF does not force host/port values for
             //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
             //which causes CXF to override any address in the published wsdl.
@@ -310,9 +311,20 @@ public class MetadataBuilder
          //same comment as above regarding auto rewrite...
          if (!SoapAddressRewriteHelper.isAutoRewriteOn(sc)) {
             //force computed address for code first endpoints
-            ddep.setPublishedEndpointUrl(SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ddep.getAddress(), sc, wsmd));
+            ddep.setPublishedEndpointUrl(SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ddep.getAddress(), sc, props));
          }
       }
+   }
+   
+   private static Map<String, String> getJBossWebServicesMetaDataProperties(Deployment dep) {
+      JBossWebservicesMetaData wsmd = dep.getAttachment(JBossWebservicesMetaData.class);
+      Map<String, String> props;
+      if (wsmd != null) {
+         props = wsmd.getProperties();
+      } else {
+         props = Collections.emptyMap();
+      }
+      return props;
    }
    
    private SOAPAddressWSDLParser getCurrentSOAPAddressWSDLParser(URL wsdlUrl, Map<String, SOAPAddressWSDLParser> soapAddressWsdlParsers) {

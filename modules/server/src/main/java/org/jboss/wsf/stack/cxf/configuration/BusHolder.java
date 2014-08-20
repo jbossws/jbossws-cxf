@@ -22,6 +22,7 @@
 package org.jboss.wsf.stack.cxf.configuration;
 
 import java.security.AccessController;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,7 +126,7 @@ public abstract class BusHolder
       {
          bus.setExtension(configurer, Configurer.class);
       }
-      Map<String, String> props = (wsmd == null) ? null : wsmd.getProperties();
+      Map<String, String> props = getProperties(wsmd);
       
       setInterceptors(bus, props);
       dep.addAttachment(Bus.class, bus);
@@ -163,6 +164,15 @@ public abstract class BusHolder
       }
    }
    
+   private static Map<String, String> getProperties(JBossWebservicesMetaData wsmd) {
+      Map<String, String> props;
+      if (wsmd != null) {
+         props = wsmd.getProperties();
+      } else {
+         props = Collections.emptyMap();
+      }
+      return props;
+   }
    
    /**
     * Performs close operations
@@ -206,8 +216,9 @@ public abstract class BusHolder
          bus.getInInterceptors().add(new HandlerAuthInterceptor());
       }
       
-      if (SoapAddressRewriteHelper.isPathRewriteRequired(getServerConfig())) {
-         bus.getInInterceptors().add(WSDLSoapAddressRewriteInterceptor.INSTANCE);
+      final ServerConfig sc = getServerConfig();
+      if (SoapAddressRewriteHelper.isPathRewriteRequired(sc) || SoapAddressRewriteHelper.isSchemeRewriteRequired(sc, props)) {
+         bus.getInInterceptors().add(new WSDLSoapAddressRewriteInterceptor(props));
       }
    }
    

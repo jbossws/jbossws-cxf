@@ -201,7 +201,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
                } else {
                   //- wsdl-first handling
                   if (ei.getAddress().contains(ServerConfig.UNDEFINED_HOSTNAME)){
-                     String epurl = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ei.getAddress(), servConfig);
+                     String epurl = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ei.getAddress(), servConfig, null); //TODO [JBWS-3805]
                      ei.setAddress(epurl);
                   }
                }
