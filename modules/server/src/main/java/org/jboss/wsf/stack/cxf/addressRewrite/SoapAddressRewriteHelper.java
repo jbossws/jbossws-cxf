@@ -23,7 +23,9 @@ package org.jboss.wsf.stack.cxf.addressRewrite;
 
 import static org.jboss.wsf.stack.cxf.Loggers.ADDRESS_REWRITE_LOGGER;
 
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 
@@ -100,7 +102,7 @@ public class SoapAddressRewriteHelper
             return address;
          }
       }
-      catch (Exception e)
+      catch (MalformedURLException e)
       {
          ADDRESS_REWRITE_LOGGER.invalidAddressProvidedUseItWithoutRewriting(address, "");
          return address;
@@ -145,7 +147,7 @@ public class SoapAddressRewriteHelper
       {
          new URL(s);
       }
-      catch (Exception e)
+      catch (MalformedURLException e)
       {
          return true;
       }
@@ -187,7 +189,7 @@ public class SoapAddressRewriteHelper
          ADDRESS_REWRITE_LOGGER.addressRewritten(origAddress, urlStr);
          return urlStr;
       }
-      catch (Exception e)
+      catch (MalformedURLException e)
       {
          ADDRESS_REWRITE_LOGGER.invalidAddressProvidedUseItWithoutRewriting(newAddress, origAddress);
          return origAddress;
@@ -223,7 +225,7 @@ public class SoapAddressRewriteHelper
          String scheme = addrURI.getScheme();
          return scheme != null ? scheme : HTTP;
       }
-      catch (Exception e)
+      catch (URISyntaxException e)
       {
          return HTTP;
       }
