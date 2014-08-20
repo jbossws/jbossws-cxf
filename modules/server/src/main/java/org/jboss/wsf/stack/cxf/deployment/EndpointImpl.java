@@ -24,6 +24,7 @@ package org.jboss.wsf.stack.cxf.deployment;
 import java.io.IOException;
 import java.security.AccessController;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -201,7 +202,8 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
                } else {
                   //- wsdl-first handling
                   if (ei.getAddress().contains(ServerConfig.UNDEFINED_HOSTNAME)){
-                     String epurl = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ei.getAddress(), servConfig, null); //TODO [JBWS-3805]
+                     Map<String, String> props = Collections.emptyMap();
+                     String epurl = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ei.getAddress(), servConfig, props); //TODO [JBWS-3805]
                      ei.setAddress(epurl);
                   }
                }
