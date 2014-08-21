@@ -335,7 +335,7 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
             //check wsdl import address rewrite (we expect a rewritten version of the same base address used to fetch the wsdl)
             if (!wsdlLocation.contains("Secure")) {
                assertEquals(importMap.get(wsdlLocation), getWsdlImportAddress(definition));
-            }            
+            }
          }
       }
       finally
@@ -658,10 +658,15 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       {
          final String serverHost = getServerHost();
          final List<String> wsdlLocations = new LinkedList<String>();
+         final Map<String, String> importMap = new HashMap<String, String>();
          wsdlLocations.add("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl");
          wsdlLocations.add("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl");
          wsdlLocations.add("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl");
          wsdlLocations.add("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", "http://" + serverHost + ":8080/" + expectedContext + "/ValidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", "http://" + serverHost + ":8080/" + expectedContext + "/InvalidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", "https://" + serverHost + ":8443/" + expectedContext + "/ValidSecureURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + serverHost + ":8443/" + expectedContext + "/InvalidSecureURL?wsdl=inner.wsdl");
 
          for (final String wsdlLocation : wsdlLocations)
          {
@@ -679,8 +684,8 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
             address = getPortAddress(definition, "InvalidSecureURLService", "InvalidSecureURLPort");
             assertEquals("https://" + serverHost + ":8443/" + expectedContext + "/InvalidSecureURL", address);
 
-            //check wsdl import (which is bound to the endpoint currently serving the wsdl)
-            assertTrue(getWsdlImportAddress(definition).contains(expectedContext));
+            //check wsdl import address rewrite (we expect a rewritten version of the same base address used to fetch the wsdl)
+            assertEquals(importMap.get(wsdlLocation), getWsdlImportAddress(definition));
          }
       }
       finally
@@ -766,16 +771,25 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       try
       {
          final Map<String, String> wsdlLocationsMap = new HashMap<String, String>();
+         final Map<String, String> importMap = new HashMap<String, String>();
          final String serverHost = getServerHost();
          wsdlLocationsMap.put("http://" + serverHost  + ":8080/jaxws-jbws2150/ValidURL?wsdl", serverHost);
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", serverHost);
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", serverHost);
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", serverHost);
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", "http://" + serverHost + ":8080/" + expectedContext + "/ValidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", "http://" + serverHost + ":8080/" + expectedContext + "/InvalidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", "https://" + serverHost + ":8443/" + expectedContext + "/ValidSecureURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + serverHost + ":8443/" + expectedContext + "/InvalidSecureURL?wsdl=inner.wsdl");
          if (isTestsuiteServerHostLocalhost()) {
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", "127.0.0.1");
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", "127.0.0.1");
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", "127.0.0.1");
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "127.0.0.1");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", "http://127.0.0.1:8080/" + expectedContext + "/ValidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", "http://127.0.0.1:8080/" + expectedContext + "/InvalidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", "https://127.0.0.1:8443/" + expectedContext + "/ValidSecureURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://127.0.0.1:8443/" + expectedContext + "/InvalidSecureURL?wsdl=inner.wsdl");
          }
          for (Entry<String, String> entry : wsdlLocationsMap.entrySet()) {
             String wsdlLocation = entry.getKey();
@@ -794,8 +808,10 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
             address = getPortAddress(definition, "InvalidSecureURLService", "InvalidSecureURLPort");
             assertEquals("http://" + host + ":8080/" + expectedContext + "/InvalidSecureURL", address);
 
-            //check wsdl import (which is bound to the endpoint currently serving the wsdl) 
-            assertTrue(getWsdlImportAddress(definition).contains(expectedContext));
+            //check wsdl import address rewrite (we expect a rewritten version of the same base address used to fetch the wsdl)
+            if (!wsdlLocation.contains("Secure")) {
+               assertEquals(importMap.get(wsdlLocation), getWsdlImportAddress(definition));
+            }
          }
       }
       finally
