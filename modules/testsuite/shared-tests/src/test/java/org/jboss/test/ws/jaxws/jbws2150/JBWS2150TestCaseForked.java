@@ -165,16 +165,25 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       try
       {
          final Map<String, String> wsdlLocationsMap = new HashMap<String, String>();
+         final Map<String, String> importMap = new HashMap<String, String>();
          final String serverHost = getServerHost();
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", getWebServiceHost());
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", getWebServiceHost());
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", getWebServiceHost());
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", getWebServiceHost());
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", "http://" + getWebServiceHost() + ":8080/jaxws-jbws2150/ValidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", "http://" + getWebServiceHost() + ":8080/jaxws-jbws2150/InvalidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150/ValidSecureURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150/InvalidSecureURL?wsdl=inner.wsdl");
          if (isTestsuiteServerHostLocalhost()) {
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", getWebServiceHost());
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", getWebServiceHost());
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", getWebServiceHost());
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", getWebServiceHost());
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", "http://" + getWebServiceHost() + ":8080/jaxws-jbws2150/ValidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", "http://" + getWebServiceHost() + ":8080/jaxws-jbws2150/InvalidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150/ValidSecureURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150/InvalidSecureURL?wsdl=inner.wsdl");
          }
          
          for (Entry<String, String> entry : wsdlLocationsMap.entrySet()) {
@@ -202,6 +211,9 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
    
             address = getPortAddress(definition, "InvalidSecureURLService", "InvalidSecureURLPort");
             assertEquals("https://" + host + ":8443/jaxws-jbws2150/InvalidSecureURL", address);
+            
+            //check wsdl import address rewrite (we expect a rewritten version of the same base address used to fetch the wsdl)
+            assertEquals(importMap.get(wsdlLocation), getWsdlImportAddress(definition)); 
          }
       }
       finally
@@ -224,16 +236,25 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       try
       {
          final Map<String, String> wsdlLocationsMap = new HashMap<String, String>();
+         final Map<String, String> importMap = new HashMap<String, String>();
          final String serverHost = getServerHost();
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", testWebServiceHost);
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", testWebServiceHost);
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", testWebServiceHost);
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", testWebServiceHost);
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", "http://" + testWebServiceHost + ":8080/jaxws-jbws2150/ValidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", "http://" + testWebServiceHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", "https://" + testWebServiceHost + ":8443/jaxws-jbws2150/ValidSecureURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + testWebServiceHost + ":8443/jaxws-jbws2150/InvalidSecureURL?wsdl=inner.wsdl");
          if (isTestsuiteServerHostLocalhost()) {
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", testWebServiceHost);
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", testWebServiceHost);
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", testWebServiceHost);
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", testWebServiceHost);
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", "http://" + testWebServiceHost + ":8080/jaxws-jbws2150/ValidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", "http://" + testWebServiceHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", "https://" + testWebServiceHost + ":8443/jaxws-jbws2150/ValidSecureURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + testWebServiceHost + ":8443/jaxws-jbws2150/InvalidSecureURL?wsdl=inner.wsdl");
          }
          
          for (Entry<String, String> entry : wsdlLocationsMap.entrySet()) {
@@ -253,8 +274,8 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
             address = getPortAddress(definition, "InvalidSecureURLService", "InvalidSecureURLPort");
             assertEquals("https://" + host + ":8443/jaxws-jbws2150/InvalidSecureURL", address);
             
-            //check wsdl import (which is bound to the endpoint currently serving the wsdl) 
-            assertTrue(getWsdlImportAddress(definition).contains(host));
+            //check wsdl import address rewrite (we expect a rewritten version of the same base address used to fetch the wsdl)
+            assertEquals(importMap.get(wsdlLocation), getWsdlImportAddress(definition));
          }
       }
       finally
@@ -276,16 +297,25 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       try
       {
          final Map<String, String> wsdlLocationsMap = new HashMap<String, String>();
+         final Map<String, String> importMap = new HashMap<String, String>();
          final String serverHost = getServerHost();
          wsdlLocationsMap.put("http://" + serverHost  + ":8080/jaxws-jbws2150/ValidURL?wsdl", serverHost);
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", serverHost);
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", serverHost);
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", serverHost);
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", "http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", "http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", "https://" + serverHost + ":8443/jaxws-jbws2150/ValidSecureURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + serverHost + ":8443/jaxws-jbws2150/InvalidSecureURL?wsdl=inner.wsdl");
          if (isTestsuiteServerHostLocalhost()) {
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", "127.0.0.1");
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", "127.0.0.1");
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", "127.0.0.1");
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "127.0.0.1");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", "http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", "http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", "https://127.0.0.1:8443/jaxws-jbws2150/ValidSecureURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://127.0.0.1:8443/jaxws-jbws2150/InvalidSecureURL?wsdl=inner.wsdl");
          }
          
          for (Entry<String, String> entry : wsdlLocationsMap.entrySet()) {
@@ -301,6 +331,11 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
             
             //no further checks on the ports forcing https even when getting the wsdl over http
             //as there's no way to tell which port to use for the secure access given the invoked wsdl address (on http)
+            
+            //check wsdl import address rewrite (we expect a rewritten version of the same base address used to fetch the wsdl)
+            if (!wsdlLocation.contains("Secure")) {
+               assertEquals(importMap.get(wsdlLocation), getWsdlImportAddress(definition));
+            }            
          }
       }
       finally
@@ -321,16 +356,25 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       try
       {
          final Map<String, String> wsdlLocationsSecMap = new HashMap<String, String>();
+         final Map<String, String> importMap = new HashMap<String, String>();
          final String serverHost = getServerHost();
          wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/ValidURL?wsdl", getWebServiceHost());
          wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/InvalidURL?wsdl", getWebServiceHost());
          wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/ValidSecureURL?wsdl", getWebServiceHost());
          wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/InvalidSecureURL?wsdl", getWebServiceHost());
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/ValidURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150-sec/ValidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/InvalidURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150-sec/InvalidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/ValidSecureURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150-sec/ValidSecureURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/InvalidSecureURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150-sec/InvalidSecureURL?wsdl=inner.wsdl");
          if (isTestsuiteServerHostLocalhost()) {
             wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/ValidURL?wsdl", getWebServiceHost());
             wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/InvalidURL?wsdl", getWebServiceHost());
             wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/ValidSecureURL?wsdl", getWebServiceHost());
             wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/InvalidSecureURL?wsdl", getWebServiceHost());
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/ValidURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150-sec/ValidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/InvalidURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150-sec/InvalidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/ValidSecureURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150-sec/ValidSecureURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/InvalidSecureURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150-sec/InvalidSecureURL?wsdl=inner.wsdl");
          }
          
          for (Entry<String, String> entry : wsdlLocationsSecMap.entrySet()) {
@@ -349,6 +393,9 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
    
             address = getPortAddress(definition, "InvalidSecureURLService", "InvalidSecureURLPort");
             assertEquals("https://" + host + ":8443/jaxws-jbws2150-sec/InvalidSecureURL", address);
+            
+            //check wsdl import address rewrite (we expect a rewritten version of the same base address used to fetch the wsdl)
+            assertEquals(importMap.get(wsdlLocationSec), getWsdlImportAddress(definition));
          }
       }
       finally
@@ -371,16 +418,25 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       try
       {
          final Map<String, String> wsdlLocationsSecMap = new HashMap<String, String>();
+         final Map<String, String> importMap = new HashMap<String, String>();
          final String serverHost = getServerHost();
          wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/ValidURL?wsdl", testWebServiceHost);
          wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/InvalidURL?wsdl", testWebServiceHost);
          wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/ValidSecureURL?wsdl", testWebServiceHost);
          wsdlLocationsSecMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/InvalidSecureURL?wsdl", testWebServiceHost);
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/ValidURL?wsdl", "https://" + testWebServiceHost + ":8443/jaxws-jbws2150-sec/ValidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/InvalidURL?wsdl", "https://" + testWebServiceHost + ":8443/jaxws-jbws2150-sec/InvalidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/ValidSecureURL?wsdl", "https://" + testWebServiceHost + ":8443/jaxws-jbws2150-sec/ValidSecureURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150-sec/InvalidSecureURL?wsdl", "https://" + testWebServiceHost + ":8443/jaxws-jbws2150-sec/InvalidSecureURL?wsdl=inner.wsdl");
          if (isTestsuiteServerHostLocalhost()) {
             wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/ValidURL?wsdl", testWebServiceHost);
             wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/InvalidURL?wsdl", testWebServiceHost);
             wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/ValidSecureURL?wsdl", testWebServiceHost);
             wsdlLocationsSecMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/InvalidSecureURL?wsdl", testWebServiceHost);
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/ValidURL?wsdl", "https://" + testWebServiceHost + ":8443/jaxws-jbws2150-sec/ValidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/InvalidURL?wsdl", "https://" + testWebServiceHost + ":8443/jaxws-jbws2150-sec/InvalidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/ValidSecureURL?wsdl", "https://" + testWebServiceHost + ":8443/jaxws-jbws2150-sec/ValidSecureURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150-sec/InvalidSecureURL?wsdl", "https://" + testWebServiceHost + ":8443/jaxws-jbws2150-sec/InvalidSecureURL?wsdl=inner.wsdl");
          }
          
          for (Entry<String, String> entry : wsdlLocationsSecMap.entrySet()) {
@@ -400,8 +456,8 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
             address = getPortAddress(definition, "InvalidSecureURLService", "InvalidSecureURLPort");
             assertEquals("https://" + host + ":8443/jaxws-jbws2150-sec/InvalidSecureURL", address);
             
-            //check wsdl import (which is bound to the endpoint currently serving the wsdl) 
-            assertTrue(getWsdlImportAddress(definition).contains(host));
+            //check wsdl import address rewrite (we expect a rewritten version of the same base address used to fetch the wsdl)
+            assertEquals(importMap.get(wsdlLocationSec), getWsdlImportAddress(definition));
          }
       }
       finally
@@ -422,16 +478,25 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
       try
       {
          final Map<String, String> wsdlLocationsMap = new HashMap<String, String>();
+         final Map<String, String> importMap = new HashMap<String, String>();
          final String serverHost = getServerHost();
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", getWebServiceHost());
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", getWebServiceHost());
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", getWebServiceHost());
          wsdlLocationsMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", getWebServiceHost());
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidURL?wsdl", "http://somehost:80/somepath?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidURL?wsdl", "http://" + getWebServiceHost() + ":8080/jaxws-jbws2150/InvalidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/ValidSecureURL?wsdl", "https://somehost:443/some-secure-path?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150/InvalidSecureURL?wsdl=inner.wsdl");
          if (isTestsuiteServerHostLocalhost()) {
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", getWebServiceHost());
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", getWebServiceHost());
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", getWebServiceHost());
             wsdlLocationsMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", getWebServiceHost());
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidURL?wsdl", "http://somehost:80/somepath?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidURL?wsdl", "http://" + getWebServiceHost() + ":8080/jaxws-jbws2150/InvalidURL?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/ValidSecureURL?wsdl", "https://somehost:443/some-secure-path?wsdl=inner.wsdl");
+            importMap.put("http://127.0.0.1:8080/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + getWebServiceHost() + ":8443/jaxws-jbws2150/InvalidSecureURL?wsdl=inner.wsdl");
          }
          
          for (Entry<String, String> entry : wsdlLocationsMap.entrySet()) {
@@ -450,6 +515,9 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
    
             address = getPortAddress(definition, "InvalidSecureURLService", "InvalidSecureURLPort");
             assertEquals("https://" + host + ":8443/jaxws-jbws2150/InvalidSecureURL", address);
+            
+            //check wsdl import address rewrite; here we expect an address using the same base as the one for the port corresponding to the address used to fetch the wsdl
+            assertEquals(importMap.get(wsdlLocation), getWsdlImportAddress(definition));
          }
       }
       finally
