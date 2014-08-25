@@ -227,7 +227,7 @@ public final class CXFServiceObjectFactoryJAXWS
    {
       final List<WebServiceFeature> featuresList = getFeatures(serviceRefMD);
       //force THREAD_BUS strategy so that the bus created before for this specific ref is used
-      if (ClientBusSelector.getDefaultStrategy() != Constants.THREAD_BUS_STRATEGY) {
+      if (!ClientBusSelector.getDefaultStrategy().equals(Constants.THREAD_BUS_STRATEGY)) {
          featuresList.add(new UseThreadBusFeature());
       }
       final WebServiceFeature[] features = featuresList.size() == 0 ? null : featuresList.toArray(new WebServiceFeature[]{});
