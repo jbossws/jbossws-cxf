@@ -22,19 +22,14 @@
 package org.jboss.test.ws.jaxws.jbws2307;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import junit.framework.Test;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
@@ -44,38 +39,9 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  */
 public class JBWS2307MTOMTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2307-service.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.jbws2307.Hello.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws2307.HelloImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws2307.HelloService.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-service/jboss-web.xml"), "jboss-web.xml")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-service/web.xml"), "web.xml")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-service/wsdl/HelloService.wsdl"), "wsdl/HelloService.wsdl")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-service/web.xml"));
-         }
-      });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2307-client.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.jbws2307.ClientServlet.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws2307.Hello.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws2307.HelloService.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-client/jboss-web.xml"), "jboss-web.xml")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-client/web.xml"), "web.xml")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-client/wsdl/HelloService.wsdl"), "wsdl/HelloService.wsdl")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-client/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2307MTOMTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), true);
+      return new JBossWSTestSetup(JBWS2307MTOMTestCase.class, DeploymentArchives.SERVER + " " + DeploymentArchives.CLIENT, true);
    }
    
    public void testMTOM() throws Exception
