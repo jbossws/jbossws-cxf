@@ -67,7 +67,7 @@ public final class DeploymentArchives
    public static final String EJB3_CLIENT = JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-cxf-bus-ejb3-client.jar") { {
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.apache.cxf\n"))
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
                .addClass(org.jboss.test.ws.jaxws.cxf.bus.AbstractClient.class)
                .addClass(org.jboss.test.ws.jaxws.cxf.bus.BusTestException.class)
                .addClass(org.jboss.test.ws.jaxws.cxf.bus.EJB3Client.class)

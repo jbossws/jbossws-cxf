@@ -37,6 +37,9 @@ import javax.xml.ws.Service;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 
+import org.jboss.wsf.stack.cxf.client.ClientBusSelector;
+import org.jboss.wsf.stack.cxf.client.Constants;
+
 /**
  * 
  * @author alessio.soldano@jboss.com
@@ -121,13 +124,19 @@ public class AbstractClient
          BusFactory.setThreadDefaultBus(null);
          performInvocation(url); //goes through ServiceDelegate which sets the thread bus if it's null
          Bus newThreadBus = BusFactory.getThreadDefaultBus(false);
-         if (newThreadBus == initialDefaultBus)
-         {
-            throw new BusTestException("Thread bus set to former default bus " + initialDefaultBus + " instead of a new bus!"); 
-         }
-         else if (newThreadBus == threadBus)
-         {
-            throw new BusTestException("Thread bus set to former thread bus " + threadBus + " instead of a new bus!"); 
+         if (ClientBusSelector.getDefaultStrategy().equals(Constants.THREAD_BUS_STRATEGY)) {
+            if (newThreadBus == initialDefaultBus)
+            {
+               throw new BusTestException("Thread bus set to former default bus " + initialDefaultBus + " instead of a new bus!"); 
+            }
+            else if (newThreadBus == threadBus)
+            {
+               throw new BusTestException("Thread bus set to former thread bus " + threadBus + " instead of a new bus!"); 
+            }
+         } else {
+            if (newThreadBus != null) {
+               throw new BusTestException("Thread bus set to " + newThreadBus + " instead of null!");
+            }
          }
          performInvocation(url);
          checkThreadBus(newThreadBus); //the thread bus is not changed as it's not null
@@ -187,6 +196,11 @@ public class AbstractClient
    protected static void checkThreadBus(Bus expectedThreadBus) throws BusTestException
    {
       Bus bus = BusFactory.getThreadDefaultBus(false);
+      if (expectedThreadBus == null && bus != null)
+      {
+         throw new BusTestException("Thread " + Thread.currentThread() + " associated with bus " + bus
+               + " instead of expected null bus");
+      }
       if (bus != expectedThreadBus)
       {
          throw new BusTestException("Thread " + Thread.currentThread() + " associated with bus " + bus

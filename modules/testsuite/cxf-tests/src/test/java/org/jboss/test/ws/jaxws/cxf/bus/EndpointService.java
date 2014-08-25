@@ -53,6 +53,10 @@ public class EndpointService
         super(wsdlLocation, serviceName);
     }
 
+    public EndpointService(URL wsdlLocation, QName serviceName, WebServiceFeature... features) {
+       super(wsdlLocation, serviceName, features);
+    }
+
     public EndpointService() {
         super(WSDL_LOCATION, TESTENDPOINTSERVICE);
     }
