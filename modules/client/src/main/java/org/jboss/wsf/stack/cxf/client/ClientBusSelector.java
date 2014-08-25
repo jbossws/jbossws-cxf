@@ -28,6 +28,7 @@ import static org.jboss.wsf.stack.cxf.client.Constants.THREAD_BUS_STRATEGY;
 
 import javax.xml.ws.WebServiceFeature;
 
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
 
@@ -43,7 +44,7 @@ public abstract class ClientBusSelector
 {
    private static final String sysPropStrategy;
    static {
-      final String propValue = SecurityActions.getSystemProperty(JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY, THREAD_BUS_STRATEGY);
+      final String propValue = SecurityActions.getSystemProperty(JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY, ClassLoaderProvider.isSet() ? TCCL_BUS_STRATEGY : THREAD_BUS_STRATEGY);
       if (THREAD_BUS_STRATEGY.equals(propValue) || NEW_BUS_STRATEGY.equals(propValue) || TCCL_BUS_STRATEGY.equals(propValue))
       {
          sysPropStrategy = propValue;
