@@ -102,4 +102,8 @@ public abstract class ClientBusSelector
       }
       return featureStrategy != null ? featureStrategy : sysPropStrategy;
    }
+   
+   public static String getDefaultStrategy() {
+      return sysPropStrategy;
+   }
 }

@@ -53,7 +53,9 @@ import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedPortComponentRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
+import org.jboss.wsf.stack.cxf.client.ClientBusSelector;
 import org.jboss.wsf.stack.cxf.client.Constants;
+import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 
 /**
@@ -223,7 +225,12 @@ public final class CXFServiceObjectFactoryJAXWS
    private Service instantiateService(final UnifiedServiceRefMetaData serviceRefMD, final Class<?> serviceClass)
          throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, WSFException
    {
-      final WebServiceFeature[] features = getFeatures(serviceRefMD);
+      final List<WebServiceFeature> featuresList = getFeatures(serviceRefMD);
+      //force THREAD_BUS strategy so that the bus created before for this specific ref is used
+      if (ClientBusSelector.getDefaultStrategy() != Constants.THREAD_BUS_STRATEGY) {
+         featuresList.add(new UseThreadBusFeature());
+      }
+      final WebServiceFeature[] features = featuresList.size() == 0 ? null : featuresList.toArray(new WebServiceFeature[]{});
       final QName serviceQName = this.getServiceQName(serviceRefMD, serviceClass);
       URL wsdlURL = this.getWsdlURL(serviceRefMD, serviceClass);
       if (wsdlURL == null)
@@ -437,7 +444,7 @@ public final class CXFServiceObjectFactoryJAXWS
       }
    }
 
-   private WebServiceFeature[] getFeatures(final UnifiedServiceRefMetaData serviceRef)
+   private List<WebServiceFeature> getFeatures(final UnifiedServiceRefMetaData serviceRef)
    {
       List<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
 
@@ -471,8 +478,7 @@ public final class CXFServiceObjectFactoryJAXWS
          features.add(new RespectBindingFeature(enabled));
       }
 
-      return features.size() == 0 ? null : features.toArray(new WebServiceFeature[]
-      {});
+      return features;
    }
 
    private WebServiceFeature[] getFeatures(final UnifiedPortComponentRefMetaData portComponentRefMD)
