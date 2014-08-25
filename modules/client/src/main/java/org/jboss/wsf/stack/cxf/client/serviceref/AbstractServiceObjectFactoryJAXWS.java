@@ -250,7 +250,7 @@ public abstract class AbstractServiceObjectFactoryJAXWS
    }
 
    private Service instantiateService(final UnifiedServiceRefMetaData serviceRefMD, final Class<?> serviceClass)
-         throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
+         throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, WSFException
    {
       final WebServiceFeature[] features = getFeatures(serviceRefMD);
       final QName serviceQName = this.getServiceQName(serviceRefMD, serviceClass);
@@ -297,10 +297,12 @@ public abstract class AbstractServiceObjectFactoryJAXWS
          {
             if (features != null)
             {
-               Constructor<?> ctor = serviceClass.getConstructor(new Class[]
-               {URL.class, QName.class, WebServiceFeature[].class});
-               target = (Service) ctor.newInstance(new Object[]
-               {wsdlURL, serviceQName, features});
+               try {
+                  Constructor<?> ctor = serviceClass.getConstructor(new Class[] {URL.class, QName.class, WebServiceFeature[].class});
+                  target = (Service) ctor.newInstance(new Object[] {wsdlURL, serviceQName, features});
+               } catch (NoSuchMethodException nsme) {
+                  throw org.jboss.wsf.stack.cxf.Messages.MESSAGES.missingJAXWS22ServiceConstructor(serviceClass.getName(), nsme);
+               }
             }
             else
             {
@@ -314,10 +316,12 @@ public abstract class AbstractServiceObjectFactoryJAXWS
          {
             if (features != null)
             {
-               Constructor<?> ctor = serviceClass.getConstructor(new Class[]
-               {WebServiceFeature[].class});
-               target = (Service) ctor.newInstance(new Object[]
-               {features});
+               try {
+                  Constructor<?> ctor = serviceClass.getConstructor(new Class[] {WebServiceFeature[].class});
+                  target = (Service) ctor.newInstance(new Object[] {features});
+               } catch (NoSuchMethodException nsme) {
+                  throw org.jboss.wsf.stack.cxf.Messages.MESSAGES.missingJAXWS22ServiceConstructor(serviceClass.getName(), nsme);
+               }
             }
             else
             {

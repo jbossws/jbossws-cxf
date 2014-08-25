@@ -33,6 +33,7 @@ import javax.xml.ws.WebServiceException;
 import org.jboss.logging.Cause;
 import org.jboss.logging.Message;
 import org.jboss.logging.MessageBundle;
+import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.WSFDeploymentException;
 
@@ -221,4 +222,6 @@ public interface Messages {
     @Message(id = 24101, value = "Could not find endpoint config name: %s")
     WSFDeploymentException couldNotFindEndpointConfigName(String name);
     
+    @Message(id = 24104, value = "Service class %s is missing required JAX-WS 2.2 additional constructors")
+    WSFException missingJAXWS22ServiceConstructor(String className, @Cause Throwable cause);
 }
