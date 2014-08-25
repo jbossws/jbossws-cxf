@@ -72,6 +72,11 @@ public class EndpointService extends Service
       super(wsdlLocation, serviceName);
    }
 
+   public EndpointService(URL wsdlLocation, QName serviceName, WebServiceFeature... features)
+   {
+      super(wsdlLocation, serviceName, features);
+   }
+
    /**
     * 
     * @return

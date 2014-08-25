@@ -27,6 +27,7 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
+import javax.xml.ws.WebServiceFeature;
 
 @WebServiceClient(name = "HelloService", targetNamespace = "http://helloservice.org/wsdl", wsdlLocation = "WEB-INF/wsdl/HelloService.wsdl")
 public class HelloService extends Service
@@ -36,6 +37,11 @@ public class HelloService extends Service
    public HelloService(URL wsdlLocation, QName serviceName)
    {
       super(wsdlLocation, serviceName);
+   }
+
+   public HelloService(URL wsdlLocation, QName serviceName, WebServiceFeature... features)
+   {
+      super(wsdlLocation, serviceName, features);
    }
 
    public HelloService()

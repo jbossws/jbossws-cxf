@@ -66,6 +66,11 @@ public class MultipleEndpointService extends Service
       super(wsdlLocation, serviceName);
    }
 
+   public MultipleEndpointService(URL wsdlLocation, QName serviceName, WebServiceFeature... features)
+   {
+      super(wsdlLocation, serviceName, features);
+   }
+
    /**
     * 
     * @return

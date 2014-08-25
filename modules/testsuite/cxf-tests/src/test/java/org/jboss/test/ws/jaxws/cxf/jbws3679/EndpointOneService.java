@@ -31,6 +31,10 @@ public class EndpointOneService extends Service {
         super(wsdlLocation, serviceName);
     }
 
+    public EndpointOneService(URL wsdlLocation, QName serviceName, WebServiceFeature... features) {
+       super(wsdlLocation, serviceName, features);
+   }
+
     @WebEndpoint(name = "EndpointOne")
     public EndpointOne getSheepWSPort() {
         return super.getPort(new QName("http://org.jboss.ws.jaxws.cxf/jbws3679", "EndpointOnePort"), EndpointOne.class);

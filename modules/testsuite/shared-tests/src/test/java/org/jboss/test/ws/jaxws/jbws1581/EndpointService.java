@@ -26,6 +26,7 @@ import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
+import javax.xml.ws.WebServiceFeature;
 
 @WebServiceClient(name="EndpointService", targetNamespace="http://jbws1581.jaxws.ws.test.jboss.org/")
 public class EndpointService extends javax.xml.ws.Service
@@ -34,6 +35,10 @@ public class EndpointService extends javax.xml.ws.Service
    
    public EndpointService(URL wsdlLocation, QName serviceName) {
       super(wsdlLocation, serviceName);
+   }
+   
+   public EndpointService(URL wsdlLocation, QName serviceName, WebServiceFeature... features) {
+      super(wsdlLocation, serviceName, features);
    }
    
    @WebEndpoint(name = "EndpointBeanPort")

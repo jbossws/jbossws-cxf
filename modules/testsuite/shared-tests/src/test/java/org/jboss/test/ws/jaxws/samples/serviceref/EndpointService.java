@@ -28,6 +28,7 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
+import javax.xml.ws.WebServiceFeature;
 
 /**
  * JBossWS Generated Source
@@ -62,6 +63,10 @@ public class EndpointService
     public EndpointService(URL wsdlLocation, QName serviceName) {
         super(wsdlLocation, serviceName);
     }
+
+    public EndpointService(URL wsdlLocation, QName serviceName, WebServiceFeature... features) {
+       super(wsdlLocation, serviceName, features);
+   }
 
     public EndpointService() {
         super(TESTENDPOINTSERVICE_WSDL_LOCATION, new QName("http://serviceref.samples.jaxws.ws.test.jboss.org/", "EndpointService"));

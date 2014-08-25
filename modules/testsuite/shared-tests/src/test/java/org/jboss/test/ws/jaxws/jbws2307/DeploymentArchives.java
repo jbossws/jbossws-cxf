@@ -23,7 +23,6 @@ package org.jboss.test.ws.jaxws.jbws2307;
 
 import java.io.File;
 
-import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSTestHelper;
 
 public final class DeploymentArchives
@@ -33,7 +32,6 @@ public final class DeploymentArchives
             .addManifest()
             .addClass(org.jboss.test.ws.jaxws.jbws2307.Hello.class)
             .addClass(org.jboss.test.ws.jaxws.jbws2307.HelloImpl.class)
-            .addClass(org.jboss.test.ws.jaxws.jbws2307.HelloService.class)
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-service/jboss-web.xml"), "jboss-web.xml")
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-service/web.xml"), "web.xml")
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-service/wsdl/HelloService.wsdl"), "wsdl/HelloService.wsdl")
@@ -72,7 +70,7 @@ public final class DeploymentArchives
             .addManifest()
             .addClass(org.jboss.test.ws.jaxws.jbws2307.ClientServlet.class)
             .addClass(org.jboss.test.ws.jaxws.jbws2307.Hello.class)
-            .addClass(org.jboss.test.ws.jaxws.jbws2307.HelloService.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws2307.HelloServiceJAXWS22.class)
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-client/jboss-web.xml"), "jboss-web.xml")
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-client/web.xml"), "web.xml")
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2307/WEB-INF-client/wsdl/HelloService.wsdl"), "wsdl/HelloService.wsdl")

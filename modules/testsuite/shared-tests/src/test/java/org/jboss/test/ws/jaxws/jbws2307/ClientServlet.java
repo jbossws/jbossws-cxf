@@ -44,7 +44,7 @@ import org.jboss.logging.Logger;
 @MTOM
 @RespectBinding
 @Addressing
-@WebServiceRef(name="service/jbws2307service/asdf", type=HelloService.class)
+@WebServiceRef(name="service/jbws2307service/asdf", type=HelloServiceJAXWS22.class)
 public class ClientServlet extends HttpServlet
 {
 
@@ -53,7 +53,7 @@ public class ClientServlet extends HttpServlet
    private final Logger log = Logger.getLogger(ClientServlet.class);
 
    @WebServiceRef(name="service/jbws2307service")
-   HelloService service;
+   HelloServiceJAXWS22 service;
 
    @Override
    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
