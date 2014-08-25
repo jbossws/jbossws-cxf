@@ -34,7 +34,7 @@ import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
 /**
- * 
+ * [JBWS-3820] JAXWS 2.1 / 2.0 clients and WebServiceRef using JAXWS features cause NoSuchMethodException
  * 
  * @author alessio.soldano@jboss.com
  */
