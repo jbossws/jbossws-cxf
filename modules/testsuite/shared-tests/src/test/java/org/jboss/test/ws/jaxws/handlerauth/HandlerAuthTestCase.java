@@ -74,31 +74,43 @@ public class HandlerAuthTestCase extends JBossWSTest
       SecureEndpoint port = service.getPort(new QName("http://ws/", "SecureEndpoint3Port"), SecureEndpoint.class);
       setUser((BindingProvider)port, "John", "foo");
       int count = port.getHandlerCounter();
+      int countOut = port.getHandlerCounterOutbound();
       int newCount;
+      int newCountOut;
       
       assertEquals("Hello, Mr. John", port.sayHello("John"));
       newCount = port.getHandlerCounter();
+      newCountOut = port.getHandlerCounterOutbound();
       assertEquals(++count, newCount);
+      assertEquals(++countOut, newCountOut);
       
       assertEquals("Bye, Mr. John", port.sayBye("John"));
       newCount = port.getHandlerCounter();
+      newCountOut = port.getHandlerCounterOutbound();
       assertEquals(++count, newCount);
+      assertEquals(++countOut, newCountOut);
       
       try {
          port.deniedMethod();
          fail("Exception expected!");
       } catch (Exception e) {
          newCount = port.getHandlerCounter();
+         newCountOut = port.getHandlerCounterOutbound();
          assertEquals(++count, newCount); //verify count is increased
+         assertEquals(++countOut, newCountOut); //verify countOut is increased
       }
       
       port.ping();
       newCount = port.getHandlerCounter();
+      newCountOut = port.getHandlerCounterOutbound();
       assertEquals(++count, newCount);
+      assertEquals(countOut, newCountOut); //verify countOut is not increased (oneway)
       
       assertEquals("foo", port.echo("foo"));
       newCount = port.getHandlerCounter();
+      newCountOut = port.getHandlerCounterOutbound();
       assertEquals(++count, newCount);
+      assertEquals(++countOut, newCountOut);
       
       
       //Change user...
@@ -106,14 +118,18 @@ public class HandlerAuthTestCase extends JBossWSTest
       
       assertEquals("Hello, Mr. Bob", port.sayHello("Bob"));
       newCount = port.getHandlerCounter();
+      newCountOut = port.getHandlerCounterOutbound();
       assertEquals(++count, newCount);
+      assertEquals(++countOut, newCountOut);
       
       try {
          port.sayBye("Bob");
          fail("Exception expected!");
       } catch (Exception e) {
          newCount = port.getHandlerCounter();
+         newCountOut = port.getHandlerCounterOutbound();
          assertEquals(++count, newCount); //verify count is increased
+         assertEquals(++countOut, newCountOut); //verify countOut is increased
       }
       
       try {
@@ -121,27 +137,37 @@ public class HandlerAuthTestCase extends JBossWSTest
          fail("Exception expected!");
       } catch (Exception e) {
          newCount = port.getHandlerCounter();
+         newCountOut = port.getHandlerCounterOutbound();
          assertEquals(++count, newCount); //verify count is increased
+         assertEquals(++countOut, newCountOut); //verify countOut is increased
       }
       
       assertEquals("foo2", port.echo("foo2"));
       newCount = port.getHandlerCounter();
+      newCountOut = port.getHandlerCounterOutbound();
       assertEquals(++count, newCount);
+      assertEquals(++countOut, newCountOut);
    }
 
    private void testAuth(final SecureEndpoint port) throws Exception
    {
       setUser((BindingProvider)port, "John", "foo");
       int count = port.getHandlerCounter();
+      int countOut = port.getHandlerCounterOutbound();
       int newCount;
+      int newCountOut;
       
       assertEquals("Hello, Mr. John", port.sayHello("John"));
       newCount = port.getHandlerCounter();
+      newCountOut = port.getHandlerCounterOutbound();
       assertEquals(++count, newCount);
+      assertEquals(++countOut, newCountOut);
       
       assertEquals("Bye, Mr. John", port.sayBye("John"));
       newCount = port.getHandlerCounter();
+      newCountOut = port.getHandlerCounterOutbound();
       assertEquals(++count, newCount);
+      assertEquals(++countOut, newCountOut);
       
       try {
          port.deniedMethod();
@@ -149,16 +175,22 @@ public class HandlerAuthTestCase extends JBossWSTest
       } catch (Exception e) {
          assertTrue(e.getMessage().contains("JBWS024094"));
          newCount = port.getHandlerCounter();
+         newCountOut = port.getHandlerCounterOutbound();
          assertEquals(count, newCount); //verify count is *not* increased
+         assertEquals(countOut, newCountOut); //verify countOut is *not* increased
       }
       
       port.ping();
       newCount = port.getHandlerCounter();
+      newCountOut = port.getHandlerCounterOutbound();
       assertEquals(++count, newCount);
+      assertEquals(countOut, newCountOut); //verify countOut is *not* increased (oneway)
       
       assertEquals("foo", port.echo("foo"));
       newCount = port.getHandlerCounter();
+      newCountOut = port.getHandlerCounterOutbound();
       assertEquals(++count, newCount);
+      assertEquals(++countOut, newCountOut);
       
       
       //Change user...
@@ -166,7 +198,9 @@ public class HandlerAuthTestCase extends JBossWSTest
       
       assertEquals("Hello, Mr. Bob", port.sayHello("Bob"));
       newCount = port.getHandlerCounter();
+      newCountOut = port.getHandlerCounterOutbound();
       assertEquals(++count, newCount);
+      assertEquals(++countOut, newCountOut);
       
       try {
          port.sayBye("Bob");
@@ -174,7 +208,9 @@ public class HandlerAuthTestCase extends JBossWSTest
       } catch (Exception e) {
          assertTrue(e.getMessage().contains("JBWS024094"));
          newCount = port.getHandlerCounter();
+         newCountOut = port.getHandlerCounterOutbound();
          assertEquals(count, newCount); //verify count is *not* increased
+         assertEquals(countOut, newCountOut); //verify countOut is *not* increased
       }
       
       try {
@@ -183,7 +219,9 @@ public class HandlerAuthTestCase extends JBossWSTest
       } catch (Exception e) {
          assertTrue(e.getMessage().contains("JBWS024094"));
          newCount = port.getHandlerCounter();
+         newCountOut = port.getHandlerCounterOutbound();
          assertEquals(count, newCount); //verify count is *not* increased
+         assertEquals(countOut, newCountOut); //verify countOut is *not* increased
       }
       
       try {
@@ -191,12 +229,16 @@ public class HandlerAuthTestCase extends JBossWSTest
       } catch (Exception e) {
          assertTrue(e.getMessage().contains("JBWS024094"));
          newCount = port.getHandlerCounter();
+         newCountOut = port.getHandlerCounterOutbound();
          assertEquals(count, newCount); //verify count is *not* increased
+         assertEquals(countOut, newCountOut); //verify countOut is *not* increased (it's oneway anyway)
       }
       
       assertEquals("foo2", port.echo("foo2"));
       newCount = port.getHandlerCounter();
+      newCountOut = port.getHandlerCounterOutbound();
       assertEquals(++count, newCount);
+      assertEquals(++countOut, newCountOut);
    }
    
    private static void setUser(BindingProvider bp, String username, String password) {

@@ -34,6 +34,7 @@ import junit.framework.Test;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.apache.cxf.message.Message;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.CryptoHelper;
@@ -114,5 +115,6 @@ public class PolicyAttachmentTestCase extends JBossWSTest
       proxy.getRequestContext().put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/alice.properties"));
       proxy.getRequestContext().put(SecurityConstants.SIGNATURE_USERNAME, "alice");
       proxy.getRequestContext().put(SecurityConstants.ENCRYPT_USERNAME, "bob");
+      proxy.getRequestContext().put(Message.RECEIVE_TIMEOUT, 120000);
    }
 }

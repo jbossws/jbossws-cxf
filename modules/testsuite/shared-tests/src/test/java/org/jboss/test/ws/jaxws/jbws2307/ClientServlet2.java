@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,26 +19,36 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.handlerauth;
+package org.jboss.test.ws.jaxws.jbws2307;
 
-import javax.jws.Oneway;
-import javax.jws.WebService;
+import java.io.IOException;
 
-@WebService(targetNamespace = "http://ws/")
-public interface SecureEndpoint
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.WebServiceRef;
+import javax.xml.ws.soap.MTOM;
+
+/**
+ * Client servlet with injected JAX-WS 2.0 service
+ *
+ * @author alessio.soldano@jboss.com
+ */
+public class ClientServlet2 extends HttpServlet
 {
-   String sayHello(String name);
+   private static final long serialVersionUID = 323764398209417743L;
+   
+   @WebServiceRef(name="service/jbws2307service")
+   @MTOM
+   HelloService service;
 
-   String sayBye(String name);
-   
-   int getHandlerCounter();
-   
-   int getHandlerCounterOutbound();
-   
-   @Oneway
-   void ping();
-   
-   void deniedMethod();
-   
-   String echo(String s);
+   @Override
+   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+   {
+      Hello hello = service.getHelloPort();
+      hello.hello("Foo");
+      resp.getWriter().print(true);
+   }
+
 }

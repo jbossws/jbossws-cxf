@@ -152,32 +152,32 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- Deployment wildfly801                                              -->
+  <!-- Deployment wildfly810                                              -->
   <!-- ================================================================== -->
 
-  <target name="target-wildfly801">
-    <property name="jbossws.integration.target" value="wildfly801"/>
+  <target name="target-wildfly810">
+    <property name="jbossws.integration.target" value="wildfly810"/>
     <echo message="jbossws.integration.target=${jbossws.integration.target}" file="${target.properties.file}"/>
   </target>
 
-  <target name="deploy-wildfly801" depends="undeploy-wildfly801,deploy-structure-wildfly80x,check-spring,install-spring-module80x" description="Deploy jbossws to wildfly801">
-    <fail message="Not available: ${wildfly801.available.file}" unless="wildfly801.available"/>
-    <copy todir="${wildfly801.home}" overwrite="true" verbose="true">
+  <target name="deploy-wildfly810" depends="undeploy-wildfly810,deploy-structure-wildfly80x,check-spring,install-spring-module80x" description="Deploy jbossws to wildfly810">
+    <fail message="Not available: ${wildfly810.available.file}" unless="wildfly810.available"/>
+    <copy todir="${wildfly810.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
         <exclude name="**/jboss/as/webservices/**/module.xml"/>
       </fileset>
     </copy>
     <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
-    <installModules targetDir="${wildfly801.home}/modules/system/layers/base/">
+    <installModules targetDir="${wildfly810.home}/modules/system/layers/base/">
       <fileset dir="${deploy.structure}/modules/system/layers/base">
         <include name="**/jboss/as/webservices/**/module.xml"/>
       </fileset>
     </installModules>
   </target>
 
-  <target name="undeploy-wildfly801" depends="target-wildfly801,init" description="Remove jbossws from wildfly801">
-    <fail message="Not available: ${wildfly801.available.file}" unless="wildfly801.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${wildfly801.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
+  <target name="undeploy-wildfly810" depends="target-wildfly810,init" description="Remove jbossws from wildfly810">
+    <fail message="Not available: ${wildfly810.available.file}" unless="wildfly810.available"/>
+    <macro-undeploy-jbossws-modules targetdir="${wildfly810.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
   </target>
 
   <!-- ================================================================== -->

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,26 +19,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.handlerauth;
+package org.jboss.test.ws.jaxws.cxf.jbws3809;
 
-import javax.jws.Oneway;
 import javax.jws.WebService;
 
-@WebService(targetNamespace = "http://ws/")
-public interface SecureEndpoint
-{
-   String sayHello(String name);
-
-   String sayBye(String name);
-   
-   int getHandlerCounter();
-   
-   int getHandlerCounterOutbound();
-   
-   @Oneway
-   void ping();
-   
-   void deniedMethod();
-   
-   String echo(String s);
+/**
+ * User: rsearls
+ * Date: 7/25/14
+ */
+@WebService(
+   targetNamespace = "http://org.jboss.ws.test")
+public interface BasicEjb {
+   String getStr (String str);
 }

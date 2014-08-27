@@ -66,7 +66,7 @@
     <condition property="jbossws.integration.wildfly80x" value="true">
       <or>
         <equals arg1="${jbossws.integration.target}" arg2="wildfly800"/>
-        <equals arg1="${jbossws.integration.target}" arg2="wildfly801"/>
+        <equals arg1="${jbossws.integration.target}" arg2="wildfly810"/>
       </or>
     </condition>
 

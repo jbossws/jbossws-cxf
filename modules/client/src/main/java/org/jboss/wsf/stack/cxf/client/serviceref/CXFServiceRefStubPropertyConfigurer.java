@@ -47,8 +47,8 @@ import org.jboss.wsf.stack.cxf.Loggers;
  */
 final class CXFServiceRefStubPropertyConfigurer implements Configurer
 {
-   private UnifiedServiceRefMetaData serviceRefMD;
-   private Configurer delegate;
+   private final UnifiedServiceRefMetaData serviceRefMD;
+   private final Configurer delegate;
 
    public CXFServiceRefStubPropertyConfigurer(UnifiedServiceRefMetaData serviceRefMD, Configurer delegate)
    {

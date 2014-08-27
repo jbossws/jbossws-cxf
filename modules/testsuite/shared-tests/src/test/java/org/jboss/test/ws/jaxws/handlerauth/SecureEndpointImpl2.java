@@ -78,6 +78,9 @@ public class SecureEndpointImpl2 implements SecureEndpoint
       return LogicalSimpleHandler.counter.get();
    }
 
+   public int getHandlerCounterOutbound() {
+      return LogicalSimpleHandler.outboundCounter.get();
+   }
 
    @Oneway
    @RolesAllowed("friend")

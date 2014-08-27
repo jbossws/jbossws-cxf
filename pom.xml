@@ -69,7 +69,7 @@
     <jbossws.native.version>4.2.0.Final</jbossws.native.version>
     <jboss720.version>7.2.0.Final</jboss720.version>
     <wildfly800.version>8.0.0.Final</wildfly800.version>
-    <wildfly801.version>8.0.1.Final-SNAPSHOT</wildfly801.version>
+    <wildfly810.version>8.1.0.Final-SNAPSHOT</wildfly810.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
     <cxf.version>2.7.11</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
@@ -162,7 +162,7 @@
       <dependency>
         <groupId>org.wildfly</groupId>
         <artifactId>wildfly-webservices-tests-integration</artifactId>
-        <version>${wildfly801.version}</version>
+        <version>${wildfly810.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
@@ -1407,14 +1407,14 @@
     </profile>
 
     <!--
-    Name:  wildfly801
-    Descr: WildFly-8.0.1 specific options
+    Name:  wildfly810
+    Descr: WildFly-8.1.0 specific options
     -->
     <profile>
-      <id>wildfly801</id>
+      <id>wildfly810</id>
       <properties>
-        <jbossws.integration.target>wildfly801</jbossws.integration.target>
-        <jboss.home>${wildfly801.home}</jboss.home>
+        <jbossws.integration.target>wildfly810</jbossws.integration.target>
+        <jboss.home>${wildfly810.home}</jboss.home>
       </properties>
     </profile>
 

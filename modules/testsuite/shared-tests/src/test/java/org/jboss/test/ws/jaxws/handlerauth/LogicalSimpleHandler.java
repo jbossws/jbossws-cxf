@@ -31,14 +31,17 @@ import javax.xml.ws.handler.MessageContext;
 public class LogicalSimpleHandler implements LogicalHandler<LogicalMessageContext>
 {
    public static AtomicInteger counter = new AtomicInteger(0);
+   public static AtomicInteger outboundCounter = new AtomicInteger(0);
 
    @Override
    public boolean handleMessage(LogicalMessageContext context)
    {
       Boolean isOutbound = (Boolean) context.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
       String operation = ((QName) context.get(MessageContext.WSDL_OPERATION)).getLocalPart();
-      if (!isOutbound && !operation.equals("getHandlerCounter")) {
+      if (!isOutbound && !operation.startsWith("getHandlerCounter")) {
          counter.incrementAndGet();
+      } else if (isOutbound && !operation.startsWith("getHandlerCounter")) {
+         outboundCounter.incrementAndGet();
       }
       return true;
    }
@@ -46,6 +49,10 @@ public class LogicalSimpleHandler implements LogicalHandler<LogicalMessageContex
    @Override
    public boolean handleFault(LogicalMessageContext context)
    {
+      String operation = ((QName) context.get(MessageContext.WSDL_OPERATION)).getLocalPart();
+      if (!operation.startsWith("getHandlerCounter")) {
+         outboundCounter.incrementAndGet();
+      }
       return true;
    }
 

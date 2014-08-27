@@ -21,6 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.jbws2307;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import junit.framework.Test;
@@ -38,11 +41,18 @@ public class JBWS2307MTOMTestCase extends JBossWSTest
 {
    public static Test suite()
    {
-      return new JBossWSTestSetup(JBWS2307MTOMTestCase.class, "jaxws-jbws2307-client.war, jaxws-jbws2307-service.war", true);
+      return new JBossWSTestSetup(JBWS2307MTOMTestCase.class, DeploymentArchives.SERVER + " " + DeploymentArchives.CLIENT, true);
    }
    
    public void testMTOM() throws Exception
    {
       assertEquals("true", IOUtils.readAndCloseStream(new URL("http://" + getServerHost() + ":8080/jaxws-jbws2307-client/jbws2307?mtom=true").openStream()));
+   }
+
+   public void testClient() throws Exception
+   {
+      HttpURLConnection con = (HttpURLConnection)new URL("http://" + getServerHost() + ":8080/jaxws-jbws2307-client/jbws2307").openConnection();
+      BufferedReader isr = new BufferedReader(new InputStreamReader(con.getInputStream()));
+      assertEquals("true", isr.readLine());
    }
 }

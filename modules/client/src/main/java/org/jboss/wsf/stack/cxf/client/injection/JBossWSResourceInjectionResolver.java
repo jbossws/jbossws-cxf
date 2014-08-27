@@ -54,6 +54,8 @@ public class JBossWSResourceInjectionResolver implements ResourceResolver
          return (T)new InitialContext().lookup("java:comp/env/" + resourceName);
       } catch (NamingException ne) {
          return null;
+      } catch (IllegalArgumentException iae) {
+         return null;
       }
    }
 

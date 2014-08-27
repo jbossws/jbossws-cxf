@@ -429,6 +429,11 @@ public class JBossWSTestHelper
          return archive;
       }
 
+      public String getName()
+      {
+         return archive.getName();
+      }
+
       private File assertArchiveDirExists(String testArchiveDir)
       {
          File archiveDir = new File(testArchiveDir);
@@ -438,12 +443,23 @@ public class JBossWSTestHelper
                throw new IllegalArgumentException("Cannot create archive - system property '"
                      + JBossWSTestHelper.SYSPROP_TEST_ARCHIVE_DIRECTORY + "' not set.");
             if (!archiveDir.mkdirs())
-               ;
-            throw new IllegalArgumentException("Cannot create archive - can not create test archive directory '"
+               throw new IllegalArgumentException("Cannot create archive - can not create test archive directory '"
                   + archiveDir.getAbsolutePath() + "' not set.");
          }
          return archiveDir;
       }
+   }
+
+   public static String writeToFile(BaseDeployment<?>... deps) {
+      if (deps == null) {
+         return "";
+      }
+      StringBuilder sb = new StringBuilder();
+      for (BaseDeployment<?> dep : deps) {
+         sb.append(dep.writeToFile().getName());
+         sb.append(" ");
+      }
+      return sb.toString().trim();
    }
 
    public static abstract class WarDeployment extends BaseDeployment<WebArchive>
