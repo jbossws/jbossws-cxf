@@ -69,7 +69,7 @@ public class WebServiceRefMTOMTestCase extends JBossWSTest
          assertEquals(500, c.getResponseCode());
          String error = IOUtils.readAndCloseStream(c.getErrorStream());
          c.disconnect();
-         assertTrue(error.contains("Could not instantiate ClientServlet2"));
+         assertTrue(error.contains("Could not instantiate ClientServlet2") || error.contains("Error instantiating servlet class org.jboss.test.ws.jaxws.jbws2307.ClientServlet2"));
       } finally {
          JBossWSTestHelper.undeploy(DeploymentArchives.CLIENT_2);
       }
