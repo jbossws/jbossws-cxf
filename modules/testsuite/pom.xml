@@ -821,9 +821,8 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.wildfly</groupId>
-          <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <version>${jboss.version}</version>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-wildfly810-tests-integration</artifactId>
         </dependency>
         <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
         <dependency>
@@ -886,6 +885,10 @@
 
                  <!-- # [JBWS-3620] Authentication failures w/ Undertow -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
+
+                 <!-- [JBWS-3686] Restore WSTrustActAsTestCase and WSTrustOnBehalfOfTestCase -->
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustActAsTestCase.*</exclude>
+                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustOnBehalfOfTestCase.*</exclude>
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>

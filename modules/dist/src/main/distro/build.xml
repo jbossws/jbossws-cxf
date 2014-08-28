@@ -73,11 +73,11 @@
     <property name="deploy.structure" value="${output.dir}/deploy-${jbossws.integration.target}"/>
     <property name="excludesfile" value="${tests.dir}/resources/test-excludes-${jbossws.integration.target}.txt"/>
 
-    <condition property="remote.port" value="8080" else="4447">
-        <isset property="jbossws.integration.wildfly80x"/>
+    <condition property="remote.port" value="4447" else="8080">
+    	<isset property="jbossws.integration.jboss72x"/>
     </condition>
-    <condition property="remote.protocol" value="http-remoting" else="remote">
-        <isset property="jbossws.integration.wildfly80x"/>
+  	<condition property="remote.protocol" value="remote" else="http-remoting">
+    	<isset property="jbossws.integration.jboss72x"/>
     </condition>
   </target>
   
