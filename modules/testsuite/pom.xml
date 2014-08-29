@@ -677,9 +677,6 @@
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
               <excludes combine.children="append">
-                 <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
-
                  <!--# [JBWS-2561] XOP request not properly inlined-->
                  <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
 
@@ -765,9 +762,6 @@
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
               <excludes combine.children="append">
-                 <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
-
                  <!--# [JBWS-2561] XOP request not properly inlined-->
                  <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
 
@@ -854,9 +848,6 @@
             <configuration>
               <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
               <excludes combine.children="append">
-                 <!--# [CXF-2006] RespectBinding feature and not understood required extensibility elements-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2449/**</exclude>
-
                  <!--# [JBWS-2561] XOP request not properly inlined-->
                  <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
 
