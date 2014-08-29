@@ -228,8 +228,4 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = DEBUG)
     @Message(id = 24102, value = "JASPI authentication isn't enabled, can not find JASPI modules and classes")
     void cannotFindJaspiClasses();
-
-    @LogMessage(level = DEBUG)
-    @Message(id = 24103, value = "Could not load BouncyCastle security provider; either setup your classpath properly or prevent loading by using the '%s' system property.")
-    void cannotLoadBouncyCastleProvider(String property, @Cause Throwable cause);
 }

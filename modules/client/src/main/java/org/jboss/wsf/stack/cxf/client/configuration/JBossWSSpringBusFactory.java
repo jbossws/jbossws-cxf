@@ -154,7 +154,6 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
       super.initializeBus(bus);
       final ResourceManager resourceManager = bus.getExtension(ResourceManager.class);
       resourceManager.addResourceResolver(JBossWSResourceInjectionResolver.getInstance());
-      SecurityProviderConfig.setup(bus);
    }
 
    void registerAppContextLifeCycleListener(final Bus bus, final BusApplicationContext bac)

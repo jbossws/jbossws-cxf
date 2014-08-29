@@ -66,6 +66,5 @@ public class JBossWSNonSpringBusFactory extends CXFBusFactory
       super.initializeBus(bus);
       final ResourceManager resourceManager = bus.getExtension(ResourceManager.class);
       resourceManager.addResourceResolver(JBossWSResourceInjectionResolver.getInstance());
-      SecurityProviderConfig.setup(bus);
    }
 }

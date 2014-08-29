@@ -44,7 +44,6 @@ public class Constants
    public static final String CXF_MANAGEMENT_INSTALL_RESPONSE_TIME_INTERCEPTORS = "cxf.management.installResponseTimeInterceptors";
    public static final String CXF_WS_DISCOVERY_ENABLED = "cxf.ws-discovery.enabled";
    public static final String JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS = "org.jboss.ws.cxf.disableHandlerAuthChecks";
-   public static final String JBWS_CXF_NO_LOCAL_BC = "org.jboss.ws.cxf.noLocalBC";
    public static final String JBWS_CXF_WSDL_URI_SCHEME = "org.jboss.ws.cxf.wsdl.uriScheme";
    
    public static final String JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY = "org.jboss.ws.cxf.jaxws-client.bus.strategy";
