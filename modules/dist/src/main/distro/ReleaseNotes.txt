@@ -58,6 +58,38 @@ The JBossWS Team
 
 Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+-----------------------
+jbossws-cxf-4.3.1.Final
+-----------------------
+
+Bug
+
+    * [JBWS-3773] - HttpServletRequest in WebServiceContext and requests with WSA ReplyTo prop set
+    * [JBWS-3777] - CXF-5645: wsp:Optional isn't adhered to for WS-RM policy in WSDL
+    * [JBWS-3786] - @Resource injection not working on handlers attached to JAX-WS clients running in-container
+    * [JBWS-3796] - CXFHandlerResolverImpl initializes handlers at each getHandlerChain() invocation
+    * [JBWS-3798] - @WebEndpoint name not considered when building up webservicerefs
+    * [JBWS-3809] - AbstractDeployment#addEndpoint's check on urlPattern performed on wrong data
+    * [JBWS-3820] - JAXWS 2.1 / 2.0 style clients and WebServiceRef using JAXWS features cause NoSuchMethodException
+    * [JBWS-3821] - WebServiceRef injection not working properly with TCCL and NEW client Bus selection strategies
+
+Enhancement
+
+    * [JBWS-3782] - Allow to specify config name and additional value for JAVA_OPTS for launched appclient
+
+Feature Request
+
+    * [JBWS-3787] - Upgrade to Apache CXF 2.7.11
+    * [JBWS-3823] - Upgrade to Apache CXF 2.7.12
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3825
+
+This version of "JBoss Web Services - Stack CXF Distribution" is based on Apache CXF 2.7.12
+
+
 -----------------------
 jbossws-cxf-4.3.0.Final
 -----------------------
