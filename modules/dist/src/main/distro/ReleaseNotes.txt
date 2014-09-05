@@ -28,6 +28,43 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
+    [JBWS-???] - ...
+
+Enhancement
+
+    [JBWS-???] - ...
+
+Feature Request
+
+    [JBWS-???] - ...
+
+Task
+
+    [JBWS-???] - ...
+
+Sub-task
+
+    [JBWS-???] - ...
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-???
+
+This version of "${project.name}" is based on Apache CXF ${cxf.version}
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+-----------------------
+jbossws-cxf-4.3.1.Final
+-----------------------
+
+Bug
+
     * [JBWS-3773] - HttpServletRequest in WebServiceContext and requests with WSA ReplyTo prop set
     * [JBWS-3777] - CXF-5645: wsp:Optional isn't adhered to for WS-RM policy in WSDL
     * [JBWS-3786] - @Resource injection not working on handlers attached to JAX-WS clients running in-container
@@ -50,13 +87,8 @@ Errata
 
     See: https://issues.jboss.org/browse/JBWS-3825
 
-This version of "${project.name}" is based on Apache CXF ${cxf.version}
+This version of "JBoss Web Services - Stack CXF Distribution" is based on Apache CXF 2.7.12
 
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
 jbossws-cxf-4.3.0.Final
