@@ -97,7 +97,7 @@
           <include name="**/jbossws-spi.jar"/>
         </fileset>
        </copy>
-      <copy todir="@{targetdir}/org/apache/httpcomponents/asyncclient" flatten="false" overwrite="true">
+      <copy todir="@{targetdir}/org/apache/httpcomponents/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">       
           <include name="**/httpcore.jar"/>
           <include name="**/httpcore-nio.jar"/>
@@ -219,7 +219,7 @@
           <include name="**/jbossws-spi.jar"/>
         </fileset>
       </copy>
-      <copy todir="@{targetdir}/org/apache/httpcomponents/asyncclient" flatten="false" overwrite="true">
+      <copy todir="@{targetdir}/org/apache/httpcomponents/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">       
           <include name="**/httpcore.jar"/>
           <include name="**/httpcore-nio.jar"/>
