@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf-addons</artifactId>
-    <version>4.3.1-SNAPSHOT</version>
+    <version>4.3.1.Final</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   
@@ -32,5 +32,28 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>exclude-udp-unit-tests</id>
+      <activation>
+        <property>
+          <name>exclude-udp-tests</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes combine.children="append">
+                <exclude>org/jboss/wsf/stack/cxf/addons/transports/udp/UDPTransportTest*</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

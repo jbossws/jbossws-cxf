@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf</artifactId>
-    <version>4.3.1-SNAPSHOT</version>
+    <version>4.3.1.Final</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
@@ -955,6 +955,31 @@
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignEncryptGCMTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/AnnotatedSignEncryptTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3648/PolicyAttachmentTestCase*</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+    Name:  exclude-udp-integration-tests
+    Descr: Additional exclusions of integration tests which require a network environment properly setup for UDP tests
+    -->
+    <profile>
+      <id>exclude-udp-integration-tests</id>
+      <activation>
+        <property>
+          <name>exclude-udp-tests</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes combine.children="append">
+                <exclude>org/jboss/test/ws/jaxws/cxf/udp/UDPEndpointAPITestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
