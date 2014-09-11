@@ -78,6 +78,7 @@ public class CXFConsumerImpl extends WSContractConsumer
    private String targetPackage = null;
    private PrintStream messageStream = null;
    private String wsdlLocation = null;
+   private String encoding = null;
    private List<String> additionalCompilerClassPath = new ArrayList<String>();
    private boolean additionalHeaders = false;
    private String target;
@@ -135,6 +136,11 @@ public class CXFConsumerImpl extends WSContractConsumer
    public void setWsdlLocation(String wsdlLocation)
    {
       this.wsdlLocation = wsdlLocation;
+   }
+   
+   @Override
+   public void setEncoding(String encoding) {
+      this.encoding = encoding;
    }
 
    @Override
@@ -258,6 +264,12 @@ public class CXFConsumerImpl extends WSContractConsumer
 
       if (verbose) {
          args.add("-verbose");
+      }
+      
+      if (encoding != null)
+      {
+         args.add("-encoding");
+         args.add(encoding);
       }
 
       if (extension)
