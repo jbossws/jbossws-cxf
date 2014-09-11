@@ -147,7 +147,7 @@ public class WSTrustTestUtils
 
 
       UsernameTokenCallbackHandler ch = new UsernameTokenCallbackHandler();
-      String str = ch.getUsernameTokenString("myactaskey", null);
+      String str = ch.getUsernameTokenString("alice","clarinet");
 
       ctx.put(SecurityConstants.STS_TOKEN_ACT_AS, str);
 
