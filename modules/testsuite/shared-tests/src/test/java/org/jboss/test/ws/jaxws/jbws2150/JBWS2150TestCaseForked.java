@@ -632,7 +632,7 @@ public final class JBWS2150TestCaseForked extends JBossWSTest
    }
    
    /**
-    * Basically the same as the test above; even if rewrite is off, we still get the loadbalancer address in the wsdl
+    * Basically the same as testRewriteLoadBalancerCodeFirst; even if rewrite is off, we still get the loadbalancer address in the wsdl
     * for code-first endpoint, as there's no user provided wsdl with a different address in it. 
     * 
     * @throws Exception
