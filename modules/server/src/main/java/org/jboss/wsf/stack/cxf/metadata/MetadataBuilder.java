@@ -25,7 +25,6 @@ import static org.jboss.wsf.stack.cxf.Loggers.METADATA_LOGGER;
 import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
 import java.net.URL;
-import java.security.AccessController;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,17 +41,14 @@ import javax.xml.ws.soap.SOAPBinding;
 
 import org.jboss.ws.common.JavaUtils;
 import org.jboss.ws.common.deployment.SOAPAddressWSDLParser;
-import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.HttpEndpoint;
-import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
-import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.spi.metadata.webservices.PortComponentMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebserviceDescriptionMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebservicesMetaData;
@@ -77,11 +73,7 @@ public class MetadataBuilder
    
    public DDBeans build(Deployment dep)
    {
-      //prepare the WSDL soap:address metadata and attach it to the deployment for later usage
-      final SOAPAddressRewriteMetadata sarm = new SOAPAddressRewriteMetadata(getServerConfig(),
-            dep.getAttachment(JBossWebservicesMetaData.class));
-      dep.addAttachment(SOAPAddressRewriteMetadata.class, sarm);
-      
+      final SOAPAddressRewriteMetadata sarm = dep.getAttachment(SOAPAddressRewriteMetadata.class);
 	  Map<QName, String> serviceNameAddressMap = new HashMap<QName, String>();
       Map<String, SOAPAddressWSDLParser> soapAddressWsdlParsers = new HashMap<String, SOAPAddressWSDLParser>();
       DDBeans dd = new DDBeans();
@@ -329,13 +321,6 @@ public class MetadataBuilder
          soapAddressWsdlParsers.put(key, parser);
          return parser;
       }
-   }
-   
-   private static ServerConfig getServerConfig() {
-      if(System.getSecurityManager() == null) {
-         return AbstractServerConfig.getServerIntegrationServerConfig();
-      }
-      return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
    }
    
    /**
