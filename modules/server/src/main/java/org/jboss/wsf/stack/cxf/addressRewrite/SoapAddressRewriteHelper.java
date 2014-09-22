@@ -27,10 +27,9 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Map;
 
 import org.jboss.wsf.spi.management.ServerConfig;
-import org.jboss.wsf.stack.cxf.client.Constants;
+import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 
 /**
  * Helper for rewriting soap:address in published wsdl
@@ -49,18 +48,18 @@ public class SoapAddressRewriteHelper
     * 
     * @param wsdlAddress    The soap:address in the wsdl
     * @param epAddress      The address that has been computed for the endpoint
-    * @param serverConfig   The current ServerConfig
+    * @param sarm           The deployment SOAPAddressRewriteMetadata
     * @return               The rewritten soap:address to be used in the wsdl
     */
-   public static String getRewrittenPublishedEndpointUrl(String wsdlAddress, String epAddress, ServerConfig serverConfig, Map<String, String> props) {
+   public static String getRewrittenPublishedEndpointUrl(String wsdlAddress, String epAddress, SOAPAddressRewriteMetadata sarm) {
       if (wsdlAddress == null) {
          return null;
       }
-      if (isRewriteRequired(serverConfig, wsdlAddress))
+      if (isRewriteRequired(sarm, wsdlAddress))
       {
          final String origUriScheme = getUriScheme(wsdlAddress); //will be https if the user wants a https address in the wsdl
          final String newUriScheme = getUriScheme(epAddress); //will be https if the user set confidential transport for the endpoint
-         return rewriteSoapAddress(serverConfig, wsdlAddress, epAddress, rewriteUriScheme(origUriScheme, newUriScheme, serverConfig, props));
+         return rewriteSoapAddress(sarm, wsdlAddress, epAddress, rewriteUriScheme(sarm, origUriScheme, newUriScheme));
       }
       else
       {
@@ -73,24 +72,24 @@ public class SoapAddressRewriteHelper
     * This method is to be used for code-first endpoints, when no wsdl is provided by the user.
     * 
     * @param address        The container computed endpoint address
-    * @param serverConfig   The current ServerConfig
+    * @param sarm           The deployment SOAPAddressRewriteMetadata
     * @return
     */
-   public static String getRewrittenPublishedEndpointUrl(String address, ServerConfig serverConfig, Map<String, String> props)
+   public static String getRewrittenPublishedEndpointUrl(String address, SOAPAddressRewriteMetadata sarm)
    {
       try
       {
-         if (isPathRewriteRequired(serverConfig) || isSchemeRewriteRequired(serverConfig, props)) {
+         if (isPathRewriteRequired(sarm) || isSchemeRewriteRequired(sarm)) {
             final URL url = new URL(address);
-            final String uriScheme = rewriteUriScheme(getUriScheme(address), null, serverConfig, props);
-            final String port = getDotPortNumber(uriScheme, serverConfig);
+            final String uriScheme = rewriteUriScheme(sarm, getUriScheme(address), null);
+            final String port = getDotPortNumber(uriScheme, sarm);
             final StringBuilder builder = new StringBuilder();
             builder.append(uriScheme);
             builder.append("://");
             builder.append(url.getHost());
             builder.append(port);
             final String path = url.getPath();
-            builder.append(isPathRewriteRequired(serverConfig) ? SEDProcessor.newInstance(serverConfig.getWebServicePathRewriteRule()).processLine(path) : path);
+            builder.append(isPathRewriteRequired(sarm) ? SEDProcessor.newInstance(sarm.getWebServicePathRewriteRule()).processLine(path) : path);
             final String newUrl = builder.toString();
 
             ADDRESS_REWRITE_LOGGER.addressRewritten(address, newUrl);
@@ -109,15 +108,15 @@ public class SoapAddressRewriteHelper
       }
    }
 
-   public static boolean isAutoRewriteOn(ServerConfig serverConfig)
+   public static boolean isAutoRewriteOn(SOAPAddressRewriteMetadata sarm)
    {
-      return serverConfig.isModifySOAPAddress() && ServerConfig.UNDEFINED_HOSTNAME.equals(serverConfig.getWebServiceHost());
+      return sarm.isModifySOAPAddress() && ServerConfig.UNDEFINED_HOSTNAME.equals(sarm.getWebServiceHost());
    }
    
-   private static boolean isRewriteRequired(ServerConfig serverConfig, String address)
+   private static boolean isRewriteRequired(SOAPAddressRewriteMetadata sarm, String address)
    {
       //check config prop forcing address rewrite
-      if (serverConfig.isModifySOAPAddress())
+      if (sarm.isModifySOAPAddress())
       {
          ADDRESS_REWRITE_LOGGER.addressRewriteRequiredBecauseOfServerConf(address);
          return true;
@@ -158,27 +157,28 @@ public class SoapAddressRewriteHelper
     * Rewrite the provided address according to the current server
     * configuration and always using the specified uriScheme.
     * 
+    * @param sarm           The deployment SOAPAddressRewriteMetadata
     * @param origAddress    The source address
     * @param newAddress     The new (candidate) address
     * @param uriScheme      The uriScheme to use for rewrite
     * @return               The obtained address
     */
-   private static String rewriteSoapAddress(ServerConfig serverConfig, String origAddress, String newAddress, String uriScheme)
+   private static String rewriteSoapAddress(SOAPAddressRewriteMetadata sarm, String origAddress, String newAddress, String uriScheme)
    {
       try
       {
          URL url = new URL(newAddress);
          String path = url.getPath();
-         String host = serverConfig.getWebServiceHost();
-         String port = getDotPortNumber(uriScheme, serverConfig);
+         String host = sarm.getWebServiceHost();
+         String port = getDotPortNumber(uriScheme, sarm);
 
          StringBuilder sb = new StringBuilder(uriScheme);
          sb.append("://");
          sb.append(host);
          sb.append(port);
          
-         if (isPathRewriteRequired(serverConfig)) {
-             sb.append(SEDProcessor.newInstance(serverConfig.getWebServicePathRewriteRule()).processLine(path));
+         if (isPathRewriteRequired(sarm)) {
+             sb.append(SEDProcessor.newInstance(sarm.getWebServicePathRewriteRule()).processLine(path));
          }
          else
          {
@@ -196,11 +196,11 @@ public class SoapAddressRewriteHelper
       }
    }
    
-   private static String getDotPortNumber(String uriScheme, ServerConfig serverConfig) {
+   private static String getDotPortNumber(String uriScheme, SOAPAddressRewriteMetadata sarm) {
       String port = "";
       if (HTTPS.equals(uriScheme))
       {
-         int portNo = serverConfig.getWebServiceSecurePort();
+         int portNo = sarm.getWebServiceSecurePort();
          if (portNo != 443)
          {
             port = ":" + portNo;
@@ -208,7 +208,7 @@ public class SoapAddressRewriteHelper
       }
       else
       {
-         int portNo = serverConfig.getWebServicePort();
+         int portNo = sarm.getWebServicePort();
          if (portNo != 80)
          {
             port = ":" + portNo;
@@ -232,33 +232,28 @@ public class SoapAddressRewriteHelper
    }
 
 
-   public static boolean isPathRewriteRequired(ServerConfig sc){
-      if (!sc.isModifySOAPAddress()) {
+   public static boolean isPathRewriteRequired(SOAPAddressRewriteMetadata sarm){
+      if (!sarm.isModifySOAPAddress()) {
          return false;
       }
-      final String pathRewriteRule = sc.getWebServicePathRewriteRule();
+      final String pathRewriteRule = sarm.getWebServicePathRewriteRule();
       return pathRewriteRule != null && !pathRewriteRule.isEmpty();
    }
    
-   public static boolean isSchemeRewriteRequired(ServerConfig sc, Map<String, String> props) {
-      if (!sc.isModifySOAPAddress()) {
+   public static boolean isSchemeRewriteRequired(SOAPAddressRewriteMetadata sarm) {
+      if (!sarm.isModifySOAPAddress()) {
          return false;
-      } //TODO also check modify soap address is enabled in wsmd
-      return sc.getWebServiceUriScheme() != null || props.get(Constants.JBWS_CXF_WSDL_URI_SCHEME) != null;
+      }
+      return sarm.getWebServiceUriScheme() != null;
    }
    
-   private static String rewriteUriScheme(final String origUriScheme, final String newUriScheme, final ServerConfig serverConfig, final Map<String, String> props) {
+   private static String rewriteUriScheme(final SOAPAddressRewriteMetadata sarm, final String origUriScheme, final String newUriScheme) {
       //1) if either of orig URI or new URI uses HTTPS, use HTTPS
       String uriScheme = (HTTPS.equals(origUriScheme) || HTTPS.equals(newUriScheme)) ? HTTPS : HTTP;
-      //2) server configuration override
-      final String serverUriScheme = serverConfig.getWebServiceUriScheme();
+      //2) server / deployment configuration override
+      final String serverUriScheme = sarm.getWebServiceUriScheme();
       if (serverUriScheme != null) {
          uriScheme = serverUriScheme;
-      }
-      //3) deployment configuration override
-      final String mdUriScheme = props.get(Constants.JBWS_CXF_WSDL_URI_SCHEME);
-      if (mdUriScheme != null) {
-         uriScheme = mdUriScheme;
       }
       return uriScheme;
    }

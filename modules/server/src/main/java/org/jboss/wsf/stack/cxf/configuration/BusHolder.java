@@ -21,7 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
-import java.security.AccessController;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +55,6 @@ import org.apache.cxf.wsdl.WSDLManager;
 import org.apache.cxf.wsdl11.WSDLManagerImpl;
 import org.jboss.ws.api.annotation.PolicySets;
 import org.jboss.ws.api.binding.BindingCustomization;
-import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
@@ -64,7 +62,7 @@ import org.jboss.wsf.spi.deployment.AnnotationsInfo;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
-import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 import org.jboss.wsf.stack.cxf.Loggers;
@@ -128,7 +126,7 @@ public abstract class BusHolder
       }
       Map<String, String> props = getProperties(wsmd);
       
-      setInterceptors(bus, props);
+      setInterceptors(bus, dep, props);
       dep.addAttachment(Bus.class, bus);
 
       try
@@ -203,7 +201,7 @@ public abstract class BusHolder
    public abstract Configurer createServerConfigurer(BindingCustomization customization,
          WSDLFilePublisher wsdlPublisher, List<Endpoint> depEndpoints, UnifiedVirtualFile root, String epConfigName, String epConfigFile);
    
-   protected void setInterceptors(Bus bus, Map<String, String> props)
+   protected void setInterceptors(Bus bus, Deployment dep, Map<String, String> props)
    {
       //Install the EndpointAssociationInterceptor for linking every message exchange
       //with the proper spi Endpoint retrieved in CXFServletExt
@@ -216,9 +214,9 @@ public abstract class BusHolder
          bus.getInInterceptors().add(new HandlerAuthInterceptor());
       }
       
-      final ServerConfig sc = getServerConfig();
-      if (SoapAddressRewriteHelper.isPathRewriteRequired(sc) || SoapAddressRewriteHelper.isSchemeRewriteRequired(sc, props)) {
-         bus.getInInterceptors().add(new WSDLSoapAddressRewriteInterceptor(props));
+      final SOAPAddressRewriteMetadata sarm = dep.getAttachment(SOAPAddressRewriteMetadata.class);
+      if (SoapAddressRewriteHelper.isPathRewriteRequired(sarm) || SoapAddressRewriteHelper.isSchemeRewriteRequired(sarm)) {
+         bus.getInInterceptors().add(new WSDLSoapAddressRewriteInterceptor(sarm));
       }
    }
    
@@ -354,13 +352,6 @@ public abstract class BusHolder
    
    private static long parseLong(String prop, long defaultValue) {
       return prop != null ? Long.parseLong(prop) : defaultValue;
-   }
-   
-   protected ServerConfig getServerConfig() {
-      if(System.getSecurityManager() == null) {
-         return AbstractServerConfig.getServerIntegrationServerConfig();
-      }
-      return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
    }
    
    /**

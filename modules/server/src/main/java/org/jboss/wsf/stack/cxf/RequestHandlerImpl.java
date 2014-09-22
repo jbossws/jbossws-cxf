@@ -49,11 +49,13 @@ import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.transport.http.HTTPTransportFactory;
 import org.jboss.util.NotImplementedException;
 import org.jboss.ws.common.management.AbstractServerConfig;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
 import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 
@@ -94,16 +96,16 @@ public class RequestHandlerImpl implements RequestHandler
          return;
       }
       final boolean statisticsEnabled = getServerConfig().isStatisticsEnabled();
-      Long beginTime = statisticsEnabled == true ? initRequestMetrics(ep) : 0;
-      Bus bus = ep.getService().getDeployment().getAttachment(BusHolder.class).getBus();
-      AbstractHTTPDestination dest = findDestination(req, bus);
-      HttpServletResponseWrapper response = new HttpServletResponseWrapper(res);
+      final Long beginTime = statisticsEnabled == true ? initRequestMetrics(ep) : 0;
+      final Deployment dep = ep.getService().getDeployment();
+      final AbstractHTTPDestination dest = findDestination(req, dep.getAttachment(BusHolder.class).getBus());
+      final HttpServletResponseWrapper response = new HttpServletResponseWrapper(res);
       try
       {
          ServletConfig cfg = (ServletConfig)context.getAttribute(ServletConfig.class.getName());
          if (isGetWithQueryString) {
             final EndpointInfo endpointInfo = dest.getEndpointInfo();
-            final boolean autoRewrite = SoapAddressRewriteHelper.isAutoRewriteOn(getServerConfig());
+            final boolean autoRewrite = SoapAddressRewriteHelper.isAutoRewriteOn(dep.getAttachment(SOAPAddressRewriteMetadata.class));
             endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS, autoRewrite);
             endpointInfo.setProperty(WSDLGetUtils.AUTO_REWRITE_ADDRESS_ALL, autoRewrite);
          }

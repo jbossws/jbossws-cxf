@@ -133,6 +133,8 @@ public class SpringBusHolder extends BusHolder
       }
       super.configure(resolver, configurer, wsmd, dep);
       
+      bus.setProperty(Deployment.class.getName(), dep); // propagate Deployment into the Bus for usage during Endpoint creation
+      
       GenericApplicationContext jbosswsCxfContext = null;
       //load stuff from provided jbossws-cxf.xml DD
       if (jbosswsCxfLocation != null) 
@@ -163,6 +165,7 @@ public class SpringBusHolder extends BusHolder
             }
          }
       }
+      bus.setProperty(Deployment.class.getName(), null);
       configured = true;
    }
 

@@ -32,7 +32,9 @@ import org.apache.cxf.ws.policy.selector.FirstAlternativeSelector;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
 import org.jboss.ws.common.deployment.DefaultDeploymentModelFactory;
 import org.jboss.ws.common.management.AbstractServerConfig;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
@@ -70,37 +72,39 @@ public class BusHolderTest extends TestCase
          props.put(Constants.CXF_POLICY_ALTERNATIVE_SELECTOR_PROP, alternative);
          wsmd = new JBossWebservicesMetaData(null, null, null, null, props, null, null);
       }
-      BusHolder holder = new NonSpringBusHolder(new DDBeans()) {
-         protected ServerConfig getServerConfig() {
-            return new AbstractServerConfig()
-            {
-               @Override
-               public File getServerTempDir()
-               {
-                  // TODO Auto-generated method stub
-                  return null;
-               }
-               @Override
-               public File getServerDataDir()
-               {
-                  // TODO Auto-generated method stub
-                  return null;
-               }
-               @Override
-               public File getHomeDir()
-               {
-                  // TODO Auto-generated method stub
-                  return null;
-               }
-            };
-         }
-      };
+      BusHolder holder = new NonSpringBusHolder(new DDBeans());
       try {
-         holder.configure(null, null, wsmd, new DefaultDeploymentModelFactory().newDeployment("testDeployment", null, null));
+         Deployment dep = new DefaultDeploymentModelFactory().newDeployment("testDeployment", null, null);
+         dep.addAttachment(SOAPAddressRewriteMetadata.class, new SOAPAddressRewriteMetadata(getTestServerConfig(), null));
+         holder.configure(null, null, wsmd, dep);
          return holder.getBus().getExtension(PolicyEngine.class).getAlternativeSelector().getClass().getName();
       } finally {
          holder.close();
       }
+   }
+   
+   private static ServerConfig getTestServerConfig() {
+      return new AbstractServerConfig()
+      {
+         @Override
+         public File getServerTempDir()
+         {
+            // TODO Auto-generated method stub
+            return null;
+         }
+         @Override
+         public File getServerDataDir()
+         {
+            // TODO Auto-generated method stub
+            return null;
+         }
+         @Override
+         public File getHomeDir()
+         {
+            // TODO Auto-generated method stub
+            return null;
+         }
+      };
    }
 
 }

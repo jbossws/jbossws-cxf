@@ -5,7 +5,7 @@
   version="1.2"
   xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee">
   <property>
-    <name>org.jboss.ws.cxf.wsdl.uriScheme</name>
+    <name>wsdl.soapAddress.rewrite.wsdl-uri-scheme</name>
     <value>https</value>
   </property>
 

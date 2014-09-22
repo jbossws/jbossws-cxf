@@ -21,13 +21,12 @@
  */
 package org.jboss.wsf.stack.cxf.interceptor;
 
-import java.util.Map;
-
 import org.apache.cxf.frontend.WSDLGetUtils;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
+import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.stack.cxf.interceptor.util.WSDLSoapAddressRewriteUtils;
 
 /**
@@ -41,10 +40,10 @@ import org.jboss.wsf.stack.cxf.interceptor.util.WSDLSoapAddressRewriteUtils;
 public class WSDLSoapAddressRewriteInterceptor extends AbstractPhaseInterceptor<Message> {
    private final WSDLGetUtils wsdlGetUtils;
 
-   public WSDLSoapAddressRewriteInterceptor(Map<String, String> props) {
+   public WSDLSoapAddressRewriteInterceptor(SOAPAddressRewriteMetadata sarm) {
       // this must run before WSDLGetInterceptor which is in Phase.READ
       super(Phase.POST_STREAM);
-      this.wsdlGetUtils = new WSDLSoapAddressRewriteUtils(props);
+      this.wsdlGetUtils = new WSDLSoapAddressRewriteUtils(sarm);
    }
 
    public void handleMessage(Message message) throws Fault {

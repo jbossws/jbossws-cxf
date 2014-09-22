@@ -29,7 +29,9 @@ import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.jboss.ws.common.deployment.DefaultDeploymentModelFactory;
 import org.jboss.ws.common.management.AbstractServerConfig;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
@@ -63,59 +65,11 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
    }
    
    private static SpringBusHolder newSpringBusHolderInstance() {
-      return new SpringBusHolder(null, null, new URL[]{}) {
-         protected ServerConfig getServerConfig() {
-            return new AbstractServerConfig()
-            {
-               @Override
-               public File getServerTempDir()
-               {
-                  // TODO Auto-generated method stub
-                  return null;
-               }
-               @Override
-               public File getServerDataDir()
-               {
-                  // TODO Auto-generated method stub
-                  return null;
-               }
-               @Override
-               public File getHomeDir()
-               {
-                  // TODO Auto-generated method stub
-                  return null;
-               }
-            };
-         }
-      };
+      return new SpringBusHolder(null, null, new URL[]{});
    }
    
    private static NonSpringBusHolder newNonSpringBusHolderInstance() {
-      return new NonSpringBusHolder(new DDBeans()) {
-         protected ServerConfig getServerConfig() {
-            return new AbstractServerConfig()
-            {
-               @Override
-               public File getServerTempDir()
-               {
-                  // TODO Auto-generated method stub
-                  return null;
-               }
-               @Override
-               public File getServerDataDir()
-               {
-                  // TODO Auto-generated method stub
-                  return null;
-               }
-               @Override
-               public File getHomeDir()
-               {
-                  // TODO Auto-generated method stub
-                  return null;
-               }
-            };
-         }
-      };
+      return new NonSpringBusHolder(new DDBeans());
    }
    
    private static void simpleShutdownTest(BusHolder holder)
@@ -123,7 +77,9 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
       Bus bus = holder.getBus();
       TestLifeCycleListener listener = new TestLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(listener);
-      holder.configure(null, null, null, new DefaultDeploymentModelFactory().newDeployment("testDeployment", null, null));
+      Deployment dep = new DefaultDeploymentModelFactory().newDeployment("testDeployment", null, null);
+      dep.addAttachment(SOAPAddressRewriteMetadata.class, new SOAPAddressRewriteMetadata(getTestServerConfig(), null));
+      holder.configure(null, null, null, dep);
       holder.close();
       assertEquals("preShutdown method on listener should be called exactly once; number of actual calls: "
                   + listener.getCount(), 1, listener.getCount());
@@ -134,7 +90,9 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
       Bus bus = holder.getBus();
       TestLifeCycleListener listener = new TestLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(listener);
-      holder.configure(null, null, null, new DefaultDeploymentModelFactory().newDeployment("testDeployment", null, null));
+      Deployment dep = new DefaultDeploymentModelFactory().newDeployment("testDeployment", null, null);
+      dep.addAttachment(SOAPAddressRewriteMetadata.class, new SOAPAddressRewriteMetadata(getTestServerConfig(), null));
+      holder.configure(null, null, null, dep);
       bus.shutdown(true);
       holder.close();
       assertEquals("preShutdown method on listener should be called exactly once; number of actual calls: "
@@ -146,10 +104,36 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
       Bus bus = holder.getBus();
       TestLifeCycleListener listener = new TestLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(listener);
-      holder.configure(null, null, null, new DefaultDeploymentModelFactory().newDeployment("testDeployment", null, null));
+      Deployment dep = new DefaultDeploymentModelFactory().newDeployment("testDeployment", null, null);
+      dep.addAttachment(SOAPAddressRewriteMetadata.class, new SOAPAddressRewriteMetadata(getTestServerConfig(), null));
+      holder.configure(null, null, null, dep);
       assertEquals("preShutdown method on listener shouldn't be called before holder is closed: number of actual calls: "
                   + listener.getCount(), 0, listener.getCount());
       holder.close();
+   }
+   
+   private static ServerConfig getTestServerConfig() {
+      return new AbstractServerConfig()
+      {
+         @Override
+         public File getServerTempDir()
+         {
+            // TODO Auto-generated method stub
+            return null;
+         }
+         @Override
+         public File getServerDataDir()
+         {
+            // TODO Auto-generated method stub
+            return null;
+         }
+         @Override
+         public File getHomeDir()
+         {
+            // TODO Auto-generated method stub
+            return null;
+         }
+      };
    }
 
    private static class TestLifeCycleListener implements BusLifeCycleListener

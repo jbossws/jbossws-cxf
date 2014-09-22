@@ -21,15 +21,12 @@
  */
 package org.jboss.wsf.stack.cxf.interceptor.util;
 
-import java.security.AccessController;
-import java.util.Map;
-
 import javax.wsdl.Definition;
 
 import org.apache.cxf.frontend.WSDLGetUtils;
 import org.apache.cxf.service.model.EndpointInfo;
-import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 
 /**
@@ -43,11 +40,11 @@ import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
  */
 public class WSDLSoapAddressRewriteUtils extends WSDLGetUtils {
    
-   private final Map<String, String> props;
+   private final SOAPAddressRewriteMetadata sarm;
    
-   public WSDLSoapAddressRewriteUtils(Map<String, String> props) {
+   public WSDLSoapAddressRewriteUtils(SOAPAddressRewriteMetadata sarm) {
       super();
-      this.props = props;
+      this.sarm = sarm;
    }
 
    @Override
@@ -59,20 +56,12 @@ public class WSDLSoapAddressRewriteUtils extends WSDLGetUtils {
          updatePublishedEndpointUrl(epurl, def, endpointInfo.getName());
       } else {
          // When using replacement path, must set replacement path in the active url.
-         final ServerConfig sc = getServerConfig();
-         if ((SoapAddressRewriteHelper.isPathRewriteRequired(sc) || SoapAddressRewriteHelper.isSchemeRewriteRequired(sc, props)) //TODO if we ended up here, the checks are perhaps not needed (otherwise this won't have been installed)
+         if ((SoapAddressRewriteHelper.isPathRewriteRequired(sarm) || SoapAddressRewriteHelper.isSchemeRewriteRequired(sarm)) //TODO if we ended up here, the checks are perhaps not needed (otherwise this won't have been installed)
             && endpointInfo.getAddress().contains(ServerConfig.UNDEFINED_HOSTNAME)) {
-            epurl = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(epurl, sc, props);
+            epurl = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(epurl, sarm);
             updatePublishedEndpointUrl(epurl, def, endpointInfo.getName());
          }
       }
       return epurl;
-   }
-
-   private static ServerConfig getServerConfig() {
-      if(System.getSecurityManager() == null) {
-         return AbstractServerConfig.getServerIntegrationServerConfig();
-      }
-      return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
    }
 }

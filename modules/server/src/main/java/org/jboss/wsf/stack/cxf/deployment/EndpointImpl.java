@@ -22,9 +22,7 @@
 package org.jboss.wsf.stack.cxf.deployment;
 
 import java.io.IOException;
-import java.security.AccessController;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,9 +38,10 @@ import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.jboss.ws.common.configuration.ConfigHelper;
-import org.jboss.ws.common.management.AbstractServerConfig;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.CommonConfig;
+import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 
@@ -59,6 +58,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
 {
    private WSDLFilePublisher wsdlPublisher;
    private CommonConfig config;
+   private SOAPAddressRewriteMetadata sarm;
    
    public EndpointImpl(Object implementor)
    {
@@ -183,14 +183,28 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
    {
       this.wsdlPublisher = wsdlPublisher;
    }
+   
+   public void setSOAPAddressRewriteMetadata(SOAPAddressRewriteMetadata sarm)
+   {
+      this.sarm = sarm;
+   }
+   
+   private SOAPAddressRewriteMetadata getSOAPAddressRewriteMetadata()
+   {
+      if (sarm == null) {
+         Deployment dep = (Deployment)getBus().getProperty(Deployment.class.getName());
+         sarm = dep.getAttachment(SOAPAddressRewriteMetadata.class);
+      }
+      return sarm;
+   }
 
    /**
     * For both code-first and wsdl-first scenarios, reset the endpoint address
     * so that it is written to the generated wsdl file.
     */
    private void updateSoapAddress() {
-      ServerConfig servConfig = getServerConfig();
-      if (servConfig.isModifySOAPAddress()) {
+      final SOAPAddressRewriteMetadata metadata = getSOAPAddressRewriteMetadata();
+      if (metadata.isModifySOAPAddress()) {
          //- code-first handling
          List<ServiceInfo> sevInfos = getServer().getEndpoint().getService().getServiceInfos();
          for (ServiceInfo si: sevInfos){
@@ -201,9 +215,8 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
                   ei.setAddress(publishedEndpointUrl);
                } else {
                   //- wsdl-first handling
-                  if (ei.getAddress().contains(ServerConfig.UNDEFINED_HOSTNAME)){
-                     Map<String, String> props = Collections.emptyMap();
-                     String epurl = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ei.getAddress(), servConfig, props); //TODO [JBWS-3805]
+                  if (ei.getAddress().contains(ServerConfig.UNDEFINED_HOSTNAME)) {
+                     String epurl = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ei.getAddress(), metadata);
                      ei.setAddress(epurl);
                   }
                }
@@ -211,12 +224,4 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
          }
       }
    }
-
-   private static ServerConfig getServerConfig() {
-      if(System.getSecurityManager() == null) {
-         return AbstractServerConfig.getServerIntegrationServerConfig();
-      }
-      return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
-   }
-
 }

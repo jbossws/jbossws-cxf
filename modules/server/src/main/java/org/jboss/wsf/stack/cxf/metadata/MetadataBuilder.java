@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -26,7 +26,6 @@ import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
 import java.net.URL;
 import java.security.AccessController;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,6 +48,7 @@ import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.HttpEndpoint;
 import org.jboss.wsf.spi.management.ServerConfig;
+import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
@@ -77,6 +77,11 @@ public class MetadataBuilder
    
    public DDBeans build(Deployment dep)
    {
+      //prepare the WSDL soap:address metadata and attach it to the deployment for later usage
+      final SOAPAddressRewriteMetadata sarm = new SOAPAddressRewriteMetadata(getServerConfig(),
+            dep.getAttachment(JBossWebservicesMetaData.class));
+      dep.addAttachment(SOAPAddressRewriteMetadata.class, sarm);
+      
 	  Map<QName, String> serviceNameAddressMap = new HashMap<QName, String>();
       Map<String, SOAPAddressWSDLParser> soapAddressWsdlParsers = new HashMap<String, SOAPAddressWSDLParser>();
       DDBeans dd = new DDBeans();
@@ -89,7 +94,7 @@ public class MetadataBuilder
             ddep.setInvoker(JBossWSInvoker.class.getName());
          }
          processWSDDContribution(ddep, (ArchiveDeployment)dep);
-         processAddressRewrite(ddep, (ArchiveDeployment)dep, soapAddressWsdlParsers);
+         processAddressRewrite(ddep, (ArchiveDeployment)dep, sarm, soapAddressWsdlParsers);
 
          METADATA_LOGGER.addingServiceEndpointMetadata(METADATA_LOGGER.isDebugEnabled() ? ddep.toStringExtended() : ddep.toString());
          dd.addEndpoint(ddep);
@@ -282,14 +287,12 @@ public class MetadataBuilder
       return result;
    }
    
-   protected void processAddressRewrite(DDEndpoint ddep, ArchiveDeployment dep, Map<String, SOAPAddressWSDLParser> soapAddressWsdlParsers)
+   protected void processAddressRewrite(DDEndpoint ddep, ArchiveDeployment dep, SOAPAddressRewriteMetadata sarm, Map<String, SOAPAddressWSDLParser> soapAddressWsdlParsers)
    {
       String wsdlLocation = ddep.getWsdlLocation();
       if (wsdlLocation == null) {
          wsdlLocation = ddep.getAnnotationWsdlLocation();
       }
-      final ServerConfig sc = getServerConfig();
-      final Map<String, String> props = getJBossWebServicesMetaDataProperties(dep);
       if (wsdlLocation != null) {
          URL wsdlUrl = dep.getResourceResolver().resolveFailSafe(wsdlLocation);
          if (wsdlUrl != null) {
@@ -297,11 +300,11 @@ public class MetadataBuilder
             //do not try rewriting addresses for not-http binding
             String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
 
-            String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sc, props);
+            String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sarm);
             //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF does not force host/port values for
             //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
             //which causes CXF to override any address in the published wsdl.
-            if (!SoapAddressRewriteHelper.isAutoRewriteOn(sc)) {
+            if (!SoapAddressRewriteHelper.isAutoRewriteOn(sarm)) {
                ddep.setPublishedEndpointUrl(rewrittenWsdlAddress);
             }
          } else {
@@ -309,22 +312,11 @@ public class MetadataBuilder
          }
       } else {
          //same comment as above regarding auto rewrite...
-         if (!SoapAddressRewriteHelper.isAutoRewriteOn(sc)) {
+         if (!SoapAddressRewriteHelper.isAutoRewriteOn(sarm)) {
             //force computed address for code first endpoints
-            ddep.setPublishedEndpointUrl(SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ddep.getAddress(), sc, props));
+            ddep.setPublishedEndpointUrl(SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ddep.getAddress(), sarm));
          }
       }
-   }
-   
-   private static Map<String, String> getJBossWebServicesMetaDataProperties(Deployment dep) {
-      JBossWebservicesMetaData wsmd = dep.getAttachment(JBossWebservicesMetaData.class);
-      Map<String, String> props;
-      if (wsmd != null) {
-         props = wsmd.getProperties();
-      } else {
-         props = Collections.emptyMap();
-      }
-      return props;
    }
    
    private SOAPAddressWSDLParser getCurrentSOAPAddressWSDLParser(URL wsdlUrl, Map<String, SOAPAddressWSDLParser> soapAddressWsdlParsers) {

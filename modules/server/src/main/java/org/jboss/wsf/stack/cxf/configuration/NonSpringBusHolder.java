@@ -40,6 +40,7 @@ import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
+import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringBusFactory;
@@ -115,6 +116,7 @@ public class NonSpringBusHolder extends BusHolder
             endpoint.getFeatures().add(addressingFeature);
          }
          endpoint.setPublishedEndpointUrl(dde.getPublishedEndpointUrl());
+         endpoint.setSOAPAddressRewriteMetadata(dep.getAttachment(SOAPAddressRewriteMetadata.class));
          endpoint.publish();
          endpoints.add(endpoint);
          if (dde.isMtomEnabled())
