@@ -33,6 +33,8 @@ import javax.xml.ws.Service;
 
 import junit.framework.Test;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
@@ -92,6 +94,27 @@ public class AsyncClientTestCase extends JBossWSTest
       Map<String, Object> requestContext = provider.getRequestContext();
       requestContext.put("use.async.http.conduit", Boolean.TRUE);
       assertEquals("Echo:1000", proxy.echoAsync(1000).get());
+   }
+   
+   public void testAysncClientWithPolicy () throws Exception 
+   {
+      Bus bus = BusFactory.newInstance().createBus();
+      AsyncEnabledInfoInterceptor asyncInfo = new AsyncEnabledInfoInterceptor();
+      try
+      {
+         bus.setProperty("use.async.http.conduit", "ASYNC_ONLY");
+         bus.getOutInterceptors().add(asyncInfo);
+         BusFactory.setThreadDefaultBus(bus);
+         Endpoint proxy = initPort();
+         assertEquals("Echo:1000", proxy.echo(1000));
+         assertFalse("Async client is expected disabled", asyncInfo.isAsyncEnabled());
+         assertEquals("Echo:1000", proxy.echoAsync(1000).get());
+         assertTrue("Async client is expected enabled", asyncInfo.isAsyncEnabled());
+      }
+      finally
+      {
+         bus.shutdown(true);
+      }
    }
 
    private Endpoint initPort() throws Exception {
