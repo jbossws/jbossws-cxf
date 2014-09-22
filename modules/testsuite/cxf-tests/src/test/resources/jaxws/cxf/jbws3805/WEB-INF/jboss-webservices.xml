@@ -8,5 +8,13 @@
     <name>wsdl.soapAddress.rewrite.wsdl-uri-scheme</name>
     <value>https</value>
   </property>
+  <property>
+    <name>wsdl.soapAddress.rewrite.wsdl-path-rewrite-rule</name>
+    <value>s/jbws/JBWS/</value>
+  </property>
+  <property>
+    <name>wsdl.soapAddress.rewrite.wsdl-host</name>
+    <value>foo</value>
+  </property>
 
 </webservices>

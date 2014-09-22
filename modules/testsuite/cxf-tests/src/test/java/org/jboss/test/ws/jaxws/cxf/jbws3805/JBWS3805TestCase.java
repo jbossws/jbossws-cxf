@@ -16,7 +16,7 @@ import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
 
-public class SoapAddressURISchemeTestCase extends JBossWSTest
+public class JBWS3805TestCase extends JBossWSTest
 {
    private static String publishURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3805/HelloService";
 
@@ -36,10 +36,10 @@ public class SoapAddressURISchemeTestCase extends JBossWSTest
 
    public static Test suite()
    {
-      return new JBossWSTestSetup(SoapAddressURISchemeTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return new JBossWSTestSetup(JBWS3805TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
 
-   public void testSoapAddressURIScheme() throws Exception
+   public void testWsdlSoapAddress() throws Exception
    {
       URL wsdlURL = new URL(publishURL + "?wsdl");
       HttpURLConnection connection = (HttpURLConnection)wsdlURL.openConnection();
@@ -55,7 +55,7 @@ public class SoapAddressURISchemeTestCase extends JBossWSTest
          {
             if (line.contains("address location"))
             {
-               assertTrue("Unexpected uri scheme", line.contains("https") && line.contains("8443"));
+               assertTrue("Unexpected uri scheme", line.contains("https://foo:8443/jaxws-cxf-JBWS3805/HelloService"));
                return;
             }
          }
