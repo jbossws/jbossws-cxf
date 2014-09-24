@@ -856,9 +856,6 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
-
-                  <!-- [JBWS-3831] waiting for cxf fix -->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples23xTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
