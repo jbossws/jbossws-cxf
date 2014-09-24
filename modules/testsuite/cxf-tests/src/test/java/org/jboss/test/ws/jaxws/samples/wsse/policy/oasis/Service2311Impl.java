@@ -24,6 +24,8 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.oasis;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 
+import org.apache.cxf.annotations.EndpointProperties;
+import org.apache.cxf.annotations.EndpointProperty;
 import org.jboss.ws.api.annotation.WebContext;
 
 @WebService
@@ -35,6 +37,10 @@ import org.jboss.ws.api.annotation.WebContext;
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.ServiceIface"
 )
 @Stateless
+@EndpointProperties(value = {
+      @EndpointProperty(key = "ws-security.saml1.validator", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.SAMLValidator")
+      }
+)
 @WebContext(urlPattern = "SecurityService2311")
 public class Service2311Impl implements ServiceIface
 {

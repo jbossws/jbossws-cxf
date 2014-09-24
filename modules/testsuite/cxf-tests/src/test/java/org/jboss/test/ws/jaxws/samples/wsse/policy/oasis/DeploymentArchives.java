@@ -93,6 +93,7 @@ public final class DeploymentArchives
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2323Impl.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2324Impl.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.ServiceIface.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.SAMLValidator.class)
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/WEB-INF/bob.jks"), "classes/bob.jks")
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/WEB-INF/bob.properties"), "classes/bob.properties")
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/WEB-INF/wsdl/SecurityService23x.wsdl"), "wsdl/SecurityService23x.wsdl")
