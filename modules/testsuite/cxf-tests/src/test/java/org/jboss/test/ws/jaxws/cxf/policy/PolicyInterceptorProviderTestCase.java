@@ -113,6 +113,7 @@ public class PolicyInterceptorProviderTestCase extends JBossWSTest
 
          try {
             port.echo("foo");
+            fail("Exception expected");
          } catch (Exception e) {
             assertTrue(e.getMessage().contains("None of the policy alternatives can be satisfied"));
          }
