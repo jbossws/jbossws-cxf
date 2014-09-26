@@ -67,6 +67,16 @@ public class AsynchTestCase extends JBossWSTest
    {
       return new JBossWSCXFTestSetup(AsynchTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
    }
+   
+   public void testEndpoint() throws Exception
+   {
+      QName serviceName = new QName("http://org.jboss.ws/cxf/samples/asynch", "EndpointImplService");
+      URL wsdlURL = new URL(endpointAddress + "?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      Endpoint proxy = service.getPort(Endpoint.class);
+      final String user = "Kermit";
+      assertEquals(user + " (ASYNC)", proxy.echo(user)); //expect ASYNC as on server side the invocation is dispatched to the async method
+   }
 
    public void testAsyncEndpoint() throws Exception
    {
