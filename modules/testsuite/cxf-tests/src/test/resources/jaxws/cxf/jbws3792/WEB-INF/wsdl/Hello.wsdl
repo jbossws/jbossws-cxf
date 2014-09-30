@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="HelloService" 
+                  targetNamespace="http://hello/test" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:tns="http://hello/test"
+                  xmlns:tns2="http://hello/test2"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://hello/test2" schemaLocation="Hello_schema2.xsd"/>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="doHello">
+    <wsdl:part name="parameters" element="tns2:doHello">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="doHelloResponse">
+    <wsdl:part name="parameters" element="tns2:doHelloResponse">
+    </wsdl:part>
+  </wsdl:message>
+
+  <wsdl:portType name="HelloService">
+    <wsdl:operation name="doHello">
+      <wsdl:input name="doHello" message="tns:doHello">
+      </wsdl:input>
+      <wsdl:output name="doHelloResponse" message="tns:doHelloResponse">
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="HelloServiceSoapBinding" type="tns:HelloService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="doHello">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="doHello">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="doHelloResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="HelloService">
+    <wsdl:port name="HelloServicePort" binding="tns:HelloServiceSoapBinding">
+      <soap:address location="http://localhost:8080/HelloServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>
