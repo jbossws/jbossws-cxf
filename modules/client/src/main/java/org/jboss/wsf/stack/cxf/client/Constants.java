@@ -50,4 +50,6 @@ public class Constants
    public static final String THREAD_BUS_STRATEGY = "THREAD_BUS";
    public static final String NEW_BUS_STRATEGY = "NEW_BUS";
    public static final String TCCL_BUS_STRATEGY = "TCCL_BUS";
+   public static final String JBWS_CXF_JAXWS_CLIENT_BUS_SELECTOR = "org.jboss.ws.cxf.jaxws-client.bus.selector";
+   public static final String JBWS_CXF_JAXWS_CLIENT_BUS_SPRING_DESCRIPTOR = "org.jboss.ws.cxf.jaxws-client.bus.spring.descriptor";
 }

@@ -236,7 +236,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    @Override
    public ServiceDelegate createServiceDelegate(URL url, QName qname, Class cls)
    {
-      final String busStrategy = ClientBusSelector.selectStrategy();
+      final String busStrategy = ClientBusSelector.getInstance().selectStrategy();
       ClassLoader origClassLoader = getContextClassLoader();
       boolean restoreTCCL = false;
       Bus orig = null;
@@ -267,7 +267,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          }
       }
       
-      final String busStrategy = ClientBusSelector.selectStrategy(features);
+      final String busStrategy = ClientBusSelector.getInstance().selectStrategy(features);
       ClassLoader origClassLoader = getContextClassLoader();
       boolean restoreTCCL = false;
       Bus orig = null;
@@ -285,15 +285,15 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       }
    }
    
-   private static Bus getOrCreateBus(String strategy, ClassLoader threadContextClassLoader) {
+   private Bus getOrCreateBus(String strategy, ClassLoader threadContextClassLoader) {
       Bus bus = null;
       if (THREAD_BUS_STRATEGY.equals(strategy))
       {
-         bus = ProviderImpl.setValidThreadDefaultBus();
+         bus = setValidThreadDefaultBus();
       }
       else if (NEW_BUS_STRATEGY.equals(strategy))
       {
-         bus = new JBossWSBusFactory().createBus();
+         bus = ClientBusSelector.getInstance().createNewBus();
          //to prevent issues with CXF code using the default thread bus instead of the one returned here,
          //set the new bus as thread one, given the line above could have not done this if the current
          //thread is already assigned a bus
@@ -301,7 +301,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       }
       else if (TCCL_BUS_STRATEGY.equals(strategy))
       {
-         bus = JBossWSBusFactory.getClassLoaderDefaultBus(threadContextClassLoader);
+         bus = JBossWSBusFactory.getClassLoaderDefaultBus(threadContextClassLoader, ClientBusSelector.getInstance());
          //to prevent issues with CXF code using the default thread bus instead of the one returned here,
          //set the bus as thread one, given the line above could have not done this if we already had a
          //bus for the classloader and hence we did not create a new one
@@ -310,7 +310,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       return bus;
    }
    
-   private static void restoreThreadDefaultBus(final String busStrategy, final Bus origBus) {
+   private void restoreThreadDefaultBus(final String busStrategy, final Bus origBus) {
       if (origBus != null || !busStrategy.equals(Constants.THREAD_BUS_STRATEGY))
       {
          BusFactory.setThreadDefaultBus(origBus);
@@ -352,7 +352,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       return false;
    }
 
-   static Bus setValidThreadDefaultBus()
+   private Bus setValidThreadDefaultBus()
    {
       //we need to prevent using the default bus when the current
       //thread is not already associated to a bus. In those situations we create
@@ -360,7 +360,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       Bus bus = BusFactory.getThreadDefaultBus(false);
       if (bus == null)
       {
-         bus = new JBossWSBusFactory().createBus(); //this also set thread local bus internally as it's not set yet 
+         bus = ClientBusSelector.getInstance().createNewBus(); //this also set thread local bus internally as it's not set yet 
       }
       return bus;
    }

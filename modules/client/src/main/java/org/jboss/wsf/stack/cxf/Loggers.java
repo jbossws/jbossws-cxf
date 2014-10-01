@@ -232,4 +232,8 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = DEBUG)
     @Message(id = 24103, value = "Could not load BouncyCastle security provider; either setup your classpath properly or prevent loading by using the '%s' system property.")
     void cannotLoadBouncyCastleProvider(String property, @Cause Throwable cause);
+
+    @LogMessage(level = WARN)
+    @Message(id = 24105, value = "Could not create instance of specified ClientBusSelector: %s")
+    void couldNotLoadClientBusSelector(String selector, @Cause Throwable cause);
 }

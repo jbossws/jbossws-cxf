@@ -30,6 +30,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
+import org.jboss.wsf.stack.cxf.client.ClientBusSelector;
 import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 
 /**
@@ -163,6 +164,29 @@ public class JBossWSBusFactory extends BusFactory
       {
          SecurityActions.setContextClassLoader(origClassLoader);
       }
+   }
+   
+   /**
+    * Gets the default bus for the given classloader; if a new Bus is needed,
+    * the creation is delegated to the specified ClientBusSelector instance.
+    * 
+    * @param classloader
+    * @param clientBusSelector
+    * @return
+    */
+   public static Bus getClassLoaderDefaultBus(final ClassLoader classloader, final ClientBusSelector clientBusSelector) {
+      Bus classLoaderBus;
+      synchronized (classLoaderBusses) {
+         classLoaderBus = classLoaderBusses.get(classloader);
+         if (classLoaderBus == null) {
+            classLoaderBus = clientBusSelector.createNewBus();
+            //register a listener for cleaning up the bus from the classloader association in the JBossWSBusFactory
+            BusLifeCycleListener listener = new ClassLoaderDefaultBusLifeCycleListener(classLoaderBus);
+            classLoaderBus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(listener);
+            classLoaderBusses.put(classloader, classLoaderBus);
+         }
+      }
+      return classLoaderBus;
    }
    
    /**

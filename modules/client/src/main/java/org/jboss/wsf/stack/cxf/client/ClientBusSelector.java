@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
+import static org.jboss.wsf.stack.cxf.client.Constants.JBWS_CXF_JAXWS_CLIENT_BUS_SELECTOR;
 import static org.jboss.wsf.stack.cxf.client.Constants.JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY;
 import static org.jboss.wsf.stack.cxf.client.Constants.NEW_BUS_STRATEGY;
 import static org.jboss.wsf.stack.cxf.client.Constants.TCCL_BUS_STRATEGY;
@@ -28,9 +29,11 @@ import static org.jboss.wsf.stack.cxf.client.Constants.THREAD_BUS_STRATEGY;
 
 import javax.xml.ws.WebServiceFeature;
 
+import org.apache.cxf.Bus;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 
 /**
  * A class selecting the proper bus to be used for creating a
@@ -40,8 +43,9 @@ import org.jboss.wsf.stack.cxf.Messages;
  * @since 03-Oct-2013
  *
  */
-public abstract class ClientBusSelector
+public class ClientBusSelector
 {
+   private static final ClientBusSelector instance;
    private static final String sysPropStrategy;
    static {
       final String propValue = SecurityActions.getSystemProperty(JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY, ClassLoaderProvider.isSet() ? TCCL_BUS_STRATEGY : THREAD_BUS_STRATEGY);
@@ -54,9 +58,23 @@ public abstract class ClientBusSelector
          Loggers.ROOT_LOGGER.unknownJAXWSClientBusStrategy(propValue);
          sysPropStrategy = THREAD_BUS_STRATEGY;
       }
+      final String selectorPropValue = SecurityActions.getSystemProperty(JBWS_CXF_JAXWS_CLIENT_BUS_SELECTOR, ClientBusSelector.class.getName());
+      ClientBusSelector cbs;
+      try {
+         Class<?> clazz = Class.forName(selectorPropValue);
+         cbs = (ClientBusSelector)clazz.newInstance();
+      } catch (Exception e) {
+         Loggers.ROOT_LOGGER.couldNotLoadClientBusSelector(selectorPropValue, e);
+         cbs = new ClientBusSelector();
+      }
+      instance = cbs;
    }
    
-   public static String selectStrategy(WebServiceFeature... features) {
+   public static ClientBusSelector getInstance() {
+      return instance;
+   }
+   
+   public String selectStrategy(WebServiceFeature... features) {
       boolean createNewBus = false;
       boolean tcclBoundBus = false;
       boolean threadBus = false;
@@ -102,6 +120,10 @@ public abstract class ClientBusSelector
          featureStrategy = THREAD_BUS_STRATEGY;
       }
       return featureStrategy != null ? featureStrategy : sysPropStrategy;
+   }
+   
+   public Bus createNewBus() {
+      return new JBossWSBusFactory().createBus();
    }
    
    public static String getDefaultStrategy() {
