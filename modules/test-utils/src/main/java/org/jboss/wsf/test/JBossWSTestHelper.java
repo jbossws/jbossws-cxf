@@ -396,6 +396,11 @@ public class JBossWSTestHelper
       return getDeployer().setSystemProperty(propName, propValue);
    }
    
+   public static void restartServer() throws Exception
+   {
+      getDeployer().restart();
+   }
+   
    public static abstract class BaseDeployment<T extends org.jboss.shrinkwrap.api.Archive<T>>
    {
       protected T archive;

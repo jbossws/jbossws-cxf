@@ -30,6 +30,7 @@ import javax.xml.ws.Service;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.jboss.logging.Logger;
+import org.jboss.wsf.stack.cxf.client.ClientBusSelector;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.jboss.wsf.test.ClientHelper;
 
@@ -56,6 +57,31 @@ public class Helper implements ClientHelper
          return false;
       }
       Bus bus = ((JBossWSBusFactory)factory).createBus("cxf.xml"); //force Spring bus construction
+      assert bus.getOutInterceptors().isEmpty() == true; // cxf-client.xml bus has at least one outinterceptor
+
+      try
+      {
+         BusFactory.setThreadDefaultBus(bus);
+         
+         HelloWorld port = getPort();
+         return ("foo".equals(port.echo("foo")));
+      }
+      finally
+      {
+         bus.shutdown(true);
+      }
+      
+   }
+   
+   public boolean testSpringBus() throws Exception
+   {
+      BusFactory factory = BusFactory.newInstance();
+      if (!(factory instanceof JBossWSBusFactory)) { //check jbossws-cxf integration is on
+         log.error("Expected instance of " + JBossWSBusFactory.class + " but got: " + factory.getClass());
+         return false;
+      }
+      Bus bus = ClientBusSelector.getInstance().createNewBus(); //force Spring bus construction
+      assert bus.getOutInterceptors().isEmpty() == false; // cxf-client.xml bus has at least one outinterceptor
       try
       {
          BusFactory.setThreadDefaultBus(bus);
