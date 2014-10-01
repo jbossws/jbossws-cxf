@@ -859,6 +859,9 @@
 
                  <!-- # [JBWS-3832] WFLY master still to be updated -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/in_container_client/CustomBusServletTestCaseForked*</exclude>
+
+                <!-- [JBWS-3827] certificate to be resolved -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3827/JWBS3827TestCase</exclude>
               </excludes>
             </configuration>
           </plugin>
