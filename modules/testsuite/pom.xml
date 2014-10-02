@@ -689,9 +689,6 @@
                  <!-- # [JBWS-3620] Authentication failures w/ Undertow -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
 
-                 <!-- # [JBWS-3805]:Allow overriding soap:address rewrite options in jboss-webservices.xml;Not supposed to support in WFLY8 -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3805/*TestCase*</exclude>
-
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
               </excludes>
@@ -773,9 +770,6 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
-
-                 <!-- # [JBWS-3805]:Allow overriding soap:address rewrite options in jboss-webservices.xml;Not supposed to support in WFLY8 -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3805/*TestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
