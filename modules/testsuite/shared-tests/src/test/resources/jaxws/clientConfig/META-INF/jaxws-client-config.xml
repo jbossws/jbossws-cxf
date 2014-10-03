@@ -27,6 +27,17 @@
     </post-handler-chains>
   </client-config>
   <client-config>
+    <config-name>org.jboss.test.ws.jaxws.clientConfig.Endpoint</config-name>
+    <pre-handler-chains>
+      <javaee:handler-chain>
+        <javaee:handler>
+          <javaee:handler-name>Routing Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.test.ws.jaxws.clientConfig.RoutingHandler</javaee:handler-class>
+        </javaee:handler>
+      </javaee:handler-chain>
+    </pre-handler-chains>
+  </client-config>
+  <client-config>
     <config-name>Another Client Config</config-name>
     <pre-handler-chains>
       <javaee:handler-chain>

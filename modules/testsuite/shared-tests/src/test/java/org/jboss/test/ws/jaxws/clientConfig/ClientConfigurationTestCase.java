@@ -48,6 +48,7 @@ public class ClientConfigurationTestCase extends JBossWSTest
       list.add(new JBossWSTestHelper.JarDeployment("jaxws-clientConfig-client.jar") { {
          archive
                .addManifest()
+               .addAsResource("org/jboss/test/ws/jaxws/clientConfig/jaxws-client-config.xml", "jaxws-client-config.xml")
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/clientConfig/META-INF/jaxws-client-config.xml"), "jaxws-client-config.xml");
          }
       });
@@ -60,6 +61,8 @@ public class ClientConfigurationTestCase extends JBossWSTest
                .addClass(org.jboss.test.helper.TestServlet.class)
                .addClass(org.jboss.test.ws.jaxws.clientConfig.CustomHandler.class)
                .addClass(org.jboss.test.ws.jaxws.clientConfig.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.clientConfig.Endpoint2.class)
+               .addAsResource("org/jboss/test/ws/jaxws/clientConfig/jaxws-client-config.xml", "jaxws-client-config.xml")
                .addClass(org.jboss.test.ws.jaxws.clientConfig.Helper.class)
                .addClass(org.jboss.test.ws.jaxws.clientConfig.LogHandler.class)
                .addClass(org.jboss.test.ws.jaxws.clientConfig.RoutingHandler.class)

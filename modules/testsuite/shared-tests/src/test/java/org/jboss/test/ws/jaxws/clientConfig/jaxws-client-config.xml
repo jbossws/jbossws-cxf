@@ -22,5 +22,16 @@
       </javaee:handler-chain>
     </post-handler-chains>
   </client-config>
+  <client-config>
+    <config-name>My Custom Client Config</config-name>
+    <pre-handler-chains>
+      <javaee:handler-chain>
+        <javaee:handler>
+          <javaee:handler-name>Routing Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.test.ws.jaxws.clientConfig.CustomHandler</javaee:handler-class>
+        </javaee:handler>
+      </javaee:handler-chain>
+    </pre-handler-chains>
+  </client-config>
   
 </jaxws-config>

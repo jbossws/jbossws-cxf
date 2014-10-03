@@ -117,7 +117,31 @@ public class Helper implements ClientHelper
       bp.getBinding().setHandlerChain(hc);
 
       String resStr = port.echo("Kermit");
-      return ("Kermit|RoutOut|CustomOut|UserOut|LogOut|endpoint|LogIn|UserIn|CustomIn|RoutIn".equals(resStr));
+      if (!"Kermit|RoutOut|CustomOut|UserOut|LogOut|endpoint|LogIn|UserIn|CustomIn|RoutIn".equals(resStr)) {
+         return false;
+      }
+      
+      Endpoint port3 = (Endpoint)service.getPort(Endpoint.class, new ClientConfigFeature("META-INF/jaxws-client-config.xml", null));
+
+      bp = (BindingProvider)port3;
+      hc = bp.getBinding().getHandlerChain();
+      hc.add(new UserHandler());
+      bp.getBinding().setHandlerChain(hc);
+
+      resStr = port3.echo("Kermit");
+      if (!"Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr)) {
+         return false;
+      }
+      
+      Endpoint2 port2 = (Endpoint2)service.getPort(Endpoint2.class, new ClientConfigFeature(null, "My Custom Client Config"));
+
+      bp = (BindingProvider)port2;
+      hc = bp.getBinding().getHandlerChain();
+      hc.add(new UserHandler());
+      bp.getBinding().setHandlerChain(hc);
+
+      resStr = port2.echo("Kermit");
+      return ("Kermit|CustomOut|UserOut|endpoint|UserIn|CustomIn".equals(resStr));
    }
 
    public boolean testCustomClientConfigurationFromFileUsingFeatureOnDispatch() throws Exception
