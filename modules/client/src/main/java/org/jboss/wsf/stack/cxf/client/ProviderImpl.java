@@ -21,12 +21,15 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
+import static org.jboss.ws.common.Messages.MESSAGES;
 import static org.jboss.wsf.stack.cxf.client.Constants.NEW_BUS_STRATEGY;
 import static org.jboss.wsf.stack.cxf.client.Constants.TCCL_BUS_STRATEGY;
 import static org.jboss.wsf.stack.cxf.client.Constants.THREAD_BUS_STRATEGY;
 import static org.jboss.wsf.stack.cxf.client.SecurityActions.getContextClassLoader;
 import static org.jboss.wsf.stack.cxf.client.SecurityActions.setContextClassLoader;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -61,6 +64,8 @@ import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
+import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
+import org.jboss.wsf.spi.metadata.config.ConfigRoot;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
@@ -567,7 +572,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             Mode mode,
             WebServiceFeature... features) {
          Dispatch<T> dispatch = super.createDispatch(portName, type, context, mode, features);
-         setupClient(dispatch, type, features);
+         setupClient(dispatch, null, features);
          return dispatch;
       }
 
@@ -575,19 +580,11 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          Binding binding = ((BindingProvider)obj).getBinding();
          Client client = obj instanceof DispatchImpl<?> ? ((DispatchImpl<?>)obj).getClient() : ClientProxy.getClient(obj);
          client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
-         if (ClassLoaderProvider.isSet()) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
-            ServerConfig sc = getServerConfig();
-            if (sc != null) {
-               ClientConfig config = sc.getClientConfig(seiClass.getName());
-               if (config == null) {
-                  config = sc.getClientConfig(ClientConfig.STANDARD_CLIENT_CONFIG);
-               }
-               if (config != null) {
-                  CXFClientConfigurer helper = new CXFClientConfigurer();
-                  helper.setupConfigHandlers(binding, config);
-                  helper.setConfigProperties(client, config.getProperties());
-               }
-            }
+         ClientConfig config = readConfig(seiClass);
+         if (config != null) {
+            CXFClientConfigurer helper = new CXFClientConfigurer();
+            helper.setupConfigHandlers(binding, config);
+            helper.setConfigProperties(client, config.getProperties());
          }
          if (features != null) {
             for (WebServiceFeature f : features) {
@@ -603,6 +600,52 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             return AbstractServerConfig.getServerIntegrationServerConfig();
          }
          return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
+      }
+      
+      private static ClientConfig readConfig(Class<?> seiClass) {
+         final String configName;
+         if (seiClass == null) { //nothing to do for Dispatch, as there's no SEI
+            configName = null;
+         } else {
+            configName = seiClass.getName();
+            InputStream is = null;
+            try
+            {
+               is = seiClass.getResourceAsStream("/" + ClientConfig.DEFAULT_CLIENT_CONFIG_FILE);
+               if (is != null) {
+                  ConfigRoot config = ConfigMetaDataParser.parse(is);
+                  ClientConfig cc = config != null ? config.getClientConfigByName(configName) : null;
+                  if (cc != null) {
+                     return cc;
+                  }
+               }
+            }
+            catch (Exception e)
+            {
+               throw MESSAGES.couldNotReadConfiguration(ClientConfig.DEFAULT_CLIENT_CONFIG_FILE, e);
+            }
+            finally
+            {
+               if (is != null) {
+                  try {
+                     is.close();
+                  } catch (IOException e) { } //ignore
+               }
+            }
+         }
+         if (ClassLoaderProvider.isSet()) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
+            ServerConfig sc = getServerConfig();
+            if (sc != null) {
+               ClientConfig cf = configName != null ? sc.getClientConfig(configName) : null;
+               if (cf == null) {
+                  cf = sc.getClientConfig(ClientConfig.STANDARD_CLIENT_CONFIG);
+               }
+               if (cf != null) {
+                  return cf;
+               }
+            }
+         }
+         return null;
       }
    }
 
