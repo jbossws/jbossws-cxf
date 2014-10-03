@@ -45,12 +45,6 @@ public class ClientConfigurationTestCaseForked extends JBossWSTest
 {
    public static BaseDeployment<?>[] createDeployments() {
       List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-clientConfig-client.jar") { {
-         archive
-               .addManifest()
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/clientConfig/META-INF/jaxws-client-config.xml"), "jaxws-client-config.xml");
-         }
-      });
       list.add(new JBossWSTestHelper.WarDeployment("jaxws-clientConfig-inContainer-client.war") { {
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
