@@ -556,7 +556,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       protected <T> T createPort(QName portName, EndpointReferenceType epr, Class<T> serviceEndpointInterface,
             WebServiceFeature... features) {
          T port = super.createPort(portName, epr, serviceEndpointInterface, features);
-         setupClient(port, features);
+         setupClient(port, serviceEndpointInterface, features);
          return port;
       }
 
@@ -567,18 +567,21 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             Mode mode,
             WebServiceFeature... features) {
          Dispatch<T> dispatch = super.createDispatch(portName, type, context, mode, features);
-         setupClient(dispatch, features);
+         setupClient(dispatch, type, features);
          return dispatch;
       }
 
-      protected void setupClient(Object obj, WebServiceFeature... features) {
+      protected void setupClient(Object obj, Class<?> seiClass, WebServiceFeature... features) {
          Binding binding = ((BindingProvider)obj).getBinding();
          Client client = obj instanceof DispatchImpl<?> ? ((DispatchImpl<?>)obj).getClient() : ClientProxy.getClient(obj);
          client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
          if (ClassLoaderProvider.isSet()) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
             ServerConfig sc = getServerConfig();
             if (sc != null) {
-               ClientConfig config = sc.getClientConfig(ClientConfig.STANDARD_CLIENT_CONFIG);
+               ClientConfig config = sc.getClientConfig(seiClass.getName());
+               if (config == null) {
+                  config = sc.getClientConfig(ClientConfig.STANDARD_CLIENT_CONFIG);
+               }
                if (config != null) {
                   CXFClientConfigurer helper = new CXFClientConfigurer();
                   helper.setupConfigHandlers(binding, config);

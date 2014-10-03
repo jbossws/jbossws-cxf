@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,6 +22,7 @@
 package org.jboss.wsf.stack.cxf.configuration;
 
 import java.io.IOException;
+import java.net.URL;
 import java.security.AccessController;
 import java.util.List;
 
@@ -32,6 +33,7 @@ import org.jboss.ws.api.annotation.EndpointConfig;
 import org.jboss.ws.api.util.ServiceLoader;
 import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
+import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.management.ServerConfig;
@@ -122,8 +124,9 @@ public class ServerBeanCustomizer extends BeanCustomizer
 
          // ** Endpoint configuration setup **
          // 1) default values
-         String configName = org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG;
-         String configFile = null;
+         //String configName = org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG;
+         String configName = implementor.getClass().getName();
+         String configFile = org.jboss.wsf.spi.metadata.config.EndpointConfig.DEFAULT_ENDPOINT_CONFIG_FILE;
          boolean specifiedConfig = false;
          // 2) annotation contribution
          EndpointConfig epConfigAnn = implementor.getClass().getAnnotation(EndpointConfig.class);
@@ -150,32 +153,66 @@ public class ServerBeanCustomizer extends BeanCustomizer
             configFile = epConfigFile;
          }
          // 4) setup of configuration
-         if (configFile == null)
-         {
-            //use endpoint configs from AS domain
-            ServerConfig sc = getServerConfig();
-            org.jboss.wsf.spi.metadata.config.EndpointConfig config = sc.getEndpointConfig(configName);
-            if (config != null) {
-               endpoint.setEndpointConfig(config);
-            } 
-            if (config == null && specifiedConfig) {
-            	throw Messages.MESSAGES.couldNotFindEndpointConfigName(configName);
-            }
-         }
-         else
-         {
+         if (configFile != org.jboss.wsf.spi.metadata.config.EndpointConfig.DEFAULT_ENDPOINT_CONFIG_FILE) {
             //look for provided endpoint config file
             try
             {
                UnifiedVirtualFile vf = deploymentRoot.findChild(configFile);
-               ConfigRoot config = ConfigMetaDataParser.parse(vf.toURL());
-               endpoint.setEndpointConfig(config.getEndpointConfigByName(configName));
+               ConfigRoot configRoot = ConfigMetaDataParser.parse(vf.toURL());
+               org.jboss.wsf.spi.metadata.config.EndpointConfig config = configRoot.getEndpointConfigByName(configName);
+               if (config == null && !specifiedConfig) {
+                  config = configRoot.getEndpointConfigByName(org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG);
+               }
+               if (config != null) {
+                  endpoint.setEndpointConfig(config);
+               }
             }
             catch (IOException e)
             {
                throw Messages.MESSAGES.couldNotReadConfigFile(configFile);
             }
          }
+         else
+         {
+            org.jboss.wsf.spi.metadata.config.EndpointConfig config = null;
+            URL url = implementor.getClass().getResource("/" + configFile);
+            if (url == null) {
+               UnifiedVirtualFile vf = deploymentRoot.findChildFailSafe(configFile);
+               if (vf != null) {
+                  url = vf.toURL();
+               }
+            }
+            if (url != null) {
+               //the default file exists
+               try
+               {
+                  ConfigRoot configRoot = ConfigMetaDataParser.parse(url);
+                  config = configRoot.getEndpointConfigByName(configName);
+                  if (config == null && !specifiedConfig) {
+                     config = configRoot.getEndpointConfigByName(org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG);
+                  }
+               }
+               catch (IOException e)
+               {
+                  throw Messages.MESSAGES.couldNotReadConfigFile(configFile);
+               }
+            }
+            if (config == null) {
+               //use endpoint configs from AS domain
+               ServerConfig sc = getServerConfig();
+               config = sc.getEndpointConfig(configName);
+               if (config == null && !specifiedConfig) {
+                  config = sc.getEndpointConfig(org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG);
+               }
+               if (config == null && specifiedConfig) {
+                   throw Messages.MESSAGES.couldNotFindEndpointConfigName(configName);
+               }
+            }
+            if (config != null) {
+               endpoint.setEndpointConfig(config);
+            } 
+         }
+
          //JASPI
          final JASPIAuthenticationProvider jaspiProvider = (JASPIAuthenticationProvider) ServiceLoader.loadService(
                JASPIAuthenticationProvider.class.getName(), null, ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
