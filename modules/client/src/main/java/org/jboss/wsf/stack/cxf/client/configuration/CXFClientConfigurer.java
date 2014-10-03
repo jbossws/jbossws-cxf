@@ -24,6 +24,8 @@ package org.jboss.wsf.stack.cxf.client.configuration;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.ws.Dispatch;
+
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
@@ -48,7 +50,8 @@ public class CXFClientConfigurer extends ConfigHelper
    
    @Override
    public void setConfigProperties(Object client, String configFile, String configName) {
-      ClientConfig config = readConfig(configFile, configName);
+      Class<?> clazz = !(client instanceof Dispatch) ? client.getClass() : null;
+      ClientConfig config = readConfig(configFile, configName, clazz);
       Client cxfClient;
       if (client instanceof DispatchImpl<?>) {
          cxfClient = ((DispatchImpl<?>)client).getClient();
