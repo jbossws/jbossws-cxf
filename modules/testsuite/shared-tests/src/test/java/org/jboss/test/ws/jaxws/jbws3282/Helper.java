@@ -21,43 +21,14 @@
  */
 package org.jboss.test.ws.jaxws.jbws3282;
 
-import java.net.URL;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-
 import org.jboss.test.helper.ClientHelper;
 import org.jboss.wsf.spi.metadata.config.EndpointConfig;
 
 public class Helper implements ClientHelper
 {
-   private final String targetNS = "http://jbws3282.jaxws.ws.test.jboss.org/";
    private final String testConfig = "org.jboss.test.ws.jaxws.jbws3282.Endpoint2Impl";
    private String address;
    private static volatile EndpointConfig defaultEndpointConfig;
-   
-   public boolean testHandlerChainVanillaServer() throws Exception
-   {
-      QName serviceName = new QName(targetNS, "Endpoint2ImplService");
-      URL wsdlURL = new URL(address + "/ep2?wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
-      Endpoint port = (Endpoint)service.getPort(Endpoint.class);
-      String resStr = port.echo("Kermit");
-      if (!"Kermit|EpIn|endpoint2|EpOut".equals(resStr)) {
-         return false;
-      }
-      
-      serviceName = new QName(targetNS, "Endpoint3ImplService");
-      wsdlURL = new URL(address + "/ep3?wsdl");
-      service = Service.create(wsdlURL, serviceName);
-      port = (Endpoint)service.getPort(Endpoint.class);
-      resStr = port.echo("Kermit");
-      if (!"Kermit|EpIn|endpoint3|EpOut".equals(resStr)) {
-         return false;
-      }
-      
-      return true;
-   }
    
    public boolean setupConfigurations() throws Exception
    {
@@ -75,39 +46,6 @@ public class Helper implements ClientHelper
       return true;
    }
 
-   public boolean testHandlerChainModifiedServer() throws Exception
-   {
-      final EndpointConfig defaultEndpointConfig = TestUtils.getAndVerifyDefaultEndpointConfiguration();
-      final String testConfig = "org.jboss.test.ws.jaxws.jbws3282.Endpoint2Impl";
-      try {
-         TestUtils.addTestCaseEndpointConfiguration(testConfig);
-         TestUtils.changeDefaultEndpointConfiguration();
-         
-         QName serviceName = new QName(targetNS, "Endpoint2ImplService");
-         URL wsdlURL = new URL(address + "/ep2?wsdl");
-         Service service = Service.create(wsdlURL, serviceName);
-         Endpoint port = (Endpoint)service.getPort(Endpoint.class);
-         String resStr = port.echo("Kermit");
-         if (!"Kermit|RoutIn|EpIn|endpoint2|EpOut|RoutOut".equals(resStr)) {
-            return false;
-         }
-         
-         serviceName = new QName(targetNS, "Endpoint3ImplService");
-         wsdlURL = new URL(address + "/ep3?wsdl");
-         service = Service.create(wsdlURL, serviceName);
-         port = (Endpoint)service.getPort(Endpoint.class);
-         resStr = port.echo("Kermit");
-         if (!"Kermit|EpIn|LogIn|endpoint3|LogOut|EpOut".equals(resStr)) {
-            return false;
-         }
-         
-         return true;
-      } finally {
-         TestUtils.setEndpointConfigAndReload(defaultEndpointConfig);
-         TestUtils.removeTestCaseEndpointConfiguration(testConfig);
-      }
-   }
-   
    @Override
    public void setTargetEndpoint(String address)
    {

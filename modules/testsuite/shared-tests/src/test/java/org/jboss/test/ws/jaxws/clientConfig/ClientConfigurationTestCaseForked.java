@@ -60,6 +60,8 @@ public class ClientConfigurationTestCaseForked extends JBossWSTest
                .addClass(org.jboss.test.helper.TestServlet.class)
                .addClass(org.jboss.test.ws.jaxws.clientConfig.CustomHandler.class)
                .addClass(org.jboss.test.ws.jaxws.clientConfig.Endpoint.class)
+               .addClass(org.jboss.test.ws.jaxws.clientConfig.Endpoint2.class)
+               .addAsResource("org/jboss/test/ws/jaxws/clientConfig/jaxws-client-config.xml", "jaxws-client-config.xml")
                .addClass(org.jboss.test.ws.jaxws.clientConfig.Helper.class)
                .addClass(org.jboss.test.ws.jaxws.clientConfig.LogHandler.class)
                .addClass(org.jboss.test.ws.jaxws.clientConfig.RoutingHandler.class)
@@ -104,10 +106,17 @@ public class ClientConfigurationTestCaseForked extends JBossWSTest
    public void testSEIClassDefaultClientConfigurationInContainer() throws Exception {
       assertEquals("1", runTestInContainer("testSEIClassDefaultClientConfiguration"));
    }
+   //no corresponding test on Dispatch, as that has no SEI
    
-   public void testSEIClassDefaultClientConfigurationOnDispatchInContainer() throws Exception {
-      assertEquals("1", runTestInContainer("testSEIClassDefaultClientConfigurationOnDispatch"));
+   /**
+    * Verifies the SEI class FQN client configuration from default conf file
+    * 
+    * @throws Exception
+    */
+   public void testSEIClassDefaultFileClientConfigurationInContainer() throws Exception {
+      assertEquals("1", runTestInContainer("testSEIClassDefaultFileClientConfiguration"));
    }
+   //no corresponding test on Dispatch, as that has no SEI
    
    /**
     * Verifies a client configuration from AS model can be set

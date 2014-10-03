@@ -462,11 +462,20 @@ public class Helper implements ClientHelper
       }
    }
 
-   public boolean testSEIClassDefaultClientConfigurationOnDispatch() throws Exception
+   /**
+    * This test hacks the current ServerConfig temporarily adding a test client configuration
+    * (named as the Endoint SEI class FQN)- Then it calls the sends messages to the same endpoint,
+    * initially using the Endpoint SEI and then using the Endpoint2 SEI. The two port proxies are
+    * expected to behave differently because of a default jaxws-client-config.xml descriptor
+    * including a configuration for Endpoint2 SEI class FQN. The test eventually removes the test
+    * client configuration from the ServerConfig.
+    *
+    * @return
+    * @throws Exception
+    */
+   public boolean testSEIClassDefaultFileClientConfiguration() throws Exception
    {
-      final String reqString = "<ns1:echo xmlns:ns1=\"http://clientConfig.jaxws.ws.test.jboss.org/\"><arg0>Kermit</arg0></ns1:echo>";
       QName serviceName = new QName("http://clientConfig.jaxws.ws.test.jboss.org/", "EndpointImplService");
-      QName portName = new QName("http://clientConfig.jaxws.ws.test.jboss.org/", "EndpointPort");
       URL wsdlURL = new URL(address + "?wsdl");
 
       final String testConfigName = "org.jboss.test.ws.jaxws.clientConfig.Endpoint";
@@ -477,19 +486,29 @@ public class Helper implements ClientHelper
          // --
 
          Service service = Service.create(wsdlURL, serviceName);
-         Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
+         Endpoint port = (Endpoint)service.getPort(Endpoint.class);
 
-         BindingProvider bp = (BindingProvider)dispatch;
+         BindingProvider bp = (BindingProvider)port;
          @SuppressWarnings("rawtypes")
          List<Handler> hc = bp.getBinding().getHandlerChain();
          hc.add(new UserHandler());
          bp.getBinding().setHandlerChain(hc);
 
-         ClientConfigUtil.setConfigHandlers(bp, null, testConfigName);
+         String resStr = port.echo("Kermit");
+         if (!"Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr)) {
+            return false;
+         }
+         
+         Endpoint2 port2 = (Endpoint2)service.getPort(Endpoint2.class);
 
-         Source resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
-         String resStr = DOMUtils.getTextContent(DOMUtils.sourceToElement(resSource).getElementsByTagName("return").item(0));
-         return ("Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr));
+         bp = (BindingProvider)port2;
+         hc = bp.getBinding().getHandlerChain();
+         hc.add(new UserHandler());
+         bp.getBinding().setHandlerChain(hc);
+
+         resStr = port2.echo("Kermit");
+         return ("Kermit|RoutOut|UserOut|LogOut|endpoint|LogIn|UserIn|RoutIn".equals(resStr));
+
       }
       finally
       {
