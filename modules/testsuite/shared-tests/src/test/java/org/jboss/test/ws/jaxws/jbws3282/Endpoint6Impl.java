@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -31,17 +31,17 @@ import org.jboss.ws.api.annotation.EndpointConfig;
 
 @WebService(name="Endpoint")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-@EndpointConfig(configFile = "WEB-INF/my-endpoint-config.xml", configName = "Custom Endpoint")
+@EndpointConfig(configName = "EP6-config")
 @HandlerChain(file = "jaxws-handlers-server.xml") // relative path from the class file
-public class EndpointImpl
+public class Endpoint6Impl
 {
    // Provide logging
-   private static Logger log = Logger.getLogger(EndpointImpl.class);
+   private static Logger log = Logger.getLogger(Endpoint6Impl.class);
 
    @WebMethod
    public String echo(String input)
    {
-      log.info("echo: " + input);
-      return input + "|endpoint";
+      log.info("echo6: " + input);
+      return input + "|endpoint6";
    }
 }

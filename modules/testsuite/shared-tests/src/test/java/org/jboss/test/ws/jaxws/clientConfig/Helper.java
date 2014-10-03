@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -409,6 +409,83 @@ public class Helper implements ClientHelper
          List<Handler> hc = bp.getBinding().getHandlerChain();
          hc.add(new UserHandler());
          bp.getBinding().setHandlerChain(hc);
+
+         Source resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+         String resStr = DOMUtils.getTextContent(DOMUtils.sourceToElement(resSource).getElementsByTagName("return").item(0));
+         return ("Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr));
+      }
+      finally
+      {
+         // -- remove test client configuration --
+         TestUtils.removeTestCaseClientConfiguration(testConfigName);
+         // --
+      }
+   }
+
+   /**
+    * This test hacks the current ServerConfig temporarily adding a test client configuration
+    * (named as the SEI class FQN), let the container use that for the test client and
+    * finally removes it from the ServerConfig.
+    *
+    * @return
+    * @throws Exception
+    */
+   public boolean testSEIClassDefaultClientConfiguration() throws Exception
+   {
+      QName serviceName = new QName("http://clientConfig.jaxws.ws.test.jboss.org/", "EndpointImplService");
+      URL wsdlURL = new URL(address + "?wsdl");
+
+      final String testConfigName = "org.jboss.test.ws.jaxws.clientConfig.Endpoint";
+      try
+      {
+         //-- add test client configuration
+         TestUtils.addTestCaseClientConfiguration(testConfigName);
+         // --
+
+         Service service = Service.create(wsdlURL, serviceName);
+         Endpoint port = (Endpoint)service.getPort(Endpoint.class);
+
+         BindingProvider bp = (BindingProvider)port;
+         @SuppressWarnings("rawtypes")
+         List<Handler> hc = bp.getBinding().getHandlerChain();
+         hc.add(new UserHandler());
+         bp.getBinding().setHandlerChain(hc);
+
+         String resStr = port.echo("Kermit");
+         return ("Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr));
+      }
+      finally
+      {
+         // -- remove test client configuration --
+         TestUtils.removeTestCaseClientConfiguration(testConfigName);
+         // --
+      }
+   }
+
+   public boolean testSEIClassDefaultClientConfigurationOnDispatch() throws Exception
+   {
+      final String reqString = "<ns1:echo xmlns:ns1=\"http://clientConfig.jaxws.ws.test.jboss.org/\"><arg0>Kermit</arg0></ns1:echo>";
+      QName serviceName = new QName("http://clientConfig.jaxws.ws.test.jboss.org/", "EndpointImplService");
+      QName portName = new QName("http://clientConfig.jaxws.ws.test.jboss.org/", "EndpointPort");
+      URL wsdlURL = new URL(address + "?wsdl");
+
+      final String testConfigName = "org.jboss.test.ws.jaxws.clientConfig.Endpoint";
+      try
+      {
+         //-- add test client configuration
+         TestUtils.addTestCaseClientConfiguration(testConfigName);
+         // --
+
+         Service service = Service.create(wsdlURL, serviceName);
+         Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
+
+         BindingProvider bp = (BindingProvider)dispatch;
+         @SuppressWarnings("rawtypes")
+         List<Handler> hc = bp.getBinding().getHandlerChain();
+         hc.add(new UserHandler());
+         bp.getBinding().setHandlerChain(hc);
+
+         ClientConfigUtil.setConfigHandlers(bp, null, testConfigName);
 
          Source resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
          String resStr = DOMUtils.getTextContent(DOMUtils.sourceToElement(resSource).getElementsByTagName("return").item(0));

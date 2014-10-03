@@ -9,10 +9,34 @@
     <servlet-name>TestService</servlet-name>
     <servlet-class>org.jboss.test.ws.jaxws.jbws3282.EndpointImpl</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>TestService4</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws3282.Endpoint4Impl</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>TestService5</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws3282.Endpoint5Impl</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>TestService6</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws3282.Endpoint6Impl</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>TestService</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/ep</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TestService4</servlet-name>
+    <url-pattern>/ep4</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TestService5</servlet-name>
+    <url-pattern>/ep5</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TestService6</servlet-name>
+    <url-pattern>/ep6</url-pattern>
   </servlet-mapping>
 
 </web-app>

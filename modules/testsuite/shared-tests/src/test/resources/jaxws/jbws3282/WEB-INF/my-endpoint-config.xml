@@ -4,26 +4,7 @@
   xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
   
   <endpoint-config>
-    <config-name>org.jboss.test.ws.jaxws.jbws3282.Endpoint4Impl</config-name>
-    <pre-handler-chains>
-      <javaee:handler-chain>
-        <javaee:handler>
-          <javaee:handler-name>Log Handler</javaee:handler-name>
-          <javaee:handler-class>org.jboss.test.ws.jaxws.jbws3282.LogHandler</javaee:handler-class>
-        </javaee:handler>
-      </javaee:handler-chain>
-    </pre-handler-chains>
-    <post-handler-chains>
-      <javaee:handler-chain>
-        <javaee:handler>
-          <javaee:handler-name>Routing Handler</javaee:handler-name>
-          <javaee:handler-class>org.jboss.test.ws.jaxws.jbws3282.RoutingHandler</javaee:handler-class>
-        </javaee:handler>
-      </javaee:handler-chain>
-    </post-handler-chains>
-  </endpoint-config>
-  <endpoint-config>
-    <config-name>EP6-config</config-name>
+    <config-name>Custom Endpoint</config-name>
     <pre-handler-chains>
       <javaee:handler-chain>
         <javaee:handler>
@@ -38,9 +19,23 @@
           <javaee:handler-name>Authorization Handler</javaee:handler-name>
           <javaee:handler-class>org.jboss.test.ws.jaxws.jbws3282.AuthorizationHandler</javaee:handler-class>
         </javaee:handler>
+        <javaee:handler>
+          <javaee:handler-name>Routing Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.test.ws.jaxws.jbws3282.RoutingHandler</javaee:handler-class>
+        </javaee:handler>
       </javaee:handler-chain>
     </post-handler-chains>
   </endpoint-config>
-  
+  <endpoint-config>
+    <config-name>org.jboss.test.ws.jaxws.jbws3282.Endpoint5Impl</config-name>
+    <pre-handler-chains>
+      <javaee:handler-chain>
+        <javaee:handler>
+          <javaee:handler-name>Log Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.test.ws.jaxws.jbws3282.LogHandler</javaee:handler-class>
+        </javaee:handler>
+      </javaee:handler-chain>
+    </pre-handler-chains>
+  </endpoint-config>
   
 </jaxws-config>

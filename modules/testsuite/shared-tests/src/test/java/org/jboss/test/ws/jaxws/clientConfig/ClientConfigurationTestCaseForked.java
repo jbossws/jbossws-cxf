@@ -97,6 +97,19 @@ public class ClientConfigurationTestCaseForked extends JBossWSTest
    }
    
    /**
+    * Verifies the SEI class FQN default client configuration from AS model is used
+    * 
+    * @throws Exception
+    */
+   public void testSEIClassDefaultClientConfigurationInContainer() throws Exception {
+      assertEquals("1", runTestInContainer("testSEIClassDefaultClientConfiguration"));
+   }
+   
+   public void testSEIClassDefaultClientConfigurationOnDispatchInContainer() throws Exception {
+      assertEquals("1", runTestInContainer("testSEIClassDefaultClientConfigurationOnDispatch"));
+   }
+   
+   /**
     * Verifies a client configuration from AS model can be set
     * 
     * @throws Exception
