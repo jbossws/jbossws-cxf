@@ -43,8 +43,6 @@ import org.jboss.ws.api.annotation.EndpointConfig;
 )
 @SecurityDomain("JBossWS")
 @EndpointConfig(configFile = "META-INF/jaxws-endpoint-config.xml", configName = "Custom WS-Security Endpoint")
-//be sure to have dependency on org.apache.cxf module when on AS7, otherwise Apache CXF annotations are ignored 
-@InInterceptors(interceptors = {"org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor"})
 public class EJBServiceImpl
 {
    // Provide logging

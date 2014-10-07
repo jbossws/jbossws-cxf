@@ -33,7 +33,6 @@ import org.jboss.ws.api.annotation.EndpointConfig;
 import org.jboss.ws.api.util.ServiceLoader;
 import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
-import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.management.ServerConfig;
