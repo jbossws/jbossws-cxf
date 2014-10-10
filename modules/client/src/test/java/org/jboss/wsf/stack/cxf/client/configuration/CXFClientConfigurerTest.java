@@ -162,9 +162,7 @@ public class CXFClientConfigurerTest extends TestCase
          properties.put(Constants.CXF_IN_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorA org.jboss.wsf.stack.cxf.client.configuration.InterceptorB");
          properties.put(Constants.CXF_OUT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorC,org.jboss.wsf.stack.cxf.client.configuration.InterceptorD");
          
-         CXFClientConfigurer cfg = new CXFClientConfigurer();
-         
-         cfg.addInterceptors(client, properties);
+         InterceptorUtils.addInterceptors(client, properties);
          
          List<String> interceptors = toNameList(client.getInInterceptors());
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
@@ -182,7 +180,7 @@ public class CXFClientConfigurerTest extends TestCase
          properties.put(Constants.CXF_IN_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorD, FooInterceptor");
          properties.put(Constants.CXF_OUT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorB");
          
-         cfg.addInterceptors(client, properties);
+         InterceptorUtils.addInterceptors(client, properties);
          
          interceptors = toNameList(client.getInInterceptors());
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
@@ -243,7 +241,7 @@ public class CXFClientConfigurerTest extends TestCase
          properties.put(Constants.CXF_IN_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorD, FooInterceptor");
          properties.put(Constants.CXF_OUT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorB");
          
-         cfg.addInterceptors(client, properties);
+         InterceptorUtils.addInterceptors(client, properties);
          
          assertEquals("1", client.getEndpoint().get("A"));
          assertEquals("2", client.getEndpoint().get("B"));
@@ -304,6 +302,8 @@ public class CXFClientConfigurerTest extends TestCase
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
          
          
+         ClientProxy.getClient(port).getInInterceptors().add(new InterceptorZ());
+         
          properties = new HashMap<String, String>();
          properties.put("E", "10");
          properties.put("F", "20");
@@ -326,6 +326,7 @@ public class CXFClientConfigurerTest extends TestCase
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorZ"));
          interceptors = toNameList(client.getOutInterceptors());
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
@@ -350,6 +351,7 @@ public class CXFClientConfigurerTest extends TestCase
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorZ"));
          interceptors = toNameList(client.getOutInterceptors());
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));

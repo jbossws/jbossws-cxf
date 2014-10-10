@@ -45,6 +45,7 @@ import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
+import org.jboss.wsf.stack.cxf.client.configuration.InterceptorUtils;
 
 
 /**
@@ -107,8 +108,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
             {
                propMap.putAll(epConfProps);
             }
-            CXFClientConfigurer helper = new CXFClientConfigurer();
-            helper.addInterceptors(this, epConfProps);
+            InterceptorUtils.addInterceptors(this, epConfProps);
          }
          //handlers config is done later, as when this methods is called getBinding() can't
          //be used without messing with the servlet destinations due to the endpoint address

@@ -21,24 +21,17 @@
  */
 package org.jboss.wsf.stack.cxf.client.configuration;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import javax.xml.ws.Dispatch;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
-import org.apache.cxf.interceptor.Interceptor;
-import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.jaxws.DispatchImpl;
 import org.jboss.ws.api.util.ServiceLoader;
 import org.jboss.ws.common.configuration.ConfigHelper;
-import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
@@ -92,7 +85,7 @@ public class CXFClientConfigurer extends ConfigHelper
    
    public void setConfigProperties(Client client, Map<String, String> properties) {
       client.getEndpoint().putAll(properties);
-      addInterceptors(client, properties);
+      InterceptorUtils.addInterceptors(client, properties);
    }
    
    private void savePropList(Client client, Map<String, String> props) {
@@ -106,67 +99,13 @@ public class CXFClientConfigurer extends ConfigHelper
       if (previousProps != null) {
          for (String p : previousProps) {
             if (Constants.CXF_IN_INTERCEPTORS_PROP.equals(p)) {
-               removeInterceptors(client.getInInterceptors(), (String)ep.get(p));
+               InterceptorUtils.removeInterceptors(client.getInInterceptors(), (String)ep.get(p));
             } else if (Constants.CXF_OUT_INTERCEPTORS_PROP.equals(p)) {
-               removeInterceptors(client.getOutInterceptors(), (String)ep.get(p));
+               InterceptorUtils.removeInterceptors(client.getOutInterceptors(), (String)ep.get(p));
             }
             ep.remove(p);
          }
          ep.remove(JBOSSWS_CXF_CLIENT_CONF_PROPS);
-      }
-   }
-   
-   public void addInterceptors(InterceptorProvider interceptorProvider, Map<String, String> properties) {
-      final String inInterceptors = properties.get(Constants.CXF_IN_INTERCEPTORS_PROP);
-      if (inInterceptors != null) {
-         interceptorProvider.getInInterceptors().addAll(createInterceptors(inInterceptors));
-      }
-      final String outInterceptors = properties.get(Constants.CXF_OUT_INTERCEPTORS_PROP);
-      if (outInterceptors != null) {
-         interceptorProvider.getOutInterceptors().addAll(createInterceptors(outInterceptors));
-      }
-   }
-   
-   private void removeInterceptors(List<Interceptor<?>> interceptorsList, String interceptors) {
-      Set<String> set = new HashSet<String>();
-      StringTokenizer st = new StringTokenizer(interceptors, ", ", false);
-      while (st.hasMoreTokens()) {
-         set.add(st.nextToken());
-      }
-      List<Interceptor<?>> toBeRemoved = new ArrayList<Interceptor<?>>();
-      for (Interceptor<?> itc : interceptorsList) {
-         if (set.contains(itc.getClass().getName())) {
-            toBeRemoved.add(itc);
-         }
-      }
-      interceptorsList.removeAll(toBeRemoved);
-   }
-   
-   private static List<Interceptor<?>> createInterceptors(String propValue) {
-      List<Interceptor<?>> list = new ArrayList<Interceptor<?>>();
-      StringTokenizer st = new StringTokenizer(propValue, ", ", false );
-      while (st.hasMoreTokens()) {
-         String itc = st.nextToken();
-         Interceptor<?> interceptor = (Interceptor<?>)newInstance(itc);
-         if (interceptor != null) {
-            list.add(interceptor);
-         }
-      }
-      return list;
-   }
-   
-   private static Object newInstance(String className)
-   {
-      try
-      {
-         ClassLoader loader = new DelegateClassLoader(ClassLoaderProvider.getDefaultProvider()
-               .getServerIntegrationClassLoader(), SecurityActions.getContextClassLoader());
-         Class<?> clazz = SecurityActions.loadClass(loader, className);
-         return clazz.newInstance();
-      }
-      catch (Exception e)
-      {
-         return null;
       }
    }
 }

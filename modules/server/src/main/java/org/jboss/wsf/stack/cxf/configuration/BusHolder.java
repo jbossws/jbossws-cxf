@@ -68,6 +68,8 @@ import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.client.Constants;
+import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
+import org.jboss.wsf.stack.cxf.client.configuration.InterceptorUtils;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
 import org.jboss.wsf.stack.cxf.interceptor.EnableDecoupledFaultInterceptor;
@@ -218,6 +220,8 @@ public abstract class BusHolder
       if (SoapAddressRewriteHelper.isPathRewriteRequired(sarm) || SoapAddressRewriteHelper.isSchemeRewriteRequired(sarm)) {
          bus.getInInterceptors().add(new WSDLSoapAddressRewriteInterceptor(sarm));
       }
+      
+      InterceptorUtils.addInterceptors(bus, props);
    }
    
    protected static void setResourceResolver(Bus bus, ResourceResolver resourceResolver)
