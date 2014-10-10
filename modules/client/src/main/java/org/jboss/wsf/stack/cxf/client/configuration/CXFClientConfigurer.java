@@ -60,6 +60,10 @@ public class CXFClientConfigurer extends ConfigHelper
    public void setConfigProperties(Object client, String configFile, String configName) {
       Class<?> clazz = !(client instanceof Dispatch) ? client.getClass() : null;
       ClientConfig config = readConfig(configFile, configName, clazz);
+      setConfigProperties(client, config);
+   }
+   
+   protected void setConfigProperties(Object client, ClientConfig config) {
       Client cxfClient;
       if (client instanceof DispatchImpl<?>) {
          cxfClient = ((DispatchImpl<?>)client).getClient();
