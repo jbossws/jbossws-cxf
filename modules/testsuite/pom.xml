@@ -691,6 +691,9 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
+
+                 <!-- # [jbws-3792] waiting for jbossws-common update -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3792/wsImpl/JBWS3792WsImplTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -770,6 +773,10 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
+
+                 <!-- # [jbws-3792] waiting for jbossws-common update -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3792/wsImpl/JBWS3792WsImplTestCase*</exclude>
+
               </excludes>
             </configuration>
           </plugin>
@@ -850,6 +857,10 @@
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
+
+                 <!-- # [jbws-3792] waiting for jbossws-common update -->
+                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3792/wsImpl/JBWS3792WsImplTestCase*</exclude>
+
               </excludes>
             </configuration>
           </plugin>

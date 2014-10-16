@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="JBWS3792WSService"
+                  targetNamespace="http://test.jbws3792/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+  <wsdl:import namespace="http://test.jbws3792/"
+               location="http://localhost:8080/jbws3792-external-wsdl/import.wsdl"/>
+
+</wsdl:definitions>
