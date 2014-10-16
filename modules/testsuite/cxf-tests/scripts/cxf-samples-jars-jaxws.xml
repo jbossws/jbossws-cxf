@@ -199,6 +199,7 @@
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/Service23*Impl.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/jaxws/Say*.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/KeystorePasswordCallback.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/SAMLValidator.class"/>
        </classes>
        <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/oasis/WEB-INF">
           <include name="wsdl/*.xsd"/>

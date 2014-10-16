@@ -41,6 +41,7 @@ import org.jboss.ws.api.annotation.WebContext;
       @EndpointProperty(key = "ws-security.signature.username", value = "bob"),
       @EndpointProperty(key = "ws-security.encryption.properties", value = "bob.properties"),
       @EndpointProperty(key = "ws-security.encryption.username", value = "useReqSigCert"),
+      @EndpointProperty(key = "ws-security.saml2.validator", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.SAMLValidator"),
       @EndpointProperty(key = "ws-security.callback-handler", value = "org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.KeystorePasswordCallback")
       }
 )
