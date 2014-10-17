@@ -61,7 +61,7 @@
   <!-- Properties -->
   <properties>
     <jbossws.api.version>1.0.2.Final</jbossws.api.version>
-    <jbossws.spi.version>2.3.0.Final</jbossws.spi.version>
+    <jbossws.spi.version>2.3.1-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>2.3.1.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.2.0.Final</jbossws.common.tools.version>
     <jbossws.jboss720.version>4.3.2-SNAPSHOT</jbossws.jboss720.version>
