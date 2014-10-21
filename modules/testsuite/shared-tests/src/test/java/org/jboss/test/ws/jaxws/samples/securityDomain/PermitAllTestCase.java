@@ -122,6 +122,14 @@ public class PermitAllTestCase extends JBossWSTest
          assertTrue(e.getMessage().contains("Could not send Message"));
          assertTrue(e.getCause().getMessage().contains("401: Unauthorized"));
       }
+      try {
+         port.echoForAll("Hi");
+         fail("Authentication exception expected!");
+      } catch (Exception e) {
+         //expected web layer exception
+         assertTrue(e.getMessage().contains("Could not send Message"));
+         assertTrue(e.getCause().getMessage().contains("401: Unauthorized"));
+      }
 
       ((BindingProvider)port).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "bob");
       ((BindingProvider)port).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "foo");
@@ -132,9 +140,11 @@ public class PermitAllTestCase extends JBossWSTest
          //expected EJB3 layer authorization exception
          assertTrue(e.getMessage().contains("not allowed"));
       }
+      assertEquals("Hi", port.echoForAll("Hi"));
       
       ((BindingProvider)port).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "john");
       ((BindingProvider)port).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "bar");
       assertEquals("Hello", port.echo("Hello"));
+      assertEquals("Hi", port.echoForAll("Hi"));
    }
 }

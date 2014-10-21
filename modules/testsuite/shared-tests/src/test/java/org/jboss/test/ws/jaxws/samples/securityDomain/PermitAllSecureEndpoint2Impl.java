@@ -65,4 +65,11 @@ public class PermitAllSecureEndpoint2Impl
       log.info(input);
       return input;
    }
+
+   @WebMethod
+   public String echoForAll(String input)
+   {
+      log.info(input);
+      return input;
+   }
 }

@@ -36,4 +36,8 @@ public interface PermitAllSecureEndpoint
    @WebMethod
    @WebResult(targetNamespace = "http://org.jboss.ws/securityDomain", partName = "return")
    public String echo(@WebParam(name = "arg0", partName = "arg0") String arg0);
+
+   @WebMethod
+   @WebResult(targetNamespace = "http://org.jboss.ws/securityDomain", partName = "return")
+   public String echoForAll(@WebParam(name = "arg0", partName = "arg0") String arg0);
 }
