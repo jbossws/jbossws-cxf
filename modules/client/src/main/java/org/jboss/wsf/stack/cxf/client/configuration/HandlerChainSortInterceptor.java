@@ -63,8 +63,8 @@ public class HandlerChainSortInterceptor extends AbstractPhaseInterceptor<Messag
             HandlerSorter hs = new HandlerSorter();
             if (hs.split(list)) {
                binding.setHandlerChain(hs.merge());
-               hs.cleanup();
             }
+            hs.cleanup();
          }
       }
    }
