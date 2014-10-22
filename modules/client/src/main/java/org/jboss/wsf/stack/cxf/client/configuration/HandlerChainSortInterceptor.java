@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,8 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.client.configuration;
 
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.ws.Binding;
@@ -32,7 +32,8 @@ import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
-import org.jboss.ws.common.configuration.ConfigDelegateHandlerComparator;
+import org.jboss.ws.common.configuration.ConfigDelegateHandler;
+import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData.HandlerType;
 
 
 /**
@@ -45,8 +46,6 @@ import org.jboss.ws.common.configuration.ConfigDelegateHandlerComparator;
 public class HandlerChainSortInterceptor extends AbstractPhaseInterceptor<Message>
 {
    private final Binding binding;
-   @SuppressWarnings("rawtypes")
-   private static final Comparator<Handler> comparator = new ConfigDelegateHandlerComparator<Handler>();
 
    public HandlerChainSortInterceptor(Binding b)
    {
@@ -61,10 +60,123 @@ public class HandlerChainSortInterceptor extends AbstractPhaseInterceptor<Messag
          @SuppressWarnings("rawtypes")
          List<Handler> list = binding.getHandlerChain();
          if (list != null && !list.isEmpty()) {
-            Collections.sort(list, comparator);
-            binding.setHandlerChain(list);
+            HandlerSorter hs = new HandlerSorter();
+            if (hs.split(list)) {
+               binding.setHandlerChain(hs.merge());
+               hs.cleanup();
+            }
          }
       }
    }
 
+   /**
+    * Utility class for efficiently sorting handlers so that PRE handlers always
+    * come before user handlers and POST handlers always come after user handlers.
+    * 
+    * We need to know if the sorted list is actually different from the original
+    * list, as if they are the same we don't want to spend time on setting a new
+    * handler chain, which can be expensive. Moreover we're not really interested
+    * in sorting the whole chain, we only care about the PRE/user/POST requirement
+    * and are fine with the relative order of handlers of the same type.
+    * 
+    * So we process the list in two phases:
+    * 
+    * 1) split phase: the handler list is scanned (O(n)) to split it into PRE, user
+    *                 and POST handler sublists. The relative order of handlers of
+    *                 the same type is not changed.
+    *                 While splitting, the procedure also figures out if the list
+    *                 actually requires sorting, that is whether the PRE-user-POST
+    *                 order requirement is not satisfied; this allows avoiding
+    *                 useless ordering if the list is already fine (which is the
+    *                 most common scenario). 
+    * 2) merge phase: the sublists are merged together (O(n)) into an ordered
+    *                 handlers list
+    *                 
+    * The overall time complexity is O(2n).
+    *
+    */
+   @SuppressWarnings("rawtypes")
+   private class HandlerSorter {
+      private List<Handler> pre;
+      private List<Handler> ep;
+      private List<Handler> post;
+      
+      /**
+       * Read the handlers list and figures out if it requires sorting.
+       * 
+       * @param handlers
+       * @return
+       */
+      public boolean split(List<Handler> handlers) {
+         boolean requiresSort = false;
+         HandlerType lastHandlerType = null;
+         for (Handler h : handlers) {
+            if (h instanceof ConfigDelegateHandler) {
+               if (((ConfigDelegateHandler)h).isPre()) {
+                  add(h, HandlerType.PRE);
+                  if (lastHandlerType != null && lastHandlerType != HandlerType.PRE) {
+                     requiresSort = true;
+                  }
+                  lastHandlerType = HandlerType.PRE;
+               } else {
+                  add(h, HandlerType.POST);
+                  lastHandlerType = HandlerType.POST;
+               }
+            } else {
+               add(h, HandlerType.ENDPOINT);
+               if (lastHandlerType != null && lastHandlerType == HandlerType.POST) {
+                  requiresSort = true;
+               }
+               lastHandlerType = HandlerType.ENDPOINT;
+            }
+         }
+         return requiresSort;
+      }
+      
+      
+      
+      public List<Handler> merge() {
+         List<Handler> l = new ArrayList<Handler>();
+         if (pre != null) {
+            l.addAll(pre);
+         }
+         l.addAll(ep);
+         if (post != null) {
+            l.addAll(post);
+         }
+         return l;
+      }
+      
+      public void cleanup() {
+         this.pre = null;
+         this.post = null;
+         this.ep = null;
+      }
+      
+      private void add(Handler h, HandlerType t) {
+         switch (t)
+         {
+            case PRE :
+               if (pre == null) {
+                  pre = new LinkedList<Handler>();
+               }
+               pre.add(h);
+               break;
+
+            case POST :
+               if (post == null) {
+                  post = new LinkedList<Handler>();
+               }
+               post.add(h);
+               break;
+
+            default :
+               if (ep == null) {
+                  ep = new LinkedList<Handler>();
+               }
+               ep.add(h);
+               break;
+         }
+      }
+   }
 }
