@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.security.AccessController;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
 import org.apache.cxf.transport.http.DestinationRegistry;
@@ -115,7 +116,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
          Object implementor = endpoint.getImplementor();
 
          // setup our invoker for http endpoints if invoker is not configured in jbossws-cxf.xml DD
-         boolean isHttpEndpoint = endpoint.getAddress() != null && endpoint.getAddress().substring(0, 5).toLowerCase().startsWith("http");
+         boolean isHttpEndpoint = endpoint.getAddress() != null && endpoint.getAddress().substring(0, 5).toLowerCase(Locale.ENGLISH).startsWith("http");
          if ((endpoint.getInvoker() == null) && isHttpEndpoint)
          {
             endpoint.setInvoker(new JBossWSInvoker());
