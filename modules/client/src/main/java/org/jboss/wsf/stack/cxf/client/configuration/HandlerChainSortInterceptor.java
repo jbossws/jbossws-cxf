@@ -22,7 +22,6 @@
 package org.jboss.wsf.stack.cxf.client.configuration;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.ws.Binding;
@@ -158,21 +157,21 @@ public class HandlerChainSortInterceptor extends AbstractPhaseInterceptor<Messag
          {
             case PRE :
                if (pre == null) {
-                  pre = new LinkedList<Handler>();
+                  pre = new ArrayList<Handler>(4);
                }
                pre.add(h);
                break;
 
             case POST :
                if (post == null) {
-                  post = new LinkedList<Handler>();
+                  post = new ArrayList<Handler>(4);
                }
                post.add(h);
                break;
 
             default :
                if (ep == null) {
-                  ep = new LinkedList<Handler>();
+                  ep = new ArrayList<Handler>();
                }
                ep.add(h);
                break;
