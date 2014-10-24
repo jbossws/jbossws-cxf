@@ -42,6 +42,7 @@ package org.jboss.wsf.stack.cxf;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import javax.security.auth.callback.CallbackHandler;
 import javax.xml.ws.WebServiceContext;
 
 import org.apache.cxf.Bus;
@@ -56,6 +57,7 @@ import org.apache.cxf.service.invoker.Factory;
 import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.service.invoker.MethodDispatcher;
 import org.apache.cxf.service.model.BindingOperationInfo;
+import org.jboss.security.auth.callback.CallbackHandlerPolicyContextHandler;
 import org.jboss.ws.api.util.ServiceLoader;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -130,9 +132,28 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
       {
          targetBean = this.getServiceObject(exchange);
       }
-      return invoke(exchange, targetBean, adjustMethodAndParams(md.getMethod(bop), exchange, params, targetBean.getClass()), params);
+
+      CallbackHandler cbHandler = exchange.getInMessage().get(CallbackHandler.class);
+      Object obj = null;
+      try
+      {
+         if (cbHandler != null)
+         {
+            CallbackHandlerPolicyContextHandler.setCallbackHandler(cbHandler);
+         }
+         obj = invoke(exchange, targetBean,
+               adjustMethodAndParams(md.getMethod(bop), exchange, params, targetBean.getClass()), params);
+      }
+      finally
+      {
+         if (cbHandler != null)
+         {
+            CallbackHandlerPolicyContextHandler.setCallbackHandler(null);
+         }
+      }
+      return obj;
    }
-   
+
    /**
     * This overrides org.apache.cxf.jaxws.AbstractInvoker in order for using the JBossWS integration logic
     * to invoke the JBoss AS target bean.
