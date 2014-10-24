@@ -35,6 +35,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.security.SecurityContext;
+import org.apache.cxf.ws.security.wss4j.UsernameTokenInterceptor;
 import org.apache.wss4j.common.principal.UsernameTokenPrincipal;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
@@ -55,7 +56,13 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
 
    public SubjectCreatingPolicyInterceptor()
    {
-      super(Phase.PRE_INVOKE);
+      this(Phase.PRE_PROTOCOL);
+      addAfter(UsernameTokenInterceptor.class.getName());
+   }
+   
+   public SubjectCreatingPolicyInterceptor(String phase)
+   {
+      super(phase);
       helper.setPropagateContext(true);
    }
 

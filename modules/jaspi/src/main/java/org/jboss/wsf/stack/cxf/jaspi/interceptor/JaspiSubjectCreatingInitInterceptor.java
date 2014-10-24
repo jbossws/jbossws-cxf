@@ -37,7 +37,7 @@ public class JaspiSubjectCreatingInitInterceptor extends AbstractPhaseIntercepto
    private final JBossAuthenticationManager authenticationManger;
    
    public JaspiSubjectCreatingInitInterceptor(String securityDomain) {
-	  super(Phase.PRE_INVOKE);
+	  super(Phase.PRE_PROTOCOL);
 	  this.addBefore("org.jboss.wsf.stack.cxf.security.authentication.JaspiSubjectCreatingInterceptor");
       authenticationManger = new JBossAuthenticationManager(securityDomain, new JBossCallbackHandler());    
    }

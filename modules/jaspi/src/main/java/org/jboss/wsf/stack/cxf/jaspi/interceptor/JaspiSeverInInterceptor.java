@@ -49,6 +49,7 @@ public class JaspiSeverInInterceptor extends AbstractSoapInterceptor
    {
       super(Phase.PRE_PROTOCOL);
       addAfter(SAAJInInterceptor.class.getName());
+      addBefore("org.jboss.wsf.stack.cxf.security.authentication.JaspiSubjectCreatingInterceptor");
       this.authManager = authManager;
    }
 
