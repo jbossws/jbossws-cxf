@@ -128,7 +128,7 @@ public final class UsernameAuthorizationDigestEjbTestCase extends JBossWSTest
       boolean passed = true;
       for (Future<String> future : resultList)
       {
-         passed = future.get().equals("Secure Hello World!");
+         passed = passed && future.get().equals("Secure Hello World!");
       }
       assertTrue("Unexpected response from concurrent invocation", passed);
 
