@@ -579,13 +579,13 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       protected void setupClient(Object obj, Class<?> seiClass, WebServiceFeature... features) {
          Binding binding = ((BindingProvider)obj).getBinding();
          Client client = obj instanceof DispatchImpl<?> ? ((DispatchImpl<?>)obj).getClient() : ClientProxy.getClient(obj);
-         client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
          ClientConfig config = readConfig(seiClass);
          if (config != null) {
             CXFClientConfigurer helper = new CXFClientConfigurer();
             helper.setupConfigHandlers(binding, config);
             helper.setConfigProperties(client, config.getProperties());
          }
+         client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding)); //add this *after* the config has been set (if any)!
          if (features != null) {
             for (WebServiceFeature f : features) {
                if (f instanceof AbstractClientFeature) {
