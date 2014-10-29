@@ -76,6 +76,8 @@ public class Helper implements ClientHelper
       ClientConfigUtil.setConfigHandlers(bp, "META-INF/jaxws-client-config.xml", "Custom Client Config");
 
       String resStr = port.echo("Kermit");
+      resStr = port.echo("Kermit");
+      resStr = port.echo("Kermit");
       return ("Kermit|RoutOut|CustomOut|UserOut|LogOut|endpoint|LogIn|UserIn|CustomIn|RoutIn".equals(resStr));
    }
 
@@ -98,6 +100,8 @@ public class Helper implements ClientHelper
       ClientConfigUtil.setConfigHandlers(bp, "META-INF/jaxws-client-config.xml", "Custom Client Config");
 
       Source resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+      resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+      resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
       String resStr = DOMUtils.getTextContent(DOMUtils.sourceToElement(resSource).getElementsByTagName("return").item(0));
       return ("Kermit|RoutOut|CustomOut|UserOut|LogOut|endpoint|LogIn|UserIn|CustomIn|RoutIn".equals(resStr));
    }
@@ -117,6 +121,8 @@ public class Helper implements ClientHelper
       bp.getBinding().setHandlerChain(hc);
 
       String resStr = port.echo("Kermit");
+      resStr = port.echo("Kermit");
+      resStr = port.echo("Kermit");
       if (!"Kermit|RoutOut|CustomOut|UserOut|LogOut|endpoint|LogIn|UserIn|CustomIn|RoutIn".equals(resStr)) {
          return false;
       }
@@ -129,6 +135,8 @@ public class Helper implements ClientHelper
       bp.getBinding().setHandlerChain(hc);
 
       resStr = port3.echo("Kermit");
+      resStr = port3.echo("Kermit");
+      resStr = port3.echo("Kermit");
       if (!"Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr)) {
          return false;
       }
@@ -140,6 +148,8 @@ public class Helper implements ClientHelper
       hc.add(new UserHandler());
       bp.getBinding().setHandlerChain(hc);
 
+      resStr = port2.echo("Kermit");
+      resStr = port2.echo("Kermit");
       resStr = port2.echo("Kermit");
       return ("Kermit|CustomOut|UserOut|endpoint|UserIn|CustomIn".equals(resStr));
    }
@@ -162,6 +172,7 @@ public class Helper implements ClientHelper
       bp.getBinding().setHandlerChain(hc);
 
       Source resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+      resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
       String resStr = DOMUtils.getTextContent(DOMUtils.sourceToElement(resSource).getElementsByTagName("return").item(0));
       return ("Kermit|RoutOut|CustomOut|UserOut|LogOut|endpoint|LogIn|UserIn|CustomIn|RoutIn".equals(resStr));
    }
@@ -184,12 +195,16 @@ public class Helper implements ClientHelper
       configurer.setConfigHandlers(bp, "META-INF/jaxws-client-config.xml", "Custom Client Config");
 
       String resStr = port.echo("Kermit");
+      resStr = port.echo("Kermit");
+      resStr = port.echo("Kermit");
       if (!"Kermit|RoutOut|CustomOut|UserOut|LogOut|endpoint|LogIn|UserIn|CustomIn|RoutIn".equals(resStr)) {
          return false;
       }
 
       configurer.setConfigHandlers(bp, "META-INF/jaxws-client-config.xml", "Another Client Config");
 
+      resStr = port.echo("Kermit");
+      resStr = port.echo("Kermit");
       resStr = port.echo("Kermit");
       return ("Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr));
    }
@@ -214,6 +229,8 @@ public class Helper implements ClientHelper
       configurer.setConfigHandlers(bp, "META-INF/jaxws-client-config.xml", "Custom Client Config");
 
       Source resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+      resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+      resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
       String resStr = DOMUtils.getTextContent(DOMUtils.sourceToElement(resSource).getElementsByTagName("return").item(0));
       if (!"Kermit|RoutOut|CustomOut|UserOut|LogOut|endpoint|LogIn|UserIn|CustomIn|RoutIn".equals(resStr)) {
          return false;
@@ -221,6 +238,8 @@ public class Helper implements ClientHelper
 
       configurer.setConfigHandlers(bp, "META-INF/jaxws-client-config.xml", "Another Client Config");
 
+      resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+      resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
       resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
       resStr = DOMUtils.getTextContent(DOMUtils.sourceToElement(resSource).getElementsByTagName("return").item(0));
       return ("Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr));
@@ -256,6 +275,8 @@ public class Helper implements ClientHelper
          bp.getBinding().setHandlerChain(hc);
 
          String resStr = port.echo("Kermit");
+         resStr = port.echo("Kermit");
+         resStr = port.echo("Kermit");
          return ("Kermit|UserOut|LogOut|endpoint|LogIn|UserIn".equals(resStr));
       }
       finally
@@ -290,6 +311,8 @@ public class Helper implements ClientHelper
          bp.getBinding().setHandlerChain(hc);
 
          Source resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+         resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+         resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
          String resStr = DOMUtils.getTextContent(DOMUtils.sourceToElement(resSource).getElementsByTagName("return").item(0));
          return ("Kermit|UserOut|LogOut|endpoint|LogIn|UserIn".equals(resStr));
       }
@@ -332,6 +355,8 @@ public class Helper implements ClientHelper
          ClientConfigUtil.setConfigHandlers(bp, null, testConfigName);
 
          String resStr = port.echo("Kermit");
+         resStr = port.echo("Kermit");
+         resStr = port.echo("Kermit");
          return ("Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr));
       }
       finally
@@ -368,6 +393,8 @@ public class Helper implements ClientHelper
          ClientConfigUtil.setConfigHandlers(bp, null, testConfigName);
 
          Source resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+         resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+         resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
          String resStr = DOMUtils.getTextContent(DOMUtils.sourceToElement(resSource).getElementsByTagName("return").item(0));
          return ("Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr));
       }
@@ -401,6 +428,8 @@ public class Helper implements ClientHelper
          bp.getBinding().setHandlerChain(hc);
 
          String resStr = port.echo("Kermit");
+         resStr = port.echo("Kermit");
+         resStr = port.echo("Kermit");
          return ("Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr));
       }
       finally
@@ -435,6 +464,8 @@ public class Helper implements ClientHelper
          bp.getBinding().setHandlerChain(hc);
 
          Source resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+         resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
+         resSource = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
          String resStr = DOMUtils.getTextContent(DOMUtils.sourceToElement(resSource).getElementsByTagName("return").item(0));
          return ("Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr));
       }
@@ -476,6 +507,8 @@ public class Helper implements ClientHelper
          bp.getBinding().setHandlerChain(hc);
 
          String resStr = port.echo("Kermit");
+         resStr = port.echo("Kermit");
+         resStr = port.echo("Kermit");
          return ("Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr));
       }
       finally
@@ -519,6 +552,8 @@ public class Helper implements ClientHelper
          bp.getBinding().setHandlerChain(hc);
 
          String resStr = port.echo("Kermit");
+         resStr = port.echo("Kermit");
+         resStr = port.echo("Kermit");
          if (!"Kermit|RoutOut|UserOut|endpoint|UserIn|RoutIn".equals(resStr)) {
             return false;
          }
@@ -530,6 +565,8 @@ public class Helper implements ClientHelper
          hc.add(new UserHandler());
          bp.getBinding().setHandlerChain(hc);
 
+         resStr = port2.echo("Kermit");
+         resStr = port2.echo("Kermit");
          resStr = port2.echo("Kermit");
          return ("Kermit|RoutOut|UserOut|LogOut|endpoint|LogIn|UserIn|RoutIn".equals(resStr));
 
