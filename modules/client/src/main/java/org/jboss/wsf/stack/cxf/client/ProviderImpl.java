@@ -574,7 +574,6 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       protected void setupClient(Object obj, WebServiceFeature... features) {
          Binding binding = ((BindingProvider)obj).getBinding();
          Client client = obj instanceof DispatchImpl<?> ? ((DispatchImpl<?>)obj).getClient() : ClientProxy.getClient(obj);
-         client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding));
          if (ClassLoaderProvider.isSet()) { //optimization for avoiding checking for a server config when we know for sure we're out-of-container
             ServerConfig sc = getServerConfig();
             if (sc != null) {
@@ -586,6 +585,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
                }
             }
          }
+         client.getOutInterceptors().add(new HandlerChainSortInterceptor(binding)); //add this *after* the config has been set (if any)!
          if (features != null) {
             for (WebServiceFeature f : features) {
                if (f instanceof AbstractClientFeature) {
