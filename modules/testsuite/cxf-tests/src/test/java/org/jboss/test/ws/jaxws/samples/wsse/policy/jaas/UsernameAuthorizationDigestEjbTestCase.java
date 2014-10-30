@@ -64,7 +64,8 @@ public final class UsernameAuthorizationDigestEjbTestCase extends JBossWSTest
    {
       List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
       list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-policy-username-jaas-ejb-digest.jar") {
-         {  //add org.jboss.as.webservices.server.integration dependency to load UsernameTokenCallback for UsernamePasswordLoginModule 
+         {  //[JBWS-3843] workaround: add org.jboss.as.webservices.server.integration dependency to load UsernameTokenCallback for UsernamePasswordLoginModule
+            // This dependency should actually never be set for a user deployment, being it an internal server thing. To be properly replaced after changes in PicketBox. 
             archive
                   .setManifest(new StringAsset("Manifest-Version: 1.0\n" + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.jboss.as.webservices.server.integration\n"))
                   .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.EJBServiceImpl.class)
