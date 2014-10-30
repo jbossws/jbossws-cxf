@@ -34,6 +34,7 @@ import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
 
 import org.apache.cxf.common.security.SimplePrincipal;
+import org.apache.cxf.message.Message;
 import org.jboss.security.auth.callback.CallbackHandlerPolicyContextHandler;
 import org.jboss.security.plugins.JBossAuthenticationManager;
 import org.jboss.ws.common.utils.DelegateClassLoader;
@@ -62,7 +63,7 @@ public class SubjectCreator
 
    private boolean decodeNonce = true;
    
-   public Subject createSubject(SecurityDomainContext ctx, String name, String password, boolean isDigest, String nonce, String created)
+   public Subject createSubject(SecurityDomainContext ctx, String name, String password, boolean isDigest, String nonce, String created, Message msg)
    {
       if (isDigest)
       {
@@ -75,6 +76,7 @@ public class SubjectCreator
 
          CallbackHandler handler = new UsernameTokenCallbackHandler(nonce, created, decodeNonce);
          CallbackHandlerPolicyContextHandler.setCallbackHandler(handler);
+         msg.put(CallbackHandler.class, handler);
       }
 
       // authenticate and populate Subject
@@ -126,7 +128,7 @@ public class SubjectCreator
       return subject;
    }
    //TODO:refactor this
-   public Subject createSubject(JBossAuthenticationManager manager, String name, String password, boolean isDigest, String nonce, String created)
+   public Subject createSubject(JBossAuthenticationManager manager, String name, String password, boolean isDigest, String nonce, String created, Message msg)
    {
       if (isDigest)
       {
@@ -139,6 +141,7 @@ public class SubjectCreator
 
          CallbackHandler handler = new UsernameTokenCallbackHandler(nonce, created, decodeNonce);
          CallbackHandlerPolicyContextHandler.setCallbackHandler(handler);
+         msg.put(CallbackHandler.class, handler);
       }
 
       // authenticate and populate Subject

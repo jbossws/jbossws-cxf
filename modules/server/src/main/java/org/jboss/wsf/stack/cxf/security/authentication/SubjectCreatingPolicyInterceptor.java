@@ -81,7 +81,7 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
             throw Messages.MESSAGES.unsupportedTokenType(token.getTokenType());
          }
          UsernameToken ut = (UsernameToken) token;
-         subject = createSubject(sdc, ut.getName(), ut.getPassword(), ut.isHashed(), ut.getNonce(), ut.getCreatedTime());
+         subject = createSubject(sdc, ut.getName(), ut.getPassword(), ut.isHashed(), ut.getNonce(), ut.getCreatedTime(), message);
 
       }
       else
@@ -92,19 +92,19 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
             throw Messages.MESSAGES.couldNotGetSubjectInfo();
          }
          WSUsernameTokenPrincipal up = (WSUsernameTokenPrincipal) p;
-         subject = createSubject(sdc, up.getName(), up.getPassword(), up.isPasswordDigest(), up.getNonce(), up.getCreatedTime());
+         subject = createSubject(sdc, up.getName(), up.getPassword(), up.isPasswordDigest(), up.getNonce(), up.getCreatedTime(), message);
       }
 
       Principal principal = getPrincipal(context.getUserPrincipal(), subject);
       message.put(SecurityContext.class, createSecurityContext(principal, subject));
    }
 
-   protected Subject createSubject(SecurityDomainContext sdc, String name, String password, boolean isDigest, String nonce, String creationTime)
+   protected Subject createSubject(SecurityDomainContext sdc, String name, String password, boolean isDigest, String nonce, String creationTime, Message msg)
    {
       Subject subject = null;
       try
       {
-         subject = helper.createSubject(sdc, name, password, isDigest, nonce, creationTime);
+         subject = helper.createSubject(sdc, name, password, isDigest, nonce, creationTime, msg);
       }
       catch (Exception ex)
       {

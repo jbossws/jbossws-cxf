@@ -42,6 +42,7 @@ package org.jboss.wsf.stack.cxf;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import javax.security.auth.callback.CallbackHandler;
 import javax.xml.ws.WebServiceContext;
 
 import org.apache.cxf.Bus;
@@ -56,6 +57,7 @@ import org.apache.cxf.service.invoker.Factory;
 import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.service.invoker.MethodDispatcher;
 import org.apache.cxf.service.model.BindingOperationInfo;
+import org.jboss.security.auth.callback.CallbackHandlerPolicyContextHandler;
 import org.jboss.ws.api.util.ServiceLoader;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -126,7 +128,31 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
       } else if (o != null) {
          params = new MessageContentsList(o);
       }
-      return invoke(exchange, targetBean, adjustMethodAndParams(md.getMethod(bop), exchange, params), params);
+      if (factory != null)
+      {
+         targetBean = this.getServiceObject(exchange);
+      }
+
+      //[JBWS-3843] workaround: set the CallbackHandler threadlocal again; as a matter of fact, if that's in the Exchange,
+      //DIGEST auth is being used and that will cause the EJB layer to re-do authentication because of the bug
+      CallbackHandler cbHandler = exchange.getInMessage().get(CallbackHandler.class);
+      Object obj = null;
+      try
+      {
+         if (cbHandler != null)
+         {
+            CallbackHandlerPolicyContextHandler.setCallbackHandler(cbHandler);
+         }
+         obj = invoke(exchange, targetBean, adjustMethodAndParams(md.getMethod(bop), exchange, params), params);
+      }
+      finally
+      {
+         if (cbHandler != null)
+         {
+            CallbackHandlerPolicyContextHandler.setCallbackHandler(null);
+         }
+      }
+      return obj;
    }
 
    /**
