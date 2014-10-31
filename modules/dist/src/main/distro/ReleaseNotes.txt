@@ -28,27 +28,29 @@ What's new in jbossws-cxf-${project.version}
 
 Bug
 
-    [JBWS-???] - ...
+    * [JBWS-3816] - WSTrustActAsTestCase.testActAs failing with move to CXF 3.0.2/2.7.13
+    * [JBWS-3831] - Failure of test org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.WSSecurityPolicyExamples23xTestCase
+    * [JBWS-3838] - Predefined configuration handlers executing in different order when server is restarted
+    * [JBWS-3842] - Cannot boot server with 2+ handlers in the same predefined configuration handler chain
+    * [JBWS-3843] - Username Token Digest Authentication failure with EJB3 endpoints
+    * [JBWS-3847] - Memory leak in JBoss WS CXF Client's HandlerChainSortInterceptor
 
 Enhancement
 
-    [JBWS-???] - ...
+    * [JBWS-3848] - Optimize HandlerChainSortInterceptor
+
 
 Feature Request
 
-    [JBWS-???] - ...
+    * [JBWS-3819] - Allow parametrization of web connector created within TS execution
 
 Task
 
-    [JBWS-???] - ...
-
-Sub-task
-
-    [JBWS-???] - ...
+    * [JBWS-3844] - Upgrade to Apache CXF 2.7.13
 
 Errata
 
-    See: https://issues.jboss.org/browse/JBWS-???
+    See: https://issues.jboss.org/browse/JBWS-3853
 
 This version of "${project.name}" is based on Apache CXF ${cxf.version}
 
