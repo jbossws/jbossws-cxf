@@ -16,19 +16,21 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3813;
 
+import java.io.File;
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
 import junit.framework.Test;
+
 import org.jboss.shrinkwrap.api.asset.FileAsset;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.jboss.wsf.test.JBossWSTestSetup;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import java.io.File;
-import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 public class JBWS3813TestCase extends JBossWSTest
 {
@@ -59,16 +61,14 @@ public class JBWS3813TestCase extends JBossWSTest
       URL wsdlURL = new URL(endPtAddress + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       EndpointOne proxy = service.getPort(EndpointOne.class);
-      boolean isFailed = false;
       try
       {
          proxy.echo("foo");
+         fail("test did not fail as required");
       } catch (javax.xml.ws.soap.SOAPFaultException ex) {
          String text = ex.getFault().getDetail().getFirstChild().getFirstChild().getTextContent();
-         isFailed = text.startsWith("java.lang.RuntimeException : my error");
-         assertTrue("stack data not found", isFailed);
-      } finally {
-         assertTrue("test did not fail as required", isFailed);
+         assertTrue("stack data not found", text.contains(EndpointOneImpl.class.getName()));
+         assertTrue("Root exception name not found", text.startsWith("java.lang.RuntimeException : my error"));
       }
    }
 }
