@@ -15,4 +15,16 @@
     </property>
   </endpoint-config>
 
+  <endpoint-config>
+    <config-name>MyEndpointTwoImpl</config-name>
+    <property>
+      <property-name>faultStackTraceEnabled</property-name>
+      <property-value>true</property-value>
+    </property>
+    <property>
+      <property-name>exceptionMessageCauseEnabled</property-name>
+      <property-value>true</property-value>
+    </property>
+  </endpoint-config>
+
 </jaxws-config>
