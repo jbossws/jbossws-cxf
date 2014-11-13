@@ -68,7 +68,7 @@ public class JBWS3813TestCase extends JBossWSTest
       } catch (javax.xml.ws.soap.SOAPFaultException ex) {
          String text = ex.getFault().getDetail().getFirstChild().getFirstChild().getTextContent();
          assertTrue("stack data not found", text.contains(EndpointOneImpl.class.getName()));
-         assertTrue("Root exception name not found", text.startsWith("java.lang.RuntimeException : my error"));
+         assertTrue("Root exception name not found", text.startsWith("Caused by: java.lang.RuntimeException: my error"));
       }
    }
 }
