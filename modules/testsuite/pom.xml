@@ -689,9 +689,6 @@
                  <!-- # [JBWS-3620] Authentication failures w/ Undertow -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
 
-                 <!-- # [JBWS-3813] Add exception name to faultstring/detail/stackTrace -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3813/*TestCase*</exclude>
-
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
               </excludes>
@@ -770,9 +767,6 @@
 
                  <!-- # [JBWS-3620] Authentication failures w/ Undertow -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
-
-                 <!-- # [JBWS-3813] Add exception name to faultstring/detail/stackTrace -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3813/*TestCase*</exclude>
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
@@ -853,9 +847,6 @@
 
                  <!-- # [JBWS-3620] Authentication failures w/ Undertow -->
                  <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
-
-                 <!-- # [JBWS-3813] Add exception name to faultstring/detail/stackTrace -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3813/*TestCase*</exclude>
 
                  <!-- Manually setup KDC before run this test-->
                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
