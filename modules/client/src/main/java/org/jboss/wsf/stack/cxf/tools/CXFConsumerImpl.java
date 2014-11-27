@@ -32,25 +32,23 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import javax.tools.FileObject;
 import javax.tools.ForwardingJavaFileManager;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaCompiler.CompilationTask;
 import javax.tools.JavaFileManager;
 import javax.tools.JavaFileObject;
+import javax.tools.JavaFileObject.Kind;
 import javax.tools.SimpleJavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
-import javax.tools.ToolProvider;
 import javax.xml.ws.spi.Provider;
 
 import org.apache.cxf.common.util.Compiler;
 import org.apache.cxf.helpers.FileUtils;
+import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.tools.common.ToolConstants;
 import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.wsdlto.WSDLToJava;
@@ -303,7 +301,6 @@ public class CXFConsumerImpl extends WSContractConsumer
          }
       }
    }
-   
    /**
     * A CXF Compiler that installs a custom JavaFileManager to load JAXWS and JAXB apis from
     * the proper JBoss module (the one providing the JAXWS SPI Provider) instead of from the
@@ -312,22 +309,12 @@ public class CXFConsumerImpl extends WSContractConsumer
    private final class JBossModulesAwareCompiler extends Compiler
    {
       @Override
-      protected boolean useJava6Compiler(String[] files) throws Exception
+      protected JavaFileManager wrapJavaFileManager(StandardJavaFileManager standardJavaFileManger)
       {
-         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-         StandardJavaFileManager stdFileManager = compiler.getStandardFileManager(null, null, null);
-         Iterable<? extends JavaFileObject> fileList = stdFileManager.getJavaFileObjectsFromStrings(Arrays.asList(files));
-         JavaFileManager fileManager = new CustomJavaFileManager(stdFileManager);
-
-         List<String> args = new ArrayList<String>();
-         addArgs(args);
-         CompilationTask task = compiler.getTask(null, fileManager, null, args, null, fileList);
-         Boolean ret = task.call();
-         fileManager.close();
-         return ret;
+         return new CustomJavaFileManager(standardJavaFileManger);
       }
    }
-   
+
    final class CustomJavaFileManager extends ForwardingJavaFileManager<JavaFileManager>
    {
       private ClassLoader classLoader = new ClassLoader(Provider.provider().getClass().getClassLoader())
@@ -364,7 +351,7 @@ public class CXFConsumerImpl extends WSContractConsumer
       }
 
       @Override
-      public Iterable<JavaFileObject> list(Location location, String packageName, Set<JavaFileObject.Kind> kinds, boolean recurse)
+      public Iterable<JavaFileObject> list(Location location, String packageName, Set<Kind> kinds, boolean recurse)
             throws IOException
       {
          Iterable<JavaFileObject> result = super.list(location, packageName, kinds, recurse);
@@ -377,7 +364,7 @@ public class CXFConsumerImpl extends WSContractConsumer
                final JavaFileObject obj = it.next();
                final String objName = obj.getName();
                Class<?> clazz = null;
-               final String className = packageName + "." + objName.substring(0, objName.length() - 6);
+               final String className = getFullClassName(packageName, objName);
                try
                {
                   clazz = classLoader.loadClass(className);
@@ -415,6 +402,24 @@ public class CXFConsumerImpl extends WSContractConsumer
          }
          return files;
       }
+   }
+   
+   private static String getFullClassName(String packageName, String objName)
+   {
+      // * OpenJDK returns objName strings like:
+      // "/usr/java/java-1.6.0-openjdk-1.6.0.0.x86_64/lib/ct.sym(META-INF/sym/rt.jar/java/lang/AbstractMethodError.class)"
+      // * Oracle & IBM JDK return objName strings like:
+      // "AbstractMethodError.class"
+      // ... from either of those we need to get
+      // "java.lang.AbstractMethodError"
+      String cn = objName.substring(0, objName.indexOf(".class"));
+      int startIdx = Math.max(cn.lastIndexOf("."), cn.lastIndexOf("/"));
+      if (startIdx > 0)
+      {
+         cn = cn.substring(startIdx + 1);
+      }
+      // objName.substring(0, objName.length() - 6)
+      return packageName + "." + cn;
    }
 
    final class JavaFileObjectImpl extends SimpleJavaFileObject
