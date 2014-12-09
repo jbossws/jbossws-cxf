@@ -32,7 +32,7 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>4.3.3.Final</version>
+  <version>4.3.4-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
