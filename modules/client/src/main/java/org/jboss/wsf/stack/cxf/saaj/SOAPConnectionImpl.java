@@ -80,7 +80,11 @@ public class SOAPConnectionImpl extends SOAPConnection
        try 
        {
           final Conduit c = ci.getConduit(info);
-            
+
+          if (msgOut.saveRequired())
+          {
+             msgOut.saveChanges();
+          }
         
           Map<String, List<String>> outHeaders = new HashMap<String, List<String>>();
           for (Iterator<?> it = msgOut.getMimeHeaders().getAllHeaders(); it.hasNext();) 

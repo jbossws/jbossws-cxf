@@ -1,0 +1,13 @@
+<web-app>
+	<servlet>
+		<servlet-name>SoapMultipartCheckerServlet</servlet-name>
+		<servlet-class>
+      org.jboss.test.ws.saaj.jbws3857.SoapMultipartCheckerServlet
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>SoapMultipartCheckerServlet</servlet-name>
+		<url-pattern>/testServlet</url-pattern>
+	</servlet-mapping>
+</web-app>
