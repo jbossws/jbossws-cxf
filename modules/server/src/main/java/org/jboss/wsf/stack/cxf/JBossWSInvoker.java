@@ -171,10 +171,13 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
       BusFactory.setThreadDefaultBus(null);
       setNamespaceContextSelector(exchange);
       
+      ClassLoader cl = SecurityActions.getContextClassLoader();
+      SecurityActions.setContextClassLoader(serviceObject.getClass().getClassLoader());
       try {
          invHandler.invoke(ep, inv);
          return inv.getReturnValue();
       } finally {
+         SecurityActions.setContextClassLoader(cl);
          //make sure the right bus is restored after coming back from the endpoint method
          BusFactory.setThreadDefaultBus(threadBus);
          clearNamespaceContextSelector(exchange);
