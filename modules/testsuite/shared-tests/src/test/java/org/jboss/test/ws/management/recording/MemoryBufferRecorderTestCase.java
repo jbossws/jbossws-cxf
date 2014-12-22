@@ -160,6 +160,7 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       l.add("127.0.0.1");
       l.add("[::1]");
       l.add("[0:0:0:0:0:0:0:1]");
+      l.add(getServerHost());
       HostFilter hostFilter = new HostFilter(l,false); //destination
 
       RecordFilter[] filters = new RecordFilter[] {operationFilter, hostFilter};
