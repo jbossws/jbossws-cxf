@@ -6,7 +6,7 @@
                   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
                   >
   <wsdl:import namespace="http://hello/test"
-               location="http://localhost:8080/jbws3792-hello/HelloService?wsdl" />
+               location="http://@jboss.bind.address@:8080/jbws3792-hello/HelloService?wsdl" />
 
   <wsdl:portType name="GreetingsService">
   </wsdl:portType>

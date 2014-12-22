@@ -4,6 +4,6 @@
                   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
 
   <wsdl:import namespace="http://test.jbws3792/"
-               location="http://localhost:8080/jbws3792-external-wsdl/import.wsdl"/>
+               location="http://@jboss.bind.address@:8080/jbws3792-external-wsdl/import.wsdl"/>
 
 </wsdl:definitions>

@@ -85,10 +85,10 @@ public class SessionEndpointTestCase extends JBossWSTest
       SessionEndpoint proxy2 = this.createPort();
       ((BindingProvider) proxy).getRequestContext().put(BindingProvider.SESSION_MAINTAIN_PROPERTY, true);
       ((BindingProvider) proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-            "http://localhost:8080/jaxws-samples-session/session");
+            "http://" + getServerHost() + ":8080/jaxws-samples-session/session");
       ((BindingProvider) proxy2).getRequestContext().put(BindingProvider.SESSION_MAINTAIN_PROPERTY, true);
       ((BindingProvider) proxy2).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-            "http://localhost:8080/jaxws-samples-session/session");
+            "http://" + getServerHost() + ":8080/jaxws-samples-session/session");
       proxy.setNumber(10);
       assertEquals("Number is 10", proxy.getNumber());
       proxy2.setNumber(20);
