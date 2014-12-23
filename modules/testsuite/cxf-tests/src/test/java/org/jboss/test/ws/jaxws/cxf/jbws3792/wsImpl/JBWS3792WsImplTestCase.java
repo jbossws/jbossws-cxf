@@ -70,6 +70,7 @@ public class JBWS3792WsImplTestCase extends JBossWSTest {
                .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.JBWS3792WS.class)
                .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.JBWS3792WSImpl.class)
                .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.JBWS3792WSService.class)
+               .addAsWebInfResource(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3792/wsImpl/WEB-INF/webservices.xml")), "webservices.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir()
                   + "/jaxws/cxf/jbws3792/wsImpl/WEB-INF/web.xml"))
             ;

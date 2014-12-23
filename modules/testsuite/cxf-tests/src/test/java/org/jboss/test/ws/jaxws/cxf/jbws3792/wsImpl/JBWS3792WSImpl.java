@@ -27,7 +27,7 @@ import java.util.logging.Logger;
    serviceName = "JBWS3792WSService",
    portName = "JBWS3792WSPort",
    targetNamespace = "http://test.jbws3792/",
-   wsdlLocation = "http://localhost:8080/jbws3792-external-wsdl/jbws3792.wsdl",
+   wsdlLocation = "http://bar:8080/jbws3792-external-wsdl/jbws3792.wsdl", //this is overridden in webservices.xml, to allow using a property that's resolved at build time
    endpointInterface = "org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.JBWS3792WS")
 
 public class JBWS3792WSImpl implements JBWS3792WS {

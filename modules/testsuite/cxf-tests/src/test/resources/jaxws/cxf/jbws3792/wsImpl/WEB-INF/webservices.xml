@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webservices xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsdl="http://Hello.org" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/javaee_web_services_1_2.xsd" version="1.2">
+  <webservice-description>
+    <webservice-description-name>JBWS3792WSService</webservice-description-name>
+    <wsdl-file>http://@jboss.bind.address@:8080/jbws3792-external-wsdl/jbws3792.wsdl</wsdl-file>
+    <port-component>
+      <service-impl-bean>
+        <servlet-link>org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.JBWS3792WSImpl</servlet-link>
+      </service-impl-bean>
+    </port-component>
+  </webservice-description> 
+</webservices>
