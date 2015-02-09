@@ -24,26 +24,26 @@ package org.jboss.test.ws.jaxws.samples.wsseDigest;
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-
-import junit.framework.Test;
 
 import org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallback;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * WS-Security username authorization test case
@@ -51,15 +51,16 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author Sergey Beryozkin
  *
  */
+@RunWith(Arquillian.class)
 public final class UsernameDigestTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-username-digest";
+   private final String serviceURL = "http://" + getServerHost()  + ":" + getServerPort()+ "/jaxws-samples-wsse-username-digest";
 
    private final QName servicePort = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityServicePort");
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsse-username-digest.war") { {
+   @Deployment(testable = false)
+   public static WebArchive createDeployment1() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-username-digest.war");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                      + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-server\n"))
@@ -75,31 +76,11 @@ public final class UsernameDigestTestCase extends JBossWSTest
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-digest/WEB-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-digest/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-digest/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      JBossWSCXFTestSetup testSetup;
-      testSetup = new JBossWSCXFTestSetup(UsernameDigestTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-      Map<String, String> authenticationOptions = new HashMap<String, String>();
-      authenticationOptions.put("usersProperties",
-            getResourceFile("jaxws/samples/wsse/username-digest/WEB-INF/jbossws-users.properties").getAbsolutePath());
-      authenticationOptions.put("rolesProperties",
-            getResourceFile("jaxws/samples/wsse/username-digest/WEB-INF/jbossws-roles.properties").getAbsolutePath());
-      authenticationOptions.put("hashAlgorithm", "SHA");
-      authenticationOptions.put("hashEncoding", "BASE64");
-      authenticationOptions.put("hashCharset", "UTF-8");
-      authenticationOptions.put("hashUserPassword", "false");
-      authenticationOptions.put("hashStorePassword", "true");
-      authenticationOptions.put("storeDigestCallback", UsernameTokenCallback.class.getName());
-      authenticationOptions.put("unauthenticatedIdentity", "anonymous");
-      testSetup.addSecurityDomainRequirement("JBossWSDigest", authenticationOptions);
-      return testSetup;
-   }
-
+   @Test
+   @RunAsClient
    public void testAuthorized() throws Exception
    {
       doTestAuthorized(serviceURL, servicePort, "kermit");
@@ -115,6 +96,8 @@ public final class UsernameDigestTestCase extends JBossWSTest
       assertEquals("Secure Hello World!", proxy.sayHello());
    }
 
+   @Test
+   @RunAsClient
    public void testUnauthenticated() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
@@ -133,6 +116,8 @@ public final class UsernameDigestTestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testUnauthorized() throws Exception
    {
       doTestUnauthorized(serviceURL, servicePort, "kermit");

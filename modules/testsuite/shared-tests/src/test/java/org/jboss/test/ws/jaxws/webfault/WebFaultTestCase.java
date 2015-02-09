@@ -24,19 +24,21 @@ package org.jboss.test.ws.jaxws.webfault;
 import java.io.File;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -47,14 +49,17 @@ import org.w3c.dom.NodeList;
  * @author alessio.soldano@jboss.org
  * @since 21-Feb-2008
  */
+@RunWith(Arquillian.class)
 public class WebFaultTestCase extends JBossWSTest
 {
-   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-webfault";
    private static final String TARGET_NS = "http://webfault.jaxws.ws.test.jboss.org/";
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-webfault.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-webfault.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.webfault.CustomException.class)
@@ -62,16 +67,9 @@ public class WebFaultTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.webfault.EndpointImpl.class)
                .addClass(org.jboss.test.ws.jaxws.webfault.SimpleException.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/webfault/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(WebFaultTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-   
    /**
     * Tests whether the @WebFault annotation correctly sets the fault element's name and namespace
     * (the type doesn't depend on @WebFault, see [JBWS-1904] about this)
@@ -80,6 +78,8 @@ public class WebFaultTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
    public void testWebFaultElement() throws Exception
    {
       if (isIntegrationCXF())
@@ -88,7 +88,7 @@ public class WebFaultTestCase extends JBossWSTest
          return;
       }
       
-      Document doc = DOMUtils.getDocumentBuilder().parse(new URL(endpointURL + "?wsdl").toString());
+      Document doc = DOMUtils.getDocumentBuilder().parse(new URL(baseURL + "/jaxws-webfault?wsdl").toString());
       NodeList schemas = ((Element)doc.getDocumentElement()
          .getElementsByTagNameNS("http://schemas.xmlsoap.org/wsdl/", "types").item(0))
             .getElementsByTagNameNS("http://www.w3.org/2001/XMLSchema", "schema");
@@ -160,10 +160,12 @@ public class WebFaultTestCase extends JBossWSTest
       assertTrue(firstElementFound && secondElementFound);
       assertTrue(firstTypeFound && secondTypeFound);
    }
-   
+
+   @Test
+   @RunAsClient
    public void testInvocation() throws Exception
    {
-      URL wsdlURL = new URL(endpointURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-webfault?wsdl");
       QName serviceName = new QName(TARGET_NS, "EndpointService");
 
       Service service = Service.create(wsdlURL, serviceName);

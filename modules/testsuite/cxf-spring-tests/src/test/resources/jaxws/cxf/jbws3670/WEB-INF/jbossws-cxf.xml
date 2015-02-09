@@ -11,7 +11,7 @@
   						http://cxf.apache.org/schemas/core.xsd'>
 
    <jaxws:endpoint id="helloWorldServiceEndpoint"
-                   address="http://@jboss.bind.address@:8080/jaxws-cxf-jbws3670/helloworld"
+                   address="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,8080)@/jaxws-cxf-jbws3670/helloworld"
                    implementor="#helloWorldServiceBean">
                           
    </jaxws:endpoint>

@@ -29,9 +29,13 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
 
-import junit.framework.Test;
-
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test service endpoint capability to process inlined and optimized
@@ -45,20 +49,21 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Heiko Braun <heiko.braun@jboss.com>
  * @since 05.12.2006
  */
+@RunWith(Arquillian.class)
 public class XOPBareTestCase extends XOPBase
 {
+   @ArquillianResource
+   private URL baseURL;
 
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-samples-xop-doclit/bare";
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(XOPBareTestCase.class, DeploymentArchive.NAME);
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      return DeploymentArchive.createDeployment("bare");
    }
 
    protected void setUp() throws Exception
    {
       QName serviceName = new QName("http://doclit.xop.samples.jaxws.ws.test.jboss.org/", "MTOMService");
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "bare?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       port = service.getPort(MTOMEndpoint.class);
@@ -68,8 +73,11 @@ public class XOPBareTestCase extends XOPBase
    /**
     * Consumption of XOP packages (not inlined) should resolve the correct java type.
     */
+   @Test
+   @RunAsClient
    public void testDataHandlerRoundtrip() throws Exception
    {
+      setUp();
       getBinding().setMTOMEnabled(true);
 
       DataHandler dh = new DataHandler("DataHandlerRoundtrip", "text/plain");
@@ -86,8 +94,11 @@ public class XOPBareTestCase extends XOPBase
    /**
     * Consumption of XOP packages (not inlined) should resolve the correct java type.
     */
+   @Test
+   @RunAsClient
    public void testDataHandlerResponseOptimzed() throws Exception
    {
+      setUp();
       getBinding().setMTOMEnabled(false);
 
       DataHandler dh = new DataHandler("DataHandlerResponseOptimzed", "text/plain");

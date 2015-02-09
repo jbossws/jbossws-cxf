@@ -24,7 +24,6 @@ package org.jboss.test.ws.jaxws.samples.handlerchain;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -32,12 +31,16 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test the JSR-181 annotation: javax.jws.HandlerChain
@@ -46,13 +49,17 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.org
  * @since 15-Oct-2005
  */
+@RunWith(Arquillian.class)
 public class HandlerChainTestCase extends JBossWSTest
 {
    private static final String targetNS = "http://handlerchain.samples.jaxws.ws.test.jboss.org/";
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-handlerchain.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-handlerchain.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.handlerchain.AuthorizationHandler.class)
@@ -64,20 +71,15 @@ public class HandlerChainTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.samples.handlerchain.ServerMimeHandler.class)
                .addAsResource("org/jboss/test/ws/jaxws/samples/handlerchain/jaxws-handlers-server.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/handlerchain/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(HandlerChainTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testDynamicHandlerChain() throws Exception
    {
       QName serviceName = new QName(targetNS, "EndpointImplService");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-handlerchain/TestService?wsdl");
+      URL wsdlURL = new URL(baseURL + "/TestService?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       Endpoint port = service.getPort(Endpoint.class);
@@ -96,10 +98,12 @@ public class HandlerChainTestCase extends JBossWSTest
       assertCookies();
    }
 
+   @Test
+   @RunAsClient
    public void testHandlerChainOnService() throws Exception
    {
       QName serviceName = new QName(targetNS, "EndpointImplService");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-handlerchain/TestService?wsdl");
+      URL wsdlURL = new URL(baseURL + "/TestService?wsdl");
 
       Service service = new EndpointWithHandlerChainService(wsdlURL, serviceName);
       EndpointWithHandlerChain port = service.getPort(EndpointWithHandlerChain.class);

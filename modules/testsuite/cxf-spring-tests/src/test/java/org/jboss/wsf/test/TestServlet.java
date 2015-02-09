@@ -63,7 +63,7 @@ public class TestServlet extends HttpServlet
          {
             hostName = "[" + hostName + "]";
          }
-         helper.setTargetEndpoint("http://" + hostName + ":8080" + path);
+         helper.setTargetEndpoint("http://" + hostName + ":" + req.getLocalPort() + path);
          List<String> failedTests = new LinkedList<String>();
          List<String> errorTests = new LinkedList<String>();
          Method[] methods = helper.getClass().getMethods();

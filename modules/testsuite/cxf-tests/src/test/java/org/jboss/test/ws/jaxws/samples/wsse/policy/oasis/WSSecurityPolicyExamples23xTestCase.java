@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,20 +21,33 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.oasis;
 
+import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.arquillian.container.test.api.ContainerController;
+import org.jboss.arquillian.container.test.api.Deployer;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.container.test.api.TargetsContainer;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.CryptoHelper;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.WrapThreadContextClassLoader;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * WS-Security Policy examples
@@ -45,36 +58,67 @@ import org.jboss.wsf.test.JBossWSTest;
  * @author alessio.soldano@jboss.com
  * @since 10-Sep-2012
  */
+@RunWith(Arquillian.class)
 public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
 {
+   private static final String DEPLOYMENT = "jaxws-samples-wsse-policy-oasis-23x";
+   private static final String SSL_MUTUAL_AUTH_SERVER = "ssl-mutual-auth"; 
+   
    private final String NS = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy/oasis-samples";
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-oasis-23x/";
-   private final String serviceURLHttps = "https://" + getServerHost() + ":8443/jaxws-samples-wsse-policy-oasis-23x/";
+   private final String serviceURL = "http://" + getServerHost() + ":" + getServerPort(CXF_TESTS_GROUP_QUALIFIER, SSL_MUTUAL_AUTH_SERVER) + "/jaxws-samples-wsse-policy-oasis-23x/";
+   private final String serviceURLHttps = "https://" + getServerHost() + ":" + (getServerPort(CXF_TESTS_GROUP_QUALIFIER, SSL_MUTUAL_AUTH_SERVER) + 363) + "/jaxws-samples-wsse-policy-oasis-23x/";
    private final QName serviceName = new QName(NS, "SecurityService");
 
-   public static Test suite()
-   {
-      /** System properties - currently set at testsuite start time 
-      System.setProperty("javax.net.ssl.trustStore", "my.truststore");
-      System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
-      System.setProperty("javax.net.ssl.trustStoreType", "jks");
-      System.setProperty("javax.net.ssl.keyStore", "my.keystore");
-      System.setProperty("javax.net.ssl.keyStorePassword", "changeit");
-      System.setProperty("javax.net.ssl.keyStoreType", "jks");
-      System.setProperty("org.jboss.security.ignoreHttpsHost", "true");
-      */
-      JBossWSCXFTestSetup setup = new JBossWSCXFTestSetup(WSSecurityPolicyExamples23xTestCase.class,
-            DeploymentArchives.SERVER_23X_WAR + " " + DeploymentArchives.CLIENT_JAR);
-      Map<String, String> sslOptions = new HashMap<String, String>();
-      sslOptions.put("server-identity.ssl.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
-      sslOptions.put("server-identity.ssl.keystore-password", "changeit");
-      sslOptions.put("server-identity.ssl.alias", "tomcat");
-      //enable SSL mutual authentication (https client cert is checked on server side)
-      sslOptions.put("verify-client", "REQUESTED");
-      sslOptions.put("authentication.truststore.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.truststore"));
-      sslOptions.put("authentication.truststore.keystore-password", "changeit");
-      setup.setHttpsConnectorRequirement(sslOptions);
-      return setup;
+   @ArquillianResource
+   private Deployer deployer;
+   
+   @ArquillianResource
+   private ContainerController containerController;
+   
+   @Deployment(name = DEPLOYMENT, testable = false, managed = false)
+   @TargetsContainer(SSL_MUTUAL_AUTH_SERVER)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, DEPLOYMENT + ".war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+               + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.KeystorePasswordCallback.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2311Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2312Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2313Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2314Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2315Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2321Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2322Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2323Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2324Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.ServiceIface.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.SAMLValidator.class)
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/WEB-INF/bob.jks"), "classes/bob.jks")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/WEB-INF/bob.properties"), "classes/bob.properties")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/WEB-INF/wsdl/SecurityService23x.wsdl"), "wsdl/SecurityService23x.wsdl")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd");
+      return archive;
+   }
+   
+   @Override
+   protected String getClientJarPaths() {
+      return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-policy-oasis-23x-client.jar") { {
+         archive
+            .addManifest()
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/META-INF/alice.jks"), "alice.jks")
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/META-INF/alice.properties"), "alice.properties");
+         }
+      });
+   }
+   
+   @Before
+   public void startContainerAndDeploy() throws Exception {
+      if (!containerController.isStarted(SSL_MUTUAL_AUTH_SERVER)) {
+         containerController.start(SSL_MUTUAL_AUTH_SERVER);
+         deployer.deploy(DEPLOYMENT);
+      }
    }
    
    /**
@@ -82,6 +126,10 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
+   @OperateOnDeployment(DEPLOYMENT)
    public void test2311() throws Exception
    {
       Service service = Service.create(new URL(serviceURL + "SecurityService2311?wsdl"), serviceName);
@@ -95,6 +143,10 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
+   @OperateOnDeployment(DEPLOYMENT)
    public void test2312() throws Exception
    {
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2312?wsdl"), serviceName);
@@ -110,6 +162,9 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test2313() throws Exception
    {
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2313?wsdl"), serviceName);
@@ -130,6 +185,9 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test2314() throws Exception
    {
       Service service = Service.create(new URL(serviceURL + "SecurityService2314?wsdl"), serviceName);
@@ -155,6 +213,9 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test2315() throws Exception
    {
       Service service = Service.create(new URL(serviceURL + "SecurityService2315?wsdl"), serviceName);
@@ -181,6 +242,9 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test2321() throws Exception
    {
       Service service = Service.create(new URL(serviceURL + "SecurityService2321?wsdl"), serviceName);
@@ -203,6 +267,9 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test2322() throws Exception
    {
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2322?wsdl"), serviceName);
@@ -219,6 +286,9 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test2323() throws Exception
    {
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2323?wsdl"), serviceName);
@@ -240,6 +310,9 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test2324() throws Exception
    {
       Service service = Service.create(new URL(serviceURL + "SecurityService2324?wsdl"), serviceName);

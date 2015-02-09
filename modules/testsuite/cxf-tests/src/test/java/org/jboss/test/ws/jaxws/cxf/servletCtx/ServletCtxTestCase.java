@@ -24,7 +24,6 @@ package org.jboss.test.ws.jaxws.cxf.servletCtx;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -34,47 +33,46 @@ import java.util.concurrent.Future;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author alessio.soldano@jboss.com
  * @since 09-Jul-2013
  */
+@RunWith(Arquillian.class)
 public class ServletCtxTestCase extends JBossWSTest
 {
-   private String endpointOneURL = "http://" + getServerHost() + ":8080/jaxws-cxf-servletCtx/ServiceOne";
-
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-servletCtx.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.logging\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.servletCtx.EndpointOne.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.servletCtx.EndpointOneImpl.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-servletCtx.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+               + "Dependencies: org.jboss.logging\n"))
+         .addClass(org.jboss.test.ws.jaxws.cxf.servletCtx.EndpointOne.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.servletCtx.EndpointOneImpl.class);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(ServletCtxTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
-   private String targetNS = "http://org.jboss.ws.jaxws.cxf/servletCtx";
+   private final String targetNS = "http://org.jboss.ws.jaxws.cxf/servletCtx";
 
    private EndpointOne portOne;
 
-   protected int defaultSize = 30;
+   private final int defaultSize = 30;
 
+   @Test
+   @RunAsClient
    public void testAccess() throws Exception
    {
       initPort();
@@ -92,11 +90,15 @@ public class ServletCtxTestCase extends JBossWSTest
       assertEquals(1, portOne.getCount2() - count2);
    }
 
+   @Test
+   @RunAsClient
    public void testConcurrentInvocations() throws Exception
    {
       runConcurrentTests(false);
    }
 
+   @Test
+   @RunAsClient
    public void testConcurrentOneWayInvocations() throws Exception
    {
       runConcurrentTests(true);
@@ -129,7 +131,7 @@ public class ServletCtxTestCase extends JBossWSTest
 
    private void initPort() throws MalformedURLException
    {
-      URL wsdlOneURL = new URL(endpointOneURL + "?wsdl");
+      URL wsdlOneURL = new URL(baseURL + "/ServiceOne?wsdl");
       QName serviceOneName = new QName(targetNS, "ServiceOne");
       Service serviceOne = Service.create(wsdlOneURL, serviceOneName);
       portOne = (EndpointOne) serviceOne.getPort(EndpointOne.class);
@@ -165,5 +167,4 @@ public class ServletCtxTestCase extends JBossWSTest
          }
       }
    }
-
 }

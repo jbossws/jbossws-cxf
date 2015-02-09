@@ -32,6 +32,8 @@ import org.jboss.test.ws.jaxws.samples.exception.client.ExceptionEndpoint;
 import org.jboss.test.ws.jaxws.samples.exception.client.UserException;
 import org.jboss.test.ws.jaxws.samples.exception.client.UserException_Exception;
 import org.w3c.dom.Element;
+import org.junit.Test;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 
 public class ExceptionHelper implements ClientHelper
 {
@@ -74,6 +76,8 @@ public class ExceptionHelper implements ClientHelper
     *    1. Serialized service specific exception (see WrapperException.getFaultInfo() in section 2.5)
     *    2. SOAPFaultException.getFault().getDetail()
     */
+   @Test
+   @RunAsClient
    public void testRuntimeException() throws Exception
    {
       try
@@ -88,6 +92,8 @@ public class ExceptionHelper implements ClientHelper
       }
    }
 
+   @Test
+   @RunAsClient
    public void testSoapFaultException() throws Exception
    {
       try
@@ -105,6 +111,8 @@ public class ExceptionHelper implements ClientHelper
       }
    }
 
+   @Test
+   @RunAsClient
    public void testApplicationException() throws Exception
    {
       try

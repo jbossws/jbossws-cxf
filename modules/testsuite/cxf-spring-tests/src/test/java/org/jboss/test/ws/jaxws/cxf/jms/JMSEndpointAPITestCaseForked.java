@@ -21,19 +21,20 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jms;
 
-import java.io.File;
-import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
-
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.io.File;
+import java.net.URL;
 
 /**
  * Test case for publishing a JMS (SOAP-over-JMS 1.0) endpoint through API 
@@ -41,11 +42,12 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 29-Apr-2011
  */
+@RunWith(Arquillian.class)
 public final class JMSEndpointAPITestCaseForked extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jms-api.war") { {
+   @Deployment(testable = false)
+   public static WebArchive createWarDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class,"jaxws-cxf-jms-api.war");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                      + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq\n"))
@@ -53,19 +55,14 @@ public final class JMSEndpointAPITestCaseForked extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorld.class)
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorldImpl.class)
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.TestServlet.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(JMSEndpointAPITestCaseForked.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-   
+   @Test
+   @RunAsClient
    public void testServerSide() throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-api");
+      URL url = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-cxf-jms-api");
       assertEquals("true", IOUtils.readAndCloseStream(url.openStream()));
    }
    

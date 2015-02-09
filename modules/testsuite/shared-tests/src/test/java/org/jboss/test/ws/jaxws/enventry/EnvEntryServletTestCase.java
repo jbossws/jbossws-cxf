@@ -26,7 +26,15 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-import junit.framework.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
@@ -40,28 +48,26 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.org
  * @since 29-May-2008
  */
+@RunWith(Arquillian.class)
 public class EnvEntryServletTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-enventry-servlet.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-enventry-servlet.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.enventry.EnvEntryServlet.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/enventry/WEB-INF/servlet-web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(EnvEntryServletTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testEndpoint() throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-enventry-servlet");
-      assertEquals("web:8", IOUtils.readAndCloseStream(url.openStream()));
+      assertEquals("web:8", IOUtils.readAndCloseStream(baseURL.openStream()));
    }
 }

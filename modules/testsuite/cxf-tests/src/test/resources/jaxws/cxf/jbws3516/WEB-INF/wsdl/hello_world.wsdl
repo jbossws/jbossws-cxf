@@ -82,7 +82,7 @@
 
 	<wsdl:service name="SOAPService">
 		<wsdl:port name="SoapPort" binding="tns:Greeter_SOAPBinding">
-			<soap:address location="http://localhost:8080/helloworld" />
+			<soap:address location="http://localhost:@add_int(port-offset.cxf-tests.jboss,8080)@/helloworld" />
 		</wsdl:port>
 	</wsdl:service>
 </definitions>

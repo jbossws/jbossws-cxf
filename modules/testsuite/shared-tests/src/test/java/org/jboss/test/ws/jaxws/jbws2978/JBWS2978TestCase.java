@@ -24,8 +24,6 @@ package org.jboss.test.ws.jaxws.jbws2978;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
@@ -35,34 +33,31 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPFaultException;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * JBWS2978TestCase.
  *
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
+@Ignore(value="Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed")
+@RunWith(Arquillian.class)
 public class JBWS2978TestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws2978";
-
-   private final String requestMessage = "<S:Envelope xmlns:S='http://schemas.xmlsoap.org/soap/envelope/'><S:Header><To xmlns='http://www.w3.org/2005/08/addressing'>"
-         + TARGET_ENDPOINT_ADDRESS
-         + "</To><Action xmlns='http://www.w3.org/2005/08/addressing'>inputAction</Action>"
-         + "<MessageID xmlns='http://www.w3.org/2005/08/addressing'>uuid:56d586f8-980c-48cf-982d-77a2f56e5c5b</MessageID>"
-         + "<ReplyTo xmlns='http://www.w3.org/2005/08/addressing'><Address>http://www.w3.org/2005/08/addressing/anonymous</Address></ReplyTo>"
-         + "</S:Header><S:Body><ns1:addNumbers xmlns:ns1='http://ws.jboss.org'><arg0>10</arg0><arg1>10</arg1></ns1:addNumbers></S:Body></S:Envelope>";
-
    public Service service = null;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2978.war") { {
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws2978.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws2978.AddNumbers.class)
@@ -71,27 +66,31 @@ public class JBWS2978TestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.jbws2978.AddNumbersResponse.class)
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2978/WEB-INF/jboss-web.xml"), "jboss-web.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2978/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite() throws Exception
-   {
-      return new JBossWSTestSetup(JBWS2978TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
    @Override
    public void setUp() throws Exception
    {
       super.setUp();
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws2978" + "?wsdl");
       QName serviceName = new QName("http://ws.jboss.org", "AddNumbers");
       service = Service.create(wsdlURL, serviceName);
    }
 
+   @Test
+   @RunAsClient
    public void testCall() throws Exception
    {
+      setUp();
+      String text = "http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws2978";
+      String requestMessage = "<S:Envelope xmlns:S='http://schemas.xmlsoap.org/soap/envelope/'><S:Header><To xmlns='http://www.w3.org/2005/08/addressing'>"
+         + text
+         + "</To><Action xmlns='http://www.w3.org/2005/08/addressing'>inputAction</Action>"
+         + "<MessageID xmlns='http://www.w3.org/2005/08/addressing'>uuid:56d586f8-980c-48cf-982d-77a2f56e5c5b</MessageID>"
+         + "<ReplyTo xmlns='http://www.w3.org/2005/08/addressing'><Address>http://www.w3.org/2005/08/addressing/anonymous</Address></ReplyTo>"
+         + "</S:Header><S:Body><ns1:addNumbers xmlns:ns1='http://ws.jboss.org'><arg0>10</arg0><arg1>10</arg1></ns1:addNumbers></S:Body></S:Envelope>";
+
       try
       {
          Dispatch<SOAPMessage> dispatch = service.createDispatch(new QName("http://ws.jboss.org", "AddNumbersPort"), SOAPMessage.class ,

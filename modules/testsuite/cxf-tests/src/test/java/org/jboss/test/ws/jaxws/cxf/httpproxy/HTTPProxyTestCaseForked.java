@@ -42,18 +42,24 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
 import org.apache.cxf.configuration.security.ProxyAuthorizationPolicy;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.apache.cxf.transports.http.configuration.ProxyServerType;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.littleshoot.proxy.ChainedProxy;
 import org.littleshoot.proxy.ChainedProxyAdapter;
 import org.littleshoot.proxy.ChainedProxyManager;
@@ -67,6 +73,7 @@ import com.barchart.udt.SocketUDT;
  * @author alessio.soldano@jboss.com
  * @since 24-May-2011
  */
+@RunWith(Arquillian.class)
 public class HTTPProxyTestCaseForked extends JBossWSTest
 {
    private static int proxyPort = 19387;
@@ -75,24 +82,21 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
    private static final String ENDPOINT_PATH = "/jaxws-cxf-httpproxy/HelloWorldService/HelloWorldImpl";
    private HttpProxyServer proxyServer;
    
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-httpproxy.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.cxf.httpproxy.HelloWorld.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.httpproxy.HelloWorldImpl.class)
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/httpproxy/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-httpproxy.war");
+      archive.addManifest()
+            .addClass(org.jboss.test.ws.jaxws.cxf.httpproxy.HelloWorld.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.httpproxy.HelloWorldImpl.class)
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/httpproxy/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(HTTPProxyTestCaseForked.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testHttpProxy() throws Exception
    {
       if (checkNativeLibraries()) {
@@ -142,6 +146,8 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       assertEquals(hi, port.echo(hi));
    }
    
+   @Test
+   @RunAsClient
    public void testHttpProxyUsingHTTPClientPolicy() throws Exception
    {
       if (checkNativeLibraries()) {
@@ -215,7 +221,7 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
                @Override
                public InetSocketAddress getChainedProxyAddress()
                {
-                  return new InetSocketAddress(getServerHost(), 8080);
+                  return new InetSocketAddress(getServerHost(), getServerPort());
                }
 
             });

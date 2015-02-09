@@ -48,7 +48,7 @@
 
   <wsdl:service name="SaajService">
     <wsdl:port name="SaajServicePort" binding="tns:SaajServiceSoapBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/SaajService"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.shared-tests.jboss,8080)@/SaajService"/>
     </wsdl:port>
   </wsdl:service>
 

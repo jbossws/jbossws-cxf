@@ -23,15 +23,9 @@ package org.jboss.test.ws.jaxws.samples.wsse.kerberos;
 
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-
-import junit.framework.Test;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
@@ -39,15 +33,22 @@ import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.kerberos.KerberosClient;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.ws.jaxws.samples.wsse.kerberos.contract.DoubleItPortType;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.jboss.wsf.test.WrapThreadContextClassLoader;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
  
 /**
- * This test is excluded. Please modify modules/testsuite/pom.xml to enable this test.  
+ * This test is ignored. Please remove @Ignore to enable this test.  
  * Before run this test, a KDC of realm "WS.APACHE.ORG" is required to setup first.
  * Please look at these two links to find more info about setup a KDC on Fedora and configure it with realm and principals: 
  * https://docs.fedoraproject.org/en-US/Fedora//html/Security_Guide/sect-Security_Guide-Kerberos-Configuring_a_Kerberos_5_Server.html
@@ -85,18 +86,19 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
    </pre>
  * Run this test with command : <pre>mvn clean install -Ptestsuite,wildfly800,spring -Dtest=KerberosTestCase 
  * -Djava.security.auth.login.config=modules/testsuite/cxf-spring-tests/target/test-resources/jaxws/samples/wsse/kerberos/kerberos.jaas</pre>
- */ 
- 
+ */
 
 
+@RunWith(Arquillian.class)
+@Ignore("This test requires manually setup KDC")
 public class KerberosTestCase extends JBossWSTest
 {
   
    private static final String namespace = "http://www.example.org/contract/DoubleIt";
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsse-kerberos.war") { {
+   @Deployment(name="jaxws-samples-wsse-kerberos", testable = false)
+   public static WebArchive createDeployment1() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-kerberos.war");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                      + "Dependencies: org.apache.ws.security\n"))
@@ -114,37 +116,15 @@ public class KerberosTestCase extends JBossWSTest
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/WEB-INF/wsdl/DoubleItKerberos.wsdl"), "wsdl/DoubleItKerberos.wsdl")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/WEB-INF/wsdl/DoubleItLogical.wsdl"), "wsdl/DoubleItLogical.wsdl")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/WEB-INF/web.xml"));
-         }
-      });
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-kerberos-client.jar") { {
-         archive
-               .addManifest()
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos//cxf.xml"), "cxf.xml")
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/META-INF/alice.jks"), "alice.jks")
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/META-INF/alice.properties"), "alice.properties")
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/META-INF/bob.jks"), "bob.jks")
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/META-INF/bob.properties"), "bob.properties");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
-
-   public static Test suite()
-   {
-      JBossWSCXFTestSetup testSetup;
-      testSetup = new JBossWSCXFTestSetup(KerberosTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));      
-      Map<String, String> sslOptions = new HashMap<String, String>();
-      sslOptions.put("server-identity.ssl.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
-      sslOptions.put("server-identity.ssl.keystore-password", "changeit");
-      sslOptions.put("server-identity.ssl.alias", "tomcat");
-      testSetup.setHttpsConnectorRequirement(sslOptions);
-      
-      return testSetup;
-   }
-
+   
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void testKerberosSupport() throws Exception
    {
-      String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-kerberos/DoubleItKerberosSupport";
+      String serviceURL = "http://" + getServerHost()  + ":" + getServerPort() + "/jaxws-samples-wsse-kerberos/DoubleItKerberosSupport";
       QName servicePort = new QName(namespace, "DoubleItKerberosSupportingPort");
 
       QName serviceName = new QName(namespace, "DoubleItService");
@@ -154,11 +134,17 @@ public class KerberosTestCase extends JBossWSTest
       setupKerberosSupport(proxy);
       assertEquals(20, proxy.doubleIt(10));
    }
-   
-   
+
+
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void testKerberosTransport() throws Exception
    {
-      String serviceURL = "https://" + getServerHost() + ":8443/jaxws-samples-wsse-kerberos/DoubleItKerberosTransport";
+      final int serverPort = getServerPort();
+      final int serverSecurePort = serverPort + 363; //8080 + 363 = 8443
+
+      String serviceURL = "https://" + getServerHost() + ":" + serverSecurePort + "/jaxws-samples-wsse-kerberos/DoubleItKerberosTransport";
       QName servicePort = new QName(namespace, "DoubleItKerberosTransportPort");
       QName serviceName = new QName(namespace, "DoubleItService");
       URL wsdlURL = new URL(serviceURL + "?wsdl");
@@ -167,11 +153,14 @@ public class KerberosTestCase extends JBossWSTest
       setupKerberosTransport(proxy);
       assertEquals(20, proxy.doubleIt(10));
    }
-   
-   
+
+
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void testKerberosSymmetricSupporting() throws Exception
    {
-      String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-kerberos/DoubleItKerberosOverSymmetricSupporting";
+      String serviceURL = "http://" + getServerHost() + ":" + getServerPort() + "/jaxws-samples-wsse-kerberos/DoubleItKerberosOverSymmetricSupporting";
       QName servicePort = new QName(namespace, "DoubleItKerberosSymmetricSupportingPort");
       QName serviceName = new QName(namespace, "DoubleItService");
       URL wsdlURL = new URL(serviceURL + "?wsdl");
@@ -180,11 +169,14 @@ public class KerberosTestCase extends JBossWSTest
       setupSymmetricSupporting(proxy);
       assertEquals(20, proxy.doubleIt(10));
    }
-   
-   
+
+
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void testKerberosAsymmetric() throws Exception
    {
-      String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-kerberos/DoubleItKerberosAsymmetric";
+      String serviceURL = "http://" + getServerHost() + ":" + getServerPort() + "/jaxws-samples-wsse-kerberos/DoubleItKerberosAsymmetric";
       QName servicePort = new QName(namespace, "DoubleItKerberosAsymmetricPort");
       QName serviceName = new QName(namespace, "DoubleItService");
       URL wsdlURL = new URL(serviceURL + "?wsdl");
@@ -193,10 +185,13 @@ public class KerberosTestCase extends JBossWSTest
       setupAsymmetric(proxy);
       assertEquals(20, proxy.doubleIt(10));
    }
-   
+
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void testKerberosOverAsymmetricSignedEncrypted() throws Exception
    {
-      String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-kerberos/DoubleItKerberosOverAsymmetricSignedEncrypted";
+      String serviceURL = "http://" + getServerHost()  + ":" + getServerPort() + "/jaxws-samples-wsse-kerberos/DoubleItKerberosOverAsymmetricSignedEncrypted";
       QName servicePort = new QName(namespace, "DoubleItKerberosAsymmetricSignedEncryptedPort");
       QName serviceName = new QName(namespace, "DoubleItService");
       URL wsdlURL = new URL(serviceURL + "?wsdl");
@@ -205,10 +200,13 @@ public class KerberosTestCase extends JBossWSTest
       setupAsymmetricSignedEncrypted(proxy);
       assertEquals(20, proxy.doubleIt(10));
    }
-   
+
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void testKerberosKerberosSymmetric() throws Exception
    {
-      String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-kerberos/DoubleItKerberosSymmetric";
+      String serviceURL = "http://" + getServerHost() + ":" + getServerPort() + "/jaxws-samples-wsse-kerberos/DoubleItKerberosSymmetric";
       QName servicePort = new QName(namespace, "DoubleItKerberosSymmetricPort");
       QName serviceName = new QName(namespace, "DoubleItService");
       URL wsdlURL = new URL(serviceURL + "?wsdl");
@@ -230,7 +228,7 @@ public class KerberosTestCase extends JBossWSTest
       
       client.getBus().getFeatures().add(new LoggingFeature());
       client.getBus().getFeatures().add(new WSPolicyFeature());
-      KerberosClient kerberosClient = new KerberosClient(client.getBus());
+      KerberosClient kerberosClient = new KerberosClient();
       kerberosClient.setServiceName("bob@service.ws.apache.org");
       kerberosClient.setContextName("alice");
       cxfEndpoint.put("ws-security.kerberos.client", kerberosClient);     
@@ -248,7 +246,7 @@ public class KerberosTestCase extends JBossWSTest
       
       client.getBus().getFeatures().add(new LoggingFeature());
       client.getBus().getFeatures().add(new WSPolicyFeature());
-      KerberosClient kerberosClient = new KerberosClient(client.getBus());
+      KerberosClient kerberosClient = new KerberosClient();
       kerberosClient.setServiceName("bob@service.ws.apache.org");
       kerberosClient.setContextName("alice");
       cxfEndpoint.put("ws-security.kerberos.client", kerberosClient);     
@@ -263,7 +261,7 @@ public class KerberosTestCase extends JBossWSTest
       
       client.getBus().getFeatures().add(new LoggingFeature());
       client.getBus().getFeatures().add(new WSPolicyFeature());
-      KerberosClient kerberosClient = new KerberosClient(client.getBus());
+      KerberosClient kerberosClient = new KerberosClient();
       kerberosClient.setServiceName("bob@service.ws.apache.org");
       kerberosClient.setContextName("alice");
       cxfEndpoint.put("ws-security.kerberos.client", kerberosClient);     
@@ -275,7 +273,7 @@ public class KerberosTestCase extends JBossWSTest
       Endpoint cxfEndpoint = client.getEndpoint();
       client.getBus().getFeatures().add(new LoggingFeature());
       client.getBus().getFeatures().add(new WSPolicyFeature());
-      KerberosClient kerberosClient = new KerberosClient(client.getBus());
+      KerberosClient kerberosClient = new KerberosClient();
       kerberosClient.setServiceName("bob@service.ws.apache.org");
       kerberosClient.setContextName("alice");
       cxfEndpoint.put("ws-security.kerberos.client", kerberosClient);     
@@ -290,9 +288,24 @@ public class KerberosTestCase extends JBossWSTest
  
       client.getBus().getFeatures().add(new LoggingFeature());
       client.getBus().getFeatures().add(new WSPolicyFeature());
-      KerberosClient kerberosClient = new KerberosClient(client.getBus());
+      KerberosClient kerberosClient = new KerberosClient();
       kerberosClient.setServiceName("bob@service.ws.apache.org");
       kerberosClient.setContextName("alice");
       cxfEndpoint.put("ws-security.kerberos.client", kerberosClient);     
    }
+   
+   @Override
+   protected String getClientJarPaths() {
+      return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-kerberos-client.jar") { {
+         archive
+               .addManifest()
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos//cxf.xml"), "cxf.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/META-INF/alice.jks"), "alice.jks")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/META-INF/alice.properties"), "alice.properties")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/META-INF/bob.jks"), "bob.jks")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/kerberos/META-INF/bob.properties"), "bob.properties");
+         }
+      });
+   }
+   
 }

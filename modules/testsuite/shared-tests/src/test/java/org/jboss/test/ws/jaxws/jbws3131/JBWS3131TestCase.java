@@ -31,7 +31,12 @@ import javax.xml.ws.Service;
 import javax.xml.ws.Service.Mode;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 
+@RunWith(Arquillian.class)
 public class JBWS3131TestCase extends JBossWSTest
 {
    private URL WSDLUrl;
@@ -51,32 +56,44 @@ public class JBWS3131TestCase extends JBossWSTest
       serviceChanged = Service.create(changedWSDLUrl, serviceName);
    }
 
+   @Test
+   @RunAsClient
    public void testSOAP11OnOriginalWSDL() throws IOException
    {
+      setUp();
       QName portName = new QName("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2", "NfeStatusServico2Soap");
       Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.MESSAGE);
       String bindingID = dispatch.getBinding().getBindingID();
       assertEquals("http://schemas.xmlsoap.org/wsdl/soap/http", bindingID);
    }
 
+   @Test
+   @RunAsClient
    public void testSOAP12OnOriginalWSDL() throws IOException
    {
+      setUp();
       QName portName = new QName("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2", "NfeStatusServico2Soap12");
       Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.MESSAGE);
       String bindingID = dispatch.getBinding().getBindingID();
       assertEquals("http://www.w3.org/2003/05/soap/bindings/HTTP/", bindingID);
    }
 
+   @Test
+   @RunAsClient
    public void testSOAP11OnChangedWSDL() throws IOException
    {
+      setUp();
       QName portName = new QName("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2", "NfeStatusServico2Soap1");
       Dispatch<Source> dispatch = serviceChanged.createDispatch(portName, Source.class, Mode.MESSAGE);
       String bindingID = dispatch.getBinding().getBindingID();
       assertEquals("http://schemas.xmlsoap.org/wsdl/soap/http", bindingID);
    }
 
+   @Test
+   @RunAsClient
    public void testSOAP12OnChangedWSDL() throws IOException
    {
+      setUp();
       QName portName = new QName("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2", "NfeStatusServico2Soap12");
       Dispatch<Source> dispatch = serviceChanged.createDispatch(portName, Source.class, Mode.MESSAGE);
       String bindingID = dispatch.getBinding().getBindingID();

@@ -23,18 +23,20 @@ package org.jboss.test.ws.jaxws.jbws3282;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test the handlers (pre/post) declaration in jaxws endpoint configuration
@@ -45,42 +47,41 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 03-May-2011
  */
+@RunWith(Arquillian.class)
 public class HandlerChainTestCase extends JBossWSTest
 {
    private final String targetNS = "http://jbws3282.jaxws.ws.test.jboss.org/";
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3282.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws3282.war");
          archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.AuthorizationHandler.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.EndpointHandler.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.EndpointImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint4Impl.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint5Impl.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint6Impl.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.LogHandler.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.RoutingHandler.class)
-               .addAsResource("org/jboss/test/ws/jaxws/jbws3282/jaxws-handlers-server.xml")
-               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3282/WEB-INF/jaxws-endpoint-config.xml"))
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3282/WEB-INF/my-endpoint-config.xml"), "my-endpoint-config.xml")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3282/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+            .addManifest()
+            .addClass(org.jboss.test.ws.jaxws.jbws3282.AuthorizationHandler.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws3282.EndpointHandler.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws3282.EndpointImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint4Impl.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint5Impl.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint6Impl.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws3282.LogHandler.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws3282.RoutingHandler.class)
+            .addAsResource("org/jboss/test/ws/jaxws/jbws3282/jaxws-handlers-server.xml")
+            .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3282/WEB-INF/jaxws-endpoint-config.xml"))
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3282/WEB-INF/my-endpoint-config.xml"), "my-endpoint-config.xml")
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3282/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(HandlerChainTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testHandlerChain() throws Exception
    {
       QName serviceName = new QName(targetNS, "EndpointImplService");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws3282/ep?wsdl");
+      URL wsdlURL = new URL(baseURL + "/ep?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       Endpoint port = (Endpoint)service.getPort(Endpoint.class);
@@ -94,10 +95,12 @@ public class HandlerChainTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
    public void testHandlerChain4() throws Exception
    {
       QName serviceName = new QName(targetNS, "Endpoint4ImplService");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws3282/ep4?wsdl");
+      URL wsdlURL = new URL(baseURL + "/ep4?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       Endpoint port = (Endpoint)service.getPort(Endpoint.class);
@@ -112,10 +115,12 @@ public class HandlerChainTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
    public void testHandlerChain5() throws Exception
    {
       QName serviceName = new QName(targetNS, "Endpoint5ImplService");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws3282/ep5?wsdl");
+      URL wsdlURL = new URL(baseURL + "/ep5?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       Endpoint port = (Endpoint)service.getPort(Endpoint.class);
@@ -130,10 +135,12 @@ public class HandlerChainTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
    public void testHandlerChain6() throws Exception
    {
       QName serviceName = new QName(targetNS, "Endpoint6ImplService");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws3282/ep6?wsdl");
+      URL wsdlURL = new URL(baseURL + "/ep6?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       Endpoint port = (Endpoint)service.getPort(Endpoint.class);

@@ -29,16 +29,23 @@ import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 
 /**
  * Tests JAXWS dynamic endpoint deployment in an JSE environment.
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
+@RunWith(Arquillian.class)
 public class EndpointTestCase extends JBossWSTest
 {
    private static final int port = 8878;
 
+   @Test
+   @RunAsClient
    public void test() throws Exception
    {
       String publishURL1 = "http://" + getServerHost() + ":" + port + "/jaxws-endpoint1";

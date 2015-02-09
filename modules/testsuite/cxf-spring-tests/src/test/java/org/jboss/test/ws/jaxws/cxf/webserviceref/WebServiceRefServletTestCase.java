@@ -21,19 +21,25 @@
  */
 package org.jboss.test.ws.jaxws.cxf.webserviceref;
 
-import java.io.File;
-import java.net.URL;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.ws.common.IOUtils;
+import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jboss.arquillian.container.test.api.Deployer;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+import java.io.File;
+import java.net.URL;
 
-import junit.framework.Test;
-
-import org.jboss.ws.common.IOUtils;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 
 /**
  * Test @javax.xml.ws.WebServiceref with a custom CXF jaxws:client
@@ -42,12 +48,18 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 19-Nov-2009
  */
+@RunWith(Arquillian.class)
 public class WebServiceRefServletTestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-cxf-webserviceref";
+   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":" + getServerPort() + "/jaxws-cxf-webserviceref";
 
-   public static BaseDeployment<?> createClientDeployment() {
-      return new JBossWSTestHelper.WarDeployment("jaxws-cxf-webserviceref-servlet-client.war") { {
+   @ArquillianResource
+   private Deployer deployer;
+
+   private static final String CLIENT_WAR ="jaxws-cxf-webserviceref-servlet-client";
+   @Deployment(name=CLIENT_WAR, testable = false, managed=false)
+   public static WebArchive createClientDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class,"jaxws-cxf-webserviceref-servlet-client.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.cxf.webserviceref.Endpoint.class)
@@ -57,25 +69,22 @@ public class WebServiceRefServletTestCase extends JBossWSTest
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/webserviceref/WEB-INF/wsdl/Endpoint.wsdl"), "wsdl/Endpoint.wsdl")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/webserviceref/WEB-INF-client/jbossws-cxf.xml"), "jbossws-cxf.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/webserviceref/WEB-INF-client/web.xml"));
-         }
-      };
+      return archive;
    }
 
-   public static BaseDeployment<?> createServerDeployment() {
-      return new JBossWSTestHelper.WarDeployment("jaxws-cxf-webserviceref.war") { {
+   @Deployment(name="jaxws-cxf-webserviceref", testable = false)
+   public static WebArchive createServerDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class,"jaxws-cxf-webserviceref.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.cxf.webserviceref.EndpointImpl.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/webserviceref/WEB-INF/web.xml"));
-         }
-      };
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(WebServiceRefServletTestCase.class, JBossWSTestHelper.writeToFile(createServerDeployment()));
-   }
-
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-cxf-webserviceref")
    public void testDynamicProxy() throws Exception
    {
       URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
@@ -88,10 +97,11 @@ public class WebServiceRefServletTestCase extends JBossWSTest
       assertEquals(helloWorld, retObj);
    }
 
+   @Test
+   @RunAsClient
    public void testServletClient() throws Exception
    {
-      final String clientDepName = JBossWSTestHelper.writeToFile(createClientDeployment());
-      deploy(clientDepName);
+      deployer.deploy(CLIENT_WAR);
       try
       {
          URL url = new URL(TARGET_ENDPOINT_ADDRESS + "-servlet-client?echo=HelloWorld");
@@ -99,7 +109,7 @@ public class WebServiceRefServletTestCase extends JBossWSTest
       }
       finally
       {
-         undeploy(clientDepName);
+         deployer.undeploy(CLIENT_WAR);
       }
    }
 }

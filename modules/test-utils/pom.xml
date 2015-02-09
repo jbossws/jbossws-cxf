@@ -37,6 +37,13 @@
       <artifactId>jboss-logging</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency> <!-- dependency to dist module to ensure proper testsuite ordering when running with -T option -->
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-dist</artifactId>
+      <version>${project.version}</version>
+      <type>pom</type>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

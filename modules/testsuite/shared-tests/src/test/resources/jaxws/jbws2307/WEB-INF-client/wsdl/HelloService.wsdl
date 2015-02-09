@@ -71,4 +71,4 @@
   </binding>
   <service name="HelloService">
     <port name="HelloPort" binding="tns:HelloBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-jbws2307-service/jaxws/Hello"/></port></service></definitions>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.shared-tests.jboss,8080)@/jaxws-jbws2307-service/jaxws/Hello"/></port></service></definitions>

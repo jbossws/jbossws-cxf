@@ -49,7 +49,7 @@
     </binding>
     <service name="HelloService">
         <port name="HelloPort" binding="tns:HelloBinding">
-            <soap:address location="http://localhost:8080/schemavalidation/hello" />
+            <soap:address location="http://localhost:@add_int(port-offset.cxf-tests.jboss,8080)@/schemavalidation/hello" />
         </port>
     </service>
 </definitions>

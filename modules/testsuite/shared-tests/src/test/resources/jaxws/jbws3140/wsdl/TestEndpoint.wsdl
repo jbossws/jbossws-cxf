@@ -63,7 +63,7 @@
 
   <service name="TestEndpointService">
     <port name="MTOMTestPort" binding="tns:MTOMBindind">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws3140-server"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.shared-tests.jboss,8080)@/jaxws3140-server"/>
     </port>
   </service>
 </definitions>

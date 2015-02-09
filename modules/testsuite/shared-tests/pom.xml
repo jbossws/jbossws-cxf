@@ -51,6 +51,63 @@
       </activation>
       <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>testsuite-default</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-default.groovy</source>
+                            <properties>
+                                <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
+                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default.xml</outputFile>
+                                <serverLog>jbws-testsuite-shared-default.log</serverLog>
+                                <usersPropFile>${project.build.directory}/test-classes/jbossws-users.properties</usersPropFile>
+                                <rolesPropFile>${project.build.directory}/test-classes/jbossws-roles.properties</rolesPropFile>
+                                <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
+                                <testResourcesDir>${project.build.directory}/test-resources</testResourcesDir>
+                            </properties>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>testsuite-default-config-tests</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-default-config-tests.groovy</source>
+                            <properties>
+                                <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
+                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default-config-tests.xml</outputFile>
+                                <serverLog>jbws-testsuite-shared-default-config-tests.log</serverLog>
+                            </properties>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>testsuite-address-rewrite</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-address-rewrite.groovy</source>
+                            <properties>
+                                <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
+                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-address-rewrite.xml</outputFile>
+                                <serverLog>jbws-testsuite-shared-address-rewrite.log</serverLog>
+                                <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
           <plugin>
             <artifactId>maven-antrun-plugin</artifactId>
             <executions>
@@ -93,33 +150,34 @@
               </execution>
             </executions>
           </plugin>
-          <plugin> <!-- This copies jbossws-cxf-factories jar to endorsed dir before the integration-tests are run -->
-            <artifactId>maven-resources-plugin</artifactId>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
             <executions>
-              <execution>
-                <id>copy-factories-jar</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-                <configuration>
-                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>${basedir}/../../endorsed/target/</directory>
-                      <includes>
-                        <include>jbossws-cxf-factories-${project.version}.jar</include>
-                      </includes>
-                    </resource>
-                  </resources>
-                </configuration>
-              </execution>
+                <execution> <!-- This copies jbossws-cxf-factories jar to endorsed dir before the integration-tests are run -->
+            		<id>copy-endorsed</id>
+            		<phase>pre-integration-test</phase>
+            		<goals>
+            			<goal>copy</goal>
+            		</goals>
+            		<configuration>
+            			<artifactItems>
+            				<artifactItem>
+            					<groupId>org.jboss.ws.cxf</groupId>
+            					<artifactId>jbossws-cxf-factories</artifactId>
+            					<version>${project.version}</version>
+            				</artifactItem>
+            			</artifactItems>
+            			<outputDirectory>target/endorsed</outputDirectory>
+            		</configuration>
+            	</execution>
             </executions>
           </plugin>
         </plugins>
       </build>
     </profile>
-    
+
     <profile>
       <id>build-benchmarks</id>
       <build>
@@ -151,6 +209,91 @@
         </plugins>
       </build>
     </profile>
+
+      <!-- When the 'fast' profile is on, the testsuite runs in parallel mode; Arquillan messes up with containers in such a scenario, unless they're started upfront.
+           So we start all the containers specified in the arquillan.xml configuration -->
+      <profile>
+          <id>fast</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-maven-plugin</artifactId>
+                      <executions>
+                          <execution>
+                              <id>jboss</id>
+                              <phase>pre-integration-test</phase>
+                              <goals>
+                                  <goal>start</goal>
+                              </goals>
+                              <configuration>
+                                  <jvmArgs>-server -XX:+UseCompressedOops -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.jboss} ${additionalJvmArgs}</jvmArgs>
+                                  <serverConfig>jbws-testsuite-shared-default.xml</serverConfig>
+                                  <jbossHome>${jboss.home}</jbossHome>
+                                  <port>24990</port> <!-- Keep in sync with the port-offset -->
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <id>jboss-shutdown</id>
+                              <phase>post-integration-test</phase>
+                              <goals>
+                                  <goal>shutdown</goal>
+                              </goals>
+                              <configuration>
+                                  <port>24990</port> <!-- Keep in sync with the port-offset -->
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <id>default-config-tests</id>
+                              <phase>pre-integration-test</phase>
+                              <goals>
+                                  <goal>start</goal>
+                              </goals>
+                              <configuration>
+                                  <jvmArgs>-server -XX:+UseCompressedOops -Xms48m -Xmx384m -XX:MaxPermSize=192m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.default-config-tests} ${additionalJvmArgs}</jvmArgs>
+                                  <serverConfig>jbws-testsuite-shared-default-config-tests.xml</serverConfig>
+                                  <jbossHome>${jboss.home}</jbossHome>
+                                  <port>29990</port> <!-- Keep in sync with the port-offset -->
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <id>default-config-tests-shutdown</id>
+                              <phase>post-integration-test</phase>
+                              <goals>
+                                  <goal>shutdown</goal>
+                              </goals>
+                              <configuration>
+                                  <port>29990</port> <!-- Keep in sync with the port-offset -->
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <id>address-rewrite</id>
+                              <phase>pre-integration-test</phase>
+                              <goals>
+                                  <goal>start</goal>
+                              </goals>
+                              <configuration>
+                                  <jvmArgs>-server -XX:+UseCompressedOops -Xms32m -Xmx256m -XX:MaxPermSize=96m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.address-rewrite} ${additionalJvmArgs}</jvmArgs>
+                                  <serverConfig>jbws-testsuite-shared-address-rewrite.xml</serverConfig>
+                                  <jbossHome>${jboss.home}</jbossHome>
+                                  <port>34990</port> <!-- Keep in sync with the port-offset -->
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <id>address-rewrite-shutdown</id>
+                              <phase>post-integration-test</phase>
+                              <goals>
+                                  <goal>shutdown</goal>
+                              </goals>
+                              <configuration>
+                                  <port>34990</port> <!-- Keep in sync with the port-offset -->
+                              </configuration>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
 
   </profiles>
 

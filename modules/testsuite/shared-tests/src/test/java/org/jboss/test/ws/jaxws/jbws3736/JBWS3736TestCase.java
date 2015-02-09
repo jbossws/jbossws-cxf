@@ -23,20 +23,22 @@ package org.jboss.test.ws.jaxws.jbws3736;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-3736] soap:address rewrite does not consider wsdlLocation in SEI @WebService
@@ -44,44 +46,43 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 07-Mar-2014
  */
+@RunWith(Arquillian.class)
 public class JBWS3736TestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws3736";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws3736.jar") { {
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws3736.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws3736.Endpoint.class)
                .addClass(org.jboss.test.ws.jaxws.jbws3736.EndpointImpl.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3736/META-INF/wsdl/test.wsdl"), "wsdl/test.wsdl");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS3736TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testEndpoint() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws3736?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jbws3736", "EndpointService");
       Endpoint port = Service.create(wsdlURL, serviceName).getPort(Endpoint.class);
-      ((BindingProvider)port).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, TARGET_ENDPOINT_ADDRESS);
+      ((BindingProvider)port).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL.toString() + "/jaxws-jbws3736");
       String retObj = port.echo("Hello");
       assertEquals("Hello", retObj);
    }
 
+   @Test
+   @RunAsClient
    public void testAddressRewrite() throws Exception
    {
-      String wsdl = IOUtils.readAndCloseStream(new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl").openStream());
+      String wsdl = IOUtils.readAndCloseStream(new URL(baseURL + "/jaxws-jbws3736?wsdl").openStream());
       //we expect the published wsdl to have the https protocol in the soap:address because the original wsdl provided
       //in the deployment has that. This shows that the reference to the wsdl in endpoint interface has been processed
       //when rewriting the soap:address. If we got http protocol here, the fix won't be in place.
-      assertTrue(wsdl.contains("https://" + getServerHost() + ":8443/jaxws-jbws3736"));
+      assertTrue(wsdl.contains("https://" + getServerHost() + ":" + (getServerPort() + 363) + "/jaxws-jbws3736"));
    }
 }

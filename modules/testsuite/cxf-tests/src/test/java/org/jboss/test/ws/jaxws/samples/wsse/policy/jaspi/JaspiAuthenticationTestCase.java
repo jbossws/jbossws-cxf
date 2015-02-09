@@ -23,132 +23,102 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi;
 
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 import javax.security.auth.login.Configuration;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.security.auth.login.XMLLoginConfigImpl;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 /**
  * TestCase to demonstrate jaspi authentication 
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
+@RunWith(Arquillian.class)
 public final class JaspiAuthenticationTestCase extends JBossWSTest
 {
-   private final String serviceEndpointURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-endpoint-jaspi";
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-jbws-jaspi";
+   private static final String DEP_EP_JASPI = "jaxws-samples-wsse-policy-username-endpoint-jaspi";
+   private static final String DEP_JBWS_JASPI = "jaxws-samples-wsse-policy-username-jbws-jaspi";
+   private static final String DEP_CLIENT = "jaxws-samples-wsse-policy-username-jaspi-client";
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsse-policy-username-jbws-jaspi.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceIface.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMe.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMeResponse.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF2/jboss-webservices.xml"), "jboss-webservices.xml")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF2/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF2/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF2/web.xml"));
-         }
-      });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsse-policy-username-jaspi-client.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
-               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/META-INF/jaxws-client-config.xml"), "META-INF/jaxws-client-config.xml")
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.Helper.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceIface.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.UsernamePasswordCallback.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMe.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMeResponse.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
-               .addClass(org.jboss.wsf.test.ClientHelper.class)
-               .addClass(org.jboss.wsf.test.TestServlet.class);
-         }
-      });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsse-policy-username-endpoint-jaspi.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceEndpointImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceIface.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMe.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMeResponse.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF/jaxws-endpoint-config.xml"), "jaxws-endpoint-config.xml")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(name = DEP_JBWS_JASPI, testable = false)
+   public static WebArchive createDeployment1() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-policy-username-jbws-jaspi.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceIface.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMe.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMeResponse.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF2/jboss-webservices.xml"), "jboss-webservices.xml")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF2/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF2/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd")
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF2/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      TestSetup testSetup = new JBossWSCXFTestSetup(JaspiAuthenticationTestCase.class, JBossWSTestHelper.writeToFile(createDeployments())) {
-
-         public void setUp() throws Exception
-         {
-            Map<String, String> loginModuleOptions = new HashMap<String, String>();
-            String usersPropFile = System.getProperty("org.jboss.ws.testsuite.securityDomain.users.propfile");
-            String rolesPropFile = System.getProperty("org.jboss.ws.testsuite.securityDomain.roles.propfile");
-            if (usersPropFile != null)
-            {
-               loginModuleOptions.put("usersProperties", usersPropFile);
-            }
-            if (rolesPropFile != null)
-            {
-               loginModuleOptions.put("rolesProperties", rolesPropFile);
-            }
-
-            Map<String, String> authModuleOptions = new HashMap<String, String>();
-            JBossWSTestHelper.addJaspiSecurityDomain("jaspi", "jaas-lm-stack", loginModuleOptions, "org.jboss.wsf.stack.cxf.jaspi.module.UsernameTokenServerAuthModule",
-                  authModuleOptions);
-            JBossWSTestHelper.addJaspiSecurityDomain("clientJaspi", "jaas-lm-stack", loginModuleOptions, "org.jboss.wsf.stack.cxf.jaspi.client.module.SOAPClientAuthModule",
-                  authModuleOptions);            
-            super.setUp();
-         }
-
-         public void tearDown() throws Exception
-         {
-            JBossWSTestHelper.removeSecurityDomain("jaspi");
-            JBossWSTestHelper.removeSecurityDomain("clientJaspi");
-            super.tearDown();
-
-         }
-      };
-      return testSetup;
+   @Deployment(name = DEP_CLIENT, testable = false)
+   public static WebArchive createDeployment2() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-policy-username-jaspi-client.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
+            .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/META-INF/jaxws-client-config.xml"), "META-INF/jaxws-client-config.xml")
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.Helper.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceIface.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.UsernamePasswordCallback.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMe.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMeResponse.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
+            .addClass(org.jboss.wsf.test.ClientHelper.class)
+            .addClass(org.jboss.wsf.test.TestServlet.class);
+      return archive;
    }
-   
 
-   
+   @Deployment(name = DEP_EP_JASPI, testable = false)
+   public static WebArchive createDeployment3() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-policy-username-endpoint-jaspi.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceEndpointImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceIface.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMe.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMeResponse.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF/jaxws-endpoint-config.xml"), "jaxws-endpoint-config.xml")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd")
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/WEB-INF/web.xml"));
+      return archive;
+   }
+
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP_JBWS_JASPI)
    public void testWebserviceMDEnableAuthenticated() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-samples-wsse-policy-username-jbws-jaspi?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy, "kermit");
@@ -156,20 +126,26 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
    }
    
  
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP_EP_JASPI)
    public void testEndpointEnableAuthenticated() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-      URL wsdlURL = new URL(serviceEndpointURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-samples-wsse-policy-username-endpoint-jaspi?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy, "kermit");
       assertEquals("Secure Hello World!", proxy.sayHello());
    }
    
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP_EP_JASPI)
    public void testUnauthenticated() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-      URL wsdlURL = new URL(serviceEndpointURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-samples-wsse-policy-username-endpoint-jaspi?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy, "snoopy");
@@ -183,6 +159,10 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
          //OK
       }
    }
+
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP_EP_JASPI)
    public void testClientAuthModule() throws Exception
    {   
       //load client side jaspi config
@@ -194,7 +174,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
       xli.loadConfig();
       
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-      URL wsdlURL = new URL(serviceEndpointURL + "?wsdl");     
+      URL wsdlURL = new URL(baseURL + "/jaxws-samples-wsse-policy-username-endpoint-jaspi?wsdl");     
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy, "kermit");
@@ -202,19 +182,18 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
    }
    
    
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP_CLIENT)
    public void testInContainerClientAuthModule() throws Exception
    {
-      Helper helper = new Helper();
-      helper.setTargetEndpoint("http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-endpoint-jaspi");
       assertEquals("1", runTestInContainer("testJaspiClient"));
    }
    
    
    private String runTestInContainer(String test) throws Exception
    {
-      URL url = new URL("http://" + getServerHost()
-            + ":8080/jaxws-samples-wsse-policy-username-jaspi-client?path=/jaxws-samples-wsse-policy-username-endpoint-jaspi&method=" + test
-            + "&helper=" + Helper.class.getName());
+      URL url = new URL(baseURL + "?path=/jaxws-samples-wsse-policy-username-endpoint-jaspi&method=" + test + "&helper=" + Helper.class.getName());
       return IOUtils.readAndCloseStream(url.openStream());
    }
    

@@ -294,51 +294,51 @@
         </wsdl:port>
         <wsdl:port name="DoubleItKerberosSymmetricPort" 
                    binding="tns:DoubleItKerberosSymmetricBinding">
-            <soap:address location="http://localhost:9001/DoubleItKerberosSymmetric" />
+            <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,9001)@/DoubleItKerberosSymmetric" />
         </wsdl:port>
         <wsdl:port name="DoubleItKerberosSymmetricSupportingPort" 
                    binding="tns:DoubleItKerberosSymmetricSupportingBinding">
-            <soap:address location="http://localhost:9001/DoubleItKerberosSymmetricSupporting" />
+            <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,9001)@/DoubleItKerberosSymmetricSupporting" />
         </wsdl:port>
         <wsdl:port name="DoubleItKerberosSupportingPort" 
                    binding="tns:DoubleItKerberosSupportingBinding">
-            <soap:address location="http://localhost:9001/DoubleItKerberosSupporting" />
+            <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,9001)@/DoubleItKerberosSupporting" />
         </wsdl:port>
         <wsdl:port name="DoubleItKerberosAsymmetricPort"
                    binding="tns:DoubleItKerberosAsymmetricBinding">
-            <soap:address location="http://localhost:9001/DoubleItKerberosAsymmetric" />
+            <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,9001)@/DoubleItKerberosAsymmetric" />
         </wsdl:port>
         <wsdl:port name="DoubleItKerberosTransportEndorsingPort" 
                    binding="tns:DoubleItKerberosTransportEndorsingBinding">
-            <soap:address location="https://localhost:9009/DoubleItKerberosTransportEndorsing" />
+            <soap:address location="https://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,9009)@/DoubleItKerberosTransportEndorsing" />
         </wsdl:port>
         <wsdl:port name="DoubleItKerberosAsymmetricEndorsingPort"
                    binding="tns:DoubleItKerberosAsymmetricEndorsingBinding">
-            <soap:address location="http://localhost:9001/DoubleItKerberosAsymmetricEndorsing" />
+            <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,9001)@/DoubleItKerberosAsymmetricEndorsing" />
         </wsdl:port>
         <wsdl:port name="DoubleItKerberosSymmetricProtectionPort" 
                    binding="tns:DoubleItKerberosSymmetricProtectionBinding">
-            <soap:address location="http://localhost:9001/DoubleItKerberosSymmetricProtection" />
+            <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,9001)@/DoubleItKerberosSymmetricProtection" />
         </wsdl:port>
         <wsdl:port name="DoubleItKerberosSymmetricDerivedProtectionPort" 
                    binding="tns:DoubleItKerberosSymmetricDerivedProtectionBinding">
-            <soap:address location="http://localhost:9001/DoubleItKerberosSymmetricDerivedProtection" />
+            <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,9001)@/DoubleItKerberosSymmetricDerivedProtection" />
         </wsdl:port>
         <wsdl:port name="DoubleItKerberosAsymmetricSignedEndorsingPort"
                    binding="tns:DoubleItKerberosAsymmetricSignedEndorsingBinding">
-            <soap:address location="http://localhost:9001/DoubleItKerberosAsymmetricSignedEndorsing" />
+            <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,9001)@/DoubleItKerberosAsymmetricSignedEndorsing" />
         </wsdl:port>
         <wsdl:port name="DoubleItKerberosAsymmetricSignedEncryptedPort"
                    binding="tns:DoubleItKerberosAsymmetricSignedEncryptedBinding">
-            <soap:address location="http://localhost:9001/DoubleItKerberosAsymmetricSignedEncrypted" />
+            <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,9001)@/DoubleItKerberosAsymmetricSignedEncrypted" />
         </wsdl:port>
         <wsdl:port name="DoubleItKerberosSymmetricEndorsingEncryptedPort"
                    binding="tns:DoubleItKerberosSymmetricEndorsingEncryptedBinding">
-            <soap:address location="http://localhost:9001/DoubleItKerberosSymmetricEndorsingEncrypted" />
+            <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,9001)@/DoubleItKerberosSymmetricEndorsingEncrypted" />
         </wsdl:port>
         <wsdl:port name="DoubleItKerberosSymmetricSignedEndorsingEncryptedPort"
                    binding="tns:DoubleItKerberosSymmetricSignedEndorsingEncryptedBinding">
-            <soap:address location="http://localhost:9001/DoubleItKerberosSymmetricSignedEndorsingEncrypted" />
+            <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,9001)@/DoubleItKerberosSymmetricSignedEndorsingEncrypted" />
         </wsdl:port>
     </wsdl:service>
 

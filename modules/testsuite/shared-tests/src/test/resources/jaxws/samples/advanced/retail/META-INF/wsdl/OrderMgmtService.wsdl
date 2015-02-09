@@ -59,7 +59,7 @@
    </binding>
    <service name="OrderMgmtService">
       <port binding="tns:OrderMgmtBinding" name="OrderMgmtPort">
-         <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-retail/OrderMgmtService/OrderMgmtBean"/>
+         <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.shared-tests.jboss,8080)@/jaxws-samples-retail/OrderMgmtService/OrderMgmtBean"/>
       </port>
    </service>
 </definitions>

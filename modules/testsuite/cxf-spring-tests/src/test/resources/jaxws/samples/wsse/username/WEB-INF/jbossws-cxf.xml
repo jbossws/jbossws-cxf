@@ -22,7 +22,7 @@
   
   <jaxws:endpoint
     id='ServiceImpl'
-    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse-username'
+    address='http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,8080)@/jaxws-samples-wsse-username'
     implementor='org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl'>
     <jaxws:inInterceptors>
         <ref bean="UsernameToken_Request"/>

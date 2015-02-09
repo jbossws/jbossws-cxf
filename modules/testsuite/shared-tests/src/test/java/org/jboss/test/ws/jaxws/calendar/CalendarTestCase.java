@@ -24,8 +24,6 @@ package org.jboss.test.ws.jaxws.calendar;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -36,14 +34,17 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
 import javax.xml.ws.Service.Mode;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.Filter;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test calendar type binding
@@ -51,35 +52,32 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 22-Apr-2014
  */
+@RunWith(Arquillian.class)
 public class CalendarTestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-calendar/EndpointService";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-calendar.war") { {
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-calendar.war");
          archive
-               .addManifest()
-               .addPackages(false, new Filter<ArchivePath>() {
-                  @Override
-                  public boolean include(ArchivePath path)
-                  {
-                     return !path.get().contains("TestCase");
-                  }
-               }, "org.jboss.test.ws.jaxws.calendar");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+            .addManifest()
+            .addPackages(false, new Filter<ArchivePath>() {
+               @Override
+               public boolean include(ArchivePath path)
+               {
+                  return !path.get().contains("TestCase");
+               }
+            }, "org.jboss.test.ws.jaxws.calendar");
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(CalendarTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testCalendar() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/EndpointService?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/calendar", "EndpointService");
       Service service = Service.create(wsdlURL, qname);
       CalendarEndpoint port = service.getPort(CalendarEndpoint.class);
@@ -90,9 +88,11 @@ public class CalendarTestCase extends JBossWSTest
       assertEquals(calendar.getTimeInMillis(), response.getTimeInMillis());
    }
 
+   @Test
+   @RunAsClient
    public void testXMLGregorianCalendar() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/EndpointService?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/calendar", "EndpointService");
       Service service = Service.create(wsdlURL, qname);
       CalendarEndpoint port = service.getPort(CalendarEndpoint.class);
@@ -103,9 +103,11 @@ public class CalendarTestCase extends JBossWSTest
       Object response = port.echoXMLGregorianCalendar(calendar);
       assertEquals("2002-04-05T00:00:00.000Z", response.toString());
    }
-   
+
+   @Test
+   @RunAsClient
    public void testEmptyCalendar() throws Exception {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/EndpointService?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/calendar", "EndpointService");
       Service service = Service.create(wsdlURL, qname);
 

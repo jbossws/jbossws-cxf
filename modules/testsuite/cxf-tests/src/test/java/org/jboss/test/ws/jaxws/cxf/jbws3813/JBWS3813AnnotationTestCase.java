@@ -16,48 +16,51 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3813;
 
-import junit.framework.Test;
-import org.jboss.shrinkwrap.api.asset.FileAsset;
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import java.io.File;
+import java.net.URL;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import java.io.File;
-import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.FileAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/**
+ * [JBWS-3813] Add exception name to faultstring/detail/stackTrace
+ * 
+ * @author rsearls@redhat.com
+ */
+@RunWith(Arquillian.class)
 public class JBWS3813AnnotationTestCase extends JBossWSTest
 {
-   public static JBossWSTestHelper.BaseDeployment<?>[] createDeployments() {
-      List<JBossWSTestHelper.BaseDeployment<?>> list = new LinkedList<JBossWSTestHelper.BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3813-two.war") { {
-         archive
-            .addManifest()
-            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3813.EndpointOne.class)
-            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3813.EndpointTwoImpl.class)
-            .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() +
-               "/jaxws/cxf/jbws3813/WEB-INF/jaxws-endpoint-config.xml")),
-               "jaxws-endpoint-config.xml")
-            .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() +
-               "/jaxws/cxf/jbws3813/WEB-INF/webTwo.xml")),
-               "WEB-INF/web.xml");
-      }
-      });
-      return list.toArray(new JBossWSTestHelper.BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jbws3813-two.war");
+      archive.addManifest()
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3813.EndpointOne.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3813.EndpointTwoImpl.class)
+         .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3813/WEB-INF/jaxws-endpoint-config.xml")), "jaxws-endpoint-config.xml")
+         .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3813/WEB-INF/webTwo.xml")), "WEB-INF/web.xml");
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS3813AnnotationTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testExceptionFlags() throws Exception {
-      String endPtAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3813-two/ServiceTwo";
       QName serviceName = new QName("http://org.jboss.ws.jaxws.cxf/jbws3813", "ServiceTwo");
-      URL wsdlURL = new URL(endPtAddress + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/ServiceTwo?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       EndpointOne proxy = service.getPort(EndpointOne.class);
       try

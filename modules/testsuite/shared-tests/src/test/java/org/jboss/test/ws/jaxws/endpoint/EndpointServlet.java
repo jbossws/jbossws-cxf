@@ -56,6 +56,7 @@ public class EndpointServlet extends HttpServlet
 {
    private Endpoint endpoint1;
    private Endpoint endpoint2;
+   private String hostName;
    private static final String TEST_ELEMENT = "<fabrikam:CustomerKey xmlns:fabrikam='http://example.com/fabrikam'>123456789</fabrikam:CustomerKey>";
    
    @Override
@@ -64,7 +65,7 @@ public class EndpointServlet extends HttpServlet
       super.init(config);
       
       endpoint1 = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, new EndpointBean());
-      String hostName = System.getProperty("jboss.bind.address", "localhost");
+      hostName = System.getProperty("jboss.bind.address", "localhost");
       hostName = hostName.indexOf(":") != -1 ? "[" + hostName + "]" : hostName;
       endpoint1.publish("http://" + hostName + ":8081/jaxws-endpoint");
       endpoint2 = Endpoint.publish("http://" + hostName + ":8081/jaxws-endpoint2/endpoint/long/path", new EndpointBean());
@@ -82,8 +83,6 @@ public class EndpointServlet extends HttpServlet
    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
    {
       // Create the port
-      String hostName = System.getProperty("jboss.bind.address", "localhost");
-      hostName = hostName.indexOf(":") != -1 ? "[" + hostName + "]" : hostName;
 //    URL wsdlURL = getServletContext().getResource("/WEB-INF/wsdl/TestService.wsdl");
       URL wsdlURL = new URL("http://" + hostName + ":8081/jaxws-endpoint?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/endpoint", "EndpointService");
@@ -114,10 +113,13 @@ public class EndpointServlet extends HttpServlet
       assert("http://www.w3.org/2005/08/addressing".equals(endpointReference.getAttribute("xmlns")));
       NodeList addresses = endpointReference.getElementsByTagName("Address");
       assert(addresses.getLength() == 1);
-      assert("http://127.0.0.1:8080/jaxws-endpoint".equals(addresses.item(0).getFirstChild().getNodeValue()));
+      assert(("http://" + hostName + ":8081/jaxws-endpoint").equals(addresses.item(0).getFirstChild().getNodeValue()));
       if (refPar != null)
       {
-         assert(epr.toString().contains(refPar));
+    	 Element refEle = DOMUtils.parse(refPar, builder);
+    	 NodeList nodeList = endpointReference.getElementsByTagNameNS(refEle.getNamespaceURI(), refEle.getLocalName());
+    	 assert(nodeList.getLength() == 1);
+    	 assert(refEle.getTextContent().equals(nodeList.item(0).getTextContent()));   	 
       }
    }
    

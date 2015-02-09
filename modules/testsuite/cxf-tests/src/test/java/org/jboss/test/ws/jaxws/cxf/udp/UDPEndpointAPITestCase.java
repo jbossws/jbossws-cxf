@@ -27,23 +27,26 @@ import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
 import java.util.Enumeration;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.jboss.wsf.test.WrapThreadContextClassLoader;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test case for publishing a UDP (SOAP-over-UDP 1.1) endpoint through API
@@ -51,40 +54,45 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 6-May-2013
  */
+@RunWith(Arquillian.class)
 public final class UDPEndpointAPITestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-cxf-udp-api-client.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-udp-api.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.jboss.ws.common,org.jboss.ws.cxf.jbossws-cxf-client services\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.udp.HelloWorld.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.udp.HelloWorldImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.udp.TestServlet.class)
+            .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/udp/META-INF/wsdl/HelloWorldService.wsdl"), "META-INF/wsdl/HelloWorldService.wsdl");
+      return archive;
+   }
+
+   @Override
+   protected String getClientJarPaths() {
+      return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-cxf-udp-api-client.jar") { {
          archive
                .addManifest()
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/udp/META-INF/wsdl/HelloWorldService.wsdl"), "wsdl/HelloWorldService.wsdl");
          }
       });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-udp-api.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.common,org.jboss.ws.cxf.jbossws-cxf-client services\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.udp.HelloWorld.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.udp.HelloWorldImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.udp.TestServlet.class)
-               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/udp/META-INF/wsdl/HelloWorldService.wsdl"), "META-INF/wsdl/HelloWorldService.wsdl");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(UDPEndpointAPITestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-   
+   @Test
+   @RunAsClient
    public void testServerSide() throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-udp-api");
+      URL url = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-cxf-udp-api");
       assertEquals("true", IOUtils.readAndCloseStream(url.openStream()));
    }
    
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void testClientSide() throws Exception
    {
       if (!isProperNetworkSetup()) {

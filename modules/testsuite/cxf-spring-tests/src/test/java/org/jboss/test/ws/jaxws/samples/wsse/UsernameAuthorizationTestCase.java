@@ -24,24 +24,25 @@ package org.jboss.test.ws.jaxws.samples.wsse;
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-
-import junit.framework.Test;
 
 import org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * WS-Security username authorization test case
@@ -49,44 +50,40 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author Sergey Beryozkin
  *
  */
+@RunWith(Arquillian.class)
 public final class UsernameAuthorizationTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-username-authorize/default-config";
+   private final String serviceURL = "http://" + getServerHost() + ":" + getServerPort()  + "/jaxws-samples-wsse-username-authorize/default-config";
    
    private final QName servicePort = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityServicePort");
-   
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsse-username-authorize.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.ServiceIface.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.jaxws.GreetMe.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.jaxws.GreetMeResponse.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.jaxws.SayHello.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.jaxws.SayHelloResponse.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-authorize/WEB-INF/jboss-web.xml"), "jboss-web.xml")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-authorize/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-authorize/WEB-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-authorize/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-authorize/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-username-authorize.war");
+      archive
+         .addManifest()
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.ServiceIface.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.jaxws.GreetMe.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.jaxws.GreetMeResponse.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.jaxws.SayHello.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.jaxws.SayHelloResponse.class)
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-authorize/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-authorize/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-authorize/WEB-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-authorize/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd")
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username-authorize/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(UsernameAuthorizationTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), true);
-   }
-
+   @Test
+   @RunAsClient
    public void testAuthorized() throws Exception
    {
 	   doTestAuthorized(serviceURL, servicePort, "kermit");
    }
    
-private void doTestAuthorized(String endpointAddress, QName portName, String userName) throws Exception
+   private void doTestAuthorized(String endpointAddress, QName portName, String userName) throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
       URL wsdlURL = new URL(endpointAddress + "?wsdl");
@@ -96,6 +93,8 @@ private void doTestAuthorized(String endpointAddress, QName portName, String use
       assertEquals("Secure Hello World!", proxy.sayHello());
    }
 
+   @Test
+   @RunAsClient
    public void testUnauthenticated() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
@@ -114,6 +113,8 @@ private void doTestAuthorized(String endpointAddress, QName portName, String use
       }
    }
 
+   @Test
+   @RunAsClient
    public void testUnauthorized() throws Exception
    {
 	   doTestUnauthorized(serviceURL, servicePort, "kermit");

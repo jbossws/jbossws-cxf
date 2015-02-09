@@ -22,21 +22,20 @@
 package org.jboss.test.ws.jaxws.samples.securityDomain;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test secure EJB3 endpoints using @SecurityDomain and @PermitAll, @RolesAllowed annotations.
@@ -53,38 +52,27 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * 
  */
+@RunWith(Arquillian.class)
 public class PermitAllTestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS_1 = "http://" + getServerHost() + ":8080/jaxws-securityDomain-permitall/one";
-   public final String TARGET_ENDPOINT_ADDRESS_2 = "http://" + getServerHost() + ":8080/jaxws-securityDomain-permitall/two";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-securityDomain-permitall.jar") { {
+   @Deployment(name="jaxws-samples-securityDomain-permitall", testable = false)
+   public static JavaArchive createDeployment() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-samples-securityDomain-permitall.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.PermitAllSecureEndpoint1Impl.class)
                .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.PermitAllSecureEndpoint2Impl.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      JBossWSTestSetup testSetup = new JBossWSTestSetup(PermitAllTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-      Map<String, String> authenticationOptions = new HashMap<String, String>();
-      authenticationOptions.put("usersProperties",
-            getResourceFile("jaxws/samples/securityDomain/jbossws-users.properties").getAbsolutePath());
-      authenticationOptions.put("rolesProperties",
-            getResourceFile("jaxws/samples/securityDomain/jbossws-roles.properties").getAbsolutePath());
-      testSetup.addSecurityDomainRequirement("JBossWSSecurityDomainPermitAllTest", authenticationOptions);
-      return testSetup;
-   }
-
+   @Test
+   @RunAsClient
    public void testPortOne() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS_1 + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-securityDomain-permitall/one" + "?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/securityDomain", "PermitAllSecureEndpoint1Service");
       QName portName = new QName("http://org.jboss.ws/securityDomain", "PermitAllSecureEndpoint1Port");
       PermitAllSecureEndpoint port = Service.create(wsdlURL, serviceName).getPort(portName, PermitAllSecureEndpoint.class);
@@ -106,10 +94,12 @@ public class PermitAllTestCase extends JBossWSTest
       ((BindingProvider)port).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "bar");
       assertEquals("Hello", port.echo("Hello"));
    }
-   
+
+   @Test
+   @RunAsClient
    public void testPortTwo() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS_2 + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-securityDomain-permitall/two" + "?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/securityDomain", "PermitAllSecureEndpoint2Service");
       QName portName = new QName("http://org.jboss.ws/securityDomain", "PermitAllSecureEndpoint2Port");
       PermitAllSecureEndpoint port = Service.create(wsdlURL, serviceName).getPort(portName, PermitAllSecureEndpoint.class);

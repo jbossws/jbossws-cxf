@@ -26,18 +26,20 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Verifies a plain Apache CXF ws endpoint war can be deployed on
@@ -55,38 +57,38 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 15-Apr-2013
  */
+@RunWith(Arquillian.class)
 public class DisabledWSSubsystemTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-disabledWSSubsystem.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.CXFEndpointServlet.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.EchoImpl.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/moduleImports/WEB-INF/jboss-deployment-structure.xml"), "jboss-deployment-structure.xml")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/moduleImports/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-disabledWSSubsystem.war");
+      archive.addManifest()
+         .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.CXFEndpointServlet.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.EchoImpl.class)
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/moduleImports/WEB-INF/jboss-deployment-structure.xml"), "jboss-deployment-structure.xml")
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/moduleImports/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(DisabledWSSubsystemTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-   
+   @Test
+   @RunAsClient
    public void testEndpointInvocation() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-disabledWSSubsystem/services/Echo1?wsdl");
+      URL wsdlURL = new URL(baseURL + "/services/Echo1?wsdl");
       Service service = Service.create(wsdlURL, new QName("http://org.jboss.ws.jaxws.cxf/noIntegration", "EchoService"));
       Echo echo = service.getPort(new QName("http://org.jboss.ws.jaxws.cxf/noIntegration", "EchoEndpointPort"), Echo.class);
       assertEquals("Foo", echo.echo("Foo"));
    }
    
+   @Test
+   @RunAsClient
    public void testServicesPage() throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-disabledWSSubsystem/services");
+      URL url = new URL(baseURL + "/services");
       InputStream is = url.openStream();
       assertNotNull(is);
       BufferedReader reader = new BufferedReader(new InputStreamReader(is));

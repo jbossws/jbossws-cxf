@@ -25,16 +25,18 @@ import static org.jboss.wsf.test.JBossWSTestHelper.getTestResourcesDir;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test JAXWS Spi Provider customization on AS 7
@@ -42,44 +44,48 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 02-Apr-2012
  */
+@RunWith(Arquillian.class)
 public class JaxWsSpiProviderTestCase extends JBossWSTest
 {
-   private String defaultProvider; 
-   
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3477-custom-provider.war") { {
+   private String defaultProvider;
+
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(name="jaxws-jbws3477-custom-provider", order=1, testable = false)
+   public static WebArchive createDeployment1() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws3477-custom-provider.war");
+      archive
+         .addManifest()
+         .addAsManifestResource(new File(getTestResourcesDir() + "/jaxws/jbws3477/META-INF/services/javax.xml.ws.spi.Provider"), "services/javax.xml.ws.spi.Provider")
+         .addClass(org.jboss.test.ws.jaxws.jbws3477.DummyProvider.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws3477.Helper.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws3477.TestServlet.class);
+      return archive;
+   }
+
+   @Deployment(name="jaxws-jbws3477", order=2, testable = false)
+   public static WebArchive createDeployment2() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws3477.war");
          archive
                .addManifest()
-               .addAsManifestResource(new File(getTestResourcesDir() + "/jaxws/jbws3477/META-INF/services/javax.xml.ws.spi.Provider"), "services/javax.xml.ws.spi.Provider")
-               .addClass(org.jboss.test.ws.jaxws.jbws3477.DummyProvider.class)
                .addClass(org.jboss.test.ws.jaxws.jbws3477.Helper.class)
                .addClass(org.jboss.test.ws.jaxws.jbws3477.TestServlet.class);
-         }
-      });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3477.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.jbws3477.Helper.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3477.TestServlet.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
-   
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JaxWsSpiProviderTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-   
+
    protected void setUp() {
       if (isIntegrationCXF()) {
          defaultProvider = "org.jboss.wsf.stack.cxf.client.ProviderImpl";
       }
    }
-   
+
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-jbws3477")
    public void testClientSide()
    {
+      setUp();
       Helper.verifyJaxWsSpiProvider(defaultProvider);
    }
 
@@ -88,9 +94,13 @@ public class JaxWsSpiProviderTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-jbws3477")
    public void testServerSideDefaultProvider() throws Exception
    {
-      runServerTest(new URL("http://" + getServerHost() + ":8080/jaxws-jbws3477?provider=" + defaultProvider));
+      setUp();
+      runServerTest(new URL(baseURL + "?provider=" + defaultProvider));
    }
    
    /**
@@ -98,9 +108,13 @@ public class JaxWsSpiProviderTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-jbws3477-custom-provider")
    public void testServerSideProviderCustomization() throws Exception
    {
-      runServerTest(new URL("http://" + getServerHost() + ":8080/jaxws-jbws3477-custom-provider?provider=org.jboss.test.ws.jaxws.jbws3477.DummyProvider"));
+      setUp();
+      runServerTest(new URL(baseURL + "?provider=org.jboss.test.ws.jaxws.jbws3477.DummyProvider"));
    }
    
    private static void runServerTest(URL url) throws Exception {

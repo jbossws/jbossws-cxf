@@ -23,18 +23,21 @@ package org.jboss.test.ws.jaxws.cxf.endorse;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.stack.cxf.client.ProviderImpl;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test required endorsing when using the CXF stack
@@ -42,49 +45,56 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 02-Jun-2010
  */
+@RunWith(Arquillian.class)
 public class EndorseTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-endorse.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.endorse.Helper.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.endorse.TestServlet.class)
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endorse/WEB-INF/web.xml"));
-         }
-      });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-endorse-no-export.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.endorse.Helper.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.endorse.TestServlet.class)
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endorse/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   private static final String ENDORSE_DEP= "jaxws-cxf-endorse";
+   private static final String ENDORSE_NO_EXPORT_DEP= "jaxws-cxf-endorse-no-export";
+   
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(name = ENDORSE_DEP, testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, ENDORSE_DEP + ".war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.endorse.Helper.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.endorse.TestServlet.class)
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endorse/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(EndorseTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+   @Deployment(name = ENDORSE_NO_EXPORT_DEP, testable = false)
+   public static WebArchive createDeployment2() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, ENDORSE_NO_EXPORT_DEP + ".war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.endorse.Helper.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.endorse.TestServlet.class)
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endorse/WEB-INF/web.xml"));
+      return archive;
    }
-   
+
    public void testClientSide()
    {
       Helper.verifyCXF();
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(ENDORSE_DEP)
    public void testServerSide() throws Exception
    {
-      runServerTest(new URL("http://" + getServerHost() + ":8080/jaxws-cxf-endorse?provider=" + ProviderImpl.class.getName()));
+      runServerTest(new URL(baseURL + "?provider=" + ProviderImpl.class.getName()));
    }
    
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(ENDORSE_NO_EXPORT_DEP)
    public void testServerSideNoExport() throws Exception
    {
-      runServerTest(new URL("http://" + getServerHost() + ":8080/jaxws-cxf-endorse-no-export?provider=" + ProviderImpl.class.getName()));
+      runServerTest(new URL(baseURL + "?provider=" + ProviderImpl.class.getName()));
    }
    
    private static void runServerTest(URL url) throws Exception {

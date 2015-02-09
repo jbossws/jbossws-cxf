@@ -25,8 +25,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -40,13 +38,17 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.api.util.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Element;
 
 /**
@@ -55,10 +57,9 @@ import org.w3c.dom.Element;
  * @author alessio.soldano@jboss.com
  * @since 11-Oct-2007
  */
+@RunWith(Arquillian.class)
 public class JBWS1815TestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws1815/ProviderImpl";
-
    private final String msgString =
       "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:my=\"http://www.my-company.it/ws/my-test\">" +
       "  <soapenv:Header/>" +
@@ -69,35 +70,35 @@ public class JBWS1815TestCase extends JBossWSTest
       "  </soapenv:Body>" +
       "</soapenv:Envelope>";
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1815.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1815.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws1815.ProviderImpl.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1815/META-INF/permissions.xml"), "permissions.xml")
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1815/META-INF/wsdl/my-service.wsdl"), "wsdl/my-service.wsdl");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1815TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testWSDLAccess() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws1815/ProviderImpl?wsdl");
       Element wsdl = DOMUtils.parse(wsdlURL.openStream(), getDocumentBuilder());
       assertNotNull(wsdl);
    }
 
+   @Test
+   @RunAsClient
    public void testProviderMessage() throws Exception
    {
       SOAPMessage reqMsg = getRequestMessage();
-      URL epURL = new URL(TARGET_ENDPOINT_ADDRESS);
+      URL epURL = new URL(baseURL + "/jaxws-jbws1815/ProviderImpl");
       SOAPConnection con = SOAPConnectionFactory.newInstance().createConnection();
       SOAPMessage resMsg = con.call(reqMsg, epURL);
       SOAPEnvelope resEnv = resMsg.getSOAPPart().getEnvelope();

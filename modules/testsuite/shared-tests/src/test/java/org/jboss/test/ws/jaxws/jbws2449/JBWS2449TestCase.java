@@ -23,19 +23,21 @@ package org.jboss.test.ws.jaxws.jbws2449;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.RespectBindingFeature;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-2449] Test RespectBindingFeature
@@ -43,40 +45,39 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 15-Jan-2009
  */
+@RunWith(Arquillian.class)
 public class JBWS2449TestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws2449";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2449.jar") { {
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws2449.jar");
          archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.jbws2449.Endpoint.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws2449.EndpointImpl.class)
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2449/META-INF/wsdl/test.wsdl"), "wsdl/test.wsdl");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+            .addManifest()
+            .addClass(org.jboss.test.ws.jaxws.jbws2449.Endpoint.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws2449.EndpointImpl.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2449/META-INF/wsdl/test.wsdl"), "wsdl/test.wsdl");
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS2449TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void test() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws2449?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jbws2449", "EndpointService");
       Endpoint port = Service.create(wsdlURL, serviceName).getPort(Endpoint.class);
       String retObj = port.echo("Hello");
       assertEquals("Hello", retObj);
    }
 
+   @Test
+   @RunAsClient
    public void testWithRespectBinding() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws2449?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jbws2449", "EndpointService");
       try
       {
@@ -90,12 +91,15 @@ public class JBWS2449TestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testWithRespectBinding2() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+     URL wsdlURL = new URL(baseURL + "/jaxws-jbws2449?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jbws2449", "EndpointService");
       Endpoint port = Service.create(wsdlURL, serviceName).getPort(Endpoint.class, new RespectBindingFeature(false));
       String retObj = port.echo("Hello");
       assertEquals("Hello", retObj);
    }
+
 }

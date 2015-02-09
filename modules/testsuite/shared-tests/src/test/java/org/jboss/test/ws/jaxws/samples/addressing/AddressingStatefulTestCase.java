@@ -23,20 +23,21 @@ package org.jboss.test.ws.jaxws.samples.addressing;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.AddressingFeature;
 
-import junit.framework.Test;
-
-import org.jboss.wsf.test.CleanupOperation;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test stateful endpoint using ws-addressing
@@ -45,14 +46,18 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 24-Nov-2005
  */
+@RunWith(Arquillian.class)
 public class AddressingStatefulTestCase extends JBossWSTest
 {
    private static AddressingPort port1;
    private static AddressingPort port2;
-   
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsaddressing.war") { {
+
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsaddressing.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.addressing.ServerHandler.class)
@@ -60,41 +65,27 @@ public class AddressingStatefulTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.samples.addressing.StatefulEndpointImpl.class)
                .addAsResource("org/jboss/test/ws/jaxws/samples/addressing/jaxws-handlers.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/addressing/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(AddressingStatefulTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), new CleanupOperation() {
-         @Override
-         public void cleanUp() {
-            port1 = null;
-            port2 = null;
-         }
-      });
-   }
-
-   protected void setUp() throws Exception
-   {
+   protected void setUp() throws Exception {
       super.setUp();
 
-      if (port1 == null || port2 == null)
-      {
-         URL wsdlURL = new URL(" http://" + getServerHost() + ":8080/jaxws-samples-wsaddressing/TestService?wsdl");
-         QName serviceName = new QName("http://org.jboss.ws/samples/wsaddressing", "TestService");
+      URL wsdlURL = new URL(baseURL + "/TestService?wsdl");
+      QName serviceName = new QName("http://org.jboss.ws/samples/wsaddressing", "TestService");
 
-         Service service1 = Service.create(wsdlURL, serviceName);
-         port1 = new AddressingPort(service1.getPort(StatefulEndpoint.class, new AddressingFeature(true, true)));
+      Service service1 = Service.create(wsdlURL, serviceName);
+      port1 = new AddressingPort(service1.getPort(StatefulEndpoint.class, new AddressingFeature(true, true)));
 
-         Service service2 = Service.create(wsdlURL, serviceName);
-         port2 = new AddressingPort(service2.getPort(StatefulEndpoint.class, new AddressingFeature(true, true)));
-      }
+      Service service2 = Service.create(wsdlURL, serviceName);
+      port2 = new AddressingPort(service2.getPort(StatefulEndpoint.class, new AddressingFeature(true, true)));
    }
 
+   @Test
+   @RunAsClient
    public void testItemLifecycle() throws Exception
    {
+      setUp();
       firstAddItem();
       secondGetItems();
       thirdCheckout();

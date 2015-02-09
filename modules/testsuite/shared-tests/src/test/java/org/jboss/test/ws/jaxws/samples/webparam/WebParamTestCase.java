@@ -23,20 +23,22 @@ package org.jboss.test.ws.jaxws.samples.webparam;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Holder;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
-import org.jboss.wsf.test.CleanupOperation;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test the JSR-181 annotation: javax.jws.WebParam
@@ -44,37 +46,25 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.org
  * @since 07-Oct-2005
  */
+@RunWith(Arquillian.class)
 public class WebParamTestCase extends JBossWSTest
 {
-   private String targetNS = "http://www.openuri.org/jsr181/WebParamExample";
-   
+   private String targetNS = "http://www.openuri.org/jsr181/WebParamExample";  
    private static PingService port;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-webparam.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.samples.webparam.PingDocument.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.webparam.PingServiceImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.webparam.SecurityHeader.class)
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webparam/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @Deployment(testable = false)
+   public static WebArchive createDeployment1() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-webparam.war");
+      archive.addManifest()
+             .addClass(org.jboss.test.ws.jaxws.samples.webparam.PingDocument.class)
+             .addClass(org.jboss.test.ws.jaxws.samples.webparam.PingServiceImpl.class)
+             .addClass(org.jboss.test.ws.jaxws.samples.webparam.SecurityHeader.class)
+             .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webparam/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(WebParamTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), new CleanupOperation() {
-         @Override
-         public void cleanUp() {
-            port = null;
-         }
-      });
-   }
-
-   public void setUp() throws Exception
+   @Before
+   public void createPort() throws Exception
    {
       if (port == null)
       {
@@ -85,7 +75,8 @@ public class WebParamTestCase extends JBossWSTest
          port = service.getPort(PingService.class);
       }
    }
-
+   @Test
+   @RunAsClient
    public void testEcho() throws Exception
    {
       PingDocument doc = new PingDocument();
@@ -93,14 +84,16 @@ public class WebParamTestCase extends JBossWSTest
       PingDocument retObj = port.echo(doc);
       assertEquals(doc.getContent(), retObj.getContent());
    }
-
+   @Test
+   @RunAsClient
    public void testPingOneWay() throws Exception
    {
       PingDocument doc = new PingDocument();
       doc.setContent("Hello Kermit");
       port.pingOneWay(doc);
    }
-
+   @Test
+   @RunAsClient
    public void testPingTwoWay() throws Exception
    {
       PingDocument doc = new PingDocument();
@@ -110,7 +103,8 @@ public class WebParamTestCase extends JBossWSTest
       port.pingTwoWay(holder);
       assertEquals("Hello Kermit Response", holder.value.getContent());
    }
-
+   @Test
+   @RunAsClient
    public void testSecurePing() throws Exception
    {
       PingDocument doc = new PingDocument();
@@ -119,5 +113,10 @@ public class WebParamTestCase extends JBossWSTest
       secHeader.setValue("some secret");
 
       port.securePing(doc, secHeader);
+   }
+   
+   @After
+   public void resetPort() {
+	   port = null;
    }
 }

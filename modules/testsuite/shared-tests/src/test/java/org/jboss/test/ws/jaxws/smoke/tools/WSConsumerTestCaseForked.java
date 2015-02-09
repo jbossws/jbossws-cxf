@@ -21,12 +21,18 @@
  */
 package org.jboss.test.ws.jaxws.smoke.tools;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 /**
  * Test the WSContractConsumer API across different implementations.
  * 
  * @author Heiko.Braun@jboss.com
  * @author alessio.soldano@jboss.com
  */
+@RunWith(Arquillian.class)
 public class WSConsumerTestCaseForked extends PluginBase
 {
 
@@ -54,28 +60,39 @@ public class WSConsumerTestCaseForked extends PluginBase
     * Specifies the JAX-WS and JAXB binding files to use on import operations.
     * See http://java.sun.com/webservices/docs/2.0/jaxws/customizations.html
     */
+   @Test
+   @RunAsClient
    public void testBindingFiles() throws Exception
    {
+      setUp();
       dispatch("testBindingFiles");
-
+      tearDown();
    }
 
    /**
     * Sets the OASIS XML Catalog file to use for entity resolution.
     *
     */
+   @Test
+   @RunAsClient
    public void testCatalog() throws Exception
    {
+      setUp();
       dispatch("testCatalog");
+      tearDown();
    }
 
    /**
     * Sets the main output directory. If the directory does not exist, it will be created.                        org.jboss.test.ws.jaxws.smoke.tools
     *
     */
+   @Test
+   @RunAsClient
    public void testOutputDirectory() throws Exception
    {
+      setUp();
       dispatch("testOutputDirectory");
+      tearDown();
    }
 
    /**
@@ -84,9 +101,13 @@ public class WSConsumerTestCaseForked extends PluginBase
     * the output directory will be used instead.
     *
     */
+   @Test
+   @RunAsClient
    public void testSourceDirectory() throws Exception
    {
+      setUp();
       dispatch("testSourceDirectory");
+      tearDown();
    }
    
    
@@ -94,26 +115,38 @@ public class WSConsumerTestCaseForked extends PluginBase
     * If there are "-n" and "-s" flag, with "-k", the generated
     * artifacts should be placed in source directory 
     */
+   @Test
+   @RunAsClient
    public void testNoCompile() throws Exception
    {
+      setUp();
       dispatch("testNoCompile");
+      tearDown();
    }
 
    /**
     * If there are "-n" and "-s" flag, without "-k", nothing should be generated 
     */
+   @Test
+   @RunAsClient
    public void testNoCompileNoKeep() throws Exception
    {
+      setUp();
       dispatch("testNoCompileNoKeep");
+      tearDown();
    }
 
    /**
     * Enables/Disables Java source generation.
     *
     */
+   @Test
+   @RunAsClient
    public void testGenerateSource() throws Exception
    {
+      setUp();
       dispatch("testGenerateSource");
+      tearDown();
    }
 
    /**
@@ -121,27 +154,39 @@ public class WSConsumerTestCaseForked extends PluginBase
     * is based off of the XML namespace.
     *    
     */
+   @Test
+   @RunAsClient
    public void testTargetPackage() throws Exception
    {
+      setUp();
       dispatch("testTargetPackage");
+      tearDown();
    }
 
    /**
     * Sets the @@WebService.wsdlLocation and @@WebServiceClient.wsdlLocation attributes to a custom value.
     *
     */
+   @Test
+   @RunAsClient
    public void testWsdlLocation() throws Exception
    {
+      setUp();
       dispatch("testWsdlLocation");
+      tearDown();
    }
 
    /**
     * Sets the PrintStream to use for status feedback.
     * The simplest example would be to use System.out.      
     */
+   @Test
+   @RunAsClient
    public void testMessageStream() throws Exception
    {
+      setUp();
       dispatch("testMessageStream");
+      tearDown();
    }
 
    /**
@@ -162,31 +207,37 @@ public class WSConsumerTestCaseForked extends PluginBase
    /**
     * Set the target JAX-WS specification target. Defaults to <code>2.0</code>
     */
+   @Test
+   @RunAsClient
    public void testTarget() throws Exception
    {
+      setUp();
       dispatch("testTarget");
-
+      tearDown();
    }
 
    /**
     * Tests the SOAP 1.2 binding extension
     *
     */
+   @Test
+   @RunAsClient
    public void testSOAP12Extension() throws Exception
    {
+      setUp();
       dispatch("testSOAP12Extension");
+      tearDown();
    }
    
    /**
     * Test the implicit header generation support
     */
+   @Test
+   @RunAsClient
    public void testAdditionalHeaders() throws Exception
    {
+      setUp();
       dispatch("testAdditionalHeaders");
-   }
-   
-   protected boolean filtered(String jarName)
-   {
-      return false;  
+      tearDown();
    }
 }

@@ -27,11 +27,17 @@ import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.exporter.ZipExporter;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * context-root in jboss.xml is ignored
@@ -41,35 +47,34 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.com
  * @since 09-Oct-2007
  */
+@RunWith(Arquillian.class)
 public class JBWS1813TestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/test-context";
+   @ArquillianResource
+   private URL baseURL;
 
-   static {
-      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1813.jar") { {
-         archive
+   @Deployment(testable = false)
+   public static JavaArchive createDeployment3() {
+      JavaArchive archive1 = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1813.jar");
+         archive1
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws1813.EndpointImpl.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1813/META-INF/jboss-webservices.xml"), "jboss-webservices.xml");
-         }
-      });
-      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1813.ear") { {
+      JBossWSTestHelper.writeToFile(archive1);
+
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1813.ear");
          archive
                .addManifest()
                .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws1813.jar"))
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1813/META-INF/application.xml"), "application.xml");
-         }
-      });
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1813TestCase.class, "jaxws-jbws1813.ear");
-   }
-
+  @Test
+  @RunAsClient
    public void testPositive() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/test-context?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jbws1813", "EndpointService");
       Endpoint port = Service.create(wsdlURL, serviceName).getPort(Endpoint.class);
 

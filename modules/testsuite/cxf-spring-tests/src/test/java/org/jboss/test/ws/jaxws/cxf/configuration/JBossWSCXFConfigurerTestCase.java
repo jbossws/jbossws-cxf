@@ -23,52 +23,50 @@ package org.jboss.test.ws.jaxws.cxf.configuration;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * To test configure bean by name auto wire
  * 
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
+@RunWith(Arquillian.class)
 public class JBossWSCXFConfigurerTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-configuration.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.apache.cxf\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.configuration.ChangeRequestnterceptor.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.configuration.Endpoint.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.configuration.EndpointImpl.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/configuration/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/configuration/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-configuration.war");
+      archive
+         .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+            + "Dependencies: org.apache.cxf\n"))
+         .addClass(org.jboss.test.ws.jaxws.cxf.configuration.ChangeRequestnterceptor.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.configuration.Endpoint.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.configuration.EndpointImpl.class)
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/configuration/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/configuration/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(JBossWSCXFConfigurerTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-   
+
+   @Test
+   @RunAsClient
    //JBWS-3033
    public void testConfiguration() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-configuration?wsdl");
+      URL wsdlURL = new URL("http://" + getServerHost()  + ":" + getServerPort()  + "/jaxws-cxf-configuration?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jbws3033", "EndpointService");
 
       Service service = Service.create(wsdlURL, serviceName);

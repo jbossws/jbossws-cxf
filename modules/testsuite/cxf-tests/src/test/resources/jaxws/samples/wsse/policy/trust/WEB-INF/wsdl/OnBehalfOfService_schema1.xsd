@@ -8,7 +8,10 @@
   <xs:element name="sayHelloResponse" type="tns:sayHelloResponse"/>
 
   <xs:complexType name="sayHello">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element name="host" type="xs:string" minOccurs="0"/>
+      <xs:element name="port" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="sayHelloResponse">

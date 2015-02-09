@@ -28,15 +28,21 @@ import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.runner.RunWith;
+import org.junit.Test;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 
 /**
  * [JBWS-2942] Do not add empty Metadata tag to EndpointReference.
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
+@RunWith(Arquillian.class)
 public final class JBWS2942TestCase extends JBossWSTest
 {
-   
+   @Test
+   @RunAsClient
    public void testEmptyMetadataDropped() 
    {
       W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();

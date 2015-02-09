@@ -22,20 +22,22 @@
 package org.jboss.test.ws.jaxws.jbws3552;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.Filter;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-3552] @XmlJavaTypeAdapter ignored on exception classes.
@@ -49,89 +51,102 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * </ul>
  * @author <a href="ropalka@redhat.com">Richard Opalka</a>
  */
+@RunWith(Arquillian.class)
 public class JBWS3552TestCase extends JBossWSTest {
-   
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3552.war") { {
+
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws3552.war");
          archive
-               .addManifest()
-               .addPackages(false, new Filter<ArchivePath>() {
-                  @Override
-                  public boolean include(ArchivePath path)
-                  {
-                     return !path.get().contains("TestCase");
-                  }}, "org.jboss.test.ws.jaxws.jbws3552");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+            .addManifest()
+            .addPackages(false, new Filter<ArchivePath>() {
+               @Override
+               public boolean include(ArchivePath path)
+               {
+                  return !path.get().contains("TestCase");
+               }}, "org.jboss.test.ws.jaxws.jbws3552");
+      return archive;
    }
-    
-    public static Test suite() {
-        return new JBossWSTestSetup(JBWS3552TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-    }
 
-    private EndpointIface getProxy() throws Exception {
-        final URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws3552/EndpointImpl?wsdl");
-        final QName serviceName = new QName("http://jbws3552.jaxws.ws.test.jboss.org/", "EndpointImplService");
-        final Service service = Service.create(wsdlURL, serviceName);
-        return service.getPort(EndpointIface.class);
-    }
+   private EndpointIface getProxy() throws Exception {
+      final URL wsdlURL = new URL(baseURL + "/EndpointImpl?wsdl");
+      final QName serviceName = new QName("http://jbws3552.jaxws.ws.test.jboss.org/", "EndpointImplService");
+      final Service service = Service.create(wsdlURL, serviceName);
+      return service.getPort(EndpointIface.class);
+   }
 
+   @Test
+   @RunAsClient
     public void testEchoCA() throws Exception {
         EndpointIface endpoint = getProxy();
         AdaptedObjectCA aoCA = new AdaptedObjectCA(444, "object message", "object description", new ComplexObjectCA("a", "b"));
         assertEquals("444,object message,object description,a b", endpoint.echoCA(aoCA).toString());
     }
 
+   @Test
+   @RunAsClient
     public void testEchoAbstractCA() throws Exception {
         EndpointIface endpoint = getProxy();
         AbstractObjectCA aoCA = new AdaptedObjectCA(444, "object message", "object description", new ComplexObjectCA("a", "b"));
         assertEquals("444,object message,object description,a b", endpoint.echoAbstractCA(aoCA).toString());
     }
 
+   @Test
+   @RunAsClient
     public void testEchoFA() throws Exception {
         EndpointIface endpoint = getProxy();
         AdaptedObjectFA aoFA = new AdaptedObjectFA(444, "object message", "object description", new ComplexObjectFA("a", "b"));
         assertEquals("444,object message,object description,a b", endpoint.echoFA(aoFA).toString());
     }
 
+   @Test
+   @RunAsClient
     public void testEchoAbstractFA() throws Exception {
         EndpointIface endpoint = getProxy();
         AbstractObjectFA aoFA = new AdaptedObjectFA(444, "object message", "object description", new ComplexObjectFA("a", "b"));
         assertEquals("444,object message,object description,a b", endpoint.echoAbstractFA(aoFA).toString());
     }
 
+   @Test
+   @RunAsClient
     public void testEchoGA() throws Exception {
         EndpointIface endpoint = getProxy();
         AdaptedObjectGA aoGA = new AdaptedObjectGA(444, "object message", "object description", new ComplexObjectGA("a", "b"));
         assertEquals("444,object message,object description,a b", endpoint.echoGA(aoGA).toString());
     }
 
+   @Test
+   @RunAsClient
     public void testEchoAbstractGA() throws Exception {
         EndpointIface endpoint = getProxy();
         AbstractObjectGA aoGA = new AdaptedObjectGA(444, "object message", "object description", new ComplexObjectGA("a", "b"));
         assertEquals("444,object message,object description,a b", endpoint.echoAbstractGA(aoGA).toString());
     }
 
+   @Test
+   @RunAsClient
     public void testEchoMA() throws Exception {
         EndpointIface endpoint = getProxy();
         AdaptedObjectMA aoMA = new AdaptedObjectMA(444, "object message", "object description", new ComplexObjectMA("a", "b"));
         assertEquals("444,object message,object description,a b", endpoint.echoMA(aoMA).toString());
     }
 
+   @Test
+   @RunAsClient
     public void testEchoAbstractMA() throws Exception {
         EndpointIface endpoint = getProxy();
         AbstractObjectMA aoMA = new AdaptedObjectMA(444, "object message", "object description", new ComplexObjectMA("a", "b"));
         assertEquals("444,object message,object description,a b", endpoint.echoAbstractMA(aoMA).toString());
     }
 
+   @Test
+   @RunAsClient
+   @Ignore(value="FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol")
     public void testExceptionCA() throws Exception {
-        if (true) {
-            System.out.println("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol");
-            return;
-        }
-        EndpointIface endpoint = getProxy();//FIXME [CXF-4600] Exception inheritance not working over SOAP protocol
+        EndpointIface endpoint = getProxy();
         try {
             endpoint.throwExceptionCA();
             fail("Expected exception not thrown");
@@ -140,6 +155,8 @@ public class JBWS3552TestCase extends JBossWSTest {
         }
     }
 
+   @Test
+   @RunAsClient
     public void testExtendedExceptionCA() throws Exception {
         EndpointIface endpoint = getProxy();
         try {
@@ -150,12 +167,11 @@ public class JBWS3552TestCase extends JBossWSTest {
         }
     }
 
+   @Test
+   @RunAsClient
+   @Ignore("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol") 
     public void testExceptionFA() throws Exception {
-        if (true) {
-            System.out.println("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol");
-            return;
-        }
-        EndpointIface endpoint = getProxy();//FIXME [CXF-4600] Exception inheritance not working over SOAP protocol
+        EndpointIface endpoint = getProxy();
         try {
             endpoint.throwExceptionFA();
             fail("Expected exception not thrown");
@@ -164,6 +180,8 @@ public class JBWS3552TestCase extends JBossWSTest {
         }
     }
 
+   @Test
+   @RunAsClient
     public void testExtendedExceptionFA() throws Exception {
         EndpointIface endpoint = getProxy();
         try {
@@ -174,12 +192,11 @@ public class JBWS3552TestCase extends JBossWSTest {
         }
     }
 
+   @Test
+   @RunAsClient
+   @Ignore("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol") 
     public void testExceptionGA() throws Exception {
-        if (true) {
-            System.out.println("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol");
-            return;
-        }
-        EndpointIface endpoint = getProxy();//FIXME [CXF-4600] Exception inheritance not working over SOAP protocol
+        EndpointIface endpoint = getProxy();        
         try {
             endpoint.throwExceptionGA();
             fail("Expected exception not thrown");
@@ -188,6 +205,8 @@ public class JBWS3552TestCase extends JBossWSTest {
         }
     }
 
+   @Test
+   @RunAsClient
     public void testExtendedExceptionGA() throws Exception {
         EndpointIface endpoint = getProxy();
         try {
@@ -198,12 +217,11 @@ public class JBWS3552TestCase extends JBossWSTest {
         }
     }
 
+   @Test
+   @RunAsClient
+   @Ignore("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol")
     public void testExceptionMA() throws Exception {
-        if (true) {
-            System.out.println("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol");
-            return;
-        }
-        EndpointIface endpoint = getProxy();//FIXME [CXF-4600] Exception inheritance not working over SOAP protocol
+        EndpointIface endpoint = getProxy();        
         try {
             endpoint.throwExceptionMA();
             fail("Expected exception not thrown");
@@ -212,6 +230,8 @@ public class JBWS3552TestCase extends JBossWSTest {
         }
     }
 
+   @Test
+   @RunAsClient
     public void testExtendedExceptionMA() throws Exception {
         EndpointIface endpoint = getProxy();
         try {

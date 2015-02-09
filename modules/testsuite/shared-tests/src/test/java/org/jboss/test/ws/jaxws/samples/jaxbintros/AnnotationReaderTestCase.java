@@ -32,13 +32,20 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.jboss.jaxb.intros.BindingCustomizationFactory;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 
 /**
  * @author Heiko.Braun@jboss.com
  * @author alessio.soldano@jboss.com
  */
+@RunWith(Arquillian.class)
 public class AnnotationReaderTestCase extends JBossWSTest
 {
+   @Test
+   @RunAsClient
    public void testUnmarshal() throws Exception
    {
       String reqString =

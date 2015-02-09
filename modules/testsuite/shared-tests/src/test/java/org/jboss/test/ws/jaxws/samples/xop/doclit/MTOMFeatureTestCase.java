@@ -37,10 +37,14 @@ import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.MTOMFeature;
 import javax.xml.ws.soap.SOAPBinding;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-2448] This test verify the MTOMFeature correctly enable MTOM on client side.
@@ -48,15 +52,20 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 14-Jan-2009
  */
+@RunWith(Arquillian.class)
 public class MTOMFeatureTestCase extends JBossWSTest {
 
-	public static Test suite() {
-		return new JBossWSTestSetup(MTOMFeatureTestCase.class, DeploymentArchive.NAME);
-	}
+    @ArquillianResource
+    private URL baseURL;
 
-	private MTOMEndpoint getPort(boolean mtomEnabled) throws Exception {
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      return DeploymentArchive.createDeployment("feature");
+   }
+
+   private MTOMEndpoint getPort(boolean mtomEnabled) throws Exception {
 		QName serviceName = new QName("http://doclit.xop.samples.jaxws.ws.test.jboss.org/", "MTOMService");
-		URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-xop-doclit/bare?wsdl");
+		URL wsdlURL = new URL(baseURL + "bare?wsdl");
 
 		Service service = Service.create(wsdlURL, serviceName);
 		return service.getPort(MTOMEndpoint.class, new MTOMFeature(mtomEnabled));
@@ -71,6 +80,8 @@ public class MTOMFeatureTestCase extends JBossWSTest {
 		binding.setHandlerChain(handlerChain);
 	}
 
+   @Test
+   @RunAsClient
 	public void testWithMTOMRequest() throws Exception {
 		DataHandler dh = new DataHandler("DataHandlerRoundtrip", "text/plain");
 		MTOMEndpoint port = getPort(true);
@@ -85,6 +96,8 @@ public class MTOMFeatureTestCase extends JBossWSTest {
 		assertEquals("text/plain", contentType);
 	}
 
+   @Test
+   @RunAsClient
 	public void testWithoutMTOMRequest() throws Exception {
 		DataHandler dh = new DataHandler("DataHandlerResponseOptimzed", "text/plain");
 		DHResponse response = getPort(false).echoDataHandler(new DHRequest(dh));
@@ -97,6 +110,8 @@ public class MTOMFeatureTestCase extends JBossWSTest {
 		assertEquals("text/plain", contentType);
 	}
 
+   @Test
+   @RunAsClient
 	public void testErrorWithoutMTOMRequest() throws Exception {
 		DataHandler dh = new DataHandler("DataHandlerResponseOptimzed", "text/plain");
 		MTOMEndpoint port = getPort(false);

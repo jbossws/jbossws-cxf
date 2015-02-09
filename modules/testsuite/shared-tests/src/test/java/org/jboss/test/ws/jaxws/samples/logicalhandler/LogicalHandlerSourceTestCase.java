@@ -23,18 +23,20 @@ package org.jboss.test.ws.jaxws.samples.logicalhandler;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test JAXWS logical handlers
@@ -42,11 +44,15 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.org
  * @since 12-Aug-2006
  */
+@RunWith(Arquillian.class)
 public class LogicalHandlerSourceTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-logicalhandler-source.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-logicalhandler-source.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.Echo.class)
@@ -58,19 +64,14 @@ public class LogicalHandlerSourceTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.SOAPEndpointSourceRpcImpl.class)
                .addAsResource("org/jboss/test/ws/jaxws/samples/logicalhandler/jaxws-server-source-handlers.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/logicalhandler/WEB-INF/web-source.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(LogicalHandlerSourceTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testSourceDoc() throws Exception
    {
-      URL endpointAddress = new URL("http://" + getServerHost() + ":8080/jaxws-samples-logicalhandler-source/doc?wsdl");
+      URL endpointAddress = new URL(baseURL + "/doc?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/samples/logicalhandler", "SOAPEndpointDocService");
       Service service = new SOAPEndpointSourceService(endpointAddress, serviceName);
       SOAPEndpointSourceDoc port = (SOAPEndpointSourceDoc)service.getPort(SOAPEndpointSourceDoc.class);
@@ -79,9 +80,11 @@ public class LogicalHandlerSourceTestCase extends JBossWSTest
       assertResponse(retStr);
    }
 
+   @Test
+   @RunAsClient
    public void testSourceRpc() throws Exception
    {
-      URL endpointAddress = new URL("http://" + getServerHost() + ":8080/jaxws-samples-logicalhandler-source/rpc?wsdl");
+      URL endpointAddress = new URL(baseURL + "/rpc?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/samples/logicalhandler", "SOAPEndpointRpcService");
       Service service = new SOAPEndpointSourceService(endpointAddress, serviceName);
       SOAPEndpointSourceRpc port = (SOAPEndpointSourceRpc)service.getPort(SOAPEndpointSourceRpc.class);

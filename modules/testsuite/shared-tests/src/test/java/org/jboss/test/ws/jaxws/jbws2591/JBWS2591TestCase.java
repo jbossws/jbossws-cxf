@@ -25,7 +25,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-2591] WSConsume does not generate @XmlList with doc/lit wsdl
@@ -35,6 +39,7 @@ import org.jboss.wsf.test.JBossWSTest;
  * @author alessio.soldano@jboss.com
  * @since 01-Apr-2009
  */
+@RunWith(Arquillian.class)
 public class JBWS2591TestCase extends JBossWSTest
 {
    private static final String FS = System.getProperty("file.separator"); // '/' on unix, '\' on windows
@@ -54,8 +59,12 @@ public class JBWS2591TestCase extends JBossWSTest
       TEST_DIR = createResourceFile("..").getAbsolutePath();
    }
 
+
+   @Test
+   @RunAsClient
    public void testWSConsumeFromCommandLine() throws Exception
    {
+      setUp();
       // use absolute path for the output to be re-usable
       String absWsdlLoc = getResourceFile(WSDL_LOCATION).getAbsolutePath();
       String absOutput = new File(TEST_DIR, "wsconsume" + FS + "java").getAbsolutePath();

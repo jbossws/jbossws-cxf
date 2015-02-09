@@ -23,8 +23,6 @@ package org.jboss.test.ws.jaxws.jbws2000;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
@@ -32,45 +30,46 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.test.ws.jaxws.samples.xop.doclit.GeneratorDataSource;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  *
  */
+@RunWith(Arquillian.class)
 public class JBWS2000TestCase extends JBossWSTest
 {
 
    private FileTransferService port;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2000.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws2000.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws2000.FileTransferService.class)
                .addClass(org.jboss.test.ws.jaxws.jbws2000.FileTransferServiceImpl.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2000/META-INF/permissions.xml"), "permissions.xml");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS2000TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
    protected void setUp() throws Exception
    {
       if (port == null)
       {
-         URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws2000/FileTransfer?wsdl");
+         URL wsdlURL = new URL(baseURL + "/jaxws-jbws2000/FileTransfer?wsdl");
          QName serviceName = new QName("http://service.mtom.test.net/", "FileTransferServiceImplService");
          Service service = Service.create(wsdlURL, serviceName);
          port = service.getPort(FileTransferService.class);
@@ -80,8 +79,11 @@ public class JBWS2000TestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testFileTransfer() throws Exception
    {
+      setUp();
       GeneratorDataSource source = new GeneratorDataSource(1024 * 1204 * 8); //avoid going beyond Undertow default max post size
       DataHandler dh = new DataHandler(source);
 

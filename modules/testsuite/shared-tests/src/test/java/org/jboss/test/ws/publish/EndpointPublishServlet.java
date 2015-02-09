@@ -85,11 +85,12 @@ public class EndpointPublishServlet extends HttpServlet
          
          //call endpoint
          String jbossBindAddress = toIPv6URLFormat(System.getProperty("jboss.bind.address", "localhost"));
-         invoke(new URL("http://" + jbossBindAddress + ":8080/ep-publish-test/pattern?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService"));
-         invoke(new URL("http://" + jbossBindAddress + ":8080/ep-publish-test/pattern2?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService2"));
-         invoke(new URL("http://" + jbossBindAddress + ":8080/ep-publish-test/pattern3?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService3"));
-         invoke(new URL("http://" + jbossBindAddress + ":8080/ep-publish-test/pattern4?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService4"));
-         invoke(new URL("http://" + jbossBindAddress + ":8080/ep-publish-test/pattern5?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService5"));
+         int port = req.getLocalPort();
+         invoke(new URL("http://" + jbossBindAddress + ":" + port + "/ep-publish-test/pattern?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService"));
+         invoke(new URL("http://" + jbossBindAddress + ":" + port + "/ep-publish-test/pattern2?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService2"));
+         invoke(new URL("http://" + jbossBindAddress + ":" + port + "/ep-publish-test/pattern3?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService3"));
+         invoke(new URL("http://" + jbossBindAddress + ":" + port + "/ep-publish-test/pattern4?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService4"));
+         invoke(new URL("http://" + jbossBindAddress + ":" + port + "/ep-publish-test/pattern5?wsdl"), new QName("http://publish.ws.test.jboss.org/", "EndpointService5"));
          
          res.getWriter().print("1");
       }

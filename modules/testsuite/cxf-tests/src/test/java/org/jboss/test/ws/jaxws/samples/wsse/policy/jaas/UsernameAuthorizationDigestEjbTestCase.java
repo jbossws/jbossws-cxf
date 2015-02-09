@@ -24,10 +24,7 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.jaas;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -37,15 +34,18 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallback;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * WS-Security Policy username ejb endpoint test case leveraging JAAS container integration and using digest passwords.
@@ -55,67 +55,51 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author <a href="mailto:ema@redhat.com"/>Jim Ma<a>
  * @since 26-May-2011
  */
+@RunWith(Arquillian.class)
 public final class UsernameAuthorizationDigestEjbTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-username-jaas-ejb-digest/SecurityService/EJBServiceImpl";
-   private QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-
-   public static BaseDeployment<?>[] createDeployments()
-   {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-policy-username-jaas-ejb-digest.jar") {
-         {  //[JBWS-3843] workaround: add org.jboss.as.webservices.server.integration dependency to load UsernameTokenCallback for UsernamePasswordLoginModule
-            // This dependency should actually never be set for a user deployment, being it an internal server thing. To be properly replaced after changes in PicketBox. 
-            archive
-                  .setManifest(new StringAsset("Manifest-Version: 1.0\n" + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.jboss.as.webservices.server.integration\n"))
-                  .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.EJBServiceImpl.class)
-                  .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.ServiceIface.class)
-                  .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMe.class)
-                  .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMeResponse.class)
-                  .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
-                  .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
-                  .addAsManifestResource(
-                        new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaas/ejb-digest/META-INF/jaxws-endpoint-config.xml"),
-                        "jaxws-endpoint-config.xml")
-                  .addAsManifestResource(
-                        new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaas/ejb-digest/META-INF/wsdl/SecurityService.wsdl"),
-                        "wsdl/SecurityService.wsdl")
-                  .addAsManifestResource(
-                        new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaas/ejb-digest/META-INF/wsdl/SecurityService_schema1.xsd"),
-                        "wsdl/SecurityService_schema1.xsd");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static JavaArchive createDeployment() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-samples-wsse-policy-username-jaas-ejb-digest.jar");
+      //[JBWS-3843] workaround: add org.jboss.as.webservices.server.integration dependency to load UsernameTokenCallback for UsernamePasswordLoginModule
+      // This dependency should actually never be set for a user deployment, being it an internal server thing. To be properly replaced after changes in PicketBox. 
+      archive
+            .setManifest(new StringAsset("Manifest-Version: 1.0\n" + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.jboss.as.webservices.server.integration\n"))
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.EJBDigestServiceImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.ServiceIface.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMe.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMeResponse.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
+            .addAsManifestResource(
+                  new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaas/ejb-digest/META-INF/jaxws-endpoint-config.xml"),
+                  "jaxws-endpoint-config.xml")
+            .addAsManifestResource(
+                  new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaas/ejb-digest/META-INF/wsdl/SecurityService.wsdl"),
+                  "wsdl/SecurityService.wsdl")
+            .addAsManifestResource(
+                  new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaas/ejb-digest/META-INF/wsdl/SecurityService_schema1.xsd"),
+                  "wsdl/SecurityService_schema1.xsd");
+      return archive;
    }
-
-   public static Test suite()
-   {
-      JBossWSCXFTestSetup testSetup;
-      testSetup = new JBossWSCXFTestSetup(UsernameAuthorizationDigestEjbTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-      Map<String, String> authenticationOptions = new HashMap<String, String>();
-      authenticationOptions.put("usersProperties", getResourceFile("jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties").getAbsolutePath());
-      authenticationOptions.put("rolesProperties", getResourceFile("jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties").getAbsolutePath());
-      authenticationOptions.put("hashAlgorithm", "SHA");
-      authenticationOptions.put("hashEncoding", "BASE64");
-      authenticationOptions.put("hashCharset", "UTF-8");
-      authenticationOptions.put("hashUserPassword", "false");
-      authenticationOptions.put("hashStorePassword", "true");
-      authenticationOptions.put("storeDigestCallback", UsernameTokenCallback.class.getName());
-      authenticationOptions.put("unauthenticatedIdentity", "anonymous");
-      testSetup.addSecurityDomainRequirement("JBossWS", authenticationOptions);
-      return testSetup;
-   }
-
+   
+   @Test
+   @RunAsClient
    public void test() throws Exception
    {
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
+      URL wsdlURL = new URL(baseURL + "/jaxws-samples-wsse-policy-username-jaas-ejb-digest/SecurityService/EJBDigestServiceImpl?wsdl");
+      Service service = Service.create(wsdlURL, new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService"));
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy, "kermit");
       assertEquals("Secure Hello World!", proxy.sayHello());
    }
 
    //JBWS-3843
+   @Test
+   @RunAsClient
    public void testConcurrent() throws Exception
    {
       ExecutorService executor = Executors.newFixedThreadPool(20);
@@ -135,12 +119,12 @@ public final class UsernameAuthorizationDigestEjbTestCase extends JBossWSTest
 
    }
 
-   public class TestRunner implements Callable<String>
+   private class TestRunner implements Callable<String>
    {
       public String call() throws Exception
       {
-         URL wsdlURL = new URL(serviceURL + "?wsdl");
-         Service service = Service.create(wsdlURL, serviceName);
+         URL wsdlURL = new URL(baseURL + "/jaxws-samples-wsse-policy-username-jaas-ejb-digest/SecurityService/EJBDigestServiceImpl?wsdl");
+         Service service = Service.create(wsdlURL, new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService"));
          ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
          setupWsse(proxy, "kermit");
          return proxy.sayHello();
@@ -149,10 +133,12 @@ public final class UsernameAuthorizationDigestEjbTestCase extends JBossWSTest
 
    }
 
+   @Test
+   @RunAsClient
    public void testUnauthenticated() throws Exception
    {
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
+      URL wsdlURL = new URL(baseURL + "/jaxws-samples-wsse-policy-username-jaas-ejb-digest/SecurityService/EJBDigestServiceImpl?wsdl");
+      Service service = Service.create(wsdlURL, new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService"));
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy, "kermit");
       try

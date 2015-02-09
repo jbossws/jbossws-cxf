@@ -40,7 +40,7 @@
   </binding>
   <service name="SecurityService">
     <port name="SecurityServicePort" binding="tns:SecurityServicePortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wssePolicy-sign-encrypt"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-tests.jboss,8080)@/jaxws-samples-wssePolicy-sign-encrypt"/>
     </port>
   </service>
   

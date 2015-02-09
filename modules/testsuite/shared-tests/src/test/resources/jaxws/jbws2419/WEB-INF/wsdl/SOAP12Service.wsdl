@@ -32,7 +32,7 @@
   </binding>
   <service name="SOAP12EndpointBeanService">
     <port name="SOAP12EndpointPort" binding="tns:SOAP12EndpointBinding">
-      <soap12:address location="http://127.0.0.1:8080/jaxws-jbws2419/soap12"/>
+      <soap12:address location="http://127.0.0.1:@add_int(port-offset.shared-tests.jboss,8080)@/jaxws-jbws2419/soap12"/>
     </port>
   </service>
 </definitions>

@@ -23,50 +23,46 @@ package org.jboss.test.ws.jaxws.cxf.policy;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-
-import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.ws.policy.IgnorablePolicyInterceptorProvider;
 import org.apache.cxf.ws.policy.PolicyInterceptorProviderRegistry;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author alessio.soldano@jboss.com
  * @since 16-Oct-2012
  */
+@RunWith(Arquillian.class)
 public class PolicyInterceptorProviderTestCase extends JBossWSTest
 {
-   private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-policy/PIPService/PIPEndpoint";
-
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-cxf-policy.jar") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.apache.cxf.impl\n")) //cxf impl required due to custom interceptor using cxf-rt-ws-policy in deployment
-               .addClass(org.jboss.test.ws.jaxws.cxf.policy.PIPEndpointImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.policy.PolicyInterceptorProviderInstallerInterceptor.class)
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/policy/META-INF/unknown-policy.xml"), "unknown-policy.xml");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(PolicyInterceptorProviderTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static JavaArchive createDeployment() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-policy.jar");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+            + "Dependencies: org.apache.cxf.impl\n")) //cxf impl required due to custom interceptor using cxf-rt-ws-policy in deployment
+         .addClass(org.jboss.test.ws.jaxws.cxf.policy.PIPEndpointImpl.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.policy.PolicyInterceptorProviderInstallerInterceptor.class)
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/policy/META-INF/unknown-policy.xml"), "unknown-policy.xml");
+      return archive;
    }
 
    /**
@@ -74,6 +70,8 @@ public class PolicyInterceptorProviderTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
    public void testUnsupportedPolicy() throws Exception
    {
       Bus bus = BusFactory.newInstance().createBus();
@@ -84,7 +82,7 @@ public class PolicyInterceptorProviderTestCase extends JBossWSTest
          PolicyInterceptorProviderRegistry reg = bus.getExtension(PolicyInterceptorProviderRegistry.class);
          reg.register(new IgnorablePolicyInterceptorProvider(new QName("http://my.custom.org/policy", "MyPolicy")));
          
-         URL wsdlURL = new URL(endpointAddress + "?wsdl");
+         URL wsdlURL = new URL(baseURL + "/jaxws-cxf-policy/PIPService/PIPEndpoint?wsdl");
          QName serviceName = new QName("http://policy.cxf.jaxws.ws.test.jboss.org/", "PIPService");
          Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          QName portQName = new QName("http://policy.cxf.jaxws.ws.test.jboss.org/", "PIPEndpointPort");
@@ -98,6 +96,8 @@ public class PolicyInterceptorProviderTestCase extends JBossWSTest
       }
    }
    
+   @Test
+   @RunAsClient
    public void testUnsupportedPolicyFail() throws Exception
    {
       Bus bus = BusFactory.newInstance().createBus();
@@ -105,7 +105,7 @@ public class PolicyInterceptorProviderTestCase extends JBossWSTest
       {
          BusFactory.setThreadDefaultBus(bus);
          
-         URL wsdlURL = new URL(endpointAddress + "?wsdl");
+         URL wsdlURL = new URL(baseURL + "/jaxws-cxf-policy/PIPService/PIPEndpoint?wsdl");
          QName serviceName = new QName("http://policy.cxf.jaxws.ws.test.jboss.org/", "PIPService");
          Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          QName portQName = new QName("http://policy.cxf.jaxws.ws.test.jboss.org/", "PIPEndpointPort");

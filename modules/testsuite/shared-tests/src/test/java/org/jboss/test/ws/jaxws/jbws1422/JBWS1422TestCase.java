@@ -22,68 +22,52 @@
 package org.jboss.test.ws.jaxws.jbws1422;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
-import org.jboss.wsf.test.CleanupOperation;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-1422] NPE if @WebParam.name like "mX.."
  * 
  * @author Thomas.Diesler@jboss.com 
  */
+@RunWith(Arquillian.class)
 public class JBWS1422TestCase extends JBossWSTest
 {
    private static final String TARGET_NAMESPACE = "http://jbws1422.jaxws.ws.test.jboss.org/";
-   private static URL wsdlURL;
-   private static IWebsvc port;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1422.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployment() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1422.jar");
          archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.jbws1422.IWebsvc.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws1422.IWebsvcImpl.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+            .addManifest()
+            .addClass(org.jboss.test.ws.jaxws.jbws1422.IWebsvc.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws1422.IWebsvcImpl.class);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1422TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), new CleanupOperation() {
-         @Override
-         public void cleanUp() {
-            port = null;
-         }
-      });
-   }
-
-   @Override
-   protected void setUp() throws Exception
-   {
-      if (port == null)
-      {
-         QName serviceName = new QName(TARGET_NAMESPACE, "JBWS1422Service");
-         wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws1422/JBWS1422Service/IWebsvcImpl?wsdl");
-
-         Service service = Service.create(wsdlURL, serviceName);
-         port = service.getPort(IWebsvc.class);
-      }
-   }
-
+   @Test
+   @RunAsClient
    public void testDeployment() throws Exception
    {
+      QName serviceName = new QName(TARGET_NAMESPACE, "JBWS1422Service");
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws1422/JBWS1422Service/IWebsvcImpl?wsdl");
+
+      Service service = Service.create(wsdlURL, serviceName);
+      IWebsvc port = service.getPort(IWebsvc.class);
       String result = port.cancel("myFooBar");
       assertEquals("Cancelled-myFooBar", result);
    }

@@ -23,29 +23,35 @@ package org.jboss.test.ws.jaxws.jbws3753;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-3753] Improve destination matching when processing requests
  *
  * @author alessio.soldano@jboss.com
  */
+@RunWith(Arquillian.class)
 public class JBWS3753TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3753.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws3753.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws3753.ServiceAImpl.class)
@@ -53,32 +59,32 @@ public class JBWS3753TestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.jbws3753.ServiceImpl.class)
                .addClass(org.jboss.test.ws.jaxws.jbws3753.ServiceInterface.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3753/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+     return archive;
    }
 
-   public static Test suite() {
-      return new JBossWSTestSetup(JBWS3753TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-   
+   @Test
+   @RunAsClient
    public void testService() throws Exception
    {
-      Service service = Service.create(new URL("http://" + getServerHost() + ":8080/jaxws-jbws3753/service?wsdl"), new QName("http://org.jboss.ws/jaxws/jbws3753/", "MyService"));
+      Service service = Service.create(new URL(baseURL + "/service?wsdl"), new QName("http://org.jboss.ws/jaxws/jbws3753/", "MyService"));
       ServiceInterface port = service.getPort(ServiceInterface.class);
       assertEquals("Hi John", port.greetMe("John"));
    }
-   
+
+   @Test
+   @RunAsClient
    public void testServiceA() throws Exception
    {
-      Service service = Service.create(new URL("http://" + getServerHost() + ":8080/jaxws-jbws3753/serviceA?wsdl"), new QName("http://org.jboss.ws/jaxws/jbws3753/", "MyService"));
+      Service service = Service.create(new URL(baseURL + "/serviceA?wsdl"), new QName("http://org.jboss.ws/jaxws/jbws3753/", "MyService"));
       ServiceInterface port = service.getPort(ServiceInterface.class);
       assertEquals("(A) Hi John", port.greetMe("John"));
    }
 
+   @Test
+   @RunAsClient
    public void testServiceB() throws Exception
    {
-      Service service = Service.create(new URL("http://" + getServerHost() + ":8080/jaxws-jbws3753/serviceB?wsdl"), new QName("http://org.jboss.ws/jaxws/jbws3753/", "MyService"));
+      Service service = Service.create(new URL(baseURL + "/serviceB?wsdl"), new QName("http://org.jboss.ws/jaxws/jbws3753/", "MyService"));
       ServiceInterface port = service.getPort(ServiceInterface.class);
       assertEquals("(B) Hi John", port.greetMe("John"));
    }

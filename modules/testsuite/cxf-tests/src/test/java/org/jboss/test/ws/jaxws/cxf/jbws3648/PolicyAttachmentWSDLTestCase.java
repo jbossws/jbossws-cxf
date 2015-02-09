@@ -22,17 +22,18 @@
 package org.jboss.test.ws.jaxws.cxf.jbws3648;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * 
@@ -40,29 +41,27 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 06-Jun-2013
  */
+@RunWith(Arquillian.class)
 public class PolicyAttachmentWSDLTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3648.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointOneImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointTwo.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointTwoImpl.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jbws3648.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointOneImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointTwo.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointTwoImpl.class);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(PolicyAttachmentWSDLTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testEndpointOneWSDL() throws Exception {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3648/ServiceOne" + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/ServiceOne?wsdl");
       checkPolicyAttachments(wsdlURL, new String[]{"WS-RM_Policy_spec_example",
             "WS-SP-EX223_binding_policy",
             "WS-SP-EX223_Binding_Operation_Input_Policy",
@@ -70,9 +69,11 @@ public class PolicyAttachmentWSDLTestCase extends JBossWSTest
             "WS-Addressing_binding_policy"});
    }
    
+   @Test
+   @RunAsClient
    public void testEndpointTwoWSDL() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3648/ServiceTwo" + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/ServiceTwo?wsdl");
       checkPolicyAttachments(wsdlURL, new String[]{"WS-RM_Policy_spec_example",
             "WS-SP-EX223_binding_policy",
             "WS-SP-EX223_Binding_Operation_Input_Policy",

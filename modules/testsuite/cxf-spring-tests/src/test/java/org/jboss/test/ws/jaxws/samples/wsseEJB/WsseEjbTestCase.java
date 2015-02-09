@@ -24,37 +24,39 @@ package org.jboss.test.ws.jaxws.samples.wsseEJB;
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-
-import junit.framework.Test;
 
 import org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Secure EJB endpoint test
  *
  * @author sberyozk@jredhat.com
  */
+@RunWith(Arquillian.class)
 public class WsseEjbTestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-samples-wsseEJB/EjbEndpointService/EjbEndpoint";
+   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":" + getServerPort()  + "/jaxws-samples-wsseEJB/EjbEndpointService/EjbEndpoint";
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsseEJB.jar") { {
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-samples-wsseEJB.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.wsseEJB.EjbEndpoint.class)
@@ -66,14 +68,7 @@ public class WsseEjbTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.samples.wsseEJB.UsernamePasswordCallback.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsseEJB/META-INF/jboss.xml"), "jboss.xml")
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsseEJB/META-INF/jbossws-cxf.xml"), "jbossws-cxf.xml");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(WsseEjbTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), true);
+      return archive;
    }
 
    private EjbEndpoint getPort() throws Exception
@@ -84,6 +79,8 @@ public class WsseEjbTestCase extends JBossWSTest
       return port;
    }
 
+   @Test
+   @RunAsClient
    public void testHello() throws Exception
    {
       EjbEndpoint proxy = getPort();
@@ -92,6 +89,8 @@ public class WsseEjbTestCase extends JBossWSTest
       assertEquals("hello", retObj);
    }
 
+   @Test
+   @RunAsClient
    public void testGreetMeUnauthorized() throws Exception
    {
       EjbEndpoint proxy = getPort();

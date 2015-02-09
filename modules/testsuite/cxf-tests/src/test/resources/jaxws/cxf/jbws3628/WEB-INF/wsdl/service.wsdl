@@ -30,7 +30,7 @@
   </wsdl:binding>
   <wsdl:service name="ServiceOne">
     <wsdl:port binding="tns:ServiceOneSoapBinding" name="EndpointOnePort">
-      <soap:address location="http://localhost:8080/jaxws-cxf-jbws3628/ServiceOne"/>
+      <soap:address location="http://localhost:@add_int(port-offset.cxf-tests.jboss,8080)@/jaxws-cxf-jbws3628/ServiceOne"/>
     </wsdl:port>
   </wsdl:service>
   

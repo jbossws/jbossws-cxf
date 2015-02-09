@@ -22,46 +22,46 @@
 package org.jboss.test.ws.jaxws.jbws2218;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-2218] @WebContext url pattern problem
  *
  * @author richard.opalka@jboss.com
  */
+@RunWith(Arquillian.class)
 public class JBWS2218TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2218.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws2218.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws2218.EJB3Bean.class)
                .addClass(org.jboss.test.ws.jaxws.jbws2218.EndpointInterface.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS2218TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testSimpleAccess() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/myweb/myweb-service/WebDelegateEndPoint?wsdl");
+      URL wsdlURL = new URL(baseURL + "/myweb/myweb-service/WebDelegateEndPoint?wsdl");
       QName serviceName = new QName("http://jbws2218.jaxws.ws.test.jboss.org/", "EJB3BeanService");
       Service service = Service.create(wsdlURL, serviceName);
       EndpointInterface port = service.getPort(EndpointInterface.class);

@@ -23,21 +23,22 @@ package org.jboss.test.ws.jaxws.cxf.jbws3628;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Testcase for system property expansion support in WSDL documents.
@@ -45,54 +46,36 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 21-Jul-2014
  */
+@RunWith(Arquillian.class)
 public class JBWS3628TestCase extends JBossWSTest
 {
    private static final String POLICY_NAME = "WS-Addressing_policy";
    
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3628.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.apache.cxf\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3628.EndpointOneImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3628.CheckInterceptor.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3628/WEB-INF/wsdl/service.wsdl"), "wsdl/service.wsdl");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jbws3628.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.apache.cxf\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3628.EndpointOneImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3628.CheckInterceptor.class)
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3628/WEB-INF/wsdl/service.wsdl"), "wsdl/service.wsdl");
+      return archive;
    }
 
-   public static Test suite()
-   {
-      TestSetup setup = new JBossWSCXFTestSetup(JBWS3628TestCase.class, JBossWSTestHelper.writeToFile(createDeployments())) {
-         
-         private static final String PROPERTY_NAME = "org.jboss.wsf.test.JBWS3628TestCase.policy";
-         private String formerValue;
-         
-         @Override
-         public void setUp() throws Exception {
-            formerValue = JBossWSTestHelper.setSystemProperty(PROPERTY_NAME, POLICY_NAME);
-            super.setUp();
-         }
-         
-         @Override
-         public void tearDown() throws Exception {
-            super.tearDown();
-            JBossWSTestHelper.setSystemProperty(PROPERTY_NAME, formerValue);
-            formerValue = null;
-         }
-      };
-      return setup;
-   }
-   
+   @Test
+   @RunAsClient
    public void testWSDL() throws Exception {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3628/ServiceOne" + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/ServiceOne" + "?wsdl");
       checkPolicyReference(wsdlURL, POLICY_NAME);
    }
    
+   @Test
+   @RunAsClient
    public void testInvocation() throws Exception {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3628/ServiceOne" + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/ServiceOne" + "?wsdl");
       Service service = Service.create(wsdlURL, new QName("http://org.jboss.ws.jaxws.cxf/jbws3628", "ServiceOne"));
       EndpointOne port = service.getPort(new QName("http://org.jboss.ws.jaxws.cxf/jbws3628", "EndpointOnePort"), EndpointOne.class);
       assertEquals("Foo", port.echo("Foo"));

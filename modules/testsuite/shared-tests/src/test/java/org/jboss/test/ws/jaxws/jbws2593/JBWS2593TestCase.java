@@ -26,6 +26,10 @@ import java.io.File;
 import java.io.FileReader;
 
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 
 /**
  * [JBWS-2593] WSConsume does not generate @XmlJavaTypeAdapter in SEI
@@ -35,6 +39,7 @@ import org.jboss.wsf.test.JBossWSTest;
  * @author alessio.soldano@jboss.com
  * @since 02-Apr-2009
  */
+@RunWith(Arquillian.class)
 public class JBWS2593TestCase extends JBossWSTest
 {
    private static final String FS = System.getProperty("file.separator"); // '/' on unix, '\' on windows
@@ -56,13 +61,19 @@ public class JBWS2593TestCase extends JBossWSTest
       TEST_DIR = createResourceFile("..").getAbsolutePath();
    }
 
+   @Test
+   @RunAsClient
    public void testRPC() throws Exception
    {
+      setUp();
       this.internalTest(true);
    }
-   
+
+   @Test
+   @RunAsClient
    public void testDOC() throws Exception
    {
+      setUp();
       this.internalTest(false);
    }
 

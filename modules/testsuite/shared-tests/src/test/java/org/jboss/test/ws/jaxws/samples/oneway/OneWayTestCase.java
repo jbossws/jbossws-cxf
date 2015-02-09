@@ -24,8 +24,6 @@ package org.jboss.test.ws.jaxws.samples.oneway;
 import java.io.File;
 import java.io.StringReader;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
@@ -34,14 +32,18 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
 import javax.xml.ws.Service.Mode;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.ws.common.DOMWriter;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Element;
 
 /**
@@ -50,30 +52,29 @@ import org.w3c.dom.Element;
  * @author Thomas.Diesler@jboss.org
  * @since 07-Oct-2005
  */
+@RunWith(Arquillian.class)
 public class OneWayTestCase extends JBossWSTest
 {
    private static final String targetNS = "http://oneway.samples.jaxws.ws.test.jboss.org/";
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-oneway.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-oneway.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.oneway.PingEndpointImpl.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/oneway/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(OneWayTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testWebService() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-oneway/TestService?wsdl");
+      URL wsdlURL = new URL(baseURL + "/TestService?wsdl");
       QName serviceName = new QName(targetNS, "PingEndpointService");
       QName portName = new QName(targetNS, "PingEndpointPort");
       Service service = Service.create(wsdlURL, serviceName);

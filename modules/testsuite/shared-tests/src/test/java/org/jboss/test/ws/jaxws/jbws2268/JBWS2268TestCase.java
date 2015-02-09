@@ -25,53 +25,50 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployer;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-2268] Implement @PostConstruct and @Predestroy annotations support for POJO based endpoints
  * @author richard.opalka@jboss.com
  */
+@RunWith(Arquillian.class)
 public final class JBWS2268TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2268.war") { {
+   @ArquillianResource
+   Deployer deployer;
+
+   @Deployment(name = "dep", testable = false, managed = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws2268.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws2268.EndpointImpl.class)
                .addClass(org.jboss.test.ws.jaxws.jbws2268.EndpointInterface.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2268/META-INF/permissions.xml"), "permissions.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2268/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-   
-   static {
-      JBossWSTestHelper.writeToFile(createDeployments());
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS2268TestCase.class, "");
+      return archive;
    }
 
    private EndpointInterface getProxy() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/test/ws/jaxws/jbws2268", "EndpointService");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws2268?wsdl");
+      URL wsdlURL = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws2268?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       return (EndpointInterface)service.getPort(EndpointInterface.class);
@@ -87,18 +84,21 @@ public final class JBWS2268TestCase extends JBossWSTest
       return retVal;
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("dep")
    public void testJavaxAnnotationsSupport() throws Exception
    {
       File logFile = createLogFile();
 
-      deploy("jaxws-jbws2268.war");
+      deployer.deploy("dep");
       try
       {
          assertTrue(getProxy().setFile(logFile.getAbsolutePath()));
       }
       finally
       {
-         undeploy("jaxws-jbws2268.war");
+         deployer.undeploy("dep");
          assertPostConstructAndPreDestroyLogs(logFile);
       }
    }

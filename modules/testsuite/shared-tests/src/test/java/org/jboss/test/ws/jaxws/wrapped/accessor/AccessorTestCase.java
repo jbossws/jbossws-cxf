@@ -23,32 +23,38 @@ package org.jboss.test.ws.jaxws.wrapped.accessor;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test different JAXB accesor types.
  *
  * @author <a href="jason.greene@jboss.com">Jason T. Greene</a>
  */
+@RunWith(Arquillian.class)
 public class AccessorTestCase extends JBossWSTest
 {
-   private String targetNS = "http://accessor.wrapped.jaxws.ws.test.jboss.org/";
+   @ArquillianResource
+   private URL baseURL;
+
+   private final String targetNS = "http://accessor.wrapped.jaxws.ws.test.jboss.org/";
    private Accessor proxy;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-wrapped-accessor.war") { {
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-wrapped-accessor.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.wrapped.accessor.Accessor.class)
@@ -58,14 +64,7 @@ public class AccessorTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.wrapped.accessor.jaxws.MethodAccessor.class)
                .addClass(org.jboss.test.ws.jaxws.wrapped.accessor.jaxws.MethodAccessorResponse.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/wrapped/accessor/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(AccessorTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
    @Override
@@ -74,20 +73,24 @@ public class AccessorTestCase extends JBossWSTest
       super.setUp();
 
       QName serviceName = new QName(targetNS, "AccessorService");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-wrapped-accessor/AccessorService?wsdl");
-
+      URL wsdlURL = new URL(baseURL + "AccessorService?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       proxy = (Accessor) service.getPort(Accessor.class);
    }
 
-
+   @Test
+   @RunAsClient
    public void testFieldAccessor() throws Exception
    {
+      setUp();
       assertEquals("ing123", proxy.fieldAccessor("ing", 123));
    }
 
+   @Test
+   @RunAsClient
    public void testMethodAccessor() throws Exception
    {
+      setUp();
       assertEquals("moretesting456", proxy.fieldAccessor("moretesting", 456));
    }
 }

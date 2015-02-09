@@ -23,21 +23,22 @@ package org.jboss.test.ws.jaxws.samples.context;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.test.CleanupOperation;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test JAXWS WebServiceContext
@@ -45,13 +46,17 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.org
  * @since 29-Apr-2005
  */
+@RunWith(Arquillian.class)
 public class WebServiceContextJSETestCase extends JBossWSTest
 {
    private static Endpoint port;
-   
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-context-jse.war") { {
+
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-context-jse.war");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                      + "Dependencies: org.jboss.ws.common\n"))
@@ -59,56 +64,53 @@ public class WebServiceContextJSETestCase extends JBossWSTest
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/context/META-INF/permissions.xml"), "permissions.xml")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/context/WEB-INF/jboss-web.xml"), "jboss-web.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/context/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(WebServiceContextJSETestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), true, new CleanupOperation() {
-         @Override
-         public void cleanUp() {
-            port = null;
-         }
-      });
+
+   public void setUp() throws Exception {
+      URL wsdlURL = new URL(baseURL + "/jaxws-samples-context-jse?wsdl");
+      QName qname = new QName("http://org.jboss.ws/jaxws/context", "EndpointService");
+      Service service = Service.create(wsdlURL, qname);
+      port = (Endpoint) service.getPort(Endpoint.class);
+
+      BindingProvider bp = (BindingProvider) port;
+      bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "kermit");
+      bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "thefrog");
    }
 
-   public void setUp() throws Exception
-   {
-      if (port == null)
-      {
-         URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-context-jse?wsdl");
-         QName qname = new QName("http://org.jboss.ws/jaxws/context", "EndpointService");
-         Service service = Service.create(wsdlURL, qname);
-         port =  (Endpoint)service.getPort(Endpoint.class);
-         
-         BindingProvider bp = (BindingProvider)port;
-         bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "kermit");
-         bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "thefrog");
-      }   
-   }
-
+   @Test
+   @RunAsClient
    public void testGetWebContext() throws Exception
    {
+      setUp();
       String retStr = port.testGetMessageContext();
       assertEquals("pass", retStr);
    }
 
+   @Test
+   @RunAsClient
    public void testMessageContextProperties() throws Exception
    {
+      setUp();
       String retStr = port.testMessageContextProperties();
       assertEquals("pass", retStr);
    }
 
+   @Test
+   @RunAsClient
    public void testGetUserPrincipal() throws Exception
    {
+      setUp();
       String retStr = port.testGetUserPrincipal();
       assertEquals("kermit", retStr);
    }
 
+   @Test
+   @RunAsClient
    public void testIsUserInRole() throws Exception
    {
+      setUp();
       assertTrue("kermit is my friend", port.testIsUserInRole("friend"));
    }
 }

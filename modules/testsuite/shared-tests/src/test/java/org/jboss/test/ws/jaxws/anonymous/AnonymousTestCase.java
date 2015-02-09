@@ -23,32 +23,38 @@ package org.jboss.test.ws.jaxws.anonymous;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test anonymous bare types.
  *
  * @author <a href="jason.greene@jboss.com">Jason T. Greene</a>
  */
+@RunWith(Arquillian.class)
 public class AnonymousTestCase extends JBossWSTest
 {
    private String targetNS = "http://anonymous.jaxws.ws.test.jboss.org/";
    private Anonymous proxy;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-anonymous.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-anonymous.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.anonymous.Anonymous.class)
@@ -56,15 +62,9 @@ public class AnonymousTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.anonymous.AnonymousRequest.class)
                .addClass(org.jboss.test.ws.jaxws.anonymous.AnonymousResponse.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/anonymous/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(AnonymousTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
 
    @Override
    protected void setUp() throws Exception
@@ -72,15 +72,17 @@ public class AnonymousTestCase extends JBossWSTest
       super.setUp();
 
       QName serviceName = new QName(targetNS, "AnonymousService");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-anonymous/AnonymousService?wsdl");
+      URL wsdlURL = new URL(baseURL + "AnonymousService?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       proxy = (Anonymous) service.getPort(Anonymous.class);
    }
 
-
+   @Test
+   @RunAsClient
    public void testEcho() throws Exception
    {
+      setUp();
       AnonymousRequest req = new AnonymousRequest();
       req.message = "echo123";
       assertEquals("echo123", proxy.echoAnonymous(req).message);

@@ -25,7 +25,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -35,13 +34,17 @@ import java.util.concurrent.Future;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-3497] Add ability to configure the queue depth on the asynchronous (@Oneway) work queue.
@@ -49,31 +52,29 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  *
  */
+@RunWith(Arquillian.class)
 public class JBWS3497TestCase extends JBossWSTest
 {
    private EndpointOne portOne;
    
    protected int defaultSize = 200;
    
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-cxf-jbws3497.jar") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.apache.cxf,org.jboss.ws.cxf.jbossws-cxf-server\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3497.EndpointOne.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3497.EndpointOneImpl.class)
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3497/META-INF/jboss-webservices.xml"), "jboss-webservices.xml");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static JavaArchive createDeployment() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-jbws3497.jar");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.apache.cxf,org.jboss.ws.cxf.jbossws-cxf-server\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3497.EndpointOne.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3497.EndpointOneImpl.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3497/META-INF/jboss-webservices.xml"), "jboss-webservices.xml");
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(JBWS3497TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-   
+   @Test
+   @RunAsClient
    public void testAccess() throws Exception
    {
       initPorts();
@@ -115,7 +116,7 @@ public class JBWS3497TestCase extends JBossWSTest
    
    private void initPorts() throws MalformedURLException
    {
-      URL wsdlOneURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3497/ServiceOne/EndpointOne?wsdl");
+      URL wsdlOneURL = new URL(baseURL + "/jaxws-cxf-jbws3497/ServiceOne/EndpointOne?wsdl");
       QName serviceOneName = new QName("http://org.jboss.ws.jaxws.cxf/jbws3497", "ServiceOne");
       Service serviceOne = Service.create(wsdlOneURL, serviceOneName);
       portOne = (EndpointOne)serviceOne.getPort(EndpointOne.class);

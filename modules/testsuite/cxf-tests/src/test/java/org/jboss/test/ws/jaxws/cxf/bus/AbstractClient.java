@@ -150,7 +150,7 @@ public class AbstractClient
    
    protected static String getEndpointURL(String host)
    {
-      return "http://" + host + ":8080/jaxws-cxf-bus/EndpointService/Endpoint";
+      return "http://" + host + "/jaxws-cxf-bus/EndpointService/Endpoint";
    }
    
    protected static void performSOAPCall(String endpointAddress) throws SOAPException, MalformedURLException

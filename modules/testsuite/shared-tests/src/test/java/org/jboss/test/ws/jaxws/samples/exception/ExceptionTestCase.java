@@ -21,29 +21,26 @@
  */
 package org.jboss.test.ws.jaxws.samples.exception;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.PrintStream;
-import java.util.LinkedList;
-import java.util.List;
 
-import junit.framework.Test;
-
-import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.runner.RunWith;
 
 /**
  * Test JAX-WS exception handling
  *
  * @author <a href="jason.greene@jboss.com">Jason T. Greene</a>
  */
-public class ExceptionTestCase extends JBossWSTest
+@RunWith(Arquillian.class)
+public class ExceptionTestCase extends AbstractExceptionTests
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-exception-jse-plain.war") { {
+   @Deployment(name="jaxws-samples-exception-jse-plain", testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-exception-jse-plain.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.exception.server.EndpointImpl.class)
@@ -63,103 +60,16 @@ public class ExceptionTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.samples.exception.server.jaxws.UserExceptionBean.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/exception/META-INF/permissions.xml"), "permissions.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/exception/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(ExceptionTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
-   public void testRuntimeException() throws Exception
-   {
-      try
-      {
-         getHelper().testRuntimeException();
-      }
-      catch (Exception e)
-      {
-         fail(e);
-      }
-   }
-
-   public void testSoapFaultException() throws Exception
-   {
-      try
-      {
-         getHelper().testSoapFaultException();
-      }
-      catch (Exception e)
-      {
-         fail(e);
-      }
-   }
-
-   public void testApplicationException() throws Exception
-   {
-      try
-      {
-         getHelper().testApplicationException();
-      }
-      catch (Exception e)
-      {
-         fail(e);
-      }
-   }
-   
-   public void testSOAP12RuntimeException() throws Exception
-   {
-      try
-      {
-         getSOAP12Helper().testRuntimeException();
-      }
-      catch (Exception e)
-      {
-         fail(e);
-      }
-   }
-
-   public void testSOAP12SoapFaultException() throws Exception
-   {
-      try
-      {
-         getSOAP12Helper().testSoapFaultException();
-      }
-      catch (Exception e)
-      {
-         fail(e);
-      }
-   }
-
-   public void testSOAP12ApplicationException() throws Exception
-   {
-      try
-      {
-         getSOAP12Helper().testApplicationException();
-      }
-      catch (Exception e)
-      {
-         fail(e);
-      }
-   }
-   
-   private static void fail(Exception e) {
-      ByteArrayOutputStream bos = new ByteArrayOutputStream();
-      PrintStream ps = new PrintStream(bos);
-      e.printStackTrace(ps);
-      fail(bos.toString());
-      ps.close();
+      return archive;
    }
    
    protected ExceptionHelper getHelper()
    {
-      return new ExceptionHelper("http://" + getServerHost() + ":8080/jaxws-samples-exception-jse-plain/ExceptionEndpointService");
+      return new ExceptionHelper("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-samples-exception-jse-plain/ExceptionEndpointService");
    }
    
    protected SOAP12ExceptionHelper getSOAP12Helper()
    {
-      return new SOAP12ExceptionHelper("http://" + getServerHost() + ":8080/jaxws-samples-exception-jse-plain/SOAP12ExceptionEndpointService");
+      return new SOAP12ExceptionHelper("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-samples-exception-jse-plain/SOAP12ExceptionEndpointService");
    }
 }

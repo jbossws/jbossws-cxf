@@ -75,7 +75,7 @@ public class TestServlet extends HttpServlet
       {
          ClientHelper helper = (ClientHelper) Class.forName(helperClassName).newInstance();
          String jbossBindAddress = toIPv6URLFormat(System.getProperty("jboss.bind.address", "localhost"));
-         helper.setTargetEndpoint("http://" + jbossBindAddress + ":8080" + path);
+         helper.setTargetEndpoint("http://" + jbossBindAddress + ":" + req.getLocalPort() + path);
          List<String> failedTests = new LinkedList<String>();
          List<String> errorTests = new LinkedList<String>();
          Method[] methods = helper.getClass().getMethods();

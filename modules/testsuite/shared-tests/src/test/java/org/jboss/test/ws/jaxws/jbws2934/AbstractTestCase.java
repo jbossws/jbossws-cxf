@@ -29,13 +29,15 @@ import javax.xml.ws.Service;
 
 import org.jboss.logging.Logger;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 
 /**
  * [JBWS-2934] WebServiceContext implementation have to be ThreadLocal aware.
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-abstract class AbstractTestCase extends JBossWSTest
+public abstract class AbstractTestCase extends JBossWSTest
 {
    private static final int THREADS_COUNT = 20;
    private static final int REQUESTS_COUNT = 20;
@@ -63,8 +65,11 @@ abstract class AbstractTestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testEndpointConcurrently() throws Exception
    {
+      setUp();
       boolean traceEnabled = log.isTraceEnabled();
       for (int i = 0; i < THREADS_COUNT; i++)
       {

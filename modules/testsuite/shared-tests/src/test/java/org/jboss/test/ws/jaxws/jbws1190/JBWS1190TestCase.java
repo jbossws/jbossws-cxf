@@ -22,18 +22,19 @@
 package org.jboss.test.ws.jaxws.jbws1190;
 
 import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * WSDL generated for JSR-181 POJO does not take 'transport-guarantee' in web.xml into account
@@ -44,11 +45,12 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 19-October-2006
  */
+@RunWith(Arquillian.class)
 public class JBWS1190TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1190.war") { {
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws1190.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws1190.ConfidentialEndpoint.class)
@@ -56,16 +58,11 @@ public class JBWS1190TestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.jbws1190.EndpointImpl.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1190.JBWS1190Exception.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1190/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1190TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-   
+   @Test
+   @RunAsClient
    public void testEndpointAddress() throws Exception
    {
       MBeanServerConnection server = getServer();
@@ -74,6 +71,8 @@ public class JBWS1190TestCase extends JBossWSTest
       assertTrue("Expected http address, but got: " + address, address.startsWith("http://"));
    }
 
+   @Test
+   @RunAsClient
    public void testConfidentialEndpointAddress() throws Exception
    {
       MBeanServerConnection server = getServer();

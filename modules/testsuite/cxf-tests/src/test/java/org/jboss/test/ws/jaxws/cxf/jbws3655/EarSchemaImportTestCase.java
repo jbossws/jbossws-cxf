@@ -27,52 +27,59 @@ import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.exporter.ZipExporter;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(Arquillian.class)
 public class EarSchemaImportTestCase extends JBossWSTest
 {
-   public final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3655/HelloService";
-
-   static {
-      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-cxf-jbws3655-ejb.jar") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloWSEJBImpl.class);
-         }
-      });
-      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-cxf-jbws3655-jaxws.jar") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloRequest.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloResponse.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloWs.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloWsImpl.class)
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/wsdl/Hello.wsdl"), "wsdl/Hello.wsdl")
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/wsdl/Hello_schema1.xsd"), "wsdl/Hello_schema1.xsd");
-         }
-      });
-      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-cxf-jbws3655.ear") { {
-         archive
-               .addManifest()
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/application.xml"))
-               .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-cxf-jbws3655-jaxws.jar"), "lib/jaxws-cxf-jbws3655-jaxws.jar")
-               .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-cxf-jbws3655-ejb.jar"));
-         }
-      });
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static JavaArchive createDeployment3() {
+      JavaArchive archive1 = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-jbws3655-ejb.jar");
+      archive1.addManifest().addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloWSEJBImpl.class);
+      writeToDisk(archive1);
+      
+      JavaArchive archive2 = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-jbws3655-jaxws.jar");
+      archive2.addManifest()
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloRequest.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloResponse.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloWs.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloWsImpl.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/wsdl/Hello.wsdl"), "wsdl/Hello.wsdl")
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/wsdl/Hello_schema1.xsd"), "wsdl/Hello_schema1.xsd");
+      writeToDisk(archive2);
+      
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-jbws3655.ear");
+      archive.addManifest()
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/application.xml"))
+            .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-cxf-jbws3655-jaxws.jar"), "lib/jaxws-cxf-jbws3655-jaxws.jar")
+            .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-cxf-jbws3655-ejb.jar"));
+      return archive;
    }
-
-   public static Test suite()
+   
+   public static void writeToDisk(JavaArchive archive)
    {
-      return new JBossWSTestSetup(EarSchemaImportTestCase.class, "jaxws-cxf-jbws3655.ear");
+      File file = new File(JBossWSTestHelper.getTestArchiveDir(), archive.getName());
+      archive.as(ZipExporter.class).exportTo(file, true);
    }
 
+   @Test
+   @RunAsClient
    public void testSchemaImport() throws Exception
    {
-      HelloWs port = getPort(endpointAddress);
+      HelloWs port = getPort(baseURL + "/jaxws-cxf-jbws3655/HelloService");
       HelloRequest request = new HelloRequest();
       request.setInput("hello");
       HelloResponse response = port.doHello(request);

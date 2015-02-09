@@ -29,7 +29,6 @@ import org.apache.cxf.sts.service.ServiceMBean;
 import org.apache.cxf.sts.service.StaticService;
 import org.apache.cxf.sts.token.provider.SAMLTokenProvider;
 import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.WSTrustAppUtils;
 
 import javax.xml.ws.WebServiceProvider;
 import java.util.Arrays;
@@ -66,8 +65,7 @@ public class SampleSTSBearer extends SecurityTokenServiceProvider
       service.setEndpoints(Arrays.asList(
          "https://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/BearerService",
          "https://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/BearerService",
-         "https://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/BearerService",
-         "https://" + WSTrustAppUtils.getServerHost() + ":(\\d)*/jaxws-samples-wsse-policy-trust-bearer/BearerService"
+         "https://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-bearer/BearerService"
       ));
       services.add(service);
       

@@ -9,6 +9,6 @@
   </servlet> 
   <servlet-mapping>
     <servlet-name>Ep1Servlet</servlet-name>
-    <url-pattern>/jaxws-cxf-mixtype</url-pattern>
+    <url-pattern>/jaxws-spring-mixtype</url-pattern>
   </servlet-mapping>
 </web-app>

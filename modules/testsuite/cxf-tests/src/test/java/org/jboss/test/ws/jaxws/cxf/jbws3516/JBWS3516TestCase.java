@@ -23,8 +23,6 @@ package org.jboss.test.ws.jaxws.cxf.jbws3516;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -32,62 +30,64 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.AddressingFeature;
 
-import junit.framework.Test;
-
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.AttributedURIType;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.Filter;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(Arquillian.class)
 public class JBWS3516TestCase extends JBossWSTest
 {
-   public final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3516/helloworld";
-
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3516.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.apache.cxf.impl\n"))
-               .addPackages(false, new Filter<ArchivePath>() {
-                  @Override
-                  public boolean include(ArchivePath object)
-                  {
-                     return !object.get().contains("TestCase");
-                  }}, "org.jboss.test.ws.jaxws.cxf.jbws3516")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3516/WEB-INF/wsdl/hello_world.wsdl"), "wsdl/hello_world.wsdl")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3516/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jbws3516.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.apache.cxf.impl\n"))
+            .addPackages(false, new Filter<ArchivePath>() {
+               @Override
+               public boolean include(ArchivePath object)
+               {
+                  return !object.get().contains("TestCase");
+               }}, "org.jboss.test.ws.jaxws.cxf.jbws3516")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3516/WEB-INF/wsdl/hello_world.wsdl"), "wsdl/hello_world.wsdl")
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3516/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS3516TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testOneWayFaultTo() throws Exception
    {
       Greeter greeter = initPort();
       AddressingProperties addrProperties = new AddressingProperties();
       EndpointReferenceType faultTo = new EndpointReferenceType();
       AttributedURIType epr = new AttributedURIType();
-      epr.setValue("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3516/target/faultTo");
+      String serverHost = getServerHost();
+      int serverPort = getServerPort();
+      epr.setValue("http://" + serverHost + ":" + serverPort + "/jaxws-cxf-jbws3516/target/faultTo");
       faultTo.setAddress(epr);
       addrProperties.setFaultTo(faultTo);
 
       EndpointReferenceType replyTo = new EndpointReferenceType();
       AttributedURIType replyToURI = new AttributedURIType();
-      replyToURI.setValue("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3516/target/replyTo");
+      replyToURI.setValue("http://" + serverHost + ":" + serverPort + "/jaxws-cxf-jbws3516/target/replyTo");
       replyTo.setAddress(replyToURI);
       addrProperties.setReplyTo(replyTo);
       
@@ -103,6 +103,8 @@ public class JBWS3516TestCase extends JBossWSTest
    }
 
    
+   @Test
+   @RunAsClient
    public void testRequestResponseFaultTo() throws Exception
    {
       Greeter greeter = initPort();
@@ -111,13 +113,15 @@ public class JBWS3516TestCase extends JBossWSTest
 
       EndpointReferenceType faultTo = new EndpointReferenceType();
       AttributedURIType epr = new AttributedURIType();
-      epr.setValue("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3516/target/faultTo");
+      String serverHost = getServerHost();
+      int serverPort = getServerPort();
+      epr.setValue("http://" + serverHost + ":" + serverPort + "/jaxws-cxf-jbws3516/target/faultTo");
       faultTo.setAddress(epr);
       addrProperties.setFaultTo(faultTo);
 
       EndpointReferenceType replyTo = new EndpointReferenceType();
       AttributedURIType replyToURI = new AttributedURIType();
-      replyToURI.setValue("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3516/target/replyTo");
+      replyToURI.setValue("http://" + serverHost + ":" + serverPort + "/jaxws-cxf-jbws3516/target/replyTo");
       replyTo.setAddress(replyToURI);
       addrProperties.setReplyTo(replyTo);
 
@@ -140,7 +144,7 @@ public class JBWS3516TestCase extends JBossWSTest
   
    private Greeter initPort() throws Exception
    {
-      URL wsdlURL = new URL(endpointAddress + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/helloworld?wsdl");
       QName qname = new QName("http://jboss.org/hello_world", "SOAPService");
       Service service = Service.create(wsdlURL, qname);
       Greeter greeter = service.getPort(Greeter.class, new AddressingFeature());
@@ -149,7 +153,7 @@ public class JBWS3516TestCase extends JBossWSTest
 
    private String getTargetServletResult() throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3516/target/result");
+      URL url = new URL(baseURL + "/target/result");
       return IOUtils.readAndCloseStream(url.openStream());
    }
 }

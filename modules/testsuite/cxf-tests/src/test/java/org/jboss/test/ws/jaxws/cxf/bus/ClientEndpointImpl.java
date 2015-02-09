@@ -68,7 +68,7 @@ public class ClientEndpointImpl
 
    private static URL getWsdlURL(String host) throws Exception
    {
-      return new URL("http://" + host + ":8080/jaxws-cxf-bus/EndpointService/Endpoint?wsdl");
+      return new URL("http://" + host + "/jaxws-cxf-bus/EndpointService/Endpoint?wsdl");
    }
 
    private static Endpoint getPort(URL wsdlURL)

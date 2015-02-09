@@ -42,7 +42,7 @@ public class TestServlet extends HttpServlet
       String param = req.getParameter("param");
       boolean clCheck = Boolean.parseBoolean(req.getParameter("clCheck"));
       Client client = new Client(clCheck);
-      URL wsdlURL = new URL("http://" + getHost() + ":8080/jaxws-jbws3223?wsdl");
+      URL wsdlURL = new URL("http://" + getHost() + ":" + req.getLocalPort() + "/jaxws-jbws3223?wsdl");
       String retStr = client.run(param, wsdlURL);
       
       // Return the result

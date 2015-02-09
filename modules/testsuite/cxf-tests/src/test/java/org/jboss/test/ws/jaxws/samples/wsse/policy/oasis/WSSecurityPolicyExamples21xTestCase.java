@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,19 +21,26 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.oasis;
 
+import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
 import org.apache.cxf.ws.security.SecurityConstants;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.WrapThreadContextClassLoader;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * WS-Security Policy examples
@@ -44,39 +51,59 @@ import org.jboss.wsf.test.JBossWSTest;
  * @author alessio.soldano@jboss.com
  * @since 10-Sep-2012
  */
+@RunWith(Arquillian.class)
 public final class WSSecurityPolicyExamples21xTestCase extends JBossWSTest
 {
    private final String NS = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy/oasis-samples";
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-oasis-21x/";
-   private final String serviceURLHttps = "https://" + getServerHost() + ":8443/jaxws-samples-wsse-policy-oasis-21x/";
    private final QName serviceName = new QName(NS, "SecurityService");
 
-   public static Test suite()
-   {
-      /** System properties - currently set at testsuite start time 
-      System.setProperty("javax.net.ssl.trustStore", "my.truststore");
-      System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
-      System.setProperty("javax.net.ssl.trustStoreType", "jks");
-      System.setProperty("org.jboss.security.ignoreHttpsHost", "true");
-      */
-      JBossWSCXFTestSetup setup = new JBossWSCXFTestSetup(WSSecurityPolicyExamples21xTestCase.class,
-          DeploymentArchives.SERVER_21X_WAR + " " + DeploymentArchives.CLIENT_JAR);
-      Map<String, String> sslOptions = new HashMap<String, String>();
-      sslOptions.put("server-identity.ssl.keystore-path", System.getProperty("org.jboss.ws.testsuite.server.keystore"));
-      sslOptions.put("server-identity.ssl.keystore-password", "changeit");
-      sslOptions.put("server-identity.ssl.alias", "tomcat");
-      setup.setHttpsConnectorRequirement(sslOptions);
-      return setup;
-   }
+   @ArquillianResource
+   private URL baseURL;
    
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-policy-oasis-21x.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+               + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.ServerUsernamePasswordCallback.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2111Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2112Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2113Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service2121Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service213Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.Service214Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.oasis.ServiceIface.class)
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/WEB-INF/bob.jks"), "classes/bob.jks")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/WEB-INF/bob.properties"), "classes/bob.properties")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/WEB-INF/wsdl/SecurityService21x.wsdl"), "wsdl/SecurityService21x.wsdl")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd");
+      return archive;
+   }
+
+   @Override
+   protected String getClientJarPaths() {
+      return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-policy-oasis-21x-client.jar") { {
+         archive
+            .addManifest()
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/META-INF/alice.jks"), "alice.jks")
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/oasis/META-INF/alice.properties"), "alice.properties");
+         }
+      });
+   }
+
    /**
     * 2.1.1.1 UsernameToken with plain text password
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test2111() throws Exception
    {
-      Service service = Service.create(new URL(serviceURL + "SecurityService2111?wsdl"), serviceName);
+      Service service = Service.create(new URL(baseURL + "/SecurityService2111?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2111Port"), ServiceIface.class);
       setupWsse(proxy, true);
       assertTrue(proxy.sayHello().equals("Hello - UsernameToken with plain text password"));
@@ -87,9 +114,12 @@ public final class WSSecurityPolicyExamples21xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test2112() throws Exception
    {
-      Service service = Service.create(new URL(serviceURL + "SecurityService2112?wsdl"), serviceName);
+      Service service = Service.create(new URL(baseURL + "/SecurityService2112?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2112Port"), ServiceIface.class);
       setupWsse(proxy, false);
       assertTrue(proxy.sayHello().equals("Hello - UsernameToken without password"));
@@ -100,9 +130,12 @@ public final class WSSecurityPolicyExamples21xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test2113() throws Exception
    {
-      Service service = Service.create(new URL(serviceURL + "SecurityService2113?wsdl"), serviceName);
+      Service service = Service.create(new URL(baseURL + "/SecurityService2113?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2113Port"), ServiceIface.class);
       setupWsse(proxy, true);
       assertTrue(proxy.sayHello().equals("Hello - UsernameToken with timestamp, nonce and password hash"));
@@ -113,9 +146,12 @@ public final class WSSecurityPolicyExamples21xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test2121() throws Exception
    {
-      Service service = Service.create(new URL(serviceURLHttps + "SecurityService2121?wsdl"), serviceName);
+      Service service = Service.create(new URL("https", baseURL.getHost(), (baseURL.getPort() - 8080 + 8443), "/jaxws-samples-wsse-policy-oasis-21x/SecurityService2121?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2121Port"), ServiceIface.class);
       setupWsse(proxy, false);
       assertTrue(proxy.sayHello().equals("Hello - UsernameToken as supporting token"));
@@ -126,9 +162,12 @@ public final class WSSecurityPolicyExamples21xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test213() throws Exception
    {
-      Service service = Service.create(new URL(serviceURL + "SecurityService213?wsdl"), serviceName);
+      Service service = Service.create(new URL(baseURL + "/SecurityService213?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService213Port"), ServiceIface.class);
       setupWsse(proxy, true);
       assertTrue(proxy.sayHello().equals("Hello - (WSS 1.0) UsernameToken with Mutual X.509v3 Authentication, Sign, Encrypt"));
@@ -139,14 +178,17 @@ public final class WSSecurityPolicyExamples21xTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test214() throws Exception
    {
-      Service service = Service.create(new URL(serviceURL + "SecurityService214?wsdl"), serviceName);
+      Service service = Service.create(new URL(baseURL + "/SecurityService214?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService214Port"), ServiceIface.class);
       setupWsse(proxy, false);
       assertTrue(proxy.sayHello().equals("Hello - (WSS 1.1) User Name with Certificates, Sign, Encrypt"));
    }
-
+   
    private void setupWsse(ServiceIface proxy, boolean streaming)
    {
       ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.USERNAME, "kermit");

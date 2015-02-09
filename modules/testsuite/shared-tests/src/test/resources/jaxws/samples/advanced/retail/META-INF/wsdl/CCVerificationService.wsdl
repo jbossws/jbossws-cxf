@@ -41,7 +41,7 @@
    </binding>
    <service name="CCVerificationService">
       <port binding="tns:CCVerificationBinding" name="CCVerificationPort">
-         <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-retail/CCVerificationBean"/>
+         <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.shared-tests.jboss,8080)@/jaxws-samples-retail/CCVerificationBean"/>
       </port>
    </service>
 </definitions>

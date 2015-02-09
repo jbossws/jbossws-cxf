@@ -24,14 +24,10 @@ package org.jboss.test.ws.jaxws.samples.wsse;
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-
-import junit.framework.Test;
 
 import org.apache.cxf.binding.soap.saaj.SAAJInInterceptor;
 import org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor;
@@ -40,11 +36,17 @@ import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.jboss.wsf.test.WrapThreadContextClassLoader;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * WS-Security sign test case
@@ -52,20 +54,14 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 28-May-2008
  */
+@RunWith(Arquillian.class)
 public final class SignTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-sign";
-   
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-sign-client.jar") { {
-         archive
-               .addManifest()
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/sign/META-INF/alice.jks"), "alice.jks")
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/sign/META-INF/alice.properties"), "alice.properties");
-         }
-      });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsse-sign.war") { {
+   private final String serviceURL = "http://" + getServerHost() + ":" + getServerPort() + "/jaxws-samples-wsse-sign";
+
+   @Deployment(name="jaxws-samples-wsse-sign", testable = false)
+   public static WebArchive createDeployment2() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class,"jaxws-samples-wsse-sign.war");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                      + "Dependencies: org.apache.ws.security\n"))
@@ -82,16 +78,12 @@ public final class SignTestCase extends JBossWSTest
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/sign/WEB-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/sign/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/sign/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(SignTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void test() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
@@ -126,5 +118,16 @@ public final class SignTestCase extends JBossWSTest
       WSS4JInInterceptor wssIn = new WSS4JInInterceptor(inProps); //response
       cxfEndpoint.getInInterceptors().add(wssIn);
       cxfEndpoint.getInInterceptors().add(new SAAJInInterceptor());
+   }
+   
+   @Override
+   protected String getClientJarPaths() {
+      return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-sign-client.jar") { {
+         archive
+               .addManifest()
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/sign/META-INF/alice.jks"), "alice.jks")
+  	           .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/sign/META-INF/alice.properties"), "alice.properties");
+         }
+      });
    }
 }

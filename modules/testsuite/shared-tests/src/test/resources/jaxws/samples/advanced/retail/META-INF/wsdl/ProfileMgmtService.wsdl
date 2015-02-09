@@ -52,7 +52,7 @@
    </binding>
    <service name='ProfileMgmtService'>
       <port binding='tns:ProfileMgmtBinding' name='ProfileMgmtPort'>
-         <soap:address location='http://@jboss.bind.address@:8080/jaxws-samples-retail/ProfileMgmtService/ProfileMgmtBean'/>
+         <soap:address location='http://@jboss.bind.address@:@add_int(port-offset.shared-tests.jboss,8080)@/jaxws-samples-retail/ProfileMgmtService/ProfileMgmtBean'/>
       </port>
    </service>
 </definitions>

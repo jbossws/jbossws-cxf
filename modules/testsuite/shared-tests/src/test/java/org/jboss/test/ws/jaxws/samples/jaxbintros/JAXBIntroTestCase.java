@@ -24,19 +24,21 @@ package org.jboss.test.ws.jaxws.samples.jaxbintros;
 import java.io.File;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Element;
 
 /**
@@ -47,32 +49,29 @@ import org.w3c.dom.Element;
  *
  * @author alessio.soldano@jboss.com
  */
+@RunWith(Arquillian.class)
 public class JAXBIntroTestCase extends JBossWSTest
 {
-   private final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-samples-jaxbintros/EndpointService";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-jaxbintros.jar") { {
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-samples-jaxbintros.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.jaxbintros.Endpoint.class)
                .addClass(org.jboss.test.ws.jaxws.samples.jaxbintros.EndpointBean.class)
                .addClass(org.jboss.test.ws.jaxws.samples.jaxbintros.UserType.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/jaxbintros/META-INF/jaxb-intros.xml"), "jaxb-intros.xml");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JAXBIntroTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testWSDLAccess() throws Exception
    {
-      URL wsdlURL = new URL(endpointAddress + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-samples-jaxbintros/EndpointService?wsdl");
       Element wsdl = DOMUtils.parse(wsdlURL.openStream());
       assertNotNull(wsdl);
       Iterator<Element> it = DOMUtils.getChildElements(wsdl, new QName("http://www.w3.org/2001/XMLSchema","attribute"), true);
@@ -93,9 +92,11 @@ public class JAXBIntroTestCase extends JBossWSTest
     *
     * @throws Exception
     */
+   @Test
+   @RunAsClient
    public void testAnnotatedUserEndpoint() throws Exception
    {
-      URL wsdlURL = new URL(endpointAddress + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-samples-jaxbintros/EndpointService?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/samples/jaxbintros", "EndpointBeanService");
 
       Service service = Service.create(wsdlURL, serviceName);

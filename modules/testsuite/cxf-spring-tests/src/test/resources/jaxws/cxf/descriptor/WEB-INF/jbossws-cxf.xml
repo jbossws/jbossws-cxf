@@ -4,7 +4,7 @@
   http://www.w3.org/2006/07/ws-policy http://www.w3.org/2006/07/ws-policy.xsd 
   http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd'>
   
-  <jaxws:endpoint id='TestService' address='http://@jboss.bind.address@:8080/jaxws-cxf-descriptor'
+  <jaxws:endpoint id='TestService' address='http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,8080)@/jaxws-cxf-descriptor'
     implementor='org.jboss.test.ws.jaxws.cxf.descriptor.DescriptorEndpointImpl'>
   </jaxws:endpoint>
   

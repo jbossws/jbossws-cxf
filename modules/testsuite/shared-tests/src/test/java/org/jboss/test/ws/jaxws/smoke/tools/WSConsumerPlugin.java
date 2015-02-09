@@ -44,7 +44,7 @@ import org.jboss.wsf.test.JBossWSTest;
  * @author Heiko.Braun <heiko.braun@jboss.com>
  * @author alessio.soldano@jboss.com
  */
-public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
+public class WSConsumerPlugin extends JBossWSTest
 {
    // Tools delegate. Recreated for every test. See setup(...)
    WSContractConsumer consumer;
@@ -56,11 +56,6 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
    boolean toogleMessageOut = Boolean.getBoolean(WSConsumerPlugin.class.getName()+".verbose");
 
    private final File workDirectory;
-
-   protected boolean integrationNative;
-   protected boolean integrationMetro;
-   protected boolean integrationCXF;
-
 
    public WSConsumerPlugin()
    {
@@ -311,16 +306,7 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
       System.out.println(messageOut);
       System.out.println("--- End captured output --");
 
-      if (getIsCXF())
-      {
-         assertTrue("Tools output not correctly redirected", messageOut.indexOf("wsdl2java -exsh false -p org.jboss.test.ws.tools.testMessageStream") != -1);
-      }
-      else
-      {
-         assertTrue("Tools output not correctly redirected",
-           messageOut.replace('\\', '/').indexOf("org/jboss/test/ws/tools/testMessageStream/EndpointInterface.java")!=-1
-         );
-      }
+      assertTrue("Tools output not correctly redirected", messageOut.indexOf("wsdl2java -exsh false -p org.jboss.test.ws.tools.testMessageStream") != -1);
    }
 
    /**
@@ -447,27 +433,5 @@ public class WSConsumerPlugin extends JBossWSTest implements StackConfigurable
       );
 
       return loader;
-   }
-
-   public boolean getIsNative()
-   {
-      return integrationNative;
-   }
-
-   public boolean getIsCXF()
-   {
-      return integrationCXF;
-   }
-
-   @Override
-   public void setIsNative(boolean integrationNative)
-   {
-      this.integrationNative = integrationNative;
-   }
-
-   @Override
-   public void setIsCXF(boolean integrationCXF)
-   {
-      this.integrationCXF = integrationCXF;
    }
 }

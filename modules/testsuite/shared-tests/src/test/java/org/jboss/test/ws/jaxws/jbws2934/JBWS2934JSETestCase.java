@@ -22,46 +22,42 @@
 package org.jboss.test.ws.jaxws.jbws2934;
 
 import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
+import java.net.URL;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-2934] WebServiceContext implementation have to be ThreadLocal aware - JSE version.
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
+@RunWith(Arquillian.class)
 public final class JBWS2934JSETestCase extends AbstractTestCase
 {
-   private final String ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws2934-jse";
-   
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2934-jse.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws2934-jse.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws2934.AbstractEndpoint.class)
                .addClass(org.jboss.test.ws.jaxws.jbws2934.Endpoint.class)
                .addClass(org.jboss.test.ws.jaxws.jbws2934.EndpointJSE.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2934/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-   
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS2934JSETestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
    @Override
    protected String getEndpointAddress()
    {
-      return ENDPOINT_ADDRESS;
+      return baseURL.toString();
    }
 }

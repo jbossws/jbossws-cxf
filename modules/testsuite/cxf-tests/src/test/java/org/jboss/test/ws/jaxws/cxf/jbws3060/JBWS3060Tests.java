@@ -33,7 +33,9 @@ import java.util.concurrent.Future;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
 
 /**
  *
@@ -53,6 +55,8 @@ public abstract class JBWS3060Tests extends JBossWSTest //*Tests does not match 
 
    protected abstract String getEndpointTwoURL();
 
+   @Test
+   @RunAsClient
    public void testAccess() throws Exception
    {
       initPorts();
@@ -66,11 +70,15 @@ public abstract class JBWS3060Tests extends JBossWSTest //*Tests does not match 
       assertEquals(1, portTwo.getCount() - count2);
    }
    
+   @Test
+   @RunAsClient
    public void testConcurrentInvocations() throws Exception
    {
       runConcurrentTests(false);
    }
    
+   @Test
+   @RunAsClient
    public void testConcurrentOneWayInvocations() throws Exception
    {
       runConcurrentTests(true);

@@ -38,7 +38,7 @@
     </binding>
     <service name='EndpointService'>
         <port binding='tns:EndpointBinding' name='EndpointPort'>
-            <soap:address location='http://127.0.0.1:8080/jaxws-jbws1969'/>
+            <soap:address location='http://127.0.0.1:@add_int(port-offset.shared-tests.jboss,8080)@/jaxws-jbws1969'/>
         </port>
     </service>
 </definitions>

@@ -42,27 +42,6 @@
 
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>
-         <artifactId>jbossws-cxf-resources</artifactId>
-         <version>${project.version}</version>
-         <classifier>wildfly800</classifier>     
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.ws.cxf</groupId>
-         <artifactId>jbossws-cxf-resources</artifactId>
-         <version>${project.version}</version>
-         <classifier>wildfly810</classifier>     
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.ws.cxf</groupId>
-         <artifactId>jbossws-cxf-resources</artifactId>
-         <version>${project.version}</version>
-         <classifier>wildfly900</classifier>     
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-server</artifactId>
          <version>${project.version}</version>     
       </dependency>
@@ -108,17 +87,6 @@
         <artifactId>opensaml</artifactId>
         <scope>provided</scope>
       </dependency>
-      <!-- container integration -->
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly800-server-integration</artifactId>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly810-server-integration</artifactId>
-        <scope>provided</scope>
-      </dependency>
       <dependency>
         <groupId>org.jboss</groupId>
         <artifactId>jandex</artifactId>
@@ -139,158 +107,259 @@
     <build>
       <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>distribution-package</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <finalName>assembly</finalName>
-                            <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <descriptors>
-                                <descriptor>src/main/scripts/assembly-deploy-artifacts.xml</descriptor>
-                            </descriptors>
-                            <tarLongFileMode>gnu</tarLongFileMode>
-                        </configuration>
-                    </execution>
-                </executions>
+              <inherited>false</inherited>
+              <groupId>org.jboss.maven.plugins</groupId>
+              <artifactId>maven-jdocbook-plugin</artifactId>
+              <executions>
+                <execution>
+                  <goals>
+                    <goal>resources</goal>
+                    <goal>generate</goal>
+                  </goals>
+                  <phase>post-integration-test</phase>
+                </execution>
+              </executions>
+              <configuration>
+                <sourceDocumentName>JBossWS-CXF.xml</sourceDocumentName>
+                <sourceDirectory>${basedir}/src/main/doc</sourceDirectory>
+                <imageResource>
+                  <directory>${basedir}/src/main/doc</directory>
+                  <includes>
+                    <include>images/*</include>
+                    <include>author/**</include>
+                  </includes>
+                </imageResource>
+                <formats>
+                  <format>
+                    <formatName>html</formatName>
+                    <stylesheetResource>classpath:/xslt/org/jboss/xhtml.xsl</stylesheetResource>
+                    <finalName>index.html</finalName>
+                  </format>
+                </formats>
+                <options>
+                  <xincludeSupported>true</xincludeSupported>
+                </options>
+              </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <dependencies>
-                  <dependency>
-                    <groupId>org.apache.ant</groupId>
-                    <artifactId>ant-trax</artifactId>
-                    <version>1.8.0</version>
-                  </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>generate-exclude-file</id>
-                        <phase>validate</phase>
-                        <configuration>
-                            <target>
-                                <mkdir dir="${basedir}/target/exclude-file" />
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-wildfly800.txt">
-                                    <param name="targetName" expression="wildfly800" />
-                                </xslt>
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-wildfly810.txt">
-                                    <param name="targetName" expression="wildfly810" />
-                                </xslt>
-                                <xslt style="${basedir}/src/main/distro/test-exclude.xsl" in="../testsuite/pom.xml" out="${basedir}/target/exclude-file/test-excludes-wildfly900.txt">
-                                    <param name="targetName" expression="wildfly900" />
-                                </xslt>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
-
      </plugins>
     </build>
 
     <profiles>
-   <!-- 
-    Name:  bindist
-    Descr: Build the binary distribution  
+
+    <!-- 
+    Name:  download
+    Descr: Download WildFly  
     -->
     <profile>
-      <id>bindist</id>
+      <id>download</id>
       <activation>
         <property>
-          <name>bindist</name>
+          <name>!server.home</name>
         </property>
       </activation>
-      <dependencies>
-        <!-- Libraries required for running binary distro testsuite and not available on server-->
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-wildfly800-tests-integration</artifactId>
-          <scope>provided</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-wildfly810-tests-integration</artifactId>
-          <scope>provided</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.wildfly</groupId>
-          <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
       <build>
         <plugins>
           <plugin>
-            <inherited>false</inherited>
-            <groupId>org.jboss.maven.plugins</groupId>
-            <artifactId>maven-jdocbook-plugin</artifactId>
+            <artifactId>maven-dependency-plugin</artifactId>
             <executions>
               <execution>
+                <id>unpack</id>
+                <phase>validate</phase>
                 <goals>
-                  <goal>resources</goal>
-                  <goal>generate</goal>
+                  <goal>unpack</goal>
                 </goals>
-                <phase>prepare-package</phase>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.wildfly</groupId>
+                      <artifactId>wildfly-dist</artifactId>
+                      <version>${jboss.version}</version>
+                      <type>zip</type>
+                      <overWrite>false</overWrite>
+                      <outputDirectory>${project.build.directory}</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
               </execution>
             </executions>
-            <configuration>
-              <sourceDocumentName>JBossWS-CXF.xml</sourceDocumentName>
-              <sourceDirectory>${basedir}/src/main/doc</sourceDirectory>
-              <imageResource>
-                <directory>${basedir}/src/main/doc</directory>
-                <includes>
-                  <include>images/*</include>
-                  <include>author/**</include>
-                </includes>
-              </imageResource>
-              <formats>
-                <!--format>
-                  <formatName>pdf</formatName>
-                  <stylesheetResource>classpath:/xslt/org/jboss/pdf.xsl</stylesheetResource>
-                  <finalName>JBossWS-CXF_Guide.pdf</finalName>
-                </format-->
-                <format>
-                  <formatName>html</formatName>
-                  <stylesheetResource>classpath:/xslt/org/jboss/xhtml.xsl</stylesheetResource>
-                  <finalName>index.html</finalName>
-                </format>
-                <!-- <format>
-                  <formatName>html_single</formatName>
-                  <stylesheetResource>classpath:/xslt/org/jboss/xhtml-single.xsl</stylesheetResource>
-                  <finalName>index.html</finalName>
-                </format> -->
-              </formats>
-              <options>
-                <xincludeSupported>true</xincludeSupported>
-              </options>
-            </configuration>
           </plugin>
           <plugin>
-             <artifactId>maven-assembly-plugin</artifactId>
-             <executions>
-                 <execution>
-                   <id>distribution-package</id>
-                  <configuration>
-                       <finalName>assembly</finalName>
-                       <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
-                       <appendAssemblyId>false</appendAssemblyId>
-                       <descriptors>
-                          <descriptor>src/main/scripts/assembly-deploy-artifacts.xml</descriptor>
-                          <descriptor>src/main/scripts/assembly-bin-dist.xml</descriptor>
-                       </descriptors>
-                  </configuration>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>dist-test-server</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                    <configuration>
+                        <appendAssemblyId>true</appendAssemblyId>
+                        <descriptors>
+                            <descriptor>src/main/scripts/assembly-test-server.xml</descriptor>
+                        </descriptors>
+                        <tarLongFileMode>gnu</tarLongFileMode>
+                    </configuration>
                 </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+      <properties>
+        <jboss.home>${project.build.directory}/wildfly-${jboss.version}</jboss.home>
+      </properties>
+    </profile>
+    
+    <!--
+    Name:  wildfly800
+    Descr: WildFly-8.0.0 specific dependencies
+    -->
+    <profile>
+      <id>wildfly800</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws.cxf</groupId>
+          <artifactId>jbossws-cxf-resources</artifactId>
+          <version>${project.version}</version>
+          <classifier>wildfly800</classifier>     
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-wildfly800-server-integration</artifactId>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!--
+    Name:  wildfly810
+    Descr: WildFly-8.1.0 specific dependencies
+    -->
+    <profile>
+      <id>wildfly810</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws.cxf</groupId>
+          <artifactId>jbossws-cxf-resources</artifactId>
+          <version>${project.version}</version>
+          <classifier>wildfly810</classifier>     
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-wildfly810-server-integration</artifactId>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+    
+    <!--
+    Name:  wildfly820
+    Descr: WildFly-8.2.0 specific dependencies
+    -->
+    <profile>
+      <id>wildfly820</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws.cxf</groupId>
+          <artifactId>jbossws-cxf-resources</artifactId>
+          <version>${project.version}</version>
+          <classifier>wildfly820</classifier>     
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-wildfly820-server-integration</artifactId>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+    
+    <!--
+    Name:  wildfly900
+    Descr: WildFly-9.0.0 specific dependencies
+    -->
+    <profile>
+      <id>wildfly900</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws.cxf</groupId>
+          <artifactId>jbossws-cxf-resources</artifactId>
+          <version>${project.version}</version>
+          <classifier>wildfly900</classifier>     
+        </dependency>
+      </dependencies>
+    </profile>
+    
+    <!--
+    Name: spring
+    Descr: Include spring libraries when updating the stack on the server 
+    -->
+    <profile>
+      <id>spring</id>
+      <properties>
+        <spring>true</spring>
+      </properties>
+    </profile>
+
+    <!-- 
+    Name:  deploy
+    Descr: Deploy stack on WildFly instance  
+    -->
+    <profile>
+      <id>deploy</id>
+      <activation>
+        <property>
+          <name>!nodeploy</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-assembly-plugin</artifactId>
+              <executions>
+                  <execution>
+                      <id>distribution-package</id>
+                      <phase>prepare-package</phase>
+                      <goals>
+                          <goal>single</goal>
+                      </goals>
+                      <configuration>
+                          <finalName>assembly</finalName>
+                          <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
+                          <appendAssemblyId>false</appendAssemblyId>
+                          <descriptors>
+                              <descriptor>src/main/scripts/assembly-deploy-artifacts.xml</descriptor>
+                          </descriptors>
+                          <tarLongFileMode>gnu</tarLongFileMode>
+                      </configuration>
+                  </execution>
+              </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>deploy</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <property name="jbossws.integration.target" value="${jbossws.integration.target}"/>
+                    <property name="jboss.home" value="${jboss.home}"/>
+                    <property name="spring" value="${spring}"/>
+                    <ant antfile="src/main/scripts/build-deploy.xml"/>
+                  </target>
+                </configuration>
+              </execution>
             </executions>
           </plugin>
         </plugins>
@@ -298,38 +367,43 @@
     </profile>
     
     <!-- 
-    Name:  srcdist
-    Descr: Build the source distribution  
+    Name:  echo
+    Descr: A profile for printing few env property values; this is moved to the end of the pom here
+           to avoid it affecting the plugin execution order due to a bug in Maven with multiple
+           plugins of the same type in different phases.  
     -->
     <profile>
-      <id>srcdist</id>
+      <id>echo</id>
       <activation>
         <property>
-          <name>srcdist</name>
+          <name>!echo</name>
         </property>
       </activation>
-
       <build>
         <plugins>
           <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-             <executions>
-                 <execution>
-                   <id>distribution-package</id>
+              <artifactId>maven-antrun-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>validate-jboss-home</id>
+                  <phase>validate</phase>
+                  <goals>
+                    <goal>run</goal>
+                  </goals>
                   <configuration>
-                       <finalName>assembly</finalName>
-                       <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
-                       <appendAssemblyId>false</appendAssemblyId>
-                       <descriptors>
-                          <descriptor>src/main/scripts/assembly-deploy-artifacts.xml</descriptor>
-                          <descriptor>src/main/scripts/assembly-src-dist.xml</descriptor>
-                       </descriptors>
+                    <target>
+                      <echo />
+                      <echo message="profile=${jbossws.integration.target}" />
+                      <echo message="jboss.home=${jboss.home}" />
+                      <echo />
+                    </target>
                   </configuration>
                 </execution>
-            </executions>
-          </plugin>
+              </executions>
+            </plugin>
         </plugins>
       </build>
     </profile>
+    
     </profiles>
 </project>

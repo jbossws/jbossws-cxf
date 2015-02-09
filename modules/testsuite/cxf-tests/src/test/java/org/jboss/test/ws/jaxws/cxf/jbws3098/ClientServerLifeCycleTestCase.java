@@ -23,13 +23,9 @@ package org.jboss.test.ws.jaxws.cxf.jbws3098;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-
-import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
@@ -37,11 +33,17 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.ClientLifeCycleListener;
 import org.apache.cxf.endpoint.ClientLifeCycleManager;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Verifies the Bus is properly configured with Client/Server LifeCycleManager instances
@@ -49,28 +51,23 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 08-Aug-2010
  */
+@RunWith(Arquillian.class)
 public class ClientServerLifeCycleTestCase extends JBossWSTest
 {
-   private String endpointOneURL = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3098/ServiceOne/EndpointOne";
-   private String targetNS = "http://org.jboss.ws.jaxws.cxf/jbws3098";
-
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3098.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3098.EndpointOneImpl.class)
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3098/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jbws3098.war");
+      archive.addManifest()
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3098.EndpointOneImpl.class)
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3098/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(ClientServerLifeCycleTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testClientLifeCycleManager()
    {
       Bus bus = BusFactory.newInstance().createBus();
@@ -81,6 +78,8 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testServerLifeCycleManager()
    {
       Bus bus = BusFactory.newInstance().createBus();
@@ -91,13 +90,15 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testCustomClientLifeCycleListener() throws Exception
    {
       Bus bus = BusFactory.newInstance().createBus();
       BusFactory.setThreadDefaultBus(bus);
       try {
-         URL wsdlOneURL = new URL(endpointOneURL + "?wsdl");
-         QName serviceOneName = new QName(targetNS, "ServiceOne");
+         URL wsdlOneURL = new URL(baseURL + "/ServiceOne/EndpointOne?wsdl");
+         QName serviceOneName = new QName("http://org.jboss.ws.jaxws.cxf/jbws3098", "ServiceOne");
          Service serviceOne = Service.create(wsdlOneURL, serviceOneName, new UseThreadBusFeature());
          CustomClientLifeCycleListener listener = new CustomClientLifeCycleListener();
          ClientLifeCycleManager mgr = bus.getExtension(ClientLifeCycleManager.class);

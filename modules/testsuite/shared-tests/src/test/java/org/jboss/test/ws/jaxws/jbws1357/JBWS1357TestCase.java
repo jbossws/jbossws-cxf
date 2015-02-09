@@ -24,47 +24,46 @@ package org.jboss.test.ws.jaxws.jbws1357;
 import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-1357] JAXWSDeployerJSE is not handling jsp servlet defs correctly
  * 
  * @author <a href="jason.greene@jboss.com">Jason T. Greene</a>
  */
+@RunWith(Arquillian.class)
 public class JBWS1357TestCase extends JBossWSTest
 {
    private String targetNS = "http://jbws1357.jaxws.ws.test.jboss.org/";
    private JBWS1357 proxy;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1357.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws1357.war");
          archive
                .addManifest()
                .addAsWebResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1357/hello.jsp"))
                .addClass(org.jboss.test.ws.jaxws.jbws1357.JBWS1357.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1357.JBWS1357Impl.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1357/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-   
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1357TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
    @Override
@@ -73,20 +72,25 @@ public class JBWS1357TestCase extends JBossWSTest
       super.setUp();
 
       QName serviceName = new QName(targetNS, "JBWS1357Service");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws1357/JBWS1357Service?wsdl");
+      URL wsdlURL = new URL(baseURL + "/JBWS1357Service?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       proxy = (JBWS1357)service.getPort(JBWS1357.class);
    }
 
+   @Test
+   @RunAsClient
    public void testEcho() throws Exception
    {
+      setUp();
       assertEquals("hi there", proxy.echo("hi there"));
    }
 
+   @Test
+   @RunAsClient
    public void testJSP() throws Exception
    {
-      URL jsp = new URL("http://" + getServerHost() + ":8080/jaxws-jbws1357/hello.jsp");
+      URL jsp = new URL(baseURL + "/hello.jsp");
       HttpURLConnection conn = (HttpURLConnection) jsp.openConnection();
       assertEquals(conn.getResponseCode(), 200);
       IOUtils.readAndCloseStream(conn.getInputStream());

@@ -23,18 +23,20 @@ package org.jboss.test.ws.jaxws.namespace;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test the JAX-WS metadata builder.
@@ -42,11 +44,15 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Heiko.Braun@jboss.org
  * @since 23.01.2007
  */
+@RunWith(Arquillian.class)
 public class MultipleNamespacesTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-namespace.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-namespace.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.helper.DOMWriter.class)
@@ -56,14 +62,7 @@ public class MultipleNamespacesTestCase extends JBossWSTest
                .addAsResource("org/jboss/test/ws/jaxws/namespace/handler-chain.xml")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/namespace/WEB-INF/jboss-web.xml"), "jboss-web.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/namespace/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-   
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(MultipleNamespacesTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
    /**
@@ -75,10 +74,12 @@ public class MultipleNamespacesTestCase extends JBossWSTest
     * interface (through the endpointInterface annotation element), the targetNamespace is used for only the wsdl:service (and
     * associated XML elements).
     */
+   @Test
+   @RunAsClient
    public void testSEIDerivedNamespaces() throws Exception
    {
       // Create the port
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-namespace?wsdl");
+      URL wsdlURL = new URL(baseURL + "?wsdl");
       QName qname = new QName("http://example.org/impl", "EndpointBeanService");
       Service service = Service.create(wsdlURL, qname);
       EndpointInterface port = service.getPort(EndpointInterface.class);

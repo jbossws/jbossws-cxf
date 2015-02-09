@@ -23,22 +23,24 @@ package org.jboss.test.ws.jaxws.jbws3223;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.wsdl.Definition;
 import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-3223] Runtime ws client classloader setup (on AS 7)
@@ -46,43 +48,48 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 18-Feb-2011
  */
+@RunWith(Arquillian.class)
 public class EndpointTestCase extends JBossWSTest
 {
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3223-servlet.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.common\n"))
-               .addClass(org.jboss.test.ws.jaxws.jbws3223.Client.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3223.EndpointInterface.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3223.TestServlet.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3223/WEB-INF/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3223/WEB-INF/web.xml"));
-         }
-      });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3223.war") { {
+   @Deployment(name = "jaxws-jbws3223-servlet", order = 1, testable = false)
+   public static WebArchive createDeployment1() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws3223-servlet.war");
+      archive
+         .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+            + "Dependencies: org.jboss.ws.common\n"))
+         .addClass(org.jboss.test.ws.jaxws.jbws3223.Client.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws3223.EndpointInterface.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws3223.TestServlet.class)
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3223/WEB-INF/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl")
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3223/WEB-INF/web.xml"));
+      return archive;
+   }
+
+   @Deployment(name = "jaxws-jbws3223", order = 2, testable = false)
+   public static WebArchive createDeployment2() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws3223.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws3223.EndpointBean.class)
                .addClass(org.jboss.test.ws.jaxws.jbws3223.EndpointInterface.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3223/WEB-INF/web-ws.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new TestSetup(new JBossWSTestSetup(EndpointTestCase.class, JBossWSTestHelper.writeToFile(createDeployments())));
-   }
-
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-jbws3223")
    public void testWSDLAccess() throws Exception
    {
-      readWSDL(new URL("http://" + getServerHost() + ":8080/jaxws-jbws3223?wsdl"));
+      readWSDL(new URL(baseURL + "?wsdl"));
    }
-   
+
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-jbws3223")
    public void testClientAccess() throws Exception
    {
       String helloWorld = "Hello world!";
@@ -91,9 +98,12 @@ public class EndpointTestCase extends JBossWSTest
       assertEquals(helloWorld, retObj);
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-jbws3223-servlet")
    public void testServletAccess() throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-jbws3223-servlet?param=hello-world&clCheck=true");
+      URL url = new URL(baseURL + "?param=hello-world&clCheck=true");
       assertEquals("hello-world", IOUtils.readAndCloseStream(url.openStream()));
    }
    

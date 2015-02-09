@@ -12,7 +12,7 @@
   
   <jaxws:endpoint
     id='ServiceImpl'
-    address='http://@jboss.bind.address@:8080/jaxws-samples-wssePolicy-sign-encrypt'
+    address='http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,8080)@/jaxws-samples-wssePolicy-sign-encrypt'
     implementor='org.jboss.test.ws.jaxws.samples.wssePolicy.ServiceImpl'>
     
     <jaxws:properties>

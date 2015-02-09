@@ -28,7 +28,6 @@ import org.apache.cxf.annotations.EndpointProperty;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.WSTrustAppUtils;
 
 import javax.jws.WebService;
 import javax.xml.namespace.QName;
@@ -60,12 +59,12 @@ import java.util.Map;
 
 public class OnBehalfOfServiceImpl implements OnBehalfOfServiceIface
 {
-   public String sayHello() {
+   public String sayHello(String host, String port) {
       Bus bus = BusFactory.newInstance().createBus();
       try {
          BusFactory.setThreadDefaultBus(bus);
 
-         final String serviceURL = "http://" + WSTrustAppUtils.getServerHost() + ":8080/jaxws-samples-wsse-policy-trust/SecurityService";
+         final String serviceURL = "http://" + host + ":" + port + "/jaxws-samples-wsse-policy-trust/SecurityService";
          final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
          final URL wsdlURL = new URL(serviceURL + "?wsdl");
          Service service = Service.create(wsdlURL, serviceName);

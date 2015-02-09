@@ -30,64 +30,70 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployer;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-1582] Protect JBossWS Against XML Attacks
  *
  * @author <a href="mailto:richard.opalka@jboss.org">Richard Opalka</a>
  */
+@RunWith(Arquillian.class)
 public class JBWS1582TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1582-attacked.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.jbws1582.AttackedEndpointImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws1582.Endpoint.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1582/WEB-INF/wsdl/attack-service.wsdl"), "wsdl/attack-service.wsdl")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1582/WEB-INF/attack-web.xml"));
-         }
-      });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1582.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @ArquillianResource
+   Deployer deployer;
+   
+   @Deployment(name="jaxws-jbws1582-attacked", testable = false, managed=false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws1582-attacked.war");
+      archive
+         .addManifest()
+         .addClass(org.jboss.test.ws.jaxws.jbws1582.AttackedEndpointImpl.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws1582.Endpoint.class)
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1582/WEB-INF/wsdl/attack-service.wsdl"), "wsdl/attack-service.wsdl")
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1582/WEB-INF/attack-web.xml"));
+      return archive;
+   }
+
+   @Deployment(name="jaxws-jbws1582", testable = false)
+   public static WebArchive createDeployment1() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws1582.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws1582.Endpoint.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1582.EndpointImpl.class)
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1582/WEB-INF/wsdl/service.wsdl"), "wsdl/service.wsdl")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1582/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-   
-   static {
-      JBossWSTestHelper.writeToFile(createDeployments());
+      return archive;
    }
 
-   private String endpointURL = "http://" + getServerHost() + ":8080/jaxws-jbws1582/TestService";
    private String targetNS = "http://jbws1582.jaxws.ws.test.jboss.org/";
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1582TestCase.class, "jaxws-jbws1582.war");
-   }
-
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-jbws1582")
    public void testLegalAccess() throws Exception
    {
+      String endpointURL = "http://" + baseURL.getHost() + ":" + baseURL.getPort() + "/jaxws-jbws1582/TestService";
       URL wsdlURL = new URL(endpointURL + "?wsdl");
       QName serviceName = new QName(targetNS, "EndpointService");
 
@@ -98,6 +104,9 @@ public class JBWS1582TestCase extends JBossWSTest
       assertEquals("Hello", retObj);
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-jbws1582")
    public void testSOAPMessage() throws Exception
    {
       String response = getResponse("jaxws/jbws1582/message.xml");
@@ -105,6 +114,9 @@ public class JBWS1582TestCase extends JBossWSTest
       assertTrue(response.contains("<return>Hello</return>"));
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-jbws1582")
    public void testSOAPMessageAttack1() throws Exception
    {
       String response = getResponse("jaxws/jbws1582/attack-message-1.xml");
@@ -119,6 +131,9 @@ public class JBWS1582TestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-jbws1582")
    public void testSOAPMessageAttack2() throws Exception
    {
       String response = getResponse("jaxws/jbws1582/attack-message-2.xml");
@@ -138,12 +153,12 @@ public class JBWS1582TestCase extends JBossWSTest
       final String CRNL = "\r\n";
       String content = getContent(new FileInputStream(getResourceFile(requestFile)));
       Socket socket = new Socket();
-      socket.connect(new InetSocketAddress(getServerHost(), 8080));
+      socket.connect(new InetSocketAddress(getServerHost(), getServerPort()));
       OutputStream out = socket.getOutputStream();
 
       // send an HTTP request to the endpoint
       out.write(("POST /jaxws-jbws1582/TestService HTTP/1.0" + CRNL).getBytes());
-      out.write(("Host: " + getServerHost() + ":8080" + CRNL).getBytes());
+      out.write(("Host: " + getServerHost() + ":" + getServerPort() + CRNL).getBytes());
       out.write(("Content-Type: text/xml" + CRNL).getBytes());
       out.write(("Content-Length: " + content.length() + CRNL).getBytes());
       out.write((CRNL).getBytes());
@@ -158,11 +173,14 @@ public class JBWS1582TestCase extends JBossWSTest
       return response;
    }
 
+
+   @Test
+   @RunAsClient
    public void testAttackedArchiveDeployment() throws Exception
    {
       try
       {
-         deploy("jaxws-jbws1582-attacked.war");
+         deployer.deploy("jaxws-jbws1582-attacked");
          if (isIntegrationCXF())
          {
             // Apache CXF ignores DOCTYPE section in WSDLs
@@ -181,7 +199,7 @@ public class JBWS1582TestCase extends JBossWSTest
       }
       finally
       {
-         undeploy("jaxws-jbws1582-attacked.war");
+         deployer.undeploy("jaxws-jbws1582-attacked");
       }
    }
 

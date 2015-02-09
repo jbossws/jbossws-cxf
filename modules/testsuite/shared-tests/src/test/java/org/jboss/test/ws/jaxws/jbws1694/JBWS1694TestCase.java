@@ -22,28 +22,33 @@
 package org.jboss.test.ws.jaxws.jbws1694;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Holder;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author Heiko.Braun@jboss.com
  */
+@RunWith(Arquillian.class)
 public class JBWS1694TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1694.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1694.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws1694.Basket.class)
@@ -53,19 +58,14 @@ public class JBWS1694TestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.jbws1694.JBWS1694EndpointSEI.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1694.JBWS1694TestCase.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1694.Receipt.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1694TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testInheritanceRpc() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jbws1694/JBWS1694Endpoint?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jbws1694/JBWS1694Endpoint?wsdl");
       QName serviceName = new QName("http://jbws1694.jaxws.ws.test.jboss.org/", "JBWS1694EndpointService");
       Service service = Service.create(wsdlURL, serviceName);
 
@@ -80,7 +80,4 @@ public class JBWS1694TestCase extends JBossWSTest
       Receipt receipt = port.submitBasket(new Holder<Header>(inout), basket);
       assertTrue(receipt.getMsg().equals("1234"));
    }
-
-
-
 }

@@ -24,7 +24,6 @@ package org.jboss.test.ws.jaxws.binding;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.wsdl.Binding;
@@ -40,12 +39,16 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test SOAP12 binding type
@@ -53,34 +56,29 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.org
  * @since 12-Aug-2006
  */
+@RunWith(Arquillian.class)
 public class SOAPBindingTestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-binding";
-
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-binding.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.binding.SOAPEndpoint.class)
-               .addClass(org.jboss.test.ws.jaxws.binding.SOAPEndpointBean.class)
-               .addClass(org.jboss.test.ws.jaxws.binding.ServerHandler.class)
-               .addAsResource("org/jboss/test/ws/jaxws/binding/jaxws-server-handlers.xml")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/binding/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-   
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(SOAPBindingTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @ArquillianResource
+   private URL baseURL;
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-binding.war");
+      archive
+            .addManifest()
+            .addClass(org.jboss.test.ws.jaxws.binding.SOAPEndpoint.class)
+            .addClass(org.jboss.test.ws.jaxws.binding.SOAPEndpointBean.class)
+            .addClass(org.jboss.test.ws.jaxws.binding.ServerHandler.class)
+            .addAsResource("org/jboss/test/ws/jaxws/binding/jaxws-server-handlers.xml")
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/binding/WEB-INF/web.xml"));
+      return archive;
+   }   
    // [JBWS-1761] - WSProvide ignores SOAPBinding declaration
+   @Test
+   @RunAsClient
    public void testWSDLAccess() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "?wsdl");
 
       WSDLReader wsdlReader = WSDLFactory.newInstance().newWSDLReader();
       Definition wsdl = wsdlReader.readWSDL(wsdlURL.toString());
@@ -114,10 +112,11 @@ public class SOAPBindingTestCase extends JBossWSTest
          assertEquals("Invalid transport uri", "http://schemas.xmlsoap.org/soap/http", transport);
       }
    }
-
+   @Test
+   @RunAsClient
    public void testClientAccess() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/binding", "SOAPEndpointService");
       Service service = Service.create(wsdlURL, qname);
       SOAPEndpoint port = service.getPort(SOAPEndpoint.class);

@@ -24,7 +24,7 @@
 </bean>
 
 
-<jaxws:endpoint implementor="org.jboss.test.ws.jaxws.cxf.configuration.EndpointImpl" address="http://@jboss.bind.address@:8080/jaxws-cxf-configuration">
+<jaxws:endpoint implementor="org.jboss.test.ws.jaxws.cxf.configuration.EndpointImpl" address="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,8080)@/jaxws-cxf-configuration">
 </jaxws:endpoint>
 
 </beans>

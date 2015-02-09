@@ -23,8 +23,6 @@ package org.jboss.test.ws.jaxws.jbws2937;
 
 import java.io.StringReader;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -40,16 +38,21 @@ import javax.xml.ws.Service.Mode;
 import javax.xml.ws.WebServiceFeature;
 import javax.xml.ws.soap.AddressingFeature;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.logging.Logger;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.Filter;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -58,9 +61,9 @@ import org.w3c.dom.Node;
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
+@RunWith(Arquillian.class)
 public final class JBWS2937TestCase extends JBossWSTest
 {
-   private static final String ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws2937";
    private static final WebServiceFeature[] ADDRESSING_ENABLED = { new AddressingFeature(true) };
    private static final WebServiceFeature[] ADDRESSING_DISABLED = { new AddressingFeature(false) };
    private static final String NAMESPACE_URI = "http://jboss.org/jbws2937";
@@ -76,41 +79,25 @@ public final class JBWS2937TestCase extends JBossWSTest
    private Endpoint proxy;
    private EndpointReference epr;
    private UserType user;
+
+
+   @ArquillianResource
+   private URL baseURL;
    
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2937-client.jar") { {
-         archive
-               .addManifest()
-               .addPackages(false, new Filter<ArchivePath>() {
-                  @Override
-                  public boolean include(ArchivePath path)
-                  {
-                     return !path.get().contains("TestCase");
-                  }
-               }, "org.jboss.test.ws.jaxws.jbws2937");
-         }
-      });
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2937.jar") { {
+   @Deployment(name="jaxws-jbws2937", testable = false)
+   public static JavaArchive createDeployment2() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws2937.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws2937.EndpointImpl.class)
                .addClass(org.jboss.test.ws.jaxws.jbws2937.UserType.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
-   
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS2937TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
-   protected void setUp() throws Exception
+   @Before
+   public void setUp() throws Exception
    {
       super.setUp();
-
-      URL wsdlURL = new URL(ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL("http://" + baseURL.getHost() + ":" + baseURL.getPort() + "/jaxws-jbws2937" + "?wsdl");
       this.service = EndpointService.create(wsdlURL, SERVICE_QNAME);
       this.proxy = (Endpoint)this.service.getPort(PORT_QNAME, Endpoint.class);
       this.epr = ((BindingProvider)this.proxy).getEndpointReference();
@@ -119,13 +106,17 @@ public final class JBWS2937TestCase extends JBossWSTest
       this.user.setString("Kermit");
       this.user.setQname(new QName("TheFrog"));
    }
-   
+
+   @Test
+   @RunAsClient
    public void testProxy() throws Exception
    {
       final UserType response = this.proxy.echo(this.user);
       assertEquals(this.user, response);
    }
 
+   @Test
+   @RunAsClient
    public void testCreateDispatchUsingEPRAndSource() throws Exception
    {
       Dispatch<Source> dispatch = this.service.createDispatch(PORT_QNAME, Source.class, Mode.PAYLOAD);
@@ -146,7 +137,9 @@ public final class JBWS2937TestCase extends JBossWSTest
       this.epr = dispatch.getEndpointReference();
       printEPR(this.epr);
    }
-   
+
+   @Test
+   @RunAsClient
    public void testCreateDispatchUsingEPRAndJAXBContext() throws Exception
    {
       Dispatch<Object> dispatch = this.service.createDispatch(PORT_QNAME, this.createJAXBContext(), Mode.PAYLOAD);

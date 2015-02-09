@@ -21,30 +21,76 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3713;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(Arquillian.class)
 public class InContainerClientBusStrategyTestCase extends JBossWSTest
 {
-   public final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3713/HelloService";
+   private static final String DEP = "jaxws-cxf-jbws3713-ict";
+   private static final String CLIENT_DEP = "jaxws-cxf-jbws3713-client";
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(InContainerClientBusStrategyTestCase.class, DeploymentArchives.SERVER + "," + DeploymentArchives.CLIENT_WAR);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(name = DEP, testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, DEP + ".war");
+      archive.addManifest()
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.HelloRequest.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.HelloResponse.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.HelloWSImpl.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.HelloWs.class)
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3713/WEB-INF/wsdl/Hello.wsdl"), "wsdl/Hello.wsdl")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3713/WEB-INF/wsdl/Hello_schema1.xsd"), "wsdl/Hello_schema1.xsd")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3713/WEB-INF/wsdl/Hello_schema2.xsd"), "wsdl/Hello_schema2.xsd")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3713/WEB-INF/wsdl/Hello_schema3.xsd"), "wsdl/Hello_schema3.xsd")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3713/WEB-INF/wsdl/Hello_schema4.xsd"), "wsdl/Hello_schema4.xsd")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3713/WEB-INF/wsdl/Hello_schema5.xsd"), "wsdl/Hello_schema5.xsd");
+      return archive;
+   }
+   
+   @Deployment(name = CLIENT_DEP, testable = false)
+   public static WebArchive createDeployment2() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, CLIENT_DEP + ".war");
+      archive
+         .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+               + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.BusCounter.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.ClientServlet.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.ClientServletUsignThreadLocal.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.HelloRequest.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.HelloResponse.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.HelloWs.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.Helper.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.HelperUsignThreadLocal.class);
+      return archive;
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP)
    public void testEndpoint() throws Exception
    {
-      HelloWs port = getPort(endpointAddress);
+      HelloWs port = getPort(baseURL + "/HelloService");
       HelloRequest request = new HelloRequest();
       request.setInput("hello");
       HelloResponse response = port.doHello(request);
@@ -53,6 +99,9 @@ public class InContainerClientBusStrategyTestCase extends JBossWSTest
       assertTrue(response.getMultiHello().contains("world"));
    }
    
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(CLIENT_DEP)
    public void testClientWithNewBusStrategy() throws Exception
    {
       final int threadPoolSize = 10;
@@ -64,6 +113,9 @@ public class InContainerClientBusStrategyTestCase extends JBossWSTest
       assertEquals(invocations, busCount);
    }
    
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(CLIENT_DEP)
    public void testClientWithThreadBusStrategy() throws Exception
    {
       final int threadPoolSize = 10;
@@ -75,6 +127,9 @@ public class InContainerClientBusStrategyTestCase extends JBossWSTest
       assertEquals(threadPoolSize, busCount);
    }
    
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(CLIENT_DEP)
    public void testClientWithTCCLBusStrategy() throws Exception
    {
       final int threadPoolSize = 10;
@@ -86,9 +141,9 @@ public class InContainerClientBusStrategyTestCase extends JBossWSTest
       assertEquals(1, busCount);
    }
    
-   private static int callServlet(String pattern, String strategy, int threads, int calls) throws Exception {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3713-client/" + pattern + "?strategy="
-            + strategy + "&host=" + getServerHost() + "&threads=" + threads + "&calls=" + calls);
+   private int callServlet(String pattern, String strategy, int threads, int calls) throws Exception {
+      URL url = new URL(baseURL + pattern + "?strategy="
+            + strategy + "&path=/jaxws-cxf-jbws3713-ict/HelloService&threads=" + threads + "&calls=" + calls);
       return Integer.parseInt(IOUtils.readAndCloseStream(url.openStream()));
    }
 

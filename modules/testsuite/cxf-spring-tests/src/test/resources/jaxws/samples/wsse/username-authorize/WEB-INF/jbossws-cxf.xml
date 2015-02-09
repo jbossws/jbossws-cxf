@@ -32,7 +32,7 @@
   
   <jaxws:endpoint
     id='ServiceImpl'
-    address='http://@jboss.bind.address@:8080/jaxws-samples-wsse-username-authorize/default-config'
+    address='http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,8080)@/jaxws-samples-wsse-username-authorize/default-config'
     implementor='org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl'
     endpointName="ns:SecurityServicePort"
     serviceName="ns:SecurityService"

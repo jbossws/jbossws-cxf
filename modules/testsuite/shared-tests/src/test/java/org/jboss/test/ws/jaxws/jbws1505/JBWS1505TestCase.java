@@ -22,8 +22,6 @@
 package org.jboss.test.ws.jaxws.jbws1505;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.wsdl.Definition;
@@ -31,39 +29,39 @@ import javax.wsdl.factory.WSDLFactory;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-1505] Verify wsdl generation on SEI inheritance.
  */
+@RunWith(Arquillian.class)
 public class JBWS1505TestCase extends JBossWSTest
 {
    private final String targetNS = "http://org.jboss.test.ws/jbws1505";
    private Interface2 port;
    private URL wsdlURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1505.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1505.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws1505.CustomType.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1505.Interface1.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1505.Interface2.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1505.JBWS1505EndpointImpl.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1505TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
    @Override
@@ -72,7 +70,7 @@ public class JBWS1505TestCase extends JBossWSTest
       super.setUp();
 
       QName serviceName = new QName(targetNS, "JBWS1505Service");
-      wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws1505/JBWS1505Service/JBWS1505EndpointImpl?wsdl");
+      wsdlURL = new URL(baseURL + "/jaxws-jbws1505/JBWS1505Service/JBWS1505EndpointImpl?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       port = service.getPort(Interface2.class);
@@ -91,14 +89,18 @@ public class JBWS1505TestCase extends JBossWSTest
     *
     * @throws Exception
     */
+   @Test
+   @RunAsClient
    public void testWSDLGeneration() throws Exception
    {
+      setUp();
       Definition wsdl = WSDLFactory.newInstance().newWSDLReader().readWSDL(wsdlURL.toString());
       Map<?, ?> services = wsdl.getAllServices();
       assertTrue(services.size() == 1); // a simple port
       javax.wsdl.Service service = (javax.wsdl.Service)services.values().iterator().next();
       javax.wsdl.Port port = (javax.wsdl.Port)service.getPorts().values().iterator().next();
       assertTrue(port.getBinding().getBindingOperations().size() == 5); // with five op's
+      tearDown();
    }
 
    /**
@@ -107,10 +109,14 @@ public class JBWS1505TestCase extends JBossWSTest
     *
     * @throws Exception
     */
+   @Test
+   @RunAsClient
    public void testTypeInheritance() throws Exception
    {
+      setUp();
       CustomType ct = port.getCustomType();
       assertTrue(ct.getMember1() == 1);
       assertTrue(ct.getMember2() == 2);
+      tearDown();
    }
 }

@@ -29,14 +29,20 @@ import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployer;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test the handlers (pre/post) declaration in jaxws endpoint configuration
@@ -47,91 +53,94 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 03-Oct-2014
  */
+@RunWith(Arquillian.class)
 public class HandlerChainTestCaseForked extends JBossWSTest
 {
    private final String targetNS = "http://jbws3282.jaxws.ws.test.jboss.org/";
-   
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3832-f-inContainer-client.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.Helper.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.TestUtils.class)
-               .addClass(org.jboss.test.helper.ClientHelper.class)
-               .addClass(org.jboss.test.helper.TestServlet.class)
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3282/META-INF/permissions.xml"), "permissions.xml");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-   
-   private static String DEP = JBossWSTestHelper.writeToFile(new JBossWSTestHelper.WarDeployment("jaxws-jbws3282-f.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.EndpointHandler.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint2Impl.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint3Impl.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.LogHandler.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3282.RoutingHandler.class)
-               .addAsResource("org/jboss/test/ws/jaxws/jbws3282/jaxws-handlers-server.xml")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3282/WEB-INF/web-f.xml"));
-         }
-      });
+   private static final String INCONTAINER_CLIENT = "jaxws-jbws3832-f-inContainer-client";
+   private static final String DEP = "jaxws-jbws3282-f";
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(HandlerChainTestCaseForked.class, JBossWSTestHelper.writeToFile(createDeployments()));
+   @ArquillianResource
+   Deployer deployer;
+
+   @Deployment(name = INCONTAINER_CLIENT, testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, INCONTAINER_CLIENT + ".war");
+         archive
+            .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+               + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+            .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws3282.Helper.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws3282.TestUtils.class)
+            .addClass(org.jboss.test.helper.ClientHelper.class)
+            .addClass(org.jboss.test.helper.TestServlet.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3282/META-INF/permissions.xml"), "permissions.xml");
+      return archive;
    }
 
-   public void testHandlerChainVanillaServer() throws Exception
+   @Deployment(name = DEP, testable = false, managed = false)
+   public static WebArchive createDeployment2() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, DEP + ".war");
+         archive
+         .addManifest()
+         .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws3282.EndpointHandler.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint2Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint3Impl.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws3282.LogHandler.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws3282.RoutingHandler.class)
+         .addAsResource("org/jboss/test/ws/jaxws/jbws3282/jaxws-handlers-server.xml")
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3282/WEB-INF/web-f.xml"));
+      return archive;
+   }
+
+  @Test
+  @RunAsClient
+  public void testHandlerChainVanillaServer() throws Exception
    {
       try {
-         JBossWSTestHelper.deploy(DEP);
-         
+         deployer.deploy(DEP);
          QName serviceName = new QName(targetNS, "Endpoint2ImplService");
-         URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws3282-f/ep2?wsdl");
+         URL wsdlURL = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws3282-f/ep2?wsdl");
          Service service = Service.create(wsdlURL, serviceName);
          Endpoint port = (Endpoint)service.getPort(Endpoint.class);
          String resStr = port.echo("Kermit");
          assertEquals("Kermit|EpIn|endpoint2|EpOut", resStr);
          
          serviceName = new QName(targetNS, "Endpoint3ImplService");
-         wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws3282-f/ep3?wsdl");
+         wsdlURL = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws3282-f/ep3?wsdl");
          service = Service.create(wsdlURL, serviceName);
          port = (Endpoint)service.getPort(Endpoint.class);
          resStr = port.echo("Kermit");
          assertEquals("Kermit|EpIn|endpoint3|EpOut", resStr);
       } finally {
-         JBossWSTestHelper.undeploy(DEP);
+         deployer.undeploy(DEP);
       }
    }
 
+   @Test
+   @RunAsClient
    public void testHandlerChainModifiedServer() throws Exception
    {
       try {
          assertEquals("1", runTestInContainer("setupConfigurations"));
          try {
-            JBossWSTestHelper.deploy(DEP);
-            
+            deployer.deploy(DEP);
             QName serviceName = new QName(targetNS, "Endpoint2ImplService");
-            URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws3282-f/ep2?wsdl");
+            URL wsdlURL = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws3282-f/ep2?wsdl");
             Service service = Service.create(wsdlURL, serviceName);
             Endpoint port = (Endpoint)service.getPort(Endpoint.class);
             String resStr = port.echo("Kermit");
             assertEquals("Kermit|EpIn|RoutIn|endpoint2|RoutOut|EpOut", resStr);
             
             serviceName = new QName(targetNS, "Endpoint3ImplService");
-            wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws3282-f/ep3?wsdl");
+            wsdlURL = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws3282-f/ep3?wsdl");
             service = Service.create(wsdlURL, serviceName);
             port = (Endpoint)service.getPort(Endpoint.class);
             resStr = port.echo("Kermit");
             assertEquals("Kermit|LogIn|EpIn|endpoint3|EpOut|LogOut", resStr);
          } finally {
-            JBossWSTestHelper.undeploy(DEP);
+            deployer.undeploy(DEP);
          }
       } finally {
          assertEquals("1", runTestInContainer("restoreConfigurations"));
@@ -142,9 +151,10 @@ public class HandlerChainTestCaseForked extends JBossWSTest
    
    private String runTestInContainer(String test) throws Exception
    {
+
       URL url = new URL("http://" + getServerHost()
-            + ":8080/jaxws-jbws3832-f-inContainer-client?path=/jaxws-jbws3282-f&method=" + test
-            + "&helper=" + Helper.class.getName());
+         + ":" + getServerPort() + "/jaxws-jbws3832-f-inContainer-client?path=/jaxws-jbws3282-f&method=" + test
+         + "&helper=" + Helper.class.getName());
       return IOUtils.readAndCloseStream(url.openStream());
    }
 }

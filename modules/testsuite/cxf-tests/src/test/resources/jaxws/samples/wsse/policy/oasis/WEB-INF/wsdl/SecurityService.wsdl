@@ -89,16 +89,16 @@
   </wsdl:binding>
   <wsdl:service name="SecurityService">
     <wsdl:port name="SecurityService221Port" binding="tns:SecurityService221PortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-oasis/SecurityService221"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-tests.jboss,8080)@/jaxws-samples-wsse-policy-oasis/SecurityService221"/>
     </wsdl:port>
     <wsdl:port name="SecurityService222Port" binding="tns:SecurityService222PortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-oasis/SecurityService222"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-tests.jboss,8080)@/jaxws-samples-wsse-policy-oasis/SecurityService222"/>
     </wsdl:port>
     <wsdl:port name="SecurityService223Port" binding="tns:SecurityService223PortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-oasis/SecurityService223"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-tests.jboss,8080)@/jaxws-samples-wsse-policy-oasis/SecurityService223"/>
     </wsdl:port>
     <wsdl:port name="SecurityService224Port" binding="tns:SecurityService224PortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-oasis/SecurityService224"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-tests.jboss,8080)@/jaxws-samples-wsse-policy-oasis/SecurityService224"/>
     </wsdl:port>
   </wsdl:service>
   <!-- 2.2.1 (WSS1.0) X.509 Certificates, Sign, Encrypt -->

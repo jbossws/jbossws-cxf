@@ -23,6 +23,11 @@ package org.jboss.test.ws.jaxws.smoke.tools;
 
 import java.io.File;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 /**
  * [JBWS-1793] Provide a test case for the tools scripts that reside under JBOSS_HOME/bin
  * 
@@ -34,11 +39,14 @@ import java.io.File;
  * 
  * @author Heiko.Braun@jboss.com
  */
+@RunWith(Arquillian.class)
 public class WSProvideScriptTestCase extends ScriptTestCase
 {
-
+   @Test
+   @RunAsClient
    public void testWSProvideFromCommandLine() throws Exception
    {
+      super.setUp();
       String absOutput = new File(TEST_DIR, "wsprovide" + FS + "java").getAbsolutePath();
       String command = JBOSS_HOME + FS + "bin" + FS + "wsprovide" + EXT + " -k -w -o " + absOutput + " --classpath " + CLASSES_DIR + " " + ENDPOINT_CLASS;
       executeCommand(command, "wsprovide");

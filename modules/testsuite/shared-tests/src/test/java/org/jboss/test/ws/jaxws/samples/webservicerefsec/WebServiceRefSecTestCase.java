@@ -23,16 +23,20 @@ package org.jboss.test.ws.jaxws.samples.webservicerefsec;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test multiple webserviceref fro the same endpoint with different security credentials
@@ -40,19 +44,24 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 12-May-2010
  */
+@RunWith(Arquillian.class)
 public class WebServiceRefSecTestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-samples-webservicerefsec";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-webservicerefsec.jar") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.samples.webservicerefsec.EndpointImpl.class);
-         }
-      });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-webservicerefsec-servlet-client.war") { {
+   @Deployment(name="jaxws-samples-webservicerefsec", order=1, testable = false)
+   public static JavaArchive createDeployment() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-samples-webservicerefsec.jar");
+      archive
+         .addManifest()
+         .addClass(org.jboss.test.ws.jaxws.samples.webservicerefsec.EndpointImpl.class);
+      return archive;
+   }
+
+   @Deployment(name="jaxws-samples-webservicerefsec-servlet-client", order=2, testable = false)
+   public static WebArchive createDeployment1() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-webservicerefsec-servlet-client.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.webservicerefsec.Client.class)
@@ -61,19 +70,15 @@ public class WebServiceRefSecTestCase extends JBossWSTest
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webservicerefsec/WEB-INF/jboss-web.xml"), "jboss-web.xml")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webservicerefsec/WEB-INF/wsdl/Endpoint.wsdl"), "wsdl/Endpoint.wsdl")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webservicerefsec/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(WebServiceRefSecTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), true);
-   }
-
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-samples-webservicerefsec-servlet-client")
    public void testServletClient() throws Exception
    {
-      URL url = new URL(TARGET_ENDPOINT_ADDRESS + "-servlet-client?echo=HelloWorld");
+      URL url = new URL("http://" + baseURL.getHost() + ":" + baseURL.getPort() + "/jaxws-samples-webservicerefsec-servlet-client?echo=HelloWorld");
       assertEquals("HelloWorld", IOUtils.readAndCloseStream(url.openStream()));
    }
 }

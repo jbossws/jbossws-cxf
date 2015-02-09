@@ -23,7 +23,11 @@ package org.jboss.test.ws.jaxws.smoke.tools;
 
 import java.io.File;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-1793] Provide a test case for the tools scripts that reside under JBOSS_HOME/bin
@@ -36,17 +40,18 @@ import org.jboss.wsf.test.JBossWSTest;
  * 
  * @author Heiko.Braun@jboss.com
  */
+@RunWith(Arquillian.class)
 public class ScriptTestCase extends JBossWSTest
 {
-   protected static final String FS = System.getProperty("file.separator"); // '/' on unix, '\' on windows
-   protected static final String PS = System.getProperty("path.separator"); // ':' on unix, ';' on windows
-   protected static final String EXT = ":".equals( PS ) ? ".sh" : ".bat";
+   public static final String FS = System.getProperty("file.separator"); // '/' on unix, '\' on windows
+   public static final String PS = System.getProperty("path.separator"); // ':' on unix, ';' on windows
+   public static final String EXT = ":".equals( PS ) ? ".sh" : ".bat";
 
-   protected String ENDPOINT_CLASS;
+   public String ENDPOINT_CLASS;
 
-   protected String JBOSS_HOME;
-   protected String CLASSES_DIR;
-   protected String TEST_DIR;
+   public String JBOSS_HOME;
+   public String CLASSES_DIR;
+   public String TEST_DIR;
 
    protected void setUp() throws Exception
    {
@@ -58,9 +63,12 @@ public class ScriptTestCase extends JBossWSTest
       ENDPOINT_CLASS = "org.jboss.test.ws.jaxws.smoke.tools.CalculatorBean";
       TEST_DIR = createResourceFile("..").getAbsolutePath();
    }
-   
-   public void testScritpsAvailable()
+
+   @Test
+   @RunAsClient
+   public void testScritpsAvailable() throws Exception
    {
+      setUp();
       assertTrue(new File(JBOSS_HOME + FS + "bin" + FS + "wsprovide" + ".sh").exists());
       assertTrue(new File(JBOSS_HOME + FS + "bin" + FS + "wsprovide" + ".bat").exists());
       assertTrue(new File(JBOSS_HOME + FS + "bin" + FS + "wsconsume" + ".sh").exists());

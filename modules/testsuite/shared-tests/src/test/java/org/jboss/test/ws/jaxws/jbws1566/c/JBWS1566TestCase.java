@@ -23,23 +23,24 @@ package org.jboss.test.ws.jaxws.jbws1566.c;
 
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.test.ws.jaxws.jbws1566.a.TestEnumeration;
 import org.jboss.test.ws.jaxws.jbws1566.b.BClass;
 import org.jboss.test.ws.jaxws.jbws1566.b.BException;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-1566] Invalid wsdl using @XmlSchema annotations on Types
@@ -47,13 +48,15 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * http://jira.jboss.org/jira/browse/JBWS-1566
  * 
  */
+@RunWith(Arquillian.class)
 public class JBWS1566TestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxwstest/Jaxb20StatelessTestBean";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1566.jar") { {
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1566.jar");
          archive
                .addManifest()
                .addPackage("org.jboss.test.ws.jaxws.jbws1566.a")
@@ -61,18 +64,14 @@ public class JBWS1566TestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.jbws1566.c.JBWS1566TestCase.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1566.c.Jaxb20StatelessTestBean.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1566.c.Jaxb20TestWSInterface.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1566TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testWebService() throws Exception
    {
+      String TARGET_ENDPOINT_ADDRESS = baseURL.toString() + "/jaxwstest/Jaxb20StatelessTestBean";
       URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
       System.out.println("wsdl URL:" + wsdlURL);
 

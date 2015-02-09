@@ -74,12 +74,15 @@
     <condition property="wildfly810.home" value="${profiles.profile.properties.wildfly810.home}">
       <isset property="profiles.profile.properties.wildfly810.home"/>
     </condition>
+    <condition property="wildfly820.home" value="${profiles.profile.properties.wildfly820.home}">
+      <isset property="profiles.profile.properties.wildfly820.home"/>
+    </condition>
     <condition property="wildfly900.home" value="${profiles.profile.properties.wildfly900.home}">
       <isset property="profiles.profile.properties.wildfly900.home"/>
     </condition>
 
 
-    <fail message="Application server home not set, wildfly800.home=value, wildfly810.home=value or wildfly900.home to set">
+    <fail message="Application server home not set, wildfly800.home=value, wildfly810.home=value, wildfly820.home=value or wildfly900.home to set">
      <condition>
       <and>
        <not>
@@ -87,6 +90,9 @@
        </not>
        <not>
          <isset property="wildfly810.home"/>
+       </not>
+       <not>
+         <isset property="wildfly820.home"/>
        </not>
        <not>
          <isset property="wildfly900.home"/>
@@ -98,6 +104,7 @@
     <echo/>
     <echo message="wildfly800.home=${wildfly800.home}"/>
     <echo message="wildfly810.home=${wildfly810.home}"/>
+    <echo message="wildfly820.home=${wildfly820.home}"/>
     <echo message="wildfly900.home=${wildfly900.home}"/>
   </target>
 

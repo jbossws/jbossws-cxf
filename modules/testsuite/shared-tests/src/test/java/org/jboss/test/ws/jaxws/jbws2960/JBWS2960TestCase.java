@@ -34,6 +34,10 @@ import javax.wsdl.xml.WSDLReader;
 import javax.xml.namespace.QName;
 
 import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 
 import org.jboss.ws.api.util.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
@@ -45,6 +49,7 @@ import org.w3c.dom.Element;
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
+@RunWith(Arquillian.class)
 public class JBWS2960TestCase extends JBossWSTest
 {
    private static final QName WSAM_ACTION_QNAME = new QName("http://www.w3.org/2007/05/addressing/metadata", "Action");
@@ -84,8 +89,11 @@ public class JBWS2960TestCase extends JBossWSTest
      </binding>
    </definitions>
     */
+   @Test
+   @RunAsClient
    public void testPolicyReference() throws Exception
    {
+      setUp();
       Definition wsdl = getWSDLDefinition(wsdlFile.getAbsolutePath());
       List<?> definitionExtElements = wsdl.getExtensibilityElements();
       QName serviceQName = new QName("http://foobar.org/", "AddNumbersService");
@@ -107,8 +115,11 @@ public class JBWS2960TestCase extends JBossWSTest
       assertNotNull("NonAnonymousResponses element not found", nonAnonymousResponsesElement);
    }
 
+   @Test
+   @RunAsClient
    public void testOperations() throws Exception
    {
+      setUp();
       Definition wsdl = getWSDLDefinition(wsdlFile.getAbsolutePath());
       PortType port = wsdl.getPortType(new QName("http://foobar.org/", "AddNumbers"));
       Operation operation = null;

@@ -23,20 +23,21 @@ package org.jboss.test.ws.jaxws.samples.session;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test to demonstrate enable session with cxf <code>@FactoryType</code>
@@ -44,51 +45,31 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * 
  * @author ema@redhat.com
  */
+@RunWith(Arquillian.class)
 public class SessionEndpointTestCase extends JBossWSTest
 {
-   private String targetNS = "http://jboss.org/jaxws-samples-session";
-
-   private SessionEndpoint proxy;
-
-   public static BaseDeployment<?>[] createDeployments()
-   {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-session.war")
-      {
-         {
-            archive
-                  .setManifest(new StringAsset("Manifest-Version: 1.0\n" + "Dependencies: org.apache.cxf.impl\n"))
-                  .addClass(org.jboss.test.ws.jaxws.samples.session.SessionEndpoint.class)
-                  .addClass(org.jboss.test.ws.jaxws.samples.session.SessionEndpointImpl.class)
-                  .setWebXML(
-                        new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/session/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-session.war");
+      archive
+            .setManifest(new StringAsset("Manifest-Version: 1.0\n" + "Dependencies: org.apache.cxf.impl\n"))
+            .addClass(org.jboss.test.ws.jaxws.samples.session.SessionEndpoint.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.session.SessionEndpointImpl.class)
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/session/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(SessionEndpointTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
-   @Override
-   protected void setUp() throws Exception
-   {
-      super.setUp();
-
-   }
-
+   @Test
+   @RunAsClient
    public void testSession() throws Exception
    {
       SessionEndpoint proxy = this.createPort();
       SessionEndpoint proxy2 = this.createPort();
+      String addr = "http://" + getServerHost() + ":" + getServerPort() + "/jaxws-samples-session/session";
       ((BindingProvider) proxy).getRequestContext().put(BindingProvider.SESSION_MAINTAIN_PROPERTY, true);
-      ((BindingProvider) proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-            "http://" + getServerHost() + ":8080/jaxws-samples-session/session");
+      ((BindingProvider) proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, addr);
       ((BindingProvider) proxy2).getRequestContext().put(BindingProvider.SESSION_MAINTAIN_PROPERTY, true);
-      ((BindingProvider) proxy2).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-            "http://" + getServerHost() + ":8080/jaxws-samples-session/session");
+      ((BindingProvider) proxy2).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, addr);
       proxy.setNumber(10);
       assertEquals("Number is 10", proxy.getNumber());
       proxy2.setNumber(20);
@@ -98,11 +79,11 @@ public class SessionEndpointTestCase extends JBossWSTest
 
    public SessionEndpoint createPort() throws Exception
    {
-      QName serviceName = new QName(targetNS, "SessionService");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-session/session?wsdl");
+      QName serviceName = new QName("http://jboss.org/jaxws-samples-session", "SessionService");
+      URL wsdlURL = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-samples-session/session?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
-      proxy = (SessionEndpoint) service.getPort(SessionEndpoint.class);
+      SessionEndpoint proxy = (SessionEndpoint) service.getPort(SessionEndpoint.class);
       return proxy;
    }
 

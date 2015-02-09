@@ -26,8 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
@@ -45,13 +43,17 @@ import javax.xml.ws.Service;
 import javax.xml.ws.Service.Mode;
 import javax.xml.ws.soap.SOAPBinding;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Element;
 
 /**
@@ -60,6 +62,7 @@ import org.w3c.dom.Element;
  * @author Thomas.Diesler@jboss.org
  * @since 29-Jun-2006
  */
+@RunWith(Arquillian.class)
 public class ProviderMessageTestCase extends JBossWSTest
 {
    private String msgString =
@@ -79,31 +82,31 @@ public class ProviderMessageTestCase extends JBossWSTest
       "  </soap:Body>" +
       "</soap:Envelope>";
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-provider-message.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-provider-message.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.provider.ProviderBeanMessage.class)
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/provider/message/WEB-INF/wsdl/Provider.wsdl"), "wsdl/Provider.wsdl")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/provider/message/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(ProviderMessageTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testWSDLAccess() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-provider-message?wsdl");
+      URL wsdlURL = new URL(baseURL + "?wsdl");
       Element wsdl = DOMUtils.parse(wsdlURL.openStream());
       assertNotNull(wsdl);
    }
 
+   @Test
+   @RunAsClient
    public void testProviderDispatch() throws Exception
    {
       Dispatch<SOAPMessage> dispatch = createDispatch("ProviderEndpoint");
@@ -119,12 +122,14 @@ public class ProviderMessageTestCase extends JBossWSTest
       assertEquals(DOMUtils.parse(msgString), resEnv);
    }
 
+   @Test
+   @RunAsClient
    public void testProviderMessage() throws Exception
    {
       SOAPMessage reqMsg = getRequestMessage();
       SOAPEnvelope reqEnv = reqMsg.getSOAPPart().getEnvelope();
 
-      URL epURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-provider-message");
+      URL epURL = baseURL;
       SOAPConnection con = SOAPConnectionFactory.newInstance().createConnection();
       SOAPMessage resMsg = con.call(reqMsg, epURL);
       SOAPEnvelope resEnv = resMsg.getSOAPPart().getEnvelope();
@@ -136,12 +141,14 @@ public class ProviderMessageTestCase extends JBossWSTest
       assertEquals(reqEnv, resEnv);
    }
 
+   @Test
+   @RunAsClient
    public void testProviderMessageNullResponse() throws Exception
    {
       MessageFactory msgFactory = MessageFactory.newInstance();
       SOAPMessage reqMsg = msgFactory.createMessage(null, new ByteArrayInputStream(msgStringForNullResponse.getBytes()));
 
-      URL epURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-provider-message");
+      URL epURL = baseURL;
       SOAPConnection con = SOAPConnectionFactory.newInstance().createConnection();
       SOAPMessage resMsg = con.call(reqMsg, epURL);
       if (resMsg != null)
@@ -168,7 +175,7 @@ public class ProviderMessageTestCase extends JBossWSTest
       String targetNS = "http://org.jboss.ws/provider";
       QName serviceName = new QName(targetNS, "ProviderService");
       QName portName = new QName(targetNS, "ProviderPort");
-      URL endpointAddress = new URL("http://" + getServerHost() + ":8080/jaxws-samples-provider-message/" + target);
+      URL endpointAddress = new URL(baseURL + "/" + target);
 
       Service service = Service.create(serviceName);
       service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING, endpointAddress.toExternalForm());

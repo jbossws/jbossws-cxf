@@ -23,61 +23,61 @@ package org.jboss.test.ws.jaxws.cxf.asyncclient;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  *
  */
+@RunWith(Arquillian.class)
 public class AsyncClientTestCase extends JBossWSTest
 {
-   private final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-asyncclient";
-         
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-asyncclient.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.apache.cxf\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.asyncclient.EndpointImpl.class)
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/asyncclient/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-asyncclient.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.apache.cxf\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.asyncclient.EndpointImpl.class)
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/asyncclient/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(AsyncClientTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testAsycClienWithHCAddress() throws Exception
    {
       
       Endpoint proxy = initPort();
       BindingProvider provider = (BindingProvider)proxy;
       Map<String, Object> requestContext = provider.getRequestContext();
-      requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "hc://" + endpointAddress);
+      requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "hc://" + baseURL);
       assertEquals("Echo:1000", proxy.echo(1000));
    }
    
    
+   @Test
+   @RunAsClient
    public void testAsycClienWithMsgProp() throws Exception
    {
       Endpoint proxy = initPort();
@@ -87,6 +87,8 @@ public class AsyncClientTestCase extends JBossWSTest
       assertEquals("Echo:1000", proxy.echo(1000));
    }
    
+   @Test
+   @RunAsClient
    public void testAsycClienAsyncOperation() throws Exception
    {
       Endpoint proxy = initPort();
@@ -96,6 +98,8 @@ public class AsyncClientTestCase extends JBossWSTest
       assertEquals("Echo:1000", proxy.echoAsync(1000).get());
    }
    
+   @Test
+   @RunAsClient
    public void testAysncClientWithPolicy () throws Exception 
    {
       Bus bus = BusFactory.newInstance().createBus();
@@ -119,11 +123,9 @@ public class AsyncClientTestCase extends JBossWSTest
 
    private Endpoint initPort() throws Exception {
       QName serviceName = new QName("http://org.jboss.ws/cxf/asyncclient", "EndpointImplService");
-      URL wsdlURL = new URL(endpointAddress + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       Endpoint proxy = service.getPort(Endpoint.class);
       return proxy;
    }
-   
-   
 }

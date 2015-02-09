@@ -22,8 +22,6 @@
 package org.jboss.test.ws.jaxws.endpointReference;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Result;
@@ -37,13 +35,16 @@ import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.AddressingFeature;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -54,52 +55,57 @@ import org.w3c.dom.NodeList;
  * @author ropalka@redhat.com
  * @since 13-Jan-2009
  */
+@RunWith(Arquillian.class)
 public class EndpointReferenceTestCase extends JBossWSTest
 {
-   private static final String ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-endpointReference";
-   private static final String ENDPOINT_WSDL = ENDPOINT_ADDRESS + "?wsdl";
    private static final String WSDL_NS = "http://org.jboss.ws/endpointReference";
    private static final QName SERVICE_QNAME = new QName(WSDL_NS, "EndpointService");
    private static final QName PORT_QNAME = new QName(WSDL_NS, "EndpointPort");
 
    private Service service;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-endpointReference.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-endpointReference.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.endpointReference.Endpoint.class)
                .addClass(org.jboss.test.ws.jaxws.endpointReference.EndpointImpl.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(EndpointReferenceTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
    public void setUp() throws Exception
    {
-      this.service = Service.create(new URL(ENDPOINT_WSDL), SERVICE_QNAME);
+      URL wsdlURL = new URL(baseURL + "/jaxws-endpointReference?wsdl");
+      this.service = Service.create(wsdlURL, SERVICE_QNAME);
    }
 
+   @Test
+   @RunAsClient
    public void testDispatch() throws Exception
    {
+      setUp();
       final Dispatch<Source> dispatch = this.service.createDispatch(PORT_QNAME, Source.class, Mode.PAYLOAD);
       this.validateEndpointReferences(dispatch);
    }
 
+   @Test
+   @RunAsClient
    public void testDispatchWithFeatures() throws Exception
    {
+      setUp();
       final Dispatch<Source> dispatch = this.service.createDispatch(PORT_QNAME, Source.class, Mode.PAYLOAD, new AddressingFeature(false, false));
       this.validateEndpointReferences(dispatch);
    }
 
+   @Test
+   @RunAsClient
    public void testPort() throws Exception
    {
+      setUp();
       final Endpoint port = this.service.getPort(Endpoint.class);
       this.validateEndpointReferences((BindingProvider)port);
    }
@@ -143,6 +149,7 @@ public class EndpointReferenceTestCase extends JBossWSTest
       assertEquals(1, addresses.getLength());
       String eprAddress = addresses.item(0).getFirstChild().getNodeValue();
       eprAddress = eprAddress.replace("127.0.0.1", "localhost");
+      String ENDPOINT_ADDRESS = baseURL.toString() + "/jaxws-endpointReference";
       assertEquals(ENDPOINT_ADDRESS.replace("127.0.0.1", "localhost"), eprAddress);
    }
 

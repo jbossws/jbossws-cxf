@@ -23,8 +23,6 @@ package org.jboss.test.ws.jaxws.jbws3250;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.activation.DataHandler;
 import javax.activation.URLDataSource;
@@ -34,19 +32,28 @@ import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
 
 import junit.framework.Assert;
-import junit.framework.Test;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(Arquillian.class)
 public class JBWS3250TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3250.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws3250.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws3250.Endpoint.class)
@@ -54,21 +61,14 @@ public class JBWS3250TestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.jbws3250.MTOMRequest.class)
                .addClass(org.jboss.test.ws.jaxws.jbws3250.MTOMResponse.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3250/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   private String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws3250";
-
-   public static Test suite() throws Exception
-   {
-      return new JBossWSTestSetup(JBWS3250TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testMtomSawpFile() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "?wsdl");
       QName serviceName = new QName("http://ws.jboss.org/jbws3250", "TestEndpointService");
       Endpoint port = Service.create(wsdlURL, serviceName).getPort(Endpoint.class);
       SOAPBinding binding =(SOAPBinding)((BindingProvider)port).getBinding();

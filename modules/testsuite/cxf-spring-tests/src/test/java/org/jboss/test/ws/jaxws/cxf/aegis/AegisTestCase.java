@@ -21,26 +21,28 @@
  */
 package org.jboss.test.ws.jaxws.cxf.aegis;
 
-import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import junit.framework.Test;
-
 import org.apache.cxf.aegis.databinding.AegisDatabinding;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import java.io.File;
+import java.util.Map;
+
+@RunWith(Arquillian.class)
 public class AegisTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-aegis.war") { {
+   @Deployment(testable = false)
+   public static WebArchive createWarDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class,"jaxws-aegis.war");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                      + "Dependencies: org.apache.cxf\n"))
@@ -49,22 +51,17 @@ public class AegisTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.cxf.aegis.Member.class)
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/aegis/jaxws/WEB-INF//jbossws-cxf.xml"), "jbossws-cxf.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/aegis/jaxws/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(AegisTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testAccess() throws Exception
    {
       ClientProxyFactoryBean proxyFactory = new ClientProxyFactoryBean();
       proxyFactory.setDataBinding(new AegisDatabinding());
       proxyFactory.setServiceClass(AegisGroupQuery.class);
-      proxyFactory.setAddress("http://" + getServerHost() + ":8080/jaxws-aegis");
+      proxyFactory.setAddress("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-aegis");
       AegisGroupQuery query = (AegisGroupQuery)proxyFactory.create();
       @SuppressWarnings("unchecked")
       Map<Integer, String> members =  query.getMembers();

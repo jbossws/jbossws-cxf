@@ -25,7 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.MalformedURLException;
-import java.util.LinkedList;
+import java.net.URL;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -41,13 +41,17 @@ import javax.xml.ws.Service.Mode;
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.SOAPBinding;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Element;
 
 /**
@@ -55,6 +59,7 @@ import org.w3c.dom.Element;
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
+@RunWith(Arquillian.class)
 public class JBWS3293DispatchTestCase extends JBossWSTest
 {
    private final String targetNS = "http://org.jboss.ws/jaxws/jbws3293";
@@ -62,24 +67,22 @@ public class JBWS3293DispatchTestCase extends JBossWSTest
    private Exception handlerException;
    private boolean asyncHandlerCalled;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3293.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws3293.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws3293.Endpoint.class)
                .addClass(org.jboss.test.ws.jaxws.jbws3293.EndpointBean.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3293/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-   
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS3293DispatchTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
+  @Test
+  @RunAsClient
    public void testInvokeAsynch() throws Exception
    {
       Source reqObj = new StreamSource(new StringReader(reqPayload));
@@ -88,6 +91,8 @@ public class JBWS3293DispatchTestCase extends JBossWSTest
       verifyResponse(response.get(3000, TimeUnit.MILLISECONDS));
    }
 
+   @Test
+   @RunAsClient
    public void testInvokeAsynchHandler() throws Exception
    {
       AsyncHandler<Source> handler = new AsyncHandler<Source>()
@@ -130,7 +135,7 @@ public class JBWS3293DispatchTestCase extends JBossWSTest
       QName serviceName = new QName(targetNS, "EndpointBeanService");
       QName portName = new QName(targetNS, "EndpointPort");
       Service service = Service.create(serviceName);
-      service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING, "http://" + getServerHost() + ":8080/jaxws-jbws3293");
+      service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING, baseURL.toString());
       Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
       installHandler(dispatch);
       return dispatch;

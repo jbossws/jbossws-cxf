@@ -22,32 +22,35 @@
 package org.jboss.test.ws.jaxws.jbws1665;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.wsdl.Definition;
 import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-1665] incorrect wsdl generation
  *
  * http://jira.jboss.org/jira/browse/JBWS-1665
  */
+@RunWith(Arquillian.class)
 public class JBWS1665TestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws1665/TrackingService";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1665.jar") { {
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1665.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws1665.CoordinateData.class)
@@ -57,19 +60,14 @@ public class JBWS1665TestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.jbws1665.TracePollData.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1665.TrackingServiceBean.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1665.TrackingServiceInterface.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1665TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testWebService() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws1665/TrackingService?wsdl");
       WSDLReader wsdlReader = WSDLFactory.newInstance().newWSDLReader();
       Definition wsdlDefinition = wsdlReader.readWSDL(wsdlURL.toString());
       assertNotNull(wsdlDefinition);

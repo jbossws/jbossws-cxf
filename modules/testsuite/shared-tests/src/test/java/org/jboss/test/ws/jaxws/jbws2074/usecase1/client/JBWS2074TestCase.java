@@ -27,52 +27,67 @@ import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployer;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.ws.jaxws.jbws2074.usecase1.service.POJOIface;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-2074] Resource injection in jaxws endpoints and handlers
  *
  * @author ropalka@redhat.com
  */
+@RunWith(Arquillian.class)
 public final class JBWS2074TestCase extends JBossWSTest
 {
-   static {
-      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.WarDeployment("jaxws-jbws2074-usecase1.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.logging\n"))
-               .addClass(org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws2074.handler.JavaResourcesHandler.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws2074.handler.ManualResourcesHandler.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws2074.usecase1.service.POJOIface.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws2074.usecase1.service.POJOImpl.class)
-               .addAsResource("org/jboss/test/ws/jaxws/jbws2074/usecase1/service/jaxws-service-handlers.xml")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2074/usecase1/WEB-INF/web.xml"));
-         }
-      });
-      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws2074-usecase1.ear") { {
-         archive
-               .addManifest()
-               .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws2074-usecase1.war"))
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2074/usecase1-ear/META-INF/application.xml"), "application.xml");
-         }
-      });
+   private static final String WAR_DEPLOYMENT = "jaxws-jbws2074-usecase1";
+   
+   @ArquillianResource
+   Deployer deployer;
+   
+   private static WebArchive getWarArchive() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR_DEPLOYMENT + ".war");
+      archive
+         .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+            + "Dependencies: org.jboss.logging\n"))
+         .addClass(org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws2074.handler.JavaResourcesHandler.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws2074.handler.ManualResourcesHandler.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws2074.usecase1.service.POJOIface.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws2074.usecase1.service.POJOImpl.class)
+         .addAsResource("org/jboss/test/ws/jaxws/jbws2074/usecase1/service/jaxws-service-handlers.xml")
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2074/usecase1/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS2074TestCase.class, "");
+   @Deployment(name = WAR_DEPLOYMENT, testable = false, managed = false, order = 1)
+   public static WebArchive createClientDeployment1() {
+      return getWarArchive();
+   }
+
+   @Deployment(name = "jaxws-jbws2074-ear-usecase1", testable = false, managed = false, order = 2)
+   public static EnterpriseArchive createClientDeployment() {
+      EnterpriseArchive archive = ShrinkWrap.create(EnterpriseArchive.class, "jaxws-jbws2074-usecase1.ear");
+      archive
+         .addManifest()
+         .addAsModule(getWarArchive())
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2074/usecase1-ear/META-INF/application.xml"), "application.xml");
+      return archive;
    }
 
    public void executeTest() throws Exception
    {
-      String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-jbws2074-usecase1/Service";
+      String endpointAddress = "http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws2074-usecase1/Service";
       QName serviceName = new QName("http://ws.jboss.org/jbws2074", "POJOService");
       Service service = Service.create(new URL(endpointAddress + "?wsdl"), serviceName);
       POJOIface port = (POJOIface)service.getPort(POJOIface.class);
@@ -90,29 +105,33 @@ public final class JBWS2074TestCase extends JBossWSTest
       assertEquals(expStr.toString(), retStr);
    }
 
+   @Test
+   @RunAsClient
    public void testUsecase1WithoutEar() throws Exception
    {
       try
       {
-         deploy("jaxws-jbws2074-usecase1.war");
+         deployer.deploy(WAR_DEPLOYMENT);
          executeTest();
       }
       finally
       {
-         undeploy("jaxws-jbws2074-usecase1.war");
+         deployer.undeploy(WAR_DEPLOYMENT);
       }
    }
 
+   @Test
+   @RunAsClient
    public void testUsecase1WithEar() throws Exception
    {
       try
       {
-         deploy("jaxws-jbws2074-usecase1.ear");
+         deployer.deploy("jaxws-jbws2074-ear-usecase1");
          executeTest();
       }
       finally
       {
-         undeploy("jaxws-jbws2074-usecase1.ear");
+         deployer.undeploy("jaxws-jbws2074-ear-usecase1");
       }
    }
 

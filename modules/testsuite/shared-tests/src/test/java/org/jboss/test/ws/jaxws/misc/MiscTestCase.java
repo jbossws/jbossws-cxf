@@ -23,19 +23,20 @@ package org.jboss.test.ws.jaxws.misc;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Misc tests that require a simple ws endpoint deployment
@@ -43,30 +44,27 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 07-Mar-2014
  */
+@RunWith(Arquillian.class)
 public class MiscTestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-misc/endpoint";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-misc.jar") { {
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-misc.jar");
          archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.misc.Endpoint.class)
-               .addClass(org.jboss.test.ws.jaxws.misc.EndpointImpl.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+            .addManifest()
+            .addClass(org.jboss.test.ws.jaxws.misc.Endpoint.class)
+            .addClass(org.jboss.test.ws.jaxws.misc.EndpointImpl.class);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(MiscTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testEndpoint() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-misc/endpoint?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/misc", "EndpointService");
       Endpoint port = Service.create(wsdlURL, serviceName).getPort(Endpoint.class);
       String retObj = port.echo("Hello");
@@ -77,19 +75,23 @@ public class MiscTestCase extends JBossWSTest
     * [JBWS-3741] WebService doesn't support "//"
     * 
     */
+   @Test
+   @RunAsClient
    public void testJBWS3741() throws Exception
    {
-      assertTrue(IOUtils.readAndCloseStream(new URL("http://" + getServerHost() + ":8080//jaxws-misc/endpoint?wsdl").openStream()).contains("wsdl:definitions"));
-      assertTrue(IOUtils.readAndCloseStream(new URL("http://" + getServerHost() + ":8080/jaxws-misc///endpoint?wsdl").openStream()).contains("wsdl:definitions"));
+      assertTrue(IOUtils.readAndCloseStream(new URL(baseURL + "//jaxws-misc/endpoint?wsdl").openStream()).contains("wsdl:definitions"));
+      assertTrue(IOUtils.readAndCloseStream(new URL(baseURL + "/jaxws-misc///endpoint?wsdl").openStream()).contains("wsdl:definitions"));
    }
 
    /**
     * [JBWS-3743] Block HTTP GET requests with no query string
     * 
     */
+   @Test
+   @RunAsClient
    public void testJBWS3743() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS);
+      URL wsdlURL = new URL(baseURL + "/jaxws-misc/endpoint");
       final HttpURLConnection c = (HttpURLConnection)wsdlURL.openConnection();
       c.connect();
       assertEquals(405, c.getResponseCode());

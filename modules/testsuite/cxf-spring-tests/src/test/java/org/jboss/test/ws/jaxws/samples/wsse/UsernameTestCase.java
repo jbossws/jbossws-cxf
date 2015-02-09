@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse;
 
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,15 +29,21 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
 import org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * WS-Security username test case
@@ -44,15 +51,33 @@ import org.jboss.wsf.test.JBossWSTest;
  * @author alessio.soldano@jboss.com
  * @since 28-May-2008
  */
+@RunWith(Arquillian.class)
 public final class UsernameTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-username";
-   
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(UsernameTestCase.class, UsernameDeploymentArchives.SERVER_WAR);
+   private final String serviceURL = "http://" + getServerHost()  + ":" + getServerPort() + "/jaxws-samples-wsse-username";
+
+   @Deployment(name="jaxws-samples-wsse-username", order=1, testable = false)    //SERVER_WAR
+   public static WebArchive createServerwar() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-username.war");
+      archive
+         .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+            + "Dependencies: org.apache.ws.security\n"))
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.ServerUsernamePasswordCallback.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.ServiceIface.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.ServiceImpl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.jaxws.GreetMe.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.jaxws.GreetMeResponse.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.jaxws.SayHello.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.jaxws.SayHelloResponse.class)
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username/WEB-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd")
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/username/WEB-INF/web.xml"));
+      return archive;
    }
 
+   @Test
+   @RunAsClient
    public void test() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");
@@ -62,7 +87,9 @@ public final class UsernameTestCase extends JBossWSTest
       setupWsse(proxy, "kermit");
       assertEquals("Secure Hello World!", proxy.sayHello());
    }
-   
+
+   @Test
+   @RunAsClient
    public void testWrongPassword() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecurity", "SecurityService");

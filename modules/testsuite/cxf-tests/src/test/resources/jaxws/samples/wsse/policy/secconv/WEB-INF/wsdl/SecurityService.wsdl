@@ -45,7 +45,7 @@
   </wsdl:binding>
   <wsdl:service name="SecurityService">
     <wsdl:port name="SecurityServicePort" binding="tns:SecurityServicePortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-secconv"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-tests.jboss,8080)@/jaxws-samples-wsse-secconv"/>
     </wsdl:port>
   </wsdl:service>
   <!-- 2.4.1 (WSS 1.0) Secure Conversation bootstrapped by Mutual -->

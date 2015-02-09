@@ -25,18 +25,22 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.ws.spi.Provider;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.exporter.ZipExporter;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-1666] Simplify JBossWS jar dependencies
@@ -46,61 +50,66 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 14-Jun-2007
  */
+@RunWith(Arquillian.class)
 public class JBWS1666TestCase extends JBossWSTest
 {
    private static final String FS = System.getProperty("file.separator"); // '/' on unix, '\' on windows
 
    java.util.Properties props = System.getProperties();
-   
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1666.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpointImpl.class)
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1666/WEB-INF/web.xml"));
-         }
-      });
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1666-client.jar") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Main-Class: org.jboss.test.ws.jaxws.jbws1666.TestClient\n"
-                     + "Dependencies: javax.jws.api,javax.xml.ws.api\n"))
-               .addClass(org.jboss.test.ws.jaxws.jbws1666.TestClient.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpoint.class);
-         }
-      });
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1666-b-client.jar") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Main-Class: org.jboss.test.ws.jaxws.jbws1666.TestClient\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
-               .addClass(org.jboss.test.ws.jaxws.jbws1666.TestClient.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpoint.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-   
-   static {
-      JBossWSTestHelper.writeToFile(createDeployments());
+
+   @Deployment(name="jaxws-jbws1666", testable = false)
+   public static WebArchive createClientDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws1666.war");
+      archive
+         .addManifest()
+         .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpointImpl.class)
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1666/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1666TestCase.class, "jaxws-jbws1666.war");
+   @Deployment(name = "jaxws-jbws1666-client", testable = false, managed=false)
+   public static JavaArchive createClientDeployment1() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1666-client.jar");
+      archive
+         .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+            + "Main-Class: org.jboss.test.ws.jaxws.jbws1666.TestClient\n"
+            + "Dependencies: javax.jws.api,javax.xml.ws.api\n"))
+         .addClass(org.jboss.test.ws.jaxws.jbws1666.TestClient.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpoint.class);
+      JBossWSTestHelper.writeToFile(archive);
+      return archive;
    }
 
+   @Deployment(name = "jaxws-jbws1666-b-client", testable = false, managed = false)
+   public static JavaArchive createClientDeployment2() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1666-b-client.jar");
+      archive
+         .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+            + "Main-Class: org.jboss.test.ws.jaxws.jbws1666.TestClient\n"
+            + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+         .addClass(org.jboss.test.ws.jaxws.jbws1666.TestClient.class)
+         .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpoint.class);
+      JBossWSTestHelper.writeToFile(archive);
+      return archive;
+   }
+
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-jbws1666")
    public void testClientInTestsuiteJVM() throws Exception
    {
-      String resStr = TestClient.testPortAccess(getServerHost());
+      String resStr = TestClient.testPortAccess(getServerHost(), getServerPort());
       assertEquals(TestClient.REQ_STR, resStr);
    }
    
+   @Test
+   @RunAsClient
    public void testClientUsingJBossModules() throws Exception {
       runJBossModulesClient("jaxws-jbws1666-client.jar");
    }
 
+   @Test
+   @RunAsClient
    public void testClientUsingJBossModulesWithJBossWSClientAggregationModule() throws Exception {
       if (!isIntegrationCXF()) {
          return;
@@ -120,7 +129,7 @@ public class JBWS1666TestCase extends JBossWSTest
 
       //java -jar $JBOSS_HOME/jboss-modules.jar -mp $JBOSS_HOME/modules -jar client.jar
       String props = " -Dlog4j.output.dir=" + System.getProperty("log4j.output.dir") + " -jar " + jbmjar + " -mp " + jbm; 
-      final String command = javaCmd + props + " -jar " + f.getAbsolutePath() + " " + getServerHost();
+      final String command = javaCmd + props + " -jar " + f.getAbsolutePath() + " " + getServerHost() + " " + getServerPort();
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       executeCommand(command, bout);
       //check result (includes check on Provider impl, which might be affected by missing javax.xml.ws.api module dependency

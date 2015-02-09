@@ -69,6 +69,15 @@
             </configuration>
           </execution>
           <execution>
+            <id>wildfly820</id>
+            <goals><goal>jar</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>wildfly820</classifier>
+              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly820/jbossws.beans</classesDirectory>
+            </configuration>
+          </execution>
+          <execution>
             <id>wildfly900</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>

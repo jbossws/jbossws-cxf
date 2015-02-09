@@ -23,6 +23,14 @@
         <include>**/module.xml</include>
       </includes>
     </fileSet>
+    <!-- modules-deploy.conf file -->
+    <fileSet>
+      <directory>../resources/src/main/resources/resources</directory>
+      <outputDirectory>deploy-artifacts</outputDirectory>
+      <includes>
+        <include>modules-deploy.conf</include>
+      </includes>
+    </fileSet>
   </fileSets>
 
     <dependencySets>

@@ -23,8 +23,6 @@ package org.jboss.test.ws.jaxws.endpoint;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.wsdl.Definition;
 import javax.wsdl.factory.WSDLFactory;
@@ -32,14 +30,18 @@ import javax.wsdl.xml.WSDLReader;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test JAXWS Endpoint deployment
@@ -47,11 +49,15 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.org
  * @since 29-Apr-2005
  */
+@RunWith(Arquillian.class)
 public class EndpointTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-endpoint-servlet.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(name="jaxws-endpoint-servlet", testable = false)
+   public static WebArchive createDeployment1() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-endpoint-servlet.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.endpoint.EndpointBean.class)
@@ -59,33 +65,36 @@ public class EndpointTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.endpoint.EndpointServlet.class)
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/endpoint/WEB-INF/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/endpoint/WEB-INF/web.xml"));
-         }
-      });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-endpoint-ws.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.endpoint.EndpointBean.class)
-               .addClass(org.jboss.test.ws.jaxws.endpoint.EndpointInterface.class)
-               .addClass(org.jboss.test.ws.jaxws.endpoint.WSClientEndpointBean.class)
-               .addClass(org.jboss.test.ws.jaxws.endpoint.WSClientEndpointInterface.class)
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/endpoint/META-INF/permissions.xml"), "permissions.xml")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/endpoint/WEB-INF/web-ws.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      JBossWSTestHelper.writeToFile(archive);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new TestSetup(new JBossWSTestSetup(EndpointTestCase.class, JBossWSTestHelper.writeToFile(createDeployments())));
+   @Deployment(name="jaxws-endpoint-ws", testable = false)
+   public static WebArchive createDeployment2() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-endpoint-ws.war");
+      archive
+         .addManifest()
+         .addClass(org.jboss.test.ws.jaxws.endpoint.EndpointBean.class)
+         .addClass(org.jboss.test.ws.jaxws.endpoint.EndpointInterface.class)
+         .addClass(org.jboss.test.ws.jaxws.endpoint.WSClientEndpointBean.class)
+         .addClass(org.jboss.test.ws.jaxws.endpoint.WSClientEndpointInterface.class)
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/endpoint/META-INF/permissions.xml"), "permissions.xml")
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/endpoint/WEB-INF/web-ws.xml"));
+      return archive;
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-endpoint-servlet")
    public void testWSDLAccess() throws Exception
    {
-      readWSDL(new URL("http://" + getServerHost() + ":8081/jaxws-endpoint?wsdl"));
-      readWSDL(new URL("http://" + getServerHost() + ":8081/jaxws-endpoint2/endpoint/long/path?wsdl"));
+      readWSDL(new URL("http://" + baseURL.getHost() + ":8081/jaxws-endpoint?wsdl"));
+      readWSDL(new URL("http://" + baseURL.getHost() + ":8081/jaxws-endpoint2/endpoint/long/path?wsdl"));
    }
-   
+
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-endpoint-servlet")
    public void testClientAccess() throws Exception
    {
       // Create the port
@@ -99,16 +108,22 @@ public class EndpointTestCase extends JBossWSTest
       assertEquals(helloWorld, retObj);
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-endpoint-servlet")
    public void testServletAccess() throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-endpoint-servlet?param=hello-world");
+      URL url = new URL("http://" + baseURL.getHost() + ":" + baseURL.getPort() + "/jaxws-endpoint-servlet/?param=hello-world");
       assertEquals("hello-world", IOUtils.readAndCloseStream(url.openStream()));
    }
-   
+
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-endpoint-ws")
    public void testWSAccess() throws Exception
    {
       QName qname = new QName("http://org.jboss.ws/jaxws/endpoint", "WSClientEndpointService");
-      Service service = Service.create(new URL("http://" + getServerHost() + ":8080/jaxws-endpoint-ws?wsdl"), qname);
+      Service service = Service.create(new URL(baseURL + "?wsdl"), qname);
       WSClientEndpointInterface port = (WSClientEndpointInterface)service.getPort(WSClientEndpointInterface.class);
 
       String helloWorld = "Hello world!";

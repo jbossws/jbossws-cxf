@@ -23,34 +23,37 @@ package org.jboss.test.ws.jaxws.samples.xop.doclit;
 
 import java.io.File;
 
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTestHelper;
 
 public final class DeploymentArchive
 {
-   public static final String NAME = JBossWSTestHelper.writeToFile(new JBossWSTestHelper.WarDeployment("jaxws-samples-xop-doclit.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.DHRequest.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.DHResponse.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.FakeInputStream.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.GeneratorDataSource.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.ImageRequest.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.ImageResponse.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.MTOMCheckClientHandler.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.MTOMEndpoint.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.MTOMEndpointBean.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.MTOMProtocolHandler.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.SourceRequest.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.SourceResponse.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.WrappedEndpoint.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.WrappedEndpointImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.XOPBase.class)
-               .addAsResource("org/jboss/test/ws/jaxws/samples/xop/doclit/jaxws-handlers-server.xml")
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.jaxws.ParameterAnnotation.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.jaxws.ParameterAnnotationResponse.class)
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/xop/doclit/WEB-INF/web.xml"));
-      }
-   });
+   public static WebArchive createDeployment(String nameSuffix) {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-xop-doclit-" + nameSuffix + ".war");
+      archive
+         .addManifest()
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.DHRequest.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.DHResponse.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.FakeInputStream.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.GeneratorDataSource.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.ImageRequest.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.ImageResponse.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.MTOMCheckClientHandler.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.MTOMEndpoint.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.MTOMEndpointBean.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.MTOMProtocolHandler.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.SourceRequest.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.SourceResponse.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.WrappedEndpoint.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.WrappedEndpointImpl.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.XOPBase.class)
+         .addAsResource("org/jboss/test/ws/jaxws/samples/xop/doclit/jaxws-handlers-server.xml")
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.jaxws.ParameterAnnotation.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.xop.doclit.jaxws.ParameterAnnotationResponse.class)
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/xop/doclit/WEB-INF/web.xml"));
+      return archive;
+   }
 
    private DeploymentArchive() {
       //NOOP

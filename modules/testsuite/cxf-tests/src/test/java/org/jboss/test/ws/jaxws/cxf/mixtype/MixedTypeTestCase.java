@@ -23,47 +23,47 @@ package org.jboss.test.ws.jaxws.cxf.mixtype;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(Arquillian.class)
 public class MixedTypeTestCase extends JBossWSTest
 {
    private final String targetNS = "http://org.jboss.ws.jaxws.cxf/mixtype";
    
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-mixtype.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.cxf.mixtype.EndpointOne.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.mixtype.EndpointOneEJB3Impl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.mixtype.EndpointOneImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.mixtype.EndpointTwoImpl.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/mixtype/WEB-INF/jboss-web.xml"), "jboss-web.xml")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/mixtype/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-mixtype.war");
+      archive.addManifest()
+            .addClass(org.jboss.test.ws.jaxws.cxf.mixtype.EndpointOne.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.mixtype.EndpointOneEJB3Impl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.mixtype.EndpointOneImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.mixtype.EndpointTwoImpl.class)
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/mixtype/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/mixtype/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(MixedTypeTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testEndpoint() throws Exception
    {
-      URL wsdlOneURL = new URL("http://" + getServerHost() + ":8080/mixtype/ServiceOne/EndpointOne?wsdl");
+      URL wsdlOneURL = new URL(baseURL + "/ServiceOne/EndpointOne?wsdl");
       QName serviceOneName = new QName(targetNS, "ServiceOne");
       Service service = Service.create(wsdlOneURL, serviceOneName);
       EndpointOne endpoint = (EndpointOne)service.getPort(new QName(targetNS, "EndpointOnePort"), EndpointOne.class);
@@ -72,9 +72,11 @@ public class MixedTypeTestCase extends JBossWSTest
       assertEquals(1, endpoint.getCount() - initialCount);
    }
    
+   @Test
+   @RunAsClient
    public void testEJBEndpoint() throws Exception
    {
-      URL wsdlOneURL = new URL("http://" + getServerHost() + ":8080/mixtype/EJBServiceOne/EndpointOneEJB3Impl?wsdl");
+      URL wsdlOneURL = new URL(baseURL + "/EJBServiceOne/EndpointOneEJB3Impl?wsdl");
       QName serviceOneName = new QName(targetNS, "EJBServiceOne");
       Service service = Service.create(wsdlOneURL, serviceOneName);
       EndpointOne endpoint = (EndpointOne)service.getPort(new QName(targetNS, "EJBEndpointOnePort"), EndpointOne.class);
@@ -83,10 +85,12 @@ public class MixedTypeTestCase extends JBossWSTest
       assertEquals(5, endpoint.getCount() - initialCount);
    }
 
+   @Test
+   @RunAsClient
    public void testEndpoint2() throws Exception
    {
       //verify everything works with an endpoint extending another one impl
-      URL wsdlOneURL = new URL("http://" + getServerHost() + ":8080/mixtype/ServiceOne/EndpointTwo?wsdl");
+      URL wsdlOneURL = new URL(baseURL + "/ServiceOne/EndpointTwo?wsdl");
       QName serviceOneName = new QName(targetNS, "ServiceOne");
       Service service = Service.create(wsdlOneURL, serviceOneName);
       EndpointOne endpoint = (EndpointOne)service.getPort(new QName(targetNS, "EndpointTwoPort"), EndpointOne.class);
@@ -95,10 +99,12 @@ public class MixedTypeTestCase extends JBossWSTest
       assertEquals(1, endpoint.getCount() - initialCount);
    }
    
+   @Test
+   @RunAsClient
    public void testEndpoint2WithAnotherURLPattern() throws Exception
    {
       //verify everything works with an endpoint extending another one impl
-      URL wsdlOneURL = new URL("http://" + getServerHost() + ":8080/mixtype/ServiceOne/AnotherEndpointTwo?wsdl");
+      URL wsdlOneURL = new URL(baseURL + "/ServiceOne/AnotherEndpointTwo?wsdl");
       QName serviceOneName = new QName(targetNS, "ServiceOne");
       Service service = Service.create(wsdlOneURL, serviceOneName);
       EndpointOne endpoint = (EndpointOne)service.getPort(new QName(targetNS, "EndpointTwoPort"), EndpointOne.class);

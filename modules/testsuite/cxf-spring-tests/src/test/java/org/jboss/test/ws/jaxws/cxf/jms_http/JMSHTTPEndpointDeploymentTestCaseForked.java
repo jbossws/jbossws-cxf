@@ -23,26 +23,27 @@ package org.jboss.test.ws.jaxws.cxf.jms_http;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.jms.JMSConduit;
 import org.apache.cxf.transport.jms.JMSConfiguration;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.ws.jaxws.cxf.jms.HelloWorld;
 import org.jboss.ws.common.IOUtils;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test case for deploying an archive with a JMS (SOAP-over-JMS 1.0) and a HTTP endpoints 
@@ -50,44 +51,45 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 10-Jun-2011
  */
+@RunWith(Arquillian.class)
 public final class JMSHTTPEndpointDeploymentTestCaseForked extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jms-http-deployment.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.hornetq\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HelloWorld.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HelloWorldImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HttpHelloWorldImpl.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms_http/WEB-INF/wsdl/HelloWorldService.wsdl"), "wsdl/HelloWorldService.wsdl")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms_http/WEB-INF/web.xml"));
-         }
-      });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jms-http-deployment-test-servlet.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq\n"))
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms_http/WEB-INF/wsdl/HelloWorldService.wsdl"), "classes/META-INF/wsdl/HelloWorldService.wsdl")
-               .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.DeploymentTestServlet.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HelloWorld.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
+    @Deployment(name="jaxws-cxf-jms-http-deployment", order=1, testable = false)
+    public static WebArchive createDeployment1() {
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jms-http-deployment.war");
+        archive
+            .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                + "Dependencies: org.hornetq\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HelloWorld.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HelloWorldImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HttpHelloWorldImpl.class)
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms_http/WEB-INF/wsdl/HelloWorldService.wsdl"), "wsdl/HelloWorldService.wsdl")
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms_http/WEB-INF/web.xml"));
+        return archive;
+    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(JMSHTTPEndpointDeploymentTestCaseForked.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-   
+    @Deployment(name="jaxws-cxf-jms-http-deployment-test-servlet", order=2, testable = false)
+    public static WebArchive createDeployment2() {
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jms-http-deployment-test-servlet.war");
+            archive
+                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                    + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq\n"))
+                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms_http/WEB-INF/wsdl/HelloWorldService.wsdl"), "classes/META-INF/wsdl/HelloWorldService.wsdl")
+                .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.DeploymentTestServlet.class)
+                .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HelloWorld.class);
+            return archive;
+        }
+
+   @Test
+   @RunAsClient
    public void testJMSEndpointServerSide() throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-http-deployment-test-servlet");
+      URL url = new URL("http://" + getServerHost()  + ":" + getServerPort() + "/jaxws-cxf-jms-http-deployment-test-servlet");
       assertEquals("true", IOUtils.readAndCloseStream(url.openStream()));
    }
-   
+
+   @Test
+   @RunAsClient
    public void testJMSEndpointClientSide() throws Exception
    {
       URL wsdlUrl = getResourceURL("jaxws/cxf/jms_http/WEB-INF/wsdl/HelloWorldService.wsdl");
@@ -105,10 +107,12 @@ public final class JMSHTTPEndpointDeploymentTestCaseForked extends JBossWSTest
          throw e;
       }
    }
-   
+
+   @Test
+   @RunAsClient
    public void testHTTPEndpointClientSide() throws Exception
    {
-      URL wsdlUrl = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jms-http-deployment?wsdl");
+      URL wsdlUrl = new URL("http://" + getServerHost()  + ":" + getServerPort() + "/jaxws-cxf-jms-http-deployment?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
 
       Service service = Service.create(wsdlUrl, serviceName);

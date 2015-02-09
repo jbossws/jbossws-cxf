@@ -48,7 +48,7 @@
   </wsdl:binding>
   <wsdl:service name="MtomService">
     <wsdl:port name="MtomServicePort" binding="tns:MtomServiceSoapBinding">
-      <soap:address location="http://localhost:8080/MtomService"/>
+      <soap:address location="http://localhost:@add_int(port-offset.cxf-tests.jboss,8080)@/MtomService"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

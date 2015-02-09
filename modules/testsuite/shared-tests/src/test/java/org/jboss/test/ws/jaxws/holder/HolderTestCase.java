@@ -23,45 +23,46 @@ package org.jboss.test.ws.jaxws.holder;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Holder;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * A JAX-WS holder test case
  * 
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
  */
+@RunWith(Arquillian.class)
 public class HolderTestCase extends JBossWSTest
 {
    private org.jboss.test.ws.jaxws.holder.Holder port;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-holder.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-holder.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.holder.HolderServiceImpl.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/holder/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(HolderTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
 
    protected void setUp() throws Exception
    {
@@ -70,19 +71,26 @@ public class HolderTestCase extends JBossWSTest
       QName serviceName = new QName("http://holder.jaxws.ws.test.jboss.org/", "HolderService");
       Service service = Service.create(wsdlURL, serviceName);
       port = (org.jboss.test.ws.jaxws.holder.Holder)service.getPort(org.jboss.test.ws.jaxws.holder.Holder.class);
+      ((BindingProvider)port).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL + "/HolderService");
    }
-   
+
+   @Test
+   @RunAsClient
    public void testEchoOuts() throws Exception
    {
+      setUp();
       Holder<Integer> out1 = new Holder<Integer>();
       Holder<String> out2 = new Holder<String>();
       assertEquals(new Long(50), port.echoOuts(10, "Hello", 50L, out1, out2));
       assertEquals(new Integer(10), out1.value);
       assertEquals("Hello", out2.value);
    }
-   
+
+   @Test
+   @RunAsClient
    public void testEchoInOuts() throws Exception
    {
+      setUp();
       Holder<Integer> inout1 = new Holder<Integer>();
       Holder<String> inout2 = new Holder<String>();
       inout1.value = 50;
@@ -91,9 +99,12 @@ public class HolderTestCase extends JBossWSTest
       assertEquals(new Integer(50), inout1.value);
       assertEquals("Hello", inout2.value);
    }
-   
+
+   @Test
+   @RunAsClient
    public void testEchoMixed() throws Exception
    {
+      setUp();
       Holder<Integer> out1 = new Holder<Integer>();
       Holder<String> out2 = new Holder<String>();
       Holder<Integer> inout1 = new Holder<Integer>();
@@ -106,24 +117,33 @@ public class HolderTestCase extends JBossWSTest
       assertEquals(new Integer(50), inout1.value);
       assertEquals("Hello2", inout2.value);
    }
-   
+
+   @Test
+   @RunAsClient
    public void testEchoBareOut() throws Exception
    {
+      setUp();
       Holder<String> out = new Holder<String>();
       port.echoBareOut("hi", out);
       assertEquals("hi", out.value);
    }
 
+   @Test
+   @RunAsClient
    public void testEchoBareInOut() throws Exception
    {
+      setUp();
       Holder<String> inout = new Holder<String>();
       inout.value = "hello world!";
       port.echoBareInOut(inout);
       assertEquals("hello world!", inout.value);
    }
 
+   @Test
+   @RunAsClient
    public void testInOutAdd() throws Exception
    {
+      setUp();
       Holder<Integer> sum = new Holder<Integer>();
       sum.value = 0;
       port.addInOut(sum, 5);
@@ -131,4 +151,5 @@ public class HolderTestCase extends JBossWSTest
       port.addInOut(sum, 4);
       assertEquals(new Integer(12), sum.value);
    }
+
 }

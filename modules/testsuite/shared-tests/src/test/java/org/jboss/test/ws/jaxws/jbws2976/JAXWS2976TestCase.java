@@ -30,12 +30,20 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.http.HTTPBinding;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 
 /**
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
+@RunWith(Arquillian.class)
 public class JAXWS2976TestCase extends junit.framework.TestCase
 {
+
+   @Test
+   @RunAsClient
    public void testAddingIncomptiableHandler() throws Exception
    {
       try

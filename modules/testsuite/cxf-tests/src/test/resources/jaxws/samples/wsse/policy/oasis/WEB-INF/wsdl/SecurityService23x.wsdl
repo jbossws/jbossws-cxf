@@ -152,31 +152,31 @@
   </wsdl:binding>
   <wsdl:service name="SecurityService">
     <wsdl:port name="SecurityService2311Port" binding="tns:SecurityService2311PortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-oasis/SecurityService2311"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-tests.ssl-mutual-auth,8080)@/jaxws-samples-wsse-policy-oasis/SecurityService2311"/>
     </wsdl:port>
     <wsdl:port name="SecurityService2312Port" binding="tns:SecurityService2312PortBinding">
-      <soap:address location="https://@jboss.bind.address@:8443/jaxws-samples-wsse-policy-oasis/SecurityService2312"/>
+      <soap:address location="https://@jboss.bind.address@:@add_int(port-offset.cxf-tests.ssl-mutual-auth,8443)@/jaxws-samples-wsse-policy-oasis/SecurityService2312"/>
     </wsdl:port>
     <wsdl:port name="SecurityService2313Port" binding="tns:SecurityService2313PortBinding">
-      <soap:address location="https://@jboss.bind.address@:8443/jaxws-samples-wsse-policy-oasis/SecurityService2313"/>
+      <soap:address location="https://@jboss.bind.address@:@add_int(port-offset.cxf-tests.ssl-mutual-auth,8443)@/jaxws-samples-wsse-policy-oasis/SecurityService2313"/>
     </wsdl:port>
     <wsdl:port name="SecurityService2314Port" binding="tns:SecurityService2314PortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-oasis/SecurityService2314"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-tests.ssl-mutual-auth,8080)@/jaxws-samples-wsse-policy-oasis/SecurityService2314"/>
     </wsdl:port>
     <wsdl:port name="SecurityService2315Port" binding="tns:SecurityService2315PortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-oasis/SecurityService2315"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-tests.ssl-mutual-auth,8080)@/jaxws-samples-wsse-policy-oasis/SecurityService2315"/>
     </wsdl:port>
     <wsdl:port name="SecurityService2321Port" binding="tns:SecurityService2321PortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-oasis/SecurityService2321"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-tests.ssl-mutual-auth,8080)@/jaxws-samples-wsse-policy-oasis/SecurityService2321"/>
     </wsdl:port>
     <wsdl:port name="SecurityService2322Port" binding="tns:SecurityService2322PortBinding">
-      <soap:address location="https://@jboss.bind.address@:8443/jaxws-samples-wsse-policy-oasis/SecurityService2322"/>
+      <soap:address location="https://@jboss.bind.address@:@add_int(port-offset.cxf-tests.ssl-mutual-auth,8443)@/jaxws-samples-wsse-policy-oasis/SecurityService2322"/>
     </wsdl:port>
     <wsdl:port name="SecurityService2323Port" binding="tns:SecurityService2323PortBinding">
-      <soap:address location="https://@jboss.bind.address@:8443/jaxws-samples-wsse-policy-oasis/SecurityService2323"/>
+      <soap:address location="https://@jboss.bind.address@:@add_int(port-offset.cxf-tests.ssl-mutual-auth,8443)@/jaxws-samples-wsse-policy-oasis/SecurityService2323"/>
     </wsdl:port>
     <wsdl:port name="SecurityService2324Port" binding="tns:SecurityService2324PortBinding">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-samples-wsse-policy-oasis/SecurityService2324"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-tests.ssl-mutual-auth,8080)@/jaxws-samples-wsse-policy-oasis/SecurityService2324"/>
     </wsdl:port>
   </wsdl:service>
   <!-- 2.3.1.1 (WSS1.0) SAML1.1 Assertion (Bearer) -->

@@ -23,30 +23,34 @@ package org.jboss.test.ws.jaxws.jbws2257;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author alessio.soldano@jboss.com
  * @since 25-Nov-2008
  */
+@RunWith(Arquillian.class)
 public final class AddressingTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-jbws2257/AddressingService/ServiceImpl";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2257.jar") { {
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws2257.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws2257.ServiceIface.class)
@@ -56,20 +60,15 @@ public final class AddressingTestCase extends JBossWSTest
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2257/META-INF/permissions.xml"), "permissions.xml")
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2257/META-INF/wsdl/AddressingService.wsdl"), "wsdl/AddressingService.wsdl")
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2257/META-INF/wsdl/AddressingService_schema1.xsd"), "wsdl/AddressingService_schema1.xsd");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-   
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(AddressingTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
+   @Test
+   @RunAsClient
    public void test() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsaddressing", "AddressingService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws2257/AddressingService/ServiceImpl?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       assertEquals("Hello World!", proxy.sayHello());

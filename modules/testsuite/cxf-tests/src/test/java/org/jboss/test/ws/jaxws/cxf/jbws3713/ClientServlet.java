@@ -42,9 +42,9 @@ public class ClientServlet extends HttpServlet
       String strategy = req.getParameter("strategy");
       if (strategy == null || strategy.length() == 0)
          throw new ServletException("strategy not specified!");
-      String host = req.getParameter("host");
-      if (host == null || host.length() == 0)
-         throw new ServletException("host not specified!");
+      String path = req.getParameter("path");
+      if (path == null || path.length() == 0)
+         throw new ServletException("path not specified!");
       String threads = req.getParameter("threads");
       if (threads == null || threads.length() == 0)
          throw new ServletException("threads not specified!");
@@ -53,7 +53,7 @@ public class ClientServlet extends HttpServlet
          throw new ServletException("calls not specified!");
       
       PrintWriter w = res.getWriter();
-      final URL wsdlURL = new URL("http://" + host + ":8080/jaxws-cxf-jbws3713/HelloService?wsdl");
+      final URL wsdlURL = new URL("http://" + req.getLocalAddr() + ":" + req.getLocalPort() + path + "?wsdl");
       Helper helper = new Helper();
       w.write(helper.run(wsdlURL, strategy, Integer.parseInt(threads), Integer.parseInt(calls)).toString());
    }

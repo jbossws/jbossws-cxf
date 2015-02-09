@@ -37,44 +37,43 @@ import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.SOAPBinding;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author alessio.soldano@jboss.com
  * @since 18-Jun-2013
  */
+@RunWith(Arquillian.class)
 public class JBWS3593TestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-cxf-jbws3593/EndpointBean";
-
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3593.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.apache.cxf\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3593.EndpointBean.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3593.MTOMOutInterceptor.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jbws3593.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.apache.cxf\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3593.EndpointBean.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3593.MTOMOutInterceptor.class);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS3593TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testMTOMAccess() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/EndpointBean?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/jbws3593", "EndpointBeanService");
       Service service = Service.create(wsdlURL, qname);
       Endpoint port = service.getPort(Endpoint.class);
@@ -88,9 +87,11 @@ public class JBWS3593TestCase extends JBossWSTest
       assertEquals("Hello Jimbo", messg);
    }
 
+   @Test
+   @RunAsClient
    public void testTextXmlAccess() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/EndpointBean?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/jbws3593", "EndpointBeanService");
       Service service = Service.create(wsdlURL, qname);
       Endpoint port = service.getPort(Endpoint.class);

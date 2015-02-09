@@ -23,50 +23,45 @@ package org.jboss.test.ws.jaxws.cxf.jbws3670;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(Arquillian.class)
 public class JBWS3670TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3670.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3670.HelloWorldService.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3670.HelloWorldServiceI.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3670.TestBean.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3670/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3670/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jbws3670.war");
+      archive
+         .addManifest()
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3670.HelloWorldService.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3670.HelloWorldServiceI.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3670.TestBean.class)
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3670/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3670/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(JBWS3670TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-   
+   @Test
+   @RunAsClient
    public void testAccess() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3670/helloworld?wsdl");
+      URL wsdlURL = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-cxf-jbws3670/helloworld?wsdl");
       QName serviceName = new QName("http://jbossws.jboss.org/helloworld", "HelloWorldService");
       Service service = Service.create(wsdlURL, serviceName);
       HelloWorldServiceI port = service.getPort(HelloWorldServiceI.class);
       assertEquals("TestBean is not injected", "Hello jbossws", port.sayHello("jbossws"));
    }
-   
 
-   
 }

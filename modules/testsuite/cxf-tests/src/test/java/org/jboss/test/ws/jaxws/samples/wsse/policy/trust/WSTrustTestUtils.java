@@ -21,19 +21,17 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
+import java.util.Map;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
+
 import org.apache.cxf.Bus;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.ClientCallbackHandler;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.UsernameTokenCallbackHandler;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
-import org.jboss.wsf.test.JBossWSTestHelper;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Some client util methods for WS-Trust testcases 
@@ -43,18 +41,6 @@ import java.util.Map;
  */
 public class WSTrustTestUtils
 {
-   public static JBossWSCXFTestSetup getTestSetup(Class<?> testClass, String archives) {
-      JBossWSCXFTestSetup testSetup = new JBossWSCXFTestSetup(testClass, archives);
-      Map<String, String> authenticationOptions = new HashMap<String, String>();
-      authenticationOptions.put("usersProperties",
-            JBossWSTestHelper.getResourceFile("jaxws/samples/wsse/policy/trust/WEB-INF/jbossws-users.properties").getAbsolutePath());
-      authenticationOptions.put("rolesProperties",
-            JBossWSTestHelper.getResourceFile("jaxws/samples/wsse/policy/trust/WEB-INF/jbossws-roles.properties").getAbsolutePath());
-      authenticationOptions.put("unauthenticatedIdentity", "anonymous");
-      testSetup.addSecurityDomainRequirement("JBossWS-trust-sts", authenticationOptions);
-      return testSetup;
-   }
-   
    public static void setupWsseAndSTSClient(ServiceIface proxy, Bus bus, String stsWsdlLocation, QName stsService, QName stsPort)
    {
       Map<String, Object> ctx = ((BindingProvider) proxy).getRequestContext();

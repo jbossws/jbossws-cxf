@@ -21,50 +21,51 @@
  */
 package org.jboss.test.ws.jaxws.smoke.tools;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author Heiko.Braun@jboss.com
  */
+@RunWith(Arquillian.class)
 public class WSProviderTestCaseForked extends PluginBase
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-classloading-types.jar") { {
+   @Deployment(name="jaxws-classloading-types", order=1, testable = false)
+   public static JavaArchive createDeployment1() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-classloading-types.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.smoke.tools.service.Echo.class)
                .addClass(org.jboss.test.ws.jaxws.smoke.tools.service.EchoResponse.class)
                .addClass(org.jboss.test.ws.jaxws.smoke.tools.service.Message.class);
-         }
-      });
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-classloading-service.jar") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.smoke.tools.service.HelloWorld.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
-   
+
+   @Deployment(name="jaxws-classloading-service", order=2, testable = false)
+   public static JavaArchive createDeployment2() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-classloading-service.jar");
+         archive
+            .addManifest()
+            .addClass(org.jboss.test.ws.jaxws.smoke.tools.service.HelloWorld.class);
+      return archive;
+   }
+
    /**
     * Recreates a tools delegate for every test
     * @throws Exception
     */
    protected void setUp() throws Exception
    {
-
       setupClasspath();
 
       Class<?> wspClass = Thread.currentThread().getContextClassLoader()
         .loadClass("org.jboss.test.ws.jaxws.smoke.tools.WSProviderPlugin");
       setDelegate(wspClass);
-      
-      JBossWSTestHelper.writeToFile(createDeployments());
     }
 
 
@@ -73,54 +74,76 @@ public class WSProviderTestCaseForked extends PluginBase
       restoreClasspath();
    }
 
+   @Test
+   @RunAsClient
    public void testGenerateWsdl() throws Exception
    {
+      setUp();
       dispatch("testGenerateWsdl");
+      tearDown();
    }
-   
+
+   @Test
+   @RunAsClient
    public void testGenerateWsdlWithExtension() throws Exception
    {
+      setUp();
       dispatch("testGenerateWsdlWithExtension");
+      tearDown();
    }
 
+   @Test
+   @RunAsClient
    public void testGenerateSource() throws Exception
    {
+      setUp();
       dispatch("testGenerateSource");
+      tearDown();
    }
 
+   @Test
+   @RunAsClient
    public void testOutputDirectory() throws Exception
    {
+      setUp();
       dispatch("testOutputDirectory");
+      tearDown();
    }
 
+   @Test
+   @RunAsClient
    public void testResourceDirectory() throws Exception
    {
+      setUp();
       dispatch("testResourceDirectory");
+      tearDown();
    }
 
+   @Test
+   @RunAsClient
    public void testSourceDirectory() throws Exception
    {
+      setUp();
       dispatch("testSourceDirectory");
+      tearDown();
    }
 
+   @Test
+   @RunAsClient
    public void testClassLoader() throws Exception
    {
+      setUp();
       dispatch("testClassLoader");
+      tearDown();
    }
 
+   @Test
+   @RunAsClient
    public void testMessageStream() throws Exception
    {
+      setUp();
       dispatch("testMessageStream");
+      tearDown();
    }
 
-   /**
-    * Filter sun jaxws implementation because it clashes
-    * with the native one (ServiceLoader...)
-    * @param jarName
-    * @return
-    */
-   protected boolean filtered(String jarName)
-   {
-      return false;
-   }
 }

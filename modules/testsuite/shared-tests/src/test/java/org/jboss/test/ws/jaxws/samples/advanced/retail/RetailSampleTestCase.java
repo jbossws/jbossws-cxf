@@ -23,29 +23,35 @@ package org.jboss.test.ws.jaxws.samples.advanced.retail;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author Heiko Braun <heiko.braun@jboss.com>
  * @since 08-Nov-2006
  */
+@RunWith(Arquillian.class)
 public class RetailSampleTestCase extends JBossWSTest {
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-retail.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-samples-retail.jar");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                      + "Dependencies: org.jboss.logging\n"))
@@ -69,25 +75,21 @@ public class RetailSampleTestCase extends JBossWSTest {
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/advanced/retail/META-INF/wsdl/CCVerificationService.wsdl"), "wsdl/CCVerificationService.wsdl")
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/advanced/retail/META-INF/wsdl/OrderMgmtService.wsdl"), "wsdl/OrderMgmtService.wsdl")
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/advanced/retail/META-INF/wsdl/ProfileMgmtService.wsdl"), "wsdl/ProfileMgmtService.wsdl");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(RetailSampleTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
    protected OrderMgmt getPort() throws Exception
    {
       QName serviceName = new QName("http://retail.advanced.samples.jaxws.ws.test.jboss.org/", "OrderMgmtService");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-retail/OrderMgmtService/OrderMgmtBean?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-samples-retail/OrderMgmtService/OrderMgmtBean?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       return (OrderMgmt)service.getPort(OrderMgmt.class);
    }
 
+
+   @Test
+   @RunAsClient
    public void testWebService() throws Exception
    {
       Customer customer = new Customer();

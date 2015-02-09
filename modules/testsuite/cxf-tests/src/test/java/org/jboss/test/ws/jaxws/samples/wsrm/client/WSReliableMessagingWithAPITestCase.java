@@ -23,23 +23,25 @@ package org.jboss.test.ws.jaxws.samples.wsrm.client;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.ws.jaxws.samples.wsrm.generated.SimpleService;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Client invoking web service with WS-RM and using no xml descriptor
@@ -48,33 +50,30 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @since 02-Aug-2010
  * 
  */
+@RunWith(Arquillian.class)
 public final class WSReliableMessagingWithAPITestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsrm-api/SimpleService";
+   @ArquillianResource
+   private URL baseURL;
    
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsrm-api.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.apache.cxf\n"))
-               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.RMCheckInterceptor.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.SimpleServiceImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.jaxws.Echo.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.jaxws.EchoResponse.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.jaxws.Ping.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm/WEB-INF/wsdl/SimpleService.wsdl"), "wsdl/SimpleService.wsdl")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsrm-api.war");
+      archive
+            .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.apache.cxf\n"))
+            .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.RMCheckInterceptor.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.SimpleServiceImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.jaxws.Echo.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.jaxws.EchoResponse.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsrm.service.jaxws.Ping.class)
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm/WEB-INF/wsdl/SimpleService.wsdl"), "wsdl/SimpleService.wsdl")
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(WSReliableMessagingWithAPITestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void test() throws Exception
    {
       final Bus bus = BusFactory.newInstance().createBus();
@@ -84,7 +83,7 @@ public final class WSReliableMessagingWithAPITestCase extends JBossWSTest
          URL wsdlURL = getResourceURL("jaxws/samples/wsrm/WEB-INF/wsdl/SimpleService.wsdl");
          Service service = Service.create(wsdlURL, serviceName);
          SimpleService proxy = (SimpleService)service.getPort(SimpleService.class);
-         ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+         ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL + "/jaxws-samples-wsrm-api/SimpleService");
          
          assertEquals("Hello World!", proxy.echo("Hello World!")); // request response call
          proxy.ping(); // one way call

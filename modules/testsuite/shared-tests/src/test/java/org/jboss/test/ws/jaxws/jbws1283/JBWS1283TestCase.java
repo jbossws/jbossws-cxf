@@ -36,8 +36,16 @@ import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
-import junit.framework.Test;
-
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.api.handler.GenericSOAPHandler;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
@@ -47,14 +55,19 @@ import org.jboss.wsf.test.JBossWSTestSetup;
 /**
  * [JBWS-1283] Attachment dropped on outbound messages if they have been added through a handler
  */
+@Ignore(value="[JBWS-2480] Soap attachments are dropped on server response")
+@RunWith(Arquillian.class)
 public class JBWS1283TestCase extends JBossWSTest
 {
    private final String targetNS = "http://org.jboss.test.ws/jbws1283";
    private JBWS1283Endpoint port;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1283.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1283.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws1283.AttachmentHandler.class)
@@ -63,14 +76,7 @@ public class JBWS1283TestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.jbws1283.JBWS1283TestCase.VerifyAttachmentHandler.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1283.JBWS1283TestCase.class)
                .addAsResource("org/jboss/test/ws/jaxws/jbws1283/jaxws-handlers-server.xml");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1283TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
    @Override
@@ -79,14 +85,17 @@ public class JBWS1283TestCase extends JBossWSTest
       super.setUp();
 
       QName serviceName = new QName(targetNS, "JBWS1283Service");
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws1283/JBWS1283Service/JBWS1283EndpointImpl?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws1283/JBWS1283Service/JBWS1283EndpointImpl?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       port = service.getPort(JBWS1283Endpoint.class);
    }
 
+   @Test
+   @RunAsClient
    public void testAttachmentResponse() throws Exception
    {
+      setUp();
       // Add a client-side handler that verifes existence of the attachment
       BindingProvider bindingProvider = (BindingProvider)port;
       @SuppressWarnings("rawtypes")

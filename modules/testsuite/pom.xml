@@ -17,7 +17,7 @@
   <!-- Properties -->
   <properties>
     <surefire.security.args>-Djava.security.manager -Djava.security.policy=src/test/etc/tst.policy</surefire.security.args>
-    <surefire.memory.args>-Xmx768m -XX:MaxPermSize=450m</surefire.memory.args>
+    <surefire.memory.args>-Xmx640m -XX:MaxPermSize=256m</surefire.memory.args>
     <surefire.jdwp.args>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</surefire.jdwp.args>
     <surefire.management.args>-Dcom.sun.management.jmxremote</surefire.management.args>
     <test.archive.directory>${project.build.directory}/test-libs</test.archive.directory>
@@ -30,9 +30,15 @@
     <org.slf4j.version>1.6.1</org.slf4j.version>
     <gnu.getopt.version>1.0.13</gnu.getopt.version>
     <bc.version>1.49</bc.version>
+    <resources-plugin-filters.version>1.0.0-SNAPSHOT</resources-plugin-filters.version>
     <log4j.version>1.2.14</log4j.version>
-    <remote.port>4447</remote.port>
-    <remote.protocol>remote</remote.protocol>
+    <port-offset.cxf-tests.jboss>0</port-offset.cxf-tests.jboss>
+    <port-offset.cxf-tests.ssl-mutual-auth>5000</port-offset.cxf-tests.ssl-mutual-auth>
+    <port-offset.cxf-tests.default-config-tests>10000</port-offset.cxf-tests.default-config-tests>
+    <port-offset.shared-tests.jboss>15000</port-offset.shared-tests.jboss>
+    <port-offset.shared-tests.default-config-tests>20000</port-offset.shared-tests.default-config-tests>
+    <port-offset.shared-tests.address-rewrite>25000</port-offset.shared-tests.address-rewrite>
+    <port-offset.cxf-spring-tests.jboss>30000</port-offset.cxf-spring-tests.jboss>
   </properties>
 
   <!-- Modules -->
@@ -100,6 +106,11 @@
       <groupId>org.jboss.shrinkwrap</groupId>
       <artifactId>shrinkwrap-depchain</artifactId>
       <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.arquillian.junit</groupId>
+      <artifactId>arquillian-junit-container</artifactId>
+      <version>${arquillian.version}</version>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
@@ -174,6 +185,23 @@
     </testResources>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <mavenFilteringHints>
+            <mavenFilteringHint>custom</mavenFilteringHint>
+          </mavenFilteringHints>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.jboss.ws.plugins</groupId>
+            <artifactId>resources-plugin-filters</artifactId>
+            <version>${resources-plugin-filters.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
@@ -207,25 +235,22 @@
           </execution>
         </executions>
       </plugin>
-      <plugin> <!-- This copies jbossws-cxf-factories jar to endorsed dir before the integration-tests are run -->
-        <artifactId>maven-resources-plugin</artifactId>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
-            <id>copy-factories-jar</id>
-            <phase>pre-integration-test</phase>
+            <id>validate-jboss-home</id>
+            <phase>validate</phase>
             <goals>
-              <goal>copy-resources</goal>
+              <goal>run</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${basedir}/../endorsed/target/</directory>
-                  <includes>
-                    <include>jbossws-cxf-factories-${project.version}.jar</include>
-                  </includes>
-                </resource>
-              </resources>
+              <target>
+                <echo />
+                <echo message="profile=${jbossws.integration.target}" />
+                <echo message="jboss.home=${jboss.home}" />
+                <echo />
+              </target>
             </configuration>
           </execution>
         </executions>
@@ -251,9 +276,11 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
+          <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
           <skip>true</skip>
           <failIfNoTests>false</failIfNoTests>
           <runOrder>alphabetical</runOrder>
+          <redirectTestOutputToFile>true</redirectTestOutputToFile>
         </configuration>
         <executions>
           <execution>
@@ -270,104 +297,32 @@
                 <include>**/*Test.java</include>
                 <include>**/*TestCase.java</include>
               </includes>
-              <systemProperties>
-                <property>
-                  <name>jboss.bind.address</name>
-                  <value>${jboss.bind.address}</value>
-                </property>
-                <property>
-                  <name>java.protocol.handler.pkgs</name>
-                  <value>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</value>
-                </property>
-                <property>
-                  <name>javax.net.ssl.trustStore</name>
-                  <value>${project.build.directory}/test-classes/test.truststore</value>
-                </property>
-                <property>
-                  <name>javax.net.ssl.trustStorePassword</name>
-                  <value>changeit</value>
-                </property>
-                <property>
-                  <name>javax.net.ssl.trustStoreType</name>
-                  <value>jks</value>
-                </property>
-                <property>
-                  <name>javax.net.ssl.keyStore</name>
-                  <value>${project.build.directory}/test-classes/client.keystore</value>
-                </property>
-                <property>
-                  <name>javax.net.ssl.keyStorePassword</name>
-                  <value>changeit</value>
-                </property>
-                <property>
-                  <name>javax.net.ssl.keyStoreType</name>
-                  <value>jks</value>
-                </property>
-                <property>
-                  <name>org.jboss.security.ignoreHttpsHost</name>
-                  <value>true</value>
-                </property>
-                <property>
-                  <name>jboss.home</name>
-                  <value>${jboss.home}</value>
-                </property>
-                <property>
-                  <name>jbossws.integration.target</name>
-                  <value>${jbossws.integration.target}</value>
-                </property>
-                <property>
-                  <name>test.disable.deployment</name>
-                  <value>false</value>
-                </property>
-                <property>
-                  <name>log4j.output.dir</name>
-                  <value>${log4j.output.dir}</value>
-                </property>
-                <property>
-                  <name>appclient.output.dir</name>
-                  <value>${appclient.output.dir}</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.testsuite.securityDomain.users.propfile</name>
-                  <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.testsuite.securityDomain.roles.propfile</name>
-                  <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.testsuite.server.keystore</name>
-                  <value>${project.build.directory}/test-classes/test.keystore</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.testsuite.server.truststore</name>
-                  <value>${project.build.directory}/test-classes/test.truststore</value>
-                </property>
-                <property>
-                  <name>test.archive.directory</name>
-                  <value>${test.archive.directory}</value>
-                </property>
-                <property>
-                  <name>test.classes.directory</name>
-                  <value>${test.classes.directory}</value>
-                </property>
-                <property>
-                  <name>test.resources.directory</name>
-                  <value>${test.resources.directory}</value>
-                </property>
-                <property>
-                  <name>test.username</name>
-                  <value>${test.username}</value>
-                </property>
-                <property>
-                  <name>test.password</name>
-                  <value>${test.password}</value>
-                </property>
-                <property>
-                  <name>wsdl.publish.location</name>
-                  <value>${wsdl.publish.location}</value>
-                </property>
-              </systemProperties>
+              <systemPropertyVariables>
+                 <jboss.bind.address>${jboss.bind.address}</jboss.bind.address>
+                 <java.protocol.handler.pkgs>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</java.protocol.handler.pkgs>
+                 <javax.net.ssl.trustStore>${project.build.directory}/test-classes/test.truststore</javax.net.ssl.trustStore>
+                 <javax.net.ssl.trustStorePassword>changeit</javax.net.ssl.trustStorePassword>
+                 <javax.net.ssl.trustStoreType>jks</javax.net.ssl.trustStoreType>
+                 <javax.net.ssl.keyStore>${project.build.directory}/test-classes/client.keystore</javax.net.ssl.keyStore>
+                 <javax.net.ssl.keyStorePassword>changeit</javax.net.ssl.keyStorePassword>
+                 <javax.net.ssl.keyStoreType>jks</javax.net.ssl.keyStoreType>
+                 <org.jboss.security.ignoreHttpsHost>true</org.jboss.security.ignoreHttpsHost>
+                 <jboss.home>${jboss.home}</jboss.home>
+                 <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
+                 <test.disable.deployment>false</test.disable.deployment>
+                 <log4j.output.dir>${log4j.output.dir}</log4j.output.dir>
+                 <appclient.output.dir>${appclient.output.dir}</appclient.output.dir>
+                 <org.jboss.ws.testsuite.securityDomain.users.propfile>${project.build.directory}/test-classes/jbossws-users.properties</org.jboss.ws.testsuite.securityDomain.users.propfile>  
+                 <org.jboss.ws.testsuite.securityDomain.roles.propfile>${project.build.directory}/test-classes/jbossws-roles.properties</org.jboss.ws.testsuite.securityDomain.roles.propfile>
+                 <org.jboss.ws.testsuite.server.keystore>${project.build.directory}/test-classes/test.keystore</org.jboss.ws.testsuite.server.keystore>
+                 <org.jboss.ws.testsuite.server.truststore>${project.build.directory}/test-classes/test.truststore</org.jboss.ws.testsuite.server.truststore>
+                 <test.archive.directory>${test.archive.directory}</test.archive.directory>
+                 <test.classes.directory>${test.classes.directory}</test.classes.directory>
+                 <test.resources.directory>${test.resources.directory}</test.resources.directory>
+                 <test.username>test.username</test.username>
+                 <test.password>${test.password}</test.password>
+                 <wsdl.publish.location>${wsdl.publish.location}</wsdl.publish.location>
+              </systemPropertyVariables>
             </configuration>
           </execution>
           
@@ -384,106 +339,100 @@
                 <include>**/*TestCaseForked.java</include>
                 <include>**/*TestForked.java</include>
               </includes>
-              <systemProperties>
-                <property>
-                  <name>jboss.bind.address</name>
-                  <value>${jboss.bind.address}</value>
-                </property>
-                <property>
-                  <name>java.protocol.handler.pkgs</name>
-                  <value>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</value>
-                </property>
-                <property>
-                  <name>javax.net.ssl.trustStore</name>
-                  <value>${project.build.directory}/test-classes/test.truststore</value>
-                </property>
-                <property>
-                  <name>javax.net.ssl.trustStorePassword</name>
-                  <value>changeit</value>
-                </property>
-                <property>
-                  <name>javax.net.ssl.trustStoreType</name>
-                  <value>jks</value>
-                </property>
-                <property>
-                  <name>javax.net.ssl.keyStore</name>
-                  <value>${project.build.directory}/test-classes/client.keystore</value>
-                </property>
-                <property>
-                  <name>javax.net.ssl.keyStorePassword</name>
-                  <value>changeit</value>
-                </property>
-                <property>
-                  <name>javax.net.ssl.keyStoreType</name>
-                  <value>jks</value>
-                </property>
-                <property>
-                  <name>org.jboss.security.ignoreHttpsHost</name>
-                  <value>true</value>
-                </property>
-                <property>
-                  <name>jboss.home</name>
-                  <value>${jboss.home}</value>
-                </property>
-                <property>
-                  <name>jbossws.integration.target</name>
-                  <value>${jbossws.integration.target}</value>
-                </property>
-                <property>
-                  <name>test.disable.deployment</name>
-                  <value>false</value>
-                </property>
-                <property>
-                  <name>log4j.output.dir</name>
-                  <value>${log4j.output.dir}</value>
-                </property>
-                <property>
-                  <name>appclient.output.dir</name>
-                  <value>${appclient.output.dir}</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.testsuite.securityDomain.users.propfile</name>
-                  <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.testsuite.securityDomain.roles.propfile</name>
-                  <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.testsuite.server.keystore</name>
-                  <value>${project.build.directory}/test-classes/test.keystore</value>
-                </property>
-                <property>
-                  <name>org.jboss.ws.testsuite.server.truststore</name>
-                  <value>${project.build.directory}/test-classes/test.truststore</value>
-                </property>
-                <property>
-                  <name>test.archive.directory</name>
-                  <value>${test.archive.directory}</value>
-                </property>
-                <property>
-                  <name>test.classes.directory</name>
-                  <value>${test.classes.directory}</value>
-                </property>
-                <property>
-                  <name>test.resources.directory</name>
-                  <value>${test.resources.directory}</value>
-                </property>
-                <property>
-                  <name>wsdl.publish.location</name>
-                  <value>${wsdl.publish.location}</value>
-                </property>
-              </systemProperties>
+              <systemPropertyVariables>
+                 <jboss.bind.address>${jboss.bind.address}</jboss.bind.address>
+                 <java.protocol.handler.pkgs>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</java.protocol.handler.pkgs>
+                 <javax.net.ssl.trustStore>${project.build.directory}/test-classes/test.truststore</javax.net.ssl.trustStore>
+                 <javax.net.ssl.trustStorePassword>changeit</javax.net.ssl.trustStorePassword>
+                 <javax.net.ssl.trustStoreType>jks</javax.net.ssl.trustStoreType>
+                 <javax.net.ssl.keyStore>${project.build.directory}/test-classes/client.keystore</javax.net.ssl.keyStore>
+                 <javax.net.ssl.keyStorePassword>changeit</javax.net.ssl.keyStorePassword>
+                 <javax.net.ssl.keyStoreType>jks</javax.net.ssl.keyStoreType>
+                 <org.jboss.security.ignoreHttpsHost>true</org.jboss.security.ignoreHttpsHost>
+                 <jboss.home>${jboss.home}</jboss.home>
+                 <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
+                 <test.disable.deployment>false</test.disable.deployment>
+                 <log4j.output.dir>${log4j.output.dir}</log4j.output.dir>
+                 <appclient.output.di>${appclient.output.dir}</appclient.output.di>
+                 <org.jboss.ws.testsuite.securityDomain.users.propfile>${project.build.directory}/test-classes/jbossws-users.properties</org.jboss.ws.testsuite.securityDomain.users.propfile>  
+                 <org.jboss.ws.testsuite.securityDomain.roles.propfile>${project.build.directory}/test-classes/jbossws-roles.properties</org.jboss.ws.testsuite.securityDomain.roles.propfile>
+                 <org.jboss.ws.testsuite.server.keystore>${project.build.directory}/test-classes/test.keystore</org.jboss.ws.testsuite.server.keystore>
+                 <org.jboss.ws.testsuite.server.truststore>${project.build.directory}/test-classes/test.truststore</org.jboss.ws.testsuite.server.truststore>
+                 <test.archive.directory>${test.archive.directory}</test.archive.directory>
+                 <test.classes.directory>${test.classes.directory}</test.classes.directory>
+                 <test.resources.directory>${test.resources.directory}</test.resources.directory>
+                 <wsdl.publish.location>${wsdl.publish.location}</wsdl.publish.location>
+              </systemPropertyVariables>
             </configuration>
           </execution>
           
         </executions>
+      </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <configuration>
+              <skip>true</skip>
+          </configuration>
+      </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <configuration>
+              <skip>true</skip>
+          </configuration>
       </plugin>
     </plugins>
   </build>
 
   <!-- Profiles -->
   <profiles>
+  
+  
+    <!-- 
+    Name:  download
+    Descr: Download WildFly  
+    -->
+    <profile>
+      <id>download</id>
+      <activation>
+        <property>
+          <name>!server.home</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>unpack</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>unpack</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.jboss.ws.cxf</groupId>
+                      <artifactId>jbossws-cxf-dist</artifactId>
+                      <classifier>${jbossws.integration.target}</classifier>
+                      <version>${project.version}</version>
+                      <type>zip</type>
+                      <overWrite>false</overWrite>
+                      <outputDirectory>${project.build.directory}/test-server</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+      <properties>
+        <jboss.home>${project.build.directory}/test-server/jbossws-cxf-dist-${project.version}/wildfly-${jboss.version}</jboss.home>
+      </properties>
+    </profile>
 
     <!--
     Name:  debug
@@ -539,6 +488,18 @@
       </properties>
     </profile>
 
+    <profile>
+      <id>jbossArguments</id>
+      <activation>
+        <property>
+          <name>!noJBossArguments</name>
+        </property>
+      </activation>
+      <properties>
+        <jbossArguments>-b ${jboss.bind.address:127.0.0.1} -bunsecure=${jboss.bind.address:127.0.0.1} -bmanagement=${jboss.bind.address:127.0.0.1}</jbossArguments>
+      </properties>
+    </profile>
+    
     <!--
     Name:  hudson
     Descr: Ignore test failures on hudson
@@ -625,16 +586,21 @@
     -->
     <profile>
       <id>wildfly800</id>
-      <properties>
-        <jboss.version>${wildfly800.version}</jboss.version>
-        <jbossws.integration.target>wildfly800</jbossws.integration.target>
-        <remote.port>8080</remote.port>
-        <remote.protocol>http-remoting</remote.protocol>
-      </properties>
       <dependencies>
         <dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-wildfly800-tests-integration</artifactId>
+        </dependency>
+        <!-- Arquillian container integration -->
+        <dependency>
+        	<groupId>org.wildfly.arquillian</groupId>
+        	<artifactId>wildfly-arquillian-container-managed</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>org.jboss.arquillian.protocol</groupId>
+        	<artifactId>arquillian-protocol-servlet</artifactId>
+        	<version>${arquillian.version}</version>
+        	<scope>test</scope>
         </dependency>
         <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
         <dependency>
@@ -670,28 +636,6 @@
               <compilerArguments>
                 <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
               </compilerArguments>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
-              <excludes combine.children="append">
-                 <!--# [JBWS-2561] XOP request not properly inlined-->
-                 <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
-
-                 <!--# [JBWS-2480] Soap attachments are dropped on server response-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
-
-                 <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
-
-                 <!-- # [JBWS-3620] Authentication failures w/ Undertow -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
-
-                 <!-- Manually setup KDC before run this test-->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
-              </excludes>
             </configuration>
           </plugin>
         </plugins>
@@ -704,16 +648,21 @@
     -->
     <profile>
       <id>wildfly810</id>
-      <properties>
-        <jboss.version>${wildfly810.version}</jboss.version>
-        <jbossws.integration.target>wildfly810</jbossws.integration.target>
-        <remote.port>8080</remote.port>
-        <remote.protocol>http-remoting</remote.protocol>
-      </properties>
       <dependencies>
         <dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-wildfly810-tests-integration</artifactId>
+        </dependency>
+        <!-- Arquillian container integration -->
+        <dependency>
+        	<groupId>org.wildfly.arquillian</groupId>
+        	<artifactId>wildfly-arquillian-container-managed</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>org.jboss.arquillian.protocol</groupId>
+        	<artifactId>arquillian-protocol-servlet</artifactId>
+        	<version>${arquillian.version}</version>
+        	<scope>test</scope>
         </dependency>
         <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
         <dependency>
@@ -749,28 +698,6 @@
               <compilerArguments>
                 <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
               </compilerArguments>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
-              <excludes combine.children="append">
-                 <!--# [JBWS-2561] XOP request not properly inlined-->
-                 <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
-
-                 <!--# [JBWS-2480] Soap attachments are dropped on server response-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
-
-                 <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
-
-                 <!-- # [JBWS-3620] Authentication failures w/ Undertow -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
-
-                 <!-- Manually setup KDC before run this test-->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
-              </excludes>
             </configuration>
           </plugin>
         </plugins>
@@ -778,22 +705,26 @@
     </profile>
     
     <!--
-    Name:  wildfly900
-    Descr: WildFly-9.0.0 specific options
+    Name:  wildfly820
+    Descr: WildFly-8.2.0 specific options
     -->
     <profile>
-      <id>wildfly900</id>
-      <properties>
-        <jboss.version>${wildfly900.version}</jboss.version>
-        <jbossws.integration.target>wildfly900</jbossws.integration.target>
-        <remote.port>8080</remote.port>
-        <remote.protocol>http-remoting</remote.protocol>
-      </properties>
+      <id>wildfly820</id>
       <dependencies>
         <dependency>
-          <groupId>org.wildfly</groupId>
-          <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <version>${jboss.version}</version>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-wildfly820-tests-integration</artifactId>
+        </dependency>
+        <!-- Arquillian container integration -->
+        <dependency>
+        	<groupId>org.wildfly.arquillian</groupId>
+        	<artifactId>wildfly-arquillian-container-managed</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>org.jboss.arquillian.protocol</groupId>
+        	<artifactId>arquillian-protocol-servlet</artifactId>
+        	<version>${arquillian.version}</version>
+        	<scope>test</scope>
         </dependency>
         <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
         <dependency>
@@ -831,26 +762,66 @@
               </compilerArguments>
             </configuration>
           </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!--
+    Descr: WildFly-9.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly900</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.wildfly</groupId>
+          <artifactId>wildfly-webservices-tests-integration</artifactId>
+          <version>${jboss.version}</version>
+        </dependency>
+        <!-- Arquillian container integration -->
+        <dependency>
+        	<groupId>org.wildfly.arquillian</groupId>
+        	<artifactId>wildfly-arquillian-container-managed</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>org.jboss.arquillian.protocol</groupId>
+        	<artifactId>arquillian-protocol-servlet</artifactId>
+        	<version>${arquillian.version}</version>
+        	<scope>test</scope>
+        </dependency>
+        <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
+        <dependency>
+          <groupId>org.littleshoot</groupId>
+          <artifactId>littleproxy</artifactId>
+          <version>${org.littleshoot.littleproxy.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-api</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>net.sf.ehcache</groupId>
+              <artifactId>ehcache-core</artifactId>
+            </exclusion>
+            <!-- Let the container messaging subsystem control the Netty dependency version  -->
+            <exclusion>
+              <groupId>io.netty</groupId>
+              <artifactId>netty-all</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
           <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
+            <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-              <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
-              <excludes combine.children="append">
-                 <!--# [JBWS-2561] XOP request not properly inlined-->
-                 <exclude>org/jboss/test/ws/jaxws/samples/xop/doclit/XOPHandlerTestCase.*</exclude>
-
-                 <!--# [JBWS-2480] Soap attachments are dropped on server response-->
-                 <exclude>org/jboss/test/ws/jaxws/jbws1283/**</exclude>
-
-                 <!-- # Tests migrated from JBossWS-Native specific testsuite which are meant to pass with JBossWS-CXF too, but are still to be fixed -->
-                 <exclude>org/jboss/test/ws/jaxws/jbws2978/**</exclude>
-
-                 <!-- # [JBWS-3620] Authentication failures w/ Undertow -->
-                 <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloDigestTestCase*</exclude>
-
-                 <!-- Manually setup KDC before run this test-->
-                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/kerberos/*TestCase*</exclude>
-              </excludes>
+              <compilerArguments>
+                <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+              </compilerArguments>
             </configuration>
           </plugin>
         </plugins>

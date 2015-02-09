@@ -30,7 +30,7 @@
   </wsdl:binding>
   <wsdl:service name="EndpointService3">
     <wsdl:port binding="tns:EndpointService3SoapBinding" name="EndpointPort3">
-      <soap:address location="http://localhost:8080/ep-publish-test/pattern3"/>
+      <soap:address location="http://localhost:38080/ep-publish-test/pattern3"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

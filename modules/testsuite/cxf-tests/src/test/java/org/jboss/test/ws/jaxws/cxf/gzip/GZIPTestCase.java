@@ -21,10 +21,22 @@
  */
 package org.jboss.test.ws.jaxws.cxf.gzip;
 
-import junit.framework.Test;
+import java.io.File;
+import java.net.URL;
 
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * 
@@ -32,51 +44,148 @@ import org.jboss.wsf.test.JBossWSTest;
  * @since 15-Sep-2010
  *
  */
+@RunWith(Arquillian.class)
 public class GZIPTestCase extends JBossWSTest
 {
-   private String gzipFeatureEndpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-gzip/HelloWorldService/HelloWorldImpl";
+   private static final String DEP = "jaxws-cxf-gzip";
+   private static final String CLIENT_DEP = "jaxws-cxf-gzip-client";
+   
+   @ArquillianResource
+   private URL baseURL;
    
    private Helper helper;
+   
+   @Deployment(name = DEP, testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, DEP + ".war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.apache.cxf\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.gzip.HelloWorld.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.gzip.HelloWorldImpl.class)
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/gzip/WEB-INF/web.xml"));
+      return archive;
+   }
 
-   public static Test suite()
+   @Deployment(name = CLIENT_DEP, testable = false)
+   public static WebArchive createClientDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, CLIENT_DEP + ".war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services,org.apache.cxf.impl\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.gzip.GZIPEnforcingInInterceptor.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.gzip.HelloWorld.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.gzip.Helper.class)
+            .addClass(org.jboss.wsf.test.ClientHelper.class)
+            .addClass(org.jboss.wsf.test.TestServlet.class);
+      return archive;
+   }
+   
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(CLIENT_DEP)
+   public void testInContainerGZIPUsingFeatureOnBus() throws Exception
    {
-      return new JBossWSCXFTestSetup(GZIPTestCase.class, DeploymentArchives.SERVER);
+      assertEquals("1", runTestInContainer("testGZIPUsingFeatureOnBus"));
+   }
+   
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(CLIENT_DEP)
+   public void testInContainerGZIPUsingFeatureOnClient() throws Exception
+   {
+      assertEquals("1", runTestInContainer("testGZIPUsingFeatureOnClient"));
+   }
+   
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(CLIENT_DEP)
+   public void testInContainerGZIPServerSideOnlyInterceptorOnClient() throws Exception
+   {
+      assertEquals("1", runTestInContainer("testGZIPServerSideOnlyInterceptorOnClient"));
+   }
+   
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(CLIENT_DEP)
+   public void testInContainerFailureGZIPServerSideOnlyInterceptorOnClient() throws Exception
+   {
+      assertEquals("1", runTestInContainer("testFailureGZIPServerSideOnlyInterceptorOnClient"));
+   }
+   
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(CLIENT_DEP)
+   public void testInContainerGZIPServerSideOnlyInterceptorsOnBus() throws Exception
+   {
+      assertEquals("1", runTestInContainer("testGZIPServerSideOnlyInterceptorsOnBus"));
+   }
+
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(CLIENT_DEP)
+   public void testInContainerFailureGZIPServerSideOnlyInterceptorsOnBus() throws Exception
+   {
+      assertEquals("1", runTestInContainer("testFailureGZIPServerSideOnlyInterceptorsOnBus"));
+   }
+   
+   private String runTestInContainer(String test) throws Exception
+   {
+      URL url = new URL(baseURL + "?path=/jaxws-cxf-gzip/HelloWorldService/HelloWorldImpl&method=" + test
+            + "&helper=" + Helper.class.getName());
+      return IOUtils.readAndCloseStream(url.openStream());
    }
    
    private Helper getHelper()
    {
       if (helper == null)
       {
-         helper = new Helper(gzipFeatureEndpointURL);
+         helper = new Helper(baseURL + "HelloWorldService/HelloWorldImpl");
       }
       return helper;
    }
    
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP)
    public void testGZIPUsingFeatureOnBus() throws Exception
    {
       assertTrue(getHelper().testGZIPUsingFeatureOnBus());
    }
    
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP)
    public void testGZIPUsingFeatureOnClient() throws Exception
    {
       assertTrue(getHelper().testGZIPUsingFeatureOnClient());
    }
    
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP)
    public void testGZIPServerSideOnlyInterceptorOnClient() throws Exception
    {
       assertTrue(getHelper().testGZIPServerSideOnlyInterceptorOnClient());
    }
    
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP)
    public void testFailureGZIPServerSideOnlyInterceptorOnClient() throws Exception
    {
       assertTrue(getHelper().testFailureGZIPServerSideOnlyInterceptorOnClient());
    }
    
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP)
    public void testGZIPServerSideOnlyInterceptorsOnBus() throws Exception
    {
       assertTrue(getHelper().testGZIPServerSideOnlyInterceptorsOnBus());
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP)
    public void testFailureGZIPServerSideOnlyInterceptorsOnBus() throws Exception
    {
       assertTrue(getHelper().testFailureGZIPServerSideOnlyInterceptorsOnBus());

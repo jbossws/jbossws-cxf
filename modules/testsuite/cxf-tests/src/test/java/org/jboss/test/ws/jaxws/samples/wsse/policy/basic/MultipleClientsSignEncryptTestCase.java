@@ -23,22 +23,25 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPFaultException;
 
-import junit.framework.Test;
-
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.jboss.wsf.test.WrapThreadContextClassLoader;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * WS-Security Policy sign & encrypt test case
@@ -47,13 +50,33 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 13-Jan-2012
  */
+@RunWith(Arquillian.class)
 public final class MultipleClientsSignEncryptTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsse-policy-sign-encrypt-mc/SecurityService";
+   @ArquillianResource
+   private URL baseURL;
    
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-policy-sign-encrypt-mc-client.jar") { {
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-policy-sign-encrypt-mc.war");
+      archive
+            .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.basic.KeystorePasswordCallback.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.basic.MultipleClientsServiceImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.basic.ServiceIface.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/sign-encrypt/WEB-INF/bob2.jks"), "classes/bob2.jks")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/sign-encrypt/WEB-INF/bob2.properties"), "classes/bob2.properties")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/sign-encrypt/WEB-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/sign-encrypt/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd");
+      return archive;
+   }
+   
+   @Override
+   protected String getClientJarPaths() {
+      return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-policy-sign-encrypt-mc-client.jar") { {
          archive
                .addManifest()
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/sign-encrypt/META-INF/alice.jks"), "alice.jks")
@@ -62,33 +85,15 @@ public final class MultipleClientsSignEncryptTestCase extends JBossWSTest
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/sign-encrypt/META-INF/john.properties"), "john.properties");
          }
       });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsse-policy-sign-encrypt-mc.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.basic.KeystorePasswordCallback.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.basic.MultipleClientsServiceImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.basic.ServiceIface.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/sign-encrypt/WEB-INF/bob2.jks"), "classes/bob2.jks")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/sign-encrypt/WEB-INF/bob2.properties"), "classes/bob2.properties")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/sign-encrypt/WEB-INF/wsdl/SecurityService.wsdl"), "wsdl/SecurityService.wsdl")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/sign-encrypt/WEB-INF/wsdl/SecurityService_schema1.xsd"), "wsdl/SecurityService_schema1.xsd");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(MultipleClientsSignEncryptTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void testAlice() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/SecurityService?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy, "alice");
@@ -102,10 +107,13 @@ public final class MultipleClientsSignEncryptTestCase extends JBossWSTest
       }
    }
    
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void testJohn() throws Exception
    {
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/SecurityService?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse(proxy, "john");

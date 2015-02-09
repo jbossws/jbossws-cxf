@@ -23,19 +23,21 @@ package org.jboss.test.ws.jaxws.cxf.interceptors;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Testcase for:
@@ -45,36 +47,34 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 10-Oct-2014
  */
+@RunWith(Arquillian.class)
 public class InterceptorsTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-interceptors.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.apache.cxf\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.EndpointImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.AnotherEndpointImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.BusInterceptor.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.BusCounterInterceptor.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.DeclaredInterceptor.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.EndpointInterceptor.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.EndpointCounterInterceptor.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.Counter.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/interceptors/WEB-INF/jboss-webservices.xml"), "jboss-webservices.xml")
-               .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/interceptors/WEB-INF/jaxws-endpoint-config.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-interceptors.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.apache.cxf\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.EndpointImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.AnotherEndpointImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.BusInterceptor.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.BusCounterInterceptor.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.DeclaredInterceptor.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.EndpointInterceptor.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.EndpointCounterInterceptor.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.Counter.class)
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/interceptors/WEB-INF/jboss-webservices.xml"), "jboss-webservices.xml")
+            .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/interceptors/WEB-INF/jaxws-endpoint-config.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(InterceptorsTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-   
+   @Test
+   @RunAsClient
    public void testEndpointWithBothBusAndEndpointInterceptors() throws Exception {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-interceptors/MyService" + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "MyService?wsdl");
       Service service = Service.create(wsdlURL, new QName("http://org.jboss.ws.jaxws.cxf/interceptors", "MyService"));
       Endpoint port = service.getPort(new QName("http://org.jboss.ws.jaxws.cxf/interceptors", "MyEndpointPort"), Endpoint.class);
       assertEquals("Hi FooBar! 0", port.echo("Hi"));
@@ -83,8 +83,10 @@ public class InterceptorsTestCase extends JBossWSTest
       assertEquals("Hi FooBar! 6", port.echo("Hi"));
    }
    
+   @Test
+   @RunAsClient
    public void testEndpointWithBusInterceptorsOnly() throws Exception {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-interceptors/AnotherService" + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "AnotherService?wsdl");
       Service service = Service.create(wsdlURL, new QName("http://org.jboss.ws.jaxws.cxf/interceptors", "AnotherService"));
       AnotherEndpoint port = service.getPort(new QName("http://org.jboss.ws.jaxws.cxf/interceptors", "AnotherEndpointPort"), AnotherEndpoint.class);
       assertEquals("Hi.Foo!.0", port.echo("Hi"));

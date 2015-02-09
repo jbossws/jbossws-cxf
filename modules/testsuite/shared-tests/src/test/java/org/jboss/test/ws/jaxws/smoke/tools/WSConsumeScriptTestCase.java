@@ -23,6 +23,11 @@ package org.jboss.test.ws.jaxws.smoke.tools;
 
 import java.io.File;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 /**
  * [JBWS-1793] Provide a test case for the tools scripts that reside under JBOSS_HOME/bin
  * 
@@ -34,12 +39,16 @@ import java.io.File;
  * 
  * @author Heiko.Braun@jboss.com
  */
+@RunWith(Arquillian.class)
 public class WSConsumeScriptTestCase extends ScriptTestCase
 {
    private String WSDL_LOCATION = "jaxws" + FS + "smoke" + FS + "tools" + FS + "wsdl" + FS + "TestServiceCatalog.wsdl";
 
+   @Test
+   @RunAsClient
    public void testWSConsumeFromCommandLine() throws Exception
    {
+      super.setUp();
       // use absolute path for the output to be re-usable
       String absWsdlLoc = getResourceFile(WSDL_LOCATION).getAbsolutePath();
       String absOutput = new File(TEST_DIR, "wsconsume" + FS + "java").getAbsolutePath();

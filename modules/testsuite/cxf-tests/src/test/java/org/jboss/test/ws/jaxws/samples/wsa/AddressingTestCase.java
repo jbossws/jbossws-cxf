@@ -24,8 +24,6 @@ package org.jboss.test.ws.jaxws.samples.wsa;
 import java.io.File;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -33,47 +31,45 @@ import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.AddressingFeature;
 
-import junit.framework.Test;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Client invoking web service using WS-Addressing
  *
  * @author richard.opalka@jboss.com
  */
+@RunWith(Arquillian.class)
 public final class AddressingTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost() + ":8080/jaxws-samples-wsa/AddressingService";
+   @ArquillianResource
+   private URL baseURL;
    
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsa.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.samples.wsa.ServiceIface.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsa.ServiceImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsa.jaxws.SayHello.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsa.jaxws.SayHelloResponse.class)
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsa/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(AddressingTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsa.war");
+      archive.addManifest()
+            .addClass(org.jboss.test.ws.jaxws.samples.wsa.ServiceIface.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsa.ServiceImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsa.jaxws.SayHello.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsa.jaxws.SayHelloResponse.class)
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsa/WEB-INF/web.xml"));
+      return archive;
    }
 
    /**
@@ -82,6 +78,8 @@ public final class AddressingTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
    public void testUsingLocalContract() throws Exception
    {
       // construct proxy
@@ -89,7 +87,7 @@ public final class AddressingTestCase extends JBossWSTest
       URL wsdlURL = getResourceURL("jaxws/samples/wsa/WEB-INF/wsdl/AddressingService.wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class, new AddressingFeature());
-      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
+      ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL + "/jaxws-samples-wsa/AddressingService");
       // invoke method
       assertEquals("Hello World!", proxy.sayHello("World"));
    }
@@ -100,11 +98,13 @@ public final class AddressingTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
    public void testUsingContractFromDeployedEndpoint() throws Exception
    {
       // construct proxy
       QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsaddressing", "AddressingService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-samples-wsa/AddressingService?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       // invoke method
@@ -120,6 +120,8 @@ public final class AddressingTestCase extends JBossWSTest
     * 
     * @throws Exception
     */
+   @Test
+   @RunAsClient
    public void testDecoupledEndpointForLongLastingProcessingOfInvocations() throws Exception
    {
       final Bus bus = BusFactory.newInstance().createBus();
@@ -127,7 +129,7 @@ public final class AddressingTestCase extends JBossWSTest
       try {
          // construct proxy
          QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsaddressing", "AddressingService");
-         URL wsdlURL = new URL(serviceURL + "?wsdl");
+         URL wsdlURL = new URL(baseURL + "/jaxws-samples-wsa/AddressingService?wsdl");
          Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
          

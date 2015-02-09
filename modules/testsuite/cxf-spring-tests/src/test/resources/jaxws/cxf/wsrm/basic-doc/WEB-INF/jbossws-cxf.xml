@@ -14,7 +14,7 @@
     </wsrmp:RMAssertion>
   </wsp:Policy>
   
-  <jaxws:endpoint id='RMService' address='http://@jboss.bind.address@:8080/jaxws-cxf-wsrm-basic-doc' implementor='org.jboss.test.ws.jaxws.cxf.wsrm.BasicDocEndpointImpl'>
+  <jaxws:endpoint id='RMService' address='http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,8080)@/jaxws-cxf-wsrm-basic-doc' implementor='org.jboss.test.ws.jaxws.cxf.wsrm.BasicDocEndpointImpl'>
     <jaxws:features>
       <p:policies>
         <wsp:PolicyReference URI="#RM" xmlns:wsp="http://www.w3.org/2006/07/ws-policy"/>

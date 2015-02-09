@@ -21,20 +21,22 @@
  */
 package org.jboss.test.ws.jaxws.cxf.wsmex;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import junit.framework.Test;
+import java.net.URL;
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.ws.mex.MetadataExchange;
 import org.apache.cxf.ws.mex.model._2004_09.Metadata;
 import org.apache.cxf.ws.mex.model._2004_09.MetadataSection;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.common.DOMWriter;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Node;
 
 /**
@@ -43,31 +45,27 @@ import org.w3c.dom.Node;
  * @author alessio.soldano@jboss.com
  * @since 10-May-2012
  */
+@RunWith(Arquillian.class)
 public class WSMexTestCase extends JBossWSTest
 {
-   private String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-wsmex/EndpointService";
-
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-cxf-wsmex.jar") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.cxf.wsmex.Endpoint.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.wsmex.EndpointBean.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static JavaArchive createDeployment() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-wsmex.jar");
+      archive.addManifest()
+         .addClass(org.jboss.test.ws.jaxws.cxf.wsmex.Endpoint.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.wsmex.EndpointBean.class);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(WSMexTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testEndpoint() throws Exception
    {
       JaxWsProxyFactoryBean proxyFac = new JaxWsProxyFactoryBean();
-      proxyFac.setAddress(endpointAddress);
+      proxyFac.setAddress(baseURL + "/jaxws-cxf-wsmex/EndpointService");
       MetadataExchange exc = proxyFac.create(MetadataExchange.class);
       Metadata metadata = exc.get2004();
 

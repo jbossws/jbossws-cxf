@@ -24,7 +24,7 @@
 
   <jaxws:endpoint
     id='EjbEndpointImpl'
-    address='http://@jboss.bind.address@:8080/jaxws-samples-wsseEJB/EjbEndpointService/EjbEndpoint'
+    address='http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,8080)@/jaxws-samples-wsseEJB/EjbEndpointService/EjbEndpoint'
     implementor='org.jboss.test.ws.jaxws.samples.wsseEJB.EjbEndpointImpl'>
     <jaxws:inInterceptors>
         <ref bean="SecurityContextIn"/>

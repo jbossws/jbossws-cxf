@@ -44,7 +44,7 @@
 
   <wsdl:service name="HelloService">
     <wsdl:port name="HelloServicePort" binding="tns:HelloServiceSoapBinding">
-      <soap:address location="http://localhost:8080/HelloServicePort"/>
+      <soap:address location="http://localhost:@add_int(port-offset.cxf-tests.jboss,8080)@/HelloServicePort"/>
     </wsdl:port>
   </wsdl:service>
 

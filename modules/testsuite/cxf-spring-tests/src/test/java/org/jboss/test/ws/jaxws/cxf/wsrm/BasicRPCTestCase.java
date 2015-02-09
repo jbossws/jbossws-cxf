@@ -21,18 +21,24 @@
  */
 package org.jboss.test.ws.jaxws.cxf.wsrm;
 
-import java.net.URL;
+import org.apache.cxf.endpoint.Client;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.ws.common.DOMUtils;
+import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.w3c.dom.Element;
+import org.jboss.wsf.test.JBossWSTestHelper;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-
-import junit.framework.Test;
-
-import org.apache.cxf.endpoint.Client;
-import org.jboss.ws.common.DOMUtils;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
-import org.jboss.wsf.test.JBossWSTest;
-import org.w3c.dom.Element;
+import java.net.URL;
+import java.io.File;
 
 /**
  * Test the CXF WS-ReliableMessaging
@@ -40,20 +46,41 @@ import org.w3c.dom.Element;
  * @author Thomas.Diesler@jboss.org
  * @since 12-Dec-2007
  */
+@RunWith(Arquillian.class)
 public class BasicRPCTestCase extends JBossWSTest
 {
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(BasicRPCTestCase.class, DeploymentArchives.RPC_SERVER + " " + DeploymentArchives.CLIENT);
+   @Deployment(name="jaxws-cxf-wsrm-basic-rpc", order=1, testable = false)
+   public static WebArchive createRpcServerDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-wsrm-basic-rpc.war");
+      archive
+         .addManifest()
+         .addClass(org.jboss.test.ws.jaxws.cxf.wsrm.BasicRPCEndpoint.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.wsrm.BasicRPCEndpointImpl.class)
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/wsrm/basic-rpc/WEB-INF/jbossws-cxf.xml"), "jbossws-cxf.xml")
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/wsrm/basic-rpc/WEB-INF/web.xml"));
+      return archive;
    }
 
+   @Deployment(name = "jaxws-cxf-wsrm-basic-client", order=2, testable = false)
+   public static JavaArchive createClientDeployment() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-wsrm-basic-client.jar");
+      archive
+         .addManifest()
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/wsrm/cxf.xml"), "cxf.xml");
+      return archive;
+   }
+
+   @Test
+   @RunAsClient
    public void testWSDLAccess() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-wsrm-basic-rpc?wsdl");
+      URL wsdlURL = new URL("http://" + getServerHost()  + ":" + getServerPort() + "/jaxws-cxf-wsrm-basic-rpc?wsdl");
       Element wsdl = DOMUtils.parse(wsdlURL.openStream());
       assertNotNull(wsdl);
    }
 
+   @Test
+   @RunAsClient
    public void testClient() throws Exception
    {
       URL wsdlURL = getResourceURL("jaxws/cxf/wsrm/basic-rpc/wsrm-basic-rpc.wsdl");

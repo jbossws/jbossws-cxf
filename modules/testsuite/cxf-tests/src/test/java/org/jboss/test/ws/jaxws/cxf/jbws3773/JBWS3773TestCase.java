@@ -22,8 +22,6 @@
 package org.jboss.test.ws.jaxws.cxf.jbws3773;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -31,38 +29,39 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.AddressingFeature;
 
-import junit.framework.Test;
-
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.AttributedURIType;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(Arquillian.class)
 public class JBWS3773TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3773.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3773.Greeter.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3773.GreeterImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3773.TargetServlet.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jbws3773.war");
+      archive.addManifest()
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3773.Greeter.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3773.GreeterImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3773.TargetServlet.class);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS3773TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testServletRequestAvailability() throws Exception
    {
       Greeter greeter = initPort();
@@ -71,7 +70,7 @@ public class JBWS3773TestCase extends JBossWSTest
 
       EndpointReferenceType replyTo = new EndpointReferenceType();
       AttributedURIType replyToURI = new AttributedURIType();
-      replyToURI.setValue("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3773/target/replyTo");
+      replyToURI.setValue(baseURL + "/target/replyTo");
       replyTo.setAddress(replyToURI);
       addrProperties.setReplyTo(replyTo);
 
@@ -88,7 +87,7 @@ public class JBWS3773TestCase extends JBossWSTest
   
    private Greeter initPort() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3773/SOAPService?wsdl");
+      URL wsdlURL = new URL(baseURL + "/SOAPService?wsdl");
       QName qname = new QName("http://jboss.org/hello_world", "SOAPService");
       Service service = Service.create(wsdlURL, qname);
       Greeter greeter = service.getPort(Greeter.class, new AddressingFeature());
@@ -97,7 +96,7 @@ public class JBWS3773TestCase extends JBossWSTest
 
    private String getTargetServletResult() throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3773/target/result");
+      URL url = new URL(baseURL + "/target/result");
       return IOUtils.readAndCloseStream(url.openStream());
    }
 }

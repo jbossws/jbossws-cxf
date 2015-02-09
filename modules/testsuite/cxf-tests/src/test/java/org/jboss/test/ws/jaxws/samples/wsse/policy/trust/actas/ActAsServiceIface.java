@@ -35,5 +35,5 @@ import javax.jws.WebService;
 public interface ActAsServiceIface
 {
    @WebMethod
-   String sayHello();
+   String sayHello(String host, String port);
 }

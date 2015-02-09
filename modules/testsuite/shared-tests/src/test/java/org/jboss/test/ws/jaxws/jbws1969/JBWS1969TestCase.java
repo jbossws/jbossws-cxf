@@ -23,50 +23,51 @@ package org.jboss.test.ws.jaxws.jbws1969;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.wsdl.Definition;
 import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-1969] test case for load/import of resources under nested directory
  * other than toplevel "META-INF/wsdl" directory
  * @author <a href="mailto:mageshbk@jboss.com">Magesh Kumar B</a>
  */
+@RunWith(Arquillian.class)
 public class JBWS1969TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1969.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1969.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws1969.Endpoint.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1969.EndpointImpl.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1969/META-INF/wsdl/echo/TestService.wsdl"), "wsdl/echo/TestService.wsdl")
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1969/META-INF/wsdl/echo/TestService.xsd"), "wsdl/echo/TestService.xsd");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1969TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testSubDirectory() throws Exception
    {
       // WSDL and Schema files are loaded in META-INF/wsdl/echo directory
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws1969?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws1969?wsdl");
       WSDLReader wsdlReader = WSDLFactory.newInstance().newWSDLReader();
       Definition wsdlDefinition = wsdlReader.readWSDL(wsdlURL.toString());
       assertNotNull(wsdlDefinition);

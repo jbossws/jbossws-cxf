@@ -33,9 +33,14 @@ import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.SOAPBinding;
 
-import junit.framework.Test;
-
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test service endpoint capability to process inlined and optimized
@@ -50,22 +55,23 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Heiko Braun <heiko.braun@jboss.com>
  * @since 05.12.2006
  */
+@Ignore(value="[JBWS-2561] XOP request not properly inlined")
+@RunWith(Arquillian.class)
 public class XOPHandlerTestCase extends XOPBase
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-samples-xop-doclit/bare";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(XOPHandlerTestCase.class, DeploymentArchive.NAME);
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      return DeploymentArchive.createDeployment("handler");
    }
 
    @Override
    protected void setUp() throws Exception
    {
-
       QName serviceName = new QName("http://doclit.xop.samples.jaxws.ws.test.jboss.org/", "MTOMService");
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
-
+      URL wsdlURL = new URL(baseURL + "bare?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
       port = service.getPort(MTOMEndpoint.class);
       binding = (SOAPBinding)((BindingProvider)port).getBinding();
@@ -81,11 +87,12 @@ public class XOPHandlerTestCase extends XOPBase
     * Consumption of inlined data should will always result on 'application/octet-stream'
     * @throws Exception
     */
-   @Override
+    @Test
+    @RunAsClient
    public void testDataHandlerRoundtrip() throws Exception
    {
+      setUp();
       getBinding().setMTOMEnabled(true);
-
       DataHandler dh = new DataHandler("Client Data", "text/plain");
       DHResponse response = getPort().echoDataHandler(new DHRequest(dh));
       assertNotNull(response);
@@ -97,9 +104,11 @@ public class XOPHandlerTestCase extends XOPBase
     * Consumption of inlined data should will always result on 'application/octet-stream'
     * @throws Exception
     */
-   @Override
+   @Test
+   @RunAsClient
    public void testDataHandlerResponseOptimzed() throws Exception
    {
+      setUp();
       getBinding().setMTOMEnabled(false);
 
       DataHandler dh = new DataHandler("Client data", "text/plain");

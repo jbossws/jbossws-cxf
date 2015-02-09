@@ -21,88 +21,85 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl;
 
-import junit.framework.Test;
-import org.jboss.shrinkwrap.api.ArchivePaths;
-import org.jboss.shrinkwrap.api.asset.FileAsset;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestSetup;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
 import java.io.File;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ArchivePaths;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.FileAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test that a external wsdl declared by a valid URL in a wsdlLocation
  * property of a WebService annotation is supported.
+ * 
+ * @author rsearls@redhat.com
  */
+@RunWith(Arquillian.class)
 public class JBWS3792WsImplTestCase extends JBossWSTest {
 
-   public static JBossWSTestHelper.BaseDeployment<?>[] createDeployments() {
-      List<JBossWSTestHelper.BaseDeployment<?>> list = new LinkedList<JBossWSTestHelper.BaseDeployment<?>>();
-      list.add(
+   private static final String DEP_EXT = "jbws3792-external-wsdl";
+   private static final String DEP = "jbws3792-ws-impl";
+   
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(name = DEP_EXT, testable = false, order = 1)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, DEP_EXT + ".war");
+      archive
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.externalWsdl.JBWS3792WS.class)
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3792/externalWsdl/WEB-INF/web.xml"), "web.xml")
+         .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3792/externalWsdl/WEB-INF/wsdl/jbws3792.wsdl")), ArchivePaths.root().get() + "jbws3792.wsdl")
+         .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3792/externalWsdl/WEB-INF/wsdl/import.wsdl")), "/import.wsdl");
+      return archive;
+   }
 
-         new JBossWSTestHelper.WarDeployment("jbws3792-external-wsdl.war") { {
-            archive
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.externalWsdl.JBWS3792WS.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir()
-                  + "/jaxws/cxf/jbws3792/externalWsdl/WEB-INF/web.xml"), "web.xml")
-            .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir()
-               + "/jaxws/cxf/jbws3792/externalWsdl/WEB-INF/wsdl/jbws3792.wsdl")), ArchivePaths.root().get() + "jbws3792.wsdl")
-            .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir()
-               + "/jaxws/cxf/jbws3792/externalWsdl/WEB-INF/wsdl/import.wsdl")), "/import.wsdl")
-
-            ;
-         }
-         }
-      );
-      list.add( new JBossWSTestHelper.WarDeployment("jbws3792-ws-impl.war") { {
-            archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.Hello.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.HelloResponse.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.JBWS3792WS.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.JBWS3792WSImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.JBWS3792WSService.class)
-               .addAsWebInfResource(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3792/wsImpl/WEB-INF/webservices.xml")), "webservices.xml")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir()
-                  + "/jaxws/cxf/jbws3792/wsImpl/WEB-INF/web.xml"))
-            ;
-         }
-         }
-      );
-      return list.toArray(new JBossWSTestHelper.BaseDeployment<?>[list.size()]);
+   @Deployment(name = DEP, testable = false, order = 2)
+   public static WebArchive createDeployment2() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, DEP + ".war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+            + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.Hello.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.HelloResponse.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.JBWS3792WS.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.JBWS3792WSImpl.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl.JBWS3792WSService.class)
+         .addAsWebInfResource(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3792/wsImpl/WEB-INF/webservices.xml")), "webservices.xml")
+         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3792/wsImpl/WEB-INF/web.xml"));
+      return archive;
    }
 
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS3792WsImplTestCase.class,
-         JBossWSTestHelper.writeToFile(createDeployments())
-      );
-   }
-
-
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP)
    public void test() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost()
-         + ":8080/jbws3792-ws-impl/JBWS3792WSService?wsdl");
+      URL wsdlURL = new URL(baseURL + "/JBWS3792WSService?wsdl");
       QName qname = new QName("http://test.jbws3792/", "JBWS3792WSService");
       Service service = Service.create(wsdlURL, qname);
 
       Iterator<QName> it = service.getPorts();
       int cnt = 0;
-      while (it.hasNext()){
+      while (it.hasNext()) {
          cnt++;
          QName qn = (QName)it.next();
-         assertTrue("qname: " + qn.toString(),
-            "{http://test.jbws3792/}JBWS3792WSPort".equals(qn.toString()));
+         assertTrue("qname: " + qn.toString(), "{http://test.jbws3792/}JBWS3792WSPort".equals(qn.toString()));
       }
       assertTrue("Expected cnt to be 1 but cnt is " + cnt, cnt == 1);
    }

@@ -25,27 +25,30 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
-
-import junit.framework.Test;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.CryptoHelper;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.jboss.wsf.test.WrapThreadContextClassLoader;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * 
@@ -53,42 +56,45 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 13-Jun-2013
  */
+@RunWith(Arquillian.class)
 public class PolicyAttachmentTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-jbws3648-b.war") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client, org.apache.ws.security\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointFour.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointFourImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointThree.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointThreeImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.KeystorePasswordCallback.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3648-b/WEB-INF/bob.jks"), "classes/bob.jks")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3648-b/WEB-INF/bob.properties"), "classes/bob.properties")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3648-b/policies/My-WSSE-conf-BINDING.xml"),
-                     "classes/META-INF/policies/My-WSSE-conf-BINDING.xml")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3648-b/policies/org.jboss.wsf.stack.cxf.extensions.policy.PolicyAttachmentStore"),
-                     "classes/META-INF/policies/org.jboss.wsf.stack.cxf.extensions.policy.PolicyAttachmentStore");
-         }
-      });
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-cxf-jbws3648-b-client.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jbws3648-b.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client, org.apache.ws.security\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointFour.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointFourImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointThree.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.EndpointThreeImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3648.KeystorePasswordCallback.class)
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3648-b/WEB-INF/bob.jks"), "classes/bob.jks")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3648-b/WEB-INF/bob.properties"), "classes/bob.properties")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3648-b/policies/My-WSSE-conf-BINDING.xml"),
+                  "classes/META-INF/policies/My-WSSE-conf-BINDING.xml")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3648-b/policies/org.jboss.wsf.stack.cxf.extensions.policy.PolicyAttachmentStore"),
+                  "classes/META-INF/policies/org.jboss.wsf.stack.cxf.extensions.policy.PolicyAttachmentStore");
+      return archive;
+   }
+
+   @Override
+   protected String getClientJarPaths() {
+      return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-cxf-jbws3648-b-client.jar") { {
          archive
                .addManifest()
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3648-b/META-INF/alice.jks"), "alice.jks")
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3648-b/META-INF/alice.properties"), "alice.properties");
          }
       });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(PolicyAttachmentTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void testEndpointWithWSSEAndWSA() throws Exception {
       Bus bus = BusFactory.newInstance().createBus();
       BusFactory.setThreadDefaultBus(bus);
@@ -97,7 +103,7 @@ public class PolicyAttachmentTestCase extends JBossWSTest
       try {
          bus.getInInterceptors().add(new LoggingInInterceptor(pw));
          
-         URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3648-b/ServiceThree" + "?wsdl");
+         URL wsdlURL = new URL(baseURL + "/ServiceThree?wsdl");
          QName serviceName = new QName("http://org.jboss.ws.jaxws.cxf/jbws3648", "ServiceThree");
          Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          EndpointThree proxy = (EndpointThree)service.getPort(EndpointThree.class);
@@ -114,6 +120,9 @@ public class PolicyAttachmentTestCase extends JBossWSTest
       }
    }
    
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
    public void testEndpointWithCustomWSSEAndWSA() throws Exception {
       Bus bus = BusFactory.newInstance().createBus();
       BusFactory.setThreadDefaultBus(bus);
@@ -122,7 +131,7 @@ public class PolicyAttachmentTestCase extends JBossWSTest
       try {
          bus.getInInterceptors().add(new LoggingInInterceptor(pw));
          
-         URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-cxf-jbws3648-b/ServiceFour" + "?wsdl");
+         URL wsdlURL = new URL(baseURL + "/ServiceFour?wsdl");
          QName serviceName = new QName("http://org.jboss.ws.jaxws.cxf/jbws3648", "ServiceFour");
          Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          EndpointFour proxy = (EndpointFour)service.getPort(EndpointFour.class);

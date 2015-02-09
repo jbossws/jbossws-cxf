@@ -24,19 +24,21 @@ package org.jboss.test.ws.jaxws.jbws2241;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-2241] Testing url-pattern parameter in jboss.xml
@@ -44,31 +46,28 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 29-Sep-2008
  */
+@RunWith(Arquillian.class)
 public class JBWS2241TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2241.jar") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.jbws2241.EJB3Bean.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws2241.EJB3RemoteInterface.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws2241.EndpointInterface.class)
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2241/META-INF/jboss-ejb3.xml"), "jboss-ejb3.xml")
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2241/META-INF/jboss-webservices.xml"), "jboss-webservices.xml")
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2241/META-INF/jboss.xml"), "jboss.xml");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
+   @ArquillianResource
+   private URL baseURL;
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS2241TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), true);
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws2241.jar");
+         archive
+            .addManifest()
+            .addClass(org.jboss.test.ws.jaxws.jbws2241.EJB3Bean.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws2241.EJB3RemoteInterface.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws2241.EndpointInterface.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2241/META-INF/jboss-ejb3.xml"), "jboss-ejb3.xml")
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2241/META-INF/jboss-webservices.xml"), "jboss-webservices.xml")
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2241/META-INF/jboss.xml"), "jboss.xml");
+      return archive;
    }
 
    private EndpointInterface getPort(String user, String pwd) throws MalformedURLException {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/contextRoot/urlPattern/test?wsdl");
+      URL wsdlURL = new URL(baseURL + "/contextRoot/urlPattern/test?wsdl");
       QName serviceName = new QName("http://jbws2241.jaxws.ws.test.jboss.org/", "EJB3BeanService");
       Service service = Service.create(wsdlURL, serviceName);
       EndpointInterface port = service.getPort(EndpointInterface.class);
@@ -81,6 +80,8 @@ public class JBWS2241TestCase extends JBossWSTest
       return port;
    }
 
+   @Test
+   @RunAsClient
    public void testInvocation() throws Exception
    {
       EndpointInterface port = getPort("kermit", "thefrog");

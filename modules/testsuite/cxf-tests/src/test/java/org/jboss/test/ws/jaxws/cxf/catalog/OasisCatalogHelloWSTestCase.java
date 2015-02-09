@@ -1,71 +1,87 @@
+/*
+ * JBoss, Home of Professional Open Source.
+ * Copyright 2014, Red Hat Middleware LLC, and individual contributors
+ * as indicated by the @author tags. See the copyright.txt file in the
+ * distribution for a full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 package org.jboss.test.ws.jaxws.cxf.catalog;
 
-import junit.framework.Test;
-import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
-import org.apache.cxf.catalog.OASISCatalogManager;
-import org.jboss.shrinkwrap.api.asset.FileAsset;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.LinkedList;
-import java.util.List;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
+import org.apache.cxf.catalog.OASISCatalogManager;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.FileAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.exporter.ZipExporter;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * User: rsearls
  * Date: 7/9/14
  */
+@RunWith(Arquillian.class)
 public class OasisCatalogHelloWSTestCase extends JBossWSTest
 {
-   private final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-cxf-catalog/HelloService";
-
-   public static BaseDeployment<?>[] createDeployments() {
-
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-cxf-catalog.war") { {
-         archive
-            .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-               + "Dependencies: org.apache.cxf\n"))
-            .addClass(org.jboss.test.ws.jaxws.cxf.catalog.HelloRequest.class)
-            .addClass(org.jboss.test.ws.jaxws.cxf.catalog.HelloResponse.class)
-            .addClass(org.jboss.test.ws.jaxws.cxf.catalog.HelloWsImpl.class)
-            .addClass(org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.class)
-            .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() +
-               "/jaxws/cxf/catalog/META-INF/jax-ws-catalog.xml")),
-               "META-INF/jax-ws-catalog.xml")
-
-               // stnd file locations required for successful deployment
-            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
-               + "/jaxws/cxf/catalog/META-INF/wsdl/HelloService.wsdl"), "wsdl/HelloService.wsdl")
-            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
-               + "/jaxws/cxf/catalog/META-INF/wsdl/Hello_schema1.xsd"), "wsdl/Hello_schema1.xsd")
-
-               // sever side catalog maps to these files.
-            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
-               + "/jaxws/cxf/catalog/META-INF/wsdl/HelloService.wsdl"), "wsdl/foo/HelloService.wsdl")
-            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
-               + "/jaxws/cxf/catalog/META-INF/wsdl/Hello_schema1.xsd"), "wsdl/foo/Hello_schema1.xsd")
-
-         ;
-      }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-catalog.war");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+            + "Dependencies: org.apache.cxf\n"))
+         .addClass(org.jboss.test.ws.jaxws.cxf.catalog.HelloRequest.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.catalog.HelloResponse.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.catalog.HelloWsImpl.class)
+         .addClass(org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.class)
+         .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() +
+            "/jaxws/cxf/catalog/META-INF/jax-ws-catalog.xml")), "META-INF/jax-ws-catalog.xml")
+            // stnd file locations required for successful deployment
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
+            + "/jaxws/cxf/catalog/META-INF/wsdl/HelloService.wsdl"), "wsdl/HelloService.wsdl")
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
+            + "/jaxws/cxf/catalog/META-INF/wsdl/Hello_schema1.xsd"), "wsdl/Hello_schema1.xsd")
+            // sever side catalog maps to these files.
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
+            + "/jaxws/cxf/catalog/META-INF/wsdl/HelloService.wsdl"), "wsdl/foo/HelloService.wsdl")
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
+            + "/jaxws/cxf/catalog/META-INF/wsdl/Hello_schema1.xsd"), "wsdl/foo/Hello_schema1.xsd");
+      writeToDisk(archive);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(OasisCatalogHelloWSTestCase.class,
-         JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testCatalogOnClientSide() throws Exception
    {
       Bus bus = BusFactory.newInstance().createBus();
@@ -83,7 +99,7 @@ public class OasisCatalogHelloWSTestCase extends JBossWSTest
          QName serviceName = new QName(
             org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.TARGET_NAMESPACE,
             org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.NAME);
-         URL wsdlURL = new URL(endpointAddress + "?wsdl");
+         URL wsdlURL = new URL(baseURL + "HelloService?wsdl");
          Service service = Service.create(wsdlURL, serviceName);
 
          OASISCatalogManager catalogManager = bus.getExtension(OASISCatalogManager.class);
@@ -98,6 +114,8 @@ public class OasisCatalogHelloWSTestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testCatalogInJbosswsCxfClientJar() throws Exception
    {
       Bus bus = BusFactory.newInstance().createBus();
@@ -107,7 +125,7 @@ public class OasisCatalogHelloWSTestCase extends JBossWSTest
          QName serviceName = new QName(
             org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.TARGET_NAMESPACE,
             org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.NAME);
-         URL wsdlURL = new URL(endpointAddress + "?wsdl");
+         URL wsdlURL = new URL(baseURL + "HelloService?wsdl");
          Service service = Service.create(wsdlURL, serviceName);
 
          // jbossws-cxf-client.Jar is on the classpath by default.
@@ -125,6 +143,8 @@ public class OasisCatalogHelloWSTestCase extends JBossWSTest
    }
 
 
+   @Test
+   @RunAsClient
    public void testCatalogOnServerSide() throws Exception
    {
       Bus bus = BusFactory.newInstance().createBus();
@@ -134,7 +154,7 @@ public class OasisCatalogHelloWSTestCase extends JBossWSTest
          QName serviceName = new QName(
             org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.TARGET_NAMESPACE,
             org.jboss.test.ws.jaxws.cxf.catalog.HelloWs.NAME);
-         URL wsdlURL = new URL(endpointAddress + "?wsdl");
+         URL wsdlURL = new URL(baseURL + "HelloService?wsdl");
          Service service = Service.create(wsdlURL, serviceName);
          HelloWs proxy = service.getPort(HelloWs.class);
          HelloRequest helloReq = new HelloRequest();
@@ -144,5 +164,12 @@ public class OasisCatalogHelloWSTestCase extends JBossWSTest
       } finally {
          bus.shutdown(true);
       }
+   }
+   
+   public static void writeToDisk(WebArchive archive)
+   {
+      JBossWSTestHelper.assertArchiveDirExists();
+      File file = new File(JBossWSTestHelper.getTestArchiveDir(), archive.getName());
+      archive.as(ZipExporter.class).exportTo(file, true);
    }
 }

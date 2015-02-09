@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns="http://jboss.org/schema/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+  <group qualifier="shared-tests" default="true">
+    <container qualifier="jboss" default="true">
+        <configuration>
+            <property name="jbossHome">${jboss.home}</property>
+            <property name="javaVmArguments">-server -XX:+UseCompressedOops -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.jboss} -Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl</property>
+            <property name="serverConfig">jbws-testsuite-shared-default.xml</property>
+            <property name="allowConnectingToRunningServer">true</property>
+            <property name="managementPort">${add_int(port-offset.shared-tests.jboss,9990)}</property>
+            <!-- AS7-4070 -->
+            <property name="waitForPorts">${add_int(port-offset.shared-tests.jboss,8787)} ${add_int(port-offset.shared-tests.jboss,9990)}</property>
+            <property name="waitForPortsTimeoutInSeconds">8</property>
+        </configuration>
+    </container>
+    <container qualifier="default-config-tests" mode="manual">
+        <configuration>
+            <property name="jbossHome">${jboss.home}</property>
+            <property name="javaVmArguments">-server -XX:+UseCompressedOops -Xms48m -Xmx384m -XX:MaxPermSize=192m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.default-config-tests} -Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl</property>
+            <property name="serverConfig">jbws-testsuite-shared-default-config-tests.xml</property>
+            <property name="allowConnectingToRunningServer">true</property>
+            <property name="managementPort">${add_int(port-offset.shared-tests.default-config-tests,9990)}</property>
+            <!-- AS7-4070 -->
+            <property name="waitForPorts">${add_int(port-offset.shared-tests.default-config-tests,8787)} ${add_int(port-offset.shared-tests.default-config-tests,9990)}</property>
+            <property name="waitForPortsTimeoutInSeconds">8</property>
+        </configuration>
+    </container>
+    <container qualifier="address-rewrite" mode="manual">
+        <configuration>
+            <property name="jbossHome">${jboss.home}</property>
+            <property name="javaVmArguments">-server -XX:+UseCompressedOops -Xms32m -Xmx256m -XX:MaxPermSize=96m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.address-rewrite} -Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl</property>
+            <property name="serverConfig">jbws-testsuite-shared-address-rewrite.xml</property>
+            <property name="allowConnectingToRunningServer">true</property>
+            <property name="managementPort">${add_int(port-offset.shared-tests.address-rewrite,9990)}</property>
+            <!-- AS7-4070 -->
+            <property name="waitForPorts">${add_int(port-offset.shared-tests.address-rewrite,8787)} ${add_int(port-offset.shared-tests.address-rewrite,9990)}</property>
+            <property name="waitForPortsTimeoutInSeconds">8</property>
+        </configuration>
+    </container>
+
+  </group>
+</arquillian>

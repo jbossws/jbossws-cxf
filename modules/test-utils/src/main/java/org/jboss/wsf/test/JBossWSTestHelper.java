@@ -23,13 +23,19 @@ package org.jboss.wsf.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Map.Entry;
+import java.util.WeakHashMap;
 
 import javax.management.MBeanServerConnection;
 import javax.management.remote.JMXConnector;
@@ -41,6 +47,7 @@ import javax.xml.ws.Service;
 import javax.xml.ws.Service.Mode;
 import javax.xml.ws.soap.SOAPBinding;
 
+import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -62,6 +69,9 @@ public class JBossWSTestHelper
    private static final String SYSPROP_JBOSS_BIND_ADDRESS = "jboss.bind.address";
    private static final String SYSPROP_TEST_ARCHIVE_DIRECTORY = "test.archive.directory";
    private static final String SYSPROP_TEST_RESOURCES_DIRECTORY = "test.resources.directory";
+   private static final String SYSPROP_DEFAULT_CONTAINER_QUALIFIER = "default.container.qualifier";
+   private static final String SYSPROP_DEFAULT_CONTAINER_GROUP_QUALIFIER = "default.container.group.qualifier";
+   private static final String SYSPROP_CONTAINER_PORT_OFFSET_PREFIX = "port-offset.";
    private static final String SYSPROP_AS_SERVER_CONN_RETRIEVAL_ATTEMPTS = "test.as.server.connection.retrieval.attempts";
    private static final String TEST_USERNAME = "test.username";
    private static final String TEST_PASSWORD = "test.password";
@@ -73,7 +83,8 @@ public class JBossWSTestHelper
    private static final String implInfo;
 
    private static volatile Deployer deployer;
-   private static volatile MBeanServerConnection server;
+   
+   private static WeakHashMap<ClassLoader, Hashtable<String, String>> containerEnvs = new WeakHashMap<ClassLoader, Hashtable<String,String>>();
 
    static {
       integrationTarget = System.getProperty(SYSPROP_JBOSSWS_INTEGRATION_TARGET);
@@ -195,7 +206,65 @@ public class JBossWSTestHelper
       final String host = System.getProperty(SYSPROP_JBOSS_BIND_ADDRESS, "localhost");
       return toIPv6URLFormat(host);
    }
-
+   
+   public static int getServerPort()
+   {
+      return getServerPort(null, null);
+   }
+   
+   public static int getServerPort(String groupQualifier, String containerQualifier)
+   {
+      return 8080 + getContainerPortOffset(groupQualifier, containerQualifier);
+   }
+   
+   public static int getSecureServerPort(String groupQualifier, String containerQualifier)
+   {
+      return 8443 + getContainerPortOffset(groupQualifier, containerQualifier);
+   }
+   
+   protected static int getContainerPortOffset(String groupQualifier, String containerQualifier)
+   {
+      Hashtable<String, String> env = getContainerEnvironment();
+      
+      if (groupQualifier == null) {
+         groupQualifier = env.get(SYSPROP_DEFAULT_CONTAINER_GROUP_QUALIFIER);
+      }
+      if (containerQualifier == null) {
+         containerQualifier = env.get(SYSPROP_DEFAULT_CONTAINER_QUALIFIER);
+      }
+      String offset = env.get(SYSPROP_CONTAINER_PORT_OFFSET_PREFIX + groupQualifier + "." + containerQualifier);
+      return offset != null ? Integer.valueOf(offset) : 0;
+   }
+   
+   private static Hashtable<String, String> getContainerEnvironment() {
+      Hashtable<String, String> env;
+      ClassLoader tccl = Thread.currentThread().getContextClassLoader();
+      synchronized (containerEnvs)
+      {
+         env = containerEnvs.get(tccl);
+         if (env == null) {
+            env = new Hashtable<String, String>();
+            final InputStream is = tccl.getResourceAsStream("container.properties");
+            try {
+               if (is != null) {
+                   final Properties props = new Properties();
+                   props.load(is);
+                   Entry<Object, Object> entry;
+                   final Iterator<Entry<Object, Object>> entries = props.entrySet().iterator();
+                   while (entries.hasNext()) {
+                       entry = entries.next();
+                       env.put((String)entry.getKey(), (String)entry.getValue());
+                   }
+               }
+            } catch (IOException e) {
+               throw new RuntimeException(e);
+            }
+            containerEnvs.put(tccl, env);
+         }
+         return env;
+      }
+  }
+   
    private static String toIPv6URLFormat(final String host)
    {
       try
@@ -220,26 +289,24 @@ public class JBossWSTestHelper
          throw new RuntimeException(e);
       }
    }
-
+   
    public static MBeanServerConnection getServer()
    {
-      if (server == null)
+      return getServer(null, null);
+   }
+
+   public static MBeanServerConnection getServer(String groupQualifier, String containerQualifier)
+   {
+      int portOffset = getContainerPortOffset(groupQualifier, containerQualifier);
+      String integrationTarget = getIntegrationTarget();
+      MBeanServerConnection server;
+      if (integrationTarget.startsWith("wildfly"))
       {
-         synchronized (JBossWSTestHelper.class)
-         {
-            if (server == null)
-            {
-               String integrationTarget = getIntegrationTarget();
-               if (integrationTarget.startsWith("wildfly"))
-               {
-                  server = getServerConnection("service:jmx:http-remoting-jmx://" + getServerHost() + ":" + 9990);
-               }
-               else
-               {
-                  throw new IllegalStateException("Unsupported target container: " + integrationTarget);
-               }
-            }
-         }
+         server = getServerConnection("service:jmx:http-remoting-jmx://" + getServerHost() + ":" + (9990 + portOffset));
+      }
+      else
+      {
+         throw new IllegalStateException("Unsupported target container: " + integrationTarget);
       }
       return server;
    }
@@ -401,6 +468,14 @@ public class JBossWSTestHelper
       getDeployer().restart();
    }
    
+   @SuppressWarnings("rawtypes")
+   public static void writeToFile(Archive archive)
+   {
+      File archiveDir = assertArchiveDirExists();
+      File file = new File(archiveDir, archive.getName());
+      archive.as(ZipExporter.class).exportTo(file, true);
+   }
+   
    public static abstract class BaseDeployment<T extends org.jboss.shrinkwrap.api.Archive<T>>
    {
       protected T archive;
@@ -417,7 +492,7 @@ public class JBossWSTestHelper
 
       public T writeToFile()
       {
-         File archiveDir = assertArchiveDirExists(JBossWSTestHelper.getTestArchiveDir());
+         File archiveDir = assertArchiveDirExists();
          File file = new File(archiveDir, archive.getName());
          archive.as(ZipExporter.class).exportTo(file, true);
          return archive;
@@ -427,21 +502,21 @@ public class JBossWSTestHelper
       {
          return archive.getName();
       }
-
-      private File assertArchiveDirExists(String testArchiveDir)
+   }
+   
+   public static File assertArchiveDirExists()
+   {
+      File archiveDir = new File(testArchiveDir);
+      if (!archiveDir.exists())
       {
-         File archiveDir = new File(testArchiveDir);
-         if (!archiveDir.exists())
-         {
-            if (testArchiveDir == null)
-               throw new IllegalArgumentException("Cannot create archive - system property '"
-                     + JBossWSTestHelper.SYSPROP_TEST_ARCHIVE_DIRECTORY + "' not set.");
-            if (!archiveDir.mkdirs())
-               throw new IllegalArgumentException("Cannot create archive - can not create test archive directory '"
-                  + archiveDir.getAbsolutePath() + "' not set.");
-         }
-         return archiveDir;
+         if (testArchiveDir == null)
+            throw new IllegalArgumentException("Cannot create archive - system property '"
+                  + JBossWSTestHelper.SYSPROP_TEST_ARCHIVE_DIRECTORY + "' not set.");
+         if (!archiveDir.mkdirs())
+            throw new IllegalArgumentException("Cannot create archive - can not create test archive directory '"
+               + archiveDir.getAbsolutePath() + "' not set.");
       }
+      return archiveDir;
    }
    
    public static String writeToFile(BaseDeployment<?>... deps) {

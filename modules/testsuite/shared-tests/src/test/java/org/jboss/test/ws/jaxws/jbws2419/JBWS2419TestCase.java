@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.activation.DataHandler;
@@ -38,12 +37,16 @@ import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.SOAPBinding;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test SOAP 1.2 and SOAP 1.1 MTOM/XOP request/response content type and start-info
@@ -51,13 +54,15 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author mageshbk@jboss.com
  * @since 20-Feb-2009
  */
+@RunWith(Arquillian.class)
 public class JBWS2419TestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws2419";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2419.war") { {
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws2419.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws2419.SOAP11Endpoint.class)
@@ -70,19 +75,14 @@ public class JBWS2419TestCase extends JBossWSTest
                .addAsResource("org/jboss/test/ws/jaxws/jbws2419/jaxws-server-handlers2.xml")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2419/WEB-INF/wsdl/SOAP12Service.wsdl"), "wsdl/SOAP12Service.wsdl")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2419/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS2419TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testSOAP12ClientAccess() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "/soap12?wsdl");
+      URL wsdlURL = new URL(baseURL + "/soap12?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/jbws2419", "SOAP12EndpointBeanService");
       Service service = Service.create(wsdlURL, qname);
       SOAP12Endpoint port = service.getPort(SOAP12Endpoint.class);
@@ -100,9 +100,11 @@ public class JBWS2419TestCase extends JBossWSTest
       assertEquals("Hello Jimbo", messg);
    }
 
+   @Test
+   @RunAsClient
    public void testSOAP11ClientAccess() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "/soap11?wsdl");
+      URL wsdlURL = new URL(baseURL + "/soap11?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/jbws2419", "SOAP11EndpointBeanService");
       Service service = Service.create(wsdlURL, qname);
       SOAP11Endpoint port = service.getPort(SOAP11Endpoint.class);

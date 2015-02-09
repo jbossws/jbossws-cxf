@@ -28,12 +28,17 @@ import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
-import org.jboss.wsf.test.CleanupOperation;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-1556] @WebWservice does not work with class isolation
@@ -43,58 +48,65 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.com
  * @since 15-Jun-2007
  */
+@RunWith(Arquillian.class)
 public class JBWS1556EarTestCase extends JBossWSTest
 {
    private static EndpointInterface port;
-   
-   static {
-      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1556.jar") { {
-         archive
+
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+
+   public static EnterpriseArchive createDeployment3() {
+      JavaArchive archive1 = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1556.jar");
+         archive1
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws1556.EJB3Bean.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1556.UserType.class);
-         }
-      });
-      JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-jbws1556.ear") { {
+      JBossWSTestHelper.writeToFile(archive1);
+
+      EnterpriseArchive archive = ShrinkWrap.create(EnterpriseArchive.class, "jaxws-jbws1556.ear");
          archive
                .addManifest()
-               .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws1556.jar"))
+               .addAsModule(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-jbws1556.jar"))
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1556/META-INF/application.xml"), "application.xml");
-         }
-      });
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1556EarTestCase.class, "jaxws-jbws1556.ear", new CleanupOperation() {
-         @Override
-         public void cleanUp() {
-            port = null;
-         }
-      });
+   protected void cleanUp() {
+      port = null;
    }
 
-   public void setUp() throws MalformedURLException
+   protected void setUp() throws MalformedURLException
    {
       if (port == null)
       {
-         URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws1556/EJB3Bean?wsdl");
+         URL wsdlURL = new URL( baseURL + "/jaxws-jbws1556/EJB3Bean?wsdl");
          QName serviceName = new QName("http://jbws1556.jaxws.ws.test.jboss.org/", "EJB3BeanService");
          Service service = Service.create(wsdlURL, serviceName);
          port = service.getPort(EndpointInterface.class);
       }
    }
 
+   @Test
+   @RunAsClient
    public void testSimpleAccess() throws Exception
    {
+      setUp();
       String hello = port.helloSimple("hello");
       assertEquals("hello", hello);
+      cleanUp();
    }
 
+   @Test
+   @RunAsClient
    public void testComplexAccess() throws Exception
    {
+      setUp();
       UserType req = new UserType("hello");
       UserType res = port.helloComplex(req);
       assertEquals(req, res);
+      cleanUp();
    }
 }

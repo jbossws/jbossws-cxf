@@ -27,8 +27,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.AttachmentPart;
@@ -39,14 +37,16 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.soap.SOAPMessage;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestHelper.WarDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-3084] Enable control of chunked encoding when using SOAPConnection.
@@ -54,11 +54,15 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author sberyozk@redhat.com
  * @author alessio.soldano@jboss.com
  */
+@RunWith(Arquillian.class)
 public class JBWS3084TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new WarDeployment("saaj-soap-connection.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "saaj-soap-connection.war");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                      + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
@@ -67,21 +71,18 @@ public class JBWS3084TestCase extends JBossWSTest
                .addClass(InputStreamDataSource.class)
                .addAsWebInfResource(new File(getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/wsdl/SaajService.wsdl"), "wsdl/SaajService.wsdl")
                .setWebXML(new File(getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS3084TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testSoapConnectionPostWithoutChunkedEncoding() throws Exception
    {
       doTestSoapConnection(true);
    }
 
+   @Test
+   @RunAsClient
    public void testSoapConnectionPostWithChunkedEncoding() throws Exception
    {
       doTestSoapConnection(false);
@@ -119,7 +120,7 @@ public class JBWS3084TestCase extends JBossWSTest
 
       SOAPConnection con = conFac.createConnection();
 
-      final String serviceURL = "http://" + getServerHost() + ":8080/saaj-soap-connection";
+      final String serviceURL = baseURL.toString();
 
       URL endpoint = new URL(serviceURL);
       SOAPMessage response = con.call(msg, endpoint);

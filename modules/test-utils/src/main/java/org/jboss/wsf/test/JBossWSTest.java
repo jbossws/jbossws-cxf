@@ -23,10 +23,10 @@ package org.jboss.wsf.test;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -34,8 +34,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.management.MBeanServerConnection;
@@ -47,6 +45,10 @@ import junit.framework.TestCase;
 import org.jboss.logging.Logger;
 import org.jboss.ws.common.DOMWriter;
 import org.jboss.ws.common.concurrent.CopyJob;
+import org.junit.Rule;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -62,8 +64,11 @@ public abstract class JBossWSTest extends TestCase
 {
    protected static Logger log = Logger.getLogger(JBossWSTest.class.getName());
    public static final String SYSPROP_COPY_JOB_TIMEOUT = "test.copy.job.timeout";
+   public static final String CXF_TESTS_GROUP_QUALIFIER = "cxf-tests";
+   public static final String SHARED_TESTS_GROUP_QUALIFIER = "shared-tests";
+   public static final String SPRING_TESTS_GROUP_QUALIFIER = "cxf-spring-tests";
    private static final int COPY_JOB_TIMEOUT = Integer.getInteger(SYSPROP_COPY_JOB_TIMEOUT, File.pathSeparatorChar == ':' ? 5000 : 60000); //60s on Windows, 5s on UNIX and Mac
-
+   
    public JBossWSTest()
    {
    }
@@ -222,6 +227,21 @@ public abstract class JBossWSTest extends TestCase
       return JBossWSTestHelper.getServerHost();
    }
 
+   public static int getServerPort()
+   {
+      return JBossWSTestHelper.getServerPort();
+   }
+
+   public static int getServerPort(String groupQualifier, String containerQualifier)
+   {
+      return JBossWSTestHelper.getServerPort(groupQualifier, containerQualifier);
+   }
+   
+   public static int getSecureServerPort(String groupQualifier, String containerQualifier) 
+   {
+	   return JBossWSTestHelper.getSecureServerPort(groupQualifier, containerQualifier);
+   }
+
    public static File getArchiveFile(String archive)
    {
       return JBossWSTestHelper.getArchiveFile(archive);
@@ -253,30 +273,25 @@ public abstract class JBossWSTest extends TestCase
       return new File(parent, filename);
    }
 
-   private static Hashtable<String, String> getEnvironment(final String resourceName) throws IOException {
-       final Hashtable<String, String> env = new Hashtable<String, String>();
-       final InputStream is = JBossWSTest.class.getClassLoader().getResourceAsStream(resourceName);
-       if (is != null) {
-           final Properties props = new Properties();
-           props.load(is);
-           Entry<Object, Object> entry;
-           final Iterator<Entry<Object, Object>> entries = props.entrySet().iterator();
-           while (entries.hasNext()) {
-               entry = entries.next();
-               env.put((String)entry.getKey(), (String)entry.getValue());
-           }
-       }
-       return env;
-   }
-
    /** Get the server remote env context
     * Every test calling this method have to ensure InitialContext.close()
     * method is called at end of test to clean up all associated caches.
     */
    public static InitialContext getServerInitialContext() throws NamingException, IOException
    {
-       final Hashtable<String, String> env = getEnvironment("server.jndi.properties");
-       return new InitialContext(env);
+      return getServerInitialContext(null, null);
+   }
+   
+   public static InitialContext getServerInitialContext(String groupQualifier, String containerQualifier) throws NamingException, IOException
+   {
+      final Hashtable<String, String> env = new Hashtable<String, String>();
+      env.put("java.naming.factory.initial", "org.jboss.naming.remote.client.InitialContextFactory");
+      env.put("java.naming.factory.url.pkgs", "org.jboss.ejb.client.naming:org.jboss.naming.remote.client");
+      env.put("jboss.naming.client.connect.options.org.xnio.Options.SASL_POLICY_NOPLAINTEXT", "false");
+      env.put("jboss.naming.client.security.callback.handler.class", "org.jboss.wsf.test.CallbackHandler");
+      env.put("jboss.naming.client.ejb.context", "true");
+      env.put("java.naming.provider.url", "http-remoting://" + getServerHost() + ":" + getServerPort(groupQualifier, containerQualifier));
+      return new InitialContext(env);
    }
 
    public static void assertEquals(Element expElement, Element wasElement, boolean ignoreWhitespace)
@@ -422,4 +437,42 @@ public abstract class JBossWSTest extends TestCase
       }
    }
 
+   @Rule
+   public TestRule watcher = new TestWatcher() {
+      
+      private ClassLoader classLoader = null;
+      
+      protected void starting(Description description) {
+         final String cjp = getClientJarPaths();
+         if (cjp == null || cjp.trim().isEmpty()) {
+            return;
+         }
+         if (description.getAnnotation(WrapThreadContextClassLoader.class) != null) {
+            classLoader = Thread.currentThread().getContextClassLoader();
+            
+            StringTokenizer st = new StringTokenizer(cjp, ", ");
+            URL[] archives = new URL[st.countTokens()];
+
+            try {
+               for (int i = 0; i < archives.length; i++)
+                  archives[i] = new File(JBossWSTestHelper.getTestArchiveDir(), st.nextToken()).toURI().toURL();
+               
+               URLClassLoader cl = new URLClassLoader(archives, classLoader);
+               Thread.currentThread().setContextClassLoader(cl);
+            } catch (Exception e) {
+               throw new RuntimeException(e);
+            }
+         }
+      }
+      
+      protected void finished(Description description) {
+         if (classLoader != null && description.getAnnotation(WrapThreadContextClassLoader.class) != null) {
+            Thread.currentThread().setContextClassLoader(classLoader);
+         }
+      }
+   };
+   
+   protected String getClientJarPaths() {
+      return null;
+   }
 }

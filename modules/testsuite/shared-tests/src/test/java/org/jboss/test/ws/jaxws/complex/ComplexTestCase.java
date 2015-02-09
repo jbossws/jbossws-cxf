@@ -24,23 +24,27 @@ package org.jboss.test.ws.jaxws.complex;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.Filter;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * A complex JAX-WS test
@@ -48,42 +52,44 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
  * @author Thomas.Diesler@jboss.com
  */
+@RunWith(Arquillian.class)
 public class ComplexTestCase extends JBossWSTest
 {
-   private Registration port;
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-complex.war") { {
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-complex.war");
          archive
-               .addManifest()
-               .addPackages(false, new Filter<ArchivePath>() {
-                  @Override
-                  public boolean include(ArchivePath path)
-                  {
-                     return !path.get().contains("TestCase");
-                  }
-               }, "org.jboss.test.ws.jaxws.complex")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/complex/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+            .addManifest()
+            .addPackages(false, new Filter<ArchivePath>() {
+               @Override
+               public boolean include(ArchivePath path)
+               {
+                  return !path.get().contains("TestCase");
+               }
+            }, "org.jboss.test.ws.jaxws.complex")
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/complex/WEB-INF/web.xml"));
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(ComplexTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+   private Registration getPort() {
+      Registration port = null;
+      try {
+         URL wsdlURL = JBossWSTestHelper.getResourceURL("jaxws/complex/META-INF/wsdl/RegistrationService.wsdl");
+         QName serviceName = new QName("http://complex.jaxws.ws.test.jboss.org/", "RegistrationService");
+         Service service = Service.create(wsdlURL, serviceName);
+         port = (Registration) service.getPort(Registration.class);
+         ((BindingProvider)port).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL + "/RegistrationService");
+      } catch (Exception e) {
+         System.out.println(e);
+      }
+      return port;
    }
 
-   protected void setUp() throws Exception
-   {
-      super.setUp();
-      URL wsdlURL =  getResourceURL("jaxws/complex/META-INF/wsdl/RegistrationService.wsdl");
-      QName serviceName = new QName("http://complex.jaxws.ws.test.jboss.org/", "RegistrationService");
-      Service service = Service.create(wsdlURL, serviceName);
-      port = (Registration)service.getPort(Registration.class);
-   }
-
+   @Test
+   @RunAsClient
    public void testRegistration() throws Exception
    {
       Customer customer = getFredJackson();
@@ -91,7 +97,7 @@ public class ComplexTestCase extends JBossWSTest
       customer.getReferredCustomers().add(getAlCapone());
 
       XMLGregorianCalendar cal = getCalendar();
-
+      Registration port = getPort();
       port.register(customer, cal);
 
       customer = getAlCapone();
@@ -106,29 +112,37 @@ public class ComplexTestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testInvoiceRegistration() throws Exception
    {
       InvoiceCustomer customer = getInvoiceFredJackson();
       customer.getReferredCustomers().add(getJohnDoe());
       customer.getReferredCustomers().add(getAlCapone());
-      
+      Registration port = getPort();
       assertTrue(port.registerForInvoice(customer));
    }
 
+   @Test
+   @RunAsClient
    public void testOtherPackage() throws Exception
    {
+      Registration port = getPort();
       Statistics stats = port.getStatistics(getFredJackson());
 
       System.out.println(stats.getActivationTime());
       assertEquals(10, stats.getHits());
    }
 
+   @Test
+   @RunAsClient
    public void testBulkRegistration() throws Exception
    {
       List<Customer> customers = new ArrayList<Customer>();
       customers.add(getFredJackson());
       customers.add(getJohnDoe());
 
+      Registration port = getPort();
       List<Long> result = port.bulkRegister(customers, getCalendar());
 
       assertEquals(123, result.get(0).longValue());

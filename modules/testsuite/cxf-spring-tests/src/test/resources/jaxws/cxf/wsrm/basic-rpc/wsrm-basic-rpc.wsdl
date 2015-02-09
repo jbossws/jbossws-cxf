@@ -42,7 +42,7 @@
   </wsdl:binding>
   <wsdl:service name="RMService">
     <wsdl:port binding="tns:RMServiceSoapBinding" name="RMEndpointPort">
-      <soap:address location="http://@jboss.bind.address@:8080/jaxws-cxf-wsrm-basic-rpc"/>
+      <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,8080)@/jaxws-cxf-wsrm-basic-rpc"/>
       <wsp:PolicyReference URI="#RM" xmlns:wsp="http://www.w3.org/ns/ws-policy"/>
     </wsdl:port>
   </wsdl:service>

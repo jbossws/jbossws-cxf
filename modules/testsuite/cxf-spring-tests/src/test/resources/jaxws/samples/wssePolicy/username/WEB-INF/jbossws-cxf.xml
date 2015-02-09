@@ -12,7 +12,7 @@
   
   <jaxws:endpoint
     id='ServiceImpl'
-    address='https://@jboss.bind.address@:8443/jaxws-samples-wssePolicy-username'
+    address='https://@jboss.bind.address@:@add_int(port-offset.cxf-spring-tests.jboss,8443)@/jaxws-samples-wssePolicy-username'
     implementor='org.jboss.test.ws.jaxws.samples.wssePolicy.ServiceImpl'>
     
     <jaxws:properties>

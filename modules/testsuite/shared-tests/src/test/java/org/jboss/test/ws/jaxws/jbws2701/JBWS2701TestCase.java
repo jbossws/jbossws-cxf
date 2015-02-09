@@ -22,19 +22,20 @@
 package org.jboss.test.ws.jaxws.jbws2701;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-2701] @XmlSeeAlso and generated wsdl
@@ -42,37 +43,36 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @since 30-Sep-2009
  */
+@RunWith(Arquillian.class)
 public class JBWS2701TestCase extends JBossWSTest
 {
-   private final String endpointAddress = "http://" + getServerHost() + ":8080/jaxws-jbws2701/EndpointService/EndpointImpl";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws2701.jar") { {
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws2701.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws2701.ClassA.class)
                .addClass(org.jboss.test.ws.jaxws.jbws2701.Endpoint.class)
                .addClass(org.jboss.test.ws.jaxws.jbws2701.EndpointImpl.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-   
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS2701TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
+   @Test
+   @RunAsClient
    public void testWSDL() throws Exception
    {
-      URL url = new URL(endpointAddress + "?wsdl");
+      URL url = new URL(baseURL + "/jaxws-jbws2701/EndpointService/EndpointImpl?wsdl");
       assertTrue(IOUtils.readAndCloseStream(url.openStream()).contains("classA"));
    }
 
+   @Test
+   @RunAsClient
    public void testEndpoint() throws Exception
    {
-      URL url = new URL(endpointAddress + "?wsdl");
+      URL url = new URL(baseURL + "/jaxws-jbws2701/EndpointService/EndpointImpl?wsdl");
       QName serviceName = new QName("http://org.jboss/test/ws/jbws2701", "EndpointService");
       Service service = Service.create(url, serviceName);
       Endpoint port = service.getPort(Endpoint.class);

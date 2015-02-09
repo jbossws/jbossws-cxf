@@ -41,19 +41,26 @@ import org.jboss.test.ws.jaxws.endpoint.jse.endpoints.DHResponse;
 import org.jboss.test.ws.jaxws.endpoint.jse.endpoints.Endpoint1Iface;
 import org.jboss.test.ws.jaxws.endpoint.jse.endpoints.Endpoint1Impl;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 
 /**
  * Tests endpoint dynamic publishing in JSE environment.
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
+@RunWith(Arquillian.class)
 public final class UsecasesTestCase extends JBossWSTest
 {
    private static WebServiceFeature[] mtomEnabled = new WebServiceFeature[] { new MTOMFeature(true) };
    
    private static int port1 = 8871;
    private static int port2 = 8872;
-   
+
+   @Test
+   @RunAsClient
    public void testDifferentPortsSameContext() throws Exception
    {
       String publishURL1 = "http://" + getServerHost() + ":" + port1 + "/jaxws-endpoint/";
@@ -69,6 +76,8 @@ public final class UsecasesTestCase extends JBossWSTest
       endpoint2.stop();
    }
 
+   @Test
+   @RunAsClient
    public void testDifferentPortsNoContext() throws Exception
    {
       String publishURL1 = "http://" + getServerHost() + ":" + port1 + "/";
@@ -92,6 +101,8 @@ public final class UsecasesTestCase extends JBossWSTest
       endpoint2.stop();
    }
 
+   @Test
+   @RunAsClient
    public void testDifferentPortsAndLongPaths() throws Exception
    {
       String publishURL1 = "http://" + getServerHost() + ":" + port1 + "/jaxws-endpoint/endpoint/long/path/";
@@ -107,6 +118,8 @@ public final class UsecasesTestCase extends JBossWSTest
       endpoint2.stop();
    }
 
+   @Test
+   @RunAsClient
    public void testSamePortsAndAlmostIdenticalLongPaths() throws Exception
    {
       String publishURL1 = "http://" + getServerHost() + ":" + port1 + "/jaxws-endpoint/endpoint/number1/";
@@ -122,6 +135,8 @@ public final class UsecasesTestCase extends JBossWSTest
       endpoint2.stop();
    }
 
+   @Test
+   @RunAsClient
    public void testDifferentPortsAndIdenticalPaths() throws Exception
    {
       String publishURL1 = "http://" + getServerHost() + ":" + port1 + "/jaxws-endpoint/endpoint/number1/";
@@ -137,6 +152,8 @@ public final class UsecasesTestCase extends JBossWSTest
       endpoint2.stop();
    }
 
+   @Test
+   @RunAsClient
    public void testEndpointThrowingException() throws Exception
    {
       String publishURL = "http://" + getServerHost() + ":" + port1 + "/jaxws-endpoint/endpoint/number1";
@@ -145,6 +162,8 @@ public final class UsecasesTestCase extends JBossWSTest
       endpoint.stop();
    }
 
+   @Test
+   @RunAsClient
    public void testEndpointProcessingAttachments() throws Exception
    {
       for (int i = 0; i < 2; i++)

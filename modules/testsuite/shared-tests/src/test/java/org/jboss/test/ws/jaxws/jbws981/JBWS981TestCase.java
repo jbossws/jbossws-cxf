@@ -22,18 +22,19 @@
 package org.jboss.test.ws.jaxws.jbws981;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-981] Virtual host configuration for EJB endpoints
@@ -41,29 +42,28 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author darran.lofthouse@jboss.com
  * @since Nov 2, 2006
  */
+@RunWith(Arquillian.class)
 public class JBWS981TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws981.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws981.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws981.EJB3Bean.class)
                .addClass(org.jboss.test.ws.jaxws.jbws981.EJB3RemoteInterface.class)
                .addClass(org.jboss.test.ws.jaxws.jbws981.EndpointInterface.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS981TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testCall() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws981/EndpointService/EJB3Bean?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws981/EndpointService/EJB3Bean?wsdl");
       QName serviceName = new QName("http://www.jboss.org/test/ws/jaxws/jbws981", "EndpointService");
       Service.create(wsdlURL, serviceName);
       Service service = Service.create(wsdlURL, serviceName);

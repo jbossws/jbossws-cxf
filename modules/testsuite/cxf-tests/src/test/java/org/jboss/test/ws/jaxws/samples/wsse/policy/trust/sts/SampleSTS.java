@@ -40,7 +40,6 @@ import org.apache.cxf.sts.token.provider.SAMLTokenProvider;
 import org.apache.cxf.sts.token.validator.SAMLTokenValidator;
 import org.apache.cxf.sts.token.validator.UsernameTokenValidator;
 import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.WSTrustAppUtils;
 
 @WebServiceProvider(serviceName = "SecurityTokenService",
       portName = "UT_Port",
@@ -72,17 +71,14 @@ public class SampleSTS extends SecurityTokenServiceProvider
          "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
          "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
          "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
-         "http://" + WSTrustAppUtils.getServerHost() + ":(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
 
          "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
          "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
          "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
-         "http://" + WSTrustAppUtils.getServerHost() + ":(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
 
          "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService",
          "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService",
-         "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService",
-         "http://" + WSTrustAppUtils.getServerHost() + ":(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService"
+         "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService"
       ));
       services.add(service);
       

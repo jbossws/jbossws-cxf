@@ -41,8 +41,6 @@ public abstract class PluginBase extends JBossWSTest
    protected ClassLoader origClassLoader;
    protected String origLog4jConf;
    protected String oldCPProp;
-   protected boolean integrationNative = false;
-   protected boolean integrationCXF = false;
    
    private static final String LOG4J_CONF = "log4j.configuration";
 
@@ -67,20 +65,10 @@ public abstract class PluginBase extends JBossWSTest
       {
          list.add(c.getName());
       }
-      if (list.contains(StackConfigurable.class.getName()))
-      {
-         clazz.getMethod("setIsNative", boolean.class).invoke(delegate, integrationNative);
-         clazz.getMethod("setIsCXF", boolean.class).invoke(delegate, integrationCXF);
-      }
    }
 
    protected void setupClasspath() throws Exception
    {
-      if (!(integrationCXF || integrationNative))
-      {
-         //the integration stack is not set yet, doing it before mangling with the classpath
-         readIntegrationStack();
-      }
       String classpath = System.getProperty("surefire.test.class.path");
       if (classpath == null) //no maven surefire classpath hacks required
          return;
@@ -96,8 +84,6 @@ public abstract class PluginBase extends JBossWSTest
             String s = st.nextToken();
             if(s.endsWith(".jar"))  // JBWS-2175: skip target/classes and target/test-classes
             {
-               if( filtered(s) )
-                  continue;
                jarURLs.add( new File(s).toURI().toURL() );
                jarURLString.append( s ).append(File.pathSeparator);
             }
@@ -129,8 +115,6 @@ public abstract class PluginBase extends JBossWSTest
          System.setProperty(LOG4J_CONF, log4jXmlUrl.toString());
    }
 
-   protected abstract boolean filtered(String jarName);   
-
    protected void restoreClasspath()
    {
       if(this.origClassLoader !=null)
@@ -147,11 +131,5 @@ public abstract class PluginBase extends JBossWSTest
             System.clearProperty(LOG4J_CONF);
          }
       }
-   }
-   
-   protected void readIntegrationStack()
-   {
-      this.integrationNative = false;
-      this.integrationCXF = isIntegrationCXF();
    }
 }

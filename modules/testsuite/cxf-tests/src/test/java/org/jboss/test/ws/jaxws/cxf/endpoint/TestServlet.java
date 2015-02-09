@@ -40,7 +40,7 @@ public class TestServlet extends HttpServlet
     public void init(ServletConfig config) throws ServletException
     {
         String hostName = toIPv6URLFormat(System.getProperty("jboss.bind.address", "localhost"));
-        String serviceURL = "http://" + hostName + ":18080/HelloWorldService";
+        String serviceURL = "http://" + hostName + ":48084/HelloWorldService";
         _endpoint = Endpoint.publish(serviceURL, new HelloWorldImpl(Thread.currentThread().getContextClassLoader()));
     }
 

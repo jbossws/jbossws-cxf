@@ -23,8 +23,6 @@ package org.jboss.test.ws.jaxws.jbws1807;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
@@ -34,13 +32,17 @@ import javax.xml.ws.Service;
 import javax.xml.ws.Service.Mode;
 import javax.xml.ws.http.HTTPBinding;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Element;
 
 /**
@@ -51,36 +53,35 @@ import org.w3c.dom.Element;
  * @author Thomas.Diesler@jboss.com
  * @since 09-Oct-2007
  */
+@RunWith(Arquillian.class)
 public class JBWS1807TestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-jbws1807";
+   @ArquillianResource
+   private URL baseURL;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1807.war") { {
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws1807.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.helper.DOMWriter.class)
                .addClass(org.jboss.test.ws.jaxws.jbws1807.ProviderImpl.class)
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1807/WEB-INF/wsdl/provider.wsdl"), "wsdl/provider.wsdl")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1807/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1807TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testWSDLAccess() throws Exception
    {
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "?wsdl");
       Element wsdl = DOMUtils.parse(wsdlURL.openStream());
       assertNotNull(wsdl);
    }
 
+   @Test
+   @RunAsClient
    public void testProviderDispatch() throws Exception
    {
       String targetNS = "http://ws.com/";
@@ -88,7 +89,7 @@ public class JBWS1807TestCase extends JBossWSTest
       QName portName = new QName(targetNS, "ProviderPort");
 
       Service service = Service.create(serviceName);
-      service.addPort(portName, HTTPBinding.HTTP_BINDING, TARGET_ENDPOINT_ADDRESS);
+      service.addPort(portName, HTTPBinding.HTTP_BINDING, baseURL.toString());
 
       Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.PAYLOAD);
       Source resPayload = dispatch.invoke(new DOMSource(DOMUtils.parse("<ns2:input xmlns:ns2='http://ws.com/'><arg0>hello</arg0></ns2:input>")));

@@ -24,8 +24,6 @@ package org.jboss.test.ws.jaxws.samples.webresult;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
@@ -35,13 +33,16 @@ import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
-import org.jboss.wsf.test.CleanupOperation;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test the JSR-181 annotation: javax.jws.webresult
@@ -49,34 +50,26 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.org
  * @since 07-Oct-2005
  */
+@RunWith(Arquillian.class)
 public class WebResultTestCase extends JBossWSTest
 {
    private String targetNS = "http://webresult.samples.jaxws.ws.test.jboss.org/";
    
    private static CustomerService port;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-webresult.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-webresult.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.webresult.CustomerRecord.class)
                .addClass(org.jboss.test.ws.jaxws.samples.webresult.CustomerServiceImpl.class)
                .addClass(org.jboss.test.ws.jaxws.samples.webresult.USAddress.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webresult/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(WebResultTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()), new CleanupOperation() {
-         @Override
-         public void cleanUp() {
-            port = null;
-         }
-      });
+      return archive;
    }
 
    public void setUp() throws Exception
@@ -91,8 +84,11 @@ public class WebResultTestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testLocateCustomer() throws Exception
    {
+      setUp();
       USAddress addr = new USAddress();
       addr.setAddress("Wall Street");
 
@@ -102,8 +98,11 @@ public class WebResultTestCase extends JBossWSTest
       assertEquals("Wall Street", retObj.getAddress().getAddress());
    }
 
+   @Test
+   @RunAsClient
    public void testMessageAccess() throws Exception
    {
+      setUp();
       MessageFactory msgFactory = MessageFactory.newInstance();
       SOAPConnection con = SOAPConnectionFactory.newInstance().createConnection();
 
@@ -122,7 +121,7 @@ public class WebResultTestCase extends JBossWSTest
       "</env:Envelope>";
       SOAPMessage reqMsg = msgFactory.createMessage(null, new ByteArrayInputStream(reqEnv.getBytes()));
 
-      URL epURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-webresult");
+      URL epURL = baseURL;
 
       SOAPMessage resMsg = con.call(reqMsg, epURL);
 

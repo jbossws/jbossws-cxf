@@ -27,10 +27,13 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Element;
-
 /** 
  * [JBWS-2529] Missing type in generated WSDL part definition
  * 
@@ -39,6 +42,7 @@ import org.w3c.dom.Element;
  * @author alessio.soldano@jboss.com
  * @since 13-Mar-2009
  */
+@RunWith(Arquillian.class)
 public class JBWS2529TestCase extends JBossWSTest
 {
    private static final String FS = System.getProperty("file.separator"); // '/' on unix, '\' on windows
@@ -62,8 +66,11 @@ public class JBWS2529TestCase extends JBossWSTest
       TEST_DIR = createResourceFile("..").getAbsolutePath();
    }
 
+   @Test
+   @RunAsClient
    public void test() throws Exception
    {
+      setUp();
       File destDir = new File(TEST_DIR, "wsprovide" + FS + "java");
       String absOutput = destDir.getAbsolutePath();
       String command = JBOSS_HOME + FS + "bin" + FS + "wsprovide" + EXT + " -k -w -o " + absOutput + " --classpath " + CLASSES_DIR + " " + ENDPOINT_CLASS;

@@ -23,18 +23,19 @@ package org.jboss.test.ws.jaxws.jbws1904;
 
 import java.net.URL;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -47,29 +48,28 @@ import org.w3c.dom.NodeList;
  * @author alessio.soldano@jboss.com
  * @since 13-Dec-2007
  */
+@RunWith(Arquillian.class)
 public class JBWS1904TestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-jbws1904.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployments() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1904.jar");
          archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.jbws1904.Endpoint.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws1904.EndpointImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws1904.UserException.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+            .addManifest()
+            .addClass(org.jboss.test.ws.jaxws.jbws1904.Endpoint.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws1904.EndpointImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.jbws1904.UserException.class);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(JBWS1904TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testWSDLSchema() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws1904?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws1904?wsdl");
 
       Document doc = DOMUtils.getDocumentBuilder().parse(wsdlURL.toString());
       NodeList schemas = ((Element)doc.getDocumentElement()

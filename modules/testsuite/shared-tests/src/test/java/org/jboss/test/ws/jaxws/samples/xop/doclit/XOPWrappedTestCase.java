@@ -33,10 +33,14 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test @XmlMimeType annotations on wrapped services.
@@ -44,22 +48,24 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * 
  * @author Heiko.Braun@jboss.com
  */
+@RunWith(Arquillian.class)
 public class XOPWrappedTestCase extends JBossWSTest
 {
-   public final String TARGET_ENDPOINT_ADDRESS = "http://" + getServerHost() + ":8080/jaxws-samples-xop-doclit/wrapped";
-
    private WrappedEndpoint port;
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(XOPWrappedTestCase.class, DeploymentArchive.NAME);
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployment() {
+      return DeploymentArchive.createDeployment("wrapped");
    }
 
    protected void setUp() throws Exception
    {
 
       QName serviceName = new QName("http://doclit.xop.samples.jaxws.ws.test.jboss.org/", "WrappedService");
-      URL wsdlURL = new URL(TARGET_ENDPOINT_ADDRESS + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "wrapped?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);
       port = service.getPort(WrappedEndpoint.class);
@@ -69,8 +75,11 @@ public class XOPWrappedTestCase extends JBossWSTest
 
    }
 
+   @Test
+   @RunAsClient
    public void testParameterAnnotation() throws Exception
    {
+      setUp();
       DataHandler request = new DataHandler("Client data", "text/plain");
       DataHandler response = port.parameterAnnotation(request);
 

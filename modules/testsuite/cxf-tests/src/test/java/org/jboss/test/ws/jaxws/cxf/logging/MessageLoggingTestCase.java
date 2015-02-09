@@ -25,23 +25,24 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Tests configuration of message exchange logging using API
@@ -49,58 +50,55 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 08-Jul-2010
  */
+@RunWith(Arquillian.class)
 public class MessageLoggingTestCase extends JBossWSTest
 {
-   private String loggingFeatureEndpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-logging/LoggingFeatureService/LoggingFeatureEndpoint";
-   private String loggingInterceptorsEndpointURL = "http://" + getServerHost() + ":8080/jaxws-cxf-logging/LoggingInterceptorsService/LoggingInterceptorsEndpoint";
-
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-cxf-logging.jar") { {
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
-               .addClass(org.jboss.test.ws.jaxws.cxf.logging.CustomInInterceptor.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.logging.LoggingFeatureEndpointImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.logging.LoggingInterceptorsEndpointImpl.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(testable = false)
+   public static JavaArchive createDeployment() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-logging.jar");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+            .addClass(org.jboss.test.ws.jaxws.cxf.logging.CustomInInterceptor.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.logging.LoggingFeatureEndpointImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.logging.LoggingInterceptorsEndpointImpl.class);
+      return archive;
    }
 
-   private LoggingEndpoint port;
-
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(MessageLoggingTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testLoggingFeature() throws Exception
    {
-      URL wsdlURL = new URL(loggingFeatureEndpointURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-cxf-logging/LoggingFeatureService/LoggingFeatureEndpoint?wsdl");
       QName serviceName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingFeatureService");
       Service service = Service.create(wsdlURL, serviceName);
       QName portQName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingFeatureEndpointPort");
-      port = (LoggingEndpoint)service.getPort(portQName, LoggingEndpoint.class);
+      LoggingEndpoint port = (LoggingEndpoint)service.getPort(portQName, LoggingEndpoint.class);
 
       //This is actually just a sample, the test does not actually assert the logs are written on server side for the exchanges message
       //The CXF @Feature on the endpoint ensures exchanged messages are written to the server log
       assertEquals("foo", port.echo("foo"));
    }
 
+   @Test
+   @RunAsClient
    public void testLoggingWithCustomInterceptors() throws Exception
    {
-      URL wsdlURL = new URL(loggingInterceptorsEndpointURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-cxf-logging/LoggingInterceptorsService/LoggingInterceptorsEndpoint?wsdl");
       QName serviceName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingInterceptorsService");
       Service service = Service.create(wsdlURL, serviceName);
       QName portQName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingInterceptorsEndpointPort");
-      port = (LoggingEndpoint)service.getPort(portQName, LoggingEndpoint.class);
+      LoggingEndpoint port = (LoggingEndpoint)service.getPort(portQName, LoggingEndpoint.class);
       assertEquals("foo", port.echo("foo"));
    }
 
+   @Test
+   @RunAsClient
    public void testClientLogging() throws Exception
    {
-      URL wsdlURL = new URL(loggingFeatureEndpointURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-cxf-logging/LoggingFeatureService/LoggingFeatureEndpoint?wsdl");
       QName serviceName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingFeatureService");
 
       Bus bus = BusFactory.newInstance().createBus();
@@ -115,7 +113,7 @@ public class MessageLoggingTestCase extends JBossWSTest
 
          Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
          QName portQName = new QName("http://logging.cxf.jaxws.ws.test.jboss.org/", "LoggingFeatureEndpointPort");
-         port = (LoggingEndpoint)service.getPort(portQName, LoggingEndpoint.class);
+         LoggingEndpoint port = (LoggingEndpoint)service.getPort(portQName, LoggingEndpoint.class);
          String content = "foo";
          port.echo(content);
          String s = out.toString();

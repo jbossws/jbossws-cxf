@@ -56,9 +56,7 @@ public class Helper implements ClientHelper
          log.error("Expected instance of " + JBossWSBusFactory.class + " but got: " + factory.getClass());
          return false;
       }
-      Bus bus = ((JBossWSBusFactory)factory).createBus("cxf.xml"); //force Spring bus construction
-      assert bus.getOutInterceptors().isEmpty() == true; // cxf-client.xml bus has at least one outinterceptor
-
+      Bus bus = ((JBossWSBusFactory)factory).createBus("cxf.xml"); //force Spring bus construction、
       try
       {
          BusFactory.setThreadDefaultBus(bus);

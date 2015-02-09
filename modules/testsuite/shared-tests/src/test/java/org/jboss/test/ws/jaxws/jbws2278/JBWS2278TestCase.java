@@ -24,7 +24,6 @@ package org.jboss.test.ws.jaxws.jbws2278;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -33,14 +32,18 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.Filter;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-2278] JBossWS is picking the wrong binding when both Soap1.1 and Soap1.2 bindings are provided for a port
@@ -49,40 +52,37 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @since 30-Sep-2008
  * @see https://jira.jboss.org/jira/browse/JBWS-2278
  */
+@RunWith(Arquillian.class)
 public class JBWS2278TestCase extends JBossWSTest
 {
    private TestEndpoint port11;
    private TestEndpoint port12;
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws2278.war") { {
-         archive
-               .addManifest()
-               .addPackages(false, new Filter<ArchivePath> () {
-                  @Override
-                  public boolean include(ArchivePath path)
-                  {
-                     return !path.get().contains("TestCase");
-                  }}, "org.jboss.test.ws.jaxws.jbws2278")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2278/WEB-INF/jboss-web.xml"), "jboss-web.xml")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2278/WEB-INF/wsdl/Test.wsdl"), "wsdl/Test.wsdl")
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2278/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
+   @ArquillianResource
+   private URL baseURL;
 
-   public static Test suite() throws Exception
-   {
-      return new JBossWSTestSetup(JBWS2278TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws2278.war");
+         archive
+            .addManifest()
+            .addPackages(false, new Filter<ArchivePath> () {
+               @Override
+               public boolean include(ArchivePath path)
+               {
+                  return !path.get().contains("TestCase");
+               }}, "org.jboss.test.ws.jaxws.jbws2278")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2278/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2278/WEB-INF/wsdl/Test.wsdl"), "wsdl/Test.wsdl")
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2278/WEB-INF/web.xml"));
+      return archive;
    }
 
    @Override
    public void setUp() throws Exception
    {
       super.setUp();
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-jbws2278/soap11?wsdl");
+      URL wsdlURL = new URL(baseURL + "/soap11?wsdl");
       QName serviceName = new QName("http://org.jboss.test.ws/jbws2278", "TestService");
 
       Service service = Service.create(wsdlURL, serviceName);
@@ -100,17 +100,23 @@ public class JBWS2278TestCase extends JBossWSTest
       ((BindingProvider)port12).getBinding().setHandlerChain(handlerChain12);
    }
 
+   @Test
+   @RunAsClient
    public void testCallSoap11() throws Exception
    {
+      setUp();
       final String message = "Hello!!";
       String response = port11.echo(message);
       assertEquals(message, response);
    }
 
+   @Test
+   @RunAsClient
    public void testCheckedExceptionSoap11() throws Exception
    {
       try
       {
+         setUp();
          port11.echo(TestEndpointImpl.TEST_EXCEPTION);
          fail("Expected TestException not thrown.");
       }
@@ -120,10 +126,13 @@ public class JBWS2278TestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testRuntimeExceptionSoap11()
    {
       try
       {
+         setUp();
          port11.echo(TestEndpointImpl.RUNTIME_EXCEPTION);
          fail("Expected Exception not thrown.");
       }
@@ -133,17 +142,23 @@ public class JBWS2278TestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testCallSoap12() throws Exception
    {
+      setUp();
       final String message = "Hello!!";
       String response = port12.echo(message);
       assertEquals(message, response);
    }
 
+   @Test
+   @RunAsClient
    public void testCheckedExceptionSoap12() throws Exception
    {
       try
       {
+         setUp();
          port12.echo(TestEndpointImpl.TEST_EXCEPTION);
          fail("Expected TestException not thrown.");
       }
@@ -153,10 +168,13 @@ public class JBWS2278TestCase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testRuntimeExceptionSoap12()
    {
       try
       {
+         setUp();
          port12.echo(TestEndpointImpl.RUNTIME_EXCEPTION);
          fail("Expected Exception not thrown.");
       }

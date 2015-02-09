@@ -22,14 +22,13 @@
 package org.jboss.test.ws.jaxws.samples.exception;
 
 import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.runner.RunWith;
 
 /**
  * Test JAX-WS exception handling with EJB3 endpoints
@@ -37,11 +36,12 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author <a href="jason.greene@jboss.com">Jason T. Greene</a>
  * @author alessio.soldano@jboss.com
  */
-public class ExceptionEJB3TestCase extends ExceptionTestCase
+@RunWith(Arquillian.class)
+public class ExceptionEJB3TestCase extends AbstractExceptionTests
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-exception.jar") { {
+   @Deployment(name="jaxws-samples-exception", testable = false)
+   public static JavaArchive createDeployment() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-samples-exception.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.exception.server.EndpointImpl.class)
@@ -60,23 +60,16 @@ public class ExceptionEJB3TestCase extends ExceptionTestCase
                .addClass(org.jboss.test.ws.jaxws.samples.exception.server.jaxws.ThrowSoapFaultExceptionResponse.class)
                .addClass(org.jboss.test.ws.jaxws.samples.exception.server.jaxws.UserExceptionBean.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/exception/META-INF/permissions.xml"), "permissions.xml");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(ExceptionEJB3TestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+      return archive;
    }
 
    protected ExceptionHelper getHelper()
    {
-      return new ExceptionEJB3Helper("http://" + getServerHost() + ":8080/jaxws-samples-exception/ExceptionEndpointEJB3Impl");
+      return new ExceptionEJB3Helper("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-samples-exception/ExceptionEndpointEJB3Impl");
    }
    
    protected SOAP12ExceptionHelper getSOAP12Helper()
    {
-      return new SOAP12ExceptionEJB3Helper("http://" + getServerHost() + ":8080/jaxws-samples-exception/SOAP12ExceptionEndpointEJB3Impl");
+      return new SOAP12ExceptionEJB3Helper("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-samples-exception/SOAP12ExceptionEndpointEJB3Impl");
    }
 }

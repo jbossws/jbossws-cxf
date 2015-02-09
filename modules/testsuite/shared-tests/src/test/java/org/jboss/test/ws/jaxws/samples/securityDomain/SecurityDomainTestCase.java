@@ -22,21 +22,20 @@
 package org.jboss.test.ws.jaxws.samples.securityDomain;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test secure EJB3 endpoints using @SecurityDomain and @RolesAllowed, @DeclaredRoles annotations.
@@ -53,39 +52,30 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author alessio.soldano@jboss.com
  * @author <a href="mailto:richard.opalka@jboss.org">Richard Opalka</a>
  */
+@RunWith(Arquillian.class)
 public class SecurityDomainTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.JarDeployment("jaxws-samples-securityDomain.jar") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(name="jaxws-samples-securityDomain", testable = false)
+   public static JavaArchive createDeployment() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-samples-securityDomain.jar");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.SecureEndpointImpl.class);
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      JBossWSTestSetup testSetup = new JBossWSTestSetup(SecurityDomainTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-      Map<String, String> authenticationOptions = new HashMap<String, String>();
-      authenticationOptions.put("usersProperties",
-            getResourceFile("jaxws/samples/securityDomain/jbossws-users.properties").getAbsolutePath());
-      authenticationOptions.put("rolesProperties",
-            getResourceFile("jaxws/samples/securityDomain/jbossws-roles.properties").getAbsolutePath());
-      testSetup.addSecurityDomainRequirement("JBossWSSecurityDomainTest", authenticationOptions);
-      return testSetup;
+      return archive;
    }
 
    private SecureEndpoint getAuthzPort() throws Exception
    {
-      URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-securityDomain/authz?wsdl");
+      URL wsdlURL = new URL(baseURL + "/jaxws-securityDomain/authz?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/securityDomain", "SecureEndpointService");
       return Service.create(wsdlURL, serviceName).getPort(SecureEndpoint.class);
    }
 
-   
+   @Test
+   @RunAsClient
    public void testUnauthenticated() throws Exception
    {
       SecureEndpoint port1 = getAuthzPort();
@@ -117,7 +107,9 @@ public class SecurityDomainTestCase extends JBossWSTest
          assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("401: Unauthorized"));
       }
    }
-   
+
+   @Test
+   @RunAsClient
    public void testUnauthorized() throws Exception
    {
       SecureEndpoint port2 = getAuthzPort();
@@ -131,8 +123,9 @@ public class SecurityDomainTestCase extends JBossWSTest
          assertTrue("Exception message: " + e.getMessage(), e.getMessage().contains("not allowed"));
       }
    }
-   
-   
+
+   @Test
+   @RunAsClient
    public void testAuthorizedAccess() throws Exception
    {
       SecureEndpoint port = getAuthzPort();
@@ -148,7 +141,9 @@ public class SecurityDomainTestCase extends JBossWSTest
       assertEquals("Greetings", port.echo("Greetings"));
       assertEquals("Greetings", port.restrictedEcho("Greetings"));
    }
-   
+
+   @Test
+   @RunAsClient
    public void testUndeclaredRole() throws Exception
    {
       SecureEndpoint port = getAuthzPort();

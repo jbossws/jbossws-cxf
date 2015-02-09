@@ -25,8 +25,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.StringReader;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
@@ -42,12 +40,16 @@ import javax.xml.ws.Service;
 import javax.xml.ws.Service.Mode;
 import javax.xml.ws.soap.SOAPFaultException;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test the JSR-181 annotation: javax.jws.webmethod
@@ -55,32 +57,30 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.org
  * @since 07-Oct-2005
  */
+@RunWith(Arquillian.class)
 public class WebMethodTestCase extends JBossWSTest
 {
-   private final String endpointURL = "http://" + getServerHost() + ":8080/jaxws-samples-webmethod/TestService";
    private final String targetNS = "http://webmethod.samples.jaxws.ws.test.jboss.org/";
 
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-webmethod.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-webmethod.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.webmethod.Endpoint.class)
                .addClass(org.jboss.test.ws.jaxws.samples.webmethod.EndpointImpl.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webmethod/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(WebMethodTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testLegalAccess() throws Exception
    {
-      URL wsdlURL = new URL(endpointURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/TestService?wsdl");
       QName serviceName = new QName(targetNS, "EndpointService");
 
       Service service = Service.create(wsdlURL, serviceName);
@@ -90,6 +90,8 @@ public class WebMethodTestCase extends JBossWSTest
       assertEquals("Hello", retObj);
    }
 
+   @Test
+   @RunAsClient
    public void testLegalMessageAccess() throws Exception
    {
       MessageFactory msgFactory = MessageFactory.newInstance();
@@ -106,7 +108,7 @@ public class WebMethodTestCase extends JBossWSTest
          "</env:Envelope>";
       SOAPMessage reqMsg = msgFactory.createMessage(null, new ByteArrayInputStream(reqEnv.getBytes()));
 
-      URL epURL = new URL(endpointURL);
+      URL epURL = new URL(baseURL + "/TestService");
       SOAPMessage resMsg = con.call(reqMsg, epURL);
 
       QName qname = new QName(targetNS, "echoStringResponse");
@@ -115,6 +117,8 @@ public class WebMethodTestCase extends JBossWSTest
       assertEquals("Hello", soapElement.getValue());
    }
 
+   @Test
+   @RunAsClient
    public void testIllegalMessageAccess() throws Exception
    {
       MessageFactory msgFactory = MessageFactory.newInstance();
@@ -131,7 +135,7 @@ public class WebMethodTestCase extends JBossWSTest
          "</env:Envelope>";
       SOAPMessage reqMsg = msgFactory.createMessage(null, new ByteArrayInputStream(reqEnv.getBytes()));
 
-      URL epURL = new URL(endpointURL);
+      URL epURL = new URL(baseURL + "/TestService");
       SOAPMessage resMsg = con.call(reqMsg, epURL);
       SOAPFault soapFault = resMsg.getSOAPBody().getFault();
       assertNotNull("Expected SOAPFault", soapFault);
@@ -140,9 +144,11 @@ public class WebMethodTestCase extends JBossWSTest
       assertTrue(faultString, faultString.indexOf("noWebMethod") > 0);
    }
 
+   @Test
+   @RunAsClient
    public void testIllegalDispatchAccess() throws Exception
    {
-      URL wsdlURL = new URL(endpointURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/TestService?wsdl");
       QName serviceName = new QName(targetNS, "EndpointService");
       QName portName = new QName(targetNS, "EndpointPort");
 

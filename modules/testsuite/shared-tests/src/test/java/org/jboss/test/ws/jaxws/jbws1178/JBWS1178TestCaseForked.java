@@ -25,8 +25,6 @@ import java.io.File;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.management.Attribute;
@@ -35,14 +33,20 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployer;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-1178] Multiple virtual host and soap:address problem
@@ -51,51 +55,53 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  * @author Thomas.Diesler@jboss.com
  * @since 05-Oct-2006
  */
+@RunWith(Arquillian.class)
 public class JBWS1178TestCaseForked extends JBossWSTest
-{
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws1178.war") { {
+{  
+   @ArquillianResource
+   private Deployer deployer;
+   
+   private static final String WAR_DEPLOYMENT = "jaxws-jbws1178.war";
+   private final ObjectName objectName = ObjectNameFactory.create("jboss.ws:service=ServerConfig");
+   private String webServiceHost;
+
+   @Deployment(name = WAR_DEPLOYMENT, testable = false, managed=false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, WAR_DEPLOYMENT);
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws1178.EndpointImpl.class)
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1178/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
-   }
-
-   public static Test suite()
-   {
-      TestSetup testSetup = new JBossWSTestSetup(JBWS1178TestCaseForked.class, JBossWSTestHelper.writeToFile(createDeployments()))
-      {
-         private final ObjectName objectName = ObjectNameFactory.create("jboss.ws:service=ServerConfig");
-         private String webServiceHost;
-
-         public void setUp() throws Exception
-         {
-            // Setting the WebServiceHost to an empty string, causes the request host to be used.  
-            // This must be done before deploy time.
-            webServiceHost = (String)getServer().getAttribute(objectName, "WebServiceHost");
-            getServer().setAttribute(objectName, new Attribute("WebServiceHost", ""));
-            super.setUp();
-         }
-
-         public void tearDown() throws Exception
-         {
-            super.tearDown();
-            getServer().setAttribute(objectName, new Attribute("WebServiceHost", webServiceHost));
-         }
-      };
-      return testSetup;
+      return archive;
    }
 
 
+		   
+
+   @Before
+   public void setUp() throws Exception {
+      // Setting the WebServiceHost to an empty string, causes the request host to be used.
+      // This must be done before deploy time.
+      webServiceHost = (String) getServer().getAttribute(objectName, "WebServiceHost");
+      getServer().setAttribute(objectName, new Attribute("WebServiceHost", ""));
+      super.setUp();
+      deployer.deploy(WAR_DEPLOYMENT);
+   }
+   @After
+   public void tearDown() throws Exception {
+      super.tearDown();
+      deployer.undeploy(WAR_DEPLOYMENT);
+      getServer().setAttribute(objectName, new Attribute("WebServiceHost", webServiceHost));
+      
+   }
+
+   @Test
+   @RunAsClient
    public void testHostAddress() throws Exception
    {
       InetAddress inetAddr = InetAddress.getByName(getServerHost());
       String hostAddress = inetAddr instanceof Inet6Address ? "[" + inetAddr.getHostAddress() + "]" : inetAddr.getHostAddress();
-      URL wsdlURL = new URL("http://" + hostAddress + ":8080/jaxws-jbws1178/testpattern?wsdl");
+      URL wsdlURL = new URL("http://" + hostAddress + ":" + getServerPort() + "/jaxws-jbws1178/testpattern?wsdl");
 
       QName serviceName = new QName("http://org.jboss.ws/jbws1178", "EndpointService");
       Service service = Service.create(wsdlURL, serviceName);
@@ -106,17 +112,19 @@ public class JBWS1178TestCaseForked extends JBossWSTest
       assertEquals(wsdlURL.getHost(), epURL.getHost());
    }
 
+   @Test
+   @RunAsClient
    public void testHostName() throws Exception
    {
       InetAddress inetAddr = InetAddress.getByName(getServerHost());
-      URL wsdlURL = new URL("http://" + inetAddr.getHostName() + ":8080/jaxws-jbws1178/testpattern?wsdl");
+      String hostAddress = inetAddr instanceof Inet6Address ? "[" + inetAddr.getHostAddress() + "]" : inetAddr.getHostAddress();
+      URL wsdlURL = new URL("http://" + hostAddress + ":" + getServerPort() + "/jaxws-jbws1178/testpattern?wsdl");
 
       QName serviceName = new QName("http://org.jboss.ws/jbws1178", "EndpointService");
       Service service = Service.create(wsdlURL, serviceName);
       Endpoint port = service.getPort(Endpoint.class);
       Map<String, Object> reqCtx = ((BindingProvider)port).getRequestContext(); 
       URL epURL = new URL((String)reqCtx.get(BindingProvider.ENDPOINT_ADDRESS_PROPERTY));
-
       assertEquals(wsdlURL.getHost(), epURL.getHost());
    }
 }

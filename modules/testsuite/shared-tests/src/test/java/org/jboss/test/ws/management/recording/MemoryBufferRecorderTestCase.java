@@ -32,6 +32,13 @@ import javax.management.ObjectName;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.api.monitoring.Record;
 import org.jboss.ws.api.monitoring.RecordFilter;
 import org.jboss.ws.common.monitoring.AndFilter;
@@ -39,7 +46,9 @@ import org.jboss.ws.common.monitoring.HostFilter;
 import org.jboss.ws.common.monitoring.NotFilter;
 import org.jboss.ws.common.monitoring.OperationFilter;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 
 /**
  * This tests the MemoryBufferRecorder
@@ -47,25 +56,27 @@ import org.jboss.wsf.test.JBossWSTestHelper;
  * @author alessio.soldano@jboss.com
  * @since 7-Aug-2008
  */
+@RunWith(Arquillian.class)
 public class MemoryBufferRecorderTestCase extends JBossWSTest
 {
-   private final String endpointURL = "http://" + getServerHost() + ":8080/management-recording/EndpointImpl";
    private final String targetNS = "http://recording.management.ws.test.jboss.org/";
-   private String endpointObjectName;
-   
-   @Override
-   protected void setUp() throws Exception
-   {
-      endpointObjectName = "jboss.ws:context=management-recording,endpoint=EndpointWithConfigImpl";
-      JBossWSTestHelper.deploy(ArchiveDeployment.NAME);
+   private final String endpointObjectName = "jboss.ws:context=management-recording,endpoint=EndpointWithConfigImpl";
+
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static JavaArchive createDeployment() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "management-recording-as7.jar");
+      archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+         + "Dependencies: org.jboss.logging\n"))
+         .addClass(org.jboss.test.ws.management.recording.Endpoint.class)
+         .addClass(org.jboss.test.ws.management.recording.EndpointWithConfigImpl.class);
+      return archive;
    }
 
-   @Override
-   protected void tearDown() throws Exception
-   {
-      JBossWSTestHelper.undeploy(ArchiveDeployment.NAME);
-   }
-   
+   @Test
+   @RunAsClient
    public void testRecording() throws Exception
    {
       Endpoint port = getPort();
@@ -82,6 +93,8 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       assertEquals(3, endSize - startSize);
    }
 
+   @Test
+   @RunAsClient
    @SuppressWarnings("unchecked")
    public void testGetRecordsByOperation() throws Exception
    {
@@ -122,7 +135,8 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       }
    }
 
-
+   @Test
+   @RunAsClient
    @SuppressWarnings("unchecked")
    public void testGetRecordsByClientHost() throws Exception
    {
@@ -145,7 +159,9 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       assertTrue("No records for " + host, localhostRecords.size() > 0);
       assertTrue("There are records for 72.21.203.1", amazonRecords.size() == 0);
    }
-   
+
+   @Test
+   @RunAsClient
    @SuppressWarnings("unchecked")
    public void testGetMatchingRecords() throws Exception
    {
@@ -174,6 +190,8 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       assertEquals(1, stopRecords.keySet().size() - startRecords.keySet().size());
    }
 
+   @Test
+   @RunAsClient
    public void testAddRemoveFilter() throws Exception
    {
       Endpoint port = getPort();
@@ -226,7 +244,7 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
 
    private Endpoint getPort() throws Exception
    {
-      URL wsdlURL = new URL(endpointURL + "?wsdl");
+      URL wsdlURL = new URL(baseURL + "/management-recording/EndpointImpl?wsdl");
       QName serviceName = new QName(targetNS, "EndpointService");
       Service service = Service.create(wsdlURL, serviceName);
       return service.getPort(Endpoint.class);

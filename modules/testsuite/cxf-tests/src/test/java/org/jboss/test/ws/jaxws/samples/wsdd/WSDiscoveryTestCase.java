@@ -31,8 +31,6 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
-import junit.framework.Test;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.ws.discovery.WSDiscoveryClient;
@@ -40,10 +38,15 @@ import org.apache.cxf.ws.discovery.wsdl.ProbeMatchType;
 import org.apache.cxf.ws.discovery.wsdl.ProbeType;
 import org.apache.cxf.ws.discovery.wsdl.ResolveMatchType;
 import org.apache.cxf.ws.discovery.wsdl.ScopesType;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * WS-Discovery 1.1 sample
@@ -51,37 +54,36 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
  * @author alessio.soldano@jboss.com
  * @since 07-May-2013
  */
+@RunWith(Arquillian.class)
 public final class WSDiscoveryTestCase extends JBossWSTest
 {
-   private static final int TIMEOUT = Integer.getInteger(WSDiscoveryTestCase.class.getName() + ".timeout", 2000);
+   private static final int TIMEOUT = Integer.getInteger(WSDiscoveryTestCase.class.getName() + ".timeout", 4000);
    
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsdd2.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.samples.wsdd.AnotherServiceImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsdd.ServiceIface.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsdd.ServiceImpl.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsdd/WEB-INF/jboss-webservices.xml"), "jboss-webservices.xml");
-         }
-      });
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-samples-wsdd.war") { {
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.samples.wsdd.ServiceIface.class)
-               .addClass(org.jboss.test.ws.jaxws.samples.wsdd.ServiceImpl.class)
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsdd/WEB-INF/jboss-webservices.xml"), "jboss-webservices.xml");
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+   @Deployment(name = "jaxws-samples-wsdd2", testable = false)
+   public static WebArchive createDeployment2() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsdd2.war");
+      archive
+            .addManifest()
+            .addClass(org.jboss.test.ws.jaxws.samples.wsdd.AnotherServiceImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsdd.ServiceIface.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsdd.ServiceImpl.class)
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsdd/WEB-INF/jboss-webservices.xml"), "jboss-webservices.xml");
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSCXFTestSetup(WSDiscoveryTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
+   @Deployment(name = "jaxws-samples-wsdd", testable = false)
+   public static WebArchive createDeployment() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsdd.war");
+      archive
+            .addManifest()
+            .addClass(org.jboss.test.ws.jaxws.samples.wsdd.ServiceIface.class)
+            .addClass(org.jboss.test.ws.jaxws.samples.wsdd.ServiceImpl.class)
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsdd/WEB-INF/jboss-webservices.xml"), "jboss-webservices.xml");
+      return archive;
    }
-   
+
+   @Test
+   @RunAsClient
    public void testProbeAndResolve() throws Exception
    {
       Bus bus = null;
@@ -102,9 +104,11 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          }
          
          final QName typeName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsdd", "ServiceIface");
-         checkResolveMatches(rmts, "http://" + getServerHost() + ":8080/jaxws-samples-wsdd/WSDDService", typeName);
-         checkResolveMatches(rmts, "http://" + getServerHost() + ":8080/jaxws-samples-wsdd2/WSDDService", typeName);
-         checkResolveMatches(rmts, "http://" + getServerHost() + ":8080/jaxws-samples-wsdd2/AnotherWSDDService", typeName);
+         final String serverHost = getServerHost();
+         final int serverPort = getServerPort();
+         checkResolveMatches(rmts, "http://" + serverHost + ":" + serverPort + "/jaxws-samples-wsdd/WSDDService", typeName);
+         checkResolveMatches(rmts, "http://" + serverHost + ":" + serverPort + "/jaxws-samples-wsdd2/WSDDService", typeName);
+         checkResolveMatches(rmts, "http://" + serverHost + ":" + serverPort + "/jaxws-samples-wsdd2/AnotherWSDDService", typeName);
          client.close();
       } finally {
          bus.shutdown(true);
@@ -139,6 +143,8 @@ public final class WSDiscoveryTestCase extends JBossWSTest
       return filtered;
    }
 
+   @Test
+   @RunAsClient
    public void testInvocation() throws Exception
    {
       Bus bus = null;

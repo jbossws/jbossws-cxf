@@ -31,9 +31,9 @@ public class TestClient
 {
    public static final String REQ_STR = "Hello World!";
 
-   public static String testPortAccess(String serverHost) throws Exception
+   public static String testPortAccess(String serverHost, int serverPort) throws Exception
    {
-      URL wsdlURL = new URL("http://" + serverHost + ":8080/jaxws-jbws1666?wsdl");
+      URL wsdlURL = new URL("http://" + serverHost + ":" + serverPort + "/jaxws-jbws1666?wsdl");
 
       QName serviceName = new QName("http://org.jboss.ws/jbws1666", "TestEndpointImplService");
       Service service = Service.create(wsdlURL, serviceName);
@@ -46,7 +46,8 @@ public class TestClient
    public static void main(String[] args) throws Exception
    {
       String serverHost = args[0];
-      String resStr = testPortAccess(serverHost);
+      String serverPort = args[1];
+      String resStr = testPortAccess(serverHost, Integer.valueOf(serverPort));
       System.out.println(Provider.provider().getClass().getName() + ", " + resStr);
       
       //wait a bit before returning as the log processing can be aysnch, the test client

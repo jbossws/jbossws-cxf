@@ -24,18 +24,20 @@ package org.jboss.test.ws.jaxws.jbws3367;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.Test;
-
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
-import org.jboss.wsf.test.JBossWSTestSetup;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-3367][AS7-1605] jboss-web.xml ignored for web service root
@@ -44,11 +46,15 @@ import org.jboss.wsf.test.JBossWSTestSetup;
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
+@RunWith(Arquillian.class)
 public class BothPojoAndEjbInWarTestCase extends JBossWSTest
 {
-   public static BaseDeployment<?>[] createDeployments() {
-      List<BaseDeployment<?>> list = new LinkedList<BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3367-usecase1.war") { {
+   @ArquillianResource
+   private URL baseURL;
+
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws3367-usecase1.war");
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws3367.EJB3Endpoint.class)
@@ -56,30 +62,27 @@ public class BothPojoAndEjbInWarTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.jbws3367.POJOEndpoint.class)
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3367/WEB-INF/jboss-web.xml"), "jboss-web.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3367/WEB-INF/web.xml"));
-         }
-      });
-      return list.toArray(new BaseDeployment<?>[list.size()]);
+      return archive;
    }
 
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(BothPojoAndEjbInWarTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+   @Test
+   @RunAsClient
    public void testPOJOEndpoint() throws Exception
    {
       final QName serviceName = new QName("org.jboss.test.ws.jaxws.jbws3367", "POJOEndpointService");
-      final URL wsdlURL = new URL("http://" + getServerHost() +  ":8080/jbws3367-customized/POJOEndpoint?wsdl");
+      final URL wsdlURL = new URL(baseURL +  "/POJOEndpoint?wsdl");
       final Service service = Service.create(wsdlURL, serviceName);
       final EndpointIface port = service.getPort(EndpointIface.class);
       final String result = port.echo("hello");
       assertEquals("POJO hello", result);
    }
 
+   @Test
+   @RunAsClient
    public void testEJB3Endpoint() throws Exception
    {
       final QName serviceName = new QName("org.jboss.test.ws.jaxws.jbws3367", "EJB3EndpointService");
-      final URL wsdlURL = new URL("http://" + getServerHost() +  ":8080/jbws3367-customized/EJB3Endpoint?wsdl");
+      final URL wsdlURL = new URL(baseURL +  "/EJB3Endpoint?wsdl");
       final Service service = Service.create(wsdlURL, serviceName);
       final EndpointIface port = service.getPort(EndpointIface.class);
       final String result = port.echo("hello");

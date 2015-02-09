@@ -22,6 +22,10 @@
 package org.jboss.test.ws.jaxws.jaxbcust;
 
 import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 
 import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.ws.api.binding.JAXBBindingCustomization;
@@ -37,6 +41,7 @@ import org.jboss.wsf.spi.deployment.EndpointState;
  *
  * @since 28-Jun-2007
  */
+@RunWith(Arquillian.class)
 public class BindingCustomizationTestCase extends TestCase {
 
    DeploymentModelFactory deploymentModelFactory;
@@ -50,9 +55,12 @@ public class BindingCustomizationTestCase extends TestCase {
       deploymentModelFactory = spiProvider.getSPI(DeploymentModelFactory.class);
    }
 
+   @Test
+   @RunAsClient
    @SuppressWarnings("unchecked")
    public void testCustomizationWriteAccess() throws Exception
    {
+      setUp();
       Endpoint endpoint = deploymentModelFactory.newHttpEndpoint(null);
       BindingCustomization jaxbCustomization = new JAXBBindingCustomization();
       jaxbCustomization.put("com.sun.xml.bind.defaultNamespaceRemap", "http://org.jboss.bindingCustomization");
@@ -72,9 +80,13 @@ public class BindingCustomizationTestCase extends TestCase {
       }
    }
 
+
+   @Test
+   @RunAsClient
    @SuppressWarnings("unchecked")
    public void testCustomizationReadAccess() throws Exception
    {
+      setUp();
       Endpoint endpoint = deploymentModelFactory.newHttpEndpoint(null);
       BindingCustomization jaxbCustomization = new JAXBBindingCustomization();
       jaxbCustomization.put("com.sun.xml.bind.defaultNamespaceRemap", "http://org.jboss.bindingCustomization");
