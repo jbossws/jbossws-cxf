@@ -21,53 +21,55 @@
  */
 package org.jboss.test.ws.saaj.jbws3857;
 
-import junit.framework.Test;
-import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestSetup;
-import org.junit.Assert;
+import static org.jboss.wsf.test.JBossWSTestHelper.getTestResourcesDir;
+
+import java.io.File;
+import java.net.URL;
 
 import javax.activation.DataHandler;
 import javax.activation.URLDataSource;
 import javax.xml.namespace.QName;
-import javax.xml.soap.*;
-import java.io.File;
-import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
+import javax.xml.soap.AttachmentPart;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPBodyElement;
+import javax.xml.soap.SOAPConnection;
+import javax.xml.soap.SOAPConnectionFactory;
+import javax.xml.soap.SOAPConstants;
+import javax.xml.soap.SOAPMessage;
 
-import static org.jboss.wsf.test.JBossWSTestHelper.getTestResourcesDir;
-
-/**
- *
- */
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+@RunWith(Arquillian.class)
 public class MultipartContentTypeTestCase extends JBossWSTest
 {
    private static final String PROJECT_NAME = "reproducer-eap-wrong-multipart";
-   private static final String TEST_SERVLET_URL = "http://" + getServerHost() + ":8080/" + PROJECT_NAME + "/testServlet";
    private static final String IN_IMG_NAME = "test.png";
-
-   public static JBossWSTestHelper.BaseDeployment<?>[] createDeployments() {
-      List<JBossWSTestHelper.BaseDeployment<?>> list = new LinkedList<JBossWSTestHelper.BaseDeployment<?>>();
-      list.add(new JBossWSTestHelper.WarDeployment("jaxws-jbws3857.war") { {
+   @ArquillianResource
+   private URL baseURL;
+   @Deployment(testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws3857.war");
          archive
             .addManifest()
             .addClass(org.jboss.test.ws.saaj.jbws3857.SoapMultipartCheckerServlet.class)
             .addAsWebInfResource(new File(getTestResourcesDir() + "/saaj/jbws3857/META-INF/beans.xml"), "classes/META-INF/beans.xml")
             .addAsWebInfResource(new File(getTestResourcesDir() + "/saaj/jbws3857/test.png"), "classes/test.png")
             .addAsWebInfResource(new File(getTestResourcesDir() + "/saaj/jbws3857/WEB-INF/jboss-web.xml"), "jboss-web.xml")
-            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/saaj/jbws3857/WEB-INF/web.xml"))
-         ;
-      }
-      });
-      return list.toArray(new JBossWSTestHelper.BaseDeployment<?>[list.size()]);
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/saaj/jbws3857/WEB-INF/web.xml"));
+      return archive;
    }
-
-   public static Test suite()
-   {
-      return new JBossWSTestSetup(MultipartContentTypeTestCase.class, JBossWSTestHelper.writeToFile(createDeployments()));
-   }
-
+  
+   @Test
+   @RunAsClient
    public void testSendMultipartSoapMessage() throws Exception {
       final MessageFactory msgFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
       final SOAPMessage msg = msgFactory.createMessage();
@@ -82,7 +84,7 @@ public class MultipartContentTypeTestCase extends JBossWSTest
 
       final SOAPConnectionFactory conFactory = SOAPConnectionFactory.newInstance();
       final SOAPConnection connection = conFactory.createConnection();
-      final SOAPMessage response = connection.call(msg, new URL(TEST_SERVLET_URL));
+      final SOAPMessage response = connection.call(msg, new URL("http://" + baseURL.getHost()+ ":" + baseURL.getPort() + "/" + PROJECT_NAME + "/testServlet"));
 
       final String contentTypeWeHaveSent = getBodyElementTextValue(response);
       assertContentTypeStarts("multipart/related", contentTypeWeHaveSent);
