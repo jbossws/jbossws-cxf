@@ -92,7 +92,7 @@ public class HandlerAuthInterceptor extends AbstractPhaseInterceptor<Message>
           || message == ex.getOutFaultMessage();
    }
    
-   private class JBossWSHandlerChainInvoker extends HandlerChainInvoker
+   private static class JBossWSHandlerChainInvoker extends HandlerChainInvoker
    {
 
       public JBossWSHandlerChainInvoker(@SuppressWarnings("rawtypes") List<Handler> hc, boolean isOutbound)
