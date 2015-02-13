@@ -37,6 +37,8 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -76,7 +78,8 @@ public class JBWS1841TestCase extends JBossWSTest
       return archive;
    }
 
-   private void cleanUp() {
+   @AfterClass
+   public static void cleanUp() {
       port = null;
       remote = null;
       if (ctx != null) {
@@ -90,63 +93,56 @@ public class JBWS1841TestCase extends JBossWSTest
       }
    }
 
-   protected void setUp() throws Exception {
-      URL wsdlURL = new URL(baseURL + "/jaxws-jbws1841/EndpointService/EJB3Bean?wsdl");
-      QName serviceName = new QName("http://www.openuri.org/2004/04/HelloWorld", "EndpointService");
-      port = Service.create(wsdlURL, serviceName).getPort(EndpointInterface.class);
-
-      ctx = getServerInitialContext();
-      remote = (StatelessRemote) ctx.lookup("jaxws-jbws1841//" + StatelessBean.class.getSimpleName() + "!" + StatelessRemote.class.getName());
+   @Before
+   public void setup() throws Exception {
+      if (port == null) {
+         URL wsdlURL = new URL(baseURL + "/jaxws-jbws1841/EndpointService/EJB3Bean?wsdl");
+         QName serviceName = new QName("http://www.openuri.org/2004/04/HelloWorld", "EndpointService");
+         port = Service.create(wsdlURL, serviceName).getPort(EndpointInterface.class);
+   
+         ctx = getServerInitialContext();
+         remote = (StatelessRemote) ctx.lookup("jaxws-jbws1841//" + StatelessBean.class.getSimpleName() + "!" + StatelessRemote.class.getName());
+      }
    }
 
    @Test
    @RunAsClient
    public void testDirectWSInvocation() throws Exception
    {
-      setUp();
       String result = port.echo("DirectWSInvocation");
       assertEquals("DirectWSInvocation", result);
-      cleanUp();
    }
 
    @Test
    @RunAsClient
    public void testEJBRelay1() throws Exception
    {
-      setUp();
       String result = remote.echo1("Relay1");
       assertEquals("Relay1", result);
-      cleanUp();
    }
 
    @Test
    @RunAsClient
    public void testEJBRelay2() throws Exception
    {
-      setUp();
       String result = remote.echo2("Relay2");
       assertEquals("Relay2", result);
-      cleanUp();
    }
 
    @Test
    @RunAsClient
    public void testEJBRelay3() throws Exception
    {
-      setUp();
       String result = remote.echo3("Relay3");
       assertEquals("Relay3", result);
-      cleanUp();
    }
 
    @Test
    @RunAsClient
    public void testEJBRelay4() throws Exception
    {
-      setUp();
       String result = remote.echo4("Relay4");
       assertEquals("Relay4", result);
-      cleanUp();
    }
 
 }

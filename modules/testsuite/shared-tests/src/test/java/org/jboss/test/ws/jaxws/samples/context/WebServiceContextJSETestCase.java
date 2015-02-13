@@ -37,6 +37,8 @@ import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -67,23 +69,29 @@ public class WebServiceContextJSETestCase extends JBossWSTest
       return archive;
    }
 
-
-   public void setUp() throws Exception {
-      URL wsdlURL = new URL(baseURL + "/jaxws-samples-context-jse?wsdl");
-      QName qname = new QName("http://org.jboss.ws/jaxws/context", "EndpointService");
-      Service service = Service.create(wsdlURL, qname);
-      port = (Endpoint) service.getPort(Endpoint.class);
-
-      BindingProvider bp = (BindingProvider) port;
-      bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "kermit");
-      bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "thefrog");
+   @Before
+   public void setup() throws Exception {
+      if (port == null) {
+         URL wsdlURL = new URL(baseURL + "/jaxws-samples-context-jse?wsdl");
+         QName qname = new QName("http://org.jboss.ws/jaxws/context", "EndpointService");
+         Service service = Service.create(wsdlURL, qname);
+         port = (Endpoint) service.getPort(Endpoint.class);
+   
+         BindingProvider bp = (BindingProvider) port;
+         bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "kermit");
+         bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "thefrog");
+      }
+   }
+   
+   @AfterClass
+   public static void cleanup() {
+      port = null;
    }
 
    @Test
    @RunAsClient
    public void testGetWebContext() throws Exception
    {
-      setUp();
       String retStr = port.testGetMessageContext();
       assertEquals("pass", retStr);
    }
@@ -92,7 +100,6 @@ public class WebServiceContextJSETestCase extends JBossWSTest
    @RunAsClient
    public void testMessageContextProperties() throws Exception
    {
-      setUp();
       String retStr = port.testMessageContextProperties();
       assertEquals("pass", retStr);
    }
@@ -101,7 +108,6 @@ public class WebServiceContextJSETestCase extends JBossWSTest
    @RunAsClient
    public void testGetUserPrincipal() throws Exception
    {
-      setUp();
       String retStr = port.testGetUserPrincipal();
       assertEquals("kermit", retStr);
    }
@@ -110,7 +116,6 @@ public class WebServiceContextJSETestCase extends JBossWSTest
    @RunAsClient
    public void testIsUserInRole() throws Exception
    {
-      setUp();
       assertTrue("kermit is my friend", port.testIsUserInRole("friend"));
    }
 }

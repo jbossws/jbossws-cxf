@@ -55,8 +55,6 @@ public class WebResultTestCase extends JBossWSTest
 {
    private String targetNS = "http://webresult.samples.jaxws.ws.test.jboss.org/";
    
-   private static CustomerService port;
-
    @ArquillianResource
    private URL baseURL;
 
@@ -72,23 +70,16 @@ public class WebResultTestCase extends JBossWSTest
       return archive;
    }
 
-   public void setUp() throws Exception
-   {
-      if (port == null)
-      {
-         QName serviceName = new QName(targetNS, "CustomerServiceService");
-         URL wsdlURL = getResourceURL("jaxws/samples/webresult/META-INF/wsdl/CustomerService.wsdl");
-
-         Service service = Service.create(wsdlURL, serviceName);
-         port = service.getPort(CustomerService.class);
-      }
-   }
-
    @Test
    @RunAsClient
    public void testLocateCustomer() throws Exception
    {
-      setUp();
+      QName serviceName = new QName(targetNS, "CustomerServiceService");
+      URL wsdlURL = getResourceURL("jaxws/samples/webresult/META-INF/wsdl/CustomerService.wsdl");
+
+      Service service = Service.create(wsdlURL, serviceName);
+      CustomerService port = service.getPort(CustomerService.class);
+      
       USAddress addr = new USAddress();
       addr.setAddress("Wall Street");
 

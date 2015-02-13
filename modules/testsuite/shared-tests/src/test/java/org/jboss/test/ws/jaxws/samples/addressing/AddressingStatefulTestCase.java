@@ -49,9 +49,6 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class AddressingStatefulTestCase extends JBossWSTest
 {
-   private static AddressingPort port1;
-   private static AddressingPort port2;
-
    @ArquillianResource
    private URL baseURL;
 
@@ -68,49 +65,31 @@ public class AddressingStatefulTestCase extends JBossWSTest
       return archive;
    }
 
-   protected void setUp() throws Exception {
-      super.setUp();
-
-      URL wsdlURL = new URL(baseURL + "/TestService?wsdl");
-      QName serviceName = new QName("http://org.jboss.ws/samples/wsaddressing", "TestService");
-
-      Service service1 = Service.create(wsdlURL, serviceName);
-      port1 = new AddressingPort(service1.getPort(StatefulEndpoint.class, new AddressingFeature(true, true)));
-
-      Service service2 = Service.create(wsdlURL, serviceName);
-      port2 = new AddressingPort(service2.getPort(StatefulEndpoint.class, new AddressingFeature(true, true)));
-   }
-
    @Test
    @RunAsClient
    public void testItemLifecycle() throws Exception
    {
-      setUp();
-      firstAddItem();
-      secondGetItems();
-      thirdCheckout();
-   }
+      URL wsdlURL = new URL(baseURL + "/TestService?wsdl");
+      QName serviceName = new QName("http://org.jboss.ws/samples/wsaddressing", "TestService");
 
-   private void firstAddItem() throws Exception
-   {
+      Service service1 = Service.create(wsdlURL, serviceName);
+      AddressingPort port1 = new AddressingPort(service1.getPort(StatefulEndpoint.class, new AddressingFeature(true, true)));
+
+      Service service2 = Service.create(wsdlURL, serviceName);
+      AddressingPort port2 = new AddressingPort(service2.getPort(StatefulEndpoint.class, new AddressingFeature(true, true)));
+      
       port1.addItem("Ice Cream");
       port1.addItem("Ferrari");
 
       port2.addItem("Mars Bar");
       port2.addItem("Porsche");
-   }
-
-   private void secondGetItems() throws Exception
-   {
+      
       String items1 = port1.getItems();
       assertEquals("[Ice Cream, Ferrari]", items1);
 
       String items2 = port2.getItems();
       assertEquals("[Mars Bar, Porsche]", items2);
-   }
-
-   private void thirdCheckout() throws Exception
-   {
+      
       port1.checkout();
       assertEquals("[]", port1.getItems());
 

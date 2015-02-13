@@ -35,7 +35,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -115,8 +115,8 @@ public class WebParamTestCase extends JBossWSTest
       port.securePing(doc, secHeader);
    }
    
-   @After
-   public void resetPort() {
+   @AfterClass
+   public static void cleanupPort() {
 	   port = null;
    }
 }

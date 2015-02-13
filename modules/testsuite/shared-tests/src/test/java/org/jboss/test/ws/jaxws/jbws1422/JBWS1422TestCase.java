@@ -44,8 +44,6 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class JBWS1422TestCase extends JBossWSTest
 {
-   private static final String TARGET_NAMESPACE = "http://jbws1422.jaxws.ws.test.jboss.org/";
-
    @ArquillianResource
    private URL baseURL;
 
@@ -63,7 +61,7 @@ public class JBWS1422TestCase extends JBossWSTest
    @RunAsClient
    public void testDeployment() throws Exception
    {
-      QName serviceName = new QName(TARGET_NAMESPACE, "JBWS1422Service");
+      QName serviceName = new QName("http://jbws1422.jaxws.ws.test.jboss.org/", "JBWS1422Service");
       URL wsdlURL = new URL(baseURL + "/jaxws-jbws1422/JBWS1422Service/IWebsvcImpl?wsdl");
 
       Service service = Service.create(wsdlURL, serviceName);

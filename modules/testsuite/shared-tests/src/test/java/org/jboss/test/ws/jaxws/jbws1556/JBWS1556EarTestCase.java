@@ -37,6 +37,8 @@ import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -57,7 +59,6 @@ public class JBWS1556EarTestCase extends JBossWSTest
    private URL baseURL;
 
    @Deployment(testable = false)
-
    public static EnterpriseArchive createDeployment3() {
       JavaArchive archive1 = ShrinkWrap.create(JavaArchive.class, "jaxws-jbws1556.jar");
          archive1
@@ -74,11 +75,8 @@ public class JBWS1556EarTestCase extends JBossWSTest
       return archive;
    }
 
-   protected void cleanUp() {
-      port = null;
-   }
-
-   protected void setUp() throws MalformedURLException
+   @Before
+   public void setup() throws MalformedURLException
    {
       if (port == null)
       {
@@ -88,25 +86,26 @@ public class JBWS1556EarTestCase extends JBossWSTest
          port = service.getPort(EndpointInterface.class);
       }
    }
+   
+   @AfterClass
+   public static void cleanup() {
+      port = null;
+   }
 
    @Test
    @RunAsClient
    public void testSimpleAccess() throws Exception
    {
-      setUp();
       String hello = port.helloSimple("hello");
       assertEquals("hello", hello);
-      cleanUp();
    }
 
    @Test
    @RunAsClient
    public void testComplexAccess() throws Exception
    {
-      setUp();
       UserType req = new UserType("hello");
       UserType res = port.helloComplex(req);
       assertEquals(req, res);
-      cleanUp();
    }
 }

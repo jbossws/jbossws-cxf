@@ -34,6 +34,8 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -75,15 +77,20 @@ public class SWARefTestCase extends JBossWSTest
       return archive;
    }
 
-   protected void setUp() throws Exception {
+   @BeforeClass
+   public static void setup() throws Exception {
       data = new DataHandler("Client data", "text/plain");
+   }
+   
+   @AfterClass
+   public static void clean() {
+      data = null;
    }
 
    @Test
    @RunAsClient
    public void testBeanAnnotationWithBare() throws Exception
    {
-      setUp();
       Service service = Service.create(new URL(baseURL + "/jaxws-swaref/BareEndpointService/BareEndpoint?wsdl"), bareServiceQName);
       BareEndpoint port = service.getPort(BareEndpoint.class);
       DocumentPayload response = port.beanAnnotation(new DocumentPayload(data));
@@ -94,7 +101,6 @@ public class SWARefTestCase extends JBossWSTest
    @RunAsClient
    public void testBeanAnnotationWithWrapped() throws Exception
    {
-      setUp();
       Service service = Service.create(new URL(baseURL+"/jaxws-swaref/WrappedEndpointService/WrappedEndpoint?wsdl"), wrappedServiceQName);
       WrappedEndpoint port = service.getPort(WrappedEndpoint.class);
 
@@ -106,7 +112,6 @@ public class SWARefTestCase extends JBossWSTest
    @RunAsClient
    public void testParameterAnnotationWithWrapped() throws Exception
    {
-      setUp();
       Service service = Service.create(new URL(baseURL+"/jaxws-swaref/WrappedEndpointService/WrappedEndpoint?wsdl"), wrappedServiceQName);
       WrappedEndpoint port = service.getPort(WrappedEndpoint.class);
 
@@ -119,7 +124,6 @@ public class SWARefTestCase extends JBossWSTest
    @RunAsClient
    public void testBeanAnnotationWithRPC() throws Exception
    {
-      setUp();
       Service service = Service.create(new URL(baseURL+"/jaxws-swaref/RpcLitEndpointService/RpcLitEndpoint?wsdl"), rpcLitServiceQName);
       RpcLitEndpoint port = service.getPort(RpcLitEndpoint.class);
 
@@ -132,7 +136,6 @@ public class SWARefTestCase extends JBossWSTest
    @RunAsClient
    public void testListAnnotationWithWrapped() throws Exception
    {
-      setUp();
       //[JBWS-2708]
       Service service = Service.create(new URL(baseURL+"/jaxws-swaref/WrappedEndpointService/WrappedEndpoint?wsdl"), wrappedServiceQName);
       WrappedEndpoint port = service.getPort(WrappedEndpoint.class);
