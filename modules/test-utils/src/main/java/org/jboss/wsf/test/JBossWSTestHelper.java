@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2014, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -32,9 +32,8 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Properties;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.WeakHashMap;
 
 import javax.management.MBeanServerConnection;
@@ -52,9 +51,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.wsf.spi.SPIProvider;
-import org.jboss.wsf.spi.SPIProviderResolver;
-import org.jboss.wsf.spi.deployer.Deployer;
 
 /**
  * A JBossWS test helper that deals with test deployment/undeployment, etc.
@@ -75,15 +71,12 @@ public class JBossWSTestHelper
    private static final String SYSPROP_AS_SERVER_CONN_RETRIEVAL_ATTEMPTS = "test.as.server.connection.retrieval.attempts";
    private static final String TEST_USERNAME = "test.username";
    private static final String TEST_PASSWORD = "test.password";
-   private static final boolean DEPLOY_PROCESS_ENABLED = !Boolean.getBoolean("disable.test.archive.deployment");
    private static final int AS_SERVER_CONN_RETRIEVAL_ATTEMPTS = Integer.getInteger(SYSPROP_AS_SERVER_CONN_RETRIEVAL_ATTEMPTS, 5);
    private static final String testArchiveDir = System.getProperty(SYSPROP_TEST_ARCHIVE_DIRECTORY);
    private static final String testResourcesDir = System.getProperty(SYSPROP_TEST_RESOURCES_DIRECTORY);
    private static final String integrationTarget;
    private static final String implInfo;
 
-   private static volatile Deployer deployer;
-   
    private static WeakHashMap<ClassLoader, Hashtable<String, String>> containerEnvs = new WeakHashMap<ClassLoader, Hashtable<String,String>>();
 
    static {
@@ -94,55 +87,12 @@ public class JBossWSTestHelper
       implInfo = obj.getClass().getPackage().getName();
    }
 
-   private static Deployer getDeployer()
-   {
-      //lazy loading of deployer
-      if (deployer == null)
-      {
-         synchronized (JBossWSTestHelper.class)
-         {
-            if (deployer == null)
-            {
-               SPIProvider spiProvider = SPIProviderResolver.getInstance().getProvider();
-               deployer = spiProvider.getSPI(Deployer.class);
-            }
-         }
-      }
-      return deployer;
-   }
-
-   /** Deploy the given archive to the server
-    */
-   public static void deploy(final String archive) throws Exception
-   {
-      if (DEPLOY_PROCESS_ENABLED)
-      {
-         URL archiveURL = getArchiveFile(archive).toURI().toURL();
-         getDeployer().deploy(archiveURL);
-      }
-   }
-
-   /** Undeploy the given archive from the server
-    */
-   public static void undeploy(final String archive) throws Exception
-   {
-      if (DEPLOY_PROCESS_ENABLED)
-      {
-         URL archiveURL = getArchiveFile(archive).toURI().toURL();
-         getDeployer().undeploy(archiveURL);
-      }
-   }
-
    /** Deploy the given archive to the appclient.
     * Archive name is always in form archive.ear#appclient.jar
     */
    public static Process deployAppclient(final String archive, final OutputStream appclientOS, final String... appclientArgs) throws Exception
    {
-      if (DEPLOY_PROCESS_ENABLED)
-      {
-         return AppclientHelper.deployAppclient(archive, appclientOS, appclientArgs);
-      }
-      return null;
+      return AppclientHelper.deployAppclient(archive, appclientOS, appclientArgs);
    }
 
    /** Undeploy the given archive from the appclient
@@ -150,10 +100,7 @@ public class JBossWSTestHelper
     */
    public static void undeployAppclient(final String archive, boolean awaitShutdown) throws Exception
    {
-      if (DEPLOY_PROCESS_ENABLED)
-      {
-         AppclientHelper.undeployAppclient(archive, awaitShutdown);
-      }
+      AppclientHelper.undeployAppclient(archive, awaitShutdown);
    }
 
    public static boolean isTargetWildFly8()
@@ -431,43 +378,6 @@ public class JBossWSTestHelper
       return prop;
    }
 
-   public static void addSecurityDomain(String name, Map<String,String> authenticationOptions) throws Exception
-   {
-      getDeployer().addSecurityDomain(name, authenticationOptions);
-   }
-
-   public static void addJaspiSecurityDomain(String name, String loginModuleStackName, Map<String, String> loginModuleOptions, String authModuleName,
-         Map<String, String> authModuleOptions) throws Exception
-   {
-      getDeployer().addJaspiSecurityDomain(name, loginModuleStackName, loginModuleOptions, authModuleName, authModuleOptions);
-   }
-
-
-   public static void removeSecurityDomain(String name) throws Exception
-   {
-      getDeployer().removeSecurityDomain(name);
-   }
-
-   public static void addHttpsConnector(Map<String, String> options) throws Exception
-   {
-      getDeployer().addHttpsConnector(options);
-   }
-
-   public static void removeHttpsConnector() throws Exception
-   {
-      getDeployer().removeHttpsConnector();
-   }
-
-   public static String setSystemProperty(String propName, String propValue) throws Exception
-   {
-      return getDeployer().setSystemProperty(propName, propValue);
-   }
-   
-   public static void restartServer() throws Exception
-   {
-      getDeployer().restart();
-   }
-   
    @SuppressWarnings("rawtypes")
    public static void writeToFile(Archive archive)
    {

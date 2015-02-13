@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2014, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -210,16 +210,6 @@ public abstract class JBossWSTest extends TestCase
    public static boolean isIntegrationCXF()
    {
       return JBossWSTestHelper.isIntegrationCXF();
-   }
-
-   public static void deploy(String archive) throws Exception
-   {
-      JBossWSTestHelper.deploy(archive);
-   }
-
-   public static void undeploy(String archive) throws Exception
-   {
-      JBossWSTestHelper.undeploy(archive);
    }
 
    public static String getServerHost()

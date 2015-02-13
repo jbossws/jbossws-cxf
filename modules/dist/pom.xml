@@ -235,11 +235,6 @@
           <artifactId>jbossws-wildfly800-server-integration</artifactId>
           <scope>provided</scope>
         </dependency>
-        <dependency>
-           <groupId>org.jboss.ws</groupId>
-           <artifactId>jbossws-wildfly800-tests-integration</artifactId>
-           <scope>provided</scope>
-        </dependency>
       </dependencies>
     </profile>
 
@@ -261,11 +256,6 @@
           <artifactId>jbossws-wildfly810-server-integration</artifactId>
           <scope>provided</scope>
         </dependency>
-        <dependency>
-           <groupId>org.jboss.ws</groupId>
-           <artifactId>jbossws-wildfly810-tests-integration</artifactId>
-           <scope>provided</scope>
-        </dependency>
       </dependencies>
     </profile>
     
@@ -286,11 +276,6 @@
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-wildfly820-server-integration</artifactId>
           <scope>provided</scope>
-        </dependency>
-        <dependency>
-           <groupId>org.jboss.ws</groupId>
-           <artifactId>jbossws-wildfly820-tests-integration</artifactId>
-           <scope>provided</scope>
         </dependency>
       </dependencies>
     </profile>
