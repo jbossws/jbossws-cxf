@@ -50,7 +50,6 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 /**
  * A JBossWS test helper that deals with test deployment/undeployment, etc.
@@ -76,6 +75,7 @@ public class JBossWSTestHelper
    private static final String testResourcesDir = System.getProperty(SYSPROP_TEST_RESOURCES_DIRECTORY);
    private static final String integrationTarget;
    private static final String implInfo;
+   private static final String serverHost = System.getProperty(SYSPROP_JBOSS_BIND_ADDRESS, "localhost");
 
    private static WeakHashMap<ClassLoader, Hashtable<String, String>> containerEnvs = new WeakHashMap<ClassLoader, Hashtable<String,String>>();
 
@@ -150,8 +150,7 @@ public class JBossWSTestHelper
     */
    public static String getServerHost()
    {
-      final String host = System.getProperty(SYSPROP_JBOSS_BIND_ADDRESS, "localhost");
-      return toIPv6URLFormat(host);
+      return toIPv6URLFormat(serverHost);
    }
    
    public static int getServerPort()
