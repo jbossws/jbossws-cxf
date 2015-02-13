@@ -441,14 +441,6 @@ public class JBossWSTestHelper
       return sb.toString().trim();
    }
 
-   public static abstract class WarDeployment extends BaseDeployment<WebArchive>
-   {
-      public WarDeployment(String name)
-      {
-         super(WebArchive.class, name);
-      }
-   }
-
    public static abstract class JarDeployment extends BaseDeployment<JavaArchive>
    {
       public JarDeployment(String name)
