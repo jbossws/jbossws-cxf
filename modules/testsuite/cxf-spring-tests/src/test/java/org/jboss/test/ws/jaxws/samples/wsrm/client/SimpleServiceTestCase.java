@@ -23,28 +23,22 @@ package org.jboss.test.ws.jaxws.samples.wsrm.client;
 
 import java.io.File;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import org.apache.cxf.endpoint.Client;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.apache.cxf.endpoint.Client;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.ws.jaxws.samples.wsrm.generated.SimpleService;
-import org.jboss.wsf.test.JBossWSCXFTestSetup;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Client invoking web service using WS-RM
@@ -54,8 +48,6 @@ import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 @RunWith(Arquillian.class)
 public final class SimpleServiceTestCase extends JBossWSTest
 {
-   private final String serviceURL = "http://" + getServerHost()  + ":" + getServerPort() + "/jaxws-samples-wsrm/SimpleService";
-   private SimpleService proxy;
 
    @Deployment(name = "jaxws-samples-wsrm", order = 1, testable = false)
    public static WebArchive createDeployment1() {
@@ -80,33 +72,23 @@ public final class SimpleServiceTestCase extends JBossWSTest
       return archive;
    }
 
-   @Override
-   protected void setUp() throws Exception
-   {
-      super.setUp();
-
-      QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsrm", "SimpleService");
-      URL wsdlURL = new URL(serviceURL + "?wsdl");
-      Service service = Service.create(wsdlURL, serviceName);
-      proxy = (SimpleService)service.getPort(SimpleService.class);
-   }
-   
-   @Override
-   protected void tearDown() throws Exception
-   {
-      if (proxy != null) {
-         ((Client)proxy).destroy();
-      }
-   }
-
    @Test
    @RunAsClient
    public void test() throws Exception
    {
-      setUp();
-      assertEquals("Hello World!", proxy.echo("Hello World!")); // request responce call
-      proxy.ping(); // one way call
-      tearDown();
+      SimpleService proxy = null;
+      try {
+         QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsrm", "SimpleService");
+         URL wsdlURL = new URL("http://" + getServerHost()  + ":" + getServerPort() + "/jaxws-samples-wsrm/SimpleService?wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         proxy = (SimpleService)service.getPort(SimpleService.class);
+         assertEquals("Hello World!", proxy.echo("Hello World!")); // request responce call
+         proxy.ping(); // one way call
+      } finally {
+         if (proxy != null) {
+            ((Client)proxy).destroy();
+         }
+      }
    }
    
 }
