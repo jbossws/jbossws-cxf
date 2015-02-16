@@ -48,7 +48,6 @@ public class WSConsumeScriptTestCase extends ScriptTestCase
    @RunAsClient
    public void testWSConsumeFromCommandLine() throws Exception
    {
-      super.setUp();
       // use absolute path for the output to be re-usable
       String absWsdlLoc = getResourceFile(WSDL_LOCATION).getAbsolutePath();
       String absOutput = new File(TEST_DIR, "wsconsume" + FS + "java").getAbsolutePath();

@@ -48,9 +48,6 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class JBWS2000TestCase extends JBossWSTest
 {
-
-   private FileTransferService port;
-
    @ArquillianResource
    private URL baseURL;
 
@@ -65,25 +62,18 @@ public class JBWS2000TestCase extends JBossWSTest
       return archive;
    }
 
-   protected void setUp() throws Exception
-   {
-      if (port == null)
-      {
-         URL wsdlURL = new URL(baseURL + "/jaxws-jbws2000/FileTransfer?wsdl");
-         QName serviceName = new QName("http://service.mtom.test.net/", "FileTransferServiceImplService");
-         Service service = Service.create(wsdlURL, serviceName);
-         port = service.getPort(FileTransferService.class);
-
-         SOAPBinding binding = (SOAPBinding)((BindingProvider)port).getBinding();
-         binding.setMTOMEnabled(true);
-      }
-   }
-
    @Test
    @RunAsClient
    public void testFileTransfer() throws Exception
    {
-      setUp();
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws2000/FileTransfer?wsdl");
+      QName serviceName = new QName("http://service.mtom.test.net/", "FileTransferServiceImplService");
+      Service service = Service.create(wsdlURL, serviceName);
+      FileTransferService port = service.getPort(FileTransferService.class);
+
+      SOAPBinding binding = (SOAPBinding)((BindingProvider)port).getBinding();
+      binding.setMTOMEnabled(true);
+      
       GeneratorDataSource source = new GeneratorDataSource(1024 * 1204 * 8); //avoid going beyond Undertow default max post size
       DataHandler dh = new DataHandler(source);
 

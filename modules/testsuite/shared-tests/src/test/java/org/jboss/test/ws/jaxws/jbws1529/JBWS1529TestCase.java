@@ -38,6 +38,8 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -66,32 +68,30 @@ public class JBWS1529TestCase extends JBossWSTest
       return archive;
    }
 
-   private JBWS1529 proxy;
+   private static JBWS1529 proxy;
 
-   @Override
-   protected void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
-      super.setUp();
-
-      QName serviceName = new QName("http://jbws1529.jaxws.ws.test.jboss.org/", "JBWS1529Service");
-      URL wsdlURL = new URL(baseURL + "/TestService?wsdl");
-
-      Service service = Service.create(wsdlURL, serviceName);
-      proxy = (JBWS1529)service.getPort(JBWS1529.class);
+      if (proxy == null) {
+         QName serviceName = new QName("http://jbws1529.jaxws.ws.test.jboss.org/", "JBWS1529Service");
+         URL wsdlURL = new URL(baseURL + "/TestService?wsdl");
+      
+         Service service = Service.create(wsdlURL, serviceName);
+         proxy = (JBWS1529)service.getPort(JBWS1529.class);
+      }
    }
 
-   @Override
-   protected void tearDown() throws Exception
+   @AfterClass
+   public static void cleanup() throws Exception
    {
       proxy = null;
-      super.tearDown();
    }
 
    @Test
    @RunAsClient
    public void testWSDLReader() throws Exception
    {
-      setUp();
       File wsdlFile = getResourceFile("jaxws/jbws1529/META-INF/wsdl/JBWS1529Service.wsdl");
       assertTrue(wsdlFile.exists());
       
@@ -105,7 +105,6 @@ public class JBWS1529TestCase extends JBossWSTest
    @RunAsClient
    public void testEcho() throws Exception
    {
-      setUp();
       String retStr = proxy.echo("hi there");
       assertEquals("hi there", retStr);
       tearDown();

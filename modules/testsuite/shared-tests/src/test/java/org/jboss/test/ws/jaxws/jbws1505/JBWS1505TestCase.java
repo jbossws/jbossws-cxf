@@ -36,6 +36,8 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -45,9 +47,8 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class JBWS1505TestCase extends JBossWSTest
 {
-   private final String targetNS = "http://org.jboss.test.ws/jbws1505";
-   private Interface2 port;
-   private URL wsdlURL;
+   private static Interface2 port;
+   private static URL wsdlURL;
 
    @ArquillianResource
    private URL baseURL;
@@ -64,24 +65,23 @@ public class JBWS1505TestCase extends JBossWSTest
       return archive;
    }
 
-   @Override
-   protected void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
-      super.setUp();
-
-      QName serviceName = new QName(targetNS, "JBWS1505Service");
-      wsdlURL = new URL(baseURL + "/jaxws-jbws1505/JBWS1505Service/JBWS1505EndpointImpl?wsdl");
-
-      Service service = Service.create(wsdlURL, serviceName);
-      port = service.getPort(Interface2.class);
+      if (port == null) {
+         QName serviceName = new QName("http://org.jboss.test.ws/jbws1505", "JBWS1505Service");
+         wsdlURL = new URL(baseURL + "/jaxws-jbws1505/JBWS1505Service/JBWS1505EndpointImpl?wsdl");
+   
+         Service service = Service.create(wsdlURL, serviceName);
+         port = service.getPort(Interface2.class);
+      }
    }
    
-   @Override
-   protected void tearDown() throws Exception
+   @AfterClass
+   public static void cleanup() throws Exception
    {
       wsdlURL = null;
       port = null;
-      super.tearDown();
    }
 
    /**
@@ -93,7 +93,6 @@ public class JBWS1505TestCase extends JBossWSTest
    @RunAsClient
    public void testWSDLGeneration() throws Exception
    {
-      setUp();
       Definition wsdl = WSDLFactory.newInstance().newWSDLReader().readWSDL(wsdlURL.toString());
       Map<?, ?> services = wsdl.getAllServices();
       assertTrue(services.size() == 1); // a simple port
@@ -113,7 +112,6 @@ public class JBWS1505TestCase extends JBossWSTest
    @RunAsClient
    public void testTypeInheritance() throws Exception
    {
-      setUp();
       CustomType ct = port.getCustomType();
       assertTrue(ct.getMember1() == 1);
       assertTrue(ct.getMember2() == 2);

@@ -40,6 +40,8 @@ import org.jboss.test.ws.jaxws.jbws2009.generated.GetCountryCodesResponse.Respon
 import org.jboss.test.ws.jaxws.jbws2009.generated.ServiceType;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -52,8 +54,7 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class JBWS2009TestCase extends JBossWSTest
 {
-   private String targetNS = "http://jbws2009.jaxws.ws.test.jboss.org/";
-   private ServiceType proxy;
+   private static ServiceType proxy;
 
    @ArquillianResource
    private URL baseURL;
@@ -72,24 +73,27 @@ public class JBWS2009TestCase extends JBossWSTest
       return archive;
    }
 
-
-   @Override
-   protected void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
-      super.setUp();
-
-      QName serviceName = new QName(targetNS, "EndpointService");
-      URL wsdlURL = new URL(baseURL + "/Service?wsdl");
-
-      Service service = Service.create(wsdlURL, serviceName);
-      proxy = service.getPort(ServiceType.class);
+      if (proxy == null) {
+         QName serviceName = new QName("http://jbws2009.jaxws.ws.test.jboss.org/", "EndpointService");
+         URL wsdlURL = new URL(baseURL + "/Service?wsdl");
+   
+         Service service = Service.create(wsdlURL, serviceName);
+         proxy = service.getPort(ServiceType.class);
+      }
    }
 
+   @AfterClass
+   public static void cleanup() {
+      proxy = null;
+   }
+   
    @Test
    @RunAsClient
    public void testCountryCodes() throws Exception
    {
-      setUp();
       Response response = proxy.getCountryCodes();
       List<CountryCodeType> countryCodes = response.getCountry();
       assertEquals(countryCodes.get(0), CountryCodeType.CZ);
@@ -100,7 +104,6 @@ public class JBWS2009TestCase extends JBossWSTest
    @RunAsClient
    public void testCurrencyCodes() throws Exception
    {
-      setUp();
       org.jboss.test.ws.jaxws.jbws2009.generated.GetCurrencyCodesResponse.Response response = proxy.getCurrencyCodes();
       List<CurrencyCodeType> currencyCodes = response.getCurrency();
       assertEquals(currencyCodes.get(0), CurrencyCodeType.CZK);
@@ -111,7 +114,6 @@ public class JBWS2009TestCase extends JBossWSTest
    @RunAsClient
    public void test() throws Exception
    {
-      setUp();
       assertEquals(CurrencyCodeType.CZK, proxy.getCurrency(CountryCodeType.CZ));
       assertEquals(CurrencyCodeType.EUR, proxy.getCurrency(CountryCodeType.DE));
    }

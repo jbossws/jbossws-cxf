@@ -54,9 +54,6 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class JBWS1283TestCase extends JBossWSTest
 {
-   private final String targetNS = "http://org.jboss.test.ws/jbws1283";
-   private JBWS1283Endpoint port;
-
    @ArquillianResource
    private URL baseURL;
 
@@ -74,23 +71,16 @@ public class JBWS1283TestCase extends JBossWSTest
       return archive;
    }
 
-   @Override
-   protected void setUp() throws Exception
-   {
-      super.setUp();
-
-      QName serviceName = new QName(targetNS, "JBWS1283Service");
-      URL wsdlURL = new URL(baseURL + "/jaxws-jbws1283/JBWS1283Service/JBWS1283EndpointImpl?wsdl");
-
-      Service service = Service.create(wsdlURL, serviceName);
-      port = service.getPort(JBWS1283Endpoint.class);
-   }
-
    @Test
    @RunAsClient
    public void testAttachmentResponse() throws Exception
    {
-      setUp();
+      QName serviceName = new QName("http://org.jboss.test.ws/jbws1283", "JBWS1283Service");
+      URL wsdlURL = new URL(baseURL + "/jaxws-jbws1283/JBWS1283Service/JBWS1283EndpointImpl?wsdl");
+
+      Service service = Service.create(wsdlURL, serviceName);
+      JBWS1283Endpoint port = service.getPort(JBWS1283Endpoint.class);
+      
       // Add a client-side handler that verifes existence of the attachment
       BindingProvider bindingProvider = (BindingProvider)port;
       @SuppressWarnings("rawtypes")

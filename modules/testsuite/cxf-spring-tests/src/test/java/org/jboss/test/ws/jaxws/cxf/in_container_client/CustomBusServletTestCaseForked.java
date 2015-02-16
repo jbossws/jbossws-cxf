@@ -71,9 +71,7 @@ public class CustomBusServletTestCaseForked extends JBossWSTest
    @RunAsClient
    public void test() throws Exception
    {
-      setUp();
       assertEquals("1", runTestInContainer("testSpringBus"));
-      tearDown();
    }
    
    private String runTestInContainer(String test) throws Exception

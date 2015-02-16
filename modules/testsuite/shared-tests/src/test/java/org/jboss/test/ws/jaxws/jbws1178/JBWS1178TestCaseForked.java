@@ -75,21 +75,16 @@ public class JBWS1178TestCaseForked extends JBossWSTest
       return archive;
    }
 
-
-		   
-
    @Before
-   public void setUp() throws Exception {
+   public void setup() throws Exception {
       // Setting the WebServiceHost to an empty string, causes the request host to be used.
       // This must be done before deploy time.
       webServiceHost = (String) getServer().getAttribute(objectName, "WebServiceHost");
       getServer().setAttribute(objectName, new Attribute("WebServiceHost", ""));
-      super.setUp();
       deployer.deploy(WAR_DEPLOYMENT);
    }
    @After
-   public void tearDown() throws Exception {
-      super.tearDown();
+   public void cleanup() throws Exception {
       deployer.undeploy(WAR_DEPLOYMENT);
       getServer().setAttribute(objectName, new Attribute("WebServiceHost", webServiceHost));
       

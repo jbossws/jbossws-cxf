@@ -46,7 +46,6 @@ public class WSProvideScriptTestCase extends ScriptTestCase
    @RunAsClient
    public void testWSProvideFromCommandLine() throws Exception
    {
-      super.setUp();
       String absOutput = new File(TEST_DIR, "wsprovide" + FS + "java").getAbsolutePath();
       String command = JBOSS_HOME + FS + "bin" + FS + "wsprovide" + EXT + " -k -w -o " + absOutput + " --classpath " + CLASSES_DIR + " " + ENDPOINT_CLASS;
       executeCommand(command, "wsprovide");

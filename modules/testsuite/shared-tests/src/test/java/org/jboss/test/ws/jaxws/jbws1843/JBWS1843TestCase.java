@@ -39,7 +39,9 @@ import org.jboss.test.ws.jaxws.jbws1843.generated.GetCountryCodesResponse.Respon
 import org.jboss.test.ws.jaxws.jbws1843.generated.Service;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Before;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -54,11 +56,7 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class JBWS1843TestCase extends JBossWSTest
 {
-   @ArquillianResource
-   private URL baseURL;
-
-   private String targetNS = "http://jbws1843.jaxws.ws.test.jboss.org/";
-   private Service proxy;
+   private static Service proxy;
 
    @Deployment(testable = false)
    public static WebArchive createDeployments() {
@@ -74,16 +72,19 @@ public class JBWS1843TestCase extends JBossWSTest
       return archive;
    }
 
-   @Before
-   public void setUp() throws Exception
+   @BeforeClass
+   public static void setup() throws Exception
    {
-      super.setUp();
-
-      QName serviceName = new QName(targetNS, "Service");
-      URL wsdlURL = new URL(baseURL + "/Service?wsdl");
-
+      QName serviceName = new QName("http://jbws1843.jaxws.ws.test.jboss.org/", "Service");
+      URL wsdlURL = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws1843/Service?wsdl");
+   
       javax.xml.ws.Service service = javax.xml.ws.Service.create(wsdlURL, serviceName);
       proxy = (Service)service.getPort(Service.class);
+   }
+   
+   @AfterClass
+   public static void cleanup() {
+      proxy = null;
    }
 
    @Test

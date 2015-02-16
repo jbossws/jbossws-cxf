@@ -93,7 +93,6 @@ public class WebResultTestCase extends JBossWSTest
    @RunAsClient
    public void testMessageAccess() throws Exception
    {
-      setUp();
       MessageFactory msgFactory = MessageFactory.newInstance();
       SOAPConnection con = SOAPConnectionFactory.newInstance().createConnection();
 

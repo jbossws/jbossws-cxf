@@ -48,9 +48,6 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class JBWS1357TestCase extends JBossWSTest
 {
-   private String targetNS = "http://jbws1357.jaxws.ws.test.jboss.org/";
-   private JBWS1357 proxy;
-
    @ArquillianResource
    private URL baseURL;
 
@@ -66,23 +63,15 @@ public class JBWS1357TestCase extends JBossWSTest
       return archive;
    }
 
-   @Override
-   protected void setUp() throws Exception
-   {
-      super.setUp();
-
-      QName serviceName = new QName(targetNS, "JBWS1357Service");
-      URL wsdlURL = new URL(baseURL + "/JBWS1357Service?wsdl");
-
-      Service service = Service.create(wsdlURL, serviceName);
-      proxy = (JBWS1357)service.getPort(JBWS1357.class);
-   }
-
    @Test
    @RunAsClient
    public void testEcho() throws Exception
    {
-      setUp();
+      QName serviceName = new QName("http://jbws1357.jaxws.ws.test.jboss.org/", "JBWS1357Service");
+      URL wsdlURL = new URL(baseURL + "/JBWS1357Service?wsdl");
+      Service service = Service.create(wsdlURL, serviceName);
+      JBWS1357 proxy = (JBWS1357)service.getPort(JBWS1357.class);
+      
       assertEquals("hi there", proxy.echo("hi there"));
    }
 

@@ -43,6 +43,8 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.w3c.dom.Element;
@@ -58,11 +60,11 @@ import org.w3c.dom.NodeList;
 @RunWith(Arquillian.class)
 public class EndpointReferenceTestCase extends JBossWSTest
 {
-   private static final String WSDL_NS = "http://org.jboss.ws/endpointReference";
-   private static final QName SERVICE_QNAME = new QName(WSDL_NS, "EndpointService");
-   private static final QName PORT_QNAME = new QName(WSDL_NS, "EndpointPort");
+   private final String WSDL_NS = "http://org.jboss.ws/endpointReference";
+   private final QName SERVICE_QNAME = new QName(WSDL_NS, "EndpointService");
+   private final QName PORT_QNAME = new QName(WSDL_NS, "EndpointPort");
 
-   private Service service;
+   private static Service service;
 
    @ArquillianResource
    private URL baseURL;
@@ -77,18 +79,25 @@ public class EndpointReferenceTestCase extends JBossWSTest
       return archive;
    }
 
-   public void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
-      URL wsdlURL = new URL(baseURL + "/jaxws-endpointReference?wsdl");
-      this.service = Service.create(wsdlURL, SERVICE_QNAME);
+      if (service == null) {
+         URL wsdlURL = new URL(baseURL + "/jaxws-endpointReference?wsdl");
+         service = Service.create(wsdlURL, SERVICE_QNAME);
+      }
+   }
+   
+   @AfterClass
+   public static void cleanup() {
+      service = null;
    }
 
    @Test
    @RunAsClient
    public void testDispatch() throws Exception
    {
-      setUp();
-      final Dispatch<Source> dispatch = this.service.createDispatch(PORT_QNAME, Source.class, Mode.PAYLOAD);
+      final Dispatch<Source> dispatch = service.createDispatch(PORT_QNAME, Source.class, Mode.PAYLOAD);
       this.validateEndpointReferences(dispatch);
    }
 
@@ -96,8 +105,7 @@ public class EndpointReferenceTestCase extends JBossWSTest
    @RunAsClient
    public void testDispatchWithFeatures() throws Exception
    {
-      setUp();
-      final Dispatch<Source> dispatch = this.service.createDispatch(PORT_QNAME, Source.class, Mode.PAYLOAD, new AddressingFeature(false, false));
+      final Dispatch<Source> dispatch = service.createDispatch(PORT_QNAME, Source.class, Mode.PAYLOAD, new AddressingFeature(false, false));
       this.validateEndpointReferences(dispatch);
    }
 
@@ -105,8 +113,7 @@ public class EndpointReferenceTestCase extends JBossWSTest
    @RunAsClient
    public void testPort() throws Exception
    {
-      setUp();
-      final Endpoint port = this.service.getPort(Endpoint.class);
+      final Endpoint port = service.getPort(Endpoint.class);
       this.validateEndpointReferences((BindingProvider)port);
    }
 

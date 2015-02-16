@@ -53,8 +53,6 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class JBWS2978TestCase extends JBossWSTest
 {
-   public Service service = null;
-
    @Deployment(testable = false)
    public static WebArchive createDeployments() {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws2978.war");
@@ -69,20 +67,10 @@ public class JBWS2978TestCase extends JBossWSTest
       return archive;
    }
 
-   @Override
-   public void setUp() throws Exception
-   {
-      super.setUp();
-      URL wsdlURL = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws2978" + "?wsdl");
-      QName serviceName = new QName("http://ws.jboss.org", "AddNumbers");
-      service = Service.create(wsdlURL, serviceName);
-   }
-
    @Test
    @RunAsClient
    public void testCall() throws Exception
    {
-      setUp();
       String text = "http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws2978";
       String requestMessage = "<S:Envelope xmlns:S='http://schemas.xmlsoap.org/soap/envelope/'><S:Header><To xmlns='http://www.w3.org/2005/08/addressing'>"
          + text
@@ -91,6 +79,10 @@ public class JBWS2978TestCase extends JBossWSTest
          + "<ReplyTo xmlns='http://www.w3.org/2005/08/addressing'><Address>http://www.w3.org/2005/08/addressing/anonymous</Address></ReplyTo>"
          + "</S:Header><S:Body><ns1:addNumbers xmlns:ns1='http://ws.jboss.org'><arg0>10</arg0><arg1>10</arg1></ns1:addNumbers></S:Body></S:Envelope>";
 
+      URL wsdlURL = new URL(text + "?wsdl");
+      QName serviceName = new QName("http://ws.jboss.org", "AddNumbers");
+      Service service = Service.create(wsdlURL, serviceName);
+      
       try
       {
          Dispatch<SOAPMessage> dispatch = service.createDispatch(new QName("http://ws.jboss.org", "AddNumbersPort"), SOAPMessage.class ,

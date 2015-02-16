@@ -43,13 +43,11 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.logging.Logger;
-import org.jboss.shrinkwrap.api.ArchivePath;
-import org.jboss.shrinkwrap.api.Filter;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
-import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,22 +62,20 @@ import org.w3c.dom.Node;
 @RunWith(Arquillian.class)
 public final class JBWS2937TestCase extends JBossWSTest
 {
-   private static final WebServiceFeature[] ADDRESSING_ENABLED = { new AddressingFeature(true) };
-   private static final WebServiceFeature[] ADDRESSING_DISABLED = { new AddressingFeature(false) };
-   private static final String NAMESPACE_URI = "http://jboss.org/jbws2937";
-   private static final String XML = "<ns1:echo xmlns:ns1='http://jboss.org/jbws2937'>" +
+   private final WebServiceFeature[] ADDRESSING_ENABLED = { new AddressingFeature(true) };
+   private final WebServiceFeature[] ADDRESSING_DISABLED = { new AddressingFeature(false) };
+   private final String NAMESPACE_URI = "http://jboss.org/jbws2937";
+   private final String XML = "<ns1:echo xmlns:ns1='http://jboss.org/jbws2937'>" +
       " <arg0>" +
       "  <string>Kermit</string>" +
       "  <qname>TheFrog</qname>" +
       " </arg0>" +
       "</ns1:echo>";
-   private static final QName SERVICE_QNAME = new QName(NAMESPACE_URI, "EndpointService");
-   private static final QName PORT_QNAME = new QName(NAMESPACE_URI, "EndpointPort");
-   private Service service;
-   private Endpoint proxy;
-   private EndpointReference epr;
-   private UserType user;
-
+   private final QName SERVICE_QNAME = new QName(NAMESPACE_URI, "EndpointService");
+   private final QName PORT_QNAME = new QName(NAMESPACE_URI, "EndpointPort");
+   private static Service service;
+   private static Endpoint proxy;
+   private static EndpointReference epr;
 
    @ArquillianResource
    private URL baseURL;
@@ -93,72 +89,86 @@ public final class JBWS2937TestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.jbws2937.UserType.class);
       return archive;
    }
+   
    @Before
-   public void setUp() throws Exception
+   public void setup() throws Exception
    {
-      super.setUp();
-      URL wsdlURL = new URL("http://" + baseURL.getHost() + ":" + baseURL.getPort() + "/jaxws-jbws2937" + "?wsdl");
-      this.service = EndpointService.create(wsdlURL, SERVICE_QNAME);
-      this.proxy = (Endpoint)this.service.getPort(PORT_QNAME, Endpoint.class);
-      this.epr = ((BindingProvider)this.proxy).getEndpointReference();
-      // prepare request object
-      this.user = new UserType();
-      this.user.setString("Kermit");
-      this.user.setQname(new QName("TheFrog"));
+      if (service == null) {
+         URL wsdlURL = new URL("http://" + baseURL.getHost() + ":" + baseURL.getPort() + "/jaxws-jbws2937" + "?wsdl");
+         service = EndpointService.create(wsdlURL, SERVICE_QNAME);
+         proxy = (Endpoint)service.getPort(PORT_QNAME, Endpoint.class);
+         epr = ((BindingProvider)proxy).getEndpointReference();
+      }
+   }
+   
+   @AfterClass
+   public static void cleanup() {
+      epr = null;
+      proxy = null;
+      service = null;
    }
 
    @Test
    @RunAsClient
    public void testProxy() throws Exception
    {
-      final UserType response = this.proxy.echo(this.user);
-      assertEquals(this.user, response);
+      final UserType user = createUser();
+      final UserType response = proxy.echo(user);
+      assertEquals(user, response);
    }
 
    @Test
    @RunAsClient
    public void testCreateDispatchUsingEPRAndSource() throws Exception
    {
-      Dispatch<Source> dispatch = this.service.createDispatch(PORT_QNAME, Source.class, Mode.PAYLOAD);
+      Dispatch<Source> dispatch = service.createDispatch(PORT_QNAME, Source.class, Mode.PAYLOAD);
       assertNotNull("Dispatch is null", dispatch);
       this.invokeSourceDispatch(dispatch);
-      this.epr = dispatch.getEndpointReference();
-      printEPR(this.epr);
+      epr = dispatch.getEndpointReference();
+      printEPR(epr);
 
-      dispatch = this.service.createDispatch(this.epr, Source.class, Service.Mode.PAYLOAD, ADDRESSING_ENABLED);
+      dispatch = service.createDispatch(epr, Source.class, Service.Mode.PAYLOAD, ADDRESSING_ENABLED);
       assertNotNull("Dispatch is null", dispatch);
       this.invokeSourceDispatch(dispatch);
-      this.epr = dispatch.getEndpointReference();
-      printEPR(this.epr);
+      epr = dispatch.getEndpointReference();
+      printEPR(epr);
 
-      dispatch = this.service.createDispatch(this.epr, Source.class, Service.Mode.PAYLOAD, ADDRESSING_DISABLED);
+      dispatch = service.createDispatch(epr, Source.class, Service.Mode.PAYLOAD, ADDRESSING_DISABLED);
       assertNotNull("Dispatch is null", dispatch);
       this.invokeSourceDispatch(dispatch);
-      this.epr = dispatch.getEndpointReference();
-      printEPR(this.epr);
+      epr = dispatch.getEndpointReference();
+      printEPR(epr);
    }
 
    @Test
    @RunAsClient
    public void testCreateDispatchUsingEPRAndJAXBContext() throws Exception
    {
-      Dispatch<Object> dispatch = this.service.createDispatch(PORT_QNAME, this.createJAXBContext(), Mode.PAYLOAD);
+      Dispatch<Object> dispatch = service.createDispatch(PORT_QNAME, this.createJAXBContext(), Mode.PAYLOAD);
       assertNotNull("Dispatch is null", dispatch);
       this.invokeObjectDispatch(dispatch);
-      this.epr = dispatch.getEndpointReference();
-      printEPR(this.epr);
+      epr = dispatch.getEndpointReference();
+      printEPR(epr);
 
-      dispatch = this.service.createDispatch(this.epr, this.createJAXBContext(), Service.Mode.PAYLOAD, ADDRESSING_ENABLED);
+      dispatch = service.createDispatch(epr, this.createJAXBContext(), Service.Mode.PAYLOAD, ADDRESSING_ENABLED);
       assertNotNull("Dispatch is null", dispatch);
       this.invokeObjectDispatch(dispatch);
-      this.epr = dispatch.getEndpointReference();
-      printEPR(this.epr);
+      epr = dispatch.getEndpointReference();
+      printEPR(epr);
 
-      dispatch = this.service.createDispatch(this.epr, this.createJAXBContext(), Service.Mode.PAYLOAD, ADDRESSING_DISABLED);
+      dispatch = service.createDispatch(epr, this.createJAXBContext(), Service.Mode.PAYLOAD, ADDRESSING_DISABLED);
       assertNotNull("Dispatch is null", dispatch);
       this.invokeObjectDispatch(dispatch);
-      this.epr = dispatch.getEndpointReference();
-      printEPR(this.epr);
+      epr = dispatch.getEndpointReference();
+      printEPR(epr);
+   }
+   
+   private UserType createUser() {
+      // prepare request object
+      UserType user = new UserType();
+      user.setString("Kermit");
+      user.setQname(new QName("TheFrog"));
+      return user;
    }
    
    private JAXBContext createJAXBContext()
@@ -176,9 +186,10 @@ public final class JBWS2937TestCase extends JBossWSTest
    private void invokeObjectDispatch(final Dispatch<Object> dispatch) throws Exception
    {
       Echo request = new Echo();
-      request.setArg0(this.user);
+      final UserType user = createUser();
+      request.setArg0(user);
       EchoResponse response = (EchoResponse)dispatch.invoke(request);
-      assertEquals(response.getReturn(), this.user);
+      assertEquals(response.getReturn(), user);
    }
    
    private void invokeSourceDispatch(final Dispatch<Source> dispatch) throws Exception

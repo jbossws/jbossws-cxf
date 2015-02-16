@@ -28,6 +28,7 @@ import java.io.FileReader;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -51,10 +52,9 @@ public class JBWS2591TestCase extends JBossWSTest
    private String JBOSS_HOME;
    private String TEST_DIR;
 
-   protected void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
-      super.setUp();
-
       JBOSS_HOME = System.getProperty("jboss.home");
       TEST_DIR = createResourceFile("..").getAbsolutePath();
    }
@@ -64,7 +64,6 @@ public class JBWS2591TestCase extends JBossWSTest
    @RunAsClient
    public void testWSConsumeFromCommandLine() throws Exception
    {
-      setUp();
       // use absolute path for the output to be re-usable
       String absWsdlLoc = getResourceFile(WSDL_LOCATION).getAbsolutePath();
       String absOutput = new File(TEST_DIR, "wsconsume" + FS + "java").getAbsolutePath();

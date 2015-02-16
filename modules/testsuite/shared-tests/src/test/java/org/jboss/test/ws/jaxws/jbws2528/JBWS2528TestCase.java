@@ -35,6 +35,7 @@ import javax.xml.namespace.QName;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -59,11 +60,9 @@ public class JBWS2528TestCase extends JBossWSTest
    private String CLASSES_DIR;
    private String TEST_DIR;
 
-   @Override
-   protected void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
-      super.setUp();
-
       JBOSS_HOME = System.getProperty("jboss.home");
       CLASSES_DIR = System.getProperty("test.classes.directory");
       ENDPOINT_CLASS = "org.jboss.test.ws.jaxws.jbws2528.JBWS2528Endpoint";
@@ -74,7 +73,6 @@ public class JBWS2528TestCase extends JBossWSTest
    @RunAsClient
    public void test() throws Exception
    {
-      setUp();
       File destDir = new File(TEST_DIR, "wsprovide" + FS + "java");
       String absOutput = destDir.getAbsolutePath();
       String command = JBOSS_HOME + FS + "bin" + FS + "wsprovide" + EXT + " -k -w -o " + absOutput + " --classpath " + CLASSES_DIR + " " + ENDPOINT_CLASS;

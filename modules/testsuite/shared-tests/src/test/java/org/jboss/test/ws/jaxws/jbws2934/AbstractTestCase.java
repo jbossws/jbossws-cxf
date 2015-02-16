@@ -29,6 +29,8 @@ import javax.xml.ws.Service;
 
 import org.jboss.logging.Logger;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 
@@ -48,11 +50,9 @@ public abstract class AbstractTestCase extends JBossWSTest
    
    protected abstract String getEndpointAddress();
    
-   @Override
-   protected void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
-      super.setUp();
-
       QName serviceName = new QName("http://jboss.org/jbws2934", "EndpointService");
       URL wsdlURL = new URL(getEndpointAddress() + "?wsdl");
 
@@ -64,12 +64,18 @@ public abstract class AbstractTestCase extends JBossWSTest
          ((BindingProvider)proxies[i]).getRequestContext().put("thread.local.request.context", "true");
       }
    }
+   
+   @After
+   public void cleanup() {
+      for (int i = 0; i < THREADS_COUNT; i++) {
+         proxies[i] = null;
+      }
+   }
 
    @Test
    @RunAsClient
    public void testEndpointConcurrently() throws Exception
    {
-      setUp();
       boolean traceEnabled = log.isTraceEnabled();
       for (int i = 0; i < THREADS_COUNT; i++)
       {

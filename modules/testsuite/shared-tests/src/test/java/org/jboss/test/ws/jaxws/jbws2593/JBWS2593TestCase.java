@@ -25,11 +25,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * [JBWS-2593] WSConsume does not generate @XmlJavaTypeAdapter in SEI
@@ -53,10 +54,9 @@ public class JBWS2593TestCase extends JBossWSTest
    private String JBOSS_HOME;
    private String TEST_DIR;
 
-   protected void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
-      super.setUp();
-
       JBOSS_HOME = System.getProperty("jboss.home");
       TEST_DIR = createResourceFile("..").getAbsolutePath();
    }
@@ -65,7 +65,6 @@ public class JBWS2593TestCase extends JBossWSTest
    @RunAsClient
    public void testRPC() throws Exception
    {
-      setUp();
       this.internalTest(true);
    }
 
@@ -73,7 +72,6 @@ public class JBWS2593TestCase extends JBossWSTest
    @RunAsClient
    public void testDOC() throws Exception
    {
-      setUp();
       this.internalTest(false);
    }
 

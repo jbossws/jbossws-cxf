@@ -46,9 +46,6 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class AnonymousTestCase extends JBossWSTest
 {
-   private String targetNS = "http://anonymous.jaxws.ws.test.jboss.org/";
-   private Anonymous proxy;
-
    @ArquillianResource
    private URL baseURL;
 
@@ -66,23 +63,16 @@ public class AnonymousTestCase extends JBossWSTest
    }
 
 
-   @Override
-   protected void setUp() throws Exception
-   {
-      super.setUp();
-
-      QName serviceName = new QName(targetNS, "AnonymousService");
-      URL wsdlURL = new URL(baseURL + "AnonymousService?wsdl");
-
-      Service service = Service.create(wsdlURL, serviceName);
-      proxy = (Anonymous) service.getPort(Anonymous.class);
-   }
-
    @Test
    @RunAsClient
    public void testEcho() throws Exception
    {
-      setUp();
+      QName serviceName = new QName("http://anonymous.jaxws.ws.test.jboss.org/", "AnonymousService");
+      URL wsdlURL = new URL(baseURL + "AnonymousService?wsdl");
+
+      Service service = Service.create(wsdlURL, serviceName);
+      Anonymous proxy = (Anonymous) service.getPort(Anonymous.class);
+      
       AnonymousRequest req = new AnonymousRequest();
       req.message = "echo123";
       assertEquals("echo123", proxy.echoAnonymous(req).message);

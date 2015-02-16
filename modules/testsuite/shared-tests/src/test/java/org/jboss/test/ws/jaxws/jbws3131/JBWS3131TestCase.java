@@ -22,7 +22,6 @@
 package org.jboss.test.ws.jaxws.jbws3131;
 
 import java.io.IOException;
-import java.net.URL;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
@@ -30,37 +29,31 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
 import javax.xml.ws.Service.Mode;
 
-import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
 public class JBWS3131TestCase extends JBossWSTest
 {
-   private URL WSDLUrl;
-   private URL changedWSDLUrl;
    private Service service;
    private Service serviceChanged;
 
+   @Before
    public void setUp() throws IOException
    {
-      WSDLUrl = getResourceURL("jaxws/jbws3131/NfeStatusServico2.wsdl");
-      changedWSDLUrl = getResourceURL("jaxws/jbws3131/NfeStatusServico21.wsdl");
-      
       QName serviceName = new QName("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2", "NfeStatusServico2");
-      service = Service.create(WSDLUrl, serviceName);
-
-      serviceName = new QName("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2", "NfeStatusServico2");
-      serviceChanged = Service.create(changedWSDLUrl, serviceName);
+      service = Service.create(getResourceURL("jaxws/jbws3131/NfeStatusServico2.wsdl"), serviceName);
+      serviceChanged = Service.create(getResourceURL("jaxws/jbws3131/NfeStatusServico21.wsdl"), serviceName);
    }
 
    @Test
    @RunAsClient
    public void testSOAP11OnOriginalWSDL() throws IOException
    {
-      setUp();
       QName portName = new QName("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2", "NfeStatusServico2Soap");
       Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.MESSAGE);
       String bindingID = dispatch.getBinding().getBindingID();
@@ -71,7 +64,6 @@ public class JBWS3131TestCase extends JBossWSTest
    @RunAsClient
    public void testSOAP12OnOriginalWSDL() throws IOException
    {
-      setUp();
       QName portName = new QName("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2", "NfeStatusServico2Soap12");
       Dispatch<Source> dispatch = service.createDispatch(portName, Source.class, Mode.MESSAGE);
       String bindingID = dispatch.getBinding().getBindingID();
@@ -82,7 +74,6 @@ public class JBWS3131TestCase extends JBossWSTest
    @RunAsClient
    public void testSOAP11OnChangedWSDL() throws IOException
    {
-      setUp();
       QName portName = new QName("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2", "NfeStatusServico2Soap1");
       Dispatch<Source> dispatch = serviceChanged.createDispatch(portName, Source.class, Mode.MESSAGE);
       String bindingID = dispatch.getBinding().getBindingID();
@@ -93,7 +84,6 @@ public class JBWS3131TestCase extends JBossWSTest
    @RunAsClient
    public void testSOAP12OnChangedWSDL() throws IOException
    {
-      setUp();
       QName portName = new QName("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2", "NfeStatusServico2Soap12");
       Dispatch<Source> dispatch = serviceChanged.createDispatch(portName, Source.class, Mode.MESSAGE);
       String bindingID = dispatch.getBinding().getBindingID();

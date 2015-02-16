@@ -23,6 +23,8 @@ package org.jboss.test.ws.jaxws.smoke.tools;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -40,9 +42,9 @@ public class WSConsumerTestCaseForked extends PluginBase
     * Recreates a tools delegate for every test
     * @throws Exception
     */
-   protected void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
-
       // JBWS-2175
       setupClasspath();
 
@@ -50,8 +52,8 @@ public class WSConsumerTestCaseForked extends PluginBase
       setDelegate(wscClass);
    }
 
-
-   protected void tearDown() throws Exception
+   @After
+   public void teardown() throws Exception
    {
       restoreClasspath();
    }
@@ -64,9 +66,7 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testBindingFiles() throws Exception
    {
-      setUp();
       dispatch("testBindingFiles");
-      tearDown();
    }
 
    /**
@@ -77,9 +77,7 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testCatalog() throws Exception
    {
-      setUp();
       dispatch("testCatalog");
-      tearDown();
    }
 
    /**
@@ -90,9 +88,7 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testOutputDirectory() throws Exception
    {
-      setUp();
       dispatch("testOutputDirectory");
-      tearDown();
    }
 
    /**
@@ -105,9 +101,7 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testSourceDirectory() throws Exception
    {
-      setUp();
       dispatch("testSourceDirectory");
-      tearDown();
    }
    
    
@@ -119,9 +113,7 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testNoCompile() throws Exception
    {
-      setUp();
       dispatch("testNoCompile");
-      tearDown();
    }
 
    /**
@@ -131,9 +123,7 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testNoCompileNoKeep() throws Exception
    {
-      setUp();
       dispatch("testNoCompileNoKeep");
-      tearDown();
    }
 
    /**
@@ -144,9 +134,7 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testGenerateSource() throws Exception
    {
-      setUp();
       dispatch("testGenerateSource");
-      tearDown();
    }
 
    /**
@@ -158,9 +146,7 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testTargetPackage() throws Exception
    {
-      setUp();
       dispatch("testTargetPackage");
-      tearDown();
    }
 
    /**
@@ -171,9 +157,7 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testWsdlLocation() throws Exception
    {
-      setUp();
       dispatch("testWsdlLocation");
-      tearDown();
    }
 
    /**
@@ -184,9 +168,7 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testMessageStream() throws Exception
    {
-      setUp();
       dispatch("testMessageStream");
-      tearDown();
    }
 
    /**
@@ -211,9 +193,7 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testTarget() throws Exception
    {
-      setUp();
       dispatch("testTarget");
-      tearDown();
    }
 
    /**
@@ -224,9 +204,7 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testSOAP12Extension() throws Exception
    {
-      setUp();
       dispatch("testSOAP12Extension");
-      tearDown();
    }
    
    /**
@@ -236,8 +214,6 @@ public class WSConsumerTestCaseForked extends PluginBase
    @RunAsClient
    public void testAdditionalHeaders() throws Exception
    {
-      setUp();
       dispatch("testAdditionalHeaders");
-      tearDown();
    }
 }

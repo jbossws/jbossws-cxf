@@ -38,6 +38,7 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,8 +68,8 @@ public class XOPHandlerTestCase extends XOPBase
       return DeploymentArchive.createDeployment("handler");
    }
 
-   @Override
-   protected void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
       QName serviceName = new QName("http://doclit.xop.samples.jaxws.ws.test.jboss.org/", "MTOMService");
       URL wsdlURL = new URL(baseURL + "bare?wsdl");
@@ -91,7 +92,6 @@ public class XOPHandlerTestCase extends XOPBase
     @RunAsClient
    public void testDataHandlerRoundtrip() throws Exception
    {
-      setUp();
       getBinding().setMTOMEnabled(true);
       DataHandler dh = new DataHandler("Client Data", "text/plain");
       DHResponse response = getPort().echoDataHandler(new DHRequest(dh));
@@ -108,7 +108,6 @@ public class XOPHandlerTestCase extends XOPBase
    @RunAsClient
    public void testDataHandlerResponseOptimzed() throws Exception
    {
-      setUp();
       getBinding().setMTOMEnabled(false);
 
       DataHandler dh = new DataHandler("Client data", "text/plain");

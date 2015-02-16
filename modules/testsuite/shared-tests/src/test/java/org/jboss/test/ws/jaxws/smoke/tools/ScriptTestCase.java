@@ -26,6 +26,7 @@ import java.io.File;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -53,10 +54,9 @@ public class ScriptTestCase extends JBossWSTest
    public String CLASSES_DIR;
    public String TEST_DIR;
 
-   protected void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
-      super.setUp();
-
       JBOSS_HOME = System.getProperty("jboss.home");
       CLASSES_DIR = System.getProperty("test.classes.directory");
       //JBWS-2479
@@ -68,7 +68,6 @@ public class ScriptTestCase extends JBossWSTest
    @RunAsClient
    public void testScritpsAvailable() throws Exception
    {
-      setUp();
       assertTrue(new File(JBOSS_HOME + FS + "bin" + FS + "wsprovide" + ".sh").exists());
       assertTrue(new File(JBOSS_HOME + FS + "bin" + FS + "wsprovide" + ".bat").exists());
       assertTrue(new File(JBOSS_HOME + FS + "bin" + FS + "wsconsume" + ".sh").exists());

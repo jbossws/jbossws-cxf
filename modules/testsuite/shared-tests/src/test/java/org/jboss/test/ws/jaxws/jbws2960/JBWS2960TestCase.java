@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -33,15 +33,14 @@ import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
 import javax.xml.namespace.QName;
 
-import junit.framework.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
-
 import org.jboss.ws.api.util.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Element;
 
 /**
@@ -52,15 +51,15 @@ import org.w3c.dom.Element;
 @RunWith(Arquillian.class)
 public class JBWS2960TestCase extends JBossWSTest
 {
-   private static final QName WSAM_ACTION_QNAME = new QName("http://www.w3.org/2007/05/addressing/metadata", "Action");
-   private static final QName WSAM_ADDRESSING_QNAME = new QName("http://www.w3.org/2007/05/addressing/metadata", "Addressing");
-   private static final QName WSAM_NON_ANONYMOUS_RESPONSES_QNAME = new QName("http://www.w3.org/2007/05/addressing/metadata", "NonAnonymousResponses");
-   private static final QName POLICY_QNAME = new QName("http://www.w3.org/ns/ws-policy", "Policy");
-   private static final QName POLICY_REFERENCE_QNAME = new QName("http://www.w3.org/ns/ws-policy", "PolicyReference");
+   private final QName WSAM_ACTION_QNAME = new QName("http://www.w3.org/2007/05/addressing/metadata", "Action");
+   private final QName WSAM_ADDRESSING_QNAME = new QName("http://www.w3.org/2007/05/addressing/metadata", "Addressing");
+   private final QName WSAM_NON_ANONYMOUS_RESPONSES_QNAME = new QName("http://www.w3.org/2007/05/addressing/metadata", "NonAnonymousResponses");
+   private final QName POLICY_QNAME = new QName("http://www.w3.org/ns/ws-policy", "Policy");
+   private final QName POLICY_REFERENCE_QNAME = new QName("http://www.w3.org/ns/ws-policy", "PolicyReference");
    private final File wsdlFile = JBossWSTestHelper.getResourceFile("jaxws/jbws2960/AddNumbersService.wsdl");
 
-   @Override
-   public void setUp()
+   @Before
+   public void setup()
    {
       assertNotNull("WSDL not found", wsdlFile);
       assertTrue("WSDL doesn't exist", wsdlFile.exists());
@@ -93,7 +92,6 @@ public class JBWS2960TestCase extends JBossWSTest
    @RunAsClient
    public void testPolicyReference() throws Exception
    {
-      setUp();
       Definition wsdl = getWSDLDefinition(wsdlFile.getAbsolutePath());
       List<?> definitionExtElements = wsdl.getExtensibilityElements();
       QName serviceQName = new QName("http://foobar.org/", "AddNumbersService");
@@ -119,7 +117,6 @@ public class JBWS2960TestCase extends JBossWSTest
    @RunAsClient
    public void testOperations() throws Exception
    {
-      setUp();
       Definition wsdl = getWSDLDefinition(wsdlFile.getAbsolutePath());
       PortType port = wsdl.getPortType(new QName("http://foobar.org/", "AddNumbers"));
       Operation operation = null;
@@ -219,8 +216,8 @@ public class JBWS2960TestCase extends JBossWSTest
       QName wsamValue = (QName)operation.getInput().getExtensionAttribute(WSAM_ACTION_QNAME);
 
       log.debug("Validating input of operation " + operation.getName());
-      Assert.assertNotNull("No WSAM attr", wsamValue);
-      Assert.assertEquals("Wrong WSAM attr. value", expectedValue, wsamValue.getLocalPart());
+      assertNotNull("No WSAM attr", wsamValue);
+      assertEquals("Wrong WSAM attr. value", expectedValue, wsamValue.getLocalPart());
    }
 
    private void assertOutput(final Operation operation, final String expectedValue)
@@ -228,8 +225,8 @@ public class JBWS2960TestCase extends JBossWSTest
       QName wsamValue = (QName)operation.getOutput().getExtensionAttribute(WSAM_ACTION_QNAME);
 
       log.debug("Validating output of operation " + operation.getName());
-      Assert.assertNotNull("No WSAM attr", wsamValue);
-      Assert.assertEquals("Wrong WSAM attr. value", expectedValue, wsamValue.getLocalPart());
+      assertNotNull("No WSAM attr", wsamValue);
+      assertEquals("Wrong WSAM attr. value", expectedValue, wsamValue.getLocalPart());
    }
 
    private void assertFault(final Operation operation, final String expectedValue, final String faultName)
@@ -237,8 +234,8 @@ public class JBWS2960TestCase extends JBossWSTest
       QName wsamValue = (QName)operation.getFault(faultName).getExtensionAttribute(WSAM_ACTION_QNAME);
 
       log.debug("Validating fault '" + faultName + "' of operation " + operation.getName());
-      Assert.assertNotNull("No WSAM attr", wsamValue);
-      Assert.assertEquals("Wrong WSAM attr. value", expectedValue, wsamValue.getLocalPart());
+      assertNotNull("No WSAM attr", wsamValue);
+      assertEquals("Wrong WSAM attr. value", expectedValue, wsamValue.getLocalPart());
    }
 
    private Definition getWSDLDefinition(final String wsdlLocation) throws Exception

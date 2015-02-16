@@ -26,6 +26,8 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -59,7 +61,8 @@ public class WSProviderTestCaseForked extends PluginBase
     * Recreates a tools delegate for every test
     * @throws Exception
     */
-   protected void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
       setupClasspath();
 
@@ -69,7 +72,8 @@ public class WSProviderTestCaseForked extends PluginBase
     }
 
 
-   protected void tearDown() throws Exception
+   @After
+   public void teardown() throws Exception
    {
       restoreClasspath();
    }
@@ -78,72 +82,55 @@ public class WSProviderTestCaseForked extends PluginBase
    @RunAsClient
    public void testGenerateWsdl() throws Exception
    {
-      setUp();
       dispatch("testGenerateWsdl");
-      tearDown();
    }
 
    @Test
    @RunAsClient
    public void testGenerateWsdlWithExtension() throws Exception
    {
-      setUp();
       dispatch("testGenerateWsdlWithExtension");
-      tearDown();
    }
 
    @Test
    @RunAsClient
    public void testGenerateSource() throws Exception
    {
-      setUp();
       dispatch("testGenerateSource");
-      tearDown();
    }
 
    @Test
    @RunAsClient
    public void testOutputDirectory() throws Exception
    {
-      setUp();
       dispatch("testOutputDirectory");
-      tearDown();
    }
 
    @Test
    @RunAsClient
    public void testResourceDirectory() throws Exception
    {
-      setUp();
       dispatch("testResourceDirectory");
-      tearDown();
    }
 
    @Test
    @RunAsClient
    public void testSourceDirectory() throws Exception
    {
-      setUp();
       dispatch("testSourceDirectory");
-      tearDown();
    }
 
    @Test
    @RunAsClient
    public void testClassLoader() throws Exception
    {
-      setUp();
       dispatch("testClassLoader");
-      tearDown();
    }
 
    @Test
    @RunAsClient
    public void testMessageStream() throws Exception
    {
-      setUp();
       dispatch("testMessageStream");
-      tearDown();
    }
-
 }

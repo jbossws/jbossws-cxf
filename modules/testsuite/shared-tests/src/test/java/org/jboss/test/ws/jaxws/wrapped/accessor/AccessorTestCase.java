@@ -49,9 +49,6 @@ public class AccessorTestCase extends JBossWSTest
    @ArquillianResource
    private URL baseURL;
 
-   private final String targetNS = "http://accessor.wrapped.jaxws.ws.test.jboss.org/";
-   private Accessor proxy;
-
    @Deployment(testable = false)
    public static WebArchive createDeployments() {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-wrapped-accessor.war");
@@ -67,30 +64,16 @@ public class AccessorTestCase extends JBossWSTest
       return archive;
    }
 
-   @Override
-   protected void setUp() throws Exception
+   @Test
+   @RunAsClient
+   public void testFieldAndMethodAccessors() throws Exception
    {
-      super.setUp();
-
-      QName serviceName = new QName(targetNS, "AccessorService");
+      QName serviceName = new QName("http://accessor.wrapped.jaxws.ws.test.jboss.org/", "AccessorService");
       URL wsdlURL = new URL(baseURL + "AccessorService?wsdl");
       Service service = Service.create(wsdlURL, serviceName);
-      proxy = (Accessor) service.getPort(Accessor.class);
-   }
-
-   @Test
-   @RunAsClient
-   public void testFieldAccessor() throws Exception
-   {
-      setUp();
+      Accessor proxy = (Accessor) service.getPort(Accessor.class);
+      
       assertEquals("ing123", proxy.fieldAccessor("ing", 123));
-   }
-
-   @Test
-   @RunAsClient
-   public void testMethodAccessor() throws Exception
-   {
-      setUp();
       assertEquals("moretesting456", proxy.fieldAccessor("moretesting", 456));
    }
 }

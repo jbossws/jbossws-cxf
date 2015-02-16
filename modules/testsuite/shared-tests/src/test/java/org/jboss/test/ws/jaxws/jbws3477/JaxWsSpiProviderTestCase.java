@@ -47,7 +47,7 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class JaxWsSpiProviderTestCase extends JBossWSTest
 {
-   private String defaultProvider;
+   private String defaultProvider = "org.jboss.wsf.stack.cxf.client.ProviderImpl";
 
    @ArquillianResource
    private URL baseURL;
@@ -74,18 +74,11 @@ public class JaxWsSpiProviderTestCase extends JBossWSTest
       return archive;
    }
 
-   protected void setUp() {
-      if (isIntegrationCXF()) {
-         defaultProvider = "org.jboss.wsf.stack.cxf.client.ProviderImpl";
-      }
-   }
-
    @Test
    @RunAsClient
    @OperateOnDeployment("jaxws-jbws3477")
    public void testClientSide()
    {
-      setUp();
       Helper.verifyJaxWsSpiProvider(defaultProvider);
    }
 
@@ -99,7 +92,6 @@ public class JaxWsSpiProviderTestCase extends JBossWSTest
    @OperateOnDeployment("jaxws-jbws3477")
    public void testServerSideDefaultProvider() throws Exception
    {
-      setUp();
       runServerTest(new URL(baseURL + "?provider=" + defaultProvider));
    }
    
@@ -113,7 +105,6 @@ public class JaxWsSpiProviderTestCase extends JBossWSTest
    @OperateOnDeployment("jaxws-jbws3477-custom-provider")
    public void testServerSideProviderCustomization() throws Exception
    {
-      setUp();
       runServerTest(new URL(baseURL + "?provider=org.jboss.test.ws.jaxws.jbws3477.DummyProvider"));
    }
    

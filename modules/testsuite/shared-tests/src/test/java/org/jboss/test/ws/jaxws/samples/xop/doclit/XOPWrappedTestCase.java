@@ -51,8 +51,6 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class XOPWrappedTestCase extends JBossWSTest
 {
-   private WrappedEndpoint port;
-
    @ArquillianResource
    private URL baseURL;
 
@@ -61,25 +59,19 @@ public class XOPWrappedTestCase extends JBossWSTest
       return DeploymentArchive.createDeployment("wrapped");
    }
 
-   protected void setUp() throws Exception
-   {
-
-      QName serviceName = new QName("http://doclit.xop.samples.jaxws.ws.test.jboss.org/", "WrappedService");
-      URL wsdlURL = new URL(baseURL + "wrapped?wsdl");
-
-      Service service = Service.create(wsdlURL, serviceName);
-      port = service.getPort(WrappedEndpoint.class);
-
-      SOAPBinding binding = (SOAPBinding)((BindingProvider)port).getBinding();
-      binding.setMTOMEnabled(true);
-
-   }
-
    @Test
    @RunAsClient
    public void testParameterAnnotation() throws Exception
    {
-      setUp();
+      QName serviceName = new QName("http://doclit.xop.samples.jaxws.ws.test.jboss.org/", "WrappedService");
+      URL wsdlURL = new URL(baseURL + "wrapped?wsdl");
+
+      Service service = Service.create(wsdlURL, serviceName);
+      WrappedEndpoint port = service.getPort(WrappedEndpoint.class);
+
+      SOAPBinding binding = (SOAPBinding)((BindingProvider)port).getBinding();
+      binding.setMTOMEnabled(true);
+      
       DataHandler request = new DataHandler("Client data", "text/plain");
       DataHandler response = port.parameterAnnotation(request);
 

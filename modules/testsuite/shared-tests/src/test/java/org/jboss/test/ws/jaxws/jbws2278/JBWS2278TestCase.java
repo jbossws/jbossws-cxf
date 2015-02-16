@@ -42,6 +42,8 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -55,8 +57,8 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class JBWS2278TestCase extends JBossWSTest
 {
-   private TestEndpoint port11;
-   private TestEndpoint port12;
+   private static TestEndpoint port11;
+   private static TestEndpoint port12;
 
    @ArquillianResource
    private URL baseURL;
@@ -78,33 +80,40 @@ public class JBWS2278TestCase extends JBossWSTest
       return archive;
    }
 
-   @Override
-   public void setUp() throws Exception
+   @Before
+   public void setup() throws Exception
    {
-      super.setUp();
-      URL wsdlURL = new URL(baseURL + "/soap11?wsdl");
-      QName serviceName = new QName("http://org.jboss.test.ws/jbws2278", "TestService");
-
-      Service service = Service.create(wsdlURL, serviceName);
-      port11 = service.getPort(new QName("http://org.jboss.test.ws/jbws2278", "TestEndpointSoap11Port"), TestEndpoint.class);
-      port12 = service.getPort(new QName("http://org.jboss.test.ws/jbws2278", "TestEndpointSoap12Port"), TestEndpoint.class);
-
-      @SuppressWarnings("rawtypes")
-      List<Handler> handlerChain11 = new ArrayList<Handler>();
-      handlerChain11.add(new TestHandler(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE, SOAPConstants.SOAP_1_1_CONTENT_TYPE));
-      ((BindingProvider)port11).getBinding().setHandlerChain(handlerChain11);
-
-      @SuppressWarnings("rawtypes")
-      List<Handler> handlerChain12 = new ArrayList<Handler>();
-      handlerChain12.add(new TestHandler(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, SOAPConstants.SOAP_1_2_CONTENT_TYPE));
-      ((BindingProvider)port12).getBinding().setHandlerChain(handlerChain12);
+      if (port11 == null) {
+         URL wsdlURL = new URL(baseURL + "/soap11?wsdl");
+         QName serviceName = new QName("http://org.jboss.test.ws/jbws2278", "TestService");
+   
+         Service service = Service.create(wsdlURL, serviceName);
+         port11 = service.getPort(new QName("http://org.jboss.test.ws/jbws2278", "TestEndpointSoap11Port"), TestEndpoint.class);
+         port12 = service.getPort(new QName("http://org.jboss.test.ws/jbws2278", "TestEndpointSoap12Port"), TestEndpoint.class);
+   
+         @SuppressWarnings("rawtypes")
+         List<Handler> handlerChain11 = new ArrayList<Handler>();
+         handlerChain11.add(new TestHandler(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE, SOAPConstants.SOAP_1_1_CONTENT_TYPE));
+         ((BindingProvider)port11).getBinding().setHandlerChain(handlerChain11);
+   
+         @SuppressWarnings("rawtypes")
+         List<Handler> handlerChain12 = new ArrayList<Handler>();
+         handlerChain12.add(new TestHandler(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, SOAPConstants.SOAP_1_2_CONTENT_TYPE));
+         ((BindingProvider)port12).getBinding().setHandlerChain(handlerChain12);
+      }
+   }
+   
+   @AfterClass
+   public static void cleanup()
+   {
+      port11 = null;
+      port12 = null;
    }
 
    @Test
    @RunAsClient
    public void testCallSoap11() throws Exception
    {
-      setUp();
       final String message = "Hello!!";
       String response = port11.echo(message);
       assertEquals(message, response);
@@ -116,7 +125,6 @@ public class JBWS2278TestCase extends JBossWSTest
    {
       try
       {
-         setUp();
          port11.echo(TestEndpointImpl.TEST_EXCEPTION);
          fail("Expected TestException not thrown.");
       }
@@ -132,7 +140,6 @@ public class JBWS2278TestCase extends JBossWSTest
    {
       try
       {
-         setUp();
          port11.echo(TestEndpointImpl.RUNTIME_EXCEPTION);
          fail("Expected Exception not thrown.");
       }
@@ -146,7 +153,6 @@ public class JBWS2278TestCase extends JBossWSTest
    @RunAsClient
    public void testCallSoap12() throws Exception
    {
-      setUp();
       final String message = "Hello!!";
       String response = port12.echo(message);
       assertEquals(message, response);
@@ -158,7 +164,6 @@ public class JBWS2278TestCase extends JBossWSTest
    {
       try
       {
-         setUp();
          port12.echo(TestEndpointImpl.TEST_EXCEPTION);
          fail("Expected TestException not thrown.");
       }
@@ -174,7 +179,6 @@ public class JBWS2278TestCase extends JBossWSTest
    {
       try
       {
-         setUp();
          port12.echo(TestEndpointImpl.RUNTIME_EXCEPTION);
          fail("Expected Exception not thrown.");
       }
@@ -183,5 +187,4 @@ public class JBWS2278TestCase extends JBossWSTest
          assertTrue(e.getMessage().startsWith("Simulated failure"));
       }
    }
-
 }

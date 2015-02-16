@@ -57,6 +57,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.littleshoot.proxy.ChainedProxy;
@@ -234,8 +235,8 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
                             .start();
    }
 
-   @Override
-   protected void tearDown() throws Exception
+   @After
+   public void teardown() throws Exception
    {
       clearProxySystemProperties();
       if (proxyServer != null)
