@@ -199,10 +199,6 @@
     
     <!-- jboss provided -->
     <dependency>
-      <groupId>org.jboss</groupId>
-      <artifactId>jboss-common-core</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.picketbox</groupId>
       <artifactId>picketbox</artifactId>
     </dependency>

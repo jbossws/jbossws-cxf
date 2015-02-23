@@ -47,7 +47,6 @@ import org.apache.cxf.transport.DestinationFactoryManager;
 import org.apache.cxf.transport.http.AbstractHTTPDestination;
 import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.transport.http.HTTPTransportFactory;
-import org.jboss.util.NotImplementedException;
 import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -133,12 +132,12 @@ public class RequestHandlerImpl implements RequestHandler
 
    public void handleRequest(Endpoint endpoint, InputStream inStream, OutputStream outStream, InvocationContext context)
    {
-      throw new NotImplementedException();
+      throw new RuntimeException();
    }
 
    public void handleWSDLRequest(Endpoint endpoint, OutputStream outStream, InvocationContext context)
    {
-      throw new NotImplementedException();
+      throw new RuntimeException();
    }
 
    /**
