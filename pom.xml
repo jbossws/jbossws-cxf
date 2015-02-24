@@ -62,7 +62,7 @@
   <!-- Properties -->
   <properties>
     <jbossws.api.version>1.0.3.CR2</jbossws.api.version>
-    <jbossws.spi.version>3.0.0.Beta4</jbossws.spi.version>
+    <jbossws.spi.version>3.0.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>3.0.0-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.2.1.CR1</jbossws.common.tools.version>
     <jbossws.wildfly800.version>5.0.0-SNAPSHOT</jbossws.wildfly800.version>

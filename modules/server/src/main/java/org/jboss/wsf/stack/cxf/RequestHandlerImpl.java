@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -128,16 +128,6 @@ public class RequestHandlerImpl implements RequestHandler
    {
       final String queryString = req.getQueryString();
       return ((null != queryString) && (queryString.length() > 0));
-   }
-
-   public void handleRequest(Endpoint endpoint, InputStream inStream, OutputStream outStream, InvocationContext context)
-   {
-      throw new RuntimeException();
-   }
-
-   public void handleWSDLRequest(Endpoint endpoint, OutputStream outStream, InvocationContext context)
-   {
-      throw new RuntimeException();
    }
 
    /**
