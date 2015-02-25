@@ -16,8 +16,6 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3679;
 
-import java.io.IOException;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.xml.ws.WebServiceRef;
