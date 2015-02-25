@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
+  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+
+  <endpoint-config>
+    <config-name>org.jboss.test.ws.jaxws.jbws2634.webservice.POJOBean2</config-name>
+    <post-handler-chains>
+      <javaee:handler-chain>
+        <javaee:handler>
+          <javaee:handler-name>Test Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.test.ws.jaxws.jbws2634.shared.handlers.TestHandler</javaee:handler-class>
+        </javaee:handler>
+      </javaee:handler-chain>
+    </post-handler-chains>
+  </endpoint-config>
+
+  <endpoint-config>
+    <config-name>POJOBean3Config</config-name>
+    <post-handler-chains>
+      <javaee:handler-chain>
+        <javaee:handler>
+          <javaee:handler-name>Test Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.test.ws.jaxws.jbws2634.shared.handlers.TestHandler</javaee:handler-class>
+        </javaee:handler>
+      </javaee:handler-chain>
+    </post-handler-chains>
+  </endpoint-config>
+
+  <endpoint-config>
+    <config-name>org.jboss.test.ws.jaxws.jbws2634.webservice.EJB3Bean2</config-name>
+    <post-handler-chains>
+      <javaee:handler-chain>
+        <javaee:handler>
+          <javaee:handler-name>Test Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.test.ws.jaxws.jbws2634.shared.handlers.TestHandler</javaee:handler-class>
+        </javaee:handler>
+      </javaee:handler-chain>
+    </post-handler-chains>
+  </endpoint-config>
+
+  <endpoint-config>
+    <config-name>EJB3Bean3Config</config-name>
+    <post-handler-chains>
+      <javaee:handler-chain>
+        <javaee:handler>
+          <javaee:handler-name>Test Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.test.ws.jaxws.jbws2634.shared.handlers.TestHandler</javaee:handler-class>
+        </javaee:handler>
+      </javaee:handler-chain>
+    </post-handler-chains>
+  </endpoint-config>
+  
+</jaxws-config>
