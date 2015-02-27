@@ -9,10 +9,26 @@
     <servlet-name>POJOService</servlet-name>
     <servlet-class>org.jboss.test.ws.jaxws.jbws2634.webservice.POJOBean</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>POJOService2</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws2634.webservice.POJOBean2</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>POJOService3</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws2634.webservice.POJOBean3</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>POJOService</servlet-name>
     <url-pattern>/POJOService</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>POJOService2</servlet-name>
+    <url-pattern>/POJOService2</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>POJOService3</servlet-name>
+    <url-pattern>/POJOService3</url-pattern>
   </servlet-mapping>
 
   <env-entry>

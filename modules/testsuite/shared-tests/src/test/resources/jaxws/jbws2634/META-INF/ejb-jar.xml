@@ -16,6 +16,30 @@
       </env-entry>
 
     </session>
+    <session>
+
+      <ejb-name>EJB3Bean2</ejb-name>
+      <ejb-class>org.jboss.test.ws.jaxws.jbws2634.webservice.EJB3Bean2</ejb-class>
+
+      <env-entry>
+        <env-entry-name>boolean1</env-entry-name>
+        <env-entry-type>java.lang.Boolean</env-entry-type>
+        <env-entry-value>true</env-entry-value>
+      </env-entry>
+
+    </session>
+    <session>
+
+      <ejb-name>EJB3Bean3</ejb-name>
+      <ejb-class>org.jboss.test.ws.jaxws.jbws2634.webservice.EJB3Bean3</ejb-class>
+
+      <env-entry>
+        <env-entry-name>boolean1</env-entry-name>
+        <env-entry-type>java.lang.Boolean</env-entry-type>
+        <env-entry-value>true</env-entry-value>
+      </env-entry>
+
+    </session>
 
   </enterprise-beans>
 
