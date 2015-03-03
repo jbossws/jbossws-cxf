@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  version="2.5">
+
+  <servlet>
+    <servlet-name>Service</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.jbws2074.usecase6.service.POJOImpl</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Service</servlet-name>
+    <url-pattern>/Service</url-pattern>
+  </servlet-mapping>
+
+  <env-entry>
+     <env-entry-name>boolean</env-entry-name>
+     <env-entry-type>java.lang.Boolean</env-entry-type>
+     <env-entry-value>true</env-entry-value>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>boolean0</injection-target-name>
+     </injection-target>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>boolean1</injection-target-name>
+     </injection-target>
+  </env-entry>
+
+  <env-entry>
+     <env-entry-name>byte</env-entry-name>
+     <env-entry-type>java.lang.Byte</env-entry-type>
+     <env-entry-value>1</env-entry-value>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>byte0</injection-target-name>
+     </injection-target>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>byte1</injection-target-name>
+     </injection-target>
+  </env-entry>
+
+  <env-entry>
+     <env-entry-name>character</env-entry-name>
+     <env-entry-type>java.lang.Character</env-entry-type>
+     <env-entry-value>c</env-entry-value>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>character0</injection-target-name>
+     </injection-target>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>character1</injection-target-name>
+     </injection-target>
+  </env-entry>
+
+  <env-entry>
+     <env-entry-name>short</env-entry-name>
+     <env-entry-type>java.lang.Short</env-entry-type>
+     <env-entry-value>5</env-entry-value>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>short0</injection-target-name>
+     </injection-target>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>short1</injection-target-name>
+     </injection-target>
+  </env-entry>
+
+  <env-entry>
+     <env-entry-name>integer</env-entry-name>
+     <env-entry-type>java.lang.Integer</env-entry-type>
+     <env-entry-value>7</env-entry-value>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>integer0</injection-target-name>
+     </injection-target>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>integer1</injection-target-name>
+     </injection-target>
+  </env-entry>
+
+  <env-entry>
+     <env-entry-name>long</env-entry-name>
+     <env-entry-type>java.lang.Long</env-entry-type>
+     <env-entry-value>11</env-entry-value>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>long0</injection-target-name>
+     </injection-target>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>long1</injection-target-name>
+     </injection-target>
+  </env-entry>
+
+  <env-entry>
+     <env-entry-name>float</env-entry-name>
+     <env-entry-type>java.lang.Float</env-entry-type>
+     <env-entry-value>13</env-entry-value>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>float0</injection-target-name>
+     </injection-target>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>float1</injection-target-name>
+     </injection-target>
+  </env-entry>
+
+  <env-entry>
+     <env-entry-name>double</env-entry-name>
+     <env-entry-type>java.lang.Double</env-entry-type>
+     <env-entry-value>17</env-entry-value>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>double0</injection-target-name>
+     </injection-target>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>double1</injection-target-name>
+     </injection-target>
+  </env-entry>
+
+  <env-entry>
+     <env-entry-name>string</env-entry-name>
+     <env-entry-type>java.lang.String</env-entry-type>
+     <env-entry-value>s</env-entry-value>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>string0</injection-target-name>
+     </injection-target>
+     <injection-target>
+        <injection-target-class>org.jboss.test.ws.jaxws.jbws2074.handler.DescriptorResourcesHandler</injection-target-class>
+        <injection-target-name>string1</injection-target-name>
+     </injection-target>
+  </env-entry>
+
+</web-app>
