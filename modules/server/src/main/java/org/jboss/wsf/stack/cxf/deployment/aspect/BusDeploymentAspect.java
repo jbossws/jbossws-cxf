@@ -35,9 +35,7 @@ import org.jboss.ws.common.integration.WSConstants;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.ResourceResolver;
-import org.jboss.wsf.spi.metadata.j2ee.JSEArchiveMetaData;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
@@ -118,30 +116,9 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
             holder = new NonSpringBusHolder(metadata);
          }
 
-         String epConfigName = null;
-         String epConfigFile = null;
-         JSEArchiveMetaData jsemd = dep.getAttachment(JSEArchiveMetaData.class);
-         JBossWebservicesMetaData wsmd = dep.getAttachment(JBossWebservicesMetaData.class);
-         //first check JSEArchiveMetaData as that has the actual merged value for POJO deployments
-         if (jsemd != null) {
-            epConfigName = jsemd.getConfigName();
-            epConfigFile = jsemd.getConfigFile();
-         } else if (wsmd != null) {
-            epConfigName = wsmd.getConfigName();
-            epConfigFile = wsmd.getConfigFile();
-         }
-
-         Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class),
-               new WSDLFilePublisher(aDep), dep.getService().getEndpoints(), aDep.getRootFile(), epConfigName, epConfigFile);
-         holder.configure(resolver, configurer, wsmd, dep);
+         Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class), new WSDLFilePublisher(aDep), aDep);
+         holder.configure(resolver, configurer, dep.getAttachment(JBossWebservicesMetaData.class), dep);
          dep.addAttachment(BusHolder.class, holder);
-         if (holder instanceof SpringBusHolder)
-         {
-            for (Endpoint endpoint : dep.getService().getEndpoints())
-            {
-                 endpoint.setProperty("SpringBus", true);
-            }
-         }
       }
       finally
       {

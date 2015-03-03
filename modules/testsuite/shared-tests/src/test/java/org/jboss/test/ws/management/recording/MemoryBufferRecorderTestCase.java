@@ -69,7 +69,7 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
    public static JavaArchive createDeployment() {
       JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "management-recording-as7.jar");
       archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
-         + "Dependencies: org.jboss.logging\n"))
+         + "Dependencies: org.jboss.logging,org.jboss.ws.common\n")) //TODO!! temp fix
          .addClass(org.jboss.test.ws.management.recording.Endpoint.class)
          .addClass(org.jboss.test.ws.management.recording.EndpointWithConfigImpl.class);
       return archive;

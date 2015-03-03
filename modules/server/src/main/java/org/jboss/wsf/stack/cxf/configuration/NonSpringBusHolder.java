@@ -37,9 +37,8 @@ import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.rm.RMManager;
 import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.Messages;
@@ -179,16 +178,12 @@ public class NonSpringBusHolder extends BusHolder
    }
 
    @Override
-   public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
-         List<Endpoint> depEndpoints, UnifiedVirtualFile root, String epConfigName, String epConfigFile)
+   public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher, ArchiveDeployment dep)
    {
       ServerBeanCustomizer customizer = new ServerBeanCustomizer();
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
-      customizer.setDeploymentEndpoints(depEndpoints);
-      customizer.setDeploymentRoot(root);
-      customizer.setEpConfigFile(epConfigFile);
-      customizer.setEpConfigName(epConfigName);
+      customizer.setDeployment(dep);
       return new JBossWSNonSpringConfigurer(customizer);
    }
 

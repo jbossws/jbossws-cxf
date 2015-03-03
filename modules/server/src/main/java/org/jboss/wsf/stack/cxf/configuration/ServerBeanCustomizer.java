@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2014, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,28 +21,20 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
-import java.io.IOException;
-import java.net.URL;
-import java.security.AccessController;
 import java.util.List;
 import java.util.Locale;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
 import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.transport.http.HTTPTransportFactory;
-import org.jboss.ws.api.annotation.EndpointConfig;
 import org.jboss.ws.api.util.ServiceLoader;
-import org.jboss.ws.common.management.AbstractServerConfig;
+import org.jboss.ws.common.configuration.BasicConfigResolver;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
+import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
-import org.jboss.wsf.spi.management.ServerConfig;
-import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
-import org.jboss.wsf.spi.metadata.config.ConfigRoot;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 import org.jboss.wsf.stack.cxf.JBossWSInvoker;
 import org.jboss.wsf.stack.cxf.Loggers;
-import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
@@ -58,13 +50,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
 {
    private WSDLFilePublisher wsdlPublisher;
 
-   private List<Endpoint> depEndpoints;
-
-   private UnifiedVirtualFile deploymentRoot;
-
-   private String epConfigName;
-
-   private String epConfigFile;
+   private ArchiveDeployment dep;
 
    @Override
    public void customize(Object beanInstance)
@@ -81,6 +67,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
          {
             ((JBossWSInvoker) factory.getInvoker()).setTargetBean(factory.getServiceBean());
          }
+         List<Endpoint> depEndpoints = dep.getService().getEndpoints();
          if (depEndpoints != null)
          {
             final String targetBeanName = factory.getServiceBean().getClass().getName();
@@ -113,7 +100,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
       //Configure according to the specified jaxws endpoint configuration
       if (!endpoint.isPublished()) //before publishing, we set the jaxws conf
       {
-         Object implementor = endpoint.getImplementor();
+         final Object implementor = endpoint.getImplementor();
 
          // setup our invoker for http endpoints if invoker is not configured in jbossws-cxf.xml DD
          boolean isHttpEndpoint = endpoint.getAddress() != null && endpoint.getAddress().substring(0, 5).toLowerCase(Locale.ENGLISH).startsWith("http");
@@ -121,96 +108,26 @@ public class ServerBeanCustomizer extends BeanCustomizer
          {
             endpoint.setInvoker(new JBossWSInvoker());
          }
-
+         
          // ** Endpoint configuration setup **
-         // 1) default values
-         //String configName = org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG;
-         String configName = implementor.getClass().getName();
-         String configFile = org.jboss.wsf.spi.metadata.config.EndpointConfig.DEFAULT_ENDPOINT_CONFIG_FILE;
-         boolean specifiedConfig = false;
-         // 2) annotation contribution
-         EndpointConfig epConfigAnn = implementor.getClass().getAnnotation(EndpointConfig.class);
-         if (epConfigAnn != null)
-         {
-            if (!epConfigAnn.configName().isEmpty())
-            {
-               configName = epConfigAnn.configName();
-            }
-            if (!epConfigAnn.configFile().isEmpty())
-            {
-               configFile = epConfigAnn.configFile();
-            }
-            specifiedConfig = true;
-         }
-         // 3) descriptor overrides (jboss-webservices.xml or web.xml)
-         if (epConfigName != null && !epConfigName.isEmpty())
-         {
-            configName = epConfigName;
-            specifiedConfig = true;
-         }
-         if (epConfigFile != null && !epConfigFile.isEmpty())
-         {
-            configFile = epConfigFile;
-         }
-         // 4) setup of configuration
-         if (configFile != org.jboss.wsf.spi.metadata.config.EndpointConfig.DEFAULT_ENDPOINT_CONFIG_FILE) {
-            //look for provided endpoint config file
-            try
-            {
-               UnifiedVirtualFile vf = deploymentRoot.findChild(configFile);
-               ConfigRoot configRoot = ConfigMetaDataParser.parse(vf.toURL());
-               org.jboss.wsf.spi.metadata.config.EndpointConfig config = configRoot.getEndpointConfigByName(configName);
-               if (config == null && !specifiedConfig) {
-                  config = configRoot.getEndpointConfigByName(org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG);
+         final String endpointClassName = implementor.getClass().getName();
+         final List<Endpoint> depEndpoints = dep.getService().getEndpoints();
+         for (Endpoint depEndpoint : depEndpoints) {
+            if (endpointClassName.equals(depEndpoint.getTargetBeanName())) {
+               org.jboss.wsf.spi.metadata.config.EndpointConfig config = depEndpoint.getEndpointConfig();
+               if (config == null) {
+                  //the ASIL did not set the endpoint configuration, perhaps because we're processing an
+                  //Endpoint.publish() API started endpoint or because we're on WildFly 8.0.0.Final or
+                  //previous version. We compute the config here then (clearly no container injection
+                  //will be performed on optional handlers attached to the config)
+                  BasicConfigResolver bcr = new BasicConfigResolver(dep, implementor.getClass());
+                  config = bcr.resolveEndpointConfig();
+                  depEndpoint.setEndpointConfig(config);
                }
                if (config != null) {
                   endpoint.setEndpointConfig(config);
                }
             }
-            catch (IOException e)
-            {
-               throw Messages.MESSAGES.couldNotReadConfigFile(configFile);
-            }
-         }
-         else
-         {
-            org.jboss.wsf.spi.metadata.config.EndpointConfig config = null;
-            URL url = implementor.getClass().getResource("/" + configFile);
-            if (url == null) {
-               UnifiedVirtualFile vf = deploymentRoot.findChildFailSafe(configFile);
-               if (vf != null) {
-                  url = vf.toURL();
-               }
-            }
-            if (url != null) {
-               //the default file exists
-               try
-               {
-                  ConfigRoot configRoot = ConfigMetaDataParser.parse(url);
-                  config = configRoot.getEndpointConfigByName(configName);
-                  if (config == null && !specifiedConfig) {
-                     config = configRoot.getEndpointConfigByName(org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG);
-                  }
-               }
-               catch (IOException e)
-               {
-                  throw Messages.MESSAGES.couldNotReadConfigFile(configFile);
-               }
-            }
-            if (config == null) {
-               //use endpoint configs from AS domain
-               ServerConfig sc = getServerConfig();
-               config = sc.getEndpointConfig(configName);
-               if (config == null && !specifiedConfig) {
-                  config = sc.getEndpointConfig(org.jboss.wsf.spi.metadata.config.EndpointConfig.STANDARD_ENDPOINT_CONFIG);
-               }
-               if (config == null && specifiedConfig) {
-                   throw Messages.MESSAGES.couldNotFindEndpointConfigName(configName);
-               }
-            }
-            if (config != null) {
-               endpoint.setEndpointConfig(config);
-            } 
          }
 
          //JASPI
@@ -230,38 +147,13 @@ public class ServerBeanCustomizer extends BeanCustomizer
       }
    }
 
-   private static ServerConfig getServerConfig() {
-      if(System.getSecurityManager() == null) {
-         return AbstractServerConfig.getServerIntegrationServerConfig();
-      }
-      return AccessController.doPrivileged(AbstractServerConfig.GET_SERVER_INTEGRATION_SERVER_CONFIG);
-   }
-
-   public void setDeploymentRoot(UnifiedVirtualFile deploymentRoot)
-   {
-      this.deploymentRoot = deploymentRoot;
-   }
-
    public void setWsdlPublisher(WSDLFilePublisher wsdlPublisher)
    {
       this.wsdlPublisher = wsdlPublisher;
    }
 
-   public void setDeploymentEndpoints(List<Endpoint> endpoints)
+   public void setDeployment(ArchiveDeployment dep)
    {
-      this.depEndpoints = endpoints;
+      this.dep = dep;
    }
-
-   public void setEpConfigName(String epConfigName)
-   {
-      this.epConfigName = epConfigName;
-   }
-
-   public void setEpConfigFile(String epConfigFile)
-   {
-      this.epConfigFile = epConfigFile;
-   }
-
-
-
 }

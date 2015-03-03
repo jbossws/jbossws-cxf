@@ -37,6 +37,7 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.frontend.ServerFactoryBean;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.jboss.ws.common.ObjectNameFactory;
+import org.jboss.ws.common.configuration.ConfigDelegateHandler;
 import org.jboss.ws.common.injection.InjectionHelper;
 import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
@@ -100,6 +101,10 @@ public class ServletHelper
          {
             for (Handler<?> handler : chain)
             {
+               if (handler instanceof ConfigDelegateHandler)
+               {
+                  handler = ((ConfigDelegateHandler<?>) handler).getDelegate();
+               }
                final Reference handlerReference = endpoint.getInstanceProvider().getInstance(handler.getClass().getName());
                if (!handlerReference.isInitialized()) {
                    final Object handlerInstance = handlerReference.getValue();

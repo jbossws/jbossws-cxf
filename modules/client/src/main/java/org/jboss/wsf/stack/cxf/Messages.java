@@ -35,7 +35,6 @@ import org.jboss.logging.Message;
 import org.jboss.logging.MessageBundle;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.WSFDeploymentException;
 
 /**
  * JBossWS-CXF exception messages
@@ -207,9 +206,6 @@ public interface Messages {
     @Message(id = 24088, value = "Cannot load additional config from null location")
     IllegalArgumentException unableToLoadAdditionalConfigFromNull();
     
-    @Message(id = 24090, value = "Could not read from config file: %s")
-    RuntimeException couldNotReadConfigFile(String file);
-    
     @Message(id = 24093, value = "Error parsing policy attachment: %s")
     RuntimeException errorParsingPolicyAttachment(String uri, @Cause Throwable cause);
     
@@ -219,9 +215,6 @@ public interface Messages {
     @Message(id = 24096, value = "Multiple incompatible JAXWS client Bus features provided")
     IllegalArgumentException incompatibleJAXWSClientBusFeatureProvided();
 
-    @Message(id = 24101, value = "Could not find endpoint config name: %s")
-    WSFDeploymentException couldNotFindEndpointConfigName(String name);
-    
     @Message(id = 24104, value = "Service class %s is missing required JAX-WS 2.2 additional constructors")
     WSFException missingJAXWS22ServiceConstructor(String className, @Cause Throwable cause);
 }

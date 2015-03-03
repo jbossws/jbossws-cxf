@@ -23,7 +23,6 @@ package org.jboss.wsf.stack.cxf.configuration;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -59,16 +58,14 @@ import org.jboss.wsf.spi.SPIProvider;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.AnnotationsInfo;
+import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
-import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.client.Constants;
-import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
 import org.jboss.wsf.stack.cxf.client.configuration.InterceptorUtils;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
@@ -195,13 +192,11 @@ public abstract class BusHolder
     * 
     * @param customization    The binding customization to set in the configurer, if any
     * @param wsdlPublisher    The wsdl file publisher to set in the configurer, if any
-    * @param depEndpoints     The list of deployment endpoints
-    * @param epConfigName     The endpoint configuration name, if any
-    * @param epConfigFile     The endpoint configuration file, if any
+    * @param dep     The deployment
     * @return                 The new jbossws cxf configurer
     */
    public abstract Configurer createServerConfigurer(BindingCustomization customization,
-         WSDLFilePublisher wsdlPublisher, List<Endpoint> depEndpoints, UnifiedVirtualFile root, String epConfigName, String epConfigFile);
+         WSDLFilePublisher wsdlPublisher, ArchiveDeployment dep);
    
    protected void setInterceptors(Bus bus, Deployment dep, Map<String, String> props)
    {

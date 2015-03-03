@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat, Inc., and individual contributors
+ * Copyright 2015, Red Hat, Inc., and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -30,6 +30,7 @@ import javax.xml.ws.handler.Handler;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
+import org.jboss.ws.common.configuration.ConfigDelegateHandler;
 import org.jboss.ws.common.deployment.ReferenceFactory;
 import org.jboss.wsf.spi.deployment.InstanceProvider;
 import org.jboss.wsf.spi.deployment.Reference;
@@ -38,6 +39,7 @@ import org.jboss.wsf.spi.deployment.Reference;
  * CXF instance provider.
  * 
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
+ * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
  */
 public final class CXFInstanceProvider implements InstanceProvider {
 
@@ -58,14 +60,21 @@ public final class CXFInstanceProvider implements InstanceProvider {
             }
             if (instance == null)
             {
-                List<Handler> chain = ((JaxWsEndpointImpl) factory.getServer().getEndpoint()).getJaxwsBinding().getHandlerChain();
-                if (chain != null) {
-                    for (Handler handler : chain) {
-                        if (className.equals(handler.getClass().getName())) {
-                            cache.put(className, instance = ReferenceFactory.newUninitializedReference(handler));
-                        }
-                    }
-                }
+               List<Handler> chain = ((JaxWsEndpointImpl) factory.getServer().getEndpoint()).getJaxwsBinding().getHandlerChain();
+               if (chain != null)
+               {
+                  for (Handler handler : chain)
+                  {
+                     if (handler instanceof ConfigDelegateHandler)
+                     {
+                        handler = ((ConfigDelegateHandler)handler).getDelegate();
+                     }
+                     if (className.equals(handler.getClass().getName()))
+                     {
+                        cache.put(className, instance = ReferenceFactory.newUninitializedReference(handler));
+                     }
+                  }
+               }
             }
         }
         if (instance == null)

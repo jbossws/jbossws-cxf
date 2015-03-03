@@ -39,9 +39,9 @@ import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.transport.http.HttpDestinationFactory;
 import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.jboss.ws.api.binding.BindingCustomization;
+import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringConfigurer;
@@ -166,21 +166,22 @@ public class SpringBusHolder extends BusHolder
          }
       }
       bus.setProperty(Deployment.class.getName(), null);
+      
+      for (Endpoint endpoint : dep.getService().getEndpoints())
+      {
+           endpoint.setProperty("SpringBus", true);
+      }
       configured = true;
    }
 
    @Override
-   public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher,
-         List<Endpoint> depEndpoints, UnifiedVirtualFile root, String epConfigName, String epConfigFile)
+   public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher, ArchiveDeployment dep)
    {
       ApplicationContext ctx = bus.getExtension(BusApplicationContext.class);
       ServerBeanCustomizer customizer = new ServerBeanCustomizer();
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
-      customizer.setDeploymentEndpoints(depEndpoints);
-      customizer.setDeploymentRoot(root);
-      customizer.setEpConfigFile(epConfigFile);
-      customizer.setEpConfigName(epConfigName);
+      customizer.setDeployment(dep);
       Configurer orig = bus.getExtension(Configurer.class);
       JBossWSSpringConfigurer serverConfigurer = (orig instanceof JBossWSSpringConfigurer) ? (JBossWSSpringConfigurer)orig : new JBossWSSpringConfigurer(orig);
       serverConfigurer.setApplicationContext(ctx);
