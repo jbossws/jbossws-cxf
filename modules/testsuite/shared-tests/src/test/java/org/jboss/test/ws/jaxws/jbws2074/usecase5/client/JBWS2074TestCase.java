@@ -37,8 +37,10 @@ import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.test.ws.jaxws.jbws2074.usecase5.service.EJB3Iface;
+import org.jboss.wsf.test.IgnoreContainer;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -54,6 +56,9 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public final class JBWS2074TestCase extends JBossWSTest
 {
+   @Rule
+   public IgnoreContainer rule = new IgnoreContainer("wildfly800");
+
    private static final String JAR_DEPLOYMENT = "jaxws-jbws2074-usecase5";
    private static final String EAR_DEPLOYMENT = "jaxws-jbws2074-ear-usecase5";
 
