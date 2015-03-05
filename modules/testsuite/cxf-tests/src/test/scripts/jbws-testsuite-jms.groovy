@@ -11,6 +11,28 @@ def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
 file.attributes()['path'] = project.properties['serverLog']
 
 /**
+ * Modify ApplicationRealm security-realm to use custom properties files
+ *
+ * <security-realm name="ApplicationRealm">
+ *   <authentication>
+ *     <local default-user="$local" allowed-users="*" skip-group-loading="true"/>
+ *     <properties path="jbws-application-users.properties" relative-to="jboss.server.config.dir"/>
+ *   </authentication>
+ *   <authorization>
+ *     <properties path="jbws-application-roles.properties" relative-to="jboss.server.config.dir"/>
+ *   </authorization>
+ * </security-realm>
+ **/
+def securityRealms = root.management.'security-realms'[0]
+def appRealm = securityRealms.find{it.@name == 'ApplicationRealm'}
+def realmAuthentication = appRealm.'authentication'[0];
+def authenticationProps = realmAuthentication.'properties'
+authenticationProps.@path = 'jbws-application-users.properties'
+def realmAuthorization = appRealm.'authorization'[0];
+def authorizationProps = realmAuthorization.'properties'
+authorizationProps.@path = 'jbws-application-roles.properties'
+
+/**
  * Add a JMS queue like this
  *
  *  <subsystem xmlns="urn:jboss:domain:messaging:2.0">
@@ -43,7 +65,7 @@ def f = new File(project.properties['outputFile'])
 f.write(writer.toString())
 
 /*
- * copy the preconfigured application-roles.properties and application-users.properties
+ * copy the preconfigured jbws-application-roles.properties and jbws-application-users.properties
  * files into the standalone/configure directory
  */
 def srcUsersProperties = project.properties['srcUsersProperties']

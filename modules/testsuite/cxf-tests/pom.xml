@@ -140,10 +140,10 @@
                     <inputFile>${jboss.home}/standalone/configuration/standalone-full.xml</inputFile>
                     <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-jms.xml</outputFile>
                     <serverLog>jbws-testsuite-jms.log</serverLog>
-                    <srcUsersProperties>${project.build.directory}/test-classes/application-users.properties</srcUsersProperties>
-                    <destUsersProperties>${jboss.home}/standalone/configuration/application-users.properties</destUsersProperties>
-                    <srcRolesProperties>${project.build.directory}/test-classes/application-roles.properties</srcRolesProperties>
-                    <destRolesProperties>${jboss.home}/standalone/configuration/application-roles.properties</destRolesProperties>
+                    <srcUsersProperties>${project.build.directory}/test-classes/jbws-application-users.properties</srcUsersProperties>
+                    <destUsersProperties>${jboss.home}/standalone/configuration/jbws-application-users.properties</destUsersProperties>
+                    <srcRolesProperties>${project.build.directory}/test-classes/jbws-application-roles.properties</srcRolesProperties>
+                    <destRolesProperties>${jboss.home}/standalone/configuration/jbws-application-roles.properties</destRolesProperties>
                   </properties>
                 </configuration>
               </execution>
