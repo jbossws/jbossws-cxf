@@ -93,11 +93,6 @@
                                 <rolesPropFile>${project.build.directory}/test-classes/jbossws-roles.properties</rolesPropFile>
                                 <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
                                 <testResourcesDir>${project.build.directory}/test-resources</testResourcesDir>
-
-                               <srcUsersProperties>${project.build.directory}/test-classes/application-users.properties</srcUsersProperties>
-                               <destUsersProperties>${jboss.home}/standalone/configuration/application-users.properties</destUsersProperties>
-                               <srcRolesProperties>${project.build.directory}/test-classes/application-roles.properties</srcRolesProperties>
-                               <destRolesProperties>${jboss.home}/standalone/configuration/application-roles.properties</destRolesProperties>
                             </properties>
                         </configuration>
                     </execution>
