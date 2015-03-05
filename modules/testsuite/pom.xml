@@ -35,6 +35,7 @@
     <port-offset.cxf-tests.jboss>0</port-offset.cxf-tests.jboss>
     <port-offset.cxf-tests.ssl-mutual-auth>5000</port-offset.cxf-tests.ssl-mutual-auth>
     <port-offset.cxf-tests.default-config-tests>10000</port-offset.cxf-tests.default-config-tests>
+    <port-offset.cxf-tests.jms>35000</port-offset.cxf-tests.jms>
     <port-offset.shared-tests.jboss>15000</port-offset.shared-tests.jboss>
     <port-offset.shared-tests.default-config-tests>20000</port-offset.shared-tests.default-config-tests>
     <port-offset.shared-tests.address-rewrite>25000</port-offset.shared-tests.address-rewrite>
@@ -319,7 +320,7 @@
                  <test.archive.directory>${test.archive.directory}</test.archive.directory>
                  <test.classes.directory>${test.classes.directory}</test.classes.directory>
                  <test.resources.directory>${test.resources.directory}</test.resources.directory>
-                 <test.username>test.username</test.username>
+                 <test.username>${test.username}</test.username>
                  <test.password>${test.password}</test.password>
                  <wsdl.publish.location>${wsdl.publish.location}</wsdl.publish.location>
               </systemPropertyVariables>

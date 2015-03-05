@@ -45,5 +45,19 @@
             <property name="waitForPortsTimeoutInSeconds">8</property>
         </configuration>
     </container>
+    <container qualifier="jms">
+        <configuration>
+            <property name="jbossHome">${jboss.home}</property>
+            <property name="javaVmArguments">-server -XX:+UseCompressedOops -Xms48m -Xmx384m -XX:MaxPermSize=192m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jms} ${additionalJvmArgs}</property>
+            <property name="serverConfig">jbws-testsuite-jms.xml</property>
+            <property name="allowConnectingToRunningServer">true</property>
+            <property name="managementAddress">${jboss.bind.address:localhost}</property>
+            <property name="jbossArguments">${jbossArguments}</property>
+            <property name="managementPort">${add_int(port-offset.cxf-tests.jms,9990)}</property>
+            <!-- AS7-4070 -->
+            <property name="waitForPorts">${add_int(port-offset.cxf-tests.jms,8787)} ${add_int(port-offset.cxf-tests.jms,9990)}</property>
+            <property name="waitForPortsTimeoutInSeconds">8</property>
+        </configuration>
+    </container>
   </group>
 </arquillian>
