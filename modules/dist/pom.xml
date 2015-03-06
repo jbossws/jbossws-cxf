@@ -20,30 +20,35 @@
          <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-client</artifactId> 
          <version>${project.version}</version>          
+         <scope>provided</scope>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-jaspi</artifactId> 
          <version>${project.version}</version>          
+         <scope>provided</scope>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-transports-undertow</artifactId>
          <version>${project.version}</version>     
+         <scope>provided</scope>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-transports-udp</artifactId>
          <version>${project.version}</version>     
+         <scope>provided</scope>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-server</artifactId>
          <version>${project.version}</version>     
+         <scope>provided</scope>
       </dependency>
 
       <dependency>
@@ -56,30 +61,37 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-aop</artifactId>
+         <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-beans</artifactId>
+         <scope>provided</scope>
       </dependency> 
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-context</artifactId>
+         <scope>provided</scope>
       </dependency> 
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-core</artifactId>
+         <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-expression</artifactId>
+         <scope>provided</scope>
       </dependency>   
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-tx</artifactId>
+         <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-jms</artifactId>
+         <scope>provided</scope>
       </dependency>
       <!-- OpenSAML -->
       <dependency>
@@ -90,17 +102,19 @@
       <dependency>
         <groupId>org.jboss</groupId>
         <artifactId>jandex</artifactId>
+         <scope>provided</scope>
       </dependency>
       <!--junit-->
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
+         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.jboss.shrinkwrap</groupId>
         <artifactId>shrinkwrap-depchain</artifactId>
         <type>pom</type>
-        <scope>test</scope>
+         <scope>provided</scope>
       </dependency>
     </dependencies>
  
@@ -229,6 +243,7 @@
           <artifactId>jbossws-cxf-resources</artifactId>
           <version>${project.version}</version>
           <classifier>wildfly800</classifier>     
+          <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.jboss.ws</groupId>
@@ -250,6 +265,7 @@
           <artifactId>jbossws-cxf-resources</artifactId>
           <version>${project.version}</version>
           <classifier>wildfly810</classifier>     
+          <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.jboss.ws</groupId>
@@ -271,6 +287,7 @@
           <artifactId>jbossws-cxf-resources</artifactId>
           <version>${project.version}</version>
           <classifier>wildfly820</classifier>     
+          <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.jboss.ws</groupId>
@@ -292,6 +309,7 @@
           <artifactId>jbossws-cxf-resources</artifactId>
           <version>${project.version}</version>
           <classifier>wildfly900</classifier>     
+          <scope>provided</scope>
         </dependency>
       </dependencies>
     </profile>

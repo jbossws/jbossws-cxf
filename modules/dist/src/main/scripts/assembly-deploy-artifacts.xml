@@ -80,6 +80,7 @@
               <include>org.apache.httpcomponents:httpclient:jar</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+            <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>
         </dependencySet>
 
@@ -122,6 +123,7 @@
               <include>org.jboss.ws.cxf:jbossws-cxf-resources:jar:*</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}${dashClassifier}.${artifact.extension}</outputFileNameMapping>
+            <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>
          </dependencySet>
 
@@ -132,6 +134,7 @@
             <includes>
               <include>org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.2_spec:jar</include>
             </includes>
+            <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>
           </dependencySet>
           <dependencySet>
@@ -141,6 +144,7 @@
             <includes>
               <include>org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.2_spec:jar</include>
             </includes>
+            <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>
           </dependencySet>
 
