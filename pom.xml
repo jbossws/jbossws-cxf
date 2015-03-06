@@ -110,6 +110,7 @@
     <arquillian.version>1.1.7.Final</arquillian.version>
     <arquillian-wildfly-container.version>1.0.0.Alpha5</arquillian-wildfly-container.version>
     <jaspi.api.version>1.0.0.Alpha1</jaspi.api.version>
+    <jacc.api.version>1.0.0.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
   </properties>
 
@@ -1130,6 +1131,11 @@
         <groupId>org.jboss.spec.javax.security.auth.message</groupId>
         <artifactId>jboss-jaspi-api_1.1_spec</artifactId>
         <version>${jaspi.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.spec.javax.security.jacc</groupId>
+        <artifactId>jboss-jacc-api_1.5_spec</artifactId>
+        <version>${jacc.api.version}</version>
       </dependency>
      
       <!-- jboss provided -->
