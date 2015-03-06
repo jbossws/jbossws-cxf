@@ -310,7 +310,6 @@
                  <org.jboss.security.ignoreHttpsHost>true</org.jboss.security.ignoreHttpsHost>
                  <jboss.home>${jboss.home}</jboss.home>
                  <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
-                 <test.disable.deployment>false</test.disable.deployment>
                  <log4j.output.dir>${log4j.output.dir}</log4j.output.dir>
                  <appclient.output.dir>${appclient.output.dir}</appclient.output.dir>
                  <org.jboss.ws.testsuite.securityDomain.users.propfile>${project.build.directory}/test-classes/jbossws-users.properties</org.jboss.ws.testsuite.securityDomain.users.propfile>  
@@ -352,7 +351,6 @@
                  <org.jboss.security.ignoreHttpsHost>true</org.jboss.security.ignoreHttpsHost>
                  <jboss.home>${jboss.home}</jboss.home>
                  <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
-                 <test.disable.deployment>false</test.disable.deployment>
                  <log4j.output.dir>${log4j.output.dir}</log4j.output.dir>
                  <appclient.output.di>${appclient.output.dir}</appclient.output.di>
                  <org.jboss.ws.testsuite.securityDomain.users.propfile>${project.build.directory}/test-classes/jbossws-users.properties</org.jboss.ws.testsuite.securityDomain.users.propfile>  
