@@ -25,7 +25,6 @@ import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
-import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -42,37 +41,31 @@ import org.jboss.ws.api.annotation.WebContext;
 @WebService
 (
    name = "SecureEndpoint",
-   serviceName = "SecureEndpointService",
+   serviceName = "SecureEndpointService2",
    targetNamespace = "http://org.jboss.ws/securityDomain"
 )
 @WebContext
 (
-   contextRoot="/jaxws-securityDomain", 
+   contextRoot="/jaxws-securityDomain2", 
    urlPattern="/authz",
    authMethod = AuthMethod.BASIC,
    transportGuarantee = TransportGuarantee.NONE,
    secureWSDLAccess = false
 )
-@DeclareRoles({"friend", "royal"})
 @SecurityDomain("JBossWSSecurityDomainTest")
-public class SecureEndpointImpl
+public class SecureEndpointImpl2
 {
    // Provide logging
-   private static Logger log = Logger.getLogger(SecureEndpointImpl.class);
+   private static Logger log = Logger.getLogger(SecureEndpointImpl2.class);
 
-   @PermitAll
    @WebMethod
+   @PermitAll
    public String echoForAll(String input)
    {
       log.info(input);
       return input;
    }
-   @RolesAllowed("friend")
-   @Oneway
-   @WebMethod
-   public void helloOneWay(String input) {
-      log.info(input);
-   }
+   
    @RolesAllowed("friend")
    @WebMethod
    public String echo(String input)
@@ -84,6 +77,13 @@ public class SecureEndpointImpl
    @RolesAllowed("royal")
    @WebMethod
    public String restrictedEcho(String input)
+   {
+      log.info(input);
+      return input;
+   }
+   
+   @WebMethod
+   public String defaultAccess(String input)
    {
       log.info(input);
       return input;
