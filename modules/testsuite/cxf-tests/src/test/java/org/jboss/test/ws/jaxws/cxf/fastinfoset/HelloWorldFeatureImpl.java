@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,15 +23,16 @@ package org.jboss.test.ws.jaxws.cxf.fastinfoset;
 
 import javax.jws.WebService;
 
-import org.apache.cxf.annotations.FastInfoset;
+import org.apache.cxf.feature.FastInfosetFeature;
+import org.apache.cxf.feature.Features;
 
 @WebService
 (
-   serviceName = "HelloWorldService",
+   serviceName = "HelloWorldFeatureService",
    targetNamespace = "http://org.jboss.ws/jaxws/cxf/fastinfoset"
 )
-@FastInfoset(force = true)
-public class HelloWorldImpl
+@Features(classes = FastInfosetFeature.class)
+public class HelloWorldFeatureImpl
 {
    public String echo(String input)
    {

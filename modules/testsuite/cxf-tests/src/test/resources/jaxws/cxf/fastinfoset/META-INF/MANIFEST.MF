@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Dependencies: org.apache.cxf.impl
+Dependencies: org.apache.cxf

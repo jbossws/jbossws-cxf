@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -57,8 +57,8 @@ public class FastInfosetTestCase extends JBossWSTest
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-fastinfoset.war");
       archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
                   + "Dependencies: org.apache.cxf\n"))
-            .addClass(org.jboss.test.ws.jaxws.cxf.fastinfoset.HelloWorld.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.fastinfoset.HelloWorldImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.fastinfoset.HelloWorldFeatureImpl.class)
             .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/fastinfoset/WEB-INF/web.xml"));
       return archive;
    }
@@ -93,5 +93,34 @@ public class FastInfosetTestCase extends JBossWSTest
 
    }
    
+   @Test
+   @RunAsClient
+   public void testInfosetUsingFeature() throws Exception
+   {
+      ByteArrayOutputStream out = new ByteArrayOutputStream();
+      ByteArrayOutputStream in = new ByteArrayOutputStream();
+      PrintWriter pwIn = new PrintWriter(in);
+      PrintWriter pwOut = new PrintWriter(out);
+      Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
+      try {
+         bus.getInInterceptors().add(new LoggingInInterceptor(pwIn));
+         bus.getOutInterceptors().add(new LoggingOutInterceptor(pwOut));
+   
+         URL wsdlURL = new URL(baseURL + "HelloWorldService/HelloWorldFeatureImpl?wsdl");
+         QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldFeatureService");
+         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
+         QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldFeatureImplPort");
+         HelloWorldFeature port = (HelloWorldFeature) service.getPort(portQName, HelloWorldFeature.class);
+         assertEquals("helloworldFeature", port.echo("helloworldFeature"));
+         assertTrue("request is expected fastinfoset", out.toString().indexOf("application/fastinfoset") > -1);
+         assertTrue("response is expected fastinfoset", in.toString().indexOf("application/fastinfoset") > -1);
+      } finally {
+         bus.shutdown(true);
+         pwOut.close();
+         pwIn.close();
+      }
 
+   }
+   
 }
