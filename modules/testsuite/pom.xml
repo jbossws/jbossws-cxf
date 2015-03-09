@@ -541,6 +541,27 @@
               <runOrder>balanced</runOrder>
             </configuration>
           </plugin>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>checkNoBindAddress</id>
+                <phase>initialize</phase>
+                <goals><goal>run</goal></goals>
+                <configuration>
+                  <tasks>
+                    <fail message="'fast' profile only supports 'jboss.bind.address' property set to 'localhost'">
+                      <condition>
+                        <not>
+                          <equals arg1="${jboss.bind.address}" arg2="localhost"/>
+                        </not>
+                      </condition>
+                    </fail>
+                  </tasks>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
     </profile>
