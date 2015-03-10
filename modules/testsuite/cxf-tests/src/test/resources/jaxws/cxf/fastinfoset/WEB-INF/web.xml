@@ -12,6 +12,10 @@
     <servlet-name>FeatureServlet</servlet-name>
     <servlet-class>org.jboss.test.ws.jaxws.cxf.fastinfoset.HelloWorldFeatureImpl</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>FIServlet</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.cxf.fastinfoset.HelloWorldFIImpl</servlet-class>
+  </servlet>
   
   <servlet-mapping>
     <servlet-name>TestServlet</servlet-name>
@@ -20,5 +24,9 @@
   <servlet-mapping>
     <servlet-name>FeatureServlet</servlet-name>
     <url-pattern>/HelloWorldService/HelloWorldFeatureImpl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FIServlet</servlet-name>
+    <url-pattern>/HelloWorldService/HelloWorldFIImpl</url-pattern>
   </servlet-mapping>
 </web-app>

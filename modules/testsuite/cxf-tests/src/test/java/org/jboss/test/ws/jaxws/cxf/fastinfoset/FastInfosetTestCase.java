@@ -38,11 +38,15 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.FileAsset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.ws.api.configuration.ClientConfigUtil;
+import org.jboss.ws.api.configuration.ClientConfigurer;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.WrapThreadContextClassLoader;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -58,9 +62,21 @@ public class FastInfosetTestCase extends JBossWSTest
       archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
                   + "Dependencies: org.apache.cxf\n"))
             .addClass(org.jboss.test.ws.jaxws.cxf.fastinfoset.HelloWorldImpl.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.fastinfoset.HelloWorldFIImpl.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.fastinfoset.HelloWorldFeatureImpl.class)
+            .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/fastinfoset/WEB-INF/jaxws-endpoint-config.xml")), "jaxws-endpoint-config.xml")
             .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/fastinfoset/WEB-INF/web.xml"));
       return archive;
+   }
+
+   @Override
+   protected String getClientJarPaths() {
+      return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-cxf-fastinfoset-client.jar") { {
+         archive
+               .addManifest()
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/fastinfoset/META-INF-client/jaxws-client-config.xml"), "jaxws-client-config.xml");
+         }
+      });
    }
 
    @Test
@@ -77,11 +93,11 @@ public class FastInfosetTestCase extends JBossWSTest
          bus.getInInterceptors().add(new LoggingInInterceptor(pwIn));
          bus.getOutInterceptors().add(new LoggingOutInterceptor(pwOut));
    
-         URL wsdlURL = new URL(baseURL + "HelloWorldService/HelloWorldImpl?wsdl");
-         QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldService");
+         URL wsdlURL = new URL(baseURL + "HelloWorldService/HelloWorldFIImpl?wsdl");
+         QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldFIService");
          Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
-         QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldImplPort");
-         HelloWorld port = (HelloWorld) service.getPort(portQName, HelloWorld.class);
+         QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldFIImplPort");
+         HelloWorldFI port = (HelloWorldFI) service.getPort(portQName, HelloWorldFI.class);
          assertEquals("helloworld", port.echo("helloworld"));
          assertTrue("request is expected fastinfoset", out.toString().indexOf("application/fastinfoset") > -1);
          assertTrue("response is expected fastinfoset", in.toString().indexOf("application/fastinfoset") > -1);
@@ -113,6 +129,41 @@ public class FastInfosetTestCase extends JBossWSTest
          QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldFeatureImplPort");
          HelloWorldFeature port = (HelloWorldFeature) service.getPort(portQName, HelloWorldFeature.class);
          assertEquals("helloworldFeature", port.echo("helloworldFeature"));
+         assertTrue("request is expected fastinfoset", out.toString().indexOf("application/fastinfoset") > -1);
+         assertTrue("response is expected fastinfoset", in.toString().indexOf("application/fastinfoset") > -1);
+      } finally {
+         bus.shutdown(true);
+         pwOut.close();
+         pwIn.close();
+      }
+
+   }
+   
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
+   public void testInfosetUsingFeatureProperties() throws Exception
+   {
+      ByteArrayOutputStream out = new ByteArrayOutputStream();
+      ByteArrayOutputStream in = new ByteArrayOutputStream();
+      PrintWriter pwIn = new PrintWriter(in);
+      PrintWriter pwOut = new PrintWriter(out);
+      Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
+      try {
+         bus.getInInterceptors().add(new LoggingInInterceptor(pwIn));
+         bus.getOutInterceptors().add(new LoggingOutInterceptor(pwOut));
+   
+         URL wsdlURL = new URL(baseURL + "HelloWorldService/HelloWorldImpl?wsdl");
+         QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldService");
+         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
+         QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldImplPort");
+         HelloWorld port = (HelloWorld) service.getPort(portQName, HelloWorld.class);
+         
+         ClientConfigurer configurer = ClientConfigUtil.resolveClientConfigurer();
+         configurer.setConfigProperties(port, "META-INF/jaxws-client-config.xml", "Custom Client Config");
+         
+         assertEquals("helloworld", port.echo("helloworld"));
          assertTrue("request is expected fastinfoset", out.toString().indexOf("application/fastinfoset") > -1);
          assertTrue("response is expected fastinfoset", in.toString().indexOf("application/fastinfoset") > -1);
       } finally {

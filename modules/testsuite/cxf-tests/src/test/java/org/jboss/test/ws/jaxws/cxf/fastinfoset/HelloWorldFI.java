@@ -23,15 +23,11 @@ package org.jboss.test.ws.jaxws.cxf.fastinfoset;
 
 import javax.jws.WebService;
 
-@WebService
-(
-   serviceName = "HelloWorldService",
-   targetNamespace = "http://org.jboss.ws/jaxws/cxf/fastinfoset"
-)
-public class HelloWorldImpl
+import org.apache.cxf.annotations.FastInfoset;
+
+@WebService(targetNamespace = "http://org.jboss.ws/jaxws/cxf/fastinfoset")
+@FastInfoset(force = true)
+public interface HelloWorldFI
 {
-   public String echo(String input)
-   {
-      return input;
-   }
+   String echo(String input);
 }

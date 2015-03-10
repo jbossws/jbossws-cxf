@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
+  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+  
+  <client-config>
+    <config-name>Custom Client Config</config-name>
+    <property>
+      <property-name>cxf.features</property-name>
+      <property-value>org.apache.cxf.feature.FastInfosetFeature</property-value>
+    </property>
+  </client-config>
+  
+</jaxws-config>

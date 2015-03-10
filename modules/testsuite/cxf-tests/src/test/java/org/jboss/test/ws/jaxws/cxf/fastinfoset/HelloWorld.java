@@ -23,10 +23,7 @@ package org.jboss.test.ws.jaxws.cxf.fastinfoset;
 
 import javax.jws.WebService;
 
-import org.apache.cxf.annotations.FastInfoset;
-
 @WebService(targetNamespace = "http://org.jboss.ws/jaxws/cxf/fastinfoset")
-@FastInfoset(force = true)
 public interface HelloWorld
 {
    String echo(String input);
