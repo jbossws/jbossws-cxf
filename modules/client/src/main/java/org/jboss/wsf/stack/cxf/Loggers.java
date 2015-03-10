@@ -236,4 +236,8 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = WARN)
     @Message(id = 24105, value = "Could not create instance of specified ClientBusSelector: %s")
     void couldNotLoadClientBusSelector(String selector, @Cause Throwable cause);
+
+    @LogMessage(level = WARN)
+    @Message(id = 24106, value = "Could not remove previuosly set features on client: %s")
+    void couldNoRemoveFeaturesOnClient(String feature);
 }

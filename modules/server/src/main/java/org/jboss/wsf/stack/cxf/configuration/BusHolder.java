@@ -66,6 +66,7 @@ import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.client.Constants;
+import org.jboss.wsf.stack.cxf.client.configuration.FeatureUtils;
 import org.jboss.wsf.stack.cxf.client.configuration.InterceptorUtils;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
@@ -159,6 +160,8 @@ public abstract class BusHolder
          policySetsListener = new PolicySetsAnnotationListener(dep.getClassLoader());
          bus.getExtension(FactoryBeanListenerManager.class).addListener(policySetsListener);
       }
+      
+      FeatureUtils.addFeatures(bus, bus, props);
    }
    
    private static Map<String, String> getProperties(JBossWebservicesMetaData wsmd) {

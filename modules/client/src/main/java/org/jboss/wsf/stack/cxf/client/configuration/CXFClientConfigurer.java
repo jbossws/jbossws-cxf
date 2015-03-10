@@ -86,6 +86,7 @@ public class CXFClientConfigurer extends ConfigHelper
    public void setConfigProperties(Client client, Map<String, String> properties) {
       client.getEndpoint().putAll(properties);
       InterceptorUtils.addInterceptors(client, properties);
+      FeatureUtils.addFeatures(client, client.getBus(), properties);
    }
    
    private void savePropList(Client client, Map<String, String> props) {
@@ -102,6 +103,8 @@ public class CXFClientConfigurer extends ConfigHelper
                InterceptorUtils.removeInterceptors(client.getInInterceptors(), (String)ep.get(p));
             } else if (Constants.CXF_OUT_INTERCEPTORS_PROP.equals(p)) {
                InterceptorUtils.removeInterceptors(client.getOutInterceptors(), (String)ep.get(p));
+            } else if (Constants.CXF_FEATURES_PROP.equals(p)) {
+               Loggers.ROOT_LOGGER.couldNoRemoveFeaturesOnClient((String)ep.get(p));
             }
             ep.remove(p);
          }
