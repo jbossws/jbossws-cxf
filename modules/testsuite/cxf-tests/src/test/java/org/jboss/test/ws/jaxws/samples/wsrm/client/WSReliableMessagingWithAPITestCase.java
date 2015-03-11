@@ -30,6 +30,11 @@ import javax.xml.ws.Service;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.ws.rm.feature.RMFeature;
+import org.apache.cxf.ws.rm.manager.AcksPolicyType;
+import org.apache.cxf.ws.rm.manager.DestinationPolicyType;
+import org.apache.cxf.ws.rmp.v200502.RMAssertion;
+import org.apache.cxf.ws.rmp.v200502.RMAssertion.AcknowledgementInterval;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -38,8 +43,11 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.ws.jaxws.samples.wsrm.generated.SimpleService;
+import org.jboss.ws.api.configuration.ClientConfigUtil;
+import org.jboss.ws.api.configuration.ClientConfigurer;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.WrapThreadContextClassLoader;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -72,6 +80,17 @@ public final class WSReliableMessagingWithAPITestCase extends JBossWSTest
       return archive;
    }
 
+   @Override
+   protected String getClientJarPaths() {
+      return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jjaxws-samples-wsrm-api-client.jar") { {
+         archive
+               .addManifest()
+               .addClass(org.jboss.test.ws.jaxws.samples.wsrm.client.CustomRMFeature.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm/META-INF/jaxws-client-config.xml"), "jaxws-client-config.xml");
+         }
+      });
+   }
+
    @Test
    @RunAsClient
    public void test() throws Exception
@@ -83,6 +102,67 @@ public final class WSReliableMessagingWithAPITestCase extends JBossWSTest
          URL wsdlURL = getResourceURL("jaxws/samples/wsrm/WEB-INF/wsdl/SimpleService.wsdl");
          Service service = Service.create(wsdlURL, serviceName);
          SimpleService proxy = (SimpleService)service.getPort(SimpleService.class);
+         ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL + "/jaxws-samples-wsrm-api/SimpleService");
+         
+         assertEquals("Hello World!", proxy.echo("Hello World!")); // request response call
+         proxy.ping(); // one way call
+      } finally {
+         bus.shutdown(true);
+      }
+   }
+   
+   @Test
+   @RunAsClient
+   public void testWithFeature() throws Exception
+   {
+      final Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
+      try {
+         QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsrm", "SimpleService");
+         URL wsdlURL = getResourceURL("jaxws/samples/wsrm/WEB-INF/wsdl/SimpleService.wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         
+         RMFeature feature = new RMFeature();
+         RMAssertion rma = new RMAssertion();
+         RMAssertion.BaseRetransmissionInterval bri = new RMAssertion.BaseRetransmissionInterval();
+         bri.setMilliseconds(4000L);
+         rma.setBaseRetransmissionInterval(bri);
+         AcknowledgementInterval ai = new AcknowledgementInterval();
+         ai.setMilliseconds(2000L);
+         rma.setAcknowledgementInterval(ai);
+         feature.setRMAssertion(rma);
+         DestinationPolicyType dp = new DestinationPolicyType();
+         AcksPolicyType ap = new AcksPolicyType();
+         ap.setIntraMessageThreshold(0);
+         dp.setAcksPolicy(ap);
+         feature.setDestinationPolicy(dp);
+         
+         SimpleService proxy = (SimpleService)service.getPort(SimpleService.class, feature);
+         ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL + "/jaxws-samples-wsrm-api/SimpleService");
+         
+         assertEquals("Hello World!", proxy.echo("Hello World!")); // request response call
+         proxy.ping(); // one way call
+      } finally {
+         bus.shutdown(true);
+      }
+   }
+   
+   @Test
+   @RunAsClient
+   @WrapThreadContextClassLoader
+   public void testWithFeatureProperty() throws Exception
+   {
+      final Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
+      try {
+         QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsrm", "SimpleService");
+         URL wsdlURL = getResourceURL("jaxws/samples/wsrm/WEB-INF/wsdl/SimpleService.wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         SimpleService proxy = (SimpleService)service.getPort(SimpleService.class);
+         
+         ClientConfigurer configurer = ClientConfigUtil.resolveClientConfigurer();
+         configurer.setConfigProperties(proxy, "META-INF/jaxws-client-config.xml", "Custom Client Config");
+         
          ((BindingProvider)proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL + "/jaxws-samples-wsrm-api/SimpleService");
          
          assertEquals("Hello World!", proxy.echo("Hello World!")); // request response call
