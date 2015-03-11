@@ -28,6 +28,11 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.ws.rm.feature.RMFeature;
+import org.apache.cxf.ws.rm.manager.AcksPolicyType;
+import org.apache.cxf.ws.rm.manager.DestinationPolicyType;
+import org.apache.cxf.ws.rmp.v200502.RMAssertion;
+import org.apache.cxf.ws.rmp.v200502.RMAssertion.AcknowledgementInterval;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -37,6 +42,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.ws.jaxws.samples.wsrm.generated.SimpleService;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.jboss.wsf.test.WrapThreadContextClassLoader;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -74,6 +80,7 @@ public final class SimpleServiceTestCase extends JBossWSTest
 
    @Test
    @RunAsClient
+   @WrapThreadContextClassLoader
    public void test() throws Exception
    {
       SimpleService proxy = null;
@@ -83,6 +90,39 @@ public final class SimpleServiceTestCase extends JBossWSTest
          Service service = Service.create(wsdlURL, serviceName);
          proxy = (SimpleService)service.getPort(SimpleService.class);
          assertEquals("Hello World!", proxy.echo("Hello World!")); // request responce call
+         proxy.ping(); // one way call
+      } finally {
+         if (proxy != null) {
+            ((Client)proxy).destroy();
+         }
+      }
+   }
+   
+   @Test
+   @RunAsClient
+   public void testWithFeature() throws Exception
+   {
+      SimpleService proxy = null;
+      try {
+         QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsrm", "SimpleService");
+         URL wsdlURL = new URL("http://" + getServerHost()  + ":" + getServerPort() + "/jaxws-samples-wsrm/SimpleService?wsdl");
+         RMFeature feature = new RMFeature();
+         RMAssertion rma = new RMAssertion();
+         RMAssertion.BaseRetransmissionInterval bri = new RMAssertion.BaseRetransmissionInterval();
+         bri.setMilliseconds(4000L);
+         rma.setBaseRetransmissionInterval(bri);
+         AcknowledgementInterval ai = new AcknowledgementInterval();
+         ai.setMilliseconds(2000L);
+         rma.setAcknowledgementInterval(ai);
+         feature.setRMAssertion(rma);
+         DestinationPolicyType dp = new DestinationPolicyType();
+         AcksPolicyType ap = new AcksPolicyType();
+         ap.setIntraMessageThreshold(0);
+         dp.setAcksPolicy(ap);
+         feature.setDestinationPolicy(dp);
+         Service service = Service.create(wsdlURL, serviceName);
+         proxy = (SimpleService)service.getPort(SimpleService.class, feature);
+         assertEquals("Hello World2!", proxy.echo("Hello World2!")); // request responce call
          proxy.ping(); // one way call
       } finally {
          if (proxy != null) {
