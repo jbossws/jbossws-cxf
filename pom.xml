@@ -92,6 +92,7 @@
     <commons-lang.version>2.6</commons-lang.version>
     <commons.logging.version>1.1.1</commons.logging.version>
     <log4j.version>1.2.16</log4j.version>
+    <org.slf4j.version>1.6.1</org.slf4j.version>
     <activation.version>1.1</activation.version>
     <fastinfoset.version>1.2.12</fastinfoset.version>
     <neethi.version>3.0.3</neethi.version>
@@ -1157,6 +1158,11 @@
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
         <version>${log4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>${org.slf4j.version}</version>
       </dependency>
       <dependency>
         <groupId>javax.activation</groupId>
