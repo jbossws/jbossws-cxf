@@ -26,6 +26,7 @@ import java.net.URL;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+import javax.xml.ws.WebServiceFeature;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
@@ -77,6 +78,7 @@ public class Helper implements ClientHelper
       Bus bus = BusFactory.newInstance().createBus();
       try
       {
+         //CXF way
          BusFactory.setThreadDefaultBus(bus);
          
          HelloWorld port = getPort();
@@ -84,12 +86,32 @@ public class Helper implements ClientHelper
          GZIPFeature gzipFeature = new GZIPFeature();
          gzipFeature.setThreshold(0);
          gzipFeature.initialize(client, null); //bus parameter not actually used
-         return ("foo".equals(port.echo("foo")));
+         if(!"foo".equals(port.echo("foo"))) {
+            return false;
+         }
       }
       finally
       {
          bus.shutdown(true);
       }
+      bus = BusFactory.newInstance().createBus();
+      try
+      {
+         //JAX-WS way
+         BusFactory.setThreadDefaultBus(bus);
+         
+         GZIPFeature gzipFeature = new GZIPFeature();
+         gzipFeature.setThreshold(0);
+         HelloWorld port = getPort(gzipFeature);
+         if(!"foo".equals(port.echo("foo"))) {
+            return false;
+         }
+      }
+      finally
+      {
+         bus.shutdown(true);
+      }
+      return true;
    }
    
    public boolean testGZIPServerSideOnlyInterceptorOnClient() throws Exception
@@ -184,13 +206,13 @@ public class Helper implements ClientHelper
       }
    }
    
-   private HelloWorld getPort() throws MalformedURLException
+   private HelloWorld getPort(WebServiceFeature... features) throws MalformedURLException
    {
       URL wsdlURL = new URL(gzipFeatureEndpointURL + "?wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/gzip", "HelloWorldService");
       Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
       QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/gzip", "HelloWorldImplPort");
-      return (HelloWorld) service.getPort(portQName, HelloWorld.class);
+      return (HelloWorld) service.getPort(portQName, HelloWorld.class, features);
    }
 
    @Override
