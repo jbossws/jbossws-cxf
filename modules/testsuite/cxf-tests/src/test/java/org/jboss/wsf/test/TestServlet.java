@@ -74,7 +74,7 @@ public class TestServlet extends HttpServlet
       try
       {
          ClientHelper helper = (ClientHelper) Class.forName(helperClassName).newInstance();
-         helper.setTargetEndpoint("http://" + req.getLocalAddr() + ":" + req.getLocalPort() + path);
+         helper.setTargetEndpoint("http://" + toIPv6URLFormat(req.getLocalAddr()) + ":" + req.getLocalPort() + path);
          List<String> failedTests = new LinkedList<String>();
          List<String> errorTests = new LinkedList<String>();
          Method[] methods = helper.getClass().getMethods();
