@@ -29,8 +29,6 @@ import java.util.StringTokenizer;
 import org.apache.cxf.Bus;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.interceptor.InterceptorProvider;
-import org.jboss.ws.common.utils.DelegateClassLoader;
-import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.stack.cxf.client.Constants;
 
 /**
@@ -45,18 +43,19 @@ public class FeatureUtils
    public static void addFeatures(InterceptorProvider interceptorProvider, Bus bus, Map<String, String> properties) {
       final String features = properties.get(Constants.CXF_FEATURES_PROP);
       if (features != null) {
-         for (Feature f : createFeatures(features)) {
+         MapToBeanConverter converter = new MapToBeanConverter(properties);
+         for (Feature f : createFeatures(features, converter)) {
             f.initialize(interceptorProvider, bus);
          }
       }
    }
    
-   private static List<Feature> createFeatures(String propValue) {
+   private static List<Feature> createFeatures(String propValue, MapToBeanConverter converter) {
       List<Feature> list = new ArrayList<Feature>();
-      StringTokenizer st = new StringTokenizer(propValue, ", ", false );
+      StringTokenizer st = new StringTokenizer(propValue, ", ", false);
+      
       while (st.hasMoreTokens()) {
-         String itc = st.nextToken();
-         Feature feature = (Feature)newInstance(itc);
+         Feature feature = (Feature)newInstance(st.nextToken(), converter);
          if (feature != null) {
             list.add(feature);
          }
@@ -64,14 +63,11 @@ public class FeatureUtils
       return list;
    }
    
-   private static Object newInstance(String className)
+   private static Object newInstance(String className, MapToBeanConverter converter)
    {
       try
       {
-         ClassLoader loader = new DelegateClassLoader(ClassLoaderProvider.getDefaultProvider()
-               .getServerIntegrationClassLoader(), SecurityActions.getContextClassLoader());
-         Class<?> clazz = SecurityActions.loadClass(loader, className);
-         return clazz.newInstance();
+         return className.startsWith(MapToBeanConverter.BEAN_ID_PREFIX) ? converter.get(className) : converter.newInstance(className);
       }
       catch (Exception e)
       {

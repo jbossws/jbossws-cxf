@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2014, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -30,8 +30,6 @@ import java.util.StringTokenizer;
 
 import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.interceptor.InterceptorProvider;
-import org.jboss.ws.common.utils.DelegateClassLoader;
-import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.stack.cxf.client.Constants;
 
 /**
@@ -44,13 +42,20 @@ import org.jboss.wsf.stack.cxf.client.Constants;
 public class InterceptorUtils
 {
    public static void addInterceptors(InterceptorProvider interceptorProvider, Map<String, String> properties) {
+      MapToBeanConverter converter = null;
       final String inInterceptors = properties.get(Constants.CXF_IN_INTERCEPTORS_PROP);
       if (inInterceptors != null) {
-         interceptorProvider.getInInterceptors().addAll(createInterceptors(inInterceptors));
+         if (converter == null) {
+            converter = new MapToBeanConverter(properties);
+         }
+         interceptorProvider.getInInterceptors().addAll(createInterceptors(inInterceptors, converter));
       }
       final String outInterceptors = properties.get(Constants.CXF_OUT_INTERCEPTORS_PROP);
       if (outInterceptors != null) {
-         interceptorProvider.getOutInterceptors().addAll(createInterceptors(outInterceptors));
+         if (converter == null) {
+            converter = new MapToBeanConverter(properties);
+         }
+         interceptorProvider.getOutInterceptors().addAll(createInterceptors(outInterceptors, converter));
       }
    }
    
@@ -69,12 +74,11 @@ public class InterceptorUtils
       interceptorsList.removeAll(toBeRemoved);
    }
    
-   private static List<Interceptor<?>> createInterceptors(String propValue) {
+   private static List<Interceptor<?>> createInterceptors(String propValue, MapToBeanConverter converter) {
       List<Interceptor<?>> list = new ArrayList<Interceptor<?>>();
       StringTokenizer st = new StringTokenizer(propValue, ", ", false );
       while (st.hasMoreTokens()) {
-         String itc = st.nextToken();
-         Interceptor<?> interceptor = (Interceptor<?>)newInstance(itc);
+         Interceptor<?> interceptor = (Interceptor<?>)newInstance(st.nextToken(), converter);
          if (interceptor != null) {
             list.add(interceptor);
          }
@@ -82,14 +86,11 @@ public class InterceptorUtils
       return list;
    }
    
-   private static Object newInstance(String className)
+   private static Object newInstance(String className, MapToBeanConverter converter)
    {
       try
       {
-         ClassLoader loader = new DelegateClassLoader(ClassLoaderProvider.getDefaultProvider()
-               .getServerIntegrationClassLoader(), SecurityActions.getContextClassLoader());
-         Class<?> clazz = SecurityActions.loadClass(loader, className);
-         return clazz.newInstance();
+         return className.startsWith(MapToBeanConverter.BEAN_ID_PREFIX) ? converter.get(className) : converter.newInstance(className);
       }
       catch (Exception e)
       {
