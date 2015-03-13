@@ -36,6 +36,7 @@ import org.springframework.context.ApplicationContextAware;
  * @author alessio.soldano@jboss.com
  * @since 05-Oct-2009
  */
+@Deprecated
 public class JBossWSSpringConfigurer implements JBossWSConfigurer, ApplicationContextAware, BusExtension
 {
    private BeanCustomizer customizer;

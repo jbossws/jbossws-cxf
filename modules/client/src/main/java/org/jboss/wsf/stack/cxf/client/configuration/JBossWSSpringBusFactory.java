@@ -44,6 +44,7 @@ import org.springframework.core.io.Resource;
  * @since 25-May-2010
  *
  */
+@Deprecated
 public class JBossWSSpringBusFactory extends SpringBusFactory
 {
    private boolean customContextProvided = false;

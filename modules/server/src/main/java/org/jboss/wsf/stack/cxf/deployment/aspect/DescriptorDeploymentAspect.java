@@ -66,6 +66,7 @@ public class DescriptorDeploymentAspect extends AbstractDeploymentAspect
       //create additional DD if user provided jbossws-cxf.xml and Spring is available OR spring descriptor generation is forced
       if (cxfURL != null || PREFER_SPRING_DESCRIPTOR_GENERATION)
       {
+         DEPLOYMENT_LOGGER.deprecatedSpringIntegration();
          URL generated = dd.createFileURL();
          DEPLOYMENT_LOGGER.jbwscxfConfGenerated(generated);
          putCXFConfigToDeployment(dep, BusHolder.PARAM_CXF_GEN_URL, generated);

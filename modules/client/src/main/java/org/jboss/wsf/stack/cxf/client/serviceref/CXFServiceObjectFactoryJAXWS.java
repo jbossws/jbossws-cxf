@@ -46,7 +46,6 @@ import javax.xml.ws.soap.MTOMFeature;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.apache.cxf.configuration.Configurer;
 import org.jboss.ws.common.Messages;
 import org.jboss.wsf.spi.WSFException;
@@ -56,7 +55,7 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 import org.jboss.wsf.stack.cxf.client.ClientBusSelector;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSSpringBusFactory;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 
 /**
  * This ServiceObjectFactory reconstructs a javax.xml.ws.Service
@@ -516,13 +515,14 @@ public final class CXFServiceObjectFactoryJAXWS
       {});
    }
    
+   @SuppressWarnings("deprecation")
    private Bus createNewBus(final UnifiedServiceRefMetaData serviceRefMD)
    {
       final Bus bus;
       final URL cxfConfig = this.getCXFConfiguration(serviceRefMD.getVfsRoot());
       if (cxfConfig != null)
       {
-         final SpringBusFactory busFactory = new JBossWSSpringBusFactory();
+         final JBossWSBusFactory busFactory = new JBossWSBusFactory();
          bus = busFactory.createBus(cxfConfig);
          BusFactory.setThreadDefaultBus(bus);
       }

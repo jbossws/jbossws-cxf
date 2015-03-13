@@ -50,6 +50,7 @@ public class JBossWSBusFactory extends BusFactory
 {
    private static final Map<ClassLoader, Bus> classLoaderBusses = new WeakHashMap<ClassLoader, Bus>();
    
+   @SuppressWarnings("deprecation")
    private JBossWSSpringBusFactory springBusFactory;
    private JBossWSNonSpringBusFactory nonSpringBusFactory;
    
@@ -74,41 +75,49 @@ public class JBossWSBusFactory extends BusFactory
    }
    
    /** JBossWSSpringBusFactory methods **/
+   @Deprecated
    public Bus createBus(String cfgFile)
    {
       return getSpringBusFactory().createBus(cfgFile, true);
    }
    
+   @Deprecated
    public Bus createBus(String cfgFiles[])
    {
       return getSpringBusFactory().createBus(cfgFiles, true);
    }
    
+   @Deprecated
    public Bus createBus(String cfgFile, boolean includeDefaults)
    {
       return getSpringBusFactory().createBus(cfgFile, includeDefaults);
    }
    
+   @Deprecated
    public Bus createBus(String cfgFiles[], boolean includeDefaults)
    {
       return getSpringBusFactory().createBus(cfgFiles, includeDefaults);
    }
    
+   @Deprecated
    public Bus createBus(URL url)
    {
       return getSpringBusFactory().createBus(url);
    }
 
+   @Deprecated
    public Bus createBus(URL[] urls)
    {
       return getSpringBusFactory().createBus(urls);
    }
 
+   @Deprecated
    public Bus createBus(URL url, boolean includeDefaults)
    {
       return getSpringBusFactory().createBus(url, includeDefaults);
    }
 
+   @Deprecated
    public Bus createBus(URL[] urls, boolean includeDefaults)
    {
       return getSpringBusFactory().createBus(urls, includeDefaults);
@@ -125,6 +134,7 @@ public class JBossWSBusFactory extends BusFactory
       return getNonSpringBusFactory().createBus(extensions, properties);
    }
    
+   @Deprecated
    public synchronized JBossWSSpringBusFactory getSpringBusFactory()
    {
       if (springBusFactory == null)

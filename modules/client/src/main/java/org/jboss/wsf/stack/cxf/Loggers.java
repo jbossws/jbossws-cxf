@@ -240,4 +240,8 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = WARN)
     @Message(id = 24106, value = "Could not remove previuosly set features on client: %s")
     void couldNoRemoveFeaturesOnClient(String feature);
+
+    @LogMessage(level = WARN)
+    @Message(id = 24107, value = "JBossWS-CXF integration with Spring is deprecated and will be dropped in a future release. See https://issues.jboss.org/browse/JBWS-3884 for details.")
+    void deprecatedSpringIntegration();
 }
