@@ -13,6 +13,7 @@ The '-Dnodeploy' option can be used to avoid upgrading the ws stack on the targe
 The '-Dnoprepare' option can be used to avoid integration tests preparation phase, which includes tuning of the server configurations, wsconsume/wsprovide invocations, etc.
 The '-Ddebug' option can be used to turn on surefire debugging of integration tests only.
 The '-Djboss.bind.address=x.y.w.z' option can be used to have the started containers bound to the specified network interface address.
+The '-Dipv6' option can be used to run the integration testsuite using IPv6 protocol.
 The '-Darquillian.deploymentExportPath=target/foo' option can be used to have Arquillian write the actual test deployments to disk.
 
 The 'fast' profile can also be used to run tests concurrently; run 'mvn -Pfast,wildflyXYZ post-integration-test' in such case to trigger test servers' shutdown and save memory at the end of each testsuite module.
