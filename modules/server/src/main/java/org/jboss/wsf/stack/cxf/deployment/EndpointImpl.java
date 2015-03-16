@@ -224,6 +224,7 @@ public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
                      String epurl = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(ei.getAddress(), metadata);
                      ei.setAddress(epurl);
                   }
+               }
             }
          }
       }
