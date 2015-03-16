@@ -1363,6 +1363,28 @@
   
   <!-- Profiles -->
   <profiles>
+    <profile>
+      <id>ipv6</id>
+      <activation>
+        <property>
+          <name>ipv6</name>
+        </property>
+      </activation>
+      <properties>
+        <ipVerArgs>-Djava.net.preferIPv4Stack=false -Djava.net.preferIPv6Addresses=true</ipVerArgs>
+      </properties>
+    </profile>
+    <profile>
+      <id>ipv4</id>
+      <activation>
+        <property>
+          <name>!ipv6</name>
+        </property>
+      </activation>
+      <properties>
+        <ipVerArgs>-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false</ipVerArgs>
+      </properties>
+    </profile>
 
     <!--
     Name:  wildfly800
@@ -1374,7 +1396,7 @@
         <jbossws.integration.target>wildfly800</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly800.version}</jboss.version>
-        <additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl</additionalJvmArgs>
+        <additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
       </properties>
       <modules>
         <module>modules/dist</module>
@@ -1392,7 +1414,7 @@
         <jbossws.integration.target>wildfly810</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly810.version}</jboss.version>
-        <additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl</additionalJvmArgs>
+        <additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
       </properties>
       <modules>
         <module>modules/dist</module>
@@ -1410,7 +1432,7 @@
         <jbossws.integration.target>wildfly820</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly820.version}</jboss.version>
-        <additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl</additionalJvmArgs>
+        <additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
       </properties>
       <modules>
         <module>modules/dist</module>
@@ -1428,7 +1450,7 @@
         <jbossws.integration.target>wildfly900</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly900.version}</jboss.version>
-        <additionalJvmArgs></additionalJvmArgs>
+        <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
       </properties>
       <modules>
         <module>modules/dist</module>

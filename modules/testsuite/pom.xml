@@ -284,7 +284,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
+          <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} ${ipVerArgs} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
           <skip>true</skip>
           <failIfNoTests>false</failIfNoTests>
           <runOrder>alphabetical</runOrder>
