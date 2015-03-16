@@ -38,7 +38,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -210,7 +209,6 @@ public class SecurityDomainTestCase extends JBossWSTest
    @Test
    @RunAsClient
    @OperateOnDeployment(DEPLOYMENT1)
-   @Ignore(value="Wait for [WFLY-2129][WFLY-3988] merge")
    public void testOneWay() throws Exception
    {
       //test unthenticated
@@ -245,7 +243,6 @@ public class SecurityDomainTestCase extends JBossWSTest
    @Test
    @RunAsClient
    @OperateOnDeployment(DEPLOYMENT2)
-   @Ignore(value="Wait for [WFLY-2129][WFLY-3988] merge")
    public void testEjbSecurityAuth() throws Exception
    {
       URL wsdlURL = new URL(baseURL + "/jaxws-securityDomain2/authz?wsdl");
