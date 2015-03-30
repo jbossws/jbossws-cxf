@@ -143,6 +143,11 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
          {
             CallbackHandlerPolicyContextHandler.setCallbackHandler(cbHandler);
          }
+         Method method = bop == null ? null : md.getMethod(bop);
+         if (bop == null && method == null)
+         {
+            throw Messages.MESSAGES.missingBindingOpeartionAndDispatchedMethod();
+         }
          obj = invoke(exchange, targetBean,
                adjustMethodAndParams(md.getMethod(bop), exchange, params, targetBean.getClass()), params);
       }

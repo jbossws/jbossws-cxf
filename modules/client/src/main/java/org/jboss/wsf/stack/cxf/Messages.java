@@ -217,4 +217,7 @@ public interface Messages {
 
     @Message(id = 24104, value = "Service class %s is missing required JAX-WS 2.2 additional constructors")
     WSFException missingJAXWS22ServiceConstructor(String className, @Cause Throwable cause);
+
+    @Message(id = 24108, value = "BindingOperation and dispatched method is missing for service implementation invocation")
+    IllegalArgumentException missingBindingOpeartionAndDispatchedMethod();
 }

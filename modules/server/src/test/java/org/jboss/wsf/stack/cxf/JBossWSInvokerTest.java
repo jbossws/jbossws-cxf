@@ -84,6 +84,7 @@ public class JBossWSInvokerTest extends TestCase
       Message message = new MessageImpl();
       message.setExchange(exchange);
       exchange.setInMessage(message);
+      exchange.put(BindingOperationInfo.class, new BindingOperationInfo());
       Service service = new ServiceImpl();
       MethodDispatcher md = new MethodDispatcher() {
          @Override
