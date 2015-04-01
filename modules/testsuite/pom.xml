@@ -314,7 +314,7 @@
                  <javax.net.ssl.keyStore>${project.build.directory}/test-classes/client.keystore</javax.net.ssl.keyStore>
                  <javax.net.ssl.keyStorePassword>changeit</javax.net.ssl.keyStorePassword>
                  <javax.net.ssl.keyStoreType>jks</javax.net.ssl.keyStoreType>
-                 <org.jboss.security.ignoreHttpsHost>true</org.jboss.security.ignoreHttpsHost>
+                 <cxf.tls-client.disableCNCheck>true</cxf.tls-client.disableCNCheck>
                  <jboss.home>${jboss.home}</jboss.home>
                  <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
                  <log4j.output.dir>${log4j.output.dir}</log4j.output.dir>
@@ -355,7 +355,7 @@
                  <javax.net.ssl.keyStore>${project.build.directory}/test-classes/client.keystore</javax.net.ssl.keyStore>
                  <javax.net.ssl.keyStorePassword>changeit</javax.net.ssl.keyStorePassword>
                  <javax.net.ssl.keyStoreType>jks</javax.net.ssl.keyStoreType>
-                 <org.jboss.security.ignoreHttpsHost>true</org.jboss.security.ignoreHttpsHost>
+                 <cxf.tls-client.disableCNCheck>true</cxf.tls-client.disableCNCheck>
                  <jboss.home>${jboss.home}</jboss.home>
                  <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
                  <log4j.output.dir>${log4j.output.dir}</log4j.output.dir>

@@ -21,13 +21,11 @@
  */
 package org.jboss.wsf.stack.cxf.client.configuration;
 
-import org.apache.cxf.configuration.jsse.TLSClientParameters;
 import org.apache.cxf.databinding.DataBinding;
 import org.apache.cxf.frontend.AbstractWSDLBasedEndpointFactory;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.apache.cxf.jaxb.JAXBDataBinding;
 import org.apache.cxf.wsdl.service.factory.ReflectionServiceFactoryBean;
-import org.apache.cxf.transport.http.HTTPConduit;
 import org.jboss.ws.api.binding.BindingCustomization;
 import org.jboss.ws.api.binding.JAXBBindingCustomization;
 
@@ -49,10 +47,6 @@ public class BeanCustomizer
       else if (beanInstance instanceof ClientProxyFactoryBean)
       {
          configureClientProxyFactoryBean((ClientProxyFactoryBean)beanInstance);
-      }
-      else if (beanInstance instanceof HTTPConduit)
-      {
-         configureHTTPConduit((HTTPConduit)beanInstance);
       }
       //add other beans configuration here below
    }
@@ -115,27 +109,6 @@ public class BeanCustomizer
          }
       }
       //add other configurations here below
-   }
-   
-   /**
-    * Configure the HTTPConduit; currently allows for setting disableCNcheck in TLS client parameters according
-    * to the JBoss' org.jboss.security.ignoreHttpsHost system property.
-    * 
-    * @param conduit
-    */
-   protected void configureHTTPConduit(HTTPConduit conduit)
-   {
-      TLSClientParameters parameters = conduit.getTlsClientParameters();
-      if (parameters == null) //don't do anything when user already provided a configuration
-      {
-         parameters = new TLSClientParameters();
-         parameters.setUseHttpsURLConnectionDefaultSslSocketFactory(true);
-         if (SecurityActions.getBoolean("org.jboss.security.ignoreHttpsHost"))
-         {
-            parameters.setDisableCNCheck(true);
-         }
-         conduit.setTlsClientParameters(parameters);
-      }
    }
    
    @SuppressWarnings("unchecked")

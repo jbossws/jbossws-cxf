@@ -81,6 +81,27 @@ class SecurityActions
       }
    }
    
+   static Boolean getBoolean(final String propName, final Boolean defaultValue)
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         String s = System.getProperty(propName);
+         return (s != null) ? Boolean.valueOf(s) : defaultValue;
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<Boolean>()
+         {
+            public Boolean run()
+            {
+               String s = getSystemProperty(propName, null);
+               return (s != null) ? Boolean.valueOf(s) : defaultValue;
+            }
+         });
+      }
+   }
+   
    static boolean getBoolean(final String propName)
    {
       SecurityManager sm = System.getSecurityManager();
@@ -95,6 +116,63 @@ class SecurityActions
             public Boolean run()
             {
                return Boolean.getBoolean(propName);
+            }
+         });
+      }
+   }
+   
+   static Long getLong(final String propName, final Long defaultValue)
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         return Long.getLong(propName, defaultValue);
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<Long>()
+         {
+            public Long run()
+            {
+               return Long.getLong(propName, defaultValue);
+            }
+         });
+      }
+   }
+   
+   static Integer getInteger(final String propName, final Integer defaultValue)
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         return Integer.getInteger(propName, defaultValue);
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<Integer>()
+         {
+            public Integer run()
+            {
+               return Integer.getInteger(propName, defaultValue);
+            }
+         });
+      }
+   }
+   
+   static Integer getInteger(final String propName)
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         return Integer.getInteger(propName);
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<Integer>()
+         {
+            public Integer run()
+            {
+               return Integer.getInteger(propName);
             }
          });
       }

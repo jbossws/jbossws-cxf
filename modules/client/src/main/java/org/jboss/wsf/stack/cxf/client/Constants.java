@@ -48,6 +48,12 @@ public class Constants
    public static final String CXF_WS_DISCOVERY_ENABLED = "cxf.ws-discovery.enabled";
    public static final String JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS = "org.jboss.ws.cxf.disableHandlerAuthChecks";
    public static final String JBWS_CXF_NO_LOCAL_BC = "org.jboss.ws.cxf.noLocalBC";
+   public static final String CXF_CLIENT_ALLOW_CHUNKING = "cxf.client.allowChunking";
+   public static final String CXF_CLIENT_CHUNKING_THRESHOLD = "cxf.client.chunkingThreshold";
+   public static final String CXF_CLIENT_CONNECTION_TIMEOUT = "cxf.client.connectionTimeout";
+   public static final String CXF_CLIENT_RECEIVE_TIMEOUT = "cxf.client.receiveTimeout";
+   public static final String CXF_CLIENT_CONNECTION = "cxf.client.connection";
+   public static final String CXF_TLS_CLIENT_DISABLE_CN_CHECK = "cxf.tls-client.disableCNCheck";
    
    public static final String JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY = "org.jboss.ws.cxf.jaxws-client.bus.strategy";
    public static final String THREAD_BUS_STRATEGY = "THREAD_BUS";
