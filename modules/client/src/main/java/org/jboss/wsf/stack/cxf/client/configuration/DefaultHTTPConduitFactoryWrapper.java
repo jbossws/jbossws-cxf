@@ -31,6 +31,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transport.http.HTTPConduitFactory;
 import org.apache.cxf.transport.http.HTTPTransportFactory;
 import org.apache.cxf.transport.http.URLConnectionHTTPConduit;
 import org.apache.cxf.transports.http.configuration.ConnectionType;
@@ -61,13 +62,15 @@ public final class DefaultHTTPConduitFactoryWrapper extends AbstractHTTPConduitF
    
    private final Map<String, Object> configuration;
    
-   public DefaultHTTPConduitFactoryWrapper()
+   public DefaultHTTPConduitFactoryWrapper(HTTPConduitFactory delegate)
    {
+      super(delegate);
       this.configuration = defaultConfiguration;
    }
    
-   public DefaultHTTPConduitFactoryWrapper(Map<String, Object> configuration, boolean useSystemDefault)
+   public DefaultHTTPConduitFactoryWrapper(Map<String, Object> configuration, boolean useSystemDefault, HTTPConduitFactory delegate)
    {
+      super(delegate);
       if (configuration == null) {
          throw new IllegalArgumentException();
       }
@@ -156,5 +159,11 @@ public final class DefaultHTTPConduitFactoryWrapper extends AbstractHTTPConduitF
             httpClientPolicy.setConnection(ConnectionType.fromValue(connection));
          }
       }
+   }
+   
+   public static void install(Bus bus)
+   {
+      HTTPConduitFactory delegate = bus.getExtension(HTTPConduitFactory.class);
+      bus.setExtension(new DefaultHTTPConduitFactoryWrapper(delegate), HTTPConduitFactory.class);
    }
 }

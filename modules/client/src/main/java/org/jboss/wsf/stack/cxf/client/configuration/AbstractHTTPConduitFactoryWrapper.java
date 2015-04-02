@@ -40,19 +40,13 @@ import org.apache.cxf.ws.addressing.EndpointReferenceType;
  */
 public abstract class AbstractHTTPConduitFactoryWrapper implements HTTPConduitFactory
 {
-   private HTTPConduitFactory delegate;
+   private final HTTPConduitFactory delegate;
    
-   /**
-    * Installs the current wrapper in the specified Bus instance.
-    * 
-    * @param bus    The Bus instance to install the wrapper in
-    */
-   public void install(Bus bus)
+   public AbstractHTTPConduitFactoryWrapper(HTTPConduitFactory delegate)
    {
-      delegate = bus.getExtension(HTTPConduitFactory.class);
-      bus.setExtension(this, HTTPConduitFactory.class);
+      this.delegate = delegate;
    }
-
+   
    @Override
    public HTTPConduit createConduit(HTTPTransportFactory f, Bus b, EndpointInfo localInfo, EndpointReferenceType target)
          throws IOException

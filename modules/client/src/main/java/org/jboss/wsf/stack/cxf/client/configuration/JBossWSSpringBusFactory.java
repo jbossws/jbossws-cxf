@@ -113,7 +113,7 @@ public class JBossWSSpringBusFactory extends SpringBusFactory
 
       registerAppContextLifeCycleListener(bus, bac);
       
-      new DefaultHTTPConduitFactoryWrapper().install(bus);
+      DefaultHTTPConduitFactoryWrapper.install(bus);
       return bus;
    }
 

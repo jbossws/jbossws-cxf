@@ -60,7 +60,7 @@ public class JBossWSNonSpringBusFactory extends CXFBusFactory
       initializeBus(bus);
       bus.initialize();
       
-      new DefaultHTTPConduitFactoryWrapper().install(bus);
+      DefaultHTTPConduitFactoryWrapper.install(bus);
       return bus;
    }
    
