@@ -292,7 +292,7 @@
 	              <goal>start</goal>
 	            </goals>
 	            <configuration>
-	              <jvmArgs>-server -XX:+UseCompressedOops -Xms64m -Xmx512m -XX:MaxPermSize=256m ${additionalJvmArgs}</jvmArgs>
+	              <jvmArgs>-server -XX:+UseCompressedOops -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jboss} ${additionalJvmArgs}</jvmArgs>
 	              <serverConfig>jbws-testsuite-default.xml</serverConfig>
 	              <jbossHome>${jboss.home}</jbossHome>
                   <!-- TODO: add serverArgs section to use a custom bind address (requires wildfly-maven-plugin 1.1.0 +)
