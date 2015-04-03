@@ -133,11 +133,20 @@ public final class UDPEndpointAPITestCase extends JBossWSTest
    }
    
    private boolean isBroadcastAddressAvailable(NetworkInterface networkInterface) {
-      for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
-         InetAddress broadcast = interfaceAddress.getBroadcast();
-         if (broadcast != null) {
-             return true;
+      try
+      {
+         for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses())
+         {
+            InetAddress broadcast = interfaceAddress.getBroadcast();
+            if (broadcast != null)
+            {
+               return true;
+            }
          }
+      }
+      catch (Throwable e)
+      {
+         //in case networkInterface.getInterfaceAddresses() throws NPE on windows
       }
       return false;
    }
