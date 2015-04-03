@@ -11,9 +11,9 @@
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
             <property name="jbossArguments">${jbossArguments}</property>
-            <property name="managementPort">${as.managementPort:9990}</property> <!-- Keep in sync with the port-offset -->
+            <property name="managementPort">${add_int(port-offset.cxf-tests.jboss,9990)}</property>
             <!-- AS7-4070 -->
-            <property name="waitForPorts">${as.debug.port:8787} ${as.managementPort:9990}</property> <!-- Keep in sync with the port-offset -->
+            <property name="waitForPorts">${add_int(port-offset.cxf-tests.jboss,8787)} ${add_int(port-offset.cxf-tests.jboss,9990)}</property>
             <property name="waitForPortsTimeoutInSeconds">8</property>
         </configuration>
     </container>
