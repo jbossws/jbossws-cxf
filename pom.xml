@@ -75,7 +75,7 @@
     <ejb.api.version>1.0.2.Final</ejb.api.version>
     <cxf.version>3.0.4</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
-    <cxf.xjcplugins.version>3.0.2</cxf.xjcplugins.version>
+    <cxf.xjcplugins.version>3.0.3</cxf.xjcplugins.version>
     <jboss-logging.version>3.1.2.GA</jboss-logging.version>
      <jboss-logging-annotations.version>1.2.0.Final</jboss-logging-annotations.version>
     <jboss-logging-processor.version>1.0.3.Final</jboss-logging-processor.version>
@@ -771,141 +771,26 @@
         <groupId>org.apache.cxf.xjcplugins</groupId>
         <artifactId>cxf-xjc-boolean</artifactId>
         <version>${cxf.xjcplugins.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf.xjcplugins</groupId>
         <artifactId>cxf-xjc-bug986</artifactId>
         <version>${cxf.xjcplugins.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf.xjcplugins</groupId>
         <artifactId>cxf-xjc-dv</artifactId>
         <version>${cxf.xjcplugins.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf.xjcplugins</groupId>
         <artifactId>cxf-xjc-ts</artifactId>
         <version>${cxf.xjcplugins.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
-          </exclusion>
-        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cxf.xjc-utils</groupId>
+        <artifactId>cxf-xjc-runtime</artifactId>
+        <version>${cxf.xjcplugins.version}</version>
       </dependency>
 
       <dependency>

@@ -134,6 +134,10 @@
       <artifactId>cxf-xjc-ts</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.apache.cxf.xjc-utils</groupId>
+      <artifactId>cxf-xjc-runtime</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity</artifactId>
     </dependency>
