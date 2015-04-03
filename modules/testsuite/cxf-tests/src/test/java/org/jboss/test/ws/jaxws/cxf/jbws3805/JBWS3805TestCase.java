@@ -77,7 +77,7 @@ public class JBWS3805TestCase extends JBossWSTest
          {
             if (line.contains("address location"))
             {
-               assertTrue("Unexpected uri scheme", line.contains("https://foo:8443/jaxws-cxf-JBWS3805/HelloService"));
+               assertTrue("Unexpected uri scheme", line.contains("https://foo:" + (baseURL.getPort() + 8443 - 8080) + "/jaxws-cxf-JBWS3805/HelloService"));
                return;
             }
          }
