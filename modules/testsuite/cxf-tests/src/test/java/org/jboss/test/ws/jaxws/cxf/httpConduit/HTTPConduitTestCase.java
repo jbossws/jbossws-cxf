@@ -88,6 +88,7 @@ public class HTTPConduitTestCase extends JBossWSTest
    @RunAsClient
    public void testWrapperWithMap() throws Exception {
       Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
       try {
          Map<String, Object> map = new HashMap<String, Object>();
          map.put(Constants.CXF_CLIENT_ALLOW_CHUNKING, true);
@@ -120,6 +121,7 @@ public class HTTPConduitTestCase extends JBossWSTest
    @RunAsClient
    public void testTimeout() throws Exception {
       Bus bus = BusFactory.newInstance().createBus();
+      BusFactory.setThreadDefaultBus(bus);
       try {
          Map<String, Object> map = new HashMap<String, Object>();
          map.put(Constants.CXF_CLIENT_CONNECTION_TIMEOUT, 6000L);
