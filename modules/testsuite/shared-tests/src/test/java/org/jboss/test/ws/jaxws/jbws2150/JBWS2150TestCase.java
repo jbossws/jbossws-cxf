@@ -754,32 +754,34 @@ public final class JBWS2150TestCase extends JBossWSTest
          final String serverHost = getServerHost();
          final int serverPort = getServerPort();
          final int serverSecurePort = serverPort + 363; //8443 = 8080 + 363
-         final List<String> wsdlLocations = new LinkedList<String>();
+         final Map<String, String> wsdlLocationsMap = new HashMap<String, String>();
          final Map<String, String> importMap = new HashMap<String, String>();
-         wsdlLocations.add("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidURL?wsdl");
-         wsdlLocations.add("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidURL?wsdl");
-         wsdlLocations.add("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidSecureURL?wsdl");
-         wsdlLocations.add("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidSecureURL?wsdl");
-         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidURL?wsdl", "http://" + serverHost + ":" + serverPort + "/" + expectedContext + "/ValidURL?wsdl=inner.wsdl");
-         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidURL?wsdl", "http://" + serverHost + ":" + serverPort + "/" + expectedContext + "/InvalidURL?wsdl=inner.wsdl");
-         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidSecureURL?wsdl", "https://" + serverHost + ":" + serverSecurePort + "/" + expectedContext + "/ValidSecureURL?wsdl=inner.wsdl");
-         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + serverHost + ":" + serverSecurePort + "/" + expectedContext + "/InvalidSecureURL?wsdl=inner.wsdl");
+         wsdlLocationsMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidURL?wsdl", getWebServiceHost());
+         wsdlLocationsMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidURL?wsdl", getWebServiceHost());
+         wsdlLocationsMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidSecureURL?wsdl", getWebServiceHost());
+         wsdlLocationsMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidSecureURL?wsdl", getWebServiceHost());
+         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidURL?wsdl", "http://" + getWebServiceHost() + ":" + serverPort + "/" + expectedContext + "/ValidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidURL?wsdl", "http://" + getWebServiceHost() + ":" + serverPort + "/" + expectedContext + "/InvalidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidSecureURL?wsdl", "https://" + getWebServiceHost() + ":" + serverSecurePort + "/" + expectedContext + "/ValidSecureURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + getWebServiceHost() + ":" + serverSecurePort + "/" + expectedContext + "/InvalidSecureURL?wsdl=inner.wsdl");
 
-         for (final String wsdlLocation : wsdlLocations)
+         for (Entry<String, String> entry : wsdlLocationsMap.entrySet())
          {
+            String wsdlLocation = entry.getKey();
+            String host = entry.getValue();
             Definition definition = getWSDLDefinition(wsdlLocation);
 
             String address = getPortAddress(definition, "ValidURLService", "ValidURLPort");
-            assertEquals("http://" + serverHost + ":" + serverPort + "/" + expectedContext + "/ValidURL", address);
+            assertEquals("http://" + host + ":" + serverPort + "/" + expectedContext + "/ValidURL", address);
 
             address = getPortAddress(definition, "InvalidURLService", "InvalidURLPort");
-            assertEquals("http://" + serverHost + ":" + serverPort + "/" + expectedContext + "/InvalidURL", address);
+            assertEquals("http://" + host + ":" + serverPort + "/" + expectedContext + "/InvalidURL", address);
 
             address = getPortAddress(definition, "ValidSecureURLService", "ValidSecureURLPort");
-            assertEquals("https://" + serverHost + ":" + serverSecurePort + "/" + expectedContext + "/ValidSecureURL", address);
+            assertEquals("https://" + host + ":" + serverSecurePort + "/" + expectedContext + "/ValidSecureURL", address);
 
             address = getPortAddress(definition, "InvalidSecureURLService", "InvalidSecureURLPort");
-            assertEquals("https://" + serverHost + ":" + serverSecurePort + "/" + expectedContext + "/InvalidSecureURL", address);
+            assertEquals("https://" + host + ":" + serverSecurePort + "/" + expectedContext + "/InvalidSecureURL", address);
 
             //check wsdl import address rewrite (we expect a rewritten version of the same base address used to fetch the wsdl)
             assertEquals(importMap.get(wsdlLocation), getWsdlImportAddress(definition));
@@ -813,7 +815,7 @@ public final class JBWS2150TestCase extends JBossWSTest
 
          Definition definition = getWSDLDefinition(wsdlLocation);
          String address = getPortAddress(definition, "CodeFirstService", "CodeFirstPort");
-         assertEquals("http://" + serverHost + ":" + serverPort + "/" + expectedContext +"/CodeFirstService", address);
+         assertEquals("http://" + getWebServiceHost() + ":" + serverPort + "/" + expectedContext +"/CodeFirstService", address);
       }
       finally
       {
@@ -1208,32 +1210,34 @@ public final class JBWS2150TestCase extends JBossWSTest
          final String serverHost = getServerHost();
          final int serverPort = getServerPort();
          final int serverSecurePort = serverPort + 363; //8080 + 363 = 8443
-         final List<String> wsdlLocations = new LinkedList<String>();
+         final Map<String, String> wsdlLocationsMap = new HashMap<String, String>();
          final Map<String, String> importMap = new HashMap<String, String>();
-         wsdlLocations.add("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidURL?wsdl");
-         wsdlLocations.add("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidURL?wsdl");
-         wsdlLocations.add("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidSecureURL?wsdl");
-         wsdlLocations.add("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidSecureURL?wsdl");
-         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidURL?wsdl", "https://" + serverHost + ":" + serverSecurePort + "/" + expectedContext + "/ValidURL?wsdl=inner.wsdl");
-         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidURL?wsdl", "https://" + serverHost + ":" + serverSecurePort + "/" + expectedContext + "/InvalidURL?wsdl=inner.wsdl");
-         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidSecureURL?wsdl", "https://" + serverHost + ":" + serverSecurePort + "/" + expectedContext + "/ValidSecureURL?wsdl=inner.wsdl");
-         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + serverHost + ":" + serverSecurePort + "/" + expectedContext + "/InvalidSecureURL?wsdl=inner.wsdl");
+         wsdlLocationsMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidURL?wsdl", getWebServiceHost());
+         wsdlLocationsMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidURL?wsdl", getWebServiceHost());
+         wsdlLocationsMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidSecureURL?wsdl", getWebServiceHost());
+         wsdlLocationsMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidSecureURL?wsdl", getWebServiceHost());
+         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidURL?wsdl", "https://" + getWebServiceHost() + ":" + serverSecurePort + "/" + expectedContext + "/ValidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidURL?wsdl", "https://" + getWebServiceHost() + ":" + serverSecurePort + "/" + expectedContext + "/InvalidURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/ValidSecureURL?wsdl", "https://" + getWebServiceHost() + ":" + serverSecurePort + "/" + expectedContext + "/ValidSecureURL?wsdl=inner.wsdl");
+         importMap.put("http://" + serverHost + ":" + serverPort + "/jaxws-jbws2150/InvalidSecureURL?wsdl", "https://" + getWebServiceHost() + ":" + serverSecurePort + "/" + expectedContext + "/InvalidSecureURL?wsdl=inner.wsdl");
 
-         for (final String wsdlLocation : wsdlLocations)
+         for (Entry<String, String> entry : wsdlLocationsMap.entrySet())
          {
+            String wsdlLocation = entry.getKey();
+            String host = entry.getValue();
             Definition definition = getWSDLDefinition(wsdlLocation);
 
             String address = getPortAddress(definition, "ValidURLService", "ValidURLPort");
-            assertEquals("https://" + serverHost + ":" + serverSecurePort + "/" + expectedContext + "/ValidURL", address);
+            assertEquals("https://" + host + ":" + serverSecurePort + "/" + expectedContext + "/ValidURL", address);
 
             address = getPortAddress(definition, "InvalidURLService", "InvalidURLPort");
-            assertEquals("https://" + serverHost + ":" + serverSecurePort + "/" + expectedContext + "/InvalidURL", address);
+            assertEquals("https://" + host + ":" + serverSecurePort + "/" + expectedContext + "/InvalidURL", address);
 
             address = getPortAddress(definition, "ValidSecureURLService", "ValidSecureURLPort");
-            assertEquals("https://" + serverHost + ":" + serverSecurePort + "/" + expectedContext + "/ValidSecureURL", address);
+            assertEquals("https://" + host + ":" + serverSecurePort + "/" + expectedContext + "/ValidSecureURL", address);
 
             address = getPortAddress(definition, "InvalidSecureURLService", "InvalidSecureURLPort");
-            assertEquals("https://" + serverHost + ":" + serverSecurePort + "/" + expectedContext + "/InvalidSecureURL", address);
+            assertEquals("https://" + host + ":" + serverSecurePort + "/" + expectedContext + "/InvalidSecureURL", address);
 
             //check wsdl import address rewrite (we expect a rewritten version of the same base address used to fetch the wsdl)
             assertEquals(importMap.get(wsdlLocation), getWsdlImportAddress(definition));
