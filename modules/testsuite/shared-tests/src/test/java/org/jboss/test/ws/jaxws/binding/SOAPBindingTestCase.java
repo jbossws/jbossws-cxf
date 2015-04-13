@@ -86,14 +86,8 @@ public class SOAPBindingTestCase extends JBossWSTest
             transport = soapBinding.getTransportURI();
          }
       }
-      if (isIntegrationCXF())
-      {
-         System.out.println("FIXME: [CXF-2531] Wrong \"transport\" attribute in soap12:binding");
-      }
-      else
-      {
-         assertEquals("Invalid transport uri", "http://schemas.xmlsoap.org/soap/http", transport);
-      }
+
+      assertEquals("Invalid transport uri", "http://schemas.xmlsoap.org/soap/http", transport);
    }
 
    public void testClientAccess() throws Exception

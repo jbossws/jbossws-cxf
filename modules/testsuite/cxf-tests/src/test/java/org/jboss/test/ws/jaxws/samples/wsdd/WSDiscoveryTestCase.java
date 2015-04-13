@@ -66,20 +66,27 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          ProbeType pt = new ProbeType();
          ScopesType scopes = new ScopesType();
          pt.setScopes(scopes);
-         List<ProbeMatchType> pmts = filterProbeMatchesForHost(client.probe(pt, TIMEOUT).getProbeMatch(), getServerHost());
-         
+
+         String serverHost = getServerHost().replace("127.0.0.1", "localhost");
+         List<ProbeMatchType> pmts = client.probe(pt, TIMEOUT).getProbeMatch();
+         assertFalse("There must be some services discovered, check that you have allowed UDP broadcast on port 3072", pmts.isEmpty());
+
+         List<ProbeMatchType> pmtsForHost = filterProbeMatchesForHost(pmts, serverHost);
+         assertFalse("There must be some services discovered for server host " + serverHost
+                 + ", found only: " + dbgProbeMatchTypeList(pmts), pmtsForHost.isEmpty());
+
          List<ResolveMatchType> rmts = new LinkedList<ResolveMatchType>();
-         for (ProbeMatchType pmt : pmts) {
+         for (ProbeMatchType pmt : pmtsForHost) {
             W3CEndpointReference epr = pmt.getEndpointReference();
             ResolveMatchType rmt = client.resolve(epr, TIMEOUT);
             assertNotNull("Could not resolve (timeout = " + TIMEOUT  + " ms) reference: " + epr, rmt);
             rmts.add(rmt);
          }
-         
+
          final QName typeName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsdd", "ServiceIface");
-         checkResolveMatches(rmts, "http://" + getServerHost() + ":8080/jaxws-samples-wsdd/WSDDService", typeName);
-         checkResolveMatches(rmts, "http://" + getServerHost() + ":8080/jaxws-samples-wsdd2/WSDDService", typeName);
-         checkResolveMatches(rmts, "http://" + getServerHost() + ":8080/jaxws-samples-wsdd2/AnotherWSDDService", typeName);
+         checkResolveMatches(rmts, "http://" + serverHost + ":8080/jaxws-samples-wsdd/WSDDService", typeName);
+         checkResolveMatches(rmts, "http://" + serverHost + ":8080/jaxws-samples-wsdd2/WSDDService", typeName);
+         checkResolveMatches(rmts, "http://" + serverHost + ":8080/jaxws-samples-wsdd2/AnotherWSDDService", typeName);
          client.close();
       } finally {
          bus.shutdown(true);
@@ -124,7 +131,7 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          ProbeType pt = new ProbeType();
          ScopesType scopes = new ScopesType();
          pt.setScopes(scopes);
-         List<ProbeMatchType> pmts = filterProbeMatchesForHost(client.probe(pt, TIMEOUT).getProbeMatch(), getServerHost());
+         List<ProbeMatchType> pmts = filterProbeMatchesForHost(client.probe(pt, TIMEOUT).getProbeMatch(), getServerHost().replace("127.0.0.1", "localhost"));
          
          List<ResolveMatchType> rmts = new LinkedList<ResolveMatchType>();
          for (ProbeMatchType pmt : pmts) {
@@ -162,15 +169,30 @@ public final class WSDiscoveryTestCase extends JBossWSTest
    private String dbgDumpList(List<ResolveMatchType> rmtList){
       StringBuilder dbgStr = new StringBuilder().append("\n");
 
-      if(rmtList.size() > 1){
-         for(ResolveMatchType rmt: rmtList){
-            String tmpStr = rmt.getEndpointReference().toString();
-            int start = tmpStr.indexOf("<Address>");
-            int end = tmpStr.indexOf("</Address>");
-            if (start > -1 && end > -1){
-               String uuidStr = tmpStr.substring(start+9, end);
-               dbgStr.append(rmt.getXAddrs().get(0) +"  " + uuidStr + "\n");
-            }
+      for(ResolveMatchType rmt: rmtList){
+         String tmpStr = rmt.getEndpointReference().toString();
+         int start = tmpStr.indexOf("<Address>");
+         int end = tmpStr.indexOf("</Address>");
+         if (start > -1 && end > -1){
+            String uuidStr = tmpStr.substring(start+9, end);
+            dbgStr.append(rmt.getXAddrs().get(0) +"  " + uuidStr + "\n");
+         }
+      }
+      return dbgStr.toString();
+   }
+
+   // tmp method for debugging jenkins runs.
+   // report uuid of the endpoint
+   private String dbgProbeMatchTypeList(List<ProbeMatchType> pmtList){
+      StringBuilder dbgStr = new StringBuilder().append("\n");
+
+      for(ProbeMatchType rmt: pmtList){
+         String tmpStr = rmt.getEndpointReference().toString();
+         int start = tmpStr.indexOf("<Address>");
+         int end = tmpStr.indexOf("</Address>");
+         if (start > -1 && end > -1){
+            String uuidStr = tmpStr.substring(start + 9, end);
+            dbgStr.append(rmt.getXAddrs().get(0) +"  " + uuidStr + "\n");
          }
       }
       return dbgStr.toString();

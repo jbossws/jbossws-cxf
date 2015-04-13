@@ -447,6 +447,7 @@
        <classes dir="${tests.output.dir}/test-classes">
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/sts/SampleSTS.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/sts/STSCallbackHandler.class"/>
+          <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/shared/WSTrustAppUtils.class"/>
        </classes>
        <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
           <include name="wsdl/ws-trust*"/>
@@ -550,6 +551,7 @@
       <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/stsbearer/SampleSTSBearer.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/stsbearer/STSBearerCallbackHandler.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/shared/WSTrustAppUtils.class"/>
       </classes>
       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
         <include name="wsdl/bearer-ws-trust*"/>
@@ -592,6 +594,7 @@
       <classes dir="${tests.output.dir}/test-classes">
         <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/stsholderofkey/SampleSTSHolderOfKey.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/stsholderofkey/STSHolderOfKeyCallbackHandler.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/shared/WSTrustAppUtils.class"/>
       </classes>
       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
         <include name="wsdl/holderofkey-ws-trust*"/>

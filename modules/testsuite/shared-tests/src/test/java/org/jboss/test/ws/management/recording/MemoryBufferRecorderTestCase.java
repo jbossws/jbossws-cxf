@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.management.recording;
 
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -132,16 +133,14 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       setRecording(true);
       
       port.echo1("Test getRecordsByClientHost");
-      
-      //We have client and server on the same host here...
-      String host = "localhost".equals(getServerHost()) ? "127.0.0.1" : getServerHost();
-      if ("[::1]".equals(host)) host = "0:0:0:0:0:0:0:1"; // IPv6 hack
-      
+
+      // MemoryBufferRecorder stores source host as InetAddress IP format, eg. [::1] will be considered 0:0:0:0:0:0:0:1
+      String host = InetAddress.getByName(getServerHost()).getHostAddress();
+
       Map<String, List<Record>> localhostRecords = (Map<String, List<Record>>)server.invoke(oname, "getRecordsByClientHost", new Object[] { host },
             new String[] { "java.lang.String" });
       Map<String, List<Record>> amazonRecords = (Map<String, List<Record>>)server.invoke(oname, "getRecordsByClientHost", new Object[] { "72.21.203.1" },
             new String[] { "java.lang.String" });
-      
       assertTrue("No records for " + host, localhostRecords.size() > 0);
       assertTrue("There are records for 72.21.203.1", amazonRecords.size() == 0);
    }
@@ -156,10 +155,7 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
 
       OperationFilter operationFilter = new OperationFilter(new QName(targetNS, "echo1"));
       LinkedList<String> l = new LinkedList<String>();
-      l.add("localhost");
-      l.add("127.0.0.1");
-      l.add("[::1]");
-      l.add("[0:0:0:0:0:0:0:1]");
+      l.add(getServerHost().replace("127.0.0.1", "localhost"));
       HostFilter hostFilter = new HostFilter(l,false); //destination
 
       RecordFilter[] filters = new RecordFilter[] {operationFilter, hostFilter};
@@ -170,7 +166,10 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
 
       Map<String, List<Record>> stopRecords = (Map<String, List<Record>>)server.invoke(oname, "getMatchingRecords", new Object[] { filters }, new String[] { filters.getClass().getName() });
 
-      assertEquals(1, stopRecords.keySet().size() - startRecords.keySet().size());
+      Map<String, List<Record>> allRecords = (Map<String, List<Record>>) server.invoke(oname, "getMatchingRecords", new Object[]{new RecordFilter[]{operationFilter}}, new String[]{filters.getClass().getName()});
+
+      assertTrue("No records for hosts " + l + ", all records found: " + dumpInboundRecordsInfo(allRecords), stopRecords.size() > 0);
+      assertEquals("There must be only 1 record for echo1 operation", 1, stopRecords.keySet().size() - startRecords.keySet().size());
    }
 
    public void testAddRemoveFilter() throws Exception
@@ -230,4 +229,20 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       Service service = Service.create(wsdlURL, serviceName);
       return service.getPort(Endpoint.class);
    }
+
+   private String dumpInboundRecordsInfo(Map<String, List<Record>> records) {
+      StringBuilder sb = new StringBuilder();
+       for (String key : records.keySet()) {
+          sb.append(records.get(key)).append("\n");
+          for (Record record : records.get(key)) {
+             if(record.getMessageType() == Record.MessageType.INBOUND) {
+                sb.append("  ").append(record.getGroupID()).append("\n");
+                sb.append("    Source host: ").append(record.getSourceHost()).append("\n");
+                sb.append("    Destination host: ").append(record.getDestinationHost()).append("\n");
+             }
+          }
+      }
+      return sb.toString();
+   }
+
 }
