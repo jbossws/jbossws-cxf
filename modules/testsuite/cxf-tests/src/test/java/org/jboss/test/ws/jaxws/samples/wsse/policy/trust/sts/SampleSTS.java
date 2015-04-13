@@ -40,6 +40,8 @@ import org.apache.cxf.sts.token.provider.SAMLTokenProvider;
 import org.apache.cxf.sts.token.validator.SAMLTokenValidator;
 import org.apache.cxf.sts.token.validator.UsernameTokenValidator;
 import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.WSTrustTestUtils;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.WSTrustAppUtils;
 
 @WebServiceProvider(serviceName = "SecurityTokenService",
       portName = "UT_Port",
@@ -67,18 +69,11 @@ public class SampleSTS extends SecurityTokenServiceProvider
       
       List<ServiceMBean> services = new LinkedList<ServiceMBean>();
       StaticService service = new StaticService();
+      String serverHostRegexp = WSTrustAppUtils.getServerHost().replace("[", "\\[").replace("]", "\\]").replace("127.0.0.1", "localhost");
       service.setEndpoints(Arrays.asList(
-         "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
-         "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
-         "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
-
-         "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
-         "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
-         "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
-
-         "http://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService",
-         "http://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService",
-         "http://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService"
+         "http://" + serverHostRegexp + ":(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
+         "http://" + serverHostRegexp + ":(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
+         "http://" + serverHostRegexp + ":(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService"
       ));
       services.add(service);
       

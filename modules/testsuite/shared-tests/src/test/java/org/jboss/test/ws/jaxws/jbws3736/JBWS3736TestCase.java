@@ -80,9 +80,11 @@ public class JBWS3736TestCase extends JBossWSTest
    public void testAddressRewrite() throws Exception
    {
       String wsdl = IOUtils.readAndCloseStream(new URL(baseURL + "/jaxws-jbws3736?wsdl").openStream());
+
+      String serverHost = getServerHost().replace("127.0.0.1", "localhost"); //because of TCK workaround in org.jboss.ws.common.management.AbstractServerConfig
       //we expect the published wsdl to have the https protocol in the soap:address because the original wsdl provided
       //in the deployment has that. This shows that the reference to the wsdl in endpoint interface has been processed
       //when rewriting the soap:address. If we got http protocol here, the fix won't be in place.
-      assertTrue(wsdl.contains("https://" + getServerHost() + ":" + (getServerPort() + 363) + "/jaxws-jbws3736"));
+      assertTrue(wsdl.contains("https://" + serverHost + ":" + (getServerPort() + 363) + "/jaxws-jbws3736"));
    }
 }

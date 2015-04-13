@@ -93,10 +93,17 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          ProbeType pt = new ProbeType();
          ScopesType scopes = new ScopesType();
          pt.setScopes(scopes);
-         List<ProbeMatchType> pmts = filterProbeMatchesForHost(client.probe(pt, TIMEOUT).getProbeMatch(), getServerHost());
+         final String serverHost = getServerHost().replace("127.0.0.1", "localhost");
+         final int serverPort = getServerPort();
+         List<ProbeMatchType> pmts = client.probe(pt, TIMEOUT).getProbeMatch();
+         assertFalse("There must be some services discovered, check that you have allowed UDP broadcast on port 3072", pmts.isEmpty());
+         
+         List<ProbeMatchType> pmtsForHost = filterProbeMatchesForHost(pmts, serverHost);
+         assertFalse("There must be some services discovered for current host " + serverHost
+                 + ", found only " + dbgProbeMatchTypeList(pmts), pmtsForHost.isEmpty());
          
          List<ResolveMatchType> rmts = new LinkedList<ResolveMatchType>();
-         for (ProbeMatchType pmt : pmts) {
+         for (ProbeMatchType pmt : pmtsForHost) {
             W3CEndpointReference epr = pmt.getEndpointReference();
             ResolveMatchType rmt = client.resolve(epr, TIMEOUT);
             assertNotNull("Could not resolve (timeout = " + TIMEOUT  + " ms) reference: " + epr, rmt);
@@ -104,8 +111,6 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          }
          
          final QName typeName = new QName("http://www.jboss.org/jbossws/ws-extensions/wsdd", "ServiceIface");
-         final String serverHost = getServerHost();
-         final int serverPort = getServerPort();
          checkResolveMatches(rmts, "http://" + serverHost + ":" + serverPort + "/jaxws-samples-wsdd/WSDDService", typeName);
          checkResolveMatches(rmts, "http://" + serverHost + ":" + serverPort + "/jaxws-samples-wsdd2/WSDDService", typeName);
          checkResolveMatches(rmts, "http://" + serverHost + ":" + serverPort + "/jaxws-samples-wsdd2/AnotherWSDDService", typeName);
@@ -155,10 +160,16 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          ProbeType pt = new ProbeType();
          ScopesType scopes = new ScopesType();
          pt.setScopes(scopes);
-         List<ProbeMatchType> pmts = filterProbeMatchesForHost(client.probe(pt, TIMEOUT).getProbeMatch(), getServerHost());
+         final String serverHost = getServerHost().replace("127.0.0.1", "localhost");
+         List<ProbeMatchType> pmts = client.probe(pt, TIMEOUT).getProbeMatch();
+         assertFalse("There must be some services discovered, check that you have allowed UDP broadcast on port 3072", pmts.isEmpty());
+         
+         List<ProbeMatchType> pmtsForHost = filterProbeMatchesForHost(pmts, serverHost.replace("127.0.0.1", "localhost"));
+         
+         assertFalse("There must be some services discovered for current host " + serverHost, pmtsForHost.isEmpty());
          
          List<ResolveMatchType> rmts = new LinkedList<ResolveMatchType>();
-         for (ProbeMatchType pmt : pmts) {
+         for (ProbeMatchType pmt : pmtsForHost) {
             W3CEndpointReference epr = pmt.getEndpointReference();
             ResolveMatchType rmt = client.resolve(epr, TIMEOUT);
             assertNotNull("Could not resolve (timeout = " + TIMEOUT  + " ms) reference: " + epr, rmt);
@@ -183,11 +194,46 @@ public final class WSDiscoveryTestCase extends JBossWSTest
    private void checkResolveMatches(List<ResolveMatchType> rmts, String address, QName type) {
       List<ResolveMatchType> rmtList = getByAddress(rmts, address);
 
-      if (rmtList.size() > 0) {
-          assertEquals(type, rmtList.get(0).getTypes().iterator().next());
-      } else {
-          assertTrue("Number of matches can not be 0.", (rmtList.size() > 0));
+      assertEquals("There must be exactly one webservice of type " + type + " available at " + address + ", "
+            + "these where discovered: " + dbgDumpList(rmtList), 1, rmtList.size());
+      assertEquals(type, rmtList.get(0).getTypes().iterator().next());
+   }
+
+   // tmp method for debugging jenkins runs.
+   // report uuid of the endpoint
+   private String dbgDumpList(List<ResolveMatchType> rmtList)
+   {
+      StringBuilder dbgStr = new StringBuilder().append("\n");
+
+      for (ResolveMatchType rmt : rmtList)
+      {
+         String tmpStr = rmt.getEndpointReference().toString();
+         int start = tmpStr.indexOf("<Address>");
+         int end = tmpStr.indexOf("</Address>");
+         if (start > -1 && end > -1)
+         {
+            String uuidStr = tmpStr.substring(start + 9, end);
+            dbgStr.append(rmt.getXAddrs().get(0) + "  " + uuidStr + "\n");
+         }
       }
+      return dbgStr.toString();
+   }
+
+   // tmp method for debugging jenkins runs.
+   // report uuid of the endpoint
+   private String dbgProbeMatchTypeList(List<ProbeMatchType> pmtList){
+      StringBuilder dbgStr = new StringBuilder().append("\n");
+
+      for(ProbeMatchType rmt: pmtList){
+         String tmpStr = rmt.getEndpointReference().toString();
+         int start = tmpStr.indexOf("<Address>");
+         int end = tmpStr.indexOf("</Address>");
+         if (start > -1 && end > -1){
+            String uuidStr = tmpStr.substring(start + 9, end);
+            dbgStr.append(rmt.getXAddrs().get(0) +"  " + uuidStr + "\n");
+         }
+      }
+      return dbgStr.toString();
    }
 
    private List<ResolveMatchType> getByAddress(List<ResolveMatchType> rmts, String address)

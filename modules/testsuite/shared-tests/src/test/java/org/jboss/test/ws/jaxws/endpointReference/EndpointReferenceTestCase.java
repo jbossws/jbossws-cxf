@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.endpointReference;
 
+import java.net.InetAddress;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -154,10 +155,14 @@ public class EndpointReferenceTestCase extends JBossWSTest
       assertEquals("http://www.w3.org/2005/08/addressing", endpointReference.getAttribute("xmlns"));
       NodeList addresses = endpointReference.getElementsByTagName("Address");
       assertEquals(1, addresses.getLength());
-      String eprAddress = addresses.item(0).getFirstChild().getNodeValue();
-      eprAddress = eprAddress.replace("127.0.0.1", "localhost");
-      String ENDPOINT_ADDRESS = baseURL.toString() + "/jaxws-endpointReference";
-      assertEquals(ENDPOINT_ADDRESS.replace("127.0.0.1", "localhost"), eprAddress);
+      URL eprAddress = new URL(addresses.item(0).getFirstChild().getNodeValue());
+      URL ENDPOINT_ADDRESS = new URL(baseURL.toString() + "/jaxws-endpointReference");
+
+      //compare hosts' IPs
+      String eprAddressHost = InetAddress.getByName(eprAddress.getHost()).getHostAddress();
+      String endpointAddressHost = InetAddress.getByName(ENDPOINT_ADDRESS.getHost()).getHostAddress();
+      assertEquals(eprAddressHost, endpointAddressHost);
+      assertEquals(ENDPOINT_ADDRESS.toString().replace(ENDPOINT_ADDRESS.getHost(), eprAddress.getHost()), eprAddress.toString());
    }
 
    private static class MyEndpointReference extends EndpointReference

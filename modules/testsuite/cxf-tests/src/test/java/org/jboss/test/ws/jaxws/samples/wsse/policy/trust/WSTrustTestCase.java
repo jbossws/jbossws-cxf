@@ -83,6 +83,7 @@ public class WSTrustTestCase extends JBossWSTest
                + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl annotations\n")) //cxf impl required to extend STS impl
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.sts.STSCallbackHandler.class)
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.sts.SampleSTS.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.WSTrustAppUtils.class)
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/jboss-web.xml"), "jboss-web.xml")
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/wsdl/ws-trust-1.4-service.wsdl"), "wsdl/ws-trust-1.4-service.wsdl")
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/stsstore.jks"), "classes/stsstore.jks")
@@ -172,6 +173,7 @@ public class WSTrustTestCase extends JBossWSTest
                + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl annotations\n")) //cxf impl required to extend STS impl
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.stsholderofkey.STSHolderOfKeyCallbackHandler.class)
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.stsholderofkey.SampleSTSHolderOfKey.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.WSTrustAppUtils.class)
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/jboss-web.xml"), "jboss-web.xml")
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/wsdl/holderofkey-ws-trust-1.4-service.wsdl"), "wsdl/holderofkey-ws-trust-1.4-service.wsdl")
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/stsstore.jks"), "classes/stsstore.jks")
@@ -222,6 +224,7 @@ public class WSTrustTestCase extends JBossWSTest
                + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl annotations\n")) //cxf impl required to extend STS impl
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.stsbearer.STSBearerCallbackHandler.class)
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.stsbearer.SampleSTSBearer.class)
+         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.WSTrustAppUtils.class)
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/jboss-web.xml"), "jboss-web.xml")
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/wsdl/bearer-ws-trust-1.4-service.wsdl"), "wsdl/bearer-ws-trust-1.4-service.wsdl")
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/stsstore.jks"), "classes/stsstore.jks")

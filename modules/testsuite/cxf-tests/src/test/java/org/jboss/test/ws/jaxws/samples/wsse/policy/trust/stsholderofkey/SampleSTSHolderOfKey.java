@@ -29,6 +29,7 @@ import org.apache.cxf.sts.service.ServiceMBean;
 import org.apache.cxf.sts.service.StaticService;
 import org.apache.cxf.sts.token.provider.SAMLTokenProvider;
 import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.WSTrustAppUtils;
 
 import javax.xml.ws.WebServiceProvider;
 import java.util.Arrays;
@@ -65,10 +66,9 @@ public class SampleSTSHolderOfKey extends SecurityTokenServiceProvider
 
       List<ServiceMBean> services = new LinkedList<ServiceMBean>();
       StaticService service = new StaticService();
+      String serverHostRegexp = WSTrustAppUtils.getServerHost().replace("[", "\\[").replace("]", "\\]").replace("127.0.0.1", "localhost");
       service.setEndpoints(Arrays.asList(
-         "https://localhost:(\\d)*/jaxws-samples-wsse-policy-trust-holderofkey/HolderOfKeyService",
-         "https://\\[::1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-holderofkey/HolderOfKeyService",
-         "https://\\[0:0:0:0:0:0:0:1\\]:(\\d)*/jaxws-samples-wsse-policy-trust-holderofkey/HolderOfKeyService"
+         "https://" + serverHostRegexp + ":(\\d)*/jaxws-samples-wsse-policy-trust-holderofkey/HolderOfKeyService"
       ));
 
       services.add(service);
