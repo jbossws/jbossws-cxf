@@ -66,7 +66,7 @@ public class EndpointServlet extends HttpServlet
       
       endpoint1 = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, new EndpointBean());
       hostName = System.getProperty("jboss.bind.address", "localhost");
-      hostName = hostName.indexOf(":") != -1 ? "[" + hostName + "]" : hostName;
+      hostName = (!hostName.startsWith("[") && hostName.indexOf(":") != -1) ? "[" + hostName + "]" : hostName;
       endpoint1.publish("http://" + hostName + ":8081/jaxws-endpoint");
       endpoint2 = Endpoint.publish("http://" + hostName + ":8081/jaxws-endpoint2/endpoint/long/path", new EndpointBean());
    }
