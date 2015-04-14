@@ -449,6 +449,11 @@
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/sts/STSCallbackHandler.class"/>
           <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/shared/WSTrustAppUtils.class"/>
        </classes>
+       <zipfileset
+          dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/META-INF"
+          prefix="META-INF">
+          <include name="permissions.xml"/>
+       </zipfileset>
        <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
           <include name="wsdl/ws-trust*"/>
           <include name="jboss-web.xml"/>
@@ -553,6 +558,11 @@
         <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/stsbearer/STSBearerCallbackHandler.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/shared/WSTrustAppUtils.class"/>
       </classes>
+      <zipfileset
+        dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/META-INF"
+        prefix="META-INF">
+        <include name="permissions.xml"/>
+      </zipfileset>
       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
         <include name="wsdl/bearer-ws-trust*"/>
         <include name="jboss-web.xml"/>
@@ -596,6 +606,11 @@
         <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/stsholderofkey/STSHolderOfKeyCallbackHandler.class"/>
         <include name="org/jboss/test/ws/jaxws/samples/wsse/policy/trust/shared/WSTrustAppUtils.class"/>
       </classes>
+      <zipfileset
+        dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/META-INF"
+        prefix="META-INF">
+        <include name="permissions.xml"/>
+      </zipfileset>
       <webinf dir="${tests.output.dir}/test-resources/jaxws/samples/wsse/policy/trust/WEB-INF">
         <include name="wsdl/holderofkey-ws-trust*"/>
         <include name="jboss-web.xml"/>
