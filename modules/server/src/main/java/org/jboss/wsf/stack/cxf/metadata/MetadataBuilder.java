@@ -87,13 +87,20 @@ public class MetadataBuilder
          }
          processWSDDContribution(ddep, (ArchiveDeployment)dep);
          processAddressRewrite(ddep, (ArchiveDeployment)dep, sarm, soapAddressWsdlParsers);
-
+         checkContractFirstEndpoint(ddep);
+         
          METADATA_LOGGER.addingServiceEndpointMetadata(METADATA_LOGGER.isDebugEnabled() ? ddep.toStringExtended() : ddep.toString());
          dd.addEndpoint(ddep);
          serviceNameAddressMap.put(ddep.getServiceName(), ddep.getAddress());
       }
       dep.setProperty("ServiceAddressMap", serviceNameAddressMap);
       return dd;
+   }
+   
+   private void checkContractFirstEndpoint(DDEndpoint ddep) {
+      if (ddep.isContractFirstRequired() && (ddep.isDefaultPortName() || ddep.isDefaultServiceName())) {
+         METADATA_LOGGER.contractFirstEndpointWithoutServiceOrPortName(ddep.getImplementor());
+      }
    }
    
    protected boolean isMtomEnabled(Class<?> beanClass)
@@ -128,11 +135,13 @@ public class MetadataBuilder
                if (portComp.getWsdlPort() != null) {
                   METADATA_LOGGER.overridePortName(id, endpoint.getPortName(), portComp.getWsdlPort());
                   endpoint.setPortName(portComp.getWsdlPort());
+                  endpoint.setDefaultPortName(false);
                }
                // ServiceQName overrides
                if (portComp.getWsdlService() != null) {
                   METADATA_LOGGER.overrideServiceName(id, endpoint.getServiceName(), portComp.getWsdlService());
                   endpoint.setServiceName(portComp.getWsdlService());
+                  endpoint.setDefaultServiceName(false);
                }
 
                // HandlerChain contributions
@@ -165,6 +174,7 @@ public class MetadataBuilder
                if (wsdlFile != null) {
                   METADATA_LOGGER.overridingWsdlFileLocation(id, wsdlFile);
                   endpoint.setWsdlLocation(wsdlFile);
+                  endpoint.setContractFirstRequired(true);
                }
             }
          }
@@ -203,7 +213,8 @@ public class MetadataBuilder
       
       Class<?> seiClass = null;
       String seiName;
-      boolean missingServicePortAttr = false;
+      boolean missingServiceAttr = false;
+      boolean missingPortAttr = false;
 
       String name = (anWebService != null) ? anWebService.name() : "";
       if (name.length() == 0)
@@ -211,7 +222,7 @@ public class MetadataBuilder
 
       String serviceName = (anWebService != null) ? anWebService.serviceName() : anWebServiceProvider.serviceName();
       if (serviceName.length() == 0) {
-         missingServicePortAttr = true;
+         missingServiceAttr = true;
          serviceName = JavaUtils.getJustClassName(sepClass) + "Service";
       }
 
@@ -221,7 +232,7 @@ public class MetadataBuilder
 
       String portName = (anWebService != null) ? anWebService.portName() : anWebServiceProvider.portName();
       if (portName.length() == 0) {
-         missingServicePortAttr = true;
+         missingPortAttr = true;
          portName = name + "Port";
       }
       
@@ -273,8 +284,13 @@ public class MetadataBuilder
          }
       }
       result.setProperties(props);
-      if (!missingServicePortAttr && annWsdlLocation.length() > 0) {
-         result.setAnnotationWsdlLocation(annWsdlLocation);
+      result.setDefaultPortName(missingPortAttr);
+      result.setDefaultServiceName(missingServiceAttr);
+      if (annWsdlLocation.length() > 0) {
+         result.setContractFirstRequired(true);
+         if (!missingServiceAttr && !missingPortAttr) {
+            result.setAnnotationWsdlLocation(annWsdlLocation);
+         }
       }
       return result;
    }

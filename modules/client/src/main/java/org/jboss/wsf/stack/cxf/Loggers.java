@@ -244,4 +244,8 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = WARN)
     @Message(id = 24107, value = "JBossWS-CXF integration with Spring is deprecated and will be dropped in a future release. See https://issues.jboss.org/browse/JBWS-3884 for details.")
     void deprecatedSpringIntegration();
+
+    @LogMessage(level = WARN)
+    @Message(id = 24109, value = "Service or port names not specified for endpoint %s; both have to be specified if the endpoint is really meant to be a contract-first one.")
+    void contractFirstEndpointWithoutServiceOrPortName(String endpointImplementor);
 }
