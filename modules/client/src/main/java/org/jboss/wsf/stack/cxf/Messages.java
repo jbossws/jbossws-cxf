@@ -220,4 +220,7 @@ public interface Messages {
 
     @Message(id = 24108, value = "Invalid request received:bindingOperation and dispatched method are missing for service implementation invocation")
     IllegalArgumentException missingBindingOpeartionAndDispatchedMethod();
+
+    @Message(id = 24109, value = "Could not get WSDL contract for endpoint %s at %s")
+    WSFException couldNotFetchWSDLContract(String endpoint, String wsdlLocation);
 }

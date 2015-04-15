@@ -45,6 +45,7 @@ import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.deployment.HttpEndpoint;
+import org.jboss.wsf.spi.deployment.ResourceResolver;
 import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerChainsMetaData;
@@ -86,8 +87,9 @@ public class MetadataBuilder
             ddep.setInvoker(JBossWSInvoker.class.getName());
          }
          processWSDDContribution(ddep, (ArchiveDeployment)dep);
-         processAddressRewrite(ddep, (ArchiveDeployment)dep, sarm, soapAddressWsdlParsers);
-
+         URL wsdlLocation = getWsdlLocationURL(ddep, ((ArchiveDeployment)dep).getResourceResolver());
+         processAddressRewrite(ddep, wsdlLocation, sarm, soapAddressWsdlParsers);
+         
          METADATA_LOGGER.addingServiceEndpointMetadata(METADATA_LOGGER.isDebugEnabled() ? ddep.toStringExtended() : ddep.toString());
          dd.addEndpoint(ddep);
          serviceNameAddressMap.put(ddep.getServiceName(), ddep.getAddress());
@@ -203,7 +205,6 @@ public class MetadataBuilder
       
       Class<?> seiClass = null;
       String seiName;
-      boolean missingServicePortAttr = false;
 
       String name = (anWebService != null) ? anWebService.name() : "";
       if (name.length() == 0)
@@ -211,7 +212,6 @@ public class MetadataBuilder
 
       String serviceName = (anWebService != null) ? anWebService.serviceName() : anWebServiceProvider.serviceName();
       if (serviceName.length() == 0) {
-         missingServicePortAttr = true;
          serviceName = JavaUtils.getJustClassName(sepClass) + "Service";
       }
 
@@ -221,7 +221,6 @@ public class MetadataBuilder
 
       String portName = (anWebService != null) ? anWebService.portName() : anWebServiceProvider.portName();
       if (portName.length() == 0) {
-         missingServicePortAttr = true;
          portName = name + "Port";
       }
       
@@ -273,34 +272,42 @@ public class MetadataBuilder
          }
       }
       result.setProperties(props);
-      if (!missingServicePortAttr && annWsdlLocation.length() > 0) {
+      if (annWsdlLocation.length() > 0) {
          result.setAnnotationWsdlLocation(annWsdlLocation);
       }
       return result;
    }
    
-   protected void processAddressRewrite(DDEndpoint ddep, ArchiveDeployment dep, SOAPAddressRewriteMetadata sarm, Map<String, SOAPAddressWSDLParser> soapAddressWsdlParsers)
-   {
+   protected URL getWsdlLocationURL(DDEndpoint ddep, ResourceResolver resolver) {
       String wsdlLocation = ddep.getWsdlLocation();
       if (wsdlLocation == null) {
          wsdlLocation = ddep.getAnnotationWsdlLocation();
       }
       if (wsdlLocation != null) {
-         URL wsdlUrl = dep.getResourceResolver().resolveFailSafe(wsdlLocation);
-         if (wsdlUrl != null) {
-            SOAPAddressWSDLParser parser = getCurrentSOAPAddressWSDLParser(wsdlUrl, soapAddressWsdlParsers);
-            //do not try rewriting addresses for not-http binding
-            String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
-
-            String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sarm);
-            //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF does not force host/port values for
-            //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
-            //which causes CXF to override any address in the published wsdl.
-            if (!SoapAddressRewriteHelper.isAutoRewriteOn(sarm)) {
-               ddep.setPublishedEndpointUrl(rewrittenWsdlAddress);
-            }
+         URL wsdlURL = resolver.resolveFailSafe(wsdlLocation);
+         if (wsdlURL != null) {
+            return wsdlURL;
          } else {
-            METADATA_LOGGER.abortSoapAddressRewrite(wsdlLocation, null);
+            throw MESSAGES.couldNotFetchWSDLContract(ddep.getImplementor(), wsdlLocation);
+         }
+      } else {
+         return null;
+      }
+   }
+   
+   protected void processAddressRewrite(DDEndpoint ddep, URL wsdlUrl, SOAPAddressRewriteMetadata sarm, Map<String, SOAPAddressWSDLParser> soapAddressWsdlParsers)
+   {
+      if (wsdlUrl != null) {
+         SOAPAddressWSDLParser parser = getCurrentSOAPAddressWSDLParser(wsdlUrl, soapAddressWsdlParsers);
+         //do not try rewriting addresses for not-http binding
+         String wsdlAddress = parser.filterSoapAddress(ddep.getServiceName(), ddep.getPortName(), SOAPAddressWSDLParser.SOAP_HTTP_NS);
+
+         String rewrittenWsdlAddress = SoapAddressRewriteHelper.getRewrittenPublishedEndpointUrl(wsdlAddress, ddep.getAddress(), sarm);
+         //If "auto rewrite", leave "publishedEndpointUrl" unset so that CXF does not force host/port values for
+         //wsdl imports and auto-rewrite them too; otherwise set the new address into "publishedEndpointUrl",
+         //which causes CXF to override any address in the published wsdl.
+         if (!SoapAddressRewriteHelper.isAutoRewriteOn(sarm)) {
+            ddep.setPublishedEndpointUrl(rewrittenWsdlAddress);
          }
       } else {
          //same comment as above regarding auto rewrite...
