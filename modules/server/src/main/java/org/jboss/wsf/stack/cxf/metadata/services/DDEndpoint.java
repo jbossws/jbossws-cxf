@@ -76,12 +76,6 @@ public class DDEndpoint
    
    private String annotationWsdlLocation;
    
-   private boolean defaultServiceName;
-   
-   private boolean defaultPortName;
-   
-   private boolean contractFirstRequired;
-   
    private int counter = 0;
 
    public QName getPortName()
@@ -257,36 +251,6 @@ public class DDEndpoint
       this.properties = properties;
    }   
    
-   public boolean isDefaultServiceName()
-   {
-      return defaultServiceName;
-   }
-
-   public void setDefaultServiceName(boolean defaultServiceName)
-   {
-      this.defaultServiceName = defaultServiceName;
-   }
-
-   public boolean isDefaultPortName()
-   {
-      return defaultPortName;
-   }
-
-   public void setDefaultPortName(boolean defaultPortName)
-   {
-      this.defaultPortName = defaultPortName;
-   }
-
-   public boolean isContractFirstRequired()
-   {
-      return contractFirstRequired;
-   }
-
-   public void setContractFirstRequired(boolean contractFirstRequired)
-   {
-      this.contractFirstRequired = contractFirstRequired;
-   }
-
    public void writeTo(Writer writer) throws IOException
    {
       writer.write("<jaxws:endpoint id='" + this.id + "'");
