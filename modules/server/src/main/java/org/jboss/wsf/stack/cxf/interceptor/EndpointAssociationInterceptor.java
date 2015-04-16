@@ -22,13 +22,11 @@
 package org.jboss.wsf.stack.cxf.interceptor;
 
 import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.interceptor.OneWayProcessorInterceptor;
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.jboss.wsf.spi.deployment.Endpoint;
-import org.jboss.wsf.spi.deployment.EndpointType;
 import org.jboss.wsf.spi.invocation.EndpointAssociation;
 
 /**
@@ -44,8 +42,7 @@ import org.jboss.wsf.spi.invocation.EndpointAssociation;
 public class EndpointAssociationInterceptor extends AbstractPhaseInterceptor<Message>
 {
 
-   private EjbWSOneWayThreadInterceptor ejbOneWayInterceptor = new EjbWSOneWayThreadInterceptor();
-
+   
    public EndpointAssociationInterceptor()
    {
       super(Phase.RECEIVE);
@@ -56,31 +53,6 @@ public class EndpointAssociationInterceptor extends AbstractPhaseInterceptor<Mes
    {
       Endpoint endpoint = EndpointAssociation.getEndpoint();
       Exchange exchange = message.getExchange();
-
       exchange.put(Endpoint.class, endpoint);
-      message.getInterceptorChain().add(ejbOneWayInterceptor);
-
-   }
-
-   public class EjbWSOneWayThreadInterceptor extends AbstractPhaseInterceptor<Message>
-   {
-      public EjbWSOneWayThreadInterceptor()
-      {
-         super(Phase.PRE_LOGICAL);
-         this.addBefore(OneWayProcessorInterceptor.class.getName());
-      }
-
-      @Override
-      public void handleMessage(Message message) throws Fault
-      {
-
-         Endpoint endpoint = message.getExchange().get(Endpoint.class);
-         //Use original thread for oneway message to avoid authorization failure in ejb container for webservice endpoint 
-         if (endpoint.getType() == EndpointType.JAXWS_EJB3 && message.getExchange().isOneWay() && !isRequestor(message))
-         {
-            message.put(OneWayProcessorInterceptor.USE_ORIGINAL_THREAD, true);
-         }
-
-      }
    }
 }
