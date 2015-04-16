@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Endpoint;
 import javax.xml.ws.Service;
 
 import org.apache.cxf.Bus;
@@ -52,8 +51,6 @@ public class TestServlet extends HttpServlet
          //start a new bus to avoid affecting the one that could already be assigned to this thread
          Bus bus = BusFactory.newInstance().createBus();
          BusFactory.setThreadDefaultBus(bus);
-         Object implementor = new HelloWorldImpl();
-         Endpoint ep = Endpoint.publish("jms:queue:testQueue", implementor);
          try
          {
             //use HelloWorldServiceLocal service which has local connection factory references (we're running on the same JVM here)
@@ -65,7 +62,6 @@ public class TestServlet extends HttpServlet
          }
          finally
          {
-            ep.stop();
             bus.shutdown(true);
          }
          res.getWriter().print(result);
