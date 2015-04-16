@@ -32,7 +32,9 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.wsf.test.IgnoreEnv;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -45,6 +47,9 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class JBWS981TestCase extends JBossWSTest
 {
+   //Ignore this test for ipv6; it requires host setting in /etc/hosts [::1 localhost]
+   @Rule
+   public IgnoreEnv rule = IgnoreEnv.IPV6;
    @ArquillianResource
    private URL baseURL;
 
