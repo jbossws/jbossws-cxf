@@ -63,7 +63,7 @@ import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
-import org.jboss.wsf.stack.cxf.interceptor.EnableDecoupledFaultInterceptor;
+import org.jboss.wsf.stack.cxf.interceptor.MessagePropertySettingInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
@@ -193,7 +193,7 @@ public abstract class BusHolder
       //Install the EndpointAssociationInterceptor for linking every message exchange
       //with the proper spi Endpoint retrieved in CXFServletExt
       bus.getInInterceptors().add(new EndpointAssociationInterceptor());
-      bus.getInInterceptors().add(new EnableDecoupledFaultInterceptor());
+      bus.getInInterceptors().add(new MessagePropertySettingInterceptor());
       bus.getInInterceptors().add(new NsCtxSelectorStoreInterceptor());
       
       final String p = (props != null) ? props.get(Constants.JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS) : null;
