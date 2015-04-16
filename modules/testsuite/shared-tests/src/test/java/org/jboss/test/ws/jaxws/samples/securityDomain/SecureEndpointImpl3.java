@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -25,12 +25,12 @@ import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
+import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
-import org.apache.cxf.interceptor.InInterceptors;
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.annotation.AuthMethod;
@@ -42,49 +42,43 @@ import org.jboss.ws.api.annotation.WebContext;
 @WebService
 (
    name = "SecureEndpoint",
-   serviceName = "SecureEndpointService2",
+   serviceName = "SecureEndpointService3",
    targetNamespace = "http://org.jboss.ws/securityDomain"
 )
 @WebContext
 (
-   contextRoot="/jaxws-securityDomain2", 
+   contextRoot="/jaxws-securityDomain3", 
    urlPattern="/authz",
    authMethod = AuthMethod.BASIC,
    transportGuarantee = TransportGuarantee.NONE,
    secureWSDLAccess = false
 )
 @SecurityDomain("JBossWSSecurityDomainTest")
-public class SecureEndpointImpl2
+@RolesAllowed("friend")
+public class SecureEndpointImpl3
 {
    // Provide logging
-   private static Logger log = Logger.getLogger(SecureEndpointImpl2.class);
+   private static Logger log = Logger.getLogger(SecureEndpointImpl3.class);
 
    @WebMethod
-   @PermitAll
    public String echoForAll(String input)
    {
       log.info(input);
       return input;
    }
-   
-   @RolesAllowed("friend")
+   @Oneway
+   @WebMethod
+   public void helloOneWay(String input) {
+      log.info(input);
+   }
    @WebMethod
    public String echo(String input)
    {
       log.info(input);
       return input;
    }
-   
-   @RolesAllowed("royal")
    @WebMethod
    public String restrictedEcho(String input)
-   {
-      log.info(input);
-      return input;
-   }
-   
-   @WebMethod
-   public String defaultAccess(String input)
    {
       log.info(input);
       return input;

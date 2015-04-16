@@ -1,0 +1,11 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<webservices
+  xmlns="http://www.jboss.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  version="1.2"
+  xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee">
+  <property>
+    <name>cxf.interceptors.in</name>
+    <value>org.jboss.test.ws.jaxws.samples.securityDomain.EnableRobustOneWayInterceptor</value>
+  </property>
+</webservices>

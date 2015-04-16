@@ -27,6 +27,7 @@ import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
+import javax.xml.ws.WebServiceException;
 
 import org.jboss.arquillian.container.test.api.Deployer;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -35,6 +36,7 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
@@ -62,6 +64,7 @@ public class SecurityDomainTestCase extends JBossWSTest
 {
    private final static String DEPLOYMENT1 = "jaxws-samples-securityDomain";
    private final static String DEPLOYMENT2 = "jaxws-samples-securityDomain2";
+   private final static String DEPLOYMENT3 = "jaxws-samples-securityDomain3";
    @ArquillianResource
    private URL baseURL;
    @ArquillianResource
@@ -70,9 +73,11 @@ public class SecurityDomainTestCase extends JBossWSTest
    @Deployment(name= DEPLOYMENT1, testable = false)
    public static JavaArchive createDeployment() {
       JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-samples-securityDomain.jar");
-         archive
-               .addManifest()
-               .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.SecureEndpointImpl.class);
+               archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+               + "Dependencies: org.apache.cxf.impl\n")) 
+               .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.SecureEndpointImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.EnableRobustOneWayInterceptor.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/securityDomain/jboss-webservices.xml"), "jboss-webservices.xml");
       return archive;
    }
    @Deployment(name= DEPLOYMENT2, testable = false)
@@ -82,6 +87,17 @@ public class SecurityDomainTestCase extends JBossWSTest
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.SecureEndpointImpl2.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/securityDomain/jboss-ejb3.xml"), "jboss-ejb3.xml");
+      return archive;
+   }
+   
+   @Deployment(name= DEPLOYMENT3, testable = false)
+   public static JavaArchive createDeployment3() {
+      JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-samples-securityDomain3.jar");
+         archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                + "Dependencies: org.apache.cxf.impl\n")) 
+               .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.SecureEndpointImpl3.class)
+               .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.EnableRobustOneWayInterceptor.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/securityDomain/jboss-webservices.xml"), "jboss-webservices.xml");
       return archive;
    }
 
@@ -209,40 +225,17 @@ public class SecurityDomainTestCase extends JBossWSTest
    @Test
    @RunAsClient
    @OperateOnDeployment(DEPLOYMENT1)
-   public void testOneWay() throws Exception
+   public void testMethodLevelRolesAllowedOneWay() throws Exception
    {
       //test unthenticated
       SecureEndpoint port2 = getAuthzPort();
-      try
-      {
-         port2.helloOneWay("Hello");
-         fail("Authentication exception expected!");
-      }
-      catch (Exception e)
-      {
-         //expected web layer exception
-         assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("401: Unauthorized"));
-      }
-      ((BindingProvider)port2).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "bob");
-      ((BindingProvider)port2).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "foo");
-      try {
-         port2.helloOneWay("Hello");
-         fail("Authorization exception expected!");
-      } catch (Exception e) {
-         //expected weblayer layer authorization exception
-         assertTrue("Unexpected cause: " + e.getCause().getMessage(), e.getCause().getMessage().contains("403: Forbidden"));
-      }
-      
-      ((BindingProvider)port2).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "john");
-      ((BindingProvider)port2).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "bar");
-      port2.helloOneWay("Hello");
-   }
-   
-   
+      testOneWay(port2);
+   }   
+
    @Test
    @RunAsClient
    @OperateOnDeployment(DEPLOYMENT2)
+   //To test missing-method-permissions-deny-access is setting to false and defaultAccess() should be allowed
    public void testEjbSecurityAuth() throws Exception
    {
       URL wsdlURL = new URL(baseURL + "/jaxws-securityDomain2/authz?wsdl");
@@ -273,5 +266,49 @@ public class SecurityDomainTestCase extends JBossWSTest
       assertEquals("Greetings", port.echo("Greetings"));
       assertEquals("Greetings", port.restrictedEcho("Greetings"));
       assertEquals("Greetings", port.defaultAccess("Greetings"));
-   }   
+   }
+   
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEPLOYMENT3)
+   //To test one-way operaton with class level @RolesAllowed
+   public void testClassLevelRolesAllowedOneWay() throws Exception
+   {
+      //test unthenticated
+      URL wsdlURL = new URL(baseURL + "/jaxws-securityDomain3/authz?wsdl");
+      QName serviceName = new QName("http://org.jboss.ws/securityDomain", "SecureEndpointService3");
+      SecureEndpoint port = Service.create(wsdlURL, serviceName).getPort(SecureEndpoint.class);
+      testOneWay(port);
+   }
+   private void testOneWay(SecureEndpoint port) throws Exception {
+      try
+      {
+         port.helloOneWay("Hello");
+         fail("Authentication exception expected!");
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace();
+         //expected web layer exception
+         assertTrue(e.getMessage().contains("Could not send Message"));
+         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("401: Unauthorized"));
+      }
+      ((BindingProvider)port).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "bob");
+      ((BindingProvider)port).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "foo");
+      try {
+         port.helloOneWay("Hello");
+         fail("Authorization exception expected!");
+      } catch (WebServiceException e) {
+         //Do nothing
+      }
+      
+      ((BindingProvider)port).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "john");
+      ((BindingProvider)port).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "bar");
+      try {
+         port.helloOneWay("Hello");
+         
+      } catch (Exception e) {
+         fail("exception is unexpected!");
+      }
+   }
 }
