@@ -62,12 +62,12 @@
   <!-- Properties -->
   <properties>
     <jbossws.api.version>1.0.3.CR4</jbossws.api.version>
-    <jbossws.spi.version>3.0.0.CR1</jbossws.spi.version>
-    <jbossws.common.version>3.0.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.common.tools.version>1.2.1.CR1</jbossws.common.tools.version>
-    <jbossws.wildfly800.version>5.0.0-SNAPSHOT</jbossws.wildfly800.version>
-    <jbossws.wildfly810.version>5.0.0-SNAPSHOT</jbossws.wildfly810.version>
-    <jbossws.wildfly820.version>5.0.0-SNAPSHOT</jbossws.wildfly820.version>
+    <jbossws.spi.version>3.0.0.CR2</jbossws.spi.version>
+    <jbossws.common.version>3.0.0.CR1</jbossws.common.version>
+    <jbossws.common.tools.version>1.2.1.CR2</jbossws.common.tools.version>
+    <jbossws.wildfly800.version>5.0.0.CR1</jbossws.wildfly800.version>
+    <jbossws.wildfly810.version>5.0.0.CR1</jbossws.wildfly810.version>
+    <jbossws.wildfly820.version>5.0.0.CR1</jbossws.wildfly820.version>
     <wildfly800.version>8.0.0.Final</wildfly800.version>
     <wildfly810.version>8.1.0.Final</wildfly810.version>
     <wildfly820.version>8.2.0.Final</wildfly820.version>
