@@ -102,7 +102,7 @@ public class MetadataBuilder
       BindingType bindingType = (BindingType)beanClass.getAnnotation(BindingType.class);
       MTOM mtom = (MTOM)beanClass.getAnnotation(MTOM.class);
 
-      boolean mtomEnabled = mtom != null;
+      boolean mtomEnabled = mtom != null && mtom.enabled();
       if (!mtomEnabled && bindingType != null)
       {
          String binding = bindingType.value();
