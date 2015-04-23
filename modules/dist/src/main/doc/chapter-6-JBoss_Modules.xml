@@ -3,20 +3,20 @@
 <chapter id="sid-4784150">
     
     <title>JBoss Modules</title>
-    <para>The JBoss Web Services functionalities are provided by a given set of modules / libraries installed on the JBoss Application Server.</para>
+    <para>The JBoss Web Services functionalities are provided by a given set of modules / libraries installed on the server.</para>
     <para>
-      On JBoss Application Server 7, those are organized into JBoss Modules modules. In particular the
+      On WildFly, those are organized into JBoss Modules modules. In particular the
       <emphasis role="italics">org.jboss.as.webservices.*</emphasis>
       and
       <emphasis role="italics">org.jboss.ws.*</emphasis>
-      modules belong to  the JBossWS - AS7 integration. Users should not need to change anything  in them.
+      modules belong to  the JBossWS - WildFly integration. Users should not need to change anything  in them.
     </para>
-    <para>While users are of course allowed to provide their own modules for their custom needs, below is a brief collection of suggestions and hints around modules and webservices development on JBoss Application Server 7.</para>
+    <para>While users are of course allowed to provide their own modules for their custom needs, below is a brief collection of suggestions and hints around modules and webservices development on WildFly.</para>
     <section id="sid-4784150_JBossModules-Settingmoduledependencies">
       
       <title>Setting module dependencies</title>
       <para>
-        On JBoss Aplication Server 7 the user deployment classloader does not have any  visibility over JBoss internals; so for instance you can't
+        On WildFly the user deployment classloader does not have any  visibility over JBoss internals; so for instance you can't
         <emphasis role="italics">directly</emphasis>
         use  JBossWS
         <emphasis role="italics">implementation</emphasis>
@@ -47,7 +47,7 @@ Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export,foo.bar</progr
           exports the classes from the module to any other module that might be depending on the module implicitly created for your deployment.
         </para>
         <note>
-          <para>When using annotations on your endpoints / handlers such as the Apache CXF ones (@InInterceptor, @GZIP, ...) remember to add the proper module dependency in your manifest. Otherwise your annotations are not picked up and added to the annotation index by JBoss Application Server 7, resulting in them being completely and silently ignored.</para>
+          <para>When using annotations on your endpoints / handlers such as the Apache CXF ones (@InInterceptor, @GZIP, ...) remember to add the proper module dependency in your manifest. Otherwise your annotations are not picked up and added to the annotation index by WildFly, resulting in them being completely and silently ignored.</para>
         </note>
         <section id="sid-4784150_JBossModules-UsingJAXB">
           
@@ -108,15 +108,6 @@ Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export,foo.bar</progr
             </para>
           </important>
         </section>
-        <section id="sid-4784150_JBossModules-UsingSpring">
-          
-          <title>Using Spring</title>
-          <para>
-            The JBossWS-CXF modules have optional dependencies to the
-            <emphasis role="italics">org.springframework.spring</emphasis>
-            module. So either create that manually in the application server or use the JBossWS-CXF installation scripts for doing that.
-          </para>
-        </section>
         <section id="sid-4784150_JBossModules-Annotationscanning">
           
           <title>Annotation scanning</title>
@@ -136,47 +127,6 @@ Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export,foo.bar</progr
         
         <title>Using jboss-deployment-descriptor.xml</title>
         <para>In some circumstances, the convenient approach of setting module dependencies in MANIFEST.MF might not work. An example is the need for importing/exporting specific resources from a given module dependency. Users should hence add a jboss-deployment-structure.xml descriptor to their deployment and set module dependencies in it.</para>
-        <section id="sid-4784150_JBossModules-SpringbasedincontainerBuscreation">
-          
-          <title>Spring based in-container Bus creation</title>
-          <para>
-            A noteworthy scenario requiring explicit module dependencies declaration is whenever a Spring beans descriptor based Bus is created by users in a in-container client. Spring basically resolves any beans declared in the descriptor (e.g.
-            <emphasis role="italics">cxf.xml</emphasis>
-            ), as well as any transitively referenced internal CXF descriptor, using the thread context classloader. That is the classloader associated to the deployment, which is different from the classloader used by JBossWS internally. As a consequence, in this scenario a
-            <emphasis role="italics">jboss-deployment-structure.xml</emphasis>
-            as follows is required:
-            
-          </para>
-          <informalexample>
-            <programlisting>&lt;jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2"&gt;
-    &lt;deployment&gt;
-        &lt;dependencies&gt;
-            &lt;module name="org.jboss.ws.cxf.jbossws-cxf-client" services="import" /&gt;
-            &lt;module name="org.apache.cxf.impl"&gt;
-                &lt;imports&gt;
-                    &lt;include path="META-INF"/&gt;
-                    &lt;include path="META-INF/cxf"/&gt;
-                &lt;/imports&gt;
-            &lt;/module&gt;
-            &lt;module name="org.springframework.spring"&gt;
-                &lt;imports&gt;
-                    &lt;include path="META-INF"/&gt;
-                &lt;/imports&gt;
-            &lt;/module&gt;
-        &lt;/dependencies&gt;
-    &lt;/deployment&gt;
-&lt;/jboss-deployment-structure&gt;</programlisting>
-          </informalexample>
-          <para>
-            The first dependency (
-            <emphasis role="italics">org.jboss.ws.cxf.jbossws-cxf-client</emphasis>
-            ) loads JBossWS customizations as well as Apache CXF APIs first. The second dependency (
-            <emphasis role="italics">org.apache.cxf.impl</emphasis>
-            ) loads the Apache CXF internals (in particular the CXF SpringBus class), required by Spring to load the Bus using the deployment classloader. Finally, the third dependency (
-            <emphasis role="italics">org.springframework.spring</emphasis>
-            ) is needed to allow resolution of Spring schemas when running offline.
-          </para>
-        </section>
       </section>
     </section>
   </chapter>

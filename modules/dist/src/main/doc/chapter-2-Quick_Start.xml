@@ -4,7 +4,7 @@
     
     <title>Quick Start</title>
     <para>
-      JBossWS uses the JBoss Application Server as its target container.  The following examples focus on web  service deployments that leverage  EJB3 service implementations and the  JAX-WS programming models. For  further information on POJO service  implementations and advanced topics  you need consult the
+      JBossWS uses WildFly as its target container.  The following examples focus on web  service deployments that leverage  EJB3 service implementations and the  JAX-WS programming models. For  further information on POJO service  implementations and advanced topics  you need consult the
       <link linkend="sid-3866716">user guide</link>
       .
     </para>
@@ -197,7 +197,7 @@ public class DiscountRequest {
     <section id="sid-3735860_QuickStart-Consumingwebservices">
       
       <title>Consuming web services</title>
-      <para>When  creating web service clients you would usually start from the WSDL.  JBossWS ships with a set of tools to generate the required JAX-WS  artefacts to build client implementations. In the following section we  will look at the most basic usage patterns. For a more detailed  introduction to web service client please consult the user guide.</para>
+      <para>When  creating web service clients you would usually start from the WSDL.  JBossWS ships with a set of tools to generate the required JAX-WS  artifacts to build client implementations. In the following section we  will look at the most basic usage patterns. For a more detailed  introduction to web service client please consult the user guide.</para>
       <section id="sid-3735860_QuickStart-Creatingtheclientartifacts">
         
         <title>Creating the client artifacts</title>
@@ -368,25 +368,16 @@ ProfileMgmt profileMgmt = service.getPort(ProfileMgmt.class);     (2)
             <code>
               <ulink url="https://repository.jboss.org/nexus/content/groups/public-jboss/org/jboss/ws/cxf/jbossws-cxf-client/">org.jboss.ws.cxf:jbossws-cxf-client</ulink>
             </code>
-            and
-            <ulink url="https://repository.jboss.org/nexus/content/groups/public-jboss/org/jboss/ws/native/jbossws-native-client/">
-              <code>org.jboss.ws.native:jbossws-native-client</code>
-            </ulink>
-            artifacts can be used for getting the whole jbossws client dependency trees for the JBossWS-CXF and JBossWS-Native stacks. Users should simply add a dependency on
-            <emphasis role="strong">one</emphasis>
-            of them (depending on the JBossWS stack in use) to their Maven project.
+            artifact can be used for getting the whole JBossWS client dependency. Users should simply add a dependency to it in their Maven project.
           </para>
           <para>
-            If you're running the client out of container, It's also recommended to properly setup JAXWS implementation endorsing, to use the JBossWS implementation of JAXWS API instead of relying on the implementation coming with the JDK; this is usually done by copying the
+            If you're running the client out of container, It's also recommended to properly setup JAXWS implementation endorsing, to make sure you use the JBossWS
+            <emphasis role="strong">implementation</emphasis>
+            of JAXWS API instead of relying on the implementation coming with the JDK; this is usually done by copying the
             <code>
               <ulink url="https://repository.jboss.org/nexus/content/groups/public-jboss/org/jboss/ws/cxf/jbossws-cxf-factories/">org.jboss.ws.cxf.jbossws-cxf-factories</ulink>
             </code>
-            (JBossWS-CXF stack)
-            <emphasis role="strong">or</emphasis>
-            <code>
-              <ulink url="https://repository.jboss.org/nexus/content/groups/public-jboss/org/jboss/ws/native/jbossws-native-factories">org.jboss.ws.native:jbossws-native-factories</ulink>
-            </code>
-            (JBossWS-Native stack) jar into a local directory (e.g.
+            (JBossWS-CXF stack) jar into a local directory (e.g.
             <emphasis role="italics">project.build.directory/endorsed</emphasis>
             ) and then using that for compiling and running sources, for setting the
             <emphasis role="italics">java.endorsed.dirs</emphasis>
@@ -458,7 +449,11 @@ ProfileMgmt profileMgmt = service.getPort(ProfileMgmt.class);     (2)
 </programlisting>
           </informalexample>
           <important>
-            <para>Endorsing of JAXWS API jar is used to force a API level different from the one included in the JDK. E.g. JAXWS 2.2 on JDK 1.6, or JAXWS 2.1 on JDK 1.7, etc.</para>
+            <para>
+              Endorsing of JAX-WS
+              <emphasis role="strong">api</emphasis>
+              jar is used to force a API level different from the one included in the JDK. E.g. JAXWS 2.2 on JDK 1.6, or JAXWS 2.1 on JDK 1.7, etc. So, depending on your environment, it might not be strictly required.
+            </para>
           </important>
         </section>
         <section id="sid-3735860_QuickStart-JBossModulesenvironment">
@@ -467,10 +462,10 @@ ProfileMgmt profileMgmt = service.getPort(ProfileMgmt.class);     (2)
           <para>
             An interesting approach for running a WS client is to leverage JBoss Modules, basically getting a classloading environment equivalent to the server container WS endpoints are run in. This is achieved by using the
             <emphasis role="italics">jboss-modules.jar</emphasis>
-            coming with AS 7 as follows:
+            coming with WildFly as follows:
           </para>
           <informalexample>
-            <programlisting>java -jar $JBOSS_HOME/jboss-modules.jar -mp $JBOSS_HOME/modules -jar client.jar</programlisting>
+            <programlisting>java -jar $WILDFLY_HOME/jboss-modules.jar -mp $WILDFLY_HOME/modules -jar client.jar</programlisting>
           </informalexample>
           <para>
             The
@@ -501,20 +496,54 @@ Dependencies: org.jboss.ws.cxf.jbossws-cxf-client
             <code>java</code>
             command or using
             <code>Ant</code>
-            ). The JBossWS testsuite can be used to derive the whole set of files to be used; the testsuite can be run either using Maven (from the source distribution) or Ant (from the binary distribution). A verbose execution reveals the list of jar. As for the Maven project approach mentioned above, properly setting
+            ). As for the Maven project approach mentioned above, properly setting
             <emphasis role="italics">java.endorsed.dirs</emphasis>
             system property is also required.
           </para>
         </section>
       </section>
-      <section id="sid-3735860_QuickStart-Appendix">
+    </section>
+    <section id="sid-3735860_QuickStart-Mavenarchetypequickstart">
+      
+      <title>Maven archetype quick start</title>
+      <para>
+        A convenient approach to start a new project aiming at providing and/or consuming a JAX-WS endpoint is to use the JBossWS
+        <emphasis role="italics">jaxws-codefirst</emphasis>
+        Maven Archetype. A starting project (including working build and sample  helloworld client and endpoint) is created in few seconds. It's simply a matter of  issuing a command and answering to simple questions on the desired  artifact and group ids for the project being generated:
+      </para>
+      <informalexample>
+        <programlisting>&gt; mvn archetype:generate -Dfilter=org.jboss.ws.plugins.archetypes:</programlisting>
+      </informalexample>
+      <para>The generated project includes:</para>
+      <itemizedlist>
+        <listitem>
+          <para>a sample HelloWorld code-first POJO endpoint</para>
+        </listitem>
+        <listitem>
+          <para>an integration test that gets the WSDL contract for the above service, builds up a client and invokes the endpoint</para>
+        </listitem>
+        <listitem>
+          <para>a pom.xml for creating a war archive; the project has proper WS  component dependencies and uses both wsprovide and wsconsume maven  plugins for generating the contract for the code-first endpoint and then  generating the client stubs for such contract</para>
+        </listitem>
+        <listitem>
+          <para>a plugin for deploying the archive on WildFly.</para>
+        </listitem>
+      </itemizedlist>
+      <para>The project is built and tested by simply running:</para>
+      <informalexample>
+        <programlisting>&gt; mvn wildfly:deploy
+&gt; mvn integration-test</programlisting>
+      </informalexample>
+      <para>The build processes the various plugins and calls into the JBossWS tools  to generate all the required classes for building the deployment  archive and client. The user can test the sample, have a look at the  project structure and then either trash the sample endpoint and testcase  and replace them with his own components, or modify them step-by-step  to achieve what he needs.</para>
+    </section>
+    <section id="sid-3735860_QuickStart-Appendix">
+      
+      <title>Appendix</title>
+      <section id="sid-3735860_QuickStart-Samplewsdlcontract">
         
-        <title>Appendix</title>
-        <section id="sid-3735860_QuickStart-Samplewsdlcontract">
-          
-          <title>Sample wsdl contract</title>
-          <informalexample>
-            <programlisting>
+        <title>Sample wsdl contract</title>
+        <informalexample>
+          <programlisting>
 &lt;definitions
     name='ProfileMgmtService'
     targetNamespace='http://org.jboss.ws/samples/retail/profile'
@@ -603,8 +632,7 @@ Dependencies: org.jboss.ws.cxf.jbossws-cxf-client
    &lt;/service&gt;
 &lt;/definitions&gt;
 </programlisting>
-          </informalexample>
-        </section>
+        </informalexample>
       </section>
     </section>
   </chapter>

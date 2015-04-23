@@ -10,6 +10,7 @@
   <xi:include href="chapter-5-Advanced_User_Guide.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="chapter-6-JBoss_Modules.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
   <xi:include href="chapter-7-Legal_Notice.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="chapter-8-Build_and_testsuite_framework.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 
   <xi:include href="Revision_History.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </book>
