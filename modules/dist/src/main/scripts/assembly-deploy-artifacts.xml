@@ -110,7 +110,6 @@
             <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws:jbossws-wildfly*-server-integration:jar</include>
-              <include>org.picketbox:picketbox:jar</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
             <scope>provided</scope>
