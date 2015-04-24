@@ -9,7 +9,7 @@
   <pubsnumber>ToDo</pubsnumber> -->
   <abstract>
     <para>
-      This book is the guide to JBoss Web Services with Apache CXF based stack (JBossWS-CXF). It covers information, details and usage of JBossWS-CXF stack, as well as some tutorials / examples.
+      This book is the guide to JBoss Web Services stack. It covers information, details and some tutorials / examples.
     </para>
   </abstract>
   <corpauthor>
