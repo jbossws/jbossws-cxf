@@ -29,7 +29,6 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.rm.RMDeliveryInterceptor;
 import org.apache.cxf.ws.rm.RMManager;
-import org.apache.cxf.ws.rm.RMUtils;
 import org.apache.cxf.ws.rm.SourceSequence;
 /**
  * Interceptor to check if the RMStore is enabled and stores data
@@ -39,7 +38,7 @@ import org.apache.cxf.ws.rm.SourceSequence;
 public class RMStoreCheckInterceptor extends AbstractPhaseInterceptor<Message>
 {
 
-   public static int seqSize;
+   public static volatile int seqSize;
    private String endpointIdentifier = "{http://www.jboss.org/jbossws/ws-extensions/wsrm}RMService.{http://www.jboss.org/jbossws/ws-extensions/wsrm}RMEndpointPort@cxf";
    public RMStoreCheckInterceptor()
    {
