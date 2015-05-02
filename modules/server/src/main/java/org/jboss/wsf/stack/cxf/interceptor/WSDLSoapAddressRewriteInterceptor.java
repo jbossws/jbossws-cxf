@@ -47,7 +47,7 @@ public class WSDLSoapAddressRewriteInterceptor extends AbstractPhaseInterceptor<
    }
 
    public void handleMessage(Message message) throws Fault {
-      message.setContextualProperty(WSDLGetUtils.class.getName(), wsdlGetUtils);
+      message.put(WSDLGetUtils.class.getName(), wsdlGetUtils);
    }
 
 }
