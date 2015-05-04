@@ -122,6 +122,7 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       
       //then setup the proxy, but provide no authentication/authorization info -> request fails because of HTTP 407
       setProxySystemProperties();
+      port = getPort(getResourceURL("jaxws/cxf/httpproxy/HelloWorldService.wsdl"), testHost);
       try
       {
          port.echo(hi);
@@ -135,6 +136,7 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       }
       
       //finally setup everything
+      port = getPort(getResourceURL("jaxws/cxf/httpproxy/HelloWorldService.wsdl"), testHost);
       Client client = ClientProxy.getClient(port);
       HTTPConduit conduit = (HTTPConduit)client.getConduit();
       ProxyAuthorizationPolicy policy = new ProxyAuthorizationPolicy();
