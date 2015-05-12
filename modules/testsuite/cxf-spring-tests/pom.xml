@@ -147,7 +147,7 @@
                           <goal>start</goal>
                        </goals>
                        <configuration>
-                          <jvmArgs>-server -XX:+UseCompressedOops -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djboss.socket.binding.port-offset=${port-offset.cxf-spring-tests.jboss} ${additionalJvmArgs}</jvmArgs>
+                          <jvmArgs>-server -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djboss.socket.binding.port-offset=${port-offset.cxf-spring-tests.jboss} ${additionalJvmArgs}</jvmArgs>
                           <serverConfig>jbws-testsuite-spring-default.xml</serverConfig>
                           <jbossHome>${jboss.home}</jbossHome>
                           <port>39990</port><!-- Keep in sync with the port-offset -->
