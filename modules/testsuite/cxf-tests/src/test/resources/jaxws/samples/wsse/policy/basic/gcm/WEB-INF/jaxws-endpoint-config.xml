@@ -26,6 +26,10 @@
       <property-value>true</property-value>
     </property>
     <property>
+      <property-name>ws-security.return.security.error</property-name>
+      <property-value>true</property-value>
+    </property>
+    <property>
       <property-name>ws-security.callback-handler</property-name>
       <property-value>org.jboss.test.ws.jaxws.samples.wsse.policy.basic.KeystorePasswordCallback</property-value>
     </property>
