@@ -866,6 +866,10 @@
           <name>secmgr</name>
         </property>
       </activation>
+      <properties>
+          <additionalJvmArgs>-Djava.security.manager</additionalJvmArgs>
+      </properties>
+
       <build>
         <plugins>
           <plugin>
