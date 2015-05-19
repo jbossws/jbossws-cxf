@@ -629,7 +629,7 @@
         	<version>${arquillian.version}</version>
         	<scope>test</scope>
         </dependency>
-        <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
+        <!-- LittleProxy depencency declared in this profile as other profiles require sdifferent exclusions -->
         <dependency>
           <groupId>org.littleshoot</groupId>
           <artifactId>littleproxy</artifactId>
@@ -866,10 +866,6 @@
           <name>secmgr</name>
         </property>
       </activation>
-      <properties>
-          <additionalJvmArgs>-Djava.security.manager</additionalJvmArgs>
-      </properties>
-
       <build>
         <plugins>
           <plugin>
@@ -885,6 +881,21 @@
       </build>
     </profile>
 
+    <!--
+    Name:  wildfly9-secmgr
+    Descr: Additional jvm argumetns to add "-secmgr" flag in server start options" 
+    -->
+    <profile>
+      <id>wildfly9-secmgr</id>
+      <activation>
+        <property>
+          <name>wildfly9-secmgr</name>
+        </property>
+      </activation>
+      <properties>
+          <additionalJvmArgs>-Djava.security.manager</additionalJvmArgs>
+      </properties>
+    </profile>
     <!--
     Name:  exclude-integration-tests-BC-related
     Descr: Additional exclusions of integration tests which require installed JCE Provider Bouncy Castle (AS 7.x)
