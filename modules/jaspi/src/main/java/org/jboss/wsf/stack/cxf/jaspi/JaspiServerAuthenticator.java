@@ -80,7 +80,7 @@ public class JaspiServerAuthenticator
       if (messageInfo.getResponseMessage() != null && !message.getExchange().isOneWay())
       {
 
-         Endpoint e = message.getExchange().get(Endpoint.class);
+         Endpoint e = message.getExchange().getEndpoint();
 
          response = new MessageImpl();
          response.setExchange(message.getExchange());

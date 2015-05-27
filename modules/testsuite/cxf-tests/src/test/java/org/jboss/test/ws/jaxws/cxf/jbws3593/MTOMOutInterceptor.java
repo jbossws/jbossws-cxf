@@ -41,7 +41,7 @@ public class MTOMOutInterceptor extends AbstractPhaseInterceptor<Message>
 
    public void handleMessage(Message message)
    {
-      MessageInfo mi = (MessageInfo)message.get(MessageInfo.class.getName());
+      MessageInfo mi = (MessageInfo)message.get(MessageInfo.class);
       if ("echoStringsResponse".equals(mi.getName().getLocalPart())) {
          message.put("mtom-enabled", false);
       }

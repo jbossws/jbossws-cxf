@@ -120,8 +120,8 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
    @Override
    public Object invoke(Exchange exchange, Object o)
    {
-      BindingOperationInfo bop = exchange.get(BindingOperationInfo.class);
-      MethodDispatcher md = (MethodDispatcher) exchange.get(Service.class).get(MethodDispatcher.class.getName());
+      BindingOperationInfo bop = exchange.getBindingOperationInfo();
+      MethodDispatcher md = (MethodDispatcher) exchange.getService().get(MethodDispatcher.class.getName());
       List<Object> params = null;
       if (o instanceof List) {
          params = CastUtils.cast((List<?>) o);

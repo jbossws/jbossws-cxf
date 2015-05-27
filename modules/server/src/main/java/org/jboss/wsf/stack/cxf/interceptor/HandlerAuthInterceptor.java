@@ -42,7 +42,6 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.security.SecurityContext;
-import org.apache.cxf.service.Service;
 import org.apache.cxf.service.invoker.MethodDispatcher;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -146,8 +145,8 @@ public class HandlerAuthInterceptor extends AbstractPhaseInterceptor<Message>
          if (attributeProvider != null) //ejb endpoints only can be associated with this...
          {
             SecurityContext secCtx = message.get(SecurityContext.class);
-            BindingOperationInfo bop = exchange.get(BindingOperationInfo.class);
-            MethodDispatcher md = (MethodDispatcher) exchange.get(Service.class).get(MethodDispatcher.class.getName());
+            BindingOperationInfo bop = exchange.getBindingOperationInfo();
+            MethodDispatcher md = (MethodDispatcher) exchange.getService().get(MethodDispatcher.class.getName());
             Method method = md.getMethod(bop);
 
             EJBMethodSecurityAttribute attributes = attributeProvider.getSecurityAttributes(method);
