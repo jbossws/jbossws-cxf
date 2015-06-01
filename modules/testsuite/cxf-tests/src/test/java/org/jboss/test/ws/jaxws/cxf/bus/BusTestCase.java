@@ -113,6 +113,7 @@ public class BusTestCase extends JBossWSTest
             .addClass(org.jboss.test.ws.jaxws.cxf.bus.Endpoint.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.bus.EndpointService.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.bus.ServletClient.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/bus/WEB-INF-client/permissions.xml"), "permissions.xml")
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/bus/WEB-INF-client/wsdl/Endpoint.wsdl"), "wsdl/Endpoint.wsdl")
             .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/bus/WEB-INF-client/web.xml"));
       return archive;
