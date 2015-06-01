@@ -61,6 +61,7 @@ public class EndorseTestCase extends JBossWSTest
                   + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services export\n"))
             .addClass(org.jboss.test.ws.jaxws.cxf.endorse.Helper.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.endorse.TestServlet.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endorse/WEB-INF/permissions.xml"), "permissions.xml")
             .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endorse/WEB-INF/web.xml"));
       return archive;
    }
@@ -72,6 +73,7 @@ public class EndorseTestCase extends JBossWSTest
                   + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services\n"))
             .addClass(org.jboss.test.ws.jaxws.cxf.endorse.Helper.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.endorse.TestServlet.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endorse/WEB-INF/permissions.xml"), "permissions.xml")
             .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endorse/WEB-INF/web.xml"));
       return archive;
    }
