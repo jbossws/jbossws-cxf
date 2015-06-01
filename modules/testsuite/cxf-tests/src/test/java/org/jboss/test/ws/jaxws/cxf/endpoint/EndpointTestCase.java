@@ -61,6 +61,7 @@ public class EndpointTestCase extends JBossWSTest
             .addClass(org.jboss.test.ws.jaxws.cxf.endpoint.HelloWorld.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.endpoint.HelloWorldImpl.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.endpoint.TestServlet.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endpoint/WEB-INF/permissions.xml"), "permissions.xml")
             .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/endpoint/WEB-INF/web.xml"));
       return archive;
    }
