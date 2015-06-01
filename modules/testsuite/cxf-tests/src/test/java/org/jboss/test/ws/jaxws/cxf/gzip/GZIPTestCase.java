@@ -75,7 +75,8 @@ public class GZIPTestCase extends JBossWSTest
             .addClass(org.jboss.test.ws.jaxws.cxf.gzip.HelloWorld.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.gzip.Helper.class)
             .addClass(org.jboss.wsf.test.ClientHelper.class)
-            .addClass(org.jboss.wsf.test.TestServlet.class);
+            .addClass(org.jboss.wsf.test.TestServlet.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/gzip/WEB-INF/permissions.xml"), "permissions.xml");
       return archive;
    }
    

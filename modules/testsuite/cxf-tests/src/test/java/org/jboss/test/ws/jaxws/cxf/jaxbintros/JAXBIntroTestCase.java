@@ -89,7 +89,8 @@ public class JAXBIntroTestCase extends JBossWSTest
          .addClass(org.jboss.test.ws.jaxws.cxf.jaxbintros.Helper.class)
          .addClass(org.jboss.test.ws.jaxws.cxf.jaxbintros.UserType.class)
          .addClass(org.jboss.wsf.test.ClientHelper.class)
-         .addClass(org.jboss.wsf.test.TestServlet.class);
+         .addClass(org.jboss.wsf.test.TestServlet.class)
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jaxbintros/META-INF/permissions.xml"), "permissions.xml");
       return archive;
    }
 

@@ -76,7 +76,8 @@ public class JBWS3879TestCase extends JBossWSTest
             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3879.Helper.class)
             .addAsResource(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3879/WEB-INF/jaxws-client-config.xml")), "jaxws-client-config.xml")
             .addClass(org.jboss.wsf.test.ClientHelper.class)
-            .addClass(org.jboss.wsf.test.TestServlet.class);
+            .addClass(org.jboss.wsf.test.TestServlet.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3879/WEB-INF/permissions.xml"), "permissions.xml");
       return archive;
    }
    

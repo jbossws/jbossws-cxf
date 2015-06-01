@@ -61,7 +61,8 @@ public class PolicyInterceptorProviderTestCase extends JBossWSTest
             + "Dependencies: org.apache.cxf.impl\n")) //cxf impl required due to custom interceptor using cxf-rt-ws-policy in deployment
          .addClass(org.jboss.test.ws.jaxws.cxf.policy.PIPEndpointImpl.class)
          .addClass(org.jboss.test.ws.jaxws.cxf.policy.PolicyInterceptorProviderInstallerInterceptor.class)
-         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/policy/META-INF/unknown-policy.xml"), "unknown-policy.xml");
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/policy/META-INF/unknown-policy.xml"), "unknown-policy.xml")
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/policy/META-INF/permissions.xml"), "permissions.xml");
       return archive;
    }
 

@@ -81,7 +81,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-policy-username-jaspi-client.war");
       archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
                   + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
-            .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/META-INF/jaxws-client-config.xml"), "META-INF/jaxws-client-config.xml")
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/META-INF/jaxws-client-config.xml"), "jaxws-client-config.xml")
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.Helper.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceIface.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.UsernamePasswordCallback.class)
@@ -90,7 +90,9 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
             .addClass(org.jboss.wsf.test.ClientHelper.class)
-            .addClass(org.jboss.wsf.test.TestServlet.class);
+            .addClass(org.jboss.wsf.test.TestServlet.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/META-INF/permissions.xml"), "permissions.xml");
+;
       return archive;
    }
 

@@ -14,11 +14,6 @@
         <actions>read</actions>
     </permission>
     <permission>
-        <class-name>java.util.PropertyPermission</class-name>
-        <name>jboss.bind.address</name>
-        <actions>read</actions>
-    </permission>
-    <permission>
         <class-name>java.lang.RuntimePermission</class-name>
         <name>createClassLoader</name>
     </permission>
@@ -41,6 +36,6 @@
      <permission>
          <class-name>java.io.FilePermission</class-name>
          <name>&lt;&lt;ALL FILES&gt;&gt;</name>
-         <actions>read</actions>
+         <actions>read,write,delete</actions>
      </permission>
 </permissions>

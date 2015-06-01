@@ -47,7 +47,9 @@ public class JBWS3679TestCase extends JBossWSTest
             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3679.EndpointOneService.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3679.ServletClient.class)
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3679/WEB-INF/beans.xml"), "beans.xml")
-            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3679/WEB-INF/web.xml"));
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3679/WEB-INF/web.xml"))
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3679/WEB-INF/permissions.xml"), "permissions.xml");
+;
       return archive;
    }
 

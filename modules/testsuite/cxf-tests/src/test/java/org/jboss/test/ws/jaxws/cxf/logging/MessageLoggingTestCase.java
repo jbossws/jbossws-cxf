@@ -22,6 +22,7 @@
 package org.jboss.test.ws.jaxws.cxf.logging;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
@@ -41,6 +42,7 @@ import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -63,7 +65,8 @@ public class MessageLoggingTestCase extends JBossWSTest
                   + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
             .addClass(org.jboss.test.ws.jaxws.cxf.logging.CustomInInterceptor.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.logging.LoggingFeatureEndpointImpl.class)
-            .addClass(org.jboss.test.ws.jaxws.cxf.logging.LoggingInterceptorsEndpointImpl.class);
+            .addClass(org.jboss.test.ws.jaxws.cxf.logging.LoggingInterceptorsEndpointImpl.class)
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/logging/META-INF/permissions.xml"), "permissions.xml");
       return archive;
    }
 

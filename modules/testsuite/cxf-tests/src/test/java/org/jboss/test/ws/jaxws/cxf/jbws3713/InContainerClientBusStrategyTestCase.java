@@ -74,6 +74,7 @@ public class InContainerClientBusStrategyTestCase extends JBossWSTest
       archive
          .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3713/WEB-INF/permissions.xml"), "permissions.xml")
          .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.BusCounter.class)
          .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.ClientServlet.class)
          .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.ClientServletUsignThreadLocal.class)

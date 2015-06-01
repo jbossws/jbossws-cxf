@@ -67,6 +67,7 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                      + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq\n"))
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/permissions.xml"), "permissions.xml")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl"), "classes/META-INF/wsdl/HelloWorldService.wsdl")
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.DeploymentTestServlet.class)
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorld.class);
