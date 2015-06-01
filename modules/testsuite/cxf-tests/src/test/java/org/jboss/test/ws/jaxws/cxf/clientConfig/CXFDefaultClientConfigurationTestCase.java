@@ -83,7 +83,7 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
             .addClass(org.jboss.test.ws.jaxws.cxf.clientConfig.TestUtils.class)
             .addClass(org.jboss.wsf.test.ClientHelper.class)
             .addClass(org.jboss.wsf.test.TestServlet.class)
-            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/clientConfig/META-INF/permissions.xml"), "permissions.xml");
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/clientConfig/META-INF/default-client-permissions.xml"), "permissions.xml");
       return archive;
    }
    
