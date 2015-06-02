@@ -15,6 +15,10 @@
     </permission>
     <permission>
         <class-name>java.lang.RuntimePermission</class-name>
+        <name>accessDeclaredMembers</name>
+    </permission>
+    <permission>
+        <class-name>java.lang.RuntimePermission</class-name>
         <name>org.jboss.ws.LOOKUP_SERVER_INTEGRATION_SERVER_CONFIG</name>
     </permission>
     <permission>
