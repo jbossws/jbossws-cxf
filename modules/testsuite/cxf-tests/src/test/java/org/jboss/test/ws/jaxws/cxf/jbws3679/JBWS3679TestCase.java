@@ -49,7 +49,6 @@ public class JBWS3679TestCase extends JBossWSTest
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3679/WEB-INF/beans.xml"), "beans.xml")
             .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3679/WEB-INF/web.xml"))
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3679/WEB-INF/permissions.xml"), "permissions.xml");
-;
       return archive;
    }
 
