@@ -70,6 +70,7 @@ public final class UDPEndpointAPITestCase extends JBossWSTest
             .addClass(org.jboss.test.ws.jaxws.cxf.udp.TestServlet.class)
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/udp/META-INF/permissions.xml"), "permissions.xml")
             .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/udp/META-INF/wsdl/HelloWorldService.wsdl"), "META-INF/wsdl/HelloWorldService.wsdl");
+      JBossWSTestHelper.writeToFile(archive);
       return archive;
    }
 

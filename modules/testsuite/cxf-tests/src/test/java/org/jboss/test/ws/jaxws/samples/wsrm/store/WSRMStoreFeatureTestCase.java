@@ -61,7 +61,8 @@ public class WSRMStoreFeatureTestCase extends JBossWSTest
             .addClass(org.jboss.test.ws.jaxws.samples.wsrm.store.Endpoint.class).addClass(org.jboss.test.ws.jaxws.samples.wsrm.store.EndpointImpl.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsrm.store.RMStoreFeature.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsrm.store.RMStoreCheckInterceptor.class)
-            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm-store/WEB-INF/web.xml"));
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm-store/WEB-INF/web.xml"))
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm-store/WEB-INF/permissions.xml"), "permissions.xml");
       JBossWSTestHelper.writeToFile(archive);
       return archive;
    }
