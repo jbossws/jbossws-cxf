@@ -10,6 +10,10 @@
     </permission>
     <permission>
         <class-name>java.lang.RuntimePermission</class-name>
+        <name>accessDeclaredMembers</name>
+    </permission>
+    <permission>
+        <class-name>java.lang.RuntimePermission</class-name>
         <name>getClassLoader</name>
     </permission>
     <permission>
