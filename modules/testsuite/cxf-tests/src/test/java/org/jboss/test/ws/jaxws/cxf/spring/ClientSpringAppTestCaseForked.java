@@ -86,7 +86,8 @@ public final class ClientSpringAppTestCaseForked extends JBossWSTest
          .addAsLibrary(new File(SPRING_DIR, "spring-context-3.0.3.RELEASE.jar"))
          .addAsLibrary(new File(SPRING_DIR, "spring-core-3.0.3.RELEASE.jar"))
          .addAsLibrary(new File(SPRING_DIR, "spring-expression-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(SPRING_DIR, "spring-web-3.0.3.RELEASE.jar"));
+         .addAsLibrary(new File(SPRING_DIR, "spring-web-3.0.3.RELEASE.jar"))
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/spring/permissions.xml"), "permissions.xml");
       return archive;
    }
    

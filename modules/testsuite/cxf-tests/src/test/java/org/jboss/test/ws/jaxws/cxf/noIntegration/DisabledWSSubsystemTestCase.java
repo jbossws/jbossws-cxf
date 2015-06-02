@@ -70,6 +70,7 @@ public class DisabledWSSubsystemTestCase extends JBossWSTest
          .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.CXFEndpointServlet.class)
          .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.EchoImpl.class)
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/moduleImports/WEB-INF/jboss-deployment-structure.xml"), "jboss-deployment-structure.xml")
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/moduleImports/WEB-INF/permissions.xml"), "permissions.xml")
          .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/moduleImports/WEB-INF/web.xml"));
       return archive;
    }

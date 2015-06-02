@@ -22,16 +22,14 @@
         <name>org.apache.cxf.permission</name>
         <actions>resolveUri</actions>
     </permission>
-
+    <permission>
+        <class-name>javax.xml.ws.WebServicePermission</class-name>
+        <name>publishEndpoint</name>
+    </permission>
     <permission>
         <class-name>java.util.PropertyPermission</class-name>
         <name>jboss.bind.address</name>
         <actions>read</actions>
-    </permission>
-    <permission>
-        <class-name>java.util.PropertyPermission</class-name>
-        <name>cxf.config.file</name>
-        <actions>read,write</actions>
     </permission>
     <permission>
         <class-name>java.net.SocketPermission</class-name>
