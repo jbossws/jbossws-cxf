@@ -6,6 +6,20 @@
              version="7">
     <permission>
         <class-name>java.lang.RuntimePermission</class-name>
+        <name>accessDeclaredMembers</name>
+    </permission>
+    <permission>
+        <class-name>java.net.SocketPermission</class-name>
+        <name>localhost</name>
+        <actions>connect,resolve</actions>
+    </permission>
+    <permission>
+        <class-name>java.util.PropertyPermission</class-name>
+        <name>user.dir</name>
+        <actions>read</actions>
+    </permission>
+    <permission>
+        <class-name>java.lang.RuntimePermission</class-name>
         <name>getClassLoader</name>
     </permission>
     <permission>
@@ -20,5 +34,10 @@
     <permission>
         <class-name>java.lang.RuntimePermission</class-name>
         <name>getProtectionDomain</name>
+    </permission>
+    <permission>
+        <class-name>java.io.FilePermission</class-name>
+        <name>&lt;&lt;ALL FILES&gt;&gt;</name>
+        <actions>read</actions>
     </permission>
 </permissions>

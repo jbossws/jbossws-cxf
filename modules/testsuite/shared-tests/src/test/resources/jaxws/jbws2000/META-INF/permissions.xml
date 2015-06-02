@@ -9,4 +9,9 @@
         <name><![CDATA[<<ALL FILES>>]]></name>
         <actions>write,delete</actions>
     </permission>
+    <permission>
+        <class-name>java.util.PropertyPermission</class-name>
+        <name>java.io.tmpdir</name>
+        <actions>read</actions>
+    </permission>
 </permissions>

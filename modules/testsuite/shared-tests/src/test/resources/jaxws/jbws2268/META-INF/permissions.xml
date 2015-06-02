@@ -7,6 +7,6 @@
     <permission>
         <class-name>java.io.FilePermission</class-name>
         <name><![CDATA[<<ALL FILES>>]]></name>
-        <actions>read</actions>
+        <actions>read,write</actions>
     </permission>
 </permissions>
