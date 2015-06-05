@@ -42,7 +42,7 @@ import org.jboss.wsf.spi.deployment.EndpointType;
  */
 public class MessagePropertySettingInterceptor extends AbstractPhaseInterceptor<Message>
 {
-   private EjbWSOneWayThreadInterceptor ejbOneWayInterceptor = new EjbWSOneWayThreadInterceptor();
+   private static EjbWSOneWayThreadInterceptor ejbOneWayInterceptor = new EjbWSOneWayThreadInterceptor();
 
    public MessagePropertySettingInterceptor()
    {
@@ -61,7 +61,7 @@ public class MessagePropertySettingInterceptor extends AbstractPhaseInterceptor<
       //complete
    }
 
-   public class EjbWSOneWayThreadInterceptor extends AbstractPhaseInterceptor<Message>
+   private static class EjbWSOneWayThreadInterceptor extends AbstractPhaseInterceptor<Message>
    {
       public EjbWSOneWayThreadInterceptor()
       {
