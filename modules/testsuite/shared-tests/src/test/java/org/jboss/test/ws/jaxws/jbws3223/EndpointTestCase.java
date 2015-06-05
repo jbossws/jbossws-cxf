@@ -64,6 +64,7 @@ public class EndpointTestCase extends JBossWSTest
          .addClass(org.jboss.test.ws.jaxws.jbws3223.EndpointInterface.class)
          .addClass(org.jboss.test.ws.jaxws.jbws3223.TestServlet.class)
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3223/WEB-INF/wsdl/TestService.wsdl"), "wsdl/TestService.wsdl")
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3223/WEB-INF/permissions.xml"), "permissions.xml")
          .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3223/WEB-INF/web.xml"));
       return archive;
    }

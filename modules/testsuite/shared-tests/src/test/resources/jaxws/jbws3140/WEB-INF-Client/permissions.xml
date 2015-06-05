@@ -11,10 +11,6 @@
     </permission>
     <permission>
         <class-name>java.lang.RuntimePermission</class-name>
-        <name>setContextClassLoader</name>
-    </permission>
-    <permission>
-        <class-name>java.lang.RuntimePermission</class-name>
         <name>getClassLoader</name>
     </permission>
     <permission>

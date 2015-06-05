@@ -35,6 +35,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -108,6 +109,7 @@ public class JBWS3140TestCase extends JBossWSTest
                .addAsResource("org/jboss/test/ws/jaxws/jbws3140/server-handlers.xml")
                .addAsWebInfResource(new File(getTestResourcesDir() + "/jaxws/jbws3140/wsdl/TestEndpoint.wsdl"), "wsdl/TestEndpoint.wsdl")
                .addAsWebInfResource(new File(getTestResourcesDir() + "/jaxws/jbws3140/WEB-INF-Client/jboss-web.xml"), "jboss-web.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3140/WEB-INF-Client/permissions.xml"), "permissions.xml")
                .setWebXML(new File(getTestResourcesDir() + "/jaxws/jbws3140/WEB-INF-Client/web.xml"));
       return archive;
    }

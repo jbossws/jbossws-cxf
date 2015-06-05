@@ -35,6 +35,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -60,7 +61,8 @@ public class JaxWsSpiProviderTestCase extends JBossWSTest
          .addAsManifestResource(new File(getTestResourcesDir() + "/jaxws/jbws3477/META-INF/services/javax.xml.ws.spi.Provider"), "services/javax.xml.ws.spi.Provider")
          .addClass(org.jboss.test.ws.jaxws.jbws3477.DummyProvider.class)
          .addClass(org.jboss.test.ws.jaxws.jbws3477.Helper.class)
-         .addClass(org.jboss.test.ws.jaxws.jbws3477.TestServlet.class);
+         .addClass(org.jboss.test.ws.jaxws.jbws3477.TestServlet.class)
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3477/META-INF/permissions.xml"), "permissions.xml");
       return archive;
    }
 
@@ -70,7 +72,8 @@ public class JaxWsSpiProviderTestCase extends JBossWSTest
          archive
                .addManifest()
                .addClass(org.jboss.test.ws.jaxws.jbws3477.Helper.class)
-               .addClass(org.jboss.test.ws.jaxws.jbws3477.TestServlet.class);
+               .addClass(org.jboss.test.ws.jaxws.jbws3477.TestServlet.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws3477/META-INF/permissions.xml"), "permissions.xml");
       return archive;
    }
 
