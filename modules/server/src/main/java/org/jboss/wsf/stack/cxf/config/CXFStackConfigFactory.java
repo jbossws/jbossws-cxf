@@ -30,6 +30,7 @@ import org.apache.wss4j.common.crypto.WSProviderConfig;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.management.StackConfig;
 import org.jboss.wsf.spi.management.StackConfigFactory;
+import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 
 /**
  * 
@@ -125,5 +126,11 @@ class CXFStackConfig implements StackConfig
             }
          });
       }
+   }
+
+   @Override
+   public void validatePathRewriteRule(String rule)
+   {
+      SoapAddressRewriteHelper.validatePathRewriteRule(rule);
    }
 }

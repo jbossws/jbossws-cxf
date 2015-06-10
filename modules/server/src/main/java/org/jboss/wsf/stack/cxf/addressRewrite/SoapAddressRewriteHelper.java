@@ -107,6 +107,13 @@ public class SoapAddressRewriteHelper
          return address;
       }
    }
+   
+   public static void validatePathRewriteRule(String rule) {
+      if (rule == null) {
+         throw new IllegalArgumentException();
+      }
+      SEDProcessor.newInstance(rule);
+   }
 
    public static boolean isAutoRewriteOn(SOAPAddressRewriteMetadata sarm)
    {
