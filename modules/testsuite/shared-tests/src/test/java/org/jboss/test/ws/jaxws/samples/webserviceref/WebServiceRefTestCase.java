@@ -126,6 +126,7 @@ public class WebServiceRefTestCase extends JBossWSTest
          .addClass(org.jboss.test.ws.jaxws.samples.webserviceref.ServletClient.class)
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webserviceref/WEB-INF-client/jboss-web.xml"), "jboss-web.xml")
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webserviceref/META-INF/wsdl/Endpoint.wsdl"), "wsdl/Endpoint.wsdl")
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webserviceref/META-INF/permissions.xml"), "permissions.xml")
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webserviceref/META-INF/wsdl/MultipleEndpoint.wsdl"), "wsdl/MultipleEndpoint.wsdl")
          .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webserviceref/WEB-INF-client/web.xml"));
       return archive;

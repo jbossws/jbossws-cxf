@@ -8,4 +8,8 @@
         <class-name>java.lang.RuntimePermission</class-name>
         <name>org.jboss.as.server.LOOKUP_CURRENT_SERVICE_CONTAINER</name>
     </permission>
+    <permission>
+        <class-name>java.lang.RuntimePermission</class-name>
+        <name>org.jboss.as.server.LOOKUP_CURRENT_SERVICE_CONTAINER</name>
+    </permission>
 </permissions>
