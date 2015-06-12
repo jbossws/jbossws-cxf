@@ -69,6 +69,7 @@ public class HandlerChainTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.samples.handlerchain.LogHandler.class)
                .addClass(org.jboss.test.ws.jaxws.samples.handlerchain.RoutingHandler.class)
                .addClass(org.jboss.test.ws.jaxws.samples.handlerchain.ServerMimeHandler.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/handlerchain/WEB-INF/permissions.xml"), "permissions.xml")
                .addAsResource("org/jboss/test/ws/jaxws/samples/handlerchain/jaxws-handlers-server.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/handlerchain/WEB-INF/web.xml"));
       return archive;
