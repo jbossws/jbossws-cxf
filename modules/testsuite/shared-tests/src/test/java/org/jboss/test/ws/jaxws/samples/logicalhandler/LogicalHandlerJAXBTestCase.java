@@ -68,6 +68,7 @@ public class LogicalHandlerJAXBTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.SOAPEndpointJAXB.class)
                .addClass(org.jboss.test.ws.jaxws.samples.logicalhandler.SOAPEndpointJAXBImpl.class)
                .addAsResource("org/jboss/test/ws/jaxws/samples/logicalhandler/jaxws-server-jaxb-handlers.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/logicalhandler/WEB-INF/permissions.xml"), "permissions.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/logicalhandler/WEB-INF/web-jaxb.xml"));
       return archive;
    }

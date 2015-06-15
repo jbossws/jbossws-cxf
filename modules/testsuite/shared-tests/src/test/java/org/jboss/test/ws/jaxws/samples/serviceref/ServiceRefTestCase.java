@@ -139,6 +139,9 @@ public class ServiceRefTestCase extends JBossWSTest
          .addAsWebInfResource(
             new File(JBossWSTestHelper.getTestResourcesDir()
                + "/jaxws/samples/serviceref/servlet-client/WEB-INF/jboss-web.xml"), "jboss-web.xml")
+         .addAsManifestResource(
+            new File(JBossWSTestHelper.getTestResourcesDir()
+               + "/jaxws/samples/serviceref/servlet-client/WEB-INF/permissions.xml"), "permissions.xml")
          .setWebXML(
             new File(JBossWSTestHelper.getTestResourcesDir()
                + "/jaxws/samples/serviceref/servlet-client/WEB-INF/web.xml"));

@@ -5,14 +5,13 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/permissions_7.xsd"
              version="7">
     <permission>
-        <class-name>java.security.AllPermission</class-name>
-    </permission>
-    <!--Permission("org.jboss.as.server.security.ServerPermission" "getCurrentServiceContainer") is required-->
-    
-    <!--permission>
         <class-name>java.util.PropertyPermission</class-name>
         <name>jboss.bind.address</name>
         <actions>read</actions>
+    </permission>
+    <permission>
+        <class-name>java.lang.RuntimePermission</class-name>
+        <name>setContextClassLoader</name>
     </permission>
     <permission>
         <class-name>java.lang.RuntimePermission</class-name>
@@ -41,5 +40,5 @@
         <class-name>java.io.FilePermission</class-name>
         <name>&lt;&lt;ALL FILES&gt;&gt;</name>
         <actions>read</actions>
-    </permission-->
+    </permission>
 </permissions>
