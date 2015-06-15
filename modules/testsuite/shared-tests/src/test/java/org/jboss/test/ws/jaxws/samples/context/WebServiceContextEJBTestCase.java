@@ -63,6 +63,7 @@ public class WebServiceContextEJBTestCase extends JBossWSTest
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                      + "Dependencies: org.jboss.ws.common\n"))
                .addClass(org.jboss.test.ws.jaxws.samples.context.EndpointEJB.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/context/META-INF/permissions.xml"), "permissions.xml")
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/context/META-INF/jboss.xml"), "jboss.xml");
       return archive;
    }

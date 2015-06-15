@@ -48,6 +48,7 @@ public class ExceptionServletTestCase extends JBossWSTest
          .addClass(org.jboss.test.helper.TestServlet.class)
          .addClass(org.jboss.test.ws.jaxws.samples.exception.ExceptionHelper.class)
          .addClass(org.jboss.test.ws.jaxws.samples.exception.SOAP12ExceptionHelper.class)
+         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/handlerchain/WEB-INF/permissions.xml"), "permissions.xml")
          .addPackage("org.jboss.test.ws.jaxws.samples.exception.client");
       return archive;
    }

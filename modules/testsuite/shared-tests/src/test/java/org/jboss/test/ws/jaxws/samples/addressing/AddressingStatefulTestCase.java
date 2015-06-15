@@ -61,6 +61,7 @@ public class AddressingStatefulTestCase extends JBossWSTest
                .addClass(org.jboss.test.ws.jaxws.samples.addressing.StatefulEndpoint.class)
                .addClass(org.jboss.test.ws.jaxws.samples.addressing.StatefulEndpointImpl.class)
                .addAsResource("org/jboss/test/ws/jaxws/samples/addressing/jaxws-handlers.xml")
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/addressing/WEB-INF/permissions.xml"), "permissions.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/addressing/WEB-INF/web.xml"));
       return archive;
    }
