@@ -64,7 +64,6 @@ import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
-import org.jboss.wsf.stack.cxf.interceptor.MessagePropertySettingInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
@@ -164,6 +163,9 @@ public abstract class BusHolder
       //(moreover the user can tune the web container thread pool instead of expecting cxf to fork new threads)
       bus.setProperty(OneWayProcessorInterceptor.USE_ORIGINAL_THREAD, true);
       
+      //[JBWS-3135] enable decoupled faultTo. This is an optional feature in cxf and we need this to be default to make it same behavior with native stack
+      bus.setProperty("org.apache.cxf.ws.addressing.decoupled_fault_support", true);
+      
       FeatureUtils.addFeatures(bus, bus, props);
    }
    
@@ -202,7 +204,6 @@ public abstract class BusHolder
       //Install the EndpointAssociationInterceptor for linking every message exchange
       //with the proper spi Endpoint retrieved in CXFServletExt
       bus.getInInterceptors().add(new EndpointAssociationInterceptor());
-      bus.getInInterceptors().add(new MessagePropertySettingInterceptor());
       bus.getInInterceptors().add(new NsCtxSelectorStoreInterceptor());
       
       final String p = (props != null) ? props.get(Constants.JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS) : null;
