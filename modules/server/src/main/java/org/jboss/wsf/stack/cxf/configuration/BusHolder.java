@@ -31,6 +31,7 @@ import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
+import org.apache.cxf.interceptor.OneWayProcessorInterceptor;
 import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.counters.CounterRepository;
 import org.apache.cxf.management.interceptor.ResponseTimeMessageInInterceptor;
@@ -156,6 +157,14 @@ public abstract class BusHolder
          policySetsListener = new PolicySetsAnnotationListener(dep.getRuntimeClassLoader());
          bus.getExtension(FactoryBeanListenerManager.class).addListener(policySetsListener);
       }
+      
+      //default to USE_ORIGINAL_THREAD = true; this can be overridden by simply setting the property in the endpoint or in the message using an interceptor
+      //this forces one way operation to use original thread, which is required for ejb webserivce endpoints to avoid authorization failures from ejb container
+      //and is a performance improvement in general when running in-container, as CXF needs to cache the message to free the thread, which is expensive
+      //(moreover the user can tune the web container thread pool instead of expecting cxf to fork new threads)
+      bus.setProperty(OneWayProcessorInterceptor.USE_ORIGINAL_THREAD, true);
+      
+      FeatureUtils.addFeatures(bus, bus, props);
    }
    
    
