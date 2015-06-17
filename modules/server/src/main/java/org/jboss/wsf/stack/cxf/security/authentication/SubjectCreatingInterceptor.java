@@ -104,7 +104,7 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
          UsernameToken ut = (UsernameToken)token;
          
          Subject subject = createSubject(ut.getName(), ut.getPassword(), ut.isHashed(),
-                                         ut.getNonce(), ut.getCreatedTime(), msg);
+                                         ut.getNonce(), ut.getCreatedTime());
          
          SecurityContext sc = doCreateSecurityContext(context.getUserPrincipal(), subject);
          msg.put(SecurityContext.class, sc);
@@ -152,7 +152,7 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
       Subject subject = null;
       try
       {
-         subject = createSubject(name, password, isDigest, nonce, created, msg);
+         subject = createSubject(name, password, isDigest, nonce, created);
       }
       catch (Exception ex)
       {
@@ -240,9 +240,9 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
        
    }
 
-   public Subject createSubject(String name, String password, boolean isDigest, String nonce, String created, Message msg)
+   public Subject createSubject(String name, String password, boolean isDigest, String nonce, String created)
    {
-      return helper.createSubject(sdc.get(), name, password, isDigest, nonce, created, msg);
+      return helper.createSubject(sdc.get(), name, password, isDigest, nonce, created);
    }
 
    public void setPropagateContext(boolean propagateContext)

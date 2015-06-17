@@ -137,28 +137,7 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
       {
          throw Messages.MESSAGES.missingBindingOpeartionAndDispatchedMethod();
       }
-
-      //[JBWS-3843] workaround: set the CallbackHandler threadlocal again; as a matter of fact, if that's in the Exchange,
-      //DIGEST auth is being used and that will cause the EJB layer to re-do authentication because of the bug
-      CallbackHandler cbHandler = exchange.getInMessage().get(CallbackHandler.class);
-      Object obj = null;
-      try
-      {
-         if (cbHandler != null)
-         {
-            CallbackHandlerPolicyContextHandler.setCallbackHandler(cbHandler);
-         }
-         obj = invoke(exchange, targetBean,
-               adjustMethodAndParams(method, exchange, params, targetBean.getClass()), params);
-      }
-      finally
-      {
-         if (cbHandler != null)
-         {
-            CallbackHandlerPolicyContextHandler.setCallbackHandler(null);
-         }
-      }
-      return obj;
+      return invoke(exchange, targetBean, adjustMethodAndParams(md.getMethod(bop), exchange, params, targetBean.getClass()), params);
    }
 
    /**

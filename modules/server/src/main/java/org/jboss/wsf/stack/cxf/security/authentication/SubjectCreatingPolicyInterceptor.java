@@ -88,7 +88,7 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
             throw Messages.MESSAGES.unsupportedTokenType(token.getTokenType());
          }
          UsernameToken ut = (UsernameToken) token;
-         subject = createSubject(sdc, ut.getName(), ut.getPassword(), ut.isHashed(), ut.getNonce(), ut.getCreatedTime(), message);
+         subject = createSubject(sdc, ut.getName(), ut.getPassword(), ut.isHashed(), ut.getNonce(), ut.getCreatedTime());
 
       }
       else
@@ -99,19 +99,19 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
             throw Messages.MESSAGES.couldNotGetSubjectInfo();
          }
          UsernameTokenPrincipal up = (UsernameTokenPrincipal) p;
-         subject = createSubject(sdc, up.getName(), up.getPassword(), up.isPasswordDigest(), up.getNonce(), up.getCreatedTime(), message);
+         subject = createSubject(sdc, up.getName(), up.getPassword(), up.isPasswordDigest(), up.getNonce(), up.getCreatedTime());
       }
 
       Principal principal = getPrincipal(context.getUserPrincipal(), subject);
       message.put(SecurityContext.class, createSecurityContext(principal, subject));
    }
    
-   protected Subject createSubject(SecurityDomainContext sdc, String name, String password, boolean isDigest, String nonce, String creationTime, Message msg)
+   protected Subject createSubject(SecurityDomainContext sdc, String name, String password, boolean isDigest, String nonce, String creationTime)
    {
       Subject subject = null;
       try
       {
-         subject = helper.createSubject(sdc, name, password, isDigest, nonce, creationTime, msg);
+         subject = helper.createSubject(sdc, name, password, isDigest, nonce, creationTime);
       }
       catch (Exception ex)
       {
@@ -124,12 +124,12 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
       return subject;
    }
 
-   protected Subject createSubject(SecurityDomainContext sdc, String name, String password, boolean isDigest, byte[] nonce, String creationTime, Message msg)
+   protected Subject createSubject(SecurityDomainContext sdc, String name, String password, boolean isDigest, byte[] nonce, String creationTime)
    {
       Subject subject = null;
       try
       {
-         subject = helper.createSubject(sdc, name, password, isDigest, nonce, creationTime, msg);
+         subject = helper.createSubject(sdc, name, password, isDigest, nonce, creationTime);
       }
       catch (Exception ex)
       {

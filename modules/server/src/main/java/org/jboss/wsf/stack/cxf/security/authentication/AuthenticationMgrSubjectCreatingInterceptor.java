@@ -72,7 +72,7 @@ public class AuthenticationMgrSubjectCreatingInterceptor extends SubjectCreating
             throw Messages.MESSAGES.unsupportedTokenType(token.getTokenType());
          }
          UsernameToken ut = (UsernameToken) token;
-         subject = helper.createSubject(authenticationManger, ut.getName(), ut.getPassword(), ut.isHashed(), ut.getNonce(), ut.getCreatedTime(), message);
+         subject = helper.createSubject(authenticationManger, ut.getName(), ut.getPassword(), ut.isHashed(), ut.getNonce(), ut.getCreatedTime());
 
       }
       else
@@ -83,7 +83,7 @@ public class AuthenticationMgrSubjectCreatingInterceptor extends SubjectCreating
             throw Messages.MESSAGES.couldNotGetSubjectInfo();
          }
          UsernameTokenPrincipal up = (UsernameTokenPrincipal) p;
-         subject = helper.createSubject(authenticationManger, up.getName(), up.getPassword(), up.isPasswordDigest(), up.getNonce(), up.getCreatedTime(), message);
+         subject = helper.createSubject(authenticationManger, up.getName(), up.getPassword(), up.isPasswordDigest(), up.getNonce(), up.getCreatedTime());
       }
 
       Principal principal = getPrincipal(context.getUserPrincipal(), subject);
