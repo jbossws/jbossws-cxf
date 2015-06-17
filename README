@@ -15,6 +15,7 @@ The '-Ddebug' option can be used to turn on surefire debugging of integration te
 The '-Djboss.bind.address=x.y.w.z' option can be used to have the started containers bound to the specified network interface address.
 The '-Dipv6' option can be used to run the integration testsuite using IPv6 protocol.
 The '-Darquillian.deploymentExportPath=target/foo' option can be used to have Arquillian write the actual test deployments to disk.
+The '-DnoLogRedirect' can be used to prevent Surefire from redirecting console logs to test output files.
 
 The 'fast' profile can also be used to run tests concurrently; run 'mvn -Pfast,wildflyXYZ post-integration-test' in such case to trigger test servers' shutdown and save memory at the end of each testsuite module.
 

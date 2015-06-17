@@ -288,7 +288,6 @@
           <skip>true</skip>
           <failIfNoTests>false</failIfNoTests>
           <runOrder>alphabetical</runOrder>
-          <redirectTestOutputToFile>true</redirectTestOutputToFile>
         </configuration>
         <executions>
           <execution>
@@ -518,6 +517,29 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <testFailureIgnore>true</testFailureIgnore>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+    Name:  logRedirect
+    Descr: redirect console logs to file
+    -->
+    <profile>
+      <id>logRedirect</id>
+      <activation>
+        <property>
+          <name>!noLogRedirect</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <redirectTestOutputToFile>true</redirectTestOutputToFile>
             </configuration>
           </plugin>
         </plugins>
