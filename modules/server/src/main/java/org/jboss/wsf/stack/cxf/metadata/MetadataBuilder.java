@@ -264,14 +264,6 @@ public class MetadataBuilder
       result.setEpClass(seiClass != null ? seiClass : sepClass);
       result.setPortName(new QName(serviceNS, portName));
       result.setServiceName(new QName(serviceNS, serviceName));
-      Map<String, Object> props = new HashMap<String, Object>();
-      for (String k : ep.getProperties()) {
-         final Object v = ep.getProperty(k);
-         if (v != null) { //do not add null props [JBWS-3766]
-            props.put(k, v);
-         }
-      }
-      result.setProperties(props);
       if (annWsdlLocation.length() > 0) {
          result.setAnnotationWsdlLocation(annWsdlLocation);
       }
