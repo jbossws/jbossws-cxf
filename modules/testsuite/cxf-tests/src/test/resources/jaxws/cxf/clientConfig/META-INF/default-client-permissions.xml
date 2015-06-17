@@ -5,14 +5,6 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/permissions_7.xsd"
              version="7">
     <permission>
-        <class-name>java.security.AllPermission</class-name>
-    </permission>
-    <!-- TODO: Look at why grant org.jboss.as.server.security.ServerPermission doesn't work-->
-    <!--permission>
-        <class-name>java.lang.RuntimePermission</class-name>
-        <name>org.jboss.ws.LOOKUP_SERVER_INTEGRATION_SERVER_CONFIG</name>
-    </permission>
-    <permission>
         <class-name>org.jboss.as.server.security.ServerPermission</class-name>
         <name>getCurrentServiceContainer</name>
     </permission>
@@ -43,5 +35,5 @@
         <class-name>java.io.FilePermission</class-name>
         <name>&lt;&lt;ALL FILES&gt;&gt;</name>
         <actions>read</actions>
-    </permission-->
+    </permission>
 </permissions>

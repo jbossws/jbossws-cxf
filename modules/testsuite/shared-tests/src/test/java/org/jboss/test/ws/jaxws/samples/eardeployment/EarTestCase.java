@@ -83,7 +83,7 @@ public class EarTestCase extends JBossWSTest
       WebArchive archive2 = ShrinkWrap.create(WebArchive.class, "jaxws-samples-eardeployment-pojo.war");
       archive2
          .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-            + "Dependencies: org.jboss.logging,org.jboss.ws.common\n"))
+            + "Dependencies: org.jboss.logging,org.jboss.ws.common,org.jboss.as.server\n"))
          .addClass(org.jboss.test.ws.jaxws.samples.eardeployment.JSEBean.class)
          .addClass(org.jboss.test.ws.jaxws.samples.eardeployment.SupportServlet.class)
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/eardeployment/WEB-INF/jboss-web.xml"), "jboss-web.xml")
@@ -93,7 +93,8 @@ public class EarTestCase extends JBossWSTest
 
       EnterpriseArchive archive = ShrinkWrap.create(EnterpriseArchive.class, "jaxws-samples-eardeployment.ear");
       archive
-         .addManifest()
+         .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+            + "Dependencies: org.jboss.as.server\n"))
          .addAsModule(archive1)
          .addAsModule(archive2)
          .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/eardeployment/META-INF/permissions.xml"), "permissions.xml");

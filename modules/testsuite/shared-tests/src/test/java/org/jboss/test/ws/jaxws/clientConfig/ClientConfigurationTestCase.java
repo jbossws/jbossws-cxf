@@ -70,7 +70,7 @@ public class ClientConfigurationTestCase extends JBossWSTest
       WebArchive archive = ShrinkWrap.create(WebArchive.class, IN_CONTAINER_CLIENT_DEPLOYMENT + ".war");
       archive
          .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-            + "Dependencies: org.jboss.ws.common\n"))
+            + "Dependencies: org.jboss.ws.common,org.jboss.as.server \n"))
          .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/clientConfig/META-INF/jaxws-client-config.xml"), "META-INF/jaxws-client-config.xml")
          .addClass(org.jboss.test.helper.ClientHelper.class)
          .addClass(org.jboss.test.helper.TestServlet.class)

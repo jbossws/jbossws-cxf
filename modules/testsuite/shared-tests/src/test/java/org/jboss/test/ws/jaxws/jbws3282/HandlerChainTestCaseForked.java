@@ -65,7 +65,7 @@ public class HandlerChainTestCaseForked extends JBossWSTest
       WebArchive archive = ShrinkWrap.create(WebArchive.class, INCONTAINER_CLIENT + ".war");
          archive
             .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-               + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+               + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.jboss.as.server \n"))
             .addClass(org.jboss.test.ws.jaxws.jbws3282.Endpoint.class)
             .addClass(org.jboss.test.ws.jaxws.jbws3282.Helper.class)
             .addClass(org.jboss.test.ws.jaxws.jbws3282.TestUtils.class)

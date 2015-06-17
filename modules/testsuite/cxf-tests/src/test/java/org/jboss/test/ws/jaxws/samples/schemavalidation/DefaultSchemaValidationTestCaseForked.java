@@ -64,7 +64,8 @@ public class DefaultSchemaValidationTestCaseForked extends JBossWSTest
    public static WebArchive createClientDeployment() {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-schemavalidation-client.war");
       archive
-            .addManifest()
+             .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+              + "Dependencies: org.jboss.as.server\n"))
             .addClass(org.jboss.test.ws.jaxws.samples.schemavalidation.Hello.class)
             .addClass(org.jboss.test.ws.jaxws.samples.schemavalidation.Helper.class)
             .addPackage("org.jboss.test.ws.jaxws.samples.schemavalidation.types")

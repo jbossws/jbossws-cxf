@@ -54,7 +54,7 @@ public class EndpointPublishTestCase extends JBossWSTest
       WebArchive archive = ShrinkWrap.create(WebArchive.class,"endpoint-publish.war");
          archive
             .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-               + "Dependencies: org.jboss.ws.common\n"))
+               + "Dependencies: org.jboss.ws.common,org.jboss.as.server \n"))
             .addAsResource("org/jboss/test/ws/publish/WEB-INF/wsdl/EndpointImpl3.xml", "WEB-INF/wsdl/EndpointImpl3.xml")
             .addAsResource("org/jboss/test/ws/publish/WEB-INF/wsdl/EndpointImpl4.xml", "WEB-INF/wsdl/EndpointImpl4.xml")
             .addClass(org.jboss.test.ws.publish.Endpoint.class)

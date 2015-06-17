@@ -76,7 +76,7 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    public static WebArchive createDeployment2() {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, CLIENT_DEP + ".war");
       archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                  + "Dependencies: org.apache.cxf.impl\n"))
+                  + "Dependencies: org.apache.cxf.impl,org.jboss.as.server \n"))
             .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/clientConfig/META-INF/jaxws-client-config.xml"), "META-INF/jaxws-client-config.xml")
             .addClass(org.jboss.test.ws.jaxws.cxf.clientConfig.Endpoint.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.clientConfig.Helper.class)
