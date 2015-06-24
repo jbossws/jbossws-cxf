@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.test;
 
-import java.util.Arrays;
-
 import org.junit.Assume;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -45,11 +43,15 @@ import org.junit.runners.model.Statement;
  */
 public class IgnoreContainer implements TestRule
 {
+   private final String ignoreReason;
+   private final String[] ignoredContainers;
 
-   private String[] ignoredContainers;
-
-   public IgnoreContainer(String... containers)
+   public IgnoreContainer(String ignoreReason, String... containers)
    {
+      this.ignoreReason = ignoreReason;
+      if (containers == null || containers.length == 0) {
+         throw new IllegalArgumentException("Expected at least a container version!");
+      }
       this.ignoredContainers = containers;
    }
 
@@ -71,7 +73,7 @@ public class IgnoreContainer implements TestRule
                }
             }
             //Check if ignore this test
-            Assume.assumeFalse(description.getClassName() + " is excluded for container: " + Arrays.toString(ignoredContainers), ignored);
+            Assume.assumeFalse(ignoreReason, ignored);
          }
       };
    }

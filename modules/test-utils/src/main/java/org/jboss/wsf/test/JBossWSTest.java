@@ -45,6 +45,7 @@ import junit.framework.TestCase;
 import org.jboss.logging.Logger;
 import org.jboss.ws.common.DOMWriter;
 import org.jboss.ws.common.concurrent.CopyJob;
+import org.junit.AssumptionViolatedException;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
@@ -459,6 +460,16 @@ public abstract class JBossWSTest extends TestCase
          if (classLoader != null && description.getAnnotation(WrapThreadContextClassLoader.class) != null) {
             Thread.currentThread().setContextClassLoader(classLoader);
          }
+      }
+      
+      protected void skipped(AssumptionViolatedException e, Description description) {
+         //This is a workaround for Maven Surefire not printing the skip message
+         //when exclusion comes from a custom rule (e.g. our IgnoreContainer rule)
+         //See https://github.com/apache/maven-surefire/pull/81 for proper fix.
+         
+         //note, the exact system out text here is grepped by Hudson, do not change and/or turn into a Log4J log
+         System.out.println("Test skipped: " + e.getMessage());
+         super.skipped(e, description);
       }
    };
    

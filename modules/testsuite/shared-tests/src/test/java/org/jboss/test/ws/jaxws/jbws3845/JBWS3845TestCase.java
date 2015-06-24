@@ -50,7 +50,7 @@ import org.junit.runner.RunWith;
 public class JBWS3845TestCase extends JBossWSTest
 {
    @Rule
-   public IgnoreContainer rule = new IgnoreContainer("wildfly800");
+   public IgnoreContainer rule = new IgnoreContainer("[JBWS-3845] Injection not working in JAX-WS handlers from predefined configurations", "wildfly800");
    
    @ArquillianResource
    private URL baseURL;

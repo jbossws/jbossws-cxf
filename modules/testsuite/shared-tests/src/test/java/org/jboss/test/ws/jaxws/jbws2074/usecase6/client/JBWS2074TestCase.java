@@ -57,7 +57,7 @@ import org.junit.runner.RunWith;
 public final class JBWS2074TestCase extends JBossWSTest
 {
    @Rule
-   public IgnoreContainer rule = new IgnoreContainer("wildfly800");
+   public IgnoreContainer rule = new IgnoreContainer("[JBWS-3846] Refactor creation process of jaxws handlers from predefined configurations", "wildfly800");
    
    private static final String WAR_DEPLOYMENT = "jaxws-jbws2074-usecase6";
    
