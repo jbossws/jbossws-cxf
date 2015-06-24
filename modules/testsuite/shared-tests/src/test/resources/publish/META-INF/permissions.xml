@@ -8,6 +8,11 @@
         <class-name>org.jboss.as.server.security.ServerPermission</class-name>
         <name>getCurrentServiceContainer</name>
     </permission>
+    <!-- wildfly 8.x requires this permission -->
+    <permission>
+         <class-name>java.lang.RuntimePermission</class-name>
+         <name>org.jboss.as.server.LOOKUP_CURRENT_SERVICE_CONTAINER</name>
+    </permission>
     <permission>
         <class-name>javax.xml.ws.WebServicePermission</class-name>
         <name>publishEndpoint</name>

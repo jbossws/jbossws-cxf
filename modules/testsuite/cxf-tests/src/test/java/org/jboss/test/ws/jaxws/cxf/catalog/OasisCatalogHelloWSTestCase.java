@@ -76,7 +76,7 @@ public class OasisCatalogHelloWSTestCase extends JBossWSTest
             + "/jaxws/cxf/catalog/META-INF/wsdl/HelloService.wsdl"), "wsdl/foo/HelloService.wsdl")
          .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
             + "/jaxws/cxf/catalog/META-INF/wsdl/Hello_schema1.xsd"), "wsdl/foo/Hello_schema1.xsd");
-      writeToDisk(archive);
+      JBossWSTestHelper.writeToFile(archive);
       return archive;
    }
 
@@ -164,12 +164,5 @@ public class OasisCatalogHelloWSTestCase extends JBossWSTest
       } finally {
          bus.shutdown(true);
       }
-   }
-   
-   public static void writeToDisk(WebArchive archive)
-   {
-      JBossWSTestHelper.assertArchiveDirExists();
-      File file = new File(JBossWSTestHelper.getTestArchiveDir(), archive.getName());
-      archive.as(ZipExporter.class).exportTo(file, true);
    }
 }
