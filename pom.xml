@@ -73,7 +73,7 @@
     <wildfly820.version>8.2.0.Final</wildfly820.version>
     <wildfly900.version>9.0.0.CR3-SNAPSHOT</wildfly900.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
-    <cxf.version>3.0.5</cxf.version>
+    <cxf.version>3.0.6-SNAPSHOT</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
     <cxf.xjcplugins.version>3.0.3</cxf.xjcplugins.version>
     <jboss-logging.version>3.2.1.Final</jboss-logging.version>
