@@ -210,40 +210,6 @@
         </dependencies>
       </plugin>
       <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>create-endorsed-dir</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.jboss.spec.javax.xml.ws</groupId>
-                  <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
-                  <type>jar</type>
-                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.spec.javax.xml.bind</groupId>
-                  <artifactId>jboss-jaxb-api_2.2_spec</artifactId>
-                  <type>jar</type>
-                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.spec.javax.ejb</groupId>
-                  <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-                  <type>jar</type>
-                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
@@ -284,7 +250,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} ${ipVerArgs} -Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
+          <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} ${ipVerArgs}</argLine>
           <skip>true</skip>
           <failIfNoTests>false</failIfNoTests>
           <runOrder>alphabetical</runOrder>
@@ -677,18 +643,6 @@
           </exclusions>
         </dependency>
       </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <compilerArguments>
-                <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-              </compilerArguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
     
     <!--
@@ -739,18 +693,6 @@
           </exclusions>
         </dependency>
       </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <compilerArguments>
-                <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-              </compilerArguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
     
     <!--
@@ -801,18 +743,6 @@
           </exclusions>
         </dependency>
       </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <compilerArguments>
-                <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-              </compilerArguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
     
     <!--
@@ -863,18 +793,6 @@
           </exclusions>
         </dependency>
       </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <compilerArguments>
-                <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-              </compilerArguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
 
     <!--

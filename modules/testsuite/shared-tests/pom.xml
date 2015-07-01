@@ -16,6 +16,11 @@
 
   <!-- Dependencies -->
   <dependencies>
+    <dependency> <!-- Always make sure jbossws-cxf-factories dependency is explicitly declared before anything transitively pulling CXF -->
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-factories</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-test-utils</artifactId>
@@ -148,30 +153,6 @@
                   </target>
                 </configuration>
               </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-                <execution> <!-- This copies jbossws-cxf-factories jar to endorsed dir before the integration-tests are run -->
-            		<id>copy-endorsed</id>
-            		<phase>pre-integration-test</phase>
-            		<goals>
-            			<goal>copy</goal>
-            		</goals>
-            		<configuration>
-            			<artifactItems>
-            				<artifactItem>
-            					<groupId>org.jboss.ws.cxf</groupId>
-            					<artifactId>jbossws-cxf-factories</artifactId>
-            					<version>${project.version}</version>
-            				</artifactItem>
-            			</artifactItems>
-            			<outputDirectory>target/endorsed</outputDirectory>
-            		</configuration>
-            	</execution>
             </executions>
           </plugin>
         </plugins>

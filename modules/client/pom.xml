@@ -32,7 +32,7 @@
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-spi</artifactId>
     </dependency>
-    <dependency>
+    <dependency> <!-- Always make sure jbossws-cxf-factories dependency is explicitly declared before anything transitively pulling CXF -->
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-factories</artifactId>
       <version>${project.version}</version>
@@ -283,32 +283,9 @@
         <configuration>
           <showDeprecation>false</showDeprecation>
           <compilerArguments>
-            <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
             <AgeneratedTranslationFilesPath>${project.basedir}/target/generated-translation-files</AgeneratedTranslationFilesPath>
           </compilerArguments>
         </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.jboss.spec.javax.xml.ws</groupId>
-                  <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
-                  <type>jar</type>
-                  <overWrite>true</overWrite>
-                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
