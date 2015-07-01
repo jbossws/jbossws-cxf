@@ -28,7 +28,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -50,9 +49,6 @@ public class EndorseTestCase extends JBossWSTest
 {
    private static final String ENDORSE_DEP= "jaxws-cxf-endorse";
    private static final String ENDORSE_NO_EXPORT_DEP= "jaxws-cxf-endorse-no-export";
-   
-   @ArquillianResource
-   private URL baseURL;
    
    @Deployment(name = ENDORSE_DEP, testable = false)
    public static WebArchive createDeployment() {
@@ -78,8 +74,11 @@ public class EndorseTestCase extends JBossWSTest
       return archive;
    }
 
+   @Test
+   @RunAsClient
    public void testClientSide()
    {
+      Helper.verifyJaxWsSpiProvider(ProviderImpl.class.getName());
       Helper.verifyCXF();
    }
 
@@ -88,7 +87,7 @@ public class EndorseTestCase extends JBossWSTest
    @OperateOnDeployment(ENDORSE_DEP)
    public void testServerSide() throws Exception
    {
-      runServerTest(new URL(baseURL + "?provider=" + ProviderImpl.class.getName()));
+      runServerTest(new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-cxf-endorse?provider=" + ProviderImpl.class.getName()));
    }
    
    @Test
@@ -96,7 +95,7 @@ public class EndorseTestCase extends JBossWSTest
    @OperateOnDeployment(ENDORSE_NO_EXPORT_DEP)
    public void testServerSideNoExport() throws Exception
    {
-      runServerTest(new URL(baseURL + "?provider=" + ProviderImpl.class.getName()));
+      runServerTest(new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-cxf-endorse-no-export?provider=" + ProviderImpl.class.getName()));
    }
    
    private static void runServerTest(URL url) throws Exception {
