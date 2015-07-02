@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ JBoss, Home of Professional Open Source.
+  ~ Copyright 2011, Red Hat, Inc., and individual contributors
+  ~ as indicated by the @author tags. See the copyright.txt file in the
+  ~ distribution for a full listing of individual contributors.
+  ~
+  ~ This is free software; you can redistribute it and/or modify it
+  ~ under the terms of the GNU Lesser General Public License as
+  ~ published by the Free Software Foundation; either version 2.1 of
+  ~ the License, or (at your option) any later version.
+  ~
+  ~ This software is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this software; if not, write to the Free
+  ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+  ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+  -->
+
+<deploymentAspects xmlns="urn:jboss:ws:deployment:aspects:1.0">
+
+  <deploymentAspect class="org.jboss.ws.common.deployment.ContextPropertiesDeploymentAspect">
+    <property name="provides" class="java.lang.String">ContextProperties</property>
+    <property name="contextProperties" class="java.util.HashMap">
+      <map keyClass="java.lang.String" valueClass="java.lang.String">
+        <entry>
+          <key>stack.transport.class</key>
+          <value>org.jboss.wsf.stack.cxf.CXFServletExt</value>
+        </entry>
+      </map>
+    </property>
+  </deploymentAspect>
+
+  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.DescriptorDeploymentAspect">
+    <property name="requires" class="java.lang.String">EndpointAddress,JAXBIntros</property>
+    <property name="provides" class="java.lang.String">StackDescriptor</property>
+  </deploymentAspect>
+
+  <deploymentAspect class="org.jboss.ws.common.deployment.EndpointHandlerDeploymentAspect">
+    <property name="requires" class="java.lang.String">ContainerMetaData</property>
+    <property name="provides" class="java.lang.String">StackEndpointHandler</property>
+  </deploymentAspect>
+
+  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.CXFInstanceProviderDeploymentAspect">
+    <property name="requires" class="java.lang.String">ContainerMetaData,BusHolder</property>
+    <property name="provides" class="java.lang.String">StackInstanceProvider</property>
+  </deploymentAspect>
+
+  <deploymentAspect class="org.jboss.ws.common.deployment.JAXBIntroDeploymentAspect">
+    <property name="provides" class="java.lang.String">JAXBIntros</property>
+  </deploymentAspect>
+
+  <deploymentAspect class="org.jboss.wsf.stack.cxf.deployment.aspect.BusDeploymentAspect">
+    <property name="provides" class="java.lang.String">BusHolder</property>
+    <property name="requires" class="java.lang.String">StackDescriptor</property>
+  </deploymentAspect>
+
+</deploymentAspects>
+
