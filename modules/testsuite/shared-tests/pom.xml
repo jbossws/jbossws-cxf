@@ -130,7 +130,6 @@
                     <property name="project.version" value="${project.version}"/>
                     <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml" />
                     <property name="log4j.output.dir" value="${log4j.output.dir}"/>
-                    <property name="endorsed.dir" value="${project.build.directory}/endorsed"/>
                     <ant antfile="scripts/antrun-wsconsume.xml" target="wsconsume"/>
                   </target>
                 </configuration>
@@ -148,7 +147,6 @@
                     <property name="project.version" value="${project.version}"/>
                     <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml"/>
                     <property name="log4j.output.dir" value="${log4j.output.dir}"/>
-                    <property name="endorsed.dir" value="${project.build.directory}/endorsed"/>
                     <ant antfile="scripts/antrun-wsprovide.xml" target="wsprovide"/>
                   </target>
                 </configuration>
@@ -180,7 +178,6 @@
                     <property name="project.version" value="${project.version}"/>
                     <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml"/>
                     <property name="log4j.output.dir" value="${log4j.output.dir}"/>
-                    <property name="endorsed.dir" value="${project.build.directory}/endorsed"/>
                     <ant antfile="src/test/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws"/>
                   </target>
                 </configuration>

@@ -49,7 +49,7 @@ public class Helper
       //check the Apache CXF JAXWS implementation is actually used
       Object obj = getImplementationObject();
       if (!obj.getClass().getName().contains("cxf"))
-         throw new RuntimeException("JAXWS implementation is not properly endorsed!");
+         throw new RuntimeException("JAXWS implementation is not properly selected or endorsed!");
    }
    
    private static Object getImplementationObject()

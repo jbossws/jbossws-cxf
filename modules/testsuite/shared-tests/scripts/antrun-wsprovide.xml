@@ -35,7 +35,6 @@
     <wsprovide-macro
       sei="org.jboss.test.ws.jaxws.jbws2960.AddNumbersImpl"
       destdir="jaxws/jbws2960"
-      endorsedDir="${endorsed.dir}"
       outputDir="${tests.output.dir}"
       log4jConf="${log4j.conf}"
       loggingDir="${log4j.output.dir}"
@@ -48,7 +47,6 @@
 
     <attribute name="sei"/>
     <attribute name="destDir"/>
-    <attribute name="endorsedDir"/>
     <attribute name="outputDir"/>
     <attribute name="log4jConf"/>
     <attribute name="loggingDir"/>
@@ -64,7 +62,6 @@
         destdir="@{outputDir}/test-classes/@{destDir}"
         resourcedestdir="@{outputDir}/test-resources/@{resourcesDir}"
       >
-        <jvmarg line="-Djava.endorsed.dirs=@{endorsedDir}"/>
         <jvmarg line="-Dlog4j.configuration=file://@{log4jConf}"/>
         <jvmarg line="-Dlog4j.output.dir=@{loggingDir}"/>
       </wsprovide>
