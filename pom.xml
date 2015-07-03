@@ -65,13 +65,13 @@
     <jbossws.spi.version>3.1.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>3.1.0-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.2.1.Final</jbossws.common.tools.version>
-    <jbossws.wildfly800.version>5.0.0.Final</jbossws.wildfly800.version>
     <jbossws.wildfly810.version>5.0.0.Final</jbossws.wildfly810.version>
     <jbossws.wildfly820.version>5.0.0.Final</jbossws.wildfly820.version>
-    <wildfly800.version>8.0.0.Final</wildfly800.version>
+    <jbossws.wildfly900.version>5.1.0-SNAPSHOT</jbossws.wildfly900.version>
     <wildfly810.version>8.1.0.Final</wildfly810.version>
     <wildfly820.version>8.2.0.Final</wildfly820.version>
-    <wildfly900.version>9.0.0.CR3-SNAPSHOT</wildfly900.version>
+    <wildfly900.version>9.0.0.Final</wildfly900.version>
+    <wildfly1000.version>10.0.0.Alpha5-SNAPSHOT</wildfly1000.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
     <cxf.version>3.0.6-SNAPSHOT</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
@@ -145,16 +145,6 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly800-server-integration</artifactId>
-        <version>${jbossws.wildfly800.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly800-tests-integration</artifactId>
-        <version>${jbossws.wildfly800.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly810-server-integration</artifactId>
         <version>${jbossws.wildfly810.version}</version>
       </dependency>
@@ -174,9 +164,19 @@
         <version>${jbossws.wildfly820.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly900-server-integration</artifactId>
+        <version>${jbossws.wildfly900.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly900-tests-integration</artifactId>
+        <version>${jbossws.wildfly900.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.wildfly</groupId>
         <artifactId>wildfly-webservices-tests-integration</artifactId>
-        <version>${wildfly900.version}</version>
+        <version>${wildfly1000.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
@@ -1288,24 +1288,6 @@
     </profile>
 
     <!--
-    Name:  wildfly800
-    Descr: WildFly-8.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly800</id>
-      <properties>
-        <jbossws.integration.target>wildfly800</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly800.version}</jboss.version>
-        <additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-
-    <!--
     Name:  wildfly810
     Descr: WildFly-8.1.0 specific options
     -->
@@ -1351,6 +1333,24 @@
         <jbossws.integration.target>wildfly900</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly900.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+      </modules>
+    </profile>
+
+    <!--
+    Name:  wildfly1000
+    Descr: WildFly-10.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly1000</id>
+      <properties>
+        <jbossws.integration.target>wildfly1000</jbossws.integration.target>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly1000.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
       </properties>
       <modules>
