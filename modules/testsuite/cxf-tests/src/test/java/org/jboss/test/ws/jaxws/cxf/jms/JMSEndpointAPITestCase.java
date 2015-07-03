@@ -48,13 +48,17 @@ public final class JMSEndpointAPITestCase extends JBossWSTest
 {
    private static final String JMS_SERVER = "jms";
    
+   private static boolean useHornetQ() {
+      return JBossWSTestHelper.isTargetWildFly9() || JBossWSTestHelper.isTargetWildFly8();
+   }
+
    @Deployment(testable = false)
    @TargetsContainer(JMS_SERVER)
    public static WebArchive createWarDeployment() {
       WebArchive archive = ShrinkWrap.create(WebArchive.class,"jaxws-cxf-jms-api.war");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq\n"))
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services," + (useHornetQ() ? "org.hornetq\n" : "org.apache.activemq.artemis")))
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/permissions.xml"), "permissions.xml")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl"), "classes/META-INF/wsdl/HelloWorldService.wsdl")
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorld.class)

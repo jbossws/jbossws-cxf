@@ -56,6 +56,10 @@ import org.junit.runner.RunWith;
 public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
 {
    private static final String JMS_SERVER = "jms";
+   
+   private static boolean useHornetQ() {
+      return JBossWSTestHelper.isTargetWildFly9() || JBossWSTestHelper.isTargetWildFly8();
+   }
 
    @Deployment(name = "jaxws-cxf-jms-http-deployment", order = 1, testable = false)
    @TargetsContainer(JMS_SERVER)
@@ -63,7 +67,7 @@ public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
    {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jms-http-deployment.war");
       archive
-            .setManifest(new StringAsset("Manifest-Version: 1.0\n" + "Dependencies: org.hornetq\n"))
+            .setManifest(new StringAsset("Manifest-Version: 1.0\nDependencies: " + (useHornetQ() ? "org.hornetq\n" : "org.apache.activemq.artemis\n")))
             .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HelloWorld.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HelloWorldImpl.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.HttpHelloWorldImpl.class)
@@ -79,7 +83,7 @@ public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jms-http-deployment-test-servlet.war");
       archive
             .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                        + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq\n"))
+                        + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services," + (useHornetQ() ? "org.hornetq\n" : "org.apache.activemq.artemis")))
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms_http/WEB-INF/wsdl/HelloWorldService.wsdl"), "classes/META-INF/wsdl/HelloWorldService.wsdl")
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms_http/WEB-INF/permissions.xml"), "permissions.xml")
             .addClass(org.jboss.test.ws.jaxws.cxf.jms_http.DeploymentTestServlet.class)

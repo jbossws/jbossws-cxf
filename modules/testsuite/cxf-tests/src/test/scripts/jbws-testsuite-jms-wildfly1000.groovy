@@ -35,18 +35,14 @@ authorizationProps.@path = 'jbws-application-roles.properties'
 /**
  * Add a JMS queue like this
  *
- *  <subsystem xmlns="urn:jboss:domain:messaging:2.0">
- *      <hornetq-server>
- *          <jms-destinations>
- *              <jms-queue name="testQueue">
- *                  <entry name="queue/test"/>
- *                  <entry name="java:jboss/exported/jms/queue/test"/>
- *              </jms-queue>
- *          </jms-destinations>
- *      </hornetq-server>
+ *  <subsystem xmlns="urn:jboss:domain:messaging-activemq:1.0">
+ *      <server name="default">
+ *          <jms-queue name="testQueue" entries="queue/test java:jboss/exported/jms/queue/test"/>
+ *      </server>
  *  </subsystem>
  **/
-
+def server = root.profile.subsystem.'server'[0];
+def jmsQueue = server.appendNode('jms-queue', ['name':'testQueue', 'entries':'queue/test java:jboss/exported/jms/queue/test'])
 
 /**
  * Save the configuration to a new file

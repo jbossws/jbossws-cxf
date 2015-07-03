@@ -60,13 +60,17 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
    private static final String JMS_SERVER = "jms";
    private static volatile boolean waitForResponse;
 
+   private static boolean useHornetQ() {
+      return JBossWSTestHelper.isTargetWildFly9() || JBossWSTestHelper.isTargetWildFly8();
+   }
+
    @Deployment(name="jaxws-cxf-jms-only-deployment-test-servlet", order=1, testable = false)
    @TargetsContainer(JMS_SERVER)
    public static WebArchive createWarDeployment() {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jms-only-deployment-test-servlet.war");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services,org.hornetq\n"))
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services," + (useHornetQ() ? "org.hornetq\n" : "org.apache.activemq.artemis")))
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/permissions.xml"), "permissions.xml")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl"), "classes/META-INF/wsdl/HelloWorldService.wsdl")
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.DeploymentTestServlet.class)
@@ -80,7 +84,7 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
       JavaArchive archive = ShrinkWrap.create(JavaArchive.class,"jaxws-cxf-jms-only-deployment.jar");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.hornetq\n"))
+                     + "Dependencies: " + (useHornetQ() ? "org.hornetq\n" : "org.apache.activemq.artemis")))
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorld.class)
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorldImpl.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl"), "wsdl/HelloWorldService.wsdl");
