@@ -140,10 +140,10 @@
                   <goal>execute</goal>
                 </goals>
                 <configuration>
-                  <source>${basedir}/src/test/scripts/jbws-testsuite-jms.groovy</source>
+                  <source>${basedir}/src/test/scripts/jbws-testsuite-jms-${jbossws.integration.target}.groovy</source>
                   <properties>
                     <inputFile>${jboss.home}/standalone/configuration/standalone-full.xml</inputFile>
-                    <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-jms.xml</outputFile>
+                    <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-jms-${jbossws.integration.target}.xml</outputFile>
                     <serverLog>jbws-testsuite-jms.log</serverLog>
                     <srcUsersProperties>${project.build.directory}/test-classes/jbws-application-users.properties</srcUsersProperties>
                     <destUsersProperties>${jboss.home}/standalone/configuration/jbws-application-users.properties</destUsersProperties>
@@ -356,7 +356,7 @@
 	            </goals>
 	            <configuration>
 	              <jvmArgs>-server -Xms48m -Xmx384m -XX:MaxPermSize=192m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jms} ${additionalJvmArgs}</jvmArgs>
-	              <serverConfig>jbws-testsuite-jms.xml</serverConfig>
+	              <serverConfig>jbws-testsuite-jms-${jbossws.integration.target}.xml</serverConfig>
 	              <jbossHome>${jboss.home}</jbossHome>
                   <!-- TODO: add serverArgs section to use a custom bind address (requires wildfly-maven-plugin 1.1.0 +)
                        https://github.com/wildfly/wildfly-maven-plugin/commit/160b1a29f4e26fff9f60b7cb4c8e3c1b055c7300 -->
