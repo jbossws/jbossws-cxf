@@ -117,10 +117,6 @@ public final class JBWS2634TestCase extends JBossWSTest
    @RunAsClient
    public void testPojoEndpoint2Injection() throws Exception
    {
-      if (JBossWSTestHelper.isTargetWildFly80()) {
-         System.out.println("FIXME: [JBWS-3846] Refactor creation process of jaxws handlers from predefined configurations");
-         return;
-      }
       QName serviceName = new QName("http://jbossws.org/JBWS2634", "POJOService2");
       URL wsdlURL = new URL(baseURL + "/POJOService2?wsdl");
 
@@ -133,10 +129,6 @@ public final class JBWS2634TestCase extends JBossWSTest
    @RunAsClient
    public void testPojoEndpoint3Injection() throws Exception
    {
-      if (JBossWSTestHelper.isTargetWildFly80()) {
-         System.out.println("FIXME: [JBWS-3846] Refactor creation process of jaxws handlers from predefined configurations");
-         return;
-      }
       QName serviceName = new QName("http://jbossws.org/JBWS2634", "POJOService3");
       URL wsdlURL = new URL(baseURL + "/POJOService3?wsdl");
 
@@ -161,10 +153,6 @@ public final class JBWS2634TestCase extends JBossWSTest
    @RunAsClient
    public void testEjb3Endpoint2Injection() throws Exception
    {
-      if (JBossWSTestHelper.isTargetWildFly80()) {
-         System.out.println("FIXME: [JBWS-3846] Refactor creation process of jaxws handlers from predefined configurations");
-         return;
-      }
       QName serviceName = new QName("http://jbossws.org/JBWS2634", "EJB3Service2");
       URL wsdlURL = new URL("http://" + baseURL.getHost() + ":" + baseURL.getPort() + "/jaxws-jbws2634-ejb3/EJB3Service2?wsdl");
 
@@ -178,10 +166,6 @@ public final class JBWS2634TestCase extends JBossWSTest
    @RunAsClient
    public void testEjb3Endpoint3Injection() throws Exception
    {
-      if (JBossWSTestHelper.isTargetWildFly80()) {
-         System.out.println("FIXME: [JBWS-3846] Refactor creation process of jaxws handlers from predefined configurations");
-         return;
-      }
       QName serviceName = new QName("http://jbossws.org/JBWS2634", "EJB3Service3");
       URL wsdlURL = new URL("http://" + baseURL.getHost() + ":" + baseURL.getPort() + "/jaxws-jbws2634-ejb3/EJB3Service3?wsdl");
 

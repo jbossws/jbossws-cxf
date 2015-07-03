@@ -32,7 +32,7 @@ import org.junit.runners.model.Statement;
  * <pre>
  * public class IgnoreContainerTest {
  *  &#064;Rule
- *  public IgnoreContainer rule = new IgnoreContainer("wildfly900", "wildfly800");
+ *  public IgnoreContainer rule = new IgnoreContainer("wildfly900", "wildfly820");
  *  &#064;Test
  *  public void testFoo() throws Exception {
  *  }

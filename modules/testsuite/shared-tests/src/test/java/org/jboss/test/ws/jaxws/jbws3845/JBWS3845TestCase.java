@@ -33,10 +33,8 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.wsf.test.IgnoreContainer;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -49,9 +47,6 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class JBWS3845TestCase extends JBossWSTest
 {
-   @Rule
-   public IgnoreContainer rule = new IgnoreContainer("[JBWS-3845] Injection not working in JAX-WS handlers from predefined configurations", "wildfly800");
-   
    @ArquillianResource
    private URL baseURL;
 

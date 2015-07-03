@@ -109,16 +109,16 @@ public class JBossWSTestHelper
        return target.startsWith("wildfly8");
    }
 
-   public static boolean isTargetWildFly80()
-   {
-       String target = getIntegrationTarget();
-       return target.startsWith("wildfly80");
-   }
-
    public static boolean isTargetWildFly9()
    {
        String target = getIntegrationTarget();
        return target.startsWith("wildfly9");
+   }
+
+   public static boolean isTargetWildFly10()
+   {
+       String target = getIntegrationTarget();
+       return target.startsWith("wildfly10");
    }
 
    public static boolean isIntegrationCXF()

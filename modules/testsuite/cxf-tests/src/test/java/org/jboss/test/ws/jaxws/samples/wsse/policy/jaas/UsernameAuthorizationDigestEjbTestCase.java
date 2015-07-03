@@ -61,7 +61,7 @@ import org.junit.runner.RunWith;
 public final class UsernameAuthorizationDigestEjbTestCase extends JBossWSTest
 {
    @Rule
-   public IgnoreContainer rule = new IgnoreContainer("[JBWS-3916] Remove the workaround for JBWS-3843", "wildfly800", "wildfly810","wildfly820");
+   public IgnoreContainer rule = new IgnoreContainer("[JBWS-3916] Remove the workaround for JBWS-3843", "wildfly810","wildfly820");
    @ArquillianResource
    private URL baseURL;
    
