@@ -63,9 +63,6 @@ public abstract class AbstractMangementInInterceptor extends AbstractManagementI
 
    protected void cleanUpOutInterceptors(Message outMessage)
    {
-      // TODO - how can I improve this to provide a specific interceptor chain that just has the
-      // stax, gzip and message sender components, while also ensuring that GZIP is only provided
-      // if its already configured for the endpoint.
       Iterator<Interceptor<? extends Message>> iterator = outMessage.getInterceptorChain().iterator();
       while (iterator.hasNext())
       {

@@ -22,7 +22,7 @@
 package org.jboss.wsf.stack.cxf.interceptor.util;
 
 import org.apache.cxf.endpoint.Endpoint;
-import org.apache.cxf.feature.AbstractFeature;
+import org.apache.cxf.transport.common.gzip.GZIPFeature;
 import org.apache.cxf.transport.common.gzip.GZIPInInterceptor;
 import org.apache.cxf.transport.common.gzip.GZIPOutInterceptor;
 
@@ -33,8 +33,13 @@ import org.apache.cxf.transport.common.gzip.GZIPOutInterceptor;
  */
 public class RemovableGZIPFeature extends RemovableFeature
 {
-
-   public RemovableGZIPFeature(AbstractFeature feature)
+   
+   public RemovableGZIPFeature()
+   {
+      super(new GZIPFeature());
+   }
+   
+   public RemovableGZIPFeature(GZIPFeature feature)
    {
       super(feature);
    }

@@ -28,15 +28,15 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.cxf.binding.soap.interceptor.EndpointSelectionInterceptor;
-import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.interceptor.OutgoingChainInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
-import org.apache.cxf.transport.common.gzip.GZIPFeature;
 import org.jboss.wsf.stack.cxf.interceptor.util.RemovableFeature;
+import org.jboss.wsf.stack.cxf.interceptor.util.RemovableGZIPFeature;
 import org.jboss.wsf.stack.cxf.interceptor.util.RemovableLoggingFeature;
+import org.jboss.wsf.stack.cxf.interceptor.util.RemovableSchemaValidatonFeature;
 
 /**
  * Interceptor to allow dynamically enalbe cxf features 
@@ -55,8 +55,9 @@ public class EndpointFeaturePutInterceptor extends AbstractMangementInIntercepto
       httpMethods = new HashSet<String>(4);
       httpMethods.add("PUT");
       httpMethods.add("GET");
-      featureClassMap.put("logging", new RemovableLoggingFeature(new LoggingFeature()));
-      featureClassMap.put("gzip", new RemovableLoggingFeature(new GZIPFeature()));
+      featureClassMap.put("logging", new RemovableLoggingFeature());
+      featureClassMap.put("gzip", new RemovableGZIPFeature());
+      featureClassMap.put("schemaValidation", new RemovableSchemaValidatonFeature());
    }
 
    public EndpointFeaturePutInterceptor()

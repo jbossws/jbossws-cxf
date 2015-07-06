@@ -61,8 +61,7 @@ public class EndpointMetricsGetInterceptor extends AbstractMangementInIntercepto
    public EndpointMetricsGetInterceptor(Interceptor<Message> outInterceptor)
    {
       this();
-      // Let people override the EndpointConfigsGetOutIntercetpor 
-      //configsOutInteceptor = outInterceptor;
+      metricsOutInteceptor = outInterceptor;
    }
 
    public void handleMessage(Message message) throws Fault

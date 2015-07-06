@@ -36,8 +36,12 @@ import org.apache.cxf.message.Message;
  */
 public abstract class RemovableFeature
 {
-   private AbstractFeature cxfFeature;
-
+   protected AbstractFeature cxfFeature;
+   
+   public RemovableFeature()
+   {
+   }
+   
    public RemovableFeature(AbstractFeature feature)
    {
       cxfFeature = feature;

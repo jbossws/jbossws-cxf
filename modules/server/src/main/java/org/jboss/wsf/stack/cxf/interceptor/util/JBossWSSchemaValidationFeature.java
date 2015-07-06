@@ -19,46 +19,36 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.wsf.stack.cxf.interceptor;
+package org.jboss.wsf.stack.cxf.interceptor.util;
 
-import org.apache.cxf.message.Exchange;
+import org.apache.cxf.Bus;
+import org.apache.cxf.annotations.SchemaValidation.SchemaValidationType;
+import org.apache.cxf.endpoint.Endpoint;
+import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.message.Message;
-import org.apache.cxf.phase.AbstractPhaseInterceptor;
-
+import org.apache.cxf.service.model.BindingOperationInfo;
 /**
- * All endpoint management interceptor should extend this class to get allowed http methods etc.
- * @author <a href="mailto:ema@redhat.com/>Jim Ma</a>
+ * Another simple schema validation feature implementation, it enables BOTH SchemaValidationType for all opearation
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  *
  */
-public abstract class AbstractManagementInterceptor extends AbstractPhaseInterceptor<Message>
+public class JBossWSSchemaValidationFeature extends AbstractFeature
 {
-   public AbstractManagementInterceptor(String phase)
+   public JBossWSSchemaValidationFeature()
    {
-      super(phase);
+
+   }
+   public void initialize(Endpoint endpoint, Bus bus)
+   {
+      initialise(endpoint);
    }
 
-   protected String getEncoding(Message message)
+   private void initialise(Endpoint endpoint)
    {
-      Exchange ex = message.getExchange();
-      String encoding = (String)message.get(Message.ENCODING);
-      if (encoding == null && ex.getInMessage() != null)
+      for (BindingOperationInfo bop : endpoint.getEndpointInfo().getBinding().getOperations())
       {
-         encoding = (String)ex.getInMessage().get(Message.ENCODING);
-         message.put(Message.ENCODING, encoding);
+         bop.getOperationInfo().setProperty(Message.SCHEMA_VALIDATION_TYPE, SchemaValidationType.BOTH);
       }
-
-      if (encoding == null)
-      {
-         encoding = "UTF-8";
-         message.put(Message.ENCODING, encoding);
-      }
-      return encoding;
    }
-   
-   protected void setContentType(Message message)
-   {
-      message.put(Message.CONTENT_TYPE, "application/json");
 
-   }
-   
 }

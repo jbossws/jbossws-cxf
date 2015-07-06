@@ -22,7 +22,7 @@
 package org.jboss.wsf.stack.cxf.interceptor.util;
 
 import org.apache.cxf.endpoint.Endpoint;
-import org.apache.cxf.feature.AbstractFeature;
+import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 
@@ -33,10 +33,14 @@ import org.apache.cxf.interceptor.LoggingOutInterceptor;
  */
 public class RemovableLoggingFeature extends RemovableFeature
 {
-   public RemovableLoggingFeature(AbstractFeature feature)
+   public RemovableLoggingFeature()
    {
-      super(feature);
-
+      super(new LoggingFeature());
+   }
+   
+   public RemovableLoggingFeature(LoggingFeature loggingFeature)
+   {
+      super(loggingFeature);
    }
 
    public void remove(Endpoint endpoint)

@@ -21,6 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf;
 
+import static org.jboss.logging.Logger.Level.ERROR;
+
 import java.io.File;
 import java.net.URL;
 
@@ -31,6 +33,7 @@ import javax.xml.soap.SOAPException;
 import javax.xml.ws.WebServiceException;
 
 import org.jboss.logging.Cause;
+import org.jboss.logging.LogMessage;
 import org.jboss.logging.Message;
 import org.jboss.logging.MessageBundle;
 import org.jboss.wsf.spi.WSFException;
@@ -217,6 +220,11 @@ public interface Messages {
 
     @Message(id = 24104, value = "Service class %s is missing required JAX-WS 2.2 additional constructors")
     WSFException missingJAXWS22ServiceConstructor(String className, @Cause Throwable cause);
+    
+    @LogMessage(level = ERROR)
+    @Message(id = 24106, value = "Could not create output result elements for endpoint: %s")
+    WSFException unableToCreateEndpointResultElement(String endpoint, @Cause Throwable cause);
+
 
     @Message(id = 24108, value = "Invalid request received:bindingOperation and dispatched method are missing for service implementation invocation")
     IllegalArgumentException missingBindingOpeartionAndDispatchedMethod();

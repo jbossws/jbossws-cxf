@@ -21,8 +21,10 @@
  */
 package org.jboss.wsf.stack.cxf.interceptor;
 
+import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +37,9 @@ import org.codehaus.jettison.AbstractXMLStreamWriter;
 import org.codehaus.jettison.mapped.MappedNamespaceConvention;
 import org.codehaus.jettison.mapped.MappedXMLStreamWriter;
 import org.jboss.ws.api.monitoring.Record;
+import org.jboss.wsf.spi.WSFException;
+import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.stack.cxf.Loggers;
 
 /**
  * Out Interceptor to write json format endpoint request records. This interceptor is added to interceptorchain by 
@@ -93,7 +98,13 @@ public class EndpointRecordGetOutInterceptor extends AbstractManagementIntercept
       }
       catch (Exception e)
       {
-         throw new Fault(e);
+         String endpointName = message.getExchange().get(Endpoint.class).getShortName();
+         WSFException wsfException = org.jboss.wsf.stack.cxf.Messages.MESSAGES.unableToCreateEndpointResultElement(endpointName, e);
+         Loggers.INTERCEPTOR_LOGGER.error(wsfException);
+         message.put(Message.RESPONSE_CODE, 500);
+         PrintWriter outWriter =new PrintWriter(new BufferedOutputStream(out));
+         outWriter.write(wsfException.getLocalizedMessage());
+         outWriter.flush();
       }
       finally
       {

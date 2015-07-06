@@ -52,6 +52,7 @@ public interface Loggers extends BasicLogger
     Loggers SECURITY_LOGGER = org.jboss.logging.Logger.getMessageLogger(Loggers.class, "org.jboss.ws.cxf.security");
     Loggers METADATA_LOGGER = org.jboss.logging.Logger.getMessageLogger(Loggers.class, "org.jboss.ws.cxf.metadata");
     Loggers DEPLOYMENT_LOGGER = org.jboss.logging.Logger.getMessageLogger(Loggers.class, "org.jboss.ws.cxf.deployment");
+    Loggers INTERCEPTOR_LOGGER = org.jboss.logging.Logger.getMessageLogger(Loggers.class, "org.jboss.wsf.stack.cxf.interceptor");
 
     @LogMessage(level = INFO)
     @Message(id = 24015, value = "Cannot use the bus associated to the current deployment for starting a new endpoint, creating a new bus...")
