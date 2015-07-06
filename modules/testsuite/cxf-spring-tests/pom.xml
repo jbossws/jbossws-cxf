@@ -89,10 +89,10 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>${basedir}/src/test/scripts/jbws_testsuite_spring_default.groovy</source>
+                            <source>${basedir}/src/test/scripts/jbws_testsuite_spring_default-${jbossws.integration.target}.groovy</source>
                             <properties>
                                 <inputFile>${jboss.home}/standalone/configuration/standalone-full.xml</inputFile>
-                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-spring-default.xml</outputFile>
+                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-spring-default-${jbossws.integration.target}.xml</outputFile>
                                 <serverLog>jbws-testsuite-spring-default.log</serverLog>
                                 <usersPropFile>${project.build.directory}/test-classes/jbossws-users.properties</usersPropFile>
                                 <rolesPropFile>${project.build.directory}/test-classes/jbossws-roles.properties</rolesPropFile>
@@ -126,7 +126,7 @@
                        </goals>
                        <configuration>
                           <jvmArgs>-server -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djboss.socket.binding.port-offset=${port-offset.cxf-spring-tests.jboss} ${additionalJvmArgs}</jvmArgs>
-                          <serverConfig>jbws-testsuite-spring-default.xml</serverConfig>
+                          <serverConfig>jbws-testsuite-spring-default-${jbossws.integration.target}.xml</serverConfig>
                           <jbossHome>${jboss.home}</jbossHome>
                           <port>39990</port><!-- Keep in sync with the port-offset -->
                        </configuration>

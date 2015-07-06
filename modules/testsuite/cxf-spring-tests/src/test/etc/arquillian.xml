@@ -7,7 +7,7 @@
         <configuration>
             <property name="jbossHome">${jboss.home}</property>
             <property name="javaVmArguments">-server -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djboss.socket.binding.port-offset=${port-offset.cxf-spring-tests.jboss} ${additionalJvmArgs}</property>
-            <property name="serverConfig">jbws-testsuite-spring-default.xml</property>
+            <property name="serverConfig">jbws-testsuite-spring-default-${jbossws.integration.target}.xml</property>
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
             <property name="jbossArguments">${jbossArguments}</property>
