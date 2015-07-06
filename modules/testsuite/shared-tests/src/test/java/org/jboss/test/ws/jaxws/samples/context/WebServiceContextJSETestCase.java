@@ -159,6 +159,24 @@ public class WebServiceContextJSETestCase extends JBossWSTest
       assertTrue("Unexpected rquestCount response", bout.toString().contains("\"requestCount\":1"));
       assertTrue("Unexpected invocation count", bout.toString().contains("\"Method(testMessageContextProperties())InvocationCount:\":1"));
       
+      //get records
+      url = new URL(baseURL + "/jaxws-samples-context-jse/management?record-enabled=true");
+      connenction = (HttpURLConnection)url.openConnection();
+      connenction.setRequestProperty("Authorization", "Basic " + encoding);
+      connenction.connect();
+      assertEquals(200, connenction.getResponseCode());
+      port.testGetUserPrincipal();
+      port.testMessageContextProperties();
+      
+      url = new URL(baseURL + "/jaxws-samples-context-jse/management?records");
+      connenction = (HttpURLConnection)url.openConnection();
+      connenction.setRequestProperty("Authorization", "Basic " + encoding);
+      connenction.connect();
+      assertEquals(200, connenction.getResponseCode());
+      bout = new ByteArrayOutputStream();
+      IOUtils.copy(connenction.getInputStream(), bout);
+      assertTrue("Unexpected records response", bout.toString().contains("{\"INBOUND\":{\"data\""));
+      
       
    }
 }

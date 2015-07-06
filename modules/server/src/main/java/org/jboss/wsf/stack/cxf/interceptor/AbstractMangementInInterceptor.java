@@ -1,24 +1,3 @@
-/*
- * JBoss, Home of Professional Open Source.
- * Copyright 2015, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
- *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */
 package org.jboss.wsf.stack.cxf.interceptor;
 
 import java.util.Iterator;
@@ -34,22 +13,19 @@ import org.apache.cxf.interceptor.MessageSenderInterceptor;
 import org.apache.cxf.interceptor.OutgoingChainInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageImpl;
-import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.transport.common.gzip.GZIPOutInterceptor;
 
-/**
- * All endpoint management interceptor should extend this class to get allowed http methods etc.
- * @author <a href="mailto:ema@redhat.com/>Jim Ma</a>
- *
- */
-public abstract class AbstractEndpintManagementInterceptor extends AbstractPhaseInterceptor<Message>
+public abstract class AbstractMangementInInterceptor extends AbstractManagementInterceptor
 {
-   private static final String TRANSFORM_SKIP = "transform.skip";
-
-   public AbstractEndpintManagementInterceptor(String phase)
+   public AbstractMangementInInterceptor(String phase)
    {
       super(phase);
    }
+
+
+   private static final String TRANSFORM_SKIP = "transform.skip";
+
+
 
    abstract Set<String> getAllowedMethod();
 

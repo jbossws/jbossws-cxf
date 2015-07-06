@@ -39,7 +39,7 @@ import org.jboss.wsf.spi.deployment.Endpoint;
  *
  */
 
-public class EndpointConfigsGetInterceptor extends AbstractEndpintManagementInterceptor {
+public class EndpointConfigsGetInterceptor extends AbstractMangementInInterceptor {
     public static final EndpointConfigsGetInterceptor INSTANCE = new EndpointConfigsGetInterceptor();
     public static final String ENDPOINT_CONFIGS = EndpointConfigsGetInterceptor.class.getName() + ".EndpointConfigs";
     public static final Set<String> httpMethods = new HashSet<String>(4);

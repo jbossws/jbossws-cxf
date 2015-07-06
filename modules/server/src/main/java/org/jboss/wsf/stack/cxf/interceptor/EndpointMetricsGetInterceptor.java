@@ -40,7 +40,7 @@ import org.jboss.wsf.spi.management.EndpointMetrics;
  *@author <a href="mailto:ema@redhat.com>Jim Ma</a>
  *
  */
-public class EndpointMetricsGetInterceptor extends AbstractEndpintManagementInterceptor
+public class EndpointMetricsGetInterceptor extends AbstractMangementInInterceptor
 {
    public static final EndpointMetricsGetInterceptor INSTANCE = new EndpointMetricsGetInterceptor();
    public static final String ENDPOINT_METRICS = EndpointMetricsGetInterceptor.class.getName() + ".EndpointMetrics";

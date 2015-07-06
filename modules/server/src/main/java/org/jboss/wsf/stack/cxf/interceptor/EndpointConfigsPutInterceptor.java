@@ -32,13 +32,14 @@ import org.apache.cxf.interceptor.OutgoingChainInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.stack.cxf.config.RuntimeConfigListenerManager;
 
 /**
  * Interceptor to set runtime configuration with http put url like: http://localhost:8080/context/endpoint?statistics-enabled=true 
  *@author <a href="mailto:ema@redhat.com>Jim Ma</a>
  *
  */
-public class EndpointConfigsPutInterceptor extends AbstractEndpintManagementInterceptor
+public class EndpointConfigsPutInterceptor extends AbstractMangementInInterceptor
 {
    public static final EndpointConfigsPutInterceptor INSTANCE = new EndpointConfigsPutInterceptor();
    public static final String CONFIG_RESULT = EndpointConfigsPutInterceptor.class.getName() + ".EndpointConfigPutResult";
@@ -84,6 +85,11 @@ public class EndpointConfigsPutInterceptor extends AbstractEndpintManagementInte
       for (String key : queryMaps.keySet())
       {
          endpoint.setRuntimeProperty(key, queryMaps.get(key));
+         RuntimeConfigListenerManager listenerManager = message.getExchange().getBus().getExtension(RuntimeConfigListenerManager.class);
+         if (listenerManager != null && listenerManager.getListeners(key) != null)
+         {
+            listenerManager.getListeners(key).configChange(message, queryMaps.get(key));
+         }
       }
       mout.put(CONFIG_RESULT, "Successfully set endpoint runtime configurations.");
       cleanUpOutInterceptors(mout);
