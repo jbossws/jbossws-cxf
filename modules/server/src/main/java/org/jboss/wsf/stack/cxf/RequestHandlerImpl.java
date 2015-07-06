@@ -48,6 +48,7 @@ import org.apache.cxf.transport.http.HTTPTransportFactory;
 import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.RuntimeConfig;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
 import org.jboss.wsf.spi.management.ServerConfig;
@@ -91,7 +92,7 @@ public class RequestHandlerImpl implements RequestHandler
          out.close();
          return;
       }
-      final boolean statisticsEnabled = getServerConfig().isStatisticsEnabled();
+      final boolean statisticsEnabled = getServerConfig().isStatisticsEnabled() || "true".equals(ep.getRuntimeProperty(RuntimeConfig.STATISTICS_ENABLED));
       final Long beginTime = statisticsEnabled == true ? initRequestMetrics(ep) : 0;
       final Deployment dep = ep.getService().getDeployment();
       final AbstractHTTPDestination dest = findDestination(req, dep.getAttachment(BusHolder.class).getBus());

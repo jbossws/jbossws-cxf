@@ -70,6 +70,7 @@ public class WebServiceContextJSETestCase extends JBossWSTest
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/context/META-INF/permissions.xml"), "permissions.xml")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/context/WEB-INF/jboss-web.xml"), "jboss-web.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/context/WEB-INF/web.xml"));
+      JBossWSTestHelper.writeToFile(archive);
       return archive;
    }
 
@@ -125,16 +126,26 @@ public class WebServiceContextJSETestCase extends JBossWSTest
    
    @Test
    @RunAsClient
-   public void testManagementURL() throws Exception {
-	   URL url = new URL(baseURL + "/jaxws-samples-context-jse/management?config");
-	   String encoding = Base64.encodeBytes("jbossws:jbossws".getBytes());
-	   HttpURLConnection connenction = (HttpURLConnection)url.openConnection();
-	   connenction.setRequestProperty("Authorization", "Basic " + encoding);
-	   connenction.connect();
-	   assertEquals(200, connenction.getResponseCode());
-	   ByteArrayOutputStream bout = new ByteArrayOutputStream();
-	   IOUtils.copy(connenction.getInputStream(), bout);
-	   assertTrue("Unexpected response", bout.toString().contains("\"type\":\"JAXWS_JSE\",\"securityDomain\":\"JBossWS\""));
-	   
+   public void testManagementURL() throws Exception
+   {
+      URL url = new URL(baseURL + "/jaxws-samples-context-jse/management?config");
+      String encoding = Base64.encodeBytes("jbossws:jbossws".getBytes());
+      HttpURLConnection connenction = (HttpURLConnection)url.openConnection();
+      connenction.setRequestProperty("Authorization", "Basic " + encoding);
+      connenction.connect();
+      assertEquals(200, connenction.getResponseCode());
+      ByteArrayOutputStream bout = new ByteArrayOutputStream();
+      IOUtils.copy(connenction.getInputStream(), bout);
+      assertTrue("Unexpected response", bout.toString().contains("\"type\":\"JAXWS_JSE\",\"securityDomain\":\"JBossWS\""));
+
+      url = new URL(baseURL + "/jaxws-samples-context-jse/management?statistics-enabled=true");
+      connenction = (HttpURLConnection)url.openConnection();
+      connenction.setRequestProperty("Authorization", "Basic " + encoding);
+      connenction.connect();
+      assertEquals(200, connenction.getResponseCode());
+      bout = new ByteArrayOutputStream();
+      IOUtils.copy(connenction.getInputStream(), bout);
+      assertTrue("Unexpected response", bout.toString().contains("Successfully set endpoint runtime configurations"));
+      
    }
 }

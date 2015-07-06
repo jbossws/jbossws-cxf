@@ -21,23 +21,16 @@
  */
 package org.jboss.wsf.stack.cxf.interceptor;
 
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
 
 import org.apache.cxf.binding.soap.interceptor.EndpointSelectionInterceptor;
-import org.apache.cxf.common.util.StringUtils;
-import org.apache.cxf.common.util.UrlUtils;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.interceptor.Interceptor;
-import org.apache.cxf.interceptor.MessageSenderInterceptor;
 import org.apache.cxf.interceptor.OutgoingChainInterceptor;
 import org.apache.cxf.message.Message;
-import org.apache.cxf.message.MessageImpl;
-import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
-import org.apache.cxf.transport.common.gzip.GZIPOutInterceptor;
 import org.jboss.wsf.spi.deployment.Endpoint;
 /**
  * Interceptor to get json format endpoint config info. This interceptor is only 
@@ -46,11 +39,16 @@ import org.jboss.wsf.spi.deployment.Endpoint;
  *
  */
 
-public class EndpointConfigsGetInterceptor extends AbstractPhaseInterceptor<Message> {
+public class EndpointConfigsGetInterceptor extends AbstractEndpintManagementInterceptor {
     public static final EndpointConfigsGetInterceptor INSTANCE = new EndpointConfigsGetInterceptor();
     public static final String ENDPOINT_CONFIGS = EndpointConfigsGetInterceptor.class.getName() + ".EndpointConfigs";
+    public static final Set<String> httpMethods = new HashSet<String>(4);
     private Interceptor<Message> configsOutInteceptor = EndpointConfigsGetOutIntercetpor.INSTANCE;
     private static final String TRANSFORM_SKIP = "transform.skip";
+    static {
+       httpMethods.add("GET");
+       httpMethods.add("POST");
+    }
     public EndpointConfigsGetInterceptor() {
         super(Phase.READ);
         getAfter().add(EndpointSelectionInterceptor.class.getName());
@@ -63,34 +61,19 @@ public class EndpointConfigsGetInterceptor extends AbstractPhaseInterceptor<Mess
     }
     
     public void handleMessage(Message message) throws Fault {
-        String method = (String)message.get(Message.HTTP_REQUEST_METHOD);
-        String query = (String)message.get(Message.QUERY_STRING);
-        HttpServletRequest request = (HttpServletRequest)message.get("HTTP.REQUEST");
-        if (!"GET".equals(method) || StringUtils.isEmpty(query) || !isValidUser(request)) {
-            return;
+        if (!isAllowed(message)) {
+           return;
         }
-
-        /*String baseUri = (String)message.get(Message.REQUEST_URL);
-        String ctx = (String)message.get(Message.PATH_INFO);*/
-
-        Map<String, String> map = UrlUtils.parseQueryString(query);
-        if (isRecognizedQuery(map)) {
-
+        if (isRecognizedQuery(getQueryMap(message))) {
+            Message mout = this.createOutMessage(message);
             Endpoint endpoint = message.getExchange().get(Endpoint.class);
-            
-            Message mout = new MessageImpl();
-            mout.setExchange(message.getExchange());
-            mout = message.getExchange().get(org.apache.cxf.endpoint.Endpoint.class).getBinding().createMessage(mout);
-            mout.setInterceptorChain(OutgoingChainInterceptor.getOutInterceptorChain(message.getExchange()));          
-            message.getExchange().setOutMessage(mout);
-
             mout.put(ENDPOINT_CONFIGS, endpoint.getAllConfigsMap());
             mout.put(Message.CONTENT_TYPE, "text/xml");
             // just remove the interceptor which should not be used
             cleanUpOutInterceptors(mout);
             // notice this is being added after the purge above, don't swap the order!
+            
             mout.getInterceptorChain().add(configsOutInteceptor);
-
             message.getExchange().put(TRANSFORM_SKIP, Boolean.TRUE);
             // skip the service executor and goto the end of the chain.
             message.getInterceptorChain().doInterceptStartingAt(
@@ -99,32 +82,19 @@ public class EndpointConfigsGetInterceptor extends AbstractPhaseInterceptor<Mess
         }
     }
     
-    protected void cleanUpOutInterceptors(Message outMessage) {
-        // TODO - how can I improve this to provide a specific interceptor chain that just has the
-        // stax, gzip and message sender components, while also ensuring that GZIP is only provided
-        // if its already configured for the endpoint.
-        Iterator<Interceptor<? extends Message>> iterator = outMessage.getInterceptorChain().iterator();
-        while (iterator.hasNext()) {
-            Interceptor<? extends Message> inInterceptor = iterator.next();
-            if (!inInterceptor.getClass().equals(GZIPOutInterceptor.class)
-                    && !inInterceptor.getClass().equals(MessageSenderInterceptor.class)) {
-                outMessage.getInterceptorChain().remove(inInterceptor);
-            }
-        }
-        
-    }
-    private boolean isRecognizedQuery(Map<String, String> map) {
 
-        if (map.containsKey("config")) {
+    private boolean isRecognizedQuery(Map<String, String> map) {
+        if (map.containsKey("config") && map.size() == 1) {
             return true;
         }
         return false;
     }
+
+   @Override
+   Set<String> getAllowedMethod()
+   {
+     return httpMethods;
+   }
     
-    private boolean isValidUser(HttpServletRequest req) {
-    	if (req.getUserPrincipal() != null && req.isUserInRole("admin")) {
-    		return true;
-    	} 
-    	return false;
-    }
+
 }

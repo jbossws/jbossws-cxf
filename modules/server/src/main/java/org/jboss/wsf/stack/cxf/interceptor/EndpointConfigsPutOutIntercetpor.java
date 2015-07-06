@@ -23,9 +23,7 @@ package org.jboss.wsf.stack.cxf.interceptor;
 
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.Map;
 
-import org.apache.cxf.common.util.StringUtils;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.interceptor.StaxOutInterceptor;
 import org.apache.cxf.message.Exchange;
@@ -38,16 +36,16 @@ import org.codehaus.jettison.mapped.MappedNamespaceConvention;
 import org.codehaus.jettison.mapped.MappedXMLStreamWriter;
 
 /**
- * Out Interceptor to get json format endpoint config info. This interceptor is only 
- * responds to get url like http://localhost:8080/context/wsendpoint/management?config
- *@author <a href="mailto:ema@redhat.com>Jim Ma</a>
+ * Out Interceptor to write json format endpoint config set result. This interceptor is added to interceptorchain by 
+ * @see org.jboss.wsf.stack.cxf.interceptor.EndpointsConfigsPutInterceptor
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  *
  */
-public class EndpointConfigsGetOutIntercetpor extends AbstractPhaseInterceptor<Message>
+public class EndpointConfigsPutOutIntercetpor extends AbstractPhaseInterceptor<Message>
 {
-   public static final EndpointConfigsGetOutIntercetpor INSTANCE = new EndpointConfigsGetOutIntercetpor();
+   public static final EndpointConfigsPutOutIntercetpor INSTANCE = new EndpointConfigsPutOutIntercetpor();
 
-   public EndpointConfigsGetOutIntercetpor()
+   public EndpointConfigsPutOutIntercetpor()
    {
       super(Phase.PRE_STREAM);
       getAfter().add(StaxOutInterceptor.class.getName());
@@ -55,13 +53,12 @@ public class EndpointConfigsGetOutIntercetpor extends AbstractPhaseInterceptor<M
 
    public void handleMessage(Message message) throws Fault
    {
-      @SuppressWarnings("unchecked")
-      Map<String, String> configMaps = (Map<String, String>)message.get(EndpointConfigsGetInterceptor.ENDPOINT_CONFIGS);
-      if (configMaps == null)
+      String configResult = (String)message.get(EndpointConfigsPutInterceptor.CONFIG_RESULT);
+      if (configResult == null)
       {
          return;
       }
-      message.remove(EndpointConfigsGetInterceptor.ENDPOINT_CONFIGS);
+      message.remove(EndpointConfigsPutInterceptor.CONFIG_RESULT);
       OutputStream out = message.getContent(OutputStream.class);
       if (out == null)
       {
@@ -75,20 +72,11 @@ public class EndpointConfigsGetOutIntercetpor extends AbstractPhaseInterceptor<M
          writer = new OutputStreamWriter(out, getEncoding(message));
          mappedWriter = new MappedXMLStreamWriter(new MappedNamespaceConvention(), writer);
          mappedWriter.writeStartDocument();
-         for (String key : configMaps.keySet())
-         {
-            String value = configMaps.get(key);
-            if (StringUtils.isEmpty(value))
-            {
-               mappedWriter.writeEmptyElement(key);
-            }
-            else
-            {
-               mappedWriter.writeStartElement(key);
-               mappedWriter.writeCharacters(configMaps.get(key));
-               mappedWriter.writeEndElement();
-            }
-         }
+
+         mappedWriter.writeStartElement("result");
+         mappedWriter.writeCharacters(configResult);
+         mappedWriter.writeEndElement();
+
          mappedWriter.writeEndDocument();
          out.flush();
       }
