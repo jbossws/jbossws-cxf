@@ -137,7 +137,7 @@ public class WebServiceContextJSETestCase extends JBossWSTest
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       IOUtils.copy(connenction.getInputStream(), bout);
       assertTrue("Unexpected response", bout.toString().contains("\"type\":\"JAXWS_JSE\",\"securityDomain\":\"JBossWS\""));
-
+      //enable statistics
       url = new URL(baseURL + "/jaxws-samples-context-jse/management?statistics-enabled=true");
       connenction = (HttpURLConnection)url.openConnection();
       connenction.setRequestProperty("Authorization", "Basic " + encoding);
@@ -146,6 +146,18 @@ public class WebServiceContextJSETestCase extends JBossWSTest
       bout = new ByteArrayOutputStream();
       IOUtils.copy(connenction.getInputStream(), bout);
       assertTrue("Unexpected response", bout.toString().contains("Successfully set endpoint runtime configurations"));
+      //call webservice
+      port.testMessageContextProperties();
+      //get metrics
+      url = new URL(baseURL + "/jaxws-samples-context-jse/management?metrics");
+      connenction = (HttpURLConnection)url.openConnection();
+      connenction.setRequestProperty("Authorization", "Basic " + encoding);
+      connenction.connect();
+      assertEquals(200, connenction.getResponseCode());
+      bout = new ByteArrayOutputStream();
+      IOUtils.copy(connenction.getInputStream(), bout);
+      assertTrue("Unexpected response", bout.toString().contains("\"requestCount\":3"));
+      
       
    }
 }

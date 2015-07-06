@@ -74,6 +74,7 @@ import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointConfigsGetInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointConfigsPutInterceptor;
+import org.jboss.wsf.stack.cxf.interceptor.EndpointMetricsGetInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.WSDLSoapAddressRewriteInterceptor;
@@ -219,6 +220,7 @@ public abstract class BusHolder
       bus.getInInterceptors().add(new EndpointAssociationInterceptor());
       bus.getInInterceptors().add(new EndpointConfigsGetInterceptor());
       bus.getInInterceptors().add(new EndpointConfigsPutInterceptor());
+      bus.getInInterceptors().add(new EndpointMetricsGetInterceptor());
       bus.getInInterceptors().add(new NsCtxSelectorStoreInterceptor());
       
       final String p = (props != null) ? props.get(Constants.JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS) : null;
