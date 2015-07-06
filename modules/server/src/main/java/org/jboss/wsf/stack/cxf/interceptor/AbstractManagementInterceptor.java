@@ -56,4 +56,10 @@ public abstract class AbstractManagementInterceptor extends AbstractPhaseInterce
       return encoding;
    }
    
+   protected void setContentType(Message message)
+   {
+      message.put(Message.CONTENT_TYPE, "application/json");
+
+   }
+   
 }

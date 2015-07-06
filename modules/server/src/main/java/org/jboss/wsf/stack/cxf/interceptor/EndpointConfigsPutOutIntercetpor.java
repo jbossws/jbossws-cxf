@@ -25,10 +25,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.interceptor.StaxOutInterceptor;
-import org.apache.cxf.message.Exchange;
+import org.apache.cxf.interceptor.MessageSenderInterceptor;
 import org.apache.cxf.message.Message;
-import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.staxutils.StaxUtils;
 import org.codehaus.jettison.AbstractXMLStreamWriter;
@@ -41,14 +39,14 @@ import org.codehaus.jettison.mapped.MappedXMLStreamWriter;
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  *
  */
-public class EndpointConfigsPutOutIntercetpor extends AbstractPhaseInterceptor<Message>
+public class EndpointConfigsPutOutIntercetpor extends AbstractManagementInterceptor
 {
    public static final EndpointConfigsPutOutIntercetpor INSTANCE = new EndpointConfigsPutOutIntercetpor();
 
    public EndpointConfigsPutOutIntercetpor()
    {
-      super(Phase.PRE_STREAM);
-      getAfter().add(StaxOutInterceptor.class.getName());
+      super(Phase.PREPARE_SEND);
+      this.addAfter(MessageSenderInterceptor.class.getName());
    }
 
    public void handleMessage(Message message) throws Fault
@@ -64,7 +62,7 @@ public class EndpointConfigsPutOutIntercetpor extends AbstractPhaseInterceptor<M
       {
          return;
       }
-      message.put(Message.CONTENT_TYPE, "text/xml");
+      setContentType(message);
       OutputStreamWriter writer = null;
       AbstractXMLStreamWriter mappedWriter = null;
       try
@@ -91,21 +89,4 @@ public class EndpointConfigsPutOutIntercetpor extends AbstractPhaseInterceptor<M
 
    }
 
-   private String getEncoding(Message message)
-   {
-      Exchange ex = message.getExchange();
-      String encoding = (String)message.get(Message.ENCODING);
-      if (encoding == null && ex.getInMessage() != null)
-      {
-         encoding = (String)ex.getInMessage().get(Message.ENCODING);
-         message.put(Message.ENCODING, encoding);
-      }
-
-      if (encoding == null)
-      {
-         encoding = "UTF-8";
-         message.put(Message.ENCODING, encoding);
-      }
-      return encoding;
-   }
 }

@@ -51,7 +51,7 @@ public class EndpointConfigsGetInterceptor extends AbstractMangementInIntercepto
     }
     public EndpointConfigsGetInterceptor() {
         super(Phase.READ);
-        getAfter().add(EndpointSelectionInterceptor.class.getName());
+        this.addAfter(EndpointSelectionInterceptor.class.getName());
     }
     
     public EndpointConfigsGetInterceptor(Interceptor<Message> outInterceptor) {

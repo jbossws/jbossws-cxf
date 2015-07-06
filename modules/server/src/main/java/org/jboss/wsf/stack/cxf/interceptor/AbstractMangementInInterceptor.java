@@ -85,6 +85,7 @@ public abstract class AbstractMangementInInterceptor extends AbstractManagementI
       mout.setExchange(message.getExchange());
       mout = message.getExchange().get(org.apache.cxf.endpoint.Endpoint.class).getBinding().createMessage(mout);
       mout.setInterceptorChain(OutgoingChainInterceptor.getOutInterceptorChain(message.getExchange()));
+      this.setContentType(mout);
       message.getExchange().setOutMessage(mout);
       return mout;
    }

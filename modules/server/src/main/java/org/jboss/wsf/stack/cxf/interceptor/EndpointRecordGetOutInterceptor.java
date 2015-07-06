@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.interceptor.StaxOutInterceptor;
+import org.apache.cxf.interceptor.MessageSenderInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.staxutils.StaxUtils;
@@ -48,8 +48,8 @@ public class EndpointRecordGetOutInterceptor extends AbstractManagementIntercept
 
    public EndpointRecordGetOutInterceptor()
    {
-      super(Phase.PRE_STREAM);
-      getAfter().add(StaxOutInterceptor.class.getName());
+      super(Phase.PREPARE_SEND);
+      this.addAfter(MessageSenderInterceptor.class.getName());
    }
 
    public void handleMessage(Message message) throws Fault
@@ -62,7 +62,7 @@ public class EndpointRecordGetOutInterceptor extends AbstractManagementIntercept
       {
          return;
       }
-      message.put(Message.CONTENT_TYPE, "text/xml");
+      setContentType(message);
       OutputStreamWriter writer = null;
       AbstractXMLStreamWriter mappedWriter = null;
       try
