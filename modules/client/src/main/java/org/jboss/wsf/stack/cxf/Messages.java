@@ -221,14 +221,12 @@ public interface Messages {
     @Message(id = 24104, value = "Service class %s is missing required JAX-WS 2.2 additional constructors")
     WSFException missingJAXWS22ServiceConstructor(String className, @Cause Throwable cause);
     
-    @LogMessage(level = ERROR)
-    @Message(id = 24106, value = "Could not create output result elements for endpoint: %s")
-    WSFException unableToCreateEndpointResultElement(String endpoint, @Cause Throwable cause);
-
-
     @Message(id = 24108, value = "Invalid request received:bindingOperation and dispatched method are missing for service implementation invocation")
     IllegalArgumentException missingBindingOpeartionAndDispatchedMethod();
 
     @Message(id = 24109, value = "Could not get WSDL contract for endpoint %s at %s")
     WSFException couldNotFetchWSDLContract(String endpoint, String wsdlLocation);
+    
+    @Message(id = 24110, value = "Could not create output result elements for endpoint: %s")
+    WSFException unableToCreateEndpointResultElement(String endpoint, @Cause Throwable cause);
 }
