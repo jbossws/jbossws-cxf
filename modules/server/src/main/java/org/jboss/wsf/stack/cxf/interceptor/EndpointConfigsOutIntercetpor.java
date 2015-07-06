@@ -39,11 +39,11 @@ import org.codehaus.jettison.mapped.MappedXMLStreamWriter;
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  *
  */
-public class EndpointConfigsPutOutIntercetpor extends AbstractManagementInterceptor
+public class EndpointConfigsOutIntercetpor extends AbstractManagementInterceptor
 {
-   public static final EndpointConfigsPutOutIntercetpor INSTANCE = new EndpointConfigsPutOutIntercetpor();
-
-   public EndpointConfigsPutOutIntercetpor()
+   public static final EndpointConfigsOutIntercetpor INSTANCE = new EndpointConfigsOutIntercetpor();
+   public static final String CONFIG_RESULT = EndpointConfigsOutIntercetpor.class.getName() + ".ConfigResult";
+   public EndpointConfigsOutIntercetpor()
    {
       super(Phase.PREPARE_SEND);
       this.addAfter(MessageSenderInterceptor.class.getName());
@@ -51,12 +51,12 @@ public class EndpointConfigsPutOutIntercetpor extends AbstractManagementIntercep
 
    public void handleMessage(Message message) throws Fault
    {
-      String configResult = (String)message.get(EndpointConfigsPutInterceptor.CONFIG_RESULT);
+      String configResult = (String)message.get(CONFIG_RESULT);
       if (configResult == null)
       {
          return;
       }
-      message.remove(EndpointConfigsPutInterceptor.CONFIG_RESULT);
+      message.remove(CONFIG_RESULT);
       OutputStream out = message.getContent(OutputStream.class);
       if (out == null)
       {

@@ -42,9 +42,8 @@ import org.jboss.wsf.stack.cxf.config.RuntimeConfigListenerManager;
 public class EndpointConfigsPutInterceptor extends AbstractMangementInInterceptor
 {
    public static final EndpointConfigsPutInterceptor INSTANCE = new EndpointConfigsPutInterceptor();
-   public static final String CONFIG_RESULT = EndpointConfigsPutInterceptor.class.getName() + ".EndpointConfigPutResult";
    public static final Set<String> httpMethods;
-   private Interceptor<Message> configPutOutInteceptor = EndpointConfigsPutOutIntercetpor.INSTANCE;
+   private Interceptor<Message> configPutOutInteceptor = EndpointConfigsOutIntercetpor.INSTANCE;
 
    static
    {
@@ -91,7 +90,7 @@ public class EndpointConfigsPutInterceptor extends AbstractMangementInIntercepto
             listenerManager.getListeners(key).configChange(message, queryMaps.get(key));
          }
       }
-      mout.put(CONFIG_RESULT, "Successfully set endpoint runtime configurations.");
+      mout.put(EndpointConfigsOutIntercetpor.CONFIG_RESULT, "Successfully set endpoint runtime configurations.");
       cleanUpOutInterceptors(mout);
       mout.getInterceptorChain().add(configPutOutInteceptor);
       message.getInterceptorChain().doInterceptStartingAt(message, OutgoingChainInterceptor.class.getName());
