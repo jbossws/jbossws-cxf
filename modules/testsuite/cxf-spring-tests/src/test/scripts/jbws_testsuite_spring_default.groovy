@@ -55,7 +55,7 @@ def serverIdentities = securityRealm.appendNode('server-identities')
 def ssl = serverIdentities.appendNode('ssl')
 ssl.appendNode('keystore', ['path':project.properties['keystorePath'],'keystore-password':'changeit','alias':'tomcat'])
 
-def server = root.profile.subsystem.server[0]
+def server = root.profile.subsystem.server[1]
 server.appendNode('https-listener', ['name':'jbws-test-https-listener','socket-binding':'https','security-realm':'jbws-test-https-realm'])
 
 /**
