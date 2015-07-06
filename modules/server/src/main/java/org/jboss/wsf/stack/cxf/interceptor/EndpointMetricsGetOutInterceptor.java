@@ -76,6 +76,10 @@ public class EndpointMetricsGetOutInterceptor extends AbstractPhaseInterceptor<M
          writeElement(mappedWriter, "maxProcessingTime", metrics.getMaxProcessingTime());
          writeElement(mappedWriter, "minProcessingTime", metrics.getMinProcessingTime());
          writeElement(mappedWriter, "averageProcessingTime", metrics.getAverageProcessingTime());
+         writeElement(mappedWriter, "concurrentRequestCount", metrics.getConcurrentCount());
+         for (String method : metrics.getRequestMethods()) {
+            writeElement(mappedWriter, "Method(" + method + "())InvocationCount:", metrics.getInvocationCountByMethod(method));
+         }
          mappedWriter.writeEndDocument();
          out.flush();
       }

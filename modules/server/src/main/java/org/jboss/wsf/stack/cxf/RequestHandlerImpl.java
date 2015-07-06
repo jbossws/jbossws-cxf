@@ -92,8 +92,9 @@ public class RequestHandlerImpl implements RequestHandler
          out.close();
          return;
       }
-      final boolean statisticsEnabled = getServerConfig().isStatisticsEnabled() || "true".equals(ep.getRuntimeProperty(RuntimeConfig.STATISTICS_ENABLED));
+      final boolean statisticsEnabled = isStatisticsEnabled(ep, req.getMethod());
       final Long beginTime = statisticsEnabled == true ? initRequestMetrics(ep) : 0;
+
       final Deployment dep = ep.getService().getDeployment();
       final AbstractHTTPDestination dest = findDestination(req, dep.getAttachment(BusHolder.class).getBus());
       final HttpServletResponseWrapper response = new HttpServletResponseWrapper(res);
@@ -120,6 +121,14 @@ public class RequestHandlerImpl implements RequestHandler
       {
          processFaultMetrics(ep, beginTime);
       }
+   }
+   
+   private boolean isStatisticsEnabled(Endpoint ep, String httpMethod) {
+      if ("POST".equals(httpMethod)) {
+         return getServerConfig().isStatisticsEnabled() || "true".equals(ep.getRuntimeProperty(RuntimeConfig.STATISTICS_ENABLED));
+      }
+      return false;
+     
    }
    
    private boolean hasQueryString(HttpServletRequest req)

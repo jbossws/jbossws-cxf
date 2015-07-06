@@ -156,7 +156,8 @@ public class WebServiceContextJSETestCase extends JBossWSTest
       assertEquals(200, connenction.getResponseCode());
       bout = new ByteArrayOutputStream();
       IOUtils.copy(connenction.getInputStream(), bout);
-      assertTrue("Unexpected response", bout.toString().contains("\"requestCount\":3"));
+      assertTrue("Unexpected rquestCount response", bout.toString().contains("\"requestCount\":1"));
+      assertTrue("Unexpected invocation count", bout.toString().contains("\"Method(testMessageContextProperties())InvocationCount:\":1"));
       
       
    }

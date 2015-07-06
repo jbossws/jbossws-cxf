@@ -59,8 +59,10 @@ import org.apache.cxf.service.invoker.MethodDispatcher;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.jboss.security.auth.callback.CallbackHandlerPolicyContextHandler;
 import org.jboss.ws.api.util.ServiceLoader;
+import org.jboss.ws.common.utils.RuntimeConfigUtils;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.deployment.RuntimeConfig;
 import org.jboss.wsf.spi.invocation.Invocation;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
@@ -149,6 +151,10 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
          throws Exception
    {
       Endpoint ep = exchange.get(Endpoint.class);
+      if (isStatisticsEnabled(ep))
+      {
+         ep.getEndpointMetrics().processInvocation(m.getName());
+      }
       final InvocationHandler invHandler = ep.getInvocationHandler();
       final Invocation inv = createInvocation(invHandler, serviceObject, ep, m, paramArray);
       if (factory != null) {
@@ -196,5 +202,14 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
       {
          nsCtxSelectorFactory.getWrapper().clearCurrentThreadSelector(exchange);
       }
+   }
+   
+   private boolean isStatisticsEnabled(Endpoint ep)
+   {
+      if (ep.getEndpointMetrics() != null)
+      {
+         return RuntimeConfigUtils.isEnabled(ep, RuntimeConfig.STATISTICS_ENABLED) || RuntimeConfigUtils.getServerConfig().isStatisticsEnabled();
+      }
+      return false;
    }
 }

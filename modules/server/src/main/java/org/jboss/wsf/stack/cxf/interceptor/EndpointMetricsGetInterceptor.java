@@ -50,7 +50,6 @@ public class EndpointMetricsGetInterceptor extends AbstractEndpintManagementInte
    static
    {
       httpMethods.add("GET");
-      httpMethods.add("POST");
    }
 
    public EndpointMetricsGetInterceptor()
