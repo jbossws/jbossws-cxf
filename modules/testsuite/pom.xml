@@ -712,12 +712,6 @@
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
           <version>${jboss.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.hornetq</groupId>
-              <artifactId>*</artifactId>
-            </exclusion>
-          </exclusions>
         </dependency>
         <!-- Arquillian container integration -->
         <dependency>
