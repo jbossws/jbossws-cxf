@@ -21,8 +21,6 @@
  */
 package org.jboss.wsf.stack.cxf.metadata.services;
 
-import java.io.IOException;
-import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +36,6 @@ import javax.xml.namespace.QName;
  */
 public class DDEndpoint
 {
-   //fields mapped to jboss-cxf.xml
    private String id;
 
    private String address;
@@ -76,8 +73,6 @@ public class DDEndpoint
    
    private String annotationWsdlLocation;
    
-   private int counter = 0;
-
    public QName getPortName()
    {
       return portName;
@@ -250,100 +245,6 @@ public class DDEndpoint
    {
       this.properties = properties;
    }   
-   
-   public void writeTo(Writer writer) throws IOException
-   {
-      writer.write("<jaxws:endpoint id='" + this.id + "'");
-      writer.write(" address='" + this.address + "'");
-      if (this.publishedEndpointUrl != null)
-      {
-         writer.write(" publishedEndpointUrl='" + this.publishedEndpointUrl + "'");
-      }
-      writer.write(" implementor='" + this.implementor + "'");
-      if (this.serviceName != null)
-      {
-         this.writeQNameElementTo("serviceName", this.serviceName, writer);
-      }
-      if (this.portName != null)
-      {
-         this.writeQNameElementTo("endpointName", this.portName, writer);
-      }
-      if (this.wsdlLocation != null)
-      {
-         writer.write(" wsdlLocation='" + this.wsdlLocation + "'");
-      }
-      writer.write(">");
-
-      if (this.addressingEnabled) {
-         String responses = "";
-         if (this.addressingResponses != null) 
-         {
-            responses = " responses='" + addressingResponses + "'"; 
-         }
-           writer.write("<jaxws:features>");         
-           writer.write("<wsa:addressing addressingRequired='" + this.addressingRequired + "'" + responses + "/>");
-           writer.write("</jaxws:features>");
-        }
-        
-        if (this.mtomEnabled)
-        {
-           writer.write("<jaxws:binding>");
-           writer.write("<soap:soapBinding mtomEnabled='" + this.mtomEnabled + "'/>");
-           writer.write("</jaxws:binding>");
-        }
-        
-        //So far we only support standard JAXBDataBinding mtom threshold configuration
-        
-        if (this.mtomEnabled) 
-        {
-            writer.write("<jaxws:dataBinding>");
-            writer.write("<bean class='org.apache.cxf.jaxb.JAXBDataBinding'>");
-            writer.write("<property name='mtomEnabled' value='true'/>");
-            writer.write("<property name='mtomThreshold' value='" + this.mtomThreshold + "'/>");
-            writer.write("</bean>");
-            writer.write("</jaxws:dataBinding>");
-        }
-       
-
-      if (this.invoker != null)
-      {
-         writer.write("<jaxws:invoker><bean class='" + this.invoker + "'/></jaxws:invoker>");
-      }
-      
-      if (this.handlers != null && !this.handlers.isEmpty())
-      {
-         writer.write("<jaxws:handlers>");
-         for (String handler : this.handlers)
-         {
-            writer.write("<bean class='" + handler + "'/>");
-         }
-         writer.write("</jaxws:handlers>");
-      }
-      
-      if (this.properties != null && !this.properties.isEmpty())
-      {
-         writer.write("<jaxws:properties>");
-         for (String key : this.properties.keySet())
-         {
-            Object value = this.properties.get(key);
-            //TODO implement proper mapping of mapType (http://www.springframework.org/schema/beans/spring-beans.xsd)
-            if (value != null)
-            {
-               writer.write("<entry key='" + key + "' value='" + value + "'/>");
-            }
-         }
-         writer.write("</jaxws:properties>");
-      }
-
-      writer.write("</jaxws:endpoint>");
-   }
-   
-   private void writeQNameElementTo(String elementName, QName qname, Writer writer) throws IOException
-   {
-      String prefix = "ns" + counter++;
-      writer.write(" " + elementName + "='" + prefix + ":" + qname.getLocalPart() + "'");
-      writer.write(" xmlns:" + prefix + "='" + qname.getNamespaceURI() + "'");
-   }
    
    private StringBuilder basicToString()
    {

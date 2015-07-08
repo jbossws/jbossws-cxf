@@ -31,7 +31,6 @@ package org.jboss.wsf.stack.cxf.client;
 public class Constants
 {
    public static final String DEPLOYMENT_BUS = "deployment-bus";
-   public static final String JBOSSWS_CXF_SPRING_DD = "jbossws-cxf.xml";
    
    public static final String CXF_QUEUE_PREFIX = "cxf.queue.";
    public static final String CXF_QUEUE_MAX_QUEUE_SIZE_PROP = "maxQueueSize";
@@ -60,5 +59,4 @@ public class Constants
    public static final String NEW_BUS_STRATEGY = "NEW_BUS";
    public static final String TCCL_BUS_STRATEGY = "TCCL_BUS";
    public static final String JBWS_CXF_JAXWS_CLIENT_BUS_SELECTOR = "org.jboss.ws.cxf.jaxws-client.bus.selector";
-   public static final String JBWS_CXF_JAXWS_CLIENT_BUS_SPRING_DESCRIPTOR = "org.jboss.ws.cxf.jaxws-client.bus.spring.descriptor";
 }

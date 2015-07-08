@@ -124,7 +124,7 @@
     <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
   </target>
 
-  <target name="deploy-wildfly810" depends="undeploy-wildfly810,deploy-structure-wildfly80x,check-spring,install-spring-module80x">
+  <target name="deploy-wildfly810" depends="undeploy-wildfly810,deploy-structure-wildfly80x">
     <fail message="Not available: ${wildfly810.available.file}" unless="wildfly810.available"/>
     <copy todir="${wildfly810.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
@@ -153,7 +153,7 @@
     <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
   </target>
 
-  <target name="deploy-wildfly820" depends="undeploy-wildfly820,deploy-structure-wildfly80x,check-spring,install-spring-module80x">
+  <target name="deploy-wildfly820" depends="undeploy-wildfly820,deploy-structure-wildfly80x">
     <fail message="Not available: ${wildfly820.available.file}" unless="wildfly820.available"/>
     <copy todir="${wildfly820.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
@@ -214,7 +214,7 @@
     <property name="jbossws.integration.target" value="wildfly900"/>
     <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
   </target>
-  <target name="deploy-wildfly900" depends="undeploy-wildfly900,deploy-structure-wildfly90x,check-spring,install-spring-module90x">
+  <target name="deploy-wildfly900" depends="undeploy-wildfly900,deploy-structure-wildfly90x">
     <fail message="Not available: ${wildfly900.available.file}" unless="wildfly900.available"/>
     <copy todir="${wildfly900.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
@@ -275,7 +275,7 @@
     <property name="jbossws.integration.target" value="wildfly1000"/>
     <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
   </target>
-  <target name="deploy-wildfly1000" depends="undeploy-wildfly1000,deploy-structure-wildfly100x,check-spring,install-spring-module100x">
+  <target name="deploy-wildfly1000" depends="undeploy-wildfly1000,deploy-structure-wildfly100x">
     <fail message="Not available: ${wildfly1000.available.file}" unless="wildfly1000.available"/>
     <copy todir="${wildfly1000.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
@@ -295,41 +295,6 @@
     <macro-undeploy-jbossws-modules targetdir="${wildfly1000.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
   </target>
 
-  <!-- ================================================================== -->
-  <!-- Spring                                                             -->
-  <!-- ================================================================== -->
-  <target name="check-spring">
-    <condition property="spring-required">
-      <and>
-        <istrue value="${spring}"/>
-      </and>
-    </condition>
-  </target>
-
-  <target name="install-spring-module80x" if="spring-required">
-    <antcall target="deploy-spring-module" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="modules-jbossid" value="wildfly800"/>
-    </antcall>
-  </target>
-
-  <target name="install-spring-module90x" if="spring-required">
-    <antcall target="deploy-spring-module" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="modules-jbossid" value="wildfly900"/>
-    </antcall>
-  </target>
-	
-  <target name="install-spring-module100x" if="spring-required">
-    <antcall target="deploy-spring-module" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="modules-jbossid" value="wildfly1000"/>
-    </antcall>
-  </target>
-	
   <!-- ================================================================== -->
   <!-- ================================================================== -->
   <!-- ||                          M A C R O s                         || -->
@@ -457,7 +422,6 @@
         <fileset dir="@{thirdpartydir}/modules/@{modules-jbossid}">
           <include name="**/module.xml"/>
           <exclude name="**/jboss/as/webservices/**/module.xml"/>
-          <exclude name="**/spring/**/module.xml"/>
         </fileset>
       </installModules>
     </sequential>
@@ -579,7 +543,6 @@
         <fileset dir="@{thirdpartydir}/modules/@{modules-jbossid}">
           <include name="**/module.xml"/>
           <exclude name="**/jboss/as/webservices/**/module.xml"/>
-          <exclude name="**/spring/**/module.xml"/>
         </fileset>
       </installModules>
     </sequential>
@@ -612,36 +575,6 @@
     <fail message="installserver must be specified" unless="installserver"/>
     <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
     <macro-deploy-jbossws-modules-as9 targetdir="${installserver}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}" modules-jbossid="${modules-jbossid}"/>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Install Spring                                                     -->
-  <!-- ================================================================== -->
-  
-  <macrodef name="macro-install-spring-modules">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-  	<attribute name="modules-jbossid"/>
-    <sequential>
-      <!-- libraries -->
-      <copy todir="@{targetdir}/org/springframework/spring/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/spring-*.jar"/>
-        </fileset>
-      </copy>
-      <!-- module.xml files -->
-      <installModules targetDir="@{targetdir}">
-        <fileset dir="@{thirdpartydir}/modules/@{modules-jbossid}">
-          <include name="**/spring/**/module.xml"/>
-        </fileset>
-      </installModules>
-    </sequential>
-  </macrodef>
-
-  <target name="deploy-spring-module">
-  	<fail message="installserver must be specified" unless="installserver"/>
-    <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
-  	<macro-install-spring-modules targetdir="${installserver}" thirdpartydir="${thirdpartydir}" modules-jbossid="${modules-jbossid}"/>
   </target>
 
   <!-- ================================================================== -->

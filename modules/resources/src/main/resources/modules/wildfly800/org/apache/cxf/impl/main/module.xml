@@ -53,11 +53,6 @@
         <module name="org.codehaus.woodstox" />
         <module name="org.joda.time" />
         <module name="org.opensaml" />
-        <module name="org.springframework.spring" optional="true">
-          <imports>
-            <include path="META-INF"/>
-          </imports>
-        </module>
         <module name="org.apache.cxf" export="true">
           <imports>
             <include path="META-INF/cxf"/>

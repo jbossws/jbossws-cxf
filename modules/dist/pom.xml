@@ -57,42 +57,6 @@
          <scope>provided</scope>
       </dependency>
 
-      <!-- Spring -->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-aop</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-beans</artifactId>
-         <scope>provided</scope>
-      </dependency> 
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-context</artifactId>
-         <scope>provided</scope>
-      </dependency> 
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-core</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-expression</artifactId>
-         <scope>provided</scope>
-      </dependency>   
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-tx</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-jms</artifactId>
-         <scope>provided</scope>
-      </dependency>
       <!-- OpenSAML -->
       <dependency>
         <groupId>org.opensaml</groupId>
@@ -314,17 +278,6 @@
       </dependencies>
     </profile>
     
-    <!--
-    Name: spring
-    Descr: Include spring libraries when updating the stack on the server 
-    -->
-    <profile>
-      <id>spring</id>
-      <properties>
-        <spring>true</spring>
-      </properties>
-    </profile>
-
     <!-- 
     Name:  deploy
     Descr: Deploy stack on WildFly instance  
@@ -373,7 +326,6 @@
                   <target>
                     <property name="jbossws.integration.target" value="${jbossws.integration.target}"/>
                     <property name="jboss.home" value="${jboss.home}"/>
-                    <property name="spring" value="${spring}"/>
                     <ant antfile="src/main/scripts/build-deploy.xml"/>
                   </target>
                 </configuration>

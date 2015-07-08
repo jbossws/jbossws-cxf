@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,11 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.cxf.spring;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -36,9 +31,7 @@ import javax.xml.ws.Service;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.Configurer;
-import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
-import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 import org.jboss.wsf.test.ClientHelper;
 
 /**
@@ -51,7 +44,6 @@ import org.jboss.wsf.test.ClientHelper;
 public class Helper implements ClientHelper
 {
    private String targetEndpoint;
-   private final boolean springInAS = SpringUtils.isSpringAvailable(ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader());
 
    @Override
    public void setTargetEndpoint(String address)
@@ -66,7 +58,29 @@ public class Helper implements ClientHelper
     */
    public boolean testSpringAvailability()
    {
-      return SpringUtils.isSpringAvailable(Thread.currentThread().getContextClassLoader());
+      return isSpringAvailable(Thread.currentThread().getContextClassLoader());
+   }
+   
+   private static boolean isSpringAvailable(ClassLoader... loaders)
+   {
+      if (loaders == null || loaders.length == 0)
+      {
+         loaders = new ClassLoader[]{Thread.currentThread().getContextClassLoader()};
+      }
+      for (ClassLoader cl : loaders)
+      {
+         if (cl == null) 
+         {
+            continue;
+         }
+         try
+         {
+            cl.loadClass("org.springframework.context.ApplicationContext");
+            return true;
+         }
+         catch (Exception e) {} //ignore
+      }
+      return false;
    }
 
    /**
@@ -87,34 +101,26 @@ public class Helper implements ClientHelper
       Bus bus = null;
       try
       {
-         if (springInAS) {
+         //set Configurer.USER_CFG_FILE_PROPERTY_NAME so that if the SpringBusFactory is
+         //internally erroneously used, that won't fallback delegating to the non Spring
+         //one, which would shade the issue
+         final String prop = System.getProperty(Configurer.USER_CFG_FILE_PROPERTY_NAME);
+         try
+         {
+            System.setProperty(Configurer.USER_CFG_FILE_PROPERTY_NAME, "unexistentfile.xml");
             bus = factory.createBus();
-            //the created bus should not be a SpringBus, as there's no spring descriptor involved
+            //the created bus should not be a SpringBus, as the classloader for CXF has no visibility over the deployment spring jars 
             return !isSpringBus(bus);
          }
-         else
+         finally
          {
-            //set Configurer.USER_CFG_FILE_PROPERTY_NAME so that if the SpringBusFactory is
-            //internally erroneously used, that won't fallback delegating to the non Spring
-            //one, which would shade the issue
-            final String prop = System.getProperty(Configurer.USER_CFG_FILE_PROPERTY_NAME);
-            try
+            if (prop == null)
             {
-               System.setProperty(Configurer.USER_CFG_FILE_PROPERTY_NAME, "unexistentfile.xml");
-               bus = factory.createBus();
-               //the created bus should not be a SpringBus, as the classloader for CXF has no visibility over the deployment spring jars 
-               return !isSpringBus(bus);
+               System.clearProperty(Configurer.USER_CFG_FILE_PROPERTY_NAME);
             }
-            finally
+            else
             {
-               if (prop == null)
-               {
-                  System.clearProperty(Configurer.USER_CFG_FILE_PROPERTY_NAME);
-               }
-               else
-               {
-                  System.setProperty(Configurer.USER_CFG_FILE_PROPERTY_NAME, prop);
-               }
+               System.setProperty(Configurer.USER_CFG_FILE_PROPERTY_NAME, prop);
             }
          }
       }
@@ -127,52 +133,6 @@ public class Helper implements ClientHelper
       }
    }
 
-   /**
-    * Verify a Spring version of the Bus is created when actually required
-    * and Spring is installed on the AS (the creation process is expected
-    * to fail if Spring is not installed on the AS)
-    * 
-    * @return
-    */
-   public boolean testJBossWSCXFSpringBus()
-   {
-      File f = copy(Thread.currentThread().getContextClassLoader().getResourceAsStream("my-cxf.xml"));
-      BusFactory factory = BusFactory.newInstance();
-      if (!(factory instanceof JBossWSBusFactory))
-      {
-         throw new RuntimeException("Expected JBossWSBusFactory");
-      }
-      Bus bus = null;
-      try
-      {
-         bus = ((JBossWSBusFactory) factory).createBus(f.getAbsolutePath());
-         //check the created Bus is a SpringBus and we have Spring installed on AS (if it's not installed, this *must* fail)
-         return springInAS && isSpringBus(bus);
-      }
-      catch (Throwable t)
-      {
-         if (!springInAS && (t instanceof NoClassDefFoundError) && t.getMessage().contains("springframework"))
-         {
-            //Spring is not installed on AS, so the SpringBus can't be created - fine
-            return true;
-         }
-         else
-         {
-            throw new RuntimeException(t);
-         }
-      }
-      finally
-      {
-         if (bus != null)
-         {
-            bus.shutdown(true);
-         }
-         if (f != null) {
-            f.delete();
-         }
-      }
-   }
-   
    /**
     * Verify a JAXWS client can be properly created and used to invoke a ws endpoint
     * 
@@ -204,28 +164,6 @@ public class Helper implements ClientHelper
       return "org.apache.cxf.bus.spring.SpringBus".equals(bus.getClass().getName());
    }
 
-   private static File copy(InputStream inputStream)
-   {
-      try
-      {
-         File f = File.createTempFile("jbws-cxf-testsuite", ".xml");
-         OutputStream out = new FileOutputStream(f);
-         byte buf[] = new byte[1024];
-         int len;
-         while ((len = inputStream.read(buf)) > 0)
-         {
-            out.write(buf, 0, len);
-         }
-         out.close();
-         inputStream.close();
-         return f;
-      }
-      catch (IOException e)
-      {
-         throw new RuntimeException(e);
-      }
-   }
-   
    public boolean testSpringFunctionalities() throws Exception
    {
       //use reflection to avoid compile Spring dependency (this test is to be run within the non-spring testsuite too,

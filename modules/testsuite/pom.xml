@@ -39,7 +39,6 @@
     <port-offset.shared-tests.jboss>15000</port-offset.shared-tests.jboss>
     <port-offset.shared-tests.default-config-tests>20000</port-offset.shared-tests.default-config-tests>
     <port-offset.shared-tests.address-rewrite>25000</port-offset.shared-tests.address-rewrite>
-    <port-offset.cxf-spring-tests.jboss>30000</port-offset.cxf-spring-tests.jboss>
   </properties>
 
   <!-- Modules -->
@@ -552,47 +551,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-
-    <!--
-    Name:  spring
-    Descr: Add SpringFramework dependencies to test classpath
-    -->
-    <profile>
-      <id>spring</id>
-      <modules>
-        <module>cxf-spring-tests</module>
-      </modules>
-      <dependencies>
-        <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-aop</artifactId>
-        </dependency>
-        <dependency>
-           <groupId>org.springframework</groupId>
-           <artifactId>spring-beans</artifactId>
-        </dependency> 
-        <dependency>
-           <groupId>org.springframework</groupId>
-           <artifactId>spring-context</artifactId>
-        </dependency> 
-        <dependency>
-           <groupId>org.springframework</groupId>
-           <artifactId>spring-core</artifactId>
-        </dependency>
-        <dependency>
-           <groupId>org.springframework</groupId>
-           <artifactId>spring-expression</artifactId>
-        </dependency>
-        <dependency>
-           <groupId>org.springframework</groupId>
-           <artifactId>spring-jms</artifactId>
-        </dependency>
-        <dependency>
-           <groupId>org.springframework</groupId>
-           <artifactId>spring-tx</artifactId>
-        </dependency>
-      </dependencies>
     </profile>
 
     <!--

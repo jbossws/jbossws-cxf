@@ -21,18 +21,9 @@
  */
 package org.jboss.wsf.stack.cxf.metadata.services;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.jboss.wsf.spi.deployment.WSFDeploymentException;
-import org.jboss.ws.common.IOUtils;
 
 /**
  * Metadata model for cxf.xml 
@@ -49,9 +40,6 @@ public class DDBeans
    
    private final List<DDJmsAddressBean> addressBeans = new LinkedList<DDJmsAddressBean>();
    
-   // The derived temp file
-   private File tmpFile;
-
    public List<DDEndpoint> getEndpoints()
    {
       return endpoints;
@@ -76,74 +64,4 @@ public class DDBeans
    {
       beans.add(bean);
    }
-
-   public URL createFileURL()
-   {
-      destroyFileURL();
-
-      try
-      {
-         File tmpDir = IOUtils.createTempDirectory();
-         tmpFile = File.createTempFile("jbossws-cxf", ".xml", tmpDir);
-         Writer writer = new OutputStreamWriter(new FileOutputStream(tmpFile), "UTF-8");
-         try
-         {
-            writeTo(writer);
-         }
-         finally
-         {
-            writer.close();
-         }
-
-         return tmpFile.toURI().toURL();
-      }
-      catch (IOException ex)
-      {
-         throw new WSFDeploymentException(ex);
-      }
-   }
-
-   public void destroyFileURL()
-   {
-      if (tmpFile != null)
-      {
-         tmpFile.delete();
-         tmpFile = null;
-      }
-   }
-
-   public void writeTo(Writer writer) throws IOException
-   {
-      writer.write("<?xml version = \"1.0\" encoding = \"UTF-8\"?><beans " +
-            "xmlns='http://www.springframework.org/schema/beans' " +
-            "xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' " +
-            "xmlns:beans='http://www.springframework.org/schema/beans' " +
-            "xmlns:jaxws='http://cxf.apache.org/jaxws' " +
-            "xmlns:wsa='http://cxf.apache.org/ws/addressing' " +
-            "xmlns:jms='http://cxf.apache.org/transports/jms' " +
-            "xmlns:soap='http://cxf.apache.org/bindings/soap' " + 
-            "xsi:schemaLocation='http://www.springframework.org/schema/beans " +
-            "http://www.springframework.org/schema/beans/spring-beans.xsd " +
-            "http://cxf.apache.org/transports/jms " + 
-            "http://cxf.apache.org/schemas/configuration/jms.xsd " +
-            "http://cxf.apache.org/bindings/soap " + 
-            "http://cxf.apache.org/schemas/configuration/soap.xsd " + 
-            "http://cxf.apache.org/jaxws " +
-            "http://cxf.apache.org/schemas/jaxws.xsd'>");
-      
-      for (DDEndpoint endpoint : endpoints)
-      {
-         endpoint.writeTo(writer);
-      }
-      for (DDBean bean : beans)
-      {
-         bean.writeTo(writer);
-      }
-      
-      for (DDJmsAddressBean bean : this.addressBeans) {
-         bean.writeTo(writer);
-      }
-      writer.write("</beans>");
-   }
-
 }

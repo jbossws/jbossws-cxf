@@ -89,13 +89,6 @@
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <unpack>false</unpack>
             <includes>
-              <include>org.springframework:spring-aop:jar</include>
-              <include>org.springframework:spring-beans:jar</include>
-              <include>org.springframework:spring-context:jar</include>
-              <include>org.springframework:spring-core:jar</include>
-              <include>org.springframework:spring-expression:jar</include>
-              <include>org.springframework:spring-jms:jar</include>
-              <include>org.springframework:spring-tx:jar</include>
               <include>org.opensaml:open*:jar</include>
               <include>org.opensaml:xmltooling:jar</include>
               <include>org.jboss.ws:jbossws-common-tools:jar</include>

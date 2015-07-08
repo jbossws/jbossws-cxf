@@ -65,9 +65,9 @@ public interface Loggers extends BasicLogger
     @Message(id = 24018, value = "Unable to retrieve port QName from %s, trying matching port using endpoint interface name only.")
     void cannotRetrievePortQNameTryingMatchingUsingEpInterface(String portName, @Cause Throwable cause);
 
-    @LogMessage(level = WARN)
-    @Message(id = 24027, value = "Spring initial application context creation failed using classloader %s, will try again after having switched the current thread context classloader to %s")
-    void appContextCreationFailedWillTryWithNewTCCL(ClassLoader currentCL, ClassLoader newCL, @Cause Throwable cause);
+//    @LogMessage(level = WARN)
+//    @Message(id = 24027, value = "Spring initial application context creation failed using classloader %s, will try again after having switched the current thread context classloader to %s")
+//    void appContextCreationFailedWillTryWithNewTCCL(ClassLoader currentCL, ClassLoader newCL, @Cause Throwable cause);
 
     @LogMessage(level = DEBUG)
     @Message(id = 24033, value = "Setting new service endpoint address in wsdl: %s")
@@ -93,9 +93,9 @@ public interface Loggers extends BasicLogger
     @Message(id = 24038, value = "Invalid url '%s' provided, using original one without rewriting: %s")
     void invalidAddressProvidedUseItWithoutRewriting(String newAddress, String origAddress);
 
-    @LogMessage(level = TRACE)
-    @Message(id = 24039, value = "Spring namespace handler resolution: unable to resolve JBossWS specific handler for namespace '%s'; trying default namespace resolution...")
-    void unableToResolveJBWSSpringNSHandler(String ns, @Cause Throwable cause);
+//    @LogMessage(level = TRACE)
+//    @Message(id = 24039, value = "Spring namespace handler resolution: unable to resolve JBossWS specific handler for namespace '%s'; trying default namespace resolution...")
+//    void unableToResolveJBWSSpringNSHandler(String ns, @Cause Throwable cause);
 
     @LogMessage(level = TRACE)
     @Message(id = 24040, value = "About to authenticate, using security domain %s")
@@ -173,17 +173,17 @@ public interface Loggers extends BasicLogger
     @Message(id = 24078, value = "WSDL publisher not configured, unable to publish contract for endpoint class %s")
     void unableToPublishContractDueToMissingPublisher(Class<?> clazz);
 
-    @LogMessage(level = DEBUG)
-    @Message(id = 24079, value = "JBossWS-CXF configuration generated: %s")
-    void jbwscxfConfGenerated(URL url);
+//    @LogMessage(level = DEBUG)
+//    @Message(id = 24079, value = "JBossWS-CXF configuration generated: %s")
+//    void jbwscxfConfGenerated(URL url);
 
     @LogMessage(level = DEBUG)
     @Message(id = 24080, value = "Actual configuration from file: %s")
     void actualConfFromFile(URL url);
 
-    @LogMessage(level = DEBUG)
-    @Message(id = 24081, value = "JBossWS-CXF configuration found: %s")
-    void jbwscxfConfFound(URL url);
+//    @LogMessage(level = DEBUG)
+//    @Message(id = 24081, value = "JBossWS-CXF configuration found: %s")
+//    void jbwscxfConfFound(URL url);
 
     @LogMessage(level = TRACE)
     @Message(id = 24086, value = "Error while getting default WSSConfig")
@@ -241,7 +241,7 @@ public interface Loggers extends BasicLogger
     @Message(id = 24106, value = "Could not remove previuosly set features on client: %s")
     void couldNoRemoveFeaturesOnClient(String feature);
 
-    @LogMessage(level = WARN)
-    @Message(id = 24107, value = "JBossWS-CXF integration with Spring is deprecated and will be dropped in a future release. See https://issues.jboss.org/browse/JBWS-3884 for details.")
-    void deprecatedSpringIntegration();
+//    @LogMessage(level = WARN)
+//    @Message(id = 24107, value = "JBossWS-CXF integration with Spring is deprecated and will be dropped in a future release. See https://issues.jboss.org/browse/JBWS-3884 for details.")
+//    void deprecatedSpringIntegration();
 }

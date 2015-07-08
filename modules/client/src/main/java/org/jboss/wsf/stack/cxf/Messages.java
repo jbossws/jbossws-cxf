@@ -134,17 +134,17 @@ public interface Messages {
     @Message(id = 24032, value = "Cannot obtain endpoint %s")
     WebServiceException cannotObtainEndpoint(ObjectName on);
     
-    @Message(id = 24043, value = "Class %s for namespace %s does not implement the %s interface")
-    Exception nsHandlerInterfaceNotImplemented(String s1, String s2, String s3);
+//    @Message(id = 24043, value = "Class %s for namespace %s does not implement the %s interface")
+//    Exception nsHandlerInterfaceNotImplemented(String s1, String s2, String s3);
     
-    @Message(id = 24044, value = "NamespaceHandler class %s for namespace %s not found")
-    Exception nsHandlerClassNotFound(String s1, String s2, @Cause Throwable cause);
+//    @Message(id = 24044, value = "NamespaceHandler class %s for namespace %s not found")
+//    Exception nsHandlerClassNotFound(String s1, String s2, @Cause Throwable cause);
     
-    @Message(id = 24045, value = "Invalid NamespaceHandler class %s for namespace %s : problem with handler class file or dependent class")
-    Exception nsHandlerInvalidClass(String s1, String s2, @Cause Throwable cause);
+//    @Message(id = 24045, value = "Invalid NamespaceHandler class %s for namespace %s : problem with handler class file or dependent class")
+//    Exception nsHandlerInvalidClass(String s1, String s2, @Cause Throwable cause);
     
-    @Message(id = 24046, value = "Unable to load NamespaceHandler mappings from location [%s]")
-    IllegalStateException unableToLoadNSHandler(String location, @Cause Throwable cause);
+//    @Message(id = 24046, value = "Unable to load NamespaceHandler mappings from location [%s]")
+//    IllegalStateException unableToLoadNSHandler(String location, @Cause Throwable cause);
     
     @Message(id = 24047, value = "Authentication failed, principal=%s")
     SecurityException authenticationFailed(String principal);

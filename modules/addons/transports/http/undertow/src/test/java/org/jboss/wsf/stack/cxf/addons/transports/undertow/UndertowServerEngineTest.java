@@ -38,7 +38,7 @@ import junit.framework.TestCase;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.configuration.Configurer;
-import org.apache.cxf.configuration.spring.ConfigurerImpl;
+import org.apache.cxf.configuration.NullConfigurer;
 import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMocksControl;
 
@@ -64,7 +64,7 @@ public class UndertowServerEngineTest extends TestCase {
    {
       control = EasyMock.createNiceControl();
       bus = control.createMock(Bus.class);
-      Configurer configurer = new ConfigurerImpl();
+      Configurer configurer = new NullConfigurer();
       bus.getExtension(Configurer.class);
       EasyMock.expectLastCall().andReturn(configurer).anyTimes();
    }

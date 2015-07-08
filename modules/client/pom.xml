@@ -170,36 +170,6 @@
       <artifactId>asm</artifactId>
     </dependency>
     
-    <!-- Spring -->
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-aop</artifactId>
-    </dependency> 
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-beans</artifactId>
-    </dependency> 
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-context</artifactId>
-    </dependency> 
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-core</artifactId>
-    </dependency> 
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-expression</artifactId>
-    </dependency> 
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-jms</artifactId>
-    </dependency> 
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-tx</artifactId>
-    </dependency> 
-    
     <!--
     useStrictFiltering requires dependency in all included modules
     http://jira.codehaus.org/browse/MASSEMBLY-317
@@ -329,6 +299,7 @@
                         <exclude>org.apache.geronimo.specs</exclude>
                         <exclude>org.codehaus.jra:jra</exclude>
                         <exclude>org.slf4j:slf4j-jdk14</exclude>
+                        <exclude>org.springframework:*</exclude>
                       </excludes>
                     </bannedDependencies>
                   </rules>

@@ -29,35 +29,6 @@
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-transports-http</artifactId>
     </dependency>
-    <!-- Spring -->
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-aop</artifactId>
-    </dependency> 
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-beans</artifactId>
-    </dependency> 
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-context</artifactId>
-    </dependency> 
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-core</artifactId>
-    </dependency> 
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-expression</artifactId>
-    </dependency> 
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-jms</artifactId>
-    </dependency> 
-    <dependency>
-       <groupId>org.springframework</groupId>
-       <artifactId>spring-tx</artifactId>
-    </dependency> 
     
     <!--
     useStrictFiltering requires dependency in all included modules

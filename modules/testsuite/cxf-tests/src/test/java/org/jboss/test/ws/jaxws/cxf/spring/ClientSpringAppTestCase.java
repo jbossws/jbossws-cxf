@@ -100,14 +100,6 @@ public final class ClientSpringAppTestCase extends JBossWSTest
    @Test
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
-   public void testJBossWSCXFSpringBus() throws Exception
-   {
-      assertEquals("1", runTestInContainer("testJBossWSCXFSpringBus", Helper.class.getName()));
-   }
-
-   @Test
-   @RunAsClient
-   @OperateOnDeployment(CLIENT_DEP)
    public void testJAXWSClient() throws Exception
    {
       assertEquals("1", runTestInContainer("testJAXWSClient", Helper.class.getName()));

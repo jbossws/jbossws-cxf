@@ -49,13 +49,11 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.Configurer;
 import org.jboss.ws.common.Messages;
 import org.jboss.wsf.spi.WSFException;
-import org.jboss.wsf.spi.deployment.UnifiedVirtualFile;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedPortComponentRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 import org.jboss.wsf.stack.cxf.client.ClientBusSelector;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 
 /**
  * This ServiceObjectFactory reconstructs a javax.xml.ws.Service
@@ -515,22 +513,11 @@ public final class CXFServiceObjectFactoryJAXWS
       {});
    }
    
-   @SuppressWarnings("deprecation")
    private Bus createNewBus(final UnifiedServiceRefMetaData serviceRefMD)
    {
       final Bus bus;
-      final URL cxfConfig = this.getCXFConfiguration(serviceRefMD.getVfsRoot());
-      if (cxfConfig != null)
-      {
-         final JBossWSBusFactory busFactory = new JBossWSBusFactory();
-         bus = busFactory.createBus(cxfConfig);
-         BusFactory.setThreadDefaultBus(bus);
-      }
-      else
-      {
-         Bus threadBus = BusFactory.getThreadDefaultBus(false);
-         bus = threadBus != null ? threadBus : BusFactory.newInstance().createBus();
-      }
+      Bus threadBus = BusFactory.getThreadDefaultBus(false);
+      bus = threadBus != null ? threadBus : BusFactory.newInstance().createBus();
 
       Configurer configurer = bus.getExtension(Configurer.class);
       bus.setExtension(new CXFServiceRefStubPropertyConfigurer(serviceRefMD, configurer), Configurer.class);
@@ -538,17 +525,4 @@ public final class CXFServiceObjectFactoryJAXWS
       return bus;
    }
 
-   private URL getCXFConfiguration(final UnifiedVirtualFile vfsRoot)
-   {
-      UnifiedVirtualFile uvf = vfsRoot.findChildFailSafe("WEB-INF/" + Constants.JBOSSWS_CXF_SPRING_DD);
-      URL url = (uvf != null) ? uvf.toURL() : null;
-
-      if (url == null)
-      {
-         uvf = vfsRoot.findChildFailSafe("META-INF/" + Constants.JBOSSWS_CXF_SPRING_DD);
-         if (uvf != null)
-            url = uvf.toURL();
-      }
-      return url;
-   }
 }

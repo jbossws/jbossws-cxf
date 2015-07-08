@@ -32,10 +32,8 @@ import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
-import org.jboss.wsf.stack.cxf.client.util.SpringUtils;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
-import org.jboss.wsf.stack.cxf.configuration.SpringBusHolder;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -50,22 +48,9 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
 {
    public void testBusShutdown()
    {
-      if (SpringUtils.isSpringAvailable(Thread.currentThread().getContextClassLoader()))
-      {
-         simpleShutdownTest(newSpringBusHolderInstance());
-         shutdownTestWithInnerShutdown(newSpringBusHolderInstance());
-         shutdownTestWithNoShutdown(newSpringBusHolderInstance());
-      }
-      else
-      {
-         simpleShutdownTest(newNonSpringBusHolderInstance());
-         shutdownTestWithInnerShutdown(newNonSpringBusHolderInstance());
-         shutdownTestWithNoShutdown(newNonSpringBusHolderInstance());
-      }
-   }
-   
-   private static SpringBusHolder newSpringBusHolderInstance() {
-      return new SpringBusHolder(null, null, new URL[]{});
+      simpleShutdownTest(newNonSpringBusHolderInstance());
+      shutdownTestWithInnerShutdown(newNonSpringBusHolderInstance());
+      shutdownTestWithNoShutdown(newNonSpringBusHolderInstance());
    }
    
    private static NonSpringBusHolder newNonSpringBusHolderInstance() {
