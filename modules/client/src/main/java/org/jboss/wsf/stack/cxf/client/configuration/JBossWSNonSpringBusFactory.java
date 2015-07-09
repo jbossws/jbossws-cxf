@@ -38,6 +38,7 @@ import org.jboss.wsf.stack.cxf.client.injection.JBossWSResourceInjectionResolver
  * @since 16-Jun-2010
  *
  */
+@Deprecated
 public class JBossWSNonSpringBusFactory extends CXFBusFactory
 {
    @Override

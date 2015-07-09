@@ -28,6 +28,7 @@ package org.jboss.wsf.stack.cxf.client.util;
  * @since 16-Jun-2010
  *
  */
+@Deprecated
 public class SpringUtils
 {
    /**

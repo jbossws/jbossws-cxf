@@ -34,6 +34,7 @@ import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
  * @since 01-Oct-2014
  *
  */
+@Deprecated
 public class SpringCustomClientBusSelector extends ClientBusSelector
 {
    private static final String clientBusDescriptor = SecurityActions.getSystemProperty(JBWS_CXF_JAXWS_CLIENT_BUS_SPRING_DESCRIPTOR, "cxf-client.xml");
