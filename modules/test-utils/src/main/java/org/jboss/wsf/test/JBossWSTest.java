@@ -67,7 +67,6 @@ public abstract class JBossWSTest extends TestCase
    public static final String SYSPROP_COPY_JOB_TIMEOUT = "test.copy.job.timeout";
    public static final String CXF_TESTS_GROUP_QUALIFIER = "cxf-tests";
    public static final String SHARED_TESTS_GROUP_QUALIFIER = "shared-tests";
-   public static final String SPRING_TESTS_GROUP_QUALIFIER = "cxf-spring-tests";
    private static final int COPY_JOB_TIMEOUT = Integer.getInteger(SYSPROP_COPY_JOB_TIMEOUT, File.pathSeparatorChar == ':' ? 5000 : 60000); //60s on Windows, 5s on UNIX and Mac
    
    public JBossWSTest()
