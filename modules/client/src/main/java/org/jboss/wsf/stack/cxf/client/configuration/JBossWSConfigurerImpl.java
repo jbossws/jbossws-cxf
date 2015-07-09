@@ -30,11 +30,11 @@ import org.apache.cxf.extension.BusExtension;
  * @author alessio.soldano@jboss.com
  * @since 05-Oct-2009
  */
-public class JBossWSNonSpringConfigurer implements JBossWSConfigurer, BusExtension
+public class JBossWSConfigurerImpl implements JBossWSConfigurer, BusExtension
 {
    private BeanCustomizer customizer;
    
-   public JBossWSNonSpringConfigurer(BeanCustomizer customizer)
+   public JBossWSConfigurerImpl(BeanCustomizer customizer)
    {
       this.customizer = customizer;
    }

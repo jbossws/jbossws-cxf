@@ -43,7 +43,7 @@ import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
-import org.jboss.wsf.stack.cxf.client.configuration.JBossWSNonSpringConfigurer;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSConfigurerImpl;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
@@ -184,7 +184,7 @@ public class NonSpringBusHolder extends BusHolder
       customizer.setBindingCustomization(customization);
       customizer.setWsdlPublisher(wsdlPublisher);
       customizer.setDeployment(dep);
-      return new JBossWSNonSpringConfigurer(customizer);
+      return new JBossWSConfigurerImpl(customizer);
    }
 
 }

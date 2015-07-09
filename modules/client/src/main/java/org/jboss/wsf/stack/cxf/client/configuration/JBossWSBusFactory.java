@@ -57,7 +57,7 @@ public class JBossWSBusFactory extends CXFBusFactory
       }
       if (!extensions.containsKey(Configurer.class))
       {
-         extensions.put(Configurer.class, new JBossWSNonSpringConfigurer(new BeanCustomizer()));
+         extensions.put(Configurer.class, new JBossWSConfigurerImpl(new BeanCustomizer()));
       }
       
       //Explicitly ask for the ProviderImpl.class.getClassLoader() to be used for getting
