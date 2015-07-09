@@ -22,7 +22,6 @@
 package org.jboss.wsf.stack.cxf.metadata.services;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -35,10 +34,6 @@ public class DDBeans
 {
    // The Required services.
    private final List<DDEndpoint> endpoints = new ArrayList<DDEndpoint>();
-   // Optional additional beans.
-   private final List<DDBean> beans = new LinkedList<DDBean>();
-   
-   private final List<DDJmsAddressBean> addressBeans = new LinkedList<DDJmsAddressBean>();
    
    public List<DDEndpoint> getEndpoints()
    {
@@ -48,20 +43,5 @@ public class DDBeans
    public void addEndpoint(DDEndpoint service)
    {
       endpoints.add(service);
-   }
-   
-   public void addAddress(DDJmsAddressBean addressBean) 
-   {
-      addressBeans.add(addressBean);     
-   }
-
-   public List<DDBean> getBeans()
-   {
-      return beans;
-   }
-
-   public void addBean(DDBean bean)
-   {
-      beans.add(bean);
    }
 }
