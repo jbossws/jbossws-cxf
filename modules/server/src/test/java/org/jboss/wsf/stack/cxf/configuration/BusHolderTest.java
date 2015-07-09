@@ -72,7 +72,7 @@ public class BusHolderTest extends TestCase
          props.put(Constants.CXF_POLICY_ALTERNATIVE_SELECTOR_PROP, alternative);
          wsmd = new JBossWebservicesMetaData(null, null, null, null, props, null, null);
       }
-      BusHolder holder = new NonSpringBusHolder(new DDBeans());
+      BusHolder holder = new BusHolder(new DDBeans());
       try {
          Deployment dep = new DefaultDeploymentModelFactory().newDeployment("testDeployment", null, null);
          dep.addAttachment(SOAPAddressRewriteMetadata.class, new SOAPAddressRewriteMetadata(getTestServerConfig(), null));

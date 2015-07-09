@@ -34,7 +34,7 @@ import org.jboss.wsf.spi.deployment.ResourceResolver;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
-import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
+import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.resolver.JBossWSResourceResolver;
@@ -93,7 +93,7 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          //libraries already available on the application server modules.
          SecurityActions.setContextClassLoader(new DelegateClassLoader(dep.getClassLoader(), origClassLoader));
          DDBeans metadata = dep.getAttachment(DDBeans.class);
-         holder = new NonSpringBusHolder(metadata);
+         holder = new BusHolder(metadata);
 
          Configurer configurer = holder.createServerConfigurer(dep.getAttachment(BindingCustomization.class), new WSDLFilePublisher(aDep), aDep);
          holder.configure(resolver, configurer, dep.getAttachment(JBossWebservicesMetaData.class), dep);

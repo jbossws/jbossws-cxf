@@ -22,7 +22,6 @@
 package org.jboss.test.ws.jaxws.cxf.jbws3098;
 
 import java.io.File;
-import java.net.URL;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
@@ -33,7 +32,6 @@ import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
-import org.jboss.wsf.stack.cxf.configuration.NonSpringBusHolder;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.test.JBossWSTest;
 
@@ -48,13 +46,9 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
 {
    public void testBusShutdown()
    {
-      simpleShutdownTest(newNonSpringBusHolderInstance());
-      shutdownTestWithInnerShutdown(newNonSpringBusHolderInstance());
-      shutdownTestWithNoShutdown(newNonSpringBusHolderInstance());
-   }
-   
-   private static NonSpringBusHolder newNonSpringBusHolderInstance() {
-      return new NonSpringBusHolder(new DDBeans());
+      simpleShutdownTest(new BusHolder(new DDBeans()));
+      shutdownTestWithInnerShutdown(new BusHolder(new DDBeans()));
+      shutdownTestWithNoShutdown(new BusHolder(new DDBeans()));
    }
    
    private static void simpleShutdownTest(BusHolder holder)

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2014, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,10 +23,14 @@ package org.jboss.wsf.stack.cxf.configuration;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.ws.handler.Handler;
+import javax.xml.ws.soap.SOAPBinding;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
@@ -43,14 +47,19 @@ import org.apache.cxf.resource.ResourceManager;
 import org.apache.cxf.resource.ResourceResolver;
 import org.apache.cxf.service.factory.FactoryBeanListener;
 import org.apache.cxf.service.factory.FactoryBeanListenerManager;
+import org.apache.cxf.service.invoker.Invoker;
 import org.apache.cxf.staxutils.XMLStreamReaderWrapper;
+import org.apache.cxf.transport.http.HttpDestinationFactory;
+import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.apache.cxf.workqueue.AutomaticWorkQueue;
 import org.apache.cxf.workqueue.AutomaticWorkQueueImpl;
 import org.apache.cxf.workqueue.WorkQueueManager;
+import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.discovery.listeners.WSDiscoveryServerListener;
 import org.apache.cxf.ws.policy.AlternativeSelector;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
+import org.apache.cxf.ws.rm.RMManager;
 import org.apache.cxf.wsdl.WSDLManager;
 import org.apache.cxf.wsdl11.WSDLManagerImpl;
 import org.jboss.ws.api.annotation.PolicySets;
@@ -65,10 +74,14 @@ import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 import org.jboss.wsf.stack.cxf.Loggers;
+import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.client.configuration.FeatureUtils;
 import org.jboss.wsf.stack.cxf.client.configuration.InterceptorUtils;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
+import org.jboss.wsf.stack.cxf.client.configuration.JBossWSConfigurerImpl;
+import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
@@ -76,6 +89,8 @@ import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.WSDLSoapAddressRewriteInterceptor;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
+import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
+import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 import org.jboss.wsf.stack.cxf.security.authentication.AuthenticationMgrSubjectCreatingInterceptor;
 
 /**
@@ -85,8 +100,13 @@ import org.jboss.wsf.stack.cxf.security.authentication.AuthenticationMgrSubjectC
  * @since 25-Mar-2010
  *
  */
-public abstract class BusHolder
+public class BusHolder
 {
+   private boolean configured = false;
+
+   protected DDBeans metadata;
+   protected List<EndpointImpl> endpoints = new LinkedList<EndpointImpl>();
+   
    protected Bus bus;
    protected BusHolderLifeCycleListener busHolderListener;
    protected FactoryBeanListener policySetsListener;
@@ -100,7 +120,16 @@ public abstract class BusHolder
    {
       setBus(bus);
    }
-   
+
+   public BusHolder(DDBeans metadata)
+   {
+      super();
+      this.metadata = metadata;
+      bus = new JBossWSBusFactory().createBus();
+      //Force servlet transport to prevent CXF from using Jetty / http server or other transports
+      bus.setExtension(new ServletDestinationFactory(), HttpDestinationFactory.class);
+   }
+
    /**
     * Update the Bus held by the this instance using the provided parameters.
     * This basically prepares the bus for being used with JBossWS.
@@ -112,6 +141,11 @@ public abstract class BusHolder
     */
    public void configure(ResourceResolver resolver, Configurer configurer, JBossWebservicesMetaData wsmd, Deployment dep)
    {
+      if (configured)
+      {
+         throw Messages.MESSAGES.busAlreadyConfigured(bus);
+      }
+      
       bus.setProperty(org.jboss.wsf.stack.cxf.client.Constants.DEPLOYMENT_BUS, true);
       busHolderListener = new BusHolderLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(busHolderListener);
@@ -168,6 +202,114 @@ public abstract class BusHolder
       bus.setProperty("org.apache.cxf.ws.addressing.decoupled_fault_support", true);
       
       FeatureUtils.addFeatures(bus, bus, props);
+
+      for (DDEndpoint dde : metadata.getEndpoints())
+      {
+         EndpointImpl endpoint = new EndpointImpl(bus, newInstance(dde.getImplementor()));
+         if (dde.getInvoker() != null)
+            endpoint.setInvoker((Invoker) newInstance(dde.getInvoker()));
+         endpoint.setAddress(dde.getAddress());
+         endpoint.setEndpointName(dde.getPortName());
+         endpoint.setServiceName(dde.getServiceName());
+         endpoint.setWsdlLocation(dde.getWsdlLocation());
+         setHandlers(endpoint, dde);
+         if (dde.getProperties() != null)
+         {
+            Map<String, Object> p = new HashMap<String, Object>();
+            p.putAll(dde.getProperties());
+            endpoint.setProperties(p);
+         }
+         if (dde.isAddressingEnabled()) 
+         {
+            WSAddressingFeature addressingFeature = new WSAddressingFeature();
+            addressingFeature.setAddressingRequired(dde.isAddressingRequired());
+            addressingFeature.setResponses(dde.getAddressingResponses());
+            endpoint.getFeatures().add(addressingFeature);
+         }
+         endpoint.setPublishedEndpointUrl(dde.getPublishedEndpointUrl());
+         endpoint.setSOAPAddressRewriteMetadata(dep.getAttachment(SOAPAddressRewriteMetadata.class));
+         endpoint.publish();
+         endpoints.add(endpoint);
+         if (dde.isMtomEnabled())
+         {
+            SOAPBinding binding = (SOAPBinding) endpoint.getBinding();
+            binding.setMTOMEnabled(true);
+         }
+      }
+      configured = true;
+   }
+   
+   @SuppressWarnings("rawtypes")
+   private static void setHandlers(EndpointImpl endpoint, DDEndpoint dde)
+   {
+      List<String> handlers = dde.getHandlers();
+      if (handlers != null && !handlers.isEmpty())
+      {
+         List<Handler> handlerInstances = new LinkedList<Handler>();
+         for (String handler : handlers)
+         {
+            handlerInstances.add((Handler) newInstance(handler));
+         }
+         endpoint.setHandlers(handlerInstances);
+      }
+   }
+   
+   public void close()
+   {
+      //Move this stuff to the bus (our own impl)?
+      RMManager rmManager = bus.getExtension(RMManager.class);
+      if (rmManager != null)
+      {
+         rmManager.shutdown();
+      }
+      
+      for (EndpointImpl endpoint : endpoints)
+      {
+         if (endpoint.isPublished())
+         {
+            endpoint.stop();
+         }
+      }
+      endpoints.clear();
+      
+      //call bus shutdown unless the listener tells us shutdown has already been asked
+      if (busHolderListener == null || !busHolderListener.isPreShutdown())
+      {
+         bus.shutdown(true);
+      }
+      busHolderListener = null;
+      bus.getExtension(FactoryBeanListenerManager.class).removeListener(policySetsListener);
+      policySetsListener = null;
+   }
+
+   private static Object newInstance(String className)
+   {
+      try
+      {
+         Class<?> clazz = SecurityActions.getContextClassLoader().loadClass(className);
+         return clazz.newInstance();
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
+   }
+
+   /**
+    * A convenient method for getting a jbossws cxf server configurer
+    * 
+    * @param customization    The binding customization to set in the configurer, if any
+    * @param wsdlPublisher    The wsdl file publisher to set in the configurer, if any
+    * @param dep     The deployment
+    * @return                 The new jbossws cxf configurer
+    */
+   public Configurer createServerConfigurer(BindingCustomization customization, WSDLFilePublisher wsdlPublisher, ArchiveDeployment dep)
+   {
+      ServerBeanCustomizer customizer = new ServerBeanCustomizer();
+      customizer.setBindingCustomization(customization);
+      customizer.setWsdlPublisher(wsdlPublisher);
+      customizer.setDeployment(dep);
+      return new JBossWSConfigurerImpl(customizer);
    }
    
    private static Map<String, String> getProperties(JBossWebservicesMetaData wsmd) {
@@ -179,33 +321,6 @@ public abstract class BusHolder
       }
       return props;
    }
-   
-   /**
-    * Performs close operations
-    * 
-    */
-   public void close()
-   {
-      //call bus shutdown unless the listener tells us shutdown has already been asked
-      if (busHolderListener == null || !busHolderListener.isPreShutdown())
-      {
-         bus.shutdown(true);
-      }
-      busHolderListener = null;
-      bus.getExtension(FactoryBeanListenerManager.class).removeListener(policySetsListener);
-      policySetsListener = null;
-   }
-   
-   /**
-    * A convenient method for getting a jbossws cxf server configurer
-    * 
-    * @param customization    The binding customization to set in the configurer, if any
-    * @param wsdlPublisher    The wsdl file publisher to set in the configurer, if any
-    * @param dep     The deployment
-    * @return                 The new jbossws cxf configurer
-    */
-   public abstract Configurer createServerConfigurer(BindingCustomization customization,
-         WSDLFilePublisher wsdlPublisher, ArchiveDeployment dep);
    
    protected void setInterceptors(Bus bus, Deployment dep, Map<String, String> props)
    {
