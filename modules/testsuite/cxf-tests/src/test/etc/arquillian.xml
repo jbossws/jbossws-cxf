@@ -6,7 +6,7 @@
     <container qualifier="jboss" default="true">
         <configuration>
             <property name="jbossHome">${jboss.home}</property>
-            <property name="javaVmArguments">-server -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jboss} ${additionalJvmArgs}</property>
+            <property name="javaVmArguments">-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jboss} ${additionalJvmArgs}</property>
             <property name="serverConfig">jbws-testsuite-default.xml</property>
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
@@ -20,7 +20,7 @@
     <container qualifier="ssl-mutual-auth" mode="manual">
         <configuration>
             <property name="jbossHome">${jboss.home}</property>
-            <property name="javaVmArguments">-server -Xms48m -Xmx384m -XX:MaxPermSize=192m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.ssl-mutual-auth} ${additionalJvmArgs}</property>
+            <property name="javaVmArguments">-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.ssl-mutual-auth} ${additionalJvmArgs}</property>
             <property name="serverConfig">jbws-testsuite-ssl-mutual-auth.xml</property>
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
@@ -34,7 +34,7 @@
     <container qualifier="default-config-tests" mode="manual">
         <configuration>
             <property name="jbossHome">${jboss.home}</property>
-            <property name="javaVmArguments">-server -Xms48m -Xmx384m -XX:MaxPermSize=192m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.default-config-tests} ${additionalJvmArgs}</property>
+            <property name="javaVmArguments">-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.default-config-tests} ${additionalJvmArgs}</property>
             <property name="serverConfig">jbws-testsuite-default-config-tests.xml</property>
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
@@ -48,7 +48,7 @@
     <container qualifier="jms">
         <configuration>
             <property name="jbossHome">${jboss.home}</property>
-            <property name="javaVmArguments">-server -Xms48m -Xmx384m -XX:MaxPermSize=192m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jms} ${additionalJvmArgs}</property>
+            <property name="javaVmArguments">-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jms} ${additionalJvmArgs}</property>
             <property name="serverConfig">jbws-testsuite-jms-${jbossws.integration.target}.xml</property>
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>

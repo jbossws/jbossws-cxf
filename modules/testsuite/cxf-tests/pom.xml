@@ -279,7 +279,7 @@
 	              <goal>start</goal>
 	            </goals>
 	            <configuration>
-	              <jvmArgs>-server -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jboss} ${additionalJvmArgs}</jvmArgs>
+	              <jvmArgs>-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jboss} ${additionalJvmArgs}</jvmArgs>
 	              <serverConfig>jbws-testsuite-default.xml</serverConfig>
 	              <jbossHome>${jboss.home}</jbossHome>
                   <!-- TODO: add serverArgs section to use a custom bind address (requires wildfly-maven-plugin 1.1.0 +)
@@ -304,7 +304,7 @@
 	              <goal>start</goal>
 	            </goals>
 	            <configuration>
-	              <jvmArgs>-server -Xms48m -Xmx384m -XX:MaxPermSize=192m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.ssl-mutual-auth} ${additionalJvmArgs}</jvmArgs>
+	              <jvmArgs>-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.ssl-mutual-auth} ${additionalJvmArgs}</jvmArgs>
 	              <serverConfig>jbws-testsuite-ssl-mutual-auth.xml</serverConfig>
 	              <jbossHome>${jboss.home}</jbossHome>
                   <!-- TODO: add serverArgs section to use a custom bind address (requires wildfly-maven-plugin 1.1.0 +)
@@ -329,7 +329,7 @@
 	              <goal>start</goal>
 	            </goals>
 	            <configuration>
-	              <jvmArgs>-server -Xms48m -Xmx384m -XX:MaxPermSize=192m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.default-config-tests} ${additionalJvmArgs}</jvmArgs>
+	              <jvmArgs>-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.default-config-tests} ${additionalJvmArgs}</jvmArgs>
 	              <serverConfig>jbws-testsuite-default-config-tests.xml</serverConfig>
 	              <jbossHome>${jboss.home}</jbossHome>
                   <!-- TODO: add serverArgs section to use a custom bind address (requires wildfly-maven-plugin 1.1.0 +)
@@ -354,7 +354,7 @@
 	              <goal>start</goal>
 	            </goals>
 	            <configuration>
-	              <jvmArgs>-server -Xms48m -Xmx384m -XX:MaxPermSize=192m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jms} ${additionalJvmArgs}</jvmArgs>
+	              <jvmArgs>-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jms} ${additionalJvmArgs}</jvmArgs>
 	              <serverConfig>jbws-testsuite-jms-${jbossws.integration.target}.xml</serverConfig>
 	              <jbossHome>${jboss.home}</jbossHome>
                   <!-- TODO: add serverArgs section to use a custom bind address (requires wildfly-maven-plugin 1.1.0 +)

@@ -205,7 +205,7 @@
                                   <goal>start</goal>
                               </goals>
                               <configuration>
-                                  <jvmArgs>-server -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.jboss} ${additionalJvmArgs}</jvmArgs>
+                                  <jvmArgs>-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.jboss} ${additionalJvmArgs}</jvmArgs>
                                   <serverConfig>jbws-testsuite-shared-default.xml</serverConfig>
                                   <jbossHome>${jboss.home}</jbossHome>
                                   <port>24990</port> <!-- Keep in sync with the port-offset -->
@@ -228,7 +228,7 @@
                                   <goal>start</goal>
                               </goals>
                               <configuration>
-                                  <jvmArgs>-server -Xms48m -Xmx384m -XX:MaxPermSize=192m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.default-config-tests} ${additionalJvmArgs}</jvmArgs>
+                                  <jvmArgs>-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.default-config-tests} ${additionalJvmArgs}</jvmArgs>
                                   <serverConfig>jbws-testsuite-shared-default-config-tests.xml</serverConfig>
                                   <jbossHome>${jboss.home}</jbossHome>
                                   <port>29990</port> <!-- Keep in sync with the port-offset -->
@@ -251,7 +251,7 @@
                                   <goal>start</goal>
                               </goals>
                               <configuration>
-                                  <jvmArgs>-server -Xms32m -Xmx256m -XX:MaxPermSize=96m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.address-rewrite} ${additionalJvmArgs}</jvmArgs>
+                                  <jvmArgs>-server -Xms32m -Xmx256m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.address-rewrite} ${additionalJvmArgs}</jvmArgs>
                                   <serverConfig>jbws-testsuite-shared-address-rewrite.xml</serverConfig>
                                   <jbossHome>${jboss.home}</jbossHome>
                                   <port>34990</port> <!-- Keep in sync with the port-offset -->
