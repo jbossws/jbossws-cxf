@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -34,7 +34,6 @@ import javax.xml.ws.handler.Handler;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.frontend.ServerFactoryBean;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.ws.common.configuration.ConfigDelegateHandler;
@@ -91,12 +90,11 @@ public class ServletHelper
 
    private static void injectServiceAndHandlerResources(Endpoint endpoint)
    {
-      ServerFactoryBean factory = endpoint.getAttachment(ServerFactoryBean.class);
-      if (factory != null)
+      org.apache.cxf.endpoint.Endpoint ep = endpoint.getAttachment(org.apache.cxf.endpoint.Endpoint.class);
+      if (ep != null)
       {
          @SuppressWarnings("rawtypes")
-         List<Handler> chain = ((JaxWsEndpointImpl) factory.getServer().getEndpoint()).getJaxwsBinding()
-               .getHandlerChain();
+         List<Handler> chain = ((JaxWsEndpointImpl) ep).getJaxwsBinding().getHandlerChain();
          if (chain != null)
          {
             for (Handler<?> handler : chain)

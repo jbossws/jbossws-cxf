@@ -34,5 +34,8 @@
       <module name="org.apache.santuario.xmlsec"/>
       <module name="org.apache.ws.security" />
       <module name="org.joda.time"/>
+      <module name="com.google.guava"/>
+      <module name="org.bouncycastle"/>
+      <module name="org.apache.commons.codec"/>
     </dependencies>
 </module>

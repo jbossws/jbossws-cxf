@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2011, Red Hat, Inc., and individual contributors
+ * Copyright 2015, Red Hat, Inc., and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,10 +19,8 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.jboss.wsf.stack.cxf.deployment.aspect;
 
-import org.apache.cxf.frontend.ServerFactoryBean;
 import org.jboss.ws.common.integration.AbstractDeploymentAspect;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
@@ -41,9 +39,9 @@ public final class CXFInstanceProviderDeploymentAspect extends AbstractDeploymen
     {
        for (final Endpoint ep : dep.getService().getEndpoints())
        {
-          final ServerFactoryBean factory = ep.getAttachment(ServerFactoryBean.class);       
-          ep.setInstanceProvider(new CXFInstanceProvider(factory));
+          final Object serviceBean = ep.getAttachment(Object.class);
+          org.apache.cxf.endpoint.Endpoint cxfEp = ep.getAttachment(org.apache.cxf.endpoint.Endpoint.class);
+          ep.setInstanceProvider(new CXFInstanceProvider(serviceBean, cxfEp));
        }
     }
-
 }

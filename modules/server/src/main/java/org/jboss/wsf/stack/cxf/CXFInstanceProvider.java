@@ -19,7 +19,6 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.jboss.wsf.stack.cxf;
 
 import java.util.HashMap;
@@ -28,7 +27,6 @@ import java.util.Map;
 
 import javax.xml.ws.handler.Handler;
 
-import org.apache.cxf.frontend.ServerFactoryBean;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.jboss.ws.common.configuration.ConfigDelegateHandler;
 import org.jboss.ws.common.deployment.ReferenceFactory;
@@ -43,24 +41,25 @@ import org.jboss.wsf.spi.deployment.Reference;
  */
 public final class CXFInstanceProvider implements InstanceProvider {
 
-    private final ServerFactoryBean factory;
+    private final Object serviceBean;
+    private final org.apache.cxf.endpoint.Endpoint cxfEndpoint;
     private final Map<String, Reference> cache = new HashMap<String, Reference>(8);
 
-    public CXFInstanceProvider(final ServerFactoryBean factory) {
-        this.factory = factory;
+    public CXFInstanceProvider(final Object serviceBean, final org.apache.cxf.endpoint.Endpoint cxfEndpoint) {
+        this.serviceBean = serviceBean;
+        this.cxfEndpoint = cxfEndpoint;
     }
 
     @SuppressWarnings("rawtypes")
     public synchronized Reference getInstance(final String className) {
         Reference instance = cache.get(className);
         if (instance == null) {
-            final Object serviceBean = factory.getServiceBean();
-            if (className.equals(factory.getServiceBean().getClass().getName())) {
+            if (className.equals(serviceBean.getClass().getName())) {
                 cache.put(className, instance = ReferenceFactory.newUninitializedReference(serviceBean));
             }
             if (instance == null)
             {
-               List<Handler> chain = ((JaxWsEndpointImpl) factory.getServer().getEndpoint()).getJaxwsBinding().getHandlerChain();
+               List<Handler> chain = ((JaxWsEndpointImpl) cxfEndpoint).getJaxwsBinding().getHandlerChain();
                if (chain != null)
                {
                   for (Handler handler : chain)

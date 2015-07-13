@@ -21,10 +21,13 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
 import org.apache.cxf.frontend.ServerFactoryBean;
+import org.apache.cxf.message.Message;
+import org.apache.cxf.service.ServiceImpl;
 import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.transport.http.HTTPTransportFactory;
 import org.jboss.ws.api.util.ServiceLoader;
@@ -75,7 +78,22 @@ public class ServerBeanCustomizer extends BeanCustomizer
             {
                if (depEndpoint.getTargetBeanClass().getName().equals(targetBeanName))
                {
-                  depEndpoint.addAttachment(ServerFactoryBean.class, factory);
+                  depEndpoint.addAttachment(Object.class, factory.getServiceBean());
+               }
+            }
+         }
+      }
+      if (beanInstance instanceof ServiceImpl) {
+         ServiceImpl service = (ServiceImpl) beanInstance;
+         List<Endpoint> depEndpoints = dep.getService().getEndpoints();
+         if (depEndpoints != null)
+         {
+            final Collection<org.apache.cxf.endpoint.Endpoint> eps = service.getEndpoints().values();
+            for (Endpoint depEp : depEndpoints) {
+               for (org.apache.cxf.endpoint.Endpoint ep : eps) {
+                  if (ep.getService().getName().equals(depEp.getProperty(Message.WSDL_SERVICE)) && ep.getEndpointInfo().getName().equals(depEp.getProperty(Message.WSDL_PORT))) {
+                     depEp.addAttachment(org.apache.cxf.endpoint.Endpoint.class, ep);
+                  }
                }
             }
          }
@@ -127,6 +145,10 @@ public class ServerBeanCustomizer extends BeanCustomizer
                if (config != null) {
                   endpoint.setEndpointConfig(config);
                }
+               
+               //also save Service QName and Port QName in the endpoint for later matches
+               depEndpoint.setProperty(Message.WSDL_PORT, endpoint.getEndpointName());
+               depEndpoint.setProperty(Message.WSDL_SERVICE, endpoint.getServiceName());
             }
          }
 

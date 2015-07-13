@@ -89,8 +89,9 @@
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <unpack>false</unpack>
             <includes>
-              <include>org.opensaml:open*:jar</include>
-              <include>org.opensaml:xmltooling:jar</include>
+              <include>org.opensaml:opensaml*:jar</include>
+              <include>org.cryptacular:cryptacular:jar</include>
+              <include>net.shibboleth.utilities:java-support:jar</include>
               <include>org.jboss.ws:jbossws-common-tools:jar</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
