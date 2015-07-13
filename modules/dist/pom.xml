@@ -99,11 +99,6 @@
         <artifactId>opensaml</artifactId>
         <scope>provided</scope>
       </dependency>
-      <dependency>
-        <groupId>org.jboss</groupId>
-        <artifactId>jandex</artifactId>
-         <scope>provided</scope>
-      </dependency>
       <!--junit-->
       <dependency>
         <groupId>junit</groupId>
@@ -250,6 +245,11 @@
           <artifactId>jbossws-wildfly810-server-integration</artifactId>
           <scope>provided</scope>
         </dependency>
+        <dependency>
+          <groupId>org.jboss</groupId>
+          <artifactId>jandex</artifactId>
+          <scope>provided</scope>
+        </dependency>
       </dependencies>
     </profile>
     
@@ -270,6 +270,11 @@
         <dependency>
           <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-wildfly820-server-integration</artifactId>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss</groupId>
+          <artifactId>jandex</artifactId>
           <scope>provided</scope>
         </dependency>
       </dependencies>
@@ -294,6 +299,11 @@
           <artifactId>jbossws-wildfly900-server-integration</artifactId>
           <scope>provided</scope>
         </dependency>
+        <dependency>
+          <groupId>org.jboss</groupId>
+          <artifactId>jandex</artifactId>
+          <scope>provided</scope>
+        </dependency>
       </dependencies>
     </profile>
 
@@ -309,6 +319,11 @@
           <artifactId>jbossws-cxf-resources</artifactId>
           <version>${project.version}</version>
           <classifier>wildfly1000</classifier>     
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss</groupId>
+          <artifactId>jandex</artifactId>
           <scope>provided</scope>
         </dependency>
       </dependencies>
