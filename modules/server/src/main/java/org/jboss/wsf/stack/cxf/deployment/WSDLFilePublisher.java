@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2010, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -56,6 +56,8 @@ import org.w3c.dom.Document;
  */
 public class WSDLFilePublisher extends AbstractWSDLFilePublisher
 {
+   private static final String[] wsdlLocationPrefixes = {"vfsfile:", "file:", "jar:", "vfszip:"};
+   
    public WSDLFilePublisher(ArchiveDeployment dep)
    {
       super(dep);
@@ -203,30 +205,31 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
 
       File locationFile = new File(serverConfig.getServerDataDir().getCanonicalPath() + "/wsdl/" + archiveName);
 
-      File result;
       if (wsdlLocation != null && wsdlLocation.indexOf(expLocation) >= 0)
       {
          wsdlLocation = wsdlLocation.substring(wsdlLocation.indexOf(expLocation) + expLocation.length());
-         result = new File(locationFile + "/" + wsdlLocation);
+         return new File(locationFile + "/" + wsdlLocation);
       }
-      else if (wsdlLocation != null && (wsdlLocation.startsWith("vfsfile:") || wsdlLocation.startsWith("file:") || wsdlLocation.startsWith("jar:") || wsdlLocation.startsWith("vfszip:")))
+      else if (wsdlLocation != null)
       {
-         wsdlLocation = wsdlLocation.substring(wsdlLocation.lastIndexOf("/") + 1);
-         result = new File(locationFile + "/" + wsdlLocation);
+         for (String wsdlLocationPrefix : wsdlLocationPrefixes) {
+            if (wsdlLocation.startsWith(wsdlLocationPrefix)) {
+               return new File(locationFile, wsdlLocation.substring(wsdlLocationPrefix.length(), wsdlLocation.lastIndexOf("/") + 1));
+            }
+         }
+         return new File(locationFile, wsdlLocation);
       }
       else
       {
-         result = new File(locationFile + "/" + serviceName + ".wsdl");
+         return new File(locationFile + "/" + serviceName + ".wsdl");
       }
-
-      return result;
    }
    
    private String getExpLocation(String wsdlLocation) {
       if (wsdlLocation == null || wsdlLocation.indexOf(expLocation) >= 0) {
          return expLocation;
-      } else { //JBWS-3540
-         return wsdlLocation.contains("/") ? wsdlLocation.substring(0, wsdlLocation.lastIndexOf("/") + 1) : "";
+      } else {
+         return "";
       }
    }
 }
