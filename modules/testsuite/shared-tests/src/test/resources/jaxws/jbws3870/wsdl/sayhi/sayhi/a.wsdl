@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:tns="http://apache.org/sayHi" xmlns:sayhi1="http://apache.org/sayHi1" xmlns:sayhi2="http://apache.org/sayHi2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://apache.org/sayHi" name="SayHiService">
+    <message name="sayHiArray">
+        <part name="parameters" element="sayhi2:sayHiArray"/>
+    </message>
+    <message name="sayHiArrayResponse">
+        <part name="parameters" element="sayhi2:sayHiArrayResponse"/>
+    </message>
+</definitions>

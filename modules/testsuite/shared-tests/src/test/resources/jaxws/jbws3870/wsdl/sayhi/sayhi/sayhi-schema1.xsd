@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://apache.org/sayHi2" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="sayHiArray" type="ns1:sayHiArray" xmlns:ns1="http://apache.org/sayHi2"/>
+
+  <xs:complexType name="sayHiArray">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="sayHiArrayResponse" type="ns2:sayHiArrayResponse" xmlns:ns2="http://apache.org/sayHi2"/>
+
+  <xs:complexType name="sayHiArrayResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
