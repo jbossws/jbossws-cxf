@@ -103,7 +103,7 @@
     <jms.api.version>1.0.1.Final</jms.api.version>
     <velocity.version>1.7</velocity.version>
     <xerces.version>2.9.1</xerces.version>
-    <xmlsec.version>2.0.5-SNAPSHOT</xmlsec.version>
+    <xmlsec.version>2.0.5</xmlsec.version>
     <wss4j.version>2.0.5-SNAPSHOT</wss4j.version>
     <wstx.version>4.4.1</wstx.version>
     <spring.version>3.2.8.RELEASE</spring.version>
