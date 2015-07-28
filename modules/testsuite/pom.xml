@@ -323,7 +323,7 @@
                  <jboss.home>${jboss.home}</jboss.home>
                  <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
                  <log4j.output.dir>${log4j.output.dir}</log4j.output.dir>
-                 <appclient.output.di>${appclient.output.dir}</appclient.output.di>
+                 <appclient.output.dir>${appclient.output.dir}</appclient.output.dir>
                  <org.jboss.ws.testsuite.securityDomain.users.propfile>${project.build.directory}/test-classes/jbossws-users.properties</org.jboss.ws.testsuite.securityDomain.users.propfile>  
                  <org.jboss.ws.testsuite.securityDomain.roles.propfile>${project.build.directory}/test-classes/jbossws-roles.properties</org.jboss.ws.testsuite.securityDomain.roles.propfile>
                  <org.jboss.ws.testsuite.server.keystore>${project.build.directory}/test-classes/test.keystore</org.jboss.ws.testsuite.server.keystore>
