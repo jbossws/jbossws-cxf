@@ -227,33 +227,6 @@
     </profile>
     
     <!--
-    Name:  wildfly810
-    Descr: WildFly-8.1.0 specific dependencies
-    -->
-    <profile>
-      <id>wildfly810</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws.cxf</groupId>
-          <artifactId>jbossws-cxf-resources</artifactId>
-          <version>${project.version}</version>
-          <classifier>wildfly810</classifier>     
-          <scope>provided</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-wildfly810-server-integration</artifactId>
-          <scope>provided</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss</groupId>
-          <artifactId>jandex</artifactId>
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-    
-    <!--
     Name:  wildfly820
     Descr: WildFly-8.2.0 specific dependencies
     -->
