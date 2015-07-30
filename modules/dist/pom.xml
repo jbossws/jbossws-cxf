@@ -201,22 +201,22 @@
     </profile>
     
     <!--
-    Name:  wildfly820
-    Descr: WildFly-8.2.0 specific dependencies
+    Name:  wildfly821
+    Descr: WildFly-8.2.1 specific dependencies
     -->
     <profile>
-      <id>wildfly820</id>
+      <id>wildfly821</id>
       <dependencies>
         <dependency>
           <groupId>org.jboss.ws.cxf</groupId>
           <artifactId>jbossws-cxf-resources</artifactId>
           <version>${project.version}</version>
-          <classifier>wildfly820</classifier>     
+          <classifier>wildfly821</classifier>     
           <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-wildfly820-server-integration</artifactId>
+          <artifactId>jbossws-wildfly821-server-integration</artifactId>
           <scope>provided</scope>
         </dependency>
         <dependency>

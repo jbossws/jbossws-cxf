@@ -28,10 +28,10 @@
   <property name="deploy.artifacts.dir" value="${basedir}/target/assembly/deploy-artifacts"/>
   <property name="jbossws.default.modules.conf" value="${basedir}/target/assembly/deploy-artifacts/modules-deploy.conf"/>
 	
-  <target name="deploy" depends="prepare,deploy-wildfly820-if-available,deploy-wildfly900-if-available,deploy-wildfly1000-if-available" description="Deploy jbossws to wildfly"/>
+  <target name="deploy" depends="prepare,deploy-wildfly821-if-available,deploy-wildfly900-if-available,deploy-wildfly1000-if-available" description="Deploy jbossws to wildfly"/>
 
-  <target name="deploy-wildfly820-if-available" if="wildfly820.available">
-  	<antcall target="deploy-wildfly820"/>
+  <target name="deploy-wildfly821-if-available" if="wildfly821.available">
+  	<antcall target="deploy-wildfly821"/>
   </target>
 
   <target name="deploy-wildfly900-if-available" if="wildfly900.available">
@@ -43,8 +43,8 @@
   </target>
 
   <target name="prepare">
-    <condition property="wildfly820.home" value="${jboss.home}">
-      <equals arg1="${jbossws.integration.target}" arg2="wildfly820"/>
+    <condition property="wildfly821.home" value="${jboss.home}">
+      <equals arg1="${jbossws.integration.target}" arg2="wildfly821"/>
     </condition>
     <condition property="wildfly900.home" value="${jboss.home}">
       <equals arg1="${jbossws.integration.target}" arg2="wildfly900"/>
@@ -52,10 +52,10 @@
     <condition property="wildfly1000.home" value="${jboss.home}">
       <equals arg1="${jbossws.integration.target}" arg2="wildfly1000"/>
     </condition>
-    <property name="wildfly820.available.file" value="${wildfly820.home}/jboss-modules.jar"/>
+    <property name="wildfly821.available.file" value="${wildfly821.home}/jboss-modules.jar"/>
     <property name="wildfly900.available.file" value="${wildfly900.home}/jboss-modules.jar"/>
     <property name="wildfly1000.available.file" value="${wildfly1000.home}/jboss-modules.jar"/>
-    <available property="wildfly820.available" file="${wildfly820.available.file}"/>   
+    <available property="wildfly821.available" file="${wildfly821.available.file}"/>   
     <available property="wildfly900.available" file="${wildfly900.available.file}"/>   
     <available property="wildfly1000.available" file="${wildfly1000.available.file}"/>   
     <tstamp>
@@ -107,32 +107,32 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- Deployment wildfly820                                              -->
+  <!-- Deployment wildfly821                                              -->
   <!-- ================================================================== -->
 
-  <target name="target-wildfly820">
-    <property name="jbossws.integration.target" value="wildfly820"/>
+  <target name="target-wildfly821">
+    <property name="jbossws.integration.target" value="wildfly821"/>
     <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
   </target>
 
-  <target name="deploy-wildfly820" depends="undeploy-wildfly820,deploy-structure-wildfly80x">
-    <fail message="Not available: ${wildfly820.available.file}" unless="wildfly820.available"/>
-    <copy todir="${wildfly820.home}" overwrite="true" verbose="true">
+  <target name="deploy-wildfly821" depends="undeploy-wildfly821,deploy-structure-wildfly80x">
+    <fail message="Not available: ${wildfly821.available.file}" unless="wildfly821.available"/>
+    <copy todir="${wildfly821.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
         <exclude name="**/jboss/as/webservices/**/module.xml"/>
       </fileset>
     </copy>
     <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
-    <installModules targetDir="${wildfly820.home}/modules/system/layers/base/">
+    <installModules targetDir="${wildfly821.home}/modules/system/layers/base/">
       <fileset dir="${deploy.structure}/modules/system/layers/base">
         <include name="**/jboss/as/webservices/**/module.xml"/>
       </fileset>
     </installModules>
   </target>
 
-  <target name="undeploy-wildfly820" depends="target-wildfly820,init">
-    <fail message="Not available: ${wildfly820.available.file}" unless="wildfly820.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${wildfly820.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
+  <target name="undeploy-wildfly821" depends="target-wildfly821,init">
+    <fail message="Not available: ${wildfly821.available.file}" unless="wildfly821.available"/>
+    <macro-undeploy-jbossws-modules targetdir="${wildfly821.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
   </target>
 
   <!-- ================================================================== -->
