@@ -65,10 +65,8 @@
     <jbossws.spi.version>3.1.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>3.1.0-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.2.1.Final</jbossws.common.tools.version>
-    <jbossws.wildfly810.version>5.0.0.Final</jbossws.wildfly810.version>
     <jbossws.wildfly820.version>5.0.0.Final</jbossws.wildfly820.version>
     <jbossws.wildfly900.version>5.1.0-SNAPSHOT</jbossws.wildfly900.version>
-    <wildfly810.version>8.1.0.Final</wildfly810.version>
     <wildfly820.version>8.2.0.Final</wildfly820.version>
     <wildfly900.version>9.0.0.Final</wildfly900.version>
     <wildfly1000.version>10.0.0.Beta1-SNAPSHOT</wildfly1000.version>
@@ -140,16 +138,6 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-spi</artifactId>
         <version>${jbossws.spi.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly810-server-integration</artifactId>
-        <version>${jbossws.wildfly810.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly810-tests-integration</artifactId>
-        <version>${jbossws.wildfly810.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
@@ -1238,33 +1226,6 @@
       </properties>
     </profile>
 
-    <!--
-    Name:  wildfly810
-    Descr: WildFly-8.1.0 specific options
-    -->
-    <profile>
-      <id>wildfly810</id>
-      <properties>
-        <jbossws.integration.target>wildfly810</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly810.version}</jboss.version>
-        <additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-      <dependencyManagement>
-        <dependencies>
-          <dependency>
-	        <groupId>org.jboss</groupId>
-	        <artifactId>jandex</artifactId>
-	        <version>1.1.0.Final</version>
-	      </dependency>
-        </dependencies>
-      </dependencyManagement>
-    </profile>
-    
     <!--
     Name:  wildfly820
     Descr: WildFly-8.2.0 specific options
