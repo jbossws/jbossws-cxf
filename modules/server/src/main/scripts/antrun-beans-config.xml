@@ -40,6 +40,11 @@
     />
 
     <copy
+      file="${src.dir}/jbossws-cxf-config-as9.xml"
+      tofile="${dest.dir}/jbossws-wildfly901/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
+    />
+
+    <copy
       file="${src.dir}/jbossws-cxf-config-as10.xml"
       tofile="${dest.dir}/jbossws-wildfly1000/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
     />

@@ -653,6 +653,55 @@
     </profile>
 
     <!--
+    Descr: WildFly-9.0.1 specific options
+    -->
+    <profile>
+      <id>wildfly901</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-wildfly901-tests-integration</artifactId>
+        </dependency>
+        <!-- Arquillian container integration -->
+        <dependency>
+        	<groupId>org.wildfly.arquillian</groupId>
+        	<artifactId>wildfly-arquillian-container-managed</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>org.jboss.arquillian.protocol</groupId>
+        	<artifactId>arquillian-protocol-servlet</artifactId>
+        	<version>${arquillian.version}</version>
+        	<scope>test</scope>
+        </dependency>
+        <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
+        <dependency>
+          <groupId>org.littleshoot</groupId>
+          <artifactId>littleproxy</artifactId>
+          <version>${org.littleshoot.littleproxy.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-api</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>net.sf.ehcache</groupId>
+              <artifactId>ehcache-core</artifactId>
+            </exclusion>
+            <!-- Let the container messaging subsystem control the Netty dependency version  -->
+            <exclusion>
+              <groupId>io.netty</groupId>
+              <artifactId>netty-all</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!--
     Descr: WildFly-10.0.0 specific options
     -->
     <profile>
