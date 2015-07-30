@@ -51,12 +51,12 @@
             <phase>package</phase>
           </execution>
           <execution>
-            <id>wildfly820</id>
+            <id>wildfly821</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>
             <configuration>
-              <classifier>wildfly820</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly820/jbossws.beans</classesDirectory>
+              <classifier>wildfly821</classifier>
+              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly821/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
           <execution>

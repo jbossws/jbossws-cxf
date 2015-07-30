@@ -596,15 +596,15 @@
     </profile>
     
     <!--
-    Name:  wildfly820
-    Descr: WildFly-8.2.0 specific options
+    Name:  wildfly821
+    Descr: WildFly-8.2.1 specific options
     -->
     <profile>
-      <id>wildfly820</id>
+      <id>wildfly821</id>
       <dependencies>
         <dependency>
           <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-wildfly820-tests-integration</artifactId>
+          <artifactId>jbossws-wildfly821-tests-integration</artifactId>
         </dependency>
         <!-- Arquillian container integration -->
         <dependency>
