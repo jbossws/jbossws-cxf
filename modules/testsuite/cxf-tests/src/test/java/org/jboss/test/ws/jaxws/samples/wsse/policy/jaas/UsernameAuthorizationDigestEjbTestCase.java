@@ -42,10 +42,8 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.wsf.test.IgnoreContainer;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -60,8 +58,6 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public final class UsernameAuthorizationDigestEjbTestCase extends JBossWSTest
 {
-   @Rule
-   public IgnoreContainer rule = new IgnoreContainer("[JBWS-3916] Remove the workaround for JBWS-3843", "wildfly820");
    @ArquillianResource
    private URL baseURL;
    
