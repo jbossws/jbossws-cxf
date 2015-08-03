@@ -65,9 +65,9 @@
     <jbossws.spi.version>3.1.0.Beta1</jbossws.spi.version>
     <jbossws.common.version>3.1.0.Beta1</jbossws.common.version>
     <jbossws.common.tools.version>1.2.1.Final</jbossws.common.tools.version>
-    <jbossws.wildfly821.version>5.1.0-SNAPSHOT</jbossws.wildfly821.version>
-    <jbossws.wildfly900.version>5.1.0-SNAPSHOT</jbossws.wildfly900.version>
-    <jbossws.wildfly901.version>5.1.0-SNAPSHOT</jbossws.wildfly901.version>
+    <jbossws.wildfly821.version>5.1.0.Beta1</jbossws.wildfly821.version>
+    <jbossws.wildfly900.version>5.1.0.Beta1</jbossws.wildfly900.version>
+    <jbossws.wildfly901.version>5.1.0.Beta1</jbossws.wildfly901.version>
     <wildfly821.version>8.2.1.Final</wildfly821.version>
     <wildfly900.version>9.0.0.Final</wildfly900.version>
     <wildfly901.version>9.0.1.Final</wildfly901.version>
