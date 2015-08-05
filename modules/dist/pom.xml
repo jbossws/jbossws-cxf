@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <version>5.0.1.Final</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
@@ -386,10 +386,10 @@
                 </goals>
                 <configuration>
                   <target>
-                    <property name="jbossws.integration.target" value="${jbossws.integration.target}"/>
-                    <property name="jboss.home" value="${jboss.home}"/>
-                    <property name="spring" value="${spring}"/>
-                    <ant antfile="src/main/scripts/build-deploy.xml"/>
+                    <property name="jbossws.integration.target" value="${jbossws.integration.target}" />
+                    <property name="jboss.home" value="${jboss.home}" />
+                    <property name="spring" value="${spring}" />
+                    <ant antfile="src/main/scripts/build-deploy.xml" />
                   </target>
                 </configuration>
               </execution>
