@@ -1,8 +1,8 @@
 
-${project.name}
+JBoss Web Services - Stack CXF Distribution
 http://jbossws.jboss.org
 
-Version: jbossws-cxf-${project.version}
+Version: jbossws-cxf-5.0.1.Final
 
 Release Notes
 =============
@@ -23,8 +23,60 @@ https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.pro
 For issues that are scheduled for future versions see the road map.
 https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
 
-What's new in jbossws-cxf-${project.version}
+What's new in jbossws-cxf-5.0.1.Final
 -------------------------------------
+
+Bug
+
+    * [JBWS-3812] - Incorrect value for ws-security.ut.validator
+    * [JBWS-3873] - Web Services can't inherit a JDK8 default method
+    * [JBWS-3910] - Maven archetype jaxws-codefirst has problems on JDK8
+    * [JBWS-3911] - Validate value of wsdl-path-rewrite-rule when setting it
+    * [JBWS-3914] - Arquillian is unable to start server during testsuite when running with 32-bit JDK
+    * [JBWS-3922] - Do not copy org.jboss.wsf.spi.deployment.Endpoint properties into CXF EndpointImpl
+    * [JBWS-3926] - EndorseTestCase#testClientSide() is not run
+    * [JBWS-3928] - jbws-testsuite-jms.groovy script breaks build with WFLY 10
+    * [JBWS-3933] - Exclude of jcl-over-slf4j for org.apache.cxf:cxf-rt-transports-http-hc is needed
+
+Enhancement
+
+    * [JBWS-3916] - Remove the workaround for JBWS-3843
+    * [JBWS-3920] - Default to using original thread for processing one-way messages
+    * [JBWS-3921] - Get rid of unrequired MessagePropertySettingInterceptor
+
+Feature Request
+
+    * [JBWS-3883] - Upgrade to Apache CXF 3.0.5
+    * [JBWS-3930] - Upgrade to Apache CXF 3.0.6
+
+Task
+
+    * [JBWS-3907] - Add ws-rm test which configures RMManager/RMStore without spring
+    * [JBWS-3908] - Restore automatic errata file generation
+    * [JBWS-3913] - Create WildFly 9.0 ASIL
+    * [JBWS-3915] - Upgrade to JAXB 2.2.11
+    * [JBWS-3923] - Provide option for controlling Surefire console log redirect
+    * [JBWS-3924] - Move project sources to GitHub
+    * [JBWS-3925] - Update Hudson configuration to consume sources from GitHub
+    * [JBWS-3927] - Remove java.endorsed.dirs requirement for properly setup clients
+    * [JBWS-3932] - Use different jandex for processing CXF jars depending on target container
+    * [JBWS-3934] - Add WildFly 8.2.1.Final and 9.0.1.Final as supported target containers
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3936
+
+This version of "JBoss Web Services - Stack CXF Distribution" is based on Apache CXF 3.0.6
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-5.0.0.Final
+-----------------------
 
 Bug
 
@@ -138,13 +190,7 @@ Errata
 
     See: https://issues.jboss.org/browse/JBWS-3909
 
-This version of "${project.name}" is based on Apache CXF ${cxf.version}
-
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This version of "JBoss Web Services - Stack CXF Distribution" is based on Apache CXF 3.0.4
 
 
 -----------------------
