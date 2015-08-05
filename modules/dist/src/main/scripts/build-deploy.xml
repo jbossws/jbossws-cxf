@@ -213,7 +213,7 @@
     <property name="jbossws.integration.target" value="wildfly901"/>
     <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
   </target>
-  <target name="deploy-wildfly901" depends="undeploy-wildfly901,deploy-structure-wildfly90x">
+  <target name="deploy-wildfly901" depends="undeploy-wildfly901,deploy-structure-wildfly90x,check-spring,install-spring-module90x">
     <fail message="Not available: ${wildfly901.available.file}" unless="wildfly901.available"/>
     <copy todir="${wildfly901.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
