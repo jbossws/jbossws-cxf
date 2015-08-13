@@ -64,6 +64,7 @@
       >
         <jvmarg line="-Dlog4j.configuration=file://@{log4jConf}"/>
         <jvmarg line="-Dlog4j.output.dir=@{loggingDir}"/>
+        <jvmarg line="-Djavax.xml.accessExternalSchema=file,http"/>
       </wsprovide>
     </sequential>
 
