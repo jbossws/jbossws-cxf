@@ -45,6 +45,8 @@ public class WSConsumerTestCaseForked extends PluginBase
    @Before
    public void setup() throws Exception
    {
+      // JBWS-3937 (IBM JDK 8)
+      System.setProperty("javax.xml.accessExternalSchema", "file,http");
       // JBWS-2175
       setupClasspath();
 
