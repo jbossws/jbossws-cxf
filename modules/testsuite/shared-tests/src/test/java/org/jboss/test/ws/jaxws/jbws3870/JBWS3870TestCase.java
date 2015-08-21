@@ -69,11 +69,11 @@ public class JBWS3870TestCase extends JBossWSTest
 
    @Test
    @RunAsClient
-   @Ignore(value = "[JBWS-3870] Imported schemas in weird places in deployments causes issues")
+   @Ignore(value = "[CXF-6552] Multiple chained schema imports not handled correctly")
    public void testService() throws Exception
    {
       String endpointAddress = "http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws3870/SayHiImpl";
-      Service service = Service.create(new URL(endpointAddress + "?wsdl"), new QName("http://apache.org/sayHi", "SayHiImplService"));
+      Service service = Service.create(new URL(endpointAddress + "?wsdl"), new QName("http://apache.org/sayHi", "SayHiService"));
       SayHi port = service.getPort(new QName("http://apache.org/sayHi", "SayHiPort"), SayHi.class);
       assertEquals("Hi", port.sayHi("Foo"));
       assertEquals("Hi", port.sayHiArray(new ArrayList<String>()).iterator().next());
