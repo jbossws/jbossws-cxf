@@ -24,10 +24,14 @@ package org.jboss.wsf.stack.cxf.deployment;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.wsdl.Definition;
 import javax.wsdl.WSDLException;
@@ -214,15 +218,32 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
       {
          for (String wsdlLocationPrefix : wsdlLocationPrefixes) {
             if (wsdlLocation.startsWith(wsdlLocationPrefix)) {
-               return new File(locationFile, wsdlLocation.substring(wsdlLocationPrefix.length(), wsdlLocation.lastIndexOf("/") + 1));
+               return new File(locationFile, encodeLocation(wsdlLocation.substring(wsdlLocationPrefix.length(), wsdlLocation.lastIndexOf("/") + 1)));
             }
          }
-         return new File(locationFile, wsdlLocation);
+         return new File(locationFile, encodeLocation(wsdlLocation));
       }
       else
       {
          return new File(locationFile + "/" + serviceName + ".wsdl");
       }
+   }
+   
+   private String encodeLocation(String location) throws UnsupportedEncodingException {
+      StringBuilder sb = new StringBuilder();
+      StringTokenizer st = new StringTokenizer(location, "/", false);
+      List<String> l = new ArrayList<String>();
+      while (st.hasMoreTokens()) {
+         l.add(URLEncoder.encode(st.nextToken(), "UTF-8"));
+      }
+      final int size = l.size();
+      for (int i = 0; i < size; i++) {
+         sb.append(l.get(i));
+         if (i < size - 1) {
+            sb.append("/");
+         }
+      }
+      return sb.toString();
    }
    
    private String getExpLocation(String wsdlLocation) {
