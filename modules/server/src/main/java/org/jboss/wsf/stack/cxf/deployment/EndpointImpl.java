@@ -56,7 +56,7 @@ import org.jboss.wsf.stack.cxf.client.configuration.InterceptorUtils;
  * @since 01-Apr-2010
  *
  */
-public class EndpointImpl extends org.apache.cxf.jaxws22.EndpointImpl
+public class EndpointImpl extends org.apache.cxf.jaxws.EndpointImpl
 {
    private WSDLFilePublisher wsdlPublisher;
    private CommonConfig config;

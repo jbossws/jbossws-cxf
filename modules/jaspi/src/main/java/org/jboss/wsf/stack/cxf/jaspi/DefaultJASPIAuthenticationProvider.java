@@ -32,7 +32,7 @@ import javax.security.auth.message.config.ServerAuthContext;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.jaxws22.EndpointImpl;
+import org.apache.cxf.jaxws.EndpointImpl;
 import org.jboss.security.auth.callback.JBossCallbackHandler;
 import org.jboss.security.auth.login.AuthenticationInfo;
 import org.jboss.security.auth.login.BaseAuthenticationInfo;
