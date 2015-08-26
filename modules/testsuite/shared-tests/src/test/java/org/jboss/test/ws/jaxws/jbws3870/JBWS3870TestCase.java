@@ -35,7 +35,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -69,7 +68,6 @@ public class JBWS3870TestCase extends JBossWSTest
 
    @Test
    @RunAsClient
-   @Ignore(value = "[CXF-6552] Multiple chained schema imports not handled correctly")
    public void testService() throws Exception
    {
       String endpointAddress = "http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws3870/SayHiImpl";
