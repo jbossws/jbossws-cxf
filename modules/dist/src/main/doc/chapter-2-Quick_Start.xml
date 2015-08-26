@@ -455,6 +455,13 @@ ProfileMgmt profileMgmt = service.getPort(ProfileMgmt.class);     (2)
               jar is used to force a API level different from the one included in the JDK. E.g. JAXWS 2.2 on JDK 1.6, or JAXWS 2.1 on JDK 1.7, etc. So, depending on your environment, it might not be strictly required.
             </para>
           </important>
+          <note>
+            <para>
+              Endorsing is deprecated in JDK 1.8 and will be removed in future JDK version. If you can't rely on endorsing with your JDK version, be sure JBossWS components (in particular
+              <code>org.jboss.ws.cxf:jbossws-cxf-factories</code>
+              ) come before jars of any other JAX-WS implementation in your classpath.
+            </para>
+          </note>
         </section>
         <section id="sid-3735860_QuickStart-JBossModulesenvironment">
           

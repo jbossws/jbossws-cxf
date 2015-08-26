@@ -12,12 +12,10 @@
         framework to run its integration tests against WildFly containers.
       </para>
       <para>
-        There are three test modules in JBossWS' testsuite,
+        There are two test modules in JBossWS' testsuite,
         <emphasis role="italics">cxf-tests</emphasis>
-        ,
-        <emphasis role="italics">shared-tests</emphasis>
         and
-        <emphasis role="italics">cxf-spring-tests</emphasis>
+        <emphasis role="italics">shared-tests</emphasis>
         .  Each test module requires at least one
         <emphasis role="italics">WildFly</emphasis>
         container to run; multiple containers are used for modules whose tests can't run at the same time on the same container. By default, containers are managed (started / stopped) by Arquillian.The JBossWS build system fetches a copy of the required container from the Maven repository, unpacks it, patches it installing the current webservices stack on it and finally hands it over to Arquillian for the testsuite runs. The test framework also allows letting Arquillian manage an already available container instance on the local filesystem. Finally, it's also possible to execute single tests against a locally running container (non-Arquillian managed) and run the tests concurrently.
@@ -44,8 +42,6 @@
           ./modules/testsuite/cxf-tests/target/test-server/jbossws-cxf-dist-5.0.0-SNAPSHOT/wildfly-8.1.0.Final
           
           ./modules/testsuite/shared-tests/target/test-server/jbossws-cxf-dist-5.0.0-SNAPSHOT/wildfly-8.1.0.Final
-          
-          ./modules/testsuite/cxf-spring-tests/target/test-server/jbossws-cxf-dist-5.0.0-SNAPSHOT/wildfly-8.1.0.Final
         </para>
       </sidebar>
       <para>
@@ -127,20 +123,6 @@
                 </entry>
                 <entry>
                   <para>Designates the target container to use, where XYZ is WildFly's  three digit version number</para>
-                </entry>
-              </row>
-              <row>
-                <entry>
-                  <para>
-                    <code>spring</code>
-                    
-                  </para>
-                </entry>
-                <entry>
-                  <para>
-                    Enables Spring support; this causes Spring libraries to be installed on the target container and the cxf-spring-tests testsuite module to be also run
-                    
-                  </para>
                 </entry>
               </row>
               <row>
@@ -300,7 +282,7 @@
                 </entry>
                 <entry>
                   <para>
-                    Runs the testcases in the specified comma-separated list of JUnit classes
+                    Runs the test in the specified comma-separated list of JUnit classes
                     
                   </para>
                 </entry>
@@ -333,14 +315,14 @@
         <para>
           Use
           <emphasis role="italics">WildFly 8.1.0.Final</emphasis>
-          as the target container (letting the build fetch it), patch it with current WS stack (including Spring libraries) and run only test
-          <emphasis role="italics">BasicDocTestCase</emphasis>
+          as the target container (letting the build fetch it), patch it with current WS stack and run only test
+          <emphasis role="italics">MtomTestCase</emphasis>
           that is located in the
-          <emphasis role="italics">cxf-spring-test</emphasis>
+          <emphasis role="italics">cxf-test</emphasis>
           module:
         </para>
         <informalexample>
-          <programlisting>mvn -Pwildfly810,spring integration-test -Dtest="org/jboss/test/ws/jaxws/cxf/wsrm/BasicDocTestCase"</programlisting>
+          <programlisting>mvn -Pwildfly810 integration-test -Dtest="org/jboss/test/ws/jaxws/samples/MtomTestCase"</programlisting>
         </informalexample>
         <para>Build, deploy, then run the tests concurrently. Run till Maven post-integration-test phase to trigger test servers shutdown and save memory at the end of each testsuite module:</para>
         <informalexample>
@@ -348,7 +330,7 @@
         </informalexample>
         <para>Completely clean the project:</para>
         <informalexample>
-          <programlisting>mvn -Pdist,testsuite,spring clean</programlisting>
+          <programlisting>mvn -Pdist,testsuite clean</programlisting>
         </informalexample>
         <para>Build the WS stack and install it on a specified server instance without running the integration testsuite:</para>
         <informalexample>
