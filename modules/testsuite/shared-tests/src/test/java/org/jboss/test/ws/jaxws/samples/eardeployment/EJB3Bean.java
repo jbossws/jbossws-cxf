@@ -29,12 +29,10 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
-import org.jboss.ws.api.annotation.WebContext;
 
 // Test that the wsdl can be read from the nested deployment
 @WebService(name = "Endpoint", serviceName = "EndpointService", targetNamespace="http://eardeployment.jaxws/", wsdlLocation = "META-INF/wsdl/Endpoint.wsdl")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-@WebContext(contextRoot = "/earejb3")
 @Stateless
 public class EJB3Bean
 {
