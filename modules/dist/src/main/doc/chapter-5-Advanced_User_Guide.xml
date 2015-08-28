@@ -161,7 +161,11 @@
             archives
           </para>
         </listitem>
+        <listitem>
+          <para>META-INF/jboss-webservices.xml for EAR archives containing webservices deployment archives.</para>
+        </listitem>
       </itemizedlist>
+      <para>In case of jboss-webservices.xml descriptor included in both EAR and included JAR/WAR archive, the contents of the descriptor included in the JAR/WAR archives override the contents of the descriptor in the parent EAR archive.</para>
       <para>
         The structure of file is the following (schemas are available
         <ulink url="http://anonsvn.jboss.org/repos/jbossws/spi/trunk/src/main/resources/schema/">here</ulink>
