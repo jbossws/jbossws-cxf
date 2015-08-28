@@ -1,11 +1,14 @@
 
 # /
+**/*~
+**/derby.log
 /ant.properties
 /clipboard.*
 **/target
 **/.settings
 **/.classpath
 **/.project
+**/.surefire-*
 /profiles.xml
 /target.properties
 /transaction.log
