@@ -280,9 +280,10 @@
 	              <goal>jmeter</goal>
 	            </goals>
 	            <configuration>
-                    <overrideRootLogLevel>debug</overrideRootLogLevel>
+	                <!-- <overrideRootLogLevel>ERROR</overrideRootLogLevel> -->
                     <propertiesSystem>
                       <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
+                      <log4j.configuration>file://${basedir}/target/jmeter/lib/log4j.xml</log4j.configuration>
                     </propertiesSystem>
                 </configuration>
 	          </execution>
