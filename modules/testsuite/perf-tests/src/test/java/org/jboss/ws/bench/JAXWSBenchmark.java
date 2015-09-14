@@ -13,8 +13,25 @@ import org.jboss.wsf.test.JBossWSTestHelper;
 
 public class JAXWSBenchmark extends AbstractJavaSamplerClient
 {
-   private String endpointURL = "http://" + JBossWSTestHelper.getServerHost() + ":" + JBossWSTestHelper.getServerPort() + "/jaxws-benchmark-basic/EndpointService/EndpointImpl";
-   private String targetNS = "http://basic.test.benchmark.jaxws.ws.test.jboss.org/";
+   private final String endpointURL = "http://" + JBossWSTestHelper.getServerHost() + ":" + JBossWSTestHelper.getServerPort() + "/jaxws-benchmark-basic/EndpointService/EndpointImpl";
+   private final String targetNS = "http://basic.test.benchmark.jaxws.ws.test.jboss.org/";
+   private Endpoint ep;
+   
+   @Override
+   public void setupTest(JavaSamplerContext context) {
+      super.setupTest(context);
+      try {
+         this.ep = prepare();
+      } catch (Exception e) {
+         throw new RuntimeException(e);
+      }
+   }
+   
+   @Override
+   public void teardownTest(JavaSamplerContext context) {
+      super.teardownTest(context);
+      this.ep = null;
+   }
    
    @Override
    public SampleResult runTest(JavaSamplerContext ctx)
@@ -23,11 +40,11 @@ public class JAXWSBenchmark extends AbstractJavaSamplerClient
       sampleResult.sampleStart();
 
       try {
-         Endpoint ep = prepare();
          performIteration(ep);
          sampleResult.setSuccessful(true);
       } catch (Exception e) {
          //TODO log exception?
+         sampleResult.setSuccessful(false);
       } finally {
          sampleResult.sampleEnd();
       }
