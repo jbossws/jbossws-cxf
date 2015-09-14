@@ -1,0 +1,56 @@
+package org.jboss.ws.bench;
+
+import java.net.URL;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
+import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
+import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
+import org.apache.jmeter.samplers.SampleResult;
+import org.jboss.test.ws.jaxws.benchmark.test.basic.Endpoint;
+import org.jboss.wsf.test.JBossWSTestHelper;
+
+public class JAXWSBenchmark extends AbstractJavaSamplerClient
+{
+   private String endpointURL = "http://" + JBossWSTestHelper.getServerHost() + ":" + JBossWSTestHelper.getServerPort() + "/jaxws-benchmark-basic/EndpointService/EndpointImpl";
+   private String targetNS = "http://basic.test.benchmark.jaxws.ws.test.jboss.org/";
+   
+   @Override
+   public SampleResult runTest(JavaSamplerContext ctx)
+   {
+      final SampleResult sampleResult = new SampleResult();
+      sampleResult.sampleStart();
+
+      try {
+         Endpoint ep = prepare();
+         performIteration(ep);
+         sampleResult.setSuccessful(true);
+      } catch (Exception e) {
+         //TODO log exception?
+      } finally {
+         sampleResult.sampleEnd();
+      }
+
+      return sampleResult;
+   }
+
+   public Endpoint prepare() throws Exception
+   {
+      URL wsdlURL = new URL(endpointURL + "?wsdl");
+      QName serviceName = new QName(targetNS, "EndpointService");
+
+      Service service = Service.create(wsdlURL, serviceName);
+      return service.getPort(Endpoint.class);
+   }
+
+   public void performIteration(Object port) throws Exception
+   {
+      String par = "Hello" + Math.random();
+      String ret = ((Endpoint)port).echo(par);
+      if (!(par.equals(ret)))
+      {
+         throw new Exception("Unexpected result: " + ret);
+      }
+   }
+}

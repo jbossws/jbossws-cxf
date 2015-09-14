@@ -1,0 +1,325 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <name>JBoss Web Services - Stack CXF Performance Tests</name>
+  <artifactId>jbossws-cxf-performance-tests</artifactId>
+  <packaging>jar</packaging>
+  
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jboss.ws.cxf</groupId>
+    <artifactId>jbossws-cxf-testsuite</artifactId>
+    <version>5.1.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  
+  <properties>
+  </properties>
+  
+  <dependencies>
+    <dependency> <!-- Always make sure jbossws-cxf-factories dependency is explicitly declared before anything transitively pulling CXF -->
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-factories</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-test-utils</artifactId>
+      <version>${project.version}</version>
+      <!-- <scope>test</scope> -->
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-server</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.picketlink</groupId>
+      <artifactId>picketlink-common</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.picketlink</groupId>
+      <artifactId>picketlink-federation</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+       <groupId>org.apache.derby</groupId>
+       <artifactId>derby</artifactId>
+       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_java</artifactId>
+      <version>2.13</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-math3</groupId>
+          <artifactId>commons-math3</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-pool2</groupId>
+          <artifactId>commons-pool2</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+
+  <!-- Profiles -->
+  <profiles>
+    
+    <!-- 
+    Name:  noprepare
+    Descr: Skip test preparation with -Dnoprepare  
+    -->
+    <profile>
+      <id>noprepare</id>
+      <activation>
+        <property>
+          <name>!noprepare</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.gmaven</groupId>
+            <artifactId>gmaven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>testsuite-perf</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <source>${basedir}/src/test/scripts/perf.groovy</source>
+                  <properties>
+                    <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
+                    <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-perf.xml</outputFile>
+                    <serverLog>jbws-testsuite-perf.log</serverLog>
+                  </properties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>jmeter</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <executions>
+	          <execution>
+	            <goals>
+	              <goal>test-jar</goal>
+	            </goals>
+	          </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>benchmarks</id>
+                <phase>test-compile</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <property name="maven.test.classpath" refid="maven.test.classpath" />
+                    <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
+                    <property name="tests.output.dir" value="${project.build.directory}" />
+                    <property name="project.version" value="${project.version}" />
+                    <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml" />
+                    <property name="log4j.output.dir" value="${log4j.output.dir}" />
+                    <ant antfile="src/test/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws" />
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+	        <artifactId>maven-resources-plugin</artifactId>
+	        <executions>
+	          <execution>
+	            <id>copy-resources</id>
+	            <phase>validate</phase>
+	            <goals>
+	              <goal>copy-resources</goal>
+	            </goals>
+	            <configuration>
+	              <outputDirectory>${basedir}/target/jmeter/lib</outputDirectory>
+	              <resources>          
+	                <resource>
+	                  <directory>src/test/etc</directory>
+	                  <filtering>true</filtering>
+	                </resource>
+	              </resources>              
+	            </configuration>
+	          </execution>
+	        </executions>
+	      </plugin>
+          <plugin>
+            <groupId>org.wildfly.plugins</groupId>
+            <artifactId>wildfly-maven-plugin</artifactId>
+            <executions>
+	          <execution>
+	            <id>jboss-perf</id>
+	            <phase>pre-integration-test</phase>
+	            <goals>
+	              <goal>start</goal>
+	            </goals>
+	            <configuration>
+	              <!-- TODO revisit the values here... -->
+	              <jvmArgs>-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.perf-tests.jboss} ${additionalJvmArgs}</jvmArgs>
+	              <serverConfig>jbws-testsuite-perf.xml</serverConfig>
+	              <jbossHome>${jboss.home}</jbossHome>
+                  <!-- TODO: add serverArgs section to use a custom bind address (requires wildfly-maven-plugin 1.1.0 +)
+                       https://github.com/wildfly/wildfly-maven-plugin/commit/160b1a29f4e26fff9f60b7cb4c8e3c1b055c7300 -->
+	              <port>39990</port> <!-- Keep in sync with the port-offset -->
+	            </configuration>
+	          </execution>
+	          <execution>
+	            <id>jboss-perf-deploy1</id>
+	            <phase>pre-integration-test</phase>
+	            <goals>
+	              <goal>deploy</goal>
+	            </goals>
+	            <configuration>
+	              <port>39990</port> <!-- Keep in sync with the port-offset -->
+	              <force>true</force>
+	              <targetDir>${project.build.directory}/test-libs</targetDir>
+	              <filename>jaxws-benchmark-basic.jar</filename>
+	            </configuration>
+	          </execution>
+	          <execution>
+	            <id>jboss-perf-deploy2</id>
+	            <phase>pre-integration-test</phase>
+	            <goals>
+	              <goal>deploy</goal>
+	            </goals>
+	            <configuration>
+	              <port>39990</port> <!-- Keep in sync with the port-offset -->
+	              <force>true</force>
+	              <targetDir>${project.build.directory}/test-libs</targetDir>
+	              <filename>jaxws-benchmark-basicdoclit.jar</filename>
+	            </configuration>
+	          </execution>
+	          <execution>
+	            <id>jboss-perf-deploy3</id>
+	            <phase>pre-integration-test</phase>
+	            <goals>
+	              <goal>deploy</goal>
+	            </goals>
+	            <configuration>
+	              <port>39990</port> <!-- Keep in sync with the port-offset -->
+	              <force>true</force>
+	              <targetDir>${project.build.directory}/test-libs</targetDir>
+	              <filename>jaxws-benchmark-complex.jar</filename>
+	            </configuration>
+	          </execution>
+	          <execution>
+	            <id>jboss-perf-deploy4</id>
+	            <phase>pre-integration-test</phase>
+	            <goals>
+	              <goal>deploy</goal>
+	            </goals>
+	            <configuration>
+	              <port>39990</port> <!-- Keep in sync with the port-offset -->
+	              <force>true</force>
+	              <targetDir>${project.build.directory}/test-libs</targetDir>
+	              <filename>jaxws-benchmark-datatypes-ejb3.jar</filename>
+	            </configuration>
+	          </execution>
+	          <execution>
+	            <id>jboss-perf-deploy5</id>
+	            <phase>pre-integration-test</phase>
+	            <goals>
+	              <goal>deploy</goal>
+	            </goals>
+	            <configuration>
+	              <port>39990</port> <!-- Keep in sync with the port-offset -->
+	              <force>true</force>
+	              <targetDir>${project.build.directory}/test-libs</targetDir>
+	              <filename>jaxws-benchmark-datatypes-pojo.war</filename>
+	            </configuration>
+	          </execution>
+	          <execution>
+	            <id>jboss-perf-shutdown</id>
+	            <phase>post-integration-test</phase>
+	            <goals>
+	              <goal>shutdown</goal>
+	            </goals>
+	            <configuration>
+	              <port>39990</port> <!-- Keep in sync with the port-offset -->
+	            </configuration>
+	          </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>com.lazerycode.jmeter</groupId>
+            <artifactId>jmeter-maven-plugin</artifactId>
+            <version>1.10.1</version>
+            <executions>
+	          <execution>
+	            <id>jmeter-tests</id>
+	            <phase>integration-test</phase>
+	            <goals>
+	              <goal>jmeter</goal>
+	            </goals>
+	            <configuration>
+                    <overrideRootLogLevel>debug</overrideRootLogLevel>
+                    <propertiesSystem>
+                      <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
+                    </propertiesSystem>
+                </configuration>
+	          </execution>
+            </executions>
+            <dependencies>
+                <dependency>
+			      <groupId>org.jboss.ws.cxf</groupId>
+			      <artifactId>jbossws-cxf-factories</artifactId>
+			      <version>${project.version}</version>
+			    </dependency>
+			    <dependency>
+			      <groupId>org.jboss.ws.cxf</groupId>
+			      <artifactId>jbossws-cxf-server</artifactId>
+			      <version>${project.version}</version>
+			    </dependency>
+			    <dependency>
+			      <groupId>org.jboss.ws.cxf</groupId>
+			      <artifactId>jbossws-cxf-test-utils</artifactId>
+			      <version>${project.version}</version>
+			    </dependency>
+ 			    <dependency>
+			      <groupId>org.jboss.ws.cxf</groupId>
+			      <artifactId>jbossws-cxf-performance-tests</artifactId>
+			      <type>test-jar</type>
+			      <version>${project.version}</version>
+			    </dependency>
+			    <dependency>
+			      <groupId>log4j</groupId>
+			      <artifactId>log4j</artifactId>
+			      <version>${log4j.version}</version>
+			    </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+  </profiles>
+  
+</project>

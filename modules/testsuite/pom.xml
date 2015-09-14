@@ -38,12 +38,14 @@
     <port-offset.shared-tests.jboss>15000</port-offset.shared-tests.jboss>
     <port-offset.shared-tests.default-config-tests>20000</port-offset.shared-tests.default-config-tests>
     <port-offset.shared-tests.address-rewrite>25000</port-offset.shared-tests.address-rewrite>
+    <port-offset.perf-tests.jboss>30000</port-offset.perf-tests.jboss>
   </properties>
 
   <!-- Modules -->
   <modules>
     <module>cxf-tests</module>
     <module>shared-tests</module>
+    <module>perf-tests</module>
   </modules>
 
   <!-- Dependencies -->
