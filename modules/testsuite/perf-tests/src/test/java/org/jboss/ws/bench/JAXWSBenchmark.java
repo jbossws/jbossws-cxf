@@ -1,5 +1,7 @@
 package org.jboss.ws.bench;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -43,8 +45,12 @@ public class JAXWSBenchmark extends AbstractJavaSamplerClient
          performIteration(ep);
          sampleResult.setSuccessful(true);
       } catch (Exception e) {
-         //TODO log exception?
          sampleResult.setSuccessful(false);
+         sampleResult.setResponseMessage("Exception: " + e);
+         StringWriter stringWriter = new StringWriter();
+         e.printStackTrace(new PrintWriter(stringWriter));
+         sampleResult.setResponseData(stringWriter.toString(), "UTF-8");
+         sampleResult.setDataType(SampleResult.TEXT);
       } finally {
          sampleResult.sampleEnd();
       }
