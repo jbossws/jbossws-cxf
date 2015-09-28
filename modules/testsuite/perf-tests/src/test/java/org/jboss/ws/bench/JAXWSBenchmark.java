@@ -69,11 +69,13 @@ public class JAXWSBenchmark extends AbstractJavaSamplerClient
 
    public void performIteration(Object port) throws Exception
    {
-      String par = "Hello" + Math.random();
-      String ret = ((Endpoint)port).echo(par);
-      if (!(par.equals(ret)))
-      {
-         throw new Exception("Unexpected result: " + ret);
+      for (int i = 0; i < 100; i++) {
+         String par = "Hello" + Math.random();
+         String ret = ((Endpoint)port).echo(par);
+         if (!(par.equals(ret)))
+         {
+            throw new Exception("Unexpected result: " + ret);
+         }
       }
    }
 }
