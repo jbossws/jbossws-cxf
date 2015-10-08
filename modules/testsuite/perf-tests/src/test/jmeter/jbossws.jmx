@@ -28,7 +28,7 @@
           <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="classname">org.jboss.ws.bench.JAXWSBenchmark</stringProp>
+          <stringProp name="classname">org.jboss.ws.bench.JAXWSBenchmarkPOJO</stringProp>
         </JavaSampler>
         <hashTree/>
         <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="false">
