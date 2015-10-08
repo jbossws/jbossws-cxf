@@ -34,8 +34,6 @@ import javax.security.auth.message.MessagePolicy;
 import javax.security.auth.message.module.ClientAuthModule;
 import javax.xml.soap.SOAPMessage;
 
-import org.jboss.security.SimplePrincipal;
-
 /**
  * SOAPClientAuthModule
  * TODO: Investigate what we can do with this module
@@ -47,10 +45,6 @@ public class SOAPClientAuthModule implements ClientAuthModule
 
    @SuppressWarnings("rawtypes")
    private List<Class> supportedTypes = new ArrayList<Class>();
-
-   private SimplePrincipal principal = null;
-
-   private Object credential = null;
 
    @SuppressWarnings("unused")
    private MessagePolicy requestPolicy = null;
@@ -90,7 +84,6 @@ public class SOAPClientAuthModule implements ClientAuthModule
    public AuthStatus secureRequest(MessageInfo messageInfo, Subject source) throws AuthException
    {
       log = "secureRequest";
-      messageInfo.getRequestMessage();
       return AuthStatus.SUCCESS;
    }
 
@@ -109,8 +102,7 @@ public class SOAPClientAuthModule implements ClientAuthModule
 
    public void cleanSubject(MessageInfo messageInfo, Subject subject) throws AuthException
    {
-      subject.getPrincipals().remove(principal);
-      subject.getPublicCredentials().remove(credential);
+      //TODO: implement this if secureRequest or valdiateResponse is required
    }
 
 }
