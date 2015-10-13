@@ -210,6 +210,7 @@
                 </goals>
                 <configuration>
                   <!-- TODO revisit the values here... -->
+<!--                  <jvmArgs>-server -agentpath:/home/alessio/jprofiler7/bin/linux-x64/libjprofilerti.so=offline,id=106 -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.perf-tests.jboss} ${additionalJvmArgs}</jvmArgs> -->
                   <jvmArgs>-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.perf-tests.jboss} ${additionalJvmArgs}</jvmArgs>
                   <serverConfig>jbws-testsuite-perf.xml</serverConfig>
                   <jbossHome>${jboss.home}</jbossHome>
@@ -398,6 +399,145 @@
       </build>
     </profile>
 
+
+    <profile>
+      <id>jmeter-no-server</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>test-jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-resources</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${basedir}/target/jmeter/lib</outputDirectory>
+                  <resources>          
+                    <resource>
+                      <directory>src/test/etc</directory>
+                      <filtering>true</filtering>
+                    </resource>
+                  </resources>              
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>com.lazerycode.jmeter</groupId>
+            <artifactId>jmeter-maven-plugin</artifactId>
+            <version>1.10.1</version>
+            <executions>
+              <execution>
+                <id>jmeter-tests</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>jmeter</goal>
+                </goals>
+                <configuration>
+                    <!-- By default the test results are saved in a file /target/jmeter/results/<testname>-<timestamp>.jtl 
+                         Further processing is easier without timestamp though. -->
+                    <testResultsTimestamp>false</testResultsTimestamp>
+                    <!-- By default, the console output during a jmeter test run is suppressed. 
+                         We want to display the progress using the listener "Generate Summary Results" 
+                         (which periodically prints stats to stdout). Therefore we have to make sure, 
+                         that the jmeter output is not suppressed. -->
+                    <suppressJMeterOutput>false</suppressJMeterOutput>
+                    <!-- If tests fail (e.g. a http-request running into a timeout), the corresponding 
+                         maven goal also fails (and subsequent goals aren't executed anymore). We 
+                         want to create graphs from test-results, no matter if some requests failed 
+                         or not, so we ignore jmeter failures. -->
+                    <ignoreResultFailures>true</ignoreResultFailures>
+                    <!-- <overrideRootLogLevel>ERROR</overrideRootLogLevel> -->
+                    <propertiesSystem>
+                      <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
+                      <log4j.configuration>file://${basedir}/target/jmeter/lib/log4j.xml</log4j.configuration>
+                    </propertiesSystem>
+                    <propertiesJMeter>
+                      <summariser.interval>${summariserInterval}</summariser.interval>
+                      <summariser.log>${summariserLog}</summariser.log>
+                      <summariser.out>${summariserOut}</summariser.out>
+                    </propertiesJMeter>
+                </configuration>
+              </execution>
+            </executions>
+            <dependencies>
+                <dependency>
+                  <groupId>org.jboss.ws.cxf</groupId>
+                  <artifactId>jbossws-cxf-factories</artifactId>
+                  <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                  <groupId>org.jboss.ws.cxf</groupId>
+                  <artifactId>jbossws-cxf-server</artifactId>
+                  <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                  <groupId>org.jboss.ws.cxf</groupId>
+                  <artifactId>jbossws-cxf-test-utils</artifactId>
+                  <version>${project.version}</version>
+                </dependency>
+                 <dependency>
+                  <groupId>org.jboss.ws.cxf</groupId>
+                  <artifactId>jbossws-cxf-performance-tests</artifactId>
+                  <type>test-jar</type>
+                  <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                  <groupId>log4j</groupId>
+                  <artifactId>log4j</artifactId>
+                  <version>${log4j.version}</version>
+                </dependency>
+            </dependencies>
+          </plugin>
+          <plugin>
+            <!-- TODO replace with a custom plugin allowing generating CSV reports too -->
+            <groupId>de.codecentric</groupId>
+            <artifactId>jmeter-graph-maven-plugin</artifactId>
+            <version>0.1.0</version>
+            <executions>
+              <execution>
+                <id>create-graphs</id>
+                <goals>
+                  <goal>create-graph</goal>
+                </goals>
+                <phase>verify</phase>
+                <configuration>
+                  <inputFile>${project.build.directory}/jmeter/results/jbossws.jtl</inputFile>
+                  <graphs>
+                    <graph>
+                      <pluginType>TransactionsPerSecond</pluginType>
+                      <width>800</width>
+                      <height>600</height>
+                      <outputFile>${project.build.directory}/jmeter/results/TransactionsPerSecond.png</outputFile>
+                    </graph>
+                    <graph>
+                      <pluginType>ResponseTimesOverTime</pluginType>
+                      <width>800</width>
+                      <height>600</height>
+                      <outputFile>${project.build.directory}/jmeter/results/ResponseTimesOverTime.png</outputFile>
+                    </graph>
+                  </graphs>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
   
 </project>
