@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+  version="2.4">
+
+  <servlet>
+    <servlet-name>SOAP12ExceptionEndpointService</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.samples.exception.server.JBWS3945EndpointImpl</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SOAP12ExceptionEndpointServiceServlet</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.samples.exception.server.JBWS3945Servlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SOAP12ExceptionEndpointService</servlet-name>
+    <url-pattern>/SOAP12ExceptionEndpointService</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SOAP12ExceptionEndpointServiceServlet</servlet-name>
+    <url-pattern>/SOAP12ExceptionEndpointServiceServlet</url-pattern>
+  </servlet-mapping>
+</web-app>
