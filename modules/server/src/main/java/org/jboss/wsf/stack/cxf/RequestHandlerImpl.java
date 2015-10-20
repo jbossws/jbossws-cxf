@@ -111,11 +111,11 @@ public class RequestHandlerImpl implements RequestHandler
       {
          throw new ServletException(e);
       }
-      if (response.getStatus() < 500 && statisticsEnabled)
+      if (statisticsEnabled && response.getStatus() < 500)
       {
          processResponseMetrics(ep, beginTime);
       }
-      if (response.getStatus() >= 500 && statisticsEnabled)
+      if (statisticsEnabled && response.getStatus() >= 500)
       {
          processFaultMetrics(ep, beginTime);
       }
