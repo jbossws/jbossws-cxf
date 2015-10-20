@@ -56,7 +56,7 @@ public class WSRMStoreFeatureTestCase extends JBossWSTest
    public static WebArchive createDeployment()
    {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsrm-store.war");
-      archive.addAsManifestResource(new StringAsset("Manifest-Version: 1.0\n" + "Dependencies: org.apache.cxf.impl\n"), "MANIFEST.MF")
+      archive.addAsManifestResource(new StringAsset("Manifest-Version: 1.0\n" + "Dependencies: org.jboss.ws.common, org.apache.cxf.impl\n"), "MANIFEST.MF")
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsrm-store/rmstore-ds.xml"), "rmstore-ds.xml")
             .addClass(org.jboss.test.ws.jaxws.samples.wsrm.store.Endpoint.class).addClass(org.jboss.test.ws.jaxws.samples.wsrm.store.EndpointImpl.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsrm.store.RMStoreFeature.class)
