@@ -23,15 +23,19 @@
   -->
 
 <project>
+  <condition property="isWindows">
+     <os family="windows" />
+  </condition>
 
-  <target name="wsprovide" description="Provide JAX-WS contracts">
+  <taskdef name="wsprovide" classname="org.jboss.ws.tools.ant.WSProvideTask">
+     <classpath>
+       <pathelement path="${maven.test.classpath}"/>
+     </classpath>
+  </taskdef>
 
-    <taskdef name="wsprovide" classname="org.jboss.ws.tools.ant.WSProvideTask">
-      <classpath>
-        <pathelement path="${maven.test.classpath}"/>
-      </classpath>
-    </taskdef>
+  <target name="wsprovide" description="Provide JAX-WS contracts" depends="wsprovideWindows, wsprovideNotWindows"/>
 
+  <target name="wsprovideWindows" if="isWindows">
     <wsprovide-macro
       sei="org.jboss.test.ws.jaxws.jbws2960.AddNumbersImpl"
       destdir="jaxws/jbws2960"
@@ -39,8 +43,20 @@
       log4jConf="${log4j.conf}"
       loggingDir="${log4j.output.dir}"
       resourcesDir="jaxws/jbws2960"
+      fork="false"
     />
+  </target>
 
+  <target name="wsprovideNotWindows" unless="isWindows">
+    <wsprovide-macro
+      sei="org.jboss.test.ws.jaxws.jbws2960.AddNumbersImpl"
+      destdir="jaxws/jbws2960"
+      outputDir="${tests.output.dir}"
+      log4jConf="${log4j.conf}"
+      loggingDir="${log4j.output.dir}"
+      resourcesDir="jaxws/jbws2960"
+      fork="true"
+    />
   </target>
 
   <macrodef name="wsprovide-macro">
@@ -51,11 +67,12 @@
     <attribute name="log4jConf"/>
     <attribute name="loggingDir"/>
     <attribute name="resourcesDir"/>
+    <attribute name="fork"/>
 
     <sequential>
       <wsprovide
         sei="@{sei}"
-        fork="true"
+        fork="@{fork}"
         genwsdl="true"
         verbose="false"
         classpath="@{outputDir}/test-classes"
