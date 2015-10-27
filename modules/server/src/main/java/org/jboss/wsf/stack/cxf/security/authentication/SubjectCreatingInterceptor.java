@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -43,7 +43,8 @@ import org.apache.cxf.security.SecurityContext;
 import org.apache.cxf.ws.security.wss4j.PolicyBasedWSS4JInInterceptor;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.wss4j.common.ext.WSSecurityException;
-import org.apache.wss4j.dom.WSSecurityEngine;
+import org.apache.wss4j.dom.WSConstants;
+import org.apache.wss4j.dom.engine.WSSecurityEngine;
 import org.apache.wss4j.dom.handler.RequestData;
 import org.apache.wss4j.dom.validate.UsernameTokenValidator;
 import org.apache.wss4j.dom.validate.Validator;
@@ -184,7 +185,7 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
        Map<QName, Object> profiles = new HashMap<QName, Object>(1);
        
        Validator validator = new CustomValidator();
-       profiles.put(WSSecurityEngine.USERNAME_TOKEN, validator);
+       profiles.put(WSConstants.USERNAME_TOKEN, validator);
        return createSecurityEngine(profiles);
    }
    
