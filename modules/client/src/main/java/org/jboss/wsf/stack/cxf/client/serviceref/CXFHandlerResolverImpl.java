@@ -19,7 +19,7 @@
 
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2009, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2015, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -44,10 +44,6 @@ import static org.jboss.wsf.stack.cxf.Loggers.DEPLOYMENT_LOGGER;
 import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
 
 import java.io.File;
-
-import org.jboss.ws.common.DOMUtils;
-import org.jboss.wsf.spi.metadata.ParserConstants;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -72,12 +68,10 @@ import javax.xml.ws.handler.LogicalHandler;
 import javax.xml.ws.handler.PortInfo;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.common.injection.ResourceInjector;
 import org.apache.cxf.jaxws.handler.HandlerChainBuilder;
 import org.apache.cxf.jaxws.handler.types.PortComponentHandlerType;
-import org.apache.cxf.resource.DefaultResourceManager;
-import org.apache.cxf.resource.ResourceManager;
-import org.apache.cxf.resource.ResourceResolver;
+import org.jboss.ws.common.DOMUtils;
+import org.jboss.wsf.spi.metadata.ParserConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -93,15 +87,13 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
    private final String handlerFile;
    private final Class<?> clazz;
    private final ClassLoader classLoader;
-   private final Bus bus;
 
    public CXFHandlerResolverImpl(Bus bus, String handlerFile, Class<?> clazz)
    {
-      super();
+      super(bus);
       this.handlerFile = handlerFile;
       this.clazz = clazz;
       this.classLoader = clazz.getClassLoader();
-      this.bus = bus;
    }
    
    @SuppressWarnings("rawtypes")
@@ -116,31 +108,9 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
             String bindingId = portInfo.getBindingID();
             handlerChain = createHandlerChain(portInfo, portQName, serviceQName, bindingId);
             handlerMap.put(portInfo, handlerChain);
-            
-            for (Handler h : handlerChain) {
-               configHandler(h);
-            }       
          }
          return handlerChain;
       }
-   }
-   
-   /**
-    * JAX-WS section 9.3.1: The runtime MUST then carry out any injections
-    * requested by the handler, typically via the javax .annotation.Resource
-    * annotation. After all the injections have been carried out, including in
-    * the case where no injections were requested, the runtime MUST invoke the
-    * method carrying a javax.annotation .PostConstruct annotation, if present.
-    */
-   private void configHandler(@SuppressWarnings("rawtypes") Handler handler) {
-       if (handler != null) {
-           ResourceManager resourceManager = bus.getExtension(ResourceManager.class);
-           List<ResourceResolver> resolvers = resourceManager.getResourceResolvers();
-           resourceManager = new DefaultResourceManager(resolvers);
-           ResourceInjector injector = new ResourceInjector(resourceManager);
-           injector.inject(handler);
-           injector.construct(handler);
-       }
    }
    
    private InputStream getInputStream()
@@ -251,16 +221,16 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       if (comp == null) {
          return true;
       }
-      String namePattern = el.getTextContent().trim();
+      final String namePattern = el.getTextContent().trim();
       if ("*".equals(namePattern)) {
          return true;
       }
-      if (!namePattern.contains(":")) {
+      final int idx = namePattern.indexOf(':');
+      if (idx < 0) {
          throw MESSAGES.notAQNamePattern(handlerFile, namePattern);
       }
-      String localPart = namePattern.substring(namePattern.indexOf(':') + 1,
-            namePattern.length());
-      String pfx = namePattern.substring(0, namePattern.indexOf(':'));
+      String localPart = namePattern.substring(idx + 1, namePattern.length());
+      String pfx = namePattern.substring(0, idx);
       String ns = el.lookupNamespaceURI(pfx);
       if (ns == null) {
          ns = pfx;
@@ -280,21 +250,22 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
    @SuppressWarnings("rawtypes")
    public List<Handler> sortHandlers(List<Handler> handlers) {
 
-      List<LogicalHandler> logicalHandlers = new ArrayList<LogicalHandler>();
-      List<Handler> protocolHandlers = new ArrayList<Handler>();
+      final int size = handlers.size();
+      List<Handler> logicalHandlers = new ArrayList<Handler>(size);
+      List<Handler> protocolHandlers = new ArrayList<Handler>(Math.min(10, size));
 
       for (Handler handler : handlers) {
          if (handler instanceof LogicalHandler) {
-            logicalHandlers.add((LogicalHandler)handler);
+            logicalHandlers.add(handler);
          } else {
             protocolHandlers.add(handler);
          }
       }
 
-      List<Handler> sortedHandlers = new ArrayList<Handler>();
-      sortedHandlers.addAll(logicalHandlers);
-      sortedHandlers.addAll(protocolHandlers);
-      return sortedHandlers;
+      if (!protocolHandlers.isEmpty()) {
+         logicalHandlers.addAll(protocolHandlers);
+      }
+      return logicalHandlers;
    }
 
    private InputStream getInputStream(String filename, Class<?> wsClass)
@@ -336,14 +307,14 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       {
          String filepath = filename;
          String packagePath = wsClass.getPackage().getName().replace('.', '/');
-         String resourcePath = packagePath + "/" + filepath;
+         StringBuilder resourcePath = new StringBuilder(packagePath).append("/").append(filepath);
          while (filepath.startsWith("../"))
          {
             packagePath = packagePath.substring(0, packagePath.lastIndexOf("/"));
             filepath = filepath.substring(3);
-            resourcePath = packagePath + "/" + filepath;
+            resourcePath.append(packagePath).append("/").append(filepath);
          }
-         fileURL = wsClass.getClassLoader().getResource(resourcePath);
+         fileURL = wsClass.getClassLoader().getResource(resourcePath.toString());
       }
 
       if (fileURL == null)
@@ -412,9 +383,5 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          }
          return context;
       }
-            
    }
-   
-   
-
 }
