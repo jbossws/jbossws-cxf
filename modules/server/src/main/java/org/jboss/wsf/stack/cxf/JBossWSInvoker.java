@@ -96,7 +96,7 @@ import org.jboss.wsf.spi.invocation.NamespaceContextSelectorWrapperFactory;
  */
 public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
 {
-   private volatile Object targetBean;
+   private Object targetBean;
    private final NamespaceContextSelectorWrapperFactory nsCtxSelectorFactory;
 
    public JBossWSInvoker() {
@@ -125,16 +125,13 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
       } else if (o != null) {
          params = new MessageContentsList(o);
       }
-      if (factory != null)
-      {
-         targetBean = this.getServiceObject(exchange);
-      }
+      final Object tb = (factory == null) ? targetBean : this.getServiceObject(exchange);
       final Method method = (bop == null) ? null : md.getMethod(bop);
       if (method == null)
       {
          throw Messages.MESSAGES.missingBindingOpeartionAndDispatchedMethod();
       }
-      return invoke(exchange, targetBean, adjustMethodAndParams(md.getMethod(bop), exchange, params, targetBean.getClass()), params);
+      return invoke(exchange, tb, adjustMethodAndParams(md.getMethod(bop), exchange, params, tb.getClass()), params);
    }
 
    /**
