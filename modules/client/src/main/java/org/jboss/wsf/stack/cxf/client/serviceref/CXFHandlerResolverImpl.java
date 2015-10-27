@@ -307,14 +307,14 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       {
          String filepath = filename;
          String packagePath = wsClass.getPackage().getName().replace('.', '/');
-         StringBuilder resourcePath = new StringBuilder(packagePath).append("/").append(filepath);
+         String resourcePath = packagePath + "/" + filepath;
          while (filepath.startsWith("../"))
          {
             packagePath = packagePath.substring(0, packagePath.lastIndexOf("/"));
             filepath = filepath.substring(3);
-            resourcePath.append(packagePath).append("/").append(filepath);
+            resourcePath = packagePath + "/" + filepath;
          }
-         fileURL = wsClass.getClassLoader().getResource(resourcePath.toString());
+         fileURL = wsClass.getClassLoader().getResource(resourcePath);
       }
 
       if (fileURL == null)
