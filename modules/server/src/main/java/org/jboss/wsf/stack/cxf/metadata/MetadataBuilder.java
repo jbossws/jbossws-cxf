@@ -59,7 +59,7 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
 /**
- * Builds the DDBeans metadata used for generating the jboss-cxf.xml deployment descriptor
+ * Builds the DDBeans metadata
  * 
  * @author alessio.soldano@jboss.com
  * @since 15-Apr-2010
