@@ -138,6 +138,28 @@
         <summariserOut>true</summariserOut>
       </properties>
     </profile>
+    <profile>
+      <id>basicPojoBench</id>
+      <activation>
+        <property>
+          <name>!bench</name>
+        </property>
+      </activation>
+      <properties>
+        <benchFilter>basic-pojo</benchFilter>
+      </properties>
+    </profile>
+    <profile>
+      <id>customBench</id>
+      <activation>
+        <property>
+          <name>bench</name>
+        </property>
+      </activation>
+      <properties>
+        <benchFilter>${bench}</benchFilter>
+      </properties>
+    </profile>
 
     <profile>
       <id>jmeter</id>
@@ -321,6 +343,10 @@
                          want to create graphs from test-results, no matter if some requests failed 
                          or not, so we ignore jmeter failures. -->
                     <ignoreResultFailures>true</ignoreResultFailures>
+                    <testFilesIncluded>
+                      <jMeterTestFile>a-${benchFilter}.jmx</jMeterTestFile>
+                      <jMeterTestFile>jbossws-${benchFilter}.jmx</jMeterTestFile>
+                    </testFilesIncluded>
                     <!-- <overrideRootLogLevel>ERROR</overrideRootLogLevel> -->
                     <propertiesSystem>
                       <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
@@ -376,7 +402,7 @@
                 </goals>
                 <phase>verify</phase>
                 <configuration>
-                  <inputFile>${project.build.directory}/jmeter/results/jbossws.jtl</inputFile>
+                  <inputFile>${project.build.directory}/jmeter/results/jbossws-${benchFilter}.jtl</inputFile>
                   <graphs>
                     <graph>
                       <pluginType>TransactionsPerSecond</pluginType>
