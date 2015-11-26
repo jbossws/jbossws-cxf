@@ -5,12 +5,12 @@ import java.io.StringWriter;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
 
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 import org.jboss.test.ws.jaxws.benchmark.test.datatypes.EndpointDoc;
+import org.jboss.wsf.stack.cxf.client.ProviderImpl;
 import org.jboss.wsf.test.JBossWSTestHelper;
 
 public class JAXWSBenchmarkPOJO extends AbstractJavaSamplerClient
@@ -63,8 +63,12 @@ public class JAXWSBenchmarkPOJO extends AbstractJavaSamplerClient
       URL wsdlURL = new URL(endpointURL + "?wsdl");
       QName serviceName = new QName(targetNS, "EndpointDocService");
 
-      Service service = Service.create(wsdlURL, serviceName);
-      return service.getPort(EndpointDoc.class);
+      //explicitly use JBossWS-CXF JAXWS SPI Provider impl as jmeter uses a flat classpath approach
+      //and it's not possible to configure the jar order
+      ProviderImpl p = new ProviderImpl();
+      return p.createServiceDelegate(wsdlURL, serviceName, null).getPort(EndpointDoc.class);
+//      Service service = Service.create(wsdlURL, serviceName);
+//      return service.getPort(EndpointDoc.class);
    }
 
    public void performIteration(Object port) throws Exception

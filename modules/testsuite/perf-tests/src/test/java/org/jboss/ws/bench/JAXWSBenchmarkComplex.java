@@ -10,7 +10,6 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
 
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
@@ -23,6 +22,7 @@ import org.jboss.test.ws.jaxws.benchmark.test.complex.types.PhoneNumber;
 import org.jboss.test.ws.jaxws.benchmark.test.complex.types.Registration;
 import org.jboss.test.ws.jaxws.benchmark.test.complex.types.Statistics;
 import org.jboss.test.ws.jaxws.benchmark.test.complex.types.ValidationFault_Exception;
+import org.jboss.wsf.stack.cxf.client.ProviderImpl;
 import org.jboss.wsf.test.JBossWSTestHelper;
 
 public class JAXWSBenchmarkComplex extends AbstractJavaSamplerClient
@@ -75,8 +75,12 @@ public class JAXWSBenchmarkComplex extends AbstractJavaSamplerClient
       URL wsdlURL = new URL(endpointURL + "?wsdl");
       QName serviceName = new QName(targetNS, "RegistrationServiceImplService");
 
-      Service service = Service.create(wsdlURL, serviceName);
-      return service.getPort(Registration.class);
+      //explicitly use JBossWS-CXF JAXWS SPI Provider impl as jmeter uses a flat classpath approach
+      //and it's not possible to configure the jar order
+      ProviderImpl p = new ProviderImpl();
+      return p.createServiceDelegate(wsdlURL, serviceName, null).getPort(Registration.class);
+//      Service service = Service.create(wsdlURL, serviceName);
+//      return service.getPort(Registration.class);
    }
 
    public void performIteration(Object port) throws Exception
