@@ -330,6 +330,11 @@
                   <goal>jmeter</goal>
                 </goals>
                 <configuration>
+                    <jMeterProcessJVMSettings>
+                        <arguments>
+                            <argument>-Djboss.bind.address=${jboss.bind.address}</argument>
+                        </arguments>
+                    </jMeterProcessJVMSettings>
                     <!-- By default the test results are saved in a file /target/jmeter/results/<testname>-<timestamp>.jtl 
                          Further processing is easier without timestamp though. -->
                     <testResultsTimestamp>false</testResultsTimestamp>
@@ -474,6 +479,11 @@
                   <goal>jmeter</goal>
                 </goals>
                 <configuration>
+                    <jMeterProcessJVMSettings>
+                        <arguments>
+                            <argument>-Djboss.bind.address=${jboss.bind.address}</argument>
+                        </arguments>
+                    </jMeterProcessJVMSettings>
                     <!-- By default the test results are saved in a file /target/jmeter/results/<testname>-<timestamp>.jtl 
                          Further processing is easier without timestamp though. -->
                     <testResultsTimestamp>false</testResultsTimestamp>
