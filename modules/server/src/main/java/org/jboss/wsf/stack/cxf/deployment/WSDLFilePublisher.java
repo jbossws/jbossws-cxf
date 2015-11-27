@@ -60,7 +60,7 @@ import org.w3c.dom.Document;
  */
 public class WSDLFilePublisher extends AbstractWSDLFilePublisher
 {
-   private static final String[] wsdlLocationPrefixes = {"vfsfile:", "file:", "jar:", "vfszip:"};
+   private static final String[] wsdlLocationPrefixes = {"vfsfile:", "file:", "jar:", "vfszip:", "vfs:"};
    
    public WSDLFilePublisher(ArchiveDeployment dep)
    {
