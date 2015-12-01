@@ -60,7 +60,7 @@ import org.w3c.dom.Document;
  */
 public class WSDLFilePublisher extends AbstractWSDLFilePublisher
 {
-   private static final String[] wsdlLocationPrefixes = {"vfsfile:", "file:", "jar:", "vfszip:", "vfs:"};
+   private static final String[] wsdlLocationPrefixes = {"vfsfile:", "file:", "jar:", "vfszip:"};
    
    public WSDLFilePublisher(ArchiveDeployment dep)
    {
@@ -214,7 +214,7 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
          wsdlLocation = wsdlLocation.substring(wsdlLocation.indexOf(expLocation) + expLocation.length());
          return new File(locationFile + "/" + wsdlLocation);
       }
-      else if (wsdlLocation != null)
+      else if (wsdlLocation != null && !wsdlLocation.startsWith("vfs:"))
       {
          for (String wsdlLocationPrefix : wsdlLocationPrefixes) {
             if (wsdlLocation.startsWith(wsdlLocationPrefix)) {
@@ -250,7 +250,8 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
       if (wsdlLocation == null || wsdlLocation.indexOf(expLocation) >= 0) {
          return expLocation;
       } else {
-         return "";
+         //JBWS-3540
+         return wsdlLocation.startsWith("vfs:") && wsdlLocation.contains("/") ? wsdlLocation.substring(0, wsdlLocation.lastIndexOf("/") + 1) : "";
       }
    }
 }
