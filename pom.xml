@@ -66,12 +66,12 @@
     <jbossws.spi.version>3.1.0.Final</jbossws.spi.version>
     <jbossws.common.version>3.1.1-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.2.2-SNAPSHOT</jbossws.common.tools.version>
-    <jbossws.wildfly821.version>5.1.0.Final</jbossws.wildfly821.version>
     <jbossws.wildfly900.version>5.1.0.Final</jbossws.wildfly900.version>
     <jbossws.wildfly901.version>5.1.0.Final</jbossws.wildfly901.version>
-    <wildfly821.version>8.2.1.Final</wildfly821.version>
+    <jbossws.wildfly902.version>5.1.1-SNAPSHOT</jbossws.wildfly902.version>
     <wildfly900.version>9.0.0.Final</wildfly900.version>
     <wildfly901.version>9.0.1.Final</wildfly901.version>
+    <wildfly902.version>9.0.2.Final</wildfly902.version>
     <wildfly1000.version>10.0.0.CR5-SNAPSHOT</wildfly1000.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
     <cxf.version>3.1.4</cxf.version>
@@ -144,16 +144,6 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly821-server-integration</artifactId>
-        <version>${jbossws.wildfly821.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly821-tests-integration</artifactId>
-        <version>${jbossws.wildfly821.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly900-server-integration</artifactId>
         <version>${jbossws.wildfly900.version}</version>
       </dependency>
@@ -171,6 +161,16 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly901-tests-integration</artifactId>
         <version>${jbossws.wildfly901.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly902-server-integration</artifactId>
+        <version>${jbossws.wildfly902.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly902-tests-integration</artifactId>
+        <version>${jbossws.wildfly902.version}</version>
       </dependency>
       <dependency>
         <groupId>org.wildfly</groupId>
@@ -1241,33 +1241,6 @@
     </profile>
 
     <!--
-    Name:  wildfly821
-    Descr: WildFly-8.2.1 specific options
-    -->
-    <profile>
-      <id>wildfly821</id>
-      <properties>
-        <jbossws.integration.target>wildfly821</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly821.version}</jboss.version>
-        <additionalJvmArgs>-Djavax.wsdl.factory.WSDLFactory=com.ibm.wsdl.factory.WSDLFactoryImpl ${ipVerArgs}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-      <dependencyManagement>
-        <dependencies>
-          <dependency>
-	        <groupId>org.jboss</groupId>
-	        <artifactId>jandex</artifactId>
-	        <version>1.1.0.Final</version>
-	      </dependency>
-        </dependencies>
-      </dependencyManagement>
-    </profile>
-    
-    <!--
     Name:  wildfly900
     Descr: WildFly-9.0.0 specific options
     -->
@@ -1304,6 +1277,33 @@
         <jbossws.integration.target>wildfly901</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly901.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+      </modules>
+      <dependencyManagement>
+        <dependencies>
+          <dependency>
+	        <groupId>org.jboss</groupId>
+	        <artifactId>jandex</artifactId>
+	        <version>1.1.0.Final</version>
+	      </dependency>
+        </dependencies>
+      </dependencyManagement>
+    </profile>
+
+    <!--
+    Name:  wildfly902
+    Descr: WildFly-9.0.2 specific options
+    -->
+    <profile>
+      <id>wildfly902</id>
+      <properties>
+        <jbossws.integration.target>wildfly902</jbossws.integration.target>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly902.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
       </properties>
       <modules>

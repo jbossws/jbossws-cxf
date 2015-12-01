@@ -28,11 +28,7 @@
   <property name="deploy.artifacts.dir" value="${basedir}/target/assembly/deploy-artifacts"/>
   <property name="jbossws.default.modules.conf" value="${basedir}/target/assembly/deploy-artifacts/modules-deploy.conf"/>
 	
-  <target name="deploy" depends="prepare,deploy-wildfly821-if-available,deploy-wildfly900-if-available,deploy-wildfly901-if-available,deploy-wildfly1000-if-available" description="Deploy jbossws to wildfly"/>
-
-  <target name="deploy-wildfly821-if-available" if="wildfly821.available">
-  	<antcall target="deploy-wildfly821"/>
-  </target>
+  <target name="deploy" depends="prepare,deploy-wildfly900-if-available,deploy-wildfly901-if-available,deploy-wildfly902-if-available,deploy-wildfly1000-if-available" description="Deploy jbossws to wildfly"/>
 
   <target name="deploy-wildfly900-if-available" if="wildfly900.available">
   	<antcall target="deploy-wildfly900"/>
@@ -42,30 +38,34 @@
   	<antcall target="deploy-wildfly901"/>
   </target>
 		
+  <target name="deploy-wildfly902-if-available" if="wildfly902.available">
+  	<antcall target="deploy-wildfly902"/>
+  </target>
+
   <target name="deploy-wildfly1000-if-available" if="wildfly1000.available">
   	<antcall target="deploy-wildfly1000"/>
   </target>
 
   <target name="prepare">
-    <condition property="wildfly821.home" value="${jboss.home}">
-      <equals arg1="${jbossws.integration.target}" arg2="wildfly821"/>
-    </condition>
     <condition property="wildfly900.home" value="${jboss.home}">
       <equals arg1="${jbossws.integration.target}" arg2="wildfly900"/>
     </condition>
     <condition property="wildfly901.home" value="${jboss.home}">
       <equals arg1="${jbossws.integration.target}" arg2="wildfly901"/>
     </condition>
+    <condition property="wildfly902.home" value="${jboss.home}">
+      <equals arg1="${jbossws.integration.target}" arg2="wildfly902"/>
+    </condition>
     <condition property="wildfly1000.home" value="${jboss.home}">
       <equals arg1="${jbossws.integration.target}" arg2="wildfly1000"/>
     </condition>
-    <property name="wildfly821.available.file" value="${wildfly821.home}/jboss-modules.jar"/>
     <property name="wildfly900.available.file" value="${wildfly900.home}/jboss-modules.jar"/>
     <property name="wildfly901.available.file" value="${wildfly901.home}/jboss-modules.jar"/>
+    <property name="wildfly902.available.file" value="${wildfly902.home}/jboss-modules.jar"/>
     <property name="wildfly1000.available.file" value="${wildfly1000.home}/jboss-modules.jar"/>
-    <available property="wildfly821.available" file="${wildfly821.available.file}"/>   
     <available property="wildfly900.available" file="${wildfly900.available.file}"/>   
     <available property="wildfly901.available" file="${wildfly901.available.file}"/>   
+    <available property="wildfly902.available" file="${wildfly902.available.file}"/>   
     <available property="wildfly1000.available" file="${wildfly1000.available.file}"/>   
     <tstamp>
       <format property="build.id" pattern="yyyyMMddHHmm"/>
@@ -78,70 +78,6 @@
     <echo message="integration.target=${jbossws.integration.target}"/>
     
     <property name="deploy.structure" value="${output.dir}/deploy-${jbossws.integration.target}"/>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Prepare Deployment Structure WildFly-8.0.x                         -->
-  <!-- ================================================================== -->
-
-  <target name="deploy-structure-wildfly80x" depends="init">
-    <delete dir="${deploy.structure}"/>
-
-    <path id="jboss.ant.tasks.classpath">
-      <fileset dir="${deploy.artifacts.dir}">
-        <include name="**/jbossws-common-tools.jar"/>
-        <include name="**/jandex.jar"/>
-      </fileset>
-    </path>
-    <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jboss.ant.tasks.classpath"/>
-    <taskdef name="jandex" classname="org.jboss.jandex.JandexAntTask" classpathref="jboss.ant.tasks.classpath"/>
-
-    <jandex run="true" verbose="false" newJar="true">
-      <fileset dir="${deploy.artifacts.dir}/lib">
-        <include name="cxf*security.jar"/>
-      </fileset>
-    </jandex>
-    <antcall target="deploy-jbossws-cxf-modules-as8" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="jbossid" value="${jbossws.integration.target}"/>
-      <param name="modules-jbossid" value="wildfly800"/>
-    </antcall>
-  	<copy toDir="${deploy.structure}/modules/system/layers/base">
-      <fileset dir="${deploy.artifacts.dir}/modules/wildfly800">
-        <include name="**/jboss/as/webservices/main/module.xml"/>
-      	<include name="**/jboss/as/webservices/server/integration/main/module.xml"/>
-      </fileset>
-    </copy>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Deployment wildfly821                                              -->
-  <!-- ================================================================== -->
-
-  <target name="target-wildfly821">
-    <property name="jbossws.integration.target" value="wildfly821"/>
-    <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
-  </target>
-
-  <target name="deploy-wildfly821" depends="undeploy-wildfly821,deploy-structure-wildfly80x">
-    <fail message="Not available: ${wildfly821.available.file}" unless="wildfly821.available"/>
-    <copy todir="${wildfly821.home}" overwrite="true" verbose="true">
-      <fileset dir="${deploy.structure}">
-        <exclude name="**/jboss/as/webservices/**/module.xml"/>
-      </fileset>
-    </copy>
-    <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
-    <installModules targetDir="${wildfly821.home}/modules/system/layers/base/">
-      <fileset dir="${deploy.structure}/modules/system/layers/base">
-        <include name="**/jboss/as/webservices/**/module.xml"/>
-      </fileset>
-    </installModules>
-  </target>
-
-  <target name="undeploy-wildfly821" depends="target-wildfly821,init">
-    <fail message="Not available: ${wildfly821.available.file}" unless="wildfly821.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${wildfly821.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
   </target>
 
   <!-- ================================================================== -->
@@ -231,6 +167,34 @@
   <target name="undeploy-wildfly901" depends="target-wildfly901,init">
     <fail message="Not available: ${wildfly901.available.file}" unless="wildfly901.available"/>
     <macro-undeploy-jbossws-modules targetdir="${wildfly901.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Deployment wildfly902                                              -->
+  <!-- ================================================================== -->
+
+  <target name="target-wildfly902">
+    <property name="jbossws.integration.target" value="wildfly902"/>
+    <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
+  </target>
+  <target name="deploy-wildfly902" depends="undeploy-wildfly902,deploy-structure-wildfly90x">
+    <fail message="Not available: ${wildfly902.available.file}" unless="wildfly902.available"/>
+    <copy todir="${wildfly902.home}" overwrite="true" verbose="true">
+      <fileset dir="${deploy.structure}">
+        <exclude name="**/jboss/as/webservices/**/module.xml"/>
+      </fileset>
+    </copy>
+    <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
+    <installModules targetDir="${wildfly902.home}/modules/system/layers/base/">
+      <fileset dir="${deploy.structure}/modules/system/layers/base">
+        <include name="**/jboss/as/webservices/**/module.xml"/>
+      </fileset>
+    </installModules>
+  </target>
+
+  <target name="undeploy-wildfly902" depends="target-wildfly902,init">
+    <fail message="Not available: ${wildfly902.available.file}" unless="wildfly902.available"/>
+    <macro-undeploy-jbossws-modules targetdir="${wildfly902.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
   </target>
 
   <!-- ================================================================== -->
@@ -426,127 +390,6 @@
     </sequential>
   </macrodef>
 
-  <macrodef name="macro-deploy-jbossws-modules-as8">
-    <attribute name="thirdpartydir"/>
-    <attribute name="targetdir"/>
-    <attribute name="jbossid"/>
-    <attribute name="modules-jbossid"/>
-    <sequential>
-      <!-- libraries -->
-      <copy todir="@{targetdir}/org/jboss/ws/jaxws-client/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-client.jar"/>
-          <include name="**/jbossws-cxf-jaspi.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/jaxws-undertow-httpspi/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jaxws-undertow-httpspi.jar"/>
-        </fileset>
-     </copy>
-     <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-server/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-server.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-factories/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-factories.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-transports-undertow/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-transports-undertow.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-transports-udp/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-transports-udp.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/cxf/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/cxf-core*.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/cxf/impl/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/cxf-*.jar"/>
-          <exclude name="**/cxf-core*.jar"/>      
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/api/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-api.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/common/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-common.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/tools/common/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-common-tools.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/ws/spi/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-spi.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/httpcomponents/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">       
-          <include name="**/httpcore.jar"/>
-          <include name="**/httpcore-nio.jar"/>
-          <include name="**/httpasyncclient.jar"/>
-          <include name="**/httpclient.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/neethi/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/neethi.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/santuario/xmlsec/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/xmlsec.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/ws/security/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/wss4j-*.jar"/>
-          <include name="**/jasypt.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/apache/ws/xmlschema/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/xmlschema-core.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/opensaml/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/opensaml*.jar"/>
-          <include name="**/java-support.jar"/>
-          <include name="**/cryptacular.jar"/>
-        </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/as/webservices/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-resources-@{jbossid}.jar"/>
-          <include name="**/jbossws-@{jbossid}-server-integration.jar"/>
-        </fileset>
-      </copy>
-      <!-- module.xml files -->
-      <installModules targetDir="@{targetdir}">
-        <fileset dir="@{thirdpartydir}/modules/@{modules-jbossid}">
-          <include name="**/module.xml"/>
-          <exclude name="**/jboss/as/webservices/**/module.xml"/>
-        </fileset>
-      </installModules>
-    </sequential>
-  </macrodef>
-
   <!-- ================================================================== -->
   <!-- Deploy JBossWS                                                     -->
   <!-- ================================================================== -->
@@ -556,12 +399,6 @@
     <fail message="artifactsdir must be specified" unless="artifactsdir"/>
     <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
     <fail message="modifyjbossintegration must be specified" unless="modifyjbossintegration"/>
-  </target>
-
-  <target name="deploy-jbossws-cxf-modules-as8">
-    <fail message="installserver must be specified" unless="installserver"/>
-    <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
-    <macro-deploy-jbossws-modules-as8 targetdir="${installserver}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}" modules-jbossid="${modules-jbossid}"/>
   </target>
 
   <target name="deploy-jbossws-cxf-modules-as9">
