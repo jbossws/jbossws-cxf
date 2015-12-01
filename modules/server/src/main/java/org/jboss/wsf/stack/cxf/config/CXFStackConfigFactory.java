@@ -26,6 +26,7 @@ import static org.jboss.wsf.stack.cxf.Loggers.ROOT_LOGGER;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
+import org.apache.cxf.Bus;
 import org.apache.wss4j.common.crypto.WSProviderConfig;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.management.StackConfig;
@@ -71,14 +72,23 @@ class CXFStackConfig implements StackConfig
       }
    }
 
+   //hack the 2 methods below to make the logs show something like
+   // "JBossWS 5.1.1.Final (Apache CXF 3.1.4)"
+   
    public String getImplementationTitle()
    {
-      return getClass().getPackage().getImplementationTitle();
+      StringBuilder sb = new StringBuilder();
+      sb.append("JBossWS ");
+      sb.append(getClass().getPackage().getImplementationVersion());
+      sb.append(" (Apache CXF ");
+      sb.append(Bus.class.getPackage().getImplementationVersion());
+      sb.append(")");
+      return sb.toString();
    }
 
    public String getImplementationVersion()
    {
-      return getClass().getPackage().getImplementationVersion();
+      return "";
    }
    
    /**
