@@ -49,7 +49,7 @@ public final class JMSEndpointAPITestCase extends JBossWSTest
    private static final String JMS_SERVER = "jms";
    
    private static boolean useHornetQ() {
-      return JBossWSTestHelper.isTargetWildFly9() || JBossWSTestHelper.isTargetWildFly8();
+      return JBossWSTestHelper.isTargetWildFly9();
    }
 
    @Deployment(testable = false)

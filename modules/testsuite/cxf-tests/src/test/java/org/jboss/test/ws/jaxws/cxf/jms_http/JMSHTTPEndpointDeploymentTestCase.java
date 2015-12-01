@@ -58,7 +58,7 @@ public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
    private static final String JMS_SERVER = "jms";
    
    private static boolean useHornetQ() {
-      return JBossWSTestHelper.isTargetWildFly9() || JBossWSTestHelper.isTargetWildFly8();
+      return JBossWSTestHelper.isTargetWildFly9();
    }
 
    @Deployment(name = "jaxws-cxf-jms-http-deployment", order = 1, testable = false)

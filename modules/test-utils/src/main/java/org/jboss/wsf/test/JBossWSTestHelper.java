@@ -103,12 +103,6 @@ public class JBossWSTestHelper
       AppclientHelper.undeployAppclient(archive, awaitShutdown);
    }
 
-   public static boolean isTargetWildFly8()
-   {
-       String target = getIntegrationTarget();
-       return target.startsWith("wildfly8");
-   }
-
    public static boolean isTargetWildFly9()
    {
        String target = getIntegrationTarget();

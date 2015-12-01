@@ -61,7 +61,7 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
    private static volatile boolean waitForResponse;
 
    private static boolean useHornetQ() {
-      return JBossWSTestHelper.isTargetWildFly9() || JBossWSTestHelper.isTargetWildFly8();
+      return JBossWSTestHelper.isTargetWildFly9();
    }
 
    @Deployment(name="jaxws-cxf-jms-only-deployment-test-servlet", order=1, testable = false)
