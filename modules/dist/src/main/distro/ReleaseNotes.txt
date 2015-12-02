@@ -1,8 +1,8 @@
 
-${project.name}
+JBoss Web Services - Stack CXF Distribution
 http://jbossws.jboss.org
 
-Version: jbossws-cxf-${project.version}
+Version: jbossws-cxf-5.1.1.Final
 
 Release Notes
 =============
@@ -23,8 +23,52 @@ https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.pro
 For issues that are scheduled for future versions see the road map.
 https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
 
-What's new in jbossws-cxf-${project.version}
+What's new in jbossws-cxf-5.1.1.Final
 -------------------------------------
+
+Bug
+
+    * [JBWS-3945] - Set property that causes 400 error message to be returned by apache CXF.
+    * [JBWS-3946] - WS-I BSP test failures about R3217 & R3223
+    * [JBWS-3951] - jbossws-common-tools - BuildFileTest - same branches in if-then-else
+    * [JBWS-3952] - SOAPClientAuthModule - Unwritten field credential
+    * [JBWS-3955] - JBossWS testsuite failure on Windows - CreateProcess error=206, The filename or extension is too long
+    * [JBWS-3956] - Random webservice deployment failure on windows
+    * [JBWS-3959] - schema import failure - JBWS022092: Could not resolve vfs%3A/content...
+
+Enhancement
+
+    * [JBWS-3943] - Clean up test util classes in wsi-bp-tests
+    * [JBWS-3960] - Clearly show the integrated Apache CXF version in containers log
+
+Feature Request
+
+    * [JBWS-3586] - Message log browser functionality
+    * [JBWS-3947] - Add performance tests to the build
+    * [JBWS-3949] - Migrate jbossws-hudson from Hudson to Jenkins
+    * [JBWS-3954] - Upgrade to Apache CXF 3.1.4
+    * [JBWS-3961] - Add WildFly 9.0.2.Final support, remove WildFly 8.2.1.Final support
+
+Task
+
+    * [JBWS-3938] - Upgrade to Apache CXF 3.1.3
+    * [JBWS-3962] - Upgrade jaxws-codefirst-maven-archetype to JBossWS 5.1 series
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3963
+
+This version of JBossWS is based on Apache CXF 3.1.4
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-5.1.0.Final
+-----------------------
 
 Bug
 
@@ -75,13 +119,8 @@ Errata
 
     See: https://issues.jboss.org/browse/JBWS-3944
 
-This version of "${project.name}" is based on Apache CXF ${cxf.version}
+This version of "JBoss Web Services - Stack CXF Distribution" is based on Apache CXF 3.1.2-jbossorg-2
 
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
 jbossws-cxf-5.0.1.Final
