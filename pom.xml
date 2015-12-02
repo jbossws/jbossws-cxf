@@ -68,7 +68,7 @@
     <jbossws.common.tools.version>1.2.2.Final</jbossws.common.tools.version>
     <jbossws.wildfly900.version>5.1.0.Final</jbossws.wildfly900.version>
     <jbossws.wildfly901.version>5.1.0.Final</jbossws.wildfly901.version>
-    <jbossws.wildfly902.version>5.1.1-SNAPSHOT</jbossws.wildfly902.version>
+    <jbossws.wildfly902.version>5.1.1.Final</jbossws.wildfly902.version>
     <wildfly900.version>9.0.0.Final</wildfly900.version>
     <wildfly901.version>9.0.1.Final</wildfly901.version>
     <wildfly902.version>9.0.2.Final</wildfly902.version>
