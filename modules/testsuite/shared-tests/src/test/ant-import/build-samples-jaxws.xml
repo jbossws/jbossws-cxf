@@ -162,6 +162,17 @@
       	<include name="org/jboss/test/helper/TestServlet.class"/>
       </classes>
     </war>
+    <war warfile="${tests.output.dir}/test-libs/jaxws-samples-exception-jbws3945.war"
+        webxml="${tests.output.dir}/test-resources/jaxws/samples/exception/WEB-INF/web-3945.xml">
+      <classes dir="${tests.output.dir}/test-classes">
+        <include name="org/jboss/test/ws/jaxws/samples/exception/server/EndpointImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/exception/server/ExceptionEndpoint.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/exception/server/JBWS3945EndpointImpl.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/exception/server/JBWS3945Servlet.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/exception/server/UserException.class"/>
+        <include name="org/jboss/test/ws/jaxws/samples/exception/server/jaxws/**"/>
+      </classes>
+    </war>
 
     <!-- jaxws-samples-handlerchain -->
     <war warfile="${tests.output.dir}/test-libs/jaxws-samples-handlerchain.war" webxml="${tests.output.dir}/test-resources/jaxws/samples/handlerchain/WEB-INF/web.xml">
