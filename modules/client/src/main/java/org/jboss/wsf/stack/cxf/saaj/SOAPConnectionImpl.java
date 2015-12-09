@@ -75,6 +75,7 @@ public class SOAPConnectionImpl extends SOAPConnection
        Message outMessage = new MessageImpl();
        Exchange exch = new ExchangeImpl();
        outMessage.setExchange(exch);
+       exch.put("org.apache.cxf.transport.process_fault_on_http_400", true); //JBWS-3945
         
        // sent SOAPMessage
        try 
