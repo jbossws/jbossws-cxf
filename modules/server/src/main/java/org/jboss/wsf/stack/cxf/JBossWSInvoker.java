@@ -62,6 +62,7 @@ import org.jboss.wsf.spi.invocation.Invocation;
 import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 import org.jboss.wsf.spi.invocation.NamespaceContextSelectorWrapperFactory;
+import org.jboss.wsf.stack.cxf.client.Constants;
 
 /**
  * A JBossWS extension of the Apache CXF JAXWSMethodInvoker invoker.
@@ -96,6 +97,8 @@ import org.jboss.wsf.spi.invocation.NamespaceContextSelectorWrapperFactory;
  */
 public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
 {
+   private static final boolean disableDepUserDefThreadBus = Boolean.getBoolean(Constants.JBWS_CXF_DISABLE_DEPLOYMENT_USER_DEFAULT_THREAD_BUS);
+   
    private Object targetBean;
    private final NamespaceContextSelectorWrapperFactory nsCtxSelectorFactory;
 
@@ -149,7 +152,7 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
          inv.getInvocationContext().setProperty("forceTargetBean", true);
       }
       Bus threadBus = BusFactory.getThreadDefaultBus(false);
-      BusFactory.setThreadDefaultBus(ep.getAttachment(Bus.class));
+      BusFactory.setThreadDefaultBus(disableDepUserDefThreadBus ? null : ep.getAttachment(Bus.class));
       setNamespaceContextSelector(exchange);
       
       ClassLoader cl = SecurityActions.getContextClassLoader();

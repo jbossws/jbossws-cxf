@@ -59,4 +59,5 @@ public class Constants
    public static final String NEW_BUS_STRATEGY = "NEW_BUS";
    public static final String TCCL_BUS_STRATEGY = "TCCL_BUS";
    public static final String JBWS_CXF_JAXWS_CLIENT_BUS_SELECTOR = "org.jboss.ws.cxf.jaxws-client.bus.selector";
+   public static final String JBWS_CXF_DISABLE_DEPLOYMENT_USER_DEFAULT_THREAD_BUS = "org.jboss.ws.cxf.disable-deployment-user-default-thread-bus";
 }
