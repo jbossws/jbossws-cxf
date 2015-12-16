@@ -86,7 +86,7 @@
     <jaxws-undertow-httpspi.version>1.0.1.Final</jaxws-undertow-httpspi.version>
     <io.undertow.version>1.0.10.Final</io.undertow.version>
     <jaxb.api.version>1.0.4.Final</jaxb.api.version>
-    <jaxb.impl.version>2.2.11</jaxb.impl.version>
+    <jaxb.impl.version>2.2.11.jbossorg-1</jaxb.impl.version>
     <jaxws.api.version>2.0.2.Final</jaxws.api.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <commons-collections.version>3.2.1</commons-collections.version>
