@@ -36,9 +36,7 @@ public class ClientEndpointImpl
    @WebMethod
    public String testClient(String input, String host) throws Exception
    {
-      if (BusFactory.getThreadDefaultBus(false) != null) {
-         throw new Exception("Expected null thread default bus, but got " + BusFactory.getThreadDefaultBus(false));
-      }
+      BusFactory.setThreadDefaultBus(null);
       Endpoint endpoint = getPort(getWsdlURL(host));
       return endpoint.echo(input);
    }
@@ -46,9 +44,7 @@ public class ClientEndpointImpl
    @WebMethod
    public String testCachedPort(String input, String host) throws Exception
    {
-      if (BusFactory.getThreadDefaultBus(false) != null) {
-         throw new Exception("Expected null thread default bus, but got " + BusFactory.getThreadDefaultBus(false));
-      }
+      BusFactory.setThreadDefaultBus(null);
       Endpoint port = getPort(getWsdlURL(host));
       BusFactory.setThreadDefaultBus(null);
       return port.echo(input);
@@ -57,9 +53,7 @@ public class ClientEndpointImpl
    @WebMethod
    public String testCachedService(String input, String host) throws Exception
    {
-      if (BusFactory.getThreadDefaultBus(false) != null) {
-         throw new Exception("Expected null thread default bus, but got " + BusFactory.getThreadDefaultBus(false));
-      }
+      BusFactory.setThreadDefaultBus(null);
       Service service = getService(getWsdlURL(host));
       BusFactory.setThreadDefaultBus(null);
       Endpoint port = getPort(service);

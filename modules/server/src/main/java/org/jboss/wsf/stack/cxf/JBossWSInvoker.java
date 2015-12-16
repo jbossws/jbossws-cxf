@@ -149,7 +149,6 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
          inv.getInvocationContext().setProperty("forceTargetBean", true);
       }
       Bus threadBus = BusFactory.getThreadDefaultBus(false);
-//      BusFactory.setThreadDefaultBus(null);
       BusFactory.setThreadDefaultBus(ep.getAttachment(Bus.class));
       setNamespaceContextSelector(exchange);
       
