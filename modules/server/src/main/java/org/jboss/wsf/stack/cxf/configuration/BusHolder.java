@@ -21,6 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.configuration;
 
+import java.lang.reflect.Constructor;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -33,6 +34,7 @@ import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.SOAPBinding;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.annotations.UseAsyncMethod;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.configuration.Configurer;
@@ -73,6 +75,7 @@ import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
+import org.jboss.wsf.stack.cxf.JBossWSInvoker;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
@@ -207,7 +210,7 @@ public class BusHolder
       {
          EndpointImpl endpoint = new EndpointImpl(bus, newInstance(dde.getImplementor()));
          if (dde.getInvoker() != null)
-            endpoint.setInvoker((Invoker) newInstance(dde.getInvoker()));
+            endpoint.setInvoker(newInvokerInstance(dde.getInvoker(), dep));
          endpoint.setAddress(dde.getAddress());
          endpoint.setEndpointName(dde.getPortName());
          endpoint.setServiceName(dde.getServiceName());
@@ -282,6 +285,26 @@ public class BusHolder
       policySetsListener = null;
    }
 
+   private static Invoker newInvokerInstance(String className, Deployment dep)
+   {
+      try
+      {
+         @SuppressWarnings("unchecked")
+         Class<Invoker> clazz = (Class<Invoker>)SecurityActions.getContextClassLoader().loadClass(className);
+         final AnnotationsInfo ai = dep.getAttachment(AnnotationsInfo.class);
+         if (ai != null && clazz.isAssignableFrom(JBossWSInvoker.class)) {
+            Constructor<Invoker> constr = clazz.getConstructor(boolean.class);
+            return constr.newInstance(ai.hasAnnotatedClasses(UseAsyncMethod.class.getName()));
+         } else {
+            return clazz.newInstance();
+         }
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
+   }
+   
    private static Object newInstance(String className)
    {
       try

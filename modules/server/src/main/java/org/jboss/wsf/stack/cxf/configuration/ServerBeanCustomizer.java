@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.cxf.annotations.UseAsyncMethod;
 import org.apache.cxf.frontend.ServerFactoryBean;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.service.ServiceImpl;
@@ -33,6 +34,7 @@ import org.apache.cxf.transport.http.HTTPTransportFactory;
 import org.jboss.ws.api.util.ServiceLoader;
 import org.jboss.ws.common.configuration.BasicConfigResolver;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
+import org.jboss.wsf.spi.deployment.AnnotationsInfo;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
@@ -124,7 +126,8 @@ public class ServerBeanCustomizer extends BeanCustomizer
          boolean isHttpEndpoint = endpoint.getAddress() != null && endpoint.getAddress().substring(0, 5).toLowerCase(Locale.ENGLISH).startsWith("http");
          if ((endpoint.getInvoker() == null) && isHttpEndpoint)
          {
-            endpoint.setInvoker(new JBossWSInvoker());
+            final AnnotationsInfo ai = dep.getAttachment(AnnotationsInfo.class);
+            endpoint.setInvoker(new JBossWSInvoker(ai.hasAnnotatedClasses(UseAsyncMethod.class.getName())));
          }
          
          // ** Endpoint configuration setup **

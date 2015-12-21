@@ -101,12 +101,18 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
    
    private Object targetBean;
    private final NamespaceContextSelectorWrapperFactory nsCtxSelectorFactory;
+   private final boolean checkForUseAsyncMethod;
 
    public JBossWSInvoker() {
+      this(true);
+   }
+   
+   public JBossWSInvoker(boolean checkForUseAsyncMethod) {
       super((Factory)null); //no need for a factory
       ClassLoader cl = ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader();
       nsCtxSelectorFactory = (NamespaceContextSelectorWrapperFactory) ServiceLoader.loadService(
             NamespaceContextSelectorWrapperFactory.class.getName(), null, cl);
+      this.checkForUseAsyncMethod = checkForUseAsyncMethod;
    }
 
    public void setTargetBean(Object targetBean) {
@@ -134,9 +140,11 @@ public class JBossWSInvoker extends JAXWSMethodInvoker implements Invoker
       {
          throw Messages.MESSAGES.missingBindingOpeartionAndDispatchedMethod();
       }
-      return invoke(exchange, tb, adjustMethodAndParams(md.getMethod(bop), exchange, params, tb.getClass()), params);
+      //performance optimization, adjustMethodAndParams currently looks for @UseAsyncMethod (which is expensive) and only performs actions if it's found
+      final Method fm = checkForUseAsyncMethod ? adjustMethodAndParams(md.getMethod(bop), exchange, params, tb.getClass()) : method;
+      return invoke(exchange, tb, fm, params);
    }
-
+   
    /**
     * This overrides org.apache.cxf.jaxws.AbstractInvoker in order for using the JBossWS integration logic
     * to invoke the JBoss AS target bean.
