@@ -2,7 +2,7 @@
 JBoss Web Services - Stack CXF Distribution
 http://jbossws.jboss.org
 
-Version: jbossws-cxf-5.1.1.Final
+Version: jbossws-cxf-5.1.2.Final
 
 Release Notes
 =============
@@ -23,8 +23,38 @@ https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.pro
 For issues that are scheduled for future versions see the road map.
 https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
 
-What's new in jbossws-cxf-5.1.1.Final
+What's new in jbossws-cxf-5.1.2.Final
 -------------------------------------
+
+
+Bug
+
+    * [JBWS-3957] - publishWsdlImports writes WSDL-XML files with wrong characterset under Windows
+
+Enhancement
+
+    * [JBWS-3966] - Avoid calling BusFactory.setThreadDefaultBus(null) in JBossWSInvoker
+    * [JBWS-3969] - Optimize JBossWSInvoker::invoke
+
+Feature Request
+
+    * [JBWS-3967] - Upgrade to JAXB 2.2.11-jbossorg-1
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3963
+
+This version of JBossWS is based on Apache CXF 3.1.4
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-5.1.1.Final
+-----------------------
 
 Bug
 
@@ -60,11 +90,6 @@ Errata
 
 This version of JBossWS is based on Apache CXF 3.1.4
 
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
 jbossws-cxf-5.1.0.Final
