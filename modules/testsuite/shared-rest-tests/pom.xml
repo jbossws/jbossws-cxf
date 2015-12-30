@@ -1,0 +1,128 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>JBoss Web Services - REST Stack Agnostic Tests</name>
+  <artifactId>jbossws-cxf-shared-rest-tests</artifactId>
+  <packaging>jar</packaging>
+
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jboss.ws.cxf</groupId>
+    <artifactId>jbossws-cxf-testsuite</artifactId>
+    <version>5.1.3-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <!-- Dependencies -->
+  <dependencies>
+    <dependency> <!-- Always make sure jbossws-cxf-factories dependency is explicitly declared before anything transitively pulling CXF -->
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-factories</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-test-utils</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.ws.cxf</groupId>
+      <artifactId>jbossws-cxf-rest-client</artifactId>
+      <version>${project.version}</version>
+      <scope>runtime</scope> <!-- override scope from parent dependency to make sure tests are not compiled using (JBWS-)CXF classes -->
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- Profiles -->
+  <profiles>
+
+    <!--
+    Name:  noprepare
+    Descr: Skip test preparation with -Dnoprepare  
+    -->
+    <profile>
+      <id>noprepare</id>
+      <activation>
+        <property>
+          <name>!noprepare</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>testsuite-default</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-default.groovy</source>
+                            <properties>
+                                <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
+                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default.xml</outputFile>
+                                <serverLog>jbws-testsuite-shared-default.log</serverLog>
+                                <usersPropFile>${project.build.directory}/test-classes/jbossws-users.properties</usersPropFile>
+                                <rolesPropFile>${project.build.directory}/test-classes/jbossws-roles.properties</rolesPropFile>
+                                <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
+                                <testResourcesDir>${project.build.directory}/test-resources</testResourcesDir>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+      <!-- When the 'fast' profile is on, the testsuite runs in parallel mode; Arquillan messes up with containers in such a scenario, unless they're started upfront.
+           So we start all the containers specified in the arquillan.xml configuration -->
+      <profile>
+          <id>fast</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-maven-plugin</artifactId>
+                      <executions>
+                          <execution>
+                              <id>jboss</id>
+                              <phase>pre-integration-test</phase>
+                              <goals>
+                                  <goal>start</goal>
+                              </goals>
+                              <configuration>
+                                  <jvmArgs>-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.shared-rest-tests.jboss} ${additionalJvmArgs}</jvmArgs>
+                                  <serverConfig>jbws-testsuite-shared-rest-default.xml</serverConfig>
+                                  <jbossHome>${jboss.home}</jbossHome>
+                                  <port>49990</port> <!-- Keep in sync with the port-offset -->
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <id>jboss-shutdown</id>
+                              <phase>post-integration-test</phase>
+                              <goals>
+                                  <goal>shutdown</goal>
+                              </goals>
+                              <configuration>
+                                  <port>49990</port> <!-- Keep in sync with the port-offset -->
+                              </configuration>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+
+  </profiles>
+
+</project>

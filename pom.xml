@@ -54,6 +54,7 @@
     <module>modules/jaspi</module>
     <module>modules/server</module>
     <module>modules/client</module>
+    <module>modules/rest-client</module>
     <module>modules/endorsed</module>
     <module>modules/resources</module>
     <module>modules/addons</module>
@@ -137,6 +138,12 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-common</artifactId>
         <version>${jbossws.common.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.jboss.spec.javax.xml.ws</groupId>
+            <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
@@ -400,6 +407,11 @@
              <artifactId>spring-jms</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+        <version>${cxf.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>

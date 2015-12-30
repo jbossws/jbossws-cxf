@@ -36,6 +36,7 @@
     <port-offset.shared-tests.jboss>15000</port-offset.shared-tests.jboss>
     <port-offset.shared-tests.default-config-tests>20000</port-offset.shared-tests.default-config-tests>
     <port-offset.shared-tests.address-rewrite>25000</port-offset.shared-tests.address-rewrite>
+    <port-offset.shared-rest-tests.jboss>40000</port-offset.shared-rest-tests.jboss>
     <port-offset.perf-tests.jboss>30000</port-offset.perf-tests.jboss>
   </properties>
 
@@ -43,6 +44,7 @@
   <modules>
     <module>cxf-tests</module>
     <module>shared-tests</module>
+    <module>shared-rest-tests</module>
     <module>perf-tests</module>
   </modules>
 
@@ -78,20 +80,6 @@
     <dependency>
       <groupId>org.jboss.spec.javax.ejb</groupId>
       <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.jws</groupId>
-      <artifactId>jsr181-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws.cxf</groupId>
-      <artifactId>jbossws-cxf-client</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ws.cxf</groupId>
-      <artifactId>jbossws-cxf-jaspi</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
