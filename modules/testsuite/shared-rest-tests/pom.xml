@@ -66,13 +66,11 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-default.groovy</source>
+                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-rest-default.groovy</source>
                             <properties>
                                 <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
-                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default.xml</outputFile>
-                                <serverLog>jbws-testsuite-shared-default.log</serverLog>
-                                <usersPropFile>${project.build.directory}/test-classes/jbossws-users.properties</usersPropFile>
-                                <rolesPropFile>${project.build.directory}/test-classes/jbossws-roles.properties</rolesPropFile>
+                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-rest-default.xml</outputFile>
+                                <serverLog>jbws-testsuite-shared-rest-default.log</serverLog>
                                 <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
                                 <testResourcesDir>${project.build.directory}/test-resources</testResourcesDir>
                             </properties>
