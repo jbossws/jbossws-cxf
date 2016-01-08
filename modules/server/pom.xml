@@ -184,8 +184,8 @@
     
     <!-- transitive dependencies -->
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
       <exclusions>
         <exclusion>
           <groupId>javax.xml.bind</groupId>
@@ -194,7 +194,7 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
+      <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-xjc</artifactId>
       <exclusions>
         <exclusion>
@@ -204,7 +204,7 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
+      <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-core</artifactId>
       <exclusions>
         <exclusion>

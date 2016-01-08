@@ -290,6 +290,17 @@
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-databinding-jaxb</artifactId>
+        <version>${cxf.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-frontend-jaxws</artifactId>
         <version>${cxf.version}</version>
         <exclusions>
@@ -593,6 +604,10 @@
         <version>${cxf.version}</version>
         <exclusions>
           <exclusion>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
           </exclusion>
@@ -690,6 +705,10 @@
         <version>${cxf.version}</version>
         <exclusions>
           <exclusion>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>javax.xml.soap</groupId>
             <artifactId>saaj-api</artifactId>
           </exclusion>
@@ -736,6 +755,10 @@
         <artifactId>cxf-tools-wsdlto-databinding-jaxb</artifactId>
         <version>${cxf.version}</version>
         <exclusions>
+          <exclusion>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
           <exclusion>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
@@ -1034,17 +1057,17 @@
         <version>${jaxb.api.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.sun.xml.bind</groupId>
-        <artifactId>jaxb-impl</artifactId>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-runtime</artifactId>
         <version>${jaxb.impl.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.sun.xml.bind</groupId>
+        <groupId>org.glassfish.jaxb</groupId>
         <artifactId>jaxb-xjc</artifactId>
         <version>${jaxb.impl.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.sun.xml.bind</groupId>
+        <groupId>org.glassfish.jaxb</groupId>
         <artifactId>jaxb-core</artifactId>
         <version>${jaxb.impl.version}</version>
       </dependency>

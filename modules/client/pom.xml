@@ -201,15 +201,15 @@
     
     <!-- [JBWS-3722] Explicit JAXB dependencies to ensure the dependency management from jbossws-cxf pom.xml applies -->
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
+      <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-xjc</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
+      <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-core</artifactId>
       <exclusions>
         <exclusion>
@@ -300,6 +300,7 @@
                         <exclude>org.codehaus.jra:jra</exclude>
                         <exclude>org.slf4j:slf4j-jdk14</exclude>
                         <exclude>org.springframework:*</exclude>
+                        <exclude>com.sun.xml.bind:*</exclude>
                       </excludes>
                     </bannedDependencies>
                   </rules>
