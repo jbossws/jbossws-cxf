@@ -53,7 +53,7 @@ import org.junit.runner.RunWith;
  * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
  */
 @RunWith(Arquillian.class)
-public class CustomerResourceTest extends JBossWSTest
+public class OrderResourceTest extends JBossWSTest
 {
    @ArquillianResource
    private URL baseURL;
@@ -78,7 +78,7 @@ public class CustomerResourceTest extends JBossWSTest
    
    @Test
    @RunAsClient
-   public void testQueryCustomers() throws Exception
+   public void testCreateCancelPurge() throws Exception
    {
       Client client = ClientBuilder.newClient();
       try {
