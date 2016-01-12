@@ -125,8 +125,7 @@ public class CustomerResource20Test extends JBossWSTest
               .request().post(Entity.xml(xml));
       if (response.getStatus() != 201) throw new RuntimeException("Failed to create");
       String location = response.getLocation().toString();
-//      Assert.assertTrue(location.contains("jaxrs20-examples-ex04_3/services/customers/1"));
-      System.out.println("* location: " + location);
+      Assert.assertTrue(location.contains("jaxrs20-examples-ex04_3/services/customers"));
       response.close();
 
       String customer = client.target(baseURL + "services/customers/northamerica-db/Bill-Burke").request().get(String.class);
