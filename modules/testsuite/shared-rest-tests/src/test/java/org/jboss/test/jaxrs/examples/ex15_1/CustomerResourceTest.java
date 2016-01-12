@@ -19,14 +19,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.jaxrs.examples.ex12_2;
+package org.jboss.test.jaxrs.examples.ex15_1;
 
 import java.io.File;
 import java.net.URL;
 
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -37,6 +39,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.jaxrs.examples.ex10_2.domain.Customer;
+import org.jboss.test.jaxrs.examples.ex15_1.features.OneTimePasswordGenerator;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.Assert;
@@ -55,14 +58,19 @@ public class CustomerResourceTest extends JBossWSTest
    
    @Deployment(testable = false)
    public static WebArchive createDeployments() {
-      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxrs-examples-ex12_2.war");
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxrs-examples-ex15_1.war");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n" + "Dependencies: org.jboss.ws.common\n"))
-               .addClass(org.jboss.test.jaxrs.examples.ex12_2.domain.Customer.class)
-               .addClass(org.jboss.test.jaxrs.examples.ex12_2.features.ContentMD5Writer.class)
-               .addClass(org.jboss.test.jaxrs.examples.ex12_2.services.CustomerResource.class)
-               .addClass(org.jboss.test.jaxrs.examples.ex12_2.services.ShoppingApplication.class)
-               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxrs/examples/ex12_x/WEB-INF/web.xml"));
+               .addClass(org.jboss.test.jaxrs.examples.ex15_1.domain.Customer.class)
+               .addClass(org.jboss.test.jaxrs.examples.ex15_1.features.AllowedPerDay.class)
+               .addClass(org.jboss.test.jaxrs.examples.ex15_1.features.OneTimePasswordAuthenticator.class)
+               .addClass(org.jboss.test.jaxrs.examples.ex15_1.features.OTPAuthenticated.class)
+               .addClass(org.jboss.test.jaxrs.examples.ex15_1.features.PerDayAuthorizer.class)
+               .addClass(org.jboss.test.jaxrs.examples.ex15_1.features.OneTimePasswordGenerator.class)
+               .addClass(org.jboss.test.jaxrs.examples.ex15_1.features.OTP.class)
+               .addClass(org.jboss.test.jaxrs.examples.ex15_1.services.CustomerResource.class)
+               .addClass(org.jboss.test.jaxrs.examples.ex15_1.services.ShoppingApplication.class)
+               .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxrs/examples/ex15_x/WEB-INF/web.xml"));
       return archive;
    }
    
@@ -87,9 +95,37 @@ public class CustomerResourceTest extends JBossWSTest
          String location = response.getLocation().toString();
          response.close();
 
-         response = client.target(location).request().get();
-         String md5 = response.getHeaderString("Content-MD5");
-         Assert.assertEquals("uPYTHd3xAeXEk8NMp7A6hw==", md5);
+         Customer customer = null;
+         WebTarget target = client.target(location);
+         try
+         {
+            customer = target.request().get(Customer.class);
+            Assert.fail(); // should have thrown an exception
+         }
+         catch (NotAuthorizedException e)
+         {
+            //OK
+         }
+
+         target.register(new OneTimePasswordGenerator("bburke", "geheim"));
+
+         customer = target.request().get(Customer.class);
+         Assert.assertEquals("Bill", customer.getFirstName());
+
+         customer.setFirstName("William");
+         response = target.request().put(Entity.xml(customer));
+         if (response.getStatus() != 204) throw new RuntimeException("Failed to update");
+
+         // Show the update
+         customer = target.request().get(Customer.class);
+         Assert.assertEquals("William", customer.getFirstName());
+
+         // only allowed to update once per day
+         customer.setFirstName("Bill");
+         response = target.request().put(Entity.xml(customer));
+         Assert.assertEquals(Response.Status.FORBIDDEN.getStatusCode(), response.getStatusInfo().getStatusCode());
+         Assert.assertEquals(Response.Status.FORBIDDEN.getReasonPhrase(), response.getStatusInfo().getReasonPhrase());
+
       } finally {
          client.close();
       }
