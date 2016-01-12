@@ -15,11 +15,13 @@
 
   <!-- Dependencies -->
   <dependencies>
-    <dependency> <!-- Always make sure jbossws-cxf-factories dependency is explicitly declared before anything transitively pulling CXF -->
+    <!-- TODO: what if we want to run both jaxws and jaxrs tests? ... 
+    <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-factories</artifactId>
       <version>${project.version}</version>
     </dependency>
+     -->
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-test-utils</artifactId>
