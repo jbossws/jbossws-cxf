@@ -22,6 +22,7 @@
 package org.jboss.wsf.stack.cxf.client;
 
 import static org.jboss.ws.common.Messages.MESSAGES;
+import static org.jboss.wsf.stack.cxf.client.Constants.JBWS_CXF_DISABLE_SCHEMA_CACHE;
 import static org.jboss.wsf.stack.cxf.client.Constants.NEW_BUS_STRATEGY;
 import static org.jboss.wsf.stack.cxf.client.Constants.TCCL_BUS_STRATEGY;
 import static org.jboss.wsf.stack.cxf.client.Constants.THREAD_BUS_STRATEGY;
@@ -58,6 +59,8 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.DispatchImpl;
 import org.apache.cxf.jaxws.ServiceImpl;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
+import org.apache.cxf.wsdl.WSDLManager;
+import org.apache.cxf.wsdl11.WSDLManagerImpl;
 import org.jboss.ws.api.configuration.AbstractClientFeature;
 import org.jboss.ws.common.management.AbstractServerConfig;
 import org.jboss.ws.common.utils.DelegateClassLoader;
@@ -248,8 +251,11 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       try
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
-         orig = BusFactory.getThreadDefaultBus(false);
-         return new JBossWSServiceImpl(getOrCreateBus(busStrategy, origClassLoader), url, qname, cls);
+         orig = BusFactory.getThreadDefaultBus(false);          
+         Bus bus = getOrCreateBus(busStrategy, origClassLoader);
+         ServiceDelegate serviceDelegate = new JBossWSServiceImpl(bus, url, qname, cls);
+         setDisableCacheSchema(bus);
+         return serviceDelegate;
       }
       finally
       {
@@ -280,7 +286,10 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       {
          restoreTCCL = checkAndFixContextClassLoader(origClassLoader);
          orig = BusFactory.getThreadDefaultBus(false);
-         return new JBossWSServiceImpl(getOrCreateBus(busStrategy, origClassLoader), wsdlDocumentLocation, serviceName, serviceClass, features);
+         Bus bus = getOrCreateBus(busStrategy, origClassLoader);
+         ServiceDelegate serviceDelegate = new JBossWSServiceImpl(bus, wsdlDocumentLocation, serviceName, serviceClass, features);
+         setDisableCacheSchema(bus);
+         return serviceDelegate;
       }
       finally
       {
@@ -289,7 +298,13 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
             setContextClassLoader(origClassLoader);
       }
    }
-   
+   //JBWS-3973:Disable schema cache to workaround the intermittent failure
+   private void setDisableCacheSchema(Bus bus) {
+       if (bus.getExtension(WSDLManager.class) instanceof WSDLManagerImpl) {
+               WSDLManagerImpl wsdlManangerImpl = (WSDLManagerImpl)bus.getExtension(WSDLManager.class);
+               wsdlManangerImpl.setDisableSchemaCache(SecurityActions.getBoolean(JBWS_CXF_DISABLE_SCHEMA_CACHE, true));
+       }
+   }
    private Bus getOrCreateBus(String strategy, ClassLoader threadContextClassLoader) {
       Bus bus = null;
       if (THREAD_BUS_STRATEGY.equals(strategy))

@@ -98,4 +98,26 @@ class SecurityActions
       };
       return AccessController.doPrivileged(action);
    }
+   
+   
+   static Boolean getBoolean(final String propName, final Boolean defaultValue)
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         String s = System.getProperty(propName);
+         return (s != null) ? Boolean.valueOf(s) : defaultValue;
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<Boolean>()
+         {
+            public Boolean run()
+            {
+               String s = getSystemProperty(propName, null);
+               return (s != null) ? Boolean.valueOf(s) : defaultValue;
+            }
+         });
+      }
+   } 
 }
