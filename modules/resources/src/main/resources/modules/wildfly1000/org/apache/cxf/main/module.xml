@@ -47,6 +47,7 @@
         <module name="javax.xml.soap.api" />
         <module name="javax.xml.stream.api" />
         <module name="javax.xml.ws.api" />
+        <module name="javax.ws.rs.api" />
         <module name="com.sun.xml.fastinfoset"/>
         <module name="org.apache.neethi" />
         <module name="org.apache.ws.xmlschema" />

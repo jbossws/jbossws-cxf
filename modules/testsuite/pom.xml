@@ -42,9 +42,9 @@
 
   <!-- Modules -->
   <modules>
+    <module>shared-rest-tests</module>
     <module>cxf-tests</module>
     <module>shared-tests</module>
-    <module>shared-rest-tests</module>
     <module>perf-tests</module>
   </modules>
 
