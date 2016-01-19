@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf-testsuite</artifactId>
-    <version>5.1.3-SNAPSHOT</version>
+    <version>5.1.3.rest-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
