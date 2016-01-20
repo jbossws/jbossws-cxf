@@ -21,15 +21,32 @@
  */
 package org.jboss.wsf.stack.cxf.deployment.aspect;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.core.Application;
+import javax.ws.rs.ext.RuntimeDelegate;
 import javax.xml.ws.spi.Provider;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
+import org.apache.cxf.jaxrs.impl.RuntimeDelegateImpl;
+import org.apache.cxf.jaxrs.model.ApplicationInfo;
+import org.apache.cxf.jaxrs.model.ProviderInfo;
+import org.apache.cxf.jaxrs.provider.ProviderFactory;
+import org.apache.cxf.jaxrs.utils.ResourceUtils;
 import org.apache.cxf.transport.http.HttpDestinationFactory;
 import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.jboss.ws.common.integration.AbstractDeploymentAspect;
+import org.jboss.ws.common.utils.DelegateClassLoader;
+import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.metadata.JAXRSDeploymentMetadata;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
+
 
 /**
  * A deployment aspect that creates the CXF Bus early and attaches it to the deployment
@@ -69,11 +86,63 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       ClassLoader origClassLoader = SecurityActions.getContextClassLoader();
       try
       {
+         RuntimeDelegate.setInstance(new RuntimeDelegateImpl()); //TODO remove this workaround after having fixed our jaxrs api
+         
+         ClassLoader classLoader = new DelegateClassLoader(dep.getClassLoader(), origClassLoader);
+         SecurityActions.setContextClassLoader(classLoader);
          //at least for now, we use the classloader-bus association as a shortcut for bus retieval in the servlet...
          Bus bus = JBossWSBusFactory.getClassLoaderDefaultBus(dep.getClassLoader());
          //Force servlet transport to prevent CXF from using Jetty / http server or other transports
          bus.setExtension(new ServletDestinationFactory(), HttpDestinationFactory.class);
-         //let's leave the resources and such creations in the CXF servlet for now; we'll later move that here and use a different servlet
+         JAXRSDeploymentMetadata md = dep.getAttachment(JAXRSDeploymentMetadata.class);
+         
+         List<Class<?>> applications = md.getScannedApplicationClasses();
+         if (!applications.isEmpty()) {
+            for (Class<?> appClazz : applications) {
+               ApplicationInfo providerApp = (ApplicationInfo)createSingletonInstance(appClazz, bus);
+               
+               JAXRSServerFactoryBean bean = ResourceUtils.createApplication(providerApp.getProvider(), false, false);
+               bean.setBus(bus);
+               bean.setApplication(providerApp);
+               bean.create();
+            }
+         } else {
+            JAXRSServerFactoryBean bean = new JAXRSServerFactoryBean();
+            bean.setBus(bus);
+            bean.setAddress("/"); //TODO!!!
+            //resources...
+            if (!md.getScannedResourceClasses().isEmpty()) {
+               List<Class<?>> resources = new ArrayList<>();
+               try {
+                  for (String cl : md.getScannedResourceClasses()) {
+                     resources.add(classLoader.loadClass(cl));
+                  }
+               } catch (ClassNotFoundException cnfe) {
+                  throw new WSFException(cnfe);
+               }
+               bean.setResourceClasses(resources);
+            }
+            //resource providers (CXF)... ?
+            
+            //jndi resource... ?
+            
+            //providers...
+            if (!md.getScannedProviderClasses().isEmpty()) {
+               List<Object> providers = new ArrayList<>();
+               try {
+                  for (String cl : md.getScannedProviderClasses()) {
+                     Class<?> clazz = classLoader.loadClass(cl);
+                     providers.add((ApplicationInfo)createSingletonInstance(clazz, bus));
+                  }
+               } catch (ClassNotFoundException cnfe) {
+                  throw new WSFException(cnfe);
+               }
+               bean.setProviders(providers);
+            }
+            
+            bean.create();
+         }
+         
          dep.addAttachment(Bus.class, bus);
       }
       finally
@@ -83,4 +152,49 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       }
    }
 
+   private Object createSingletonInstance(Class<?> cls, Bus bus)
+   {
+      Constructor<?> c = ResourceUtils.findResourceConstructor(cls, false);
+      if (c == null)
+      {
+         throw new WSFException("No valid constructor found for " + cls.getName());
+      }
+      boolean isApplication = Application.class.isAssignableFrom(c.getDeclaringClass());
+      try
+      {
+         ProviderInfo<? extends Object> provider = null;
+         if (c.getParameterTypes().length == 0)
+         {
+            if (isApplication)
+            {
+               provider = new ApplicationInfo((Application) c.newInstance(), bus);
+            }
+            else
+            {
+               provider = new ProviderInfo<Object>(c.newInstance(), bus, false, true);
+            }
+         }
+         else
+         {
+            provider = ProviderFactory.createProviderFromConstructor(c, null, bus, isApplication, true);
+         }
+         Object instance = provider.getProvider();
+         return isApplication ? provider : instance;
+      }
+      catch (InstantiationException ex)
+      {
+         ex.printStackTrace();
+         throw new WSFException("Resource class " + cls.getName() + " can not be instantiated");
+      }
+      catch (IllegalAccessException ex)
+      {
+         ex.printStackTrace();
+         throw new WSFException("Resource class " + cls.getName() + " can not be instantiated due to IllegalAccessException");
+      }
+      catch (InvocationTargetException ex)
+      {
+         ex.printStackTrace();
+         throw new WSFException("Resource class " + cls.getName() + " can not be instantiated due to InvocationTargetException");
+      }
+   }
 }

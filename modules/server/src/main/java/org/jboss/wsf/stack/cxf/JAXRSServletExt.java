@@ -29,7 +29,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet;
+import org.apache.cxf.transport.servlet.CXFNonSpringServlet;
 import org.jboss.wsf.spi.deployment.ServletDelegate;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 
@@ -40,14 +40,9 @@ import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
  *
  * @since 19-Jan-2016
  */
-public class JAXRSServletExt extends CXFNonSpringJaxrsServlet implements ServletDelegate
+public class JAXRSServletExt extends CXFNonSpringServlet implements ServletDelegate
 {
    private static final long serialVersionUID = 670827645417313373L;
-
-   @Override
-   public void init(ServletConfig sc) throws ServletException {
-       super.init(sc);
-   }
 
    @Override
    protected void loadBus(ServletConfig servletConfig)
