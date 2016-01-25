@@ -103,7 +103,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
                
                JAXRSServerFactoryBean bean = ResourceUtils.createApplication(providerApp.getProvider(), false, false);
                bean.setBus(bus);
-               bean.setApplication(providerApp);
+               bean.setApplicationInfo(providerApp);
                bean.create();
             }
          } else {
