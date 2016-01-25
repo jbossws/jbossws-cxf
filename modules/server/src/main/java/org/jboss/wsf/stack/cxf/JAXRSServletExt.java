@@ -26,6 +26,8 @@ import java.io.IOException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -90,6 +92,7 @@ public class JAXRSServletExt extends CXFNonSpringServlet implements ServletDeleg
    public void service(HttpServletRequest request, HttpServletResponse response, ServletContext context)
          throws ServletException, IOException
    {
-      this.service(request, response);
+      this.service((ServletRequest)request, (ServletResponse)response); //cast required to invoke AbstractHTTPServlet::service(ServletRequest req, ServletResponse res)
+                                                                        //which enables PATCH method in Apache CXF
    }
 }
