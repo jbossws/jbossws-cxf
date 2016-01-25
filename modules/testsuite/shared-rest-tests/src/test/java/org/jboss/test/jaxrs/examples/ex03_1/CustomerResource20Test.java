@@ -79,11 +79,11 @@ public class CustomerResource20Test extends JBossWSTest
                  + "<country>USA</country>"
                  + "</customer>";
 
-         Response response = client.target(baseURL + "services/customers").request().post(Entity.xml(xml));
+         Response response = client.target(baseURL + "myservices/customers").request().post(Entity.xml(xml));
          if (response.getStatus() != 201)
             throw new RuntimeException("Failed to create");
          String location = response.getLocation().toString();
-         Assert.assertTrue(location.contains("jaxrs20-examples-ex03_1/services/customers/1"));
+         Assert.assertTrue(location.contains("jaxrs20-examples-ex03_1/myservices/customers/1"));
          response.close();
 
          String customer = client.target(location).request().get(String.class);

@@ -77,7 +77,7 @@ public class CustomerResourceTest extends JBossWSTest
               + "<country>USA</country>"
               + "</customer>";
 
-      URL postUrl = new URL(baseURL + "services/customers");
+      URL postUrl = new URL(baseURL + "myservices/customers");
       HttpURLConnection connection = (HttpURLConnection) postUrl.openConnection();
       connection.setDoOutput(true);
       connection.setInstanceFollowRedirects(false);
@@ -87,11 +87,11 @@ public class CustomerResourceTest extends JBossWSTest
       os.write(newCustomer.getBytes());
       os.flush();
       Assert.assertEquals(HttpURLConnection.HTTP_CREATED, connection.getResponseCode());
-      Assert.assertTrue(connection.getHeaderField("Location").toString().contains("jaxrs-examples-ex03_1/services/customers/1"));
+      Assert.assertTrue(connection.getHeaderField("Location").toString().contains("jaxrs-examples-ex03_1/myservices/customers/1"));
       connection.disconnect();
 
       // Get the new customer
-      URL getUrl = new URL(baseURL + "services/customers/1");
+      URL getUrl = new URL(baseURL + "myservices/customers/1");
       connection = (HttpURLConnection) getUrl.openConnection();
       connection.setRequestMethod("GET");
       Assert.assertTrue(connection.getContentType().contains("application/xml"));
