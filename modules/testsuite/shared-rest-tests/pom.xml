@@ -15,13 +15,11 @@
 
   <!-- Dependencies -->
   <dependencies>
-    <!-- TODO: what if we want to run both jaxws and jaxrs tests? ... 
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-factories</artifactId>
       <version>${project.version}</version>
     </dependency>
-     -->
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-test-utils</artifactId>
@@ -30,7 +28,7 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
-      <artifactId>jbossws-cxf-rest-client</artifactId>
+      <artifactId>jbossws-cxf-client</artifactId>
       <version>${project.version}</version>
       <scope>runtime</scope> <!-- override scope from parent dependency to make sure tests are not compiled using (JBWS-)CXF classes -->
     </dependency>
