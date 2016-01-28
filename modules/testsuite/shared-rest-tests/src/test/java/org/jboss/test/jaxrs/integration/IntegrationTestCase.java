@@ -21,12 +21,19 @@
  */
 package org.jboss.test.jaxrs.integration;
 
+import java.net.URL;
+
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.ext.RuntimeDelegate;
 
 import org.apache.cxf.BusFactory;
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.junit.Assert;
 import org.junit.Test;
@@ -39,6 +46,18 @@ import org.junit.runner.RunWith;
 //TODO move this class away from the shared REST testsuite to a CXF REST testsuite
 public class IntegrationTestCase extends JBossWSTest
 {
+   @ArquillianResource
+   private URL baseURL;
+   
+   @Deployment(name = "jaxrs-integration", testable = false)
+   public static WebArchive createDeployments() {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxrs-integration.war");
+         archive
+               .addManifest()
+               .addClass(ServletClient.class);
+      return archive;
+   }
+   
    @Test
    @RunAsClient
    public void testBusIntegration() throws Exception {
@@ -50,13 +69,27 @@ public class IntegrationTestCase extends JBossWSTest
    @RunAsClient
    public void testClientBuilderIntegration() throws Exception {
       ClientBuilder b = ClientBuilder.newBuilder();
-      Assert.assertEquals("org.apache.cxf.jaxrs.client.spec.ClientBuilderImpl", b.getClass().getName());
+      Assert.assertEquals("org.jboss.wsf.stack.cxf.client.ClientBuilderImpl", b.getClass().getName());
    }
    
    @Test
    @RunAsClient
    public void testRuntimeDelegateIntegration() throws Exception {
       RuntimeDelegate b = RuntimeDelegate.getInstance();
-      Assert.assertEquals("org.apache.cxf.jaxrs.impl.RuntimeDelegateImpl", b.getClass().getName());
+      Assert.assertEquals("org.jboss.wsf.stack.cxf.client.RuntimeDelegateImpl", b.getClass().getName());
+   }
+   
+   @Test
+   @RunAsClient
+   public void testClientBuilderIntegrationInContainer() throws Exception {
+      URL url = new URL(baseURL + "test?method=testClientBuilderIntegration");
+      assertEquals("OK testClientBuilderIntegration", IOUtils.readAndCloseStream(url.openStream()));
+   }
+   
+   @Test
+   @RunAsClient
+   public void testRuntimeDelegateIntegrationInContainer() throws Exception {
+      URL url = new URL(baseURL + "test?method=testRuntimeDelegateIntegration");
+      assertEquals("OK testRuntimeDelegateIntegration", IOUtils.readAndCloseStream(url.openStream()));
    }
 }

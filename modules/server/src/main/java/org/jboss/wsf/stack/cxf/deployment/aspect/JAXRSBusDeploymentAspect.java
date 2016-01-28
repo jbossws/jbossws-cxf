@@ -27,14 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Application;
-import javax.ws.rs.ext.RuntimeDelegate;
 import javax.xml.ws.spi.Provider;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
-import org.apache.cxf.jaxrs.impl.RuntimeDelegateImpl;
 import org.apache.cxf.jaxrs.model.ApplicationInfo;
 import org.apache.cxf.jaxrs.model.ProviderInfo;
 import org.apache.cxf.jaxrs.provider.ProviderFactory;
@@ -88,8 +85,6 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       ClassLoader origClassLoader = SecurityActions.getContextClassLoader();
       try
       {
-         RuntimeDelegate.setInstance(new RuntimeDelegateImpl()); //TODO remove this workaround after having fixed our jaxrs api
-         
          ClassLoader classLoader = new DelegateClassLoader(dep.getClassLoader(), origClassLoader);
          SecurityActions.setContextClassLoader(classLoader);
          //at least for now, we use the classloader-bus association as a shortcut for bus retieval in the servlet...
