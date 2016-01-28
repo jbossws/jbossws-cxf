@@ -103,6 +103,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
                JAXRSServerFactoryBean bean = ResourceUtils.createApplication(providerApp.getProvider(), false, false);
                bean.setBus(bus);
                bean.setApplicationInfo(providerApp);
+               setJSONProviders(bean);
                bean.create();
             }
          } else {
@@ -138,12 +139,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
                }
                bean.setProviders(providers);
             }
-            //Add default Jettison provider
-            @SuppressWarnings("rawtypes")
-			JSONProvider jsonProvider = new JSONProvider();
-            jsonProvider.setDropRootElement(true);
-            bean.setProvider(jsonProvider);
-            //TODO: Add jackson provider
+            setJSONProviders(bean);
             bean.create();
             
             
@@ -156,6 +152,15 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
          BusFactory.setThreadDefaultBus(null);
          SecurityActions.setContextClassLoader(origClassLoader);
       }
+   }
+   
+   private static void setJSONProviders(JAXRSServerFactoryBean bean) {
+      //Add default Jettison provider
+      @SuppressWarnings("rawtypes")
+      JSONProvider jsonProvider = new JSONProvider();
+      jsonProvider.setDropRootElement(true);
+      bean.setProvider(jsonProvider);
+      //TODO: Add jackson provider
    }
 
    private Object createSingletonInstance(Class<?> cls, Bus bus)
