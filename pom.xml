@@ -92,6 +92,7 @@
     <jaxb.api.version>1.0.0.Alpha1</jaxb.api.version>
     <jaxb.impl.version>2.3.0</jaxb.impl.version>
     <jaxws.api.version>2.0.4.Final</jaxws.api.version>
+    <jaxrs.api.version>1.0.0.Final</jaxrs.api.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <commons-beanutils.version>1.9.2</commons-beanutils.version>
     <commons-collections.version>3.2.1</commons-collections.version>
@@ -416,6 +417,12 @@
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-frontend-jaxrs</artifactId>
         <version>${cxf.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -965,6 +972,11 @@
         <groupId>org.jboss.spec.javax.xml.ws</groupId>
         <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
         <version>${jaxws.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.spec.javax.ws.rs</groupId>
+        <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+        <version>${jaxrs.api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.ejb</groupId>

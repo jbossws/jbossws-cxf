@@ -225,6 +225,11 @@
       <groupId>org.jboss.spec.javax.servlet</groupId>
       <artifactId>jboss-servlet-api_3.1_spec</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>org.jboss.spec.javax.ws.rs</groupId>
+      <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+    </dependency>
     
     <!-- [JBWS-3722] Explicit JAXB dependencies to ensure the dependency management from jbossws-cxf pom.xml applies -->
     <dependency>
@@ -345,6 +350,7 @@
                         <exclude>org.apache.cxf:cxf-rt-bindings-corba</exclude>
                         <exclude>org.apache.cxf:cxf-rt-javascript</exclude>
                         <exclude>org.apache.geronimo.specs</exclude>
+                        <exclude>javax.ws.rs</exclude>
                         <exclude>org.codehaus.jra:jra</exclude>
                         <exclude>asm:asm</exclude> <!-- We want newer version -->
                         <exclude>org.slf4j:slf4j-jdk14</exclude>

@@ -343,6 +343,7 @@
                         <exclude>org.apache.cxf:cxf-rt-bindings-corba</exclude>
                         <exclude>org.apache.cxf:cxf-rt-javascript</exclude>
                         <exclude>org.apache.geronimo.specs</exclude>
+                        <exclude>javax.ws.rs</exclude>
                         <exclude>org.codehaus.jra:jra</exclude>
                         <exclude>org.slf4j:slf4j-jdk14</exclude>
                         <exclude>org.springframework:*</exclude>
