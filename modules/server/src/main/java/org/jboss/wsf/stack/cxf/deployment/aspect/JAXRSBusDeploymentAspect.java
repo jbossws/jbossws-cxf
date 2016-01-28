@@ -26,6 +26,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import javax.xml.ws.spi.Provider;
 
@@ -98,59 +99,78 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
          List<Class<?>> applications = md.getScannedApplicationClasses();
          if (!applications.isEmpty()) {
             for (Class<?> appClazz : applications) {
-               ApplicationInfo providerApp = (ApplicationInfo)createSingletonInstance(appClazz, bus);
-               
-               JAXRSServerFactoryBean bean = ResourceUtils.createApplication(providerApp.getProvider(), false, false);
-               bean.setBus(bus);
-               bean.setApplicationInfo(providerApp);
-               setJSONProviders(bean);
-               bean.create();
+               createFromApplication(md, appClazz, bus, classLoader);
             }
          } else {
-            JAXRSServerFactoryBean bean = new JAXRSServerFactoryBean();
-            bean.setBus(bus);
-            bean.setAddress("/"); //TODO!!!
-            //resources...
-            if (!md.getScannedResourceClasses().isEmpty()) {
-               List<Class<?>> resources = new ArrayList<>();
-               try {
-                  for (String cl : md.getScannedResourceClasses()) {
-                     resources.add(classLoader.loadClass(cl));
-                  }
-               } catch (ClassNotFoundException cnfe) {
-                  throw new WSFException(cnfe);
-               }
-               bean.setResourceClasses(resources);
-            }
-            //resource providers (CXF)... ?
-            
-            //jndi resource... ?
-            
-            //providers...
-            if (!md.getScannedProviderClasses().isEmpty()) {
-               List<Object> providers = new ArrayList<>();
-               try {
-                  for (String cl : md.getScannedProviderClasses()) {
-                     Class<?> clazz = classLoader.loadClass(cl);
-                     providers.add((ApplicationInfo)createSingletonInstance(clazz, bus));
-                  }
-               } catch (ClassNotFoundException cnfe) {
-                  throw new WSFException(cnfe);
-               }
-               bean.setProviders(providers);
-            }
-            setJSONProviders(bean);
-            bean.create();
-            
-            
+            create(md, bus, classLoader);
          }
-         
          dep.addAttachment(Bus.class, bus);
       }
       finally
       {
          BusFactory.setThreadDefaultBus(null);
          SecurityActions.setContextClassLoader(origClassLoader);
+      }
+   }
+   
+   private static void createFromApplication(JAXRSDeploymentMetadata md, Class<?> appClazz, Bus bus, ClassLoader classLoader) {
+      ApplicationInfo providerApp = (ApplicationInfo)createSingletonInstance(appClazz, bus);
+      Application app = providerApp.getProvider();
+      JAXRSServerFactoryBean bean = ResourceUtils.createApplication(app, false, false);
+      bean.setBus(bus);
+      bean.setApplicationInfo(providerApp);
+      if (!appClazz.isAnnotationPresent(ApplicationPath.class)) {
+         if (app.getClasses().isEmpty() && app.getSingletons().isEmpty()) {
+            setResources(bean, md, bus, classLoader);
+            setProviders(bean, md, bus, classLoader);
+         }
+      }
+      setJSONProviders(bean);
+      bean.create();
+   }
+   
+   private static void create(JAXRSDeploymentMetadata md, Bus bus, ClassLoader classLoader) {
+      JAXRSServerFactoryBean bean = new JAXRSServerFactoryBean();
+      bean.setBus(bus);
+      bean.setAddress("/"); //TODO!!!
+      //resources...
+      setResources(bean, md, bus, classLoader);
+      //resource providers (CXF)... ?
+      
+      //jndi resource... ?
+      
+      //providers...
+      setProviders(bean, md, bus, classLoader);
+      setJSONProviders(bean);
+      bean.create();
+   }
+   
+   private static void setResources(JAXRSServerFactoryBean bean, JAXRSDeploymentMetadata md, Bus bus, ClassLoader classLoader) {
+      if (!md.getScannedResourceClasses().isEmpty()) {
+         List<Class<?>> resources = new ArrayList<>();
+         try {
+            for (String cl : md.getScannedResourceClasses()) {
+               resources.add(classLoader.loadClass(cl));
+            }
+         } catch (ClassNotFoundException cnfe) {
+            throw new WSFException(cnfe);
+         }
+         bean.setResourceClasses(resources);
+      }
+   }
+   
+   private static void setProviders(JAXRSServerFactoryBean bean, JAXRSDeploymentMetadata md, Bus bus, ClassLoader classLoader) {
+      if (!md.getScannedProviderClasses().isEmpty()) {
+         List<Object> providers = new ArrayList<>();
+         try {
+            for (String cl : md.getScannedProviderClasses()) {
+               Class<?> clazz = classLoader.loadClass(cl);
+               providers.add((ApplicationInfo)createSingletonInstance(clazz, bus));
+            }
+         } catch (ClassNotFoundException cnfe) {
+            throw new WSFException(cnfe);
+         }
+         bean.setProviders(providers);
       }
    }
    
@@ -163,7 +183,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       //TODO: Add jackson provider
    }
 
-   private Object createSingletonInstance(Class<?> cls, Bus bus)
+   private static Object createSingletonInstance(Class<?> cls, Bus bus)
    {
       Constructor<?> c = ResourceUtils.findResourceConstructor(cls, false);
       if (c == null)
