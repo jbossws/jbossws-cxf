@@ -69,7 +69,7 @@ public class CustomerResourceTest extends JBossWSTest
    @RunAsClient
    public void testQueryCustomers() throws Exception
    {
-      URI uri = new URI(baseURL + "services/customers");
+      URI uri = new URI(baseURL + "services/customers?start=0&size=5");
       Client client = ClientBuilder.newClient();
       StringBuilder sb = new StringBuilder();
       try {
@@ -88,7 +88,36 @@ public class CustomerResourceTest extends JBossWSTest
          Assert.assertTrue(s.contains("Monica"));
          Assert.assertTrue(s.contains("Steve"));
          Assert.assertTrue(s.contains("Rod"));
-         Assert.assertTrue(s.contains("Bob"));
+         Assert.assertFalse(s.contains("Bob"));
+      } finally {
+         client.close();
+      }
+   }
+
+   @Test
+   @RunAsClient
+   public void testQueryCustomers2() throws Exception
+   {
+      URI uri = new URI(baseURL + "services/customers");
+      Client client = ClientBuilder.newClient();
+      StringBuilder sb = new StringBuilder();
+      try {
+         while (uri != null)
+         {
+            WebTarget target = client.target(uri);
+            String output = target.request().get(String.class);
+            sb.append(output);
+   
+            Customers customers = target.request().get(Customers.class);
+            uri = customers.getNext();
+         }
+         String s = sb.toString();
+         Assert.assertTrue(s.contains("Bill"));
+         Assert.assertTrue(s.contains("Joe"));
+         Assert.assertFalse(s.contains("Monica"));
+         Assert.assertFalse(s.contains("Steve"));
+         Assert.assertFalse(s.contains("Rod"));
+         Assert.assertFalse(s.contains("Bob"));
       } finally {
          client.close();
       }
