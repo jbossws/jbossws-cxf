@@ -92,7 +92,7 @@
     <jaxb.api.version>1.0.0.Alpha1</jaxb.api.version>
     <jaxb.impl.version>2.3.0</jaxb.impl.version>
     <jaxws.api.version>2.0.4.Final</jaxws.api.version>
-    <jaxrs.api.version>1.0.0.Final</jaxrs.api.version>
+    <jaxrs.api.version>1.0.1.Final-SNAPSHOT</jaxrs.api.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <commons-beanutils.version>1.9.2</commons-beanutils.version>
     <commons-collections.version>3.2.1</commons-collections.version>
