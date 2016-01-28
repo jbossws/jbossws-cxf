@@ -119,11 +119,9 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       JAXRSServerFactoryBean bean = ResourceUtils.createApplication(app, false, false);
       bean.setBus(bus);
       bean.setApplicationInfo(providerApp);
-      if (!appClazz.isAnnotationPresent(ApplicationPath.class)) {
-         if (app.getClasses().isEmpty() && app.getSingletons().isEmpty()) {
-            setResources(bean, md, bus, classLoader);
-            setProviders(bean, md, bus, classLoader);
-         }
+      if (app.getClasses().isEmpty() && app.getSingletons().isEmpty()) {
+         setResources(bean, md, bus, classLoader);
+         setProviders(bean, md, bus, classLoader);
       }
       setJSONProviders(bean);
       bean.create();
