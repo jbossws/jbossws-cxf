@@ -32,11 +32,13 @@ import javax.xml.ws.spi.Provider;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.impl.RuntimeDelegateImpl;
 import org.apache.cxf.jaxrs.model.ApplicationInfo;
 import org.apache.cxf.jaxrs.model.ProviderInfo;
 import org.apache.cxf.jaxrs.provider.ProviderFactory;
+import org.apache.cxf.jaxrs.provider.json.JSONProvider;
 import org.apache.cxf.jaxrs.utils.ResourceUtils;
 import org.apache.cxf.transport.http.HttpDestinationFactory;
 import org.apache.cxf.transport.servlet.ServletDestinationFactory;
@@ -66,7 +68,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
          //(i.e. no server side integration contribution in it)
          //TODO!!! think about this... is it still fine for the default bus to be created like this?
          JBossWSBusFactory.getDefaultBus(Provider.provider().getClass().getClassLoader());
-      }
+      }     
       startDeploymentBus(dep);
    }
 
@@ -94,6 +96,8 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
          Bus bus = JBossWSBusFactory.getClassLoaderDefaultBus(dep.getClassLoader());
          //Force servlet transport to prevent CXF from using Jetty / http server or other transports
          bus.setExtension(new ServletDestinationFactory(), HttpDestinationFactory.class);
+         //Don't add the default cxf JSONProvider
+         bus.setProperty("skip.default.json.provider.registration", true);
          JAXRSDeploymentMetadata md = dep.getAttachment(JAXRSDeploymentMetadata.class);
          
          List<Class<?>> applications = md.getScannedApplicationClasses();
@@ -139,8 +143,15 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
                }
                bean.setProviders(providers);
             }
-            
+            //Add default Jettison provider
+            @SuppressWarnings("rawtypes")
+			JSONProvider jsonProvider = new JSONProvider();
+            jsonProvider.setDropRootElement(true);
+            bean.setProvider(jsonProvider);
+            //TODO: Add jackson provider
             bean.create();
+            
+            
          }
          
          dep.addAttachment(Bus.class, bus);
