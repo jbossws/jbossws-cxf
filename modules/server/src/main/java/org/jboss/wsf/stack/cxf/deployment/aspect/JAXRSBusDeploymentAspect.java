@@ -26,7 +26,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import javax.xml.ws.spi.Provider;
 
@@ -124,7 +123,9 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
          setProviders(bean, md, bus, classLoader);
       }
       setJSONProviders(bean);
-      bean.create();
+      if (!bean.getResourceClasses().isEmpty()) {
+          bean.create();
+      }
    }
    
    private static void create(JAXRSDeploymentMetadata md, Bus bus, ClassLoader classLoader) {
@@ -140,7 +141,9 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       //providers...
       setProviders(bean, md, bus, classLoader);
       setJSONProviders(bean);
-      bean.create();
+      if (!bean.getResourceClasses().isEmpty()) {
+          bean.create();
+      }
    }
    
    private static void setResources(JAXRSServerFactoryBean bean, JAXRSDeploymentMetadata md, Bus bus, ClassLoader classLoader) {
