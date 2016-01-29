@@ -61,7 +61,7 @@ public class NoApplicationIntegrationTestCase extends JBossWSTest
    @Deployment(testable = false)
    public static WebArchive createDeployments()
    {
-      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxrs-deployment-war-app.war");
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxrs-deployment-war-app4.war");
       archive.addManifest().addClass(org.jboss.test.jaxrs.deployment.war.HelloWorldResource.class)
             .addAsWebInfResource(getWebXml(), "web.xml");
       return archive;
