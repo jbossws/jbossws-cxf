@@ -163,7 +163,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
          try {
             for (String cl : md.getScannedProviderClasses()) {
                Class<?> clazz = classLoader.loadClass(cl);
-               providers.add((ApplicationInfo)createSingletonInstance(clazz, bus));
+               providers.add(createSingletonInstance(clazz, bus));
             }
          } catch (ClassNotFoundException cnfe) {
             throw new WSFException(cnfe);
