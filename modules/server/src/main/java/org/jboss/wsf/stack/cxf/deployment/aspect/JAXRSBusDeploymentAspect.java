@@ -115,7 +115,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
    private static void createFromApplication(JAXRSDeploymentMetadata md, Class<?> appClazz, Bus bus, ClassLoader classLoader) {
       ApplicationInfo providerApp = (ApplicationInfo)createSingletonInstance(appClazz, bus);
       Application app = providerApp.getProvider();
-      JAXRSServerFactoryBean bean = ResourceUtils.createApplication(app, false, false);
+      JAXRSServerFactoryBean bean = ResourceUtils.createApplication(app, md.isIgnoreApplicationPath(), false);
       bean.setBus(bus);
       bean.setApplicationInfo(providerApp);
       if (app.getClasses().isEmpty() && app.getSingletons().isEmpty()) {
