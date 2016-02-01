@@ -28,6 +28,8 @@
     <org.littleshoot.littleproxy.version>1.0.0-beta2</org.littleshoot.littleproxy.version>
     <gnu.getopt.version>1.0.13</gnu.getopt.version>
     <bc.version>1.56</bc.version>
+    <interceptors.api.version>1.0.0.Final</interceptors.api.version>
+    <transaction.api.version>1.0.0.Final</transaction.api.version>
     <resources-plugin-filters.version>1.1.0.Final</resources-plugin-filters.version>
     <port-offset.cxf-tests.jboss>0</port-offset.cxf-tests.jboss>
     <port-offset.cxf-tests.ssl-mutual-auth>5000</port-offset.cxf-tests.ssl-mutual-auth>
@@ -118,6 +120,18 @@
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>
       <version>${bc.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.interceptor</groupId>
+      <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
+      <version>${interceptors.api.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.transaction</groupId>
+      <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+      <version>${transaction.api.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
