@@ -47,6 +47,7 @@ import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.metadata.JAXRSDeploymentMetadata;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
+import org.jboss.wsf.stack.cxf.deployment.JNDIComponentResourceProvider;
 
 
 /**
@@ -120,13 +121,16 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       JAXRSServerFactoryBean bean = ResourceUtils.createApplication(app, md.isIgnoreApplicationPath(), false);
       bean.setBus(bus);
       bean.setApplicationInfo(providerApp);
+      List<Class<?>> additionalResources = new ArrayList<>();
       if (app.getClasses().isEmpty() && app.getSingletons().isEmpty()) {
-         setResources(bean, md, bus, classLoader);
+         processResources(bean, md, bus, classLoader, additionalResources);
          setProviders(bean, md, bus, classLoader);
       }
+      processJNDIComponentResources(bean, md, bus, classLoader, additionalResources);
       setJSONProviders(bean);
-      if (!bean.getResourceClasses().isEmpty()) {
-          bean.create();
+      if (!bean.getResourceClasses().isEmpty() || !additionalResources.isEmpty()) {
+         bean.setResourceClasses(additionalResources);
+         bean.create();
       }
    }
    
@@ -135,22 +139,24 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       bean.setBus(bus);
       bean.setAddress("/"); //TODO!!!
       //resources...
-      setResources(bean, md, bus, classLoader);
+      List<Class<?>> resources = new ArrayList<>();
+      processResources(bean, md, bus, classLoader, resources);
       //resource providers (CXF)... ?
-      
-      //jndi resource... ?
       
       //providers...
       setProviders(bean, md, bus, classLoader);
+      //jndi resource...
+      processJNDIComponentResources(bean, md, bus, classLoader, resources);
+      
       setJSONProviders(bean);
-      if (!bean.getResourceClasses().isEmpty()) {
-          bean.create();
+      if (!bean.getResourceClasses().isEmpty() || !resources.isEmpty()) {
+         bean.setResourceClasses(resources);
+         bean.create();
       }
    }
    
-   private static void setResources(JAXRSServerFactoryBean bean, JAXRSDeploymentMetadata md, Bus bus, ClassLoader classLoader) {
+   private static void processResources(JAXRSServerFactoryBean bean, JAXRSDeploymentMetadata md, Bus bus, ClassLoader classLoader, List<Class<?>> resources) {
       if (!md.getScannedResourceClasses().isEmpty()) {
-         List<Class<?>> resources = new ArrayList<>();
          try {
             for (String cl : md.getScannedResourceClasses()) {
                resources.add(classLoader.loadClass(cl));
@@ -158,7 +164,6 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
          } catch (ClassNotFoundException cnfe) {
             throw new WSFException(cnfe);
          }
-         bean.setResourceClasses(resources);
       }
    }
    
@@ -174,6 +179,26 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
             throw new WSFException(cnfe);
          }
          bean.setProviders(providers);
+      }
+   }
+   
+   private static void processJNDIComponentResources(JAXRSServerFactoryBean bean, JAXRSDeploymentMetadata md, Bus bus, ClassLoader classLoader, List<Class<?>> resources) {
+      if (!md.getScannedJndiComponentResources().isEmpty()) {
+         try {
+            for (String cl : md.getScannedJndiComponentResources()) {
+               String[] config = cl.trim().split(";");
+               if (config.length < 3) {
+                  throw new RuntimeException("Messages.MESSAGES.jndiComponentResourceNotSetCorrectly()");
+               }
+               String jndiName = config[0];
+               Class<?> clazz = classLoader.loadClass(config[1]);
+               boolean cacheRefrence = Boolean.valueOf(config[2].trim());
+               resources.add(clazz);
+               bean.setResourceProvider(clazz, new JNDIComponentResourceProvider(jndiName, clazz, cacheRefrence));
+            }
+         } catch (ClassNotFoundException cnfe) {
+            throw new WSFException(cnfe);
+         }
       }
    }
    
