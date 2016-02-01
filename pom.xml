@@ -32,11 +32,7 @@
   <description>JBossWS CXF stack</description>
 
   
-<<<<<<< 363988ca78700f38cd68c53919025ee9fc18f657
   <version>5.2.1-SNAPSHOT</version>
-=======
-  <version>5.1.3.rest-SNAPSHOT</version>
->>>>>>> Adding JSON support (and moving to cxf 3.1.5-SNAPSHOT
   
   <!-- Parent -->
   <parent>
@@ -121,6 +117,7 @@
     <jaspi.api.version>1.0.0.Alpha1</jaspi.api.version>
     <jacc.api.version>1.0.0.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
+    <jackson.version>2.5.4</jackson.version>
     <jettison.version>1.3.3</jettison.version>
     <modular.jdk.args />
     <modular.jdk.props />
@@ -962,7 +959,11 @@
           </exclusion>
         </exclusions>
       </dependency>
-
+      <dependency>
+         <groupId>com.fasterxml.jackson.jaxrs</groupId>
+         <artifactId>jackson-jaxrs-json-provider</artifactId>
+         <version>${jackson.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.xml.soap</groupId>
         <artifactId>jboss-saaj-api_1.3_spec</artifactId>

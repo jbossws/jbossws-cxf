@@ -189,6 +189,10 @@
       <groupId>javax.jws</groupId>
       <artifactId>jsr181-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+    </dependency>
     
     <!-- jboss provided -->
     <dependency>
