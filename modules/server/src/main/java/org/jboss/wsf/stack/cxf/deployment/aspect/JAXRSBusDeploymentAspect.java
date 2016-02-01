@@ -46,6 +46,7 @@ import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.metadata.JAXRSDeploymentMetadata;
+import org.jboss.wsf.stack.cxf.JBossWSJAXRSInvoker;
 import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.jboss.wsf.stack.cxf.deployment.JNDIComponentResourceProvider;
@@ -122,6 +123,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       JAXRSServerFactoryBean bean = ResourceUtils.createApplication(app, md.isIgnoreApplicationPath(), false);
       bean.setBus(bus);
       bean.setApplicationInfo(providerApp);
+      bean.setInvoker(new JBossWSJAXRSInvoker());
       List<Class<?>> additionalResources = new ArrayList<>();
       if (app.getClasses().isEmpty() && app.getSingletons().isEmpty()) {
          processResources(bean, md, bus, classLoader, additionalResources);
@@ -139,6 +141,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       JAXRSServerFactoryBean bean = new JAXRSServerFactoryBean();
       bean.setBus(bus);
       bean.setAddress("/"); //TODO!!!
+      bean.setInvoker(new JBossWSJAXRSInvoker());
       //resources...
       List<Class<?>> resources = new ArrayList<>();
       processResources(bean, md, bus, classLoader, resources);
