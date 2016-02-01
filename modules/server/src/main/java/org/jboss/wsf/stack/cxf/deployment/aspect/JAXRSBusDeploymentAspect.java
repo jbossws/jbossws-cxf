@@ -46,6 +46,7 @@ import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.metadata.JAXRSDeploymentMetadata;
+import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.jboss.wsf.stack.cxf.deployment.JNDIComponentResourceProvider;
 
@@ -188,7 +189,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
             for (String cl : md.getScannedJndiComponentResources()) {
                String[] config = cl.trim().split(";");
                if (config.length < 3) {
-                  throw new RuntimeException("Messages.MESSAGES.jndiComponentResourceNotSetCorrectly()");
+                  throw Messages.MESSAGES.jndiComponentResourceNotSetCorrectly();
                }
                String jndiName = config[0];
                Class<?> clazz = classLoader.loadClass(config[1]);
