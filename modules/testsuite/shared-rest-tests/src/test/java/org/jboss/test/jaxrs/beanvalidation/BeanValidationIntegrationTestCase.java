@@ -95,7 +95,6 @@ public class BeanValidationIntegrationTestCase {
     }
 
     @Test
-    @Ignore("Clarify if we need CDI integration to make this work...")
     public void testInvalidRequestsAreAcceptedDependingOnValidationConfiguration() throws Exception {
         DefaultHttpClient client = new DefaultHttpClient(new PoolingClientConnectionManager());
 
