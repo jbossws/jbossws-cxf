@@ -29,7 +29,9 @@ import org.apache.cxf.jaxrs.model.OperationResourceInfo;
 import org.apache.cxf.jaxrs.utils.InjectionUtils;
 import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationInvoker;
 import org.apache.cxf.service.invoker.Invoker;
+import org.apache.cxf.validation.BeanValidationProvider;
 import org.jboss.wsf.stack.cxf.deployment.JNDIComponentResourceProvider;
+import org.jboss.wsf.stack.cxf.validation.JBossWSBeanValidationProvider;
 
 /**
  * A JBossWS extension of the Apache CXF JAXRSInvoker invoker.
@@ -39,6 +41,11 @@ import org.jboss.wsf.stack.cxf.deployment.JNDIComponentResourceProvider;
  */
 public class JBossWSJAXRSInvoker extends JAXRSBeanValidationInvoker implements Invoker
 {
+   public JBossWSJAXRSInvoker() {
+      super();
+      setProvider(new JBossWSBeanValidationProvider());
+   }
+   
    @Override
    protected Method getMethodToInvoke(ClassResourceInfo cri, OperationResourceInfo ori, Object resourceObject)
    {
