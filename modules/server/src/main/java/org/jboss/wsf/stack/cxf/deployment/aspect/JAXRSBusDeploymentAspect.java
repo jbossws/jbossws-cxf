@@ -24,6 +24,7 @@ package org.jboss.wsf.stack.cxf.deployment.aspect;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.core.Application;
@@ -33,12 +34,17 @@ import  com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.model.ApplicationInfo;
 import org.apache.cxf.jaxrs.model.ProviderInfo;
 import org.apache.cxf.jaxrs.provider.ProviderFactory;
 import org.apache.cxf.jaxrs.provider.json.JSONProvider;
 import org.apache.cxf.jaxrs.utils.ResourceUtils;
+import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationInInterceptor;
+import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationOutInterceptor;
+import org.apache.cxf.jaxrs.validation.ValidationExceptionMapper;
+import org.apache.cxf.message.Message;
 import org.apache.cxf.transport.http.HttpDestinationFactory;
 import org.apache.cxf.transport.servlet.ServletDestinationFactory;
 import org.jboss.ws.common.integration.AbstractDeploymentAspect;
@@ -131,10 +137,17 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       }
       processJNDIComponentResources(bean, md, bus, classLoader, additionalResources);
       setJSONProviders(bean);
+      setValidationInterceptors(bean);
       if (!bean.getResourceClasses().isEmpty() || !additionalResources.isEmpty()) {
          bean.setResourceClasses(additionalResources);
          bean.create();
       }
+   }
+   
+   private static void setValidationInterceptors(JAXRSServerFactoryBean bean) {
+      bean.setInInterceptors(Arrays.<Interceptor<? extends Message>> asList(new JAXRSBeanValidationInInterceptor()));
+      bean.setOutInterceptors(Arrays.<Interceptor<? extends Message>> asList(new JAXRSBeanValidationOutInterceptor()));
+      bean.setProvider(new ValidationExceptionMapper());
    }
    
    private static void create(JAXRSDeploymentMetadata md, Bus bus, ClassLoader classLoader) {
@@ -151,8 +164,8 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       setProviders(bean, md, bus, classLoader);
       //jndi resource...
       processJNDIComponentResources(bean, md, bus, classLoader, resources);
-      
       setJSONProviders(bean);
+      setValidationInterceptors(bean);
       if (!bean.getResourceClasses().isEmpty() || !resources.isEmpty()) {
          bean.setResourceClasses(resources);
          bean.create();
