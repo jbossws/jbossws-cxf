@@ -24,10 +24,10 @@ package org.jboss.wsf.stack.cxf;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import org.apache.cxf.jaxrs.JAXRSInvoker;
 import org.apache.cxf.jaxrs.model.ClassResourceInfo;
 import org.apache.cxf.jaxrs.model.OperationResourceInfo;
 import org.apache.cxf.jaxrs.utils.InjectionUtils;
+import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationInvoker;
 import org.apache.cxf.service.invoker.Invoker;
 import org.jboss.wsf.stack.cxf.deployment.JNDIComponentResourceProvider;
 
@@ -37,7 +37,7 @@ import org.jboss.wsf.stack.cxf.deployment.JNDIComponentResourceProvider;
  * @author alessio.soldano@jboss.com
  * 
  */
-public class JBossWSJAXRSInvoker extends JAXRSInvoker implements Invoker
+public class JBossWSJAXRSInvoker extends JAXRSBeanValidationInvoker implements Invoker
 {
    @Override
    protected Method getMethodToInvoke(ClassResourceInfo cri, OperationResourceInfo ori, Object resourceObject)
