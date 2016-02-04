@@ -70,7 +70,7 @@ public final class JBossWSBeanValidationProvider extends BeanValidationProvider
    }
 
    
-   public boolean isMethodValidatable(Method m)
+   protected boolean isMethodValidatable(Method m)
    {
       ExecutableType[] types = null;
       List<ExecutableType[]> typesList = getExecutableTypesOnMethodInHierarchy(m);

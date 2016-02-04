@@ -29,7 +29,6 @@ import org.apache.cxf.jaxrs.model.OperationResourceInfo;
 import org.apache.cxf.jaxrs.utils.InjectionUtils;
 import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationInvoker;
 import org.apache.cxf.service.invoker.Invoker;
-import org.apache.cxf.validation.BeanValidationProvider;
 import org.jboss.wsf.stack.cxf.deployment.JNDIComponentResourceProvider;
 import org.jboss.wsf.stack.cxf.validation.JBossWSBeanValidationProvider;
 
