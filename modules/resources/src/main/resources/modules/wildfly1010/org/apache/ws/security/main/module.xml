@@ -2,7 +2,7 @@
 
 <!--
   ~ JBoss, Home of Professional Open Source.
-  ~ Copyright 2014, Red Hat, Inc., and individual contributors
+  ~ Copyright 2011, Red Hat, Inc., and individual contributors
   ~ as indicated by the @author tags. See the copyright.txt file in the
   ~ distribution for a full listing of individual contributors.
   ~
@@ -22,33 +22,23 @@
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
 
-<project default="main">
+<module xmlns="urn:jboss:module:1.3" name="org.apache.ws.security">
+    <resources>
+        <!-- Insert resources here -->
+    </resources>
 
-  <property name="src.dir" value="${basedir}/src/main/resources"/>
-  <property name="dest.dir" value="${basedir}/target/resources"/>
-
-  <target name="main">
-
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as9.xml"
-      tofile="${dest.dir}/jbossws-wildfly901/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as9.xml"
-      tofile="${dest.dir}/jbossws-wildfly902/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as10.xml"
-      tofile="${dest.dir}/jbossws-wildfly1000/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-  	
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as10.xml"
-      tofile="${dest.dir}/jbossws-wildfly1010/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-  	
-  </target>
-
-</project>
+    <dependencies>
+      <module name="javax.api" />
+      <module name="javax.xml.bind.api" services="import"/>
+      <module name="com.sun.xml.bind" services="import"/>
+      <module name="javax.xml.rpc.api" />
+      <module name="org.apache.commons.codec" />
+      <module name="org.apache.commons.logging" />
+      <module name="org.apache.neethi" />
+      <module name="org.apache.santuario.xmlsec" />
+      <module name="org.apache.xalan" />
+      <module name="org.joda.time" />
+      <module name="org.opensaml" />
+      <module name="org.slf4j" />
+    </dependencies>
+</module>

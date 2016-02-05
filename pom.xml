@@ -66,13 +66,13 @@
     <jbossws.spi.version>3.1.0.Final</jbossws.spi.version>
     <jbossws.common.version>3.1.1.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.2.2.Final</jbossws.common.tools.version>
-    <jbossws.wildfly900.version>5.1.0.Final</jbossws.wildfly900.version>
     <jbossws.wildfly901.version>5.1.0.Final</jbossws.wildfly901.version>
     <jbossws.wildfly902.version>5.1.1.Final</jbossws.wildfly902.version>
-    <wildfly900.version>9.0.0.Final</wildfly900.version>
+    <jbossws.wildfly1000.version>5.1.4-SNAPSHOT</jbossws.wildfly1000.version>
     <wildfly901.version>9.0.1.Final</wildfly901.version>
     <wildfly902.version>9.0.2.Final</wildfly902.version>
-    <wildfly1000.version>10.0.0.Final-SNAPSHOT</wildfly1000.version>
+    <wildfly1000.version>10.0.0.Final</wildfly1000.version>
+    <wildfly1010.version>10.1.0.Final-SNAPSHOT</wildfly1010.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
     <cxf.version>3.1.4</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
@@ -144,16 +144,6 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly900-server-integration</artifactId>
-        <version>${jbossws.wildfly900.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly900-tests-integration</artifactId>
-        <version>${jbossws.wildfly900.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly901-server-integration</artifactId>
         <version>${jbossws.wildfly901.version}</version>
       </dependency>
@@ -173,9 +163,19 @@
         <version>${jbossws.wildfly902.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly1000-server-integration</artifactId>
+        <version>${jbossws.wildfly1000.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly1000-tests-integration</artifactId>
+        <version>${jbossws.wildfly1000.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.wildfly</groupId>
         <artifactId>wildfly-webservices-tests-integration</artifactId>
-        <version>${wildfly1000.version}</version>
+        <version>${wildfly1010.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
@@ -1278,24 +1278,6 @@
     </profile>
 
     <!--
-    Name:  wildfly900
-    Descr: WildFly-9.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly900</id>
-      <properties>
-        <jbossws.integration.target>wildfly900</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly900.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-
-    <!--
     Name:  wildfly901
     Descr: WildFly-9.0.1 specific options
     -->
@@ -1341,6 +1323,24 @@
         <jbossws.integration.target>wildfly1000</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1000.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+      </modules>
+    </profile>
+
+    <!--
+    Name:  wildfly1010
+    Descr: WildFly-10.1.0 specific options
+    -->
+    <profile>
+      <id>wildfly1010</id>
+      <properties>
+        <jbossws.integration.target>wildfly1010</jbossws.integration.target>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly1010.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
       </properties>
       <modules>
