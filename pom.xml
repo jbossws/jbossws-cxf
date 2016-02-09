@@ -89,6 +89,7 @@
     <jaxb.impl.version>2.2.11.jbossorg-1</jaxb.impl.version>
     <jaxws.api.version>2.0.2.Final</jaxws.api.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
+    <commons-beanutils.version>1.9.2</commons-beanutils.version>
     <commons-collections.version>3.2.1</commons-collections.version>
     <commons-lang.version>2.6</commons-lang.version>
     <commons.logging.version>1.1.1</commons.logging.version>
@@ -883,6 +884,11 @@
         <groupId>org.apache.velocity</groupId>
         <artifactId>velocity</artifactId>
         <version>${velocity.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-beanutils</groupId>
+        <artifactId>commons-beanutils</artifactId>
+        <version>${commons-beanutils.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-collections</groupId>
