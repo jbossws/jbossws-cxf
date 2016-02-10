@@ -171,6 +171,11 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly1000-jaxrs-server-integration</artifactId>
+        <version>${jbossws.wildfly1000.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly1000-tests-integration</artifactId>
         <version>${jbossws.wildfly1000.version}</version>
       </dependency>

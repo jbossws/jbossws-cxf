@@ -138,6 +138,16 @@
             <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>
           </dependencySet>
+          <dependencySet>
+            <outputDirectory>deploy-artifacts/lib</outputDirectory>
+            <unpack>false</unpack>
+            <outputFileNameMapping>jaxrs-api.jar</outputFileNameMapping>
+            <includes>
+              <include>org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.0_spec:jar</include>
+            </includes>
+            <scope>provided</scope>
+            <useProjectArtifact>false</useProjectArtifact>
+          </dependencySet>
 
           <dependencySet>
             <outputDirectory>deploy-artifacts/lib</outputDirectory>

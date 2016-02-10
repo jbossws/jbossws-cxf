@@ -35,6 +35,7 @@
         <module name="asm.asm" />
         <module name="javax.api" />
         <module name="javax.annotation.api" />
+        <module name="javax.validation.api" optional="true"/>
         <module name="javax.jms.api" />
         <module name="javax.jws.api" />
         <module name="javax.mail.api" />
@@ -42,6 +43,7 @@
         <module name="javax.servlet.api" />
         <module name="javax.wsdl4j.api" />
         <module name="javax.xml.bind.api" services="import"/>
+        <module name="com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider"/>
         <module name="com.sun.xml.bind" services="import"/>
         <module name="javax.xml.soap.api" />
         <module name="javax.xml.stream.api" />
@@ -55,6 +57,7 @@
         <module name="org.apache.ws.xmlschema" />
         <module name="org.apache.ws.security" />
         <module name="org.apache.santuario.xmlsec" />
+        <module name="org.codehaus.jettison" />
         <module name="org.codehaus.woodstox" />
         <module name="org.joda.time" />
         <module name="org.opensaml" />
