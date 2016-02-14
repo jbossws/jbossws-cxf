@@ -121,6 +121,7 @@
     <jackson.version>2.5.4</jackson.version>
     <jettison.version>1.3.3</jettison.version>
     <classmate.version>0.8.0</classmate.version>
+    <javax.enterprise.version>1.2</javax.enterprise.version>
     <modular.jdk.args />
     <modular.jdk.props />
   </properties>
@@ -1204,7 +1205,12 @@
         <version>${xerces.version}</version>
         <scope>provided</scope>
       </dependency>
-
+      <dependency>
+        <groupId>javax.enterprise</groupId>
+        <artifactId>cdi-api</artifactId>
+        <scope>provided</scope>
+        <version>${javax.enterprise.version}</version>
+      </dependency>
       <!-- transitive dependencies -->
       <dependency>
         <groupId>log4j</groupId>

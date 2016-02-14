@@ -212,6 +212,10 @@
       <groupId>xerces</groupId>
       <artifactId>xercesImpl</artifactId>
     </dependency>
+    <dependency>        
+      <groupId>javax.enterprise</groupId>
+      <artifactId>cdi-api</artifactId>
+    </dependency> 
     
     <!-- transitive dependencies -->
     <dependency>
