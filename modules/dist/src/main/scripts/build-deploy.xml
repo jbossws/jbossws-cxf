@@ -101,6 +101,7 @@
   	<copy toDir="${deploy.structure}/modules/system/layers/base">
       <fileset dir="${deploy.artifacts.dir}/modules/wildfly1000">
         <include name="**/jboss/as/webservices/main/module.xml"/>
+      	<include name="**/jboss/as/jaxrs/main/module.xml"/>
       	<include name="**/jboss/as/webservices/server/integration/main/module.xml"/>
       </fileset>
     </copy>
@@ -119,12 +120,14 @@
     <copy todir="${wildfly1000.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
         <exclude name="**/jboss/as/webservices/**/module.xml"/>
+      	<exclude name="**/jboss/as/jaxrs/**/module.xml"/>
       </fileset>
     </copy>
     <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
     <installModules targetDir="${wildfly1000.home}/modules/system/layers/base/">
       <fileset dir="${deploy.structure}/modules/system/layers/base">
         <include name="**/jboss/as/webservices/**/module.xml"/>
+      	<include name="**/jboss/as/jaxrs/**/module.xml"/>
       </fileset>
     </installModules>
   </target>
@@ -173,12 +176,14 @@
     <copy todir="${wildfly1010.home}" overwrite="true" verbose="true">
       <fileset dir="${deploy.structure}">
         <exclude name="**/jboss/as/webservices/**/module.xml"/>
+      	<exclude name="**/jboss/as/jaxrs/**/module.xml"/>
       </fileset>
     </copy>
     <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
     <installModules targetDir="${wildfly1010.home}/modules/system/layers/base/">
       <fileset dir="${deploy.structure}/modules/system/layers/base">
         <include name="**/jboss/as/webservices/**/module.xml"/>
+      	<include name="**/jboss/as/jaxrs/**/module.xml"/>
       </fileset>
     </installModules>
   </target>
