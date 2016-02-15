@@ -38,6 +38,7 @@
         <module name="asm.asm" />
         <module name="javax.api" />
         <module name="javax.annotation.api" />
+        <module name="javax.validation.api" optional="true"/>
         <module name="javax.jws.api" />
         <module name="javax.mail.api" />
         <module name="javax.resource.api" />
@@ -47,9 +48,11 @@
         <module name="javax.xml.soap.api" />
         <module name="javax.xml.stream.api" />
         <module name="javax.xml.ws.api" />
+        <module name="javax.ws.rs.api" />
         <module name="com.sun.xml.fastinfoset"/>
         <module name="org.apache.neethi" />
         <module name="org.apache.ws.xmlschema" />
+        <module name="org.codehaus.jettison" />
         <module name="org.codehaus.woodstox" />
         <module name="org.apache.xml-resolver" />
     </dependencies>
