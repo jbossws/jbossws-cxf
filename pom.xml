@@ -687,6 +687,10 @@
         <version>${cxf.version}</version>
         <exclusions>
           <exclusion>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-security-jose</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
           </exclusion>
