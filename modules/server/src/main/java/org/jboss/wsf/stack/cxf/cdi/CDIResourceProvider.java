@@ -31,34 +31,36 @@ import org.apache.cxf.message.Message;
 /**
  * @author <a href="mailto:ema@redhat.com>Jim Ma</a>
  */
-public class CDIResourceProvider extends PerRequestResourceProvider
+public class CDIResourceProvider<T> extends PerRequestResourceProvider
 {
    private Class<?> clazz;
-   private JaxRsCdiInjector cdiInjector;
+   private JaxRsCdiResourceLocator cdiInjector;
 
    public CDIResourceProvider(Class<?> clazz)
    {
       super(clazz);
-      cdiInjector = new JaxRsCdiInjector();
+      cdiInjector = new JaxRsCdiResourceLocator();
       this.clazz = clazz;
    }
 
-   //ToDo: Look at which value should be set
+   //resource is requestScoped
    public boolean isSingleton()
    {
       return false;
    }
 
-   protected Object createInstance(Message m)
+   @SuppressWarnings("unchecked")
+   protected T createInstance(Message m)
    {
-      Set<Bean<?>> beans = cdiInjector.getManager().getBeans(clazz);
-      Bean<?> bean = cdiInjector.getManager().resolve(beans);
+      Set<Bean<?>> beans = cdiInjector.getManager().getBeans(clazz);     
+      Bean<T> bean = (Bean<T>)cdiInjector.getManager().resolve(beans);
       if (bean != null)
       {
-         CreationalContext<?> context = cdiInjector.getManager().createCreationalContext(bean);
-         return cdiInjector.getManager().getReference(bean, clazz, context);
+         CreationalContext<T> context = cdiInjector.getManager().createCreationalContext(bean);
+         //return an instance which will be used to inject jaxrs property like @Conext by cxf
+         return cdiInjector.getManager().getContext(bean.getScope()).get(bean, context);
       } else {
-         return super.getInstance(m);
+         return (T)super.getInstance(m);
       }
        
    }

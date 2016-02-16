@@ -187,7 +187,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
                Class<?> clazz = classLoader.loadClass(cl);
                resources.add(clazz);
                if (cdiDeployment) {
-                  bean.setResourceProvider(clazz, new CDIResourceProvider(clazz));
+                  bean.setResourceProvider(clazz, new CDIResourceProvider<>(clazz));
                }
             }
          } catch (ClassNotFoundException cnfe) {

@@ -29,11 +29,11 @@ import javax.naming.NamingException;
 /**
  * @author <a href="mailto:ema@redhat.com>Jim Ma</a>
  */
-public class JaxRsCdiInjector
+public class JaxRsCdiResourceLocator
 {
    private volatile BeanManager manager = null;
 
-   public JaxRsCdiInjector()
+   public JaxRsCdiResourceLocator()
    {
    }
 
