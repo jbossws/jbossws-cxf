@@ -1,12 +1,12 @@
 def root = new XmlParser().parse(project.properties['inputFile'])
 
 /**
- * Fix logging: remove CONSOLE handler and set a specific log file
+ * Fix logging: optionally remove CONSOLE handler and set a specific log file
  *
  */
 def logHandlers = root.profile.subsystem.'root-logger'.handlers[0]
 def consoleHandler = logHandlers.find{it.@name == 'CONSOLE'}
-logHandlers.remove(consoleHandler)
+if (!project.properties['enableServerLoggingToConsole']) logHandlers.remove(consoleHandler)
 def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
 file.attributes()['path'] = project.properties['serverLog']
 
