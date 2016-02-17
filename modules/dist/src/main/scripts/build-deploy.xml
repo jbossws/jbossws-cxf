@@ -298,10 +298,22 @@
           <include name="**/cxf-core*.jar"/>
         </fileset>
       </copy>
+      <copy todir="@{targetdir}/org/apache/cxf/services-sts/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/cxf-services-sts-core*.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/apache/cxf/ws-security/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/cxf-rt-ws-security*.jar"/>
+        </fileset>
+      </copy>
       <copy todir="@{targetdir}/org/apache/cxf/impl/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/cxf-*.jar"/>
           <exclude name="**/cxf-core*.jar"/>
+          <exclude name="**/cxf-rt-ws-security*.jar"/>
+          <exclude name="**/cxf-services-sts-core*.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/api/main" flatten="false" overwrite="true">
