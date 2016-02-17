@@ -128,7 +128,7 @@ public class WSTrustTestCase extends JBossWSTest
       WebArchive archive = ShrinkWrap.create(WebArchive.class, ACT_AS_SERVER_DEP + ".war");
       archive
          .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-               + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client, org.apache.cxf.impl\n"))
+               + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client, org.jboss.ws.cxf.sts\n"))
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.actas.ActAsCallbackHandler.class)
@@ -150,7 +150,7 @@ public class WSTrustTestCase extends JBossWSTest
       WebArchive archive = ShrinkWrap.create(WebArchive.class, ON_BEHALF_OF_SERVER_DEP + ".war");
       archive
          .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-               + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client, org.apache.cxf.impl\n"))
+               + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client, org.jboss.ws.cxf.sts\n"))
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHello.class)
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.SayHelloResponse.class)
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.onbehalfof.OnBehalfOfCallbackHandler.class)
