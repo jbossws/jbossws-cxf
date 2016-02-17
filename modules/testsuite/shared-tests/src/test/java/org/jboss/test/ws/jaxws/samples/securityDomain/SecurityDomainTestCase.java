@@ -74,7 +74,7 @@ public class SecurityDomainTestCase extends JBossWSTest
    public static JavaArchive createDeployment() {
       JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-samples-securityDomain.jar");
                archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
-               + "Dependencies: org.apache.cxf.impl\n")) 
+               + "Dependencies: org.apache.cxf\n")) 
                .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.SecureEndpointImpl.class)
                .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.EnableRobustOneWayInterceptor.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/securityDomain/jboss-webservices.xml"), "jboss-webservices.xml");
@@ -94,7 +94,7 @@ public class SecurityDomainTestCase extends JBossWSTest
    public static JavaArchive createDeployment3() {
       JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-samples-securityDomain3.jar");
          archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                + "Dependencies: org.apache.cxf.impl\n")) 
+                + "Dependencies: org.apache.cxf\n")) 
                .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.SecureEndpointImpl3.class)
                .addClass(org.jboss.test.ws.jaxws.samples.securityDomain.EnableRobustOneWayInterceptor.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/securityDomain/jboss-webservices.xml"), "jboss-webservices.xml");

@@ -52,7 +52,7 @@ public class SessionEndpointTestCase extends JBossWSTest
    public static WebArchive createDeployment() {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-session.war");
       archive
-            .setManifest(new StringAsset("Manifest-Version: 1.0\n" + "Dependencies: org.apache.cxf.impl\n"))
+            .setManifest(new StringAsset("Manifest-Version: 1.0\n" + "Dependencies: org.apache.cxf\n"))
             .addClass(org.jboss.test.ws.jaxws.samples.session.SessionEndpoint.class)
             .addClass(org.jboss.test.ws.jaxws.samples.session.SessionEndpointImpl.class)
             .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/session/WEB-INF/web.xml"));

@@ -58,7 +58,7 @@ public final class UsernameAuthorizationDigestTestCase extends JBossWSTest
    public static WebArchive createDeployment() {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-policy-username-jaas-digest.war");
       archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n")) //cxf impl required due to custom interceptor in deployment
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.POJOEndpointAuthorizationInterceptor.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.ServiceIface.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.ServiceImpl.class)

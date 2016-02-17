@@ -70,7 +70,7 @@ public class JBWS3879TestCase extends JBossWSTest
    public static WebArchive createClientDeployment() {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, CLIENT_DEP + ".war");
       archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services,org.apache.cxf.impl\n"))
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services,org.apache.cxf.impl\n")) //cxf impl dependency because of classes used in the test Helper
             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3879.GZIPEnforcingInInterceptor.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3879.HelloWorld.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3879.Helper.class)

@@ -62,7 +62,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
    public static WebArchive createDeployment1() {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-policy-username-jbws-jaspi.war");
       archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceIface.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceImpl.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMe.class)
@@ -80,7 +80,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
    public static WebArchive createDeployment2() {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-policy-username-jaspi-client.war");
       archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/META-INF/jaxws-client-config.xml"), "jaxws-client-config.xml")
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.Helper.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceIface.class)
@@ -100,7 +100,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
    public static WebArchive createDeployment3() {
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-samples-wsse-policy-username-endpoint-jaspi.war");
       archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceEndpointImpl.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi.ServiceIface.class)
             .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.jaxws.GreetMe.class)
