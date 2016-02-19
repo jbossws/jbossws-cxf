@@ -101,6 +101,7 @@
     <neethi.version>3.1.0</neethi.version>
     <opensaml.version>3.3.0</opensaml.version>
     <annotation.api.version>1.0.0.Final</annotation.api.version>
+    <cdi.api.version>1.2</cdi.api.version>
     <saaj.api.version>1.0.4.Final</saaj.api.version>
     <servlet.api.version>1.0.0.Final</servlet.api.version>
     <stax.api.version>1.0-2</stax.api.version>
@@ -1302,6 +1303,11 @@
         <groupId>javax.validation</groupId>
         <artifactId>validation-api</artifactId>
         <version>${validation.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.enterprise</groupId>
+        <artifactId>cdi-api</artifactId>
+        <version>${cdi.api.version}</version>
       </dependency>
       <dependency>
         <groupId>com.sun.xml.fastinfoset</groupId>
