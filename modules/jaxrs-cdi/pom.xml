@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <name>JBoss Web Services - Stack CXF JAX-RS CDI integration</name>
+  <artifactId>jbossws-cxf-jaxrs-cdi</artifactId>
+  <packaging>jar</packaging>
+  
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jboss.ws.cxf</groupId>
+    <artifactId>jbossws-cxf</artifactId>
+    <version>5.1.3.rest-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+  
+  <!-- Dependencies -->
+  <dependencies>
+    <dependency>
+      <groupId>org.jboss.spec.javax.ws.rs</groupId>
+      <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.enterprise</groupId>
+      <artifactId>cdi-api</artifactId>
+    </dependency>
+  </dependencies>
+  
+</project>

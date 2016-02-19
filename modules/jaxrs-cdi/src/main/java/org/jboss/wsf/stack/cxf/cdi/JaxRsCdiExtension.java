@@ -45,8 +45,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.ext.Provider;
 
-import org.apache.cxf.jaxrs.utils.AnnotationUtils;
-
 /**
  * This Extension handles default scopes for discovered JAX-RS components. It
  * also observes ProcessInjectionTarget event and wraps InjectionTargets
@@ -113,7 +111,7 @@ public class JaxRsCdiExtension implements Extension
 
       if (!annotatedType.getJavaClass().isInterface() && !isSessionBean(annotatedType)
             // This check is redundant for CDI 1.1 containers but required for CDI 1.0
-            && AnnotationUtils.getClassAnnotation(annotatedType.getJavaClass(), Path.class) != null
+            && getClassAnnotation(annotatedType.getJavaClass(), Path.class) != null
             && !annotatedType.isAnnotationPresent(Decorator.class))
       {
          /*LogMessages.LOGGER.debug(Messages.MESSAGES.discoveredCDIBeanJaxRsResource(annotatedType.getJavaClass()
@@ -122,6 +120,30 @@ public class JaxRsCdiExtension implements Extension
          this.resources.add(annotatedType.getJavaClass());
       }
    }
+   
+   private static <A extends Annotation> A getClassAnnotation(Class<?> c, Class<A> aClass) {
+      if (c == null) {
+          return null;
+      }
+      A p = c.getAnnotation(aClass);
+      if (p != null) {
+          return p;
+      }
+
+      p = getClassAnnotation(c.getSuperclass(), aClass);
+      if (p != null) {
+          return p;
+      }
+
+      // finally try the first one on the interface
+      for (Class<?> i : c.getInterfaces()) {
+          p = getClassAnnotation(i, aClass);
+          if (p != null) {
+              return p;
+          }
+      }
+      return null;
+  }
 
    /**
     * Set a default scope for each CDI bean which is a JAX-RS Provider.

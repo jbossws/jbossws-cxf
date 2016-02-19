@@ -32,6 +32,13 @@
 
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>
+         <artifactId>jbossws-cxf-jaxrs-cdi</artifactId> 
+         <version>${project.version}</version>          
+         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-transports-undertow</artifactId>
          <version>${project.version}</version>     
          <scope>provided</scope>

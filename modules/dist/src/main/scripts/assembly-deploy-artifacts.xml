@@ -42,6 +42,7 @@
               <include>org.jboss.ws.cxf:jbossws-cxf-jaspi:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-factories:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-server:jar</include>
+              <include>org.jboss.ws.cxf:jbossws-cxf-jaxrs-cdi:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-transports-undertow:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-transports-udp:jar</include>
               <include>org.jboss.ws.projects:jaxws-undertow-httpspi:jar</include>

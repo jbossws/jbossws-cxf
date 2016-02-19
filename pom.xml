@@ -53,6 +53,7 @@
   <modules>
     <module>modules/jaspi</module>
     <module>modules/server</module>
+    <module>modules/jaxrs-cdi</module>
     <module>modules/client</module>
     <module>modules/endorsed</module>
     <module>modules/resources</module>

@@ -351,6 +351,11 @@
           <include name="**/jbossws-cxf-factories.jar"/>
         </fileset>
       </copy>
+      <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-jaxrs-cdi/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jbossws-cxf-jaxrs-cdi.jar"/>
+        </fileset>
+      </copy>
       <copy todir="@{targetdir}/org/jboss/ws/cxf/jbossws-cxf-transports-undertow/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-cxf-transports-undertow.jar"/>
