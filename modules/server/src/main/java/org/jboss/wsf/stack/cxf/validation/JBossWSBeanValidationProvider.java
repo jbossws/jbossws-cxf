@@ -24,12 +24,22 @@ package org.jboss.wsf.stack.cxf.validation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
 import javax.validation.ValidationException;
+import javax.validation.ValidatorFactory;
 import javax.validation.executable.ExecutableType;
+import javax.validation.executable.ExecutableValidator;
 import javax.validation.executable.ValidateOnExecution;
 
 import org.apache.cxf.validation.BeanValidationProvider;
+import org.apache.cxf.validation.ResponseConstraintViolationException;
 
 import com.fasterxml.classmate.Filter;
 import com.fasterxml.classmate.MemberResolver;
@@ -46,26 +56,57 @@ import com.fasterxml.classmate.members.ResolvedMethod;
  * 
  * @author <a href="ron.sigal@jboss.com">Ron Sigal</a>
  * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
+ * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 public final class JBossWSBeanValidationProvider extends BeanValidationProvider
 {
-   private static final ExecutableType[] defaultValidatedExecutableTypes = {ExecutableType.CONSTRUCTORS, ExecutableType.NON_GETTER_METHODS};
+   private static final ExecutableType[] defaultValidatedExecutableTypes =
+   {ExecutableType.CONSTRUCTORS, ExecutableType.NON_GETTER_METHODS};
+
    /**
     * Used for resolving type parameters. Thread-safe.
     */
    private TypeResolver typeResolver = new TypeResolver();
-   
+
+   private volatile ValidatorFactory contextValidatorFactory = null;
+
+   private ValidatorFactory factory = null;
+
+   public JBossWSBeanValidationProvider()
+   {
+      //TODO: Add a getValidatorFactory in cxf to avoid creating factory twice
+      factory = Validation.buildDefaultValidatorFactory();
+   }
+
+   public JBossWSBeanValidationProvider(ValidatorFactory factory)
+   {
+      this.factory = factory;
+   }
+
+
    public <T> void validateParameters(final T instance, final Method method, final Object[] arguments)
    {
       if (isMethodValidatable(method)) {
-         super.validateParameters(instance, method, arguments);
+         final ExecutableValidator methodValidator = getExecutableValidator();
+         final Set<ConstraintViolation<T>> violations = methodValidator.validateParameters(instance, method, arguments);
+
+         if (!violations.isEmpty())
+         {
+            throw new ConstraintViolationException(violations);
+         }
       }
    }
 
    public <T> void validateReturnValue(final T instance, final Method method, final Object returnValue)
    {
       if (isMethodValidatable(method)) {
-         super.validateReturnValue(instance, method, returnValue);
+         final ExecutableValidator methodValidator = getExecutableValidator();
+         final Set<ConstraintViolation< T > > violations = methodValidator.validateReturnValue(instance, 
+             method, returnValue);
+         
+         if (!violations.isEmpty()) {
+             throw new ResponseConstraintViolationException(violations);
+         }   
       }
    }
 
@@ -338,4 +379,58 @@ public final class JBossWSBeanValidationProvider extends BeanValidationProvider
         return element.getRawMember().equals(method1) || element.getRawMember().equals(method2);
      }
   }
+  
+   public <T> void validateBean(final T bean)
+   {
+      final Set<ConstraintViolation<T>> violations = doValidateBean(bean);
+      if (!violations.isEmpty())
+      {
+         throw new ConstraintViolationException(violations);
+      }
+   }
+   
+   private <T> Set<ConstraintViolation<T>> doValidateBean(final T bean)
+   {
+      if (contextValidatorFactory != null)
+      {
+         return contextValidatorFactory.getValidator().validate(bean);
+      }
+      return getValidatorFactory().getValidator().validate(bean);
+   }
+
+   private ExecutableValidator getExecutableValidator()
+   {
+      if (contextValidatorFactory != null)
+      {
+         return contextValidatorFactory.getValidator().forExecutables();
+      }
+      return getValidatorFactory().getValidator().forExecutables();
+
+   }
+   
+   
+   private synchronized ValidatorFactory getValidatorFactory()
+   {
+      if (contextValidatorFactory != null)
+      {
+         return contextValidatorFactory;
+      }
+      try
+      {
+         //get jndi vlidatorFactory to validate cdi beans
+         Context context = new InitialContext();
+         contextValidatorFactory = ValidatorFactory.class.cast(context.lookup("java:comp/ValidatorFactory"));
+      }
+      catch (NamingException e)
+      {
+         //TODO: i18n log
+      }
+      if (contextValidatorFactory == null) {
+         contextValidatorFactory = factory; 
+      }
+     
+      return contextValidatorFactory;
+   }
+   
+
 }
