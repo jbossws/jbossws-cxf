@@ -57,9 +57,13 @@ public class JaxrsComponentBeanDefinitionHelperServlet extends HttpServlet
    {
       // There's one bean of type CDIResource and it's scope is @RequestScoped
       Set<Bean<?>> beans = beanManager.getBeans(CDIResource.class);
-      if (beans.size() != 1 || !RequestScoped.class.equals(beans.iterator().next().getScope()))
+      if (beans.size() != 1) {
+         throw new RuntimeException("Expected bean size = 1, but got " + beans.size());
+      }
+      Bean<?> b = beans.iterator().next();
+      if (!RequestScoped.class.equals(b.getScope()))
       {
-         throw new RuntimeException();
+         throw new RuntimeException("Expected RequestScoped scope, but got: " + b.getScope());
       }
    }
 
@@ -67,9 +71,13 @@ public class JaxrsComponentBeanDefinitionHelperServlet extends HttpServlet
    {
       // There's one bean of type CDIApplication and it's scope is @ApplicationScoped
       Set<Bean<?>> beans = beanManager.getBeans(CDIApplication.class);
-      if (beans.size() != 1 || !ApplicationScoped.class.equals(beans.iterator().next().getScope()))
+      if (beans.size() != 1) {
+         throw new RuntimeException("Expected bean size = 1, but got " + beans.size());
+      }
+      Bean<?> b = beans.iterator().next();
+      if (!ApplicationScoped.class.equals(b.getScope()))
       {
-         throw new RuntimeException();
+         throw new RuntimeException("Expected ApplicationScoped scope, but got: " + b.getScope());
       }
    }
 
@@ -77,9 +85,13 @@ public class JaxrsComponentBeanDefinitionHelperServlet extends HttpServlet
    {
       // There's one bean of type CDIProvider and it's scope is @ApplicationScoped
       Set<Bean<?>> beans = beanManager.getBeans(CDIProvider.class);
-      if (beans.size() != 1 || !ApplicationScoped.class.equals(beans.iterator().next().getScope()))
+      if (beans.size() != 1) {
+         throw new RuntimeException("Expected bean size = 1, but got " + beans.size());
+      }
+      Bean<?> b = beans.iterator().next();
+      if (!ApplicationScoped.class.equals(b.getScope()))
       {
-         throw new RuntimeException();
+         throw new RuntimeException("Expected ApplicationScoped scope, but got: " + b.getScope());
       }
    }
 
