@@ -65,6 +65,7 @@ public class CustomerResourceTest extends JBossWSTest
                .addClass(org.jboss.test.jaxrs.examples.ex12_1.features.CacheControlFilter.class)
                .addClass(org.jboss.test.jaxrs.examples.ex12_1.services.CustomerResource.class)
                .addClass(org.jboss.test.jaxrs.examples.ex12_1.services.ShoppingApplication.class)
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxrs/examples/ex12_x/permissions12_1.xml"), "permissions.xml")
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxrs/examples/ex12_x/WEB-INF/web.xml"));
       return archive;
    }
