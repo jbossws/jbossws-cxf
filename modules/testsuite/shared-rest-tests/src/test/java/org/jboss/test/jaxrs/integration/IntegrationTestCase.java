@@ -21,6 +21,7 @@
  */
 package org.jboss.test.jaxrs.integration;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.ws.rs.client.ClientBuilder;
@@ -35,6 +36,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,6 +56,7 @@ public class IntegrationTestCase extends JBossWSTest
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxrs-integration.war");
          archive
                .addManifest()
+               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxrs/integration/permissions.xml"), "permissions.xml")
                .addClass(ServletClient.class);
       return archive;
    }
