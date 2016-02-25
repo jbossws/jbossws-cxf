@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf.deployment.aspect;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -202,7 +203,11 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
          try {
             for (String cl : md.getScannedProviderClasses()) {
                Class<?> clazz = classLoader.loadClass(cl);
-               providers.add(createSingletonInstance(clazz, bus));
+               //there could be the provider class for client and client explicitly init provider
+               if (!Modifier.isAbstract(clazz.getModifiers()) && ResourceUtils.findResourceConstructor(clazz, false) != null)
+               {
+                  providers.add(createSingletonInstance(clazz, bus));
+               }
             }
          } catch (ClassNotFoundException cnfe) {
             throw new WSFException(cnfe);
