@@ -72,7 +72,6 @@ import org.apache.cxf.jaxws.handler.HandlerChainBuilder;
 import org.apache.cxf.jaxws.handler.types.PortComponentHandlerType;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.spi.metadata.ParserConstants;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -128,8 +127,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
             throw MESSAGES.handlerConfigFileNotFound(handlerFile);
          }
 
-         Document doc = Holder.builder.parse(is);
-         Element el = doc.getDocumentElement();
+         Element el = DOMUtils.parse(is, Holder.builder);
          if (!ParserConstants.JAVAEE_NS.equals(el.getNamespaceURI()) 
                || !ParserConstants.HANDLER_CHAINS.equals(el.getLocalName())) {
             throw MESSAGES.differentElementExpected(handlerFile, "{" + ParserConstants.JAVAEE_NS + "}"
@@ -152,13 +150,6 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          throw e;
       } catch (Exception e) {
          throw MESSAGES.noHandlerChainFound(handlerFile, e);
-      }
-      finally
-      {
-         if (is != null)
-         {
-            try { is.close(); } catch (IOException ioe) {};
-         }
       }
       assert chain != null;
       return sortHandlers(chain);
