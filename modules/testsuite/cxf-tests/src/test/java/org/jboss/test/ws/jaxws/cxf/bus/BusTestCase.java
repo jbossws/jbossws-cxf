@@ -161,31 +161,11 @@ public class BusTestCase extends JBossWSTest
             assertTrue(wse.getCause().getMessage().contains("InvalidEndpoint"));
          }
          
-         port = getPort(baseURL, bus, new UseThreadBusFeature()); //valid
-         try {
-            performInvocation(port);
-            fail("Failure expected, as the WSDLManager for the bus will return the invalid wsdl");
-         } catch (WebServiceException wse) {
-            assertTrue(wse.getCause().getMessage().contains("InvalidEndpoint"));
-         }
-         
-         port = getPort(baseURL, bus, new UseThreadBusFeature()); //invalid
-         
          port = getPort(baseURL, bus, new UseNewBusFeature()); //valid
          //the port should now actually be built against the valid wsdl
          //as a new bus should have been started (with a new WSDLManager)
          //so the invocation is expected to succeed
          performInvocation(port);
-         
-         port = getPort(baseURL, bus, new UseThreadBusFeature()); //invalid
-         
-         port = getPort(baseURL, bus, new UseNewBusFeature(false)); //valid
-         try {
-            performInvocation(port);
-            fail("Failure expected, as the WSDLManager for the bus will return the invalid wsdl (disabled feature used)");
-         } catch (WebServiceException wse) {
-            assertTrue(wse.getCause().getMessage().contains("InvalidEndpoint"));
-         }
       } finally {
          bus.shutdown(true);
       }
