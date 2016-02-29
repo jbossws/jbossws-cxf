@@ -287,10 +287,12 @@ public class BusHolder
 
    private static Invoker newInvokerInstance(String className, Deployment dep)
    {
+      final ClassLoader tccl = SecurityActions.getContextClassLoader();
       try
       {
+         SecurityActions.setContextClassLoader(null);
          @SuppressWarnings("unchecked")
-         Class<Invoker> clazz = (Class<Invoker>)SecurityActions.getContextClassLoader().loadClass(className);
+         Class<Invoker> clazz = (Class<Invoker>)tccl.loadClass(className);
          final AnnotationsInfo ai = dep.getAttachment(AnnotationsInfo.class);
          if (ai != null && clazz.isAssignableFrom(JBossWSInvoker.class)) {
             Constructor<Invoker> constr = clazz.getConstructor(boolean.class);
@@ -303,18 +305,28 @@ public class BusHolder
       {
          throw new RuntimeException(e);
       }
+      finally
+      {
+         SecurityActions.setContextClassLoader(tccl);
+      }
    }
    
    private static Object newInstance(String className)
    {
+      final ClassLoader tccl = SecurityActions.getContextClassLoader();
       try
       {
-         Class<?> clazz = SecurityActions.getContextClassLoader().loadClass(className);
+         SecurityActions.setContextClassLoader(null);
+         Class<?> clazz = tccl.loadClass(className);
          return clazz.newInstance();
       }
       catch (Exception e)
       {
          throw new RuntimeException(e);
+      }
+      finally
+      {
+         SecurityActions.setContextClassLoader(tccl);
       }
    }
 
