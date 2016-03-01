@@ -48,6 +48,7 @@ import javax.xml.ws.soap.SOAPBinding;
 
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
@@ -430,6 +431,19 @@ public class JBossWSTestHelper
       }
       return sb.toString().trim();
    }
+   
+   public static StringAsset getWebXml(String contents) {
+       return new StringAsset("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+               "\n" +
+               "<web-app version=\"3.0\"\n" +
+               "         xmlns=\"http://java.sun.com/xml/ns/javaee\"\n" +
+               "         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+               "         xsi:schemaLocation=\"http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd\"\n" +
+               "         metadata-complete=\"false\">\n" +
+               contents +
+               "</web-app>");
+   }
+   
 
    public static abstract class JarDeployment extends BaseDeployment<JavaArchive>
    {
