@@ -23,11 +23,12 @@ package org.jboss.test.jaxrs.beanvalidation.cdi;
 
 import java.net.URL;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
-import org.apache.http.util.EntityUtils;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -68,23 +69,21 @@ public class BeanValidationCDIIntegrationTestCase {
     }
     
     @Test
-    public void testValidRequest() throws Exception {
-        DefaultHttpClient client = new DefaultHttpClient(new PoolingClientConnectionManager());
-
-        HttpGet get = new HttpGet(url + "myjaxrs/order/5");
-        HttpResponse result = client.execute(get);
-
-        Assert.assertEquals(200, result.getStatusLine().getStatusCode());
-        Assert.assertEquals("OrderModel{id=5}", EntityUtils.toString(result.getEntity()));
+    public void testValidRequest() throws Exception {	
+    	Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(url + "myjaxrs/order/5");
+		Invocation.Builder builder = target.request();
+		Response response = builder.buildGet().invoke();
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("OrderModel{id=5}", response.readEntity(String.class));
     }
 
     @Test
-    public void testInvalidRequest() throws Exception {
-        DefaultHttpClient client = new DefaultHttpClient(new PoolingClientConnectionManager());
-
-        HttpGet get = new HttpGet(url + "myjaxrs/order/11");
-        HttpResponse result = client.execute(get);
-
-        Assert.assertEquals("Parameter constraint violated", 400, result.getStatusLine().getStatusCode());
+    public void testInvalidRequest() throws Exception {        
+    	Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(url + "myjaxrs/order/11");
+		Invocation.Builder builder = target.request();
+		Response response = builder.buildGet().invoke();
+        Assert.assertEquals("Parameter constraint violated", 400, response.getStatus());
     }
 }

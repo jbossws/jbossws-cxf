@@ -23,11 +23,12 @@ package org.jboss.test.jaxrs.beanvalidation;
 
 import java.net.URL;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
-import org.apache.http.util.EntityUtils;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -49,6 +50,8 @@ import org.junit.runner.RunWith;
 @RunAsClient
 public class BeanValidationIntegrationTestCase {
 
+	private Client client = ClientBuilder.newClient();
+	
     @ArquillianResource
     private URL url;
 
@@ -64,58 +67,47 @@ public class BeanValidationIntegrationTestCase {
     
     @Test
     public void testValidRequest() throws Exception {
-        DefaultHttpClient client = new DefaultHttpClient(new PoolingClientConnectionManager());
-
-        HttpGet get = new HttpGet(url + "myjaxrs/validate/5");
-        HttpResponse result = client.execute(get);
-
-        Assert.assertEquals(200, result.getStatusLine().getStatusCode());
-        Assert.assertTrue(EntityUtils.toString(result.getEntity()).contains("<validator id=\"5\"/>"));
+		WebTarget target = client.target(url + "myjaxrs/validate/5");
+		Invocation.Builder builder = target.request();
+		Response response = builder.buildGet().invoke();
+    	
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertTrue(response.readEntity(String.class).contains("<validator id=\"5\"/>"));
     }
 
     @Test
     public void testInvalidRequest() throws Exception {
-        DefaultHttpClient client = new DefaultHttpClient(new PoolingClientConnectionManager());
-
-        HttpGet get = new HttpGet(url + "myjaxrs/validate/3");
-        HttpResponse result = client.execute(get);
-
-        Assert.assertEquals("Parameter constraint violated", 400, result.getStatusLine().getStatusCode());
+		WebTarget target = client.target(url + "myjaxrs/validate/3");
+		Invocation.Builder builder = target.request();
+		Response response = builder.buildGet().invoke();
+        Assert.assertEquals("Parameter constraint violated", 400, response.getStatus());
     }
 
     @Test
     public void testInvalidRequestCausingPropertyConstraintViolation() throws Exception {
-        DefaultHttpClient client = new DefaultHttpClient(new PoolingClientConnectionManager());
-
-        HttpGet get = new HttpGet(url + "myjaxrs/another-validate/3");
-        HttpResponse result = client.execute(get);
-
-        Assert.assertEquals("Property constraint violated", 400, result.getStatusLine().getStatusCode());
+		WebTarget target = client.target(url + "myjaxrs/another-validate/3");
+		Invocation.Builder builder = target.request();
+		Response response = builder.buildGet().invoke();
+        Assert.assertEquals("Property constraint violated", 400, response.getStatus());
     }
 
     @Test
     public void testInvalidRequestsAreAcceptedDependingOnValidationConfiguration() throws Exception {
-        DefaultHttpClient client = new DefaultHttpClient(new PoolingClientConnectionManager());
+		WebTarget target = client.target(url + "myjaxrs/yet-another-validate/3/disabled");
+		Invocation.Builder builder = target.request();
+		Response response = builder.buildGet().invoke();
+        Assert.assertEquals("No constraint violated", 200, response.getStatus());
 
-        HttpGet get = new HttpGet(url + "myjaxrs/yet-another-validate/3/disabled");
-        HttpResponse result = client.execute(get);
-
-        Assert.assertEquals("No constraint violated", 200, result.getStatusLine().getStatusCode());
-        EntityUtils.consume(result.getEntity());
-
-        get = new HttpGet(url + "myjaxrs/yet-another-validate/3/enabled");
-        result = client.execute(get);
-
-        Assert.assertEquals("Parameter constraint violated", 400, result.getStatusLine().getStatusCode());
+        target = client.target(url + "myjaxrs/yet-another-validate/3/enabled");
+		response = target.request().buildGet().invoke();
+        Assert.assertEquals("Parameter constraint violated", 400, response.getStatus());
     }
 
     @Test
     public void testInvalidResponse() throws Exception {
-        DefaultHttpClient client = new DefaultHttpClient(new PoolingClientConnectionManager());
-
-        HttpGet get = new HttpGet(url + "myjaxrs/validate/11");
-        HttpResponse result = client.execute(get);
-
-        Assert.assertEquals("Return value constraint violated", 500, result.getStatusLine().getStatusCode());
+		WebTarget target = client.target(url + "myjaxrs/validate/11");
+		Invocation.Builder builder = target.request();
+		Response response = builder.buildGet().invoke();
+        Assert.assertEquals("Return value constraint violated", 500,  response.getStatus());
     }
 }
