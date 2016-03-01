@@ -58,6 +58,7 @@ import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.cdi.CDIResourceProvider;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.jboss.wsf.stack.cxf.deployment.JNDIComponentResourceProvider;
+import org.jboss.wsf.stack.cxf.interceptor.JaxRsRequestInInterceptor;
 
 
 /**
@@ -146,6 +147,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
      
       setJSONProviders(bean);
       setValidationInterceptors(bean);
+      addExtraInterceptors(bean);
       if (!bean.getResourceClasses().isEmpty() || !additionalResources.isEmpty()) {
          bean.setResourceClasses(additionalResources);
          bean.create();
@@ -156,6 +158,10 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       bean.setInInterceptors(Arrays.<Interceptor<? extends Message>> asList(new JAXRSBeanValidationInInterceptor()));
       bean.setOutInterceptors(Arrays.<Interceptor<? extends Message>> asList(new JAXRSBeanValidationOutInterceptor()));
       bean.setProvider(new ValidationExceptionMapper());
+   }
+   
+   private static void addExtraInterceptors(JAXRSServerFactoryBean bean) {
+      bean.getInInterceptors().add(new JaxRsRequestInInterceptor());     
    }
    
    private static void create(JAXRSDeploymentMetadata md, Bus bus, ClassLoader classLoader, boolean cdiDeployment) {
@@ -174,6 +180,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       processJNDIComponentResources(bean, md, bus, classLoader, resources);
       setJSONProviders(bean);
       setValidationInterceptors(bean);
+      addExtraInterceptors(bean);
       if (!bean.getResourceClasses().isEmpty() || !resources.isEmpty()) {
          bean.setResourceClasses(resources);
          bean.create();
