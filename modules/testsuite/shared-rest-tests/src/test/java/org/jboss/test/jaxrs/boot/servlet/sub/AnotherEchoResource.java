@@ -25,16 +25,19 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+
 /**
  * 
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 @Produces("text/plain")
 @Path("echo/{id}")
-public class AnotherEchoResource {
+public class AnotherEchoResource
+{
 
-	@GET
-	public String echo(@PathParam("id") int id) {
-		return new MyEcho().getEchoMessage();
-	}
+   @GET
+   public String echo(@PathParam("id") int id)
+   {
+      return new MyEcho().getEchoMessage();
+   }
 }

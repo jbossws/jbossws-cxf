@@ -20,20 +20,28 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.jboss.test.jaxrs.boot.servlet.sub;
+
 /**
  * 
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
-public class MyEcho {
-	private String echoMsg;
-	public MyEcho() {
-		this("default");
-	}
-	public MyEcho(String input) {
-		this.echoMsg = input;
-	}
-	public String getEchoMessage() {
-		return this.echoMsg;
-	}
+public class MyEcho
+{
+   private String echoMsg;
+
+   public MyEcho()
+   {
+      this("default");
+   }
+
+   public MyEcho(String input)
+   {
+      this.echoMsg = input;
+   }
+
+   public String getEchoMessage()
+   {
+      return this.echoMsg;
+   }
 
 }

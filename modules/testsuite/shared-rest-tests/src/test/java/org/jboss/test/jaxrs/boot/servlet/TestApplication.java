@@ -20,6 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.jboss.test.jaxrs.boot.servlet;
+
 /**
  * 
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
@@ -33,9 +34,10 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("/myjaxrs")
 public class TestApplication extends Application
 {
-	public java.util.Set<java.lang.Class<?>> getClasses() {
-		Set<Class<?>> resources = new HashSet<Class<?>>();
-		resources.add(EchoResource.class);
-		return resources;
-	}
+   public java.util.Set<java.lang.Class<?>> getClasses()
+   {
+      Set<Class<?>> resources = new HashSet<Class<?>>();
+      resources.add(EchoResource.class);
+      return resources;
+   }
 }

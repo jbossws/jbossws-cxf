@@ -26,6 +26,7 @@ import java.util.Set;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+
 /**
  * 
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
@@ -33,10 +34,10 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("/anotherjaxrs")
 public class AnotherApplication extends Application
 {
-	public java.util.Set<java.lang.Class<?>> getClasses() {
-		Set<Class<?>> resources = new HashSet<Class<?>>();
-		resources.add(AnotherEchoResource.class);
-		return resources;
-	}
+   public java.util.Set<java.lang.Class<?>> getClasses()
+   {
+      Set<Class<?>> resources = new HashSet<Class<?>>();
+      resources.add(AnotherEchoResource.class);
+      return resources;
+   }
 }
-

@@ -33,9 +33,11 @@ import javax.ws.rs.Produces;
 
 @Produces("text/plain")
 @Path("echo/{id}")
-public class EchoResource {
-	@GET
-	public String echo(@PathParam("id") int id) {
-		return "echo:" + id;
-	}
+public class EchoResource
+{
+   @GET
+   public String echo(@PathParam("id") int id)
+   {
+      return "echo:" + id;
+   }
 }

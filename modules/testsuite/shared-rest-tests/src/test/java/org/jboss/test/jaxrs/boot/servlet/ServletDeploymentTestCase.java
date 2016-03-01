@@ -43,78 +43,76 @@ import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 /**
  * 
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 @RunWith(Arquillian.class)
 @RunAsClient
-public class ServletDeploymentTestCase {
+public class ServletDeploymentTestCase
+{
 
-    @ArquillianResource
-    private URL url;
+   @ArquillianResource
+   private URL url;
 
-    @Deployment(testable = false)
-	public static WebArchive createDeployments() {
-		WebArchive archive = ShrinkWrap.create(WebArchive.class,
-				"jaxrs-servlet.war");
-	    archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-server services\n"))
-				.addClasses(EchoResource.class, TestApplication.class,
-						AnotherApplication.class, AnotherEchoResource.class, SetPropertyProvider.class)
-				.setWebXML(JBossWSTestHelper.getWebXml(
-										"<servlet>\n"
-										+"  <servlet-name>JAXRS</servlet-name>\n"
-									    +"  <servlet-class>org.jboss.wsf.stack.cxf.JAXRSServletExt</servlet-class>\n"
-									    +"  <init-param>\n"
-										+"     <param-name>javax.ws.rs.Application</param-name>\n"
-							            +"     <param-value>org.jboss.test.jaxrs.boot.servlet.TestApplication</param-value>\n"
-							            +"  </init-param>\n"
-									    +"</servlet>\n"
-										+"<servlet-mapping>\n"
-										+"  <servlet-name>JAXRS</servlet-name>\n"
-										+"   <url-pattern>/*</url-pattern>\n"
-										+"</servlet-mapping>\n"));
-		return archive;
-	}
-    
-    @Test
-    public void testRequest() throws Exception {
-    	
-    	Client client = ClientBuilder.newClient();
-		WebTarget target = client.target(url + "myjaxrs/echo/5");
-		Invocation.Builder builder = target.request();
-		Response response = builder.buildGet().invoke();
+   @Deployment(testable = false)
+   public static WebArchive createDeployments()
+   {
+      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxrs-servlet.war");
+      archive
+            .setManifest(
+                  new StringAsset("Manifest-Version: 1.0\n"
+                        + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-server services\n"))
+            .addClasses(EchoResource.class, TestApplication.class, AnotherApplication.class, AnotherEchoResource.class,
+                  SetPropertyProvider.class)
+            .setWebXML(
+                  JBossWSTestHelper.getWebXml("<servlet>\n" + "  <servlet-name>JAXRS</servlet-name>\n"
+                        + "  <servlet-class>org.jboss.wsf.stack.cxf.JAXRSServletExt</servlet-class>\n"
+                        + "  <init-param>\n" + "     <param-name>javax.ws.rs.Application</param-name>\n"
+                        + "     <param-value>org.jboss.test.jaxrs.boot.servlet.TestApplication</param-value>\n"
+                        + "  </init-param>\n" + "</servlet>\n" + "<servlet-mapping>\n"
+                        + "  <servlet-name>JAXRS</servlet-name>\n" + "   <url-pattern>/*</url-pattern>\n"
+                        + "</servlet-mapping>\n"));
+      return archive;
+   }
 
-        Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("echo:5", response.readEntity(String.class));
-    }
-    
-    
-    @Test
-    public void testDoubleSlashRequest() throws Exception {
-    	
-    	Client client = ClientBuilder.newClient();
-		WebTarget target = client.target(url + "/myjaxrs/echo/5");
-		Invocation.Builder builder = target.request();
-		Response response = builder.buildGet().invoke();
-        Assert.assertEquals("echo:5", response.readEntity(String.class));
-    }
-    
-    
-    
-    @Test
-    public void testRequestWithProvider() throws Exception {
-    	
-    	Client client = ClientBuilder.newClient();
-    	client.register(new SetPropertyProvider(new AtomicInteger(0)));
-		WebTarget target = client.target(url + "/myjaxrs/echo/5");
-		Invocation.Builder builder = target.request();
-		Response response = builder.buildGet().invoke();
-        Assert.assertEquals("echo:5", response.readEntity(String.class));
-        response = builder.buildGet().invoke();
-        Assert.assertEquals("Value is set from client provider", response.readEntity(String.class));
-    }
-    
+   @Test
+   public void testRequest() throws Exception
+   {
+
+      Client client = ClientBuilder.newClient();
+      WebTarget target = client.target(url + "myjaxrs/echo/5");
+      Invocation.Builder builder = target.request();
+      Response response = builder.buildGet().invoke();
+
+      Assert.assertEquals(200, response.getStatus());
+      Assert.assertEquals("echo:5", response.readEntity(String.class));
+   }
+
+   @Test
+   public void testDoubleSlashRequest() throws Exception
+   {
+
+      Client client = ClientBuilder.newClient();
+      WebTarget target = client.target(url + "/myjaxrs/echo/5");
+      Invocation.Builder builder = target.request();
+      Response response = builder.buildGet().invoke();
+      Assert.assertEquals("echo:5", response.readEntity(String.class));
+   }
+
+   @Test
+   public void testRequestWithProvider() throws Exception
+   {
+
+      Client client = ClientBuilder.newClient();
+      client.register(new SetPropertyProvider(new AtomicInteger(0)));
+      WebTarget target = client.target(url + "/myjaxrs/echo/5");
+      Invocation.Builder builder = target.request();
+      Response response = builder.buildGet().invoke();
+      Assert.assertEquals("echo:5", response.readEntity(String.class));
+      response = builder.buildGet().invoke();
+      Assert.assertEquals("Value is set from client provider", response.readEntity(String.class));
+   }
+
 }
-

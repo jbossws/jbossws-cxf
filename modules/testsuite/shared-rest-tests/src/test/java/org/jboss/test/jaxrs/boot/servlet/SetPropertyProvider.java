@@ -28,25 +28,29 @@ import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
+
 /**
  * 
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
 @Provider
-public class SetPropertyProvider implements ClientRequestFilter {
-	private AtomicInteger counter;
-	
-	public SetPropertyProvider(AtomicInteger counter) {
-		super();
-		this.counter = counter;
-	}
+public class SetPropertyProvider implements ClientRequestFilter
+{
+   private AtomicInteger counter;
 
-	public void filter(ClientRequestContext context) throws IOException {
-		if (counter.incrementAndGet() == 2) {
-			Response response = Response.ok("Value is set from client provider").build();
-			context.abortWith(response);
-		} 
-	}
+   public SetPropertyProvider(AtomicInteger counter)
+   {
+      super();
+      this.counter = counter;
+   }
+
+   public void filter(ClientRequestContext context) throws IOException
+   {
+      if (counter.incrementAndGet() == 2)
+      {
+         Response response = Response.ok("Value is set from client provider").build();
+         context.abortWith(response);
+      }
+   }
 
 }
-
