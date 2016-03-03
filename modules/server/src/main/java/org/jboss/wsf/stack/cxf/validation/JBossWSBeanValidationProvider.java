@@ -33,6 +33,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.ValidationException;
+import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.executable.ExecutableType;
 import javax.validation.executable.ExecutableValidator;
@@ -68,7 +69,7 @@ public final class JBossWSBeanValidationProvider extends BeanValidationProvider
     */
    private TypeResolver typeResolver = new TypeResolver();
 
-   private volatile ValidatorFactory contextValidatorFactory = null;
+   private volatile Validator contextValidator = null;
 
    private ValidatorFactory factory = null;
 
@@ -391,45 +392,45 @@ public final class JBossWSBeanValidationProvider extends BeanValidationProvider
    
    private <T> Set<ConstraintViolation<T>> doValidateBean(final T bean)
    {
-      if (contextValidatorFactory != null)
+      if (contextValidator != null)
       {
-         return contextValidatorFactory.getValidator().validate(bean);
+         return contextValidator.validate(bean);
       }
-      return getValidatorFactory().getValidator().validate(bean);
+      return getValidator().validate(bean);
    }
 
    private ExecutableValidator getExecutableValidator()
    {
-      if (contextValidatorFactory != null)
+      if (contextValidator != null)
       {
-         return contextValidatorFactory.getValidator().forExecutables();
+         return contextValidator.forExecutables();
       }
-      return getValidatorFactory().getValidator().forExecutables();
+      return getValidator().forExecutables();
 
    }
    
    
-   private synchronized ValidatorFactory getValidatorFactory()
+   private synchronized Validator getValidator()
    {
-      if (contextValidatorFactory != null)
+      if (contextValidator != null)
       {
-         return contextValidatorFactory;
+         return contextValidator;
       }
       try
       {
          //get jndi vlidatorFactory to validate cdi beans
          Context context = new InitialContext();
-         contextValidatorFactory = ValidatorFactory.class.cast(context.lookup("java:comp/ValidatorFactory"));
+         contextValidator = ValidatorFactory.class.cast(context.lookup("java:comp/ValidatorFactory")).getValidator();
       }
       catch (NamingException e)
       {
          //TODO: i18n log
       }
-      if (contextValidatorFactory == null) {
-         contextValidatorFactory = factory; 
+      if (contextValidator == null) {
+         contextValidator = factory.getValidator();
       }
      
-      return contextValidatorFactory;
+      return contextValidator;
    }
    
 
