@@ -135,7 +135,6 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       JAXRSServerFactoryBean bean = ResourceUtils.createApplication(app, md.isIgnoreApplicationPath(), false);
       bean.setBus(bus);
       bean.setApplicationInfo(providerApp);
-      bean.setInvoker(new JBossWSJAXRSInvoker());
       List<Class<?>> additionalResources = new ArrayList<>();
       if (app.getClasses().isEmpty() && app.getSingletons().isEmpty()) {
          processResources(bean, md, bus, classLoader, additionalResources, cdiDeployment);
@@ -150,6 +149,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       addExtraInterceptors(bean);
       if (!bean.getResourceClasses().isEmpty() || !additionalResources.isEmpty()) {
          bean.setResourceClasses(additionalResources);
+         bean.setInvoker(new JBossWSJAXRSInvoker(bean.getResourceClasses()));
          bean.create();
       }
    }
@@ -168,7 +168,6 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       JAXRSServerFactoryBean bean = new JAXRSServerFactoryBean();
       bean.setBus(bus);
       bean.setAddress("/"); //TODO!!!
-      bean.setInvoker(new JBossWSJAXRSInvoker());
       //resources...
       List<Class<?>> resources = new ArrayList<>();
       processResources(bean, md, bus, classLoader, resources, cdiDeployment);
@@ -183,6 +182,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       addExtraInterceptors(bean);
       if (!bean.getResourceClasses().isEmpty() || !resources.isEmpty()) {
          bean.setResourceClasses(resources);
+         bean.setInvoker(new JBossWSJAXRSInvoker(resources));
          bean.create();
       }
    }

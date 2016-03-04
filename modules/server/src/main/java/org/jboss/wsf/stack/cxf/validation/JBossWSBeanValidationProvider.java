@@ -23,7 +23,9 @@ package org.jboss.wsf.stack.cxf.validation;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.naming.Context;
@@ -72,11 +74,21 @@ public final class JBossWSBeanValidationProvider extends BeanValidationProvider
    private volatile Validator contextValidator = null;
 
    private ValidatorFactory factory = null;
+   
+   private final Map<Method, Boolean> methodsMap = new HashMap<>();
 
-   public JBossWSBeanValidationProvider()
+   public JBossWSBeanValidationProvider(List<Class<?>> resources)
    {
       //TODO: Add a getValidatorFactory in cxf to avoid creating factory twice
       factory = Validation.buildDefaultValidatorFactory();
+      
+      for (Class<?> c : resources) {
+         for (Method m : c.getMethods()) {
+            if (!m.getDeclaringClass().equals(Object.class)) {
+               methodsMap.put(m, isMethodValidatableInternal(m));
+            }
+         }
+      }
    }
 
    public JBossWSBeanValidationProvider(ValidatorFactory factory)
@@ -111,8 +123,16 @@ public final class JBossWSBeanValidationProvider extends BeanValidationProvider
       }
    }
 
-   
    protected boolean isMethodValidatable(Method m)
+   {
+      Boolean res = methodsMap.get(m);
+      if (res == null) {
+         res = isMethodValidatableInternal(m);
+      }
+      return res;
+   }
+   
+   private boolean isMethodValidatableInternal(Method m)
    {
       ExecutableType[] types = null;
       List<ExecutableType[]> typesList = getExecutableTypesOnMethodInHierarchy(m);

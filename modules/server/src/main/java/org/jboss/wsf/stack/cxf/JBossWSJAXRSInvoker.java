@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.List;
 
 import org.apache.cxf.jaxrs.model.ClassResourceInfo;
 import org.apache.cxf.jaxrs.model.OperationResourceInfo;
@@ -40,9 +41,9 @@ import org.jboss.wsf.stack.cxf.validation.JBossWSBeanValidationProvider;
  */
 public class JBossWSJAXRSInvoker extends JAXRSBeanValidationInvoker implements Invoker
 {
-   public JBossWSJAXRSInvoker() {
+   public JBossWSJAXRSInvoker(List<Class<?>> resources) {
       super();
-      setProvider(new JBossWSBeanValidationProvider());
+      setProvider(new JBossWSBeanValidationProvider(resources));
    }
    
    @Override
