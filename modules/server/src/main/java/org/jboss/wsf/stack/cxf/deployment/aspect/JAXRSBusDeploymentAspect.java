@@ -130,6 +130,11 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
    }
    
    private static void createFromApplication(JAXRSDeploymentMetadata md, Class<?> appClazz, Bus bus, ClassLoader classLoader, boolean cdiDeployment) {
+      //TODO:filter the can't construct app; another app set can be added in spi jaxrsDA ? 
+      //and add if (!appClazz.isAnnotationPresent(ApplicationPath.class) && !md.hasBootClasses()) check
+      if (ResourceUtils.findResourceConstructor(appClazz, false) == null) {
+         return;
+      }
       ApplicationInfo providerApp = (ApplicationInfo)createSingletonInstance(appClazz, bus);
       Application app = providerApp.getProvider();
       JAXRSServerFactoryBean bean = ResourceUtils.createApplication(app, md.isIgnoreApplicationPath(), false);
