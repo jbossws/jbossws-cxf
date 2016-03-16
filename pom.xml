@@ -32,7 +32,7 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>5.1.4-SNAPSHOT</version>
+  <version>5.2.0-SNAPSHOT</version>
   
   <!-- Parent -->
   <parent>
@@ -64,7 +64,7 @@
   <properties>
     <jbossws.api.version>1.0.3.Final</jbossws.api.version>
     <jbossws.spi.version>3.1.0.Final</jbossws.spi.version>
-    <jbossws.common.version>3.1.2-SNAPSHOT</jbossws.common.version>
+    <jbossws.common.version>3.2.0-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.2.2.Final</jbossws.common.tools.version>
     <jbossws.wildfly901.version>5.1.0.Final</jbossws.wildfly901.version>
     <jbossws.wildfly902.version>5.1.1.Final</jbossws.wildfly902.version>
