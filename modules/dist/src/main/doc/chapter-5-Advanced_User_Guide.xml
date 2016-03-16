@@ -150,14 +150,14 @@
         <listitem>
           <para>
             <code>META-INF/jboss-webservices.xml</code>
-            for EJB webservice deployments
+            for EJB webservice deployments (JAR archives)
           </para>
         </listitem>
         <listitem>
           <para>
             <code>WEB-INF/jboss-webservices.xml</code>
             for POJO webservice deployments and EJB webservice endpoints bundled in
-            <code>war</code>
+            <code>WAR</code>
             archives
           </para>
         </listitem>
@@ -1037,7 +1037,7 @@ public class ServiceEndpointImpl implements ServiceIface {
           <ulink url="http://cxf.apache.org/">Apache CXF</ulink>
           project modules.
         </para>
-        <para>Apache CXF is an open source services framework. It allows building and  developing services using frontend programming APIs (including JAX-WS), with services speaking a variety of protocols such as SOAP and  XML/HTTP over a variety of transports  such as HTTP and JMS.</para>
+        <para>Apache CXF is an open source services framework. It allows building and developing services using frontend programming APIs (including JAX-WS), with services speaking a variety of protocols such as SOAP and XML/HTTP over a variety of transports such as HTTP and JMS.</para>
         <para>
           The integration layer (
           <emphasis role="italics">JBossWS-CXF</emphasis>
@@ -1045,13 +1045,13 @@ public class ServiceEndpointImpl implements ServiceIface {
         </para>
         <itemizedlist>
           <listitem>
-            <para>allowing  using standard webservices APIs (including JAX-WS) on WildFly; this is performed internally leveraging Apache  CXF without requiring the user to deal with it;</para>
+            <para>allowing using standard webservices APIs (including JAX-WS) on WildFly; this is performed internally leveraging Apache CXF without requiring the user to deal with it;</para>
           </listitem>
           <listitem>
-            <para>allowing using  Apache CXF advanced features (including WS-*) on top of WildFly without requiring the user to deal with / setup /  care about the required integration steps for running in such a  container.</para>
+            <para>allowing using Apache CXF advanced features (including WS-*) on top of WildFly without requiring the user to deal with / setup / care about the required integration steps for running in such a container.</para>
           </listitem>
         </itemizedlist>
-        <para>In order for achieving the goals above, the  JBossWS-CXF integration supports the JBoss ws endpoint  deployment mechanism and comes with many internal customizations on top of Apache CXF.</para>
+        <para>In order for achieving the goals above, the JBossWS-CXF integration supports the JBoss ws endpoint deployment mechanism and comes with many internal customizations on top of Apache CXF.</para>
         <para>
           In the next sections a list of technical suggestions and notes on the integration is provided; please also refer to the
           <ulink url="http://cxf.apache.org/docs/index.html">Apache CXF official documentation</ulink>
@@ -1121,7 +1121,7 @@ public class ServiceEndpointImpl implements ServiceIface {
           <para>
             Most of the Apache CXF features are configurable using the
             <code>org.apache.cxf.Bus</code>
-            class. While for basic JAX-WS usage the user might never need to  explicitly deal with Bus, using Apache CXF specific features generally  requires getting a handle to a
+            class. While for basic JAX-WS usage the user might never need to explicitly deal with Bus, using Apache CXF specific features generally requires getting a handle to a
             <code>org.apache.cxf.Bus</code>
             instance. This can happen on client side as well as in a ws endpoint or handler business code.
           </para>
@@ -1134,15 +1134,15 @@ public class ServiceEndpointImpl implements ServiceIface {
             <programlisting>Bus bus = BusFactory.newInstance().createBus();</programlisting>
           </informalexample>
           <para>
-            The  algorithm for selecting the actual implementation of
+            The algorithm for selecting the actual implementation of
             <code>BusFactory</code>
-            to be  used leverages the Service API, basically looking for optional  configurations in
+            to be used leverages the Service API, basically looking for optional configurations in
             <emphasis role="italics">META-INF/services/...</emphasis>
-            location using the current  thread context classloader. JBossWS-CXF integration comes with its own  implementation of
+            location using the current thread context classloader. JBossWS-CXF integration comes with its own implementation of
             <code>BusFactory</code>
             ,
             <code>org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory</code>
-            ,  that allows for seamless setup of JBossWS customizations on top of Apache CXF. So,  assuming the JBossWS-CXF libraries are available in the current thread  context classloader, the
+            , that allows for seamless setup of JBossWS customizations on top of Apache CXF. So, assuming the JBossWS-CXF libraries are available in the current thread context classloader, the
             <code>JBossWSBusFactory</code>
             is
             <emphasis role="italics">automatically</emphasis>
@@ -1168,9 +1168,9 @@ Bus bus = new JBossWSBusFactory().createBus(myExtensions);</programlisting>
           
           <title>Using existing Bus instances</title>
           <para>
-            Apache  CXF keeps reference to a global default
+            Apache CXF keeps reference to a global default
             <code>Bus</code>
-            instance as well as to a  thread default bus for each thread. That is performed through static  members in
+            instance as well as to a thread default bus for each thread. That is performed through static members in
             <code>org.apache.cxf.BusFactory</code>
             <emphasis role="italics">,</emphasis>
             which also comes with the following methods in the public API:
@@ -1198,9 +1198,9 @@ public static void setThreadDefaultBus(Bus bus)
             <emphasis role="italics">getThreadDefaultBus()</emphasis>
             and
             <emphasis role="italics">getThreadDefaultBus(true)</emphasis>
-            first fallback to retrieving the configured global default bus before  actually trying creating a new instance (and the created new instance is  set as global default bus if that was not set there yet).
+            first fallback to retrieving the configured global default bus before actually trying creating a new instance (and the created new instance is set as global default bus if that was not set there yet).
           </para>
-          <para>The  drawback of this mechanism (which is basically fine in JSE environment)  is that when running in WildFly container you need to be careful in  order not to (mis)use a bus over multiple applications (assuming the  Apache CXF classes are loaded by the same classloader, which is  currently the case with WildFly).</para>
+          <para>The drawback of this mechanism (which is basically fine in JSE environment) is that when running in WildFly container you need to be careful in order not to (mis)use a bus over multiple applications (assuming the Apache CXF classes are loaded by the same classloader, which is currently the case with WildFly).</para>
           <para>Here is a list of general suggestions to avoid problems when running in-container:</para>
           <itemizedlist>
             <listitem>
@@ -1224,20 +1224,20 @@ public static void setThreadDefaultBus(Bus bus)
               </para>
             </listitem>
             <listitem>
-              <para>keep  in mind thread pooling whenever you customize a thread default bus  instance (for instance adding bus scope interceptors, ...), as that  thread and bus might be later reused; so either shutdown the bus when  you're done or explicitly remove it from the BusFactory thread  association.</para>
+              <para>keep in mind thread pooling whenever you customize a thread default bus instance (for instance adding bus scope interceptors, ...), as that thread and bus might be later reused; so either shutdown the bus when you're done or explicitly remove it from the BusFactory thread association.</para>
             </listitem>
           </itemizedlist>
-          <para>Finally, remember that each time you explictly  create a new Bus instance (factory.createBus()) that is set as thread  default bus and global default bus if those are not set yet.</para>
+          <para>Finally, remember that each time you explictly create a new Bus instance (factory.createBus()) that is set as thread default bus and global default bus if those are not set yet.</para>
           <para>
             The JAXWS
             <code>Provider</code>
             implementation also creates
             <code>Bus</code>
-            instances internally, in  particular the JBossWS version of JAXWS
+            instances internally, in particular the JBossWS version of JAXWS
             <code>Provider</code>
-            makes sure the default  bus is never internally used and instead a new
+            makes sure the default bus is never internally used and instead a new
             <code>Bus</code>
-            is created if  required (more details on this in the next paragraph).
+            is created if required (more details on this in the next paragraph).
           </para>
         </section>
         <section id="sid-3866786_ApacheCXFintegration-BusselectionstrategiesforJAXWSclients">
@@ -1284,7 +1284,7 @@ public static void setThreadDefaultBus(Bus bus)
             
             <title>Thread context classloader bus strategy (TCCL_BUS)</title>
             <para>The last strategy is to have the bus created for serving the client be associated to the current thread context classloader (TCCL). That basically means the same Bus instance is shared by JAXWS clients running when the same TCCL is set. This is particularly interesting as each web application deployment usually has its own context classloader, so this strategy is possibly a way to keep the number of created Bus instances bound to the application number in a WildFly container.</para>
-            <para>If there's a bus already associated to the current thread before the  JAXWS client creation, that is automatically restored when returning  control to the user; in other words, the bus corresponding to the current thread context classloader will be used  only for the created JAXWS client but won't stay associated to the current thread at the end of the process. If the thread was not associated to any bus before the  client creation, a new bus will be created (and later user for any other client built with this strategy and the same TCCL in place); no bus will be associated to the thread at the end of  the client creation.</para>
+            <para>If there's a bus already associated to the current thread before the JAXWS client creation, that is automatically restored when returning control to the user; in other words, the bus corresponding to the current thread context classloader will be used only for the created JAXWS client but won't stay associated to the current thread at the end of the process. If the thread was not associated to any bus before the client creation, a new bus will be created (and later user for any other client built with this strategy and the same TCCL in place); no bus will be associated to the thread at the end of the client creation.</para>
           </section>
           <section id="sid-3866786_ApacheCXFintegration-Strategyconfiguration">
             
@@ -1392,9 +1392,9 @@ public static void setThreadDefaultBus(Bus bus)
         
         <title>Server Side Integration Customization</title>
         <para>
-          The  JBossWS-CXF server side integration takes care of internally creating  proper Apache CXF structures (including a
+          The JBossWS-CXF server side integration takes care of internally creating proper Apache CXF structures (including a
           <code>Bus</code>
-          instance, of course) for  the provided ws deployment. Should the deployment include multiple endpoints, those would all live within the same Apache CXF Bus, which would of course be completely separated by the other deployments' bus instances.
+          instance, of course) for the provided ws deployment. Should the deployment include multiple endpoints, those would all live within the same Apache CXF Bus, which would of course be completely separated by the other deployments' bus instances.
         </para>
         <para>
           While JBossWS sets sensible defaults for most of the Apache CXF configuration options on server side, users might want to fine tune the
@@ -3818,7 +3818,7 @@ org.apache.ws.security.crypto.merlin.keystore.file=servicestore.jks
           <section id="sid-47972359_WS-TrustandSTS-MANIFEST.MF">
             
             <title>MANIFEST.MF</title>
-            <para>When deployed on WildFly this application requires  access to the JBossWs and CXF APIs provided in module  org.jboss.ws.cxf.jbossws-cxf-client.  The dependency statement directs the server to provide them at deployment.</para>
+            <para>When deployed on WildFly this application requires  access to the JBossWS and Apache CXF APIs provided in module  org.jboss.ws.cxf.jbossws-cxf-client.  The dependency statement directs the server to provide them at deployment.</para>
             <informalexample>
               <programlisting>
 Manifest-Version: 1.0  
@@ -4392,7 +4392,7 @@ org.apache.ws.security.crypto.merlin.keystore.file=stsstore.jks
             
             <title>MANIFEST.MF</title>
             <para>
-              When deployed on WildFly, this application requires  access to the JBossWs and CXF APIs provided in modules  org.jboss.ws.cxf.jbossws-cxf-client and org.apache.cxf.  The Apache CXF internals,  org.apache.cxf.impl,  are needed to build the STS configuration in  the
+              When deployed on WildFly, this application requires  access to the JBossWS and Apache CXF APIs provided in module org.jboss.ws.cxf.jbossws-cxf-client.  The org.jboss.ws.cxf.sts module is also needed to build the STS configuration in  the
               <code>SampleSTS</code>
               constructor.  The dependency statement directs the server to provide them at deployment.
             </para>
@@ -4401,7 +4401,7 @@ org.apache.ws.security.crypto.merlin.keystore.file=stsstore.jks
 Manifest-Version: 1.0  
 Ant-Version: Apache Ant 1.8.2  
 Created-By: 1.7.0_25-b15 (Oracle Corporation)  
-Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl
+Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.jboss.ws.cxf.sts
 </programlisting>
             </informalexample>
           </section>
@@ -5392,14 +5392,14 @@ org.apache.ws.security.crypto.merlin.keystore.file=actasstore.jks
             
             <title>MANIFEST.MF</title>
             <para>
-              <emphasis role="color:#000000">When deployed on WildFly this application requires  access to the JBossWs and CXF APIs provided in modules  org.jboss.ws.cxf.jbossws-cxf-client and org.apache.cxf.  The Apache CXF internals,  org.apache.cxf.impl,  are needed in handling the ActAs and OnBehalfOf  extensions.  The dependency statement directs the server to  provide them at deployment.</emphasis>
+              <emphasis role="color:#000000">When deployed on WildFly this application requires  access to the JBossWS and Apache CXF APIs provided in modules  org.jboss.ws.cxf.jbossws-cxf-client.  The org.jboss.ws.cxf.sts module is also needed in handling the ActAs and OnBehalfOf  extensions.  The dependency statement directs the server to  provide them at deployment.</emphasis>
             </para>
             <informalexample>
               <programlisting>
 Manifest-Version: 1.0
 Ant-Version: Apache Ant 1.8.2
 Created-By: 1.7.0_25-b15 (Oracle Corporation)
-Dependencies: org.jboss.ws.cxf.jbossws-cxf-client, org.apache.cxf.impl
+Dependencies: org.jboss.ws.cxf.jbossws-cxf-client, org.jboss.ws.cxf.sts
 </programlisting>
             </informalexample>
           </section>
@@ -6942,7 +6942,7 @@ org.apache.ws.security.crypto.merlin.keystore.file=stsstore.jks
             
             <title>MANIFEST.MF</title>
             <para>
-              When deployed on WildFly, this application requires   access to the JBossWs and CXF APIs provided in modules   org.jboss.ws.cxf.jbossws-cxf-client and org.apache.cxf.  The Apache CXF  internals,  org.apache.cxf.impl,  are needed to build the STS  configuration in  the
+              When deployed on WildFly, this application requires   access to the JBossWS and Apache CXF APIs provided in modules   org.jboss.ws.cxf.jbossws-cxf-client.  The org.jboss.ws.cxf.sts module is also needed to build the STS  configuration in  the
               <code>SampleSTS</code>
               constructor.  The dependency statement directs the server to provide them at deployment.
             </para>
@@ -6951,7 +6951,7 @@ org.apache.ws.security.crypto.merlin.keystore.file=stsstore.jks
 Manifest-Version: 1.0  
 Ant-Version: Apache Ant 1.8.2  
 Created-By: 1.7.0_25-b15 (Oracle Corporation)  
-Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl
+Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.jboss.ws.cxf.sts
 </programlisting>
             </informalexample>
           </section>
@@ -7342,7 +7342,7 @@ org.apache.ws.security.crypto.merlin.keystore.file=META-INF/clientstore.jks
             <para>
               Follow the directions in the, "
               <emphasis role="italics">Using the pure Java implementation supplied by JSSE</emphasis>
-              " section in the [SSL Setup Guide|../../../../../../../../../../display/WFLY8/SSL+setup+guide||\||].
+              " section in the [SSL Setup Guide|../../../../../../../../../../display/WFLY8/SSL+setup+guide|||\||].
             </para>
             <para>Here is an example of an SSL connector declaration.</para>
             <informalexample>
@@ -8039,13 +8039,13 @@ org.apache.ws.security.crypto.merlin.keystore.file=stsstore.jks
           <section id="sid-78906915_SAMLHolder-Of-KeyAssertionScenario-MANIFEST.MFx">
             
             <title>MANIFEST.MF</title>
-            <para>When deployed on WildFly, this application requires   access to the JBossWs and CXF APIs provided in modules   org.jboss.ws.cxf.jbossws-cxf-client and org.apache.cxf.  The Apache CXF  internals,  org.apache.cxf.impl,  are needed to build the STS  configuration in  the SampleSTSHolderOfKey constructor.  The dependency statement directs the server to provide them at deployment.</para>
+            <para>When deployed on WildFly, this application requires   access to the JBossWS and Apache CXF APIs provided in modules   org.jboss.ws.cxf.jbossws-cxf-client.  The org.jboss.ws.cxf.sts module is also needed to build the STS  configuration in  the SampleSTSHolderOfKey constructor.  The dependency statement directs the server to provide them at deployment.</para>
             <informalexample>
               <programlisting>
 Manifest-Version:1.0
 Ant-Version: Apache Ant1.8.2
 Created-By:1.7.0_25-b15 (Oracle Corporation)
-Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl
+Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.jboss.ws.cxf.sts
 </programlisting>
             </informalexample>
           </section>
