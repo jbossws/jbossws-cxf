@@ -2,7 +2,7 @@
 JBoss Web Services - Stack CXF Distribution
 http://jbossws.jboss.org
 
-Version: jbossws-cxf-5.1.2.Final
+Version: jbossws-cxf-5.1.4.Final
 
 Release Notes
 =============
@@ -23,11 +23,48 @@ https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.pro
 For issues that are scheduled for future versions see the road map.
 https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
 
-What's new in jbossws-cxf-5.1.3.Final
+What's new in jbossws-cxf-5.1.4.Final
 -------------------------------------
 
+Bug
+
+    * [JBWS-3964] - Incorrect behaviour with @WebParam(header = true, mode = IN)
+    * [JBWS-3974] - Incorreclty bypass the SecurityManager and call AccessControl.checkPermission() directly
+    * [JBWS-3976] - Two different versions of ASM artifact in client dependency tree
+    * [JBWS-3977] - slf4j is used by ws security related bits, logging bridge probably needed
+    * [JBWS-3985] - CXFHandlerResolverImpl not threadsafe
 
 Enhancement
+
+    * [JBWS-3981] - Remove requirement of org.apache.cxf.impl module dependency for STS deployments
+    * [JBWS-3986] - Improve isolation between integration code and user code
+
+Task
+
+    * [JBWS-3978] - Upgrade to Apache CXF 3.1.5
+    * [JBWS-3975] - Create ASIL for WildFly 10.0.0.Final
+    * [JBWS-3979] - Remove org.apache.santuario.xmlsec dependency from org.jboss.as.webservices.server.integration module
+    * [JBWS-3982] - Clean-up test deployment dependencies
+    * [JBWS-3987] - Loosen BusTestCase::testReuse() checks
+    * [JBWS-3988] - Ignore IDEA files
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3989
+
+This version of JBossWS is based on Apache CXF 3.1.5
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-5.1.3.Final
+-----------------------
+
+Bug
 
     * [JBWS-3973] - Disable schema cache to workaround intermittent failure in WFLY testsuite
 
@@ -43,11 +80,6 @@ Errata
 
 This version of JBossWS is based on Apache CXF 3.1.4
 
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
 jbossws-cxf-5.1.2.Final
