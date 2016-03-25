@@ -107,6 +107,8 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
          bus.setExtension(new ServletDestinationFactory(), HttpDestinationFactory.class);
          //Don't add the default cxf JSONProvider
          bus.setProperty("skip.default.json.provider.registration", true);
+         //this will enable cxf to select the right method with subResouceLocator
+         bus.setProperty("keep.subresource.candidates", true);
          JAXRSDeploymentMetadata md = dep.getAttachment(JAXRSDeploymentMetadata.class);
          boolean cdiDeployment = false;
          if (dep.getProperty("isWeldDeployment") != null) {
