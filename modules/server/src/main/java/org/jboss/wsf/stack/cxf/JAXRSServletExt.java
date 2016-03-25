@@ -87,7 +87,12 @@ public class JAXRSServletExt extends CXFNonSpringServlet implements ServletDeleg
    {
       this.doDelete(request, response);
    }
-
+   @Override
+   public void doTrace(HttpServletRequest request, HttpServletResponse response)
+         throws ServletException, IOException
+   {
+      super.handleRequest(request, response);
+   }
    @Override
    public void service(HttpServletRequest request, HttpServletResponse response, ServletContext context)
          throws ServletException, IOException
