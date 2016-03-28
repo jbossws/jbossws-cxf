@@ -41,6 +41,7 @@ import org.apache.cxf.jaxrs.model.ApplicationInfo;
 import org.apache.cxf.jaxrs.model.ProviderInfo;
 import org.apache.cxf.jaxrs.provider.ProviderFactory;
 import org.apache.cxf.jaxrs.provider.json.JSONProvider;
+import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.apache.cxf.jaxrs.utils.ResourceUtils;
 import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationInInterceptor;
 import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationOutInterceptor;
@@ -109,6 +110,8 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
          bus.setProperty("skip.default.json.provider.registration", true);
          //this will enable cxf to select the right method with subResouceLocator
          bus.setProperty("keep.subresource.candidates", true);
+         //return other ExceptionMapper first instead of wae
+         bus.setProperty("default.wae.mapper.least.specific", "true");
          JAXRSDeploymentMetadata md = dep.getAttachment(JAXRSDeploymentMetadata.class);
          boolean cdiDeployment = false;
          if (dep.getProperty("isWeldDeployment") != null) {
@@ -251,6 +254,9 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
    }
    
    private static void setJSONProviders(JAXRSServerFactoryBean bean) {
+      //TODO: review this to see if it conflicts with JSONProvider and JacksonJsonProvider
+      JsrJsonpProvider jsrJsonpProvider = new JsrJsonpProvider();
+      bean.setProvider(jsrJsonpProvider);
       //Add default Jettison provider
       @SuppressWarnings("rawtypes")
       JSONProvider jsonProvider = new JSONProvider();
@@ -258,6 +264,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       bean.setProvider(jsonProvider);
       JacksonJsonProvider provider = new JacksonJsonProvider();
       bean.setProvider(provider);
+      
    }
 
    private static Object createSingletonInstance(Class<?> cls, Bus bus)

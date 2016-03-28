@@ -22,6 +22,7 @@
 package org.jboss.wsf.stack.cxf.validation;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +85,7 @@ public final class JBossWSBeanValidationProvider extends BeanValidationProvider
       
       for (Class<?> c : resources) {
          for (Method m : c.getMethods()) {
-            if (!m.getDeclaringClass().equals(Object.class)) {
+            if (!m.getDeclaringClass().equals(Object.class) && !Modifier.isStatic(m.getModifiers())) {
                methodsMap.put(m, isMethodValidatableInternal(m));
             }
          }
