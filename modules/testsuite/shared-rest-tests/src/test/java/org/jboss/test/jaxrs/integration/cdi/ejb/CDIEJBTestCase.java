@@ -73,7 +73,7 @@ public class CDIEJBTestCase
                   + "version=\"3.0\">" + "<servlet>" + "    <servlet-name>Mapping</servlet-name>"
                   + "    <servlet-class>org.jboss.wsf.stack.cxf.JAXRSServletExt</servlet-class>" + "    <init-param>"
                   + "         <param-name>javax.ws.rs.Application</param-name>"
-                  + "         <param-value>com.sun.ts.tests.jaxrs.platform.ejbsingleton.TSAppConfig</param-value>"
+                  + "         <param-value>org.jboss.test.jaxrs.integration.cdi.ejb.CDIEJBApplication</param-value>"
                   + "     </init-param>" + "</servlet>" + "<servlet-mapping>"
                   + "    <servlet-name>Mapping</servlet-name>" + "    <url-pattern>/*</url-pattern>"
                   + "</servlet-mapping></web-app>");
