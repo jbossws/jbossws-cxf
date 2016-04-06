@@ -31,8 +31,6 @@ import java.util.List;
 import javax.ws.rs.core.Application;
 import javax.xml.ws.spi.Provider;
 
-import  com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.interceptor.Interceptor;
@@ -262,9 +260,9 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       JSONProvider jsonProvider = new JSONProvider();
       jsonProvider.setDropRootElement(true);
       bean.setProvider(jsonProvider);
-      JacksonJsonProvider provider = new JacksonJsonProvider();
-      bean.setProvider(provider);
-      
+      //TODO: look at enable this with a flag?
+      /*JacksonJsonProvider provider = new JacksonJsonProvider();
+      bean.setProvider(provider);*/
    }
 
    private static Object createSingletonInstance(Class<?> cls, Bus bus)

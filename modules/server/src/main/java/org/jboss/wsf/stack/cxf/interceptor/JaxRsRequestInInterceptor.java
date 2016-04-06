@@ -23,8 +23,11 @@ package org.jboss.wsf.stack.cxf.interceptor;
 
 import java.util.regex.Pattern;
 
+import javax.ws.rs.HttpMethod;
+
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxrs.interceptor.JAXRSInInterceptor;
+import org.apache.cxf.jaxrs.utils.HttpUtils;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
@@ -49,6 +52,11 @@ public class JaxRsRequestInInterceptor extends AbstractPhaseInterceptor<Message>
       {
          requestURI = pathPattern.matcher(requestURI).replaceAll("/");
          message.put(Message.REQUEST_URI, requestURI);
+      }
+      String httpMethod = HttpUtils.getProtocolHeader(message, Message.HTTP_REQUEST_METHOD, 
+            HttpMethod.POST, true);
+      if (HttpMethod.OPTIONS.equals(httpMethod)) {
+         message.put("keep.subresource.candidates", false);
       }
    }
 }
