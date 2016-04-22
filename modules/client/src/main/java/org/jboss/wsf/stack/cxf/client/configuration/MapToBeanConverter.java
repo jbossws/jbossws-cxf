@@ -97,7 +97,7 @@ public class MapToBeanConverter
    }
    
    protected Object newInstance(String className) throws Exception {
-      ClassLoader loader = new DelegateClassLoader(ClassLoaderProvider.getDefaultProvider()
+      ClassLoader loader = SecurityActions.createDelegateClassLoader(ClassLoaderProvider.getDefaultProvider()
             .getServerIntegrationClassLoader(), SecurityActions.getContextClassLoader());
       Class<?> clazz = SecurityActions.loadClass(loader, className);
       return clazz.newInstance();
