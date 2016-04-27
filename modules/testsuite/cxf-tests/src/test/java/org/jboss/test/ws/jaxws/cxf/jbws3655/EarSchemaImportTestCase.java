@@ -24,9 +24,11 @@ package org.jboss.test.ws.jaxws.cxf.jbws3655;
 import java.io.File;
 import java.net.URL;
 
+import javax.management.ObjectName;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import org.jboss.arquillian.container.test.api.Deployer;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -36,6 +38,8 @@ import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -43,9 +47,27 @@ import org.junit.runner.RunWith;
 public class EarSchemaImportTestCase extends JBossWSTest
 {
    @ArquillianResource
-   private URL baseURL;
-   
-   @Deployment(testable = false)
+   private Deployer deployer;
+   private static final String EAR_DEPLOYMENT = "jaxws-cxf-jbws3655.ear";
+   private String dataDir;
+   private File wsdlDir;
+
+   @Before
+   public void setup() throws Exception {
+      deployer.deploy(EAR_DEPLOYMENT);
+      ObjectName serverEnviroment = new ObjectName("jboss.as:core-service=server-environment");
+      dataDir = (String)getServer().getAttribute(serverEnviroment, "dataDir");
+      wsdlDir = new File(dataDir+"/wsdl/" + EAR_DEPLOYMENT);
+      //JBWS-3992:check wsdl dir is generated
+      assertTrue(wsdlDir.getAbsolutePath() + "is expected", wsdlDir.exists());
+   }
+   @After
+   public void cleanup() throws Exception {
+      deployer.undeploy(EAR_DEPLOYMENT);
+      //JBWS-3992:check wsdl directory is removed
+      assertTrue("wsdlDir is expetcted to remove" , !wsdlDir.exists());
+   }
+   @Deployment(testable = false, name=EAR_DEPLOYMENT,managed=false)
    public static JavaArchive createDeployment3() {
       JavaArchive archive1 = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-jbws3655-ejb.jar");
       archive1.addManifest().addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloWSEJBImpl.class);
@@ -79,12 +101,11 @@ public class EarSchemaImportTestCase extends JBossWSTest
    @RunAsClient
    public void testSchemaImport() throws Exception
    {
-      HelloWs port = getPort(baseURL + "/jaxws-cxf-jbws3655/HelloService");
+      HelloWs port = getPort("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-cxf-jbws3655/HelloService");
       HelloRequest request = new HelloRequest();
       request.setInput("hello");
       HelloResponse response = port.doHello(request);
       assertEquals(2, response.getMultiHello().size());
-
    }
 
    private HelloWs getPort(String publishURL) throws Exception
