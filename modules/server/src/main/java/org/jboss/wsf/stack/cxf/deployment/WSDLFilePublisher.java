@@ -120,31 +120,25 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
       try
       {
          File parentDir = new File(serverConfig.getServerDataDir().getCanonicalPath() + "/wsdl");
-         removeDirectory(parentDir, dep);
-         ArchiveDeployment parentDeployment = dep.getParent();
-         while (parentDeployment != null)
+         ArchiveDeployment deployment = dep;
+         while (deployment.getParent() != null)
          {
-            removeDirectory(parentDir, parentDeployment);
-            parentDeployment = parentDeployment.getParent();
+            deployment = deployment.getParent();
          }
+         String deploymentName = deployment.getCanonicalName();
+         if (deploymentName.startsWith("http://"))
+         {
+            deploymentName = deploymentName.replace("http://", "http-");
+         }
+         File targetDir = new File(parentDir, deploymentName);
+         FileUtils.removeDir(targetDir);
       }
       catch (IOException e)
       {
          Loggers.DEPLOYMENT_LOGGER.couldNotCreateWsdlDataPath();
       }
    }
-   
-   private void removeDirectory(File parentDir, ArchiveDeployment dep)
-   {
-      String deploymentName = dep.getCanonicalName();
-      if (deploymentName.startsWith("http://"))
-      {
-         deploymentName = deploymentName.replace("http://", "http-");
-      }
-      File targetDir = new File(parentDir, deploymentName);
-      FileUtils.removeDir(targetDir);
 
-   }
    private static Document getWsdlDocument(Bus bus, Definition def) throws WSDLException
    {
       WSDLWriter wsdlWriter = bus.getExtension(WSDLManager.class).getWSDLFactory().newWSDLWriter();
