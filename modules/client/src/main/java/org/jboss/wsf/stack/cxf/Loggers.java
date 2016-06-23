@@ -37,6 +37,7 @@ import org.jboss.logging.Cause;
 import org.jboss.logging.LogMessage;
 import org.jboss.logging.Message;
 import org.jboss.logging.MessageLogger;
+import org.w3c.dom.Element;
 
 /**
  * JBossWS-CXF log messages
@@ -241,7 +242,11 @@ public interface Loggers extends BasicLogger
     @Message(id = 24106, value = "Could not remove previuosly set features on client: %s")
     void couldNoRemoveFeaturesOnClient(String feature);
 
-//    @LogMessage(level = WARN)
+    //    @LogMessage(level = WARN)
 //    @Message(id = 24107, value = "JBossWS-CXF integration with Spring is deprecated and will be dropped in a future release. See https://issues.jboss.org/browse/JBWS-3884 for details.")
 //    void deprecatedSpringIntegration();
+
+    @LogMessage(level = ERROR)
+    @Message(id = 24108, value = "Unable to process handler element: %s")
+    void unableToProcessHandlerElement(Element el, @Cause Throwable cause);
 }
