@@ -30,6 +30,7 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
 import java.net.URI;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
@@ -113,7 +114,7 @@ public class UDPDestination extends AbstractDestination
             catch (IOException e)
             {
                if (socket != null) {
-                  e.printStackTrace();
+                  LOG.log(Level.SEVERE, e.toString());
                }
             }
          }
@@ -197,7 +198,7 @@ public class UDPDestination extends AbstractDestination
       }
       catch (Exception ex)
       {
-         ex.printStackTrace();
+         LOG.log(Level.SEVERE, ex.toString());
          throw new RuntimeException(ex);
       }
    }
