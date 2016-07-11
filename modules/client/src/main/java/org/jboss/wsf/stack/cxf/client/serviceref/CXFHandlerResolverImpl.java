@@ -70,6 +70,7 @@ import javax.xml.ws.handler.PortInfo;
 import org.apache.cxf.Bus;
 import org.apache.cxf.jaxws.handler.HandlerChainBuilder;
 import org.apache.cxf.jaxws.handler.types.PortComponentHandlerType;
+import org.jboss.logging.Logger;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.spi.metadata.ParserConstants;
 import org.w3c.dom.Element;
@@ -81,6 +82,8 @@ import org.w3c.dom.Node;
  */
 final class CXFHandlerResolverImpl extends HandlerChainBuilder implements HandlerResolver
 {
+   private static Logger log = Logger.getLogger(CXFHandlerResolverImpl.class);
+
    @SuppressWarnings("rawtypes")
    private final Map<PortInfo, List<Handler>> handlerMap = new HashMap<PortInfo, List<Handler>>();
    private final String handlerFile;
@@ -328,7 +331,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
               .unmarshal(el, PortComponentHandlerType.class).getValue();
           chain.addAll(buildHandlerChain(pt, classLoader));
       } catch (JAXBException e) {
-          e.printStackTrace();
+         DEPLOYMENT_LOGGER.unableToProcessHandlerElement(el, e);
       }
   }
 
@@ -370,7 +373,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          try {
             context = JAXBContext.newInstance(PortComponentHandlerType.class);
          } catch (JAXBException e) {
-            e.printStackTrace(); //TODO can this really happen?
+            DEPLOYMENT_LOGGER.error(e);
          }
          return context;
       }
