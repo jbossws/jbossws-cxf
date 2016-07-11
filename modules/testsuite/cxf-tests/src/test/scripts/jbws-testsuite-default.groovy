@@ -203,6 +203,8 @@ def ssl = serverIdentities.appendNode('ssl')
 ssl.appendNode('keystore', ['path':project.properties['keystorePath'],'keystore-password':'changeit','alias':'tomcat'])
 
 def server = root.profile.subsystem.server[0]
+def curHttpsListener = server.'https-listener'[0]
+if (curHttpsListener != null) server.remove(curHttpsListener)
 server.appendNode('https-listener', ['name':'jbws-test-https-listener','socket-binding':'https','security-realm':'jbws-test-https-realm'])
 
 

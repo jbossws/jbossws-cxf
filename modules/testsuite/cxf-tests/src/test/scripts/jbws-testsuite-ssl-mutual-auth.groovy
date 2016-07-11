@@ -38,6 +38,8 @@ def authentication = securityRealm.appendNode('authentication')
 authentication.appendNode('truststore', ['path':project.properties['truststorePath'],'keystore-password':'changeit'])
 
 def server = root.profile.subsystem.server[0]
+def curHttpsListener = server.'https-listener'[0]
+if (curHttpsListener != null) server.remove(curHttpsListener)
 server.appendNode('https-listener', ['name':'jbws-test-https-listener','socket-binding':'https','security-realm':'jbws-test-https-realm','verify-client':'REQUESTED'])
 
 
