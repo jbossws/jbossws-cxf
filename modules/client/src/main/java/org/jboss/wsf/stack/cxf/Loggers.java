@@ -247,6 +247,6 @@ public interface Loggers extends BasicLogger
 //    void deprecatedSpringIntegration();
 
     @LogMessage(level = ERROR)
-    @Message(id = 24108, value = "Unable to process handler element: %s")
+    @Message(id = 24110, value = "Unable to process handler element: %s")
     void unableToProcessHandlerElement(Element el, @Cause Throwable cause);
 }
