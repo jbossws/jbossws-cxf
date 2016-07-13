@@ -2,7 +2,7 @@
 JBoss Web Services - Stack CXF Distribution
 http://jbossws.jboss.org
 
-Version: jbossws-cxf-5.1.4.Final
+Version: jbossws-cxf-5.1.5.Final
 
 Release Notes
 =============
@@ -23,8 +23,45 @@ https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.pro
 For issues that are scheduled for future versions see the road map.
 https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
 
-What's new in jbossws-cxf-5.1.4.Final
+What's new in jbossws-cxf-5.1.5.Final
 -------------------------------------
+
+Bug
+
+    * [JBWS-3808] - The response-count of the endpoint metrics sometimes not counted
+    * [JBWS-3953] - Coverity reports possible need to use doPrivileged block for MapToBeanConverter
+    * [JBWS-3992] - wsdl diretory is not cleaned on application deploy/undeploy thereby leaving an empty folder under "/wsdl/data" directory
+    * [JBWS-3999] - Testsuite failing on WFLY master because of duplicated https listener
+
+Enhancement
+
+    * [JBWS-3980] - Make removing console log handler during prepare phase of testsuite optional
+    * [JBWS-3997] - jbossws-common - usage of Exception.printStackTrace() instead of logging feature
+
+Feature Request
+
+    * [JBWS-3984] - Add support for cxf-rt-features-clustering in jbossws-cxf
+    * [JBWS-3990] - Upgrade to Apache CXF 3.1.6
+
+Task
+
+    * [JBWS-3995] - Prevent Apache CXF from using ASM from user deployments
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3989
+
+This version of JBossWS is based on Apache CXF 3.1.6
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-5.1.4.Final
+-----------------------
 
 Bug
 
@@ -54,11 +91,6 @@ Errata
 
 This version of JBossWS is based on Apache CXF 3.1.5
 
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
 jbossws-cxf-5.1.3.Final
