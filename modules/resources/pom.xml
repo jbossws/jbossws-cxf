@@ -51,15 +51,6 @@
             <phase>package</phase>
           </execution>
           <execution>
-            <id>wildfly901</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>wildfly901</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly901/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
-          <execution>
             <id>wildfly902</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>
@@ -84,6 +75,15 @@
             <configuration>
               <classifier>wildfly1010</classifier>
               <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly1010/jbossws.beans</classesDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>wildfly1100</id>
+            <goals><goal>jar</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>wildfly1100</classifier>
+              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly1100/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
         </executions>
