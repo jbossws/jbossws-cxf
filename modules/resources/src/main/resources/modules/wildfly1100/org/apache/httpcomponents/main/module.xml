@@ -22,33 +22,18 @@
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
 
-<project default="main">
+<module xmlns="urn:jboss:module:1.3" name="org.apache.httpcomponents">
+    <properties>
+        <property name="jboss.api" value="private"/>
+    </properties>
 
-  <property name="src.dir" value="${basedir}/src/main/resources"/>
-  <property name="dest.dir" value="${basedir}/target/resources"/>
+    <resources>
+        <!-- Insert resources here -->
+    </resources>
 
-  <target name="main">
-
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as9.xml"
-      tofile="${dest.dir}/jbossws-wildfly902/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as10.xml"
-      tofile="${dest.dir}/jbossws-wildfly1000/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-  	
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as10.xml"
-      tofile="${dest.dir}/jbossws-wildfly1010/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-  	
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as11.xml"
-      tofile="${dest.dir}/jbossws-wildfly1100/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-  	
-  </target>
-
-</project>
+    <dependencies>
+        <module name="javax.api"/>
+        <module name="org.apache.commons.codec"/>
+        <module name="org.apache.commons.logging"/>
+    </dependencies>
+</module>
