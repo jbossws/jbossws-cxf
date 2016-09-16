@@ -176,6 +176,16 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
+            <!-- Different version and dependency below to workaround plexus archiver issue with
+                 project Verona, see https://github.com/codehaus-plexus/plexus-archiver/pull/12 -->
+            <version>2.4.1</version>
+            <dependencies>
+                <dependency>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-archiver</artifactId>
+                    <version>2.4.4</version>
+                </dependency>
+            </dependencies>
             <executions>
                 <execution>
                     <id>dist-test-server</id>

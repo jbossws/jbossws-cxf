@@ -564,6 +564,12 @@
         <dependency>
         	<groupId>org.wildfly.arquillian</groupId>
         	<artifactId>wildfly-arquillian-container-managed</artifactId>
+            <exclusions>
+              <exclusion>
+                <groupId>sun.jdk</groupId>
+                <artifactId>jconsole</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
         	<groupId>org.jboss.arquillian.protocol</groupId>
@@ -613,6 +619,12 @@
         <dependency>
         	<groupId>org.wildfly.arquillian</groupId>
         	<artifactId>wildfly-arquillian-container-managed</artifactId>
+            <exclusions>
+              <exclusion>
+                <groupId>sun.jdk</groupId>
+                <artifactId>jconsole</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
         	<groupId>org.jboss.arquillian.protocol</groupId>
@@ -662,6 +674,12 @@
         <dependency>
         	<groupId>org.wildfly.arquillian</groupId>
         	<artifactId>wildfly-arquillian-container-managed</artifactId>
+            <exclusions>
+              <exclusion>
+                <groupId>sun.jdk</groupId>
+                <artifactId>jconsole</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
         	<groupId>org.jboss.arquillian.protocol</groupId>
@@ -712,6 +730,12 @@
         <dependency>
         	<groupId>org.wildfly.arquillian</groupId>
         	<artifactId>wildfly-arquillian-container-managed</artifactId>
+            <exclusions>
+              <exclusion>
+                <groupId>sun.jdk</groupId>
+                <artifactId>jconsole</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
         	<groupId>org.jboss.arquillian.protocol</groupId>
