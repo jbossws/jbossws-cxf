@@ -272,6 +272,76 @@
           </build>
       </profile>
 
+
+    <profile>
+      <id>elytron</id>
+      <activation>
+        <property>
+          <name>elytron</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+           <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>testsuite-default</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-default-elytron.groovy</source>
+                            <properties>
+                                <inputFile>${jboss.home}/standalone/configuration/standalone-elytron.xml</inputFile>
+                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default.xml</outputFile>
+                                <serverLog>jbws-testsuite-shared-default.log</serverLog>
+                                <usersPropFile>${project.build.directory}/test-classes/jbossws-users.properties</usersPropFile>
+                                <rolesPropFile>${project.build.directory}/test-classes/jbossws-roles.properties</rolesPropFile>
+                                <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
+                                <testResourcesDir>${project.build.directory}/test-resources</testResourcesDir>
+                            </properties>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>testsuite-default-config-tests</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-default-config-tests.groovy</source>
+                            <properties>
+                                <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
+                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default-config-tests.xml</outputFile>
+                                <serverLog>jbws-testsuite-shared-default-config-tests.log</serverLog>
+                            </properties>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>testsuite-address-rewrite</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-address-rewrite.groovy</source>
+                            <properties>
+                                <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
+                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-address-rewrite.xml</outputFile>
+                                <serverLog>jbws-testsuite-shared-address-rewrite.log</serverLog>
+                                <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
 </project>
