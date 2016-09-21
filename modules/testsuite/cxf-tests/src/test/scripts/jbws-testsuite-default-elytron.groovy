@@ -35,6 +35,11 @@ def basicsecurityDomain = securityDomains.appendNode('security-domain', ['name':
 def basicrealm = basicsecurityDomain.appendNode('realm',['name':'ws-basic-domain','role-decoder':'groups-to-roles'])
 
 
+def digestDomain = securityDomains.appendNode('security-domain', ['name':'ws-digest-domain','default-realm':'ws-digest-domain','permission-mapper':'login-permission-mapper','role-mapper':'combined-role-mapper'])
+def digestRefRealm = digestDomain.appendNode('realm',['name':'ws-digest-domain','role-decoder':'groups-to-roles'])
+
+
+
 /**
  *            <security-realms>
  *               <properties-realm name="JBossWS">
@@ -50,14 +55,19 @@ def basicrealm = basicsecurityDomain.appendNode('realm',['name':'ws-basic-domain
  *
  */
 def securityRealms = root.profile.subsystem.'security-realms'[0]
-def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS'])
+def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS', 'plain-text':'true'])
 def usersProperties = propertiesRealm.appendNode('users-properties',['path':project.properties['usersPropFile']])
 def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':project.properties['rolesPropFile']])
 
 
-def basicPropertiesRealm = securityRealms.appendNode('properties-realm', ['name':'ws-basic-domain'])
+def basicPropertiesRealm = securityRealms.appendNode('properties-realm', ['name':'ws-basic-domain','plain-text':'true'])
 def basicUsersProperties = basicPropertiesRealm.appendNode('users-properties',['path': project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-users.properties'])
 def basicGroupsProperties = basicPropertiesRealm.appendNode('groups-properties',['path': project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-roles.properties'])
+
+
+def digestRealm = securityRealms.appendNode('properties-realm', ['name':'ws-digest-domain'])
+def digestUserProperties = digestRealm.appendNode('users-properties',['path': project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-digest-users.properties'])
+def digestGroupsProperties = digestRealm.appendNode('groups-properties',['path': project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-roles.properties'])
 
 
 
@@ -74,7 +84,7 @@ def basicGroupsProperties = basicPropertiesRealm.appendNode('groups-properties',
  *               <http-authentication-factory name="ws-basic-domain" http-server-mechanism-factory="global" security-domain="ws-basic-domain">
  *                   <mechanism-configuration>
  *                       <mechanism mechanism-name="BASIC">
- *                           <mechanism-realm realm-name="ws-basic-domain Realm"/>
+ *                           <mechanism-realm realm-name="ws-basic-domain"/>
  *                       </mechanism>
  *                   </mechanism-configuration>
  *               </http-authentication-factory>
@@ -86,13 +96,22 @@ def httpAuthen = root.profile.subsystem.'http'[0]
 def httpAuthenticationFactory = httpAuthen.appendNode('http-authentication-factory', ['name':'JBossWS','http-server-mechanism-factory':'global', 'security-domain':'JBossWS'])
 def mechanismConfiguration = httpAuthenticationFactory.appendNode('mechanism-configuration')
 def mechanism = mechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
-def mechanismRealm=mechanism.appendNode('mechanism-realm',['realm-name':'JBossWS Realm'])
+def mechanismRealm=mechanism.appendNode('mechanism-realm',['realm-name':'JBossWS'])
 
 
 def basicHttpAuthenticationFactory = httpAuthen.appendNode('http-authentication-factory', ['name':'ws-basic-domain','http-server-mechanism-factory':'global', 'security-domain':'ws-basic-domain'])
 def basicMechanismConfiguration = basicHttpAuthenticationFactory.appendNode('mechanism-configuration')
 def basicMechanism = basicMechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
-def basicmechanismRealm = basicMechanism.appendNode('mechanism-realm',['realm-name':'ws-basic-domain Realm'])
+def basicmechanismRealm = basicMechanism.appendNode('mechanism-realm',['realm-name':'ws-basic-domain'])
+
+
+
+def digestHttpAuthenticationFactory = httpAuthen.appendNode('http-authentication-factory', ['name':'ws-digest-domain','http-server-mechanism-factory':'global', 'security-domain':'ws-digest-domain'])
+def digestMechanismConfiguration = digestHttpAuthenticationFactory.appendNode('mechanism-configuration')
+def digestMechanism = digestMechanismConfiguration.appendNode('mechanism',['mechanism-name':'DIGEST'])
+def digestMechanismRealm = digestMechanism.appendNode('mechanism-realm',['realm-name':'ws-digest-domain'])
+
+
 
 
 /**
@@ -103,9 +122,10 @@ def basicmechanismRealm = basicMechanism.appendNode('mechanism-realm',['realm-na
  *           </application-security-domains>
  */
 def appSecurityDomains = root.profile.subsystem.'application-security-domains'[1]
-def appSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
 
+def appSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
 def basicAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','http-authentication-factory':'ws-basic-domain'])
+def digestAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'ws-digest-domain','http-authentication-factory':'ws-digest-domain'])
 
 /**
  * Save the configuration to a new file
