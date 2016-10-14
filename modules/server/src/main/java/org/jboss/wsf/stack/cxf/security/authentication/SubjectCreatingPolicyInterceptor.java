@@ -23,6 +23,7 @@ package org.jboss.wsf.stack.cxf.security.authentication;
 
 import java.security.Principal;
 import java.security.acl.Group;
+import java.util.Set;
 
 import javax.security.auth.Subject;
 
@@ -144,16 +145,16 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
 
    protected Principal getPrincipal(Principal originalPrincipal, Subject subject)
    {
-      Principal[] ps = subject.getPrincipals().toArray(new Principal[]
-      {});
-      if (ps != null && ps.length > 0 && !(ps[0] instanceof Group))
+      Set<Principal> principals = subject.getPrincipals();
+      if (!principals.isEmpty())
       {
-         return ps[0];
+          Principal principal = principals.iterator().next();
+          if (!(principal instanceof Group))
+          {
+              return principal;
+          }
       }
-      else
-      {
-         return originalPrincipal;
-      }
+      return originalPrincipal;
    }
 
    protected SecurityContext createSecurityContext(Principal p, Subject subject)
