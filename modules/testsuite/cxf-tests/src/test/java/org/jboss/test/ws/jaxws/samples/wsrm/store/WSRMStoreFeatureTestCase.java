@@ -39,7 +39,6 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -48,7 +47,6 @@ import org.junit.runner.RunWith;
  * @author <a herf="mailto:ema@redhat.com">Jim Ma</a>
  *
  */
-@Ignore("[CXF-6994] RMCaptureInInterceptor running on GET requests")
 public class WSRMStoreFeatureTestCase extends JBossWSTest
 {
    @ArquillianResource
