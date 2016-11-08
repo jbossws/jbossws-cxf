@@ -19,9 +19,12 @@ file.attributes()['path'] = project.properties['serverLog']
  *                <security-domain name="JBossWS" default-realm="JBossWS" permission-mapper="login-permission-mapper" role-mapper="combined-role-mapper">
  *                   <realm name="JBossWS" role-decoder="groups-to-roles"/>
  *               </security-domain>
-  *                <security-domain name="ws-basic-domain" default-realm="ws-basic-domain" permission-mapper="login-permission-mapper" role-mapper="combined-role-mapper">
+ *                <security-domain name="ws-basic-domain" default-realm="ws-basic-domain" permission-mapper="login-permission-mapper" role-mapper="combined-role-mapper">
  *                   <realm name="ws-basic-domain" role-decoder="groups-to-roles"/>
  *               </security-domain>
+ *               <security-domain name="JBossWSDigestDomain" default-realm="JBossWSDigestRealm" permission-mapper="login-permission-mapper">
+ *                  <realm name="JBossWSDigestRealm"/>
+ *              </security-domain>
  *           </security-domains>
  * 
  *
@@ -37,6 +40,13 @@ def basicrealm = basicsecurityDomain.appendNode('realm',['name':'ws-basic-domain
 
 def digestDomain = securityDomains.appendNode('security-domain', ['name':'ws-digest-domain','default-realm':'ws-digest-domain','permission-mapper':'login-permission-mapper','role-mapper':'combined-role-mapper'])
 def digestRefRealm = digestDomain.appendNode('realm',['name':'ws-digest-domain','role-decoder':'groups-to-roles'])
+
+def jaasDigestDomain = securityDomains.appendNode('security-domain', ['name':'jaas-ws-digest-domain','default-realm':'ws-basic-digestRealm','permission-mapper':'login-permission-mapper'])
+def jaasDigestRefRealm = jaasDigestDomain.appendNode('realm',['name':'ws-basic-digestRealm','role-decoder':'groups-to-roles'])
+
+def jbossWSDigestDomain = securityDomains.appendNode('security-domain', ['name':'JBossWSDigestDomain','default-realm':'JBossWSDigestRealm','permission-mapper':'login-permission-mapper'])
+def jbossWSDigestRefRealm = jbossWSDigestDomain.appendNode('realm',['name':'JBossWSDigestRealm','role-decoder':'groups-to-roles'])
+
 
 
 
@@ -112,7 +122,15 @@ def digestMechanism = digestMechanismConfiguration.appendNode('mechanism',['mech
 def digestMechanismRealm = digestMechanism.appendNode('mechanism-realm',['realm-name':'ws-digest-domain'])
 
 
+def jaasDigestHttpAuthenticationFactory = httpAuthen.appendNode('http-authentication-factory', ['name':'jaas-ws-digest-domain','http-server-mechanism-factory':'global', 'security-domain':'jaas-ws-digest-domain'])
+def jaasDigestMechanismConfiguration = jaasDigestHttpAuthenticationFactory.appendNode('mechanism-configuration')
+def jaasDigestMechanism = jaasDigestMechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
+def jaasDigestMechanismRealm = jaasDigestMechanism.appendNode('mechanism-realm',['realm-name':'ws-basic-digestRealm'])
 
+def jbossWSDigestHttpAuthenticationFactory = httpAuthen.appendNode('http-authentication-factory', ['name':'JBossWSDigest','http-server-mechanism-factory':'global', 'security-domain':'JBossWSDigestDomain'])
+def jbossWSDigestMechanismConfiguration = jbossWSDigestHttpAuthenticationFactory.appendNode('mechanism-configuration')
+def jbossWSDigestMechanism = jbossWSDigestMechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
+def jbossWSDigestMechanismRealm = jbossWSDigestMechanism.appendNode('mechanism-realm',['realm-name':'JBossWSDigest'])
 
 /**
  *           <application-security-domains>
@@ -126,6 +144,92 @@ def appSecurityDomains = root.profile.subsystem.'application-security-domains'[1
 def appSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
 def basicAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','http-authentication-factory':'ws-basic-domain'])
 def digestAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'ws-digest-domain','http-authentication-factory':'ws-digest-domain'])
+def jbossWSDigestAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSDigestDomain','http-authentication-factory':'JBossWSDigest'])
+def jaasAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'jaas-ws-digest-domain','http-authentication-factory':'jaas-ws-digest-domain'])
+
+//add two new security-domain
+
+/**
+ * Add a security-domain block like this:
+ *
+ * <security-domain name="ws-digest-domain" cache-type="default">
+ *   <authentication>
+ *     <login-module code="UsersRoles" flag="required">
+ *       <module-option name="hashUserPassword" value="false"/>
+ *       <module-option name="usersProperties" value="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-resources/jaxws/cxf/httpauth/WEB-INF/ws-users.properties"/>
+ *       <module-option name="hashAlgorithm" value="MD5"/>
+ *       <module-option name="hashEncoding" value="RFC2617"/>
+ *       <module-option name="rolesProperties" value="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-resources/jaxws/cxf/httpauth/WEB-INF/ws-roles.properties"/>
+ *       <module-option name="storeDigestCallback" value="org.jboss.security.auth.callback.RFC2617Digest"/>
+ *       <module-option name="hashStorePassword" value="true"/>
+ *     </login-module>
+ *   </authentication>
+ * </security-domain>
+ *
+ */
+def securityDomains2 = root.profile.subsystem.'security-domains'[1]
+def securityDomainDigestAuth = securityDomains2.appendNode('security-domain', ['name':'ws-digest-domain','cache-type':'default'])
+def authenticationDigestAuth = securityDomainDigestAuth.appendNode('authentication')
+def loginModuleDigestAuth = authenticationDigestAuth.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
+loginModuleDigestAuth.appendNode('module-option', ['name':'hashUserPassword','value':'false'])
+loginModuleDigestAuth.appendNode('module-option', ['name':'usersProperties','value':project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-users.properties'])
+loginModuleDigestAuth.appendNode('module-option', ['name':'hashAlgorithm','value':'MD5'])
+loginModuleDigestAuth.appendNode('module-option', ['name':'hashEncoding','value':'RFC2617'])
+loginModuleDigestAuth.appendNode('module-option', ['name':'rolesProperties','value':project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-roles.properties'])
+loginModuleDigestAuth.appendNode('module-option', ['name':'storeDigestCallback','value':'org.jboss.security.auth.callback.RFC2617Digest'])
+loginModuleDigestAuth.appendNode('module-option', ['name':'hashStorePassword','value':'true'])
+
+/**
+ * Add a security-domain block like this:
+ *
+ * <security-domain name="JBossWSDigest" cache-type="default">
+ *   <authentication>
+ *     <login-module code="UsersRoles" flag="required">
+ *       <module-option name="hashUserPassword" value="false"/>
+ *       <module-option name="hashCharset" value="UTF-8"/>
+ *       <module-option name="usersProperties" value="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties"/>
+ *       <module-option name="hashAlgorithm" value="SHA"/>
+ *       <module-option name="unauthenticatedIdentity" value="anonymous"/>
+ *       <module-option name="hashEncoding" value="BASE64"/>
+ *       <module-option name="rolesProperties" value="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties"/>
+ *       <module-option name="storeDigestCallback" value="org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallback"/>
+ *       <module-option name="hashStorePassword" value="true"/>
+ *     </login-module>
+ *   </authentication>
+ * </security-domain>
+ *
+ */
+
+def securityDomainDigest = securityDomains2.appendNode('security-domain', ['name':'JBossWSDigest','cache-type':'default'])
+def authenticationDigest = securityDomainDigest.appendNode('authentication')
+def loginModuleDigest = authenticationDigest.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
+loginModuleDigest.appendNode('module-option', ['name':'hashUserPassword','value':'false'])
+loginModuleDigest.appendNode('module-option', ['name':'hashCharset','value':'UTF-8'])
+loginModuleDigest.appendNode('module-option', ['name':'hashAlgorithm','value':'SHA'])
+loginModuleDigest.appendNode('module-option', ['name':'hashEncoding','value':'BASE64'])
+loginModuleDigest.appendNode('module-option', ['name':'storeDigestCallback','value':'org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallback'])
+loginModuleDigest.appendNode('module-option', ['name':'hashStorePassword','value':'true'])
+loginModuleDigest.appendNode('module-option', ['name':'unauthenticatedIdentity','value':'anonymous'])
+loginModuleDigest.appendNode('module-option', ['name':'usersProperties','value':project.properties['testResourcesDir'] + '/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties'])
+loginModuleDigest.appendNode('module-option', ['name':'rolesProperties','value':project.properties['testResourcesDir'] + '/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties'])
+
+
+/**
+ * <elytron-integration>
+ *     <security-realms>
+ *        <elytron-realm name="JBossWSDigestRealm" legacy-jaas-config="JBossWSDigest"/>
+ *        <elytron-realm name="ws-basic-digestRealm" legacy-jaas-config="ws-digest-domain"/>
+ *     </security-realms>
+ * </elytron-integration> 
+ */
+
+def jbossDomainSecurity3_0 = securityDomains2.parent()
+def elytronIntegration = jbossDomainSecurity3_0.appendNode('elytron-integration')
+def elytronRealms = elytronIntegration.appendNode('security-realms')
+elytronRealms.appendNode('elytron-realm', ['name':'JBossWSDigestRealm','legacy-jaas-config':'JBossWSDigest'])
+elytronRealms.appendNode('elytron-realm', ['name':'ws-basic-digestRealm','legacy-jaas-config':'ws-digest-domain'])
+
+
 
 /**
  * Save the configuration to a new file
