@@ -19,9 +19,12 @@ file.attributes()['path'] = project.properties['serverLog']
  *                <security-domain name="JBossWS" default-realm="JBossWS" permission-mapper="login-permission-mapper" role-mapper="combined-role-mapper">
  *                   <realm name="JBossWS" role-decoder="groups-to-roles"/>
  *               </security-domain>
-  *                <security-domain name="ws-basic-domain" default-realm="ws-basic-domain" permission-mapper="login-permission-mapper" role-mapper="combined-role-mapper">
+ *                <security-domain name="ws-basic-domain" default-realm="ws-basic-domain" permission-mapper="login-permission-mapper" role-mapper="combined-role-mapper">
  *                   <realm name="ws-basic-domain" role-decoder="groups-to-roles"/>
  *               </security-domain>
+ *               <security-domain name="JBossWSDigestDomain" default-realm="JBossWSDigestRealm" permission-mapper="login-permission-mapper">
+ *                  <realm name="JBossWSDigestRealm"/>
+ *              </security-domain>
  *           </security-domains>
  * 
  *
@@ -37,6 +40,13 @@ def basicrealm = basicsecurityDomain.appendNode('realm',['name':'ws-basic-domain
 
 def digestDomain = securityDomains.appendNode('security-domain', ['name':'ws-digest-domain','default-realm':'ws-digest-domain','permission-mapper':'login-permission-mapper','role-mapper':'combined-role-mapper'])
 def digestRefRealm = digestDomain.appendNode('realm',['name':'ws-digest-domain','role-decoder':'groups-to-roles'])
+
+def jaasDigestDomain = securityDomains.appendNode('security-domain', ['name':'jaas-ws-digest-domain','default-realm':'ws-basic-digestRealm','permission-mapper':'login-permission-mapper'])
+def jaasDigestRefRealm = jaasDigestDomain.appendNode('realm',['name':'ws-basic-digestRealm','role-decoder':'groups-to-roles'])
+
+def jbossWSDigestDomain = securityDomains.appendNode('security-domain', ['name':'JBossWSDigestDomain','default-realm':'JBossWSDigestRealm','permission-mapper':'login-permission-mapper'])
+def jbossWSDigestRefRealm = jbossWSDigestDomain.appendNode('realm',['name':'JBossWSDigestRealm','role-decoder':'groups-to-roles'])
+
 
 
 
@@ -112,7 +122,15 @@ def digestMechanism = digestMechanismConfiguration.appendNode('mechanism',['mech
 def digestMechanismRealm = digestMechanism.appendNode('mechanism-realm',['realm-name':'ws-digest-domain'])
 
 
+def jaasDigestHttpAuthenticationFactory = httpAuthen.appendNode('http-authentication-factory', ['name':'jaas-ws-digest-domain','http-server-mechanism-factory':'global', 'security-domain':'jaas-ws-digest-domain'])
+def jaasDigestMechanismConfiguration = jaasDigestHttpAuthenticationFactory.appendNode('mechanism-configuration')
+def jaasDigestMechanism = jaasDigestMechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
+def jaasDigestMechanismRealm = jaasDigestMechanism.appendNode('mechanism-realm',['realm-name':'ws-basic-digestRealm'])
 
+def jbossWSDigestHttpAuthenticationFactory = httpAuthen.appendNode('http-authentication-factory', ['name':'JBossWSDigest','http-server-mechanism-factory':'global', 'security-domain':'JBossWSDigestDomain'])
+def jbossWSDigestMechanismConfiguration = jbossWSDigestHttpAuthenticationFactory.appendNode('mechanism-configuration')
+def jbossWSDigestMechanism = jbossWSDigestMechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
+def jbossWSDigestMechanismRealm = jbossWSDigestMechanism.appendNode('mechanism-realm',['realm-name':'JBossWSDigest'])
 
 /**
  *           <application-security-domains>
@@ -126,6 +144,8 @@ def appSecurityDomains = root.profile.subsystem.'application-security-domains'[1
 def appSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
 def basicAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','http-authentication-factory':'ws-basic-domain'])
 def digestAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'ws-digest-domain','http-authentication-factory':'ws-digest-domain'])
+def jbossWSDigestAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSDigestDomain','http-authentication-factory':'JBossWSDigest'])
+def jaasAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'jaas-ws-digest-domain','http-authentication-factory':'jaas-ws-digest-domain'])
 
 //add two new security-domain
 
