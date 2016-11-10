@@ -38,6 +38,8 @@ import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.transport.http.AbstractHTTPDestination;
+import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.RejectionRule;
 
 /**
@@ -69,7 +71,8 @@ public class GracefulShutdownInterceptor extends AbstractSoapInterceptor
          }
          else
          {
-            RejectionRule rr = message.get(RejectionRule.class);
+            Deployment dep = message.getExchange().get(Endpoint.class).getService().getDeployment();
+            RejectionRule rr = dep.getAttachment(RejectionRule.class);
             if (rr != null)
             {
                List<Header> headers = message.getHeaders();
