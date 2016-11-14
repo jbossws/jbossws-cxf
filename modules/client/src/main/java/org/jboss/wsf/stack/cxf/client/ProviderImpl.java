@@ -75,6 +75,7 @@ import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
 import org.jboss.wsf.stack.cxf.client.configuration.HandlerChainSortInterceptor;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.w3c.dom.Element;
+import org.jboss.logging.Logger;
 
 /**
  * A custom javax.xml.ws.spi.Provider implementation
@@ -172,6 +173,7 @@ import org.w3c.dom.Element;
  *
  */
 public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
+
 {
    @Override
    protected org.apache.cxf.jaxws.EndpointImpl createEndpointImpl(Bus bus, String bindingId, Object implementor,
@@ -644,7 +646,9 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
                if (is != null) {
                   try {
                      is.close();
-                  } catch (IOException e) { } //ignore
+                  } catch (IOException e) {
+                     Logger.getLogger(ProviderImpl.class).trace(e);
+                  } //ignore
                }
             }
          }

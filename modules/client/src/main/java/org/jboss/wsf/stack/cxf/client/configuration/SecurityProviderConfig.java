@@ -33,7 +33,7 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.client.Constants;
-
+import org.jboss.logging.Logger;
 
 /**
  * Convenient class for setting a BouncyCastle security provider
@@ -44,10 +44,17 @@ import org.jboss.wsf.stack.cxf.client.Constants;
  */
 public class SecurityProviderConfig
 {
+   private static Logger log = Logger.getLogger(SecurityProviderConfig.class);
+
    public static final boolean BC_GLOBALLY_AVAILABLE = java.security.Security.getProvider("BC") != null;
    static {
       if (BC_GLOBALLY_AVAILABLE) {
-         useIvParameterSpec();
+         try {
+            useIvParameterSpec();
+         } catch (Throwable t) {
+            //ignore
+            Logger.getLogger(SecurityProviderConfig.class).trace(t);
+         }
       }
    }
    private static final boolean NO_LOCAL_BC = SecurityActions.getBoolean(Constants.JBWS_CXF_NO_LOCAL_BC);
@@ -95,23 +102,18 @@ public class SecurityProviderConfig
          exchange.put(Provider.class, Holder.provider);
       }
    }
-   
-   private static void useIvParameterSpec() {
-      try {
-          // Don't override if it was set explicitly
-          AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-              public Boolean run() {
-                  String ivParameterSpec = "org.apache.xml.security.cipher.gcm.useIvParameterSpec";
-                  if (System.getProperty(ivParameterSpec) == null) {
-                      System.setProperty(ivParameterSpec, "true");
-                      return false;
-                  }
-                  return true; 
-              }
-          });
-      } catch (Throwable t) {
-          //ignore
-      }
-  }
 
+   private static void useIvParameterSpec() {
+      // Don't override if it was set explicitly
+      AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
+         public Boolean run() {
+            String ivParameterSpec = "org.apache.xml.security.cipher.gcm.useIvParameterSpec";
+            if (System.getProperty(ivParameterSpec) == null) {
+               System.setProperty(ivParameterSpec, "true");
+               return false;
+            }
+            return true;
+         }
+      });
+   }
 }
