@@ -25,6 +25,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.cxf.transport.http.DestinationRegistryImpl;
+import org.jboss.logging.Logger;
 
 /**
  * A JBossWS version of the CXF DestinationRegistryImpl that registers destinations
@@ -36,7 +37,6 @@ import org.apache.cxf.transport.http.DestinationRegistryImpl;
  */
 public class JBossWSDestinationRegistryImpl extends DestinationRegistryImpl
 {
-
    /**
     * Return a real path value, removing the protocol, host and port
     * if specified.
@@ -60,6 +60,7 @@ public class JBossWSDestinationRegistryImpl extends DestinationRegistryImpl
          catch (MalformedURLException ex)
          {
             // ignore
+            Logger.getLogger(JBossWSDestinationRegistryImpl.class).trace(ex);
          }
          if (!path.startsWith("/")) {
             path = "/" + path;

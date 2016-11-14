@@ -34,6 +34,7 @@ import org.jboss.wsf.stack.cxf.Messages;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.jboss.logging.Logger;
 
 /**
  * A lazy-loaded Policy attachment reference
@@ -45,6 +46,7 @@ import org.w3c.dom.Element;
  */
 public class PolicyAttachment
 {
+   private static final Logger log = Logger.getLogger(PolicyAttachment.class);
    private final Placement placement;
    private final String uri;
 
@@ -88,12 +90,14 @@ public class PolicyAttachment
             StaxUtils.close(reader);
          } catch (Exception e) {
             //ignore
+            log.trace(e);
          }
          if (is != null) {
             try {
                is.close();
             } catch (Exception e) {
                //ignore
+               log.trace(e);
             }
          }
       }

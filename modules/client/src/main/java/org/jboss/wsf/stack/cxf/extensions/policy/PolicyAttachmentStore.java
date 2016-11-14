@@ -38,7 +38,7 @@ import java.util.Map;
 
 import org.apache.cxf.annotations.Policy.Placement;
 import org.jboss.wsf.stack.cxf.client.ProviderImpl;
-
+import org.jboss.logging.Logger;
 
 /**
  * The store containing pre-defined policy attachments
@@ -136,6 +136,7 @@ public class PolicyAttachmentStore
                      }
                   } catch (FileNotFoundException fnfe) {
                      //ignore
+                     Logger.getLogger(PolicyAttachmentStore.class).trace(fnfe);
                   } finally {
                      if (is != null)
                         is.close();

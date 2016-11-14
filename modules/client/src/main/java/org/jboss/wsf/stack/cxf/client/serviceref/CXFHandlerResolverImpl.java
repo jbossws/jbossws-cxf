@@ -273,6 +273,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       catch (MalformedURLException ex)
       {
          // ignore
+         log.trace(ex);
       }
 
       // Try the filename as File
@@ -287,6 +288,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          catch (MalformedURLException e)
          {
             // ignore
+            log.trace(e);
          }
       }
 
