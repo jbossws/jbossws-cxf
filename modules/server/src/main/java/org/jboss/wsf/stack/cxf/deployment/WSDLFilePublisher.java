@@ -51,6 +51,7 @@ import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.Messages;
 import org.w3c.dom.Document;
+import org.jboss.logging.Logger;
 
 /**
  * A WSDL file publisher for CXF based stack
@@ -156,6 +157,7 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
       catch (Exception ex)
       {
          //ignore - not dom level 3
+         Logger.getLogger(WSDLFilePublisher.class).trace(ex);
       }
       if (enc == null)
       {

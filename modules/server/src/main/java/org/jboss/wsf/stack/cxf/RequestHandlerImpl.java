@@ -54,6 +54,7 @@ import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
+import org.jboss.logging.Logger;
 
 /**
  * A request handler
@@ -162,6 +163,7 @@ public class RequestHandlerImpl implements RequestHandler
          catch (MalformedURLException ex)
          {
             // ignore
+            Logger.getLogger(RequestHandlerImpl.class).trace(ex);
          }
 
          if (path != null && requestURI.startsWith(path)) {

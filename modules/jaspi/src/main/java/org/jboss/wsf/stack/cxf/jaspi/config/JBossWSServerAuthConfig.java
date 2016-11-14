@@ -52,6 +52,7 @@ import org.jboss.security.auth.message.config.JBossServerAuthConfig;
 import org.jboss.security.config.ControlFlag;
 import org.jboss.security.plugins.ClassLoaderLocator;
 import org.jboss.security.plugins.ClassLoaderLocatorFactory;
+import org.jboss.logging.Logger;
 
 /**
  * JBossWS ServerAuthConfig implentation to obtain JBossWSServerAuthContext
@@ -193,6 +194,7 @@ public class JBossWSServerAuthConfig extends JBossServerAuthConfig
          catch (SOAPException se)
          {
             //ignore;
+            Logger.getLogger(JBossWSServerAuthConfig.class).trace(se);
          }
       }
 

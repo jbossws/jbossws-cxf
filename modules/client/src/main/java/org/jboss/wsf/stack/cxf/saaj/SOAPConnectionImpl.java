@@ -55,6 +55,7 @@ import org.apache.cxf.transport.ConduitInitiator;
 import org.apache.cxf.transport.ConduitInitiatorManager;
 import org.apache.cxf.transport.MessageObserver;
 import org.apache.cxf.transport.http.HTTPConduit;
+import org.jboss.logging.Logger;
 
 public class SOAPConnectionImpl extends SOAPConnection 
 {
@@ -251,6 +252,7 @@ public class SOAPConnectionImpl extends SOAPConnection
               catch (IOException e) 
               {
                  //ignore
+                 Logger.getLogger(SOAPConnectionImpl.class).trace(e);
               }
            }
        };

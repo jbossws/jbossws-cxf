@@ -54,6 +54,7 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 import org.jboss.wsf.stack.cxf.client.ClientBusSelector;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
+import org.jboss.logging.Logger;
 
 /**
  * This ServiceObjectFactory reconstructs a javax.xml.ws.Service
@@ -242,6 +243,7 @@ public final class CXFServiceObjectFactoryJAXWS
             catch (MalformedURLException e)
             {
                //ignore
+               Logger.getLogger(CXFServiceObjectFactoryJAXWS.class).trace(e);
             }
          }
       }
