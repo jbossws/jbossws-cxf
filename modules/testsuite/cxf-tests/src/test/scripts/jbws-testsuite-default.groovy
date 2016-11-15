@@ -13,7 +13,7 @@ file.attributes()['path'] = project.properties['serverLog']
 /**
  * Add a security-domain block like this:
  *
- * <security-domain name="JBossWS" cache-type="default">
+ * <security-domain name="JAASJBossWS" cache-type="default">
  *   <authentication>
  *     <login-module code="UsersRoles" flag="required">
  *       <module-option name="usersProperties" value="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/jbossws-users.properties"/>
@@ -26,12 +26,35 @@ file.attributes()['path'] = project.properties['serverLog']
  */
 
 def securityDomains = root.profile.subsystem.'security-domains'[0]
-def securityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','cache-type':'default'])
+def securityDomain = securityDomains.appendNode('security-domain', ['name':'JAASJBossWS','cache-type':'default'])
 def authentication = securityDomain.appendNode('authentication')
 def loginModule = authentication.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
 loginModule.appendNode('module-option', ['name':'unauthenticatedIdentity','value':'anonymous'])
 loginModule.appendNode('module-option', ['name':'usersProperties','value':project.properties['usersPropFile']])
 loginModule.appendNode('module-option', ['name':'rolesProperties','value':project.properties['rolesPropFile']])
+
+
+/**
+ * Add a security-domain block like this:
+ *
+ * <security-domain name="JBossWS" cache-type="default">
+ *   <authentication>
+ *     <login-module code="UsersRoles" flag="required">
+ *       <module-option name="usersProperties" value="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/jbossws-users.properties"/>
+ *       <module-option name="unauthenticatedIdentity" value="anonymous"/>
+ *       <module-option name="rolesProperties" value="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/jbossws-roles.properties"/>
+ *     </login-module>
+ *   </authentication>
+ * </security-domain>
+ *
+ */
+
+def jbsecurityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','cache-type':'default'])
+def jbauthentication = securityDomain.appendNode('authentication')
+def jbloginModule = jbauthentication.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
+jbloginModule.appendNode('module-option', ['name':'unauthenticatedIdentity','value':'anonymous'])
+jbloginModule.appendNode('module-option', ['name':'usersProperties','value':project.properties['usersPropFile']])
+jbloginModule.appendNode('module-option', ['name':'rolesProperties','value':project.properties['rolesPropFile']])
 
 /**
  * Add a security-domain block like this:
