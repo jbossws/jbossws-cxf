@@ -30,6 +30,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import javax.activation.DataHandler;
 import javax.xml.transform.stream.StreamSource;
@@ -77,7 +78,7 @@ public class XOPTestSupport
 
    public static StreamSource createTestSource()
    {
-      return new StreamSource(new ByteArrayInputStream("<some><nestedXml/></some>".getBytes()));
+      return new StreamSource(new ByteArrayInputStream("<some><nestedXml/></some>".getBytes(StandardCharsets.UTF_8)));
    }
 
    public static DataHandler createDataHandler(File imgFile)

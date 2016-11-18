@@ -29,6 +29,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -156,7 +157,7 @@ public class UndertowServerEngineTest extends TestCase {
       {
          HttpURLConnection connection1 = (HttpURLConnection) url.openConnection();
          StringBuilder sb = new StringBuilder();
-         BufferedReader br = new BufferedReader(new InputStreamReader(connection1.getInputStream()));
+         BufferedReader br = new BufferedReader(new InputStreamReader(connection1.getInputStream(), StandardCharsets.UTF_8));
          String line;
          while ((line = br.readLine()) != null) {
             sb.append(line);
@@ -186,7 +187,7 @@ public class UndertowServerEngineTest extends TestCase {
          count.incrementAndGet();
          exchange.setResponseCode(200);
          OutputStream os = exchange.getOutputStream();
-         os.write("Hello".getBytes());
+         os.write("Hello".getBytes(StandardCharsets.UTF_8));
          os.flush();
          
       }
