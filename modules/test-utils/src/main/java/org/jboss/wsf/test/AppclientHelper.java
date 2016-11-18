@@ -27,7 +27,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -190,7 +192,7 @@ final class AppclientHelper
    }
 
    private static void printLogTrailer(OutputStream logOutputStreams, String appclientFullName) {
-      final PrintWriter pw = new PrintWriter(logOutputStreams);
+      final PrintWriter pw = new PrintWriter(new OutputStreamWriter(logOutputStreams, StandardCharsets.UTF_8));
       pw.write("Starting appclient process: " + appclientFullName + "...\n");
       pw.flush();
    }
