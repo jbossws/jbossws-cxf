@@ -88,6 +88,7 @@ import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
+import org.jboss.wsf.stack.cxf.interceptor.GracefulShutdownInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.WSDLSoapAddressRewriteInterceptor;
@@ -363,6 +364,7 @@ public class BusHolder
       //with the proper spi Endpoint retrieved in CXFServletExt
       bus.getInInterceptors().add(new EndpointAssociationInterceptor());
       bus.getInInterceptors().add(new NsCtxSelectorStoreInterceptor());
+      bus.getInInterceptors().add(new GracefulShutdownInterceptor());
       
       final String p = (props != null) ? props.get(Constants.JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS) : null;
       if ((p == null || (!"true".equalsIgnoreCase(p) && !"1".equalsIgnoreCase(p))) && !Boolean.getBoolean(Constants.JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS)) {
