@@ -63,7 +63,7 @@ public class GracefulShutdownInterceptor extends AbstractPhaseInterceptor<Messag
    public void handleMessage(Message message) throws Fault
    {
       ServletRequest req = (ServletRequest) message.get(AbstractHTTPDestination.HTTP_REQUEST);
-      if ("true".equals(req.getAttribute("org.wildfly.suspended")))
+      if (req != null && "true".equals(req.getAttribute("org.wildfly.suspended")))
       {
          if (message instanceof SoapMessage)
          {
