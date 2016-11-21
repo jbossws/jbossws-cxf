@@ -139,8 +139,8 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
          "</soap:Envelope>";
 
       Properties env = new Properties();
-      env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-      env.put(Context.PROVIDER_URL, "http-remoting://" + getServerHost() + ":" + getServerPort(CXF_TESTS_GROUP_QUALIFIER, JMS_SERVER));
+      env.put(Context.INITIAL_CONTEXT_FACTORY, getInitialContextFactory());
+      env.put(Context.PROVIDER_URL, getRemotingProtocol() + "://" + getServerHost() + ":" + getServerPort(CXF_TESTS_GROUP_QUALIFIER, JMS_SERVER));
       env.put(Context.SECURITY_PRINCIPAL, JBossWSTestHelper.getTestUsername());
       env.put(Context.SECURITY_CREDENTIALS, JBossWSTestHelper.getTestPassword());
       InitialContext context = null;

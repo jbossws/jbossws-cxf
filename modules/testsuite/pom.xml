@@ -268,6 +268,8 @@
               </includes>
               <systemPropertyVariables>
                  <jboss.bind.address>${jboss.bind.address}</jboss.bind.address>
+                 <jboss.remoting.protocol>${jboss.remoting.protocol}</jboss.remoting.protocol>
+                 <jboss.initial.context.factory>${jboss.initial.context.factory}</jboss.initial.context.factory>
                  <java.protocol.handler.pkgs>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</java.protocol.handler.pkgs>
                  <javax.net.ssl.trustStore>${project.build.directory}/test-classes/test.truststore</javax.net.ssl.trustStore>
                  <javax.net.ssl.trustStorePassword>changeit</javax.net.ssl.trustStorePassword>
@@ -309,6 +311,8 @@
               </includes>
               <systemPropertyVariables>
                  <jboss.bind.address>${jboss.bind.address}</jboss.bind.address>
+                 <jboss.remoting.protocol>${jboss.remoting.protocol}</jboss.remoting.protocol>
+                 <jboss.initial.context.factory>${jboss.initial.context.factory}</jboss.initial.context.factory>
                  <java.protocol.handler.pkgs>org.jboss.net.protocol|org.jboss.vfs.protocol|org.jboss.virtual.protocol</java.protocol.handler.pkgs>
                  <javax.net.ssl.trustStore>${project.build.directory}/test-classes/test.truststore</javax.net.ssl.trustStore>
                  <javax.net.ssl.trustStorePassword>changeit</javax.net.ssl.trustStorePassword>
@@ -555,6 +559,10 @@
     -->
     <profile>
       <id>wildfly902</id>
+      <properties>
+        <jboss.remoting.protocol>http-remoting</jboss.remoting.protocol>
+        <jboss.initial.context.factory>org.jboss.naming.remote.client.InitialContextFactory</jboss.initial.context.factory>
+      </properties>
       <dependencies>
         <dependency>
           <groupId>org.jboss.ws</groupId>
@@ -604,6 +612,10 @@
     -->
     <profile>
       <id>wildfly1000</id>
+      <properties>
+        <jboss.remoting.protocol>http-remoting</jboss.remoting.protocol>
+        <jboss.initial.context.factory>org.jboss.naming.remote.client.InitialContextFactory</jboss.initial.context.factory>
+      </properties>
       <dependencies>
         <dependency>
           <groupId>org.jboss.ws</groupId>
@@ -653,6 +665,10 @@
     -->
     <profile>
       <id>wildfly1010</id>
+      <properties>
+        <jboss.remoting.protocol>http-remoting</jboss.remoting.protocol>
+        <jboss.initial.context.factory>org.jboss.naming.remote.client.InitialContextFactory</jboss.initial.context.factory>
+      </properties>
       <dependencies>
         <dependency>
           <groupId>org.jboss.ws</groupId>
@@ -702,16 +718,32 @@
     -->
     <profile>
       <id>wildfly1100</id>
+      <properties>
+        <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
+        <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
+      </properties>
       <dependencies>
         <dependency>
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
           <version>${jboss.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.sasl</groupId>
+              <artifactId>jboss-sasl</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <!-- Arquillian container integration -->
         <dependency>
         	<groupId>org.wildfly.arquillian</groupId>
         	<artifactId>wildfly-arquillian-container-managed</artifactId>
+        	<exclusions>
+        	  <exclusion>
+        	    <groupId>org.jboss.sasl</groupId>
+        	    <artifactId>jboss-sasl</artifactId>
+        	  </exclusion>
+        	</exclusions>
         </dependency>
         <dependency>
         	<groupId>org.jboss.arquillian.protocol</groupId>
@@ -719,6 +751,7 @@
         	<version>${arquillian.version}</version>
         	<scope>test</scope>
         </dependency>
+        <!-- TODO remove dependencies below (activemq and wildfly ones) as soon at the wfly ws test-integration is fixed -->
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>artemis-jms-client</artifactId>
@@ -730,6 +763,22 @@
             <artifactId>artemis-commons</artifactId>
             <version>1.1.0</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-naming-client</artifactId>
+            <version>1.0.0.Beta4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.security</groupId>
+            <artifactId>wildfly-elytron</artifactId>
+            <version>1.1.0.Beta13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.client</groupId>
+            <artifactId>wildfly-client-config</artifactId>
+            <version>1.0.0.Beta1</version>
         </dependency>
         <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
         <dependency>
