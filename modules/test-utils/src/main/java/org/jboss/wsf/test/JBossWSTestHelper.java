@@ -62,6 +62,8 @@ public class JBossWSTestHelper
 {
    private static final String SYSPROP_JBOSSWS_INTEGRATION_TARGET = "jbossws.integration.target";
    private static final String SYSPROP_JBOSS_BIND_ADDRESS = "jboss.bind.address";
+   private static final String SYSPROP_JBOSS_REMOTING_PROTOCOL = "jboss.remoting.protocol";
+   private static final String SYSPROP_INITIAL_CONTEXT_FACTORY = "jboss.initial.context.factory";
    private static final String SYSPROP_TEST_ARCHIVE_DIRECTORY = "test.archive.directory";
    private static final String SYSPROP_TEST_RESOURCES_DIRECTORY = "test.resources.directory";
    private static final String SYSPROP_DEFAULT_CONTAINER_QUALIFIER = "default.container.qualifier";
@@ -76,6 +78,8 @@ public class JBossWSTestHelper
    private static final String integrationTarget;
    private static final String implInfo;
    private static final String serverHost = System.getProperty(SYSPROP_JBOSS_BIND_ADDRESS, "localhost");
+   private static final String remotingProtocol = System.getProperty(SYSPROP_JBOSS_REMOTING_PROTOCOL);
+   private static final String initialContextFactory = System.getProperty(SYSPROP_INITIAL_CONTEXT_FACTORY);
 
    private static WeakHashMap<ClassLoader, Hashtable<String, String>> containerEnvs = new WeakHashMap<ClassLoader, Hashtable<String,String>>();
 
@@ -136,6 +140,16 @@ public class JBossWSTestHelper
          obj = service.createDispatch(new QName("dummyPort"), Source.class, Mode.PAYLOAD);
       }
       return obj;
+   }
+   
+   public static String getRemotingProtocol()
+   {
+      return remotingProtocol;
+   }
+   
+   public static String getInitialContextFactory()
+   {
+      return initialContextFactory;
    }
 
    /**

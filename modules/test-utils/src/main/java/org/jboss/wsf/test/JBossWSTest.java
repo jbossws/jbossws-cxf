@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.management.MBeanServerConnection;
@@ -42,6 +43,10 @@ import javax.naming.NamingException;
 
 import junit.framework.TestCase;
 
+import org.jboss.ejb.client.EJBClientConfiguration;
+import org.jboss.ejb.client.EJBClientContext;
+import org.jboss.ejb.client.PropertiesBasedEJBClientConfiguration;
+import org.jboss.ejb.client.remoting.ConfigBasedEJBClientContextSelector;
 import org.jboss.logging.Logger;
 import org.jboss.ws.common.DOMWriter;
 import org.jboss.ws.common.concurrent.CopyJob;
@@ -216,6 +221,16 @@ public abstract class JBossWSTest extends TestCase
    {
       return JBossWSTestHelper.getServerHost();
    }
+   
+   public static String getInitialContextFactory()
+   {
+      return JBossWSTestHelper.getInitialContextFactory();
+   }
+
+   public static String getRemotingProtocol()
+   {
+      return JBossWSTestHelper.getRemotingProtocol();
+   }
 
    public static int getServerPort()
    {
@@ -274,14 +289,32 @@ public abstract class JBossWSTest extends TestCase
    
    public static InitialContext getServerInitialContext(String groupQualifier, String containerQualifier) throws NamingException, IOException
    {
+      if (!JBossWSTestHelper.isTargetWildFly10() && !JBossWSTestHelper.isTargetWildFly9()) {
+         //[WFLY-7373] TODO remove
+         createEJBClientConfiguration(groupQualifier, containerQualifier);
+      }
       final Hashtable<String, String> env = new Hashtable<String, String>();
-      env.put("java.naming.factory.initial", "org.jboss.naming.remote.client.InitialContextFactory");
+      env.put("java.naming.factory.initial", getInitialContextFactory());
       env.put("java.naming.factory.url.pkgs", "org.jboss.ejb.client.naming:org.jboss.naming.remote.client");
       env.put("jboss.naming.client.connect.options.org.xnio.Options.SASL_POLICY_NOPLAINTEXT", "false");
       env.put("jboss.naming.client.security.callback.handler.class", "org.jboss.wsf.test.CallbackHandler");
       env.put("jboss.naming.client.ejb.context", "true");
-      env.put("java.naming.provider.url", "http-remoting://" + getServerHost() + ":" + getServerPort(groupQualifier, containerQualifier));
+      env.put("java.naming.provider.url", getRemotingProtocol() + "://" + getServerHost() + ":" + getServerPort(groupQualifier, containerQualifier));
       return new InitialContext(env);
+   }
+   
+   private static void createEJBClientConfiguration(String groupQualifier, String containerQualifier)
+   {
+      final Properties config = new Properties();
+      config.put("remote.connections", "default");
+      config.put("remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS", "false");
+      config.put("remote.connection.default.host", getServerHost());
+      config.put("remote.connection.default.port", String.valueOf(getServerPort(groupQualifier, containerQualifier)));
+
+      final EJBClientConfiguration ejbClientConfiguration = new PropertiesBasedEJBClientConfiguration(config);
+      final ConfigBasedEJBClientContextSelector selector = new ConfigBasedEJBClientContextSelector(
+            ejbClientConfiguration);
+      EJBClientContext.setSelector(selector);
    }
 
    public static void assertEquals(Element expElement, Element wasElement, boolean ignoreWhitespace)
