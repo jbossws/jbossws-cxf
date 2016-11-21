@@ -30,12 +30,12 @@ import javax.servlet.ServletRequest;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.binding.soap.SoapMessage;
-import org.apache.cxf.binding.soap.interceptor.AbstractSoapInterceptor;
 import org.apache.cxf.binding.soap.interceptor.ReadHeadersInterceptor;
-import org.apache.cxf.common.i18n.Message;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.message.Message;
+import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.transport.http.AbstractHTTPDestination;
 import org.jboss.wsf.spi.deployment.Deployment;
@@ -49,7 +49,7 @@ import org.jboss.wsf.spi.invocation.RejectionRule;
  * @since 4-Nov-2016
  *
  */
-public class GracefulShutdownInterceptor extends AbstractSoapInterceptor
+public class GracefulShutdownInterceptor extends AbstractPhaseInterceptor<Message>
 {
    private static final Logger LOG = LogUtils.getL7dLogger(GracefulShutdownInterceptor.class);
 
@@ -60,38 +60,46 @@ public class GracefulShutdownInterceptor extends AbstractSoapInterceptor
    }
 
    @Override
-   public void handleMessage(SoapMessage message) throws Fault
+   public void handleMessage(Message message) throws Fault
    {
       ServletRequest req = (ServletRequest) message.get(AbstractHTTPDestination.HTTP_REQUEST);
       if ("true".equals(req.getAttribute("org.wildfly.suspended")))
       {
-         if (!message.hasHeaders())
+         if (message instanceof SoapMessage)
          {
-            throw createFault();
+            SoapMessage soapMessage = (SoapMessage)message;
+            if (!soapMessage.hasHeaders())
+            {
+               throw createFault();
+            }
+            else
+            {
+               Deployment dep = soapMessage.getExchange().get(Endpoint.class).getService().getDeployment();
+               RejectionRule rr = dep.getAttachment(RejectionRule.class);
+               if (rr != null)
+               {
+                  List<Header> headers = soapMessage.getHeaders();
+                  Map<QName, Object> m = new HashMap<>();
+                  for (Header header : headers)
+                  {
+                     m.put(header.getName(), header.getObject());
+                  }
+                  if (rr.rejectMessage(m))
+                  {
+                     throw createFault();
+                  }
+               }
+            }
          }
          else
          {
-            Deployment dep = message.getExchange().get(Endpoint.class).getService().getDeployment();
-            RejectionRule rr = dep.getAttachment(RejectionRule.class);
-            if (rr != null)
-            {
-               List<Header> headers = message.getHeaders();
-               Map<QName, Object> m = new HashMap<>();
-               for (Header header : headers)
-               {
-                  m.put(header.getName(), header.getObject());
-               }
-               if (rr.rejectMessage(m))
-               {
-                  throw createFault();
-               }
-            }
+            throw createFault();
          }
       }
    }
 
    private Fault createFault() {
-      Fault f = new Fault(new Message("Server is suspended", LOG));
+      Fault f = new Fault(new org.apache.cxf.common.i18n.Message("Server is suspended", LOG));
       f.setStatusCode(503);
       return f;
    }
