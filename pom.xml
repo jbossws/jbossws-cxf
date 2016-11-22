@@ -38,7 +38,7 @@
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.3.0.Final</version>
+    <version>1.3.1-SNAPSHOT</version>
   </parent>
   
   <!-- Source Control Management -->
@@ -62,7 +62,7 @@
   
   <!-- Properties -->
   <properties>
-    <jbossws.api.version>1.0.3.Final</jbossws.api.version>
+    <jbossws.api.version>1.0.4-SNAPSHOT</jbossws.api.version>
     <jbossws.spi.version>3.2.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>3.2.0-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.2.3.Final</jbossws.common.tools.version>
@@ -115,6 +115,7 @@
     <jaspi.api.version>1.0.0.Alpha1</jaspi.api.version>
     <jacc.api.version>1.0.0.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
+    <modular.jdk.args/>
   </properties>
 
 
@@ -1279,20 +1280,6 @@
   <pluginManagement>
      <plugins>
       <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <dependencies>
-           <dependency>
-             <artifactId>maven-archiver</artifactId>
-             <groupId>org.apache.maven</groupId>
-             <version>2.4</version>
-           </dependency>
-         </dependencies> 
-      </plugin>
-      <plugin>
-        <artifactId>maven-help-plugin</artifactId>
-        <version>2.2</version>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.gmaven</groupId>
         <artifactId>gmaven-plugin</artifactId>
         <version>1.5</version>
@@ -1301,16 +1288,6 @@
         <groupId>org.wildfly.plugins</groupId>
         <artifactId>wildfly-maven-plugin</artifactId>
         <version>1.0.2.Final</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.8.2</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-install-plugin</artifactId>
-        <version>2.5.2</version>
       </plugin>
       <plugin>
         <groupId>org.jboss.maven.plugins</groupId>
@@ -1357,20 +1334,8 @@
       </plugin>
      </plugins>
   </pluginManagement>
-
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.2</version>
-        <configuration>
-          <arguments>-DskipTests</arguments>
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-        </configuration>
-      </plugin>
-    </plugins>
   </build>
-  
+
   <!-- Profiles -->
   <profiles>
     <profile>
@@ -1463,7 +1428,7 @@
         <jbossws.integration.target>wildfly1100</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1100.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
+        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.args}</additionalJvmArgs>
         <additionalGroovyScriptSuffix></additionalGroovyScriptSuffix>
       </properties>
       <modules>
@@ -1489,6 +1454,31 @@
       <modules>
          <module>modules/testsuite</module>
       </modules>
+    </profile>
+
+    <profile>
+      <id>JDK9</id>
+      <activation>
+        <jdk>9</jdk>
+      </activation>
+      <properties>
+        <modular.jdk.args>
+          --add-modules java.se.ee --upgrade-module-path /home/opalka/JDK9_MODULES/UPGRADEABLE_MODULES_JBOSSWS
+          --add-exports java.base/sun.nio.ch=ALL-UNNAMED
+          --add-opens=java.base/java.lang=ALL-UNNAMED
+          --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+          --add-opens=java.base/java.security=ALL-UNNAMED
+          --add-opens=java.base/java.io=ALL-UNNAMED
+          --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+          --add-opens=java.base/java.math=ALL-UNNAMED
+          --add-opens=java.base/java.net=ALL-UNNAMED
+          --add-opens=java.base/java.util=ALL-UNNAMED
+          --add-opens=java.base/jdk.internal.reflect=ALL-UNNAMED
+          --add-opens=java.management/javax.management=ALL-UNNAMED
+          --add-opens=java.management/javax.management.openmbean=ALL-UNNAMED
+        </modular.jdk.args>
+        <!--modular.jdk.props>-Dsun.util.logging.disableCallerCheck=true -Dsun.reflect.debugModuleAccessChecks=true -Djaxb.debug=true</modular.jdk.props-->
+      </properties>
     </profile>
 
     <!-- [JBWS-3666] -->
