@@ -751,35 +751,6 @@
         	<version>${arquillian.version}</version>
         	<scope>test</scope>
         </dependency>
-        <!-- TODO remove dependencies below (activemq and wildfly ones) as soon at the wfly ws test-integration is fixed -->
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>artemis-jms-client</artifactId>
-            <version>1.1.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>artemis-commons</artifactId>
-            <version>1.1.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-naming-client</artifactId>
-            <version>1.0.0.Beta4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.security</groupId>
-            <artifactId>wildfly-elytron</artifactId>
-            <version>1.1.0.Beta13</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.client</groupId>
-            <artifactId>wildfly-client-config</artifactId>
-            <version>1.0.0.Beta1</version>
-        </dependency>
         <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
         <dependency>
           <groupId>org.littleshoot</groupId>
