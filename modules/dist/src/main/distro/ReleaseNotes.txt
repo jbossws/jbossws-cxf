@@ -23,8 +23,46 @@ https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.pro
 For issues that are scheduled for future versions see the road map.
 https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
 
-What's new in jbossws-cxf-5.1.5.Final
+What's new in jbossws-cxf-5.1.6.Final
 -------------------------------------
+
+Bug
+
+    * [JBWS-3993] - Need to have @org.apache.cxf.annotations.SchemaValidation working on @WebMethod
+    * [JBWS-4024] - WSRMStoreFeatureTestCase regression with Apache CXF 3.1.7 
+
+Enhancement
+
+    * [JBWS-4031] - Avoid array allocation in SubjectCreatingPolicyInterceptor
+    * [JBWS-4038] - few exceptions are ignored, trace level logging should be better option
+
+Component Upgrade
+
+    * [JBWS-4020] - Upgrade to Apache CXF 3.1.7
+    * [JBWS-4033] - Upgrade to Apache CXF 3.1.8
+    * [JBWS-4034] - Upgrade woodstox to 5.x
+
+Task
+
+    * [JBWS-4021] - Update supported target containers
+    * [JBWS-4039] - Fix code to not use default platform dependant encoding
+    * [JBWS-4040] - Support for XTS graceful shutdown
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3989
+
+This version of JBossWS is based on Apache CXF 3.1.8
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-5.1.5.Final
+-----------------------
 
 Bug
 
@@ -53,11 +91,6 @@ Errata
 
 This version of JBossWS is based on Apache CXF 3.1.6
 
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
 jbossws-cxf-5.1.4.Final
