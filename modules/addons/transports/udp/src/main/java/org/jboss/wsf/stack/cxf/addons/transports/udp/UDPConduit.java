@@ -35,6 +35,7 @@ import java.net.NetworkInterface;
 import java.net.URI;
 import java.util.Enumeration;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.common.logging.LogUtils;
@@ -165,6 +166,7 @@ public class UDPConduit extends AbstractConduit
                   catch (Exception e)
                   {
                      //ignore
+                     LOG.log(Level.FINEST, e.getMessage(), e);
                   }
                }
             }
@@ -179,6 +181,7 @@ public class UDPConduit extends AbstractConduit
             catch (Exception e)
             {
                //ignore
+               LOG.log(Level.FINEST, e.getMessage(), e);
             }
          }
 
