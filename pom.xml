@@ -145,16 +145,6 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly901-server-integration</artifactId>
-        <version>${jbossws.wildfly901.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly901-tests-integration</artifactId>
-        <version>${jbossws.wildfly901.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly902-server-integration</artifactId>
         <version>${jbossws.wildfly902.version}</version>
       </dependency>
