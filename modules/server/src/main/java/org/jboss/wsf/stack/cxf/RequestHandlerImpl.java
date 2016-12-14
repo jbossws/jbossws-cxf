@@ -46,6 +46,7 @@ import org.apache.cxf.transport.http.AbstractHTTPDestination;
 import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.transport.http.HTTPTransportFactory;
 import org.jboss.ws.common.management.AbstractServerConfig;
+import org.jboss.ws.common.management.EndpointMetricsImpl;
 import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.invocation.RequestHandler;
@@ -78,6 +79,14 @@ public class RequestHandlerImpl implements RequestHandler
       return me;
    }
 
+   private Long ensureStatisticsAreDisabled(Endpoint ep) {
+      // metrics are NOT enabled but still holds values, so they were
+      // and we need to reset them
+      if ( ep.getEndpointMetrics().getRequestCount() != 0 )
+         ep.getEndpointMetrics().resetMetrics();
+      return 0L;
+   }
+
    public void handleHttpRequest(Endpoint ep, HttpServletRequest req, HttpServletResponse res, ServletContext context) throws ServletException, IOException
    {
       final boolean isGet = "GET".equals(req.getMethod());
@@ -93,7 +102,7 @@ public class RequestHandlerImpl implements RequestHandler
          return;
       }
       final boolean statisticsEnabled = getServerConfig().isStatisticsEnabled();
-      final Long beginTime = statisticsEnabled == true ? initRequestMetrics(ep) : 0;
+      final Long beginTime = statisticsEnabled == true ? initRequestMetrics(ep): ensureStatisticsAreDisabled(ep);
       final Deployment dep = ep.getService().getDeployment();
       final AbstractHTTPDestination dest = findDestination(req, dep.getAttachment(BusHolder.class).getBus());
       final HttpServletResponseWrapper response = new HttpServletResponseWrapper(res);
