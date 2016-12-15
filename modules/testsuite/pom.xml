@@ -743,6 +743,10 @@
         	    <groupId>org.jboss.sasl</groupId>
         	    <artifactId>jboss-sasl</artifactId>
         	  </exclusion>
+        	  <exclusion>
+        	    <groupId>org.jboss.marshalling</groupId>
+        	    <artifactId>jboss-marshalling</artifactId>
+        	  </exclusion>
         	</exclusions>
         </dependency>
         <dependency>
