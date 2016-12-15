@@ -41,7 +41,7 @@ import org.jboss.ws.api.annotation.EndpointConfig;
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy",
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.ServiceIface"
 )
-@SecurityDomain("JAASJBossWS")
+@SecurityDomain("JBossWS")
 @EndpointConfig(configFile = "META-INF/jaxws-endpoint-config.xml", configName = "Custom WS-Security Endpoint")
 public class EJBServiceImpl
 {

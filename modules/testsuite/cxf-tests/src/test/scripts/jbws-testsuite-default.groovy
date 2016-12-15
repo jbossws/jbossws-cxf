@@ -50,7 +50,7 @@ loginModule.appendNode('module-option', ['name':'rolesProperties','value':projec
  */
 
 def jbsecurityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','cache-type':'default'])
-def jbauthentication = securityDomain.appendNode('authentication')
+def jbauthentication = jbsecurityDomain.appendNode('authentication')
 def jbloginModule = jbauthentication.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
 jbloginModule.appendNode('module-option', ['name':'unauthenticatedIdentity','value':'anonymous'])
 jbloginModule.appendNode('module-option', ['name':'usersProperties','value':project.properties['usersPropFile']])

@@ -39,6 +39,13 @@ def digestDomain = securityDomains.appendNode('security-domain', ['name':'ws-dig
 def digestRefRealm = digestDomain.appendNode('realm',['name':'ws-digest-domain','role-decoder':'groups-to-roles'])
 
 
+def legacyDomain = securityDomains.appendNode('security-domain', ['name':'JAASJBossWS','default-realm':'JAASJBossWSRealm','permission-mapper':'login-permission-mapper'])
+def jaasJBossWSRealm = legacyDomain.appendNode('realm',['name':'JAASJBossWSRealm' ,'role-decoder':'groups-to-roles'])
+
+def legacyDigestDomain = securityDomains.appendNode('security-domain', ['name':'JBossWSDigest','default-realm':'JAASJBossWSDigestRealm','permission-mapper':'login-permission-mapper'])
+def jaasJBossWDigestRealm = legacyDigestDomain.appendNode('realm',['name':'JAASJBossWSDigestRealm' ,'role-decoder':'groups-to-roles'])
+
+
 
 /**
  *            <security-realms>
@@ -124,7 +131,9 @@ def digestMechanismRealm = digestMechanism.appendNode('mechanism-realm',['realm-
 //add this to ejb
 def ejbSecurityDomains = root.profile.subsystem.'application-security-domains'[0]
 def ejbSecurityDomain1 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','security-domain':'JBossWS'])
-def ejbSecurityDomain2 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','security-domain':'ws-basic-domain'])
+def ejbSecurityDomain2 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'JAASJBossWS','security-domain':'JAASJBossWS'])
+def ejbSecurityDomain3 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','security-domain':'ws-basic-domain'])
+def ejbSecurityDomain4 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSDigest','security-domain':'JBossWSDigest'])
 
 //add to undertow
 def appSecurityDomains = root.profile.subsystem.'application-security-domains'[1]
@@ -287,6 +296,13 @@ loginModuleJaspiClient.appendNode('module-option', ['name':'usersProperties','va
 loginModuleJaspiClient.appendNode('module-option', ['name':'rolesProperties','value':project.properties['rolesPropFile']])
 authenticationJaspiClient.appendNode('auth-module', ['code':'org.jboss.wsf.stack.cxf.jaspi.client.module.SOAPClientAuthModule','login-module-stack-ref':'jaas-lm-stack'])
 
+
+
+def jbossDomainSecurity3_0 = securityDomains.parent()
+elytronIntegration = jbossDomainSecurity3_0.appendNode('elytron-integration')
+elytronRealms = elytronIntegration.appendNode('security-realms')
+elytronRealms.appendNode('elytron-realm', ['name':'JAASJBossWSRealm','legacy-jaas-config':'JAASJBossWS'])
+elytronRealms.appendNode('elytron-realm', ['name':'JAASJBossWSDigestRealm','legacy-jaas-config':'JBossWSDigest'])
 
 
 /**
