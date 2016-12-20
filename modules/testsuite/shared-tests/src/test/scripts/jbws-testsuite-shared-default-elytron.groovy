@@ -79,7 +79,7 @@ def mechanismRealm3=mechanism3.appendNode('mechanism-realm',['realm-name':'JBoss
 
 def httpAuthenticationFactory4 = httpAuthen.appendNode('http-authentication-factory', ['name':'JBossWSSecurityDomainTest','http-server-mechanism-factory':'global', 'security-domain':'JBossWSSecurityDomainTest'])
 def mechanismConfiguration4 = httpAuthenticationFactory4.appendNode('mechanism-configuration')
-def mechanism4 = mechanismConfiguration3.appendNode('mechanism',['mechanism-name':'BASIC'])
+def mechanism4 = mechanismConfiguration4.appendNode('mechanism',['mechanism-name':'BASIC'])
 def mechanismRealm4=mechanism4.appendNode('mechanism-realm',['realm-name':'JBossWSSecurityDomainTest'])
 
 
