@@ -43,7 +43,7 @@ def legacyDomain = securityDomains.appendNode('security-domain', ['name':'JAASJB
 def jaasJBossWSRealm = legacyDomain.appendNode('realm',['name':'JAASJBossWSRealm' ,'role-decoder':'groups-to-roles'])
 
 def legacyDigestDomain = securityDomains.appendNode('security-domain', ['name':'JBossWSDigest','default-realm':'JAASJBossWSDigestRealm','permission-mapper':'login-permission-mapper'])
-def jaasJBossWDigestRealm = legacyDigestDomain.appendNode('realm',['name':'JAASJBossWSDigestRealm' ,'role-decoder':'groups-to-roles'])
+def jaasJBossWDigestRealm = legacyDigestDomain.appendNode('realm',['name':'JAASJBossWSDigestRealm'])
 
 
 
