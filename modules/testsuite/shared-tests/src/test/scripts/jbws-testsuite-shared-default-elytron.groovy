@@ -15,16 +15,16 @@ file.attributes()['path'] = project.properties['serverLog']
   Elytron security domian
 **/
 def securityDomains = root.profile.subsystem.'security-domains'[0]
-def securityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','default-realm':'JBossWS','permission-mapper':'login-permission-mapper'])
+def securityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','default-realm':'JBossWS','permission-mapper':'default-permission-mapper'])
 def realm = securityDomain.appendNode('realm',['name':'JBossWS','role-decoder':'groups-to-roles'])
 
-def securityDomain2 = securityDomains.appendNode('security-domain', ['name':'handlerauth-security-domain','default-realm':'handlerauth-security-domain','permission-mapper':'login-permission-mapper'])
+def securityDomain2 = securityDomains.appendNode('security-domain', ['name':'handlerauth-security-domain','default-realm':'handlerauth-security-domain','permission-mapper':'default-permission-mapper'])
 def realm2 = securityDomain2.appendNode('realm',['name':'handlerauth-security-domain','role-decoder':'groups-to-roles'])
 
-def securityDomain3 = securityDomains.appendNode('security-domain', ['name':'JBossWSSecurityDomainPermitAllTest','default-realm':'JBossWSSecurityDomainPermitAllTest','permission-mapper':'login-permission-mapper'])
+def securityDomain3 = securityDomains.appendNode('security-domain', ['name':'JBossWSSecurityDomainPermitAllTest','default-realm':'JBossWSSecurityDomainPermitAllTest','permission-mapper':'default-permission-mapper'])
 def realm3 = securityDomain3.appendNode('realm',['name':'JBossWSSecurityDomainPermitAllTest','role-decoder':'groups-to-roles'])
 
-def securityDomain4 = securityDomains.appendNode('security-domain', ['name':'JBossWSSecurityDomainTest','default-realm':'JBossWSSecurityDomainTest','permission-mapper':'login-permission-mapper'])
+def securityDomain4 = securityDomains.appendNode('security-domain', ['name':'JBossWSSecurityDomainTest','default-realm':'JBossWSSecurityDomainTest','permission-mapper':'default-permission-mapper'])
 def realm4 = securityDomain4.appendNode('realm',['name':'JBossWSSecurityDomainTest','role-decoder':'groups-to-roles'])
 
 
