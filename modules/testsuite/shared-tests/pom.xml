@@ -312,9 +312,9 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-default-config-tests.groovy</source>
+                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-default-config-tests-elytron.groovy</source>
                             <properties>
-                                <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
+                                <inputFile>${jboss.home}/standalone/configuration/standalone-elytron.xml</inputFile>
                                 <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default-config-tests.xml</outputFile>
                                 <serverLog>jbws-testsuite-shared-default-config-tests.log</serverLog>
                             </properties>
@@ -327,9 +327,9 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-address-rewrite.groovy</source>
+                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-address-rewrite-elytron.groovy</source>
                             <properties>
-                                <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
+                                <inputFile>${jboss.home}/standalone/configuration/standalone-elytron.xml</inputFile>
                                 <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-address-rewrite.xml</outputFile>
                                 <serverLog>jbws-testsuite-shared-address-rewrite.log</serverLog>
                                 <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
