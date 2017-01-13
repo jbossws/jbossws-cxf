@@ -408,7 +408,7 @@
                   </properties>
                 </configuration>
               </execution>
-              <!--execution>
+              <execution>
                 <id>testsuite-ssl-mutual-auth</id>
                 <phase>pre-integration-test</phase>
                 <goals>
@@ -440,7 +440,7 @@
                   </properties>
                 </configuration>
               </execution>
-              <execution>
+              <!--ecution>
                 <id>testsuite-jms</id>
                 <phase>pre-integration-test</phase>
                 <goals>
