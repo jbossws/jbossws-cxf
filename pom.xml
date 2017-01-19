@@ -1379,6 +1379,7 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly902.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
+        <additionalGroovyScriptSuffix></additionalGroovyScriptSuffix>
       </properties>
       <modules>
         <module>modules/dist</module>
@@ -1397,6 +1398,7 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1000.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
+        <additionalGroovyScriptSuffix></additionalGroovyScriptSuffix>
       </properties>
       <modules>
         <module>modules/dist</module>
@@ -1415,6 +1417,7 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1010.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
+        <additionalGroovyScriptSuffix></additionalGroovyScriptSuffix>
       </properties>
       <modules>
         <module>modules/dist</module>
@@ -1433,6 +1436,7 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1100.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
+        <additionalGroovyScriptSuffix>-elytron</additionalGroovyScriptSuffix>
       </properties>
       <modules>
         <module>modules/dist</module>
