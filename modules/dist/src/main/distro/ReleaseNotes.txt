@@ -2,7 +2,7 @@
 JBoss Web Services - Stack CXF Distribution
 http://jbossws.jboss.org
 
-Version: jbossws-cxf-5.1.5.Final
+Version: jbossws-cxf-5.1.7.Final
 
 Release Notes
 =============
@@ -23,8 +23,45 @@ https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.pro
 For issues that are scheduled for future versions see the road map.
 https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
 
-What's new in jbossws-cxf-5.1.6.Final
+What's new in jbossws-cxf-5.1.7.Final
 -------------------------------------
+
+Bug
+
+    * [JBWS-4042] - Custom log4j configuration not being loaded by WSConsume and WSProvide
+    * [JBWS-4050] - JBWS1178TestCase issues
+
+Enhancement
+
+    * [JBWS-4051] - Revisit details on available cryptography for tests
+    * [JBWS-4045] - Upgrade woodstox to 5.x (more changes)
+
+Component Upgrade
+
+    * [JBWS-4049] - Upgrade to Apache CXF 3.1.9
+    * [JBWS-4028] - Upgrade to Apache WSS4J 2.1.8
+    * [JBWS-4044] - Upgrade to Apache Santuario 2.0.8
+
+Task
+
+    * [JBWS-4043] - Fix code to not use default platform dependent encoding - jbossws-common
+    * [JBWS-4048] - Elytron integration
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3989
+
+This version of JBossWS is based on Apache CXF 3.1.9
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-5.1.6.Final
+-----------------------
 
 Bug
 
@@ -54,11 +91,6 @@ Errata
 
 This version of JBossWS is based on Apache CXF 3.1.8
 
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
 jbossws-cxf-5.1.5.Final
