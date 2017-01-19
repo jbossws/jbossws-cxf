@@ -43,7 +43,7 @@ import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.bearer.BearerIface;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.holderofkey.HolderOfKeyIface;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.onbehalfof.OnBehalfOfServiceIface;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
-import org.jboss.wsf.test.CryptoHelper;
+import org.jboss.wsf.test.CryptoCheckHelper;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
@@ -284,7 +284,7 @@ public class WSTrustTestCase extends JBossWSTest
          try {
             assertEquals("WS-Trust Hello World!", proxy.sayHello());
          } catch (Exception e) {
-            throw CryptoHelper.checkAndWrapException(e);
+            throw CryptoCheckHelper.checkAndWrapException(e);
          }
       }
       finally
@@ -319,7 +319,7 @@ public class WSTrustTestCase extends JBossWSTest
          try {
             assertEquals("WS-Trust Hello World!", proxy.sayHello());
          } catch (Exception e) {
-            throw CryptoHelper.checkAndWrapException(e);
+            throw CryptoCheckHelper.checkAndWrapException(e);
          }
       }
       finally
@@ -511,7 +511,7 @@ public class WSTrustTestCase extends JBossWSTest
          try {
             assertEquals("WS-Trust Hello World!", proxy.sayHello());
          } catch (Exception e) {
-            throw CryptoHelper.checkAndWrapException(e);
+            throw CryptoCheckHelper.checkAndWrapException(e);
          }
       }
       finally

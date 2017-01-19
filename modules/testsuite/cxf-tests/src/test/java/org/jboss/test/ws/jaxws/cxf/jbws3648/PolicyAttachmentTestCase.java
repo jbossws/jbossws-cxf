@@ -43,7 +43,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
-import org.jboss.wsf.test.CryptoHelper;
+import org.jboss.wsf.test.CryptoCheckHelper;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
@@ -140,7 +140,7 @@ public class PolicyAttachmentTestCase extends JBossWSTest
          try {
             assertEquals("Foo4", proxy.echo("Foo4"));
          } catch (Exception e) {
-            throw CryptoHelper.checkAndWrapException(e);
+            throw CryptoCheckHelper.checkAndWrapException(e);
          }
          final String m = bos.toString();
          assertTrue("WS-Addressing was not enabled!", m.contains("http://www.w3.org/2005/08/addressing") && m.contains("http://www.w3.org/2005/08/addressing/anonymous"));

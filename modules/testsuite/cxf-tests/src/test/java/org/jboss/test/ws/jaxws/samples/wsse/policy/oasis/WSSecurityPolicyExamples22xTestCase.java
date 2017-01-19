@@ -37,7 +37,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.basic.KeystorePasswordCallback;
-import org.jboss.wsf.test.CryptoHelper;
+import org.jboss.wsf.test.CryptoCheckHelper;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
@@ -112,7 +112,7 @@ public final class WSSecurityPolicyExamples22xTestCase extends JBossWSTest
       try {
          assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) X.509 Certificates, Sign, Encrypt"));
       } catch (Exception e) {
-         throw CryptoHelper.checkAndWrapException(e);
+         throw CryptoCheckHelper.checkAndWrapException(e);
       }
    }
 
@@ -137,7 +137,7 @@ public final class WSSecurityPolicyExamples22xTestCase extends JBossWSTest
       try {
          assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) Mutual Authentication with X.509 Certificates, Sign, Encrypt"));
       } catch (Exception e) {
-         throw CryptoHelper.checkAndWrapException(e);
+         throw CryptoCheckHelper.checkAndWrapException(e);
       }
    }
 
@@ -162,7 +162,7 @@ public final class WSSecurityPolicyExamples22xTestCase extends JBossWSTest
       try {
          assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) Anonymous with X.509 Certificates, Sign, Encrypt"));
       } catch (Exception e) {
-         throw CryptoHelper.checkAndWrapException(e);
+         throw CryptoCheckHelper.checkAndWrapException(e);
       }
    }
 
@@ -187,7 +187,7 @@ public final class WSSecurityPolicyExamples22xTestCase extends JBossWSTest
       try {
          assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) Mutual Authentication with X.509 Certificates, Sign, Encrypt"));
       } catch (Exception e) {
-         throw CryptoHelper.checkAndWrapException(e);
+         throw CryptoCheckHelper.checkAndWrapException(e);
       }
    }
 

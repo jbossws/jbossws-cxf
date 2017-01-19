@@ -38,7 +38,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
-import org.jboss.wsf.test.CryptoHelper;
+import org.jboss.wsf.test.CryptoCheckHelper;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
@@ -106,7 +106,7 @@ public final class AnnotatedSignEncryptTestCase extends JBossWSTest
          ((BindingProvider)proxy).getRequestContext().put(Message.RECEIVE_TIMEOUT, 120000);
          assertEquals("Secure Hello World!", proxy.sayHello());
       } catch (Exception e) {
-         throw CryptoHelper.checkAndWrapException(e);
+         throw CryptoCheckHelper.checkAndWrapException(e);
       }
    }
 
