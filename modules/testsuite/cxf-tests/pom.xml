@@ -398,7 +398,7 @@
                 <configuration>
                   <source>${basedir}/src/test/scripts/jbws-testsuite-default-elytron.groovy</source>
                   <properties>
-                    <inputFile>${jboss.home}/standalone/configuration/standalone-elytron.xml</inputFile>
+                    <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
                     <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-default.xml</outputFile>
                     <serverLog>jbws-testsuite-default.log</serverLog>
                     <usersPropFile>${project.build.directory}/test-classes/jbossws-users.properties</usersPropFile>
@@ -417,7 +417,7 @@
                 <configuration>
                   <source>${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth-elytron.groovy</source>
                   <properties>
-                    <inputFile>${jboss.home}/standalone/configuration/standalone-elytron.xml</inputFile>
+                    <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
                     <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-ssl-mutual-auth.xml</outputFile>
                     <serverLog>jbws-testsuite-ssl-mutual-auth.log</serverLog>
                     <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
@@ -434,13 +434,13 @@
                 <configuration>
                   <source>${basedir}/src/test/scripts/jbws-testsuite-default-config-tests-elytron.groovy</source>
                   <properties>
-                    <inputFile>${jboss.home}/standalone/configuration/standalone-elytron.xml</inputFile>
+                    <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
                     <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-default-config-tests.xml</outputFile>
                     <serverLog>jbws-testsuite-default-config-tests.log</serverLog>
                   </properties>
                 </configuration>
               </execution>
-              <!--ecution>
+              <ecution>
                 <id>testsuite-jms</id>
                 <phase>pre-integration-test</phase>
                 <goals>
@@ -458,7 +458,7 @@
                     <destRolesProperties>${jboss.home}/standalone/configuration/jbws-application-roles.properties</destRolesProperties>
                   </properties>
                 </configuration>
-              </execution-->
+              </execution>
             </executions>
           </plugin>
          </plugins>

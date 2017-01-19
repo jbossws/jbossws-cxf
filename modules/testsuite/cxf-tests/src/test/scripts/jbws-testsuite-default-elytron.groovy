@@ -129,17 +129,32 @@ def digestMechanismRealm = digestMechanism.appendNode('mechanism-realm',['realm-
  *           </application-security-domains>
  */
 //add this to ejb
-def ejbSecurityDomains = root.profile.subsystem.'application-security-domains'[0]
-def ejbSecurityDomain1 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','security-domain':'JBossWS'])
-def ejbSecurityDomain2 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'JAASJBossWS','security-domain':'JAASJBossWS'])
-def ejbSecurityDomain3 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','security-domain':'ws-basic-domain'])
-def ejbSecurityDomain4 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSDigest','security-domain':'JBossWSDigest'])
+def ejbns = new groovy.xml.Namespace('urn:jboss:domain:ejb3:5.0')
+def wflyns = new groovy.xml.Namespace('urn:jboss:domain:5.0')
+def ejbSubsystem = root[wflyns.profile][ejbns.subsystem][0]
+
+//TODO: is there better create node as sibling in groovy
+def ejbChildren = ejbSubsystem.children()
+def appSecurityDomains = new groovy.util.Node(null, 'application-security-domains', [])
+ejbChildren.add(9, appSecurityDomains)
+
+def ejbSecurityDomain1 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','security-domain':'JBossWS'])
+def ejbSecurityDomain2 = appSecurityDomains.appendNode('application-security-domain', ['name':'JAASJBossWS','security-domain':'JAASJBossWS'])
+def ejbSecurityDomain3 = appSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','security-domain':'ws-basic-domain'])
+def ejbSecurityDomain4 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSDigest','security-domain':'JBossWSDigest'])
 
 //add to undertow
-def appSecurityDomains = root.profile.subsystem.'application-security-domains'[1]
-def appSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
-def basicAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','http-authentication-factory':'ws-basic-domain'])
-def digestAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'ws-digest-domain','http-authentication-factory':'ws-digest-domain'])
+def undertowns = new groovy.xml.Namespace('urn:jboss:domain:undertow:4.0')
+def undertowSubsystem = root[wflyns.profile][undertowns.subsystem][0]
+
+//TODO: is there better create node as sibling in groovy
+def undertowChildren = undertowSubsystem.children()
+def undertowAppSecurityDomains = new groovy.util.Node(null, 'application-security-domains', [])
+undertowChildren.add(5, undertowAppSecurityDomains)
+
+def appSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
+def basicAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','http-authentication-factory':'ws-basic-domain'])
+def digestAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'ws-digest-domain','http-authentication-factory':'ws-digest-domain'])
 
 
 //Add jaas picketbox security domain
