@@ -2,7 +2,7 @@
 JBoss Web Services - Stack CXF Distribution
 http://jbossws.jboss.org
 
-Version: jbossws-cxf-5.1.5.Final
+Version: jbossws-cxf-5.1.7.Final
 
 Release Notes
 =============
