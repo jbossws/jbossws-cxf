@@ -440,7 +440,7 @@
                   </properties>
                 </configuration>
               </execution>
-              <ecution>
+              <execution>
                 <id>testsuite-jms</id>
                 <phase>pre-integration-test</phase>
                 <goals>
