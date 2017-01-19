@@ -51,6 +51,8 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
+import sun.net.util.IPAddressUtil;
+
 /**
  * A JBossWS test helper that deals with test deployment/undeployment, etc.
  *
@@ -219,7 +221,7 @@ public class JBossWSTestHelper
       }
   }
    
-   private static String toIPv6URLFormat(final String host)
+   public static String toIPv6URLFormat(final String host)
    {
       try
       {
@@ -235,8 +237,9 @@ public class JBossWSTestHelper
             }
          }
          final boolean isIPv6Address = InetAddress.getByName(host) instanceof Inet6Address;
-         final boolean isIPv6Formatted = isIPv6Address && host.startsWith("[");
-         return isIPv6Address && !isIPv6Formatted ? "[" + host + "]" : host;
+         final boolean isIPv6Literal = isIPv6Address && IPAddressUtil.isIPv6LiteralAddress(host.replaceAll("^\\[(.*)\\]$","$1"));
+         final boolean isIPv6LiteralFormattedForURI = isIPv6Literal && host.startsWith("[");
+         return isIPv6Literal && !isIPv6LiteralFormattedForURI ? "[" + host + "]" : host;
       }
       catch (final UnknownHostException e)
       {

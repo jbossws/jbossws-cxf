@@ -25,6 +25,7 @@ import java.io.File;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.Map;
 
 import javax.management.Attribute;
@@ -44,6 +45,7 @@ import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -104,7 +106,7 @@ public class JBWS1178TestCaseForked extends JBossWSTest
       Map<String, Object> reqCtx = ((BindingProvider)port).getRequestContext(); 
       URL epURL = new URL((String)reqCtx.get(BindingProvider.ENDPOINT_ADDRESS_PROPERTY));
 
-      assertEquals(wsdlURL.getHost(), epURL.getHost());
+      assertEqualsIpv6FormatAware(wsdlURL.getHost(), epURL.getHost());
    }
 
    @Test
@@ -112,14 +114,29 @@ public class JBWS1178TestCaseForked extends JBossWSTest
    public void testHostName() throws Exception
    {
       InetAddress inetAddr = InetAddress.getByName(getServerHost());
-      String hostAddress = inetAddr instanceof Inet6Address ? "[" + inetAddr.getHostAddress() + "]" : inetAddr.getHostAddress();
-      URL wsdlURL = new URL("http://" + hostAddress + ":" + getServerPort() + "/jaxws-jbws1178/testpattern?wsdl");
+      Assume.assumeFalse("The test works only if there is a hostname available for the machine.",
+              inetAddr.getHostAddress().equals(inetAddr.getHostName()));
+      URL wsdlURL = new URL("http://" + inetAddr.getHostName() + ":" + getServerPort() + "/jaxws-jbws1178/testpattern?wsdl");
 
       QName serviceName = new QName("http://org.jboss.ws/jbws1178", "EndpointService");
       Service service = Service.create(wsdlURL, serviceName);
       Endpoint port = service.getPort(Endpoint.class);
       Map<String, Object> reqCtx = ((BindingProvider)port).getRequestContext(); 
       URL epURL = new URL((String)reqCtx.get(BindingProvider.ENDPOINT_ADDRESS_PROPERTY));
-      assertEquals(wsdlURL.getHost(), epURL.getHost());
+
+      assertEqualsIpv6FormatAware(wsdlURL.getHost(), epURL.getHost());
+   }
+
+   private static void assertEqualsIpv6FormatAware(String expected, String actual) throws UnknownHostException
+   {
+      String expectedFormatted = JBossWSTestHelper.toIPv6URLFormat(expected);
+      String actualFormatted = JBossWSTestHelper.toIPv6URLFormat(actual);
+
+      if (expectedFormatted.startsWith("[") && actualFormatted.startsWith("[")) {
+         //compare byte representations of IPv6 addresses to ignore address format differences
+         assertEquals(InetAddress.getByName(expectedFormatted).getAddress(), InetAddress.getByName(actualFormatted).getAddress());
+      } else {
+         assertEquals(expected, actual);
+      }
    }
 }
