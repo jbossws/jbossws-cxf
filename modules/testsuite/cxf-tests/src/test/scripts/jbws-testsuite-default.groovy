@@ -25,7 +25,7 @@ file.attributes()['path'] = project.properties['serverLog']
  *
  */
 
-def securityDomains = root.profile.subsystem.'security-domains'[1]
+def securityDomains = root.profile.subsystem.'security-domains'[0]
 def securityDomain = securityDomains.appendNode('security-domain', ['name':'JAASJBossWS','cache-type':'default'])
 def authentication = securityDomain.appendNode('authentication')
 def loginModule = authentication.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
