@@ -83,7 +83,7 @@ public final class SignEncryptGCMTestCase extends JBossWSTest
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.basic.ServiceIface.class)
          .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.basic.SignEncryptHelper.class)
          .addClass(org.jboss.wsf.test.ClientHelper.class)
-         .addClass(org.jboss.wsf.test.CryptoHelper.class)
+         .addClass(org.jboss.wsf.test.CryptoCheckHelper.class)
          .addClass(org.jboss.wsf.test.TestServlet.class)
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/sign-encrypt/META-INF/alice.properties"), "classes/META-INF/alice.properties")
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/basic/sign-encrypt/META-INF/alice.jks"), "classes/META-INF/alice.jks")

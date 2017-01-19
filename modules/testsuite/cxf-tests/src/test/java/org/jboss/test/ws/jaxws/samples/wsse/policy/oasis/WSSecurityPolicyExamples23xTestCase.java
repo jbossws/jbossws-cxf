@@ -41,7 +41,7 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.wsf.test.CryptoHelper;
+import org.jboss.wsf.test.CryptoCheckHelper;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
@@ -204,7 +204,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
       try {
          assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) SAML1.1 Sender Vouches with X.509 Certificates, Sign, Optional Encrypt"));
       } catch (Exception e) {
-         throw CryptoHelper.checkAndWrapException(e);
+         throw CryptoCheckHelper.checkAndWrapException(e);
       }
    }
 
@@ -233,7 +233,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
       try {
          assertTrue(proxy.sayHello().equals("Hello - (WSS1.0) SAML1.1 Holder of Key, Sign, Optional Encrypt"));
       } catch (Exception e) {
-         throw CryptoHelper.checkAndWrapException(e);
+         throw CryptoCheckHelper.checkAndWrapException(e);
       }
    }
 
@@ -329,7 +329,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
       try {
          assertTrue(proxy.sayHello().equals("Hello - (WSS1.1) SAML1.1/2.0 Sender Vouches with X.509 Certificate, Sign, Encrypt"));
       } catch (Exception e) {
-         throw CryptoHelper.checkAndWrapException(e);
+         throw CryptoCheckHelper.checkAndWrapException(e);
       }
    }
 }
