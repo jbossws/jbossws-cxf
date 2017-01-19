@@ -237,6 +237,10 @@
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-annotation_1.0_spec</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>woodstox-core-asl</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -977,6 +981,12 @@
         <groupId>org.apache.wss4j</groupId>
         <artifactId>wss4j-policy</artifactId>
         <version>${wss4j.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>woodstox-core-asl</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.wss4j</groupId>
