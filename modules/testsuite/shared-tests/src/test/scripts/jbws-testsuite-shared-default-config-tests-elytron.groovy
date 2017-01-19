@@ -53,8 +53,16 @@ def mechanismRealm=mechanism.appendNode('mechanism-realm',['realm-name':'JBossWS
 
 
 //add to undertow
-def appSecurityDomains = root.profile.subsystem.'application-security-domains'[1]
-def appSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
+def undertowns = new groovy.xml.Namespace('urn:jboss:domain:undertow:4.0')
+def wflyns = new groovy.xml.Namespace('urn:jboss:domain:5.0')
+def undertowSubsystem = root[wflyns.profile][undertowns.subsystem][0]
+
+//TODO: is there better create node as sibling in groovy
+def undertowChildren = undertowSubsystem.children()
+def undertowAppSecurityDomains = new groovy.util.Node(null, 'application-security-domains', [])
+undertowChildren.add(5, undertowAppSecurityDomains)
+
+def appSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
 
 /**
  * Save the configuration to a new file
