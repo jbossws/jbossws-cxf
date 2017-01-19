@@ -83,26 +83,35 @@ def mechanism4 = mechanismConfiguration4.appendNode('mechanism',['mechanism-name
 def mechanismRealm4=mechanism4.appendNode('mechanism-realm',['realm-name':'JBossWSSecurityDomainTest'])
 
 
-/**
-  Ejb security domain
-**/
-
 //add this to ejb
-def ejbSecurityDomains = root.profile.subsystem.'application-security-domains'[0]
-def ejbSecurityDomain1 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','security-domain':'JBossWS'])
-def ejbSecurityDomain2 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'handlerauth-security-domain','security-domain':'handlerauth-security-domain'])
-def ejbSecurityDomain3 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainPermitAllTest','security-domain':'JBossWSSecurityDomainPermitAllTest'])
-def ejbSecurityDomain4 = ejbSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainTest','security-domain':'JBossWSSecurityDomainTest'])
+def ejbns = new groovy.xml.Namespace('urn:jboss:domain:ejb3:5.0')
+def wflyns = new groovy.xml.Namespace('urn:jboss:domain:5.0')
+def ejbSubsystem = root[wflyns.profile][ejbns.subsystem][0]
 
 
-/**
-  Undertow security domain
-**/
-def appSecurityDomains = root.profile.subsystem.'application-security-domains'[1]
-def appSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
-def basicAppSecurityDomain = appSecurityDomains.appendNode('application-security-domain', ['name':'handlerauth-security-domain','http-authentication-factory':'handlerauth-security-domain'])
-def basicAppSecurityDomain2 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainPermitAllTest','http-authentication-factory':'JBossWSSecurityDomainPermitAllTest'])
-def basicAppSecurityDomain3 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainTest','http-authentication-factory':'JBossWSSecurityDomainTest'])
+//TODO: is there better create node as sibling in groovy
+def ejbChildren = ejbSubsystem.children()
+def appSecurityDomains = new groovy.util.Node(null, 'application-security-domains', [])
+ejbChildren.add(9, appSecurityDomains)
+
+def ejbSecurityDomain1 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','security-domain':'JBossWS'])
+def ejbSecurityDomain2 = appSecurityDomains.appendNode('application-security-domain', ['name':'handlerauth-security-domain','security-domain':'handlerauth-security-domain'])
+def ejbSecurityDomain3 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainPermitAllTest','security-domain':'JBossWSSecurityDomainPermitAllTest'])
+def ejbSecurityDomain4 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainTest','security-domain':'JBossWSSecurityDomainTest'])
+
+//add to undertow
+def undertowns = new groovy.xml.Namespace('urn:jboss:domain:undertow:4.0')
+def undertowSubsystem = root[wflyns.profile][undertowns.subsystem][0]
+
+//TODO: is there better create node as sibling in groovy
+def undertowChildren = undertowSubsystem.children()
+def undertowAppSecurityDomains = new groovy.util.Node(null, 'application-security-domains', [])
+undertowChildren.add(5, undertowAppSecurityDomains)
+
+def appSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
+def basicAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'handlerauth-security-domain','http-authentication-factory':'handlerauth-security-domain'])
+def basicAppSecurityDomain2 = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainPermitAllTest','http-authentication-factory':'JBossWSSecurityDomainPermitAllTest'])
+def basicAppSecurityDomain3 = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainTest','http-authentication-factory':'JBossWSSecurityDomainTest'])
 
 
 
