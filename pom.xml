@@ -1318,12 +1318,36 @@
             <groupId>org.jboss</groupId>
             <artifactId>jbossorg-docbook-xslt</artifactId>
             <version>1.1.0</version>
+            <!-- TODO workaround for https://issues.jboss.org/browse/PRESSGANG-60,
+                 could be removed if new org.jboss.pressgang extensions are used instead -->
+            <exclusions>
+              <exclusion>
+                <groupId>org.eclipse.wst.css</groupId>
+                <artifactId>core</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>org.eclipse.wst.sse</groupId>
+                <artifactId>core</artifactId>
+              </exclusion>
+            </exclusions>
           </dependency>
           <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jbossorg-jdocbook-style</artifactId>
             <version>1.0.0</version>
             <type>jdocbook-style</type>
+            <!-- TODO workaround for https://issues.jboss.org/browse/PRESSGANG-60,
+                 could be removed if new org.jboss.pressgang extensions are used instead -->
+            <exclusions>
+              <exclusion>
+                <groupId>org.eclipse.wst.css</groupId>
+                <artifactId>core</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>org.eclipse.wst.sse</groupId>
+                <artifactId>core</artifactId>
+              </exclusion>
+            </exclusions>
           </dependency>
         </dependencies>
       </plugin>
