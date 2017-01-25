@@ -34,8 +34,8 @@ def realm = securityDomain.appendNode('realm',['name':'JBossWS','role-decoder':'
  *     </properties-realm>
 */
 def securityRealms = root.profile.subsystem.'security-realms'[0]
-def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS', 'plain-text':'true'])
-def usersProperties = propertiesRealm.appendNode('users-properties',['path':project.properties['usersPropFile']])
+def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS'])
+def usersProperties = propertiesRealm.appendNode('users-properties',['path':project.properties['usersPropFile'], 'plain-text':'true'])
 def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':project.properties['rolesPropFile']])
 
  /*   <http>

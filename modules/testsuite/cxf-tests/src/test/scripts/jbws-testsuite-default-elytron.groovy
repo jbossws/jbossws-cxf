@@ -62,13 +62,13 @@ def jaasJBossWDigestRealm = legacyDigestDomain.appendNode('realm',['name':'JAASJ
  *
  */
 def securityRealms = root.profile.subsystem.'security-realms'[0]
-def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS', 'plain-text':'true'])
-def usersProperties = propertiesRealm.appendNode('users-properties',['path':project.properties['usersPropFile']])
+def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS'])
+def usersProperties = propertiesRealm.appendNode('users-properties',['path':project.properties['usersPropFile'], 'plain-text':'true'])
 def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':project.properties['rolesPropFile']])
 
 
-def basicPropertiesRealm = securityRealms.appendNode('properties-realm', ['name':'ws-basic-domain','plain-text':'true'])
-def basicUsersProperties = basicPropertiesRealm.appendNode('users-properties',['path': project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-users.properties'])
+def basicPropertiesRealm = securityRealms.appendNode('properties-realm', ['name':'ws-basic-domain'])
+def basicUsersProperties = basicPropertiesRealm.appendNode('users-properties',['path': project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-users.properties', 'plain-text':'true'])
 def basicGroupsProperties = basicPropertiesRealm.appendNode('groups-properties',['path': project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-roles.properties'])
 
 
