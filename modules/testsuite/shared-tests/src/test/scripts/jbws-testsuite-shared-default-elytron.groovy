@@ -34,22 +34,22 @@ def realm4 = securityDomain4.appendNode('realm',['name':'JBossWSSecurityDomainTe
 **/
 
 def securityRealms = root.profile.subsystem.'security-realms'[0]
-def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS', 'plain-text':'true'])
-def usersProperties = propertiesRealm.appendNode('users-properties',['path':project.properties['usersPropFile']])
+def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS'])
+def usersProperties = propertiesRealm.appendNode('users-properties',['path':project.properties['usersPropFile'], 'plain-text':'true'])
 def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':project.properties['rolesPropFile']])
 
 
-def propertiesRealm2 = securityRealms.appendNode('properties-realm', ['name':'handlerauth-security-domain', 'plain-text':'true'])
-def usersProperties2 = propertiesRealm2.appendNode('users-properties',['path':project.properties['testResourcesDir'] + '/jaxws/handlerauth/jbossws-users.properties'])
+def propertiesRealm2 = securityRealms.appendNode('properties-realm', ['name':'handlerauth-security-domain'])
+def usersProperties2 = propertiesRealm2.appendNode('users-properties',['path':project.properties['testResourcesDir'] + '/jaxws/handlerauth/jbossws-users.properties', 'plain-text':'true'])
 def groupsProperties2 = propertiesRealm2.appendNode('groups-properties',['path':project.properties['testResourcesDir'] + '/jaxws/handlerauth/jbossws-roles.properties'])
 
 
-def propertiesRealm3 = securityRealms.appendNode('properties-realm', ['name':'JBossWSSecurityDomainPermitAllTest', 'plain-text':'true'])
-def usersProperties3 = propertiesRealm3.appendNode('users-properties',['path':project.properties['testResourcesDir'] + '/jaxws/samples/securityDomain/jbossws-users.properties'])
+def propertiesRealm3 = securityRealms.appendNode('properties-realm', ['name':'JBossWSSecurityDomainPermitAllTest'])
+def usersProperties3 = propertiesRealm3.appendNode('users-properties',['path':project.properties['testResourcesDir'] + '/jaxws/samples/securityDomain/jbossws-users.properties', 'plain-text':'true'])
 def groupsProperties3 = propertiesRealm3.appendNode('groups-properties',['path':project.properties['testResourcesDir'] + '/jaxws/samples/securityDomain/jbossws-roles.properties'])
 
-def propertiesRealm4 = securityRealms.appendNode('properties-realm', ['name':'JBossWSSecurityDomainTest', 'plain-text':'true'])
-def usersProperties4 = propertiesRealm4.appendNode('users-properties',['path':project.properties['testResourcesDir'] + '/jaxws/samples/securityDomain/jbossws-users.properties'])
+def propertiesRealm4 = securityRealms.appendNode('properties-realm', ['name':'JBossWSSecurityDomainTest'])
+def usersProperties4 = propertiesRealm4.appendNode('users-properties',['path':project.properties['testResourcesDir'] + '/jaxws/samples/securityDomain/jbossws-users.properties', 'plain-text':'true'])
 def groupsProperties4 = propertiesRealm4.appendNode('groups-properties',['path':project.properties['testResourcesDir'] + '/jaxws/samples/securityDomain/jbossws-roles.properties'])
 
 
