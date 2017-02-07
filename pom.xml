@@ -1460,14 +1460,19 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1100.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs}</additionalJvmArgs>
-        <additionalGroovyScriptSuffix>-elytron</additionalGroovyScriptSuffix>
+        <additionalGroovyScriptSuffix></additionalGroovyScriptSuffix>
       </properties>
       <modules>
         <module>modules/dist</module>
         <module>modules/testsuite</module>
       </modules>
     </profile>
-
+    <profile>
+      <id>elytron</id>
+      <properties>
+        <additionalGroovyScriptSuffix>-elytron</additionalGroovyScriptSuffix>
+      </properties>
+    </profile>
     <profile>
       <id>dist</id>
       <modules>
