@@ -14,7 +14,20 @@ file.attributes()['path'] = project.properties['serverLog']
 /**
   Elytron security domian
 **/
-def securityDomains = root.profile.subsystem.'security-domains'[0]
+def subsystems = root.profile.subsystem
+def securitySubsystem = null;
+def securityDomains = null
+for (item in subsystems) {
+    if (item.name().getNamespaceURI().contains("urn:wildfly:elytron:")) {
+       securitySubsystem = item;
+       for (element in item) {
+           if (element.name().getLocalPart().equals("security-domains")) {
+              securityDomains = element
+           }
+       }
+       break
+    }
+}
 def securityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','default-realm':'JBossWS','permission-mapper':'default-permission-mapper'])
 def realm = securityDomain.appendNode('realm',['name':'JBossWS','role-decoder':'groups-to-roles'])
 
@@ -58,7 +71,13 @@ def groupsProperties4 = propertiesRealm4.appendNode('groups-properties',['path':
   HttpAuthentication Factory
 **/
 
-def httpAuthen = root.profile.subsystem.'http'[0]
+def httpAuthen = null
+for (element in securitySubsystem) {
+    if (element.name().getLocalPart().equals("http")) {
+       httpAuthen = element
+       break
+    }
+}
 
 def httpAuthenticationFactory = httpAuthen.appendNode('http-authentication-factory', ['name':'JBossWS','http-server-mechanism-factory':'global', 'security-domain':'JBossWS'])
 def mechanismConfiguration = httpAuthenticationFactory.appendNode('mechanism-configuration')
