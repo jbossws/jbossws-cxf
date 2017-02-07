@@ -21,7 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.samples.securityDomain;
 
-import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
@@ -30,7 +29,6 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
-import org.apache.cxf.interceptor.InInterceptors;
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.annotation.AuthMethod;

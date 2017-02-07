@@ -32,8 +32,10 @@ import javax.activation.DataHandler;
 import javax.xml.transform.Source;
 import javax.xml.ws.soap.SOAPBinding;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.wsf.test.XOPTestSupport;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
 
 /**
  * User: hbraun
@@ -71,6 +73,8 @@ public abstract class XOPBase extends JBossWSTest
     */
    public abstract void testDataHandlerResponseOptimzed() throws Exception;
 
+   @Test
+   @RunAsClient
    public void testImgRoundtrip() throws Exception
    {
       assertTrue("Cannot find: " + imgFile, imgFile.exists());
@@ -90,6 +94,8 @@ public abstract class XOPBase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testImgResponseOptimized() throws Exception
    {
       assertTrue("Cannot find: " + imgFile, imgFile.exists());
@@ -110,6 +116,8 @@ public abstract class XOPBase extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testSourceRoundtrip() throws Exception
    {
       getBinding().setMTOMEnabled(true);
@@ -124,6 +132,8 @@ public abstract class XOPBase extends JBossWSTest
       assertTrue(response.getData() instanceof Source);
    }
 
+   @Test
+   @RunAsClient
    public void testSourceResponseOptimized() throws Exception
    {
       getBinding().setMTOMEnabled(false);

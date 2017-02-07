@@ -86,26 +86,41 @@ public class ExceptionServletTestCase extends JBossWSTest
       assertEquals("1", runTestInContainer("testRuntimeException"));
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-samples-exception-client")
    public void testSoapFaultException() throws Exception
    {
       assertEquals("1", runTestInContainer("testSoapFaultException"));
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-samples-exception-client")
    public void testApplicationException() throws Exception
    {
       assertEquals("1", runTestInContainer("testApplicationException"));
    }
-   
+
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-samples-exception-client")
    public void testRuntimeExceptionSOAP12() throws Exception
    {
       assertEquals("1", runTestInContainerSOAP12("testRuntimeException"));
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-samples-exception-client")
    public void testSoapFaultExceptionSOAP12() throws Exception
    {
       assertEquals("1", runTestInContainerSOAP12("testSoapFaultException"));
    }
 
+   @Test
+   @RunAsClient
+   @OperateOnDeployment("jaxws-samples-exception-client")
    public void testApplicationExceptionSOAP12() throws Exception
    {
       assertEquals("1", runTestInContainerSOAP12("testApplicationException"));

@@ -40,11 +40,10 @@ import javax.management.MBeanServerConnection;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import junit.framework.TestCase;
-
 import org.jboss.logging.Logger;
 import org.jboss.ws.common.DOMWriter;
 import org.jboss.ws.common.concurrent.CopyJob;
+import org.junit.Assert;
 import org.junit.AssumptionViolatedException;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -54,6 +53,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 /**
  * Base class for JBossWS test cases.
  *
@@ -61,7 +63,7 @@ import org.w3c.dom.NodeList;
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
  */
-public abstract class JBossWSTest extends TestCase
+public abstract class JBossWSTest extends Assert
 {
    protected static Logger log = Logger.getLogger(JBossWSTest.class.getName());
    public static final String SYSPROP_COPY_JOB_TIMEOUT = "test.copy.job.timeout";
@@ -73,11 +75,7 @@ public abstract class JBossWSTest extends TestCase
    {
    }
 
-   public JBossWSTest(String name)
-   {
-      super(name);
-   }
-   
+
    /**
     * Execute <b>command</b> in separate process.
     * @param command command to execute
@@ -331,7 +329,7 @@ public abstract class JBossWSTest extends TestCase
       else if (exp instanceof double[] && was instanceof double[])
          assertEqualsArray((double[])exp, (double[])was);
       else
-         TestCase.assertEquals(exp, was);
+         Assert.assertEquals(exp, was);
    }
 
    private static void assertEqualsArray(Object[] exp, Object[] was)

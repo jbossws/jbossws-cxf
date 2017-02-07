@@ -99,7 +99,6 @@ public class JBWS1505TestCase extends JBossWSTest
       javax.wsdl.Service service = (javax.wsdl.Service)services.values().iterator().next();
       javax.wsdl.Port port = (javax.wsdl.Port)service.getPorts().values().iterator().next();
       assertTrue(port.getBinding().getBindingOperations().size() == 5); // with five op's
-      tearDown();
    }
 
    /**
@@ -115,6 +114,5 @@ public class JBWS1505TestCase extends JBossWSTest
       CustomType ct = port.getCustomType();
       assertTrue(ct.getMember1() == 1);
       assertTrue(ct.getMember2() == 2);
-      tearDown();
    }
 }

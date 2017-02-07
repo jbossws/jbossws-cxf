@@ -92,7 +92,7 @@ public final class JaspiAuthenticationTestCase extends JBossWSTest
             .addClass(org.jboss.wsf.test.ClientHelper.class)
             .addClass(org.jboss.wsf.test.TestServlet.class)
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/jaspi/META-INF/permissions.xml"), "permissions.xml");
-;
+
       return archive;
    }
 

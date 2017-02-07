@@ -35,13 +35,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import junit.framework.TestCase;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.configuration.NullConfigurer;
 import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMocksControl;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for UndertowServerEngineTest
@@ -52,7 +55,7 @@ import org.easymock.classextension.IMocksControl;
  * @since 20-Aug-2010
  *
  */
-public class UndertowServerEngineTest extends TestCase {
+public class UndertowServerEngineTest {
 
     private static final int THREAD_COUNT = 50;
     private Bus bus;
@@ -61,6 +64,7 @@ public class UndertowServerEngineTest extends TestCase {
     private static List<UndertowServerEngine> servers = Collections.synchronizedList(new ArrayList<UndertowServerEngine>());
 
     
+   @Before
    public void setUp() throws Exception
    {
       control = EasyMock.createNiceControl();
@@ -70,6 +74,7 @@ public class UndertowServerEngineTest extends TestCase {
       EasyMock.expectLastCall().andReturn(configurer).anyTimes();
    }
 
+   @Test
    public void testEngineRetrieval() throws Exception
    {
       control.replay();
@@ -80,6 +85,7 @@ public class UndertowServerEngineTest extends TestCase {
       control.verify();
    }
 
+   @Test
    public void testHttpAndHttps() throws Exception
    {
       control.replay();
@@ -95,6 +101,7 @@ public class UndertowServerEngineTest extends TestCase {
       control.verify();
    }
 
+   @Test
    public void testMultiThreaded()
    {
       Thread threads[] = new Thread[THREAD_COUNT];
@@ -128,6 +135,7 @@ public class UndertowServerEngineTest extends TestCase {
       }
    }
 
+   @Test
    public void testHandler() throws Exception
    {
       MyTestHandler handler1 = new MyTestHandler();

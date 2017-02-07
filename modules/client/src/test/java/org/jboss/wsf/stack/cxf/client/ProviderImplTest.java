@@ -32,11 +32,16 @@ import javax.xml.ws.Endpoint;
 import javax.xml.ws.EndpointReference;
 import javax.xml.ws.spi.Provider;
 
-import junit.framework.TestCase;
-
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.stack.cxf.client.ProviderImpl.DelegateEndpointImpl;
+import org.junit.Test;
 import org.w3c.dom.Element;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * A test case for jbossws-cxf javax.xml.ws.spi.Provider implementation
@@ -45,15 +50,17 @@ import org.w3c.dom.Element;
  * @since 24-Feb-2011
  * 
  */
-public class ProviderImplTest extends TestCase
+public class ProviderImplTest
 {
+   @Test
    public void testGetProvider()
    {
       //just check we get the jbossws-cxf provider impl when the default maven tccl is set
       Provider providerImpl = Provider.provider();
       assertTrue(providerImpl instanceof ProviderImpl);
    }
-   
+
+   @Test
    public void testGetProviderWithCustomClassLoaderIsBackwardCompatibility()
    {
       ClassLoader tccl = Thread.currentThread().getContextClassLoader();
@@ -89,6 +96,7 @@ public class ProviderImplTest extends TestCase
     * affect the current TCCL when the ProviderImpl class can be loaded and
     * created an instance of by that classloader.
     */
+   @Test
    public void testCheckAndFixContextClassLoaderWithDefaultMavenClassLoader()
    {
       ClassLoader tccl = Thread.currentThread().getContextClassLoader();
@@ -110,6 +118,7 @@ public class ProviderImplTest extends TestCase
     * a new DelegateClassLoader (able to load ProviderImpl) as TCCL when the
     * TCCL is not set.
     */
+   @Test
    public void testCheckAndFixContextClassLoaderWithNullClassLoader()
    {
       ClassLoader orig = Thread.currentThread().getContextClassLoader();
@@ -134,6 +143,7 @@ public class ProviderImplTest extends TestCase
     * a new DelegateClassLoader (able to load ProviderImpl) as TCCL when the
     * ProviderImpl class can't be loaded and created an instance of by that TCCL
     */
+   @Test
    public void testCheckAndFixContextClassLoaderWithTestClassLoader()
    {
       ClassLoader orig = Thread.currentThread().getContextClassLoader();
@@ -159,6 +169,7 @@ public class ProviderImplTest extends TestCase
     * CXF EndpointImpl after having properly setup the TCCL so that it
     * can load and create instances of the ProviderImpl class.
     */
+   @Test
    public void testEndpointImplPublishCorrectlySetsTCCL()
    {
       ClassLoader orig = Thread.currentThread().getContextClassLoader();

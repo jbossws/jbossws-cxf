@@ -24,7 +24,14 @@ package org.jboss.wsf.stack.cxf.client.configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * A test case for the MapToBeanConverter
@@ -33,7 +40,7 @@ import junit.framework.TestCase;
  * @since 11-Mar-2015
  * 
  */
-public class MapToBeanConverterTest extends TestCase
+public class MapToBeanConverterTest
 {
    private Map<String, String> getTestMap() {
       Map<String, String> map = new HashMap<String, String>();
@@ -58,7 +65,8 @@ public class MapToBeanConverterTest extends TestCase
       map.put("##bean4", "bean4Class");
       return map;
    }
-   
+
+   @Test
    public void testBasicConversion() throws Exception
    {
       Map<String, String> map = getTestMap();
@@ -85,7 +93,8 @@ public class MapToBeanConverterTest extends TestCase
       assertEquals(bean2, converter.get("##bean2"));
       assertEquals(bean3, converter.get("##bean3"));
    }
-   
+
+   @Test
    public void testInvalidGet() throws Exception
    {
       try {
@@ -95,7 +104,8 @@ public class MapToBeanConverterTest extends TestCase
          assertTrue(e.getMessage().contains("foo"));
       }
    }
-   
+
+   @Test
    public void testMissingClass() throws Exception
    {
       try {

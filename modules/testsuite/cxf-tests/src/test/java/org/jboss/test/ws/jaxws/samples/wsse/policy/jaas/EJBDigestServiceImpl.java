@@ -26,7 +26,6 @@ import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
-import org.apache.cxf.interceptor.InInterceptors;
 import org.jboss.logging.Logger;
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.ws.api.annotation.EndpointConfig;

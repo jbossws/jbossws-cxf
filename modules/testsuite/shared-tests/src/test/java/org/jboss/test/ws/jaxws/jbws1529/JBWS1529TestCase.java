@@ -98,7 +98,6 @@ public class JBWS1529TestCase extends JBossWSTest
       WSDLReader wsdlReader = WSDLFactory.newInstance().newWSDLReader();
       Definition wsdl = wsdlReader.readWSDL(wsdlFile.getAbsolutePath());
       assertNotNull(wsdl);
-      tearDown();
    }
 
    @Test
@@ -107,6 +106,5 @@ public class JBWS1529TestCase extends JBossWSTest
    {
       String retStr = proxy.echo("hi there");
       assertEquals("hi there", retStr);
-      tearDown();
    }
 }

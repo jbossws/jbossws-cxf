@@ -66,8 +66,7 @@ public class WSProviderTestCaseForked extends PluginBase
    {
       setupClasspath();
 
-      Class<?> wspClass = Thread.currentThread().getContextClassLoader()
-        .loadClass("org.jboss.test.ws.jaxws.smoke.tools.WSProviderPlugin");
+      Class<?> wspClass = Thread.currentThread().getContextClassLoader().loadClass(WSProviderPlugin.class.getName());
       setDelegate(wspClass);
     }
 

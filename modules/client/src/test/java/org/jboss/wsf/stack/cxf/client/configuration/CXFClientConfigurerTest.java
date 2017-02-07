@@ -30,8 +30,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-import junit.framework.TestCase;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.endpoint.Client;
@@ -39,6 +37,11 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.Interceptor;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.stack.cxf.client.Constants;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * A test case for the CXFClientConfigurer
@@ -47,8 +50,9 @@ import org.jboss.wsf.stack.cxf.client.Constants;
  * @since 10-Oct-2014
  * 
  */
-public class CXFClientConfigurerTest extends TestCase
+public class CXFClientConfigurerTest
 {
+   @Test
    public void testSetMapOfProperties() throws Exception
    {
       Bus bus = null;
@@ -94,7 +98,8 @@ public class CXFClientConfigurerTest extends TestCase
          }
       }
    }
-   
+
+   @Test
    public void testSetConfigProperties() throws Exception
    {
       Bus bus = null;
@@ -147,6 +152,7 @@ public class CXFClientConfigurerTest extends TestCase
       }
    }
 
+   @Test
    public void testAddInterceptors() throws Exception
    {
       Bus bus = null;
@@ -199,7 +205,8 @@ public class CXFClientConfigurerTest extends TestCase
          }
       }
    }
-   
+
+   @Test
    public void testAddInterceptorsThroughSetMapOfProperties() throws Exception
    {
       Bus bus = null;
@@ -263,7 +270,8 @@ public class CXFClientConfigurerTest extends TestCase
          }
       }
    }
-   
+
+   @Test
    public void testAddInterceptorsThroughSetConfigProperties() throws Exception
    {
       Bus bus = null;

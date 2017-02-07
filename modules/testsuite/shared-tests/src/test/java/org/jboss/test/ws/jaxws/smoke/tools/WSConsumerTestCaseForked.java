@@ -50,7 +50,7 @@ public class WSConsumerTestCaseForked extends PluginBase
       // JBWS-2175
       setupClasspath();
 
-      Class<?> wscClass = Thread.currentThread().getContextClassLoader().loadClass("org.jboss.test.ws.jaxws.smoke.tools.WSConsumerPlugin");
+      Class<?> wscClass = Thread.currentThread().getContextClassLoader().loadClass(WSConsumerPlugin.class.getName());
       setDelegate(wscClass);
    }
 

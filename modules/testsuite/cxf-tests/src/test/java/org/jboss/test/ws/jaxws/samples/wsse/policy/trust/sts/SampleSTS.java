@@ -40,7 +40,6 @@ import org.apache.cxf.sts.token.provider.SAMLTokenProvider;
 import org.apache.cxf.sts.token.validator.SAMLTokenValidator;
 import org.apache.cxf.sts.token.validator.UsernameTokenValidator;
 import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.WSTrustTestUtils;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.WSTrustAppUtils;
 
 @WebServiceProvider(serviceName = "SecurityTokenService",

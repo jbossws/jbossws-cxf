@@ -25,7 +25,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.xml.ws.WebServiceContext;
-import junit.framework.TestCase;
 import org.apache.cxf.jaxws.context.WebServiceContextImpl;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.message.Exchange;
@@ -37,7 +36,9 @@ import org.apache.cxf.service.ServiceImpl;
 import org.apache.cxf.service.invoker.MethodDispatcher;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.service.model.OperationInfo;
+import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 
 /**
  * A test case for CXF Invoker integration
@@ -46,7 +47,7 @@ import org.apache.cxf.service.model.OperationInfo;
  * @since 20-Jun-2012
  * 
  */
-public class JBossWSInvokerTest extends TestCase
+public class JBossWSInvokerTest
 {
    /**
     * The JBossWSInvoker internals rely on the Apache CXF side of the Invoker abstraction to properly
@@ -57,6 +58,7 @@ public class JBossWSInvokerTest extends TestCase
     * changed or the integration is not inadvertently broken in some way. 
     * This test hence verifies the MessageContext instance is available inside the performInvocation method.
     */
+   @Test
    public void testMessageContextThreadLocal()
    {
       TestInvoker invoker = new TestInvoker();

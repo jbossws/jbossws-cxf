@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import org.apache.cxf.common.logging.Log4jLogger;
 import org.apache.cxf.common.logging.LogUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
 
 /**
  * Test CXF logging on the client side uses Log4J 
@@ -35,6 +36,7 @@ import org.jboss.wsf.test.JBossWSTest;
  */
 public class CXFLoggingTestCase extends JBossWSTest
 {
+   @Test
    public void testLogging() throws Exception
    {
       Logger log = LogUtils.getL7dLogger(CXFLoggingTestCase.class);

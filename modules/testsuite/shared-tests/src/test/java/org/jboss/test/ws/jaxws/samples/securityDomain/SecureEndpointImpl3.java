@@ -21,9 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.securityDomain;
 
-import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
-import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.jws.Oneway;
 import javax.jws.WebMethod;

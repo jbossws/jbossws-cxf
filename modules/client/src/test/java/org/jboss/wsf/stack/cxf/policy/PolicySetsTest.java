@@ -23,8 +23,6 @@ package org.jboss.wsf.stack.cxf.policy;
 
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.apache.cxf.annotations.Policy.Placement;
 import org.jboss.wsf.stack.cxf.extensions.policy.EndpointPolicyAttachments;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicyAttachment;
@@ -32,6 +30,8 @@ import org.jboss.wsf.stack.cxf.extensions.policy.PolicyAttachmentStore;
 import org.junit.Test;
 import org.w3c.dom.Element;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * A test case of basic policy sets parsing
@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
  * @since 04-Jun-2013
  * 
  */
-public class PolicySetsTest extends TestCase
+public class PolicySetsTest
 {
    @Test
    public void testStore() throws Exception {

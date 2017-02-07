@@ -35,11 +35,13 @@ import org.junit.runner.RunWith;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 
+import static org.junit.Assert.fail;
+
 /**
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
 @RunWith(Arquillian.class)
-public class JAXWS2976TestCase extends junit.framework.TestCase
+public class JAXWS2976TestCase
 {
 
    @Test

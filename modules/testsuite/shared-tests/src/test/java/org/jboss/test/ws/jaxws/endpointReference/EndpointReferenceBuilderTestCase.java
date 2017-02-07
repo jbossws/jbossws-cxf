@@ -29,6 +29,7 @@ import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 import org.jboss.logging.Logger;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.Test;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -61,6 +62,7 @@ public final class EndpointReferenceBuilderTestCase extends JBossWSTest
    private static final QName PORT_QNAME = new QName(MY_NS, PORT_NAME, MY_PREFIX);
    private static final QName PORT_TYPE_QNAME = new QName(MY_NS, PORT_TYPE_NAME, MY_PREFIX);
 
+   @Test
    public void testParsedInterfaceName() throws Exception
    {
       W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder(); 
@@ -83,7 +85,8 @@ public final class EndpointReferenceBuilderTestCase extends JBossWSTest
       assertRefParam(endpointReferenceElement, PARAM1_QNAME, "Hello");
       assertRefParam(endpointReferenceElement, PARAM2_QNAME, "World");
    }
-   
+
+   @Test
    public void testConstructedInterfaceName() throws Exception
    {
       W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder(); 

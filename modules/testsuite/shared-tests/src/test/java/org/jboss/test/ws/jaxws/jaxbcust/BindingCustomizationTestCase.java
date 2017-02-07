@@ -21,8 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.jaxbcust;
 
-import junit.framework.TestCase;
-
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.ws.api.binding.BindingCustomization;
@@ -35,6 +33,9 @@ import org.jboss.wsf.spi.deployment.EndpointState;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 /**
  * @author Heiko.Braun@jboss.com
  * @author alessio.soldano@jboss.com
@@ -42,7 +43,7 @@ import org.junit.runner.RunWith;
  * @since 28-Jun-2007
  */
 @RunWith(Arquillian.class)
-public class BindingCustomizationTestCase extends TestCase {
+public class BindingCustomizationTestCase {
 
    @Test
    @RunAsClient

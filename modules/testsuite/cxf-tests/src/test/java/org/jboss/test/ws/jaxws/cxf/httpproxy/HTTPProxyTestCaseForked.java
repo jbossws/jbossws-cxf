@@ -34,8 +34,6 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 import javax.xml.namespace.QName;
@@ -56,7 +54,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.jboss.wsf.test.JBossWSTestHelper.BaseDeployment;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,6 +63,9 @@ import org.littleshoot.proxy.ChainedProxyManager;
 import org.littleshoot.proxy.HttpProxyServer;
 
 import com.barchart.udt.SocketUDT;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Tests / samples for WS client using HTTP Proxy
@@ -270,6 +270,8 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       System.clearProperty("http.proxyPort");
    }
 
+   @Test
+   @RunAsClient
    public void testWSDLHttpProxy() throws Exception
    {
       if (checkNativeLibraries()) {
@@ -291,6 +293,8 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       }
    }
 
+   @Test
+   @RunAsClient
    public void testWSDLNoHttpProxy() throws Exception
    {
       if (checkNativeLibraries()) {

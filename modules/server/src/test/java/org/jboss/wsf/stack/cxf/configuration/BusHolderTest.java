@@ -25,8 +25,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.selector.FirstAlternativeSelector;
 import org.apache.cxf.ws.policy.selector.MaximalAlternativeSelector;
@@ -38,7 +36,9 @@ import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
+import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 
 /**
  * A test case for BusHolder
@@ -47,19 +47,22 @@ import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
  * @since 24-Feb-2011
  * 
  */
-public class BusHolderTest extends TestCase
+public class BusHolderTest
 {
+   @Test
    public void testFirstAlternativeSelector()
    {
       final String alternative = FirstAlternativeSelector.class.getName();
       assertEquals(alternative, setupPropertyAndGetAlternativeSelector(alternative));
    }
-   
+
+   @Test
    public void testInvalidAlternativeSelector()
    {
       assertEquals(MaximalAlternativeSelector.class.getName(), setupPropertyAndGetAlternativeSelector("org.jboss.ws.MyInvalidAlternative"));
    }
-   
+
+   @Test
    public void testDefaultAlternativeSelector()
    {
       assertEquals(MaximalAlternativeSelector.class.getName(), setupPropertyAndGetAlternativeSelector(null));
