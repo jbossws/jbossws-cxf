@@ -1,0 +1,7 @@
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+    <handler-chain>
+        <handler>
+            <handler-class>org.jboss.test.ws.jaxws.cxf.jbws4046.DemoServiceHandler</handler-class>
+        </handler>
+    </handler-chain>
+</handler-chains>
