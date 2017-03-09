@@ -115,7 +115,6 @@
     <jaspi.api.version>1.0.0.Alpha1</jaspi.api.version>
     <jacc.api.version>1.0.0.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
-    <woodstox-core-asl.version>4.4.1</woodstox-core-asl.version>
   </properties>
 
 
@@ -1271,11 +1270,6 @@
           </exclusion>
         </exclusions>
        </dependency>
-      <dependency>
-        <groupId>org.codehaus.woodstox</groupId>
-        <artifactId>woodstox-core-asl</artifactId>
-        <version>${woodstox-core-asl.version}</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
   
