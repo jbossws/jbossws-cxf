@@ -167,9 +167,14 @@ final class AppclientHelper
          final ProcessBuilder pb = new ProcessBuilder().command(args);
          // always propagate IPv6 related properties
          final StringBuilder javaOptsValue = new StringBuilder();
+         String additionalJVMArgs = System.getProperty("additionalJvmArgs");
+         if (additionalJVMArgs != null) {
+            javaOptsValue.append(additionalJVMArgs).append(" ");
+         } else {
+            javaOptsValue.append("-Djava.net.preferIPv4Stack=").append(System.getProperty("java.net.preferIPv4Stack", "true")).append(" ");
+            javaOptsValue.append("-Djava.net.preferIPv6Addresses=").append(System.getProperty("java.net.preferIPv6Addresses", "false")).append(" ");
+         }
          javaOptsValue.append("-Djboss.bind.address=").append(undoIPv6Brackets(System.getProperty("jboss.bind.address", "localhost"))).append(" ");
-         javaOptsValue.append("-Djava.net.preferIPv4Stack=").append(System.getProperty("java.net.preferIPv4Stack", "true")).append(" ");
-         javaOptsValue.append("-Djava.net.preferIPv6Addresses=").append(System.getProperty("java.net.preferIPv6Addresses", "false")).append(" ");
          String appclientDebugOpts = System.getProperty("APPCLIENT_DEBUG_OPTS", null);
          if (appclientDebugOpts != null && appclientDebugOpts.trim().length() > 0)
             javaOptsValue.append(appclientDebugOpts).append(" ");

@@ -56,6 +56,7 @@
       loggingDir="${log4j.output.dir}"
       resourcesDir="jaxws/jbws2960"
       fork="true"
+      additional.jvm.args="${additional.jvm.args}"
     />
   </target>
 
@@ -68,6 +69,7 @@
     <attribute name="loggingDir"/>
     <attribute name="resourcesDir"/>
     <attribute name="fork"/>
+  	<attribute name="additional.jvm.args"/>
 
     <sequential>
       <wsprovide
@@ -82,6 +84,7 @@
         <jvmarg line="-Dlog4j.configuration=file://@{log4jConf}"/>
         <jvmarg line="-Dlog4j.output.dir=@{loggingDir}"/>
         <jvmarg line="-Djavax.xml.accessExternalSchema=file,http"/>
+      	<jvmarg line="@{additional.jvm.args}"/>
       </wsprovide>
     </sequential>
 

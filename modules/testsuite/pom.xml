@@ -311,6 +311,8 @@
                  <test.username>${test.username}</test.username>
                  <test.password>${test.password}</test.password>
                  <wsdl.publish.location>${wsdl.publish.location}</wsdl.publish.location>
+                 <additionalJvmArgs>${additionalJvmArgs}</additionalJvmArgs>
+                 <jboss.version>${jboss.version}</jboss.version>
               </systemPropertyVariables>
             </configuration>
           </execution>
@@ -352,6 +354,8 @@
                  <test.classes.directory>${test.classes.directory}</test.classes.directory>
                  <test.resources.directory>${test.resources.directory}</test.resources.directory>
                  <wsdl.publish.location>${wsdl.publish.location}</wsdl.publish.location>
+                 <additionalJvmArgs>${additionalJvmArgs}</additionalJvmArgs>
+                 <jboss.version>${jboss.version}</jboss.version>
               </systemPropertyVariables>
             </configuration>
           </execution>
@@ -377,7 +381,6 @@
 
   <!-- Profiles -->
   <profiles>
-  
   
     <!-- 
     Name:  download
@@ -436,7 +439,7 @@
         </property>
       </activation>
       <properties>
-        <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args} ${modular.jdk.args} ${modular.jdk.props} ${surefire.jdwp.args}</surefire.jvm.args>
+        <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args} ${modular.jdk.props} ${surefire.jdwp.args}</surefire.jvm.args>
       </properties>
     </profile>
     <profile>
@@ -447,7 +450,7 @@
         </property>
       </activation>
       <properties>
-        <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args} ${modular.jdk.args} ${modular.jdk.props}</surefire.jvm.args>
+        <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args} ${modular.jdk.props}</surefire.jvm.args>
       </properties>
     </profile>
     

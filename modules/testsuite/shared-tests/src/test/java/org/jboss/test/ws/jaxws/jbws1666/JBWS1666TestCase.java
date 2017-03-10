@@ -127,7 +127,9 @@ public class JBWS1666TestCase extends JBossWSTest
       final File f = new File(JBossWSTestHelper.getTestArchiveDir(), clientJar);
 
       //java -jar $JBOSS_HOME/jboss-modules.jar -mp $JBOSS_HOME/modules -jar client.jar
-      String props = " -Dlog4j.output.dir=" + System.getProperty("log4j.output.dir") + " -jar " + jbmjar + " -mp " + jbm; 
+      String additionalJVMArgs = System.getProperty("additionalJvmArgs", "");
+      additionalJVMArgs = additionalJVMArgs.replace('\n', ' ');
+      String props = " " + additionalJVMArgs + " -Dlog4j.output.dir=" + System.getProperty("log4j.output.dir") + " -jar " + jbmjar + " -mp " + jbm; 
       final String command = javaCmd + props + " -jar " + f.getAbsolutePath() + " " + getServerHost() + " " + getServerPort();
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       executeCommand(command, bout);

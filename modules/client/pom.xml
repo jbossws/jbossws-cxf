@@ -229,6 +229,32 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>codemodel</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.xml.bind</groupId>
+          <artifactId>jaxb-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xsom</groupId>
+      <artifactId>xsom</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind.external</groupId>
+      <artifactId>rngom</artifactId>
+    </dependency>
+    
+    <!-- Explicit saaj-impl dependency in synch with default SAAJ factories expected by our SAAJ API -->
+    <dependency>
+      <groupId>com.sun.xml.messaging.saaj</groupId>
+      <artifactId>saaj-impl</artifactId>
+      <version>1.3.16-jbossorg-1</version>
+    </dependency>
+    
 
     <!-- jboss provided -->
     <dependency>
