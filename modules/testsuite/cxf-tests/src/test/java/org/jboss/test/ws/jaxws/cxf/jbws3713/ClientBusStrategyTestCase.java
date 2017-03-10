@@ -142,7 +142,9 @@ public class ClientBusStrategyTestCase extends JBossWSTest
       final File f = new File(JBossWSTestHelper.getTestArchiveDir(), CLIENT_JAR);
 
       //java -jar $JBOSS_HOME/jboss-modules.jar -mp $JBOSS_HOME/modules -jar client.jar
-      String props = " -Djavax.xml.ws.spi.Provider=" + ProviderImpl.class.getName() + " -Dlog4j.output.dir=" + System.getProperty("log4j.output.dir") +
+      String additionalJVMArgs = System.getProperty("additionalJvmArgs", "");
+      additionalJVMArgs = additionalJVMArgs.replace('\n', ' ');
+      String props = " " + additionalJVMArgs + " -Djavax.xml.ws.spi.Provider=" + ProviderImpl.class.getName() + " -Dlog4j.output.dir=" + System.getProperty("log4j.output.dir") +
             " -D" + Constants.JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY + "=" + strategy + " -jar " + jbmjar + " -mp " + jbm;
       final String command = javaCmd + props + " -jar " + f.getAbsolutePath() + " " + wsdlAddress + " " + threadPoolSize + " " + invocations;
       ByteArrayOutputStream bout = new ByteArrayOutputStream();

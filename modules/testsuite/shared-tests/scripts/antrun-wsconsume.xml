@@ -64,6 +64,7 @@
       log4jConf="${log4j.conf}"
       loggingDir="${log4j.output.dir}"
       fork="true"
+      additional.jvm.args="${additional.jvm.args}"
     />
 
     <wsconsume-macro
@@ -73,6 +74,7 @@
       log4jConf="${log4j.conf}"
       loggingDir="${log4j.output.dir}"
       fork="true"
+      additional.jvm.args="${additional.jvm.args}"
     />
   </target>
 
@@ -84,6 +86,7 @@
     <attribute name="log4jConf"/>
     <attribute name="loggingDir"/>
     <attribute name="fork"/>
+  	<attribute name="additional.jvm.args"/>
 
     <sequential>
       <wsconsume
@@ -93,13 +96,14 @@
         destdir="@{outputdir}"
         nocompile="true"
         keep="true"
-        verbose="false"
+        verbose="true"
         target="2.2"
         fork="@{fork}"
       >
         <jvmarg line="-Dlog4j.configuration=file://@{log4jConf}"/>
         <jvmarg line="-Dlog4j.output.dir=@{loggingDir}"/>
         <jvmarg line="-Djavax.xml.accessExternalSchema=file,http"/>
+      	<jvmarg line="@{additional.jvm.args}"/>
       </wsconsume>
     </sequential>
 
