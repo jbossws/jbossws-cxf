@@ -56,8 +56,8 @@
       <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>testsuite-default</id>
@@ -66,15 +66,36 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-default${additionalGroovyScriptSuffix}.groovy</source>
+                            <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-default${additionalGroovyScriptSuffix}.groovy</script></scripts>
                             <properties>
-                                <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
-                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default.xml</outputFile>
-                                <serverLog>jbws-testsuite-shared-default.log</serverLog>
-                                <usersPropFile>${project.build.directory}/test-classes/jbossws-users.properties</usersPropFile>
-                                <rolesPropFile>${project.build.directory}/test-classes/jbossws-roles.properties</rolesPropFile>
-                                <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
-                                <testResourcesDir>${project.build.directory}/test-resources</testResourcesDir>
+                              <property>
+                                <name>inputFile</name>
+                                <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                              </property>
+                              <property>
+                                <name>outputFile</name>
+                                <value>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default.xml</value>
+                              </property>
+                              <property>
+                                <name>serverLog</name>
+                                <value>jbws-testsuite-shared-default.log</value>
+                              </property>
+                              <property>
+                                <name>usersPropFile</name>
+                                <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
+                              </property>
+                              <property>
+                                <name>rolesPropFile</name>
+                                <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
+                              </property>
+                              <property>
+                                <name>keystorePath</name>
+                                <value>${project.build.directory}/test-classes/test.keystore</value>
+                              </property>
+                              <property>
+                                <name>testResourcesDir</name>
+                                <value>${project.build.directory}/test-resources</value>
+                              </property>
                             </properties>
                         </configuration>
                     </execution>
@@ -85,11 +106,28 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-default-config-tests${additionalGroovyScriptSuffix}.groovy</source>
+                            <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-default-config-tests${additionalGroovyScriptSuffix}.groovy</script></scripts>
                             <properties>
-                                <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
-                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default-config-tests.xml</outputFile>
-                                <serverLog>jbws-testsuite-shared-default-config-tests.log</serverLog>
+                              <property>
+                                <name>inputFile</name>
+                                <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                              </property>
+                              <property>
+                                <name>outputFile</name>
+                                <value>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default-config-tests.xml</value>
+                              </property>
+                              <property>
+                                <name>usersPropFile</name>
+                                <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
+                              </property>
+                              <property>
+                                <name>rolesPropFile</name>
+                                <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
+                              </property>
+                              <property>
+                                <name>serverLog</name>
+                                <value>jbws-testsuite-shared-default-config-tests.log</value>
+                              </property>
                             </properties>
                         </configuration>
                     </execution>
@@ -100,12 +138,32 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-address-rewrite${additionalGroovyScriptSuffix}.groovy</source>
+                            <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-address-rewrite${additionalGroovyScriptSuffix}.groovy</script></scripts>
                             <properties>
-                                <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
-                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-address-rewrite.xml</outputFile>
-                                <serverLog>jbws-testsuite-shared-address-rewrite.log</serverLog>
-                                <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
+                              <property>
+                                <name>inputFile</name>
+                                <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                              </property>
+                              <property>
+                                <name>outputFile</name>
+                                <value>${jboss.home}/standalone/configuration/jbws-testsuite-shared-address-rewrite.xml</value>
+                              </property>
+                              <property>
+                                <name>serverLog</name>
+                                <value>jbws-testsuite-shared-address-rewrite.log</value>
+                              </property>
+                              <property>
+                                <name>usersPropFile</name>
+                                <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
+                              </property>
+                              <property>
+                                <name>rolesPropFile</name>
+                                <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
+                              </property>
+                              <property>
+                                <name>keystorePath</name>
+                                <value>${project.build.directory}/test-classes/test.keystore</value>
+                              </property>
                             </properties>
                         </configuration>
                     </execution>

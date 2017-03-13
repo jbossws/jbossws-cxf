@@ -1,4 +1,4 @@
-def root = new XmlParser().parse(project.properties['inputFile'])
+def root = new XmlParser().parse(inputFile)
 
 /**
  * Fix logging:
@@ -11,7 +11,7 @@ def logHandlers = root.profile.subsystem.'root-logger'.handlers[0]
 def consoleHandler = logHandlers.find{it.@name == 'CONSOLE'}
 if (!project.properties['enableServerLoggingToConsole']) logHandlers.remove(consoleHandler)
 def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
-file.attributes()['path'] = project.properties['serverLog']
+file.attributes()['path'] = serverLog
 
 def rootLogger = root.profile.subsystem.'root-logger'[0]
 rootLogger.level.@name = 'ERROR'
@@ -28,5 +28,5 @@ apacheCategory.appendNode('level', ['name':'ERROR'])
 def writer = new StringWriter()
 writer.println('<?xml version="1.0" encoding="UTF-8"?>')
 new XmlNodePrinter(new PrintWriter(writer)).print(root)
-def f = new File(project.properties['outputFile'])
+def f = new File(outputFile)
 f.write(writer.toString())

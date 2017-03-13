@@ -88,8 +88,8 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.codehaus.gmaven</groupId>
-            <artifactId>gmaven-plugin</artifactId>
+            <groupId>org.codehaus.gmavenplus</groupId>
+            <artifactId>gmavenplus-plugin</artifactId>
             <executions>
               <execution>
                 <id>testsuite-perf</id>
@@ -98,11 +98,22 @@
                   <goal>execute</goal>
                 </goals>
                 <configuration>
-                  <source>${basedir}/src/test/scripts/perf.groovy</source>
+                  <scripts>
+                    <script>file:///${basedir}/src/test/scripts/perf.groovy</script>
+                  </scripts>
                   <properties>
-                    <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
-                    <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-perf.xml</outputFile>
-                    <serverLog>jbws-testsuite-perf.log</serverLog>
+                    <property>
+                      <name>inputFile</name>
+                      <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                    </property>
+                    <property>
+                      <name>outputFile</name>
+                      <value>${jboss.home}/standalone/configuration/jbws-testsuite-perf.xml</value>
+                    </property>
+                    <property>
+                      <name>serverLog</name>
+                      <value>jbws-testsuite-perf.log</value>
+                    </property>
                   </properties>
                 </configuration>
               </execution>
