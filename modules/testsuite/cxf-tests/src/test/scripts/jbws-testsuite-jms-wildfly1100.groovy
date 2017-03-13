@@ -1,4 +1,4 @@
-def root = new XmlParser().parse(project.properties['inputFile'])
+def root = new XmlParser().parse(inputFile)
 
 /**
  * Fix logging: optionally remove CONSOLE handler and set a specific log file
@@ -8,7 +8,7 @@ def logHandlers = root.profile.subsystem.'root-logger'.handlers[0]
 def consoleHandler = logHandlers.find{it.@name == 'CONSOLE'}
 if (!project.properties['enableServerLoggingToConsole']) logHandlers.remove(consoleHandler)
 def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
-file.attributes()['path'] = project.properties['serverLog']
+file.attributes()['path'] = serverLog
 
 /**
  * Modify ApplicationRealm security-realm to use custom properties files
@@ -50,19 +50,15 @@ def jmsQueue = server.appendNode('jms-queue', ['name':'testQueue', 'entries':'qu
 def writer = new StringWriter()
 writer.println('<?xml version="1.0" encoding="UTF-8"?>')
 new XmlNodePrinter(new PrintWriter(writer)).print(root)
-def f = new File(project.properties['outputFile'])
+def f = new File(outputFile)
 f.write(writer.toString())
 
 /*
  * copy the preconfigured jbws-application-roles.properties and jbws-application-users.properties
  * files into the standalone/configure directory
  */
-def srcUsersProperties = project.properties['srcUsersProperties']
-def destUsersProperties = project.properties['destUsersProperties']
 new AntBuilder().copy( file:srcUsersProperties,
     tofile:destUsersProperties)
 
-def srcRolesProperties = project.properties['srcRolesProperties']
-def destRolesProperties = project.properties['destRolesProperties']
 new AntBuilder().copy( file:srcRolesProperties,
     tofile:destRolesProperties)

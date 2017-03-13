@@ -1,4 +1,4 @@
-def root = new XmlParser().parse(project.properties['inputFile'])
+def root = new XmlParser().parse(inputFile)
 
 /**
  * Fix logging: optionally remove CONSOLE handler and set a specific log file
@@ -8,7 +8,7 @@ def logHandlers = root.profile.subsystem.'root-logger'.handlers[0]
 def consoleHandler = logHandlers.find{it.@name == 'CONSOLE'}
 if (!project.properties['enableServerLoggingToConsole']) logHandlers.remove(consoleHandler)
 def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
-file.attributes()['path'] = project.properties['serverLog']
+file.attributes()['path'] = serverLog
 
 /**
  * Add a security-domain block like this:
@@ -29,7 +29,7 @@ for (item in subsystems) {
     if (item.name().getNamespaceURI().contains("urn:wildfly:elytron:")) {
        securitySubsystem = item;
        for (element in item) {
-           if (element.name().getLocalPart().equals("security-domains")) {
+           if (element.name().getLocalPart() == 'security-domains') {
               securityDomains = element
            }
        }
@@ -47,8 +47,8 @@ def realm = securityDomain.appendNode('realm',['name':'JBossWS','role-decoder':'
 */
 def securityRealms = root.profile.subsystem.'security-realms'[0]
 def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS'])
-def usersProperties = propertiesRealm.appendNode('users-properties',['path':project.properties['usersPropFile'], 'plain-text':'true'])
-def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':project.properties['rolesPropFile']])
+def usersProperties = propertiesRealm.appendNode('users-properties',['path':usersPropFile, 'plain-text':'true'])
+def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':rolesPropFile])
 
  /*   <http>
  *      <http-authentication-factory name="JBossWS" http-server-mechanism-factory="global" security-domain="JBossWS">
@@ -60,7 +60,7 @@ def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':pr
  */
 def httpAuthen = null
 for (element in securitySubsystem) {
-    if (element.name().getLocalPart().equals("http")) {
+    if (element.name().getLocalPart() == 'http') {
        httpAuthen = element
        break
     }
@@ -90,5 +90,5 @@ def appSecurityDomain = undertowAppSecurityDomains.appendNode('application-secur
 def writer = new StringWriter()
 writer.println('<?xml version="1.0" encoding="UTF-8"?>')
 new XmlNodePrinter(new PrintWriter(writer)).print(root)
-def f = new File(project.properties['outputFile'])
+def f = new File(outputFile)
 f.write(writer.toString())

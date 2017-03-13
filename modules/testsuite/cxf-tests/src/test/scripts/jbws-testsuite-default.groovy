@@ -1,4 +1,4 @@
-def root = new XmlParser().parse(project.properties['inputFile'])
+def root = new XmlParser().parse(inputFile)
 
 /**
  * Fix logging: optionally remove CONSOLE handler and set a specific log file
@@ -8,7 +8,7 @@ def logHandlers = root.profile.subsystem.'root-logger'.handlers[0]
 def consoleHandler = logHandlers.find{it.@name == 'CONSOLE'}
 if (!project.properties['enableServerLoggingToConsole']) logHandlers.remove(consoleHandler)
 def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
-file.attributes()['path'] = project.properties['serverLog']
+file.attributes()['path'] = serverLog
 
 /**
  * Add a security-domain block like this:
@@ -30,7 +30,7 @@ def securityDomains = null
 for (item in subsystems) {
     if (item.name().getNamespaceURI().contains("urn:jboss:domain:security:")) {
        for (element in item) {
-           if (element.name().getLocalPart().equals("security-domains")) {
+           if (element.name().getLocalPart() == 'security-domains') {
               securityDomains = element
            }
        }
@@ -41,8 +41,8 @@ def securityDomain = securityDomains.appendNode('security-domain', ['name':'JAAS
 def authentication = securityDomain.appendNode('authentication')
 def loginModule = authentication.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
 loginModule.appendNode('module-option', ['name':'unauthenticatedIdentity','value':'anonymous'])
-loginModule.appendNode('module-option', ['name':'usersProperties','value':project.properties['usersPropFile']])
-loginModule.appendNode('module-option', ['name':'rolesProperties','value':project.properties['rolesPropFile']])
+loginModule.appendNode('module-option', ['name':'usersProperties','value':usersPropFile])
+loginModule.appendNode('module-option', ['name':'rolesProperties','value':rolesPropFile])
 
 
 /**
@@ -64,8 +64,8 @@ def jbsecurityDomain = securityDomains.appendNode('security-domain', ['name':'JB
 def jbauthentication = jbsecurityDomain.appendNode('authentication')
 def jbloginModule = jbauthentication.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
 jbloginModule.appendNode('module-option', ['name':'unauthenticatedIdentity','value':'anonymous'])
-jbloginModule.appendNode('module-option', ['name':'usersProperties','value':project.properties['usersPropFile']])
-jbloginModule.appendNode('module-option', ['name':'rolesProperties','value':project.properties['rolesPropFile']])
+jbloginModule.appendNode('module-option', ['name':'usersProperties','value':usersPropFile])
+jbloginModule.appendNode('module-option', ['name':'rolesProperties','value':rolesPropFile])
 
 /**
  * Add a security-domain block like this:
@@ -86,8 +86,8 @@ def securityDomainSts = securityDomains.appendNode('security-domain', ['name':'J
 def authenticationSts = securityDomainSts.appendNode('authentication')
 def loginModuleSts = authenticationSts.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
 loginModuleSts.appendNode('module-option', ['name':'unauthenticatedIdentity','value':'anonymous'])
-loginModuleSts.appendNode('module-option', ['name':'usersProperties','value':project.properties['testResourcesDir'] + '/jaxws/samples/wsse/policy/trust/WEB-INF/jbossws-users.properties'])
-loginModuleSts.appendNode('module-option', ['name':'rolesProperties','value':project.properties['testResourcesDir'] + '/jaxws/samples/wsse/policy/trust/WEB-INF/jbossws-roles.properties'])
+loginModuleSts.appendNode('module-option', ['name':'usersProperties','value':testResourcesDir + '/jaxws/samples/wsse/policy/trust/WEB-INF/jbossws-users.properties'])
+loginModuleSts.appendNode('module-option', ['name':'rolesProperties','value':testResourcesDir + '/jaxws/samples/wsse/policy/trust/WEB-INF/jbossws-roles.properties'])
 
 /**
  * Add a security-domain block like this:
@@ -107,8 +107,8 @@ loginModuleSts.appendNode('module-option', ['name':'rolesProperties','value':pro
 def securityDomainBasicAuth = securityDomains.appendNode('security-domain', ['name':'ws-basic-domain','cache-type':'default'])
 def authenticationBasicAuth = securityDomainBasicAuth.appendNode('authentication')
 def loginModuleBasicAuth = authenticationBasicAuth.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
-loginModuleBasicAuth.appendNode('module-option', ['name':'usersProperties','value':project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-users.properties'])
-loginModuleBasicAuth.appendNode('module-option', ['name':'rolesProperties','value':project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-roles.properties'])
+loginModuleBasicAuth.appendNode('module-option', ['name':'usersProperties','value':testResourcesDir + '/jaxws/cxf/httpauth/WEB-INF/ws-users.properties'])
+loginModuleBasicAuth.appendNode('module-option', ['name':'rolesProperties','value':testResourcesDir + '/jaxws/cxf/httpauth/WEB-INF/ws-roles.properties'])
 loginModuleBasicAuth.appendNode('module-option', ['name':'password-stacking','value':'useFirstPass'])
 
 /**
@@ -134,10 +134,10 @@ def securityDomainDigestAuth = securityDomains.appendNode('security-domain', ['n
 def authenticationDigestAuth = securityDomainDigestAuth.appendNode('authentication')
 def loginModuleDigestAuth = authenticationDigestAuth.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
 loginModuleDigestAuth.appendNode('module-option', ['name':'hashUserPassword','value':'false'])
-loginModuleDigestAuth.appendNode('module-option', ['name':'usersProperties','value':project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-users.properties'])
+loginModuleDigestAuth.appendNode('module-option', ['name':'usersProperties','value':testResourcesDir + '/jaxws/cxf/httpauth/WEB-INF/ws-users.properties'])
 loginModuleDigestAuth.appendNode('module-option', ['name':'hashAlgorithm','value':'MD5'])
 loginModuleDigestAuth.appendNode('module-option', ['name':'hashEncoding','value':'RFC2617'])
-loginModuleDigestAuth.appendNode('module-option', ['name':'rolesProperties','value':project.properties['testResourcesDir'] + '/jaxws/cxf/httpauth/WEB-INF/ws-roles.properties'])
+loginModuleDigestAuth.appendNode('module-option', ['name':'rolesProperties','value':testResourcesDir + '/jaxws/cxf/httpauth/WEB-INF/ws-roles.properties'])
 loginModuleDigestAuth.appendNode('module-option', ['name':'storeDigestCallback','value':'org.jboss.security.auth.callback.RFC2617Digest'])
 loginModuleDigestAuth.appendNode('module-option', ['name':'hashStorePassword','value':'true'])
 
@@ -172,8 +172,8 @@ loginModuleDigest.appendNode('module-option', ['name':'hashEncoding','value':'BA
 loginModuleDigest.appendNode('module-option', ['name':'storeDigestCallback','value':'org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallback'])
 loginModuleDigest.appendNode('module-option', ['name':'hashStorePassword','value':'true'])
 loginModuleDigest.appendNode('module-option', ['name':'unauthenticatedIdentity','value':'anonymous'])
-loginModuleDigest.appendNode('module-option', ['name':'usersProperties','value':project.properties['testResourcesDir'] + '/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties'])
-loginModuleDigest.appendNode('module-option', ['name':'rolesProperties','value':project.properties['testResourcesDir'] + '/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties'])
+loginModuleDigest.appendNode('module-option', ['name':'usersProperties','value':testResourcesDir + '/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties'])
+loginModuleDigest.appendNode('module-option', ['name':'rolesProperties','value':testResourcesDir + '/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties'])
 
 /**
  * Add two security-domain blocks for JASPI tests as below:
@@ -205,16 +205,16 @@ def securityDomainJaspi = securityDomains.appendNode('security-domain', ['name':
 def authenticationJaspi = securityDomainJaspi.appendNode('authentication-jaspi')
 def loginModuleStack = authenticationJaspi.appendNode('login-module-stack', ['name':'jaas-lm-stack'])
 def loginModuleJaspi = loginModuleStack.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
-loginModuleJaspi.appendNode('module-option', ['name':'usersProperties','value':project.properties['usersPropFile']])
-loginModuleJaspi.appendNode('module-option', ['name':'rolesProperties','value':project.properties['rolesPropFile']])
+loginModuleJaspi.appendNode('module-option', ['name':'usersProperties','value':usersPropFile])
+loginModuleJaspi.appendNode('module-option', ['name':'rolesProperties','value':rolesPropFile])
 authenticationJaspi.appendNode('auth-module', ['code':'org.jboss.wsf.stack.cxf.jaspi.module.UsernameTokenServerAuthModule','login-module-stack-ref':'jaas-lm-stack'])
 
 def securityDomainJaspiClient = securityDomains.appendNode('security-domain', ['name':'clientJaspi'])
 def authenticationJaspiClient = securityDomainJaspiClient.appendNode('authentication-jaspi')
 def loginModuleStackClient = authenticationJaspiClient.appendNode('login-module-stack', ['name':'jaas-lm-stack'])
 def loginModuleJaspiClient = loginModuleStackClient.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
-loginModuleJaspiClient.appendNode('module-option', ['name':'usersProperties','value':project.properties['usersPropFile']])
-loginModuleJaspiClient.appendNode('module-option', ['name':'rolesProperties','value':project.properties['rolesPropFile']])
+loginModuleJaspiClient.appendNode('module-option', ['name':'usersProperties','value':usersPropFile])
+loginModuleJaspiClient.appendNode('module-option', ['name':'rolesProperties','value':rolesPropFile])
 authenticationJaspiClient.appendNode('auth-module', ['code':'org.jboss.wsf.stack.cxf.jaspi.client.module.SOAPClientAuthModule','login-module-stack-ref':'jaas-lm-stack'])
 
 /**
@@ -234,7 +234,7 @@ def securityRealms = root.management.'security-realms'[0]
 def securityRealm = securityRealms.appendNode('security-realm', ['name':'jbws-test-https-realm'])
 def serverIdentities = securityRealm.appendNode('server-identities')
 def ssl = serverIdentities.appendNode('ssl')
-ssl.appendNode('keystore', ['path':project.properties['keystorePath'],'keystore-password':'changeit','alias':'tomcat'])
+ssl.appendNode('keystore', ['path':keystorePath,'keystore-password':'changeit','alias':'tomcat'])
 
 def server = root.profile.subsystem.server[0]
 def curHttpsListener = server.'https-listener'[0]
@@ -257,5 +257,5 @@ systemProperties.appendNode('property', ['name':'org.jboss.wsf.test.JBWS3628Test
 def writer = new StringWriter()
 writer.println('<?xml version="1.0" encoding="UTF-8"?>')
 new XmlNodePrinter(new PrintWriter(writer)).print(root)
-def f = new File(project.properties['outputFile'])
+def f = new File(outputFile)
 f.write(writer.toString())

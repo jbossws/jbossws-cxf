@@ -1297,9 +1297,17 @@
   <pluginManagement>
      <plugins>
       <plugin>
-        <groupId>org.codehaus.gmaven</groupId>
-        <artifactId>gmaven-plugin</artifactId>
+        <groupId>org.codehaus.gmavenplus</groupId>
+        <artifactId>gmavenplus-plugin</artifactId>
         <version>1.5</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.7</version>
+            <scope>runtime</scope>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.wildfly.plugins</groupId>
@@ -1575,8 +1583,8 @@
                   </pluginExecution>
                   <pluginExecution>
                     <pluginExecutionFilter>
-                      <groupId>org.codehaus.gmaven</groupId>
-                      <artifactId>gmaven-plugin</artifactId>
+                      <groupId>org.codehaus.gmavenplus</groupId>
+                      <artifactId>gmavenplus-plugin</artifactId>
                       <versionRange>[1.5,)</versionRange>
                       <goals>
                         <goal>execute</goal>

@@ -93,8 +93,8 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.codehaus.gmaven</groupId>
-            <artifactId>gmaven-plugin</artifactId>
+            <groupId>org.codehaus.gmavenplus</groupId>
+            <artifactId>gmavenplus-plugin</artifactId>
             <executions>
               <execution>
                 <id>testsuite-default</id>
@@ -103,15 +103,38 @@
                   <goal>execute</goal>
                 </goals>
                 <configuration>
-                  <source>${basedir}/src/test/scripts/jbws-testsuite-default${additionalGroovyScriptSuffix}.groovy</source>
+                  <scripts>
+                    <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default${additionalGroovyScriptSuffix}.groovy</script>
+                  </scripts>
                   <properties>
-                    <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
-                    <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-default.xml</outputFile>
-                    <serverLog>jbws-testsuite-default.log</serverLog>
-                    <usersPropFile>${project.build.directory}/test-classes/jbossws-users.properties</usersPropFile>
-                    <rolesPropFile>${project.build.directory}/test-classes/jbossws-roles.properties</rolesPropFile>
-                    <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
-                    <testResourcesDir>${project.build.directory}/test-resources</testResourcesDir>
+                    <property>
+                      <name>inputFile</name>
+                      <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                    </property>
+                    <property>
+                      <name>outputFile</name>
+                      <value>${jboss.home}/standalone/configuration/jbws-testsuite-default.xml</value>
+                    </property>
+                    <property>
+                      <name>serverLog</name>
+                      <value>jbws-testsuite-default.log</value>
+                    </property>
+                    <property>
+                      <name>usersPropFile</name>
+                      <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
+                    </property>
+                    <property>
+                      <name>rolesPropFile</name>
+                      <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
+                    </property>
+                    <property>
+                      <name>keystorePath</name>
+                      <value>${project.build.directory}/test-classes/test.keystore</value>
+                    </property>
+                    <property>
+                      <name>testResourcesDir</name>
+                      <value>${project.build.directory}/test-resources</value>
+                    </property>
                   </properties>
                 </configuration>
               </execution>
@@ -122,13 +145,30 @@
                   <goal>execute</goal>
                 </goals>
                 <configuration>
-                  <source>${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth${additionalGroovyScriptSuffix}.groovy</source>
+                  <scripts>
+                    <script>file:///${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth${additionalGroovyScriptSuffix}.groovy</script>
+                  </scripts>
                   <properties>
-                    <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
-                    <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-ssl-mutual-auth.xml</outputFile>
-                    <serverLog>jbws-testsuite-ssl-mutual-auth.log</serverLog>
-                    <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
-                    <truststorePath>${project.build.directory}/test-classes/test.truststore</truststorePath>
+                    <property>
+                      <name>inputFile</name>
+                      <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                    </property>
+                    <property>
+                      <name>outputFile</name>
+                      <value>${jboss.home}/standalone/configuration/jbws-testsuite-ssl-mutual-auth.xml</value>
+                    </property>
+                    <property>
+                      <name>serverLog</name>
+                      <value>jbws-testsuite-ssl-mutual-auth.log</value>
+                    </property>
+                    <property>
+                      <name>keystorePath</name>
+                      <value>${project.build.directory}/test-classes/test.keystore</value>
+                    </property>
+                    <property>
+                      <name>truststorePath</name>
+                      <value>${project.build.directory}/test-classes/test.truststore</value>
+                    </property>
                   </properties>
                 </configuration>
               </execution>
@@ -139,11 +179,30 @@
                   <goal>execute</goal>
                 </goals>
                 <configuration>
-                  <source>${basedir}/src/test/scripts/jbws-testsuite-default-config-tests${additionalGroovyScriptSuffix}.groovy</source>
+                  <scripts>
+                    <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-config-tests${additionalGroovyScriptSuffix}.groovy</script>
+                  </scripts>
                   <properties>
-                    <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
-                    <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-default-config-tests.xml</outputFile>
-                    <serverLog>jbws-testsuite-default-config-tests.log</serverLog>
+                    <property>
+                      <name>inputFile</name>
+                      <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                    </property>
+                    <property>
+                      <name>outputFile</name>
+                      <value>${jboss.home}/standalone/configuration/jbws-testsuite-default-config-tests.xml</value>
+                    </property>
+                    <property>
+                      <name>usersPropFile</name>
+                      <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
+                    </property>
+                    <property>
+                      <name>rolesPropFile</name>
+                      <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
+                    </property>
+                    <property>
+                      <name>serverLog</name>
+                      <value>jbws-testsuite-default-config-tests.log</value>
+                    </property>
                   </properties>
                 </configuration>
               </execution>
@@ -154,15 +213,38 @@
                   <goal>execute</goal>
                 </goals>
                 <configuration>
-                  <source>${basedir}/src/test/scripts/jbws-testsuite-jms-${jbossws.integration.target}.groovy</source>
+                  <scripts>
+                    <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms-${jbossws.integration.target}.groovy</script>
+                  </scripts>
                   <properties>
-                    <inputFile>${jboss.home}/standalone/configuration/standalone-full.xml</inputFile>
-                    <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-jms-${jbossws.integration.target}.xml</outputFile>
-                    <serverLog>jbws-testsuite-jms.log</serverLog>
-                    <srcUsersProperties>${project.build.directory}/test-classes/jbws-application-users.properties</srcUsersProperties>
-                    <destUsersProperties>${jboss.home}/standalone/configuration/jbws-application-users.properties</destUsersProperties>
-                    <srcRolesProperties>${project.build.directory}/test-classes/jbws-application-roles.properties</srcRolesProperties>
-                    <destRolesProperties>${jboss.home}/standalone/configuration/jbws-application-roles.properties</destRolesProperties>
+                    <property>
+                      <name>inputFile</name>
+                      <value>${jboss.home}/standalone/configuration/standalone-full.xml</value>
+                    </property>
+                    <property>
+                      <name>outputFile</name>
+                      <value>${jboss.home}/standalone/configuration/jbws-testsuite-jms-${jbossws.integration.target}.xml</value>
+                    </property>
+                    <property>
+                      <name>serverLog</name>
+                      <value>jbws-testsuite-jms.log</value>
+                    </property>
+                    <property>
+                      <name>srcUsersProperties</name>
+                      <value>${project.build.directory}/test-classes/jbws-application-users.properties</value>
+                    </property>
+                    <property>
+                      <name>destUsersProperties</name>
+                      <value>${jboss.home}/standalone/configuration/jbws-application-users.properties</value>
+                    </property>
+                    <property>
+                      <name>srcRolesProperties</name>
+                      <value>${project.build.directory}/test-classes/jbws-application-roles.properties</value>
+                    </property>
+                    <property>
+                      <name>destRolesProperties</name>
+                      <value>${jboss.home}/standalone/configuration/jbws-application-roles.properties</value>
+                    </property>
                   </properties>
                 </configuration>
               </execution>
