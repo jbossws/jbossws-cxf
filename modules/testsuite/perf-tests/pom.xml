@@ -181,9 +181,13 @@
             <artifactId>maven-jar-plugin</artifactId>
             <executions>
               <execution>
+                <id>default-jar</id>
                 <goals>
                   <goal>test-jar</goal>
                 </goals>
+                <configuration>
+                  <classifier>perftest</classifier>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -395,7 +399,7 @@
                  <dependency>
                   <groupId>org.jboss.ws.cxf</groupId>
                   <artifactId>jbossws-cxf-performance-tests</artifactId>
-                  <type>test-jar</type>
+                  <classifier>perftest</classifier>
                   <version>${project.version}</version>
                 </dependency>
                 <dependency>
@@ -451,9 +455,13 @@
             <artifactId>maven-jar-plugin</artifactId>
             <executions>
               <execution>
+                <id>default-jar</id>
                 <goals>
                   <goal>test-jar</goal>
                 </goals>
+                <configuration>
+                  <classifier>perftest</classifier>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -544,7 +552,7 @@
                  <dependency>
                   <groupId>org.jboss.ws.cxf</groupId>
                   <artifactId>jbossws-cxf-performance-tests</artifactId>
-                  <type>test-jar</type>
+                  <classifier>perftest</classifier>
                   <version>${project.version}</version>
                 </dependency>
                 <dependency>
