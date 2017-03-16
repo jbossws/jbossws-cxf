@@ -38,6 +38,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.wsf.stack.cxf.saaj.SOAPConnectionFactoryImpl;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.Test;
@@ -64,6 +65,14 @@ public class JBWS3084CxfTestCase extends JBossWSTest
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/wsdl/SaajService.wsdl"), "wsdl/SaajService.wsdl")
             .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/web.xml"));
       return archive;
+   }
+
+   @Test
+   @RunAsClient
+   public void testSoapConnectionFactoryType() throws Exception
+   {
+      SOAPConnectionFactory conFac = SOAPConnectionFactory.newInstance();
+      assertEquals(SOAPConnectionFactoryImpl.class.getName(), conFac.getClass().getName());
    }
 
    @Test
