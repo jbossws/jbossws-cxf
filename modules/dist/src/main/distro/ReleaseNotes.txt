@@ -23,8 +23,42 @@ https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.pro
 For issues that are scheduled for future versions see the road map.
 https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
 
-What's new in jbossws-cxf-5.1.7.Final
+What's new in jbossws-cxf-5.1.8.Final
 -------------------------------------
+
+Bug
+
+    * [JBWS-4046] - PostConstruct method not invoked on web service handler
+    * [JBWS-4052] - Maven build is unnecessarily updating org.eclipse.* dependencies everytime
+    * [JBWS-4053] - Build broken against WFLY master due to 'plain-text' attribute moved from 'security-realms' to 'properties-realm'
+    * [JBWS-4062] - java.lang.ClassNotFoundException: org.wildfly.transaction.client.LocalTransactionContext from Module "org.jboss.as.webservices"
+    * [JBWS-4063] - DelegateClassLoader initialization requires privileged block if Security Manager is enabled
+
+Component Upgrade
+
+    * [JBWS-4058] - Upgrade to Apache CXF 3.1.10
+
+Task
+
+    * [JBWS-4055] - Remove the lines with index element in test configuration groovy script
+    * [JBWS-4060] - Exclude org.ow2.asm from cxf-rt-frontend-jaxws in jbossws-cxf-client
+    * [JBWS-4061] - Change ref org.codehaus.woodstox:woodstox-core-asl to com.fasterxml.woodstox:woodstox-core
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3989
+
+This version of JBossWS is based on Apache CXF 3.1.10
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-5.1.7.Final
+-----------------------
 
 Bug
 
@@ -53,11 +87,6 @@ Errata
 
 This version of JBossWS is based on Apache CXF 3.1.9
 
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
 jbossws-cxf-5.1.6.Final
