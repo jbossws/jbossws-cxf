@@ -67,8 +67,8 @@ public class EndpointServlet extends HttpServlet
       endpoint1 = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, new EndpointBean());
       hostName = System.getProperty("jboss.bind.address", "localhost");
       hostName = (!hostName.startsWith("[") && hostName.indexOf(":") != -1) ? "[" + hostName + "]" : hostName;
-      endpoint1.publish("http://" + hostName + ":8081/jaxws-endpoint");
-      endpoint2 = Endpoint.publish("http://" + hostName + ":8081/jaxws-endpoint2/endpoint/long/path", new EndpointBean());
+      endpoint1.publish("http://" + hostName + ":8082/jaxws-endpoint");
+      endpoint2 = Endpoint.publish("http://" + hostName + ":8082/jaxws-endpoint2/endpoint/long/path", new EndpointBean());
    }
    
    @Override
@@ -84,7 +84,7 @@ public class EndpointServlet extends HttpServlet
    {
       // Create the port
 //    URL wsdlURL = getServletContext().getResource("/WEB-INF/wsdl/TestService.wsdl");
-      URL wsdlURL = new URL("http://" + hostName + ":8081/jaxws-endpoint?wsdl");
+      URL wsdlURL = new URL("http://" + hostName + ":8082/jaxws-endpoint?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/endpoint", "EndpointService");
       Service service = Service.create(wsdlURL, qname);
       EndpointInterface port = (EndpointInterface)service.getPort(EndpointInterface.class);
@@ -113,7 +113,7 @@ public class EndpointServlet extends HttpServlet
       assert("http://www.w3.org/2005/08/addressing".equals(endpointReference.getAttribute("xmlns")));
       NodeList addresses = endpointReference.getElementsByTagName("Address");
       assert(addresses.getLength() == 1);
-      assert(("http://" + hostName + ":8081/jaxws-endpoint").equals(addresses.item(0).getFirstChild().getNodeValue()));
+      assert(("http://" + hostName + ":8082/jaxws-endpoint").equals(addresses.item(0).getFirstChild().getNodeValue()));
       if (refPar != null)
       {
     	 Element refEle = DOMUtils.parse(refPar, builder);

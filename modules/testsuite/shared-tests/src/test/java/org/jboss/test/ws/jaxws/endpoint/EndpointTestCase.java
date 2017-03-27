@@ -88,8 +88,8 @@ public class EndpointTestCase extends JBossWSTest
    @OperateOnDeployment("jaxws-endpoint-servlet")
    public void testWSDLAccess() throws Exception
    {
-      readWSDL(new URL("http://" + baseURL.getHost() + ":8081/jaxws-endpoint?wsdl"));
-      readWSDL(new URL("http://" + baseURL.getHost() + ":8081/jaxws-endpoint2/endpoint/long/path?wsdl"));
+      readWSDL(new URL("http://" + baseURL.getHost() + ":8082/jaxws-endpoint?wsdl"));
+      readWSDL(new URL("http://" + baseURL.getHost() + ":8082/jaxws-endpoint2/endpoint/long/path?wsdl"));
    }
 
    @Test
