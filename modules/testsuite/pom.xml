@@ -756,6 +756,11 @@
             </exclusion>
           </exclusions>
         </dependency>
+        <dependency> <!-- TODO remove workaround for WFLY-8543 -->
+          <groupId>org.wildfly.common</groupId>
+          <artifactId>wildfly-common</artifactId>
+          <version>1.2.0.Beta9</version>
+        </dependency>
         <!-- Arquillian container integration -->
         <dependency>
         	<groupId>org.wildfly.arquillian</groupId>
