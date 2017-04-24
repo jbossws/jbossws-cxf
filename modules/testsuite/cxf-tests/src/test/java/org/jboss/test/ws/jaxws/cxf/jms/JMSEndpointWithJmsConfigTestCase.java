@@ -21,8 +21,25 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jms;
 
-import org.apache.cxf.frontend.ClientProxy;
+import java.io.File;
+import java.net.URL;
+import java.util.Properties;
+
+import javax.jms.DeliveryMode;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.QueueConnectionFactory;
+import javax.jms.TextMessage;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.xml.namespace.QName;
+
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.apache.cxf.service.model.EndpointInfo;
+import org.apache.cxf.transport.ConduitInitiator;
+import org.apache.cxf.transport.ConduitInitiatorManager;
 import org.apache.cxf.transport.jms.JMSConduit;
+import org.apache.cxf.transport.jms.JMSConfigFeature;
 import org.apache.cxf.transport.jms.JMSConfiguration;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -32,30 +49,18 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.ws.common.DOMUtils;
-import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.jms.*;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import java.io.File;
-import java.net.URL;
-import java.util.Properties;
-
 /**
- * Test case for deploying an archive with a JMS (SOAP-over-JMS 1.0) endpoint only 
+ * Test case for deploying an archive with a JMS (SOAP-over-JMS 1.0) endpoint and config with JMSConfigFeature on proxy
  *
- * @author alessio.soldano@jboss.com
- * @since 10-Jun-2011
+ * @author ema@redhat.com
  */
 @RunWith(Arquillian.class)
-public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
+public class JMSEndpointWithJmsConfigTestCase extends JBossWSTest
 {
    private static final String JMS_SERVER = "jms";
    private static volatile boolean waitForResponse;
@@ -93,55 +98,20 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
 
    @Test
    @RunAsClient
-   public void testJMSEndpointServerSide() throws Exception
+   //the test for setting jms configuration like sessionTransacted, transactionManager
+   public void testJMSEndpointWithJmsConfigFeature() throws Exception
    {
-      URL url = new URL("http://" + getServerHost() + ":" + getServerPort(CXF_TESTS_GROUP_QUALIFIER, JMS_SERVER) + "/jaxws-cxf-jms-only-deployment-test-servlet");
-      assertEquals("true", IOUtils.readAndCloseStream(url.openStream()));
-   }
-
-   @Test
-   @RunAsClient
-   public void testJMSEndpointClientSide() throws Exception
-   {
-      if (!JBossWSTestHelper.isTargetWildFly10() && !JBossWSTestHelper.isTargetWildFly9()) {
-         System.out.println("FIXME: [JBWS-4041] Test excluded because of WFLY-7649");
-         return;
-      }
       URL wsdlUrl = getResourceURL("jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
 
-      Service service = Service.create(wsdlUrl, serviceName);
-      HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
-      setupProxy(proxy);
-      try {
-         assertEquals("Hi", proxy.echo("Hi"));
-      } catch (Exception e) {
-         rethrowAndHandleAuthWarning(e);
-      }
-   }
-
-   @Test
-   @RunAsClient
-   public void testMessagingClient() throws Exception
-   {
-      String reqMessage =
-         "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-         "  <soap:Body>" +
-         "    <ns2:echo xmlns:ns2=\"http://org.jboss.ws/jaxws/cxf/jms\">" +
-         "      <arg0>Hi</arg0>" +
-         "    </ns2:echo>" +
-         "  </soap:Body>" +
-         "</soap:Envelope>";
-
-      String resMessage =
-         "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-         "  <soap:Body>" +
-         "    <ns2:echoResponse xmlns:ns2=\"http://org.jboss.ws/jaxws/cxf/jms\">" +
-         "      <return>Hi</return>" +
-         "    </ns2:echoResponse>" +
-         "  </soap:Body>" +
-         "</soap:Envelope>";
-
+      JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+      factory.setWsdlLocation(wsdlUrl.toString());
+      factory.setServiceName(serviceName);
+      factory.setEndpointName(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"));
+      factory.setAddress("jms://");
+      JMSConfigFeature feature = new JMSConfigFeature();
+      JMSConfiguration config = new JMSConfiguration();
+      
       Properties env = new Properties();
       env.put(Context.INITIAL_CONTEXT_FACTORY, getInitialContextFactory());
       env.put(Context.PROVIDER_URL, getRemotingProtocol() + "://" + getServerHost() + ":" + getServerPort(CXF_TESTS_GROUP_QUALIFIER, JMS_SERVER));
@@ -154,45 +124,41 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
          rethrowAndHandleAuthWarning(e);
       }
       QueueConnectionFactory connectionFactory = (QueueConnectionFactory)context.lookup("jms/RemoteConnectionFactory");
-      Queue reqQueue = (Queue)context.lookup("jms/queue/test");
-      Queue resQueue = (Queue)context.lookup("jms/queue/test");
+      
+      config.setSessionTransacted(true);
+      config.setConnectionFactory(connectionFactory);
+      config.setUserName(JBossWSTestHelper.getTestUsername());
+      config.setPassword(JBossWSTestHelper.getTestPassword());
+      config.setRequestURI("testQueue");
+      config.setTargetDestination("testQueue");
 
-      QueueConnection con = connectionFactory.createQueueConnection(JBossWSTestHelper.getTestUsername(), JBossWSTestHelper.getTestPassword());
-      QueueSession session = con.createQueueSession(true, Session.AUTO_ACKNOWLEDGE);
-      QueueReceiver receiver = session.createReceiver(resQueue);
-      ResponseListener responseListener = new ResponseListener();
-      receiver.setMessageListener(responseListener);
-      con.start();
+      config.setReplyDestination("testQueue");
+      config.setReplyToDestination("testQueue");
+      config.setReceiveTimeout(1000L);
+      config.setDeliveryMode(DeliveryMode.PERSISTENT);
+      
+      feature.setJmsConfig(config);
+      factory.getFeatures().add(feature);
+      HelloWorld greeter = factory.create(HelloWorld.class);
 
-      TextMessage message = session.createTextMessage(reqMessage);
-      message.setJMSReplyTo(resQueue);
-      message.setStringProperty("SOAPJMS_contentType", "text/xml");
-      message.setStringProperty("SOAPJMS_requestURI", "jms:queue:testQueue");
-
-      waitForResponse = true;
-
-      QueueSender sender = session.createSender(reqQueue);
-      sender.send(message);
-      session.commit();
-      sender.close();
-
-      int timeout = 30000;
-      while (waitForResponse && timeout > 0)
-      {
-         Thread.sleep(100);
-         timeout -= 100;
+      EndpointInfo endpointInfo = factory.getClientFactoryBean().getServiceFactory().getEndpointInfo();
+      ConduitInitiatorManager cim = factory.getBus().getExtension(ConduitInitiatorManager.class);
+      ConduitInitiator ci = cim.getConduitInitiator("http://cxf.apache.org/transports/jms");
+      JMSConduit conduit = (JMSConduit)ci.getConduit(endpointInfo, factory.getBus());
+      try {
+          //assertEquals("Hi", greeter.echo("Hi"));
+          greeter.echo("transaction");
+          // Timeout exception should be thrown
+      }catch (javax.xml.ws.soap.SOAPFaultException e) {
+         //expected timeout exception
+         assertTrue("Timeout exception is expected", e.getMessage().contains("Timeout"));
+         e.printStackTrace();
       }
-      session.rollback();
-      assertNotNull("Expected response message", responseListener.resMessage);
-      assertEquals(DOMUtils.parse(resMessage), DOMUtils.parse(responseListener.resMessage));
+      finally {
+          ((java.io.Closeable)greeter).close();
+      }
+  }
 
-      sender.close();
-      receiver.close();
-      con.stop();
-      session.close();
-      con.close();
-   }
-   
    public static class ResponseListener implements MessageListener
    {
       public String resMessage;
@@ -203,6 +169,7 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
          try
          {
             resMessage = textMessage.getText();
+            textMessage.acknowledge();  
             waitForResponse = false;
          }
          catch (Throwable t)
@@ -212,15 +179,6 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
       }
    }
    
-   private void setupProxy(HelloWorld proxy) {
-      JMSConduit conduit = (JMSConduit)ClientProxy.getClient(proxy).getConduit();
-      JMSConfiguration config = conduit.getJmsConfig();
-      config.setUserName(JBossWSTestHelper.getTestUsername());
-      config.setPassword(JBossWSTestHelper.getTestPassword());
-      Properties props = conduit.getJmsConfig().getJndiEnvironment();
-      props.put(Context.SECURITY_PRINCIPAL, JBossWSTestHelper.getTestUsername());
-      props.put(Context.SECURITY_CREDENTIALS, JBossWSTestHelper.getTestPassword());
-   }
    
    private static void rethrowAndHandleAuthWarning(Exception e) throws Exception {
       System.out.println("This test requires a testQueue JMS queue and a user with 'guest' role to be available on the application server; " +
