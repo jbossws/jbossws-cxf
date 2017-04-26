@@ -26,5 +26,6 @@ import javax.jws.WebService;
 @WebService(targetNamespace = "http://org.jboss.ws/jaxws/cxf/jms")
 public interface HelloWorld
 {
-   String echo(String input);
+   String echo(String input); 
+   void greetMe(String msg);
 }

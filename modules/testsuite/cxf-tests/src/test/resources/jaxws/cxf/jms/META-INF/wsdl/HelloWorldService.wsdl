@@ -8,9 +8,15 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <wsdl:types>
 <xs:schema elementFormDefault="unqualified" targetNamespace="http://org.jboss.ws/jaxws/cxf/jms" version="1.0" xmlns:tns="http://org.jboss.ws/jaxws/cxf/jms" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="greetMe" type="tns:greetMe"/>
 <xs:element name="echo" type="tns:echo"/>
 <xs:element name="echoResponse" type="tns:echoResponse"/>
 <xs:complexType name="echo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="greetMe">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
     </xs:sequence>
@@ -30,12 +36,20 @@
     <wsdl:part element="tns:echo" name="parameters">
     </wsdl:part>
   </wsdl:message>
+    <wsdl:message name="greetMe">
+    <wsdl:part element="tns:greetMe" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="HelloWorld">
     <wsdl:operation name="echo">
       <wsdl:input message="tns:echo" name="echo">
     </wsdl:input>
       <wsdl:output message="tns:echoResponse" name="echoResponse">
     </wsdl:output>
+    </wsdl:operation>
+        <wsdl:operation name="greetMe">
+      <wsdl:input message="tns:greetMe" name="greetMe">
+    </wsdl:input>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="HelloWorldServiceSoapBinding" type="tns:HelloWorld">
@@ -49,6 +63,13 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    
+    <wsdl:operation name="greetMe">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="greetMe">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="HttpHelloWorldServiceSoapBinding" type="tns:HelloWorld">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
@@ -61,9 +82,17 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+     
+     <wsdl:operation name="greetMe">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="greetMe">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    
   </wsdl:binding>
   <wsdl:service name="HelloWorldService">
-    <soapjms:jndiConnectionFactoryName>java:jms/RemoteConnectionFactory</soapjms:jndiConnectionFactoryName>
+    <soapjms:jndiConnectionFactoryName>jms/RemoteConnectionFactory</soapjms:jndiConnectionFactoryName>
     <soapjms:jndiInitialContextFactory>@jboss.initial.context.factory@</soapjms:jndiInitialContextFactory>
     <soapjms:jndiURL>@jboss.remoting.protocol@://@jboss.bind.address@:@add_int(port-offset.cxf-tests.jms,8080)@</soapjms:jndiURL>
     <wsdl:port binding="tns:HelloWorldServiceSoapBinding" name="HelloWorldImplPort">

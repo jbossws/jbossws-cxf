@@ -1,0 +1,2 @@
+org.jboss.test.ws.jaxws.cxf.jms.JmsEndpintConfigure:org.jboss.wsf.stack.cxf.configuration.JBossWSEndpointConfigure:true
+

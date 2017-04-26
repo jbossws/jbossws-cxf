@@ -28,12 +28,18 @@ import java.util.Properties;
 import javax.jms.DeliveryMode;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import javax.jms.Queue;
+import javax.jms.QueueConnection;
 import javax.jms.QueueConnectionFactory;
+import javax.jms.QueueSession;
+import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
 
+import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.transport.ConduitInitiator;
@@ -47,10 +53,13 @@ import org.jboss.arquillian.container.test.api.TargetsContainer;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.ws.jaxws.cxf.jms.JMSEndpointOnlyDeploymentTestCase.ResponseListener;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -63,41 +72,31 @@ import org.junit.runner.RunWith;
 public class JMSEndpointWithJmsConfigTestCase extends JBossWSTest
 {
    private static final String JMS_SERVER = "jms";
-   private static volatile boolean waitForResponse;
 
    private static boolean useHornetQ() {
       return JBossWSTestHelper.isTargetWildFly9();
    }
 
-   @Deployment(name="jaxws-cxf-jms-only-deployment-test-servlet", order=1, testable = false)
-   @TargetsContainer(JMS_SERVER)
-   public static WebArchive createWarDeployment() {
-      WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jms-only-deployment-test-servlet.war");
-         archive
-               .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services," + (useHornetQ() ? "org.hornetq\n" : "org.apache.activemq.artemis")))
-               .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/permissions.xml"), "permissions.xml")
-               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl"), "classes/META-INF/wsdl/HelloWorldService.wsdl")
-               .addClass(org.jboss.test.ws.jaxws.cxf.jms.DeploymentTestServlet.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorld.class);
-      return archive;
-   }
 
-   @Deployment(name="jaxws-cxf-jms-only-deployment", order=2, testable = false)
+   @Deployment(name="jaxws-cxf-jms-only-deployment", order=1, testable = false)
    @TargetsContainer(JMS_SERVER)
    public static JavaArchive createJarDeployment() {
       JavaArchive archive = ShrinkWrap.create(JavaArchive.class,"jaxws-cxf-jms-only-deployment.jar");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: " + (useHornetQ() ? "org.hornetq\n" : "org.apache.activemq.artemis")))
+                     + "Dependencies: " + (useHornetQ() ? "org.hornetq\n" : "org.apache.activemq.artemis" + ",org.jboss.ws.cxf.jbossws-cxf-server,org.apache.cxf.impl")))
+                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/services/org.jboss.wsf.stack.cxf.configuration.JBossWSEndpointConfigure"), "services/org.jboss.wsf.stack.cxf.configuration.JBossWSEndpointConfigure")
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorld.class)
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorldImpl.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jms.JmsEndpintConfigure.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl"), "wsdl/HelloWorldService.wsdl");
+      //archive.as(ZipExporter.class).exportTo(new File("somplace/somename.jar"), true);
       return archive;
    }
 
    @Test
    @RunAsClient
+   
    //the test for setting jms configuration like sessionTransacted, transactionManager
    public void testJMSEndpointWithJmsConfigFeature() throws Exception
    {
@@ -141,44 +140,62 @@ public class JMSEndpointWithJmsConfigTestCase extends JBossWSTest
       factory.getFeatures().add(feature);
       HelloWorld greeter = factory.create(HelloWorld.class);
 
-      EndpointInfo endpointInfo = factory.getClientFactoryBean().getServiceFactory().getEndpointInfo();
-      ConduitInitiatorManager cim = factory.getBus().getExtension(ConduitInitiatorManager.class);
-      ConduitInitiator ci = cim.getConduitInitiator("http://cxf.apache.org/transports/jms");
-      JMSConduit conduit = (JMSConduit)ci.getConduit(endpointInfo, factory.getBus());
       try {
           //assertEquals("Hi", greeter.echo("Hi"));
-          greeter.echo("transaction");
+          greeter.greetMe("exception");
           // Timeout exception should be thrown
       }catch (javax.xml.ws.soap.SOAPFaultException e) {
          //expected timeout exception
-         assertTrue("Timeout exception is expected", e.getMessage().contains("Timeout"));
+         //assertTrue("Timeout exception is expected", e.getMessage().contains("Timeout"));
          e.printStackTrace();
       }
       finally {
           ((java.io.Closeable)greeter).close();
       }
-  }
 
-   public static class ResponseListener implements MessageListener
-   {
-      public String resMessage;
-
-      public void onMessage(Message msg)
-      {
-         TextMessage textMessage = (TextMessage)msg;
-         try
-         {
-            resMessage = textMessage.getText();
-            textMessage.acknowledge();  
-            waitForResponse = false;
-         }
-         catch (Throwable t)
-         {
-            t.printStackTrace();
-         }
+      QueueConnection con = connectionFactory.createQueueConnection(JBossWSTestHelper.getTestUsername(), JBossWSTestHelper.getTestPassword());
+      QueueSession session = con.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
+      Queue dlq = session.createQueue("DLQ");
+      con.start();
+      Message message = session.createConsumer(dlq).receive(50000);
+      Assert.assertNotNull("expected DLQ msg is added", message);
+      if (message != null) {
+         Assert.assertTrue("expected exception request message is added to DLQ", ((TextMessage)message).getText().contains("exception"));
       }
+  }
+   //@Test
+   @RunAsClient
+   @org.junit.Ignore
+   public void testJMSEndpointClientSide() throws Exception
+   {
+      URL wsdlUrl = getResourceURL("jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl");
+      QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
+
+      Service service = Service.create(wsdlUrl, serviceName);
+      HelloWorld proxy = (HelloWorld) service.getPort(new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldImplPort"), HelloWorld.class);
+      setupProxy(proxy);
+      try {
+         assertEquals("Hi", proxy.echo("Hi"));
+      } catch (Exception e) {
+         rethrowAndHandleAuthWarning(e);
+      }
+      proxy.echo("exception");
+      Thread.sleep(99999999);
    }
    
+   private void setupProxy(HelloWorld proxy) {
+      JMSConduit conduit = (JMSConduit)ClientProxy.getClient(proxy).getConduit();
+      JMSConfiguration config = conduit.getJmsConfig();
+      config.setUserName(JBossWSTestHelper.getTestUsername());
+      config.setPassword(JBossWSTestHelper.getTestPassword());
+      Properties props = conduit.getJmsConfig().getJndiEnvironment();
+      props.put(Context.SECURITY_PRINCIPAL, JBossWSTestHelper.getTestUsername());
+      props.put(Context.SECURITY_CREDENTIALS, JBossWSTestHelper.getTestPassword());
+      props.put(Context.INITIAL_CONTEXT_FACTORY, getInitialContextFactory());
+      props.put(Context.PROVIDER_URL, getRemotingProtocol() + "://" + getServerHost() + ":" + getServerPort(CXF_TESTS_GROUP_QUALIFIER, JMS_SERVER));
+
+   }
+
    
    private static void rethrowAndHandleAuthWarning(Exception e) throws Exception {
       System.out.println("This test requires a testQueue JMS queue and a user with 'guest' role to be available on the application server; " +

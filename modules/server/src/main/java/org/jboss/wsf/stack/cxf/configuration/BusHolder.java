@@ -28,6 +28,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.ServiceConfigurationError;
+import java.util.ServiceLoader;
 
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.ws.handler.Handler;
@@ -35,6 +37,7 @@ import javax.xml.ws.soap.SOAPBinding;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.annotations.UseAsyncMethod;
+import org.apache.cxf.bus.extension.ExtensionManagerImpl;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.configuration.Configurer;
@@ -72,6 +75,7 @@ import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.AnnotationsInfo;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.deployment.JMSEndpoint;
 import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
@@ -149,7 +153,6 @@ public class BusHolder
       {
          throw Messages.MESSAGES.busAlreadyConfigured(bus);
       }
-      
       bus.setProperty(org.jboss.wsf.stack.cxf.client.Constants.DEPLOYMENT_BUS, true);
       busHolderListener = new BusHolderLifeCycleListener();
       bus.getExtension(BusLifeCycleManager.class).registerLifeCycleListener(busHolderListener);
@@ -206,7 +209,7 @@ public class BusHolder
       bus.setProperty("org.apache.cxf.ws.addressing.decoupled_fault_support", true);
       
       FeatureUtils.addFeatures(bus, bus, props);
-
+      ServiceLoader<JBossWSEndpointConfigure> configureLoader = ServiceLoader.load(JBossWSEndpointConfigure.class);
       for (DDEndpoint dde : metadata.getEndpoints())
       {
          EndpointImpl endpoint = new EndpointImpl(bus, newInstance(dde.getImplementor()));
@@ -232,6 +235,17 @@ public class BusHolder
          }
          endpoint.setPublishedEndpointUrl(dde.getPublishedEndpointUrl());
          endpoint.setSOAPAddressRewriteMetadata(dep.getAttachment(SOAPAddressRewriteMetadata.class));
+         try
+         {
+            for (JBossWSEndpointConfigure configure : configureLoader)
+            {
+               configure.config(endpoint);
+            }
+         }
+         catch (ServiceConfigurationError e)
+         {
+            e.printStackTrace();
+         }
          endpoint.publish();
          endpoints.add(endpoint);
          if (dde.isMtomEnabled())

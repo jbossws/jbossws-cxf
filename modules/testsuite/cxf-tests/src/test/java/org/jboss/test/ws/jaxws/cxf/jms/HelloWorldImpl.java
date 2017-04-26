@@ -36,16 +36,15 @@ public class HelloWorldImpl implements HelloWorld
    public String echo(String input)
    {
       System.out.println("input: " + input);
-      if (input.equals("transaction")) {
-         try
-         {
-            Thread.sleep(5000);
-         }
-         catch (InterruptedException e)
-         {
-            e.printStackTrace();
-         }
+      if (input.equals("exception")) {
+        throw new RuntimeException("Intended");
       }
       return input;
+   }
+   
+   public void greetMe(String msg) {
+      if (msg.equals("exception")) {
+         throw new RuntimeException("Intended");
+       }
    }
 }
