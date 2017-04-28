@@ -158,7 +158,7 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
       Queue resQueue = (Queue)context.lookup("jms/queue/test");
 
       QueueConnection con = connectionFactory.createQueueConnection(JBossWSTestHelper.getTestUsername(), JBossWSTestHelper.getTestPassword());
-      QueueSession session = con.createQueueSession(true, Session.AUTO_ACKNOWLEDGE);
+      QueueSession session = con.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
       QueueReceiver receiver = session.createReceiver(resQueue);
       ResponseListener responseListener = new ResponseListener();
       receiver.setMessageListener(responseListener);
@@ -173,7 +173,6 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
 
       QueueSender sender = session.createSender(reqQueue);
       sender.send(message);
-      session.commit();
       sender.close();
 
       int timeout = 30000;
@@ -182,7 +181,7 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
          Thread.sleep(100);
          timeout -= 100;
       }
-      session.rollback();
+
       assertNotNull("Expected response message", responseListener.resMessage);
       assertEquals(DOMUtils.parse(resMessage), DOMUtils.parse(responseListener.resMessage));
 

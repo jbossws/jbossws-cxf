@@ -27,7 +27,6 @@ import java.util.Properties;
 
 import javax.jms.DeliveryMode;
 import javax.jms.Message;
-import javax.jms.MessageListener;
 import javax.jms.Queue;
 import javax.jms.QueueConnection;
 import javax.jms.QueueConnectionFactory;
@@ -41,9 +40,6 @@ import javax.xml.ws.Service;
 
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.apache.cxf.service.model.EndpointInfo;
-import org.apache.cxf.transport.ConduitInitiator;
-import org.apache.cxf.transport.ConduitInitiatorManager;
 import org.apache.cxf.transport.jms.JMSConduit;
 import org.apache.cxf.transport.jms.JMSConfigFeature;
 import org.apache.cxf.transport.jms.JMSConfiguration;
@@ -53,10 +49,7 @@ import org.jboss.arquillian.container.test.api.TargetsContainer;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.ws.jaxws.cxf.jms.JMSEndpointOnlyDeploymentTestCase.ResponseListener;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.Assert;
@@ -64,8 +57,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Test case for deploying an archive with a JMS (SOAP-over-JMS 1.0) endpoint and config with JMSConfigFeature on proxy
- *
+ * Test case for deploying an archive with a JMS (SOAP-over-JMS 1.0) endpoint and config with JMSConfigFeature
+ * Add these attribute to make the deliver DLQ quickly: max-delivery-attempts="1" redelivery-delay="500" 
+ * <address-setting name="#" dead-letter-address="jms.queue.DLQ" expiry-address="jms.queue.ExpiryQueue" max-delivery-attempts="1" redelivery-delay="500" max-size-bytes="10485760" page-size-bytes="2097152" message-counter-history-day-limit="10"/>
  * @author ema@redhat.com
  */
 @RunWith(Arquillian.class)
@@ -78,19 +72,19 @@ public class JMSEndpointWithJmsConfigTestCase extends JBossWSTest
    }
 
 
-   @Deployment(name="jaxws-cxf-jms-only-deployment", order=1, testable = false)
+   @Deployment(name="jaxws-cxf-jmsconfig-deployment",testable = false)
    @TargetsContainer(JMS_SERVER)
    public static JavaArchive createJarDeployment() {
       JavaArchive archive = ShrinkWrap.create(JavaArchive.class,"jaxws-cxf-jms-only-deployment.jar");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: " + (useHornetQ() ? "org.hornetq\n" : "org.apache.activemq.artemis" + ",org.jboss.ws.cxf.jbossws-cxf-server,org.apache.cxf.impl")))
-                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/services/org.jboss.wsf.stack.cxf.configuration.JBossWSEndpointConfigure"), "services/org.jboss.wsf.stack.cxf.configuration.JBossWSEndpointConfigure")
+                     + "Dependencies: " + (useHornetQ() ? "org.hornetq" : "org.apache.activemq.artemis" + ",org.jboss.ws.cxf.jbossws-cxf-server,org.apache.cxf.impl\n")))
+                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/services/org.jboss.wsf.stack.cxf.configuration.JBossWSEndpointConfig"), "services/org.jboss.wsf.stack.cxf.configuration.JBossWSEndpointConfig")
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorld.class)
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorldImpl.class)
-               .addClass(org.jboss.test.ws.jaxws.cxf.jms.JmsEndpintConfigure.class)
+               .addClass(org.jboss.test.ws.jaxws.cxf.jms.JmsEndpintConfig.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl"), "wsdl/HelloWorldService.wsdl");
-      //archive.as(ZipExporter.class).exportTo(new File("somplace/somename.jar"), true);
+      //archive.as(ZipExporter.class).exportTo(new File("someplace/somename.jar"), true);
       return archive;
    }
 
@@ -100,6 +94,10 @@ public class JMSEndpointWithJmsConfigTestCase extends JBossWSTest
    //the test for setting jms configuration like sessionTransacted, transactionManager
    public void testJMSEndpointWithJmsConfigFeature() throws Exception
    {
+      if (JBossWSTestHelper.isTargetWildFly10() || JBossWSTestHelper.isTargetWildFly9()) {
+         System.out.println("This test is for new feature in wildfly 11");
+         return;
+      }
       URL wsdlUrl = getResourceURL("jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
 
@@ -141,12 +139,8 @@ public class JMSEndpointWithJmsConfigTestCase extends JBossWSTest
       HelloWorld greeter = factory.create(HelloWorld.class);
 
       try {
-          //assertEquals("Hi", greeter.echo("Hi"));
           greeter.greetMe("exception");
-          // Timeout exception should be thrown
       }catch (javax.xml.ws.soap.SOAPFaultException e) {
-         //expected timeout exception
-         //assertTrue("Timeout exception is expected", e.getMessage().contains("Timeout"));
          e.printStackTrace();
       }
       finally {
@@ -180,7 +174,6 @@ public class JMSEndpointWithJmsConfigTestCase extends JBossWSTest
          rethrowAndHandleAuthWarning(e);
       }
       proxy.echo("exception");
-      Thread.sleep(99999999);
    }
    
    private void setupProxy(HelloWorld proxy) {

@@ -209,7 +209,7 @@ public class BusHolder
       bus.setProperty("org.apache.cxf.ws.addressing.decoupled_fault_support", true);
       
       FeatureUtils.addFeatures(bus, bus, props);
-      ServiceLoader<JBossWSEndpointConfigure> configureLoader = ServiceLoader.load(JBossWSEndpointConfigure.class);
+      ServiceLoader<JBossWSEndpointConfig> configLoader = ServiceLoader.load(JBossWSEndpointConfig.class);
       for (DDEndpoint dde : metadata.getEndpoints())
       {
          EndpointImpl endpoint = new EndpointImpl(bus, newInstance(dde.getImplementor()));
@@ -237,7 +237,7 @@ public class BusHolder
          endpoint.setSOAPAddressRewriteMetadata(dep.getAttachment(SOAPAddressRewriteMetadata.class));
          try
          {
-            for (JBossWSEndpointConfigure configure : configureLoader)
+            for (JBossWSEndpointConfig configure : configLoader)
             {
                configure.config(endpoint);
             }
