@@ -103,10 +103,6 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
    @RunAsClient
    public void testJMSEndpointClientSide() throws Exception
    {
-      if (!JBossWSTestHelper.isTargetWildFly10() && !JBossWSTestHelper.isTargetWildFly9()) {
-         System.out.println("FIXME: [JBWS-4041] Test excluded because of WFLY-7649");
-         return;
-      }
       URL wsdlUrl = getResourceURL("jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl");
       QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jms", "HelloWorldService");
 
