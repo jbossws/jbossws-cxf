@@ -65,7 +65,7 @@
               <include>org.apache.velocity:velocity:jar</include>
               <include>commons-collections:commons-collections:jar</include>
               <include>commons-beanutils:commons-beanutils:jar</include>
-              <include>commons-lang:commons-lang:jar</include>
+              <include>org.apache.commons:commons-lang3:jar</include>
               <include>commons-codec:commons-codec:jar</include>
               <include>jboss.jaxbintros:jboss-jaxb-intros</include>
               <include>javax.xml.stream:stax-api:jar</include>
