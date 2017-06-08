@@ -23,7 +23,9 @@ package org.jboss.test.ws.jaxws.jbws2528;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.wsdl.Definition;
 import javax.wsdl.Operation;
@@ -76,7 +78,9 @@ public class JBWS2528TestCase extends JBossWSTest
       File destDir = new File(TEST_DIR, "wsprovide" + FS + "java");
       String absOutput = destDir.getAbsolutePath();
       String command = JBOSS_HOME + FS + "bin" + FS + "wsprovide" + EXT + " -k -w -o " + absOutput + " --classpath " + CLASSES_DIR + " " + ENDPOINT_CLASS;
-      executeCommand(command, "wsprovide");
+      Map<String, String> env = new HashMap<>();
+      env.put("JAVA_OPTS", System.getProperty("additionalJvmArgs"));
+      executeCommand(command, null, "wsprovide", env);
 
       URL wsdlURL = new File(destDir, "JBWS2528EndpointService.wsdl").toURI().toURL();
       WSDLReader wsdlReader = WSDLFactory.newInstance().newWSDLReader();

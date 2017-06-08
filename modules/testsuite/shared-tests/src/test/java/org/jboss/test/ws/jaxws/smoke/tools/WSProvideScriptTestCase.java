@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.smoke.tools;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -48,7 +50,9 @@ public class WSProvideScriptTestCase extends ScriptTestCase
    {
       String absOutput = new File(TEST_DIR, "wsprovide" + FS + "java").getAbsolutePath();
       String command = JBOSS_HOME + FS + "bin" + FS + "wsprovide" + EXT + " -k -w -o " + absOutput + " --classpath " + CLASSES_DIR + " " + ENDPOINT_CLASS;
-      executeCommand(command, "wsprovide");
+      Map<String, String> env = new HashMap<>();
+      env.put("JAVA_OPTS", System.getProperty("additionalJvmArgs"));
+      executeCommand(command, null, "wsprovide", env);
       File javaSource = new File(TEST_DIR, "wsprovide" + FS + "java" + FS + "org" + FS + "jboss" + FS + "test" + FS + "ws" + FS + "jaxws" + FS + "smoke" + FS + "tools" + FS + "jaxws" + FS + "AddResponse.java");
       assertTrue("Response wrapper not generated", javaSource.exists());
    }

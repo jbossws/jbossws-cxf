@@ -255,18 +255,31 @@ public class WSProviderPlugin extends JBossWSTest
    {
       // Work around the sure jre settings
       String javaHome = System.getProperty("java.home");
-      String jdkHome = javaHome.substring(0, javaHome.indexOf(FS + "jre"));
-
-      String targetDir = createResourceFile("").getParent();
-      URLClassLoader loader = new URLClassLoader(
-         new URL[]
-         {
-            new URL("file:"+targetDir+FS+"test-libs" + FS + "jaxws-classloading-service.jar"),
-            new URL("file:"+targetDir+FS+"test-libs" + FS + "jaxws-classloading-types.jar"),
-            new URL("file:"+jdkHome+FS+"lib" + FS + "tools.jar")
-         },
-        getArtefactClassLoader()
-      );
+      int jreIdx = javaHome.indexOf(FS + "jre");
+      URLClassLoader loader;
+      if (jreIdx > 0) {
+          String jdkHome = javaHome.substring(0, jreIdx);
+          String targetDir = createResourceFile("").getParent();
+          loader = new URLClassLoader(
+             new URL[]
+             {
+                new URL("file:"+targetDir+FS+"test-libs" + FS + "jaxws-classloading-service.jar"),
+                new URL("file:"+targetDir+FS+"test-libs" + FS + "jaxws-classloading-types.jar"),
+                new URL("file:"+jdkHome+FS+"lib" + FS + "tools.jar")
+             },
+            getArtefactClassLoader()
+          );
+      } else {
+          String targetDir = createResourceFile("").getParent();
+          loader = new URLClassLoader(
+             new URL[]
+             {
+                new URL("file:"+targetDir+FS+"test-libs" + FS + "jaxws-classloading-service.jar"),
+                new URL("file:"+targetDir+FS+"test-libs" + FS + "jaxws-classloading-types.jar"),
+             },
+            getArtefactClassLoader()
+          );
+      }
 
       provider.setClassLoader(loader);
       provider.setGenerateWsdl(true);

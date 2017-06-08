@@ -24,6 +24,8 @@ package org.jboss.test.ws.jaxws.jbws2591;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -68,7 +70,9 @@ public class JBWS2591TestCase extends JBossWSTest
       String absWsdlLoc = getResourceFile(WSDL_LOCATION).getAbsolutePath();
       String absOutput = new File(TEST_DIR, "wsconsume" + FS + "java").getAbsolutePath();
       String command = JBOSS_HOME + FS + "bin" + FS + "wsconsume" + EXT + " -v -k -o " + absOutput + " " + absWsdlLoc;
-      executeCommand(command, "wsconsume");
+      Map<String, String> env = new HashMap<>();
+      env.put("JAVA_OPTS", System.getProperty("additionalJvmArgs"));
+      executeCommand(command, null, "wsconsume", env);
       File javaSource = new File(TEST_DIR, "wsconsume" + FS + "java" + FS + "org" + FS + "marshalltestservice" + FS + "newschemadefs" + FS + "NewSchemaTest.java");
       assertTrue("Service endpoint interface not generated", javaSource.exists());
       String contents = readFile(javaSource);

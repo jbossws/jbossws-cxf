@@ -22,6 +22,8 @@
 package org.jboss.test.ws.jaxws.smoke.tools;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -52,7 +54,9 @@ public class WSConsumeScriptTestCase extends ScriptTestCase
       String absWsdlLoc = getResourceFile(WSDL_LOCATION).getAbsolutePath();
       String absOutput = new File(TEST_DIR, "wsconsume" + FS + "java").getAbsolutePath();
       String command = JBOSS_HOME + FS + "bin" + FS + "wsconsume" + EXT + " -v -k -o " + absOutput + " " + absWsdlLoc;
-      executeCommand(command, "wsconsume");
+      Map<String, String> env = new HashMap<>();
+      env.put("JAVA_OPTS", System.getProperty("additionalJvmArgs"));
+      executeCommand(command, null, "wsconsume", env);
       File javaSource = new File(TEST_DIR, "wsconsume" + FS + "java" + FS + "org" + FS + "openuri" + FS + "_2004" + FS + "_04" + FS + "helloworld" + FS + "EndpointInterface.java");
       assertTrue("Service endpoint interface not generated", javaSource.exists());
    }
