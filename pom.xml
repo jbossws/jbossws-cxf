@@ -74,7 +74,7 @@
     <wildfly1010.version>10.1.0.Final</wildfly1010.version>
     <wildfly1100.version>11.0.0.Alpha1-SNAPSHOT</wildfly1100.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
-    <cxf.version>3.1.12-SNAPSHOT</cxf.version>
+    <cxf.version>3.1.12</cxf.version>
     <cxf.asm.version>3.3.1</cxf.asm.version>
     <cxf.xjcplugins.version>3.0.5</cxf.xjcplugins.version>
     <jboss-logging.version>3.2.1.Final</jboss-logging.version>
