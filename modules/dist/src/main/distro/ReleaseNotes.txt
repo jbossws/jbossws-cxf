@@ -2,7 +2,7 @@
 JBoss Web Services - Stack CXF Distribution
 http://jbossws.jboss.org
 
-Version: jbossws-cxf-5.1.7.Final
+Version: jbossws-cxf-5.1.9.Final
 
 Release Notes
 =============
@@ -23,8 +23,39 @@ https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.pro
 For issues that are scheduled for future versions see the road map.
 https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
 
-What's new in jbossws-cxf-5.1.8.Final
+What's new in jbossws-cxf-5.1.9.Final
 -------------------------------------
+
+Bug
+
+    * [JBWS-4072] - Inconsistency between WSProvide and WSConsume to show stacktrace
+
+Component Upgrade
+
+    * [JBWS-4065] - Upgrade to Apache CXF 3.1.11
+    * [JBWS-4066] - Upgrade jboss-jaxws-api_2.2_spec and jboss-saaj-api_1.3_spec dependencies
+    * [JBWS-4071] - Upgrade to Apache CXF 3.1.12
+
+Task
+
+    * [JBWS-4041] - Restore JMS tests excluded because of WFLY-7649
+    * [JBWS-4069] - Verify & update SOAP-over-JMS documentation
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3989
+
+This version of JBossWS is based on Apache CXF 3.1.12
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-5.1.8.Final
+-----------------------
 
 Bug
 
@@ -50,11 +81,6 @@ Errata
 
 This version of JBossWS is based on Apache CXF 3.1.10
 
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
 jbossws-cxf-5.1.7.Final
