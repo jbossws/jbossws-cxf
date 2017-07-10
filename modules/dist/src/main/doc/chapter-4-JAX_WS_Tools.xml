@@ -94,7 +94,7 @@ public class Echo
           using the "-w" option:
         </para>
         <informalexample>
-          <programlisting>$ javac -d . -classpath jboss-jaxws.jar Echo.java
+          <programlisting>$ javac -d . Echo.java
 $ wsprovide -w echo.Echo
 Generating WSDL:
 EchoService.wsdl

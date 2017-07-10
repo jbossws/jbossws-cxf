@@ -8649,7 +8649,7 @@ proxy.echo("Hello World!");
   &lt;wsdl:service name="HelloWorldService"&gt;
     &lt;soapjms:jndiConnectionFactoryName&gt;java:jms/RemoteConnectionFactory&lt;/soapjms:jndiConnectionFactoryName&gt;
     &lt;soapjms:jndiInitialContextFactory&gt;org.jboss.naming.remote.client.InitialContextFactory&lt;/soapjms:jndiInitialContextFactory&gt;
-    &lt;soapjms:jndiURL&gt;remote://myhost:4447&lt;/soapjms:jndiURL&gt;
+    &lt;soapjms:jndiURL&gt;http-remoting://myhost:8080&lt;/soapjms:jndiURL&gt;
     &lt;wsdl:port binding="tns:HelloWorldServiceSoapBinding" name="HelloWorldImplPort"&gt;
       &lt;soap:address location="jms:queue:testQueue"/&gt;
     &lt;/wsdl:port&gt;
@@ -8685,7 +8685,7 @@ proxy.echo("Hello World!");
             <code>soapjms:jndiInitialContextFactory</code>
             and
             <code>soap:jmsjndiURL</code>
-            complete the remote connection configuration, specifying the initial context factory class to use and the JNDI registry address.
+            complete the remote connection configuration: they depends on the actual WildFly container the service is running on and specify the the initial context factory class to use and the JNDI registry address.
           </para>
           <important>
             <para>Have a look at the application server domain for finding out the configured connection factory JNDI locations.</para>
@@ -8743,7 +8743,7 @@ public class HelloWorldImpl implements HelloWorld
           <note>
             <para>
               A dependency on
-              <code>org.hornetq</code>
+              <code>org.apache.activemq.artemis</code>
               module needs to be added in MANIFEST.MF when deploying to WildFly.
             </para>
             <informalexample>
@@ -8753,7 +8753,7 @@ Ant-Version: Apache Ant 1.7.1
 
 Created-By: 17.0-b16 (Sun Microsystems Inc.)
 
-Dependencies: org.hornetq</programlisting>
+Dependencies: org.apache.activemq.artemis</programlisting>
             </informalexample>
           </note>
           <para>A JAX-WS client can interact with the JMS endpoint the usual way:</para>
@@ -8783,13 +8783,12 @@ finally
           <informalexample>
             <programlisting>
 private void setupProxy(HelloWorld proxy) {
-   JMSConduit conduit = (JMSConduit)ClientProxy.getClient(proxy).getConduit();
-   JNDIConfiguration jndiConfig = conduit.getJmsConfig().getJndiConfig();
-   jndiConfig.setConnectionUserName("user");
-   jndiConfig.setConnectionPassword("password");
-   Properties props = conduit.getJmsConfig().getJndiTemplate().getEnvironment();
-   props.put(Context.SECURITY_PRINCIPAL, "user");
-   props.put(Context.SECURITY_CREDENTIALS, "password");
+   JMSConfiguration config = conduit.getJmsConfig();
+   config.setUserName(JBossWSTestHelper.getTestUsername());
+   config.setPassword(JBossWSTestHelper.getTestPassword());
+   Properties props = conduit.getJmsConfig().getJndiEnvironment();
+   props.put(Context.SECURITY_PRINCIPAL, JBossWSTestHelper.getTestUsername());
+   props.put(Context.SECURITY_CREDENTIALS, JBossWSTestHelper.getTestPassword());
 }
 </programlisting>
           </informalexample>
@@ -8807,7 +8806,7 @@ private void setupProxy(HelloWorld proxy) {
             <programlisting>
 Properties env = new Properties();
 env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-env.put(Context.PROVIDER_URL, "remote://myhost:4447");
+env.put(Context.PROVIDER_URL, "http-remoting://myhost:8080");
 env.put(Context.SECURITY_PRINCIPAL, "user");
 env.put(Context.SECURITY_CREDENTIALS, "password");
 InitialContext context = new InitialContext(env);
@@ -9029,7 +9028,7 @@ public class HttpHelloWorldImpl implements HelloWorld
           <important>
             <para>
               Here too the MANIFEST.MF needs to declare a dependency on
-              <emphasis role="italics">org.hornetq</emphasis>
+              <emphasis role="italics">org.apache.activemq.artemis</emphasis>
               module when deploying to WildFly.
             </para>
           </important>
