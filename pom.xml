@@ -120,6 +120,13 @@
     <modular.jdk.props/>
   </properties>
 
+  <!-- licenses -->
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License v2.1 only</name>
+      <url>http://repository.jboss.org/licenses/lgpl-2.1.txt</url>
+    </license>
+  </licenses>
 
   <!-- DependencyManagement -->
   <dependencyManagement>
