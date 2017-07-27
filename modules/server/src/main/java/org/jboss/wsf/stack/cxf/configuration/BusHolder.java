@@ -435,8 +435,8 @@ public class BusHolder
             InstrumentationManagerExtImpl instrumentationManagerImpl = new InstrumentationManagerExtImpl();
             instrumentationManagerImpl.setBus(bus);
             instrumentationManagerImpl.setEnabled(true);
-            instrumentationManagerImpl.initMBeanServer();
-            instrumentationManagerImpl.register();
+            instrumentationManagerImpl.init();
+            instrumentationManagerImpl.initMBeanServer();            
             bus.setExtension(instrumentationManagerImpl, InstrumentationManager.class);
             CounterRepository couterRepository = new CounterRepository();
             couterRepository.setBus(bus);
