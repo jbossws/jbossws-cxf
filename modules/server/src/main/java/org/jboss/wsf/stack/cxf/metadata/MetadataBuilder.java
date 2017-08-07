@@ -55,6 +55,7 @@ import org.jboss.wsf.spi.metadata.webservices.WebserviceDescriptionMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebservicesMetaData;
 import org.jboss.wsf.stack.cxf.JBossWSInvoker;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
+import org.jboss.wsf.stack.cxf.configuration.SysPropUtils;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
 
@@ -258,7 +259,7 @@ public class MetadataBuilder
       DDEndpoint result = new DDEndpoint();
       
       result.setId(ep.getShortName());
-      result.setAddress(ep.getAddress());
+      result.setAddress(SysPropUtils.expandSystemProperty(ep.getAddress()));
       result.setImplementor(ep.getTargetBeanName());
       result.setMtomEnabled(isMtomEnabled(ep.getTargetBeanClass()));
       result.setEpClass(seiClass != null ? seiClass : sepClass);

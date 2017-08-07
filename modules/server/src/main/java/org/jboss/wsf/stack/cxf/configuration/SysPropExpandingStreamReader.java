@@ -38,74 +38,27 @@ public class SysPropExpandingStreamReader extends StreamReaderDelegate
       super(reader);
    }
 
-   protected String expandSystemProperty(String value)
-   {
-      if (isEmpty(value))
-      {
-         return value;
-      }
-      final int startIndx = value.indexOf(DELIMITER);
-      if (startIndx > -1)
-      {
-         final int endIndx = value.lastIndexOf(DELIMITER);
-         if (endIndx > -1 && startIndx + 1 < endIndx)
-         {
-            final String propName = value.substring(startIndx + 1, endIndx);
-            if (!isEmpty(propName))
-            {
-               final String envValue = System.getProperty(propName);
-               if (!isEmpty(envValue))
-               {
-                  StringBuilder sb = new StringBuilder();
-                  sb.append(value.substring(0, startIndx));
-                  sb.append(envValue);
-                  sb.append(value.substring(endIndx + 1));
-                  value = sb.toString();
-               }
-            }
-         }
-      }
-
-      return value;
-   }
-
-   private static boolean isEmpty(String str)
-   {
-      if (str != null)
-      {
-         int len = str.length();
-         for (int x = 0; x < len; ++x)
-         {
-            if (str.charAt(x) > ' ')
-            {
-               return false;
-            }
-         }
-      }
-      return true;
-   }
-
    @Override
    public String getElementText() throws XMLStreamException
    {
-      return expandSystemProperty(super.getElementText());
+      return SysPropUtils.expandSystemProperty(super.getElementText());
    }
 
    @Override
    public String getAttributeValue(String namespaceURI, String localName)
    {
-      return expandSystemProperty(super.getAttributeValue(namespaceURI, localName));
+      return SysPropUtils.expandSystemProperty(super.getAttributeValue(namespaceURI, localName));
    }
 
    @Override
    public String getAttributeValue(int index)
    {
-      return expandSystemProperty(super.getAttributeValue(index));
+      return SysPropUtils.expandSystemProperty(super.getAttributeValue(index));
    }
 
    @Override
    public String getText()
    {
-      return expandSystemProperty(super.getText());
+      return SysPropUtils.expandSystemProperty(super.getText());
    }
 }
