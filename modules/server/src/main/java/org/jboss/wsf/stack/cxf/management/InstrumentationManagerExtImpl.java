@@ -6,7 +6,10 @@ import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
 
+import org.apache.cxf.Bus;
 import org.apache.cxf.bus.ManagedBus;
+import org.apache.cxf.buslifecycle.BusLifeCycleManager;
+import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.jmx.InstrumentationManagerImpl;
 import org.jboss.wsf.stack.cxf.Loggers;
 
@@ -21,10 +24,20 @@ public class InstrumentationManagerExtImpl extends InstrumentationManagerImpl
 {
    private MBeanServer mbeanServer = null;
 
-   
-   /**
-    * TODO: to see if this can be moved to cxf code base 
-    */
+   @Override
+   public void init()
+   {
+      Bus bus = getBus();
+      if (null != bus)
+      {
+         bus.setExtension(this, InstrumentationManager.class);
+         BusLifeCycleManager blcm = bus.getExtension(BusLifeCycleManager.class);
+         if (null != blcm)
+         {
+            blcm.registerLifeCycleListener(this);
+         }
+      }
+   }
    public void initMBeanServer()
    {
       this.setServer(this.getJBossMbeanServer());
