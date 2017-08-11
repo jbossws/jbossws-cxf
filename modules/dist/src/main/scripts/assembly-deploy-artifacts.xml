@@ -62,7 +62,7 @@
               <include>org.jasypt:jasypt:jar</include>
               <include>org.apache.santuario:xmlsec:jar</include>
               <include>asm:asm:jar</include>
-              <include>org.apache.velocity:velocity:jar</include>
+              <include>org.apache.velocity:velocity-engine-core:jar</include>
               <include>commons-collections:commons-collections:jar</include>
               <include>commons-beanutils:commons-beanutils:jar</include>
               <include>org.apache.commons:commons-lang3:jar</include>

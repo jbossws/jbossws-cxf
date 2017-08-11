@@ -388,6 +388,11 @@
           <include name="**/jbossws-spi.jar"/>
         </fileset>
        </copy>
+      <copy todir="@{targetdir}/org/apache/commons/lang3/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/commons-lang3.jar"/>
+        </fileset>
+      </copy>
       <copy todir="@{targetdir}/org/apache/httpcomponents/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">       
           <include name="**/httpcore.jar"/>
@@ -404,6 +409,11 @@
       <copy todir="@{targetdir}/org/apache/santuario/xmlsec/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/xmlsec.jar"/>
+        </fileset>
+      </copy>
+      <copy todir="@{targetdir}/org/apache/velocity/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/velocity-engine-core.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/apache/ws/security/main" flatten="false" overwrite="true">

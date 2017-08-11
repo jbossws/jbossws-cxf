@@ -91,7 +91,7 @@
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <commons-beanutils.version>1.9.2</commons-beanutils.version>
     <commons-collections.version>3.2.1</commons-collections.version>
-    <commons-lang3.version>3.5</commons-lang3.version>
+    <commons-lang3.version>3.6</commons-lang3.version>
     <commons.logging.version>1.1.1</commons.logging.version>
     <log4j.version>1.2.16</log4j.version>
     <org.slf4j.version>1.7.15</org.slf4j.version>
@@ -103,7 +103,7 @@
     <servlet.api.version>1.0.0.Final</servlet.api.version>
     <stax.api.version>1.0-2</stax.api.version>
     <jms.api.version>1.0.0.Final</jms.api.version>
-    <velocity.version>1.7</velocity.version>
+    <velocity.version>2.0</velocity.version>
     <xerces.version>2.9.1</xerces.version>
     <xmlsec.version>2.1.0-SNAPSHOT</xmlsec.version>
     <xsom.version>20140925</xsom.version>
@@ -942,8 +942,14 @@
       </dependency>
       <dependency>
         <groupId>org.apache.velocity</groupId>
-        <artifactId>velocity</artifactId>
+        <artifactId>velocity-engine-core</artifactId>
         <version>${velocity.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>commons-beanutils</groupId>
