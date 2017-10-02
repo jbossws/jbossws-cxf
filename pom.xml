@@ -75,7 +75,7 @@
     <wildfly1100.version>11.0.0.Final-SNAPSHOT</wildfly1100.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
     <cxf.version>3.2.0</cxf.version>
-    <cxf.asm.version>3.3.1</cxf.asm.version>
+    <cxf.asm.version>5.2</cxf.asm.version>
     <cxf.xjcplugins.version>3.1.0</cxf.xjcplugins.version>
     <jboss-logging.version>3.2.1.Final</jboss-logging.version>
     <jboss-logging-annotations.version>1.2.0.Final</jboss-logging-annotations.version>
@@ -1008,7 +1008,7 @@
         <version>${wstx.version}</version>
       </dependency>
       <dependency>
-        <groupId>asm</groupId>
+        <groupId>org.ow2.asm</groupId>
         <artifactId>asm</artifactId>
         <version>${cxf.asm.version}</version>
       </dependency>

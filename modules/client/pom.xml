@@ -173,7 +173,7 @@
       <artifactId>woodstox-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>asm</groupId>
+      <groupId>org.ow2.asm</groupId>
       <artifactId>asm</artifactId>
     </dependency>
     
@@ -330,7 +330,7 @@
                         <exclude>org.apache.cxf:cxf-rt-javascript</exclude>
                         <exclude>org.apache.geronimo.specs</exclude>
                         <exclude>org.codehaus.jra:jra</exclude>
-                        <exclude>org.ow2.asm:asm</exclude> <!-- We have older (3.3.1) version on container -->
+                        <exclude>asm:asm</exclude> <!-- We want newer version -->
                         <exclude>org.slf4j:slf4j-jdk14</exclude>
                         <exclude>org.springframework:*</exclude>
                         <exclude>com.sun.xml.bind:*</exclude>
