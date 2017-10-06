@@ -167,6 +167,8 @@ public class CXFClientConfigurerTest
          Map<String, String> properties = new HashMap<String, String>();
          properties.put(Constants.CXF_IN_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorA org.jboss.wsf.stack.cxf.client.configuration.InterceptorB");
          properties.put(Constants.CXF_OUT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorC,org.jboss.wsf.stack.cxf.client.configuration.InterceptorD");
+         properties.put(Constants.CXF_IN_FAULT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorE,org.jboss.wsf.stack.cxf.client.configuration.InterceptorF");
+         properties.put(Constants.CXF_OUT_FAULT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorG org.jboss.wsf.stack.cxf.client.configuration.InterceptorH");
          
          InterceptorUtils.addInterceptors(client, properties);
          
@@ -175,16 +177,44 @@ public class CXFClientConfigurerTest
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
          interceptors = toNameList(client.getOutInterceptors());
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         interceptors = toNameList(client.getInFaultInterceptors());
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         interceptors = toNameList(client.getOutFaultInterceptors());
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
          
          
          properties = new HashMap<String, String>();
          properties.put(Constants.CXF_IN_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorD, FooInterceptor");
          properties.put(Constants.CXF_OUT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorB");
+         properties.put(Constants.CXF_IN_FAULT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorA, BarInterceptor");
+         properties.put(Constants.CXF_OUT_FAULT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorC");
          
          InterceptorUtils.addInterceptors(client, properties);
          
@@ -193,12 +223,39 @@ public class CXFClientConfigurerTest
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
          assertFalse(interceptors.contains("FooInterceptor"));
          interceptors = toNameList(client.getOutInterceptors());
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         interceptors = toNameList(client.getInFaultInterceptors());
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         assertFalse(interceptors.contains("BarInterceptor"));
+         interceptors = toNameList(client.getOutFaultInterceptors());
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
       } finally {
          if (bus != null) {
             bus.shutdown(true);
@@ -224,6 +281,8 @@ public class CXFClientConfigurerTest
          properties.put("C", "3");
          properties.put(Constants.CXF_IN_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorA org.jboss.wsf.stack.cxf.client.configuration.InterceptorB");
          properties.put(Constants.CXF_OUT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorC,org.jboss.wsf.stack.cxf.client.configuration.InterceptorD");
+         properties.put(Constants.CXF_IN_FAULT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorE,org.jboss.wsf.stack.cxf.client.configuration.InterceptorF");
+         properties.put(Constants.CXF_OUT_FAULT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorG org.jboss.wsf.stack.cxf.client.configuration.InterceptorH");
          
          CXFClientConfigurer cfg = new CXFClientConfigurer();
          
@@ -237,16 +296,44 @@ public class CXFClientConfigurerTest
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
          interceptors = toNameList(client.getOutInterceptors());
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         interceptors = toNameList(client.getInFaultInterceptors());
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         interceptors = toNameList(client.getOutFaultInterceptors());
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
          
          
          properties = new HashMap<String, String>();
          properties.put(Constants.CXF_IN_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorD, FooInterceptor");
          properties.put(Constants.CXF_OUT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorB");
+         properties.put(Constants.CXF_IN_FAULT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorA, BarInterceptor");
+         properties.put(Constants.CXF_OUT_FAULT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorC");
          
          InterceptorUtils.addInterceptors(client, properties);
          
@@ -258,12 +345,39 @@ public class CXFClientConfigurerTest
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
          assertFalse(interceptors.contains("FooInterceptor"));
          interceptors = toNameList(client.getOutInterceptors());
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         interceptors = toNameList(client.getInFaultInterceptors());
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         assertFalse(interceptors.contains("BarInterceptor"));
+         interceptors = toNameList(client.getOutFaultInterceptors());
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
       } finally {
          if (bus != null) {
             bus.shutdown(true);
@@ -289,6 +403,8 @@ public class CXFClientConfigurerTest
          properties.put("C", "3");
          properties.put(Constants.CXF_IN_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorA org.jboss.wsf.stack.cxf.client.configuration.InterceptorB");
          properties.put(Constants.CXF_OUT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorC,org.jboss.wsf.stack.cxf.client.configuration.InterceptorD");
+         properties.put(Constants.CXF_IN_FAULT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorE,org.jboss.wsf.stack.cxf.client.configuration.InterceptorF");
+         properties.put(Constants.CXF_OUT_FAULT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorG org.jboss.wsf.stack.cxf.client.configuration.InterceptorH");
          ClientConfig clientConfig = new ClientConfig("Foo", null, null, properties, null);
          
          CXFClientConfigurer cfg = new CXFClientConfigurer();
@@ -303,14 +419,41 @@ public class CXFClientConfigurerTest
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
          interceptors = toNameList(client.getOutInterceptors());
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         interceptors = toNameList(client.getInFaultInterceptors());
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         interceptors = toNameList(client.getOutFaultInterceptors());
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
          
          
          ClientProxy.getClient(port).getInInterceptors().add(new InterceptorZ());
+         ClientProxy.getClient(port).getInFaultInterceptors().add(new InterceptorY());
          
          properties = new HashMap<String, String>();
          properties.put("E", "10");
@@ -318,6 +461,8 @@ public class CXFClientConfigurerTest
          properties.put("G", "30");
          properties.put(Constants.CXF_IN_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorD, FooInterceptor");
          properties.put(Constants.CXF_OUT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorB");
+         properties.put(Constants.CXF_IN_FAULT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorA, BarInterceptor");
+         properties.put(Constants.CXF_OUT_FAULT_INTERCEPTORS_PROP, "org.jboss.wsf.stack.cxf.client.configuration.InterceptorC");
          clientConfig = new ClientConfig("Foo2", null, null, properties, null);
          
          cfg.setConfigProperties(port, clientConfig);
@@ -334,15 +479,44 @@ public class CXFClientConfigurerTest
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorZ"));
          interceptors = toNameList(client.getOutInterceptors());
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
-         
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         interceptors = toNameList(client.getInFaultInterceptors());
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorY"));
+         assertFalse(interceptors.contains("BarInterceptor"));
+         interceptors = toNameList(client.getOutFaultInterceptors());
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+
          properties = new HashMap<String, String>();
          properties.put(Constants.CXF_IN_INTERCEPTORS_PROP, "");
+         properties.put(Constants.CXF_IN_FAULT_INTERCEPTORS_PROP, "");
          clientConfig = new ClientConfig("Foo2", null, null, properties, null);
          
          cfg.setConfigProperties(port, clientConfig);
@@ -359,13 +533,40 @@ public class CXFClientConfigurerTest
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
          assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorZ"));
          interceptors = toNameList(client.getOutInterceptors());
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
          assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
-
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         interceptors = toNameList(client.getInFaultInterceptors());
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
+         assertTrue(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorY"));
+         assertFalse(interceptors.contains("BarInterceptor"));
+         interceptors = toNameList(client.getOutFaultInterceptors());
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorA"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorB"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorC"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorD"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorE"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorF"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorG"));
+         assertFalse(interceptors.contains("org.jboss.wsf.stack.cxf.client.configuration.InterceptorH"));
       } finally {
          if (bus != null) {
             bus.shutdown(true);
