@@ -103,6 +103,10 @@ public class CXFClientConfigurer extends ConfigHelper
                InterceptorUtils.removeInterceptors(client.getInInterceptors(), (String)ep.get(p));
             } else if (Constants.CXF_OUT_INTERCEPTORS_PROP.equals(p)) {
                InterceptorUtils.removeInterceptors(client.getOutInterceptors(), (String)ep.get(p));
+            } else if (Constants.CXF_IN_FAULT_INTERCEPTORS_PROP.equals(p)) {
+               InterceptorUtils.removeInterceptors(client.getInFaultInterceptors(), (String)ep.get(p));
+            } else if (Constants.CXF_OUT_FAULT_INTERCEPTORS_PROP.equals(p)) {
+               InterceptorUtils.removeInterceptors(client.getOutFaultInterceptors(), (String)ep.get(p));
             } else if (Constants.CXF_FEATURES_PROP.equals(p)) {
                Loggers.ROOT_LOGGER.couldNoRemoveFeaturesOnClient((String)ep.get(p));
             }
