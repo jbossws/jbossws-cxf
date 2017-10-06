@@ -57,6 +57,20 @@ public class InterceptorUtils
          }
          interceptorProvider.getOutInterceptors().addAll(createInterceptors(outInterceptors, converter));
       }
+      final String inFaultInterceptors = properties.get(Constants.CXF_IN_FAULT_INTERCEPTORS_PROP);
+      if (inFaultInterceptors != null) {
+         if (converter == null) {
+            converter = new MapToBeanConverter(properties);
+         }
+         interceptorProvider.getInFaultInterceptors().addAll(createInterceptors(inFaultInterceptors, converter));
+      }
+      final String outFaultInterceptors = properties.get(Constants.CXF_OUT_FAULT_INTERCEPTORS_PROP);
+      if (outFaultInterceptors != null) {
+         if (converter == null) {
+            converter = new MapToBeanConverter(properties);
+         }
+         interceptorProvider.getOutFaultInterceptors().addAll(createInterceptors(outFaultInterceptors, converter));
+      }
    }
    
    public static void removeInterceptors(List<Interceptor<?>> interceptorsList, String interceptors) {
