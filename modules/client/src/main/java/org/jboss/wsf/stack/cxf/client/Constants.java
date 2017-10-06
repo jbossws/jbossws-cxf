@@ -41,6 +41,8 @@ public class Constants
    public static final String CXF_POLICY_ALTERNATIVE_SELECTOR_PROP = "cxf.policy.alternativeSelector";
    public static final String CXF_IN_INTERCEPTORS_PROP = "cxf.interceptors.in";
    public static final String CXF_OUT_INTERCEPTORS_PROP = "cxf.interceptors.out";
+   public static final String CXF_IN_FAULT_INTERCEPTORS_PROP = "cxf.interceptors.infault";
+   public static final String CXF_OUT_FAULT_INTERCEPTORS_PROP = "cxf.interceptors.outfault";
    public static final String CXF_FEATURES_PROP = "cxf.features";
    public static final String CXF_MANAGEMENT_ENABLED = "cxf.management.enabled";
    public static final String CXF_MANAGEMENT_INSTALL_RESPONSE_TIME_INTERCEPTORS = "cxf.management.installResponseTimeInterceptors";
