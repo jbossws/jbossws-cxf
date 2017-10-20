@@ -439,7 +439,7 @@
         </property>
       </activation>
       <properties>
-        <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args} ${modular.jdk.props} ${surefire.jdwp.args}</surefire.jvm.args>
+        <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args} ${modular.jdk.args} ${modular.jdk.props} ${surefire.jdwp.args}</surefire.jvm.args>
       </properties>
     </profile>
     <profile>
@@ -450,7 +450,7 @@
         </property>
       </activation>
       <properties>
-        <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args} ${modular.jdk.props}</surefire.jvm.args>
+        <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args} ${modular.jdk.args} ${modular.jdk.props}</surefire.jvm.args>
       </properties>
     </profile>
     
