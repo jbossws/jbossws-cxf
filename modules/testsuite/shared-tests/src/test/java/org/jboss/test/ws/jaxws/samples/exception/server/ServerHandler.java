@@ -42,7 +42,6 @@ import org.jboss.ws.api.handler.GenericSOAPHandler;
 public class ServerHandler extends GenericSOAPHandler<SOAPMessageContext>
 {
    @Override
-   @SuppressWarnings("unchecked")
    public boolean handleFault(SOAPMessageContext msgContext)
    {
       try
@@ -52,13 +51,13 @@ public class ServerHandler extends GenericSOAPHandler<SOAPMessageContext>
          SOAPBodyElement soapBodyElement = (SOAPBodyElement)soapBody.getChildElements().next();
          SOAPElement faultStringElement = (SOAPElement)soapBodyElement.getChildElements(new QName("faultstring")).next();
          faultStringElement.setValue(faultStringElement.getValue().toUpperCase());
-         Iterator<SOAPElement> itDetail = soapBodyElement.getChildElements(new QName("detail"));
+         Iterator<?> itDetail = soapBodyElement.getChildElements(new QName("detail"));
          if (itDetail.hasNext())
          {
-            Iterator<SOAPElement> itException = itDetail.next().getChildElements(new QName("http://server.exception.samples.jaxws.ws.test.jboss.org/","UserException"));
+            Iterator<?> itException = ((SOAPElement)itDetail.next()).getChildElements(new QName("http://server.exception.samples.jaxws.ws.test.jboss.org/","UserException"));
             if (itException.hasNext())
             {
-               SOAPElement messageElement = (SOAPElement)itException.next().getChildElements(new QName("message")).next();
+               SOAPElement messageElement = (SOAPElement)(((SOAPElement)itException.next()).getChildElements(new QName("message"))).next();
                messageElement.setValue(messageElement.getValue().toUpperCase());
             }
          }

@@ -123,7 +123,7 @@
             <unpack>false</unpack>
             <outputFileNameMapping>jaxb-api.jar</outputFileNameMapping>
             <includes>
-              <include>org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.2_spec:jar</include>
+              <include>org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar</include>
             </includes>
             <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>

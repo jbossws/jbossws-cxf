@@ -30,9 +30,9 @@ import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPException;
 import javax.xml.ws.WebServiceException;
 
-import org.jboss.logging.Cause;
-import org.jboss.logging.Message;
-import org.jboss.logging.MessageBundle;
+import org.jboss.logging.annotations.Cause;
+import org.jboss.logging.annotations.Message;
+import org.jboss.logging.annotations.MessageBundle;
 import org.jboss.wsf.spi.WSFException;
 import org.jboss.wsf.spi.deployment.Deployment;
 
@@ -41,7 +41,6 @@ import org.jboss.wsf.spi.deployment.Deployment;
  * 
  * @author alessio.soldano@jboss.com
  */
-@SuppressWarnings("deprecation")
 @MessageBundle(projectCode = "JBWS")
 public interface Messages {
 

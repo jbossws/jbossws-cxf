@@ -34,7 +34,6 @@ import org.jboss.logging.annotations.MessageLogger;
  *
  * @author alessio.soldano@jboss.com
  */
-@SuppressWarnings("deprecation")
 @MessageLogger(projectCode = "JBWS")
 public interface Loggers extends BasicLogger
 {
