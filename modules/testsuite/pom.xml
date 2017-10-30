@@ -577,59 +577,6 @@
     </profile>
 
     <!--
-    Descr: WildFly-9.0.2 specific options
-    -->
-    <profile>
-      <id>wildfly902</id>
-      <properties>
-        <jboss.remoting.protocol>http-remoting</jboss.remoting.protocol>
-        <jboss.initial.context.factory>org.jboss.naming.remote.client.InitialContextFactory</jboss.initial.context.factory>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-wildfly902-tests-integration</artifactId>
-        </dependency>
-        <!-- Arquillian container integration -->
-        <dependency>
-        	<groupId>org.wildfly.arquillian</groupId>
-        	<artifactId>wildfly-arquillian-container-managed</artifactId>
-        </dependency>
-        <dependency>
-        	<groupId>org.jboss.arquillian.protocol</groupId>
-        	<artifactId>arquillian-protocol-servlet</artifactId>
-        	<version>${arquillian.version}</version>
-        	<scope>test</scope>
-        </dependency>
-        <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
-        <dependency>
-          <groupId>org.littleshoot</groupId>
-          <artifactId>littleproxy</artifactId>
-          <version>${org.littleshoot.littleproxy.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-log4j12</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>net.sf.ehcache</groupId>
-              <artifactId>ehcache-core</artifactId>
-            </exclusion>
-            <!-- Let the container messaging subsystem control the Netty dependency version  -->
-            <exclusion>
-              <groupId>io.netty</groupId>
-              <artifactId>netty-all</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-      </dependencies>
-    </profile>
-
-    <!--
     Descr: WildFly-10.0.0 specific options
     -->
     <profile>
@@ -645,14 +592,14 @@
         </dependency>
         <!-- Arquillian container integration -->
         <dependency>
-        	<groupId>org.wildfly.arquillian</groupId>
-        	<artifactId>wildfly-arquillian-container-managed</artifactId>
+          <groupId>org.wildfly.arquillian</groupId>
+          <artifactId>wildfly-arquillian-container-managed</artifactId>
         </dependency>
-        <dependency>
-        	<groupId>org.jboss.arquillian.protocol</groupId>
-        	<artifactId>arquillian-protocol-servlet</artifactId>
-        	<version>${arquillian.version}</version>
-        	<scope>test</scope>
+          <dependency>
+       	  <groupId>org.jboss.arquillian.protocol</groupId>
+       	  <artifactId>arquillian-protocol-servlet</artifactId>
+       	  <version>${arquillian.version}</version>
+       	  <scope>test</scope>
         </dependency>
         <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
         <dependency>
@@ -698,14 +645,14 @@
         </dependency>
         <!-- Arquillian container integration -->
         <dependency>
-        	<groupId>org.wildfly.arquillian</groupId>
-        	<artifactId>wildfly-arquillian-container-managed</artifactId>
+       	  <groupId>org.wildfly.arquillian</groupId>
+       	  <artifactId>wildfly-arquillian-container-managed</artifactId>
         </dependency>
         <dependency>
-        	<groupId>org.jboss.arquillian.protocol</groupId>
-        	<artifactId>arquillian-protocol-servlet</artifactId>
-        	<version>${arquillian.version}</version>
-        	<scope>test</scope>
+       	  <groupId>org.jboss.arquillian.protocol</groupId>
+       	  <artifactId>arquillian-protocol-servlet</artifactId>
+       	  <version>${arquillian.version}</version>
+          <scope>test</scope>
         </dependency>
         <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
         <dependency>
@@ -746,6 +693,79 @@
       </properties>
       <dependencies>
         <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-wildfly1100-tests-integration</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.sasl</groupId>
+              <artifactId>jboss-sasl</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <!-- Arquillian container integration -->
+        <dependency>
+          <groupId>org.wildfly.arquillian</groupId>
+          <artifactId>wildfly-arquillian-container-managed</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.sasl</groupId>
+              <artifactId>jboss-sasl</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.marshalling</groupId>
+              <artifactId>jboss-marshalling</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <dependency>
+       	  <groupId>org.jboss.arquillian.protocol</groupId>
+       	  <artifactId>arquillian-protocol-servlet</artifactId>
+       	  <version>${arquillian.version}</version>
+       	  <scope>test</scope>
+        </dependency>
+        <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
+        <dependency>
+          <groupId>org.littleshoot</groupId>
+          <artifactId>littleproxy</artifactId>
+          <version>${org.littleshoot.littleproxy.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-api</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>net.sf.ehcache</groupId>
+              <artifactId>ehcache-core</artifactId>
+            </exclusion>
+            <!-- Let the container messaging subsystem control the Netty dependency version  -->
+            <exclusion>
+              <groupId>io.netty</groupId>
+              <artifactId>netty-all</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <dependency>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!--
+    Descr: WildFly-11.1.0 specific options
+    -->
+    <profile>
+      <id>wildfly1110</id>
+      <properties>
+        <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
+        <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
+      </properties>
+      <dependencies>
+        <dependency>
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
           <version>${jboss.version}</version>
@@ -756,31 +776,26 @@
             </exclusion>
           </exclusions>
         </dependency>
-        <dependency> <!-- TODO remove workaround for WFLY-8543 -->
-          <groupId>org.wildfly.common</groupId>
-          <artifactId>wildfly-common</artifactId>
-          <version>1.2.0.Beta9</version>
-        </dependency>
         <!-- Arquillian container integration -->
         <dependency>
-        	<groupId>org.wildfly.arquillian</groupId>
-        	<artifactId>wildfly-arquillian-container-managed</artifactId>
-        	<exclusions>
-        	  <exclusion>
-        	    <groupId>org.jboss.sasl</groupId>
-        	    <artifactId>jboss-sasl</artifactId>
-        	  </exclusion>
-        	  <exclusion>
-        	    <groupId>org.jboss.marshalling</groupId>
-        	    <artifactId>jboss-marshalling</artifactId>
-        	  </exclusion>
-        	</exclusions>
+          <groupId>org.wildfly.arquillian</groupId>
+          <artifactId>wildfly-arquillian-container-managed</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.sasl</groupId>
+              <artifactId>jboss-sasl</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.marshalling</groupId>
+              <artifactId>jboss-marshalling</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
-        	<groupId>org.jboss.arquillian.protocol</groupId>
-        	<artifactId>arquillian-protocol-servlet</artifactId>
-        	<version>${arquillian.version}</version>
-        	<scope>test</scope>
+       	  <groupId>org.jboss.arquillian.protocol</groupId>
+       	  <artifactId>arquillian-protocol-servlet</artifactId>
+       	  <version>${arquillian.version}</version>
+       	  <scope>test</scope>
         </dependency>
         <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
         <dependency>
