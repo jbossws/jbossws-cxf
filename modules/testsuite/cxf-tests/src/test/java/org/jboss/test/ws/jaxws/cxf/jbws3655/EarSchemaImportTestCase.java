@@ -69,10 +69,11 @@ public class EarSchemaImportTestCase extends JBossWSTest
    }
    @Deployment(testable = false, name=EAR_DEPLOYMENT,managed=false)
    public static JavaArchive createDeployment3() {
+
       JavaArchive archive1 = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-jbws3655-ejb.jar");
       archive1.addManifest().addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloWSEJBImpl.class);
       writeToDisk(archive1);
-      
+
       JavaArchive archive2 = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-jbws3655-jaxws.jar");
       archive2.addManifest()
             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.HelloRequest.class)
@@ -82,12 +83,29 @@ public class EarSchemaImportTestCase extends JBossWSTest
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/wsdl/Hello.wsdl"), "wsdl/Hello.wsdl")
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/wsdl/Hello_schema1.xsd"), "wsdl/Hello_schema1.xsd");
       writeToDisk(archive2);
-      
+
+      JavaArchive archive3 = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-jbws3655-goodBy-jaxws.jar");
+      archive3.addManifest()
+          .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.GoodByRequest.class)
+          .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.GoodByResponse.class)
+          .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.GoodByWs.class)
+          .addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.GoodByWsImpl.class)
+          .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/wsdl/GoodBy.wsdl"), "wsdl/GoodBy.wsdl")
+          .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/wsdl/GoodBy_schema1.xsd"), "wsdl/GoodBy_schema1.xsd");
+      writeToDisk(archive3);
+
+      JavaArchive archive4 = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-jbws3655-ejb-goodBy.jar");
+      archive4.addManifest().addClass(org.jboss.test.ws.jaxws.cxf.jbws3655.GoodByWSEJBImpl.class);
+      writeToDisk(archive4);
+
       JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-jbws3655.ear");
       archive.addManifest()
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/application.xml"))
             .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-cxf-jbws3655-jaxws.jar"), "lib/jaxws-cxf-jbws3655-jaxws.jar")
-            .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-cxf-jbws3655-ejb.jar"));
+            .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-cxf-jbws3655-goodBy-jaxws.jar"), "lib/jaxws-cxf-jbws3655-goodBy-jaxws.jar")
+            .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-cxf-jbws3655-ejb.jar"))
+            .addAsResource(new File(JBossWSTestHelper.getTestArchiveDir(), "jaxws-cxf-jbws3655-ejb-goodBy.jar"))
+      ;
       return archive;
    }
    
@@ -115,4 +133,5 @@ public class EarSchemaImportTestCase extends JBossWSTest
       Service service = Service.create(wsdlURL, qname);
       return (HelloWs)service.getPort(HelloWs.class);
    }
+
 }

@@ -3,7 +3,11 @@
   version="6" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd">
   <application-name>jbws3655</application-name>
   <module>
+    <ejb>jaxws-cxf-jbws3655-ejb-goodBy.jar</ejb>
+  </module>
+  <module>
     <ejb>jaxws-cxf-jbws3655-ejb.jar</ejb>
   </module>
+
   <library-directory>lib</library-directory>
 </application>
