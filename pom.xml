@@ -1315,6 +1315,19 @@
         <groupId>org.wildfly.plugins</groupId>
         <artifactId>wildfly-maven-plugin</artifactId>
         <version>1.0.2.Final</version>
+        <dependencies> <!-- workaround to exclude not needed jconsole from dependencies, as it hurts when running on JDK9 -->
+          <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-cli</artifactId>
+            <version>8.1.0.Final</version>
+            <exclusions>
+              <exclusion>
+                <groupId>sun.jdk</groupId>
+                <artifactId>jconsole</artifactId>
+              </exclusion>
+            </exclusions>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.jboss.maven.plugins</groupId>
