@@ -74,7 +74,8 @@ public class ClientBusStrategyTestCase extends JBossWSTest
             .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                   + "Main-Class: org.jboss.test.ws.jaxws.cxf.jbws3713.TestClient\n"
                   + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl,org.jboss.ws.jaxws-client\n"))
-            .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.BusCounter.class)
+             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3713/WEB-INF/client-permissions.xml"), "permissions.xml")
+             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.BusCounter.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.HelloRequest.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.HelloResponse.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.HelloWs.class)
@@ -83,7 +84,7 @@ public class ClientBusStrategyTestCase extends JBossWSTest
             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.TestClient.class);
       }
    });
-   
+
    @Test
    @RunAsClient
    public void testClientWithNewBusStrategy() throws Exception
@@ -94,7 +95,7 @@ public class ClientBusStrategyTestCase extends JBossWSTest
       assertEquals(threadPoolSize, list.get(0).intValue());
       assertEquals(invocations, list.get(1).intValue());
    }
-   
+
    @Test
    @RunAsClient
    public void testClientWithTCCLBusStrategy() throws Exception
@@ -105,7 +106,7 @@ public class ClientBusStrategyTestCase extends JBossWSTest
       assertEquals(1, list.get(0).intValue());
       assertEquals(1, list.get(1).intValue());
    }
-   
+
    @Test
    @RunAsClient
    public void testClientWithThreadBusStrategy() throws Exception
@@ -129,24 +130,49 @@ public class ClientBusStrategyTestCase extends JBossWSTest
     * @throws Exception
     */
    protected List<Integer> runJBossModulesClient(final String strategy,
-                                               final String wsdlAddress,
-                                               final int threadPoolSize,
-                                               final int invocations) throws Exception {
+                                                 final String wsdlAddress,
+                                                 final int threadPoolSize,
+                                                 final int invocations) throws Exception {
+      StringBuilder sbuf = new StringBuilder();
+
+      // java cmd
       File javaFile = new File (System.getProperty("java.home") + FS + "bin" + FS + "java");
       String javaCmd = javaFile.exists() ? javaFile.getCanonicalPath() : "java";
-      
+      sbuf.append(javaCmd);
+
+      //properties
+      sbuf.append(" -Djavax.xml.ws.spi.Provider=" + ProviderImpl.class.getName());
+      sbuf.append(" -Dlog4j.output.dir=" + System.getProperty("log4j.output.dir"));
+      sbuf.append(" -D" + Constants.JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY + "=" + strategy);
+
+      // ref to jboss-modules jar
       final String jbh = System.getProperty("jboss.home");
       final String jbm = jbh + FS + "modules";
       final String jbmjar = jbh + FS + "jboss-modules.jar";
-      
-      final File f = new File(JBossWSTestHelper.getTestArchiveDir(), CLIENT_JAR);
+      sbuf.append(" -jar " + jbmjar);
 
-      //java -jar $JBOSS_HOME/jboss-modules.jar -mp $JBOSS_HOME/modules -jar client.jar
+      // input arguments to jboss-module's main
+      sbuf.append(" -mp " + jbm);
+
+      // wildfly9 security manage flag changed from -Djava.security.manager to -secmgr.
+      // Can't pass -secmgr arg through arquillian because it breaks arquillian's
+      // config of our tests.
+      // the -secmgr flag MUST be provided as an input arg to jboss-modules so it must
+      // come after the jboss-modules.jar ref.
       String additionalJVMArgs = System.getProperty("additionalJvmArgs", "");
-      additionalJVMArgs = additionalJVMArgs.replace('\n', ' ');
-      String props = " " + additionalJVMArgs + " -Djavax.xml.ws.spi.Provider=" + ProviderImpl.class.getName() + " -Dlog4j.output.dir=" + System.getProperty("log4j.output.dir") +
-            " -D" + Constants.JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY + "=" + strategy + " -jar " + jbmjar + " -mp " + jbm;
-      final String command = javaCmd + props + " -jar " + f.getAbsolutePath() + " " + wsdlAddress + " " + threadPoolSize + " " + invocations;
+      additionalJVMArgs =  additionalJVMArgs.replace('\n', ' ');
+      String securityManagerDesignator =
+          ("-Djava.security.manager".equals(additionalJVMArgs)) ? "-secmgr" : additionalJVMArgs;
+      sbuf.append(" " + securityManagerDesignator);
+
+      // our client jar is an input param to jboss-module
+      final File f = new File(JBossWSTestHelper.getTestArchiveDir(), CLIENT_JAR);
+      sbuf.append(" -jar " + f.getAbsolutePath());
+
+      // input args to our client.jar main
+      sbuf.append(" " + wsdlAddress + " " + threadPoolSize + " " + invocations);
+
+      final String command = sbuf.toString();
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       executeCommand(command, bout);
       StringTokenizer st = new StringTokenizer(readFirstLine(bout), " ");
@@ -156,7 +182,7 @@ public class ClientBusStrategyTestCase extends JBossWSTest
       }
       return list;
    }
-   
+
    private static String readFirstLine(ByteArrayOutputStream bout) throws IOException {
       bout.flush();
       final byte[] bytes = bout.toByteArray();

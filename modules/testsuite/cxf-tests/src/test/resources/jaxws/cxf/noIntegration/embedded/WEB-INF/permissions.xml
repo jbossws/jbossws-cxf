@@ -58,4 +58,8 @@
          <name>&lt;&lt;ALL FILES&gt;&gt;</name>
          <actions>read,write,delete</actions>
      </permission>
+    <permission>
+        <class-name>java.util.logging.LoggingPermission</class-name>
+        <name>control</name>
+    </permission>
 </permissions>

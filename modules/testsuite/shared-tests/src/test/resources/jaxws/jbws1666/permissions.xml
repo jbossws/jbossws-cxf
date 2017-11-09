@@ -4,47 +4,50 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/permissions_7.xsd"
              version="7">
+
+    <!-- These are all permissions that must be granted to the apache
+         code that the client jar is using.
+    -->
+    <permission>
+        <class-name>java.lang.RuntimePermission</class-name>
+        <name>org.apache.cxf.permission</name>
+    </permission>
     <permission>
         <class-name>java.lang.RuntimePermission</class-name>
         <name>getClassLoader</name>
-    </permission>
-    <permission>
-        <class-name>java.util.PropertyPermission</class-name>
-        <name>user.dir</name>
-        <actions>read</actions>
     </permission>
     <permission>
         <class-name>java.lang.RuntimePermission</class-name>
         <name>createClassLoader</name>
     </permission>
     <permission>
-        <class-name>java.lang.RuntimePermission</class-name>
-        <name>org.apache.cxf.permission</name>
-        <actions>resolveUri</actions>
+        <class-name>javax.security.auth.AuthPermission</class-name>
+        <name>getPolicy</name>
     </permission>
-
+    <!-- apache code performs many read actions that require property permissions.
+         Here is a typical list:
+            os.name
+            java.home
+            xml.catalog.files
+            xml.catalog.ignoreMissing
+            javax.xml.ws.spi.Provider
+         Rather than grant individual properties read permission, give blanket
+         permission for reading.
+     -->
     <permission>
         <class-name>java.util.PropertyPermission</class-name>
-        <name>jboss.bind.address</name>
+        <name>*</name>
         <actions>read</actions>
     </permission>
-    <permission>
-        <class-name>java.util.PropertyPermission</class-name>
-        <name>cxf.config.file</name>
-        <actions>read,write</actions>
-    </permission>
+
     <permission>
         <class-name>java.net.SocketPermission</class-name>
         <name>*</name>
         <actions>connect,resolve</actions>
     </permission>
     <permission>
-        <class-name>java.util.logging.LoggingPermission</class-name>
-        <name>control</name>
+        <class-name>java.net.URLPermission</class-name>
+        <name>http://*/jaxws-jbws1666</name>
+        <actions>GET</actions>
     </permission>
-     <permission>
-         <class-name>java.io.FilePermission</class-name>
-         <name>&lt;&lt;ALL FILES&gt;&gt;</name>
-         <actions>read,write,delete</actions>
-     </permission>
 </permissions>

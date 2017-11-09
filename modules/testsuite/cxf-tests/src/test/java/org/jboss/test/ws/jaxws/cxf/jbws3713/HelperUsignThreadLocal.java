@@ -21,7 +21,18 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3713;
 
+import org.apache.cxf.frontend.ClientProxy;
+import org.jboss.wsf.stack.cxf.client.Constants;
+import org.jboss.wsf.stack.cxf.client.UseNewBusFeature;
+import org.jboss.wsf.stack.cxf.client.UseTCCLBusFeature;
+import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+import javax.xml.ws.WebServiceFeature;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -31,15 +42,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceFeature;
-
-import org.apache.cxf.frontend.ClientProxy;
-import org.jboss.wsf.stack.cxf.client.Constants;
-import org.jboss.wsf.stack.cxf.client.UseNewBusFeature;
-import org.jboss.wsf.stack.cxf.client.UseTCCLBusFeature;
-import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 
 /**
  * A helper class creating a pool of JAXWS clients that invoke the test endpoint.
@@ -64,7 +66,18 @@ public class HelperUsignThreadLocal
          strategy = strategyName;
       } else {
          feature = null;
-         strategy = System.getProperty(Constants.JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY, null);
+         if (System.getSecurityManager() == null) {
+            strategy = System.getProperty(Constants.JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY, null);
+         } else {
+
+            strategy = AccessController.doPrivileged(new PrivilegedAction<String>() {
+               @Override
+               public String run() {
+                  return System.getProperty(Constants.JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY, null);
+               }
+            });
+
+         }
       }
       final BusCounter busCounter = new BusCounter();
       final ThreadLocal<HelloWs> port = createPortThreadLocal(wsdlURL, feature, busCounter);
