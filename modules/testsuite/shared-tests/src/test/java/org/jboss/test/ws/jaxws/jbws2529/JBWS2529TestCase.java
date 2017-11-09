@@ -37,6 +37,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.w3c.dom.Element;
+import org.jboss.wsf.test.JBossWSTestHelper;
+
 /** 
  * [JBWS-2529] Missing type in generated WSDL part definition
  * 
@@ -75,8 +77,20 @@ public class JBWS2529TestCase extends JBossWSTest
       File destDir = new File(TEST_DIR, "wsprovide" + FS + "java");
       String absOutput = destDir.getAbsolutePath();
       String command = JBOSS_HOME + FS + "bin" + FS + "wsprovide" + EXT + " -k -w -o " + absOutput + " --classpath " + CLASSES_DIR + " " + ENDPOINT_CLASS;
+
+      // wildfly9 security manager flag changed from -Djava.security.manager to -secmgr.
+      // Can't pass -secmgr arg through arquillian because it breaks arquillian's
+      // config of our tests.
+      // the -secmgr flag MUST be provided as an input arg to jboss-modules so it must
+      // come after the jboss-modules.jar ref.
+      String additionalJVMArgs = System.getProperty("additionalJvmArgs", "");
+      String securityManagerDesignator = additionalJVMArgs.replace("-Djava.security.manager", "-secmgr");
+
+      File policyFile = new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2529/jbws2529-security.policy");
+      String securityPolicyFile = " -Djava.security.policy=" + policyFile.getCanonicalPath();
+
       Map<String, String> env = new HashMap<>();
-      env.put("JAVA_OPTS", System.getProperty("additionalJvmArgs"));
+      env.put("JAVA_OPTS", securityManagerDesignator + securityPolicyFile);
       executeCommand(command, null, "wsprovide", env);
       
       File wsdl = new File(destDir, isIntegrationCXF() ? "JBWS2529EndpointService_schema1.xsd" : "JBWS2529EndpointService.wsdl");
