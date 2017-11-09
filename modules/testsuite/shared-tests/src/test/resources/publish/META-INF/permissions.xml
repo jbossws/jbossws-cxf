@@ -50,4 +50,8 @@
         <name>&lt;&lt;ALL FILES&gt;&gt;</name>
         <actions>read,write,delete</actions>
     </permission>
+    <permission>
+        <class-name>java.lang.reflect.ReflectPermission</class-name>
+        <name>suppressAccessChecks</name>
+    </permission>
 </permissions>

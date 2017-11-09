@@ -73,6 +73,7 @@ public class JBWS1666TestCase extends JBossWSTest
          .setManifest(new StringAsset("Manifest-Version: 1.0\n"
             + "Main-Class: org.jboss.test.ws.jaxws.jbws1666.TestClient\n"
             + "Dependencies: javax.jws.api,javax.xml.ws.api\n"))
+          .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1666/permissions.xml"), "permissions.xml")
          .addClass(org.jboss.test.ws.jaxws.jbws1666.TestClient.class)
          .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpoint.class);
       JBossWSTestHelper.writeToFile(archive);
@@ -86,6 +87,7 @@ public class JBWS1666TestCase extends JBossWSTest
          .setManifest(new StringAsset("Manifest-Version: 1.0\n"
             + "Main-Class: org.jboss.test.ws.jaxws.jbws1666.TestClient\n"
             + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client\n"))
+          .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1666/permissions.xml"), "permissions.xml")
          .addClass(org.jboss.test.ws.jaxws.jbws1666.TestClient.class)
          .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpoint.class);
       JBossWSTestHelper.writeToFile(archive);
@@ -115,28 +117,52 @@ public class JBWS1666TestCase extends JBossWSTest
       }
       runJBossModulesClient("jaxws-jbws1666-b-client.jar");
    }
-   
+
    private void runJBossModulesClient(String clientJar) throws Exception {
+
+      StringBuilder sbuf = new StringBuilder();
+
+      // java cmd
       File javaFile = new File (System.getProperty("java.home") + FS + "bin" + FS + "java");
       String javaCmd = javaFile.exists() ? javaFile.getCanonicalPath() : "java";
-      
+      sbuf.append(javaCmd);
+
+      //properties
+      sbuf.append(" -Dlog4j.output.dir=" + System.getProperty("log4j.output.dir"));
+
       final String jbh = System.getProperty("jboss.home");
       final String jbm = jbh + FS + "modules";
       final String jbmjar = jbh + FS + "jboss-modules.jar";
-      
-      final File f = new File(JBossWSTestHelper.getTestArchiveDir(), clientJar);
+      sbuf.append(" -jar " + jbmjar);
 
-      //java -jar $JBOSS_HOME/jboss-modules.jar -mp $JBOSS_HOME/modules -jar client.jar
+      // input arguments to jboss-module's main
+      sbuf.append(" -mp " + jbm);
+
+      // wildfly9 security manage flag changed from -Djava.security.manager to -secmgr.
+      // Can't pass -secmgr arg through arquillian because it breaks arquillian's
+      // config of our tests.
+      // the -secmgr flag MUST be provided as an input arg to jboss-modules so it must
+      // come after the jboss-modules.jar ref.
       String additionalJVMArgs = System.getProperty("additionalJvmArgs", "");
-      additionalJVMArgs = additionalJVMArgs.replace('\n', ' ');
-      String props = " " + additionalJVMArgs + " -Dlog4j.output.dir=" + System.getProperty("log4j.output.dir") + " -jar " + jbmjar + " -mp " + jbm; 
-      final String command = javaCmd + props + " -jar " + f.getAbsolutePath() + " " + getServerHost() + " " + getServerPort();
+      additionalJVMArgs =  additionalJVMArgs.replace('\n', ' ');
+      String securityManagerDesignator =
+          ("-Djava.security.manager".equals(additionalJVMArgs)) ? "-secmgr" : additionalJVMArgs;
+      sbuf.append(" " + securityManagerDesignator);
+
+      // our client jar is an input param to jboss-module
+      final File f = new File(JBossWSTestHelper.getTestArchiveDir(), clientJar);
+      sbuf.append(" -jar " + f.getAbsolutePath());
+
+      // input args to our client.jar main
+      sbuf.append(" " + getServerHost() + " " + getServerPort());
+
+      final String command = sbuf.toString();
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       executeCommand(command, bout);
       //check result (includes check on Provider impl, which might be affected by missing javax.xml.ws.api module dependency
       assertEquals(Provider.provider().getClass().getName() + ", " + TestClient.REQ_STR, readFirstLine(bout));
    }
-   
+
    private static String readFirstLine(ByteArrayOutputStream bout) throws IOException {
       bout.flush();
       final byte[] bytes = bout.toByteArray();

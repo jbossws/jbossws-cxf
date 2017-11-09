@@ -167,9 +167,20 @@ final class AppclientHelper
          final ProcessBuilder pb = new ProcessBuilder().command(args);
          // always propagate IPv6 related properties
          final StringBuilder javaOptsValue = new StringBuilder();
-         String additionalJVMArgs = System.getProperty("additionalJvmArgs");
+
+         // wildfly9 security manage flag changed from -Djava.security.manager to -secmgr.
+         // Can't pass -secmgr arg through arquillian because it breaks arquillian's
+         // config of our tests.
+         // the -secmgr flag MUST be provided as an input arg to jboss-modules so it must
+         // come after the jboss-modules.jar ref.
+         String additionalJVMArgs = System.getProperty("additionalJvmArgs", "");
          if (additionalJVMArgs != null) {
-            javaOptsValue.append(additionalJVMArgs).append(" ");
+
+            if ("-Djava.security.manager".equals(additionalJVMArgs)) {
+               System.setProperty("SECMGR", "true");
+               javaOptsValue.append("-Djava.security.policy="
+                + System.getProperty("securityPolicyfile", "")).append(" ");
+            }
          } else {
             javaOptsValue.append("-Djava.net.preferIPv4Stack=").append(System.getProperty("java.net.preferIPv4Stack", "true")).append(" ");
             javaOptsValue.append("-Djava.net.preferIPv6Addresses=").append(System.getProperty("java.net.preferIPv6Addresses", "false")).append(" ");
@@ -180,7 +191,9 @@ final class AppclientHelper
             javaOptsValue.append(appclientDebugOpts).append(" ");
          pb.environment().put("JAVA_OPTS", javaOptsValue.toString());
          System.out.println("JAVA_OPTS=\"" + javaOptsValue.toString() + "\"");
-         System.out.println("Starting " + appclientScript + " " + configArg + " " + appclientFullName + (appclientArgs == null ? "" :  " with args " + Arrays.asList(appclientArgs)));
+         System.out.println("Starting " + appclientScript + " " + configArg + " "
+             + appclientFullName + (appclientArgs == null ? "" :  " with args "
+             + Arrays.asList(appclientArgs)));
          ap.process = pb.start();
          // appclient out
          ap.outTask = new CopyJob(ap.process.getInputStream(), new TeeOutputStream(ap.output, logOutputStreams));
