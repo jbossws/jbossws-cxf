@@ -32,7 +32,7 @@
   <description>JBossWS CXF stack</description>
 
   
-  <version>5.2.0-SNAPSHOT</version>
+  <version>5.2.0.Final</version>
   
   <!-- Parent -->
   <parent>
@@ -46,7 +46,7 @@
     <connection>scm:git:https://github.com/jbossws/jbossws-cxf.git</connection>
     <developerConnection>scm:git:https://github.com/jbossws/jbossws-cxf.git</developerConnection>
     <url>https://github.com/jbossws/jbossws-cxf</url>
-    <tag>HEAD</tag>
+    <tag>jbossws-cxf-5.2.0.Final</tag>
   </scm>
   
   <!-- Modules -->
@@ -116,8 +116,8 @@
     <jaspi.api.version>1.0.0.Alpha1</jaspi.api.version>
     <jacc.api.version>1.0.0.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
-    <modular.jdk.args/>
-    <modular.jdk.props/>
+    <modular.jdk.args />
+    <modular.jdk.props />
   </properties>
 
   <!-- licenses -->
@@ -1412,7 +1412,7 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1000.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-        <additionalGroovyScriptSuffix></additionalGroovyScriptSuffix>
+        <additionalGroovyScriptSuffix />
       </properties>
       <modules>
         <module>modules/dist</module>
@@ -1431,7 +1431,7 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1010.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-        <additionalGroovyScriptSuffix></additionalGroovyScriptSuffix>
+        <additionalGroovyScriptSuffix />
       </properties>
       <modules>
         <module>modules/dist</module>
@@ -1450,7 +1450,7 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1100.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-        <additionalGroovyScriptSuffix></additionalGroovyScriptSuffix>
+        <additionalGroovyScriptSuffix />
       </properties>
       <modules>
         <module>modules/dist</module>
@@ -1469,7 +1469,7 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1110.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-        <additionalGroovyScriptSuffix></additionalGroovyScriptSuffix>
+        <additionalGroovyScriptSuffix />
       </properties>
       <modules>
         <module>modules/dist</module>
