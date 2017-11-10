@@ -48,9 +48,9 @@ The project is cleaned up as follows:
 
 Releases are performed using the Maven Release Plugin; no manual modification of artifact versions in pom.xml files is hence required. The release is tagged with the following command:
 
-> mvn -Pwildfly902 release:prepare
+> mvn -Pwildfly1000 release:prepare
 
-where 'wildfly902' is one of the supported target containers (preferably not the current WildFly master version).
+where 'wildfly1000' is one of the supported target containers (preferably not the current WildFly master version).
 
 The release tag can then be checked out, built and deployed to the nexus repository.
 To clean the release plugin data (in case of errors), run:
