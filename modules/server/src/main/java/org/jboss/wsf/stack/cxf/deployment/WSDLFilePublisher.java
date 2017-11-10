@@ -62,7 +62,6 @@ import org.jboss.logging.Logger;
  */
 public class WSDLFilePublisher extends AbstractWSDLFilePublisher
 {
-   private static final Object lock= new Object();
    private static final String[] wsdlLocationPrefixes = {"vfsfile:", "file:", "jar:", "vfszip:"};
    
    public WSDLFilePublisher(ArchiveDeployment dep)
@@ -119,58 +118,24 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
 
    public void unpublishWsdlFiles()
    {
-      String deploymentName = dep.getCanonicalName();
-
-      if (deploymentName.startsWith("http://"))
+      try
       {
-         deploymentName = deploymentName.replace("http://", "http-");
-      }
-
-      try {
-
-         File publishDir = new File(serverConfig.getServerDataDir().getCanonicalPath()
-             + "/wsdl/" + deploymentName);
-
-         File wsdlRoot = new File(serverConfig.getServerDataDir().getCanonicalPath()
-             + "/wsdl/");
-         String wsdlRootDirStr = wsdlRoot.getCanonicalPath();
-
-         if (publishDir.exists()) {
-
-            List<File> dirList = new ArrayList<>();
-            getWsdlDirList(publishDir, dirList);
-            dirList.add(publishDir);  // clean up contents in the parent
-
-            for (File dir : dirList) {
-               File[] wsdlFileList = dir.listFiles();
-               if (wsdlFileList != null) {
-                  for (int i = 0; i < wsdlFileList.length; i++) {
-                     File f = wsdlFileList[i];
-                     FileUtils.delete(f);
-                     if (f.exists()) {
-                        Loggers.DEPLOYMENT_LOGGER.couldNotDeleteWsdlFile(f.getAbsolutePath());
-                     } else {
-                        Loggers.DEPLOYMENT_LOGGER.deletedWsdlFile(f.getAbsolutePath());
-                     }
-                  }
-               }
-            }
-
-            synchronized(lock) {
-               File parent = publishDir;
-               while (!wsdlRootDirStr.equals(parent.getCanonicalPath())) {
-                  if (parent.exists()) {
-                     File[] files = parent.listFiles();
-                     if (files == null || files.length == 0) {
-                        FileUtils.delete(parent);
-                     }
-                  }
-                  parent = parent.getParentFile();
-               }
-            }
+         File parentDir = new File(serverConfig.getServerDataDir().getCanonicalPath() + "/wsdl");
+         ArchiveDeployment deployment = dep;
+         while (deployment.getParent() != null)
+         {
+            deployment = deployment.getParent();
          }
-
-      } catch (IOException e) {
+         String deploymentName = deployment.getCanonicalName();
+         if (deploymentName.startsWith("http://"))
+         {
+            deploymentName = deploymentName.replace("http://", "http-");
+         }
+         File targetDir = new File(parentDir, deploymentName);
+         FileUtils.removeDir(targetDir);
+      }
+      catch (IOException e)
+      {
          Loggers.DEPLOYMENT_LOGGER.couldNotCreateWsdlDataPath();
       }
    }
@@ -273,23 +238,6 @@ public class WSDLFilePublisher extends AbstractWSDLFilePublisher
       } else {
          //JBWS-3540
          return wsdlLocation.startsWith("vfs:") && wsdlLocation.contains("/") ? wsdlLocation.substring(0, wsdlLocation.lastIndexOf("/") + 1) : "";
-      }
-   }
-
-   /**
-    * Depth-first list of directories
-    * @param dir
-    * @param dirList
-    */
-   private void getWsdlDirList(File dir, List<File> dirList) {
-      File[] files = dir.listFiles();
-      if (files != null) {
-         for (int i = 0; i < files.length; i++) {
-            if (files[i].isDirectory()) {
-               getWsdlDirList(files[i], dirList);
-               dirList.add(files[i]);
-            }
-         }
       }
    }
 }
