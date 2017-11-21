@@ -56,8 +56,8 @@
       <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>testsuite-default</id>
@@ -66,14 +66,31 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>${basedir}/src/test/scripts/jbws-testsuite-shared-rest-default.groovy</source>
-                            <properties>
-                                <inputFile>${jboss.home}/standalone/configuration/standalone.xml</inputFile>
-                                <outputFile>${jboss.home}/standalone/configuration/jbws-testsuite-shared-rest-default.xml</outputFile>
-                                <serverLog>jbws-testsuite-shared-rest-default.log</serverLog>
-                                <keystorePath>${project.build.directory}/test-classes/test.keystore</keystorePath>
-                                <testResourcesDir>${project.build.directory}/test-resources</testResourcesDir>
-                            </properties>
+                          <scripts>
+                            <script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-rest-default.groovy</script>
+                          </scripts>
+                          <properties>
+                            <property>
+                              <name>inputFile</name>
+                              <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                            </property>
+                            <property>
+                              <name>outputFile</name>
+                              <value>${jboss.home}/standalone/configuration/jbws-testsuite-shared-rest-default.xml</value>
+                            </property>
+                            <property>
+                              <name>serverLog</name>
+                              <value>jbws-testsuite-shared-rest-default.log</value>
+                            </property>
+                            <property>
+                              <name>keystorePath</name>
+                              <value>${project.build.directory}/test-classes/test.keystore</value>
+                            </property>
+                            <property>
+                              <name>testResourcesDir</name>
+                              <value>${project.build.directory}/test-resources</value>
+                            </property>
+                          </properties>
                         </configuration>
                     </execution>
                 </executions>
