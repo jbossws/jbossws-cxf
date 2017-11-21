@@ -88,7 +88,7 @@
     <jaxb.api.version>1.0.0.Alpha1</jaxb.api.version>
     <jaxb.impl.version>2.3.0</jaxb.impl.version>
     <jaxws.api.version>2.0.4.Final</jaxws.api.version>
-    <jaxrs.api.version>1.0.1.Alpha1-jbosswscxf</jaxrs.api.version>
+    <jaxrs.api.version>1.0.0.Beta1-jbosswscxf-SNAPSHOT</jaxrs.api.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <commons-beanutils.version>1.9.2</commons-beanutils.version>
     <commons-collections.version>3.2.1</commons-collections.version>
@@ -989,7 +989,7 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.ws.rs</groupId>
-        <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+        <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
         <version>${jaxrs.api.version}</version>
       </dependency>
       <dependency>
