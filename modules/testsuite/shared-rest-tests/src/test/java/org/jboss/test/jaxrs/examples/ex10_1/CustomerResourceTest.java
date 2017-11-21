@@ -71,24 +71,31 @@ public class CustomerResourceTest extends JBossWSTest
    {
       URI uri = new URI(baseURL + "services/customers?start=0&size=5");
       Client client = ClientBuilder.newClient();
-      StringBuilder sb = new StringBuilder();
       try {
-         while (uri != null)
-         {
-            WebTarget target = client.target(uri);
-            String output = target.request().get(String.class);
-            sb.append(output);
-   
-            Customers customers = target.request().get(Customers.class);
-            uri = customers.getNext();
-         }
-         String s = sb.toString();
+         WebTarget target = client.target(uri);
+         String s = target.request().get(String.class);
+         
          Assert.assertTrue(s.contains("Bill"));
          Assert.assertTrue(s.contains("Joe"));
          Assert.assertTrue(s.contains("Monica"));
          Assert.assertTrue(s.contains("Steve"));
          Assert.assertTrue(s.contains("Rod"));
          Assert.assertFalse(s.contains("Bob"));
+         
+         Customers customers = target.request().get(Customers.class);
+         uri = customers.getNext();
+         target = client.target(uri);
+         s = target.request().get(String.class);
+         
+         Assert.assertFalse(s.contains("Bill"));
+         Assert.assertFalse(s.contains("Joe"));
+         Assert.assertFalse(s.contains("Monica"));
+         Assert.assertFalse(s.contains("Steve"));
+         Assert.assertFalse(s.contains("Rod"));
+         Assert.assertTrue(s.contains("Bob"));
+         
+         customers = target.request().get(Customers.class);
+         Assert.assertNull(customers.getNext());
       } finally {
          client.close();
       }
@@ -100,24 +107,43 @@ public class CustomerResourceTest extends JBossWSTest
    {
       URI uri = new URI(baseURL + "services/customers");
       Client client = ClientBuilder.newClient();
-      StringBuilder sb = new StringBuilder();
       try {
-         while (uri != null)
-         {
-            WebTarget target = client.target(uri);
-            String output = target.request().get(String.class);
-            sb.append(output);
-   
-            Customers customers = target.request().get(Customers.class);
-            uri = customers.getNext();
-         }
-         String s = sb.toString();
+         WebTarget target = client.target(uri);
+         String s = target.request().get(String.class);
+         
          Assert.assertTrue(s.contains("Bill"));
          Assert.assertTrue(s.contains("Joe"));
          Assert.assertFalse(s.contains("Monica"));
          Assert.assertFalse(s.contains("Steve"));
          Assert.assertFalse(s.contains("Rod"));
          Assert.assertFalse(s.contains("Bob"));
+         
+         Customers customers = target.request().get(Customers.class);
+         uri = customers.getNext();
+         target = client.target(uri);
+         s = target.request().get(String.class);
+         
+         Assert.assertFalse(s.contains("Bill"));
+         Assert.assertFalse(s.contains("Joe"));
+         Assert.assertTrue(s.contains("Monica"));
+         Assert.assertTrue(s.contains("Steve"));
+         Assert.assertFalse(s.contains("Rod"));
+         Assert.assertFalse(s.contains("Bob"));
+         
+         customers = target.request().get(Customers.class);
+         uri = customers.getNext();
+         target = client.target(uri);
+         s = target.request().get(String.class);
+         
+         Assert.assertFalse(s.contains("Bill"));
+         Assert.assertFalse(s.contains("Joe"));
+         Assert.assertFalse(s.contains("Monica"));
+         Assert.assertFalse(s.contains("Steve"));
+         Assert.assertTrue(s.contains("Rod"));
+         Assert.assertTrue(s.contains("Bob"));
+         
+         customers = target.request().get(Customers.class);
+         Assert.assertNull(customers.getNext());
       } finally {
          client.close();
       }
