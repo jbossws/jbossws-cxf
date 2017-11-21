@@ -140,8 +140,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       }
       ApplicationInfo providerApp = (ApplicationInfo)createSingletonInstance(appClazz, bus);
       Application app = providerApp.getProvider();
-      JAXRSServerFactoryBean bean = ResourceUtils.createApplication(app, md.isIgnoreApplicationPath(), false);
-      bean.setBus(bus);
+      JAXRSServerFactoryBean bean = ResourceUtils.createApplication(app, md.isIgnoreApplicationPath(), false, false, bus);
       bean.setApplicationInfo(providerApp);
       List<Class<?>> additionalResources = new ArrayList<>();
       if (app.getClasses().isEmpty() && app.getSingletons().isEmpty()) {
