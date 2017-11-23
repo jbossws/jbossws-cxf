@@ -37,7 +37,7 @@
         <module name="javax.wsdl4j.api" export="true"/>
         <!-- JBossWS API -->
         <module name="org.jboss.ws.api" export="true" />
-        <!--  JBossWS JAXWS & JAXRS client -->
+        <!--  JBossWS JAXWS & JAXRS clients -->
         <module name="org.jboss.ws.jaxws-client" export="true" services="export" />
         <module name="org.jboss.ws.jaxrs-client" export="true" services="export" />
         <module name="javax.xml.ws.api" export="true"/>

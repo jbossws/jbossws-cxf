@@ -61,6 +61,7 @@
         <module name="org.codehaus.woodstox" />
         <module name="org.joda.time" />
         <module name="org.opensaml" />
+        <module name="org.glassfish.javax.json" />
         <module name="org.apache.cxf" export="true">
           <imports>
             <include path="META-INF/cxf"/>

@@ -187,12 +187,22 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly1010-jaxrs-server-integration</artifactId>
+        <version>${jbossws.wildfly1010.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly1010-tests-integration</artifactId>
         <version>${jbossws.wildfly1010.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly1100-server-integration</artifactId>
+        <version>${jbossws.wildfly1100.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly1100-jaxrs-server-integration</artifactId>
         <version>${jbossws.wildfly1100.version}</version>
       </dependency>
       <dependency>
