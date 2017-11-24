@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module xmlns="urn:jboss:module:1.3" name="org.jboss.as.jaxrs">
+    <properties>
+        <property name="jboss.api" value="private"/>
+    </properties>
+
+    <exports>
+        <exclude path="org/jboss/as/jaxrs/logging"/>
+    </exports>
+
+    <resources>
+        <!-- Insert resources here -->
+    </resources>
+
+    <dependencies>
+        <module name="javax.api"/>
+        <module name="javax.enterprise.api"/>
+        <module name="javax.ws.rs.api"/>
+        <module name="javax.servlet.api"/>
+        <module name="org.jboss.as.controller"/>
+        <module name="org.jboss.as.ee"/>
+        <module name="org.jboss.ws.spi"/>
+        <module name="org.wildfly.security.elytron"/>
+        <module name="org.jboss.as.server"/>
+        <module name="org.jboss.as.web-common"/>
+        <module name="org.wildfly.extension.undertow"/>
+        <module name="io.undertow.servlet"/>
+        <module name="org.jboss.jandex"/>
+        <module name="org.jboss.metadata.common"/>
+        <module name="org.jboss.metadata.web"/>
+        <module name="org.jboss.modules"/>
+        <module name="org.jboss.msc"/>
+        <module name="org.jboss.logging"/>
+        <module name="org.jboss.staxmapper"/>
+        <module name="org.jboss.vfs"/>
+    </dependencies>
+</module>
