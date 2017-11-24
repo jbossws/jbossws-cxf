@@ -59,6 +59,8 @@ import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.jboss.wsf.stack.cxf.deployment.JNDIComponentResourceProvider;
 import org.jboss.wsf.stack.cxf.interceptor.JaxRsRequestInInterceptor;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+
 
 /**
  * A deployment aspect that creates the CXF Bus early and attaches it to the deployment
@@ -262,6 +264,7 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       //TODO: look at enable this with a flag?
       /*JacksonJsonProvider provider = new JacksonJsonProvider();
       bean.setProvider(provider);*/
+      bean.setProvider(new JacksonJaxbJsonProvider());
    }
 
    private static Object createSingletonInstance(Class<?> cls, Bus bus)
