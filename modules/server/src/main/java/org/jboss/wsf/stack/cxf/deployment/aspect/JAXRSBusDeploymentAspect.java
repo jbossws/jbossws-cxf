@@ -256,15 +256,15 @@ public class JAXRSBusDeploymentAspect extends AbstractDeploymentAspect
       //TODO: review this to see if it conflicts with JSONProvider and JacksonJsonProvider
       JsrJsonpProvider jsrJsonpProvider = new JsrJsonpProvider();
       bean.setProvider(jsrJsonpProvider);
-      //Add default Jettison provider
-      @SuppressWarnings("rawtypes")
-      JSONProvider jsonProvider = new JSONProvider();
-      jsonProvider.setDropRootElement(true);
-      bean.setProvider(jsonProvider);
+      bean.setProvider(new JacksonJaxbJsonProvider());
+//      //Add default Jettison provider
+//      @SuppressWarnings("rawtypes")
+//      JSONProvider jsonProvider = new JSONProvider();
+//      jsonProvider.setDropRootElement(true);
+//      bean.setProvider(jsonProvider);
       //TODO: look at enable this with a flag?
       /*JacksonJsonProvider provider = new JacksonJsonProvider();
       bean.setProvider(provider);*/
-      bean.setProvider(new JacksonJaxbJsonProvider());
    }
 
    private static Object createSingletonInstance(Class<?> cls, Bus bus)
