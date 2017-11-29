@@ -25,6 +25,7 @@ import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.RolesAllowed;
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
+import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -65,6 +66,12 @@ public class SecureEndpointImpl
    {
       log.info(input);
       return input;
+   }
+   
+   @Oneway
+   @WebMethod
+   public void helloOneWay(String input) {
+      log.info(input);
    }
    
    @RolesAllowed("friend")

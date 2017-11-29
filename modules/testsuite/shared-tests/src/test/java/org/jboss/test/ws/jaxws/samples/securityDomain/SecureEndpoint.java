@@ -21,6 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.securityDomain;
 
+import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -44,5 +45,9 @@ public interface SecureEndpoint
    @WebMethod
    @WebResult(targetNamespace = "http://org.jboss.ws/securityDomain", partName = "return")
    public String restrictedEcho(@WebParam(name = "arg0", partName = "arg0") String arg0);
+   
+   @Oneway
+   @WebMethod
+   public void helloOneWay(String input);
 
 }
