@@ -88,6 +88,7 @@
     <io.undertow.version>1.0.0.Beta33</io.undertow.version>
     <jaxb.api.version>1.0.4.Final</jaxb.api.version>
     <jaxb.impl.version>2.2.6</jaxb.impl.version>
+    <jacc.api.version>1.0.1.Final</jacc.api.version>
     <jaxrpc.api.version>1.0.1.Final</jaxrpc.api.version>
     <jaxws.api.version>2.0.2.Final</jaxws.api.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
@@ -908,6 +909,11 @@
         </exclusions>
       </dependency>
 
+      <dependency>
+        <groupId>org.jboss.spec.javax.security.jacc</groupId>
+        <artifactId>jboss-jacc-api_1.4_spec</artifactId>
+        <version>${jacc.api.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.xml.rpc</groupId>
         <artifactId>jboss-jaxrpc-api_1.1_spec</artifactId>

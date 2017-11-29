@@ -165,8 +165,6 @@ public abstract class BusHolder
       
       //[JBWS-3135] enable decoupled faultTo. This is an optional feature in cxf and we need this to be default to make it same behavior with native stack
       bus.setProperty("org.apache.cxf.ws.addressing.decoupled_fault_support", true);
-      
-      FeatureUtils.addFeatures(bus, bus, props);
    }
    
    

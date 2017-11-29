@@ -23,6 +23,8 @@ package org.jboss.wsf.stack.cxf.client.configuration;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 
 /**
  * 
@@ -117,4 +119,35 @@ class SecurityActions
       return AccessController.doPrivileged(action);
    }
 
+   /** 
+    * Load a class using the provided classloader
+    * 
+    * @param name
+    * @return
+    * @throws PrivilegedActionException
+    */
+   static Class<?> loadClass(final ClassLoader cl, final String name) throws PrivilegedActionException, ClassNotFoundException
+   {   
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {   
+         return cl.loadClass(name);
+      }   
+      else
+      {   
+         return AccessController.doPrivileged(new PrivilegedExceptionAction<Class<?>>() {
+            public Class<?> run() throws PrivilegedActionException
+            {   
+               try 
+               {   
+                  return cl.loadClass(name);
+               }   
+               catch (Exception e)
+               {   
+                  throw new PrivilegedActionException(e);
+               }   
+            }   
+         }); 
+      }   
+   }   
 }
