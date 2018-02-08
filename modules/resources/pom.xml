@@ -73,12 +73,12 @@
             </configuration>
           </execution>
           <execution>
-            <id>wildfly1110</id>
+            <id>wildfly1200</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>
             <configuration>
-              <classifier>wildfly1110</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly1110/jbossws.beans</classesDirectory>
+              <classifier>wildfly1200</classifier>
+              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly1200/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
         </executions>

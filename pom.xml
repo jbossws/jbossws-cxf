@@ -72,7 +72,7 @@
     <wildfly1000.version>10.0.0.Final</wildfly1000.version>
     <wildfly1010.version>10.1.0.Final</wildfly1010.version>
     <wildfly1100.version>11.0.0.Final</wildfly1100.version>
-    <wildfly1110.version>11.1.0.Beta1-SNAPSHOT</wildfly1110.version>
+    <wildfly1200.version>12.0.0.Alpha1-SNAPSHOT</wildfly1200.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
     <cxf.version>3.2.2</cxf.version>
     <cxf.asm.version>5.2</cxf.asm.version>
@@ -186,7 +186,7 @@
       <dependency>
         <groupId>org.wildfly</groupId>
         <artifactId>wildfly-webservices-tests-integration</artifactId>
-        <version>${wildfly1110.version}</version>
+        <version>${wildfly1200.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
@@ -1459,15 +1459,15 @@
     </profile>
 
     <!--
-    Name:  wildfly1110
-    Descr: WildFly-11.1.0 specific options
+    Name:  wildfly1200
+    Descr: WildFly-12.0.0 specific options
     -->
     <profile>
-      <id>wildfly1110</id>
+      <id>wildfly1200</id>
       <properties>
-        <jbossws.integration.target>wildfly1110</jbossws.integration.target>
+        <jbossws.integration.target>wildfly1200</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly1110.version}</jboss.version>
+        <jboss.version>${wildfly1200.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
         <additionalGroovyScriptSuffix />
       </properties>

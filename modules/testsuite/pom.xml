@@ -756,10 +756,10 @@
     </profile>
 
     <!--
-    Descr: WildFly-11.1.0 specific options
+    Descr: WildFly-12.0.0 specific options
     -->
     <profile>
-      <id>wildfly1110</id>
+      <id>wildfly1200</id>
       <properties>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>

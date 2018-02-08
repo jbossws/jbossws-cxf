@@ -267,17 +267,17 @@
     </profile>
 
     <!--
-    Name:  wildfly1110
-    Descr: WildFly-11.1.0 specific dependencies
+    Name:  wildfly1200
+    Descr: WildFly-12.0.0 specific dependencies
     -->
     <profile>
-      <id>wildfly1110</id>
+      <id>wildfly1200</id>
       <dependencies>
         <dependency>
           <groupId>org.jboss.ws.cxf</groupId>
           <artifactId>jbossws-cxf-resources</artifactId>
           <version>${project.version}</version>
-          <classifier>wildfly1110</classifier>     
+          <classifier>wildfly1200</classifier>     
           <scope>provided</scope>
         </dependency>
       </dependencies>
