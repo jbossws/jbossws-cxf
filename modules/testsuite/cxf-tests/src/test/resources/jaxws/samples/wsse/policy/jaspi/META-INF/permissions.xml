@@ -50,4 +50,8 @@
          <name>&lt;&lt;ALL FILES&gt;&gt;</name>
          <actions>read</actions>
      </permission>
+    <permission>
+        <class-name>java.lang.RuntimePermission</class-name>
+        <name>org.jboss.security.plugins.ClassLoaderLocatorFactory.get</name>
+    </permission>
 </permissions>
