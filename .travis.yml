@@ -1,6 +1,6 @@
 install: true
 script:
-  - mvn -s .travis-settings.xml -B -fae -DSECMGR=$SECURITY_MGR -P$SERVER_VERSION integration-test
+  - mvn -s .travis-settings.xml -B -V -fae -DSECMGR=$SECURITY_MGR -P$SERVER_VERSION integration-test
 
 language: java
 jdk:
