@@ -1,6 +1,6 @@
 install: true
 script:
-  - mvn -s .travis-settings.xml -B -fae -DSECMGR=$SECURITY_MGR -P$SERVER_VERSION integration-test
+  - mvn -s .travis-settings.xml -B -V -fae -DSECMGR=$SECURITY_MGR -P$SERVER_VERSION integration-test
 
 language: java
 jdk:
@@ -27,5 +27,3 @@ addons:
   apt:
     packages:
       - oracle-java8-installer
-before_install:
-  - "if [ -d \"$JAVA_HOME/jre\" ]; then SEC_LIB=$JAVA_HOME/jre; else SEC_LIB=$JAVA_HOME; fi; sudo unzip -j -o  travis-libs/jce_policy-8.zip *.jar -d $SEC_LIB/lib/security;"
