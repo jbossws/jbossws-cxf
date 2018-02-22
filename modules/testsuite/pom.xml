@@ -324,7 +324,7 @@
               <goal>test</goal>
             </goals>
             <configuration>
-              <forkMode>pertest</forkMode>
+              <reuseForks>false</reuseForks>
               <skip>false</skip>
               <includes>
                 <include>**/*TestCaseForked.java</include>
