@@ -1,6 +1,6 @@
 install: true
 script:
-  - mvn -s .travis-settings.xml -B -V -fae -DSECMGR=$SECURITY_MGR -Dserver.startup.timeout=360 -Dtest=WSSecurityPolicyExamples23xTestCase,SecureConversationTestCase -P$SERVER_VERSION integration-test
+  - mvn -s .travis-settings.xml -B -V -fae -DSECMGR=$SECURITY_MGR -Dserver.startup.timeout=360 -Dtest=samples/wsse/**/*TestCase -P$SERVER_VERSION integration-test
 
 language: java
 jdk:
