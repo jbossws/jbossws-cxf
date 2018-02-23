@@ -1,25 +1,25 @@
 install: true
 script:
-  - mvn -s .travis-settings.xml -B -V -fae -DSECMGR=$SECURITY_MGR -Dserver.startup.timeout=360 -Dtest=samples/**/*TestCase -P$SERVER_VERSION integration-test
+  - mvn -s .travis-settings.xml -B -V -fae -DSECMGR=$SECURITY_MGR -Dserver.startup.timeout=360 -P$SERVER_VERSION integration-test
 
 language: java
 jdk:
   - oraclejdk8
-  - oraclejdk9
+#  - oraclejdk9
 env:
   - SERVER_VERSION=wildfly1010 SECURITY_MGR=false
   - SERVER_VERSION=wildfly1000 SECURITY_MGR=false
   - SERVER_VERSION=wildfly1100 SECURITY_MGR=false
   - SERVER_VERSION=wildfly1100,secmgr SECURITY_MGR=true
 #  - SERVER_VERSION=wildfly1110 SECURITY_MGR=false
-matrix:
-  exclude:
-    - jdk: oraclejdk9
-      env: SERVER_VERSION=wildfly1010 SECURITY_MGR=false
-    - jdk: oraclejdk9
-      env: SERVER_VERSION=wildfly1000 SECURITY_MGR=false
-    - jdk: oraclejdk9
-      env: SERVER_VERSION=wildfly1110 SECURITY_MGR=false
+#matrix:
+#  exclude:
+#    - jdk: oraclejdk9
+#      env: SERVER_VERSION=wildfly1010 SECURITY_MGR=false
+#    - jdk: oraclejdk9
+#      env: SERVER_VERSION=wildfly1000 SECURITY_MGR=false
+#    - jdk: oraclejdk9
+#      env: SERVER_VERSION=wildfly1110 SECURITY_MGR=false
 cache:
  directories:
   - $HOME/.m2
