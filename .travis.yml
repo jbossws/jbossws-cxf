@@ -1,15 +1,26 @@
 install: true
 script:
-  - mvn -s .travis-settings.xml -B -fae -DSECMGR=$SECURITY_MGR -P$SERVER_VERSION integration-test
+  - travis-scripts/jbossws-test.sh $SERVER_VERSION $INSTALL_WFLY_MASTER $USE_NODEPLOY $SECURITY_MGR
 
 language: java
 jdk:
   - oraclejdk9
+
+      # SERVER_VERSION  : the profile to use for integration tests
+      # INSTALL_WFLY_MASTER : Clone and build wildfly master for use in
+      #                       testing.  [NOTE: it is recommended to use
+      #                       this only when org.wildfly:wildfly-dist:<VERSION>.zip
+      #                       is not available.
+      #           true :  clone and build wildfly master
+      #           false:  allow the testsuite to the wildfly-dist.zip file
+      # USE_NODEPLOY : tmp flag.  Will be removed in near future.
 env:
-  - SERVER_VERSION=wildfly1100 SECURITY_MGR=false
-  - SERVER_VERSION=wildfly1100,secmgr SECURITY_MGR=true
-  - SERVER_VERSION=wildfly1200 SECURITY_MGR=false
-  - SERVER_VERSION=wildfly1200,secmgr SECURITY_MGR=true
+  - SERVER_VERSION=wildfly1100 SECURITY_MGR=false INSTALL_WFLY_MASTER=false USE_NODEPLOY=false
+#  - SERVER_VERSION=wildfly1100,secmgr SECURITY_MGR=true INSTALL_WFLY_MASTER=false USE_NODEPLOY=false
+#  - SERVER_VERSION=wildfly1200 SECURITY_MGR=false INSTALL_WFLY_MASTER=false USE_NODEPLOY=false
+  - SERVER_VERSION=wildfly1200,secmgr SECURITY_MGR=true INSTALL_WFLY_MASTER=false USE_NODEPLOY=false
+  - SERVER_VERSION=wildfly1300 SECURITY_MGR=false INSTALL_WFLY_MASTER=true USE_NODEPLOY=false
+  - SERVER_VERSION=wildfly1300,secmgr SECURITY_MGR=true INSTALL_WFLY_MASTER=true USE_NODEPLOY=false
 cache:
  directories:
   - $HOME/.m2
