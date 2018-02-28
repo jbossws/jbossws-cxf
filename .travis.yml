@@ -29,4 +29,5 @@ addons:
       - oracle-java8-installer
 after_script:
 # - cat /home/travis/build/jbossws/jbossws-cxf/modules/testsuite/cxf-tests/target/test-server/jbossws-cxf-dist-5.2.1-SNAPSHOT/wildfly-11.0.0.Final/standalone/log/jbws-testsuite-default.log
- - cat /home/travis/build/jbossws/jbossws-cxf/modules/testsuite/cxf-tests/target/surefire-reports/TEST-org.jboss.test.ws.jaxws.samples.wsse.policy.secconv.SecureConversationTestCase.xml
+# - cat /home/travis/build/jbossws/jbossws-cxf/modules/testsuite/cxf-tests/target/surefire-reports/TEST-org.jboss.test.ws.jaxws.samples.wsse.policy.secconv.SecureConversationTestCase.xml
+ - for i in `find /home/travis/build/jbossws/jbossws-cxf -name "hs_*"`; do echo $i; cat $i; done;

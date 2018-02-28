@@ -46,6 +46,7 @@ import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -59,6 +60,7 @@ import org.junit.runner.RunWith;
  * @since 10-Sep-2012
  */
 @RunWith(Arquillian.class)
+@Ignore
 public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
 {
    private static final String DEPLOYMENT = "jaxws-samples-wsse-policy-oasis-23x";
