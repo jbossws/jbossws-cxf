@@ -1,16 +1,16 @@
 install: true
 script:
-  - mvn -s .travis-settings.xml -B -V -fae -DSECMGR=$SECURITY_MGR -Dserver.startup.timeout=360 -P$SERVER_VERSION integration-test
+  - mvn -s .travis-settings.xml -B -V -fae -DSECMGR=$SECURITY_MGR -Dserver.startup.timeout=360 -P$SERVER_VERSION -DnoLogRedirect integration-test
 
 language: java
 jdk:
   - oraclejdk8
 #  - oraclejdk9
 env:
-  - SERVER_VERSION=wildfly1010 SECURITY_MGR=false
-  - SERVER_VERSION=wildfly1000 SECURITY_MGR=false
+#  - SERVER_VERSION=wildfly1010 SECURITY_MGR=false
+#  - SERVER_VERSION=wildfly1000 SECURITY_MGR=false
   - SERVER_VERSION=wildfly1100 SECURITY_MGR=false
-  - SERVER_VERSION=wildfly1100,secmgr SECURITY_MGR=true
+#  - SERVER_VERSION=wildfly1100,secmgr SECURITY_MGR=true
 #  - SERVER_VERSION=wildfly1110 SECURITY_MGR=false
 #matrix:
 #  exclude:
@@ -27,3 +27,5 @@ addons:
   apt:
     packages:
       - oracle-java8-installer
+after_script:
+ - cat /home/travis/build/jbossws/jbossws-cxf/modules/testsuite/cxf-tests/target/test-server/jbossws-cxf-dist-5.2.1-SNAPSHOT/wildfly-11.0.0.Final/standalone/log/jbws-testsuite-default.log
