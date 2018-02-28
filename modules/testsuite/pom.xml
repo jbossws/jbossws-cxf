@@ -268,7 +268,7 @@
           <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} ${ipVerArgs}</argLine>
           <skip>true</skip>
           <failIfNoTests>false</failIfNoTests>
-          <runOrder>alphabetical</runOrder>
+          <runOrder>reversealphabetical</runOrder>
         </configuration>
         <executions>
           <execution>
