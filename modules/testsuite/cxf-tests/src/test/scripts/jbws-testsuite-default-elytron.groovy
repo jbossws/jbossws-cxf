@@ -12,6 +12,17 @@ def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
 file.attributes()['path'] = serverLog
 
 /**
+ * Helper method to get subsystem element by xmlns prefix
+ */
+private getSubsystem(root, xmlnsPrefix) {
+  for (item in root.profile.subsystem) {
+    if (item.name().getNamespaceURI().startsWith(xmlnsPrefix)) {
+      return item;
+    }
+  }
+}
+
+/**
  * Add a security-domain block like this:
  *
  *        <subsystem xmlns="urn:wildfly:elytron:1.0">
@@ -19,27 +30,19 @@ file.attributes()['path'] = serverLog
  *                <security-domain name="JBossWS" default-realm="JBossWS" permission-mapper="login-permission-mapper" role-mapper="combined-role-mapper">
  *                   <realm name="JBossWS" role-decoder="groups-to-roles"/>
  *               </security-domain>
-  *                <security-domain name="ws-basic-domain" default-realm="ws-basic-domain" permission-mapper="login-permission-mapper" role-mapper="combined-role-mapper">
+ *               <security-domain name="ws-basic-domain" default-realm="ws-basic-domain" permission-mapper="login-permission-mapper" role-mapper="combined-role-mapper">
  *                   <realm name="ws-basic-domain" role-decoder="groups-to-roles"/>
  *               </security-domain>
  *           </security-domains>
  * 
  *
  */
-
-def subsystems = root.profile.subsystem
-def securitySubsystem = null
+def securitySubsystem =  getSubsystem(root, "urn:wildfly:elytron:")
 def securityDomains = null
-for (item in subsystems) {
-    if (item.name().getNamespaceURI().contains("urn:wildfly:elytron:")) {
-       securitySubsystem = item
-       for (element in item) {
-           if (element.name().getLocalPart() == 'security-domains') {
-              securityDomains = element
-           }
-       }
-       break
-    }
+for (element in securitySubsystem) {
+  if (element.name().getLocalPart() == 'security-domains') {
+    securityDomains = element
+  }
 }
 def securityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','default-realm':'JBossWS','permission-mapper':'default-permission-mapper'])
 def realm = securityDomain.appendNode('realm',['name':'JBossWS','role-decoder':'groups-to-roles'])
@@ -75,6 +78,7 @@ def jaasJBossWDigestRealm = legacyDigestDomain.appendNode('realm',['name':'JAASJ
  *
  */
 def securityRealms = root.profile.subsystem.'security-realms'[0]
+
 def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS'])
 def usersProperties = propertiesRealm.appendNode('users-properties',['path':usersPropFile, 'plain-text':'true'])
 def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':rolesPropFile])
@@ -147,9 +151,7 @@ def digestMechanismRealm = digestMechanism.appendNode('mechanism-realm',['realm-
  *           </application-security-domains>
  */
 //add this to ejb
-def ejbns = new groovy.xml.Namespace('urn:jboss:domain:ejb3:5.0')
-def wflyns = new groovy.xml.Namespace('urn:jboss:domain:5.0')
-def ejbSubsystem = root[wflyns.profile][ejbns.subsystem][0]
+def ejbSubsystem = getSubsystem(root, "urn:jboss:domain:ejb3:")
 
 //TODO: is there better create node as sibling in groovy
 def ejbChildren = ejbSubsystem.children()
@@ -162,8 +164,7 @@ def ejbSecurityDomain3 = appSecurityDomains.appendNode('application-security-dom
 def ejbSecurityDomain4 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSDigest','security-domain':'JBossWSDigest'])
 
 //add to undertow
-def undertowns = new groovy.xml.Namespace('urn:jboss:domain:undertow:4.0')
-def undertowSubsystem = root[wflyns.profile][undertowns.subsystem][0]
+def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")
 
 //TODO: is there better create node as sibling in groovy
 def undertowChildren = undertowSubsystem.children()
@@ -176,15 +177,10 @@ def digestAppSecurityDomain = undertowAppSecurityDomains.appendNode('application
 
 
 //Add jaas picketbox security domain
-for (item in subsystems) {
-    if (item.name().getNamespaceURI().contains("urn:jboss:domain:security:")) {
-       for (element in item) {
-           if (element.name().getLocalPart() == 'security-domains') {
-              securityDomains = element
-           }
-       }
-       break
-    }
+for (element in getSubsystem(root, "urn:jboss:domain:security:")) {
+   if (element.name().getLocalPart() == 'security-domains') {
+      securityDomains = element
+   }
 }
 /**
  * Add a security-domain block like this:

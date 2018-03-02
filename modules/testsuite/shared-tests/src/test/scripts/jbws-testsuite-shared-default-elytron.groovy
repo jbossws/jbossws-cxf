@@ -10,23 +10,26 @@ if (!session.userProperties['enableServerLoggingToConsole'] && !project.properti
 def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
 file.attributes()['path'] = serverLog
 
+/**
+ * Helper method to get subsystem element by xmlns prefix
+ */
+private getSubsystem(root, xmlnsPrefix) {
+  for (item in root.profile.subsystem) {
+    if (item.name().getNamespaceURI().startsWith(xmlnsPrefix)) {
+      return item;
+    }
+  }
+}
 
 /**
   Elytron security domian
 **/
-def subsystems = root.profile.subsystem
-def securitySubsystem = null;
+def securitySubsystem =  getSubsystem(root, "urn:wildfly:elytron:")
 def securityDomains = null
-for (item in subsystems) {
-    if (item.name().getNamespaceURI().contains("urn:wildfly:elytron:")) {
-       securitySubsystem = item;
-       for (element in item) {
-           if (element.name().getLocalPart() == 'security-domains') {
-              securityDomains = element
-           }
-       }
-       break
-    }
+for (element in securitySubsystem) {
+  if (element.name().getLocalPart() == 'security-domains') {
+    securityDomains = element
+  }
 }
 def securityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','default-realm':'JBossWS','permission-mapper':'default-permission-mapper'])
 def realm = securityDomain.appendNode('realm',['name':'JBossWS','role-decoder':'groups-to-roles'])
@@ -49,7 +52,7 @@ def realm4 = securityDomain4.appendNode('realm',['name':'JBossWSSecurityDomainTe
 def securityRealms = root.profile.subsystem.'security-realms'[0]
 def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS'])
 def usersProperties = propertiesRealm.appendNode('users-properties',['path':usersPropFile, 'plain-text':'true'])
-def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':rolesPropFile']])
+def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':rolesPropFile])
 
 
 def propertiesRealm2 = securityRealms.appendNode('properties-realm', ['name':'handlerauth-security-domain'])
@@ -103,10 +106,7 @@ def mechanismRealm4=mechanism4.appendNode('mechanism-realm',['realm-name':'JBoss
 
 
 //add this to ejb
-def ejbns = new groovy.xml.Namespace('urn:jboss:domain:ejb3:5.0')
-def wflyns = new groovy.xml.Namespace('urn:jboss:domain:5.0')
-def ejbSubsystem = root[wflyns.profile][ejbns.subsystem][0]
-
+def ejbSubsystem = getSubsystem(root, "urn:jboss:domain:ejb3:")
 
 //TODO: is there better create node as sibling in groovy
 def ejbChildren = ejbSubsystem.children()
@@ -119,8 +119,7 @@ def ejbSecurityDomain3 = appSecurityDomains.appendNode('application-security-dom
 def ejbSecurityDomain4 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainTest','security-domain':'JBossWSSecurityDomainTest'])
 
 //add to undertow
-def undertowns = new groovy.xml.Namespace('urn:jboss:domain:undertow:4.0')
-def undertowSubsystem = root[wflyns.profile][undertowns.subsystem][0]
+def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")
 
 //TODO: is there better create node as sibling in groovy
 def undertowChildren = undertowSubsystem.children()
