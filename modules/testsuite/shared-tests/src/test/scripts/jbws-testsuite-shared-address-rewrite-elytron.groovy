@@ -12,6 +12,17 @@ file.attributes()['path'] = serverLog
 
 
 /**
+ * Helper method to get subsystem element by xmlns prefix
+ */
+private getSubsystem(root, xmlnsPrefix) {
+  for (item in root.profile.subsystem) {
+    if (item.name().getNamespaceURI().startsWith(xmlnsPrefix)) {
+      return item;
+    }
+  }
+}
+
+/**
  * Add a security-domain block like this:
  *
  *        <subsystem xmlns="urn:wildfly:elytron:1.0">
@@ -23,19 +34,12 @@ file.attributes()['path'] = serverLog
  * 
  *
  */
-def subsystems = root.profile.subsystem
-def securitySubsystem = null
+def securitySubsystem =  getSubsystem(root, "urn:wildfly:elytron:")
 def securityDomains = null
-for (item in subsystems) {
-    if (item.name().getNamespaceURI().contains("urn:wildfly:elytron:")) {
-       securitySubsystem = item
-       for (element in item) {
-           if (element.name().getLocalPart() == 'security-domains') {
-              securityDomains = element
-           }
-       }
-       break
-    }
+for (element in securitySubsystem) {
+  if (element.name().getLocalPart() == 'security-domains') {
+    securityDomains = element
+  }
 }
 def securityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','default-realm':'JBossWS','permission-mapper':'default-permission-mapper'])
 def realm = securityDomain.appendNode('realm',['name':'JBossWS','role-decoder':'groups-to-roles'])

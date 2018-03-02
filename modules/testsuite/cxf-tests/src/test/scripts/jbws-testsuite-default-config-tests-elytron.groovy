@@ -9,6 +9,18 @@ def consoleHandler = logHandlers.find{it.@name == 'CONSOLE'}
 if (!session.userProperties['enableServerLoggingToConsole'] && !project.properties['enableServerLoggingToConsole']) logHandlers.remove(consoleHandler)
 def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
 file.attributes()['path'] = serverLog
+
+/**
+ * Helper method to get subsystem element by xmlns prefix
+ */
+private getSubsystem(root, xmlnsPrefix) {
+  for (item in root.profile.subsystem) {
+    if (item.name().getNamespaceURI().startsWith(xmlnsPrefix)) {
+      return item;
+    }
+  }
+}
+
 /**
  * Add a security-domain block like this:
  *
@@ -21,19 +33,12 @@ file.attributes()['path'] = serverLog
  * 
  *
  */
-def subsystems = root.profile.subsystem
-def securitySubsystem = null
+def securitySubsystem =  getSubsystem(root, "urn:wildfly:elytron:")
 def securityDomains = null
-for (item in subsystems) {
-    if (item.name().getNamespaceURI().contains("urn:wildfly:elytron:")) {
-       securitySubsystem = item
-       for (element in item) {
-           if (element.name().getLocalPart() == 'security-domains') {
-              securityDomains = element
-           }
-       }
-       break
-    }
+for (element in securitySubsystem) {
+  if (element.name().getLocalPart() == 'security-domains') {
+    securityDomains = element
+  }
 }
 def securityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','default-realm':'JBossWS','permission-mapper':'default-permission-mapper'])
 def realm = securityDomain.appendNode('realm',['name':'JBossWS','role-decoder':'groups-to-roles'])
@@ -71,9 +76,7 @@ def mechanismRealm=mechanism.appendNode('mechanism-realm',['realm-name':'JBossWS
 
 
 //add to undertow
-def wflyns = new groovy.xml.Namespace('urn:jboss:domain:5.0')
-def undertowns = new groovy.xml.Namespace('urn:jboss:domain:undertow:4.0')
-def undertowSubsystem = root[wflyns.profile][undertowns.subsystem][0]
+def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")
 
 //TODO: is there better create node as sibling in groovy
 def undertowChildren = undertowSubsystem.children()
