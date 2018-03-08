@@ -8,6 +8,8 @@ jdk:
 env:
   - SERVER_VERSION=wildfly1100 SECURITY_MGR=false
   - SERVER_VERSION=wildfly1100,secmgr SECURITY_MGR=true
+  - SERVER_VERSION=wildfly1200 SECURITY_MGR=false
+  - SERVER_VERSION=wildfly1200,secmgr SECURITY_MGR=true
 cache:
  directories:
   - $HOME/.m2
