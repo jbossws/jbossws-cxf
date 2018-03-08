@@ -66,13 +66,13 @@
     <jbossws.spi.version>3.2.0.Final</jbossws.spi.version>
     <jbossws.common.version>3.2.1-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.3.0.Final</jbossws.common.tools.version>
-    <jbossws.wildfly1000.version>5.1.4.Final</jbossws.wildfly1000.version>
     <jbossws.wildfly1010.version>5.2.0.Final</jbossws.wildfly1010.version>
     <jbossws.wildfly1100.version>5.2.0.Final</jbossws.wildfly1100.version>
-    <wildfly1000.version>10.0.0.Final</wildfly1000.version>
+    <jbossws.wildfly1200.version>5.2.1-SNAPSHOT</jbossws.wildfly1200.version>
     <wildfly1010.version>10.1.0.Final</wildfly1010.version>
     <wildfly1100.version>11.0.0.Final</wildfly1100.version>
-    <wildfly1200.version>12.0.0.Final-SNAPSHOT</wildfly1200.version>
+    <wildfly1200.version>12.0.0.Final</wildfly1200.version>
+    <wildfly1300.version>13.0.0.Alpha1-SNAPSHOT</wildfly1300.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
     <cxf.version>3.2.2</cxf.version>
     <cxf.asm.version>5.2</cxf.asm.version>
@@ -155,16 +155,6 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly1000-server-integration</artifactId>
-        <version>${jbossws.wildfly1000.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly1000-tests-integration</artifactId>
-        <version>${jbossws.wildfly1000.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly1010-server-integration</artifactId>
         <version>${jbossws.wildfly1010.version}</version>
       </dependency>
@@ -184,9 +174,19 @@
         <version>${jbossws.wildfly1100.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly1200-server-integration</artifactId>
+        <version>${jbossws.wildfly1200.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly1200-tests-integration</artifactId>
+        <version>${jbossws.wildfly1200.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.wildfly</groupId>
         <artifactId>wildfly-webservices-tests-integration</artifactId>
-        <version>${wildfly1200.version}</version>
+        <version>${wildfly1300.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
@@ -1402,25 +1402,6 @@
     </profile>
 
     <!--
-    Name:  wildfly1000
-    Descr: WildFly-10.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly1000</id>
-      <properties>
-        <jbossws.integration.target>wildfly1000</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly1000.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-        <additionalGroovyScriptSuffix />
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-
-    <!--
     Name:  wildfly1010
     Descr: WildFly-10.1.0 specific options
     -->
@@ -1468,6 +1449,25 @@
         <jbossws.integration.target>wildfly1200</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1200.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
+        <additionalGroovyScriptSuffix />
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+      </modules>
+    </profile>
+
+    <!--
+    Name:  wildfly1300
+    Descr: WildFly-13.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly1300</id>
+      <properties>
+        <jbossws.integration.target>wildfly1300</jbossws.integration.target>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly1300.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
         <additionalGroovyScriptSuffix />
       </properties>

@@ -57,7 +57,8 @@
         <module name="org.jboss.as.naming"/>
         <module name="org.jboss.as.network"/>
         <module name="org.jboss.as.security"/>
-        <module name="org.wildfly.security.manager"/>
+        <module name="org.wildfly.security.elytron-private"/>
+        <module name="org.wildfly.transaction.client"/>
         <module name="org.jboss.as.web-common"/>
         <module name="org.jboss.threads"/>
         <module name="org.jboss.modules"/>
@@ -69,5 +70,13 @@
         <module name="org.jboss.ws.spi" />
         <module name="org.picketbox" />
         <module name="org.wildfly.extension.undertow" />
+        <module name="io.undertow.core" />
+        <module name="io.undertow.servlet"/>
+        <!-- TODO WFLY-5966 validate the need for these and remove if not needed.
+             Prior to WFLY-5922 they were exported by javax.ejb.api. -->
+        <module name="javax.transaction.api"/>
+        <module name="javax.xml.rpc.api"/>
+        <module name="javax.rmi.api"/>
+        <module name="org.omg.api"/>
     </dependencies>
 </module>

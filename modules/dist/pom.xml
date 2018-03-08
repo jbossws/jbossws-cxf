@@ -201,28 +201,6 @@
     </profile>
     
     <!--
-    Name:  wildfly1000
-    Descr: WildFly-10.0.0 specific dependencies
-    -->
-    <profile>
-      <id>wildfly1000</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws.cxf</groupId>
-          <artifactId>jbossws-cxf-resources</artifactId>
-          <version>${project.version}</version>
-          <classifier>wildfly1000</classifier>     
-          <scope>provided</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-wildfly1000-server-integration</artifactId>
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-
-    <!--
     Name:  wildfly1010
     Descr: WildFly-10.1.0 specific dependencies
     -->
@@ -278,6 +256,28 @@
           <artifactId>jbossws-cxf-resources</artifactId>
           <version>${project.version}</version>
           <classifier>wildfly1200</classifier>     
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-wildfly1200-server-integration</artifactId>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!--
+    Name:  wildfly1300
+    Descr: WildFly-13.0.0 specific dependencies
+    -->
+    <profile>
+      <id>wildfly1300</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws.cxf</groupId>
+          <artifactId>jbossws-cxf-resources</artifactId>
+          <version>${project.version}</version>
+          <classifier>wildfly1300</classifier>     
           <scope>provided</scope>
         </dependency>
       </dependencies>
