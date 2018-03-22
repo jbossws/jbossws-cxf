@@ -32,25 +32,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import javax.tools.FileObject;
-import javax.tools.ForwardingJavaFileManager;
-import javax.tools.JavaFileManager;
-import javax.tools.JavaFileObject;
-import javax.tools.JavaFileObject.Kind;
-import javax.tools.SimpleJavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.StandardLocation;
-import javax.xml.ws.spi.Provider;
-
-import org.apache.cxf.common.util.Compiler;
 import org.apache.cxf.helpers.FileUtils;
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.tools.common.ToolConstants;
@@ -59,6 +46,7 @@ import org.apache.cxf.tools.wsdlto.WSDLToJava;
 import org.jboss.ws.api.tools.WSContractConsumer;
 import org.jboss.ws.common.utils.NullPrintStream;
 import org.jboss.wsf.stack.cxf.Messages;
+import org.jboss.logging.Logger;
 
 /**
  * A WSContractConsumer for CXF stack
@@ -68,6 +56,7 @@ import org.jboss.wsf.stack.cxf.Messages;
  */
 public class CXFConsumerImpl extends WSContractConsumer
 {
+   private static Logger log = Logger.getLogger(CXFConsumerImpl.class);
    private List<File> bindingFiles = null;
    private File catalog = null;
    private File clientJar = null;
@@ -303,13 +292,16 @@ public class CXFConsumerImpl extends WSContractConsumer
          }
          System.setProperty("java.class.path", javaCP.toString());
       }
-      
-      
+
       WSDLToJava w2j = new WSDLToJava(args.toArray(new String[0]));
       try
       {
          ToolContext ctx = new ToolContext();
-         ctx.put(ToolConstants.COMPILER, new JBossModulesAwareCompiler());
+         if (getJVMMajorVersion() > 8) {
+            ctx.put(ToolConstants.COMPILER, new Jdk9PlusJBossModulesAwareCompiler());
+         } else {
+            ctx.put(ToolConstants.COMPILER, new JBossModulesAwareCompiler());
+         }
          w2j.run(ctx, stream);
       }
       catch (Throwable t)
@@ -360,163 +352,18 @@ public class CXFConsumerImpl extends WSContractConsumer
          }
       }
    }
-   /**
-    * A CXF Compiler that installs a custom JavaFileManager to load JAXWS and JAXB apis from
-    * the proper JBoss module (the one providing the JAXWS SPI Provider) instead of from the
-    * JDK boot classpath.
-    */
-   private final class JBossModulesAwareCompiler extends Compiler
-   {
-      @Override
-      protected JavaFileManager wrapJavaFileManager(StandardJavaFileManager standardJavaFileManger)
-      {
-         return new CustomJavaFileManager(standardJavaFileManger);
-      }
-   }
 
-   final class CustomJavaFileManager extends ForwardingJavaFileManager<JavaFileManager>
-   {
-      private ClassLoader classLoader = new ClassLoader(Provider.provider().getClass().getClassLoader())
-      {
-         //just prevent the classloader from being Closeable, as URLClassloader implements Closeable since JDK 1.7 u12 b08
-      };
-
-      protected CustomJavaFileManager(JavaFileManager fileManager)
-      {
-         super(fileManager);
-      }
-
-      public ClassLoader getClassLoader(Location location)
-      {
-         //TODO evaluate replacing with return new DelegateClassLoader(super.getClassLoader(location), classLoader);
-         return classLoader;
-      }
-
-      @Override
-      public FileObject getFileForInput(Location location, String packageName, String relativeName) throws IOException
-      {
-         return super.getFileForInput(location, packageName, relativeName);
-      }
-
-      @Override
-      public String inferBinaryName(Location loc, JavaFileObject file)
-      {
-         String result;
-         if (file instanceof JavaFileObjectImpl)
-            result = file.getName();
-         else
-            result = super.inferBinaryName(loc, file);
-         return result;
-      }
-
-      @Override
-      public Iterable<JavaFileObject> list(Location location, String packageName, Set<Kind> kinds, boolean recurse)
-            throws IOException
-      {
-         Iterable<JavaFileObject> result = super.list(location, packageName, kinds, recurse);
-         List<JavaFileObject> files = new ArrayList<JavaFileObject>();
-         if (location == StandardLocation.PLATFORM_CLASS_PATH && kinds.contains(JavaFileObject.Kind.CLASS))
-         {
-            List<JavaFileObject> resultFiltered = new ArrayList<JavaFileObject>();
-            for (Iterator<JavaFileObject> it = result.iterator(); it.hasNext();)
-            {
-               final JavaFileObject obj = it.next();
-               final String objName = obj.getName();
-               Class<?> clazz = null;
-               final String className = getFullClassName(packageName, objName);
-               try
-               {
-                  clazz = classLoader.loadClass(className);
-               }
-               catch (Throwable t)
-               {
-                  //NOOP
-               }
-               boolean added = false;
-               if (clazz != null)
-               {
-                  ClassLoader loader = clazz.getClassLoader();
-                  if (loader != null)
-                  {
-                     files.add(new JavaFileObjectImpl(className, loader));
-                     added = true;
-                  }
-               }
-               if (!added)
-               {
-                  resultFiltered.add(obj);
-               }
-            }
-            for (JavaFileObject file : resultFiltered)
-            {
-               files.add(file);
-            }
+   public static int getJVMMajorVersion() {
+      try {
+         String vmVersionStr = System.getProperty("java.specification.version", null);
+         Matcher matcher = Pattern.compile("^(?:1\\.)?(\\d+)$").matcher(vmVersionStr); //match 1.<number> or <number>
+         if (matcher.find()) {
+            return Integer.valueOf(matcher.group(1));
+         } else {
+            throw new RuntimeException("Unknown version of jvm " + vmVersionStr);
          }
-         else
-         {
-            for (JavaFileObject file : result)
-            {
-               files.add(file);
-            }
-         }
-         return files;
-      }
-   }
-   
-   private static String getFullClassName(String packageName, String objName)
-   {
-      // * OpenJDK returns objName strings like:
-      // "/usr/java/java-1.6.0-openjdk-1.6.0.0.x86_64/lib/ct.sym(META-INF/sym/rt.jar/java/lang/AbstractMethodError.class)"
-      // * Oracle & IBM JDK return objName strings like:
-      // "AbstractMethodError.class"
-      // ... from either of those we need to get
-      // "java.lang.AbstractMethodError"
-      String cn = objName.substring(0, objName.indexOf(".class"));
-      int startIdx = Math.max(cn.lastIndexOf("."), cn.lastIndexOf("/"));
-      if (startIdx > 0)
-      {
-         cn = cn.substring(startIdx + 1);
-      }
-      // objName.substring(0, objName.length() - 6)
-      return packageName + "." + cn;
-   }
-
-   final class JavaFileObjectImpl extends SimpleJavaFileObject
-   {
-
-      private ClassLoader loader;
-
-      private final String key;
-
-      JavaFileObjectImpl(String fqClassName, ClassLoader loader)
-      {
-         super(toURI(fqClassName), JavaFileObject.Kind.CLASS);
-         this.loader = loader;
-         this.key = "/" + fqClassName.replace(".", "/") + ".class";
-      }
-
-      @Override
-      public InputStream openInputStream()
-      {
-         return loader.getResourceAsStream(key);
-      }
-
-      @Override
-      public OutputStream openOutputStream()
-      {
-         throw new UnsupportedOperationException();
-      }
-   }
-
-   static URI toURI(String name)
-   {
-      try
-      {
-         return new URI(name);
-      }
-      catch (URISyntaxException e)
-      {
-         throw new RuntimeException(e);
+      } catch (Exception e) {
+         return 8;
       }
    }
 }

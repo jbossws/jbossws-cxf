@@ -62,6 +62,7 @@
   
   <!-- Properties -->
   <properties>
+      <jboss.modules.version>1.7.0.Final</jboss.modules.version>
     <jbossws.api.version>1.1.1-SNAPSHOT</jbossws.api.version>
     <jbossws.spi.version>3.2.1-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>3.2.1-SNAPSHOT</jbossws.common.version>
@@ -133,6 +134,11 @@
     <dependencies>
       
       <!-- jbossws dependencies -->
+      <dependency>
+        <groupId>org.jboss.modules</groupId>
+        <artifactId>jboss-modules</artifactId>
+        <version>${jboss.modules.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-common</artifactId>
