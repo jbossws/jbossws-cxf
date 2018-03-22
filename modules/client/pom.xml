@@ -17,6 +17,10 @@
     
     <!-- jbossws dependencies -->
     <dependency>
+      <groupId>org.jboss.modules</groupId>
+      <artifactId>jboss-modules</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-api</artifactId>
     </dependency>
@@ -289,6 +293,9 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <failIfNoTests>false</failIfNoTests>
+          <classpathDependencyExcludes>
+            <classpathDependencyExclude>org.jboss.modules:jboss-modules</classpathDependencyExclude>
+          </classpathDependencyExcludes>
         </configuration>
       </plugin>
     </plugins>
