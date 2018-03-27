@@ -39,6 +39,7 @@
 
 # /modules/testsuite/cxf-tests/
 /modules/testsuite/cxf-tests/target
+/modules/testsuite/cxf-tests/lib
 
 # /modules/testsuite/framework-tests/
 /modules/testsuite/framework-tests/target

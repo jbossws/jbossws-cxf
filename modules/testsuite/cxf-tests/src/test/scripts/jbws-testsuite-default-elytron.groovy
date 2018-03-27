@@ -169,7 +169,7 @@ def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")
 //TODO: is there better create node as sibling in groovy
 def undertowChildren = undertowSubsystem.children()
 def undertowAppSecurityDomains = new groovy.util.Node(null, 'application-security-domains', [])
-undertowChildren.add(5, undertowAppSecurityDomains)
+undertowChildren.add(undertowAppSecurityDomains)
 
 def appSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
 def basicAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','http-authentication-factory':'ws-basic-domain'])
