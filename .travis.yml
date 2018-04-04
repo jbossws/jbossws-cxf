@@ -1,15 +1,16 @@
 install: true
 script:
-  - mvn -s .travis-settings.xml -B -fae -DSECMGR=$SECURITY_MGR -P$SERVER_VERSION integration-test
+  - travis-scripts/jbossws-test.sh $SERVER_VERSION $SECURITY_MGR $BUILD_WFLY_MASTER
 
 language: java
 jdk:
   - oraclejdk9
+
 env:
-  - SERVER_VERSION=wildfly1100 SECURITY_MGR=false
-  - SERVER_VERSION=wildfly1100,secmgr SECURITY_MGR=true
-  - SERVER_VERSION=wildfly1200 SECURITY_MGR=false
-  - SERVER_VERSION=wildfly1200,secmgr SECURITY_MGR=true
+  - SERVER_VERSION=wildfly1100,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=false
+  - SERVER_VERSION=wildfly1200 SECURITY_MGR=false BUILD_WFLY_MASTER=false
+  - SERVER_VERSION=wildfly1200,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=false
+  - SERVER_VERSION=wildfly1300,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=true
 cache:
  directories:
   - $HOME/.m2
