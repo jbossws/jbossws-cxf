@@ -12,9 +12,9 @@ language: java
 #  - oraclejdk10
 
 env:
-  - SERVER_VERSION=wildfly1100,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=false
   - SERVER_VERSION=wildfly1200 SECURITY_MGR=false BUILD_WFLY_MASTER=false
   - SERVER_VERSION=wildfly1200,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=false
+  - SERVER_VERSION=wildfly1300 SECURITY_MGR=false BUILD_WFLY_MASTER=true
   - SERVER_VERSION=wildfly1300,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=true
 cache:
  directories:
