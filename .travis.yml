@@ -3,6 +3,7 @@ install:
   - wget https://download.java.net/java/GA/jdk10/10/binaries/openjdk-10_linux-x64_bin.tar.gz
   - tar -xzf openjdk-10_linux-x64_bin.tar.gz
   - export JAVA_HOME=$(pwd)/jdk-10
+  - export PATH=$JAVA_HOME/bin:$PATH
 script:
   - travis-scripts/jbossws-test.sh $SERVER_VERSION $SECURITY_MGR $BUILD_WFLY_MASTER
 
