@@ -33,10 +33,10 @@ if [[ $USE_WFLY_MASTER = "true" ]]; then
   cd wildfly
 
   # compile in silence.  The bld output is too much for travis log
-  mvn --quiet clean install -DskipTests
+  mvn --quiet clean install -DskipTests -Denforcer.skip -Dcheckstyle.skip
 
   WFLY_TARGET=`pwd`"/dist/target/"
-  WFLY_HOME=$(find $WFLY_TARGET -name \wildfly\* -type d -maxdepth 1 -print | head -n1)
+  WFLY_HOME=$(find $WFLY_TARGET -maxdepth 1 -name \wildfly\* -type d -print | head -n1)
   D_SERVER_HOME="-Dserver.home="$WFLY_HOME
   cd $MYPWD
 fi
