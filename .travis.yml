@@ -4,7 +4,7 @@ script:
 
 language: java
 jdk:
-  - oraclejdk9
+  - oraclejdk10
 
 env:
   - SERVER_VERSION=wildfly1100,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=false
@@ -17,4 +17,4 @@ cache:
 addons:
   apt:
     packages:
-      - oracle-java9-installer
+      - oracle-java10-installer
