@@ -37,6 +37,7 @@
     <port-offset.shared-tests.default-config-tests>20000</port-offset.shared-tests.default-config-tests>
     <port-offset.shared-tests.address-rewrite>25000</port-offset.shared-tests.address-rewrite>
     <port-offset.perf-tests.jboss>30000</port-offset.perf-tests.jboss>
+    <securityManager/>
   </properties>
 
   <!-- Modules -->
@@ -496,7 +497,7 @@
         </property>
       </activation>
       <properties>
-        <jbossArguments>-b ${jboss.bind.address:127.0.0.1} -bunsecure=${jboss.bind.address:127.0.0.1} -bmanagement=${jboss.bind.address:127.0.0.1}</jbossArguments>
+        <jbossArguments>-b ${jboss.bind.address:127.0.0.1} -bunsecure=${jboss.bind.address:127.0.0.1} -bmanagement=${jboss.bind.address:127.0.0.1} ${securityManager}</jbossArguments>
       </properties>
     </profile>
     
@@ -867,6 +868,9 @@
           <name>secmgr</name>
         </property>
       </activation>
+      <properties>
+        <securityManager>-secmgr</securityManager>
+      </properties>
       <build>
         <plugins>
           <plugin>
