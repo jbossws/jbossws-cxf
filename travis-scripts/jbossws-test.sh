@@ -3,32 +3,26 @@
 set -ev
 
 
-# debug on non zero exit
-function finish {
-  if [[ $USE_WFLY_MASTER = "true" ]]; then
-     WFLY_TARGET=`pwd`"/wfly/wildfly/dist/target/"
-     WFLY_HOME=$(find $WFLY_TARGET -name \wildfly\* -type d -maxdepth 1 -print | head -n1)
-     echo "############ ERROR  dumping server.log #####################"
-     cat $WFLY_HOME"/standalone/log/server.log"
-  fi
-}
-
-trap finish EXIT
+# uncomment to debug on non zero exit; be sure to print the correct log file
+#function finish {
+#  if [[ $USE_WFLY_MASTER = "true" ]]; then
+#     WFLY_TARGET=`pwd`"/wfly/wildfly/dist/target/"
+#     WFLY_HOME=$(find $WFLY_TARGET -name \wildfly\* -type d -maxdepth 1 -print | head -n1)
+#     echo "############ ERROR  dumping server.log #####################"
+#     cat $WFLY_HOME"/standalone/log/server.log"
+#  fi
+#}
+#
+#trap finish EXIT
 
 
 SERVER_VERSION=$1
-USE_WFLY_MASTER=$2
-USE_NODEPLOY=$3
-SECURITY_MGR=$4
+SECURITY_MGR=$2
+USE_WFLY_MASTER=$3
 
 D_SERVER_HOME=""
-D_NODEPLOY=""
 
 if [[ $USE_WFLY_MASTER = "true" ]]; then
-
-if [[ $USE_NODEPLOY = "true" ]]; then
-   D_NODEPLOY="-Dnodeploy"
-fi
 
   MYPWD=`pwd`
 
@@ -47,4 +41,4 @@ fi
   cd $MYPWD
 fi
 
-mvn -s .travis-settings.xml -B -fae -DSECMGR=${SECURITY_MGR} ${D_NODEPLOY} -P${SERVER_VERSION} ${D_SERVER_HOME} integration-test
+mvn -s .travis-settings.xml -B -fae -DSECMGR=${SECURITY_MGR} -P${SERVER_VERSION} ${D_SERVER_HOME} integration-test
