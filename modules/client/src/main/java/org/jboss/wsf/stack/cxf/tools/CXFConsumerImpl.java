@@ -341,12 +341,9 @@ public class CXFConsumerImpl extends WSContractConsumer
             }))
             {
 
-               InputStream input;
-               OutputStream output;
-               try
+               try (InputStream input = new FileInputStream(file);
+                    OutputStream output = new FileOutputStream(new File(outputDir, file.getName())))
                {
-                  input = new FileInputStream(file);
-                  output = new FileOutputStream(new File(outputDir, file.getName()));
                   IOUtils.copy(input, output);
                }
                catch (FileNotFoundException e)
