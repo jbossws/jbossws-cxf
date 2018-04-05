@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -ev
-
+java -version
 
 # uncomment to debug on non zero exit; be sure to print the correct log file
 #function finish {
