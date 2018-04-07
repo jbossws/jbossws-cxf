@@ -38,7 +38,6 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.WebServiceFeature;
 
 import org.jboss.ws.api.tools.WSContractConsumer;
-import org.jboss.wsf.stack.cxf.tools.CXFConsumerImpl;
 import org.jboss.wsf.test.JBossWSTest;
 
 /**
@@ -221,18 +220,13 @@ public class WSConsumerPlugin extends JBossWSTest
       consumer.setGenerateSource(false);
       consumer.setNoCompile(false);
 
-      // JBoss Modules is required to run in JDK-9+.  This element of the smoke test does
-      // not run via wildfly's cmd-line script and does not have access to JBoss Module jar.
-      if (CXFConsumerImpl.getJVMMajorVersion() < 9)
-      {
-         consumeWSDL();
+      consumeWSDL();
 
-         packageDir = new File(sourceDir, "org/jboss/test/ws/tools/testGenerateSource2");
-         assertFalse("Package should not have been created!", packageDir.exists());
+      packageDir = new File(sourceDir, "org/jboss/test/ws/tools/testGenerateSource2");
+      assertFalse("Package should not have been created!", packageDir.exists());
 
-         File interfaceClass = new File(outputDirectory, "org/jboss/test/ws/tools/testGenerateSource2/EndpointInterface.class");
-         assertTrue("SEI not generated", interfaceClass.exists());
-      }
+      File interfaceClass = new File(outputDirectory, "org/jboss/test/ws/tools/testGenerateSource2/EndpointInterface.class");
+      assertTrue("SEI not generated", interfaceClass.exists());
    }
 
    /**
@@ -340,49 +334,44 @@ public class WSConsumerPlugin extends JBossWSTest
       consumer.setTarget("2.1");
       consumer.setNoCompile(false);
 
-      // JBoss Modules is required to run in JDK-9+.  This element of the smoke test does
-      // not run via wildfly's cmd-line script and does not have access to JBoss Module jar.
-      if (CXFConsumerImpl.getJVMMajorVersion() < 9)
+      consumeWSDL();
+      ClassLoader loader = getArtefactClassLoader();
+      Class<?> service = loader.loadClass("org.jboss.test.ws.tools.testTarget.TestService");
+
+      boolean featureSig = false;
+      for (Method m : service.getDeclaredMethods())
       {
-         consumeWSDL();
-         ClassLoader loader = getArtefactClassLoader();
-         Class<?> service = loader.loadClass("org.jboss.test.ws.tools.testTarget.TestService");
-
-         boolean featureSig = false;
-         for (Method m : service.getDeclaredMethods())
+         if (m.getName().equals("getEndpointInterfacePort"))
          {
-            if (m.getName().equals("getEndpointInterfacePort"))
+            for (Class<?> c : m.getParameterTypes())
             {
-               for (Class<?> c : m.getParameterTypes())
+               if (c.isArray() && c.getComponentType().equals(WebServiceFeature.class))
                {
-                  if (c.isArray() && c.getComponentType().equals(WebServiceFeature.class))
-                  {
-                     featureSig = true;
-                     break;
-                  }
-               }
-            }
-         }
-
-         assertTrue("JAX-WS 2.1 extensions not generated with 'target=2.1'", featureSig);
-
-         Class<?> sei = loader.loadClass("org.jboss.test.ws.tools.testTarget.EndpointInterface");
-         assertTrue("@XmlSeeAlso expected on SEI (types not referenced by the Port in the wsdl)", sei.isAnnotationPresent(XmlSeeAlso.class));
-
-         boolean featureConstructor = false;
-         for (Constructor<?> c : service.getConstructors())
-         {
-            for (Class<?> pt : c.getParameterTypes())
-            {
-               if (pt.isArray() && pt.getComponentType().equals(WebServiceFeature.class))
-               {
-                  featureConstructor = true;
+                  featureSig = true;
                   break;
                }
             }
          }
-         assertFalse("Found JAXWS 2.2 constructor", featureConstructor);
       }
+
+      assertTrue("JAX-WS 2.1 extensions not generated with 'target=2.1'", featureSig);
+
+      Class<?> sei = loader.loadClass("org.jboss.test.ws.tools.testTarget.EndpointInterface");
+      assertTrue("@XmlSeeAlso expected on SEI (types not referenced by the Port in the wsdl)", sei.isAnnotationPresent(XmlSeeAlso.class));
+
+      boolean featureConstructor = false;
+      for (Constructor<?> c : service.getConstructors())
+      {
+         for (Class<?> pt : c.getParameterTypes())
+         {
+            if (pt.isArray() && pt.getComponentType().equals(WebServiceFeature.class))
+            {
+               featureConstructor = true;
+               break;
+            }
+         }
+      }
+      assertFalse("Found JAXWS 2.2 constructor", featureConstructor);
    }
 
    /**
@@ -409,25 +398,20 @@ public class WSConsumerPlugin extends JBossWSTest
       consumer.setAdditionalHeaders(false);
       consumer.setNoCompile(false);
 
-      // JBoss Modules is required to run in JDK-9+.  This element of the smoke test does
-      // not run via wildfly's cmd-line script and does not have access to JBoss Module jar.
-      if (CXFConsumerImpl.getJVMMajorVersion() < 9)
-      {
-         consumeWSDL();
-         ClassLoader loader = getArtefactClassLoader();
-         Class<?> sei = loader.loadClass("org.jboss.test.ws.tools.testAdditionalHeaders1.EndpointInterface");
-         Method m = (sei.getMethods())[0];
-         assertEquals(1, m.getParameterTypes().length);
-         consumer.setOutputDirectory(outputDirectory);
-         consumer.setTargetPackage("org.jboss.test.ws.tools.testAdditionalHeaders2");
-         consumer.setAdditionalHeaders(true);
-         consumer.setNoCompile(false);
-         consumer.consume(getResourceFile("jaxws/smoke/tools/wsdl/TestServiceImplicitHeader.wsdl").getCanonicalPath());
-         loader = getArtefactClassLoader();
-         sei = loader.loadClass("org.jboss.test.ws.tools.testAdditionalHeaders2.EndpointInterface");
-         m = (sei.getMethods())[0];
-         assertEquals(2, m.getParameterTypes().length);
-      }
+      consumeWSDL();
+      ClassLoader loader = getArtefactClassLoader();
+      Class<?> sei = loader.loadClass("org.jboss.test.ws.tools.testAdditionalHeaders1.EndpointInterface");
+      Method m = (sei.getMethods())[0];
+      assertEquals(1, m.getParameterTypes().length);
+      consumer.setOutputDirectory(outputDirectory);
+      consumer.setTargetPackage("org.jboss.test.ws.tools.testAdditionalHeaders2");
+      consumer.setAdditionalHeaders(true);
+      consumer.setNoCompile(false);
+      consumer.consume(getResourceFile("jaxws/smoke/tools/wsdl/TestServiceImplicitHeader.wsdl").getCanonicalPath());
+      loader = getArtefactClassLoader();
+      sei = loader.loadClass("org.jboss.test.ws.tools.testAdditionalHeaders2.EndpointInterface");
+      m = (sei.getMethods())[0];
+      assertEquals(2, m.getParameterTypes().length);
    }
 
    private void consumeWSDL() throws Exception

@@ -248,4 +248,8 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = ERROR)
     @Message(id = 24110, value = "Unable to process handler element: %s")
     void unableToProcessHandlerElement(Element el, @Cause Throwable cause);
+    
+    @LogMessage(level = WARN)
+    @Message(id = 24111, value = "Could not load JBoss module for classloader %s")
+    void couldNotLoadJBossModuleForClassloader(String cl);
 }

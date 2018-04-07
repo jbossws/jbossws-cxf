@@ -22,10 +22,11 @@
 package org.jboss.wsf.stack.cxf.tools;
 
 import org.apache.cxf.common.util.Compiler;
-import org.jboss.logging.Logger;
 import org.jboss.modules.Module;
 import org.jboss.modules.ModuleLoadException;
 import org.jboss.modules.Resource;
+
+import org.jboss.wsf.stack.cxf.Loggers;
 
 import javax.tools.DiagnosticListener;
 import javax.tools.FileObject;
@@ -36,6 +37,8 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,13 +48,11 @@ import java.util.Set;
 
 /**
  * A CXF Compiler that installs a custom JavaFileManager to load apis from
- * the JBoss Module instead of from the JDK boot classpath.  This implemenation
+ * the JBoss Module instead of from the JDK boot classpath.  This implementation
  * addresses the needs of JDK-9 and later versions.
  */
 public final class Jdk9PlusJBossModulesAwareCompiler extends Compiler
 {
-   private static Logger log = Logger.getLogger(Jdk9PlusJBossModulesAwareCompiler.class);
-   private static final String FS = System.getProperty("file.separator");
 
    @Override
    public boolean compileFiles(String[] files)
@@ -81,8 +82,7 @@ public final class Jdk9PlusJBossModulesAwareCompiler extends Compiler
       try {
          fileManager.close();
       } catch (IOException e) {
-         System.err.print("[ERROR] IOException during compiling.");
-         e.printStackTrace();
+         throw new RuntimeException(e);
       }
       return ret;
    }
@@ -140,14 +140,16 @@ public final class Jdk9PlusJBossModulesAwareCompiler extends Compiler
 
          if (location == StandardLocation.CLASS_PATH && !result.iterator().hasNext()) {
             Module module = Module.forClassLoader(moduleclassLoader, true);
-            if (module == null) {
-               log.warn("JBoss Module for classLoader is not found.");
-            } else
+            if (module == null)
+            {
+               Loggers.ROOT_LOGGER.couldNotLoadJBossModuleForClassloader(moduleclassLoader.toString());
+            }
+            else
             {
                try
                {
                   // get all files that start with package name
-                  String pathName = packageName.replace(".", FS);
+                  String pathName = packageName.replace(".", File.separator);
                   Iterator<Resource> resIt = module.iterateResources(
                           new JBossModulePathFilter(pathName));
 
@@ -158,17 +160,19 @@ public final class Jdk9PlusJBossModulesAwareCompiler extends Compiler
                      int indx = n.lastIndexOf(".class");
                      if (indx > 0)
                      {
-                        String n1 = n.replace(FS, ".");
+                        String n1 = n.replace(File.separator, ".");
                         String clazzName = n1.substring(0, indx);
                         files.add(new JavaFileObjectImpl(clazzName, moduleclassLoader));
                      }
                   }
-               } catch (ModuleLoadException mle)
+               }
+               catch (ModuleLoadException mle)
                {
-                  // no-op
-               } catch (Exception e)
+                  Loggers.ROOT_LOGGER.debug("", mle);
+               }
+               catch (Exception e)
                {
-                  log.warn(e.getMessage());
+                  Loggers.ROOT_LOGGER.warn("", e);
                }
             }
          }

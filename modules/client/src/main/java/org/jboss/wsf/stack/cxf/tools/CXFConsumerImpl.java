@@ -46,7 +46,6 @@ import org.apache.cxf.tools.wsdlto.WSDLToJava;
 import org.jboss.ws.api.tools.WSContractConsumer;
 import org.jboss.ws.common.utils.NullPrintStream;
 import org.jboss.wsf.stack.cxf.Messages;
-import org.jboss.logging.Logger;
 
 /**
  * A WSContractConsumer for CXF stack
@@ -56,7 +55,6 @@ import org.jboss.logging.Logger;
  */
 public class CXFConsumerImpl extends WSContractConsumer
 {
-   private static Logger log = Logger.getLogger(CXFConsumerImpl.class);
    private List<File> bindingFiles = null;
    private File catalog = null;
    private File clientJar = null;
@@ -356,7 +354,7 @@ public class CXFConsumerImpl extends WSContractConsumer
       }
    }
 
-   public static int getJVMMajorVersion() {
+   private static int getJVMMajorVersion() {
       try {
          String vmVersionStr = System.getProperty("java.specification.version", null);
          Matcher matcher = Pattern.compile("^(?:1\\.)?(\\d+)$").matcher(vmVersionStr); //match 1.<number> or <number>
