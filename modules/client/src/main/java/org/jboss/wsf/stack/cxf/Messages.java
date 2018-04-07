@@ -222,7 +222,4 @@ public interface Messages {
 
     @Message(id = 24109, value = "Could not get WSDL contract for endpoint %s at %s")
     WSFException couldNotFetchWSDLContract(String endpoint, String wsdlLocation);
-
-    @Message(id = 24111, value = "Could not load modules %s")
-    String couldNotLoadModules(String msg);
 }
