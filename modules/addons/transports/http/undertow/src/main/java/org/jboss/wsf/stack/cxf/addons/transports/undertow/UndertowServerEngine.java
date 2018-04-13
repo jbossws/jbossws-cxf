@@ -26,17 +26,15 @@ import io.undertow.server.HttpHandler;
 import java.net.InetSocketAddress;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.common.logging.LogUtils;
 import org.jboss.ws.undertow_httpspi.PathUtils;
 import org.jboss.ws.undertow_httpspi.UndertowServer;
 
 /**
  * A server engine that internally uses Undertow
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  *
@@ -44,7 +42,7 @@ import org.jboss.ws.undertow_httpspi.UndertowServer;
 public class UndertowServerEngine
 {
    private static final RuntimePermission START_UNDERTOW_SERVER_ENGINE = new RuntimePermission("org.jboss.ws.START_UNDERTOW_SERVER_ENGINE");
-   private static final Logger LOG = LogUtils.getL7dLogger(UndertowServerEngine.class);
+   private static final Logger LOG = Logger.getLogger(UndertowServerEngine.class);
    private Bus bus;
    private UndertowServerEngineFactory factory;
    private String host;
@@ -103,7 +101,7 @@ public class UndertowServerEngine
          }
       }
       server.getPathHandler().addExactPath(PathUtils.getContextPath(address) + PathUtils.getPath(address), handler);
-      
+
       handlerCount++;
    }
 
@@ -126,7 +124,7 @@ public class UndertowServerEngine
 
    /**
     * This method will shut down the server engine and
-    * remove it from the factory's cache. 
+    * remove it from the factory's cache.
     */
    public synchronized void shutdown()
    {
@@ -136,7 +134,7 @@ public class UndertowServerEngine
       }
       else
       {
-         LOG.log(Level.WARNING, "FAILED_TO_SHUTDOWN_ENGINE_MSG", port);
+         LOG.warnv("Failed to shutdown Undertow server on port {0,number,####0} because it is still in use", port);
       }
    }
 }
