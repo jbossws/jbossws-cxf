@@ -25,8 +25,7 @@ import io.undertow.server.HttpServerExchange;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.common.logging.LogUtils;
@@ -41,7 +40,7 @@ import org.jboss.ws.undertow_httpspi.UndertowHttpExchange;
  * HTTP destination to be used with Undertow; this extends the
  * basic JAXWSHttpSpiDestination with all the mechanisms for properly
  * handling destination and factory life-cycles.
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  * @since 19-Aug-2010
@@ -49,7 +48,8 @@ import org.jboss.ws.undertow_httpspi.UndertowHttpExchange;
  */
 public class UndertowServerDestination extends JAXWSHttpSpiDestination
 {
-   static final Logger LOG = LogUtils.getL7dLogger(UndertowServerDestination.class);
+   private static final Logger LOG = Logger.getLogger(UndertowServerDestination.class);
+   private static final java.util.logging.Logger JAVA_LOG = LogUtils.getL7dLogger(UndertowServerDestination.class);
 
    private UndertowServerEngineFactory serverEngineFactory;
    private UndertowServerEngine engine;
@@ -64,9 +64,9 @@ public class UndertowServerDestination extends JAXWSHttpSpiDestination
    }
 
    @Override
-   protected Logger getLogger()
+   protected java.util.logging.Logger getLogger()
    {
-      return LOG;
+      return JAVA_LOG;
    }
 
    public void finalizeConfig()
@@ -89,7 +89,7 @@ public class UndertowServerDestination extends JAXWSHttpSpiDestination
                + engine.getProtocol() + "\" for \"" + url + "\"");
       }
    }
-   
+
    protected UndertowServerEngineFactory getServerEngineFactory()
    {
       UndertowServerEngineFactory serverEngineFactory = getBus().getExtension(UndertowServerEngineFactory.class);
@@ -108,7 +108,7 @@ public class UndertowServerDestination extends JAXWSHttpSpiDestination
     */
    protected void activate()
    {
-      LOG.log(Level.FINE, "Activating receipt of incoming messages");
+      LOG.debug("Activating receipt of incoming messages");
       String addr = endpointInfo.getAddress();
       try
       {
@@ -126,7 +126,7 @@ public class UndertowServerDestination extends JAXWSHttpSpiDestination
     */
    protected void deactivate()
    {
-      LOG.log(Level.FINE, "Deactivating receipt of incoming messages");
+      LOG.debug("Deactivating receipt of incoming messages");
       engine.removeHandler(endpointInfo.getAddress());
    }
 
@@ -153,7 +153,7 @@ public class UndertowServerDestination extends JAXWSHttpSpiDestination
          }
          catch (Exception e)
          {
-            LOG.throwing(Handler.class.getName(), "handle(" + HttpServerExchange.class.getName() + " ex)", e);
+            LOG.error(Handler.class.getName(), "handle(" + HttpServerExchange.class.getName() + " ex)", e);
             if (e instanceof IOException)
             {
                throw (IOException) e;
@@ -167,7 +167,7 @@ public class UndertowServerDestination extends JAXWSHttpSpiDestination
          {
             SecurityActions.setContextClassLoader(origClassLoader);
          }
-         
+
       }
    }
 
