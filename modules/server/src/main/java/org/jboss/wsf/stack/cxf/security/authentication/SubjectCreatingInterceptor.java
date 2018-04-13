@@ -26,13 +26,12 @@ import java.security.acl.Group;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import javax.security.auth.Subject;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.binding.soap.SoapMessage;
-import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.common.security.SecurityToken;
 import org.apache.cxf.common.security.UsernameToken;
 import org.apache.cxf.interceptor.Fault;
@@ -54,7 +53,7 @@ import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
 
 /**
  * Interceptor which authenticates a current principal and populates Subject
- * 
+ *
  * @author Sergey Beryozkin
  * @author alessio.soldano@jboss.com
  *
@@ -62,11 +61,11 @@ import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
 public class SubjectCreatingInterceptor extends WSS4JInInterceptor
 {
    protected final SubjectCreator helper = new SubjectCreator();
-  
-   private static final Logger LOG = LogUtils.getL7dLogger(SubjectCreatingInterceptor.class);
-   
+
+   private static final Logger LOG = Logger.getLogger(SubjectCreatingInterceptor.class);
+
    private final ThreadLocal<SecurityDomainContext> sdc = new ThreadLocal<SecurityDomainContext>();
-  
+
    private boolean supportDigestPasswords;
 
    public SubjectCreatingInterceptor()
@@ -103,10 +102,10 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
              return;
          }
          UsernameToken ut = (UsernameToken)token;
-         
+
          Subject subject = createSubject(ut.getName(), ut.getPassword(), ut.isHashed(),
                                          ut.getNonce(), ut.getCreatedTime());
-         
+
          SecurityContext sc = doCreateSecurityContext(context.getUserPrincipal(), subject);
          msg.put(SecurityContext.class, sc);
       }
@@ -118,7 +117,7 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
          }
       }
    }
-   
+
    protected SecurityContext createSecurityContext(final Principal p) {
        Message msg = PhaseInterceptorChain.getCurrentMessage();
        if (msg == null) {
@@ -126,21 +125,21 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
        }
        return doCreateSecurityContext(p, msg.get(Subject.class));
    }
-   
+
    /**
     * Creates default SecurityContext which implements isUserInRole using the
     * following approach : skip the first Subject principal, and then check optional
     * Groups the principal is a member of. Subclasses can override this method and implement
     * a custom strategy instead
-    *   
+    *
     * @param p principal
-    * @param subject subject 
+    * @param subject subject
     * @return security context
     */
    protected SecurityContext doCreateSecurityContext(final Principal p, final Subject subject) {
        return new DefaultSecurityContext(p, subject);
    }
-   
+
    protected void setSubject(String name, String password, boolean isDigest, String nonce, String created)
          throws WSSecurityException
    {
@@ -157,18 +156,18 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
       catch (Exception ex)
       {
          String errorMessage = "Failed Authentication : Subject has not been created";
-         LOG.severe(errorMessage);
+         LOG.error(errorMessage);
          throw new WSSecurityException(WSSecurityException.ErrorCode.FAILED_AUTHENTICATION);
       }
       if (subject == null || subject.getPrincipals().size() == 0 || !checkUserPrincipal(subject.getPrincipals(), name))
       {
          String errorMessage = "Failed Authentication : Invalid Subject";
-         LOG.severe(errorMessage);
+         LOG.error(errorMessage);
          throw new WSSecurityException(WSSecurityException.ErrorCode.FAILED_AUTHENTICATION);
       }
       msg.put(Subject.class, subject);
    }
-   
+
    private boolean checkUserPrincipal(Set<Principal> principals, String name)
    {
       for (Principal p : principals) {
@@ -179,17 +178,17 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
       return false;
    }
 
-   @Override 
+   @Override
    protected WSSecurityEngine getSecurityEngine(boolean utNoCallbacks) {
        Map<QName, Object> profiles = new HashMap<QName, Object>(1);
-       
+
        Validator validator = new CustomValidator();
        profiles.put(WSConstants.USERNAME_TOKEN, validator);
        return createSecurityEngine(profiles);
    }
-   
+
    protected class CustomValidator extends UsernameTokenValidator {
-       
+
        @Override
        protected void verifyCustomPassword(
            org.apache.wss4j.dom.message.token.UsernameToken usernameToken,
@@ -199,7 +198,7 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
                usernameToken.getName(), usernameToken.getPassword(), false, null, null
            );
        }
-       
+
        @Override
        protected void verifyPlaintextPassword(
            org.apache.wss4j.dom.message.token.UsernameToken usernameToken,
@@ -209,7 +208,7 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
                usernameToken.getName(), usernameToken.getPassword(), false, null, null
            );
        }
-       
+
        @Override
        protected void verifyDigestPassword(
            org.apache.wss4j.dom.message.token.UsernameToken usernameToken,
@@ -227,7 +226,7 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
                user, password, isHashed, nonce, createdTime
            );
        }
-       
+
        @Override
        protected void verifyUnknownPassword(
            org.apache.wss4j.dom.message.token.UsernameToken usernameToken,
@@ -237,7 +236,7 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
                usernameToken.getName(), null, false, null, null
            );
        }
-       
+
    }
 
    public Subject createSubject(String name, String password, boolean isDigest, String nonce, String created)

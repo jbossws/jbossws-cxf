@@ -34,8 +34,7 @@ import java.net.MulticastSocket;
 import java.net.NetworkInterface;
 import java.net.URI;
 import java.util.Enumeration;
-import java.util.logging.Logger;
-import java.util.logging.Level;
+import org.jboss.logging.Logger;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.common.logging.LogUtils;
@@ -50,14 +49,15 @@ import org.apache.cxf.ws.addressing.EndpointReferenceType;
  * A modified version of Apache CXF org.apache.cxf.transport.udp.UDPConduit
  * that does not rely on Apache Mina and directly uses basic java.io for
  * any type of datagram.
- * 
+ *
  * @author alessio.soldano@jboss.com
  */
 public class UDPConduit extends AbstractConduit
 {
    private static final String MULTI_RESPONSE_TIMEOUT = "udp.multi.response.timeout";
 
-   private static final Logger LOG = LogUtils.getL7dLogger(UDPDestination.class);
+   private static final Logger LOG = Logger.getLogger(UDPConduit.class);
+   private static final java.util.logging.Logger JAVA_LOG = LogUtils.getL7dLogger(UDPConduit.class);
 
    Bus bus;
 
@@ -166,7 +166,7 @@ public class UDPConduit extends AbstractConduit
                   catch (Exception e)
                   {
                      //ignore
-                     LOG.log(Level.FINEST, e.getMessage(), e);
+                     LOG.debug(e.getMessage(), e);
                   }
                }
             }
@@ -181,7 +181,7 @@ public class UDPConduit extends AbstractConduit
             catch (Exception e)
             {
                //ignore
-               LOG.log(Level.FINEST, e.getMessage(), e);
+               LOG.debug(e.getMessage(), e);
             }
          }
 
@@ -231,9 +231,10 @@ public class UDPConduit extends AbstractConduit
       }
    }
 
-   protected Logger getLogger()
+   @Override
+   protected java.util.logging.Logger getLogger()
    {
-      return LOG;
+      return JAVA_LOG;
    }
 
 }
