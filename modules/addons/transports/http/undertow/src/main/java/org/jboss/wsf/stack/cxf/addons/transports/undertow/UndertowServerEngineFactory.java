@@ -24,15 +24,13 @@ package org.jboss.wsf.stack.cxf.addons.transports.undertow;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import javax.annotation.Resource;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
-import org.apache.cxf.common.logging.LogUtils;
 
 /**
  * A server engine factory for the undertow engine
@@ -44,7 +42,7 @@ import org.apache.cxf.common.logging.LogUtils;
  */
 public class UndertowServerEngineFactory implements BusLifeCycleListener
 {
-   private static final Logger LOG = LogUtils.getL7dLogger(UndertowServerEngineFactory.class);
+   private static final Logger LOG = Logger.getLogger(UndertowServerEngineFactory.class);
    private static final Map<Integer, UndertowServerEngine> portMap = new HashMap<Integer, UndertowServerEngine>();
 
    private BusLifeCycleManager lifeCycleManager;
@@ -97,8 +95,9 @@ public class UndertowServerEngineFactory implements BusLifeCycleListener
    public synchronized UndertowServerEngine createHttpServerEngine(String host, int port, String protocol)
          throws IOException
    {
-      if (LOG.isLoggable(Level.FINE)) {
-         LOG.fine("Creating HttpServer Engine for port " + port + ".");
+      if (LOG.isDebugEnabled())
+      {
+         LOG.debug("Creating HttpServer Engine for port " + port + ".");
       }
       UndertowServerEngine ref = null;
       synchronized(portMap)
@@ -109,7 +108,7 @@ public class UndertowServerEngineFactory implements BusLifeCycleListener
             ref = new UndertowServerEngine(this, bus, host, port);
             portMap.put(port, ref);
          }
-         // checking the protocol    
+         // checking the protocol
          if (!protocol.equals(ref.getProtocol()))
          {
             throw new IOException("Protocol mismatch for port " + port + ": " + "engine's protocol is "
@@ -129,8 +128,9 @@ public class UndertowServerEngineFactory implements BusLifeCycleListener
          UndertowServerEngine ref = portMap.remove(port);
          if (ref != null)
          {
-            if (LOG.isLoggable(Level.FINE)) {
-               LOG.fine("Stopping HttpServer Engine on port " + port + ".");
+            if (LOG.isDebugEnabled())
+            {
+               LOG.debug("Stopping HttpServer Engine on port " + port + ".");
             }
             try
             {
@@ -138,7 +138,7 @@ public class UndertowServerEngineFactory implements BusLifeCycleListener
             }
             catch (Exception e)
             {
-               LOG.log(Level.WARNING, "", e);
+               LOG.warn("", e);
             }
          }
       }

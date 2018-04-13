@@ -27,12 +27,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.common.injection.NoJSR250Annotations;
-import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.transport.AbstractTransportFactory;
 import org.apache.cxf.transport.Conduit;
@@ -45,17 +43,17 @@ import org.apache.cxf.ws.addressing.EndpointReferenceType;
 @NoJSR250Annotations
 public class UDPTransportFactory extends AbstractTransportFactory
     implements DestinationFactory, ConduitInitiator {
-   
+
     public static final String TRANSPORT_ID = "http://cxf.apache.org/transports/udp";
-    public static final List<String> DEFAULT_NAMESPACES 
+    public static final List<String> DEFAULT_NAMESPACES
         = Arrays.asList(TRANSPORT_ID);
 
-    private static final Logger LOG = LogUtils.getL7dLogger(UDPTransportFactory.class);
+    private static final Logger LOG = Logger.getLogger(UDPTransportFactory.class);
     private static final Set<String> URI_PREFIXES = new HashSet<String>();
     static {
         URI_PREFIXES.add("udp://");
     }
-    
+
     private Set<String> uriPrefixes = new HashSet<String>(URI_PREFIXES);
 
     public UDPTransportFactory() {
@@ -64,7 +62,7 @@ public class UDPTransportFactory extends AbstractTransportFactory
     public UDPTransportFactory(Bus b) {
         super(DEFAULT_NAMESPACES);
     }
-    
+
     public Destination getDestination(EndpointInfo ei, Bus bus) throws IOException {
         return getDestination(ei, null, bus);
     }
@@ -85,7 +83,7 @@ public class UDPTransportFactory extends AbstractTransportFactory
     }
 
     public Conduit getConduit(EndpointInfo ei, EndpointReferenceType target, Bus bus) throws IOException {
-        LOG.log(Level.FINE, "Creating conduit for {0}", ei.getAddress());
+        LOG.debugv("Creating conduit for {0}", ei.getAddress());
         if (target == null) {
             target = createReference(ei);
         }
