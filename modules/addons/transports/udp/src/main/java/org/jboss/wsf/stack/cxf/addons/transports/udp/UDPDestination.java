@@ -30,8 +30,7 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
 import java.net.URI;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.common.logging.LogUtils;
@@ -52,12 +51,13 @@ import org.apache.cxf.ws.addressing.EndpointReferenceType;
  * A modified version of Apache CXF org.apache.cxf.transport.udp.UDPDestination
  * that does not rely on Apache Mina and directly uses basic java.io for any
  * type of datagram.
- * 
+ *
  * @author alessio.soldano@jboss.com
  */
 public class UDPDestination extends AbstractDestination
 {
-   private static final Logger LOG = LogUtils.getL7dLogger(UDPDestination.class);
+   private static final Logger LOG = Logger.getLogger(UDPDestination.class);
+   private static final java.util.logging.Logger JAVA_LOG = LogUtils.getL7dLogger(UDPDestination.class);
 
    AutomaticWorkQueue queue;
 
@@ -114,7 +114,7 @@ public class UDPDestination extends AbstractDestination
             catch (IOException e)
             {
                if (socket != null) {
-                  LOG.log(Level.SEVERE, e.toString());
+                  LOG.error(e.toString());
                }
             }
          }
@@ -141,9 +141,9 @@ public class UDPDestination extends AbstractDestination
 
    /** {@inheritDoc}*/
    @Override
-   protected Logger getLogger()
+   protected java.util.logging.Logger getLogger()
    {
-      return LOG;
+      return JAVA_LOG;
    }
 
    protected void activate()
@@ -198,7 +198,7 @@ public class UDPDestination extends AbstractDestination
       }
       catch (Exception ex)
       {
-         LOG.log(Level.SEVERE, ex.toString());
+         LOG.error(ex.toString());
          throw new RuntimeException(ex);
       }
    }
