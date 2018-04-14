@@ -94,6 +94,8 @@ public class WebServiceRefTestCase extends JBossWSTest
          .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/webserviceref/META-INF/wsdl/MultipleEndpoint.wsdl"), "wsdl/MultipleEndpoint.wsdl");
       EnterpriseArchive earArchive = ShrinkWrap.create(EnterpriseArchive.class, DEP_APPCLIENT_EAR + ".ear");
       earArchive.addAsModule(jarArchive);
+      earArchive.addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir()
+              + "/jaxws/samples/webserviceref/META-INF/permissions-jaxws-samples-webserviceref-appclient-jar.xml"), "permissions.xml");
       JBossWSTestHelper.writeToFile(earArchive);
       fullAppclientDepName = earArchive.getName() + "#" + jarArchive.getName();
       return earArchive;

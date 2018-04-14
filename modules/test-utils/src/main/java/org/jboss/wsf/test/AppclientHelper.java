@@ -177,7 +177,10 @@ final class AppclientHelper
          javaOptsValue.append("-Djboss.bind.address=").append(undoIPv6Brackets(System.getProperty("jboss.bind.address", "localhost"))).append(" ");
          String appclientDebugOpts = System.getProperty("APPCLIENT_DEBUG_OPTS", null);
          if (appclientDebugOpts != null && appclientDebugOpts.trim().length() > 0)
-            javaOptsValue.append(appclientDebugOpts).append(" ");
+         {
+            String acDeubOpts = appclientDebugOpts.replace("-Djava.security.manager", "-secmgr");
+            javaOptsValue.append(acDeubOpts).append(" ");
+         }
          pb.environment().put("JAVA_OPTS", javaOptsValue.toString());
          System.out.println("JAVA_OPTS=\"" + javaOptsValue.toString() + "\"");
          System.out.println("Starting " + appclientScript + " " + configArg + " " + appclientFullName + (appclientArgs == null ? "" :  " with args " + Arrays.asList(appclientArgs)));

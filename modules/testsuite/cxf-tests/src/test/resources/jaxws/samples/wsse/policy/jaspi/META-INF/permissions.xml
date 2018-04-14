@@ -9,6 +9,10 @@
         <name>org.jboss.security.config.SecurityConfiguration.getApplicationPolicy</name>
     </permission>
     <permission>
+        <class-name>java.lang.RuntimePermission</class-name>
+        <name>org.jboss.security.plugins.ClassLoaderLocatorFactory.get</name>
+    </permission>
+    <permission>
         <class-name>java.security.SecurityPermission</class-name>
         <name>getFactory</name>
     </permission>

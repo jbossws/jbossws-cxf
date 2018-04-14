@@ -99,6 +99,9 @@ public class ServiceRefTestCase extends JBossWSTest
                + "/jaxws/samples/serviceref/META-INF/wsdl/Endpoint.wsdl"), "wsdl/Endpoint.wsdl");
       EnterpriseArchive archive = ShrinkWrap.create(EnterpriseArchive.class, APPCLIENT_DEPLOYMENT + ".ear");
       archive.addAsModule(archive1);
+      archive.addAsManifestResource(
+              new File(JBossWSTestHelper.getTestResourcesDir()
+                      + "/jaxws/samples/serviceref/META-INF/permissions-jaxws-samples-serviceref-appclient-jar.xml"), "permissions.xml");
       JBossWSTestHelper.writeToFile(archive);
       fullAppclientDepName = archive.getName() + "#" + archive1.getName();
       return archive;
