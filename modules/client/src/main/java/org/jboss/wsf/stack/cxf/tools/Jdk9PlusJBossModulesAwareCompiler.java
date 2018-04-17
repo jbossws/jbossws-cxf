@@ -53,6 +53,7 @@ import java.util.Set;
  */
 public final class Jdk9PlusJBossModulesAwareCompiler extends Compiler
 {
+   private static final String UFS = "/"; // unix file separator
 
    @Override
    public boolean compileFiles(String[] files)
@@ -149,7 +150,7 @@ public final class Jdk9PlusJBossModulesAwareCompiler extends Compiler
                try
                {
                   // get all files that start with package name
-                  String pathName = packageName.replace(".", File.separator);
+                  String pathName = packageName.replace(".", UFS);
                   Iterator<Resource> resIt = module.iterateResources(
                           new JBossModulePathFilter(pathName));
 
@@ -160,7 +161,7 @@ public final class Jdk9PlusJBossModulesAwareCompiler extends Compiler
                      int indx = n.lastIndexOf(".class");
                      if (indx > 0)
                      {
-                        String n1 = n.replace(File.separator, ".");
+                        String n1 = n.replace(UFS, ".");
                         String clazzName = n1.substring(0, indx);
                         files.add(new JavaFileObjectImpl(clazzName, moduleclassLoader));
                      }
