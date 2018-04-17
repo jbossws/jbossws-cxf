@@ -30,6 +30,8 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.cxf.tools.common.ToolConstants;
+import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.java2ws.JavaToWS;
 import org.jboss.ws.api.tools.WSContractProvider;
 import org.jboss.ws.common.utils.NullPrintStream;
@@ -195,9 +197,19 @@ public class CXFProviderImpl extends WSContractProvider
 
          // the SEI
          args.add(endpointClass.getCanonicalName());
-         
+
          JavaToWS j2w = new JavaToWS(args.toArray(new String[0]));
-         j2w.run(stream);
+         if (CXFConsumerImpl.getJVMMajorVersion() > 8)
+         {
+            ToolContext ctx = new ToolContext();
+            ctx.put(ToolConstants.CFG_CMD_ARG, args);
+            ctx.put(ToolConstants.COMPILER, new Jdk9PlusJBossModulesAwareCompiler());
+            j2w.run(ctx, stream);
+         } else
+         {
+            j2w.run(stream);
+         }
+
       }
       catch (Throwable t)
       {

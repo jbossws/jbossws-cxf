@@ -351,7 +351,7 @@ public class CXFConsumerImpl extends WSContractConsumer
       }
    }
 
-   private static int getJVMMajorVersion() {
+   protected static int getJVMMajorVersion() {
       try {
          String vmVersionStr = System.getProperty("java.specification.version", null);
          Matcher matcher = Pattern.compile("^(?:1\\.)?(\\d+)$").matcher(vmVersionStr); //match 1.<number> or <number>
