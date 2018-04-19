@@ -166,7 +166,7 @@ public class UDPConduit extends AbstractConduit
                   catch (Exception e)
                   {
                      //ignore
-                     LOG.debug(e.getMessage(), e);
+                     LOG.trace(e.getMessage(), e);
                   }
                }
             }
@@ -181,7 +181,7 @@ public class UDPConduit extends AbstractConduit
             catch (Exception e)
             {
                //ignore
-               LOG.debug(e.getMessage(), e);
+               LOG.trace(e.getMessage(), e);
             }
          }
 
