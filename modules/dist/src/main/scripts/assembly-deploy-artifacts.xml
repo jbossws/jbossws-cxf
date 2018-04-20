@@ -133,7 +133,7 @@
             <unpack>false</unpack>
             <outputFileNameMapping>jaxws-api.jar</outputFileNameMapping>
             <includes>
-              <include>org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.2_spec:jar</include>
+              <include>org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar</include>
             </includes>
             <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>
