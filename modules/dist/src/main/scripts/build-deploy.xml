@@ -314,6 +314,11 @@
     <attribute name="modules-jbossid"/>
     <sequential>
       <!-- libraries -->
+      <copy todir="@{targetdir}/javax/xml/ws/api/main" flatten="false" overwrite="true">
+        <fileset dir="@{thirdpartydir}/lib">
+          <include name="**/jaxws-api.jar"/>
+        </fileset>
+      </copy>
       <copy todir="@{targetdir}/org/jboss/ws/jaxws-client/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-cxf-client.jar"/>
