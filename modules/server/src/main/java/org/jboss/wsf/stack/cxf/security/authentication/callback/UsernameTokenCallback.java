@@ -29,7 +29,7 @@ import javax.security.auth.callback.Callback;
 
 import org.jboss.crypto.digest.DigestCallback;
 import org.jboss.security.auth.callback.MapCallback;
-import org.jboss.ws.common.utils.Base64;
+import java.util.Base64;
 
 /**
  * An implementation of DigestCallback that generates password
@@ -66,7 +66,7 @@ public class UsernameTokenCallback implements DigestCallback
          if (nonce != null)
          {
             Boolean decodeNonce = (Boolean) info.getInfo(DECODE_NONCE);
-            byte[] nonceBytes = decodeNonce ? Base64.decode(nonce) : nonce.getBytes("UTF-8");
+            byte[] nonceBytes = decodeNonce ? Base64.getDecoder().decode(nonce) : nonce.getBytes("UTF-8");
             digest.update(nonceBytes);
          }
          String created = (String) info.getInfo(CREATED);
