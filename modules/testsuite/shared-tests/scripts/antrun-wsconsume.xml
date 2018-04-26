@@ -42,6 +42,7 @@
       log4jConf="${log4j.conf}"
       loggingDir="${log4j.output.dir}"
       fork="false"
+      additional.jvm.args="${additional.jvm.args}"
     />
 
     <wsconsume-macro
@@ -51,6 +52,7 @@
       log4jConf="${log4j.conf}"
       loggingDir="${log4j.output.dir}"
       fork="false"
+      additional.jvm.args="${additional.jvm.args}"
     />
 
   </target>
