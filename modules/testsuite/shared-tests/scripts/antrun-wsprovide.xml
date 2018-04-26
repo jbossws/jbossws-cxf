@@ -44,6 +44,7 @@
       loggingDir="${log4j.output.dir}"
       resourcesDir="jaxws/jbws2960"
       fork="false"
+      additional.jvm.args="${additional.jvm.args}"
     />
   </target>
 
