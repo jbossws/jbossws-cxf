@@ -1,0 +1,17 @@
+install: true
+script:
+  - travis-scripts/jbossws-test.sh $SERVER_VERSION $SECURITY_MGR $BUILD_WFLY_MASTER
+
+language: java
+jdk:
+  - oraclejdk8
+
+env:
+  - SERVER_VERSION=wildfly1010 SECURITY_MGR=false BUILD_WFLY_MASTER=false
+cache:
+ directories:
+  - $HOME/.m2
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
