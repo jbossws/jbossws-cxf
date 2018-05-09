@@ -128,33 +128,34 @@ public class JBWS1666TestCase extends JBossWSTest
       sbuf.append(javaCmd);
 
       //properties
-      sbuf.append(" -Dlog4j.output.dir=" + System.getProperty("log4j.output.dir"));
+      String additionalJVMArgs = System.getProperty("additionalJvmArgs", "");
+      additionalJVMArgs =  additionalJVMArgs.replace('\n', ' ');
+      sbuf.append(" ").append(additionalJVMArgs);
+      sbuf.append(" -Dlog4j.output.dir=").append(System.getProperty("log4j.output.dir"));
 
       final String jbh = System.getProperty("jboss.home");
       final String jbm = jbh + FS + "modules";
       final String jbmjar = jbh + FS + "jboss-modules.jar";
-      sbuf.append(" -jar " + jbmjar);
+      sbuf.append(" -jar ").append(jbmjar);
 
       // input arguments to jboss-module's main
-      sbuf.append(" -mp " + jbm);
+      sbuf.append(" -mp ").append(jbm);
 
       // wildfly9 security manage flag changed from -Djava.security.manager to -secmgr.
       // Can't pass -secmgr arg through arquillian because it breaks arquillian's
       // config of our tests.
       // the -secmgr flag MUST be provided as an input arg to jboss-modules so it must
       // come after the jboss-modules.jar ref.
-      String additionalJVMArgs = System.getProperty("additionalJvmArgs", "");
-      additionalJVMArgs =  additionalJVMArgs.replace('\n', ' ');
-      String securityManagerDesignator =
-          ("-Djava.security.manager".equals(additionalJVMArgs)) ? "-secmgr" : additionalJVMArgs;
-      sbuf.append(" " + securityManagerDesignator);
+      if (additionalJVMArgs.contains("-Djava.security.manager")) {
+         sbuf.append(" ").append("-secmgr");
+      }
 
       // our client jar is an input param to jboss-module
       final File f = new File(JBossWSTestHelper.getTestArchiveDir(), clientJar);
-      sbuf.append(" -jar " + f.getAbsolutePath());
+      sbuf.append(" -jar ").append(f.getAbsolutePath());
 
       // input args to our client.jar main
-      sbuf.append(" " + getServerHost() + " " + getServerPort());
+      sbuf.append(" ").append(getServerHost()).append(" ").append(getServerPort());
 
       final String command = sbuf.toString();
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
