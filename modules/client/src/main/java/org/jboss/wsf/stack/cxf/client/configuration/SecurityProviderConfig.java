@@ -31,8 +31,8 @@ import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
-import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.client.Constants;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
 import org.jboss.logging.Logger;
 
 /**

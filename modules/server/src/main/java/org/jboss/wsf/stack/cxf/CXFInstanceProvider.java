@@ -32,6 +32,7 @@ import org.jboss.ws.common.configuration.ConfigDelegateHandler;
 import org.jboss.ws.common.deployment.ReferenceFactory;
 import org.jboss.wsf.spi.deployment.InstanceProvider;
 import org.jboss.wsf.spi.deployment.Reference;
+import org.jboss.wsf.stack.cxf.i18n.Messages;
 
 /**
  * CXF instance provider.

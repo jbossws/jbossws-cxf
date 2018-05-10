@@ -21,8 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.metadata;
 
-import static org.jboss.wsf.stack.cxf.Loggers.METADATA_LOGGER;
-import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+import static org.jboss.wsf.stack.cxf.i18n.Loggers.METADATA_LOGGER;
+import static org.jboss.wsf.stack.cxf.i18n.Messages.MESSAGES;
 
 import java.net.URL;
 import java.util.HashMap;

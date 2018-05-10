@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.saaj;
 
-import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+import static org.jboss.wsf.stack.cxf.i18n.Messages.MESSAGES;
 
 import java.io.IOException;
 import java.io.InputStream;

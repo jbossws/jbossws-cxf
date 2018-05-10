@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.extensions.policy;
 
-import static org.jboss.wsf.stack.cxf.Loggers.ROOT_LOGGER;
+import static org.jboss.wsf.stack.cxf.i18n.Loggers.ROOT_LOGGER;
 
 import java.lang.reflect.Method;
 import java.net.URL;

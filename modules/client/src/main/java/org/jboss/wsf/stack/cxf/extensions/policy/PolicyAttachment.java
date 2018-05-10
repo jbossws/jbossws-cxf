@@ -30,11 +30,11 @@ import org.apache.cxf.annotations.Policy.Placement;
 import org.apache.cxf.common.util.StringUtils;
 import org.apache.cxf.staxutils.StaxUtils;
 import org.apache.cxf.ws.policy.PolicyConstants;
-import org.jboss.wsf.stack.cxf.Messages;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.jboss.logging.Logger;
+import org.jboss.wsf.stack.cxf.i18n.Messages;
 
 /**
  * A lazy-loaded Policy attachment reference

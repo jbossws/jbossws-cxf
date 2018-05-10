@@ -31,9 +31,9 @@ import javax.xml.ws.WebServiceFeature;
 
 import org.apache.cxf.Bus;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
-import org.jboss.wsf.stack.cxf.Loggers;
-import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
+import org.jboss.wsf.stack.cxf.i18n.Messages;
 
 /**
  * A class selecting the proper bus to be used for creating a

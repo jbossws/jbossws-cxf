@@ -48,8 +48,8 @@ import org.apache.cxf.wsdl.WSDLManager;
 import org.apache.cxf.wsdl11.ServiceWSDLBuilder;
 import org.jboss.ws.common.utils.AbstractWSDLFilePublisher;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
-import org.jboss.wsf.stack.cxf.Loggers;
-import org.jboss.wsf.stack.cxf.Messages;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
+import org.jboss.wsf.stack.cxf.i18n.Messages;
 import org.w3c.dom.Document;
 import org.jboss.logging.Logger;
 

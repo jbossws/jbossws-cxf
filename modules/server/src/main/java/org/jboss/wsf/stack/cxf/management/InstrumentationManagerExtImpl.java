@@ -11,7 +11,7 @@ import org.apache.cxf.bus.ManagedBus;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.jmx.InstrumentationManagerImpl;
-import org.jboss.wsf.stack.cxf.Loggers;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
 
 
 /**

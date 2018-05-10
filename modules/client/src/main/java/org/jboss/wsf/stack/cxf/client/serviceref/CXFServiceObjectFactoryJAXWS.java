@@ -278,7 +278,7 @@ public final class CXFServiceObjectFactoryJAXWS
                   Constructor<?> ctor = serviceClass.getConstructor(new Class[] {URL.class, QName.class, WebServiceFeature[].class});
                   target = (Service) ctor.newInstance(new Object[] {wsdlURL, serviceQName, features});
                } catch (NoSuchMethodException nsme) {
-                  throw org.jboss.wsf.stack.cxf.Messages.MESSAGES.missingJAXWS22ServiceConstructor(serviceClass.getName(), nsme);
+                  throw org.jboss.wsf.stack.cxf.i18n.Messages.MESSAGES.missingJAXWS22ServiceConstructor(serviceClass.getName(), nsme);
                }
             }
             else
@@ -297,7 +297,7 @@ public final class CXFServiceObjectFactoryJAXWS
                   Constructor<?> ctor = serviceClass.getConstructor(new Class[] {WebServiceFeature[].class});
                   target = (Service) ctor.newInstance(new Object[] {features});
                } catch (NoSuchMethodException nsme) {
-                  throw org.jboss.wsf.stack.cxf.Messages.MESSAGES.missingJAXWS22ServiceConstructor(serviceClass.getName(), nsme);
+                  throw org.jboss.wsf.stack.cxf.i18n.Messages.MESSAGES.missingJAXWS22ServiceConstructor(serviceClass.getName(), nsme);
                }
             }
             else

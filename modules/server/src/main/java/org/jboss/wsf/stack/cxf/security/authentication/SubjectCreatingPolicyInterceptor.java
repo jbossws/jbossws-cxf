@@ -40,8 +40,8 @@ import org.apache.cxf.ws.security.wss4j.UsernameTokenInterceptor;
 import org.apache.wss4j.common.principal.UsernameTokenPrincipal;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
-import org.jboss.wsf.stack.cxf.Loggers;
-import org.jboss.wsf.stack.cxf.Messages;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
+import org.jboss.wsf.stack.cxf.i18n.Messages;
 import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
 
 /**

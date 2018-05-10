@@ -42,10 +42,10 @@ import org.jboss.wsf.spi.deployment.Deployment;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.CommonConfig;
 import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
-import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.client.configuration.FeatureUtils;
 import org.jboss.wsf.stack.cxf.client.configuration.InterceptorUtils;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
 
 
 /**

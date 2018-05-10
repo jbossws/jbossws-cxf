@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.addressRewrite;
 
-import static org.jboss.wsf.stack.cxf.Loggers.ADDRESS_REWRITE_LOGGER;
+import static org.jboss.wsf.stack.cxf.i18n.Loggers.ADDRESS_REWRITE_LOGGER;
 
 import java.net.MalformedURLException;
 import java.net.URI;

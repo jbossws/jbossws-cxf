@@ -42,10 +42,10 @@ import org.jboss.wsf.spi.deployment.ArchiveDeployment;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
 import org.jboss.wsf.stack.cxf.JBossWSInvoker;
-import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
 import org.jboss.wsf.stack.cxf.security.authentication.AuthenticationMgrSubjectCreatingInterceptor;
 import org.jboss.wsf.stack.cxf.transport.JBossWSDestinationRegistryImpl;
 
