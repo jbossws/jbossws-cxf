@@ -65,11 +65,11 @@
     <jboss.modules.version>1.7.0.Final</jboss.modules.version>
     <jbossws.api.version>1.1.1.Final</jbossws.api.version>
     <jbossws.spi.version>3.2.1.Final</jbossws.spi.version>
-    <jbossws.common.version>3.2.1-SNAPSHOT</jbossws.common.version>
-    <jbossws.common.tools.version>1.3.1-SNAPSHOT</jbossws.common.tools.version>
+    <jbossws.common.version>3.2.1.Final</jbossws.common.version>
+    <jbossws.common.tools.version>1.3.1.Final</jbossws.common.tools.version>
     <jbossws.wildfly1010.version>5.2.0.Final</jbossws.wildfly1010.version>
     <jbossws.wildfly1100.version>5.2.0.Final</jbossws.wildfly1100.version>
-    <jbossws.wildfly1200.version>5.2.1-SNAPSHOT</jbossws.wildfly1200.version>
+    <jbossws.wildfly1200.version>5.2.1.Final</jbossws.wildfly1200.version>
     <wildfly1010.version>10.1.0.Final</wildfly1010.version>
     <wildfly1100.version>11.0.0.Final</wildfly1100.version>
     <wildfly1200.version>12.0.0.Final</wildfly1200.version>
