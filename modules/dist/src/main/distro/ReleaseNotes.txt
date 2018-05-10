@@ -23,8 +23,59 @@ https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.pro
 For issues that are scheduled for future versions see the road map.
 https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
 
-What's new in jbossws-cxf-5.2.0.Final
+What's new in jbossws-cxf-5.2.1.Final
 -------------------------------------
+
+Component Upgrade
+
+    * [JBWS-4093] - Upgrade to Apache CXF 3.2.2
+    * [JBWS-4103] - Upgrade SLF4J dependency
+    * [JBWS-4110] - Upgrade to Apache CXF 3.2.4
+    * [JBWS-4118] - Upgrade to Apache CXF 3.2.4-jbossorg-1
+
+Bug
+
+    * [JBWS-4083] - testcases using wsprovide and wsconsume failure with new -secmgr flag
+    * [JBWS-4095] - Cannot register web service, fails with NullPointerException in DelegateClassLoader
+    * [JBWS-4097] - JAXB doesn't (un)marshall property with @XmlElementRef
+    * [JBWS-4098] - Testsuite server logging doesn't work after migration to gmavenplus-plugin
+    * [JBWS-4104] - Elytron configuration in testsuite no longer working
+    * [JBWS-4107] - wsconsume script is not working on JDK9 and JDK10
+    * [JBWS-4108] - Expired certificates in testsuite
+    * [JBWS-4109] - Failures of response headers checking tests with latest wildfly
+    * [JBWS-4111] - Resource leak in CXFConsumerImpl
+    * [JBWS-4113] - Wsprovide tool doesn't generate/keep class files on JDK9 or JDK10
+    * [JBWS-4114] - DOMUtils incorrectly assumes presence of DocumentBuilderFactory on all CLs
+    * [JBWS-4115] - antrun-wsconsume.xml antrun-wsprovider.xml fails on Windows
+    * [JBWS-4119] - [JDK9+] Package org.jboss.wsf.stack.cxf is present in multiple jars - jbossws-cxf-client, jbossws-cxf-server
+
+Task
+
+    * [JBWS-4089] - Upgrade to JAX-WS API 2.3
+    * [JBWS-4091] - Travis CI jobs
+    * [JBWS-4094] - Update target containers (include WFLY 12)
+    * [JBWS-4099] - JDK10 support
+    * [JBWS-4100] - Add Elytron module dependency to wsprovide wsconsume
+    * [JBWS-4101] - Wsprovide tool ends with java.security.AccessControlException
+    * [JBWS-4106] - Update plugin versions in jbossws-parent
+
+
+
+Errata
+
+    See: https://issues.jboss.org/browse/JBWS-3989
+
+This version of JBossWS is based on Apache CXF 3.2.4-jbossorg-1
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-5.2.0.Final
+-----------------------
 
 Component Upgrade
 
@@ -57,11 +108,6 @@ Errata
 
 This version of JBossWS is based on Apache CXF 3.2.1
 
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
 jbossws-cxf-5.1.9.Final
