@@ -38,7 +38,7 @@
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.4.1.Final</version>
   </parent>
   
   <!-- Source Control Management -->
@@ -63,8 +63,8 @@
   <!-- Properties -->
   <properties>
     <jboss.modules.version>1.7.0.Final</jboss.modules.version>
-    <jbossws.api.version>1.1.1-SNAPSHOT</jbossws.api.version>
-    <jbossws.spi.version>3.2.1-SNAPSHOT</jbossws.spi.version>
+    <jbossws.api.version>1.1.1.Final</jbossws.api.version>
+    <jbossws.spi.version>3.2.1.Final</jbossws.spi.version>
     <jbossws.common.version>3.2.1-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>1.3.1-SNAPSHOT</jbossws.common.tools.version>
     <jbossws.wildfly1010.version>5.2.0.Final</jbossws.wildfly1010.version>
