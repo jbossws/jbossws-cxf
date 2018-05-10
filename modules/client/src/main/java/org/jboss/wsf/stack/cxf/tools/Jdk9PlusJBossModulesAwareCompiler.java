@@ -25,8 +25,7 @@ import org.apache.cxf.common.util.Compiler;
 import org.jboss.modules.Module;
 import org.jboss.modules.ModuleLoadException;
 import org.jboss.modules.Resource;
-
-import org.jboss.wsf.stack.cxf.Loggers;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
 
 import javax.tools.DiagnosticListener;
 import javax.tools.FileObject;

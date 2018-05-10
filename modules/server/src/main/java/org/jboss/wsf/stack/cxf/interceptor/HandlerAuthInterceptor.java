@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.interceptor;
 
-import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+import static org.jboss.wsf.stack.cxf.i18n.Messages.MESSAGES;
 
 import java.lang.reflect.Method;
 import java.security.Principal;

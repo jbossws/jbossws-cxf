@@ -37,7 +37,7 @@ import org.apache.cxf.jaxws.support.JaxWsServiceFactoryBean;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedPortComponentRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedServiceRefMetaData;
 import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedStubPropertyMetaData;
-import org.jboss.wsf.stack.cxf.Loggers;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
 
 /**
  * A CXF configurer that sets the serviceref data in the JaxWsProxyFactoryBean

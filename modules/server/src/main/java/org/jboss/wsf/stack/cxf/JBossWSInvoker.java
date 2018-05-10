@@ -63,6 +63,7 @@ import org.jboss.wsf.spi.invocation.InvocationContext;
 import org.jboss.wsf.spi.invocation.InvocationHandler;
 import org.jboss.wsf.spi.invocation.NamespaceContextSelectorWrapperFactory;
 import org.jboss.wsf.stack.cxf.client.Constants;
+import org.jboss.wsf.stack.cxf.i18n.Messages;
 
 /**
  * A JBossWS extension of the Apache CXF JAXWSMethodInvoker invoker.

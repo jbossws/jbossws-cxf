@@ -69,11 +69,11 @@ import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.spi.metadata.config.ConfigMetaDataParser;
 import org.jboss.wsf.spi.metadata.config.ConfigRoot;
-import org.jboss.wsf.stack.cxf.Loggers;
-import org.jboss.wsf.stack.cxf.Messages;
 import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
 import org.jboss.wsf.stack.cxf.client.configuration.HandlerChainSortInterceptor;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
+import org.jboss.wsf.stack.cxf.i18n.Messages;
 import org.w3c.dom.Element;
 import org.jboss.logging.Logger;
 

@@ -35,8 +35,8 @@ import org.jboss.ws.common.configuration.ConfigHelper;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.spi.security.JASPIAuthenticationProvider;
-import org.jboss.wsf.stack.cxf.Loggers;
 import org.jboss.wsf.stack.cxf.client.Constants;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
 
 /**
  * CXF extension of common ClientConfigurer

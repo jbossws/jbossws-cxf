@@ -54,6 +54,7 @@ import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
+import org.jboss.wsf.stack.cxf.i18n.Messages;
 import org.jboss.logging.Logger;
 
 /**

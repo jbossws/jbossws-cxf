@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.apache.cxf.resource.ResourceResolver;
-import org.jboss.wsf.stack.cxf.Loggers;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
 
 /**
  * A CXF resource resolver that uses the JBossWS spi resource resolver,

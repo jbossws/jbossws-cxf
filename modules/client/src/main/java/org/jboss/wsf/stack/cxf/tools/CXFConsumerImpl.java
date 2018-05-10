@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.tools;
 
-import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+import static org.jboss.wsf.stack.cxf.i18n.Messages.MESSAGES;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,7 +45,7 @@ import org.apache.cxf.tools.common.ToolContext;
 import org.apache.cxf.tools.wsdlto.WSDLToJava;
 import org.jboss.ws.api.tools.WSContractConsumer;
 import org.jboss.ws.common.utils.NullPrintStream;
-import org.jboss.wsf.stack.cxf.Messages;
+import org.jboss.wsf.stack.cxf.i18n.Messages;
 
 /**
  * A WSContractConsumer for CXF stack

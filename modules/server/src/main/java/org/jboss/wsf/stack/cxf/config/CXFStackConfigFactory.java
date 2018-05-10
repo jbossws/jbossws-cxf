@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.config;
 
-import static org.jboss.wsf.stack.cxf.Loggers.ROOT_LOGGER;
+import static org.jboss.wsf.stack.cxf.i18n.Loggers.ROOT_LOGGER;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;

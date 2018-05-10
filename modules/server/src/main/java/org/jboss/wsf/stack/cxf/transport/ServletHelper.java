@@ -46,7 +46,7 @@ import org.jboss.wsf.spi.invocation.EndpointAssociation;
 import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointRegistry;
 import org.jboss.wsf.spi.management.EndpointRegistryFactory;
-import org.jboss.wsf.stack.cxf.Messages;
+import org.jboss.wsf.stack.cxf.i18n.Messages;
 
 /**
  *

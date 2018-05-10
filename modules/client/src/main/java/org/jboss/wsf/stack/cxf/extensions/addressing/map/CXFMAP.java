@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.extensions.addressing.map;
 
-import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+import static org.jboss.wsf.stack.cxf.i18n.Messages.MESSAGES;
 
 import java.util.LinkedList;
 import java.util.List;

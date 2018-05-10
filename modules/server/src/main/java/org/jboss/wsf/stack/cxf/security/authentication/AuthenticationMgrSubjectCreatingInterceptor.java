@@ -33,8 +33,8 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.security.SecurityContext;
 import org.apache.wss4j.common.principal.UsernameTokenPrincipal;
 import org.jboss.security.plugins.JBossAuthenticationManager;
-import org.jboss.wsf.stack.cxf.Loggers;
-import org.jboss.wsf.stack.cxf.Messages;
+import org.jboss.wsf.stack.cxf.i18n.Loggers;
+import org.jboss.wsf.stack.cxf.i18n.Messages;
 
 /** 
  * Interceptor to authenticate principal with provided jaspi JBossAuthenticationManager

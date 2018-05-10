@@ -40,8 +40,8 @@
  */
 package org.jboss.wsf.stack.cxf.client.serviceref;
 
-import static org.jboss.wsf.stack.cxf.Loggers.DEPLOYMENT_LOGGER;
-import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+import static org.jboss.wsf.stack.cxf.i18n.Loggers.DEPLOYMENT_LOGGER;
+import static org.jboss.wsf.stack.cxf.i18n.Messages.MESSAGES;
 
 import java.io.File;
 import java.io.IOException;

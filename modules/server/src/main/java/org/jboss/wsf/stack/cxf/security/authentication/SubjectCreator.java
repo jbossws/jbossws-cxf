@@ -21,8 +21,8 @@
  */
 package org.jboss.wsf.stack.cxf.security.authentication;
 
-import static org.jboss.wsf.stack.cxf.Loggers.SECURITY_LOGGER;
-import static org.jboss.wsf.stack.cxf.Messages.MESSAGES;
+import static org.jboss.wsf.stack.cxf.i18n.Loggers.SECURITY_LOGGER;
+import static org.jboss.wsf.stack.cxf.i18n.Messages.MESSAGES;
 
 import java.io.ByteArrayOutputStream;
 import java.security.AccessController;
