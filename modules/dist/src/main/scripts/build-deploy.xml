@@ -353,6 +353,7 @@
       <copy todir="@{targetdir}/org/apache/cxf/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/cxf-core*.jar"/>
+          <include name="**/cxf-rt-features-logging*.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/apache/cxf/services-sts/main" flatten="false" overwrite="true">
@@ -371,6 +372,7 @@
           <exclude name="**/cxf-core*.jar"/>
           <exclude name="**/cxf-rt-ws-security*.jar"/>
           <exclude name="**/cxf-services-sts-core*.jar"/>
+          <exclude name="**/cxf-rt-features-logging*.jar"/>
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/api/main" flatten="false" overwrite="true">
