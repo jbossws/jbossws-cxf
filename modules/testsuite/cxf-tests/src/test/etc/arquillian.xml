@@ -49,7 +49,7 @@
         <configuration>
             <property name="jbossHome">${jboss.home}</property>
             <property name="javaVmArguments">-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jms} ${additionalJvmArgs}</property>
-            <property name="serverConfig">jbws-testsuite-jms-${jbossws.integration.target}.xml</property>
+            <property name="serverConfig">jbws-testsuite-jms.xml</property>
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
             <property name="jbossArguments">${jbossArguments}</property>
