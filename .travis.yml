@@ -5,7 +5,7 @@ install:
   - export JAVA_HOME=$(pwd)/jdk-10
   - export PATH=$JAVA_HOME/bin:$PATH
 script:
-  - travis_wait travis-scripts/jbossws-test.sh $SERVER_VERSION $SECURITY_MGR $BUILD_WFLY_MASTER
+  - travis_wait 30 travis-scripts/jbossws-test.sh $SERVER_VERSION $SECURITY_MGR $BUILD_WFLY_MASTER
 
 language: java
 #jdk:
