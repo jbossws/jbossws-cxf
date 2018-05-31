@@ -41,4 +41,4 @@ if [[ $USE_WFLY_MASTER = "true" ]]; then
   cd $MYPWD
 fi
 
-mvn -s .travis-settings.xml -B -fae -DSECMGR=${SECURITY_MGR} -P${SERVER_VERSION} ${D_SERVER_HOME} integration-test
+mvn -s .travis-settings.xml -U -B -fae -DSECMGR=${SECURITY_MGR} -P${SERVER_VERSION} ${D_SERVER_HOME} integration-test
