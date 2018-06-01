@@ -72,10 +72,6 @@
               <include>javax.jws:jsr181-api:jar</include>
               <include>org.codehaus.woodstox:stax2-api:jar</include>
               <include>org.codehaus.woodstox:woodstox-core-asl:jar</include>
-              <include>org.apache.httpcomponents:httpcore-nio:jar</include>
-              <include>org.apache.httpcomponents:httpcore:jar</include>
-              <include>org.apache.httpcomponents:httpasyncclient:jar</include>
-              <include>org.apache.httpcomponents:httpclient:jar</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
             <scope>provided</scope>

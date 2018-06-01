@@ -5,17 +5,17 @@ install:
   - export JAVA_HOME=$(pwd)/jdk-10
   - export PATH=$JAVA_HOME/bin:$PATH
 script:
-  - travis_wait travis-scripts/jbossws-test.sh $SERVER_VERSION $SECURITY_MGR $BUILD_WFLY_MASTER
+  - travis_wait 30 travis-scripts/jbossws-test.sh $SERVER_VERSION $SECURITY_MGR $BUILD_WFLY_MASTER
 
 language: java
 #jdk:
 #  - oraclejdk10
 
 env:
-  - SERVER_VERSION=wildfly1200 SECURITY_MGR=false BUILD_WFLY_MASTER=false
-  - SERVER_VERSION=wildfly1200,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=false
-  - SERVER_VERSION=wildfly1300 SECURITY_MGR=false BUILD_WFLY_MASTER=true
-  - SERVER_VERSION=wildfly1300,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=true
+  - SERVER_VERSION=wildfly1300 SECURITY_MGR=false BUILD_WFLY_MASTER=false
+  - SERVER_VERSION=wildfly1300,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=false
+  - SERVER_VERSION=wildfly1400 SECURITY_MGR=false BUILD_WFLY_MASTER=true
+  - SERVER_VERSION=wildfly1400,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=true
 cache:
  directories:
   - $HOME/.m2

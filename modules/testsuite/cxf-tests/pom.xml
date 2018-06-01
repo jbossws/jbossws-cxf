@@ -213,7 +213,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                    <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms-${jbossws.integration.target}.groovy</script>
+                    <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms.groovy</script>
                   </scripts>
                   <properties>
                     <property>
@@ -222,7 +222,7 @@
                     </property>
                     <property>
                       <name>outputFile</name>
-                      <value>${jboss.home}/standalone/configuration/jbws-testsuite-jms-${jbossws.integration.target}.xml</value>
+                      <value>${jboss.home}/standalone/configuration/jbws-testsuite-jms.xml</value>
                     </property>
                     <property>
                       <name>serverLog</name>
@@ -451,7 +451,7 @@
 	            </goals>
 	            <configuration>
 	              <jvmArgs>-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jms} ${additionalJvmArgs}</jvmArgs>
-	              <serverConfig>jbws-testsuite-jms-${jbossws.integration.target}.xml</serverConfig>
+	              <serverConfig>jbws-testsuite-jms.xml</serverConfig>
 	              <jbossHome>${jboss.home}</jbossHome>
                   <!-- TODO: add serverArgs section to use a custom bind address (requires wildfly-maven-plugin 1.1.0 +)
                        https://github.com/wildfly/wildfly-maven-plugin/commit/160b1a29f4e26fff9f60b7cb4c8e3c1b055c7300 -->
