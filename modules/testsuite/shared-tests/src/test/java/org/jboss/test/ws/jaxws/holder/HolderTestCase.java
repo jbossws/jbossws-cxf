@@ -88,8 +88,8 @@ public class HolderTestCase extends JBossWSTest
    {
       Holder<Integer> out1 = new Holder<Integer>();
       Holder<String> out2 = new Holder<String>();
-      assertEquals(new Long(50), port.echoOuts(10, "Hello", 50L, out1, out2));
-      assertEquals(new Integer(10), out1.value);
+      assertEquals(Long.valueOf(50), port.echoOuts(10, "Hello", 50L, out1, out2));
+      assertEquals(Integer.valueOf(10), out1.value);
       assertEquals("Hello", out2.value);
    }
 
@@ -101,8 +101,8 @@ public class HolderTestCase extends JBossWSTest
       Holder<String> inout2 = new Holder<String>();
       inout1.value = 50;
       inout2.value = "Hello";
-      assertEquals(new Long(10), port.echoInOuts(10L, inout1, inout2));
-      assertEquals(new Integer(50), inout1.value);
+      assertEquals(Long.valueOf(10), port.echoInOuts(10L, inout1, inout2));
+      assertEquals(Integer.valueOf(50), inout1.value);
       assertEquals("Hello", inout2.value);
    }
 
@@ -116,10 +116,10 @@ public class HolderTestCase extends JBossWSTest
       Holder<String> inout2 = new Holder<String>();
       inout1.value = 50;
       inout2.value = "Hello2";
-      assertEquals(new Long(20), port.echoMixed(30, "Hello1", inout1, inout2, 20L, out1, out2));
-      assertEquals(new Integer(30), out1.value);
+      assertEquals(Long.valueOf(20), port.echoMixed(30, "Hello1", inout1, inout2, 20L, out1, out2));
+      assertEquals(Integer.valueOf(30), out1.value);
       assertEquals("Hello1", out2.value);
-      assertEquals(new Integer(50), inout1.value);
+      assertEquals(Integer.valueOf(50), inout1.value);
       assertEquals("Hello2", inout2.value);
    }
 
@@ -151,7 +151,7 @@ public class HolderTestCase extends JBossWSTest
       port.addInOut(sum, 5);
       port.addInOut(sum, 3);
       port.addInOut(sum, 4);
-      assertEquals(new Integer(12), sum.value);
+      assertEquals(Integer.valueOf(12), sum.value);
    }
 
 }

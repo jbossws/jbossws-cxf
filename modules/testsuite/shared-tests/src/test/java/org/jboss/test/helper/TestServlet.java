@@ -73,7 +73,7 @@ public class TestServlet extends HttpServlet
          throw new ServletException("path not specified!");
       try
       {
-         ClientHelper helper = (ClientHelper) Class.forName(helperClassName).newInstance();
+         ClientHelper helper = (ClientHelper) Class.forName(helperClassName).getDeclaredConstructor().newInstance();
          String jbossBindAddress = toIPv6URLFormat(System.getProperty("jboss.bind.address", "localhost"));
          helper.setTargetEndpoint("http://" + jbossBindAddress + ":" + req.getLocalPort() + path);
          List<String> failedTests = new LinkedList<String>();

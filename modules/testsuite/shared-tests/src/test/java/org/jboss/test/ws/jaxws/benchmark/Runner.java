@@ -157,7 +157,7 @@ public class Runner
          System.out.println(BenchmarkTest.class.isAssignableFrom(clazz));
          System.out.println(clazz.isAssignableFrom(BenchmarkTest.class));
 
-         return (BenchmarkTest) clazz.newInstance();
+         return (BenchmarkTest) clazz.getDeclaredConstructor().newInstance();
       }
       catch (Exception e)
       {

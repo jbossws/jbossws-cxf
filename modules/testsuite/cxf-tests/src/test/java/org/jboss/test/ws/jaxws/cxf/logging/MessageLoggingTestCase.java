@@ -32,7 +32,7 @@ import javax.xml.ws.Service;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.apache.cxf.ext.logging.LoggingInInterceptor;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -108,9 +108,8 @@ public class MessageLoggingTestCase extends JBossWSTest
       try
       {
          //install the a LoggingInInterceptor in the bus used for the client
-         LoggingInInterceptor myLoggingInterceptor = new LoggingInInterceptor();
          OutputStream out = new ByteArrayOutputStream();
-         myLoggingInterceptor.setPrintWriter(new PrintWriter(out, true));
+         LoggingInInterceptor myLoggingInterceptor = new LoggingInInterceptor(new PrintWriter(out, true));
          bus.getInInterceptors().add(myLoggingInterceptor);
          BusFactory.setThreadDefaultBus(bus);
 

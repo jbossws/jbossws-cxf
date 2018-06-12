@@ -59,7 +59,7 @@ public abstract class PluginBase extends JBossWSTest
    
    protected void setDelegate(Class<?> clazz) throws Exception
    {
-      delegate = clazz.newInstance();
+      delegate = clazz.getDeclaredConstructor().newInstance();
       List<String> list = new LinkedList<String>();
       for (Class<?> c : clazz.getInterfaces())
       {

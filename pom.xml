@@ -114,6 +114,7 @@
     <derby.version>10.2.2.0</derby.version>
     <arquillian.version>1.1.11.Final</arquillian.version>
     <arquillian-wildfly-container.version>2.0.0.Final</arquillian-wildfly-container.version>
+    <version.commons.validator>1.6</version.commons.validator>
     <jaspi.api.version>1.0.0.Alpha1</jaspi.api.version>
     <jacc.api.version>1.0.0.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
@@ -1301,6 +1302,11 @@
           </exclusion>
         </exclusions>
        </dependency>
+      <dependency>
+        <groupId>commons-validator</groupId>
+        <artifactId>commons-validator</artifactId>
+        <version>${version.commons.validator}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   
@@ -1317,7 +1323,7 @@
           <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>2.4.7</version>
+            <version>2.4.15</version>
             <scope>runtime</scope>
           </dependency>
         </dependencies>

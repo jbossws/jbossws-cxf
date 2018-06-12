@@ -73,7 +73,7 @@ public class TestServlet extends HttpServlet
          throw new ServletException("path not specified!");
       try
       {
-         ClientHelper helper = (ClientHelper) Class.forName(helperClassName).newInstance();
+         ClientHelper helper = (ClientHelper) Class.forName(helperClassName).getDeclaredConstructor().newInstance();
          helper.setTargetEndpoint("http://" + toIPv6URLFormat(req.getLocalAddr()) + ":" + req.getLocalPort() + path);
          List<String> failedTests = new LinkedList<String>();
          List<String> errorTests = new LinkedList<String>();
