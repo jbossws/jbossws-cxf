@@ -32,7 +32,7 @@ import javax.xml.ws.Service;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.apache.cxf.ext.logging.LoggingInInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.arquillian.container.test.api.Deployment;

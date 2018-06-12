@@ -38,6 +38,7 @@ import org.junit.runner.RunWith;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+import javax.xml.ws.WebServiceFeature;
 import java.io.File;
 import java.net.URL;
 
@@ -79,6 +80,6 @@ public class JBWS4046TestCase extends JBossWSTest {
         QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/jbws4046", "DemoService");
         Service service = Service.create(wsdlURL, serviceName, new UseThreadBusFeature());
         QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/jbws4046", "DemoServicePort");
-        return service.getPort(portQName, DemoInterface.class, null).version();
+        return service.getPort(portQName, DemoInterface.class, (WebServiceFeature)null).version();
     }
 }

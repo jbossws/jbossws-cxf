@@ -57,7 +57,7 @@ public class CryptoCheckHelper
             Class<?> clazz = SecurityProviderConfig.class
                   .getClassLoader()
                   .loadClass("org.bouncycastle.jce.provider.BouncyCastleProvider");
-            return (Provider) clazz.newInstance();
+            return (Provider) clazz.getDeclaredConstructor().newInstance();
         }
         catch (Throwable t)
         {

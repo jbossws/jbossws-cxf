@@ -1355,7 +1355,7 @@ public final class JBWS2150TestCase extends JBossWSTest
          //Service service = Service.create(new URL(wsdlLocation), new QName(NAMESPACE, serviceName), new UseNewBusFeature())
          
          Class<?> clazz = Class.forName("org.jboss.wsf.stack.cxf.client.UseNewBusFeature");
-         features.add((WebServiceFeature)clazz.newInstance());
+         features.add((WebServiceFeature)clazz.getDeclaredConstructor().newInstance());
       }
       Service service = Service.create(new URL(wsdlLocation), new QName(NAMESPACE, serviceName), features.toArray(new WebServiceFeature[features.size()]));
       QName portName = service.getPorts().next();

@@ -24,7 +24,9 @@ package org.jboss.test.ws.jaxws.cxf.asyncclient;
 import java.util.logging.Logger;
 
 import org.apache.cxf.common.logging.LogUtils;
-import org.apache.cxf.interceptor.AbstractLoggingInterceptor;
+import org.apache.cxf.ext.logging.AbstractLoggingInterceptor;
+import org.apache.cxf.ext.logging.slf4j.Slf4jVerboseEventSender;
+import org.apache.cxf.ext.logging.event.LogEventSender;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.interceptor.MessageSenderInterceptor;
 import org.apache.cxf.message.Message;
@@ -36,14 +38,14 @@ public class AsyncEnabledInfoInterceptor extends AbstractLoggingInterceptor
    private static boolean asyncEnabled = false;
    
    public AsyncEnabledInfoInterceptor () {
-      super(Phase.PREPARE_SEND_ENDING);
+      super(Phase.PREPARE_SEND_ENDING, (LogEventSender)(new Slf4jVerboseEventSender()));
       this.addAfter(MessageSenderInterceptor.class.getName());
       this.addBefore(MessageSenderInterceptor.MessageSenderEndingInterceptor.class.getName());
    }
    
    public AsyncEnabledInfoInterceptor(String phase)
    {
-      super(phase);
+      super(phase, (LogEventSender)(new Slf4jVerboseEventSender()));
    }
    public void handleMessage(Message message) throws Fault
    {
