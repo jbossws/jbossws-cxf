@@ -299,7 +299,7 @@ public class BusHolder
             Constructor<Invoker> constr = clazz.getConstructor(boolean.class);
             return constr.newInstance(ai.hasAnnotatedClasses(UseAsyncMethod.class.getName()));
          } else {
-            return clazz.newInstance();
+            return clazz.getDeclaredConstructor().newInstance();
          }
       }
       catch (Exception e)
@@ -319,7 +319,7 @@ public class BusHolder
       {
          SecurityActions.setContextClassLoader(null);
          Class<?> clazz = tccl.loadClass(className);
-         return clazz.newInstance();
+         return clazz.getDeclaredConstructor().newInstance();
       }
       catch (Exception e)
       {
@@ -485,7 +485,7 @@ public class BusHolder
          if (className != null) {
             try {
                Class<?> clazz = Class.forName(className);
-               selector = (AlternativeSelector)clazz.newInstance();
+               selector = (AlternativeSelector)clazz.getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                
             }

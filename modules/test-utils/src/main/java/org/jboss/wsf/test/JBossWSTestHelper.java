@@ -51,7 +51,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
-import sun.net.util.IPAddressUtil;
+import org.apache.commons.validator.routines.InetAddressValidator;
 
 /**
  * A JBossWS test helper that deals with test deployment/undeployment, etc.
@@ -237,7 +237,7 @@ public class JBossWSTestHelper
             }
          }
          final boolean isIPv6Address = InetAddress.getByName(host) instanceof Inet6Address;
-         final boolean isIPv6Literal = isIPv6Address && IPAddressUtil.isIPv6LiteralAddress(host.replaceAll("^\\[(.*)\\]$","$1"));
+         final boolean isIPv6Literal = isIPv6Address && InetAddressValidator.getInstance().isValidInet6Address(host.replaceAll("^\\[(.*)\\]$","$1"));
          final boolean isIPv6LiteralFormattedForURI = isIPv6Literal && host.startsWith("[");
          return isIPv6Literal && !isIPv6LiteralFormattedForURI ? "[" + host + "]" : host;
       }

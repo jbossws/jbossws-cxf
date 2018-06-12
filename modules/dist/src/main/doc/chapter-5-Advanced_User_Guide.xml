@@ -57,13 +57,17 @@
             . The same is achieved on client side by programmatically adding new instances of the logging interceptors to the client or the bus.
           </para>
           <para>
-            Alternatively, Apache CXF also comes with a
+            Apache CXF 3.2 has designated <code>@org.apache.cxf.feature.Features</code> the preferred
+            annotation for adding logging capabilites to clients and endpoints. Annotation
+            <code>@org.apache.cxf.annotations.Logging</code> and class
             <code>org.apache.cxf.feature.LoggingFeature</code>
-            that can be used on clients and endpoints (either annotating them with
-            <code>@org.apache.cxf.feature.Features</code>
-            or directly with
-            <code>@org.apache.cxf.annotations.Logging</code>
-            ).
+            have been deprecated.
+          </para>
+          <para>
+            Also in Apache CXF 3.2 classes <code>LoggingInInterceptor, LoggingOutInterceptor,</code> and
+            <code>AbstractLoggingInterceptor</code> have been assigned a new package name. The classes in
+            package <code>org.apache.cxf.interceptor</code> have been deprecated.  These classes can
+            now be found in package <code>org.apache.cxf.ext.logging</code>.
           </para>
           <para>
             Please refer to the
