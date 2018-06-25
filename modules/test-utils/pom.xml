@@ -56,7 +56,6 @@
     <dependency>
       <groupId>commons-validator</groupId>
       <artifactId>commons-validator</artifactId>
-      <scope>provided</scope>
     </dependency>
   </dependencies>
 </project>
