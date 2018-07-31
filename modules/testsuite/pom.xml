@@ -312,6 +312,7 @@
                  <test.password>${test.password}</test.password>
                  <wsdl.publish.location>${wsdl.publish.location}</wsdl.publish.location>
                  <additionalJvmArgs>${additionalJvmArgs}</additionalJvmArgs>
+                 <modular.jdk.args>${modular.jdk.args}</modular.jdk.args>
                  <jboss.version>${jboss.version}</jboss.version>
               </systemPropertyVariables>
             </configuration>
@@ -355,6 +356,7 @@
                  <test.resources.directory>${test.resources.directory}</test.resources.directory>
                  <wsdl.publish.location>${wsdl.publish.location}</wsdl.publish.location>
                  <additionalJvmArgs>${additionalJvmArgs}</additionalJvmArgs>
+                 <modular.jdk.args>${modular.jdk.args}</modular.jdk.args>
                  <jboss.version>${jboss.version}</jboss.version>
               </systemPropertyVariables>
             </configuration>
