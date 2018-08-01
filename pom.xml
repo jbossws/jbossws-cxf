@@ -73,7 +73,7 @@
     <wildfly1100.version>11.0.0.Final</wildfly1100.version>
     <wildfly1200.version>12.0.0.Final</wildfly1200.version>
     <wildfly1300.version>13.0.0.Final</wildfly1300.version>
-    <wildfly1400.version>14.0.0.Beta1-SNAPSHOT</wildfly1400.version>
+    <wildfly1400.version>14.0.0.Beta2-SNAPSHOT</wildfly1400.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
     <cxf.version>3.2.5</cxf.version>
     <cxf.asm.version>5.2</cxf.asm.version>
