@@ -69,7 +69,7 @@
     <jbossws.common.tools.version>1.3.1.Final</jbossws.common.tools.version>
     <jbossws.wildfly1100.version>5.2.0.Final</jbossws.wildfly1100.version>
     <jbossws.wildfly1200.version>5.2.1.Final</jbossws.wildfly1200.version>
-    <jbossws.wildfly1300.version>5.2.2-SNAPSHOT</jbossws.wildfly1300.version>
+    <jbossws.wildfly1300.version>5.2.2.Final</jbossws.wildfly1300.version>
     <wildfly1100.version>11.0.0.Final</wildfly1100.version>
     <wildfly1200.version>12.0.0.Final</wildfly1200.version>
     <wildfly1300.version>13.0.0.Final</wildfly1300.version>
