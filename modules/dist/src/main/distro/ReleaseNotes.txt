@@ -2,7 +2,7 @@
 JBoss Web Services - Stack CXF Distribution
 http://jbossws.jboss.org
 
-Version: jbossws-cxf-5.2.0.Final
+Version: jbossws-cxf-5.2.2.Final
 
 Release Notes
 =============
@@ -17,14 +17,44 @@ that ship with the distribution.
 If you have any questions, please post to the JBossWS User Forum
 https://community.jboss.org/en/jbossws
 
-For details see the change log.
-https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Achangelog-panel
+The issue tracker is at
+https://issues.jboss.org/browse/JBWS
 
-For issues that are scheduled for future versions see the road map.
-https://issues.jboss.org/browse/JBWS?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Aroadmap-panel
-
-What's new in jbossws-cxf-5.2.1.Final
+What's new in jbossws-cxf-5.2.2.Final
 -------------------------------------
+
+Component Upgrade
+
+    * [JBWS-4128] - Upgrade to Apache CXF 3.2.5
+
+Bug
+
+    * [JBWS-4025] - Content of modules-deploy.conf is outdated
+    * [JBWS-4084] - bug in jboss-module cause of 2 testcase failures
+    * [JBWS-4120] - SOAP logging stopped working with WildFly 12 / JBossWS 5.2.0.Final (Apache CXF 3.2.2)
+    * [JBWS-4122] - Can't compile the project with JDK11
+    * [JBWS-4127] - IPV6 test regressions on Jenkins CI
+    * [JBWS-4129] - Can't deploy webservice on JDK11
+
+Task
+
+    * [JBWS-4102] - Investigate warnings in build log
+    * [JBWS-4105] - Move to latest CXF message logging mechanism
+    * [JBWS-4126] - Fix assembly script on windows
+    * [JBWS-4130] - Release jbossws-wildfly130
+    * [JBWS-4132] - Upgrade to ASM 6.2.1
+
+This version of JBossWS is based on Apache CXF 3.2.5-jbossorg-1
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-5.2.1.Final
+-----------------------
 
 Component Upgrade
 
@@ -60,18 +90,8 @@ Task
     * [JBWS-4106] - Update plugin versions in jbossws-parent
 
 
-
-Errata
-
-    See: https://issues.jboss.org/browse/JBWS-3989
-
 This version of JBossWS is based on Apache CXF 3.2.4-jbossorg-1
 
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
 jbossws-cxf-5.2.0.Final
@@ -102,9 +122,6 @@ Task
 
     * [JBWS-4056] - Ensure all tests are written junit4 way
 
-Errata
-
-    See: https://issues.jboss.org/browse/JBWS-3989
 
 This version of JBossWS is based on Apache CXF 3.2.1
 
