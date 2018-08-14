@@ -139,6 +139,9 @@ public class ServletHelper
       }
       finally
       {
+         if (endpoint.getSecurityDomainContext() != null) {
+            endpoint.getSecurityDomainContext().cleanupSubjectContext();
+         }
          EndpointAssociation.removeEndpoint();
          BusFactory.setThreadDefaultBus(null);
       }
