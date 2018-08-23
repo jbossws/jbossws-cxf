@@ -209,14 +209,14 @@ public class BusHolder
 
       for (DDEndpoint dde : metadata.getEndpoints())
       {
-         EndpointImpl endpoint = new EndpointImpl(bus, newInstance(dde.getImplementor()));
+         EndpointImpl endpoint = new EndpointImpl(bus, newInstance(dde.getImplementor(), dep));
          if (dde.getInvoker() != null)
             endpoint.setInvoker(newInvokerInstance(dde.getInvoker(), dep));
          endpoint.setAddress(dde.getAddress());
          endpoint.setEndpointName(dde.getPortName());
          endpoint.setServiceName(dde.getServiceName());
          endpoint.setWsdlLocation(dde.getWsdlLocation());
-         setHandlers(endpoint, dde);
+         setHandlers(endpoint, dde, dep);
          if (dde.getProperties() != null)
          {
             Map<String, Object> p = new HashMap<String, Object>();
@@ -244,7 +244,7 @@ public class BusHolder
    }
    
    @SuppressWarnings("rawtypes")
-   private static void setHandlers(EndpointImpl endpoint, DDEndpoint dde)
+   private static void setHandlers(EndpointImpl endpoint, DDEndpoint dde, Deployment dep)
    {
       List<String> handlers = dde.getHandlers();
       if (handlers != null && !handlers.isEmpty())
@@ -252,7 +252,7 @@ public class BusHolder
          List<Handler> handlerInstances = new LinkedList<Handler>();
          for (String handler : handlers)
          {
-            handlerInstances.add((Handler) newInstance(handler));
+            handlerInstances.add((Handler) newInstance(handler, dep));
          }
          endpoint.setHandlers(handlerInstances);
       }
@@ -291,7 +291,7 @@ public class BusHolder
       final ClassLoader tccl = SecurityActions.getContextClassLoader();
       try
       {
-         SecurityActions.setContextClassLoader(null);
+         SecurityActions.setContextClassLoader(dep.getClassLoader());
          @SuppressWarnings("unchecked")
          Class<Invoker> clazz = (Class<Invoker>)tccl.loadClass(className);
          final AnnotationsInfo ai = dep.getAttachment(AnnotationsInfo.class);
@@ -312,12 +312,12 @@ public class BusHolder
       }
    }
    
-   private static Object newInstance(String className)
+   private static Object newInstance(String className, Deployment dep)
    {
       final ClassLoader tccl = SecurityActions.getContextClassLoader();
       try
       {
-         SecurityActions.setContextClassLoader(null);
+         SecurityActions.setContextClassLoader(dep.getClassLoader());
          Class<?> clazz = tccl.loadClass(className);
          return clazz.getDeclaredConstructor().newInstance();
       }
