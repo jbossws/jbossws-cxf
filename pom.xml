@@ -67,11 +67,9 @@
     <jbossws.spi.version>3.2.2.Final</jbossws.spi.version>
     <jbossws.common.version>3.2.1.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.3.1.Final</jbossws.common.tools.version>
-    <jbossws.wildfly1100.version>5.2.0.Final</jbossws.wildfly1100.version>
     <jbossws.wildfly1200.version>5.2.1.Final</jbossws.wildfly1200.version>
     <jbossws.wildfly1300.version>5.2.2.Final</jbossws.wildfly1300.version>
     <jbossws.wildfly1400.version>5.2.3.Final</jbossws.wildfly1400.version>
-    <wildfly1100.version>11.0.0.Final</wildfly1100.version>
     <wildfly1200.version>12.0.0.Final</wildfly1200.version>
     <wildfly1300.version>13.0.0.Final</wildfly1300.version>
     <wildfly1400.version>14.0.0.Final</wildfly1400.version>
@@ -161,16 +159,6 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-spi</artifactId>
         <version>${jbossws.spi.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly1100-server-integration</artifactId>
-        <version>${jbossws.wildfly1100.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly1100-tests-integration</artifactId>
-        <version>${jbossws.wildfly1100.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
@@ -1428,25 +1416,6 @@
       <properties>
         <ipVerArgs>-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false</ipVerArgs>
       </properties>
-    </profile>
-
-    <!--
-    Name:  wildfly1100
-    Descr: WildFly-11.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly1100</id>
-      <properties>
-        <jbossws.integration.target>wildfly1100</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly1100.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-        <additionalGroovyScriptSuffix />
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
     </profile>
 
     <!--
