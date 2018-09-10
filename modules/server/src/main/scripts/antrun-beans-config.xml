@@ -27,13 +27,7 @@
   <property name="src.dir" value="${basedir}/src/main/resources"/>
   <property name="dest.dir" value="${basedir}/target/resources"/>
 
-  <target name="main">
-
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as11.xml"
-      tofile="${dest.dir}/jbossws-wildfly1100/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-  	
+  <target name="main">  	
     <copy
       file="${src.dir}/jbossws-cxf-config-as12.xml"
       tofile="${dest.dir}/jbossws-wildfly1200/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"

@@ -46,15 +46,6 @@
         <artifactId>maven-jar-plugin</artifactId>
          <executions>
           <execution>
-            <id>wildfly1100</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>wildfly1100</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly1100/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
-          <execution>
             <id>wildfly1200</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>
