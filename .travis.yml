@@ -1,15 +1,11 @@
-dist: trusty
 install:
-  - wget https://download.java.net/java/GA/jdk10/10/binaries/openjdk-10_linux-x64_bin.tar.gz
-  - tar -xzf openjdk-10_linux-x64_bin.tar.gz
-  - export JAVA_HOME=$(pwd)/jdk-10
-  - export PATH=$JAVA_HOME/bin:$PATH
+  - mvn clean; java -version
 script:
   - travis_wait 30 travis-scripts/jbossws-test.sh $SERVER_VERSION $SECURITY_MGR $BUILD_WFLY_MASTER
 
 language: java
-#jdk:
-#  - oraclejdk10
+jdk:
+  - oraclejdk11
 
 env:
   - SERVER_VERSION=wildfly1400 SECURITY_MGR=false BUILD_WFLY_MASTER=false
@@ -19,7 +15,3 @@ env:
 cache:
  directories:
   - $HOME/.m2
-#addons:
-#  apt:
-#    packages:
-#      - oracle-java10-installer

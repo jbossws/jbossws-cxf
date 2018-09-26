@@ -16,7 +16,7 @@
         <repository>
           <id>jboss-public-repository-group</id>
           <name>JBoss Public Maven Repository Group</name>
-          <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
           <layout>default</layout>
           <releases>
             <enabled>true</enabled>
@@ -31,7 +31,7 @@
         <repository>
           <id>specific central</id>
           <name>specific Central repository proxy</name>
-          <url>https://repo1.maven.org/maven2/</url>
+          <url>http://repo1.maven.org/maven2/</url>
           <layout>default</layout>
           <releases>
             <enabled>true</enabled>
@@ -69,7 +69,7 @@
         <pluginRepository>
           <id>jboss-public-repository-group</id>
           <name>JBoss Public Maven Repository Group</name>
-          <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
           <layout>default</layout>
           <releases>
             <enabled>true</enabled>
