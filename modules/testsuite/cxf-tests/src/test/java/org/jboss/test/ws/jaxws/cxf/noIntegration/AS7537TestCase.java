@@ -88,7 +88,7 @@ public class AS7537TestCase extends JBossWSTest
          fail("Deployment failure expected");
       } catch (Exception e) {
          undeploy = false;
-         assertTrue(e.getCause().getMessage().contains("JBAS015599") || e.getCause().getMessage().contains("WFLYWS0059"));
+         assertTrue(e.getMessage().contains("JBAS015599") || e.getMessage().contains("WFLYWS0059"));
       } finally {
          if (undeploy) {
             try {
