@@ -75,9 +75,9 @@
     <wildfly1400.version>14.0.0.Final</wildfly1400.version>
     <wildfly1500.version>15.0.0.Alpha1-SNAPSHOT</wildfly1500.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
-    <cxf.version>3.2.5-jbossorg-1</cxf.version>
+    <cxf.version>3.2.6</cxf.version>
     <cxf.asm.version>6.2.1</cxf.asm.version>
-    <cxf.xjcplugins.version>3.1.0</cxf.xjcplugins.version>
+    <cxf.xjcplugins.version>3.2.2</cxf.xjcplugins.version>
     <jboss-logging.version>3.3.2.Final</jboss-logging.version>
     <jboss-logging-annotations.version>2.1.0.Final</jboss-logging-annotations.version>
     <jboss-logging-processor.version>2.1.0.Final</jboss-logging-processor.version>
@@ -109,7 +109,7 @@
     <xerces.version>2.12.0.SP02</xerces.version>
     <xmlsec.version>2.1.2</xmlsec.version>
     <wss4j.version>2.2.2</wss4j.version>
-    <wstx.version>5.0.3</wstx.version>
+    <wstx.version>5.1.0</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
     <derby.version>10.14.2.0</derby.version>
     <arquillian.version>1.1.11.Final</arquillian.version>
