@@ -215,16 +215,6 @@
     </dependency>
     <dependency>
       <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-core</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>javax.xml.bind</groupId>
-          <artifactId>jaxb-api</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
       <artifactId>codemodel</artifactId>
       <exclusions>
         <exclusion>
