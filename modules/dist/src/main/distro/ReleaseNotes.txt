@@ -20,8 +20,49 @@ https://community.jboss.org/en/jbossws
 The issue tracker is at
 https://issues.jboss.org/browse/JBWS
 
-What's new in jbossws-cxf-5.2.2.Final
+What's new in jbossws-cxf-5.2.4.Final
 -------------------------------------
+
+** Component Upgrade
+    * [JBWS-4136] - Upgrade BouncyCastle to 1.60
+    * [JBWS-4139] - Update to JAXB 2.3.1
+    * [JBWS-4143] - Update Apache CXF from 3.2.5-jbossorg-1 to 3.2.6
+
+** Enhancement
+    * [JBWS-4135] - TCCL not set for JBoss WS deployment
+
+** Bug
+    * [JBWS-4145] - Elytron module dependency is missing in wsprovide and wsconsume modules definitions
+
+** Task
+    * [JBWS-4137] - Enable test against wildfly1500  and drop wildfly1100
+    * [JBWS-4140] - Test with JDK11 on Travis CI
+    * [JBWS-4141] - Ensure all jbossws components can be built with Java 11 
+    * [JBWS-4142] - Dependencies versions update - non cxf components
+
+
+This version of JBossWS is based on Apache CXF 3.2.6
+
+Enjoy,
+The JBossWS Team
+
+
+Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-----------------------
+jbossws-cxf-5.2.3.Final
+-----------------------
+
+Task
+
+    * [JBWS-4134] - Add mechanism for SecurityDomainContext cleanup
+
+This version of JBossWS is based on Apache CXF 3.2.5-jbossorg-1
+
+
+-----------------------
+jbossws-cxf-5.2.2.Final
+-----------------------
 
 Component Upgrade
 
@@ -46,11 +87,6 @@ Task
 
 This version of JBossWS is based on Apache CXF 3.2.5-jbossorg-1
 
-Enjoy,
-The JBossWS Team
-
-
-Previous Releases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -----------------------
 jbossws-cxf-5.2.1.Final
