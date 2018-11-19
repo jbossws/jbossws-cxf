@@ -218,10 +218,6 @@
         <version>${cxf.version}</version>
         <exclusions>
           <exclusion>
-            <groupId>javax.xml.soap</groupId>
-            <artifactId>saaj-api</artifactId>
-          </exclusion>
-          <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-javamail_1.4_spec</artifactId>
           </exclusion>
@@ -235,117 +231,21 @@
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-bindings-soap</artifactId>
         <version>${cxf.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>javax.xml.soap</groupId>
-            <artifactId>saaj-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-activation_1.1_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-javamail_1.4_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-annotation_1.0_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.codehaus.woodstox</groupId>
-            <artifactId>woodstox-core-asl</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-bindings-coloc</artifactId>
         <version>${cxf.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-javamail_1.4_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jaxws_2.1_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>com.sun.xml.fastinfoset</groupId>
-            <artifactId>FastInfoset</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-databinding-jaxb</artifactId>
         <version>${cxf.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
-     <dependency>
+      <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-features-clustering</artifactId>
         <version>${cxf.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion>   
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -353,68 +253,8 @@
         <version>${cxf.version}</version>
         <exclusions>
           <exclusion>
-            <groupId>javax.xml.soap</groupId>
-            <artifactId>saaj-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>com.sun.xml.messaging.saaj</groupId>
-            <artifactId>saaj-impl</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-activation_1.1_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-javamail_1.4_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jaxws_2.1_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>asm</groupId>
-            <artifactId>asm</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.codehaus.woodstox</groupId>
-            <artifactId>woodstox-core-asl</artifactId>
-          </exclusion>
-          <exclusion>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -422,75 +262,11 @@
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-management</artifactId>
         <version>${cxf.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-transports-http</artifactId>
         <version>${cxf.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-javamail_1.4_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -499,43 +275,11 @@
         <exclusions>
           <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-activation_1.1_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-jms_1.1_spec</artifactId>
           </exclusion>
           <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-jta_1.1_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -565,10 +309,6 @@
         <version>${cxf.version}</version>
         <exclusions>
           <exclusion>
-            <groupId>asm</groupId>
-            <artifactId>asm</artifactId>
-          </exclusion>
-          <exclusion>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
           </exclusion>
@@ -586,43 +326,7 @@
         <exclusions>
           <exclusion>
             <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-annotation_1.0_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jaxws_2.1_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-stax-api_1.0_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
+            <artifactId>geronimo-javamail_1.4_spec</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -630,44 +334,6 @@
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-ws-policy</artifactId>
         <version>${cxf.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-annotation_1.0_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jaxws_2.1_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -679,48 +345,8 @@
             <artifactId>*</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>javax.xml.soap</groupId>
-            <artifactId>saaj-api</artifactId>
-          </exclusion>
-          <exclusion>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-javascript</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jaxws_2.1_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -735,31 +361,7 @@
           </exclusion>
           <exclusion>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
+            <artifactId>*</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -783,46 +385,6 @@
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>*</artifactId>
           </exclusion>
-          <exclusion>
-            <groupId>javax.xml.soap</groupId>
-            <artifactId>saaj-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jaxws_2.1_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-stax-api_1.0_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
-          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -834,34 +396,6 @@
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>*</artifactId>
           </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
-          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -870,32 +404,8 @@
         <version>${cxf.version}</version>
         <exclusions>
           <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-beans</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-context</artifactId>
-          </exclusion> 
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-expression</artifactId>
-          </exclusion>   
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-jms</artifactId>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>*</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -991,6 +501,10 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>woodstox-core-asl</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -1053,10 +567,6 @@
         <exclusions>
           <exclusion>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
           </exclusion>
           <exclusion>
@@ -1096,11 +606,11 @@
         <exclusions>
           <exclusion>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
+            <artifactId>slf4j-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -1111,11 +621,11 @@
         <exclusions>
           <exclusion>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
+            <artifactId>slf4j-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -1290,11 +800,11 @@
         <version>${javax.inject.version}</version>
       </dependency>
       <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <version>${derby.version}</version>
-            <scope>test</scope>
-        </dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derby</artifactId>
+        <version>${derby.version}</version>
+        <scope>test</scope>
+      </dependency>
       <dependency>
         <groupId>org.jboss.shrinkwrap</groupId>
         <artifactId>shrinkwrap-depchain</artifactId>
