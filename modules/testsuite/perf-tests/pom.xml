@@ -14,6 +14,9 @@
   </parent>
   
   <properties>
+    <jmeter.version>2.13</jmeter.version>
+    <jmeter.graph.plugin.version>0.1.0</jmeter.graph.plugin.version>
+    <jmeter.plugin.version>1.10.1</jmeter.plugin.version>
   </properties>
   
   <dependencies>
@@ -56,7 +59,7 @@
     <dependency>
       <groupId>org.apache.jmeter</groupId>
       <artifactId>ApacheJMeter_java</artifactId>
-      <version>2.13</version>
+      <version>${jmeter.version}</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -336,7 +339,7 @@
           <plugin>
             <groupId>com.lazerycode.jmeter</groupId>
             <artifactId>jmeter-maven-plugin</artifactId>
-            <version>1.10.1</version>
+            <version>${jmeter.plugin.version}</version>
             <executions>
               <execution>
                 <id>jmeter-tests</id>
@@ -413,7 +416,7 @@
             <!-- TODO replace with a custom plugin allowing generating CSV reports too -->
             <groupId>de.codecentric</groupId>
             <artifactId>jmeter-graph-maven-plugin</artifactId>
-            <version>0.1.0</version>
+            <version>${jmeter.graph.plugin.version}</version>
             <executions>
               <execution>
                 <id>create-graphs</id>
@@ -489,7 +492,7 @@
           <plugin>
             <groupId>com.lazerycode.jmeter</groupId>
             <artifactId>jmeter-maven-plugin</artifactId>
-            <version>1.10.1</version>
+            <version>${jmeter.plugin.version}</version>
             <executions>
               <execution>
                 <id>jmeter-tests</id>
@@ -566,7 +569,7 @@
             <!-- TODO replace with a custom plugin allowing generating CSV reports too -->
             <groupId>de.codecentric</groupId>
             <artifactId>jmeter-graph-maven-plugin</artifactId>
-            <version>0.1.0</version>
+            <version>${jmeter.graph.plugin.version}</version>
             <executions>
               <execution>
                 <id>create-graphs</id>

@@ -119,6 +119,15 @@
     <jacc.api.version>1.0.2.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
     <org.easymock.version>3.2</org.easymock.version>
+    <junit.version>4.12</junit.version>
+    <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
+    <gmavenplus.version>1.5</gmavenplus.version>
+    <groovy.version>2.4.15</groovy.version>
+    <jdocbook.plugin.version>2.1.2</jdocbook.plugin.version>
+    <jdocbook.style.version>1.1.1</jdocbook.style.version>
+    <docbook.xslt.version>1.1.1</docbook.xslt.version>
+    <wildfly.plugin.version>1.0.2.Final</wildfly.plugin.version>
+    <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
     <modular.jdk.args />
     <modular.jdk.props />
   </properties>
@@ -1272,7 +1281,7 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.12</version>
+        <version>${junit.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -1320,12 +1329,12 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>1.5</version>
+        <version>${gmavenplus.version}</version>
         <dependencies>
           <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>2.4.15</version>
+            <version>${groovy.version}</version>
             <scope>runtime</scope>
           </dependency>
         </dependencies>
@@ -1333,12 +1342,12 @@
       <plugin>
         <groupId>org.wildfly.plugins</groupId>
         <artifactId>wildfly-maven-plugin</artifactId>
-        <version>1.0.2.Final</version>
+        <version>${wildfly.plugin.version}</version>
         <dependencies> <!-- workaround to exclude not needed jconsole from dependencies, as it hurts when running on JDK9 -->
           <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-cli</artifactId>
-            <version>8.2.1.Final</version>
+            <version>${wildfly.cli.version}</version>
             <exclusions>
               <exclusion>
                 <groupId>sun.jdk</groupId>
@@ -1351,13 +1360,13 @@
       <plugin>
         <groupId>org.jboss.maven.plugins</groupId>
         <artifactId>maven-jdocbook-plugin</artifactId>
-        <version>2.1.2</version>
+        <version>${jdocbook.plugin.version}</version>
         <extensions>true</extensions>
         <dependencies>
           <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jbossorg-docbook-xslt</artifactId>
-            <version>1.1.1</version>
+            <version>${docbook.xslt.version}</version>
             <!-- TODO workaround for https://issues.jboss.org/browse/PRESSGANG-60,
                  could be removed if new org.jboss.pressgang extensions are used instead -->
             <exclusions>
@@ -1374,7 +1383,7 @@
           <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jbossorg-jdocbook-style</artifactId>
-            <version>1.1.1</version>
+            <version>${jdocbook.style.version}</version>
             <type>jdocbook-style</type>
             <!-- TODO workaround for https://issues.jboss.org/browse/PRESSGANG-60,
                  could be removed if new org.jboss.pressgang extensions are used instead -->
@@ -1572,7 +1581,7 @@
             <plugin>
               <groupId>org.eclipse.m2e</groupId>
               <artifactId>lifecycle-mapping</artifactId>
-              <version>1.0.0</version>
+              <version>${eclipse.plugin.version}</version>
               <configuration>
                 <lifecycleMappingMetadata>
                 <pluginExecutions>
