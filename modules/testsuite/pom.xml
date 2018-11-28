@@ -815,7 +815,6 @@
         <dependency>
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <version>${jboss.version}</version>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.sasl</groupId>
