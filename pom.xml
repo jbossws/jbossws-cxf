@@ -73,7 +73,7 @@
     <wildfly1200.version>12.0.0.Final</wildfly1200.version>
     <wildfly1300.version>13.0.0.Final</wildfly1300.version>
     <wildfly1400.version>14.0.0.Final</wildfly1400.version>
-    <wildfly1500.version>15.0.0.Alpha1-SNAPSHOT</wildfly1500.version>
+    <wildfly1500.version>15.0.0.CR1-SNAPSHOT</wildfly1500.version>
     <ejb.api.version>1.0.2.Final</ejb.api.version>
     <cxf.version>3.2.6</cxf.version>
     <cxf.asm.version>6.2.1</cxf.asm.version>
@@ -203,7 +203,7 @@
       <dependency>
         <groupId>org.wildfly</groupId>
         <artifactId>wildfly-webservices-tests-integration</artifactId>
-        <version>${wildfly1400.version}</version>
+        <version>${wildfly1500.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
