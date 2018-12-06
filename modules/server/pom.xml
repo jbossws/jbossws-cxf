@@ -302,8 +302,21 @@
                         <exclude>org.apache.cxf:cxf-rt-javascript</exclude>
                         <exclude>org.apache.geronimo.specs</exclude>
                         <exclude>org.codehaus.jra:jra</exclude>
+                        <exclude>asm:asm</exclude> <!-- We want newer version -->
                         <exclude>org.slf4j:slf4j-jdk14</exclude>
                         <exclude>org.springframework:*</exclude>
+                        <exclude>com.sun.xml.bind:*</exclude>
+
+                        <!-- We want to use JBoss versions of these APIs -->
+                        <exclude>javax.annotation:javax.annotation-api</exclude>
+                        <exclude>javax.ejb:ejb-api</exclude>
+                        <exclude>javax.jms:javax.jms-api</exclude>
+                        <exclude>javax.security.auth.message:javax.security.auth.message-api</exclude>
+                        <exclude>javax.security.jacc:javax.security.jacc-api</exclude>
+                        <exclude>javax.servlet:servlet-api</exclude>
+                        <exclude>javax.xml.bind:jaxb-api</exclude>
+                        <exclude>javax.xml.soap:saaj-api</exclude>
+                        <exclude>javax.xml.ws:jaxws-api</exclude>
                       </excludes>
                     </bannedDependencies>
                   </rules>

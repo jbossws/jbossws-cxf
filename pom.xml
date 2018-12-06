@@ -419,21 +419,77 @@
         <groupId>org.apache.cxf.xjcplugins</groupId>
         <artifactId>cxf-xjc-boolean</artifactId>
         <version>${cxf.xjcplugins.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf.xjcplugins</groupId>
         <artifactId>cxf-xjc-bug986</artifactId>
         <version>${cxf.xjcplugins.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf.xjcplugins</groupId>
         <artifactId>cxf-xjc-dv</artifactId>
         <version>${cxf.xjcplugins.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf.xjcplugins</groupId>
         <artifactId>cxf-xjc-ts</artifactId>
         <version>${cxf.xjcplugins.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf.xjc-utils</groupId>
@@ -443,6 +499,14 @@
           <exclusion>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
