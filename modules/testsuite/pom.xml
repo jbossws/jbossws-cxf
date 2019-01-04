@@ -29,7 +29,7 @@
     <gnu.getopt.version>1.0.13</gnu.getopt.version>
     <bc.version>1.60</bc.version>
     <resources-plugin-filters.version>1.1.0.Final</resources-plugin-filters.version>
-    <exec.plugin.version>1.2.1</exec.plugin.version>
+    <exec.plugin.version>1.6.0</exec.plugin.version>
     <port-offset.cxf-tests.jboss>0</port-offset.cxf-tests.jboss>
     <port-offset.cxf-tests.ssl-mutual-auth>5000</port-offset.cxf-tests.ssl-mutual-auth>
     <port-offset.cxf-tests.default-config-tests>10000</port-offset.cxf-tests.default-config-tests>
