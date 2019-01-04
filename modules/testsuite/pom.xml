@@ -25,7 +25,7 @@
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <log4j.output.dir>${project.build.directory}</log4j.output.dir>
     <appclient.output.dir>${project.build.directory}/appclient-logs</appclient.output.dir>
-    <org.littleshoot.littleproxy.version>1.0.0-beta2</org.littleshoot.littleproxy.version>
+    <org.littleshoot.littleproxy.version>1.1.2</org.littleshoot.littleproxy.version>
     <gnu.getopt.version>1.0.13</gnu.getopt.version>
     <bc.version>1.60</bc.version>
     <resources-plugin-filters.version>1.1.0.Final</resources-plugin-filters.version>
@@ -626,31 +626,6 @@
        	  <version>${arquillian.version}</version>
        	  <scope>test</scope>
         </dependency>
-        <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
-        <dependency>
-          <groupId>org.littleshoot</groupId>
-          <artifactId>littleproxy</artifactId>
-          <version>${org.littleshoot.littleproxy.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-log4j12</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>net.sf.ehcache</groupId>
-              <artifactId>ehcache-core</artifactId>
-            </exclusion>
-            <!-- Let the container messaging subsystem control the Netty dependency version  -->
-            <exclusion>
-              <groupId>io.netty</groupId>
-              <artifactId>netty-all</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
         <dependency>
           <groupId>xerces</groupId>
           <artifactId>xercesImpl</artifactId>
@@ -699,31 +674,6 @@
        	  <version>${arquillian.version}</version>
        	  <scope>test</scope>
         </dependency>
-        <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
-        <dependency>
-          <groupId>org.littleshoot</groupId>
-          <artifactId>littleproxy</artifactId>
-          <version>${org.littleshoot.littleproxy.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-log4j12</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>net.sf.ehcache</groupId>
-              <artifactId>ehcache-core</artifactId>
-            </exclusion>
-            <!-- Let the container messaging subsystem control the Netty dependency version  -->
-            <exclusion>
-              <groupId>io.netty</groupId>
-              <artifactId>netty-all</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
         <dependency>
           <groupId>xerces</groupId>
           <artifactId>xercesImpl</artifactId>
@@ -771,31 +721,6 @@
        	  <version>${arquillian.version}</version>
        	  <scope>test</scope>
         </dependency>
-        <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
-        <dependency>
-          <groupId>org.littleshoot</groupId>
-          <artifactId>littleproxy</artifactId>
-          <version>${org.littleshoot.littleproxy.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-log4j12</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>net.sf.ehcache</groupId>
-              <artifactId>ehcache-core</artifactId>
-            </exclusion>
-            <!-- Let the container messaging subsystem control the Netty dependency version  -->
-            <exclusion>
-              <groupId>io.netty</groupId>
-              <artifactId>netty-all</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
         <dependency>
           <groupId>xerces</groupId>
           <artifactId>xercesImpl</artifactId>
@@ -842,31 +767,6 @@
        	  <artifactId>arquillian-protocol-servlet</artifactId>
        	  <version>${arquillian.version}</version>
        	  <scope>test</scope>
-        </dependency>
-        <!-- LittleProxy depencency declared in this profile as other profiles require different exclusions -->
-        <dependency>
-          <groupId>org.littleshoot</groupId>
-          <artifactId>littleproxy</artifactId>
-          <version>${org.littleshoot.littleproxy.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-log4j12</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>net.sf.ehcache</groupId>
-              <artifactId>ehcache-core</artifactId>
-            </exclusion>
-            <!-- Let the container messaging subsystem control the Netty dependency version  -->
-            <exclusion>
-              <groupId>io.netty</groupId>
-              <artifactId>netty-all</artifactId>
-            </exclusion>
-          </exclusions>
         </dependency>
         <dependency>
           <groupId>xerces</groupId>
