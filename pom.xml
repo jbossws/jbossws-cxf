@@ -74,7 +74,7 @@
     <wildfly1300.version>13.0.0.Final</wildfly1300.version>
     <wildfly1400.version>14.0.0.Final</wildfly1400.version>
     <wildfly1500.version>15.0.0.Alpha1-SNAPSHOT</wildfly1500.version>
-    <ejb.api.version>1.0.2.Final</ejb.api.version>
+    <ejb.api.version>1.0.1.Final</ejb.api.version>
     <cxf.version>3.2.6</cxf.version>
     <cxf.asm.version>6.2.1</cxf.asm.version>
     <cxf.xjcplugins.version>3.2.2</cxf.xjcplugins.version>
@@ -523,7 +523,7 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.ejb</groupId>
-        <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+        <artifactId>jboss-ejb-api_3.2_spec</artifactId>
         <version>${ejb.api.version}</version>
       </dependency>
       <!-- Explicit saaj-impl dependency in synch with default SAAJ factories expected by our SAAJ API -->
