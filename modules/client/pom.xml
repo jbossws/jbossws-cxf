@@ -205,7 +205,7 @@
     
     <dependency>
       <groupId>org.jboss.spec.javax.servlet</groupId>
-      <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+      <artifactId>jboss-servlet-api_4.0_spec</artifactId>
     </dependency>
     
     <!-- [JBWS-3722] Explicit JAXB dependencies to ensure the dependency management from jbossws-cxf pom.xml applies -->
@@ -318,6 +318,7 @@
                         <exclude>org.slf4j:slf4j-jdk14</exclude>
                         <exclude>org.springframework:*</exclude>
                         <exclude>com.sun.xml.bind:*</exclude>
+                        <exclude>org.jboss.spec.javax.servlet:jboss-servlet-api_3.1_spec</exclude><!-- We want 4.0 API -->
 
                         <!-- We want to use JBoss versions of these APIs -->
                         <exclude>javax.annotation:javax.annotation-api</exclude>
