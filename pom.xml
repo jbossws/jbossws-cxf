@@ -103,7 +103,7 @@
     <annotation.api.version>1.0.2.Final</annotation.api.version>
     <saaj.api.version>1.0.6.Final</saaj.api.version>
     <saaj.impl.version>1.3.16-jbossorg-1</saaj.impl.version>
-    <servlet.api.version>1.0.2.Final</servlet.api.version>
+    <servlet.api.version>1.0.0.Final</servlet.api.version>
     <stax.api.version>1.0-2</stax.api.version>
     <jms.api.version>1.0.2.Final</jms.api.version>
     <velocity.version>2.0</velocity.version>
@@ -175,36 +175,78 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly1200-server-integration</artifactId>
         <version>${jbossws.wildfly1200.version}</version>
+        <exclusions>
+          <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly1200-tests-integration</artifactId>
         <version>${jbossws.wildfly1200.version}</version>
+        <exclusions>
+          <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly1300-server-integration</artifactId>
         <version>${jbossws.wildfly1300.version}</version>
+        <exclusions>
+          <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly1300-tests-integration</artifactId>
         <version>${jbossws.wildfly1300.version}</version>
+        <exclusions>
+          <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly1400-server-integration</artifactId>
         <version>${jbossws.wildfly1400.version}</version>
+        <exclusions>
+          <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-wildfly1400-tests-integration</artifactId>
         <version>${jbossws.wildfly1400.version}</version>
+        <exclusions>
+          <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.wildfly</groupId>
         <artifactId>wildfly-webservices-tests-integration</artifactId>
         <version>${wildfly1400.version}</version>
+        <exclusions>
+          <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
@@ -713,7 +755,7 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.servlet</groupId>
-        <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+        <artifactId>jboss-servlet-api_4.0_spec</artifactId>
         <version>${servlet.api.version}</version>
       </dependency>
       <dependency>
@@ -725,6 +767,12 @@
         <groupId>org.jboss.spec.javax.security.jacc</groupId>
         <artifactId>jboss-jacc-api_1.5_spec</artifactId>
         <version>${jacc.api.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
      
       <!-- jboss provided -->
