@@ -21,6 +21,7 @@ The '-Dipv6' option can be used to run the integration testsuite using IPv6 prot
 The '-Darquillian.deploymentExportPath=target/foo' option can be used to have Arquillian write the actual test deployments to disk.
 The '-DnoLogRedirect' can be used to prevent Surefire from redirecting console logs to test output files.
 The '-DenableServerLoggingToConsole' can be used to enable logging of server mesages to console too, otherwise these messages are only redirected to specific log files.
+The '-Dts.dist.dependency.skip' can be used to remove dependency to jbossws-cxf-dist module which makes it possible to run tests directly from testsuite module against arbitrary server given by '-Dserver.home'.
 
 The 'fast' profile can also be used to run tests concurrently; run 'mvn -Pfast,wildflyXYZ post-integration-test' in such case to trigger test servers' shutdown and save memory at the end of each testsuite module.
 
