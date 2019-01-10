@@ -921,6 +921,31 @@
     </profile>
 
     <!--
+    Name:  exclude-ws-discovery-tests
+    Descr: Additional exclusions of WS-Discovery tests which require a network environment properly setup for multicast tests
+    -->
+    <profile>
+      <id>exclude-ws-discovery-tests</id>
+      <activation>
+        <property>
+          <name>exclude-ws-discovery-tests</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes combine.children="append">
+                <exclude>org/jboss/test/ws/jaxws/samples/wsdd/WSDiscoveryTestCase*</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
     Name:  no-jboss-bind-address
     Descr: Set the default jboss.bind.address
 
