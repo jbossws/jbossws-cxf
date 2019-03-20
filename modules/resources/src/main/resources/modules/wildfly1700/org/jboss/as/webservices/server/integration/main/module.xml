@@ -95,6 +95,5 @@
             <include path="org.jboss.jbossts.txbridge.outbound"/>
           </imports>
         </module>
-        <module name="org.jboss.logging" />
     </dependencies>
 </module>

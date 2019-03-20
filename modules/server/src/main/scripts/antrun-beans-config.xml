@@ -27,17 +27,7 @@
   <property name="src.dir" value="${basedir}/src/main/resources"/>
   <property name="dest.dir" value="${basedir}/target/resources"/>
 
-  <target name="main">  	
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as12.xml"
-      tofile="${dest.dir}/jbossws-wildfly1200/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-  	
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as13.xml"
-      tofile="${dest.dir}/jbossws-wildfly1300/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-  	
+  <target name="main">  	 	
     <copy
       file="${src.dir}/jbossws-cxf-config-as14.xml"
       tofile="${dest.dir}/jbossws-wildfly1400/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
@@ -46,7 +36,16 @@
     <copy
       file="${src.dir}/jbossws-cxf-config-as15.xml"
       tofile="${dest.dir}/jbossws-wildfly1500/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />	
+    />
+    <copy
+      file="${src.dir}/jbossws-cxf-config-as16.xml"
+      tofile="${dest.dir}/jbossws-wildfly1600/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
+    />
+
+    <copy
+      file="${src.dir}/jbossws-cxf-config-as17.xml"
+      tofile="${dest.dir}/jbossws-wildfly1700/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
+    />		
   </target>
 
 </project>
