@@ -59,7 +59,7 @@
     </condition>
     <property name="wildfly1400.available.file" value="${wildfly1400.home}/jboss-modules.jar"/>
     <property name="wildfly1500.available.file" value="${wildfly1500.home}/jboss-modules.jar"/>
-    <property name="wildfly1600.available.file" value="${wildfly1500.home}/jboss-modules.jar"/>
+    <property name="wildfly1600.available.file" value="${wildfly1600.home}/jboss-modules.jar"/>
     <property name="wildfly1700.available.file" value="${wildfly1700.home}/jboss-modules.jar"/>
     <available property="wildfly1400.available" file="${wildfly1400.available.file}"/>   
     <available property="wildfly1500.available" file="${wildfly1500.available.file}"/>   
