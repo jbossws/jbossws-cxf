@@ -643,7 +643,7 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.wildfly</groupId>
+          <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-wildfly1500-tests-integration</artifactId>
           <exclusions>
             <exclusion>
@@ -690,7 +690,7 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.wildfly</groupId>
+          <groupId>org.jboss.ws</groupId>
           <artifactId>jbossws-wildfly1600-tests-integration</artifactId>
           <exclusions>
             <exclusion>
