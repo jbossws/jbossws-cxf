@@ -28,17 +28,7 @@
   <property name="deploy.artifacts.dir" value="${basedir}/target/assembly/deploy-artifacts"/>
   <property name="jbossws.default.modules.conf" value="${basedir}/target/assembly/deploy-artifacts/modules-deploy.conf"/>
 	
-  <target name="deploy" depends="prepare,deploy-wildfly1200-if-available,deploy-wildfly1300-if-available,deploy-wildfly1400-if-available,deploy-wildfly1500-if-available" description="Deploy jbossws to wildfly"/>
-
-
-
-  <target name="deploy-wildfly1200-if-available" if="wildfly1200.available">
-  	<antcall target="deploy-wildfly1200"/>
-  </target>
-
-  <target name="deploy-wildfly1300-if-available" if="wildfly1300.available">
-  	<antcall target="deploy-wildfly1300"/>
-  </target>
+  <target name="deploy" depends="prepare,deploy-wildfly1400-if-available,deploy-wildfly1500-if-available,deploy-wildfly1600-if-available,deploy-wildfly1700-if-available" description="Deploy jbossws to wildfly"/>
 
   <target name="deploy-wildfly1400-if-available" if="wildfly1400.available">
   	<antcall target="deploy-wildfly1400"/>
@@ -46,28 +36,35 @@
   <target name="deploy-wildfly1500-if-available" if="wildfly1500.available">
   	<antcall target="deploy-wildfly1500"/>
   </target>
-  <target name="prepare">
 
-    <condition property="wildfly1200.home" value="${jboss.home}">
-      <equals arg1="${jbossws.integration.target}" arg2="wildfly1200"/>
-    </condition>
-    <condition property="wildfly1300.home" value="${jboss.home}">
-      <equals arg1="${jbossws.integration.target}" arg2="wildfly1300"/>
-    </condition>
+  <target name="deploy-wildfly1600-if-available" if="wildfly1600.available">
+  	<antcall target="deploy-wildfly1600"/>
+  </target>
+
+  <target name="deploy-wildfly1700-if-available" if="wildfly1700.available">
+  	<antcall target="deploy-wildfly1700"/>
+  </target>
+  <target name="prepare">
     <condition property="wildfly1400.home" value="${jboss.home}">
       <equals arg1="${jbossws.integration.target}" arg2="wildfly1400"/>
     </condition>
     <condition property="wildfly1500.home" value="${jboss.home}">
       <equals arg1="${jbossws.integration.target}" arg2="wildfly1500"/>
     </condition>
-    <property name="wildfly1200.available.file" value="${wildfly1200.home}/jboss-modules.jar"/>
-    <property name="wildfly1300.available.file" value="${wildfly1300.home}/jboss-modules.jar"/>
+    <condition property="wildfly1600.home" value="${jboss.home}">
+      <equals arg1="${jbossws.integration.target}" arg2="wildfly1600"/>
+    </condition>
+    <condition property="wildfly1700.home" value="${jboss.home}">
+      <equals arg1="${jbossws.integration.target}" arg2="wildfly1700"/>
+    </condition>
     <property name="wildfly1400.available.file" value="${wildfly1400.home}/jboss-modules.jar"/>
     <property name="wildfly1500.available.file" value="${wildfly1500.home}/jboss-modules.jar"/>
-    <available property="wildfly1200.available" file="${wildfly1200.available.file}"/>   
-    <available property="wildfly1300.available" file="${wildfly1300.available.file}"/>   
+    <property name="wildfly1600.available.file" value="${wildfly1600.home}/jboss-modules.jar"/>
+    <property name="wildfly1700.available.file" value="${wildfly1700.home}/jboss-modules.jar"/>
     <available property="wildfly1400.available" file="${wildfly1400.available.file}"/>   
     <available property="wildfly1500.available" file="${wildfly1500.available.file}"/>   
+    <available property="wildfly1600.available" file="${wildfly1600.available.file}"/>   
+    <available property="wildfly1700.available" file="${wildfly1700.available.file}"/>   
     <tstamp>
       <format property="build.id" pattern="yyyyMMddHHmm"/>
     </tstamp>
@@ -79,116 +76,6 @@
     <echo message="integration.target=${jbossws.integration.target}"/>
     
     <property name="deploy.structure" value="${output.dir}/deploy-${jbossws.integration.target}"/>
-  </target>
-
-  
-
-  <!-- ================================================================== -->
-  <!-- Prepare Deployment Structure WildFly-12.0.x                        -->
-  <!-- ================================================================== -->
-
-  <target name="deploy-structure-wildfly120x" depends="init">
-    <delete dir="${deploy.structure}"/>
-    <path id="jboss.ant.tasks.classpath">
-      <fileset dir="${deploy.artifacts.dir}">
-        <include name="**/jbossws-common-tools.jar"/>
-      </fileset>
-    </path>
-    <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jboss.ant.tasks.classpath"/>
-    <antcall target="deploy-jbossws-cxf-modules-as11" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="jbossid" value="${jbossws.integration.target}"/>
-      <param name="modules-jbossid" value="wildfly1200"/>
-    </antcall>
-  	<copy toDir="${deploy.structure}/modules/system/layers/base">
-      <fileset dir="${deploy.artifacts.dir}/modules/wildfly1200">
-        <include name="**/jboss/as/webservices/main/module.xml"/>
-      	<include name="**/jboss/as/webservices/server/integration/main/module.xml"/>
-      </fileset>
-    </copy>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Deployment wildfly1200                                             -->
-  <!-- ================================================================== -->
-
-  <target name="target-wildfly1200">
-    <property name="jbossws.integration.target" value="wildfly1200"/>
-    <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
-  </target>
-  <target name="deploy-wildfly1200" depends="undeploy-wildfly1200,deploy-structure-wildfly120x">
-    <fail message="Not available: ${wildfly1200.available.file}" unless="wildfly1200.available"/>
-    <copy todir="${wildfly1200.home}" overwrite="true" verbose="true">
-      <fileset dir="${deploy.structure}">
-        <exclude name="**/jboss/as/webservices/**/module.xml"/>
-      </fileset>
-    </copy>
-    <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
-    <installModules targetDir="${wildfly1200.home}/modules/system/layers/base/">
-      <fileset dir="${deploy.structure}/modules/system/layers/base">
-        <include name="**/jboss/as/webservices/**/module.xml"/>
-      </fileset>
-    </installModules>
-  </target>
-
-  <target name="undeploy-wildfly1200" depends="target-wildfly1200,init">
-    <fail message="Not available: ${wildfly1200.available.file}" unless="wildfly1200.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${wildfly1200.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Prepare Deployment Structure WildFly-13.0.x                        -->
-  <!-- ================================================================== -->
-
-  <target name="deploy-structure-wildfly130x" depends="init">
-    <delete dir="${deploy.structure}"/>
-    <path id="jboss.ant.tasks.classpath">
-      <fileset dir="${deploy.artifacts.dir}">
-        <include name="**/jbossws-common-tools.jar"/>
-      </fileset>
-    </path>
-    <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jboss.ant.tasks.classpath"/>
-    <antcall target="deploy-jbossws-cxf-modules-as11" inheritall="false">
-      <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
-      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-      <param name="jbossid" value="${jbossws.integration.target}"/>
-      <param name="modules-jbossid" value="wildfly1300"/>
-    </antcall>
-  	<copy toDir="${deploy.structure}/modules/system/layers/base">
-      <fileset dir="${deploy.artifacts.dir}/modules/wildfly1300">
-        <include name="**/jboss/as/webservices/main/module.xml"/>
-      	<include name="**/jboss/as/webservices/server/integration/main/module.xml"/>
-      </fileset>
-    </copy>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Deployment wildfly1300                                             -->
-  <!-- ================================================================== -->
-
-  <target name="target-wildfly1300">
-    <property name="jbossws.integration.target" value="wildfly1300"/>
-    <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
-  </target>
-  <target name="deploy-wildfly1300" depends="undeploy-wildfly1300,deploy-structure-wildfly130x">
-    <fail message="Not available: ${wildfly1300.available.file}" unless="wildfly1300.available"/>
-    <copy todir="${wildfly1300.home}" overwrite="true" verbose="true">
-      <fileset dir="${deploy.structure}">
-        <exclude name="**/jboss/as/webservices/**/module.xml"/>
-      </fileset>
-    </copy>
-    <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
-    <installModules targetDir="${wildfly1300.home}/modules/system/layers/base/">
-      <fileset dir="${deploy.structure}/modules/system/layers/base">
-        <include name="**/jboss/as/webservices/**/module.xml"/>
-      </fileset>
-    </installModules>
-  </target>
-
-  <target name="undeploy-wildfly1300" depends="target-wildfly1300,init">
-    <fail message="Not available: ${wildfly1300.available.file}" unless="wildfly1300.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${wildfly1300.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
   </target>
 
   <!-- ================================================================== -->
@@ -249,7 +136,7 @@
   <!-- Prepare Deployment Structure WildFly-15.0.x                        -->
   <!-- ================================================================== -->
 
-<target name="deploy-structure-wildfly150x" depends="init">
+  <target name="deploy-structure-wildfly150x" depends="init">
     <delete dir="${deploy.structure}"/>
     <path id="jboss.ant.tasks.classpath">
       <fileset dir="${deploy.artifacts.dir}">
@@ -270,7 +157,6 @@
       </fileset>
     </copy>
   </target>
-
 
   <!-- ================================================================== -->
   <!-- Deployment wildfly1500                                             -->
@@ -300,6 +186,114 @@
     <macro-undeploy-jbossws-modules targetdir="${wildfly1500.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
   </target>
 
+  <!-- ================================================================== -->
+  <!-- Prepare Deployment Structure WildFly-16.0.x                        -->
+  <!-- ================================================================== -->
+
+<target name="deploy-structure-wildfly160x" depends="init">
+    <delete dir="${deploy.structure}"/>
+    <path id="jboss.ant.tasks.classpath">
+      <fileset dir="${deploy.artifacts.dir}">
+        <include name="**/jbossws-common-tools.jar"/>
+      </fileset>
+    </path>
+    <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jboss.ant.tasks.classpath"/>
+    <antcall target="deploy-jbossws-cxf-modules-as11" inheritall="false">
+      <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
+      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
+      <param name="jbossid" value="${jbossws.integration.target}"/>
+      <param name="modules-jbossid" value="wildfly1600"/>
+    </antcall>
+  	<copy toDir="${deploy.structure}/modules/system/layers/base">
+      <fileset dir="${deploy.artifacts.dir}/modules/wildfly1600">
+        <include name="**/jboss/as/webservices/main/module.xml"/>
+      	<include name="**/jboss/as/webservices/server/integration/main/module.xml"/>
+      </fileset>
+    </copy>
+  </target>
+
+
+  <!-- ================================================================== -->
+  <!-- Deployment wildfly1600                                             -->
+  <!-- ================================================================== -->
+
+  <target name="target-wildfly1600">
+    <property name="jbossws.integration.target" value="wildfly1600"/>
+    <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
+  </target>
+  <target name="deploy-wildfly1600" depends="undeploy-wildfly1600,deploy-structure-wildfly160x">
+    <fail message="Not available: ${wildfly1600.available.file}" unless="wildfly1600.available"/>
+    <copy todir="${wildfly1600.home}" overwrite="true" verbose="true">
+      <fileset dir="${deploy.structure}">
+        <exclude name="**/jboss/as/webservices/**/module.xml"/>
+      </fileset>
+    </copy>
+    <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
+    <installModules targetDir="${wildfly1600.home}/modules/system/layers/base/">
+      <fileset dir="${deploy.structure}/modules/system/layers/base">
+        <include name="**/jboss/as/webservices/**/module.xml"/>
+      </fileset>
+    </installModules>
+  </target>
+
+  <target name="undeploy-wildfly1600" depends="target-wildfly1600,init">
+    <fail message="Not available: ${wildfly1600.available.file}" unless="wildfly1600.available"/>
+    <macro-undeploy-jbossws-modules targetdir="${wildfly1600.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
+  </target>
+  <!-- ================================================================== -->
+  <!-- Prepare Deployment Structure WildFly-17.0.x                        -->
+  <!-- ================================================================== -->
+
+<target name="deploy-structure-wildfly170x" depends="init">
+    <delete dir="${deploy.structure}"/>
+    <path id="jboss.ant.tasks.classpath">
+      <fileset dir="${deploy.artifacts.dir}">
+        <include name="**/jbossws-common-tools.jar"/>
+      </fileset>
+    </path>
+    <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jboss.ant.tasks.classpath"/>
+    <antcall target="deploy-jbossws-cxf-modules-as11" inheritall="false">
+      <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
+      <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
+      <param name="jbossid" value="${jbossws.integration.target}"/>
+      <param name="modules-jbossid" value="wildfly1700"/>
+    </antcall>
+  	<copy toDir="${deploy.structure}/modules/system/layers/base">
+      <fileset dir="${deploy.artifacts.dir}/modules/wildfly1700">
+        <include name="**/jboss/as/webservices/main/module.xml"/>
+      	<include name="**/jboss/as/webservices/server/integration/main/module.xml"/>
+      </fileset>
+    </copy>
+  </target>
+
+
+  <!-- ================================================================== -->
+  <!-- Deployment wildfly1700                                             -->
+  <!-- ================================================================== -->
+
+  <target name="target-wildfly1700">
+    <property name="jbossws.integration.target" value="wildfly1700"/>
+    <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
+  </target>
+  <target name="deploy-wildfly1700" depends="undeploy-wildfly1700,deploy-structure-wildfly170x">
+    <fail message="Not available: ${wildfly1700.available.file}" unless="wildfly1700.available"/>
+    <copy todir="${wildfly1700.home}" overwrite="true" verbose="true">
+      <fileset dir="${deploy.structure}">
+        <exclude name="**/jboss/as/webservices/**/module.xml"/>
+      </fileset>
+    </copy>
+    <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
+    <installModules targetDir="${wildfly1700.home}/modules/system/layers/base/">
+      <fileset dir="${deploy.structure}/modules/system/layers/base">
+        <include name="**/jboss/as/webservices/**/module.xml"/>
+      </fileset>
+    </installModules>
+  </target>
+
+  <target name="undeploy-wildfly1700" depends="target-wildfly1700,init">
+    <fail message="Not available: ${wildfly1700.available.file}" unless="wildfly1700.available"/>
+    <macro-undeploy-jbossws-modules targetdir="${wildfly1700.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
+  </target>
   <!-- ================================================================== -->
   <!-- ================================================================== -->
   <!-- ||                          M A C R O s                         || -->

@@ -201,49 +201,6 @@
     </profile>
 
     <!--
-    Name:  wildfly1200
-    Descr: WildFly-12.0.0 specific dependencies
-    -->
-    <profile>
-      <id>wildfly1200</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws.cxf</groupId>
-          <artifactId>jbossws-cxf-resources</artifactId>
-          <version>${project.version}</version>
-          <classifier>wildfly1200</classifier>     
-          <scope>provided</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-wildfly1200-server-integration</artifactId>
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-
-    <!--
-    Name:  wildfly1300
-    Descr: WildFly-13.0.0 specific dependencies
-    -->
-    <profile>
-      <id>wildfly1300</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws.cxf</groupId>
-          <artifactId>jbossws-cxf-resources</artifactId>
-          <version>${project.version}</version>
-          <classifier>wildfly1300</classifier>     
-          <scope>provided</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-wildfly1300-server-integration</artifactId>
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-    <!--
     Name:  wildfly1400
     Descr: WildFly-14.0.0 specific dependencies
     -->
@@ -276,6 +233,49 @@
           <artifactId>jbossws-cxf-resources</artifactId>
           <version>${project.version}</version>
           <classifier>wildfly1500</classifier>     
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-wildfly1500-server-integration</artifactId>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+   <!--
+    Name:  wildfly1600
+    Descr: WildFly-16.0.0 specific dependencies
+    -->
+    <profile>
+      <id>wildfly1600</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws.cxf</groupId>
+          <artifactId>jbossws-cxf-resources</artifactId>
+          <version>${project.version}</version>
+          <classifier>wildfly1600</classifier>     
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ws</groupId>
+          <artifactId>jbossws-wildfly1600-server-integration</artifactId>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+    <!--
+    Name:  wildfly1700
+    Descr: WildFly-17.0.0 specific dependencies
+    -->
+    <profile>
+      <id>wildfly1700</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws.cxf</groupId>
+          <artifactId>jbossws-cxf-resources</artifactId>
+          <version>${project.version}</version>
+          <classifier>wildfly1700</classifier>     
           <scope>provided</scope>
         </dependency>
       </dependencies>
