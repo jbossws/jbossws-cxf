@@ -39,6 +39,7 @@ if [[ $USE_WFLY_MASTER = "true" ]]; then
   WFLY_HOME=$(find $WFLY_TARGET -maxdepth 1 -name \wildfly\* -type d -print | head -n1)
   D_SERVER_HOME="-Dserver.home="$WFLY_HOME
   cd $MYPWD
+  mvn -s .travis-settings.xml -B -fae -DSECMGR=${SECURITY_MGR} -P${SERVER_VERSION} ${D_SERVER_HOME} integration-test
+else 
+  mvn -s .travis-settings.xml -B -fae -DSECMGR=${SECURITY_MGR} -P${SERVER_VERSION} integration-test
 fi
-
-mvn -s .travis-settings.xml -B -fae -DSECMGR=${SECURITY_MGR} -P${SERVER_VERSION} ${D_SERVER_HOME} integration-test
