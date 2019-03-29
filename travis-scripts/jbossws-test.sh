@@ -19,9 +19,6 @@ java -version
 SERVER_VERSION=$1
 SECURITY_MGR=$2
 USE_WFLY_MASTER=$3
-
-D_SERVER_HOME=""
-
 if [[ $USE_WFLY_MASTER = "true" ]]; then
 
   MYPWD=`pwd`
@@ -33,12 +30,8 @@ if [[ $USE_WFLY_MASTER = "true" ]]; then
   cd wildfly
 
   # compile in silence.  The bld output is too much for travis log
-  mvn --quiet clean install -DskipTests -Denforcer.skip -Dcheckstyle.skip
-
-  WFLY_TARGET=`pwd`"/dist/target/"
-  WFLY_HOME=$(find $WFLY_TARGET -maxdepth 1 -name \wildfly\* -type d -print | head -n1)
-  D_SERVER_HOME="-Dserver.home="$WFLY_HOME
+  mvn --quiet clean install -DskipTests -Denforcer.skip -Dcheckstyle.skip -Prelease
   cd $MYPWD
 fi
+mvn -s .travis-settings.xml -B -fae -DSECMGR=${SECURITY_MGR} -P${SERVER_VERSION} integration-test
 
-mvn -s .travis-settings.xml -B -fae -DSECMGR=${SECURITY_MGR} -P${SERVER_VERSION} ${D_SERVER_HOME} integration-test
