@@ -75,9 +75,9 @@
     <wildfly1600.version>16.0.0.Final</wildfly1600.version>
     <wildfly1700.version>17.0.0.Beta1-SNAPSHOT</wildfly1700.version>
     <ejb.api.version>1.0.1.Final</ejb.api.version>
-    <cxf.version>3.2.6</cxf.version>
-    <cxf.asm.version>6.2.1</cxf.asm.version>
-    <cxf.xjcplugins.version>3.2.2</cxf.xjcplugins.version>
+    <cxf.version>3.3.1</cxf.version>
+    <cxf.asm.version>7.1</cxf.asm.version>
+    <cxf.xjcplugins.version>3.3.0</cxf.xjcplugins.version>
     <jboss-logging.version>3.3.2.Final</jboss-logging.version>
     <jboss-logging-annotations.version>2.1.0.Final</jboss-logging-annotations.version>
     <jboss-logging-processor.version>2.1.0.Final</jboss-logging-processor.version>
@@ -466,8 +466,8 @@
         <version>${cxf.xjcplugins.version}</version>
         <exclusions>
           <exclusion>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
           </exclusion>
           <exclusion>
             <groupId>javax.annotation</groupId>
@@ -485,8 +485,8 @@
         <version>${cxf.xjcplugins.version}</version>
         <exclusions>
           <exclusion>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
           </exclusion>
           <exclusion>
             <groupId>javax.annotation</groupId>
@@ -504,8 +504,8 @@
         <version>${cxf.xjcplugins.version}</version>
         <exclusions>
           <exclusion>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
           </exclusion>
           <exclusion>
             <groupId>javax.annotation</groupId>
@@ -523,8 +523,8 @@
         <version>${cxf.xjcplugins.version}</version>
         <exclusions>
           <exclusion>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
           </exclusion>
           <exclusion>
             <groupId>javax.annotation</groupId>
@@ -542,8 +542,8 @@
         <version>${cxf.xjcplugins.version}</version>
         <exclusions>
           <exclusion>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
           </exclusion>
           <exclusion>
             <groupId>javax.annotation</groupId>
