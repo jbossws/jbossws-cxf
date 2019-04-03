@@ -1201,6 +1201,35 @@
         </modular.jdk.props>
         <!--modular.jdk.props>-Dsun.util.logging.disableCallerCheck=true -Dsun.reflect.debugModuleAccessChecks=true -Djaxb.debug=true</modular.jdk.props-->
       </properties>
+        <dependencies>
+          <!--cxf force add these dependency in a jdk9plus profile in cxf 3.3.x parent pom. There is no way to exclude these dependency gloabally.Set it to test scope is a workaround to avoid 
+            add these dependencies to dist and jboss modules--> 
+          <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+            <version>2.3.0</version>
+            <scope>test</scope>
+          </dependency>
+          <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.1</version>
+            <scope>test</scope>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
+            <version>1.1.3</version>
+            <scope>test</scope>
+          </dependency>
+          <dependency>
+           <groupId>org.apache.geronimo.specs</groupId>
+           <artifactId>geronimo-jta_1.1_spec</artifactId>
+           <version>1.1.1</version>
+           <scope>test</scope>
+          </dependency>
+        </dependencies>
+
     </profile>
 
     <profile>
@@ -1211,62 +1240,7 @@
       <properties>
        <skip-enforce>true</skip-enforce>
       </properties>
-      <dependencies>
-      <dependency>
-        <groupId>javax.xml.ws</groupId>
-        <artifactId>jaxws-api</artifactId>
-        <version>2.3.0</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>javax.annotation</groupId>
-        <artifactId>javax.annotation-api</artifactId>
-        <version>1.3.1</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.geronimo.specs</groupId>
-        <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
-        <version>1.1.3</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.geronimo.specs</groupId>
-        <artifactId>geronimo-jta_1.1_spec</artifactId>
-        <version>1.1.1</version>
-        <scope>test</scope>
-      </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>ban-bad-dependencies</id>
-                <goals>
-                  <goal>enforce</goal>
-                </goals>
-                <configuration>
-                  <rules>
-                    <bannedDependencies>
-                      <searchTransitive>true</searchTransitive>
-                      <!--excludes>
-                        <exclude>org.apache.cxf:cxf-rt-bindings-corba</exclude>
-                        <exclude>org.apache.cxf:cxf-rt-javascript</exclude>
-                        <exclude>org.apache.geronimo.specs</exclude>
-                        <exclude>org.codehaus.jra:jra</exclude>
-                        <exclude>org.slf4j:slf4j-jdk14</exclude>
-                      </excludes-->
-                    </bannedDependencies>
-                  </rules>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
+
     </profile>
 
 
