@@ -255,6 +255,12 @@
         <groupId>org.jboss.ws.projects</groupId>
         <artifactId>jaxws-undertow-httpspi</artifactId>
         <version>${jaxws-undertow-httpspi.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.jboss.spec.javax.xml.ws</groupId>
+            <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <!-- CXF dependencies -->
