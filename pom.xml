@@ -1161,37 +1161,10 @@
          <module>modules/testsuite</module>
       </modules>
     </profile>
-
     <profile>
-      <id>JDK9</id>
+      <id>JDK11plus</id>
       <activation>
-        <jdk>9</jdk>
-      </activation>
-      <properties>
-        <modular.jdk.args>
-          --add-modules=java.se
-        </modular.jdk.args>
-        <modular.jdk.props>
-          -Dsun.util.logging.disableCallerCheck=true
-          -Dsun.reflect.debugModuleAccessChecks=true
-          --add-exports=java.base/sun.nio.ch=ALL-UNNAMED
-          --add-exports=java.security.sasl/com.sun.security.sasl=ALL-UNNAMED
-          --add-exports=java.security.sasl/com.sun.security.sasl.digest=ALL-UNNAMED
-          --add-exports=java.security.sasl/com.sun.security.sasl.ntlm=ALL-UNNAMED
-          --add-exports=java.xml/com.sun.org.apache.xalan.internal.xsltc.trax=ALL-UNNAMED
-          --add-exports=java.xml/com.sun.org.apache.xerces.internal.jaxp=ALL-UNNAMED
-          --add-exports=java.xml/com.sun.org.apache.xpath.internal.jaxp=ALL-UNNAMED
-          --add-exports=java.xml/com.sun.xml.internal.stream=ALL-UNNAMED
-          --add-exports=java.xml/javax.xml.namespace=ALL-UNNAMED
-        </modular.jdk.props>
-        <!--modular.jdk.props>-Dsun.util.logging.disableCallerCheck=true -Dsun.reflect.debugModuleAccessChecks=true -Djaxb.debug=true</modular.jdk.props-->
-      </properties>
-    </profile>
-
-    <profile>
-      <id>JDK10plus</id>
-      <activation>
-        <jdk>[10,)</jdk>
+        <jdk>[11,)</jdk>
       </activation>
       <properties>
         <modular.jdk.args>
@@ -1199,11 +1172,13 @@
         </modular.jdk.args>
         <modular.jdk.props>
         </modular.jdk.props>
+        <skip-enforce>true</skip-enforce>
         <!--modular.jdk.props>-Dsun.util.logging.disableCallerCheck=true -Dsun.reflect.debugModuleAccessChecks=true -Djaxb.debug=true</modular.jdk.props-->
       </properties>
         <dependencies>
-          <!--cxf force add these dependency in a jdk9plus profile in cxf 3.3.x parent pom. There is no way to exclude these dependency gloabally.Set it to test scope is a workaround to avoid 
-            add these dependencies to dist and jboss modules--> 
+          <!--cxf force add these dependency in a java9-plus profile in cxf 3.3.x parent pom. There is no way to exclude these dependency gloabally.Set it to test scope is a workaround to avoid 
+            add these dependencies to dist and jboss modules-->
+          <!-- ALIGN THESE VERSION NUMBER TO CXF 3.3.X--> 
           <dependency>
             <groupId>javax.xml.ws</groupId>
             <artifactId>jaxws-api</artifactId>
@@ -1228,22 +1203,20 @@
            <version>1.1.1</version>
            <scope>test</scope>
           </dependency>
+          <dependency>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+            <artifactId>saaj-impl</artifactId>
+            <version>1.4.0-b03</version>
+            <scope>test</scope>
+          </dependency>
+          <dependency>
+            <groupId>org.jboss.spec.javax.rmi</groupId>
+            <artifactId>jboss-rmi-api_1.0_spec</artifactId>
+            <version>1.0.6.Final</version>
+            <scope>test</scope>
+          </dependency>
         </dependencies>
-
     </profile>
-
-    <profile>
-      <id>JDK9plus</id>
-      <activation>
-        <jdk>[9,)</jdk>
-      </activation>
-      <properties>
-       <skip-enforce>true</skip-enforce>
-      </properties>
-
-    </profile>
-
-
     <!-- [JBWS-3666] -->
     <profile>
       <id>eclipse-m2e</id>
