@@ -312,7 +312,7 @@
                       <excludes>
                         <exclude>org.apache.cxf:cxf-rt-bindings-corba</exclude>
                         <exclude>org.apache.cxf:cxf-rt-javascript</exclude>
-                        <exclude>org.apache.geronimo.specs</exclude>
+                        <exclude>org.apache.geronimo.specs:*:*:*:compile</exclude>
                         <exclude>org.codehaus.jra:jra</exclude>
                         <exclude>asm:asm</exclude> <!-- We want newer version -->
                         <exclude>org.slf4j:slf4j-jdk14</exclude>
@@ -321,15 +321,15 @@
                         <exclude>org.jboss.spec.javax.servlet:jboss-servlet-api_3.1_spec</exclude><!-- We want 4.0 API -->
 
                         <!-- We want to use JBoss versions of these APIs -->
-                        <exclude>javax.annotation:javax.annotation-api</exclude>
+                        <exclude>javax.annotation:javax.annotation-api:*:*:compile</exclude>
                         <exclude>javax.ejb:ejb-api</exclude>
                         <exclude>javax.jms:javax.jms-api</exclude>
                         <exclude>javax.security.auth.message:javax.security.auth.message-api</exclude>
                         <exclude>javax.security.jacc:javax.security.jacc-api</exclude>
                         <exclude>javax.servlet:servlet-api</exclude>
-                        <exclude>javax.xml.bind:jaxb-api</exclude>
+                        <exclude>javax.xml.bind:jaxb-api:*:*:compile</exclude>
                         <exclude>javax.xml.soap:saaj-api</exclude>
-                        <exclude>javax.xml.ws:jaxws-api</exclude>
+                        <exclude>javax.xml.ws:jaxws-api:*:*:compile</exclude>
                       </excludes>
                     </bannedDependencies>
                   </rules>

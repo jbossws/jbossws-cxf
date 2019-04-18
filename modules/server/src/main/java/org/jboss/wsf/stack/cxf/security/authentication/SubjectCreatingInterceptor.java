@@ -177,16 +177,6 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
       }
       return false;
    }
-
-   @Override
-   protected WSSecurityEngine getSecurityEngine(boolean utNoCallbacks) {
-       Map<QName, Object> profiles = new HashMap<QName, Object>(1);
-
-       Validator validator = new CustomValidator();
-       profiles.put(WSConstants.USERNAME_TOKEN, validator);
-       return createSecurityEngine(profiles);
-   }
-
    protected class CustomValidator extends UsernameTokenValidator {
 
        @Override
