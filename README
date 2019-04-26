@@ -1,3 +1,6 @@
+ # JBossWS-CXF
+ [![Build Status](https://api.travis-ci.org/jbossws/jbossws-cxf.svg?branch=master)](https://api.travis-ci.org/jbossws/jbossws-cxf.svg?branch=master)
+ 
  Building and running the testsuite
 ------------------------------------
 
