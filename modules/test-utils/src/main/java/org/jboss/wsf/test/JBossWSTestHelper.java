@@ -22,6 +22,7 @@
 package org.jboss.wsf.test;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -50,7 +51,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.apache.commons.validator.routines.InetAddressValidator;
 
 /**
@@ -457,5 +458,20 @@ public class JBossWSTestHelper
       {
          super(JavaArchive.class, name);
       }
+   }
+   public static void addLibrary(File dir, WebArchive archive)
+   {
+      archive.addAsLibraries(dir.listFiles(new FilenameFilter() {
+
+         @Override
+         public boolean accept(File dir, String name)
+         {
+            if (name.endsWith(".jar"))
+            {
+               return true;
+            }
+            return false;
+         }
+      }));
    }
 }
