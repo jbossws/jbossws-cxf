@@ -16,8 +16,6 @@
   <properties>
     <!-- This is used for test archives embedding Spring -->
     <test.spring.version>5.1.5.RELEASE</test.spring.version>
-    <!-- This is used for test archives embedding CXF and is intentionally different from the
-         version specified in the jbossws-cxf main pom.xml to test there're no classloading clashes -->
     <test.cxf.version>${cxf.version}</test.cxf.version>
   </properties>
   
