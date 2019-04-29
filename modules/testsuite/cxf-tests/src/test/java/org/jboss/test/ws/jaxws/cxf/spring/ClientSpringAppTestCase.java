@@ -77,15 +77,8 @@ public final class ClientSpringAppTestCase extends JBossWSTest
          .addClass(org.jboss.wsf.test.TestServlet.class)
          .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/spring/my-cxf.xml"), "my-cxf.xml")
          .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/spring/spring-dd.xml"), "spring-dd.xml")
-         .addAsLibrary(new File(SPRING_DIR, "spring-aop-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(SPRING_DIR, "spring-asm-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(SPRING_DIR, "spring-beans-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(SPRING_DIR, "spring-context-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(SPRING_DIR, "spring-core-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(SPRING_DIR, "spring-expression-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(SPRING_DIR, "spring-web-3.0.3.RELEASE.jar"))
          .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/spring/permissions.xml"), "permissions.xml");
-
+      JBossWSTestHelper.addLibrary(SPRING_DIR, archive);
       return archive;
    }
    

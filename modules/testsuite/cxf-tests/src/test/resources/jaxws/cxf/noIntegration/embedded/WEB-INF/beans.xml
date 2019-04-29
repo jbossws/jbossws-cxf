@@ -8,8 +8,6 @@
          http://cxf.apache.org/schemas/jaxws.xsd">
 
   <import resource="classpath:META-INF/cxf/cxf.xml"/>
-  <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
-  <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
 
   <jaxws:endpoint id="echo"
       implementor="org.jboss.test.ws.jaxws.cxf.noIntegration.EchoImpl"

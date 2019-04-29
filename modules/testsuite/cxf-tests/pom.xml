@@ -15,10 +15,8 @@
   
   <properties>
     <!-- This is used for test archives embedding Spring -->
-    <test.spring.version>3.0.3.RELEASE</test.spring.version>
-    <!-- This is used for test archives embedding CXF and is intentionally different from the
-         version specified in the jbossws-cxf main pom.xml to test there're no classloading clashes -->
-    <test.cxf.version>2.6.6</test.cxf.version>
+    <test.spring.version>5.1.5.RELEASE</test.spring.version>
+    <test.cxf.version>${cxf.version}</test.cxf.version>
   </properties>
   
   <dependencies>
@@ -316,11 +314,6 @@
             					<artifactId>spring-aop</artifactId>
             					<version>${test.spring.version}</version>
             				</artifactItem>
-            				<artifactItem>
-            					<groupId>org.springframework</groupId>
-            					<artifactId>spring-asm</artifactId>
-            					<version>${test.spring.version}</version>
-            				</artifactItem>
             			</artifactItems>
             			<outputDirectory>target/spring</outputDirectory>
             		</configuration>
@@ -345,12 +338,7 @@
             				</artifactItem>
             				<artifactItem>
             					<groupId>org.apache.cxf</groupId>
-            					<artifactId>cxf-api</artifactId>
-            					<version>${test.cxf.version}</version>
-            				</artifactItem>
-            				<artifactItem>
-            					<groupId>org.apache.cxf</groupId>
-            					<artifactId>cxf-rt-core</artifactId>
+            					<artifactId>cxf-core</artifactId>
             					<version>${test.cxf.version}</version>
             				</artifactItem>
             				<artifactItem>
@@ -371,6 +359,11 @@
             				<artifactItem>
             					<groupId>org.apache.cxf</groupId>
             					<artifactId>cxf-rt-ws-policy</artifactId>
+            					<version>${test.cxf.version}</version>
+            				</artifactItem>
+            				<artifactItem>
+            					<groupId>org.apache.cxf</groupId>
+            					<artifactId>cxf-rt-wsdl</artifactId>
             					<version>${test.cxf.version}</version>
             				</artifactItem>
             			</artifactItems>

@@ -60,33 +60,22 @@ public class EmbeddedCXFTestCase extends JBossWSTest
 {
    @ArquillianResource
    private URL baseURL;
-   
+
    @Deployment(testable = false)
-   public static WebArchive createDeployment() {
+   public static WebArchive createDeployment()
+   {
       final File springDir = new File(new File(JBossWSTestHelper.getTestResourcesDir()).getParentFile(), "spring");
       final File embeddedCXFDir = new File(new File(JBossWSTestHelper.getTestResourcesDir()).getParentFile(), "cxf-embedded");
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-embedded.war");
-      archive.addManifest()
-         .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.EchoImpl.class)
-         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/beans.xml"), "beans.xml")
-         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/jboss-deployment-structure.xml"), "jboss-deployment-structure.xml")
-         .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/web.xml"))
-         .addAsLibrary(new File(springDir, "spring-aop-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(springDir, "spring-asm-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(springDir, "spring-beans-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(springDir, "spring-context-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(springDir, "spring-core-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(springDir, "spring-expression-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(springDir, "spring-web-3.0.3.RELEASE.jar"))
-         .addAsLibrary(new File(embeddedCXFDir, "cxf-api-2.6.6.jar"))
-         .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-bindings-soap-2.6.6.jar"))
-         .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-core-2.6.6.jar"))
-         .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-databinding-jaxb-2.6.6.jar"))
-         .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-frontend-jaxws-2.6.6.jar"))
-         .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-frontend-simple-2.6.6.jar"))
-         .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-transports-http-2.6.6.jar"))
-         .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-ws-policy-2.6.6.jar"))
-         .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/permissions.xml"), "permissions.xml");
+      archive
+            .addManifest()
+            .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.EchoImpl.class)
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/beans.xml"), "beans.xml")
+            .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/jboss-deployment-structure.xml"),
+                  "jboss-deployment-structure.xml").setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/web.xml"))
+            .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/permissions.xml"), "permissions.xml");
+      JBossWSTestHelper.addLibrary(springDir, archive);
+      JBossWSTestHelper.addLibrary(embeddedCXFDir, archive);
       return archive;
    }
 
@@ -99,7 +88,7 @@ public class EmbeddedCXFTestCase extends JBossWSTest
       Echo echo = service.getPort(new QName("http://org.jboss.ws.jaxws.cxf/noIntegration", "EchoEndpointPort"), Echo.class);
       assertEquals("Foo", echo.echo("Foo"));
    }
-   
+
    @Test
    @RunAsClient
    public void testServicesPage() throws Exception
@@ -108,15 +97,21 @@ public class EmbeddedCXFTestCase extends JBossWSTest
       InputStream is = url.openStream();
       assertNotNull(is);
       BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-      try {
+      try
+      {
          StringBuilder sb = new StringBuilder();
          String line;
-         while ((line = reader.readLine()) != null) {
+         while ((line = reader.readLine()) != null)
+         {
             sb.append(line);
          }
          assertTrue(sb.toString().contains("Available SOAP services:"));
-      } finally {
+      }
+      finally
+      {
          reader.close();
       }
    }
+
+
 }

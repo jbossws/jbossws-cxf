@@ -22,6 +22,7 @@
 package org.jboss.test.ws.jaxws.cxf.noIntegration;
 
 import java.io.File;
+import java.io.FilenameFilter;
 
 import org.jboss.arquillian.container.test.api.Deployer;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -60,22 +61,9 @@ public class AS7537TestCase extends JBossWSTest
                   + "Dependencies: javax.wsdl4j.api,org.apache.ws.xmlschema,org.apache.neethi,org.codehaus.woodstox\n"))
             .addClass(org.jboss.test.ws.jaxws.cxf.noIntegration.EchoImpl.class)
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/beans.xml"), "beans.xml")
-            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/web.xml"))
-            .addAsLibrary(new File(springDir, "spring-aop-3.0.3.RELEASE.jar"))
-            .addAsLibrary(new File(springDir, "spring-asm-3.0.3.RELEASE.jar"))
-            .addAsLibrary(new File(springDir, "spring-beans-3.0.3.RELEASE.jar"))
-            .addAsLibrary(new File(springDir, "spring-context-3.0.3.RELEASE.jar"))
-            .addAsLibrary(new File(springDir, "spring-core-3.0.3.RELEASE.jar"))
-            .addAsLibrary(new File(springDir, "spring-expression-3.0.3.RELEASE.jar"))
-            .addAsLibrary(new File(springDir, "spring-web-3.0.3.RELEASE.jar"))
-            .addAsLibrary(new File(embeddedCXFDir, "cxf-api-2.6.6.jar"))
-            .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-bindings-soap-2.6.6.jar"))
-            .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-core-2.6.6.jar"))
-            .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-databinding-jaxb-2.6.6.jar"))
-            .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-frontend-jaxws-2.6.6.jar"))
-            .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-frontend-simple-2.6.6.jar"))
-            .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-transports-http-2.6.6.jar"))
-            .addAsLibrary(new File(embeddedCXFDir, "cxf-rt-ws-policy-2.6.6.jar"));
+            .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/noIntegration/embedded/WEB-INF/web.xml"));
+      JBossWSTestHelper.addLibrary(springDir, archive);
+      JBossWSTestHelper.addLibrary(embeddedCXFDir, archive);
       return archive;
    }
 
