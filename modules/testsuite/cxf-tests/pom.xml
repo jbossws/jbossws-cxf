@@ -316,11 +316,6 @@
             					<artifactId>spring-aop</artifactId>
             					<version>${test.spring.version}</version>
             				</artifactItem>
-            				<!--artifactItem>
-            					<groupId>org.springframework</groupId>
-            					<artifactId>spring-asm</artifactId>
-            					<version>${test.spring.version}</version>
-            				</artifactItem-->
             			</artifactItems>
             			<outputDirectory>target/spring</outputDirectory>
             		</configuration>
