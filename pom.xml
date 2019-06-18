@@ -73,9 +73,9 @@
     <wildfly1400.version>14.0.0.Final</wildfly1400.version>
     <wildfly1500.version>15.0.0.Final</wildfly1500.version>
     <wildfly1600.version>16.0.0.Final</wildfly1600.version>
-    <wildfly1700.version>17.0.0.Beta1-SNAPSHOT</wildfly1700.version>
+    <wildfly1700.version>17.0.0.Final</wildfly1700.version>
     <ejb.api.version>1.0.1.Final</ejb.api.version>
-    <cxf.version>3.3.1</cxf.version>
+    <cxf.version>3.3.3-SNAPSHOT</cxf.version>
     <cxf.asm.version>7.1</cxf.asm.version>
     <cxf.xjcplugins.version>3.3.0</cxf.xjcplugins.version>
     <jboss-logging.version>3.3.2.Final</jboss-logging.version>
