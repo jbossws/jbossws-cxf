@@ -41,6 +41,18 @@
             <updatePolicy>never</updatePolicy>
           </snapshots>
         </repository>
+
+        <repository>
+            <id>apache.snapshots</id>
+            <url>https://repository.apache.org/snapshots/</url>
+            <name>Apache Snapshot Repo</name>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
       </repositories>
 
       <pluginRepositories>
