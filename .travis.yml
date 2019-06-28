@@ -6,15 +6,15 @@ script:
 language: java
 jdk:
   - openjdk8
-  - oraclejdk11
+  - openjdk11
 
 env:
-  - SERVER_VERSION=wildfly1500 SECURITY_MGR=false BUILD_WFLY_MASTER=false
-  - SERVER_VERSION=wildfly1500,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=false
   - SERVER_VERSION=wildfly1600 SECURITY_MGR=false BUILD_WFLY_MASTER=false
   - SERVER_VERSION=wildfly1600,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=false
   - SERVER_VERSION=wildfly1700 SECURITY_MGR=false BUILD_WFLY_MASTER=true
   - SERVER_VERSION=wildfly1700,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=true
+  - SERVER_VERSION=wildfly1800 SECURITY_MGR=false BUILD_WFLY_MASTER=true
+  - SERVER_VERSION=wildfly1800,secmgr SECURITY_MGR=true BUILD_WFLY_MASTER=true
 
 cache:
  directories:
