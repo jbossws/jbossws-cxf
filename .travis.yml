@@ -6,7 +6,7 @@ script:
 language: java
 jdk:
   - openjdk8
-  - oraclejdk11
+  - openjdk11
 
 env:
   - SERVER_VERSION=wildfly1600 SECURITY_MGR=false BUILD_WFLY_MASTER=false
