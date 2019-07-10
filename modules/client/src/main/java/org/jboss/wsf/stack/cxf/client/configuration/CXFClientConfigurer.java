@@ -87,6 +87,7 @@ public class CXFClientConfigurer extends ConfigHelper
       client.getEndpoint().putAll(properties);
       InterceptorUtils.addInterceptors(client, properties);
       FeatureUtils.addFeatures(client, client.getBus(), properties);
+      PropertyReferenceUtils.createPropertyReference(properties, client.getBus().getProperties());
    }
    
    private void savePropList(Client client, Map<String, String> props) {

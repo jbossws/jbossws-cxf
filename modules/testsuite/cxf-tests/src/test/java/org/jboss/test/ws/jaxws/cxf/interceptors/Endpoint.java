@@ -29,4 +29,9 @@ import javax.jws.soap.SOAPBinding;
 public interface Endpoint
 {
    String echo(String input);
+   
+   String echoException(String input) throws Exception;
+   
+   String getException();
+   
 }
