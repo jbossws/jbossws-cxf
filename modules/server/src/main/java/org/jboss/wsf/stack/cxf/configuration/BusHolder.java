@@ -82,6 +82,7 @@ import org.jboss.wsf.stack.cxf.client.configuration.FeatureUtils;
 import org.jboss.wsf.stack.cxf.client.configuration.InterceptorUtils;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSConfigurerImpl;
+import org.jboss.wsf.stack.cxf.client.configuration.PropertyReferenceUtils;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicySetsAnnotationListener;
@@ -206,7 +207,7 @@ public class BusHolder
       bus.setProperty("org.apache.cxf.ws.addressing.decoupled_fault_support", true);
       
       FeatureUtils.addFeatures(bus, bus, props);
-
+      PropertyReferenceUtils.createPropertyReference(props, bus.getProperties());
       for (DDEndpoint dde : metadata.getEndpoints())
       {
          EndpointImpl endpoint = new EndpointImpl(bus, newInstance(dde.getImplementor(), dep));

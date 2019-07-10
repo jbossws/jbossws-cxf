@@ -65,6 +65,7 @@ public class InterceptorsTestCase extends JBossWSTest
             .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.DeclaredInterceptor.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.EndpointInterceptor.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.EndpointCounterInterceptor.class)
+            .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.JBossWSFaultListener.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.interceptors.Counter.class)
             .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/interceptors/WEB-INF/jboss-webservices.xml"), "jboss-webservices.xml")
             .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/interceptors/WEB-INF/jaxws-endpoint-config.xml"));
@@ -95,4 +96,22 @@ public class InterceptorsTestCase extends JBossWSTest
       assertEquals("Hi.Foo!.3", port.echo("Hi"));
    }
    
+   @Test
+   @RunAsClient
+   public void testFaultListner() throws Exception {
+      URL wsdlURL = new URL(baseURL + "MyService?wsdl");
+      Service service = Service.create(wsdlURL, new QName("http://org.jboss.ws.jaxws.cxf/interceptors", "MyService"));
+      Endpoint port = service.getPort(new QName("http://org.jboss.ws.jaxws.cxf/interceptors", "MyEndpointPort"), Endpoint.class);
+      try
+      {
+         port.echoException("hi");
+      }
+      catch (Exception e)
+      {
+         //expect a runtime exception;
+      }
+      assertTrue("FaultListener is not set propertly",
+            port.getException().contains("{http://org.jboss.ws.jaxws.cxf/interceptors}MyService#{http://org.jboss.ws.jaxws.cxf/interceptors}echoException")
+                  && port.getException().contains("Intended Exception"));
+   }
 }

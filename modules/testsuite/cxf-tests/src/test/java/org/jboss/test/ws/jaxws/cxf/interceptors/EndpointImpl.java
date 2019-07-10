@@ -21,6 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.cxf.interceptors;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
@@ -28,6 +31,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.WebServiceException;
 
 import org.apache.cxf.interceptor.InInterceptors;
 import org.apache.cxf.message.Message;
@@ -57,5 +61,25 @@ public class EndpointImpl
          }
       });
       return input + " " + cxfMessage.get(StringBuilder.class) + " " + counter.get();
+   }
+   @WebMethod
+   public String echoException(String input) throws WebServiceException {
+      throw new WebServiceException("Intended Exception");
+   }
+   
+   public String getException()
+   {
+
+      StringBuffer buffer = new StringBuffer();
+      if (!JBossWSFaultListener.exceptions.isEmpty())
+      {
+         JBossWSFaultListener.exceptions.forEach((k, v) -> {
+            buffer.append(k);
+            buffer.append(":");
+            buffer.append(v);
+            buffer.append(";");
+         });
+      }
+      return buffer.toString();
    }
 }
