@@ -252,4 +252,8 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = WARN)
     @Message(id = 24111, value = "Could not load JBoss module for classloader %s")
     void couldNotLoadJBossModuleForClassloader(String cl);
+    
+    @LogMessage(level = WARN)
+    @Message(id = 24112, value = "Could not construct reference for config: %s")
+    void unableToCreateConfigRef(String url, @Cause Throwable cause);
 }

@@ -13,5 +13,12 @@
     <name>cxf.interceptors.out</name>
     <value>org.jboss.test.ws.jaxws.cxf.interceptors.BusCounterInterceptor</value>
   </property>
-
+  <property>
+    <name>org.apache.cxf.logging.FaultListener</name>
+    <value>##faultListner</value>
+  </property>
+  <property>
+    <name>##faultListner</name>
+    <value>org.jboss.test.ws.jaxws.cxf.interceptors.JBossWSFaultListener</value>
+  </property>
 </webservices>
