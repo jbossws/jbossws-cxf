@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <authentication-client xmlns="urn:elytron:client:1.5">
+        <authentication-rules>
+            <rule use-configuration="auth-config" />
+        </authentication-rules>
+        <authentication-configurations>
+            <configuration name="auth-config">
+                <set-user-name name="kermit"/>
+                <credentials>
+                    <clear-password password="thefrog"/>
+                </credentials>
+                <webservices>
+                    <set-ws-security-type name="UsernameToken" />
+                </webservices>
+            </configuration>
+        </authentication-configurations>
+    </authentication-client>
+</configuration>

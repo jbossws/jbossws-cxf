@@ -222,4 +222,7 @@ public interface Messages {
 
     @Message(id = 24109, value = "Could not get WSDL contract for endpoint %s at %s")
     WSFException couldNotFetchWSDLContract(String endpoint, String wsdlLocation);
+
+    @Message(id = 24113, value = "Invalid endpoint URI: %s")
+    IllegalArgumentException invalidEndpointURI(String endpoint);
 }

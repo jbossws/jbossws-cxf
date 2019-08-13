@@ -105,6 +105,14 @@ public class CXFClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(DEP)
    @WrapThreadContextClassLoader
+   public void testConfigurationNullThrowsException() throws Exception {
+      getHelper().testNullConfigurationThrowsExceptionWhenClientConfigProviderFileNotFound();
+   }
+
+   @Test
+   @RunAsClient
+   @OperateOnDeployment(DEP)
+   @WrapThreadContextClassLoader
    public void testCustomClientConfigurationOnDispatchFromFile() throws Exception {
       assertTrue(getHelper().testCustomClientConfigurationOnDispatchFromFile());
    }

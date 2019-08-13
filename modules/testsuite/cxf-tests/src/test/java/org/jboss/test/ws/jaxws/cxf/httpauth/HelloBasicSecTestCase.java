@@ -34,10 +34,16 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.basic.ElytronClientTestUtils;
+import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.security.auth.client.AuthenticationConfiguration;
+import org.wildfly.security.auth.client.AuthenticationContext;
+import org.wildfly.security.auth.client.MatchRule;
+
 /**
  * @author ema@redhat.com
  * @author alessio.soldano@jboss.com
@@ -78,7 +84,106 @@ public class HelloBasicSecTestCase extends JBossWSTest
       assertEquals(100, result);
       
    }
-   
+
+   @Test
+   @RunAsClient
+   public void testElytronConfigBasicAuth() throws Exception
+   {
+      AuthenticationContext previousAuthContext = AuthenticationContext.getContextManager().getGlobalDefault();
+      try {
+         ElytronClientTestUtils.setElytronClientConfig(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/clientConfig/META-INF/wildfly-config-http-basic-auth.xml");
+         QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
+         URL wsdlURL = getResourceURL("jaxws/cxf/httpauth/WEB-INF/wsdl/hello.wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         Hello proxy = (Hello) service.getPort(Hello.class);
+         ((BindingProvider) proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL.toString());
+         CXFClientConfigurer cxfClientConfigurer = new CXFClientConfigurer();
+         cxfClientConfigurer.setConfigProperties(proxy, null, null);
+         int result = proxy.helloRequest("number");
+         assertEquals(100, result);
+      } finally {
+         AuthenticationContext.getContextManager().setGlobalDefault(previousAuthContext);
+      }
+   }
+
+   @Test
+   @RunAsClient
+   public void testElytronConfigDefaultAuth() throws Exception {
+      AuthenticationContext previousAuthContext = AuthenticationContext.getContextManager().getGlobalDefault();
+      try {
+         ElytronClientTestUtils.setElytronClientConfig(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/clientConfig/META-INF/wildfly-config-default-auth.xml");
+         QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
+         URL wsdlURL = getResourceURL("jaxws/cxf/httpauth/WEB-INF/wsdl/hello.wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         Hello proxy = (Hello) service.getPort(Hello.class);
+         ((BindingProvider) proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL.toString());
+         CXFClientConfigurer cxfClientConfigurer = new CXFClientConfigurer();
+         cxfClientConfigurer.setConfigProperties(proxy, null, null);
+         int result = proxy.helloRequest("number");
+         assertEquals(100, result);
+      } finally {
+         AuthenticationContext.getContextManager().setGlobalDefault(previousAuthContext);
+      }
+   }
+
+   @Test
+   @RunAsClient
+   public void testElytronConfigIncorrectPassword() throws Exception {
+      AuthenticationContext previousAuthContext = AuthenticationContext.getContextManager().getGlobalDefault();
+      try {
+         AuthenticationConfiguration authenticationConfiguration =
+                 AuthenticationConfiguration.empty()
+                         .useName("jbossws")
+                         .usePassword("incorrect");
+         AuthenticationContext context = AuthenticationContext.empty();
+         context = context.with(MatchRule.ALL, authenticationConfiguration);
+         AuthenticationContext.getContextManager().setGlobalDefault(context);
+         QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
+         URL wsdlURL = getResourceURL("jaxws/cxf/httpauth/WEB-INF/wsdl/hello.wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         Hello proxy = (Hello) service.getPort(Hello.class);
+         ((BindingProvider) proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL.toString());
+         CXFClientConfigurer cxfClientConfigurer = new CXFClientConfigurer();
+         cxfClientConfigurer.setConfigProperties(proxy, null, null);
+         try {
+            proxy.helloRequest("number");
+            fail("Authorization exception expected!");
+         } catch (Exception e) {
+            assertTrue(e.getCause().getMessage().contains("401: Unauthorized"));
+         }
+      } finally {
+         AuthenticationContext.getContextManager().setGlobalDefault(previousAuthContext);
+      }
+   }
+
+   @Test
+   @RunAsClient
+   public void testIgnoreElytronConfigWhenPropertiesSetBefore() throws Exception {
+      AuthenticationContext previousAuthContext = AuthenticationContext.getContextManager().getGlobalDefault();
+      try {
+         AuthenticationConfiguration authenticationConfiguration =
+                 AuthenticationConfiguration.empty()
+                         .useName("jbossws")
+                         .usePassword("password1!");
+         AuthenticationContext context = AuthenticationContext.empty();
+         context = context.with(MatchRule.ALL, authenticationConfiguration);
+         AuthenticationContext.getContextManager().setGlobalDefault(context);
+         QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
+         URL wsdlURL = getResourceURL("jaxws/cxf/httpauth/WEB-INF/wsdl/hello.wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         Hello proxy = (Hello) service.getPort(Hello.class);
+         ((BindingProvider) proxy).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "jbossws");
+         ((BindingProvider) proxy).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "jbossws");
+         ((BindingProvider) proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL.toString());
+         CXFClientConfigurer cxfClientConfigurer = new CXFClientConfigurer();
+         cxfClientConfigurer.setConfigProperties(proxy, null, null);
+         int result = proxy.helloRequest("number");
+         assertEquals(100, result);
+      } finally {
+         AuthenticationContext.getContextManager().setGlobalDefault(previousAuthContext);
+      }
+   }
+
    @Test
    @RunAsClient
    public void testBasicAuthFail() throws Exception

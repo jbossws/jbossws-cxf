@@ -36,10 +36,14 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.security.auth.client.AuthenticationConfiguration;
+import org.wildfly.security.auth.client.AuthenticationContext;
+import org.wildfly.security.auth.client.MatchRule;
 
 /**
  * WS-Security Policy username test case
@@ -83,6 +87,80 @@ public final class UsernameTestCase extends JBossWSTest
       ServiceIface proxy = (ServiceIface)service.getPort(ServiceIface.class);
       setupWsse((BindingProvider)proxy, "kermit");
       assertEquals("Secure Hello World!", proxy.sayHello());
+   }
+
+   @Test
+   @RunAsClient
+   public void testUsernameTokenElytronClientConfig() throws Exception
+   {
+      AuthenticationContext previousAuthContext = AuthenticationContext.getContextManager().getGlobalDefault();
+      try {
+         ElytronClientTestUtils.setElytronClientConfig(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/clientConfig/META-INF/wildfly-config-username-token.xml");
+         QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+         URL wsdlURL = new URL(baseURL + "/service?wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         ServiceIface proxy = service.getPort(ServiceIface.class);
+         CXFClientConfigurer cxfClientConfigurer = new CXFClientConfigurer();
+         cxfClientConfigurer.setConfigProperties(proxy, null, null);
+         assertEquals("Secure Hello World!", proxy.sayHello());
+      } finally {
+         AuthenticationContext.getContextManager().setGlobalDefault(previousAuthContext);
+      }
+   }
+
+   @Test
+   @RunAsClient
+   public void testUsernameTokenElytronClientConfigIncorrectPassword() throws Exception {
+      AuthenticationContext previousAuthContext = AuthenticationContext.getContextManager().getGlobalDefault();
+      try {
+         AuthenticationConfiguration authenticationConfiguration =
+                 AuthenticationConfiguration.empty()
+                         .useName("kermit")
+                         .usePassword("incorrect");
+
+         AuthenticationContext context = AuthenticationContext.empty();
+         context = context.with(MatchRule.ALL, authenticationConfiguration);
+         AuthenticationContext.getContextManager().setGlobalDefault(context);
+         QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+         URL wsdlURL = new URL(baseURL + "/service?wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         ServiceIface proxy = service.getPort(ServiceIface.class);
+         CXFClientConfigurer cxfClientConfigurer = new CXFClientConfigurer();
+         cxfClientConfigurer.setConfigProperties(proxy, null, null);
+         try {
+            proxy.sayHello();
+            fail("User kermit shouldn't be authenticated.");
+         } catch (Exception e) {
+            //OK
+         }
+      } finally {
+         AuthenticationContext.getContextManager().setGlobalDefault(previousAuthContext);
+      }
+   }
+
+   @Test
+   @RunAsClient
+   public void testUsernameTokenIgnoreElytronClientConfigWhenPropertiesSetBefore() throws Exception {
+      AuthenticationContext previousAuthContext = AuthenticationContext.getContextManager().getGlobalDefault();
+      try {
+         AuthenticationConfiguration authenticationConfiguration =
+                 AuthenticationConfiguration.empty()
+                         .useName("kermit")
+                         .usePassword("incorrect");
+         AuthenticationContext context = AuthenticationContext.empty();
+         context = context.with(MatchRule.ALL, authenticationConfiguration);
+         AuthenticationContext.getContextManager().setGlobalDefault(context);
+         QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
+         URL wsdlURL = new URL(baseURL + "/service?wsdl");
+         Service service = Service.create(wsdlURL, serviceName);
+         ServiceIface proxy = service.getPort(ServiceIface.class);
+         setupWsse((BindingProvider) proxy, "kermit");
+         CXFClientConfigurer cxfClientConfigurer = new CXFClientConfigurer();
+         cxfClientConfigurer.setConfigProperties(proxy, null, null);
+         assertEquals("Secure Hello World!", proxy.sayHello());
+      } finally {
+         AuthenticationContext.getContextManager().setGlobalDefault(previousAuthContext);
+      }
    }
 
    @Test
