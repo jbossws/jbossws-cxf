@@ -39,6 +39,9 @@ import org.jboss.ws.api.configuration.ClientConfigurer;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.test.ClientHelper;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 /**
  * Verifies client configuration setup
  *
@@ -50,7 +53,19 @@ public class Helper implements ClientHelper
    private final QName serviceName = new QName("http://clientConfig.cxf.jaxws.ws.test.jboss.org/", "EndpointImplService");
    private final QName portName = new QName("http://clientConfig.cxf.jaxws.ws.test.jboss.org/", "EndpointPort");
    private String address;
-   
+
+   public void testNullConfigurationThrowsExceptionWhenClientConfigProviderFileNotFound() throws Exception
+   {
+      Service service = Service.create(new URL(address + "?wsdl"), serviceName);
+      Endpoint port = (Endpoint)service.getPort(Endpoint.class);
+      try {
+         ClientConfigUtil.setConfigProperties(port, null, null);
+         fail("Configuration not found ex should be thrown.");
+      } catch (Exception e) {
+         assertTrue(e.getMessage().contains("not found"));
+      }
+   }
+
    public boolean testCustomClientConfigurationFromFile() throws Exception
    {
       Service service = Service.create(new URL(address + "?wsdl"), serviceName);

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <authentication-client xmlns="urn:elytron:client:1.5">
+        <authentication-rules>
+            <rule use-configuration="auth-config">
+                <match-host name="127.0.0.1"/>
+            </rule>
+            <rule use-configuration="auth-config2">
+                <match-host name="127.0.0.1"/>
+            </rule>
+        </authentication-rules>
+        <authentication-configurations>
+            <configuration name="auth-config">
+                <set-user-name name="jbossws"/>
+                <credentials>
+                    <clear-password password="jbossws"/>
+                </credentials>
+            </configuration>
+            <configuration name="auth-config2">
+                <set-user-name name="aaa"/>
+                <credentials>
+                    <clear-password password="aaa"/>
+                </credentials>
+            </configuration>
+        </authentication-configurations>
+    </authentication-client>
+</configuration>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        name="helloworld"
+        targetNamespace="http://jboss.org/http/security"
+        xmlns:tns="http://jboss.org/http/security"
+        xmlns="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:x1="http://jboss.org/http/security/types">
+    <types>
+        <xsd:schema
+                xmlns="http://www.w3.org/2001/XMLSchema"
+                targetNamespace="http://jboss.org/http/security/types"
+                elementFormDefault="qualified">
+
+            <complexType name="helloResponse">
+                <sequence>
+                    <element name="return" type="xsd:int" />
+                </sequence>
+            </complexType>
+            <element name="helloResponse" type="x1:helloResponse"/>
+
+            <element name="helloRequest">
+                <complexType>
+                    <sequence>
+                        <element name="request" type="xsd:string" />
+                    </sequence>
+                </complexType>
+            </element>
+        </xsd:schema>
+    </types>
+    <message name="helloRequest">
+        <part name="parameters" element="x1:helloRequest" />
+    </message>
+    <message name="helloResponse">
+        <part name="result" element="x1:helloResponse" />
+    </message>
+    <portType name="hello">
+        <operation name="helloRequest">
+            <input message="tns:helloRequest" />
+            <output message="tns:helloResponse" />
+        </operation>
+    </portType>
+    <binding name="HelloBinding" type="tns:hello">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+        <operation name="helloRequest">
+            <soap:operation soapAction="" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+        </operation>
+    </binding>
+    <service name="HelloService">
+        <port name="HelloPort" binding="tns:HelloBinding">
+            <soap:address location="http://localhost:@add_int(port-offset.cxf-tests.ssl-mutual-auth,8443)@/jaxws-cxf-sec" />
+        </port>
+    </service>
+</definitions>
