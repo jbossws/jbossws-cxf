@@ -1,7 +1,8 @@
 install:
-  - mvn clean; java -version
-script:
-  - travis_wait 30 travis-scripts/jbossws-test.sh $SERVER_VERSION $BUILD_WFLY_MASTER
+  - java -version; mvn --show-version clean
+script: |
+  travis_wait 30 travis-scripts/build-wildfly.sh $BUILD_WFLY_MASTER &&
+  travis_wait 30 travis-scripts/jbossws-test.sh $SERVER_VERSION
 
 language: java
 jdk:
@@ -9,8 +10,8 @@ jdk:
   - openjdk11
 
 env:
-  - SERVER_VERSION=wildfly1700 BUILD_WFLY_MASTER=false
-  - SERVER_VERSION=wildfly1800 BUILD_WFLY_MASTER=false
+  - SERVER_VERSION=wildfly1700
+  - SERVER_VERSION=wildfly1800
   - SERVER_VERSION=wildfly1900 BUILD_WFLY_MASTER=true
 
 cache:
