@@ -17,8 +17,7 @@ java -version
 
 
 SERVER_VERSION=$1
-SECURITY_MGR=$2
-USE_WFLY_MASTER=$3
+USE_WFLY_MASTER=$2
 if [[ $USE_WFLY_MASTER = "true" ]]; then
 
   MYPWD=`pwd`
@@ -33,5 +32,5 @@ if [[ $USE_WFLY_MASTER = "true" ]]; then
   mvn --quiet clean install -DskipTests -Denforcer.skip -Dcheckstyle.skip -Prelease
   cd $MYPWD
 fi
-mvn -s .travis-settings.xml -B -fae -DSECMGR=${SECURITY_MGR} -P${SERVER_VERSION} integration-test
+mvn -s .travis-settings.xml -B -fae -P${SERVER_VERSION} integration-test
 
