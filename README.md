@@ -19,6 +19,7 @@ The '-Dnoprepare' option can be used to avoid integration tests preparation phas
 The '-Ddebug' option can be used to turn on surefire debugging of integration tests only.
 The '-Djboss.bind.address=x.y.w.z' option can be used to have the started containers bound to the specified network interface address.
 The '-Dipv6' option can be used to run the integration testsuite using IPv6 protocol.
+The '-Delytron' option can be used to run the integration testsuite against container with Elytron security configuration.
 The '-Darquillian.deploymentExportPath=target/foo' option can be used to have Arquillian write the actual test deployments to disk.
 The '-DnoLogRedirect' can be used to prevent Surefire from redirecting console logs to test output files.
 The '-DenableServerLoggingToConsole' can be used to enable logging of server mesages to console too, otherwise these messages are only redirected to specific log files.

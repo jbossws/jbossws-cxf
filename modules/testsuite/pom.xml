@@ -19,6 +19,7 @@
     <surefire.memory.args>-Xmx640m</surefire.memory.args>
     <surefire.jdwp.args>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</surefire.jdwp.args>
     <surefire.management.args>-Dcom.sun.management.jmxremote</surefire.management.args>
+    <additionalGroovyScriptSuffix />
     <test.archive.directory>${project.build.directory}/test-libs</test.archive.directory>
     <test.classes.directory>${project.build.directory}/test-classes</test.classes.directory>
     <test.resources.directory>${project.build.directory}/test-resources</test.resources.directory>
@@ -795,6 +796,22 @@
           <artifactId>xercesImpl</artifactId>
         </dependency>
       </dependencies>
+    </profile>
+
+    <!--
+    Name:  elytron
+    Descr: Run tests against container with elytron security set instead of the legacy one
+    -->
+    <profile>
+      <id>elytron</id>
+      <activation>
+        <property>
+          <name>elytron</name>
+        </property>
+      </activation>
+      <properties>
+        <additionalGroovyScriptSuffix>-elytron</additionalGroovyScriptSuffix>
+      </properties>
     </profile>
 
     <!--

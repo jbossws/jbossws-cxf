@@ -1054,7 +1054,6 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1600.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-        <additionalGroovyScriptSuffix />
       </properties>
       <modules>
         <module>modules/dist</module>
@@ -1072,7 +1071,6 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1700.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-        <additionalGroovyScriptSuffix />
       </properties>
       <modules>
         <module>modules/dist</module>
@@ -1091,7 +1089,6 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1800.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-        <additionalGroovyScriptSuffix />
       </properties>
       <modules>
         <module>modules/dist</module>
@@ -1110,19 +1107,11 @@
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly1900.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-        <additionalGroovyScriptSuffix />
       </properties>
       <modules>
         <module>modules/dist</module>
         <module>modules/testsuite</module>
       </modules>
-    </profile>
-
-    <profile>
-      <id>elytron</id>
-      <properties>
-        <additionalGroovyScriptSuffix>-elytron</additionalGroovyScriptSuffix>
-      </properties>
     </profile>
 
     <profile>
