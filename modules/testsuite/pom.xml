@@ -55,13 +55,6 @@
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency> <!-- dependency to dist module to ensure proper testsuite ordering when running with -T option -->
-      <groupId>org.jboss.ws.cxf</groupId>
-      <artifactId>jbossws-cxf-dist</artifactId>
-      <version>${project.version}</version>
-      <type>pom</type>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>org.jboss.ws</groupId>
       <artifactId>jbossws-common</artifactId>
@@ -436,6 +429,30 @@
         <jboss.home>${project.build.directory}/test-server/jbossws-cxf-dist-${project.version}/wildfly-${jboss.version}</jboss.home>
       </properties>
     </profile>
+
+    <!--
+    Name:  dist-dependency
+    Descr: Add direct jbossws-cxf-dist dependency to ensure proper testsuite ordering in reactor when running with -T option.
+           It may be convenient to drop this dependency when -Dserver.home is given and we are running from testsuite submodule.
+    -->
+    <profile>
+      <id>dist-dependency</id>
+      <activation>
+        <property>
+          <name>!ts.dist.dependency.skip</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws.cxf</groupId>
+          <artifactId>jbossws-cxf-dist</artifactId>
+          <version>${project.version}</version>
+          <type>pom</type>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+      
 
     <!--
     Name:  debug
@@ -896,6 +913,31 @@
             <configuration>
               <excludes combine.children="append">
                 <exclude>org/jboss/test/ws/jaxws/cxf/udp/UDPEndpointAPITestCase*</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+    Name:  exclude-ws-discovery-tests
+    Descr: Additional exclusions of WS-Discovery tests which require a network environment properly setup for multicast tests
+    -->
+    <profile>
+      <id>exclude-ws-discovery-tests</id>
+      <activation>
+        <property>
+          <name>exclude-ws-discovery-tests</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes combine.children="append">
+                <exclude>org/jboss/test/ws/jaxws/samples/wsdd/WSDiscoveryTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
