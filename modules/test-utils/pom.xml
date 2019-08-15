@@ -31,12 +31,6 @@
       <artifactId>jbossws-common</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency> <!-- [WFLY-7373] TODO remove this dependency -->
-      <groupId>org.jboss</groupId>
-      <artifactId>jboss-ejb-client</artifactId>
-      <version>3.0.0.Beta3</version>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>org.jboss.logging</groupId>
       <artifactId>jboss-logging</artifactId>
