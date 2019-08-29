@@ -33,9 +33,11 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
+import org.jboss.wsf.test.IgnoreJdk;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -49,6 +51,9 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public final class SignEncryptGCMTestCase extends JBossWSTest
 {
+   @Rule
+   public IgnoreJdk ignoreOnIbm8 = IgnoreJdk.IBM8; //https://issues.jboss.org/browse/JBEAP-5200
+
    private static final String WS_DEPLOYMENT = "jaxws-samples-wsse-policy-sign-encrypt-gcm";
    private static final String SERVLET_DEPLOYMENT = "jaxws-samples-wsse-policy-sign-encrypt-gcm-client";
    
