@@ -63,6 +63,8 @@ public class IgnoreEnv implements TestRule {
                     }
                 }
                 Assume.assumeFalse(description.getClassName() + " is excluded for system env (" + key + ")", ignored);
+
+                base.evaluate(); // always call base statement to continue in execution when assume passes
             }
         };
     }
