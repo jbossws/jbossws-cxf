@@ -15,6 +15,7 @@
             <!-- AS7-4070 -->
             <property name="waitForPorts">${add_int(port-offset.shared-tests.jboss,8787)} ${add_int(port-offset.shared-tests.jboss,9990)}</property>
             <property name="waitForPortsTimeoutInSeconds">8</property>
+            <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
     </container>
     <container qualifier="default-config-tests" mode="manual">
@@ -29,6 +30,7 @@
             <!-- AS7-4070 -->
             <property name="waitForPorts">${add_int(port-offset.shared-tests.default-config-tests,8787)} ${add_int(port-offset.shared-tests.default-config-tests,9990)}</property>
             <property name="waitForPortsTimeoutInSeconds">8</property>
+            <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
     </container>
     <container qualifier="address-rewrite" mode="manual">
@@ -43,6 +45,7 @@
             <!-- AS7-4070 -->
             <property name="waitForPorts">${add_int(port-offset.shared-tests.address-rewrite,8787)} ${add_int(port-offset.shared-tests.address-rewrite,9990)}</property>
             <property name="waitForPortsTimeoutInSeconds">8</property>
+            <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
     </container>
 
