@@ -74,6 +74,8 @@ public class IgnoreContainer implements TestRule
             }
             //Check if ignore this test
             Assume.assumeFalse(ignoreReason, ignored);
+
+            base.evaluate(); // always call base statement to continue in execution when assume passes
          }
       };
    }
