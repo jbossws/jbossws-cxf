@@ -395,11 +395,6 @@
           <include name="**/jbossws-spi.jar"/>
         </fileset>
        </copy>
-      <copy todir="@{targetdir}/org/apache/commons/lang3/main" flatten="false" overwrite="true">
-        <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/commons-lang3.jar"/>
-        </fileset>
-      </copy>
       <copy todir="@{targetdir}/org/apache/neethi/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/neethi.jar"/>
