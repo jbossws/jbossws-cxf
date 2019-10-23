@@ -710,6 +710,7 @@
         <dependency>
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
+          <version>${wildfly1700.version}</version>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.sasl</groupId>
@@ -758,6 +759,7 @@
         <dependency>
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
+          <version>${wildfly1800.version}</version>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.sasl</groupId>
@@ -792,6 +794,56 @@
         </dependency>
       </dependencies>
     </profile>
+
+    <!--
+    Descr: WildFly-19.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly1900</id>
+      <properties>
+        <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
+        <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.wildfly</groupId>
+          <artifactId>wildfly-webservices-tests-integration</artifactId>
+          <version>${wildfly1900.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.sasl</groupId>
+              <artifactId>jboss-sasl</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <!-- Arquillian container integration -->
+        <dependency>
+          <groupId>org.wildfly.arquillian</groupId>
+          <artifactId>wildfly-arquillian-container-managed</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.sasl</groupId>
+              <artifactId>jboss-sasl</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.marshalling</groupId>
+              <artifactId>jboss-marshalling</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <dependency>
+       	  <groupId>org.jboss.arquillian.protocol</groupId>
+       	  <artifactId>arquillian-protocol-servlet</artifactId>
+       	  <version>${arquillian.version}</version>
+       	  <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+
     <!--
     Name:  secmgr
     Descr: Additional testsuite exclusions when running against a container with security manager enabled 
