@@ -200,28 +200,6 @@
       </properties>
     </profile>
 
-    <!--
-    Name:  wildfly1500
-    Descr: WildFly-15.0.0 specific dependencies
-    -->
-    <profile>
-      <id>wildfly1500</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws.cxf</groupId>
-          <artifactId>jbossws-cxf-resources</artifactId>
-          <version>${project.version}</version>
-          <classifier>wildfly1500</classifier>     
-          <scope>provided</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.ws</groupId>
-          <artifactId>jbossws-wildfly1500-server-integration</artifactId>
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-
    <!--
     Name:  wildfly1600
     Descr: WildFly-16.0.0 specific dependencies
@@ -276,6 +254,24 @@
         </dependency>
       </dependencies>
     </profile>
+
+    <!--
+    Name:  wildfly1900
+    Descr: WildFly-19.0.0 specific dependencies
+    -->
+    <profile>
+      <id>wildfly1900</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws.cxf</groupId>
+          <artifactId>jbossws-cxf-resources</artifactId>
+          <version>${project.version}</version>
+          <classifier>wildfly1900</classifier>     
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
     <!-- 
     Name:  deploy
     Descr: Deploy stack on WildFly instance  
