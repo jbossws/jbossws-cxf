@@ -177,6 +177,17 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
       }
       return false;
    }
+
+   protected WSSecurityEngine getSecurityEngine(boolean utWithCallbacks)
+   {
+      WSSecurityEngine engine = super.getSecurityEngine(utWithCallbacks);
+      if (engine != null)
+      {
+         engine.getWssConfig().setValidator(WSConstants.USERNAME_TOKEN, new CustomValidator());
+      }
+      return engine;
+   }
+   
    protected class CustomValidator extends UsernameTokenValidator {
 
        @Override
