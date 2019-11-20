@@ -203,28 +203,6 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>org.wildfly</groupId>
-        <artifactId>wildfly-webservices-tests-integration</artifactId>
-        <version>${wildfly1800.version}</version>
-        <exclusions>
-          <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
-            <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.wildfly</groupId>
-        <artifactId>wildfly-webservices-tests-integration</artifactId>
-        <version>${wildfly1900.version}</version>
-        <exclusions>
-          <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
-            <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
         <groupId>org.jboss.ws.projects</groupId>
         <artifactId>jaxws-undertow-httpspi</artifactId>
         <version>${jaxws-undertow-httpspi.version}</version>
