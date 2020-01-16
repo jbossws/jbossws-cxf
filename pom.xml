@@ -99,7 +99,7 @@
     <neethi.version>3.1.1</neethi.version>
     <opensaml.version>3.3.0</opensaml.version>
     <annotation.api.version>2.0.1.Final</annotation.api.version>
-    <saaj.api.version>1.0.1.Final</saaj.api.version>
+    <saaj.api.version>1.0.2.Final-SNAPSHOT</saaj.api.version>
     <saaj.impl.version>1.4.1.SP1</saaj.impl.version>
     <servlet.api.version>2.0.0.Final</servlet.api.version>
     <stax.api.version>1.0-2</stax.api.version>
