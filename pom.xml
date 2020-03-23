@@ -68,10 +68,10 @@
     <jbossws.common.version>3.3.0.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.3.2.Final</jbossws.common.tools.version>
     <jbossws.wildfly1600.version>5.2.5.Final</jbossws.wildfly1600.version>
-    <wildfly1600.version>16.0.0.Final</wildfly1600.version>
     <wildfly1700.version>17.0.0.Final</wildfly1700.version>
     <wildfly1800.version>18.0.0.Final</wildfly1800.version>
     <wildfly1900.version>19.0.0.Final</wildfly1900.version>
+    <wildfly2000.version>20.0.0.Beta1-SNAPSHOT</wildfly2000.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
     <cxf.version>3.3.5</cxf.version>
     <cxf.asm.version>7.1</cxf.asm.version>
@@ -170,28 +170,6 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-spi</artifactId>
         <version>${jbossws.spi.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly1600-server-integration</artifactId>
-        <version>${jbossws.wildfly1600.version}</version>
-        <exclusions>
-          <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
-            <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.ws</groupId>
-        <artifactId>jbossws-wildfly1600-tests-integration</artifactId>
-        <version>${jbossws.wildfly1600.version}</version>
-        <exclusions>
-          <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
-            <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.wildfly</groupId>
@@ -1024,23 +1002,6 @@
       </properties>
     </profile>
     <!--
-    Name:  wildfly1600
-    Descr: WildFly-16.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly1600</id>
-      <properties>
-        <jbossws.integration.target>wildfly1600</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly1600.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-    <!--
     Name:  wildfly1700
     Descr: WildFly-17.0.0 specific options
     -->
@@ -1093,7 +1054,23 @@
         <module>modules/testsuite</module>
       </modules>
     </profile>
-
+    <!--
+    Name:  wildfly2000
+    Descr: WildFly-20.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly2000</id>
+      <properties>
+        <jbossws.integration.target>wildfly2000</jbossws.integration.target>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly2000.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+      </modules>
+    </profile>
     <profile>
       <id>dist</id>
       <modules>
