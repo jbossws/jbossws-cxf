@@ -73,7 +73,7 @@
     <wildfly1800.version>18.0.0.Final</wildfly1800.version>
     <wildfly1900.version>19.0.0.Beta1-SNAPSHOT</wildfly1900.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
-    <cxf.version>3.3.4</cxf.version>
+    <cxf.version>3.3.5</cxf.version>
     <cxf.asm.version>7.1</cxf.asm.version>
     <cxf.xjcplugins.version>3.3.0</cxf.xjcplugins.version>
     <jboss-logging.version>3.3.2.Final</jboss-logging.version>
@@ -107,7 +107,7 @@
     <velocity.version>2.1</velocity.version>
     <xerces.version>2.12.0.SP02</xerces.version>
     <xmlsec.version>2.1.4</xmlsec.version>
-    <wss4j.version>2.2.4</wss4j.version>
+    <wss4j.version>2.2.5</wss4j.version>
     <wstx.version>5.1.0</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
     <derby.version>10.14.2.0</derby.version>
