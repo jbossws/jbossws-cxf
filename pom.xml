@@ -76,16 +76,16 @@
     <cxf.version>3.3.5</cxf.version>
     <cxf.asm.version>7.1</cxf.asm.version>
     <cxf.xjcplugins.version>3.3.0</cxf.xjcplugins.version>
-    <jboss-logging.version>3.3.2.Final</jboss-logging.version>
-    <jboss-logging-annotations.version>2.1.0.Final</jboss-logging-annotations.version>
-    <jboss-logging-processor.version>2.1.0.Final</jboss-logging-processor.version>
+    <jboss-logging.version>3.4.1.Final</jboss-logging.version>
+    <jboss-logging-annotations.version>2.2.1.Final</jboss-logging-annotations.version>
+    <jboss-logging-processor.version>2.2.1.Final</jboss-logging-processor.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <picketbox.version>5.0.3.Final</picketbox.version>
     <picketlink.version>2.5.5.SP12</picketlink.version>
     <jaxws-undertow-httpspi.version>1.0.1.Final</jaxws-undertow-httpspi.version>
-    <io.undertow.version>2.0.27.Final</io.undertow.version>
+    <io.undertow.version>2.0.30.Final</io.undertow.version>
     <jaxb.api.version>2.0.0.Final</jaxb.api.version>
-    <jaxb.impl.version>2.3.2</jaxb.impl.version>
+    <jaxb.impl.version>2.3.3-b02</jaxb.impl.version>
     <jaxws.api.version>1.0.0.Final</jaxws.api.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
@@ -97,7 +97,7 @@
     <activation.version>1.1.1</activation.version>
     <fastinfoset.version>1.2.16</fastinfoset.version>
     <neethi.version>3.1.1</neethi.version>
-    <opensaml.version>3.3.0</opensaml.version>
+    <opensaml.version>3.3.1</opensaml.version>
     <annotation.api.version>2.0.1.Final</annotation.api.version>
     <saaj.api.version>1.0.2.Final</saaj.api.version>
     <saaj.impl.version>1.4.1.SP1</saaj.impl.version>
