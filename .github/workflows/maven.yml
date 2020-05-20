@@ -36,7 +36,7 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
       - name: Build with Maven Java ${{ matrix.java }}
-        run: travis-scripts/jbossws-test.sh '-Dserver.version=${{ matrix.wildfly-version }}'
+        run: mvn -s .travis-settings.xml -B -V -fae -P${{ matrix.wildfly-version }} verify
       - uses: actions/upload-artifact@v2
         if: failure()
         with:
