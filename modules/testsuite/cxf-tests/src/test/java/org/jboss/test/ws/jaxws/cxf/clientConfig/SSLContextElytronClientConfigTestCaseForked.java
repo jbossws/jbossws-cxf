@@ -8,7 +8,6 @@ import org.jboss.arquillian.container.test.api.TargetsContainer;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.ws.jaxws.cxf.httpauth.Hello;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.basic.ElytronClientTestUtils;
@@ -19,7 +18,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.wildfly.security.auth.client.AuthenticationContext;
-import sun.security.ssl.SSLContextImpl;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -82,7 +80,7 @@ public class SSLContextElytronClientConfigTestCaseForked extends JBossWSTest {
       try {
          ElytronClientTestUtils.setElytronClientConfig(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/clientConfig/META-INF/wildfly-config-ssl-context.xml");
          // for this test we must remove default SSL context because it accepts existing certificate without additional configuration
-         SSLContext emptySSLContext = new SSLContext(new SSLContextImpl.TLS10Context(), null, null) {};
+         SSLContext emptySSLContext = SSLContext.getInstance("TLS");
          emptySSLContext.init(null, new TrustManager[] { null }, null);
          SSLContext.setDefault(emptySSLContext);
          QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
@@ -107,7 +105,7 @@ public class SSLContextElytronClientConfigTestCaseForked extends JBossWSTest {
       try {
          ElytronClientTestUtils.setElytronClientConfig(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/clientConfig/META-INF/wildfly-config-default-auth.xml"); // file does not contain SSLContext configuration
          // for this test we must remove default SSL context because it accepts existing certificate without additional configuration
-         SSLContext emptySSLContext = new SSLContext(new SSLContextImpl.TLS10Context(), null, null) {};
+         SSLContext emptySSLContext = SSLContext.getInstance("TLS");
          emptySSLContext.init(null, new TrustManager[] { null }, null);
          SSLContext.setDefault(emptySSLContext);
          QName serviceName = new QName("http://jboss.org/http/security", "HelloService");
