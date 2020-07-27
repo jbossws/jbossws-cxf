@@ -10,9 +10,9 @@ jdk:
   - openjdk11
 
 env:
-  - SERVER_VERSION=wildfly1800
   - SERVER_VERSION=wildfly1900 
-  - SERVER_VERSION=wildfly2000 BUILD_WFLY_MASTER=true
+  - SERVER_VERSION=wildfly2000
+  - SERVER_VERSION=wildfly2100 BUILD_WFLY_MASTER=true
 
 cache:
  directories:
