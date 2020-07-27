@@ -71,7 +71,7 @@
     <wildfly1700.version>17.0.0.Final</wildfly1700.version>
     <wildfly1800.version>18.0.0.Final</wildfly1800.version>
     <wildfly1900.version>19.0.0.Final</wildfly1900.version>
-    <wildfly2000.version>20.0.0.Final-SNAPSHOT</wildfly2000.version>
+    <wildfly2000.version>20.0.0.Final</wildfly2000.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
     <cxf.version>3.3.5</cxf.version>
     <cxf.asm.version>7.1</cxf.asm.version>
