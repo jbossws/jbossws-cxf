@@ -73,8 +73,8 @@
     <wildfly2000.version>20.0.0.Final</wildfly2000.version>
     <wildfly2100.version>21.0.0.Beta1-SNAPSHOT</wildfly2100.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
-    <cxf.version>3.3.5</cxf.version>
-    <cxf.asm.version>7.1</cxf.asm.version>
+    <cxf.version>3.3.7</cxf.version>
+    <cxf.asm.version>8.0.1</cxf.asm.version>
     <cxf.xjcplugins.version>3.3.0</cxf.xjcplugins.version>
     <jboss-logging.version>3.4.1.Final</jboss-logging.version>
     <jboss-logging-annotations.version>2.2.1.Final</jboss-logging-annotations.version>
@@ -104,7 +104,7 @@
     <servlet.api.version>2.0.0.Final</servlet.api.version>
     <stax.api.version>1.0-2</stax.api.version>
     <jms.api.version>1.0.2.Final</jms.api.version>
-    <velocity.version>2.1</velocity.version>
+    <velocity.version>2.2</velocity.version>
     <xerces.version>2.12.0.SP02</xerces.version>
     <xmlsec.version>2.1.4</xmlsec.version>
     <wss4j.version>2.2.5</wss4j.version>
