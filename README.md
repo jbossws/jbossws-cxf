@@ -8,9 +8,9 @@
 Building and running the testsuite requires Maven version 3.2.2 or higher.
 
 The build follows the usual Maven flow; a `wildflyXYZ` profile has to be specified to tell the project which target container to use for integration tests; if no `wildflyXYZ` profile is specified, the integration tests are skipped.
-
-> mvn -PwildflyXYZ integration-test
-
+```
+mvn -PwildflyXYZ integration-test
+```
 * The `-Dserver.home=/foo/bar` option can be used to run the testsuite against a given local server instance; the server must not be already running, as the build will create various standalone server configurations and start multiple instances.
 * The `-Dexclude-udp-tests` option can be used to skip UDP tests; that might be needed when running on a network that does not allow UDP broadcast.
 * The `-Dexclude-ws-discovery-tests` option can be used to skip WS-Discovery tests; that might be needed when running on a network that does not have set multicast properly.
@@ -26,21 +26,22 @@ The build follows the usual Maven flow; a `wildflyXYZ` profile has to be specifi
 * The `-Dts.dist.dependency.skip` can be used to remove dependency to jbossws-cxf-dist module which makes it possible to run tests directly from testsuite module against arbitrary server given by `-Dserver.home`.
 
 The `fast` profile can also be used to run tests concurrently; run following command in such case to trigger test servers' shutdown and save memory at the end of each testsuite module:
-
-> mvn -Pfast,wildflyXYZ post-integration-test
-
+```
+mvn -Pfast,wildflyXYZ post-integration-test
+```
 
  Updating WS stack
 -------------------
 
 In some cases it might be needed to build the ws stack and install it on a specified server instance without running the integration testsuite; this is achieved as follows:
-
-> mvn -PwildflyXYZ -Dserver.home=/foo/bar package
-
+```
+mvn -PwildflyXYZ -Dserver.home=/foo/bar package
+```
 If a `server.home` property is not provided, the build creates a zip archive with a vanilla WildFly server patched with the current WS stack:
 
-> mvn -PwildflyXYZ package
-
+```
+mvn -PwildflyXYZ package
+```
 the zip file path is modules/dist/target/jbossws-cxf-dist-${project.version}-test-server.zip
 
 
@@ -48,9 +49,9 @@ the zip file path is modules/dist/target/jbossws-cxf-dist-${project.version}-tes
 -------------
 
 The project is cleaned up as follows:
-
-> mvn -Pdist,testsuite clean
-
+```
+mvn -Pdist,testsuite clean
+```
 
  Releasing
 -----------
@@ -63,6 +64,6 @@ where `wildfly2000` is one of the supported target containers (preferably not th
 
 The release tag can then be checked out, built and deployed to the nexus repository.
 To clean the release plugin data (in case of errors), run:
-
-> mvn -Pdist,testsuite release:clean
-
+```
+mvn -Pdist,testsuite release:clean
+```
