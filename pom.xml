@@ -24,23 +24,23 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <name>JBoss Web Services - Stack CXF</name>
   <groupId>org.jboss.ws.cxf</groupId>
   <artifactId>jbossws-cxf</artifactId>
   <packaging>pom</packaging>
   <description>JBossWS CXF stack</description>
 
-  
+
   <version>5.4.2-SNAPSHOT</version>
-  
+
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
     <version>1.4.4.Final</version>
   </parent>
-  
+
   <!-- Source Control Management -->
   <scm>
     <connection>scm:git:https://github.com/jbossws/jbossws-cxf.git</connection>
@@ -48,7 +48,7 @@
     <url>https://github.com/jbossws/jbossws-cxf</url>
     <tag>HEAD</tag>
   </scm>
-  
+
   <!-- Modules -->
   <modules>
     <module>modules/jaspi</module>
@@ -59,13 +59,13 @@
     <module>modules/addons</module>
     <module>modules/test-utils</module>
   </modules>
-  
+
   <!-- Properties -->
   <properties>
     <jboss.modules.version>1.9.1.Final</jboss.modules.version>
     <jbossws.api.version>1.1.2.Final</jbossws.api.version>
     <jbossws.spi.version>3.3.0.Final</jbossws.spi.version>
-    <jbossws.common.version>3.3.0.Final</jbossws.common.version>
+    <jbossws.common.version>3.3.2.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.3.2.Final</jbossws.common.tools.version>
     <jbossws.wildfly1600.version>5.2.5.Final</jbossws.wildfly1600.version>
     <wildfly1800.version>18.0.0.Final</wildfly1800.version>
@@ -90,7 +90,7 @@
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons-collections.version>3.2.2</commons-collections.version>
-    <commons-lang3.version>3.8.1</commons-lang3.version>
+    <commons-lang3.version>3.10</commons-lang3.version>
     <commons.logging.version>1.2</commons.logging.version>
     <log4j.version>1.2.17</log4j.version>
     <org.slf4j.version>1.7.25</org.slf4j.version>
@@ -127,8 +127,8 @@
     <docbook.xslt.version>1.1.1</docbook.xslt.version>
     <wildfly.plugin.version>1.0.2.Final</wildfly.plugin.version>
     <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
-    <wildfly.elytron.version>1.11.0.Final</wildfly.elytron.version>
-      
+    <wildfly.elytron.version>1.12.1.Final</wildfly.elytron.version>
+
     <modular.jdk.args />
     <modular.jdk.props />
   </properties>
@@ -144,7 +144,7 @@
   <!-- DependencyManagement -->
   <dependencyManagement>
     <dependencies>
-      
+
       <!-- jbossws dependencies -->
       <dependency>
         <groupId>org.jboss.modules</groupId>
@@ -703,7 +703,7 @@
           </exclusion>
         </exclusions>
       </dependency>
-     
+
       <!-- jboss provided -->
       <dependency>
         <groupId>org.picketbox</groupId>
@@ -826,7 +826,7 @@
         <artifactId>easymockclassextension</artifactId>
         <version>${org.easymock.version}</version>
       </dependency>
-      
+
       <!-- Other test dependencies -->
       <dependency>
         <groupId>org.picketlink</groupId>
@@ -882,7 +882,7 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-  
+
   <!-- Plugins -->
   <build>
   <!-- PluginMangament-->
@@ -1087,9 +1087,9 @@
         <!--modular.jdk.props>-Dsun.util.logging.disableCallerCheck=true -Dsun.reflect.debugModuleAccessChecks=true -Djaxb.debug=true</modular.jdk.props-->
       </properties>
         <dependencies>
-          <!--cxf force add these dependency in a java9-plus profile in cxf 3.3.x parent pom. There is no way to exclude these dependency gloabally.Set it to test scope is a workaround to avoid 
+          <!--cxf force add these dependency in a java9-plus profile in cxf 3.3.x parent pom. There is no way to exclude these dependency gloabally.Set it to test scope is a workaround to avoid
             add these dependencies to dist and jboss modules-->
-          <!-- ALIGN THESE VERSION NUMBER TO CXF 3.3.X--> 
+          <!-- ALIGN THESE VERSION NUMBER TO CXF 3.3.X-->
           <dependency>
             <groupId>javax.xml.ws</groupId>
             <artifactId>jaxws-api</artifactId>
@@ -1204,5 +1204,5 @@
     </profile>
 
   </profiles>
-  
+
 </project>
