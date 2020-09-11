@@ -2,7 +2,7 @@ install:
   - java -version; mvn --show-version clean
 script: |
   travis_wait 30 travis-scripts/build-wildfly.sh $BUILD_WFLY_MASTER &&
-  travis_wait 30 travis-scripts/jbossws-test.sh $SERVER_VERSION
+  travis_wait 30 travis-scripts/jbossws-test.sh $SERVER_VERSION $ELYTRON
 
 language: java
 jdk:
@@ -10,9 +10,12 @@ jdk:
   - openjdk11
 
 env:
-  - SERVER_VERSION=wildfly1900 
+  - SERVER_VERSION=wildfly1900
+  - SERVER_VERSION=wildfly1900 ELYTRON=true
   - SERVER_VERSION=wildfly2000
+  - SERVER_VERSION=wildfly2000 ELYTRON=true
   - SERVER_VERSION=wildfly2100 BUILD_WFLY_MASTER=true
+  - SERVER_VERSION=wildfly2100 BUILD_WFLY_MASTER=true ELYTRON=true
 
 cache:
  directories:
