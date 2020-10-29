@@ -604,59 +604,6 @@
       </build>
     </profile>
     <!--
-    Descr: WildFly-18.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly1800</id>
-      <properties>
-        <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
-        <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.wildfly</groupId>
-          <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <version>${wildfly1800.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.sasl</groupId>
-              <artifactId>jboss-sasl</artifactId>
-            </exclusion>
-            <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
-              <groupId>org.jboss.spec.javax.servlet</groupId>
-              <artifactId>jboss-servlet-api_3.1_spec</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <!-- Arquillian container integration -->
-        <dependency>
-          <groupId>org.wildfly.arquillian</groupId>
-          <artifactId>wildfly-arquillian-container-managed</artifactId>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.sasl</groupId>
-              <artifactId>jboss-sasl</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>org.jboss.marshalling</groupId>
-              <artifactId>jboss-marshalling</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-       	  <groupId>org.jboss.arquillian.protocol</groupId>
-       	  <artifactId>arquillian-protocol-servlet</artifactId>
-       	  <version>${arquillian.version}</version>
-       	  <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>xerces</groupId>
-          <artifactId>xercesImpl</artifactId>
-        </dependency>
-      </dependencies>
-    </profile>
-
-    <!--
     Descr: WildFly-19.0.0 specific options
     -->
     <profile>
@@ -775,6 +722,54 @@
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
           <version>${wildfly2100.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.sasl</groupId>
+              <artifactId>jboss-sasl</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <!-- Arquillian container integration -->
+        <dependency>
+          <groupId>org.wildfly.arquillian</groupId>
+          <artifactId>wildfly-arquillian-container-managed</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>org.jboss.sasl</groupId>
+              <artifactId>jboss-sasl</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.jboss.marshalling</groupId>
+              <artifactId>jboss-marshalling</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+        <dependency>
+       	  <groupId>org.jboss.arquillian.protocol</groupId>
+       	  <artifactId>arquillian-protocol-servlet</artifactId>
+       	  <version>${arquillian.version}</version>
+       	  <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+    <!--
+    Descr: WildFly-22.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly2200</id>
+      <properties>
+        <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
+        <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.wildfly</groupId>
+          <artifactId>wildfly-webservices-tests-integration</artifactId>
+          <version>${wildfly2200.version}</version>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.sasl</groupId>

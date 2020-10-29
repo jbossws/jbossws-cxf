@@ -68,10 +68,10 @@
     <jbossws.common.version>3.3.2.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.3.2.Final</jbossws.common.tools.version>
     <jbossws.wildfly1600.version>5.2.5.Final</jbossws.wildfly1600.version>
-    <wildfly1800.version>18.0.0.Final</wildfly1800.version>
     <wildfly1900.version>19.0.0.Final</wildfly1900.version>
     <wildfly2000.version>20.0.0.Final</wildfly2000.version>
-    <wildfly2100.version>21.0.0.Beta1-SNAPSHOT</wildfly2100.version>
+    <wildfly2100.version>21.0.0.Final</wildfly2100.version>
+    <wildfly2200.version>22.0.0.Beta1-SNAPSHOT</wildfly2200.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
     <cxf.version>3.3.7</cxf.version>
     <cxf.asm.version>8.0.1</cxf.asm.version>
@@ -991,24 +991,6 @@
       </properties>
     </profile>
     <!--
-    Name:  wildfly1800
-    Descr: WildFly-18.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly1800</id>
-      <properties>
-        <jbossws.integration.target>wildfly1800</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly1800.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-
-    <!--
     Name:  wildfly1900
     Descr: WildFly-19.0.0 specific options
     -->
@@ -1044,7 +1026,7 @@
     </profile>
     <!--
     Name:  wildfly2100
-    Descr: WildFly-20.0.0 specific options
+    Descr: WildFly-21.0.0 specific options
     -->
     <profile>
       <id>wildfly2100</id>
@@ -1052,6 +1034,23 @@
         <jbossws.integration.target>wildfly2100</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly2100.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+      </modules>
+    </profile>
+    <!--
+    Name:  wildfly2200
+    Descr: WildFly-22.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly2200</id>
+      <properties>
+        <jbossws.integration.target>wildfly2200</jbossws.integration.target>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly2200.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
       </properties>
       <modules>
