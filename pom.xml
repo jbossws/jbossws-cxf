@@ -1046,7 +1046,7 @@
     Descr: WildFly-22.0.0 specific options
     -->
     <profile>
-      <id>wildfly2100</id>
+      <id>wildfly2200</id>
       <properties>
         <jbossws.integration.target>wildfly2200</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>

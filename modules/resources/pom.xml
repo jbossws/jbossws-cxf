@@ -46,7 +46,6 @@
         <artifactId>maven-jar-plugin</artifactId>
          <executions>
           <execution>
-          <execution>
             <id>wildfly1900</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>
@@ -73,6 +72,7 @@
               <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2100/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
+          <execution>
             <id>wildfly2200</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>
