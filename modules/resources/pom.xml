@@ -46,14 +46,6 @@
         <artifactId>maven-jar-plugin</artifactId>
          <executions>
           <execution>
-            <id>wildfly1800</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>wildfly1800</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly1800/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
           <execution>
             <id>wildfly1900</id>
             <goals><goal>jar</goal></goals>
@@ -79,6 +71,14 @@
             <configuration>
               <classifier>wildfly2100</classifier>
               <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2100/jbossws.beans</classesDirectory>
+            </configuration>
+          </execution>
+            <id>wildfly2200</id>
+            <goals><goal>jar</goal></goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>wildfly2200</classifier>
+              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2200/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
         </executions>
