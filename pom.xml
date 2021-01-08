@@ -106,8 +106,8 @@
     <jms.api.version>1.0.2.Final</jms.api.version>
     <velocity.version>2.2</velocity.version>
     <xerces.version>2.12.0.SP02</xerces.version>
-    <xmlsec.version>2.1.4</xmlsec.version>
-    <wss4j.version>2.2.5</wss4j.version>
+    <xmlsec.version>2.1.6</xmlsec.version>
+    <wss4j.version>2.2.6</wss4j.version>
     <wstx.version>5.1.0</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
     <derby.version>10.14.2.0</derby.version>
