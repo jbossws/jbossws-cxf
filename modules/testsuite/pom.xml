@@ -803,6 +803,22 @@
           <artifactId>xercesImpl</artifactId>
         </dependency>
       </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes combine.children="append">
+                <!-- https://issues.redhat.com/browse/WFLY-14293 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointAPITestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointOnlyDeploymentTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/JMSHTTPEndpointDeploymentTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/session/SessionEndpointTestCase*</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <!--
     Name:  elytron
