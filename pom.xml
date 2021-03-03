@@ -73,7 +73,7 @@
     <wildfly2200.version>22.0.0.Final</wildfly2200.version>
     <wildfly2300.version>23.0.0.Beta1-SNAPSHOT</wildfly2300.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
-    <cxf.version>3.3.9</cxf.version>
+    <cxf.version>3.3.10-SNAPSHOT</cxf.version>
     <cxf.asm.version>8.0.1</cxf.asm.version>
     <cxf.xjcplugins.version>3.3.0</cxf.xjcplugins.version>
     <jboss-logging.version>3.4.1.Final</jboss-logging.version>
