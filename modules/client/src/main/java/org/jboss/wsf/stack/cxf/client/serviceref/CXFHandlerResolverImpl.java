@@ -69,7 +69,7 @@ import javax.xml.ws.handler.PortInfo;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.jaxws.handler.HandlerChainBuilder;
-import org.apache.cxf.jaxws.handler.types.PortComponentHandlerType;
+import org.apache.cxf.jaxws.handler.JakartaeeToJavaeeAdaptor;
 import org.jboss.logging.Logger;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.spi.metadata.ParserConstants;
@@ -131,18 +131,24 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          }
 
          Element el = DOMUtils.parse(is, Holder.builder);
-         if (!ParserConstants.JAVAEE_NS.equals(el.getNamespaceURI()) 
+         if (!(ParserConstants.JAVAEE_NS.equals(el.getNamespaceURI()) ||
+               ParserConstants.JAKARTAEE_NS.equals(el.getNamespaceURI()))
                || !ParserConstants.HANDLER_CHAINS.equals(el.getLocalName())) {
-            throw MESSAGES.differentElementExpected(handlerFile, "{" + ParserConstants.JAVAEE_NS + "}"
+            throw MESSAGES.differentElementExpected(handlerFile,
+                  "{" + ParserConstants.JAVAEE_NS + "} or {"
+                  + ParserConstants.JAKARTAEE_NS + "}"
                   + ParserConstants.HANDLER_CHAINS, "{" + el.getNamespaceURI() + "}" + el.getLocalName());
          }
          Node node = el.getFirstChild();
          while (node != null) {
             if (node instanceof Element) {
                el = (Element)node;
-               if (!el.getNamespaceURI().equals(ParserConstants.JAVAEE_NS) 
+               if (!(el.getNamespaceURI().equals(ParserConstants.JAVAEE_NS) ||
+                     el.getNamespaceURI().equals(ParserConstants.JAKARTAEE_NS))
                      || !el.getLocalName().equals(ParserConstants.HANDLER_CHAIN)) {
-                  throw MESSAGES.differentElementExpected(handlerFile, "{" + ParserConstants.JAVAEE_NS + "}"
+                  throw MESSAGES.differentElementExpected(handlerFile,
+                        "{" + ParserConstants.JAVAEE_NS + "} or {"
+                        + "{" + ParserConstants.JAKARTAEE_NS + "}"
                         + ParserConstants.HANDLER_CHAIN, "{" + el.getNamespaceURI() + "}" + el.getLocalName());
                }
                processHandlerChainElement(el, chain, portQName, serviceQName, bindingID);
@@ -166,7 +172,9 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
          node = node.getNextSibling();            
          if (cur instanceof Element) {
             el = (Element)cur;
-            if (!el.getNamespaceURI().equals(ParserConstants.JAVAEE_NS)) {
+            final boolean isJavaEENamespace = el.getNamespaceURI().equals(ParserConstants.JAVAEE_NS);
+            final boolean isJakartaNamespace = el.getNamespaceURI().equals(ParserConstants.JAKARTAEE_NS);
+            if (!isJavaEENamespace && !isJakartaNamespace) {
                String xml = "{" + el.getNamespaceURI() + "}" + el.getLocalName();
                throw MESSAGES.invalidElementInHandler(handlerFile, xml);
             }
@@ -184,7 +192,7 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
                   return;
                }
             } else if ("handler".equals(name)) {
-               processHandlerElement(el, chain);
+               processHandlerElement(el, chain, isJakartaNamespace);
             }
          }
       }        
@@ -326,12 +334,18 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       }
    }
    
-   private void processHandlerElement(Element el, @SuppressWarnings("rawtypes") List<Handler> chain) {
+   private void processHandlerElement(Element el, @SuppressWarnings("rawtypes") List<Handler> chain, boolean isJakartaNS) {
       try {
-          JAXBContext ctx = Holder.context;
-          PortComponentHandlerType pt = ctx.createUnmarshaller()
-              .unmarshal(el, PortComponentHandlerType.class).getValue();
-          chain.addAll(buildHandlerChain(pt, classLoader));
+         JAXBContext ctx = Holder.context;
+         if (isJakartaNS) {
+            org.apache.cxf.jaxws.handler.jakartaee.PortComponentHandlerType pt = ctx.createUnmarshaller()
+                .unmarshal(el, org.apache.cxf.jaxws.handler.jakartaee.PortComponentHandlerType.class).getValue();
+            chain.addAll(buildHandlerChain(JakartaeeToJavaeeAdaptor.of(pt), classLoader));
+         } else {
+            org.apache.cxf.jaxws.handler.types.PortComponentHandlerType pt = ctx.createUnmarshaller()
+                .unmarshal(el, org.apache.cxf.jaxws.handler.types.PortComponentHandlerType.class).getValue();
+            chain.addAll(buildHandlerChain(pt, classLoader));
+         }
       } catch (JAXBException e) {
          DEPLOYMENT_LOGGER.unableToProcessHandlerElement(el, e);
       }
@@ -373,7 +387,10 @@ final class CXFHandlerResolverImpl extends HandlerChainBuilder implements Handle
       private static JAXBContext getContextForPortComponentHandlerType() {
          JAXBContext context = null;
          try {
-            context = JAXBContext.newInstance(PortComponentHandlerType.class);
+            context = JAXBContext.newInstance(
+                org.apache.cxf.jaxws.handler.types.PortComponentHandlerType.class,
+                org.apache.cxf.jaxws.handler.jakartaee.PortComponentHandlerType.class);
+
          } catch (JAXBException e) {
             DEPLOYMENT_LOGGER.error(e);
          }
