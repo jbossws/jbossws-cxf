@@ -18,6 +18,7 @@
                 <key-store-ssl-certificate key-store-name="keystore" alias="client">
                     <key-store-clear-password password="changeit"/>
                 </key-store-ssl-certificate>
+                <protocol names="TLSv1.2"/>
             </ssl-context>
         </ssl-contexts>
         <ssl-context-rules>
