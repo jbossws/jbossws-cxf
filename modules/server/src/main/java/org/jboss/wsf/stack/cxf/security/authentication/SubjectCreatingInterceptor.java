@@ -22,7 +22,6 @@
 package org.jboss.wsf.stack.cxf.security.authentication;
 
 import java.security.Principal;
-import java.security.acl.Group;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -60,6 +59,21 @@ import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
  */
 public class SubjectCreatingInterceptor extends WSS4JInInterceptor
 {
+    private static final Class<?> groupClass;
+
+    static
+    {
+        Class<?> clazz = null;
+        try
+        {
+            clazz = Class.forName("java.security.acl.Group");
+        } catch (Throwable t)
+        {
+            // ignore
+        }
+        groupClass = clazz;
+    }
+
    protected final SubjectCreator helper = new SubjectCreator();
 
    private static final Logger LOG = Logger.getLogger(SubjectCreatingInterceptor.class);
@@ -171,7 +185,7 @@ public class SubjectCreatingInterceptor extends WSS4JInInterceptor
    private boolean checkUserPrincipal(Set<Principal> principals, String name)
    {
       for (Principal p : principals) {
-         if (!(p instanceof Group)) {
+         if (groupClass == null || !groupClass.isInstance(p)) {
             return p.getName().equals(name);
          }
       }

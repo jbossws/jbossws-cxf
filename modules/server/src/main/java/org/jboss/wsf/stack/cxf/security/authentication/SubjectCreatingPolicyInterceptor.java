@@ -22,7 +22,6 @@
 package org.jboss.wsf.stack.cxf.security.authentication;
 
 import java.security.Principal;
-import java.security.acl.Group;
 import java.util.Set;
 
 import javax.security.auth.Subject;
@@ -53,6 +52,21 @@ import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
  */
 public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<Message>
 {
+   private static final Class<?> groupClass;
+
+   static
+   {
+      Class<?> clazz = null;
+      try
+      {
+         clazz = Class.forName("java.security.acl.Group");
+      } catch (Throwable t)
+      {
+         // ignore
+      }
+      groupClass = clazz;
+   }
+
    protected final SubjectCreator helper = new SubjectCreator();
 
    public SubjectCreatingPolicyInterceptor()
@@ -149,7 +163,7 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
       if (!principals.isEmpty())
       {
           Principal principal = principals.iterator().next();
-          if (!(principal instanceof Group))
+          if (groupClass == null || !groupClass.isInstance(principal))
           {
               return principal;
           }
