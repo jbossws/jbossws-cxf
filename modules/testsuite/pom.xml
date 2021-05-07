@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf</artifactId>
-    <version>5.4.4-SNAPSHOT</version>
+    <version>5.4.5-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
