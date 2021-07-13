@@ -12,13 +12,13 @@ jobs:
   build:
 
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest ]
         java: ['8', '11']
-        wildfly-version: ['wildfly2100', 'wildfly2200', 'wildfly2300']
+        wildfly-version: ['wildfly2200', 'wildfly2300']
 
     steps:
       - uses: actions/checkout@v2
