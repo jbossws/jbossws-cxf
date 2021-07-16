@@ -25,6 +25,7 @@ import static org.jboss.wsf.stack.cxf.i18n.Messages.MESSAGES;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -239,7 +240,12 @@ public class CXFProviderImpl extends WSContractProvider
          URLClassLoader urlLoader = (URLClassLoader)cl;
          for (URL url : urlLoader.getURLs())
          {
-            builder.append(url.getPath());
+            try {
+               File f = new File(url.toURI());
+               builder.append(f.getAbsolutePath());
+            } catch (Exception e) {
+               builder.append(url.getPath());
+            }
             builder.append(File.pathSeparator);
          }
 
