@@ -118,7 +118,7 @@
     <jacc.api.version>1.0.2.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
     <org.easymock.version>3.2</org.easymock.version>
-    <junit.version>4.12</junit.version>
+    <junit.version>4.13.1</junit.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
     <gmavenplus.version>1.5</gmavenplus.version>
     <groovy.version>2.4.15</groovy.version>
