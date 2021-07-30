@@ -198,38 +198,6 @@
       <properties>
         <jboss.home>${project.build.directory}/wildfly-${jboss.version}</jboss.home>
       </properties>
-    </profile>    
-    <!--
-    Name:  wildfly2000
-    Descr: WildFly-20.0.0 specific dependencies
-    -->
-    <profile>
-      <id>wildfly2000</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws.cxf</groupId>
-          <artifactId>jbossws-cxf-resources</artifactId>
-          <version>${project.version}</version>
-          <classifier>wildfly2000</classifier>     
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-    <!--
-    Name:  wildfly2100
-    Descr: WildFly-21.0.0 specific dependencies
-    -->
-    <profile>
-      <id>wildfly2100</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws.cxf</groupId>
-          <artifactId>jbossws-cxf-resources</artifactId>
-          <version>${project.version}</version>
-          <classifier>wildfly2100</classifier>     
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
     </profile>
     <!--
     Name:  wildfly2200
@@ -258,11 +226,43 @@
           <groupId>org.jboss.ws.cxf</groupId>
           <artifactId>jbossws-cxf-resources</artifactId>
           <version>${project.version}</version>
-          <classifier>wildfly2300</classifier>     
+          <classifier>wildfly2300</classifier>
           <scope>provided</scope>
         </dependency>
       </dependencies>
     </profile>
+    <!--
+    Name:  wildfly2400
+    Descr: WildFly-24.0.0 specific dependencies
+    -->
+    <profile>
+      <id>wildfly2400</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws.cxf</groupId>
+          <artifactId>jbossws-cxf-resources</artifactId>
+          <version>${project.version}</version>
+          <classifier>wildfly2400</classifier>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+    <!--
+    Name:  wildfly2500
+    Descr: WildFly-25.0.0 specific dependencies
+    -->
+    <profile>
+      <id>wildfly2500</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.ws.cxf</groupId>
+          <artifactId>jbossws-cxf-resources</artifactId>
+          <version>${project.version}</version>
+          <classifier>wildfly2500</classifier>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>    
     <!--
     Name:  deploy
     Descr: Deploy stack on WildFly instance

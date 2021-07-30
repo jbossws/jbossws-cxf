@@ -68,10 +68,10 @@
     <jbossws.common.version>3.3.3.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.3.2.Final</jbossws.common.tools.version>
     <jbossws.wildfly1600.version>5.2.5.Final</jbossws.wildfly1600.version>
-    <wildfly2000.version>20.0.0.Final</wildfly2000.version>
-    <wildfly2100.version>21.0.0.Final</wildfly2100.version>
     <wildfly2200.version>22.0.0.Final</wildfly2200.version>
     <wildfly2300.version>23.0.0.Final</wildfly2300.version>
+    <wildfly2400.version>24.0.0.Final</wildfly2400.version>
+    <wildfly2500.version>25.0.0.Beta1-SNAPSHOT</wildfly2500.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
     <cxf.version>3.3.10</cxf.version>
     <cxf.asm.version>9.1</cxf.asm.version>
@@ -991,57 +991,6 @@
       </properties>
     </profile>
     <!--
-    Name:  wildfly1900
-    Descr: WildFly-19.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly1900</id>
-      <properties>
-        <jbossws.integration.target>wildfly1900</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly1900.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-    <!--
-    Name:  wildfly2000
-    Descr: WildFly-20.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly2000</id>
-      <properties>
-        <jbossws.integration.target>wildfly2000</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly2000.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-    <!--
-    Name:  wildfly2100
-    Descr: WildFly-21.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly2100</id>
-      <properties>
-        <jbossws.integration.target>wildfly2100</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly2100.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-    <!--
     Name:  wildfly2200
     Descr: WildFly-22.0.0 specific options
     -->
@@ -1068,6 +1017,40 @@
         <jbossws.integration.target>wildfly2300</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly2300.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+      </modules>
+    </profile>
+    <!--
+     Name:  wildfly2400
+     Descr: WildFly-24.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly2400</id>
+      <properties>
+        <jbossws.integration.target>wildfly2400</jbossws.integration.target>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly2400.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+      </modules>
+    </profile>
+    <!--
+    Name:  wildfly2500
+    Descr: WildFly-25.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly2500</id>
+      <properties>
+        <jbossws.integration.target>wildfly2500</jbossws.integration.target>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly2500.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
       </properties>
       <modules>

@@ -604,10 +604,10 @@
       </build>
     </profile>
     <!--
-    Descr: WildFly-20.0.0 specific options
+    Descr: WildFly-24.0.0 specific options
     -->
     <profile>
-      <id>wildfly2000</id>
+      <id>wildfly2400</id>
       <properties>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
@@ -616,7 +616,7 @@
         <dependency>
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <version>${wildfly2000.version}</version>
+          <version>${wildfly2400.version}</version>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.sasl</groupId>
@@ -656,10 +656,10 @@
       </dependencies>
     </profile>
     <!--
-    Descr: WildFly-21.0.0 specific options
+    Descr: WildFly-25.0.0 specific options
     -->
     <profile>
-      <id>wildfly2100</id>
+      <id>wildfly2500</id>
       <properties>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
@@ -668,7 +668,7 @@
         <dependency>
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <version>${wildfly2100.version}</version>
+          <version>${wildfly2500.version}</version>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.sasl</groupId>
