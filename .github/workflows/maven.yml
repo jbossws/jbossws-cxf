@@ -18,10 +18,16 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest ]
         java: ['8', '11']
-        wildfly-version: ['wildfly2200', 'wildfly2300']
+        wildfly-version: ['wildfly2400', 'wildfly2500']
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout jbossws-cxf
+        uses: actions/checkout@v2
+      - name: Checkout wildfly
+        uses: actions/checkout@v2
+        with:
+          repository: wildfly/wildfly
+          path: './wildfly'
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
@@ -33,7 +39,12 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'adopt'
-      - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{ matrix.wildfly-version }} - Linux
+      - name: Conditionally build WFLY
+        if: ${{ matrix.wildfly-version == 'wildfly2500' && runner.os == 'Linux'}}
+        working-directory: ./wildfly
+        run: mvn -DskipTests=true -Denforcer.skip=true -Prelease clean install
+      - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{ matrix.wildfly-version }}
+        if: ${{ matrix.wildfly-version != 'wildfly2500' || runner.os != 'Windows'}}
         run: |
           mvn -s ./.m2-settings.xml -B -V -fae -P${{ matrix.wildfly-version }} verify
       - uses: actions/upload-artifact@v2
@@ -46,4 +57,3 @@ jobs:
         with:
           name: server-logs-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.wildfly-version }}
           path: '**/server.log'
-
