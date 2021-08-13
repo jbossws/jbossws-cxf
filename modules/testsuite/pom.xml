@@ -28,7 +28,7 @@
     <appclient.output.dir>${project.build.directory}/appclient-logs</appclient.output.dir>
     <org.littleshoot.littleproxy.version>1.1.2</org.littleshoot.littleproxy.version>
     <gnu.getopt.version>1.0.13</gnu.getopt.version>
-    <bc.version>1.60</bc.version>
+    <bc.version>1.67</bc.version>
     <resources-plugin-filters.version>1.1.0.Final</resources-plugin-filters.version>
     <exec.plugin.version>1.6.0</exec.plugin.version>
     <port-offset.cxf-tests.jboss>0</port-offset.cxf-tests.jboss>
