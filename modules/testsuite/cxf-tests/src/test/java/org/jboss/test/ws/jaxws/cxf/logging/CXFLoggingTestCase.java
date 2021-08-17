@@ -23,13 +23,12 @@ package org.jboss.test.ws.jaxws.cxf.logging;
 
 import java.util.logging.Logger;
 
-import org.apache.cxf.common.logging.Log4jLogger;
 import org.apache.cxf.common.logging.LogUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.junit.Test;
 
 /**
- * Test CXF logging on the client side uses Log4J 
+ * Test CXF logging on the client side
  *
  * @author alessio.soldano@jboss.com
  * @since 09-Jun-2010
@@ -40,7 +39,10 @@ public class CXFLoggingTestCase extends JBossWSTest
    public void testLogging() throws Exception
    {
       Logger log = LogUtils.getL7dLogger(CXFLoggingTestCase.class);
-      
-      assertTrue("Expected an instance of " + Log4jLogger.class, log instanceof Log4jLogger);
+
+      //After CXF 3.4.0 , the logg4j is removed:https://issues.apache.org/jira/browse/CXF-8264
+      //It now uses j.u.l.Logger
+      assertTrue("Expected an instance of java.util.logging.Logger , but it is " + log.getClass().getName(),
+              log instanceof Logger);
    }
 }
