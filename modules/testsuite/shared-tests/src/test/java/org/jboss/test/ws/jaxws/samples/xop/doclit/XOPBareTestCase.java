@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.samples.xop.doclit;
 
 import java.net.URL;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;

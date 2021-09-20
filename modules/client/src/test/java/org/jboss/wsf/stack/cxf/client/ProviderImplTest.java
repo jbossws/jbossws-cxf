@@ -27,10 +27,10 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 
 import javax.xml.transform.Source;
-import javax.xml.ws.Binding;
-import javax.xml.ws.Endpoint;
-import javax.xml.ws.EndpointReference;
-import javax.xml.ws.spi.Provider;
+import jakarta.xml.ws.Binding;
+import jakarta.xml.ws.Endpoint;
+import jakarta.xml.ws.EndpointReference;
+import jakarta.xml.ws.spi.Provider;
 
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.stack.cxf.client.ProviderImpl.DelegateEndpointImpl;
@@ -44,7 +44,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
- * A test case for jbossws-cxf javax.xml.ws.spi.Provider implementation
+ * A test case for jbossws-cxf jakarta.xml.ws.spi.Provider implementation
  * 
  * @author alessio.soldano@jboss.com
  * @since 24-Feb-2011

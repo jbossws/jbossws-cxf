@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1283;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.xml.soap.AttachmentPart;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.handler.soap.SOAPMessageContext;

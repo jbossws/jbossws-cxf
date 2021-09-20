@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.samples.swaref;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebService;

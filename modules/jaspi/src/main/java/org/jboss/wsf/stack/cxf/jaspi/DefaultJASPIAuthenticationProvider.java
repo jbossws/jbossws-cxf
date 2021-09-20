@@ -209,7 +209,7 @@ public class DefaultJASPIAuthenticationProvider implements JASPIAuthenticationPr
          Properties serverContextProperties = new Properties();
          serverContextProperties.put("security-domain", securityDomain);
          serverContextProperties.put("jaspi-policy", jai);
-         serverContextProperties.put(javax.xml.ws.Endpoint.class, endpointImpl);
+         serverContextProperties.put(jakarta.xml.ws.Endpoint.class, endpointImpl);
          String authContextID = endpointImpl.getBeanName();
          ServerAuthContext sctx = serverConfig.getAuthContext(authContextID, null, serverContextProperties);
          serverAuthenticator = new JaspiServerAuthenticator(sctx);

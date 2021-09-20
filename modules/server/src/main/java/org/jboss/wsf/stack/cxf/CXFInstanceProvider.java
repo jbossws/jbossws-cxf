@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.ws.handler.Handler;
+import jakarta.xml.ws.handler.Handler;
 
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.jboss.ws.common.configuration.ConfigDelegateHandler;

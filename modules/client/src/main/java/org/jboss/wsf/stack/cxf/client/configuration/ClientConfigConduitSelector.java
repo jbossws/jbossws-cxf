@@ -29,7 +29,7 @@ import org.apache.cxf.transport.Conduit;
 import org.apache.cxf.transport.http.HTTPConduit;
 
 import javax.net.ssl.SSLContext;
-import javax.xml.ws.BindingProvider;
+import jakarta.xml.ws.BindingProvider;
 
 import static org.jboss.wsf.spi.security.ClientConfigProvider.CLIENT_HTTP_MECHANISM;
 import static org.jboss.wsf.spi.security.ClientConfigProvider.CLIENT_PASSWORD;

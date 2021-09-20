@@ -30,8 +30,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.stream.XMLStreamReader;
-import javax.xml.ws.handler.Handler;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.handler.Handler;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.annotations.UseAsyncMethod;

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns="http://jboss.org/schema/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+  <group qualifier="cxf-tests" default="true">
+    <container qualifier="jboss" default="true">
+        <configuration>
+            <property name="jbossHome">${jboss.home}</property>
+            <property name="javaVmArguments">-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jboss} ${additionalJvmArgs} -Xmx2048m -XX:MaxPermSize=1536m -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y</property>
+            <property name="serverConfig">jbws-testsuite-default.xml</property>
+            <property name="allowConnectingToRunningServer">true</property>
+            <property name="managementAddress">${jboss.bind.address:localhost}</property>
+            <property name="jbossArguments">${jbossArguments}</property>
+            <property name="managementPort">${add_int(port-offset.cxf-tests.jboss,9990)}</property>
+            <!-- AS7-4070 -->
+            <property name="waitForPorts">${add_int(port-offset.cxf-tests.jboss,8787)} ${add_int(port-offset.cxf-tests.jboss,9990)}</property>
+            <property name="waitForPortsTimeoutInSeconds">8</property>
+            <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
+        </configuration>
+    </container>
+    <container qualifier="ssl-mutual-auth" mode="manual">
+        <configuration>
+            <property name="jbossHome">${jboss.home}</property>
+            <property name="javaVmArguments">-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.ssl-mutual-auth} ${additionalJvmArgs}</property>
+            <property name="serverConfig">jbws-testsuite-ssl-mutual-auth.xml</property>
+            <property name="allowConnectingToRunningServer">true</property>
+            <property name="managementAddress">${jboss.bind.address:localhost}</property>
+            <property name="jbossArguments">${jbossArguments}</property>
+            <property name="managementPort">${add_int(port-offset.cxf-tests.ssl-mutual-auth,9990)}</property>
+            <!-- AS7-4070 -->
+            <property name="waitForPorts">${add_int(port-offset.cxf-tests.ssl-mutual-auth,8787)} ${add_int(port-offset.cxf-tests.ssl-mutual-auth,9990)}</property>
+            <property name="waitForPortsTimeoutInSeconds">8</property>
+            <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
+        </configuration>
+    </container>
+    <container qualifier="default-config-tests" mode="manual">
+        <configuration>
+            <property name="jbossHome">${jboss.home}</property>
+            <property name="javaVmArguments">-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.default-config-tests} ${additionalJvmArgs}</property>
+            <property name="serverConfig">jbws-testsuite-default-config-tests.xml</property>
+            <property name="allowConnectingToRunningServer">true</property>
+            <property name="managementAddress">${jboss.bind.address:localhost}</property>
+            <property name="jbossArguments">${jbossArguments}</property>
+            <property name="managementPort">${add_int(port-offset.cxf-tests.default-config-tests,9990)}</property>
+            <!-- AS7-4070 -->
+            <property name="waitForPorts">${add_int(port-offset.cxf-tests.default-config-tests,8787)} ${add_int(port-offset.cxf-tests.default-config-tests,9990)}</property>
+            <property name="waitForPortsTimeoutInSeconds">8</property>
+            <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
+        </configuration>
+    </container>
+    <container qualifier="jms">
+        <configuration>
+            <property name="jbossHome">${jboss.home}</property>
+            <property name="javaVmArguments">-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jms} ${additionalJvmArgs}</property>
+            <property name="serverConfig">jbws-testsuite-jms.xml</property>
+            <property name="allowConnectingToRunningServer">true</property>
+            <property name="managementAddress">${jboss.bind.address:localhost}</property>
+            <property name="jbossArguments">${jbossArguments}</property>
+            <property name="managementPort">${add_int(port-offset.cxf-tests.jms,9990)}</property>
+            <!-- AS7-4070 -->
+            <property name="waitForPorts">${add_int(port-offset.cxf-tests.jms,8787)} ${add_int(port-offset.cxf-tests.jms,9990)}</property>
+            <property name="waitForPortsTimeoutInSeconds">8</property>
+            <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
+        </configuration>
+    </container>
+  </group>
+</arquillian>

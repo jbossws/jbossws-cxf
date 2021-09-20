@@ -25,8 +25,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.xml.ws.Binding;
-import javax.xml.ws.handler.Handler;
+import jakarta.xml.ws.Binding;
+import jakarta.xml.ws.handler.Handler;
 
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxws.handler.HandlerChainInvoker;

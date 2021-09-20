@@ -11,19 +11,53 @@
     <version>6.0.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
-  
+
+  <properties>
+    <jaxb-api.version>3.0.2</jaxb-api.version>
+  </properties>
+
   <!-- Dependencies -->
   <dependencies>
     
     <!-- CXF dependencies -->
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-frontend-jaxws</artifactId>
-    </dependency>
-    <!-- START - this should be JDK9 only dependency. Shouldn't the scope be 'test' for all artifacts? -->
+    <!-- TODO remove dup
     <dependency>
       <groupId>javax.activation</groupId>
       <artifactId>activation</artifactId>
+      <version>${activation.version}</version>
+    </dependency>
+    -->
+    <!-- rls TODO remove dup
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+    </dependency>
+    -->
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-core</artifactId>
+      <classifier>jakarta</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxws</artifactId>
+      <classifier>jakarta</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-wsdl</artifactId>
+      <classifier>jakarta</classifier>
+    </dependency>
+    <!-- START - this should be JDK9 only dependency. Shouldn't the scope be 'test' for all artifacts? -->
+    <!-- rls WHY NEEDED
+    <dependency>
+      <groupId>javax.activation</groupId>
+      <artifactId>activation</artifactId>
+    </dependency>
+    -->
+    <dependency>
+      <groupId>jakarta.platform</groupId>
+      <artifactId>jakarta.jakartaee-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jaxb</groupId>
@@ -50,26 +84,26 @@
       <artifactId>xercesImpl</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.jws</groupId>
-      <artifactId>jsr181-api</artifactId>
+      <groupId>jakarta.jws</groupId>
+      <artifactId>jakarta.jws-api</artifactId>
     </dependency>
-    <dependency>
+    <dependency> <!-- rls WHY NEEDED -->
       <groupId>org.jboss.spec.javax.annotation</groupId>
       <artifactId>jboss-annotations-api_1.3_spec</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.jboss.spec.javax.xml.bind</groupId>
-      <artifactId>jboss-jaxb-api_2.3_spec</artifactId>
+    <dependency> <!-- rls WHY NEEDED -->
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
     </dependency>
-    <dependency>
-       <groupId>org.jboss.spec.javax.xml.ws</groupId>
-       <artifactId>jboss-jaxws-api_2.3_spec</artifactId>
+    <dependency> <!-- rls WHY NEEDED -->
+      <groupId>jakarta.xml.ws</groupId>
+      <artifactId>jakarta.xml.ws-api</artifactId>
     </dependency> 
-    <dependency>
+    <dependency> <!-- rls WHY NEEDED -->
       <groupId>org.jboss.spec.javax.xml.soap</groupId>
       <artifactId>jboss-saaj-api_1.4_spec</artifactId>
     </dependency>
-    <dependency>
+    <dependency> <!-- rls WHY NEEDED -->
       <groupId>javax.xml.stream</groupId>
       <artifactId>stax-api</artifactId>
     </dependency>

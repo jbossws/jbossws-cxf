@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.samples.swaref;
 
 import org.jboss.ws.api.annotation.WebContext;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.ejb.Stateless;

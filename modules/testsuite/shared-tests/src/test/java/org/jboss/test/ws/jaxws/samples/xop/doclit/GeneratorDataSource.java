@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.xop.doclit;
 
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;

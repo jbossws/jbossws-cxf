@@ -27,7 +27,7 @@ import static org.jboss.wsf.stack.cxf.client.Constants.NEW_BUS_STRATEGY;
 import static org.jboss.wsf.stack.cxf.client.Constants.TCCL_BUS_STRATEGY;
 import static org.jboss.wsf.stack.cxf.client.Constants.THREAD_BUS_STRATEGY;
 
-import javax.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.WebServiceFeature;
 
 import org.apache.cxf.Bus;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;

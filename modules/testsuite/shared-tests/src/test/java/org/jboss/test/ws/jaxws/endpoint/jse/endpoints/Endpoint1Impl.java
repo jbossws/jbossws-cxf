@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.endpoint.jse.endpoints;
 
 import java.io.IOException;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.jws.WebService;

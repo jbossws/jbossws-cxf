@@ -21,9 +21,9 @@
  */
 package org.jboss.wsf.stack.cxf.saaj;
 
-import javax.xml.soap.SOAPConnection;
-import javax.xml.soap.SOAPConnectionFactory;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPConnection;
+import jakarta.xml.soap.SOAPConnectionFactory;
+import jakarta.xml.soap.SOAPException;
 
 public class SOAPConnectionFactoryImpl extends SOAPConnectionFactory 
 {

@@ -23,7 +23,7 @@ package org.jboss.wsf.stack.cxf.jaspi.interceptor;
 
 import java.util.ListIterator;
 
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPMessage;
 
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.interceptor.AbstractSoapInterceptor;
