@@ -23,7 +23,7 @@
 package org.jboss.test.ws.jaxws.jbws3367;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * EJB3 endpoint.

@@ -24,8 +24,8 @@ package org.jboss.test.ws.jaxws.jbws2934;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Service;
 
 import org.jboss.logging.Logger;
 import org.jboss.wsf.test.JBossWSTest;

@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws2259;
 
-import javax.jws.WebService;
-import javax.xml.ws.BindingType;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.BindingType;
 
 /**
  * Test Endpoint to test MTOM detection.

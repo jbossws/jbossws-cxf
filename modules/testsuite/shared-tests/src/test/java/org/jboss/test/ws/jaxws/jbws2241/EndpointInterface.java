@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2241;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(name = "EJB3Bean")
 public interface EndpointInterface

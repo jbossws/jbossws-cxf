@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2486;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(serviceName = "JBWS2486Service", endpointInterface = "org.jboss.test.ws.jaxws.jbws2486.JBWS2486")
 public class JBWS2486Impl implements JBWS2486

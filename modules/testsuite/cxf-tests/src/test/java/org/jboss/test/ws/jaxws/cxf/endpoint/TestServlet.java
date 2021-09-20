@@ -21,10 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.cxf.endpoint;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.xml.ws.Endpoint;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.xml.ws.Endpoint;
 
 import org.jboss.ws.common.utils.AddressUtils;
 

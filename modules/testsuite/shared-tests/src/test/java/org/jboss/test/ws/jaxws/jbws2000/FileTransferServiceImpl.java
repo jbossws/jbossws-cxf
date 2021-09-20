@@ -26,9 +26,9 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.ejb.Stateless;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @Stateless
 @WebService(

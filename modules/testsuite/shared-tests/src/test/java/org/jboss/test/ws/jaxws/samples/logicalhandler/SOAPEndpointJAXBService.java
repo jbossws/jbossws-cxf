@@ -23,9 +23,9 @@ package org.jboss.test.ws.jaxws.samples.logicalhandler;
 
 import java.net.URL;
 
-import javax.jws.HandlerChain;
+import jakarta.jws.HandlerChain;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>

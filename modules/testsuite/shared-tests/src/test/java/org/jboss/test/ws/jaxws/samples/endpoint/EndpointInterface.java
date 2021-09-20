@@ -23,8 +23,8 @@ package org.jboss.test.ws.jaxws.samples.endpoint;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 /**
  * Endpoint interface.

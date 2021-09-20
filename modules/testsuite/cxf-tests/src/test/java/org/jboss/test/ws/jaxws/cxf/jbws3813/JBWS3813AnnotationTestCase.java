@@ -20,7 +20,7 @@ import java.io.File;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -67,7 +67,7 @@ public class JBWS3813AnnotationTestCase extends JBossWSTest
       {
          proxy.echo("foo");
          fail("test did not fail as required");
-      } catch (javax.xml.ws.soap.SOAPFaultException ex) {
+      } catch (jakarta.xml.ws.soap.SOAPFaultException ex) {
          String text = ex.getFault().getDetail().getFirstChild().getFirstChild().getTextContent();
          assertTrue("stack data not found", text.contains(EndpointTwoImpl.class.getName()));
          assertTrue("Root exception name not found", text.startsWith("Caused by: java.lang.RuntimeException: my error"));

@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws3287;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 @WebService(name="Endpoint")
 @SOAPBinding(style = SOAPBinding.Style.RPC)

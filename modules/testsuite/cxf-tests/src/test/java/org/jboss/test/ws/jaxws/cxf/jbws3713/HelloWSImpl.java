@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3713;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(wsdlLocation = "WEB-INF/wsdl/Hello.wsdl",
             name = HelloWs.NAME,

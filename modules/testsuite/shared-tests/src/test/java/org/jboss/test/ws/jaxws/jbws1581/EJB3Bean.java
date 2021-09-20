@@ -25,7 +25,7 @@ import java.net.URL;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
-import javax.xml.ws.WebServiceRef;
+import jakarta.xml.ws.WebServiceRef;
 
 @Stateless
 @Remote(EJB3Remote.class)

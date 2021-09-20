@@ -27,7 +27,7 @@ import java.util.Properties;
 
 import javax.naming.Context;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.jms.JMSConduit;

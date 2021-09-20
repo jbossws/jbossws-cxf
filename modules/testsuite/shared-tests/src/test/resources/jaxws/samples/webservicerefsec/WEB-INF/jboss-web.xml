@@ -11,11 +11,11 @@
       <service-endpoint-interface>org.jboss.test.ws.jaxws.samples.webservicerefsec.Endpoint</service-endpoint-interface>
       <port-qname>{http://org.jboss.ws/wsref}EndpointPort</port-qname>
       <stub-property>
-        <prop-name>javax.xml.ws.security.auth.username</prop-name>
+        <prop-name>jakarta.xml.ws.security.auth.username</prop-name>
         <prop-value>kermit</prop-value>
       </stub-property>
       <stub-property>
-        <prop-name>javax.xml.ws.security.auth.password</prop-name>
+        <prop-name>jakarta.xml.ws.security.auth.password</prop-name>
         <prop-value>thefrog</prop-value>
       </stub-property>
     </port-component-ref>
@@ -29,11 +29,11 @@
       <service-endpoint-interface>org.jboss.test.ws.jaxws.samples.webservicerefsec.Endpoint</service-endpoint-interface>
       <port-qname>{http://org.jboss.ws/wsref}EndpointPort</port-qname>
       <stub-property>
-        <prop-name>javax.xml.ws.security.auth.username</prop-name>
+        <prop-name>jakarta.xml.ws.security.auth.username</prop-name>
         <prop-value>foo</prop-value>
       </stub-property>
       <stub-property>
-        <prop-name>javax.xml.ws.security.auth.password</prop-name>
+        <prop-name>jakarta.xml.ws.security.auth.password</prop-name>
         <prop-value>bar</prop-value>
       </stub-property>
     </port-component-ref>

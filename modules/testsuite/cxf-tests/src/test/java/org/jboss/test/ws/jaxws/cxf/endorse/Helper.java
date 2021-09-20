@@ -23,10 +23,10 @@ package org.jboss.test.ws.jaxws.cxf.endorse;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
-import javax.xml.ws.Service;
-import javax.xml.ws.Service.Mode;
-import javax.xml.ws.soap.SOAPBinding;
-import javax.xml.ws.spi.Provider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.Service.Mode;
+import jakarta.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.spi.Provider;
 
 import org.apache.cxf.BusFactory;
 import org.jboss.wsf.stack.cxf.client.configuration.JBossWSBusFactory;

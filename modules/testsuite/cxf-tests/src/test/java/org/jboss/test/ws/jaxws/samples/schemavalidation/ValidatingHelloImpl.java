@@ -26,7 +26,7 @@ import org.jboss.test.ws.jaxws.samples.schemavalidation.types.HelloResponse;
 /**
  * @author ema@redhat.com
  */
-@javax.jws.WebService(serviceName = "HelloService",
+@jakarta.jws.WebService(serviceName = "HelloService",
 		portName = "ValidatingHelloPort", targetNamespace = "http://jboss.org/schemavalidation", 
 		wsdlLocation = "WEB-INF/wsdl/hello.wsdl", 
 		endpointInterface = "org.jboss.test.ws.jaxws.samples.schemavalidation.Hello")

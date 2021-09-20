@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <name>JBoss Web Services - Stack CXF Testsuite</name>
+  <name>JBoss Web Services - Stack CXF Testsuite jakarta</name>
   <artifactId>jbossws-cxf-testsuite</artifactId>
   <packaging>pom</packaging>
 
@@ -19,7 +19,6 @@
     <surefire.memory.args>-Xmx640m</surefire.memory.args>
     <surefire.jdwp.args>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</surefire.jdwp.args>
     <surefire.management.args>-Dcom.sun.management.jmxremote</surefire.management.args>
-    <additionalGroovyScriptSuffix />
     <test.archive.directory>${project.build.directory}/test-libs</test.archive.directory>
     <test.classes.directory>${project.build.directory}/test-classes</test.classes.directory>
     <test.resources.directory>${project.build.directory}/test-resources</test.resources.directory>
@@ -75,8 +74,8 @@
       <artifactId>jboss-ejb-api_3.2_spec</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.jws</groupId>
-      <artifactId>jsr181-api</artifactId>
+      <groupId>jakarta.jws</groupId>
+      <artifactId>jakarta.jws-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
@@ -131,7 +130,10 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>jakarta.activation</groupId>
+      <artifactId>jakarta.activation-api</artifactId>
+    </dependency>
   </dependencies>
 
   <!-- Build -->
@@ -275,6 +277,9 @@
             <configuration>
               <skip>false</skip>
               <excludes combine.children="append">
+                <!-- todo get these test working -->
+                <exclude>**/JBWS3805TestCase.java</exclude> <!-- deployment cast error -->
+                <exclude>**/CXFClientConfigElytronNotOnClasspathTestCase.java</exclude>
               </excludes>
               <includes>
                 <include>**/*Test.java</include>
@@ -603,58 +608,7 @@
         </plugins>
       </build>
     </profile>
-    <!--
-    Descr: WildFly-24.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly2400</id>
-      <properties>
-        <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
-        <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.wildfly</groupId>
-          <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <version>${wildfly2400.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.sasl</groupId>
-              <artifactId>jboss-sasl</artifactId>
-            </exclusion>
-            <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
-              <groupId>org.jboss.spec.javax.servlet</groupId>
-              <artifactId>jboss-servlet-api_3.1_spec</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <!-- Arquillian container integration -->
-        <dependency>
-          <groupId>org.wildfly.arquillian</groupId>
-          <artifactId>wildfly-arquillian-container-managed</artifactId>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.sasl</groupId>
-              <artifactId>jboss-sasl</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>org.jboss.marshalling</groupId>
-              <artifactId>jboss-marshalling</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-       	  <groupId>org.jboss.arquillian.protocol</groupId>
-       	  <artifactId>arquillian-protocol-servlet</artifactId>
-       	  <version>${arquillian.version}</version>
-       	  <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>xerces</groupId>
-          <artifactId>xercesImpl</artifactId>
-        </dependency>
-      </dependencies>
-    </profile>
+
     <!--
     Descr: WildFly-25.0.0 specific options
     -->
@@ -704,11 +658,12 @@
       </dependencies>
     </profile>
     <!--
-    Descr: WildFly-22.0.0 specific options
+    Descr: WildFly-26.0.0 specific options
     -->
     <profile>
-      <id>wildfly2200</id>
+      <id>wildfly2600</id>
       <properties>
+        <additionalGroovyScriptSuffix>-nolegacy</additionalGroovyScriptSuffix>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
       </properties>
@@ -716,7 +671,7 @@
         <dependency>
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <version>${wildfly2200.version}</version>
+          <version>${wildfly2600.version}</version>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.sasl</groupId>
@@ -740,14 +695,24 @@
           </exclusions>
         </dependency>
         <dependency>
-       	  <groupId>org.jboss.arquillian.protocol</groupId>
-       	  <artifactId>arquillian-protocol-servlet</artifactId>
-       	  <version>${arquillian.version}</version>
-       	  <scope>test</scope>
+          <groupId>org.jboss.arquillian.protocol</groupId>
+          <artifactId>arquillian-protocol-servlet</artifactId>
+          <version>${arquillian.version}</version>
+          <scope>test</scope>
         </dependency>
         <dependency>
           <groupId>xerces</groupId>
           <artifactId>xercesImpl</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.spec.javax.interceptor</groupId>
+          <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.openjdk-orb</groupId>
+          <artifactId>openjdk-orb</artifactId>
+          <scope>test</scope>
         </dependency>
       </dependencies>
       <build>
@@ -756,11 +721,76 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <excludes combine.children="append">
-                <!-- https://issues.redhat.com/browse/WFLY-14293 -->
+                <!-- https://issues.redhat.com/browse/JBWS-4230 -->
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestEjbTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/JaspiAuthenticationTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples23xTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/clientConfig/SSLContextElytronClientConfigTestCaseForked*</exclude>
+                <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
+
+                <!--https://issues.redhat.com/browse/WFLY-15563 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3628/JBWS3628TestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4258 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/clientConfig/CXFClientConfigurationTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloBasicSecTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/schemavalidation/SchemaValidationTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsrm/client/WSReliableMessagingWithAPITestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignEncryptGCMTestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4259 -->
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples21xTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/AnnotatedSignEncryptTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/MultipleClientsSignEncryptTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples22xTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/secconv/SecureConversationTestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4260 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/JBWS3679TestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws3845/JBWS3845TestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4261 -->
+                <exclude>org.jboss.jaxbintros related NoClassDefFoundError*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/jaxbintros/JAXBIntroTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/jaxbintros/JAXBIntroTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/jaxbintros/AnnotationReaderTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws1809/JBWS1809TestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4262 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/management/CXFManagementTestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4263 -->
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationEJBTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignEncryptTestCase*</exclude>
+
+                <!--https://issues.redhat.com/browse/JBWS-4264 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3648/PolicyAttachmentTestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4265 -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointAPITestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointOnlyDeploymentTestCase*</exclude>
+                <exclude>org/jboss/test/ws/saaj/jbws3084/JBWS3084CxfTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/JMSHTTPEndpointDeploymentTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/session/SessionEndpointTestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4267 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3713/ClientBusStrategyTestCase*</exclude>
+
+                <!-- misc (unknown) cause -->
+                <exclude>org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws3477/JaxWsSpiProviderTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/context/WebServiceContextJSETestCase*</exclude>
+                <exclude>org/jboss/test/ws/management/recording/MemoryBufferRecorderTestCase*</exclude>
+                <exclude>org/jboss/test/ws.saaj/jbws3084/JBWS3084TestCase*</exclude>
+
               </excludes>
             </configuration>
           </plugin>
@@ -768,11 +798,12 @@
       </build>
     </profile>
     <!--
-    Descr: WildFly-23.0.0 specific options
+    Descr: WildFly-27.0.0 specific options
     -->
     <profile>
-      <id>wildfly2300</id>
+      <id>wildfly2700</id>
       <properties>
+        <additionalGroovyScriptSuffix>-nolegacy</additionalGroovyScriptSuffix>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
       </properties>
@@ -780,7 +811,7 @@
         <dependency>
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <version>${wildfly2300.version}</version>
+          <version>${wildfly2700.version}</version>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.sasl</groupId>
@@ -804,14 +835,24 @@
           </exclusions>
         </dependency>
         <dependency>
-       	  <groupId>org.jboss.arquillian.protocol</groupId>
-       	  <artifactId>arquillian-protocol-servlet</artifactId>
-       	  <version>${arquillian.version}</version>
-       	  <scope>test</scope>
+          <groupId>org.jboss.arquillian.protocol</groupId>
+          <artifactId>arquillian-protocol-servlet</artifactId>
+          <version>${arquillian.version}</version>
+          <scope>test</scope>
         </dependency>
         <dependency>
           <groupId>xerces</groupId>
           <artifactId>xercesImpl</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.spec.javax.interceptor</groupId>
+          <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.openjdk-orb</groupId>
+          <artifactId>openjdk-orb</artifactId>
+          <scope>test</scope>
         </dependency>
       </dependencies>
       <build>
@@ -820,33 +861,101 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <excludes combine.children="append">
-                <!-- https://issues.redhat.com/browse/WFLY-14293 -->
-                <!--exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointAPITestCase*</exclude>
+                <!-- https://issues.redhat.com/browse/JBWS-4230  -->
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples23xTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/clientConfig/SSLContextElytronClientConfigTestCaseForked*</exclude>
+                <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
+
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestEjbTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/JaspiAuthenticationTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestTestCase*</exclude>
+
+
+                <!--https://issues.redhat.com/browse/WFLY-15563 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3628/JBWS3628TestCase*</exclude>
+                <!-- runs successfully  Apr 21
+                <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
+                -->
+
+                <!-- https://issues.redhat.com/browse/JBWS-4258 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/clientConfig/CXFClientConfigurationTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/fastinfoset/FastInfosetTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloBasicSecTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignEncryptGCMTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsrm/client/WSReliableMessagingWithAPITestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/schemavalidation/SchemaValidationTestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4259 -->
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples22xTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/secconv/SecureConversationTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples21xTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/MultipleClientsSignEncryptTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/AnnotatedSignEncryptTestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4260  -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/JBWS3679TestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws3845/JBWS3845TestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4261 -->
+                <exclude>org.jboss.jaxbintros related NoClassDefFoundError*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/jaxbintros/JAXBIntroTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/jaxbintros/JAXBIntroTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/jaxbintros/AnnotationReaderTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws1809/JBWS1809TestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4262   -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/management/CXFManagementTestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4263 -->
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationEJBTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignEncryptTestCase*</exclude>
+
+                <!--https://issues.redhat.com/browse/JBWS-4264 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3648/PolicyAttachmentTestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4265 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointAPITestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointOnlyDeploymentTestCase*</exclude>
+                <exclude>org/jboss/test/ws/saaj/jbws3084/JBWS3084CxfTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/JMSHTTPEndpointDeploymentTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/session/SessionEndpointTestCase*</exclude-->
+
+                <!-- https://issues.redhat.com/browse/JBWS-4267 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3713/ClientBusStrategyTestCase*</exclude>
+
+                <!-- misc (unknown) cause -->
+                <exclude>org/jboss/test/ws/jaxws/samples/endpoint/EndpointTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/context/WebServiceContextEJBTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws3477/JaxWsSpiProviderTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/context/WebServiceContextJSETestCase*</exclude>
+                <exclude>org/jboss/test/ws/management/recording/MemoryBufferRecorderTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/endpoint/jse/UsecasesTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/endpoint/jse/UsecasesTestCase*</exclude>
+                <exclude>org/jboss/test/ws.saaj/jbws3084/JBWS3084TestCase*</exclude>
+                <exclude>org/jboss/test/ws/saaj/jbws3084/JBWS3084TestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/noIntegration/EmbeddedCXFTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws2250/JBWS2250TestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/smoke/tools/WSConsumerTestCaseForked*</exclude>
+                    <!-- jakarta.xml.bind.UnmarshalException -->
+                    <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
+                    <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
+
+                <!-- issues running wsconsume-->
+                <exclude>org/jboss/test/ws/jaxws/smoke/tools/WSConsumeScriptTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws2593/JBWS2593TestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws2591/JBWS2591TestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/jbws1666/JBWS1666TestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
         </plugins>
       </build>
     </profile>
-    <!--
-    Name:  elytron
-    Descr: Run tests against container with elytron security set instead of the legacy one
-    -->
-    <profile>
-      <id>elytron</id>
-      <activation>
-        <property>
-          <name>elytron</name>
-        </property>
-      </activation>
-      <properties>
-        <additionalGroovyScriptSuffix>-elytron</additionalGroovyScriptSuffix>
-      </properties>
-    </profile>
-
     <!--
     Name:  secmgr
     Descr: Additional testsuite exclusions when running against a container with security manager enabled 

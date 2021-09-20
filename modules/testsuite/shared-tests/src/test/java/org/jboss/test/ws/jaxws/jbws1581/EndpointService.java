@@ -24,12 +24,12 @@ package org.jboss.test.ws.jaxws.jbws1581;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.WebEndpoint;
-import javax.xml.ws.WebServiceClient;
-import javax.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.WebEndpoint;
+import jakarta.xml.ws.WebServiceClient;
+import jakarta.xml.ws.WebServiceFeature;
 
 @WebServiceClient(name="EndpointService", targetNamespace="http://jbws1581.jaxws.ws.test.jboss.org/")
-public class EndpointService extends javax.xml.ws.Service
+public class EndpointService extends jakarta.xml.ws.Service
 {
    private final static QName TESTENDPOINTPORT = new QName("http://jbws1581.jaxws.ws.test.jboss.org/", "EndpointBeanPort");
    

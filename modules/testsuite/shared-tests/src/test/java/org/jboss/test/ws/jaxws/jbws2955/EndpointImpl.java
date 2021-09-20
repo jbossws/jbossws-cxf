@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2955;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(name = "Endpoint", portName = "EndpointPort", serviceName="EndpointService", targetNamespace = "http://ws.jboss.org/jbws2955", endpointInterface = "org.jboss.test.ws.jaxws.jbws2955.Endpoint")
 public class EndpointImpl implements Endpoint

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.exception.client;
 
-import javax.xml.ws.WebFault;
+import jakarta.xml.ws.WebFault;
 
 
 @WebFault(name = "UserException", targetNamespace = "http://server.exception.samples.jaxws.ws.test.jboss.org/")

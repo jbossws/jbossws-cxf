@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.jboss.test.ws.jaxws.jbws3114;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 @WebService(name = "Endpoint", targetNamespace = "http://ws.jboss.org/jbws3114")
 public interface Endpoint
 {

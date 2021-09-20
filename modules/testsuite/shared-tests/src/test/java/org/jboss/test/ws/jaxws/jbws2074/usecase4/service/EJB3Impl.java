@@ -22,8 +22,8 @@
 package org.jboss.test.ws.jaxws.jbws2074.usecase4.service;
 
 import javax.ejb.Stateless;
-import javax.jws.HandlerChain;
-import javax.jws.WebService;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.WebService;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.annotation.WebContext;

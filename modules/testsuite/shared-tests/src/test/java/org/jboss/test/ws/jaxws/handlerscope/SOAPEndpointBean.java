@@ -21,11 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.handlerscope;
 
-import javax.jws.HandlerChain;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.xml.ws.BindingType;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
 

@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <name>JBoss Web Services - Stack CXF JASPI</name>
+  <name>JBoss Web Services - Stack CXF JASPI jakarta</name>
   <artifactId>jbossws-cxf-jaspi</artifactId>
   <packaging>jar</packaging>
   
@@ -20,8 +20,8 @@
       <artifactId>jbossws-spi</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.spec.javax.servlet</groupId>
-      <artifactId>jboss-servlet-api_4.0_spec</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
     </dependency>
 
     <dependency> <!-- Always make sure jbossws-cxf-factories dependency is explicitly declared before anything transitively pulling CXF -->
@@ -29,7 +29,24 @@
       <artifactId>jbossws-cxf-factories</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
+
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-wsdl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-databinding-jaxb</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-bindings-xml</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-bindings-soap</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -40,14 +57,24 @@
       <artifactId>cxf-rt-ws-security</artifactId>
     </dependency>
 
+    <!-- this is based on javax secuirty api .. can't be updated -->
+    <dependency>
+      <groupId>org.jboss.spec.javax.security.auth.message</groupId>
+      <artifactId>jboss-jaspi-api_1.1_spec</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.picketbox</groupId>
       <artifactId>picketbox</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.jboss.spec.javax.security.auth.message</groupId>
-      <artifactId>jboss-jaspi-api_1.1_spec</artifactId>
+      <groupId>jakarta.xml.soap</groupId>
+      <artifactId>jakarta.xml.soap-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.xml.ws</groupId>
+      <artifactId>jakarta.xml.ws-api</artifactId>
     </dependency>
 
     <dependency>
@@ -67,15 +94,6 @@
         <groupId>org.jboss.logging</groupId>
         <artifactId>jboss-logging-annotations</artifactId>
      </dependency>
-
-    <dependency>
-      <groupId>org.jboss.spec.javax.xml.soap</groupId>
-      <artifactId>jboss-saaj-api_1.4_spec</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.spec.javax.xml.ws</groupId>
-      <artifactId>jboss-jaxws-api_2.3_spec</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>junit</groupId>

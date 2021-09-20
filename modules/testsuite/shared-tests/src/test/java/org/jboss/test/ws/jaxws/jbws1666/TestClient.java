@@ -24,8 +24,8 @@ package org.jboss.test.ws.jaxws.jbws1666;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.spi.Provider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.spi.Provider;
 
 public class TestClient
 {

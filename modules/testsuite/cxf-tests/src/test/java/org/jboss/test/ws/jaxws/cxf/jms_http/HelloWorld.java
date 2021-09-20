@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jms_http;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(targetNamespace = "http://org.jboss.ws/jaxws/cxf/jms")
 public interface HelloWorld

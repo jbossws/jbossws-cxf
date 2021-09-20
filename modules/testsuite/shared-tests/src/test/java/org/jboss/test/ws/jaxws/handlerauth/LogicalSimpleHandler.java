@@ -24,9 +24,9 @@ package org.jboss.test.ws.jaxws.handlerauth;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.handler.LogicalHandler;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
+import jakarta.xml.ws.handler.LogicalHandler;
+import jakarta.xml.ws.handler.LogicalMessageContext;
+import jakarta.xml.ws.handler.MessageContext;
 
 public class LogicalSimpleHandler implements LogicalHandler<LogicalMessageContext>
 {

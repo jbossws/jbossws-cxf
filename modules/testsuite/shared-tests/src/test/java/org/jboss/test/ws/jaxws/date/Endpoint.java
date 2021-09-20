@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.date;
 
 import java.util.Date;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService
 public interface Endpoint

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1702;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 import org.jboss.test.ws.jaxws.jbws1702.types.ClassC;
 import org.jboss.test.ws.jaxws.jbws1702.types.ResponseWrapperB;

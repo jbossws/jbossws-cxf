@@ -76,7 +76,7 @@ public class JBWS1843TestCase extends JBossWSTest
       QName serviceName = new QName("http://jbws1843.jaxws.ws.test.jboss.org/", "Service");
       URL wsdlURL = new URL("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-jbws1843/Service?wsdl");
    
-      javax.xml.ws.Service service = javax.xml.ws.Service.create(wsdlURL, serviceName);
+      jakarta.xml.ws.Service service = jakarta.xml.ws.Service.create(wsdlURL, serviceName);
       proxy = (Service)service.getPort(Service.class);
    }
    

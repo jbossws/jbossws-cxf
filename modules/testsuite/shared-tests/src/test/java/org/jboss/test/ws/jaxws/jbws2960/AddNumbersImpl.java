@@ -21,14 +21,14 @@
  */
 package org.jboss.test.ws.jaxws.jbws2960;
 
-import javax.jws.WebService;
-import javax.jws.WebMethod;
-import javax.xml.ws.Action;
-import javax.xml.ws.FaultAction;
-import javax.xml.ws.BindingType;
-import javax.xml.ws.soap.Addressing;
-import javax.xml.ws.soap.AddressingFeature;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.xml.ws.Action;
+import jakarta.xml.ws.FaultAction;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.soap.Addressing;
+import jakarta.xml.ws.soap.AddressingFeature;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 @WebService(name = "AddNumbers", portName = "AddNumbersPort", targetNamespace = "http://foobar.org/", serviceName = "AddNumbersService")
 @BindingType(value = SOAPBinding.SOAP11HTTP_BINDING)

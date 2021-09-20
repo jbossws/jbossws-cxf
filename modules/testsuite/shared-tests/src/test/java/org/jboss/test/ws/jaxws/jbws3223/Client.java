@@ -26,8 +26,8 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.spi.Provider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.spi.Provider;
 
 public class Client
 {
@@ -90,7 +90,7 @@ public class Client
       String providerImplClassName = Provider.provider().getClass().getName();
       if (!providerImplClassName.contains("jboss"))
       {
-         throw new RuntimeException("Expected a JBoss(WS) specific implementation for javax.xml.ws.spi.Provider: "
+         throw new RuntimeException("Expected a JBoss(WS) specific implementation for jakarta.xml.ws.spi.Provider: "
                + providerImplClassName);
       }
       //then try loading the same class using the provided classloader

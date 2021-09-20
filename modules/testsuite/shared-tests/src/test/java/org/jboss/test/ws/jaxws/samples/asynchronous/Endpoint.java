@@ -23,14 +23,14 @@ package org.jboss.test.ws.jaxws.samples.asynchronous;
 
 import java.util.concurrent.Future;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.Style;
-import javax.xml.ws.AsyncHandler;
-import javax.xml.ws.Response;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebParam;
+import jakarta.jws.WebResult;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.jws.soap.SOAPBinding.Style;
+import jakarta.xml.ws.AsyncHandler;
+import jakarta.xml.ws.Response;
 
 @WebService(name = "Endpoint", targetNamespace = "http://org.jboss.ws/jaxws/asynchronous")
 @SOAPBinding(style = Style.RPC)

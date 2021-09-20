@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws3477;
 
-import javax.xml.ws.spi.Provider;
+import jakarta.xml.ws.spi.Provider;
 
 /**
  * 

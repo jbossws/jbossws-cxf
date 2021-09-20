@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3792.wsdlImportEpsilon;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  *

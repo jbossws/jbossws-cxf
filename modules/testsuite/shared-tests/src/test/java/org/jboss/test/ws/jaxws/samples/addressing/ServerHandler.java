@@ -22,8 +22,8 @@
 package org.jboss.test.ws.jaxws.samples.addressing;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.handler.MessageContext.Scope;
-import javax.xml.ws.handler.soap.SOAPMessageContext;
+import jakarta.xml.ws.handler.MessageContext.Scope;
+import jakarta.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.addressing.MAP;

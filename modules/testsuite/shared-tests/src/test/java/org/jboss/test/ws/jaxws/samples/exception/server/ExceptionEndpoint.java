@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.exception.server;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 
 @WebService

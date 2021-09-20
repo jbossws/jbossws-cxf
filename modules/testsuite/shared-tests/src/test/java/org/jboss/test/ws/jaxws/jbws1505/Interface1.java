@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1505;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * @author Heiko.Braun@jboss.com

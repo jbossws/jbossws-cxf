@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.cxf.catalog;
 import org.jboss.test.ws.jaxws.cxf.catalog.HelloRequest;
 import org.jboss.test.ws.jaxws.cxf.catalog.HelloResponse;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(name = HelloWs.NAME, targetNamespace = HelloWs.TARGET_NAMESPACE)
 public interface HelloWs

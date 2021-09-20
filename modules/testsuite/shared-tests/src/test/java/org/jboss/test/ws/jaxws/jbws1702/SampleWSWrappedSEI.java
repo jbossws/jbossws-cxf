@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.jbws1702;
 import org.jboss.test.ws.jaxws.jbws1702.types.ClassB;
 import org.jboss.test.ws.jaxws.jbws1702.types.ClassC;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * @author Heiko.Braun@jboss.com

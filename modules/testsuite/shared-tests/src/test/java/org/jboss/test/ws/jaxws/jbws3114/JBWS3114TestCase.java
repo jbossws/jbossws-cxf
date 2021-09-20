@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.jbws3114;
 import java.io.File;
 import java.net.URL;
 
-import javax.xml.ws.BindingProvider;
+import jakarta.xml.ws.BindingProvider;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -67,8 +67,8 @@ public class JBWS3114TestCase extends JBossWSTest
       Endpoint port = service.getEndpointPort();
       String response = port.echo("testjbws3114");
       assertEquals("testjbws3114", response);
-      ((BindingProvider) port).getRequestContext().put("javax.xml.ws.client.connectionTimeout", "6000");
-      ((BindingProvider) port).getRequestContext().put("javax.xml.ws.client.receiveTimeout", "1000");
+      ((BindingProvider) port).getRequestContext().put("jakarta.xml.ws.client.connectionTimeout", "6000");
+      ((BindingProvider) port).getRequestContext().put("jakarta.xml.ws.client.receiveTimeout", "1000");
       try
       {
          port.echo("testjbws3114");

@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Service;
 
 import org.apache.cxf.clustering.FailoverFeature;
 import org.apache.cxf.clustering.RandomStrategy;

@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <name>JBoss Web Services - Stack CXF Resources</name>
+  <name>JBoss Web Services - Stack CXF Resources jakarta</name>
   <artifactId>jbossws-cxf-resources</artifactId>
   <packaging>jar</packaging>
   
@@ -46,15 +46,6 @@
         <artifactId>maven-jar-plugin</artifactId>
          <executions>
           <execution>
-            <id>wildfly2400</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>wildfly2400</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2400/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
-          <execution>
             <id>wildfly2500</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>
@@ -63,24 +54,24 @@
               <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2500/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
-          <execution>
-            <id>wildfly2200</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>wildfly2200</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2200/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>wildfly2300</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>wildfly2300</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2300/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
+           <execution>
+             <id>wildfly2600</id>
+             <goals><goal>jar</goal></goals>
+             <phase>package</phase>
+             <configuration>
+               <classifier>wildfly2600</classifier>
+               <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2600/jbossws.beans</classesDirectory>
+             </configuration>
+           </execution>
+           <execution>
+             <id>wildfly2700</id>
+             <goals><goal>jar</goal></goals>
+             <phase>package</phase>
+             <configuration>
+               <classifier>wildfly2700</classifier>
+               <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2700/jbossws.beans</classesDirectory>
+             </configuration>
+           </execution>
         </executions>
       </plugin>
     </plugins>

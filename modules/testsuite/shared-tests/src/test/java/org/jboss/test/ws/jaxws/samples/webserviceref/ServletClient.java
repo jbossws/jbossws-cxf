@@ -25,14 +25,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.naming.InitialContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.WebServiceRef;
-import javax.xml.ws.WebServiceRefs;
-import javax.xml.ws.soap.SOAPFaultException;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceRef;
+import jakarta.xml.ws.WebServiceRefs;
+import jakarta.xml.ws.soap.SOAPFaultException;
 
 import org.jboss.logging.Logger;
 

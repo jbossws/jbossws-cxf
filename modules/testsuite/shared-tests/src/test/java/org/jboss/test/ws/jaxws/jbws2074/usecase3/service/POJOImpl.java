@@ -23,9 +23,9 @@ package org.jboss.test.ws.jaxws.jbws2074.usecase3.service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.xml.ws.WebServiceException;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.WebServiceException;
 
 import org.jboss.logging.Logger;
 

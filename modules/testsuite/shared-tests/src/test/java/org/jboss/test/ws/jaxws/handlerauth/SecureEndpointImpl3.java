@@ -27,10 +27,10 @@ import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
-import javax.jws.HandlerChain;
-import javax.jws.Oneway;
-import javax.jws.WebService;
-import javax.xml.ws.WebServiceContext;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.Oneway;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.WebServiceContext;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;

@@ -22,7 +22,7 @@
         <name>org.jboss.ws.LOOKUP_SERVER_INTEGRATION_SERVER_CONFIG</name>
     </permission>
     <permission>
-        <class-name>javax.xml.ws.WebServicePermission</class-name>
+        <class-name>jakarta.xml.ws.WebServicePermission</class-name>
         <name>publishEndpoint</name>
     </permission>
     <permission>

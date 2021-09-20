@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.cxf.noIntegration;
 
-import javax.servlet.ServletConfig;
-import javax.xml.ws.Endpoint;
+import jakarta.servlet.ServletConfig;
+import jakarta.xml.ws.Endpoint;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;

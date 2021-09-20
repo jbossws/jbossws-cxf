@@ -21,12 +21,12 @@
  */
 package org.jboss.test.ws.jaxws.samples.webservice;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.Style;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.jws.soap.SOAPBinding.Style;
 
 /**
- * Test the JSR-181 annotation: javax.jws.WebService
+ * Test the JSR-181 annotation: jakarta.jws.WebService
  * This interface is only used in the client deployment.
  *
  * @author Thomas.Diesler@jboss.org

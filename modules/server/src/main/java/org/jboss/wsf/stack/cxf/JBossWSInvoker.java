@@ -42,7 +42,7 @@ package org.jboss.wsf.stack.cxf;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import javax.xml.ws.WebServiceContext;
+import jakarta.xml.ws.WebServiceContext;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;

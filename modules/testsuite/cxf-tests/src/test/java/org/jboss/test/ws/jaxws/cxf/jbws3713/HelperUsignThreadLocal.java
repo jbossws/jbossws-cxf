@@ -28,8 +28,8 @@ import org.jboss.wsf.stack.cxf.client.UseTCCLBusFeature;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebServiceFeature;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;

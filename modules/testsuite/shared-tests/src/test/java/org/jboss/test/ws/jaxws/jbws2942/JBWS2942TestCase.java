@@ -24,8 +24,8 @@ package org.jboss.test.ws.jaxws.jbws2942;
 import java.io.StringWriter;
 
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.ws.wsaddressing.W3CEndpointReference;
-import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
+import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
+import jakarta.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
 import org.jboss.wsf.test.JBossWSTest;
 import org.junit.runner.RunWith;

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws3753;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(targetNamespace = "http://org.jboss.ws/jaxws/jbws3753/")
 public interface ServiceInterface

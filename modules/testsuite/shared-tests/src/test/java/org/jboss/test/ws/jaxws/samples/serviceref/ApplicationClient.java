@@ -24,10 +24,10 @@ package org.jboss.test.ws.jaxws.samples.serviceref;
 import java.util.ArrayList;
 
 import javax.naming.InitialContext;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 public class ApplicationClient 
 {

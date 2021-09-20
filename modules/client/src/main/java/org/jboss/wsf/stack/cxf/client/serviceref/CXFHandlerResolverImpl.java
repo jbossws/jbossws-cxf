@@ -55,17 +55,17 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.Handler;
-import javax.xml.ws.handler.HandlerResolver;
-import javax.xml.ws.handler.LogicalHandler;
-import javax.xml.ws.handler.PortInfo;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.handler.Handler;
+import jakarta.xml.ws.handler.HandlerResolver;
+import jakarta.xml.ws.handler.LogicalHandler;
+import jakarta.xml.ws.handler.PortInfo;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.jaxws.handler.HandlerChainBuilder;

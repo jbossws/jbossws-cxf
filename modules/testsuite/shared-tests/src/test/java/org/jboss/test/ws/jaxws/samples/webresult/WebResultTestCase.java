@@ -26,12 +26,12 @@ import java.io.File;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPConnection;
-import javax.xml.soap.SOAPConnectionFactory;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.Service;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPConnection;
+import jakarta.xml.soap.SOAPConnectionFactory;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -45,7 +45,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Test the JSR-181 annotation: javax.jws.webresult
+ * Test the JSR-181 annotation: jakarta.jws.webresult
  *
  * @author Thomas.Diesler@jboss.org
  * @since 07-Oct-2005

@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.jbws1841;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * @author <a href="mailto:bdecoste@jboss.com">William DeCoste</a>

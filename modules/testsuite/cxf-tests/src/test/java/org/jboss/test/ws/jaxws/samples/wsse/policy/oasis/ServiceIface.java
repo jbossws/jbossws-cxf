@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.oasis;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService
 (

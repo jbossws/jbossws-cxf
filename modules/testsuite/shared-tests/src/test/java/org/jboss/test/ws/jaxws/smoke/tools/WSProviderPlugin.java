@@ -30,9 +30,9 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import javax.xml.bind.annotation.XmlList;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.annotation.XmlList;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.ws.api.tools.WSContractProvider;

@@ -23,8 +23,8 @@ package org.jboss.test.ws.jaxws.endpointReference;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
-import javax.xml.ws.wsaddressing.W3CEndpointReference;
-import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
+import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
+import jakarta.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.common.DOMUtils;

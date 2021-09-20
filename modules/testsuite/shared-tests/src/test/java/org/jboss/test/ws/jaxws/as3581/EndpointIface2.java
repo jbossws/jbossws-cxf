@@ -22,8 +22,8 @@
 
 package org.jboss.test.ws.jaxws.as3581;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>

@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.cxf.spring;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService(name = "Endpoint", serviceName = "EndpointService", targetNamespace = "http://org.jboss.ws/spring", endpointInterface = "org.jboss.test.ws.jaxws.cxf.spring.Endpoint")
 public class EndpointImpl implements Endpoint

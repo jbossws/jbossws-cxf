@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3516;
 
-import javax.xml.ws.WebFault;
+import jakarta.xml.ws.WebFault;
 @WebFault(name = "faultDetail", targetNamespace = "http://jboss.org/hello_world/types")
 public class SayHiFault extends Exception {
    private static final long serialVersionUID = 1L;

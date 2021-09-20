@@ -5,9 +5,9 @@ import org.jboss.test.ws.jaxws.cxf.httpauth.Hello;
 import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebServiceException;
 import java.net.URL;
 
 /**

@@ -40,7 +40,7 @@
         <actions>resolveUri</actions>
     </permission>
     <permission>
-        <class-name>javax.xml.ws.WebServicePermission</class-name>
+        <class-name>jakarta.xml.ws.WebServicePermission</class-name>
         <name>publishEndpoint</name>
     </permission>
     <permission>

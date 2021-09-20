@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <name>JBoss Web Services - Stack CXF Server</name>
+  <name>JBoss Web Services - Stack CXF Server jakarta</name>
   <artifactId>jbossws-cxf-server</artifactId>
   <packaging>jar</packaging>
   
@@ -33,8 +33,8 @@
       <artifactId>jboss-ejb-api_3.2_spec</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.spec.javax.servlet</groupId>
-      <artifactId>jboss-servlet-api_4.0_spec</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
     </dependency>
     <!-- jbossws dependencies -->
     <dependency>
@@ -46,6 +46,10 @@
       <artifactId>jbossws-spi</artifactId>
     </dependency>
     <!-- CXF dependencies -->
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-core</artifactId>
+    </dependency>
     <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-features-logging</artifactId>
@@ -77,6 +81,7 @@
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-transports-jms</artifactId>
+      <classifier>jakarta</classifier>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
@@ -143,6 +148,10 @@
       <artifactId>cxf-xjc-runtime</artifactId>
     </dependency>
     <dependency>
+      <groupId>jakarta.jws</groupId>
+      <artifactId>jakarta.jws-api</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity-engine-core</artifactId>
     </dependency>
@@ -172,10 +181,10 @@
     </dependency>
 
     <dependency>
-      <groupId>javax.jws</groupId>
-      <artifactId>jsr181-api</artifactId>
+      <groupId>jakarta.xml.ws</groupId>
+      <artifactId>jakarta.xml.ws-api</artifactId>
     </dependency>
-    
+
     <!-- jboss provided -->
     <dependency>
       <groupId>org.picketbox</groupId>
@@ -204,12 +213,12 @@
       <artifactId>rngom</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.spec.javax.xml.bind</groupId>
-      <artifactId>jboss-jaxb-api_2.3_spec</artifactId>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.spec.javax.xml.soap</groupId>
-      <artifactId>jboss-saaj-api_1.4_spec</artifactId>
+      <groupId>org.jboss.spec.jakarta.xml.soap</groupId>
+      <artifactId>jboss-saaj-api_2.0_spec</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jboss.spec.javax.jms</groupId>
@@ -231,6 +240,18 @@
     <dependency>
       <groupId>org.jboss.logging</groupId>
       <artifactId>jboss-logging-processor</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.wildfly.security</groupId>
+      <artifactId>wildfly-elytron-auth-server</artifactId>
+      <version>${wildfly.elytron.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.wildfly.security</groupId>
+      <artifactId>wildfly-elytron-credential</artifactId>
+      <version>${wildfly.elytron.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -310,6 +331,7 @@
 
                         <!-- We want to use JBoss versions of these APIs -->
                         <exclude>javax.annotation:javax.annotation-api:*:*:compile</exclude>
+                        <exclude>jakarta.annotation:*:*:compile</exclude>
                         <exclude>javax.ejb:ejb-api</exclude>
                         <exclude>javax.jms:javax.jms-api</exclude>
                         <exclude>javax.security.auth.message:javax.security.auth.message-api</exclude>

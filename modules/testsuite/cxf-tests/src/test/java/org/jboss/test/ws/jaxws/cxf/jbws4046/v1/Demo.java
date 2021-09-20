@@ -23,8 +23,8 @@ package org.jboss.test.ws.jaxws.cxf.jbws4046.v1;
 
 import org.jboss.test.ws.jaxws.cxf.jbws4046.DemoInterface;
 
-import javax.jws.HandlerChain;
-import javax.jws.WebService;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.WebService;
 
 /**
  * @author bspyrkos@redhat.com

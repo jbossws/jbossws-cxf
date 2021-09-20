@@ -22,8 +22,8 @@
 package org.jboss.test.ws.jaxws.jbws1845;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
-import javax.xml.ws.ResponseWrapper;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.ResponseWrapper;
 
 import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;

@@ -21,12 +21,12 @@
  */
 package org.jboss.test.ws.jaxws.samples.soapbinding;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 import org.jboss.logging.Logger;
 
 /**
- * Test the JSR-181 annotation: javax.jws.SOAPBinding
+ * Test the JSR-181 annotation: jakarta.jws.SOAPBinding
  *
  * @author Thomas.Diesler@jboss.org
  * @since 16-Oct-2005

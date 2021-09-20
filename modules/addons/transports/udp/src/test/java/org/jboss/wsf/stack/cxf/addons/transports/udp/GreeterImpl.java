@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.addons.transports.udp;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(serviceName = "SOAPService", 
       portName = "SoapPort", 

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2074.usecase1.service;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService
 (

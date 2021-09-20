@@ -14,7 +14,7 @@
          <name>org.jboss.as.server.LOOKUP_CURRENT_SERVICE_CONTAINER</name>
     </permission>
     <permission>
-        <class-name>javax.xml.ws.WebServicePermission</class-name>
+        <class-name>jakarta.xml.ws.WebServicePermission</class-name>
         <name>publishEndpoint</name>
     </permission>
     <permission>

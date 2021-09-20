@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
+import jakarta.xml.ws.BindingProvider;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.ws.security.SecurityConstants;

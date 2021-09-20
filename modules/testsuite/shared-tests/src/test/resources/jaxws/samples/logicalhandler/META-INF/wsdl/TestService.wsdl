@@ -5,7 +5,7 @@
 -->
 <definitions name='SOAPEndpointService' targetNamespace='http://org.jboss.ws/jaxws/samples/logicalhandler' xmlns='http://schemas.xmlsoap.org/wsdl/'
   xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://org.jboss.ws/jaxws/samples/logicalhandler' xmlns:xsd='http://www.w3.org/2001/XMLSchema'
-  xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb">
+  xmlns:jaxws="https://jakarta.ee/xml/ns/jaxws" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb">
   
   <jaxws:bindings>
     <jaxws:package name="org.jboss.test.ws.jaxws.logicalhandler"/>

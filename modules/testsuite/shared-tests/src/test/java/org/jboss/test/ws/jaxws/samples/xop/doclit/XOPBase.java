@@ -28,9 +28,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.xml.transform.Source;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.wsf.test.XOPTestSupport;

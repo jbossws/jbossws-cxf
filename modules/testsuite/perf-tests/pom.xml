@@ -36,6 +36,7 @@
       <artifactId>jbossws-cxf-server</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <!-- rls
     <dependency>
       <groupId>org.picketlink</groupId>
       <artifactId>picketlink-common</artifactId>
@@ -46,6 +47,7 @@
       <artifactId>picketlink-federation</artifactId>
       <scope>test</scope>
     </dependency>
+    -->
     <dependency>
        <groupId>org.apache.derby</groupId>
        <artifactId>derby</artifactId>
@@ -71,6 +73,10 @@
           <artifactId>commons-pool2</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.jws</groupId>
+      <artifactId>jakarta.jws-api</artifactId>
     </dependency>
   </dependencies>
 

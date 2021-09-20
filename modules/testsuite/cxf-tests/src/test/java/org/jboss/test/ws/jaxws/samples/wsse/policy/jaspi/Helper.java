@@ -24,8 +24,8 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.jaspi;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Service;
 
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.ws.api.configuration.ClientConfigUtil;

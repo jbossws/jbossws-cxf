@@ -18,7 +18,7 @@
       </service-ref>
       <service-ref>
         <service-ref-name>service/Endpoint4</service-ref-name>
-        <!-- Metro compatibility: we declare the service-qname since we're using javax.xml.ws.Service in the ejb-jar.xml -->
+        <!-- Metro compatibility: we declare the service-qname since we're using jakarta.xml.ws.Service in the ejb-jar.xml -->
         <service-qname>{http://www.openuri.org/2004/04/HelloWorld}EndpointService</service-qname>
         <wsdl-override>META-INF/wsdl/TestService.wsdl</wsdl-override>
       </service-ref>

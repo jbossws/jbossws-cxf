@@ -22,8 +22,8 @@
 package org.jboss.test.ws.jaxws.jbws1809;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 /**
  * @author Heiko.Braun@jboss.com

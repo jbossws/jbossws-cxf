@@ -18,7 +18,7 @@ package org.jboss.test.ws.jaxws.cxf.jbws3679;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.xml.ws.WebServiceRef;
+import jakarta.xml.ws.WebServiceRef;
 
 @Named
 public class CDIBeanClient

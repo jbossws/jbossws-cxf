@@ -22,8 +22,8 @@
 package org.jboss.test.ws.jaxws.samples.advanced.retail.cc;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
-import javax.xml.ws.Response;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.Response;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.annotation.WebContext;

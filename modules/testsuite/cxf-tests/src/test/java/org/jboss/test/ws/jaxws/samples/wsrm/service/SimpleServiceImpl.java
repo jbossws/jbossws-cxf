@@ -21,9 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsrm.service;
 
-import javax.jws.Oneway;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.Oneway;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 import org.apache.cxf.interceptor.InInterceptors;
 

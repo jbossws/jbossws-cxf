@@ -1,7 +1,7 @@
 
 package org.jboss.test.ws.jaxws.benchmark.test.complex.types;
 
-import javax.xml.ws.WebFault;
+import jakarta.xml.ws.WebFault;
 
 
 /**

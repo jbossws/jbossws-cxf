@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.jboss.test.ws.jaxws.jbws1529;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService (targetNamespace="http://sei-namespace")
 public interface JBWS1529

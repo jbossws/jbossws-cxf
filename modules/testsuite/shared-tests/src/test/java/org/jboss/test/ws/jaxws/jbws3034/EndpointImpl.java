@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws3034;
 
-import javax.jws.HandlerChain;
-import javax.jws.WebService;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.WebService;
 
 @WebService(name = "Endpoint", portName = "EndpointPort", serviceName="EndpointService", targetNamespace = "http://ws.jboss.org/jbws3034", endpointInterface = "org.jboss.test.ws.jaxws.jbws3034.Endpoint")
 @HandlerChain(file = "../../../../../../handlers.xml")

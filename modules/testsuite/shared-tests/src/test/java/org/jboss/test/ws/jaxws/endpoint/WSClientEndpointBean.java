@@ -23,11 +23,11 @@ package org.jboss.test.ws.jaxws.endpoint;
 
 import java.net.URL;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Endpoint;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.ws.Endpoint;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebServiceException;
 
 /**
  * An endpoint that publishes and invokes another endpoint using Endpoint.publish(..) API

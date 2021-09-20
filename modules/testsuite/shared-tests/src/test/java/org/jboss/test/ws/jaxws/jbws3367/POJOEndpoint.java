@@ -22,7 +22,7 @@
 
 package org.jboss.test.ws.jaxws.jbws3367;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * POJO endpoint.

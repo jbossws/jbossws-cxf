@@ -21,10 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.webservicerefsec;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.Style;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.jws.soap.SOAPBinding.Style;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;

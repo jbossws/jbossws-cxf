@@ -28,8 +28,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.wsaddressing.W3CEndpointReference;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;

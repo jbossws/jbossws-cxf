@@ -21,12 +21,12 @@
  */
 package org.jboss.test.ws.jaxws.samples.webservice;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 /**
- * Test the JSR-181 javax.jws.WebService on a JSE endpoint.
+ * Test the JSR-181 jakarta.jws.WebService on a JSE endpoint.
  *
  * Uses the wsdlLocation attribute.
  * 

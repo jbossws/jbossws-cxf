@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.cxf.servletCtx;
 
-import javax.jws.Oneway;
-import javax.jws.WebService;
+import jakarta.jws.Oneway;
+import jakarta.jws.WebService;
 
 @WebService(name = "EndpointOne", targetNamespace = "http://org.jboss.ws.jaxws.cxf/servletCtx", serviceName = "ServiceOne")
 public interface EndpointOne

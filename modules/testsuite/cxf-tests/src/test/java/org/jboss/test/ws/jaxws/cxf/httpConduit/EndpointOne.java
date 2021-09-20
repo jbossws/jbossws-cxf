@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.httpConduit;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(name = "EndpointOne", targetNamespace = "http://org.jboss.ws.jaxws.cxf/httpConduit", serviceName = "ServiceOne")
 public interface EndpointOne

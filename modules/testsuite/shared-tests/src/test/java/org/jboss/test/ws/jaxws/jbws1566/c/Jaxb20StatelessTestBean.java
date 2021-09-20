@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.jbws1566.c;
 import java.rmi.RemoteException;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 import org.jboss.test.ws.jaxws.jbws1566.a.TestEnumeration;
 import org.jboss.test.ws.jaxws.jbws1566.b.BClass;

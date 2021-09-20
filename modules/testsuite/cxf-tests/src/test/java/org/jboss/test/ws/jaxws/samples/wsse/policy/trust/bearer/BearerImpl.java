@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.bearer;
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService
 (

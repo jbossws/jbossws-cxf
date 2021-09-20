@@ -21,20 +21,20 @@
  */
 package org.jboss.test.ws.jaxws.jbws2419;
 
-import static javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_MTOM_BINDING;
+import static jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_MTOM_BINDING;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import javax.activation.DataHandler;
-import javax.jws.HandlerChain;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.WebService;
-import javax.xml.bind.annotation.XmlMimeType;
-import javax.xml.ws.BindingType;
-import javax.xml.ws.WebServiceException;
+import jakarta.activation.DataHandler;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.xml.bind.annotation.XmlMimeType;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.WebServiceException;
 
 import org.jboss.logging.Logger;
 

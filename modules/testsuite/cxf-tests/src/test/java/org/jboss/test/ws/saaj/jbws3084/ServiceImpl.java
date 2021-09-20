@@ -25,11 +25,11 @@ import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.Map;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.annotation.Resource;
-import javax.jws.WebService;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.WebServiceContext;
+import jakarta.xml.ws.handler.MessageContext;
 
 @WebService(portName = "SaajServicePort", serviceName = "SaajService", wsdlLocation = "WEB-INF/wsdl/SaajService.wsdl", targetNamespace = "http://www.jboss.org/jbossws/saaj", endpointInterface = "org.jboss.test.ws.saaj.jbws3084.ServiceIface")
 public class ServiceImpl implements ServiceIface

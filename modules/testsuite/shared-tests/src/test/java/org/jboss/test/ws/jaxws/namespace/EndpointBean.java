@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.namespace;
 
-import javax.jws.HandlerChain;
-import javax.jws.WebService;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.WebService;
 
 import org.jboss.logging.Logger;
 

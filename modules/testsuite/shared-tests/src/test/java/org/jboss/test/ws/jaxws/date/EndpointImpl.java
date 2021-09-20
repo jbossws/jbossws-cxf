@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.date;
 
 import java.util.Date;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(serviceName="MyService", endpointInterface="org.jboss.test.ws.jaxws.date.Endpoint")
 public class EndpointImpl implements Endpoint

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.wrapped.accessor;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(serviceName="AccessorService", endpointInterface="org.jboss.test.ws.jaxws.wrapped.accessor.Accessor")
 public class AccessorImpl implements Accessor

@@ -24,9 +24,9 @@ package org.jboss.test.ws.jaxws.jbws2257;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
-import javax.jws.WebService;
-import javax.xml.ws.EndpointReference;
-import javax.xml.ws.WebServiceContext;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.EndpointReference;
+import jakarta.xml.ws.WebServiceContext;
 
 import org.jboss.logging.Logger;
 

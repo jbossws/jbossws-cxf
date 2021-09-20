@@ -21,10 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws2257.jaxws;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "sayHello", namespace = "http://www.jboss.org/jbossws/ws-extensions/wsaddressing")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.jbws2009;
 
 import java.util.List;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 import org.jboss.test.ws.jaxws.jbws2009.generated.CountryCodeType;
 import org.jboss.test.ws.jaxws.jbws2009.generated.CurrencyCodeType;

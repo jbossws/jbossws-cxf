@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.endpoint;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(targetNamespace = "http://org.jboss.ws/jaxws/endpoint")
 public interface WSClientEndpointInterface extends Remote

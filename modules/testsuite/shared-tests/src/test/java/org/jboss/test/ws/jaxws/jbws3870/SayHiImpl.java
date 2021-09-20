@@ -24,12 +24,12 @@ package org.jboss.test.ws.jaxws.jbws3870;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
-import javax.jws.WebService;
-import javax.xml.ws.RequestWrapper;
-import javax.xml.ws.ResponseWrapper;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebParam;
+import jakarta.jws.WebResult;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.RequestWrapper;
+import jakarta.xml.ws.ResponseWrapper;
 
 @WebService(targetNamespace = "http://apache.org/sayHi", name = "SayHi", wsdlLocation = "WEB-INF/classes/wsdl/thewsdl/sayHi.wsdl", endpointInterface = "org.jboss.test.ws.jaxws.jbws3870.SayHi")
 public class SayHiImpl implements SayHi

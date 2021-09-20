@@ -23,9 +23,9 @@ package org.jboss.test.ws.jaxws.cxf.jbws3813;
 
 import org.jboss.ws.api.annotation.EndpointConfig;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 @WebService(name = "EndpointTwo", targetNamespace = "http://org.jboss.ws.jaxws.cxf/jbws3813", serviceName = "ServiceTwo")
 @SOAPBinding(style = SOAPBinding.Style.RPC)

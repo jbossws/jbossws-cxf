@@ -26,7 +26,7 @@ import java.net.URL;
 import java.util.Iterator;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -44,7 +44,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * Test the JSR-181 annotation: javax.jws.WebFault
+ * Test the JSR-181 annotation: jakarta.jws.WebFault
  *
  * @author alessio.soldano@jboss.org
  * @since 21-Feb-2008

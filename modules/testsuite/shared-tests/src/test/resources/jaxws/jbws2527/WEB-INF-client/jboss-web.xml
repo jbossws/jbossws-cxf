@@ -9,11 +9,11 @@
       <service-endpoint-interface>org.jboss.test.ws.jaxws.jbws2527.Hello</service-endpoint-interface>
       <port-qname>{http://helloservice.org/wsdl}HelloPort</port-qname>
       <stub-property>
-        <prop-name>javax.xml.ws.security.auth.password</prop-name>
+        <prop-name>jakarta.xml.ws.security.auth.password</prop-name>
         <prop-value>thefrog</prop-value>
       </stub-property>
       <stub-property>
-        <prop-name>javax.xml.ws.security.auth.username</prop-name>
+        <prop-name>jakarta.xml.ws.security.auth.username</prop-name>
         <prop-value>kermit</prop-value>
       </stub-property>
     </port-component-ref>

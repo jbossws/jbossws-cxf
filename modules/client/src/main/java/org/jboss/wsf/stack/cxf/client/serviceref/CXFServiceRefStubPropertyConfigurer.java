@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.WebServiceFeature;
-import javax.xml.ws.soap.AddressingFeature;
-import javax.xml.ws.soap.MTOMFeature;
+import jakarta.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.soap.AddressingFeature;
+import jakarta.xml.ws.soap.MTOMFeature;
 
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;

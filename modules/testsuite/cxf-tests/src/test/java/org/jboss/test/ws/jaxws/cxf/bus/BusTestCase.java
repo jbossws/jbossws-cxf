@@ -27,9 +27,9 @@ import java.net.URL;
 
 import javax.naming.InitialContext;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceFeature;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;

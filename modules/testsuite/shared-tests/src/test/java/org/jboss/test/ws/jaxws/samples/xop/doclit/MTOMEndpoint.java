@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.samples.xop.doclit;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 @WebService(targetNamespace = "http://org.jboss.ws/xop/doclit")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, parameterStyle = SOAPBinding.ParameterStyle.BARE)

@@ -21,9 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.jbws3250;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.ws.BindingType;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.ws.BindingType;
 
 
 @WebService(

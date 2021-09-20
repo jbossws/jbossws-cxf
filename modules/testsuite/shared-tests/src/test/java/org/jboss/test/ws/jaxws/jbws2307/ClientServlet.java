@@ -23,16 +23,16 @@ package org.jboss.test.ws.jaxws.jbws2307;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.RespectBinding;
-import javax.xml.ws.WebServiceRef;
-import javax.xml.ws.soap.Addressing;
-import javax.xml.ws.soap.MTOM;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.RespectBinding;
+import jakarta.xml.ws.WebServiceRef;
+import jakarta.xml.ws.soap.Addressing;
+import jakarta.xml.ws.soap.MTOM;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
 

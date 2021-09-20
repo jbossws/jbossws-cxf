@@ -21,12 +21,12 @@
  */
 package org.jboss.test.ws.publish;
 
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.Provider;
-import javax.xml.ws.Service;
-import javax.xml.ws.ServiceMode;
-import javax.xml.ws.WebServiceProvider;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.ws.Provider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.ServiceMode;
+import jakarta.xml.ws.WebServiceProvider;
 
 import org.jboss.logging.Logger;
 import org.w3c.dom.Node;

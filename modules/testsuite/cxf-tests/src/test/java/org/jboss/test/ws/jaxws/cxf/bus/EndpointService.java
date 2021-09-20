@@ -25,10 +25,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebEndpoint;
-import javax.xml.ws.WebServiceClient;
-import javax.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebEndpoint;
+import jakarta.xml.ws.WebServiceClient;
+import jakarta.xml.ws.WebServiceFeature;
 
 @WebServiceClient(name = "EndpointService", targetNamespace = "http://org.jboss.ws/bus", wsdlLocation = "file://bogus-location/jaxws-cxf-busf?wsdl")
 public class EndpointService

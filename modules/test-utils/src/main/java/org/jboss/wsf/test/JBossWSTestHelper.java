@@ -43,9 +43,9 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
-import javax.xml.ws.Service;
-import javax.xml.ws.Service.Mode;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.Service.Mode;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;

@@ -23,10 +23,10 @@ package org.jboss.test.ws.jaxws.cxf.jbws3593;
 
 import java.util.List;
 
-import javax.activation.DataHandler;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.bind.annotation.XmlMimeType;
+import jakarta.activation.DataHandler;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.bind.annotation.XmlMimeType;
 
 @WebService(name = "Endpoint", targetNamespace = "http://org.jboss.ws/jaxws/jbws3593")
 @SOAPBinding(style = SOAPBinding.Style.RPC, parameterStyle = SOAPBinding.ParameterStyle.BARE)

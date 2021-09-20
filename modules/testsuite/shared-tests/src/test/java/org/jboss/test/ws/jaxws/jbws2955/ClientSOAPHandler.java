@@ -21,10 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws2955;
 
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.handler.soap.SOAPMessageContext;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.ws.api.handler.GenericSOAPHandler;
 import org.w3c.dom.Document;

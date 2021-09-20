@@ -26,9 +26,9 @@ import java.net.URL;
 import java.util.concurrent.Future;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.AsyncHandler;
-import javax.xml.ws.Response;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.AsyncHandler;
+import jakarta.xml.ws.Response;
+import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;

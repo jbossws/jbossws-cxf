@@ -25,14 +25,14 @@ import javax.annotation.Resource;
 import javax.ejb.Remote;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 import org.jboss.ws.api.annotation.WebContext;
 
 /**
- * Test the JSR-181 javax.jws.WebService annotation on an EJB3 endpoint.
+ * Test the JSR-181 jakarta.jws.WebService annotation on an EJB3 endpoint.
  *
  * Uses the wsdlLocation attribute.
  * 

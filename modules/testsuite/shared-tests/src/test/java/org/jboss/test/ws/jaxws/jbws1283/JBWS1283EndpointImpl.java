@@ -23,8 +23,8 @@ package org.jboss.test.ws.jaxws.jbws1283;
 
 import org.jboss.ws.api.annotation.WebContext;
 
-import javax.jws.WebService;
-import javax.jws.HandlerChain;
+import jakarta.jws.WebService;
+import jakarta.jws.HandlerChain;
 import javax.ejb.Stateless;
 
 /**

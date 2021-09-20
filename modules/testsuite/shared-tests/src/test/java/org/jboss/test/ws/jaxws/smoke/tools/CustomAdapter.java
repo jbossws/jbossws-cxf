@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.smoke.tools;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class CustomAdapter extends XmlAdapter<String, CustomBean>
 {

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.webfault;
 
-import javax.xml.ws.WebFault;
+import jakarta.xml.ws.WebFault;
 
 /**
  * A simple exception using @WebFault defaults

@@ -20,10 +20,10 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.jboss.test.ws.jaxws.jbws2978;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.xml.ws.Action;
-import javax.xml.ws.soap.Addressing;
+import jakarta.jws.WebParam;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.Action;
+import jakarta.xml.ws.soap.Addressing;
 @WebService(name = "AddNumbers", portName = "AddNumbersPort", serviceName = "AddNumbers", targetNamespace = "http://ws.jboss.org")
 @Addressing(enabled = true, required = true)
 public class AddNumbersImpl

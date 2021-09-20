@@ -24,16 +24,16 @@ package org.jboss.test.ws.jaxws.samples.exception.server;
 import java.util.Locale;
 
 import javax.annotation.Resource;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.soap.SOAPFault;
-import javax.xml.ws.BindingType;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
-import javax.xml.ws.soap.SOAPBinding;
-import javax.xml.ws.soap.SOAPFaultException;
+import jakarta.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPFactory;
+import jakarta.xml.soap.SOAPFault;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.WebServiceContext;
+import jakarta.xml.ws.handler.MessageContext;
+import jakarta.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.soap.SOAPFaultException;
 
 @WebService(endpointInterface = "org.jboss.test.ws.jaxws.samples.exception.server.ExceptionEndpoint")
 @BindingType(SOAPBinding.SOAP12HTTP_BINDING)

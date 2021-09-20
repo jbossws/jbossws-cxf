@@ -20,7 +20,7 @@
          </service-ref>
          <service-ref>
             <service-ref-name>service/Endpoint4</service-ref-name>
-            <service-interface>javax.xml.ws.Service</service-interface>
+            <service-interface>jakarta.xml.ws.Service</service-interface>
             <mapped-name>jbossws-client/service/TestService</mapped-name>
             <injection-target>
                <injection-target-class>org.jboss.test.ws.jaxws.jbws1841.StatelessBean</injection-target-class>

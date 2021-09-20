@@ -22,8 +22,8 @@
 
 package org.jboss.test.ws.jaxws.jbws2257;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService
 (

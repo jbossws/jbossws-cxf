@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1357;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(serviceName="JBWS1357Service", endpointInterface="org.jboss.test.ws.jaxws.jbws1357.JBWS1357")
 public class JBWS1357Impl implements JBWS1357

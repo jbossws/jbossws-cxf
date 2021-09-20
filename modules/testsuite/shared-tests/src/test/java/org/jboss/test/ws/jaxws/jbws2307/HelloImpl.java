@@ -23,10 +23,10 @@ package org.jboss.test.ws.jaxws.jbws2307;
 
 import java.security.Principal;
 import javax.annotation.Resource;
-import javax.jws.WebService;
-import javax.servlet.ServletContext;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
+import jakarta.jws.WebService;
+import jakarta.servlet.ServletContext;
+import jakarta.xml.ws.WebServiceContext;
+import jakarta.xml.ws.handler.MessageContext;
 
 @WebService(portName = "HelloPort", serviceName = "HelloService", targetNamespace = "http://helloservice.org/wsdl", wsdlLocation = "WEB-INF/wsdl/HelloService.wsdl", endpointInterface = "org.jboss.test.ws.jaxws.jbws2307.Hello")
 public class HelloImpl implements Hello
@@ -45,7 +45,7 @@ public class HelloImpl implements Hello
       if (this.wsContext == null)
          return false;
 
-      ServletContext v = (ServletContext)this.wsContext.getMessageContext().get("javax.xml.ws.servlet.context");
+      ServletContext v = (ServletContext)this.wsContext.getMessageContext().get("jakarta.xml.ws.servlet.context");
       System.out.println("ServletContext=" + v);
       return true;
    }

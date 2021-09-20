@@ -58,7 +58,7 @@ public class JaxWsSpiProviderTestCase extends JBossWSTest
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-jbws3477-custom-provider.war");
       archive
          .addManifest()
-         .addAsManifestResource(new File(getTestResourcesDir() + "/jaxws/jbws3477/META-INF/services/javax.xml.ws.spi.Provider"), "services/javax.xml.ws.spi.Provider")
+         .addAsManifestResource(new File(getTestResourcesDir() + "/jaxws/jbws3477/META-INF/services/jakarta.xml.ws.spi.Provider"), "services/jakarta.xml.ws.spi.Provider")
          .addClass(org.jboss.test.ws.jaxws.jbws3477.DummyProvider.class)
          .addClass(org.jboss.test.ws.jaxws.jbws3477.Helper.class)
          .addClass(org.jboss.test.ws.jaxws.jbws3477.TestServlet.class)

@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.jbws2241;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @Stateless
 @WebService(name = "EJB3Bean")

@@ -27,14 +27,14 @@ import org.jboss.test.ws.jaxws.jbws1566.a.TestEnumeration;
 import org.jboss.test.ws.jaxws.jbws1566.b.BClass;
 import org.jboss.test.ws.jaxws.jbws1566.b.BException;
 
-@javax.jws.WebService(targetNamespace = "http://org.jboss.ws/samples/c")
-@javax.jws.soap.SOAPBinding(style = javax.jws.soap.SOAPBinding.Style.DOCUMENT, use = javax.jws.soap.SOAPBinding.Use.LITERAL, parameterStyle = javax.jws.soap.SOAPBinding.ParameterStyle.WRAPPED)
+@jakarta.jws.WebService(targetNamespace = "http://org.jboss.ws/samples/c")
+@jakarta.jws.soap.SOAPBinding(style = jakarta.jws.soap.SOAPBinding.Style.DOCUMENT, use = jakarta.jws.soap.SOAPBinding.Use.LITERAL, parameterStyle = jakarta.jws.soap.SOAPBinding.ParameterStyle.WRAPPED)
 public interface Jaxb20TestWSInterface extends java.rmi.Remote
 {
 
-   @javax.jws.WebMethod(operationName = "Method")
-   public @javax.jws.WebResult(name = "result")
-   TestEnumeration testMethod(@javax.jws.WebParam(name = "input", mode = javax.jws.WebParam.Mode.IN)
+   @jakarta.jws.WebMethod(operationName = "Method")
+   public @jakarta.jws.WebResult(name = "result")
+   TestEnumeration testMethod(@jakarta.jws.WebParam(name = "input", mode = jakarta.jws.WebParam.Mode.IN)
    BClass input) throws BException, RemoteException;
 
 }

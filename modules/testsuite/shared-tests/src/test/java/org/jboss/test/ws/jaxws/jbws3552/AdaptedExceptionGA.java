@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws3552;
 
-import javax.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlTransient;
 
 @XmlTransient
 public class AdaptedExceptionGA extends Exception {

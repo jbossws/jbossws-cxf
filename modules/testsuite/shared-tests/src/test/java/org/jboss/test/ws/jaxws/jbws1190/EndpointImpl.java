@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1190;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * [JBWS-1190] - WSDL generated for JSR-181 POJO does not take 'transport-guarantee' in web.xml into account

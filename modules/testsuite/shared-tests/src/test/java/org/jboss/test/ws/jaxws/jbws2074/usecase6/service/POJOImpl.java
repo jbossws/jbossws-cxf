@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws2074.usecase6.service;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.annotation.EndpointConfig;

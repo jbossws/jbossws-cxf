@@ -21,15 +21,15 @@
  */
 package org.jboss.test.ws.jaxws.samples.handlerchain;
 
-import javax.jws.HandlerChain;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
 
 /**
- * Test the JSR-181 annotation: javax.jws.HandlerChain
+ * Test the JSR-181 annotation: jakarta.jws.HandlerChain
  *
  * @author Thomas.Diesler@jboss.org
  * @since 08-Oct-2005

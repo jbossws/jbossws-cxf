@@ -26,10 +26,10 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
-import javax.xml.ws.Dispatch;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.Handler;
-import javax.xml.ws.http.HTTPBinding;
+import jakarta.xml.ws.Dispatch;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.handler.Handler;
+import jakarta.xml.ws.http.HTTPBinding;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -65,10 +65,10 @@ public class JAXWS2976TestCase
 
    private Dispatch<Source> createDispatchSource() throws Exception
    {
-      javax.xml.ws.Service service = javax.xml.ws.Service.create(new QName("http://ws.jboss.org", "HelloService"));
+      jakarta.xml.ws.Service service = jakarta.xml.ws.Service.create(new QName("http://ws.jboss.org", "HelloService"));
       service.addPort(new QName("http://ws.jboss.org", "HelloPort"), HTTPBinding.HTTP_BINDING,
             "http://ws.jboss.org/endpointAddress");
       return service.createDispatch(new QName("http://ws.jboss.org", "HelloPort"), Source.class,
-            javax.xml.ws.Service.Mode.PAYLOAD);
+            jakarta.xml.ws.Service.Mode.PAYLOAD);
    }
 }

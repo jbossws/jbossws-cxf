@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.samples.wsse.policy.oasis;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 import org.jboss.ws.api.annotation.WebContext;
 

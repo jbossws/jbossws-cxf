@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws1843.generated;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlEnum;
+import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for CurrencyCodeType.

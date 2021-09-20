@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3655;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 @WebService(wsdlLocation = "META-INF/wsdl/Hello.wsdl", 
 name = HelloWs.NAME, 
 serviceName = HelloWs.NAME,

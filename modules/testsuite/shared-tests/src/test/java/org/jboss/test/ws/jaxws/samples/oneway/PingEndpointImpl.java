@@ -21,15 +21,15 @@
  */
 package org.jboss.test.ws.jaxws.samples.oneway;
 
-import javax.jws.Oneway;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.Oneway;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
 
 /**
- * Test the JSR-181 annotation: javax.jws.Oneway
+ * Test the JSR-181 annotation: jakarta.jws.Oneway
  *
  * @author Thomas.Diesler@jboss.org
  * @since 07-Oct-2005

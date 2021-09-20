@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.calendar;
 
 import java.util.Calendar;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter1 extends XmlAdapter<String, Calendar>
 {
@@ -32,7 +32,7 @@ public class Adapter1 extends XmlAdapter<String, Calendar>
       if (value == null || value.trim().length() == 0) {
          return null;
       }
-      return (javax.xml.bind.DatatypeConverter.parseDateTime(value));
+      return (jakarta.xml.bind.DatatypeConverter.parseDateTime(value));
    }
 
    public String marshal(Calendar value)
@@ -41,7 +41,7 @@ public class Adapter1 extends XmlAdapter<String, Calendar>
       {
          return null;
       }
-      return (javax.xml.bind.DatatypeConverter.printDateTime(value));
+      return (jakarta.xml.bind.DatatypeConverter.printDateTime(value));
    }
 
 }

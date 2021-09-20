@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.cxf.bus;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
-import javax.xml.ws.WebServiceRef;
+import jakarta.xml.ws.WebServiceRef;
 
 import org.jboss.logging.Logger;
 

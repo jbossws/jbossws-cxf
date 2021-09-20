@@ -26,7 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
@@ -41,7 +41,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Test the JSR-181 annotation: javax.jws.WebService
+ * Test the JSR-181 annotation: jakarta.jws.WebService
  *
  * @author Thomas.Diesler@jboss.org
  * @author <a href="jason.greene@jboss.com">Jason T. Greene</a>

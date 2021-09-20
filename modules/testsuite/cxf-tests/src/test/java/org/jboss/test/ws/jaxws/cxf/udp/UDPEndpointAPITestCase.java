@@ -29,8 +29,8 @@ import java.net.URL;
 import java.util.Enumeration;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Endpoint;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Endpoint;
+import jakarta.xml.ws.Service;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;

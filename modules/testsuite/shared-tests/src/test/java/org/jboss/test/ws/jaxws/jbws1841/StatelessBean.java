@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.jbws1841;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
-import javax.xml.ws.WebServiceRef;
+import jakarta.xml.ws.WebServiceRef;
 
 /**
  * A test bean that delegates to a web service provided through serviceref injection.

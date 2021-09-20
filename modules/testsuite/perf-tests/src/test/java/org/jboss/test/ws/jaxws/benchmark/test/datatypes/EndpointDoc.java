@@ -24,9 +24,9 @@ package org.jboss.test.ws.jaxws.benchmark.test.datatypes;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 

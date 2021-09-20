@@ -21,9 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.endpoint.jse.endpoints;
 
-import javax.activation.DataHandler;
-import javax.xml.bind.annotation.XmlMimeType;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.activation.DataHandler;
+import jakarta.xml.bind.annotation.XmlMimeType;
+import jakarta.xml.bind.annotation.XmlType;
 
 @XmlType
 (

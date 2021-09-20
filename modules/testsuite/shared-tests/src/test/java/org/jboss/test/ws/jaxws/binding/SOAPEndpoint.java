@@ -21,9 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.binding;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.Style;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.jws.soap.SOAPBinding.Style;
 
 @WebService(name = "SOAPEndpoint", targetNamespace = "http://org.jboss.ws/jaxws/binding")
 @SOAPBinding(style = Style.RPC)

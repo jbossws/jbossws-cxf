@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.xop.doclit;
 
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlType;
 import javax.xml.transform.Source;
 
 @XmlType(name="sourceRequest", namespace = "http://org.jboss.ws/xop/doclit")

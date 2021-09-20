@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jboss.logging.Logger;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;

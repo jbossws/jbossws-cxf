@@ -32,12 +32,12 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingType;
-import javax.xml.ws.WebServiceProvider;
-import javax.xml.ws.soap.MTOM;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.WebServiceProvider;
+import jakarta.xml.ws.soap.MTOM;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 import org.jboss.ws.common.JavaUtils;
 import org.jboss.ws.common.deployment.SOAPAddressWSDLParser;

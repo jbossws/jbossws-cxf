@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.cxf.bus;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService(name = "Endpoint", targetNamespace = "http://org.jboss.ws/bus")
 public interface ClientEndpoint

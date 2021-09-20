@@ -21,9 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsrm.store;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.xml.ws.soap.Addressing;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.soap.Addressing;
 
 import org.apache.cxf.annotations.Logging;
 import org.apache.cxf.interceptor.InInterceptors;

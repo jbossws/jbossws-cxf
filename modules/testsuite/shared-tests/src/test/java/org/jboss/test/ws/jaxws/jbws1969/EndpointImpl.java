@@ -22,8 +22,8 @@
 package org.jboss.test.ws.jaxws.jbws1969;
 
 import javax.ejb.Stateless;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 import org.jboss.ws.api.annotation.WebContext;
 

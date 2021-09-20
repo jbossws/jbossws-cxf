@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.cxf.bus;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 import org.jboss.logging.Logger;
 

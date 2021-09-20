@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
-import javax.xml.ws.handler.Handler;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.handler.Handler;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -43,7 +43,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Test the JSR-181 annotation: javax.jws.HandlerChain
+ * Test the JSR-181 annotation: jakarta.jws.HandlerChain
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  * @author Thomas.Diesler@jboss.org

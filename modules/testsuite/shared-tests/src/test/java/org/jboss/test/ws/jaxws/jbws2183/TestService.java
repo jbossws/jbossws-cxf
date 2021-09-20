@@ -21,13 +21,13 @@
  */
 package org.jboss.test.ws.jaxws.jbws2183;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.ws.BindingType;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.ws.BindingType;
 
 @WebService(targetNamespace = "http://www.jboss.org/jbws2183")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
-@BindingType(javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
+@BindingType(jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public interface TestService
 {
    public String echo(String message);

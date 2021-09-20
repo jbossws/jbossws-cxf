@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.jbws2074.usecase5.service;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.annotation.EndpointConfig;

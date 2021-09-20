@@ -22,6 +22,6 @@
 @XmlJavaTypeAdapters({ @XmlJavaTypeAdapter(type = ComplexObjectGA.class, value = ComplexObjectGAAdapter.class) })
 package org.jboss.test.ws.jaxws.jbws3552;
 
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapters;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapters;
 

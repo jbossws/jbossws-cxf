@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.anonymous;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * An endpoint that echos an anonymous type.

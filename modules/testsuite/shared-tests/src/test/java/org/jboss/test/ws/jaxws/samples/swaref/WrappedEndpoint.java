@@ -21,10 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.swaref;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.activation.DataHandler;
-import javax.xml.bind.annotation.XmlAttachmentRef;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.activation.DataHandler;
+import jakarta.xml.bind.annotation.XmlAttachmentRef;
 
 @WebService(name = "WrappedEndpoint", serviceName = "WrappedEndpointService")
 public interface WrappedEndpoint

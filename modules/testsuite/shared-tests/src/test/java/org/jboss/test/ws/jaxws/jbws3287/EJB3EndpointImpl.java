@@ -22,10 +22,10 @@
 package org.jboss.test.ws.jaxws.jbws3287;
 
 import javax.ejb.Stateless;
-import javax.jws.HandlerChain;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
 

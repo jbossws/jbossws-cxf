@@ -37,8 +37,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebServiceFeature;
 import java.io.File;
 import java.net.URL;
 

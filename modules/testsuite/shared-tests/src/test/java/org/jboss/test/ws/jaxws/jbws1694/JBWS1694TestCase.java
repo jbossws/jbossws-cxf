@@ -24,8 +24,8 @@ package org.jboss.test.ws.jaxws.jbws1694;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Holder;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Holder;
+import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;

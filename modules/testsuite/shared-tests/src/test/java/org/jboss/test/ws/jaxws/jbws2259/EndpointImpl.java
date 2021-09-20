@@ -25,10 +25,10 @@ import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.jws.WebService;
-import javax.xml.ws.BindingType;
-import javax.xml.ws.WebServiceException;
-import javax.activation.DataHandler;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.activation.DataHandler;
 
 import org.jboss.logging.Logger;
 

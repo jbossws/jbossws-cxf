@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3593;
 
-import static javax.xml.ws.soap.SOAPBinding.SOAP11HTTP_MTOM_BINDING;
+import static jakarta.xml.ws.soap.SOAPBinding.SOAP11HTTP_MTOM_BINDING;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,12 +29,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import javax.activation.DataHandler;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.bind.annotation.XmlMimeType;
-import javax.xml.ws.BindingType;
-import javax.xml.ws.WebServiceException;
+import jakarta.activation.DataHandler;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.bind.annotation.XmlMimeType;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.WebServiceException;
 
 import org.apache.cxf.interceptor.OutInterceptors;
 import org.jboss.logging.Logger;

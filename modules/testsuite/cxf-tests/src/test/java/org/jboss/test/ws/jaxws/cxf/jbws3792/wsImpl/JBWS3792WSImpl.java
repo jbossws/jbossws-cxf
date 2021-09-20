@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.cxf.jbws3792.wsImpl;
 
 import java.util.logging.Logger;
 
-@javax.jws.WebService(
+@jakarta.jws.WebService(
    serviceName = "JBWS3792WSService",
    portName = "JBWS3792WSPort",
    targetNamespace = "http://test.jbws3792/",

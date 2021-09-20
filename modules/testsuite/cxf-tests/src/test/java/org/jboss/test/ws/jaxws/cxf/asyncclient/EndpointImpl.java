@@ -24,11 +24,11 @@ package org.jboss.test.ws.jaxws.cxf.asyncclient;
 import java.util.concurrent.Future;
 
 import javax.annotation.Resource;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.ws.AsyncHandler;
-import javax.xml.ws.Response;
-import javax.xml.ws.WebServiceContext;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.ws.AsyncHandler;
+import jakarta.xml.ws.Response;
+import jakarta.xml.ws.WebServiceContext;
 
 import org.apache.cxf.continuations.Continuation;
 import org.apache.cxf.continuations.ContinuationProvider;

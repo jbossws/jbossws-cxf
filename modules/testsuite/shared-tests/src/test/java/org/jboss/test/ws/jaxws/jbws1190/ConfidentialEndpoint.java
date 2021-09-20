@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws1190;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 /**
  If the implementation bean does not implement a service endpoint interface and

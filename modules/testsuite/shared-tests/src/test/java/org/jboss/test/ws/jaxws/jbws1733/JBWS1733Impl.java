@@ -22,12 +22,12 @@
 package org.jboss.test.ws.jaxws.jbws1733;
 
 import javax.annotation.Resource;
-import javax.jws.WebService;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.MessageContext;
+import jakarta.jws.WebService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.xml.ws.WebServiceContext;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.handler.MessageContext;
 
 @WebService(serviceName = "JBWS1733Service", endpointInterface = "org.jboss.test.ws.jaxws.jbws1733.JBWS1733")
 public class JBWS1733Impl implements JBWS1733

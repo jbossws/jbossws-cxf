@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.complex;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -70,7 +70,7 @@ public class RegistrationServiceImpl implements Registration
       return customer.getId();
    }
    
-   public void echo(javax.xml.ws.Holder<org.jboss.test.ws.jaxws.complex.Customer> customer) {
+   public void echo(jakarta.xml.ws.Holder<org.jboss.test.ws.jaxws.complex.Customer> customer) {
       log.info("customer: " + customer);
    }
 

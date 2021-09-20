@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3792.externalWsdl;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService
 public interface JBWS3792WS {

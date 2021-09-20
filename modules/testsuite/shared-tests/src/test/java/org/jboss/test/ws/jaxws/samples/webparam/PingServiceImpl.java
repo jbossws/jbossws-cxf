@@ -21,17 +21,17 @@
  */
 package org.jboss.test.ws.jaxws.samples.webparam;
 
-import javax.jws.Oneway;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.ws.Holder;
+import jakarta.jws.Oneway;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebParam;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.ws.Holder;
 
 import org.jboss.logging.Logger;
 
 /**
- * Test the JSR-181 annotation: javax.jws.WebParam
+ * Test the JSR-181 annotation: jakarta.jws.WebParam
  *
  * @author Thomas.Diesler@jboss.org
  * @since 07-Oct-2005

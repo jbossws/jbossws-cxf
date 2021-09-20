@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2268;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * Endpoint Interface

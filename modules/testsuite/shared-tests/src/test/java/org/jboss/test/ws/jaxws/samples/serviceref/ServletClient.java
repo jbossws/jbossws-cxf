@@ -26,15 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.InitialContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.WebServiceRef;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceRef;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 import org.jboss.logging.Logger;
 

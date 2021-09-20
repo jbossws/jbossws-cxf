@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1969;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * The SEI

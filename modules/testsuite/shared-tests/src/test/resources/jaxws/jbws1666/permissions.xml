@@ -30,7 +30,7 @@
             java.home
             xml.catalog.files
             xml.catalog.ignoreMissing
-            javax.xml.ws.spi.Provider
+            jakarta.xml.ws.spi.Provider
          Rather than grant individual properties read permission, give blanket
          permission for reading.
      -->

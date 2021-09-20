@@ -24,9 +24,9 @@ package org.jboss.test.ws.jaxws.samples.addressing;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 /**
  * WS-Addressing stateful service endpoint interface

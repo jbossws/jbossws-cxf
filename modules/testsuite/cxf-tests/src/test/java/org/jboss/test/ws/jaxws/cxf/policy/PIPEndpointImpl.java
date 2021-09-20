@@ -22,8 +22,8 @@
 package org.jboss.test.ws.jaxws.cxf.policy;
 
 import javax.ejb.Stateless;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 import org.apache.cxf.annotations.Policy;
 import org.apache.cxf.interceptor.InInterceptors;

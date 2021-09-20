@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2486;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService
 public interface JBWS2486

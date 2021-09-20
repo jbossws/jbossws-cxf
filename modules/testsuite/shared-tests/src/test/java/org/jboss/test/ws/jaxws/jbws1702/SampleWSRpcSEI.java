@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws1702;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 import org.jboss.test.ws.jaxws.jbws1702.types.ClassB;
 import org.jboss.test.ws.jaxws.jbws1702.types.ClassC;

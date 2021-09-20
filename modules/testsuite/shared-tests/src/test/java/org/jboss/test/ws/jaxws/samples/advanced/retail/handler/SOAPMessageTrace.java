@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.advanced.retail.handler;
 
-import javax.xml.ws.handler.soap.SOAPMessageContext;
+import jakarta.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.handler.GenericSOAPHandler;

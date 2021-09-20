@@ -27,9 +27,9 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.ws.AsyncHandler;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.ws.AsyncHandler;
 
 import org.apache.cxf.annotations.UseAsyncMethod;
 
@@ -65,7 +65,7 @@ public class EndpointImpl
    }
    
    //helper class
-   private class ServerAsyncResponse<T> implements javax.xml.ws.Response<T> {
+   private class ServerAsyncResponse<T> implements jakarta.xml.ws.Response<T> {
       T value;
       boolean done;
       Throwable throwable;

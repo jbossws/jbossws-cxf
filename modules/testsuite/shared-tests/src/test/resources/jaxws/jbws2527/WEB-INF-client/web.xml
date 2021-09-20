@@ -14,7 +14,7 @@
   </session-config>
   <service-ref>
     <service-ref-name>service/jbws2527service</service-ref-name>
-    <service-interface>javax.xml.ws.Service</service-interface>
+    <service-interface>jakarta.xml.ws.Service</service-interface>
     <wsdl-file>WEB-INF/wsdl/HelloService.wsdl</wsdl-file>
     <port-component-ref>
       <service-endpoint-interface>org.jboss.test.ws.jaxws.jbws2527.Hello</service-endpoint-interface>

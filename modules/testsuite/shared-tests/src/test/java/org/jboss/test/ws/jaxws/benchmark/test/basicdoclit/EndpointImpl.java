@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.benchmark.test.basicdoclit;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 import org.jboss.logging.Logger;
 import javax.ejb.Stateless;

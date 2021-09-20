@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1529;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 // An endpoint implementation that does not define a target namespace 
 // does NOT inherit the namespace from the referrenced SEI

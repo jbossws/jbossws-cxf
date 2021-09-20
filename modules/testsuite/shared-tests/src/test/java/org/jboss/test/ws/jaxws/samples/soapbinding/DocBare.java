@@ -21,14 +21,14 @@
  */
 package org.jboss.test.ws.jaxws.samples.soapbinding;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebParam;
+import jakarta.jws.WebResult;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 /**
- * Test the JSR-181 annotation: javax.jws.SOAPBinding
+ * Test the JSR-181 annotation: jakarta.jws.SOAPBinding
  *
  * @author Thomas.Diesler@jboss.org
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>

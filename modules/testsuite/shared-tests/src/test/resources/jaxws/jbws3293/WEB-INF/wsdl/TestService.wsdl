@@ -5,7 +5,7 @@
 -->
 <definitions name='EndpointService' targetNamespace='http://org.jboss.ws/jaxws/jbws3293' xmlns='http://schemas.xmlsoap.org/wsdl/'
   xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://org.jboss.ws/jaxws/jbws3293' xmlns:xsd='http://www.w3.org/2001/XMLSchema'
-  xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb">
+  xmlns:jaxws="https://jakarta.ee/xml/ns/jaxws" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb">
   
   <jaxws:bindings>
     <jaxws:package name="org.jboss.test.ws.jaxws.jbws3293"/>

@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.saaj.jbws3084;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService(targetNamespace = "http://www.jboss.org/jbossws/saaj")
 public interface ServiceIface

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws3552;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(endpointInterface = "org.jboss.test.ws.jaxws.jbws3552.EndpointIface")
 public class EndpointImpl {

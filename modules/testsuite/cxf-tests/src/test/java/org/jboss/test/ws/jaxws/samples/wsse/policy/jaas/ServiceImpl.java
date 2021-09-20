@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.jaas;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 import org.apache.cxf.interceptor.InInterceptors;
 import org.jboss.ws.api.annotation.EndpointConfig;

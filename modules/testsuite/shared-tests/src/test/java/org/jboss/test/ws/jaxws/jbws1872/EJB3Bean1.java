@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.jbws1872;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * EJB3 bean implementing both Local and Remote interfaces

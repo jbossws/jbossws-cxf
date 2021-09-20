@@ -23,13 +23,13 @@ package org.jboss.test.ws.jaxws.samples.swaref;
 
 import org.jboss.ws.api.annotation.WebContext;
 
-import javax.jws.WebService;
-import javax.jws.WebMethod;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.soap.SOAPBinding;
 import javax.ejb.Stateless;
-import javax.activation.DataHandler;
-import javax.xml.bind.annotation.XmlAttachmentRef;
-import javax.xml.ws.WebServiceException;
+import jakarta.activation.DataHandler;
+import jakarta.xml.bind.annotation.XmlAttachmentRef;
+import jakarta.xml.ws.WebServiceException;
 
 import java.io.IOException;
 import java.io.InputStream;

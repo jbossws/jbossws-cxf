@@ -21,9 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.jbws2278;
 
-import javax.jws.WebService;
-import javax.xml.ws.BindingType;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 /**
  * Test Endpoint implementation - SOAP 1.1 port.

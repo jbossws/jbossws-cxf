@@ -23,11 +23,11 @@ package org.jboss.test.ws.jaxws.cxf.asyncclient;
 
 import java.util.concurrent.Future;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.ws.AsyncHandler;
-import javax.xml.ws.Response;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.ws.AsyncHandler;
+import jakarta.xml.ws.Response;
 /**
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  *

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.publish;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 import org.jboss.logging.Logger;
 

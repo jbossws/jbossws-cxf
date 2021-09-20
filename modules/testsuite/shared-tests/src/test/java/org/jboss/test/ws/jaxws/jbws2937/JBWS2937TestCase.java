@@ -24,19 +24,19 @@ package org.jboss.test.ws.jaxws.jbws2937;
 import java.io.StringReader;
 import java.net.URL;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Dispatch;
-import javax.xml.ws.EndpointReference;
-import javax.xml.ws.Service;
-import javax.xml.ws.Service.Mode;
-import javax.xml.ws.WebServiceFeature;
-import javax.xml.ws.soap.AddressingFeature;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Dispatch;
+import jakarta.xml.ws.EndpointReference;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.Service.Mode;
+import jakarta.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.soap.AddressingFeature;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -55,7 +55,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * [JBWS-2937] Cannot create dispatch object using EPR based javax.xml.ws.Service.createDispatch methods.
+ * [JBWS-2937] Cannot create dispatch object using EPR based jakarta.xml.ws.Service.createDispatch methods.
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */

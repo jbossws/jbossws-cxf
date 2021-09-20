@@ -23,9 +23,9 @@ package org.jboss.test.ws.jaxws.jbws1799;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
-import javax.jws.WebService;
-import javax.xml.ws.RequestWrapper;
-import javax.xml.ws.ResponseWrapper;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.RequestWrapper;
+import jakarta.xml.ws.ResponseWrapper;
 
 import org.jboss.ws.api.annotation.TransportGuarantee;
 import org.jboss.ws.api.annotation.WebContext;

@@ -22,8 +22,8 @@
 package org.jboss.test.ws.jaxws.samples.exception.server;
 
 import javax.ejb.Stateless;
-import javax.jws.HandlerChain;
-import javax.jws.WebService;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.WebService;
 
 @Stateless
 @WebService(endpointInterface = "org.jboss.test.ws.jaxws.samples.exception.server.ExceptionEndpoint")

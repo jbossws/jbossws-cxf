@@ -35,13 +35,13 @@ import javax.security.auth.message.MessageInfo;
 import javax.security.auth.message.config.ServerAuthContext;
 import javax.security.auth.message.module.ServerAuthModule;
 import javax.xml.namespace.QName;
-import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
+import jakarta.xml.soap.MimeHeaders;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPPart;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.common.util.StringUtils;
@@ -106,8 +106,8 @@ public class JBossWSServerAuthConfig extends JBossServerAuthConfig
                Map options = new HashMap();
                Bus bus = (Bus) properties.get(Bus.class);
                options.put(Bus.class, bus);
-               javax.xml.ws.Endpoint endpoint = (javax.xml.ws.Endpoint) properties.get(javax.xml.ws.Endpoint.class);
-               options.put(javax.xml.ws.Endpoint.class, endpoint);
+               jakarta.xml.ws.Endpoint endpoint = (jakarta.xml.ws.Endpoint) properties.get(jakarta.xml.ws.Endpoint.class);
+               options.put(jakarta.xml.ws.Endpoint.class, endpoint);
 
                sam.initialize(null, null, callbackHandler, options);
                modules.add(sam);

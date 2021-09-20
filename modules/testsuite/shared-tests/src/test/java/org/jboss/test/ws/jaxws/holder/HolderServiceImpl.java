@@ -21,10 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.holder;
 
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.ws.Holder;
+import jakarta.jws.WebParam;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.ws.Holder;
 
 /**
  * A service which tests JAX-WS Holder types

@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.jbws3552;
 
 import java.util.StringTokenizer;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class ComplexObjectCAAdapter extends XmlAdapter<String, ComplexObjectCA> {
     @Override

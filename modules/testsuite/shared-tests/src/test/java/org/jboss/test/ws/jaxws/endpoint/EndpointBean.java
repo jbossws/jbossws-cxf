@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.endpoint;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * Test Endpoint deployment

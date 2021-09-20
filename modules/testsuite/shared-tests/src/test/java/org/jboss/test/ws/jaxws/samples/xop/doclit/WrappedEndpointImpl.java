@@ -21,12 +21,12 @@
  */
 package org.jboss.test.ws.jaxws.samples.xop.doclit;
 
-import javax.activation.DataHandler;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.xml.bind.annotation.XmlMimeType;
-import javax.xml.ws.BindingType;
-import javax.xml.ws.WebServiceException;
+import jakarta.activation.DataHandler;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.xml.bind.annotation.XmlMimeType;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.WebServiceException;
 import java.io.IOException;
 import java.io.InputStream;
 

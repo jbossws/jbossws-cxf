@@ -25,9 +25,9 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.util.Map;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
 import org.jboss.jaxb.intros.BindingCustomizationFactory;

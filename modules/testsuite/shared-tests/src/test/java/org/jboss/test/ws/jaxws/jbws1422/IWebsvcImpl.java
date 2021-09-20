@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.jbws1422;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @Stateless
 @WebService(endpointInterface = "org.jboss.test.ws.jaxws.jbws1422.IWebsvc", serviceName = "JBWS1422Service")

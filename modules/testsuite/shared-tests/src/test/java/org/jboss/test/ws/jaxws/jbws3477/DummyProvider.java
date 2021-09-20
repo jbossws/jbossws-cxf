@@ -26,16 +26,16 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
-import javax.xml.ws.Endpoint;
-import javax.xml.ws.EndpointReference;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceFeature;
-import javax.xml.ws.spi.ServiceDelegate;
-import javax.xml.ws.wsaddressing.W3CEndpointReference;
+import jakarta.xml.ws.Endpoint;
+import jakarta.xml.ws.EndpointReference;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.spi.ServiceDelegate;
+import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
 
 import org.w3c.dom.Element;
 
-public class DummyProvider extends javax.xml.ws.spi.Provider
+public class DummyProvider extends jakarta.xml.ws.spi.Provider
 {
    @Override
    public ServiceDelegate createServiceDelegate(URL wsdlDocumentLocation, QName serviceName, Class<? extends Service> serviceClass)

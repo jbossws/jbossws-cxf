@@ -23,10 +23,10 @@ package org.jboss.test.ws.jaxws.cxf.bus;
 
 import java.net.URL;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 
 import org.apache.cxf.BusFactory;
 

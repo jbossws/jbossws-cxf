@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.exception.server;
 
-import javax.xml.ws.WebFault;
+import jakarta.xml.ws.WebFault;
 
 /**
  * A mach application exception

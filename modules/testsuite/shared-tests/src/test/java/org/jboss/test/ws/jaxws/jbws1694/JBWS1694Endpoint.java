@@ -24,8 +24,8 @@ package org.jboss.test.ws.jaxws.jbws1694;
 import org.jboss.ws.api.annotation.WebContext;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
-import javax.xml.ws.Holder;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.Holder;
 
 /**
  * @author Heiko.Braun@jboss.com

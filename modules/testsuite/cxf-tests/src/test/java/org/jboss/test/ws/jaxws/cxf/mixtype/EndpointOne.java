@@ -21,9 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.cxf.mixtype;
 
-import javax.jws.Oneway;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.Oneway;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 @WebService(targetNamespace = "http://org.jboss.ws.jaxws.cxf/mixtype")
 @SOAPBinding(style = SOAPBinding.Style.RPC)

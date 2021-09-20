@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.anonymous;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 /**
  * Tests anonymous bare types

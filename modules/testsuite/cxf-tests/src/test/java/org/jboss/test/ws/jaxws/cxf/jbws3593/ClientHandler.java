@@ -24,16 +24,16 @@ package org.jboss.test.ws.jaxws.cxf.jbws3593;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.internet.ContentType;
-import javax.mail.internet.ParseException;
-import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.MessageContext;
-import javax.xml.ws.handler.soap.SOAPMessageContext;
+import jakarta.mail.internet.ContentType;
+import jakarta.mail.internet.ParseException;
+import jakarta.xml.soap.MimeHeaders;
+import jakarta.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.handler.MessageContext;
+import jakarta.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.handler.GenericSOAPHandler;

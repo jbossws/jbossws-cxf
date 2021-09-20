@@ -22,10 +22,10 @@
 package org.jboss.test.ws.jaxws.jbws1665;
 
 import javax.ejb.Stateless;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebParam;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 @Stateless
 @WebService(name = "TrackingService", targetNamespace = "http://fleetworks.acunia.com/fleet/service")

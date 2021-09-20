@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws3792.wsdlImportAlpha;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(
     wsdlLocation = "WEB-INF/wsdl/Greeting_Simplest.wsdl",

@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.jbws2634.webservice;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceException;
 
 import org.jboss.logging.Logger;
 import org.jboss.test.ws.jaxws.jbws2634.shared.BeanIface;

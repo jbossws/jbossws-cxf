@@ -28,7 +28,7 @@ import java.net.URL;
 
 import javax.naming.InitialContext;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployer;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -48,7 +48,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Test the JAXWS annotation: javax.xml.ws.WebServiceref
+ * Test the JAXWS annotation: jakarta.xml.ws.WebServiceref
  *
  * @author Thomas.Diesler@jboss.com
  * @author alessio.soldano@jboss.com

@@ -21,10 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.jbws3223;
 
-import javax.jws.WebParam;
-import javax.jws.WebResult;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebParam;
+import jakarta.jws.WebResult;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 @WebService(targetNamespace = "http://org.jboss.ws/jaxws/jbws3223")
 @SOAPBinding(style = SOAPBinding.Style.RPC)

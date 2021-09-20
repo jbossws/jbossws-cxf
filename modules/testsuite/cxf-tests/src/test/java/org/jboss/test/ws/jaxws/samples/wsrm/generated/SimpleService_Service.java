@@ -24,9 +24,9 @@ package org.jboss.test.ws.jaxws.samples.wsrm.generated;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebEndpoint;
-import javax.xml.ws.WebServiceClient;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebEndpoint;
+import jakarta.xml.ws.WebServiceClient;
 import org.jboss.test.ws.jaxws.samples.wsrm.generated.SimpleService;
 
 /**

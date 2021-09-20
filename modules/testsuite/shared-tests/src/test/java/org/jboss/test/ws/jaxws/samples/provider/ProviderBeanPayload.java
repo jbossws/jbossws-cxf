@@ -29,7 +29,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.IOException;
 
-import javax.jws.HandlerChain;
+import jakarta.jws.HandlerChain;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -39,9 +39,9 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.ws.Provider;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.WebServiceProvider;
+import jakarta.xml.ws.Provider;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceProvider;
 
 /**
  * Test a Provider<Source>

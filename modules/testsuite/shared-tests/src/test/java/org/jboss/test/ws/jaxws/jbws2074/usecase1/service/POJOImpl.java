@@ -21,9 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.jbws2074.usecase1.service;
 
-import javax.jws.HandlerChain;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 import org.jboss.logging.Logger;
 

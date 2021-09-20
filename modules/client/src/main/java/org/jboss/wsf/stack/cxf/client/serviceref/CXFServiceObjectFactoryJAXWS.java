@@ -35,14 +35,14 @@ import java.util.List;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.RespectBindingFeature;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebEndpoint;
-import javax.xml.ws.WebServiceClient;
-import javax.xml.ws.WebServiceFeature;
-import javax.xml.ws.soap.AddressingFeature;
-import javax.xml.ws.soap.MTOMFeature;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.RespectBindingFeature;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebEndpoint;
+import jakarta.xml.ws.WebServiceClient;
+import jakarta.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.soap.AddressingFeature;
+import jakarta.xml.ws.soap.MTOMFeature;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
@@ -57,7 +57,7 @@ import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.logging.Logger;
 
 /**
- * This ServiceObjectFactory reconstructs a javax.xml.ws.Service
+ * This ServiceObjectFactory reconstructs a jakarta.xml.ws.Service
  * for a given WSDL when the webservice client does a JNDI lookup.
  *
  * @author Thomas.Diesler@jboss.com
@@ -250,7 +250,7 @@ public final class CXFServiceObjectFactoryJAXWS
       Service target = null;
       if (serviceClass == Service.class)
       {
-         // Generic javax.xml.ws.Service
+         // Generic jakarta.xml.ws.Service
          if (wsdlURL != null)
          {
             if (features != null)
@@ -269,7 +269,7 @@ public final class CXFServiceObjectFactoryJAXWS
       }
       else
       {
-         // Generated javax.xml.ws.Service subclass
+         // Generated jakarta.xml.ws.Service subclass
          if (wsdlURL != null)
          {
             if (features != null)

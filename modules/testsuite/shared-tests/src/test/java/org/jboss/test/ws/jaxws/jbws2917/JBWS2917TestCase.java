@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.jbws2917;
 import java.io.StringReader;
 
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.ws.EndpointReference;
+import jakarta.xml.ws.EndpointReference;
 
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;

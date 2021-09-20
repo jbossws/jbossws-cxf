@@ -24,12 +24,12 @@ package org.jboss.test.ws.jaxws.jbws2955;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.jws.HandlerChain;
+import jakarta.jws.HandlerChain;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebEndpoint;
-import javax.xml.ws.WebServiceClient;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebEndpoint;
+import jakarta.xml.ws.WebServiceClient;
+import jakarta.xml.ws.WebServiceException;
 
 @WebServiceClient(name = "EndpointService", targetNamespace = "http://ws.jboss.org/jbws2955")
 @HandlerChain(file = "client-handlers.xml")

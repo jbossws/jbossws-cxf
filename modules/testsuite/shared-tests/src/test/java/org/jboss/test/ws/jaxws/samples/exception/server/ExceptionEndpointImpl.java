@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.samples.exception.server;
 
-import javax.jws.HandlerChain;
-import javax.jws.WebService;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.WebService;
 
 @WebService(endpointInterface = "org.jboss.test.ws.jaxws.samples.exception.server.ExceptionEndpoint")
 @HandlerChain(file = "jaxws-handlers-server.xml")

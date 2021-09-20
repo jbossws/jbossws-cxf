@@ -22,14 +22,14 @@
 package org.jboss.test.ws.jaxws.jbws2183;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
-import javax.xml.ws.BindingType;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.BindingType;
 
 import org.jboss.logging.Logger;
 
 @WebService(endpointInterface="org.jboss.test.ws.jaxws.jbws2183.TestService")
 @Stateless
-@BindingType(javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
+@BindingType(jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public class TestServiceImpl
 {
    // Provide logging

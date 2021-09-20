@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.cxf.noIntegration;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 @WebService(name = "EchoEndpoint", targetNamespace = "http://org.jboss.ws.jaxws.cxf/noIntegration", serviceName = "EchoService")
 @SOAPBinding(style = SOAPBinding.Style.RPC)

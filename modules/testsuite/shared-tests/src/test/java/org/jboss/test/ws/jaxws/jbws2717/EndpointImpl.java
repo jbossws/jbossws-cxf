@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws2717;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 /**
  * Endpoint implementation.

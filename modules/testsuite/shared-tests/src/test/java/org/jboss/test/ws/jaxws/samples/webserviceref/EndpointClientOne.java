@@ -27,9 +27,9 @@ import java.util.Hashtable;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.WebServiceRef;
-import javax.xml.ws.WebServiceRefs;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceRef;
+import jakarta.xml.ws.WebServiceRefs;
 
 import org.jboss.logging.Logger;
 

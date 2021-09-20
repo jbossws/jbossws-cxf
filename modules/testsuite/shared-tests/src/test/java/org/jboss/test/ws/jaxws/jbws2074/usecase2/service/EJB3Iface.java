@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.jbws2074.usecase2.service;
 
 import javax.ejb.Remote;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @Remote
 @WebService

@@ -28,7 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 
 import org.apache.cxf.helpers.IOUtils;
 import org.jboss.arquillian.container.test.api.Deployment;

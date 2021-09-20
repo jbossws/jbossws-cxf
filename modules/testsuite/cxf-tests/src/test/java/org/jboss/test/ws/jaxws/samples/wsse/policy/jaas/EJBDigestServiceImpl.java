@@ -23,8 +23,8 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.jaas;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 import org.jboss.logging.Logger;
 import org.jboss.ejb3.annotation.SecurityDomain;
@@ -40,7 +40,7 @@ import org.jboss.ws.api.annotation.EndpointConfig;
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy",
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.ServiceIface"
 )
-@SecurityDomain("JBossWSDigest")
+@SecurityDomain("JBossWS")
 @EndpointConfig(configFile = "META-INF/jaxws-endpoint-config.xml", configName = "Custom WS-Security Endpoint")
 public class EJBDigestServiceImpl
 {

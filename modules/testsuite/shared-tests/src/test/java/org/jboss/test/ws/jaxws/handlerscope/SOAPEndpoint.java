@@ -21,10 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.handlerscope;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.xml.ws.BindingType;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 @WebService(targetNamespace = "http://org.jboss.ws/jaxws/handlerscope")
 @BindingType(value = SOAPBinding.SOAP12HTTP_BINDING)

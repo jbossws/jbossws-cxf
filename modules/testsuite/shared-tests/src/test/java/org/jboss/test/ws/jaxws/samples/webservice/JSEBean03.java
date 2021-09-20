@@ -21,10 +21,10 @@
  */
 package org.jboss.test.ws.jaxws.samples.webservice;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
- * Test the JSR-181 javax.jws.WebService annotation on a JSE endpoint.
+ * Test the JSR-181 jakarta.jws.WebService annotation on a JSE endpoint.
  *
  * Uses the endpointInterface attribute
  *

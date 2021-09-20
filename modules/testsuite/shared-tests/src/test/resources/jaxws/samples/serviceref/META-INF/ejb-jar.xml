@@ -15,7 +15,7 @@
       
       <service-ref>
         <service-ref-name>service1</service-ref-name>
-        <service-interface>javax.xml.ws.Service</service-interface>
+        <service-interface>jakarta.xml.ws.Service</service-interface>
         <wsdl-file>META-INF/wsdl/Endpoint.wsdl</wsdl-file>
         <service-qname xmlns:ns1="http://serviceref.samples.jaxws.ws.test.jboss.org/">ns1:EndpointService</service-qname>
       </service-ref>

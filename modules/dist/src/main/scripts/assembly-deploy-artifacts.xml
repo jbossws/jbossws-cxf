@@ -69,7 +69,7 @@
               <include>commons-codec:commons-codec:jar</include>
               <include>jboss.jaxbintros:jboss-jaxb-intros</include>
               <include>javax.xml.stream:stax-api:jar</include>
-              <include>javax.jws:jsr181-api:jar</include>
+              <include>jakarta.jws:jakarta.jws-api:jar</include>
               <include>org.codehaus.woodstox:stax2-api:jar</include>
               <include>org.codehaus.woodstox:woodstox-core-asl:jar</include>
             </includes>
@@ -119,7 +119,8 @@
             <unpack>false</unpack>
             <outputFileNameMapping>jaxb-api.jar</outputFileNameMapping>
             <includes>
-              <include>org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar</include>
+              <!-- ## <include>org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar</include> ## -->
+               <include>jakarta.xml.bind:jakarta.xml.bind-api:jar</include>
             </includes>
             <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>
@@ -129,7 +130,8 @@
             <unpack>false</unpack>
             <outputFileNameMapping>jaxws-api.jar</outputFileNameMapping>
             <includes>
-              <include>org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar</include>
+              <!-- ## <include>org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar</include>  ## -->
+               <include>jakarta.xml.ws:jakarta.xml.ws-api:jar</include>
             </includes>
             <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>

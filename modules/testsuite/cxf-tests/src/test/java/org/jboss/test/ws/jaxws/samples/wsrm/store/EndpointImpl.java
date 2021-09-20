@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsrm.store;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 import org.apache.cxf.feature.Features;
 /**

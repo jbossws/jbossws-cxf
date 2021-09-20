@@ -32,8 +32,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebServiceFeature;
 
 import org.apache.cxf.frontend.ClientProxy;
 import org.jboss.wsf.stack.cxf.client.Constants;

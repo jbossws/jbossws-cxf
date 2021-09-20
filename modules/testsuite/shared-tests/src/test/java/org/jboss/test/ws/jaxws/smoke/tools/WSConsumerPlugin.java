@@ -34,8 +34,8 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.ws.WebServiceFeature;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
+import jakarta.xml.ws.WebServiceFeature;
 
 import org.jboss.ws.api.tools.WSContractConsumer;
 import org.jboss.wsf.test.JBossWSTest;

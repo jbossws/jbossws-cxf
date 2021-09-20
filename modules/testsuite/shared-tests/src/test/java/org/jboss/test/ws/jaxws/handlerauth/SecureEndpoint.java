@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.handlerauth;
 
-import javax.jws.Oneway;
-import javax.jws.WebService;
+import jakarta.jws.Oneway;
+import jakarta.jws.WebService;
 
 @WebService(targetNamespace = "http://ws/")
 public interface SecureEndpoint

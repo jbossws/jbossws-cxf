@@ -22,8 +22,8 @@
 package org.jboss.test.ws.jaxws.cxf.jaxbintros;
 
 import javax.ejb.Stateless;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 @WebService(name = "EndpointService", targetNamespace = "http://org.jboss.ws/cxf/jaxbintros")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)

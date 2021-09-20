@@ -25,11 +25,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
-import javax.jws.Oneway;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.ws.WebServiceContext;
+import jakarta.jws.Oneway;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.ws.WebServiceContext;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.workqueue.AutomaticWorkQueue;

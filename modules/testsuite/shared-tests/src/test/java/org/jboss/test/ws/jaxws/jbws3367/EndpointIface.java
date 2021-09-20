@@ -22,8 +22,8 @@
 
 package org.jboss.test.ws.jaxws.jbws3367;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 /**
  * Endpoint interface.

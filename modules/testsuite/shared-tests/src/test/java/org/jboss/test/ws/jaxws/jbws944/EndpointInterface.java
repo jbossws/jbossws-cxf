@@ -21,9 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.jbws944;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 @WebService(name = "EJB3Bean", serviceName = "EJB3BeanService", targetNamespace = "http://org.jboss.ws/jbws944")
 @SOAPBinding(style = SOAPBinding.Style.RPC)

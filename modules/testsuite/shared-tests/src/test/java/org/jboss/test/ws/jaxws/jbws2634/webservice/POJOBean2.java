@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2634.webservice;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * POJO bean published as WebService injecting other EJB3 bean.

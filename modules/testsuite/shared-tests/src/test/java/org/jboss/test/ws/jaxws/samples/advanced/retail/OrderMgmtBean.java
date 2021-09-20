@@ -23,9 +23,9 @@ package org.jboss.test.ws.jaxws.samples.advanced.retail;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
-import javax.jws.HandlerChain;
-import javax.jws.WebService;
-import javax.xml.ws.WebServiceRef;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.WebServiceRef;
 
 import org.jboss.logging.Logger;
 import org.jboss.test.ws.jaxws.samples.advanced.retail.cc.CCVerification;

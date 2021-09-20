@@ -19,5 +19,5 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.jboss.org/jbossws/ws-extensions/wsrm")
+@jakarta.xml.bind.annotation.XmlSchema(namespace = "http://www.jboss.org/jbossws/ws-extensions/wsrm")
 package org.jboss.test.ws.jaxws.samples.wsrm.generated;

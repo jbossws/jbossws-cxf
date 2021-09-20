@@ -21,12 +21,12 @@
  */
 package org.jboss.test.ws.jaxws.samples.webmethod;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 import org.jboss.logging.Logger;
 
 /**
- * Test the JSR-181 annotation: javax.jws.WebMethod
+ * Test the JSR-181 annotation: jakarta.jws.WebMethod
  *
  * @author Thomas.Diesler@jboss.org
  * @since 12-Aug-2005

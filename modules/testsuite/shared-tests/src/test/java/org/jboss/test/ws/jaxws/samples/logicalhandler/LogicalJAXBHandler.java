@@ -21,11 +21,11 @@
  */
 package org.jboss.test.ws.jaxws.samples.logicalhandler;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.handler.LogicalMessageContext;
+import jakarta.xml.ws.handler.MessageContext;
 
 import org.jboss.ws.api.handler.GenericLogicalHandler;
 

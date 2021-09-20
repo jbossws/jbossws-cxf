@@ -26,10 +26,10 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.soap.AddressingFeature;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.soap.AddressingFeature;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;

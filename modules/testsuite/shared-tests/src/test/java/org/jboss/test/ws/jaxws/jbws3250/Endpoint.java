@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws3250;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(name = "TestEndpoint", targetNamespace = "http://ws.jboss.org/jbws3250")
 public interface Endpoint

@@ -24,17 +24,17 @@ package org.jboss.test.ws.jaxws.jbws1815;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.xml.namespace.QName;
-import javax.xml.soap.Detail;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.soap.SOAPFault;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.Provider;
-import javax.xml.ws.Service;
-import javax.xml.ws.ServiceMode;
-import javax.xml.ws.WebServiceProvider;
-import javax.xml.ws.soap.SOAPFaultException;
+import jakarta.xml.soap.Detail;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPFactory;
+import jakarta.xml.soap.SOAPFault;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.ws.Provider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.ServiceMode;
+import jakarta.xml.ws.WebServiceProvider;
+import jakarta.xml.ws.soap.SOAPFaultException;
 
 import org.jboss.ws.api.annotation.WebContext;
 

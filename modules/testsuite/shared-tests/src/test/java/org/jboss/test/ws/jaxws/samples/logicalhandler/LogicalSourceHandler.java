@@ -31,9 +31,9 @@ import javax.xml.transform.Source;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.handler.LogicalMessageContext;
+import jakarta.xml.ws.handler.MessageContext;
 
 import org.jboss.logging.Logger;
 import org.jboss.ws.api.handler.GenericLogicalHandler;

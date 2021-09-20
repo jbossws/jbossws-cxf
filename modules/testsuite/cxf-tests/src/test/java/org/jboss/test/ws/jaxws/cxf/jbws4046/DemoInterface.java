@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws4046;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * @author bspyrkos@redhat.com

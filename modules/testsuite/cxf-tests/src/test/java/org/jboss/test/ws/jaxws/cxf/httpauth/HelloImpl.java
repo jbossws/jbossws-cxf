@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.httpauth;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(
                       serviceName = "HelloService",

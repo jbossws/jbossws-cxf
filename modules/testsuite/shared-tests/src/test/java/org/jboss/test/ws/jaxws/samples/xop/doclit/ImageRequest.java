@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.samples.xop.doclit;
 
 import java.awt.Image;
 
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlType;
 
 @XmlType(name="imageRequest", namespace = "http://org.jboss.ws/xop/doclit")
 public class ImageRequest {

@@ -26,7 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-import javax.xml.ws.spi.Provider;
+import jakarta.xml.ws.spi.Provider;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
@@ -72,7 +72,7 @@ public class JBWS1666TestCase extends JBossWSTest
       archive
          .setManifest(new StringAsset("Manifest-Version: 1.0\n"
             + "Main-Class: org.jboss.test.ws.jaxws.jbws1666.TestClient\n"
-            + "Dependencies: javax.jws.api,javax.xml.ws.api\n"))
+            + "Dependencies: jakarta.jws.api,jakarta.xml.ws.api\n"))
           .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1666/permissions.xml"), "permissions.xml")
          .addClass(org.jboss.test.ws.jaxws.jbws1666.TestClient.class)
          .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpoint.class);
@@ -160,7 +160,7 @@ public class JBWS1666TestCase extends JBossWSTest
       final String command = sbuf.toString();
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       executeCommand(command, bout);
-      //check result (includes check on Provider impl, which might be affected by missing javax.xml.ws.api module dependency
+      //check result (includes check on Provider impl, which might be affected by missing jakarta.xml.ws.api module dependency
       assertEquals(Provider.provider().getClass().getName() + ", " + TestClient.REQ_STR, readFirstLine(bout));
    }
 

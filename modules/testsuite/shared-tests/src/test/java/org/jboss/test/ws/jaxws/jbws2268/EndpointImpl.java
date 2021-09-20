@@ -26,8 +26,8 @@ import java.io.FileWriter;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 /**
  * Endpoint Implementation

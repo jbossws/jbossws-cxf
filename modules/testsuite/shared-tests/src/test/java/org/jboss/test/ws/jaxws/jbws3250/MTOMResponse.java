@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws3250;
 
-import javax.activation.DataHandler;
-import javax.xml.bind.annotation.XmlMimeType;
+import jakarta.activation.DataHandler;
+import jakarta.xml.bind.annotation.XmlMimeType;
 
 public class MTOMResponse
 {

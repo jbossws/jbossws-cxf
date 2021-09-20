@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws3223;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(endpointInterface = "org.jboss.test.ws.jaxws.jbws3223.EndpointInterface", targetNamespace = "http://org.jboss.ws/jaxws/jbws3223", serviceName = "EndpointService")
 public class EndpointBean implements EndpointInterface

@@ -23,8 +23,8 @@ package org.jboss.test.ws.jaxws.cxf.jbws4046;
 
 import javax.annotation.PostConstruct;
 import javax.xml.namespace.QName;
-import javax.xml.ws.handler.soap.SOAPHandler;
-import javax.xml.ws.handler.soap.SOAPMessageContext;
+import jakarta.xml.ws.handler.soap.SOAPHandler;
+import jakarta.xml.ws.handler.soap.SOAPMessageContext;
 import java.util.Set;
 
 /**
@@ -56,7 +56,7 @@ public class DemoServiceHandler implements SOAPHandler<SOAPMessageContext> {
     }
 
     @Override
-    public void close(javax.xml.ws.handler.MessageContext context) {
+    public void close(jakarta.xml.ws.handler.MessageContext context) {
     }
 
     @Override

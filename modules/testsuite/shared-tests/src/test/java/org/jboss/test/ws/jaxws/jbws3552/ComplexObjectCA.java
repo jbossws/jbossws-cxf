@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws3552;
 
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlJavaTypeAdapter(value = ComplexObjectCAAdapter.class)
 public class ComplexObjectCA {

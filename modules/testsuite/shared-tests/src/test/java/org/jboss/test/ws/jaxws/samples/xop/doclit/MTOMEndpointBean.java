@@ -24,11 +24,11 @@ package org.jboss.test.ws.jaxws.samples.xop.doclit;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.activation.DataHandler;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.soap.MTOM;
+import jakarta.activation.DataHandler;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.soap.MTOM;
 
 import org.jboss.logging.Logger;
 

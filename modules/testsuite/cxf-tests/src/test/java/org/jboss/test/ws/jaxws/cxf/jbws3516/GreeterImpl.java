@@ -1,7 +1,7 @@
 package org.jboss.test.ws.jaxws.cxf.jbws3516;
 
-import javax.jws.WebService;
-import javax.xml.ws.soap.Addressing;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.soap.Addressing;
 import org.apache.cxf.interceptor.InInterceptors;
 
 @WebService(serviceName = "SOAPService", portName = "SoapPort", 
