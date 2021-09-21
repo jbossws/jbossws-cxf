@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.jws.HandlerChain;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.WebService;

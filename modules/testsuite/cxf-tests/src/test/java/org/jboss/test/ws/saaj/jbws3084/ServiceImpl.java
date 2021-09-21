@@ -25,7 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.Map;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.annotation.Resource;
 import javax.jws.WebService;
 import javax.xml.ws.WebServiceContext;

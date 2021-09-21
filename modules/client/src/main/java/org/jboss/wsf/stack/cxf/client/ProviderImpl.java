@@ -38,19 +38,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-import javax.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBContext;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
-import javax.xml.ws.Binding;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Dispatch;
-import javax.xml.ws.Endpoint;
-import javax.xml.ws.EndpointContext;
-import javax.xml.ws.EndpointReference;
-import javax.xml.ws.Service.Mode;
-import javax.xml.ws.WebServiceFeature;
-import javax.xml.ws.spi.Invoker;
-import javax.xml.ws.spi.ServiceDelegate;
+import jakarta.xml.ws.Binding;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Dispatch;
+import jakarta.xml.ws.Endpoint;
+import jakarta.xml.ws.EndpointContext;
+import jakarta.xml.ws.EndpointReference;
+import jakarta.xml.ws.Service.Mode;
+import jakarta.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.spi.Invoker;
+import jakarta.xml.ws.spi.ServiceDelegate;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
@@ -78,7 +78,7 @@ import org.w3c.dom.Element;
 import org.jboss.logging.Logger;
 
 /**
- * A custom javax.xml.ws.spi.Provider implementation
+ * A custom jakarta.xml.ws.spi.Provider implementation
  * extending the CXF one while adding few customizations.
  * 
  * The most important customization is on the CXF Bus used
@@ -275,7 +275,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       //check feature types
       for (WebServiceFeature f : features) {
          final String fName = f.getClass().getName();
-         if (!fName.startsWith("javax.xml.ws") && !fName.startsWith("org.jboss.ws")) {
+         if (!fName.startsWith("jakarta.xml.ws") && !fName.startsWith("org.jboss.ws")) {
              throw Messages.MESSAGES.unknownFeature(f.getClass().getName());
          }
       }
@@ -357,7 +357,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          //coming from dependencies provided in the ws modules only. This means for instance
          //the JAXBContext is not going to find a context impl, etc.
          //In general, we need to change the TCCL using the classloader that has been used
-         //to load this javax.xml.ws.spi.Provider impl, which is the jaxws-client module.
+         //to load this jakarta.xml.ws.spi.Provider impl, which is the jaxws-client module.
          ClassLoader clientClassLoader = ProviderImpl.class.getClassLoader();
 
          //first ensure the default bus is loaded through the client classloader only
@@ -407,7 +407,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    }
 
    /**
-    * A javax.xml.ws.Endpoint implementation delegating to a provided one
+    * A jakarta.xml.ws.Endpoint implementation delegating to a provided one
     * that sets the TCCL before doing publish.
     * 
     */
@@ -557,7 +557,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
 
       @Override
       //jaxws2.2 api
-      public void publish(javax.xml.ws.spi.http.HttpContext context)
+      public void publish(jakarta.xml.ws.spi.http.HttpContext context)
       {
          delegate.publish(context);
       }

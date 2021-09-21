@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
-import javax.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.WebServiceFeature;
 
 /**
  * A JBossWS-CXF custom WebServiceFeature to be used for requesting a new Bus

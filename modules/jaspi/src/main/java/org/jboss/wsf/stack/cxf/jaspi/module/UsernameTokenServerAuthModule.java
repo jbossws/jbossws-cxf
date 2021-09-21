@@ -29,7 +29,7 @@ import javax.security.auth.message.AuthException;
 import javax.security.auth.message.AuthStatus;
 import javax.security.auth.message.MessageInfo;
 import javax.security.auth.message.MessagePolicy;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPMessage;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.interceptor.InterceptorProvider;
@@ -50,7 +50,7 @@ public class UsernameTokenServerAuthModule extends AbstractServerAuthModule
    public void initialize(MessagePolicy requestPolicy, MessagePolicy responsePolicy, CallbackHandler handler, Map options) throws AuthException
    {
       super.initialize(requestPolicy, responsePolicy, handler, options);
-      final javax.xml.ws.Endpoint endpoint = (javax.xml.ws.Endpoint)options.get(javax.xml.ws.Endpoint.class);
+      final jakarta.xml.ws.Endpoint endpoint = (jakarta.xml.ws.Endpoint)options.get(jakarta.xml.ws.Endpoint.class);
       InterceptorProvider ip = null;
       if (endpoint == null && options.get(Bus.class) != null)
       {

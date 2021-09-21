@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.samples.swaref.jaxws;
 
 import org.jboss.test.ws.jaxws.samples.swaref.DocumentPayload;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttachmentRef;

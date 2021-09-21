@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.cxf.jbws3593;
 
 import java.util.List;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlMimeType;

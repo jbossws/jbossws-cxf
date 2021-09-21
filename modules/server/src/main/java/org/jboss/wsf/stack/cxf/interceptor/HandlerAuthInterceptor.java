@@ -27,9 +27,9 @@ import java.lang.reflect.Method;
 import java.security.Principal;
 import java.util.List;
 
-import javax.xml.ws.handler.Handler;
-import javax.xml.ws.handler.LogicalMessageContext;
-import javax.xml.ws.handler.MessageContext;
+import jakarta.xml.ws.handler.Handler;
+import jakarta.xml.ws.handler.LogicalMessageContext;
+import jakarta.xml.ws.handler.MessageContext;
 
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxws.context.WrappedMessageContext;

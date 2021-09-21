@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2000;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;

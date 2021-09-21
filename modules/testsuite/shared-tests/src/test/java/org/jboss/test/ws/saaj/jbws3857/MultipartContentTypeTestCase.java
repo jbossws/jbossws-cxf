@@ -26,8 +26,8 @@ import static org.jboss.wsf.test.JBossWSTestHelper.getTestResourcesDir;
 import java.io.File;
 import java.net.URL;
 
-import javax.activation.DataHandler;
-import javax.activation.URLDataSource;
+import jakarta.activation.DataHandler;
+import jakarta.activation.URLDataSource;
 import javax.xml.namespace.QName;
 import javax.xml.soap.AttachmentPart;
 import javax.xml.soap.MessageFactory;

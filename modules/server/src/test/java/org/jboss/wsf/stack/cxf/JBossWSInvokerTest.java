@@ -24,7 +24,7 @@ package org.jboss.wsf.stack.cxf;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import javax.xml.ws.WebServiceContext;
+import jakarta.xml.ws.WebServiceContext;
 import org.apache.cxf.jaxws.context.WebServiceContextImpl;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.message.Exchange;

@@ -21,7 +21,7 @@
  */
 package org.jboss.wsf.stack.cxf.deployment.aspect;
 
-import javax.xml.ws.spi.Provider;
+import jakarta.xml.ws.spi.Provider;
 
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.Configurer;

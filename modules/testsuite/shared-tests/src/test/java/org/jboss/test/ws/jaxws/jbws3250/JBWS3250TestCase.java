@@ -24,8 +24,8 @@ package org.jboss.test.ws.jaxws.jbws3250;
 import java.io.File;
 import java.net.URL;
 
-import javax.activation.DataHandler;
-import javax.activation.URLDataSource;
+import jakarta.activation.DataHandler;
+import jakarta.activation.URLDataSource;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
@@ -75,7 +75,7 @@ public class JBWS3250TestCase extends JBossWSTest
       binding.setMTOMEnabled(true);
       URL url = JBossWSTestHelper.getResourceURL("jaxws/jbws3250/wsf.png");
       URLDataSource urlDatasource = new URLDataSource(url);
-      javax.activation.DataHandler dh = new DataHandler(urlDatasource);
+      jakarta.activation.DataHandler dh = new DataHandler(urlDatasource);
       MTOMRequest request = new MTOMRequest();
       request.setContent(dh);
       request.setId("largeSize_mtom_request");

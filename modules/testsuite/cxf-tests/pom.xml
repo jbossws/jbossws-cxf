@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <name>JBoss Web Services - Stack CXF Specific Tests</name>
+  <name>JBoss Web Services - Stack CXF Specific Tests jakarta</name>
   <artifactId>jbossws-cxf-specific-tests</artifactId>
   <packaging>jar</packaging>
   
@@ -18,8 +18,12 @@
     <test.spring.version>5.1.5.RELEASE</test.spring.version>
     <test.cxf.version>${cxf.version}</test.cxf.version>
   </properties>
-  
+
   <dependencies>
+     <dependency>
+        <groupId>jakarta.activation</groupId>
+        <artifactId>jakarta.activation-api</artifactId>
+     </dependency>
     <dependency> <!-- Always make sure jbossws-cxf-factories dependency is explicitly declared before anything transitively pulling CXF -->
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-factories</artifactId>
@@ -336,41 +340,49 @@
             					<groupId>org.apache.cxf</groupId>
             					<artifactId>cxf-rt-frontend-jaxws</artifactId>
             					<version>${test.cxf.version}</version>
+                           <classifier>jakarta</classifier>
             				</artifactItem>
             				<artifactItem>
             					<groupId>org.apache.cxf</groupId>
             					<artifactId>cxf-rt-frontend-simple</artifactId>
             					<version>${test.cxf.version}</version>
+                           <classifier>jakarta</classifier>
             				</artifactItem>
             				<artifactItem>
             					<groupId>org.apache.cxf</groupId>
             					<artifactId>cxf-core</artifactId>
             					<version>${test.cxf.version}</version>
+                           <classifier>jakarta</classifier>
             				</artifactItem>
             				<artifactItem>
             					<groupId>org.apache.cxf</groupId>
             					<artifactId>cxf-rt-transports-http</artifactId>
             					<version>${test.cxf.version}</version>
+                           <classifier>jakarta</classifier>
             				</artifactItem>
             				<artifactItem>
             					<groupId>org.apache.cxf</groupId>
             					<artifactId>cxf-rt-bindings-soap</artifactId>
             					<version>${test.cxf.version}</version>
+                           <classifier>jakarta</classifier>
             				</artifactItem>
             				<artifactItem>
             					<groupId>org.apache.cxf</groupId>
             					<artifactId>cxf-rt-databinding-jaxb</artifactId>
             					<version>${test.cxf.version}</version>
+                           <classifier>jakarta</classifier>
             				</artifactItem>
             				<artifactItem>
             					<groupId>org.apache.cxf</groupId>
             					<artifactId>cxf-rt-ws-policy</artifactId>
             					<version>${test.cxf.version}</version>
+                           <classifier>jakarta</classifier>
             				</artifactItem>
             				<artifactItem>
             					<groupId>org.apache.cxf</groupId>
             					<artifactId>cxf-rt-wsdl</artifactId>
             					<version>${test.cxf.version}</version>
+                           <classifier>jakarta</classifier>
             				</artifactItem>
             			</artifactItems>
             			<outputDirectory>target/cxf-embedded</outputDirectory>

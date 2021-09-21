@@ -29,7 +29,7 @@ import javax.tools.JavaFileManager;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
-import javax.xml.ws.spi.Provider;
+import jakarta.xml.ws.spi.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -32,7 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.xml.transform.stream.StreamSource;
 
 import org.jboss.ws.common.IOUtils;

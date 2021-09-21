@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.samples.xop.doclit;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.WebServiceException;

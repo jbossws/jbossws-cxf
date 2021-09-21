@@ -25,10 +25,10 @@ import java.io.File;
 import java.net.URL;
 
 import javax.management.ObjectName;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPException;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.ws.WebServiceException;
 
 import org.jboss.logging.annotations.Cause;
 import org.jboss.logging.annotations.Message;

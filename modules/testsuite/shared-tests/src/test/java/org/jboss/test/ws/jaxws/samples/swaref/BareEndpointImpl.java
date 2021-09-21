@@ -27,7 +27,7 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.soap.SOAPBinding;
 import javax.ejb.Stateless;
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import javax.xml.bind.annotation.XmlAttachmentRef;
 import javax.xml.ws.WebServiceException;
 

@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <name>JBoss Web Services - Stack CXF Testsuite</name>
+  <name>JBoss Web Services - Stack CXF Testsuite jakarta</name>
   <artifactId>jbossws-cxf-testsuite</artifactId>
   <packaging>pom</packaging>
 
@@ -75,8 +75,8 @@
       <artifactId>jboss-ejb-api_3.2_spec</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.jws</groupId>
-      <artifactId>jsr181-api</artifactId>
+      <groupId>jakarta.jws</groupId>
+      <artifactId>jakarta.jws-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
@@ -131,7 +131,10 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>jakarta.activation</groupId>
+      <artifactId>jakarta.activation-api</artifactId>
+    </dependency>
   </dependencies>
 
   <!-- Build -->

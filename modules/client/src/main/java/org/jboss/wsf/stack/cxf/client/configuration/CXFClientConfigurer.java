@@ -28,8 +28,8 @@ import java.util.Set;
 
 import javax.net.ssl.SSLContext;
 import javax.security.auth.callback.CallbackHandler;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Dispatch;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Dispatch;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.ConduitSelector;

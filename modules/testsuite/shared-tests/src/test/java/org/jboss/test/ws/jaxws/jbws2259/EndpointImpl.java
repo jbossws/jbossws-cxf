@@ -28,7 +28,7 @@ import java.io.InputStream;
 import javax.jws.WebService;
 import javax.xml.ws.BindingType;
 import javax.xml.ws.WebServiceException;
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 
 import org.jboss.logging.Logger;
 
