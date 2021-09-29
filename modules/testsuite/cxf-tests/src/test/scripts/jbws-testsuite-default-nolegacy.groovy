@@ -363,7 +363,7 @@ elytronRealms.appendNode('elytron-realm', ['name':'JAASJBossWSDigestRealm','lega
             </key-store>
         </key-stores>
         <key-managers>
-            <key-manager name="applicationKM" key-store="applicationKS" generate-self-signed-certificate-host="localhost">
+            <key-manager name="applicationKM" key-store="applicationKS" generate-self-signed-certificate-host="localhost" alias-filter="tomcat">
                 <credential-reference clear-text="changeit"/>
             </key-manager>
         </key-managers>
@@ -380,7 +380,13 @@ for (element in securitySubsystem) {
     }
 }
 
-//tls.key-stores.key-store[0].credential-reference.'@clear-text'== "changeit"
+tls.'key-stores'.'key-store'[0].'credential-reference'.@'clear-text' = "changeit"
+tls.'key-stores'.'key-store'[0].file.@path = keystorePath
+tls.'key-stores'.'key-store'[0].file[0].attributes().remove('relative-to')
+
+tls.'key-managers'.'key-manager'[0].'credential-reference'.@'clear-text' = "changeit"
+tls.'key-managers'.'key-manager'[0].@'alias-filter' = "tomcat"
+
 
 
 /*
