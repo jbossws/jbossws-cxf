@@ -242,7 +242,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                    <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms.groovy</script>
+                    <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms${additionalGroovyScriptSuffix}.groovy</script>
                   </scripts>
                   <properties>
                     <property>
