@@ -736,11 +736,12 @@
       </build>
     </profile>
     <!--
-    Descr: WildFly-22.0.0 specific options
+    Descr: WildFly-26.0.0 specific options
     -->
     <profile>
-      <id>wildfly2200</id>
+      <id>wildfly2600</id>
       <properties>
+        <additionalGroovyScriptSuffix>-nolegacy</additionalGroovyScriptSuffix>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
       </properties>
@@ -748,7 +749,7 @@
         <dependency>
           <groupId>org.wildfly</groupId>
           <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <version>${wildfly2200.version}</version>
+          <version>${wildfly2600.version}</version>
           <exclusions>
             <exclusion>
               <groupId>org.jboss.sasl</groupId>
@@ -772,14 +773,24 @@
           </exclusions>
         </dependency>
         <dependency>
-       	  <groupId>org.jboss.arquillian.protocol</groupId>
-       	  <artifactId>arquillian-protocol-servlet</artifactId>
-       	  <version>${arquillian.version}</version>
-       	  <scope>test</scope>
+          <groupId>org.jboss.arquillian.protocol</groupId>
+          <artifactId>arquillian-protocol-servlet</artifactId>
+          <version>${arquillian.version}</version>
+          <scope>test</scope>
         </dependency>
         <dependency>
           <groupId>xerces</groupId>
           <artifactId>xercesImpl</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.spec.javax.interceptor</groupId>
+          <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.openjdk-orb</groupId>
+          <artifactId>openjdk-orb</artifactId>
+          <scope>test</scope>
         </dependency>
       </dependencies>
       <build>
@@ -788,11 +799,16 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <excludes combine.children="append">
-                <!-- https://issues.redhat.com/browse/WFLY-14293 -->
-                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointAPITestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointOnlyDeploymentTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/JMSHTTPEndpointDeploymentTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/session/SessionEndpointTestCase*</exclude>
+                <!-- https://issues.redhat.com/browse/JBWS-4230 -->
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestEjbTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/JaspiAuthenticationTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples23xTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/clientConfig/SSLContextElytronClientConfigTestCaseForked*</exclude>
+                <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>

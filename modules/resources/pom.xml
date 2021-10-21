@@ -64,12 +64,12 @@
             </configuration>
           </execution>
           <execution>
-            <id>wildfly2200</id>
+            <id>wildfly2600</id>
             <goals><goal>jar</goal></goals>
             <phase>package</phase>
             <configuration>
-              <classifier>wildfly2200</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2200/jbossws.beans</classesDirectory>
+              <classifier>wildfly2600</classifier>
+              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2600/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
           <execution>

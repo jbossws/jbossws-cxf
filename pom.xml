@@ -67,10 +67,10 @@
     <jbossws.spi.version>3.3.1.Final</jbossws.spi.version>
     <jbossws.common.version>3.3.3.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.3.2.Final</jbossws.common.tools.version>
-    <wildfly2200.version>22.0.0.Final</wildfly2200.version>
     <wildfly2300.version>23.0.0.Final</wildfly2300.version>
     <wildfly2400.version>24.0.0.Final</wildfly2400.version>
     <wildfly2500.version>25.0.0.Final</wildfly2500.version>
+    <wildfly2600.version>26.0.0.Beta1-SNAPSHOT</wildfly2600.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
     <cxf.version>3.4.5</cxf.version>
     <cxf.asm.version>9.1</cxf.asm.version>
@@ -1116,23 +1116,6 @@
       </properties>
     </profile>
     <!--
-    Name:  wildfly2200
-    Descr: WildFly-22.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly2200</id>
-      <properties>
-        <jbossws.integration.target>wildfly2200</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly2200.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-    <!--
     Name:  wildfly2300
     Descr: WildFly-23.0.0 specific options
     -->
@@ -1183,7 +1166,23 @@
         <module>modules/testsuite</module>
       </modules>
     </profile>
-
+    <!--
+    Name:  wildfly2600
+    Descr: WildFly-26.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly2600</id>
+      <properties>
+        <jbossws.integration.target>wildfly2600</jbossws.integration.target>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly2600.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+      </modules>
+    </profile>
     <profile>
       <id>dist</id>
       <modules>
