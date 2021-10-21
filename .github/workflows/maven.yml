@@ -18,7 +18,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest ]
         java: ['8', '11']
-        wildfly-version: ['wildfly2400', 'wildfly2500']
+        wildfly-version: ['wildfly2400', 'wildfly2600']
 
     steps:
       - name: Checkout jbossws-cxf
@@ -40,7 +40,7 @@ jobs:
           java-version: ${{ matrix.java }}
           distribution: 'adopt'
       - name: Conditionally build WFLY
-        if: ${{ matrix.wildfly-version == 'wildfly2500'}}
+        if: ${{ matrix.wildfly-version == 'wildfly2600'}}
         working-directory: ./wildfly
         run: mvn -DskipTests=true '-Denforcer.skip=true' -Prelease clean install
       - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{ matrix.wildfly-version }}
