@@ -810,7 +810,6 @@
                 <exclude>org/jboss/test/ws/jaxws/cxf/clientConfig/SSLContextElytronClientConfigTestCaseForked*</exclude>
                 <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
                 <!--https://issues.redhat.com/browse/WFLY-15563 -->
-                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3628/JBWS3628TestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
               </excludes>
