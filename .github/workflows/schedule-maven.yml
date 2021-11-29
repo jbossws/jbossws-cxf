@@ -1,0 +1,52 @@
+name: JBossWS-CXF Schedule CI Build
+on:
+  schedule:
+    - cron:  '30 5 * * *'
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest ]
+        java: ['8', '11']
+        wildfly-version: ['wildfly2600']
+
+    steps:
+      - name: Checkout jbossws-cxf
+        uses: actions/checkout@v2
+      - name: Checkout wildfly
+        uses: actions/checkout@v2
+        with:
+          repository: wildfly/wildfly
+          path: './wildfly'
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'adopt'
+      - name: Conditionally build WFLY
+        if: ${{ matrix.wildfly-version == 'wildfly2600'}}
+        working-directory: ./wildfly
+        run: mvn -DskipTests=true '-Denforcer.skip=true' -Prelease clean install
+      - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{ matrix.wildfly-version }}
+        run: |
+          mvn -s ./.m2-settings.xml -B -V -fae -P${{ matrix.wildfly-version }} verify
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.wildfly-version }}
+          path: '**/surefire-reports/*.txt'
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: server-logs-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.wildfly-version }}
+          path: '**/server.log'
