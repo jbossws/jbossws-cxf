@@ -91,8 +91,8 @@
     <commons-collections.version>3.2.2</commons-collections.version>
     <commons-lang3.version>3.10</commons-lang3.version>
     <commons.logging.version>1.2</commons.logging.version>
-    <log4j.version>1.2.17</log4j.version>
-    <org.slf4j.version>1.7.25</org.slf4j.version>
+    <log4j.version>2.15.0</log4j.version>
+    <org.slf4j.version>1.7.32</org.slf4j.version>
     <activation.version>1.1.1</activation.version>
     <fastinfoset.version>1.2.16</fastinfoset.version>
     <neethi.version>3.1.1</neethi.version>
@@ -823,8 +823,8 @@
 
       <!-- transitive dependencies -->
       <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
         <version>${log4j.version}</version>
       </dependency>
       <dependency>
