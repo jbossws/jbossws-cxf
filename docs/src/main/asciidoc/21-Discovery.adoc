@@ -1,0 +1,45 @@
+= Discovery
+
+Apache CXF includes support for Web Services Dynamic Discovery
+(http://docs.oasis-open.org/ws-dd/discovery/1.1/os/wsdd-discovery-1.1-spec-os.html[WS-Discovery]),
+which is a protocol to enable dynamic discovery of services available on the local network. The protocol implies using a UDP based multicast transport to announce new services and probe for existing services. A managed mode where a discovery proxy is used to reduce the amount of required multicast traffic is also covered by the protocol.
+
+JBossWS integrates the WS-Discovery
+[https://cxf.apache.org/docs/ws-discovery.htmlfunctionalities]
+provided by Apache CXF into the application server.
+
+= Enabling WS-Discovery
+
+Apache CXF enables WS-Discovery depending on the availability of its runtime component; given that's always shipped in the application server, JBossWS integration requires using the cxf.ws-discovery.enabled
+https://docs.jboss.org/author/index.html#AdvancedUserGuide-Configurationthroughdeploymentdescriptor[property]
+usage for enabling WS-Discovery for a given deployment. By default WS-Discovery is disabled on the application server. Below is an example of jboss-webservices.xml descriptor to be used for enabling WS-Discovery:
+
+----
+<webservices xmlns="http://www.jboss.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  version="1.2" xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee">
+
+  <property>
+    <name>cxf.ws-discovery.enabled</name>
+    <value>true</value>
+  </property>
+
+</webservices>
+----
+
+By default, a WS-Discovery service endpoint (SOAP-over-UDP bound) will be started the first time a WS-Discovery enabled deployment is processed on the application server. Every ws endpoint belonging to WS-Discovery enabled deployments will be automatically registered into such a WS-Discovery service endpoint (Hello messages). The service will reply to Probe and Resolve messages received on UDP port 3702 (including multicast messages sent to IPv4 address 239.255.255.250, as per
+http://docs.oasis-open.org/ws-dd/discovery/1.1/os/wsdd-discovery-1.1-spec-os.html#_Toc234231816[specification]).
+Endpoints will eventually be automatically unregistered using Bye messages upon undeployment.
+
+= Probing services
+
+Apache CXF comes with a WS-Discovery API that can be used to probe / resolve services. When running in-container, a JBoss module
+https://docs.jboss.org/author/display/JBWS/JBoss%20Modules.html[dependency]
+to the the org.apache.cxf.impl module is to be set to have access to
+WS-Discovery client functionalities.
+
+The http://svn.apache.org/viewvc/cxf/tags/cxf-2.7.5/services/ws-discovery/ws-discovery-api/src/main/java/org/apache/cxf/ws/discovery/WSDiscoveryClient.java?revision=1481139&view=markup[org.apache.cxf.ws.discovery.WSDiscoveryClient]
+class provides the probe and resolve methods which also accepts filters on scopes. Users can rely on them for locating available endpoints on the network. Please have a look at the JBossWS testsuite which includes a
+https://anonsvn.jboss.org/repos/jbossws/stack/cxf/tags/jbossws-cxf-4.2.0.Beta1/modules/testsuite/cxf-tests/src/test/java/org/jboss/test/ws/jaxws/samples/wsdd/WSDiscoveryTestCase.java[sample]
+on CXF WS-Discovery usage.
+
+

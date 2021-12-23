@@ -1,0 +1,115 @@
+= Build and testsuite framework
+
+= Introduction
+
+The JBossWS project build and testsuites have been completely revisited in version 5.0.0.Beta3. As a result, JBossWS uses the Arquillian framework to run its integration tests against WildFly containers.
+
+There are two test modules in JBossWS' testsuite, cxf-tests and shared-tests.  Each test module requires at least one WildFly container to run; multiple containers are used for modules whose tests can't run at the same time on the same container. By default, containers are managed (started / stopped) by Arquillian.The JBossWS build system fetches a copy of the required container from the Maven repository, unpacks it, patches it installing the current webservices stack on it and finally hands it over to Arquillian for the testsuite runs. The test framework also allows letting Arquillian manage an already available container instance on the local filesystem. Finally, it's also possible to execute single tests against a locally running container (non-Arquillian managed) and run the tests concurrently.
+
+= Prerequisites and requirements
+
+* Maven version 3.2.2 or higher is required to build and run the testsuite.
+* A unique class name for each test across the testsuite's three child modules; classes may have the same package name across the child modules but the overall full-qualified name has to be unique to avoid breaking concurrent tests runs.
+
+= Architecture overview
+
+When the build fetches the a container from the Maven repository, a patched copy of it is put within the target/test-server sub-directory of each testsuite module. For instance, you could have:
+
+----
+./modules/testsuite/cxf-tests/target/test-server/jbossws-cxf-dist-5.0.0-SNAPSHOT/wildfly-8.1.0.Final
+./modules/testsuite/shared-tests/target/test-server/jbossws-cxf-dist-5.0.0-SNAPSHOT/wildfly-8.1.0.Final
+----
+
+Each container copy is also provided with specific standalone mode configuration files (jbws-testsuite-SOME_IDENTIFIER.xml) in the standalone/configuration server directory. The actual contents of such descriptors depends on the tests that are to be run against such container configurations (the most common difference when compared to the vanilla standalone.xml is the setup op additional security domains, system properties, web connectors etc.) Each configuration also includes logging setup to ensure logs are written to unique files (jbws-testsuite-SOME_IDENFIFIER.log) in standalone/log directory.
+
+= Target Container Identification
+
+JBossWS supports the current WildFly release and several back versions for testing. See the
+https://developer.jboss.org/docs/DOC-13569[supported target containers]
+page for details.
+Maven profiles are used to identify the target container to be used for testing. The naming convention is wildflyXYZ, for example wildfly820 to mean WIldFly 8.2.0.Final.
+
+To run tests against an existing local copy of a WildFly container, the user must specify the absolute path to the server implementation's home directory using the command line option, -Dserver.home=/foo/bar. The server is not expected to be running, as the build will create various standalone server configurations and start multiple instances on different port numbers. However, if a single test of few tests are executed only, the user can have those executed against live WildFly instances previously started on the same port numbers expected by the tests. Arquillian is configured to detect such scenario and use the available server.
+
+= Port Mapping
+
+To facilitate concurrent testing a port offset has been defined for each of the server configurations.  The offsets are defined in the <properties> element of the modules/testsuite/pom.xml file
+
+= Command Line Options
+
+As any other Maven-based project, JBossWS is built as follows:
+
+----
+mvn -P[profile] -D[options] [phase]
+----
+
+= Profile
+
+JBossWS uses Maven profiles to declare the target container and other types of environment setup. Multiple profiles are provided as a comma separated list of profile names. Only a single target container profile is allowed at the same time though.
+
+|=======================
+|Profile |Description
+|wildflyXYZ |Designates the target container to use, where XYZ is WildFly's  three digit version number
+|fast |Declares the tests are to be run concurrently
+|dist |Explicitly includes dist module in the build; by default this is automatically triggered (only) when a wildflyXYZ profile is set.
+|testsuite |Explicitly includes the testsuite modules in the build; by default this is automatically triggered (only) when a wildflyXYZ profile is set.
+|=======================
+
+= Options
+
+Below is a list of the available build / test options:
+
+|=======================
+|Option |Description
+|server.home |Declares the absolute path to a given local server instance.
+|exclude-udp-tests |Force skipping the UDP tests. This option might be needed when running on a network that does not allow UDP broadcast.
+|nodeploy |Do not upgrade the WS stack on the target server container.
+|noprepare |Skip integration tests preparation phase, which includes tuning of the server configurations, wsconsume/wsprovide invocations, etc.
+|debug |Turns on Surefire debugging of integration tests only. Debugging address is 5005.
+|jboss.bind.address |Starts the containers bound to the specified network interface address.
+|arquillian.deploymentExportPath |Instructs Arquillian to write the actual test deployments to disk in the specified module sub-directory.
+|test |Runs the test in the specified comma-separated list of JUnit classes
+|maven.surefire.debug |Turns on Surefire debugging in any module including tests.
+|=======================
+
+= Examples
+
+Build the project, deploy the WS stack to a local copy of WildFly 8.2.0.Final and run the testsuite:
+
+----
+mvn -Pwildfly820 -Dserver.home=/foo/wildfly-8.2.0.Final integration-test
+----
+
+Use WildFly 8.1.0.Final as the target container (letting the build fetch it), patch it with current WS stack and run only test MtomTestCase that is located in the cxf-test module:
+
+----
+mvn -Pwildfly810 integration-test -Dtest="org/jboss/test/ws/jaxws/samples/MtomTestCase"
+----
+
+Build, deploy, then run the tests concurrently. Run till Maven post-integration-test phase to trigger test servers shutdown and save memory at the end of each testsuite module:
+
+----
+mvn -Pfast,wildfly810 post-integration-test
+----
+
+Completely clean the project:
+
+----
+mvn -Pdist,testsuite clean
+----
+
+Build the WS stack and install it on a specified server instance without running the integration testsuite:
+
+----
+mvn -Pwildfly900 -Dserver.home=/foo/wildfly-9.0.0.Alpha2-SNAPSHOT package
+----
+
+When a server.home option is not provided, the build creates a zip archive with a vanilla WildFly server patched with the current WS stack: the zip file path is modules/dist/target/jbossws-cxf-dist-${project.version}-wildflyXYZ.zip
+
+----
+mvn -Pwildfly810 package
+----
+
+= Container remote debugging
+
+While debugging the a testcase is simply a matter of providing the -Ddebug option, remote debugging the container code that runs the WS stack requires few additional setup steps. The suggested approach is to identify a single test to run; before actually running the test, manually start a target container in debug mode and specifying the proper port offset and server configuration (have a look at the arquillian.xml decriptors in the testsuite). Then run the tests with -Dserver.home=... option pointing to the home dir for the server currently running.
