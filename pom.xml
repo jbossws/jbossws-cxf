@@ -70,7 +70,7 @@
     <wildfly2300.version>23.0.0.Final</wildfly2300.version>
     <wildfly2400.version>24.0.0.Final</wildfly2400.version>
     <wildfly2500.version>25.0.0.Final</wildfly2500.version>
-    <wildfly2600.version>26.0.0.Beta1-SNAPSHOT</wildfly2600.version>
+    <wildfly2600.version>26.0.0.Final</wildfly2600.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
     <cxf.version>3.4.5</cxf.version>
     <cxf.asm.version>9.1</cxf.asm.version>
