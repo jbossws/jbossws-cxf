@@ -58,7 +58,7 @@ mvn -Pdist,testsuite clean
 
 Releases are performed using the Maven Release Plugin; no manual modification of artifact versions in pom.xml files is hence required. The release is tagged with the following command:
 ```
- mvn -Pwildfly2000 release:prepare
+ mvn -Pwildfly2000,testsuite release:prepare
 ```
 where `wildfly2000` is one of the supported target containers (preferably not the current WildFly master version).
 
