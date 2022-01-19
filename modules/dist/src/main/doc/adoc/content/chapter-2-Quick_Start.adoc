@@ -1,0 +1,554 @@
+== Quick Start
+
+JBossWS uses WildFly as its target container. The following examples
+focus on web service deployments that leverage EJB3 service
+implementations and the JAX-WS programming models. For further
+information on POJO service implementations and advanced topics you need
+consult the <<_jax_ws_user_guide>>.
+
+=== Developing web service implementations
+
+JAX-WS does leverage annotations in order to express web service meta
+data on Java components and to describe the mapping between Java data
+types and XML. When developing web service implementations you need to
+decide whether you are going to start with an abstract contract (WSDL)
+or a Java component.
+
+If you are in charge to provide the service implementation, then you are
+probably going to start with the implementation and derive the abstract
+contract from it. You are probably not even getting in touch with the
+WSDL unless you hand it to 3rd party clients. For this reason we are
+going to look at a service implementation that leverages
+http://www.jcp.org/en/jsr/summary?id=181[JSR-181 annotations] .
+
+[IMPORTANT]
+====
+Even though detailed knowledge of web service meta data is not required,
+it will definitely help if you make yourself familiar with it. For
+further information see
+
+* http://www.jcp.org/en/jsr/summary?id=181[Web service meta data
+(JSR-181)]
+* http://www.jcp.org/en/jsr/summary?id=222[Java API for XML binding
+(JAXB)]
+* http://www.jcp.org/en/jsr/summary?id=224[Java API for XML-Based Web
+Services]
+====
+
+==== The service implementation class
+
+When starting from Java you must provide the service implementation. A
+valid endpoint implementation class must meet the following
+requirements:
+
+* It _must_ carry a `javax.jws.WebService` annotation (see JSR 181)
+* All method parameters and return types _must_ be compatible with the
+JAXB 2.0
+
+Let's look at a sample EJB3 component that is going to be exposed as a
+web service.
+
+Don't be confused with the EJB3 annotation `@Stateless` . We concentrate
+on the `@WebService` annotation for now.
+
+===== Implementing the service
+
+....
+package org.jboss.test.ws.jaxws.samples.retail.profile;
+
+import javax.ejb.Stateless;
+import javax.jws.WebService;
+import javax.jws.WebMethod;
+import javax.jws.soap.SOAPBinding;
+
+@Stateless                                                             (1)
+@WebService(                                                           (2)
+   name="ProfileMgmt",
+   targetNamespace = "http://org.jboss.ws/samples/retail/profile",
+   serviceName = "ProfileMgmtService")
+@SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)         (3)
+public class ProfileMgmtBean {
+
+   @WebMethod                                                          (4)
+   public DiscountResponse getCustomerDiscount(DiscountRequest request) {
+      return new DiscountResponse(request.getCustomer(), 10.00);
+   }
+}
+....
+
+....
+1. We are using a stateless session bean implementation
+2. Exposed a web service with an explicit namespace
+3. It's a doc/lit bare endpoint
+4. And offers an 'getCustomerDiscount' operation
+....
+
+===== What about the payload?
+
+The method parameters and return values are going to represent our XML
+payload and thus require being compatible with JAXB2. Actually you
+wouldn't need any JAXB annotations for this particular example, because
+JAXB relies on meaningful defaults. For the sake of documentation we put
+the more important ones here.
+
+Take a look at the request parameter:
+
+....
+package org.jboss.test.ws.jaxws.samples.retail.profile;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
+import org.jboss.test.ws.jaxws.samples.retail.Customer;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(                                                  (1)
+  name = "discountRequest",
+  namespace="http://org.jboss.ws/samples/retail/profile",
+  propOrder = { "customer" }
+)
+public class DiscountRequest {
+
+   protected Customer customer;
+
+   public DiscountRequest() {
+   }
+
+   public DiscountRequest(Customer customer) {
+      this.customer = customer;
+   }
+
+   public Customer getCustomer() {
+      return customer;
+   }
+
+   public void setCustomer(Customer value) {
+      this.customer = value;
+   }
+
+}
+....
+
+....
+1. In this case we use @XmlType to specify an XML complex type name and override the namespace.
+....
+
+[NOTE]
+====
+If you have more complex mapping problems you need to consult the
+http://java.sun.com/webservices/jaxb/[JAXB documentation] .
+====
+
+==== Deploying service implementations
+
+Service deployment basically depends on the implementation type. As you
+may already know web services can be implemented as EJB3 components or
+plain old Java objects. This quick start leverages EJB3 components,
+that's why we are going to look at this case in the next sections.
+
+===== EJB3 services
+
+Simply wrap up the service implementation class, the endpoint interface
+and any custom data types in a JAR and drop them in the _deployment_
+directory. No additional deployment descriptors required. Any meta data
+required for the deployment of the actual web service is taken from the
+annotations provided on the implementation class and the service
+endpoint interface. JBossWS will intercept that EJB3 deployment (the
+bean will also be there) and create an HTTP endpoint at deploy-time.
+
+===== The JAR package structure
+
+jar -tf jaxws-samples-retail.jar
+
+org/jboss/test/ws/jaxws/samples/retail/profile/DiscountRequest.class
+org/jboss/test/ws/jaxws/samples/retail/profile/DiscountResponse.class
+org/jboss/test/ws/jaxws/samples/retail/profile/ObjectFactory.class
+org/jboss/test/ws/jaxws/samples/retail/profile/ProfileMgmt.class
+org/jboss/test/ws/jaxws/samples/retail/profile/ProfileMgmtBean.class
+org/jboss/test/ws/jaxws/samples/retail/profile/ProfileMgmtService.class
+org/jboss/test/ws/jaxws/samples/retail/profile/package-info.class
+
+[IMPORTANT]
+====
+If the deployment was successful you should be able to see your endpoint
+in the application server management console.
+====
+
+=== Consuming web services
+
+When creating web service clients you would usually start from the WSDL.
+JBossWS ships with a set of tools to generate the required JAX-WS
+artifacts to build client implementations. In the following section we
+will look at the most basic usage patterns. For a more detailed
+introduction to web service client please consult the user guide.
+
+==== Creating the client artifacts
+
+===== Using wsconsume
+
+The _wsconsume_ tool is used to consume the abstract contract (WSDL) and
+produce annotated Java classes (and optionally sources) that define it.
+We are going to start with the WSDL from our retail example
+(ProfileMgmtService.wsdl). For a detailed tool reference you need to
+consult the user guide.
+
+....
+wsconsume is a command line tool that generates
+portable JAX-WS artifacts from a WSDL file.
+
+usage: org.jboss.ws.tools.jaxws.command.wsconsume [options] <wsdl-url>
+
+options:
+    -h, --help                  Show this help message
+    -b, --binding=<file>        One or more JAX-WS or JAXB binding files
+    -k, --keep                  Keep/Generate Java source
+    -c  --catalog=<file>        Oasis XML Catalog file for entity resolution
+    -p  --package=<name>        The target package for generated source
+    -w  --wsdlLocation=<loc>    Value to use for @WebService.wsdlLocation
+    -o, --output=<directory>    The directory to put generated artifacts
+    -s, --source=<directory>    The directory to put Java source
+    -q, --quiet                 Be somewhat more quiet
+    -t, --show-traces           Show full exception stack traces
+....
+
+Let's try it on our sample:
+
+....
+~./wsconsume.sh -k -p org.jboss.test.ws.jaxws.samples.retail.profile ProfileMgmtService.wsdl  (1)
+
+org/jboss/test/ws/jaxws/samples/retail/profile/Customer.java
+org/jboss/test/ws/jaxws/samples/retail/profile/DiscountRequest.java
+org/jboss/test/ws/jaxws/samples/retail/profile/DiscountResponse.java
+org/jboss/test/ws/jaxws/samples/retail/profile/ObjectFactory.java
+org/jboss/test/ws/jaxws/samples/retail/profile/ProfileMgmt.java
+org/jboss/test/ws/jaxws/samples/retail/profile/ProfileMgmtService.java
+org/jboss/test/ws/jaxws/samples/retail/profile/package-info.java
+....
+
+[arabic]
+. As you can see we did use the `-p` switch to specify the package name
+of the generated sources.
+
+===== The generated artifacts explained
+
+[cols=",",options="header",]
+|===
+|File |Purpose
+|ProfileMgmt.java |Service Endpoint Interface
+|Customer.java |Custom data type
+|Discount*.java |Custom data type
+|ObjectFactory.java |JAXB XML Registry
+|package-info.java |Holder for JAXB package annotations
+|ProfileMgmtService.java |Service factory
+|===
+
+Basically _wsconsume_ generates all custom data types (JAXB annotated
+classes), the service endpoint interface and a service factory class. We
+will look at how these artifacts can be used the build web service
+client implementations in the next section.
+
+==== Constructing a service stub
+
+Web service clients make use of a service stubs that hide the details of
+a remote web service invocation. To a client application a WS invocation
+just looks like an invocation of any other business component. In this
+case the service endpoint interface acts as the business interface.
+JAX-WS does use a service factory class to construct this as particular
+service stub:
+
+....
+import javax.xml.ws.Service;
+[...]
+Service service = Service.create(                                 (1)
+new URL("http://example.org/service?wsdl"),
+new QName("MyService")
+);
+ProfileMgmt profileMgmt = service.getPort(ProfileMgmt.class);     (2)
+
+// do something with the service stub here...                     (3)
+....
+
+[arabic]
+. Create a service factory using the WSDL location and the service name
+. Use the tool created service endpoint interface to build the service
+stub
+. Use the stub like any other business interface
+
+
+==== Resolving dependencies and running the client
+
+In order for successfully running a WS client application, a classloader
+needs to be properly setup to include the JBossWS components and its
+required transitive dependencies. Depending on the environment the
+client is meant to be run in, this might imply adding some jars to the
+classpath, or adding some artifact dependencies to the maven dependency
+tree, etc. Moreover, even for simply developing a client, users might
+need to resolve proper dependencies (e.g. to setup their IDE).
+
+Below you find some options for resolving dependencies and running a WS
+client using the JBossWS libraries:
+
+===== Maven project
+
+The JBossWS project is composed of multiple Maven artifacts that can be
+used to declare dependencies in user Maven projects. In particular, the
+`
+              org.jboss.ws.cxf:jbossws-cxf-client
+            ` artifact can be used for getting the whole JBossWS client
+dependency. Users should simply add a dependency to it in their Maven
+project.
+
+If you're running the client out of container, It's also recommended to
+properly setup JAXWS implementation endorsing, to make sure you use the
+JBossWS *implementation* of JAXWS API instead of relying on the
+implementation coming with the JDK; this is usually done by copying the
+`
+              org.jboss.ws.cxf.jbossws-cxf-factories
+            ` (JBossWS-CXF stack) jar into a local directory (e.g.
+_project.build.directory/endorsed_ ) and then using that for compiling
+and running sources, for setting the _java.endorsed.dirs_ system
+property into the maven-surefire-plugin, etc:
+
+....
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 [http://maven.apache.org/maven-v4_0_0.xsd]">
+  ...
+  <build>
+    <plugins>
+
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>create-endorsed-dir</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.jboss.spec.javax.xml.ws</groupId>
+                  <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.spec.javax.xml.bind</groupId>
+                  <artifactId>jboss-jaxb-api_2.2_spec</artifactId>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.ws.cxf</groupId>
+                  <artifactId>jbossws-cxf-factories</artifactId>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <showDeprecation>false</showDeprecation>
+          <compilerArguments>
+            <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+          </compilerArguments>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
+          ...
+        </configuration>
+        ...
+      </plugin>
+      ...
+    </plugins>
+    ...
+  </build>
+...
+</project>
+....
+
+[IMPORTANT]
+====
+Endorsing of JAX-WS *api* jar is used to force a API level different
+from the one included in the JDK. E.g. JAXWS 2.2 on JDK 1.6, or JAXWS
+2.1 on JDK 1.7, etc. So, depending on your environment, it might not be
+strictly required.
+====
+
+[NOTE]
+====
+Endorsing is deprecated in JDK 1.8 and will be removed in future JDK
+version. If you can't rely on endorsing with your JDK version, be sure
+JBossWS components (in particular
+`org.jboss.ws.cxf:jbossws-cxf-factories` ) come before jars of any other
+JAX-WS implementation in your classpath.
+====
+
+===== JBoss Modules environment
+
+An interesting approach for running a WS client is to leverage JBoss
+Modules, basically getting a classloading environment equivalent to the
+server container WS endpoints are run in. This is achieved by using the
+_jboss-modules.jar_ coming with WildFly as follows:
+
+....
+java -jar $WILDFLY_HOME/jboss-modules.jar -mp $WILDFLY_HOME/modules -jar client.jar
+....
+
+The _client.jar_ is meant to contain the WS client application and
+include a _MANIFEST.MF_ file specifying the proper `Main-Class` as well
+as link:#sid-4784150[JBoss Module dependencies] , for instance:
+
+....
+Manifest-Version: 1.0
+Main-Class: org.jboss.test.ws.jaxws.jbws1666.TestClient
+Dependencies: org.jboss.ws.cxf.jbossws-cxf-client
+....
+
+===== Flat classpath setup
+
+Finally, users can of course setup their application classpath manually
+(e.g when compiling and running the application directly through `javac`
+/ `java` command or using `Ant` ). As for the Maven project approach
+mentioned above, properly setting _java.endorsed.dirs_ system property
+is also required.
+
+=== Maven archetype quick start
+
+A convenient approach to start a new project aiming at providing and/or
+consuming a JAX-WS endpoint is to use the JBossWS _jaxws-codefirst_
+Maven Archetype. A starting project (including working build and sample
+helloworld client and endpoint) is created in few seconds. It's simply a
+matter of issuing a command and answering to simple questions on the
+desired artifact and group ids for the project being generated:
+
+....
+> mvn archetype:generate -Dfilter=org.jboss.ws.plugins.archetypes:
+....
+
+The generated project includes:
+
+* a sample HelloWorld code-first POJO endpoint
+* an integration test that gets the WSDL contract for the above service,
+builds up a client and invokes the endpoint
+* a pom.xml for creating a war archive; the project has proper WS
+component dependencies and uses both wsprovide and wsconsume maven
+plugins for generating the contract for the code-first endpoint and then
+generating the client stubs for such contract
+* a plugin for deploying the archive on WildFly.
+
+The project is built and tested by simply running:
+
+....
+> mvn wildfly:deploy
+> mvn integration-test
+....
+
+The build processes the various plugins and calls into the JBossWS tools
+to generate all the required classes for building the deployment archive
+and client. The user can test the sample, have a look at the project
+structure and then either trash the sample endpoint and testcase and
+replace them with his own components, or modify them step-by-step to
+achieve what he needs.
+
+=== Appendix
+
+==== Sample wsdl contract
+
+....
+<definitions
+    name='ProfileMgmtService'
+    targetNamespace='http://org.jboss.ws/samples/retail/profile'
+    xmlns='http://schemas.xmlsoap.org/wsdl/'
+    xmlns:ns1='http://org.jboss.ws/samples/retail'
+    xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'
+    xmlns:tns='http://org.jboss.ws/samples/retail/profile'
+    xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+
+   <types>
+
+      <xs:schema targetNamespace='http://org.jboss.ws/samples/retail'
+                 version='1.0' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+         <xs:complexType name='customer'>
+            <xs:sequence>
+               <xs:element minOccurs='0' name='creditCardDetails' type='xs:string'/>
+               <xs:element minOccurs='0' name='firstName' type='xs:string'/>
+               <xs:element minOccurs='0' name='lastName' type='xs:string'/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+
+      <xs:schema
+          targetNamespace='http://org.jboss.ws/samples/retail/profile'
+          version='1.0'
+          xmlns:ns1='http://org.jboss.ws/samples/retail'
+          xmlns:tns='http://org.jboss.ws/samples/retail/profile'
+          xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+
+         <xs:import namespace='http://org.jboss.ws/samples/retail'/>
+         <xs:element name='getCustomerDiscount'
+                     nillable='true' type='tns:discountRequest'/>
+         <xs:element name='getCustomerDiscountResponse'
+                     nillable='true' type='tns:discountResponse'/>
+         <xs:complexType name='discountRequest'>
+            <xs:sequence>
+               <xs:element minOccurs='0' name='customer' type='ns1:customer'/>
+
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name='discountResponse'>
+            <xs:sequence>
+               <xs:element minOccurs='0' name='customer' type='ns1:customer'/>
+               <xs:element name='discount' type='xs:double'/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+
+   </types>
+
+   <message name='ProfileMgmt_getCustomerDiscount'>
+      <part element='tns:getCustomerDiscount' name='getCustomerDiscount'/>
+   </message>
+   <message name='ProfileMgmt_getCustomerDiscountResponse'>
+      <part element='tns:getCustomerDiscountResponse'
+            name='getCustomerDiscountResponse'/>
+   </message>
+   <portType name='ProfileMgmt'>
+      <operation name='getCustomerDiscount'
+                 parameterOrder='getCustomerDiscount'>
+
+         <input message='tns:ProfileMgmt_getCustomerDiscount'/>
+         <output message='tns:ProfileMgmt_getCustomerDiscountResponse'/>
+      </operation>
+   </portType>
+   <binding name='ProfileMgmtBinding' type='tns:ProfileMgmt'>
+      <soap:binding style='document'
+                    transport='http://schemas.xmlsoap.org/soap/http'/>
+      <operation name='getCustomerDiscount'>
+         <soap:operation soapAction=''/>
+         <input>
+
+            <soap:body use='literal'/>
+         </input>
+         <output>
+            <soap:body use='literal'/>
+         </output>
+      </operation>
+   </binding>
+   <service name='ProfileMgmtService'>
+      <port binding='tns:ProfileMgmtBinding' name='ProfileMgmtPort'>
+
+         <soap:address
+             location='http://<HOST>:<PORT>/jaxws-samples-retail/ProfileMgmtBean'/>
+      </port>
+   </service>
+</definitions>
+....

@@ -1,0 +1,7 @@
+[[preface-JBoss_Web_Services_Documentation]]
+== Preface
+
+This book covers the documentation of the current JBossWS release. The
+documentation for the latest JBossWS series, with a special focus on the
+WildFly integration, is also available at
+https://docs.jboss.org/author/display/JBWS.

@@ -1,0 +1,21 @@
+[[app-Revision_History-JBoss_Web_Services_Documentation]]
+== Revision History
+
+4.0.0 Mon Dec 19 2011 Alessio Soldano alessio.soldano@jboss.com
+JBossWS-CXF 4.0.0 documentation 4.0.1 Fri Feb 03 2012 Alessio Soldano
+alessio.soldano@jboss.com JBossWS-CXF 4.0.1 documentation 4.0.2 Mon Mar
+05 2012 Alessio Soldano alessio.soldano@jboss.com JBossWS-CXF 4.0.2
+documentation 4.1.0 Mon Oct 15 2012 Alessio Soldano
+alessio.soldano@jboss.com JBossWS-CXF 4.1.0 documentation 4.1.1 Fri Dec
+21 2012 Alessio Soldano alessio.soldano@jboss.com JBossWS-CXF 4.1.1
+documentation 4.2.0 Fri Jul 26 2013 Alessio Soldano
+alessio.soldano@jboss.com JBossWS-CXF 4.2.0 documentation 4.2.2 Mon Oct
+21 2013 Alessio Soldano alessio.soldano@jboss.com JBossWS-CXF 4.2.2
+documentation 4.3.0 Mon Mar 17 2014 Alessio Soldano
+alessio.soldano@jboss.com JBossWS-CXF 4.3.0 documentation 5.0.0 Fri Apr
+23 2015 Alessio Soldano alessio.soldano@jboss.com JBossWS-CXF 5.0.0
+documentation 5.1.0 Fri Aug 28 2015 Alessio Soldano
+alessio.soldano@jboss.com JBossWS-CXF 5.1.0 documentation 5.1.4 Wed Mar
+16 2016 Alessio Soldano alessio.soldano@jboss.com JBossWS-CXF 5.1.4
+documentation 5.1.9 Tue Jul 11 2017 Alessio Soldano
+alessio.soldano@jboss.com JBossWS-CXF 5.1.9 documentation
