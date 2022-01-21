@@ -12,7 +12,7 @@ dumping the messages that are passed in it; the handler can be added to
 the desired client/endpoints (programmatically / using `@HandlerChain`
 JAX-WS annotation).
 
-The <<_predefined_client_and_endpoint_configurations>>
+The <<Predefined client and endpoint configurations>>
 mechanism allows user to add the logging handler to any client/endpoint
 or to some of them only (in which case the `@EndpointConfig` annotation
 / JBossWS API is required though).
@@ -195,7 +195,7 @@ webservices deployment.
 
 Elements `<config-name>` and `<config-file>` can be used to associate
 any endpoint provided in the deployment with a given
-<<_predefined_client_and_endpoint_configurations>> . Endpoint configuration are
+<<Predefined client and endpoint configurations>> . Endpoint configuration are
 either specified in the referenced config file or in the WildFly domain
 model (webservices subsystem). For further details on the endpoint
 configurations and their management in the domain model, please see the
@@ -284,7 +284,7 @@ public class ValidatingHelloImpl implements Hello {
 ....
 
 Alternatively, any endpoint and client running in-container can be
-associated to a JBossWS <<_predefined_client_and_endpoint_configurations>>
+associated to a JBossWS <<Predefined client and endpoint configurations>>
 having the `schema-validation-enabled` property set to `true` in the
 referenced config file.
 
@@ -327,7 +327,7 @@ Introductions page] on the wiki and at the examples in the sources.
 
 === WSDL system properties expansion
 
-See <<_published_wsdl_customization>>.
+See <<Published WSDL customization>>.
 
 === Predefined client and endpoint configurations
 
@@ -1036,7 +1036,7 @@ with a JAX-WS compliant implementation, which is basically Apache CXF
 plus the JBossWS-CXF integration layer. So users just need to write
 their JAX-WS application; _no need for embedding any Apache CXF or any
 ws related dependency library in user deployments_ . Please refer to the
-<<_advanced_user_guide>>  of the documentation for getting started.
+<<Advanced User Guide>>  of the documentation for getting started.
 
 WS-* usage (including WS-Security, WS-Addressing, WS-ReliableMessaging,
 ...) should also be configured in the most portable way; that is by
@@ -1294,7 +1294,7 @@ customizations.
 ===== Deployment descriptor properties
 
 The `jboss-webservices.xml` descriptor can be used to
-provide property values for <<_component_element>>
+provide property values for <<component element>>
 
 ....
 <webservices xmlns="http://www.jboss.com/xml/ns/javaee" version="1.2">
@@ -1375,7 +1375,7 @@ desired in some cases. Here is an example:
 
 Schema validation of exchanged messages can also be enabled in
 `jboss-webservices.xml` . Further details available
-<<_configuration_through_deployment_descriptor>>
+<<Configuration through deployment descriptor>>
 
 ====== Interceptors
 
@@ -1428,7 +1428,7 @@ the deployment.
 ====== Discovery enablement
 
 WS-Discovery support can be turned on in `jboss-webservices` for the
-current deployment. Further details available <<_configuration_through_deployment_descriptor>> .
+current deployment. Further details available <<Configuration through deployment descriptor>> .
 
 ==== Apache CXF interceptors
 
@@ -1445,7 +1445,7 @@ approaches:
 As the Spring descriptor usage is not supported, the JBossWS integration
 adds an additional descriptor based approach to avoid requiring
 modifications to the actual client/endpoint code. Users can declare
-interceptors within <<_predefined_client_and_endpoint_configurations>> by specifying a list of interceptor class names for the
+interceptors within <<Predefined client and endpoint configurations>> by specifying a list of interceptor class names for the
 `cxf.interceptors.in` and `cxf.interceptors.out` properties.
 
 ....
@@ -1485,7 +1485,7 @@ approaches:
 As the Spring descriptor usage is not supported, the JBossWS integration
 adds an additional descriptor based approach to avoid requiring
 modifications to the actual client/endpoint code. Users can declare
-features within <<_predefined_client_and_endpoint_configurations>> by specifying a list of feature class names for the
+features within <<>> by specifying a list of feature class names for the
 `cxf.features` property.
 
 ....
@@ -1921,7 +1921,7 @@ documentation] for additional configuration details.
 In order for removing the need of Spring on server side for setting up
 WS-Security configuration properties not covered by policies, the
 JBossWS integration allows for getting those pieces of information from
-a defined _endpoint configuration_ . <<_predefined_client_and_endpoint_configurations>>
+a defined _endpoint configuration_ . <<Predefined client and endpoint configurations>>
 can include property declarations and endpoint
 implementations can be associated with a given endpoint configuration
 using the `@EndpointConfig` annotation.
@@ -3868,7 +3868,7 @@ message exchange via SOAP envelopes.
 As was done in the ServiceImpl class, the WSS4J annotations
 EndpointProperties and EndpointProperty are providing endpoint
 configuration for the CXF runtime. This was previous described
-<<_web_service_provider_implementation>>
+<<Web service provider Implementation>>
 .
 
 The InInterceptors annotation is used to specify a JBossWS integration
@@ -4590,7 +4590,7 @@ a token is negotiated with the STS. The ActAs element usually takes the
 form of a token with identity claims such as name, role, and
 authorization code, for the client to access the service.
 
-The ActAs scenario is an extension of <<_a_basic_ws_trust_scenario>>. In this example the ActAs service calls the
+The ActAs scenario is an extension of <<A Basic WS-Trust Scenario>>. In this example the ActAs service calls the
 ws-service on behalf of a user. There are only a couple of additions to
 the basic scenario's code. An ActAs web service provider and callback
 handler have been added. The ActAs web services' WSDL imposes the same
@@ -5267,7 +5267,7 @@ is negotiated with the STS. The OnBehalfOf element usually takes the
 form of a token with identity claims such as name, role, and
 authorization code, for the client to access the service.
 
-The OnBehalfOf scenario is an extension of <<_a_basic_ws_trust_scenario>> . In this example the OnBehalfOf service calls the
+The OnBehalfOf scenario is an extension of <<A Basic WS-Trust Scenario>> . In this example the OnBehalfOf service calls the
 ws-service on behalf of a user. There are only a couple of additions to
 the basic scenario's code. An OnBehalfOf web service provider and
 callback handler have been added. The OnBehalfOf web services' WSDL
@@ -8988,7 +8988,7 @@ messages upon undeployment.
 ==== Probing services
 
 Apache CXF comes with a _WS-Discovery_ API that can be used to probe /
-resolve services. When running in-container, a <<_jboss_modules>> dependency to the the `org.apache.cxf.impl` module is
+resolve services. When running in-container, a <<JBoss Modules>> dependency to the the `org.apache.cxf.impl` module is
 to be set to have access to _WS-Discovery_ client functionalities.
 
 The
