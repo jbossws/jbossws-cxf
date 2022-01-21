@@ -417,7 +417,7 @@ schema]
 
 The schema for the binding customization files can be found here:
 
-* https://jax-ws.dev.java.net/source/browse/jax-ws/guide/docs/wsdl-customization.xsd?rev=1.2&view=log[]
+* https://docs.oracle.com/cd/E17802_01/webservices/webservices/docs/1.5/tutorial/doc/JAXBUsing4.html[]
 
 === wsconsume
 
