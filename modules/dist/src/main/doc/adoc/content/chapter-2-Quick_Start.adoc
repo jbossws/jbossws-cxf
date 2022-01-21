@@ -19,7 +19,7 @@ probably going to start with the implementation and derive the abstract
 contract from it. You are probably not even getting in touch with the
 WSDL unless you hand it to 3rd party clients. For this reason we are
 going to look at a service implementation that leverages
-http://www.jcp.org/en/jsr/summary?id=181[JSR-181 annotations] .
+https://jakarta.ee/specifications/web-services-metadata/[Jakarta Web Service Metadata] .
 
 [IMPORTANT]
 ====
@@ -27,8 +27,8 @@ Even though detailed knowledge of web service meta data is not required,
 it will definitely help if you make yourself familiar with it. For
 further information see
 
-* http://www.jcp.org/en/jsr/summary?id=181[Web service meta data
-(JSR-181)]
+* https://jakarta.ee/specifications/web-services-metadata/[Jakarta Web Service Metadata]
+
 * http://www.jcp.org/en/jsr/summary?id=222[Java API for XML binding
 (JAXB)]
 * http://www.jcp.org/en/jsr/summary?id=224[Java API for XML-Based Web
@@ -161,13 +161,13 @@ bean will also be there) and create an HTTP endpoint at deploy-time.
 
 jar -tf jaxws-samples-retail.jar
 
-org/jboss/test/ws/jaxws/samples/retail/profile/DiscountRequest.class
-org/jboss/test/ws/jaxws/samples/retail/profile/DiscountResponse.class
-org/jboss/test/ws/jaxws/samples/retail/profile/ObjectFactory.class
-org/jboss/test/ws/jaxws/samples/retail/profile/ProfileMgmt.class
-org/jboss/test/ws/jaxws/samples/retail/profile/ProfileMgmtBean.class
-org/jboss/test/ws/jaxws/samples/retail/profile/ProfileMgmtService.class
-org/jboss/test/ws/jaxws/samples/retail/profile/package-info.class
+ org/jboss/test/ws/jaxws/samples/retail/profile/DiscountRequest.class
+ org/jboss/test/ws/jaxws/samples/retail/profile/DiscountResponse.class
+ org/jboss/test/ws/jaxws/samples/retail/profile/ObjectFactory.class
+ org/jboss/test/ws/jaxws/samples/retail/profile/ProfileMgmt.class
+ org/jboss/test/ws/jaxws/samples/retail/profile/ProfileMgmtBean.class
+ org/jboss/test/ws/jaxws/samples/retail/profile/ProfileMgmtService.class
+ org/jboss/test/ws/jaxws/samples/retail/profile/package-info.class
 
 [IMPORTANT]
 ====
@@ -299,9 +299,9 @@ used to declare dependencies in user Maven projects. In particular, the
 dependency. Users should simply add a dependency to it in their Maven
 project.
 
-If you're running the client out of container, It's also recommended to
+If you're running the client out of the container, It's also recommended to
 properly setup JAXWS implementation endorsing, to make sure you use the
-JBossWS *implementation* of JAXWS API instead of relying on the
+JBossWS implementation of JAXWS API instead of relying on the
 implementation coming with the JDK; this is usually done by copying the
 `
               org.jboss.ws.cxf.jbossws-cxf-factories
@@ -405,7 +405,7 @@ java -jar $WILDFLY_HOME/jboss-modules.jar -mp $WILDFLY_HOME/modules -jar client.
 
 The _client.jar_ is meant to contain the WS client application and
 include a _MANIFEST.MF_ file specifying the proper `Main-Class` as well
-as link:#sid-4784150[JBoss Module dependencies] , for instance:
+as <<JBoss Modules>> dependencies, for instance:
 
 ....
 Manifest-Version: 1.0

@@ -55,9 +55,7 @@ _jbws-testsuite-SOME_IDENFIFIER.log_ ) in `standalone/log` directory.
 ==== Target Container Identification
 
 JBossWS supports the current WildFly release and several back versions
-for testing. See the
-https://community.jboss.org/wiki/JBossWS-SupportedTargetContainers[supported
-target containers] page for details. Maven profiles are used to identify
+for testing. Maven profiles are used to identify
 the target container to be used for testing. The naming convention is
 _wildflyXYZ_ , for example _wildfly820_ to mean WIldFly 8.2.0.Final.
 

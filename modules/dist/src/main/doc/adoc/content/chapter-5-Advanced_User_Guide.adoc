@@ -503,7 +503,7 @@ documentation] for details on managing the _webservices_ subsystem such
 as adding, removing and modifying handlers and properties.
 
 The allowed contents in the _webservices_ subsystem are defined by the
-https://github.com/jbossas/jboss-as/blob/7.2.0.Final/build/src/main/resources/docs/schema/jboss-as-webservices_1_2.xsd[schema]
+https://github.com/wildfly/wildfly/blob/main/webservices/server-integration/src/main/resources/schema/jboss-as-webservices_2_0.xsd[schema]
 included in the application server.
 
 * Standard configurations
@@ -632,7 +632,7 @@ port.echo("Kermit");
 JBossWS parses the specified configuration file. The configuration file
 must be found as a resource by the classloader of the current thread.
 The
-https://github.com/jbossws/jbossws-spi/tree/main/src/main/resources/schemajbossws-jaxws-config_4_0.xsd[jbossws-jaxws-config
+https://github.com/jbossws/jbossws-spi/tree/main/src/main/resources/schema/jbossws-jaxws-config_4_0.xsd[jbossws-jaxws-config
 schema] defines the descriptor contents and is included in the
 _jbossws-spi_ artifact.
 
@@ -976,7 +976,7 @@ annotation, the JASPI security domain specified in
 
 All JAX-WS functionalities provided by JBossWS on top of WildFly are
 currently served through a proper integration of the JBoss Web Services
-stack with most of the http://cxf.apache.org/[Apache CXF] project
+stack with most of the https://cxf.apache.org/[Apache CXF] project
 modules.
 
 Apache CXF is an open source services framework. It allows building and
@@ -1000,13 +1000,13 @@ internal customizations on top of Apache CXF.
 
 In the next sections a list of technical suggestions and notes on the
 integration is provided; please also refer to the
-http://cxf.apache.org/docs/index.html[Apache CXF official documentation]
+https://cxf.apache.org/docs/index.html[Apache CXF official documentation]
 for in-depth details on the CXF architecture.
 
 ==== Building WS applications the JBoss way
 
 The Apache CXF client and endpoint configuration as explained in the
-http://cxf.apache.org/docs/index.html[Apache CXF official user guide] is
+https://cxf.apache.org/docs/index.html[Apache CXF official user guide] is
 heavily based on Spring. Apache CXF basically parses Spring `cxf.xml`
 descriptors; those may contain any basic bean plus specific ws client
 and endpoint beans which CXF has custom parsers for. Apache CXF can be
@@ -1314,7 +1314,7 @@ control Apache CXF internals.
 
 Apache CXF uses WorkQueue instances for dealing with some operations
 (e.g. @Oneway requests processing). A
-http://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/workqueue/WorkQueueManager.html[WorkQueueManager]
+https://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/workqueue/WorkQueueManager.html[WorkQueueManager]
 is installed in the Bus as an extension and allows for adding / removing
 queues as well as controlling the existing ones.
 
@@ -1323,10 +1323,10 @@ On server side, queues can be provided by using the
 `cxf.queue.default.maxQueueSize` for controlling the max queue size of
 the `default` workqueue). At deployment time, the JBossWS integration
 can add new instances of
-http://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/workqueue/AutomaticWorkQueueImpl.html[AutomaticWorkQueueImpl]
+https://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/workqueue/AutomaticWorkQueueImpl.html[AutomaticWorkQueueImpl]
 to the currently configured WorkQueueManager; the properties below are
 used to fill in parameter into the
-http://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/workqueue/AutomaticWorkQueueImpl.html#AutomaticWorkQueueImpl(int, int, int, int, long, java.lang.String)[AutomaticWorkQueueImpl
+https://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/workqueue/AutomaticWorkQueueImpl.html#AutomaticWorkQueueImpl(int,%20int,%20int,%20int,%20long,%20java.lang.String)[AutomaticWorkQueueImpl
 constructor] :
 
 [cols=",",options="header",]
@@ -1343,7 +1343,7 @@ constructor] :
 
 The Apache CXF policy engine supports different strategies to deal with
 policy alternatives. JBossWS-CXF integration currently defaults to the
-http://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/ws/policy/selector/MaximalAlternativeSelector.html[MaximalAlternativeSelector]
+https://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/ws/policy/selector/MaximalAlternativeSelector.html[MaximalAlternativeSelector]
 , but still allows for setting different selector implementation using
 the `cxf.policy.alternativeSelector` property in `jboss-webservices.xml`
 .
@@ -1559,7 +1559,7 @@ course be configured.
 
 HTTP transport setup in Apache CXF is achieved through
 `org.apache.cxf.transport.http.HTTPConduit`
-http://cxf.apache.org/docs/client-http-transport-including-ssl-support.html[configurations]
+https://cxf.apache.org/docs/client-http-transport-including-ssl-support.html[configurations]
 . When running on top of the JBossWS integration, conduits can be
 programmatically modified using the Apache CXF API as follows:
 
@@ -1648,8 +1648,8 @@ message context
 
 Please refer to the the Apache CXF documentation for further information
 on the proprietary
-http://cxf.apache.org/docs/ws-addressing.html[WS-Addressing setup] and
-http://cxf.apache.org/docs/wsaconfiguration.html[configuration details]
+https://cxf.apache.org/docs/ws-addressing.html[WS-Addressing setup] and
+https://cxf.apache.org/docs/wsaconfiguration.html[configuration details]
 .
 
 ==== Addressing Policy
@@ -1825,7 +1825,7 @@ http://ws.apache.org/wss4j[Apache WSS4J] for the low level security
 operations. Interceptors can be configured in different ways, either
 through Spring configuration files or directly using Apache CXF client
 API. Please refer to the
-http://cxf.apache.org/docs/ws-security.html[Apache CXF documentation] if
+https://cxf.apache.org/docs/ws-security.html[Apache CXF documentation] if
 you're looking for more details.
 
 Recent versions of Apache CXF, however, introduced support for
@@ -1913,7 +1913,7 @@ port.echoString("hello");
 ....
 
 Please refer to the
-http://cxf.apache.org/docs/ws-securitypolicy.html[Apache CXF
+https://cxf.apache.org/docs/ws-securitypolicy.html[Apache CXF
 documentation] for additional configuration details.
 
 ===== JBossWS configuration additions
@@ -2903,7 +2903,7 @@ public class ServiceImpl implements ServiceIface {
 
 ==== WS-Trust overview
 
-https://www.oasis-open.org/standards#wstrustv1.4[WS-Trust] is a Web
+http://docs.oasis-open.org/ws-sx/ws-trust/v1.4/ws-trust.html[WS-Trust] is a Web
 service specification that defines extensions to WS-Security. It is a
 general framework for implementing security in a distributed system. The
 standard is based on a centralized Security Token Service, STS, which is
@@ -7981,7 +7981,7 @@ only portable one. The other approaches are Apache CXF proprietary ones,
 however they allow for fine-grained configuration of protocol aspects
 that are not covered by the WS-Reliable Messaging Policy. More details
 are available in the
-http://cxf.apache.org/docs/wsrmconfiguration.html[Apache CXF
+https://cxf.apache.org/docs/wsrmconfiguration.html[Apache CXF
 documentation] .
 
 
@@ -8276,7 +8276,7 @@ controlled by proper elements and attributes in the `binding` and
 `service` elements of the WSDL contract. So a _JMS_ endpoint is usually
 developed using a contract-first approach.
 
-The http://cxf.apache.org/docs/soap-over-jms-10-support.html[Apache CXF
+The https://cxf.apache.org/docs/soap-over-jms-10-support.html[Apache CXF
 documentation] covers all the details of the supported configurations.
 The minimum configuration implies:
 
@@ -8848,7 +8848,7 @@ provided by the Apache CXF http transport layer.
 
 The suggested configuration mechanism when running JBoss Web Services is
 explained below; for further information please refer to the
-http://cxf.apache.org/docs/client-http-transport-including-ssl-support.html[Apache
+https://cxf.apache.org/docs/client-http-transport-including-ssl-support.html[Apache
 CXF documentation] .
 
 
@@ -8944,7 +8944,7 @@ managed mode where a discovery proxy is used to reduce the amount of
 required multicast traffic is also covered by the protocol.
 
 JBossWS integrates the _WS-Discovery_
-http://cxf.apache.org/docs/ws-discovery.html[functionalities] provided
+https://cxf.apache.org/docs/ws-discovery.html[functionalities] provided
 by Apache CXF into the application server.
 
 
@@ -9021,7 +9021,7 @@ or features.
 
 Of course users can also make direct use of the Apache CXF policy
 framework,
-http://cxf.apache.org/docs/developing-assertions.html[defining custom
+https://cxf.apache.org/docs/developing-assertions.html[defining custom
 assertions] , etc.
 
 Finally, JBossWS provides some additional annotations for simplified
