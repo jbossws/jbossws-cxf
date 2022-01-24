@@ -27,21 +27,10 @@ jobs:
         run: 'mvn clean install -Prelease -DskipTests -Dcheckstyle.skip=true -Denforcer.skip=true'
       - id: version
         run: echo "::set-output name=wildfly-version::$(mvn -B help:evaluate -Dexpression=project.version -pl . | grep -v '^\[')"
-  jbossws-build:
-    runs-on: ${{ matrix.os }}
-    needs: wildfly-build
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        java: ['8', '11']
-    steps:
-      - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v2
+      - name: Checkout jbossws-cxf
+        uses: actions/checkout@v2
         with:
-          java-version: ${{ matrix.java }}
-          distribution: 'temurin'
-          cache: 'maven'
+          repository: jbossws/jbossws-cxf
       - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{needs.wildfly-build.outputs.wildfly-version}}
         run: |
           mvn -s ./.m2-settings.xml -B -V -fae -Pwildfly2700 clean install
