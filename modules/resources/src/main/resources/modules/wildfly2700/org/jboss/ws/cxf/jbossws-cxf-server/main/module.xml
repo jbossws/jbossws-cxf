@@ -67,6 +67,5 @@
         </module>
         <module name="org.jboss.logging" />
         <module name="org.apache.ws.security" />
-        <module name="org.picketbox" />
     </dependencies>
 </module>
