@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   ~ JBoss, Home of Professional Open Source.
   ~ Copyright 2011, Red Hat, Inc., and individual contributors
@@ -21,25 +20,28 @@
   ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
+<module name="org.apache.ws.security" xmlns="urn:jboss:module:1.9">
 
-<module xmlns="urn:jboss:module:1.9" name="org.apache.ws.security">
     <resources>
-        <!-- Insert resources here -->
+       <!-- Insert resources here -->
     </resources>
 
     <dependencies>
-      <module name="javax.api" />
+      <module name="java.security.jgss"/>
+      <!--WFLY-14219 Remove deprecated <module name="javax.api"/> -->
       <module name="javax.xml.bind.api" services="import"/>
       <module name="com.sun.xml.bind" services="import"/>
-      <module name="javax.xml.rpc.api" />
-      <module name="org.apache.commons.codec" />
-      <module name="org.apache.commons.logging" />
-      <module name="org.apache.neethi" />
       <module name="com.sun.xml.messaging.saaj" export="true" services="export"/>
-      <module name="org.apache.santuario.xmlsec" />
-      <module name="org.apache.xalan" />
-      <module name="org.joda.time" />
-      <module name="org.opensaml" />
-      <module name="org.slf4j" />
+      <module name="org.apache.commons.codec"/>
+      <module name="org.apache.commons.logging"/>
+      <module name="org.apache.neethi"/>
+      <module name="org.jasypt"/>
+      <module name="org.apache.santuario.xmlsec"/>
+      <module name="org.apache.xalan"/>
+      <module name="org.joda.time"/>
+      <module name="org.opensaml"/>
+      <module name="org.slf4j"/>
+      <module name="java.xml"/>
+      <module name="java.xml.crypto"/>
     </dependencies>
 </module>
