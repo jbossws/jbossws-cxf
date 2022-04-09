@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   ~ JBoss, Home of Professional Open Source.
   ~ Copyright 2010, Red Hat, Inc., and individual contributors
@@ -21,12 +20,12 @@
   ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
+<module name="org.jboss.as.webservices" xmlns="urn:jboss:module:1.9">
 
-<module xmlns="urn:jboss:module:1.9" name="org.jboss.as.webservices">
     <properties>
         <property name="jboss.api" value="private"/>
     </properties>
-    
+
     <exports>
         <exclude path="org/jboss/as/webservices/logging"/>
     </exports>
@@ -74,5 +73,6 @@
         <!-- Only used if capability org.wildfly.weld is available-->
         <module name="org.jboss.as.weld.common" optional="true"/>
         <module name="java.xml"/>
+		<!-- <module name="org.picketbox" />  rls added -->
     </dependencies>
 </module>

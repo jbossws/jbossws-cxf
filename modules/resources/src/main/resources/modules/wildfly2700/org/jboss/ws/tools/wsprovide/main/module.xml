@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   ~ JBoss, Home of Professional Open Source.
   ~ Copyright 2011, Red Hat, Inc., and individual contributors
@@ -21,8 +20,7 @@
   ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
-
-<module xmlns="urn:jboss:module:1.9" name="org.jboss.ws.tools.wsprovide">
+<module name="org.jboss.ws.tools.wsprovide" xmlns="urn:jboss:module:1.9">
 
     <properties>
         <property name="jboss.api" value="private"/>
@@ -36,5 +34,4 @@
         <module name="org.jboss.ws.tools.common"/>
         <module name="org.wildfly.security.elytron-private" services="import"/>
     </dependencies>
-
 </module>

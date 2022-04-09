@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   ~ JBoss, Home of Professional Open Source.
   ~ Copyright 2010, Red Hat, Inc., and individual contributors
@@ -21,16 +20,22 @@
   ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
-
-<module xmlns="urn:jboss:module:1.5" name="javax.xml.ws.api">
-    <dependencies>
-        <module name="javax.xml.bind.api" export="true"/>
-        <module name="javax.xml.soap.api" export="true"/>
-        <module name="javax.api"/>
-        <module name="org.jboss.modules"/>
-    </dependencies>
+<!-- rls this is for wfly-preview
+<module-alias name="javax.xml.ws.api" target-name="jakarta.xml.ws.api" xmlns="urn:jboss:module:1.9"/>
+-->
+<!-- rls this is for wlfy standard -->
+<module name="javax.xml.ws.api" xmlns="urn:jboss:module:1.9">
 
     <resources>
-        <!-- Insert resources here -->
+       <!-- Insert resources here -->
     </resources>
+
+    <dependencies>
+        <module name="java.logging"/>
+        <module name="javax.xml.bind.api" export="true"/>
+        <module name="javax.xml.soap.api" export="true"/>
+        <!--WFLY-14219 Remove deprecated <module name="javax.api"/> -->
+        <module name="org.jboss.modules"/>
+        <module name="java.xml"/>
+    </dependencies>
 </module>

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   ~ JBoss, Home of Professional Open Source.
   ~ Copyright 2011, Red Hat, Inc., and individual contributors
@@ -21,12 +20,7 @@
   ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
-
-<module xmlns="urn:jboss:module:1.9" name="org.jboss.ws.cxf.jbossws-cxf-client">
-
-    <resources>
-        <!-- Insert resources here -->
-    </resources>
+<module name="org.jboss.ws.cxf.jbossws-cxf-client" xmlns="urn:jboss:module:1.9">
 
     <dependencies>
         <!-- JAXB API + REF IMPL -->
@@ -37,17 +31,19 @@
         <!-- WSDL4J API -->
         <module name="javax.wsdl4j.api" export="true"/>
         <!-- JBossWS API -->
-        <module name="org.jboss.ws.api" export="true" />
+        <module name="org.jboss.ws.api" export="true"/>
         <!--  JBossWS JAXWS client -->
-        <module name="org.jboss.ws.jaxws-client" export="true" services="export" />
+        <module name="org.jboss.ws.jaxws-client" export="true" services="export"/>
         <!--  JBossWS configuration of Apache CXF -->
-        <module name="org.jboss.ws.cxf.jbossws-cxf-factories" services="export" />
+        <module name="org.jboss.ws.cxf.jbossws-cxf-factories" services="export"/>
         <!-- Apache CXF APIs only -->
-        <module name="org.apache.cxf" export="true" />
-        <module name="org.jboss.ws.cxf.jbossws-cxf-transports-undertow" export="true" services="export" />
-        <module name="org.jboss.ws.cxf.jbossws-cxf-transports-udp" export="true" services="export" />
+        <module name="org.apache.cxf" export="true"/>
+        <module name="org.jboss.ws.cxf.jbossws-cxf-transports-undertow" export="true" services="export"/>
+        <module name="org.jboss.ws.cxf.jbossws-cxf-transports-udp" export="true" services="export"/>
         <module name="org.jboss.jaxbintros" export="true"/>
         <module name="javax.security.auth.message.api" export="true"/>
         <module name="org.apache.ws.security" export="true"/>
+		<!-- Tools support on JDK 9 and later -->
+		<module name="org.jboss.modules"/>
     </dependencies>
 </module>
