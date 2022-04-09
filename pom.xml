@@ -1202,7 +1202,17 @@
         </pluginManagement>
       </build>
     </profile>
-
+    <profile>
+      <id>gendoc</id>
+      <activation>
+        <property>
+          <name>gendoc</name>
+        </property>
+      </activation>
+      <modules>
+        <module>docbook</module>
+      </modules>
+    </profile>
   </profiles>
 
 </project>
