@@ -19,7 +19,6 @@
     <surefire.memory.args>-Xmx640m</surefire.memory.args>
     <surefire.jdwp.args>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</surefire.jdwp.args>
     <surefire.management.args>-Dcom.sun.management.jmxremote</surefire.management.args>
-    <additionalGroovyScriptSuffix />
     <test.archive.directory>${project.build.directory}/test-libs</test.archive.directory>
     <test.classes.directory>${project.build.directory}/test-classes</test.classes.directory>
     <test.resources.directory>${project.build.directory}/test-resources</test.resources.directory>
@@ -603,65 +602,13 @@
         </plugins>
       </build>
     </profile>
-    <!--
-    Descr: WildFly-24.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly2400</id>
-      <properties>
-        <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
-        <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.wildfly</groupId>
-          <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <version>${wildfly2400.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.sasl</groupId>
-              <artifactId>jboss-sasl</artifactId>
-            </exclusion>
-            <exclusion><!-- exclude old servlet-api coming from jboss-negotiation-common -->
-              <groupId>org.jboss.spec.javax.servlet</groupId>
-              <artifactId>jboss-servlet-api_3.1_spec</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <!-- Arquillian container integration -->
-        <dependency>
-          <groupId>org.wildfly.arquillian</groupId>
-          <artifactId>wildfly-arquillian-container-managed</artifactId>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.sasl</groupId>
-              <artifactId>jboss-sasl</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>org.jboss.marshalling</groupId>
-              <artifactId>jboss-marshalling</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-       	  <groupId>org.jboss.arquillian.protocol</groupId>
-       	  <artifactId>arquillian-protocol-servlet</artifactId>
-       	  <version>${arquillian.version}</version>
-       	  <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>xerces</groupId>
-          <artifactId>xercesImpl</artifactId>
-        </dependency>
-      </dependencies>
-    </profile>
+
     <!--
     Descr: WildFly-25.0.0 specific options
     -->
     <profile>
       <id>wildfly2500</id>
       <properties>
-        <additionalGroovyScriptSuffix>-nolegacy</additionalGroovyScriptSuffix>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
       </properties>
@@ -741,7 +688,6 @@
     <profile>
       <id>wildfly2600</id>
       <properties>
-        <additionalGroovyScriptSuffix>-nolegacy</additionalGroovyScriptSuffix>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
       </properties>
@@ -825,8 +771,6 @@
     <profile>
       <id>wildfly2700</id>
       <properties>
-        <!-- wfly-27 can only be run with elytron config files -->
-        <additionalGroovyScriptSuffix>-elytron</additionalGroovyScriptSuffix>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
       </properties>
@@ -903,21 +847,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-    <!--
-    Name:  elytron
-    Descr: Run tests against container with elytron security set instead of the legacy one
-    -->
-    <profile>
-      <id>elytron</id>
-      <activation>
-        <property>
-          <name>elytron</name>
-        </property>
-      </activation>
-      <properties>
-        <additionalGroovyScriptSuffix>-elytron</additionalGroovyScriptSuffix>
-      </properties>
     </profile>
 
     <!--
