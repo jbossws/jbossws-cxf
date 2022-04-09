@@ -11,6 +11,24 @@ def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
 file.attributes()['path'] = serverLog
 
 /**
+ * Add a https connector like this:
+ *
+ * <security-realm name="jbws-test-https-realm">
+ *    <server-identities>
+ *        <ssl>
+ *             <keystore path="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/test.keystore" keystore-password="changeit" alias="tomcat"/>
+ *        </ssl>
+ *    </server-identities>
+ * </security-realm>
+ *
+ */
+def mgtSecurityRealms = root.management.'security-realms'[0]
+def mgtSecurityRealm = mgtSecurityRealms.appendNode('security-realm', ['name':'jbws-test-https-realm'])
+def mgtServerIdentities = mgtSecurityRealm.appendNode('server-identities')
+def mgtSsl = mgtServerIdentities.appendNode('ssl')
+mgtSsl.appendNode('keystore', ['path':keystorePath,'keystore-password':'changeit','alias':'tomcat'])
+
+/**
  * Helper method to get subsystem element by xmlns prefix
  */
 private getSubsystem(root, xmlnsPrefix) {
@@ -43,22 +61,17 @@ def realm3 = securityDomain3.appendNode('realm',['name':'JBossWSSecurityDomainPe
 def securityDomain4 = securityDomains.appendNode('security-domain', ['name':'JBossWSSecurityDomainTest','default-realm':'JBossWSSecurityDomainTest','permission-mapper':'default-permission-mapper'])
 def realm4 = securityDomain4.appendNode('realm',['name':'JBossWSSecurityDomainTest','role-decoder':'groups-to-roles'])
 
-
-
 /**
   Elytron security realm
 **/
-
 def securityRealms = root.profile.subsystem.'security-realms'[0]
 def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS'])
 def usersProperties = propertiesRealm.appendNode('users-properties',['path':usersPropFile, 'plain-text':'true'])
 def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':rolesPropFile])
 
-
 def propertiesRealm2 = securityRealms.appendNode('properties-realm', ['name':'handlerauth-security-domain'])
 def usersProperties2 = propertiesRealm2.appendNode('users-properties',['path':testResourcesDir + '/jaxws/handlerauth/jbossws-users.properties', 'plain-text':'true'])
 def groupsProperties2 = propertiesRealm2.appendNode('groups-properties',['path':testResourcesDir + '/jaxws/handlerauth/jbossws-roles.properties'])
-
 
 def propertiesRealm3 = securityRealms.appendNode('properties-realm', ['name':'JBossWSSecurityDomainPermitAllTest'])
 def usersProperties3 = propertiesRealm3.appendNode('users-properties',['path':testResourcesDir + '/jaxws/samples/securityDomain/jbossws-users.properties', 'plain-text':'true'])
@@ -68,12 +81,9 @@ def propertiesRealm4 = securityRealms.appendNode('properties-realm', ['name':'JB
 def usersProperties4 = propertiesRealm4.appendNode('users-properties',['path':testResourcesDir + '/jaxws/samples/securityDomain/jbossws-users.properties', 'plain-text':'true'])
 def groupsProperties4 = propertiesRealm4.appendNode('groups-properties',['path':testResourcesDir + '/jaxws/samples/securityDomain/jbossws-roles.properties'])
 
-
-
 /**
   HttpAuthentication Factory
 **/
-
 def httpAuthen = null
 for (element in securitySubsystem) {
     if (element.name().getLocalPart() == 'http') {
@@ -87,7 +97,6 @@ def mechanismConfiguration = httpAuthenticationFactory.appendNode('mechanism-con
 def mechanism = mechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
 def mechanismRealm=mechanism.appendNode('mechanism-realm',['realm-name':'JBossWS'])
 
-
 def httpAuthenticationFactory2 = httpAuthen.appendNode('http-authentication-factory', ['name':'handlerauth-security-domain','http-server-mechanism-factory':'global', 'security-domain':'handlerauth-security-domain'])
 def mechanismConfiguration2 = httpAuthenticationFactory2.appendNode('mechanism-configuration')
 def mechanism2 = mechanismConfiguration2.appendNode('mechanism',['mechanism-name':'BASIC'])
@@ -98,21 +107,24 @@ def mechanismConfiguration3 = httpAuthenticationFactory3.appendNode('mechanism-c
 def mechanism3 = mechanismConfiguration3.appendNode('mechanism',['mechanism-name':'BASIC'])
 def mechanismRealm3=mechanism3.appendNode('mechanism-realm',['realm-name':'JBossWSSecurityDomainPermitAllTest'])
 
-
 def httpAuthenticationFactory4 = httpAuthen.appendNode('http-authentication-factory', ['name':'JBossWSSecurityDomainTest','http-server-mechanism-factory':'global', 'security-domain':'JBossWSSecurityDomainTest'])
 def mechanismConfiguration4 = httpAuthenticationFactory4.appendNode('mechanism-configuration')
 def mechanism4 = mechanismConfiguration4.appendNode('mechanism',['mechanism-name':'BASIC'])
 def mechanismRealm4=mechanism4.appendNode('mechanism-realm',['realm-name':'JBossWSSecurityDomainTest'])
 
-
 //add this to ejb
 def ejbSubsystem = getSubsystem(root, "urn:jboss:domain:ejb3:")
 
-//TODO: is there better create node as sibling in groovy
-def ejbChildren = ejbSubsystem.children()
-def appSecurityDomains = new groovy.util.Node(null, 'application-security-domains', [])
-ejbChildren.add(9, appSecurityDomains)
+def appSecurityDomains = null
+for (element in ejbSubsystem) {
+    if (element.name().getLocalPart() == 'application-security-domains') {
+        appSecurityDomains = element
+    }
+}
 
+if (appSecurityDomains == null) {
+    appSecurityDomains = ejbSubsystem.appendNode('application-security-domains')
+}
 def ejbSecurityDomain1 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','security-domain':'JBossWS'])
 def ejbSecurityDomain2 = appSecurityDomains.appendNode('application-security-domain', ['name':'handlerauth-security-domain','security-domain':'handlerauth-security-domain'])
 def ejbSecurityDomain3 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainPermitAllTest','security-domain':'JBossWSSecurityDomainPermitAllTest'])
@@ -121,40 +133,34 @@ def ejbSecurityDomain4 = appSecurityDomains.appendNode('application-security-dom
 //add to undertow
 def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")
 
-//TODO: is there better create node as sibling in groovy
-def undertowChildren = undertowSubsystem.children()
-def undertowAppSecurityDomains = new groovy.util.Node(null, 'application-security-domains', [])
-undertowChildren.add(undertowAppSecurityDomains)
-
+def undertowAppSecurityDomains = null
+for (element in undertowSubsystem) {
+    if (element.name().getLocalPart() == 'application-security-domains') {
+        undertowAppSecurityDomains = element
+    }
+}
+if (undertowAppSecurityDomains == null) {
+    undertowAppSecurityDomains = undertowSubsystem.appendNode('application-security-domains')
+}
 def appSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
 def basicAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'handlerauth-security-domain','http-authentication-factory':'handlerauth-security-domain'])
 def basicAppSecurityDomain2 = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainPermitAllTest','http-authentication-factory':'JBossWSSecurityDomainPermitAllTest'])
 def basicAppSecurityDomain3 = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainTest','http-authentication-factory':'JBossWSSecurityDomainTest'])
 
 
+def server = null
+for (element in undertowSubsystem) {
+    if (element.name().getLocalPart() == 'server') {
+        server = element
+        break
+    }
+}
 
-/**
- * Add a https connector like this:
- *
- * <security-realm name="jbws-test-https-realm">
- *    <server-identities>
- *        <ssl>
- *             <keystore path="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/test.keystore" keystore-password="changeit" alias="tomcat"/>
- *        </ssl>
- *    </server-identities>
- * </security-realm>
- *
- */
-
-def rootsecurityRealms = root.management.'security-realms'[0]
-def rootsecurityRealm = rootsecurityRealms.appendNode('security-realm', ['name':'jbws-test-https-realm'])
-def serverIdentities = rootsecurityRealm.appendNode('server-identities')
-def ssl = serverIdentities.appendNode('ssl')
-ssl.appendNode('keystore', ['path':keystorePath,'keystore-password':'changeit','alias':'tomcat'])
-
-def server = root.profile.subsystem.server[0]
 def curHttpsListener = server.'https-listener'[0]
-if (curHttpsListener != null) server.remove(curHttpsListener)
+if (curHttpsListener != null) {
+    server.remove(curHttpsListener)
+}
+
 server.appendNode('https-listener', ['name':'jbws-test-https-listener','socket-binding':'https','security-realm':'jbws-test-https-realm'])
 
 /**

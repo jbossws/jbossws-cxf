@@ -23,27 +23,38 @@ file.attributes()['path'] = serverLog
  *   </authorization>
  * </security-realm>
  **/
-def securityRealms = root.management.'security-realms'[0]
-def appRealm = securityRealms.find{it.@name == 'ApplicationRealm'}
-def realmAuthentication = appRealm.'authentication'[0];
-def authenticationProps = realmAuthentication.'properties'
-authenticationProps.@path = 'jbws-application-users.properties'
-def realmAuthorization = appRealm.'authorization'[0];
-def authorizationProps = realmAuthorization.'properties'
-authorizationProps.@path = 'jbws-application-roles.properties'
+private getSubsystem(root, xmlnsPrefix) {
+    for (item in root.profile.subsystem) {
+        if (item.name().getNamespaceURI().startsWith(xmlnsPrefix)) {
+            return item;
+        }
+    }
+}
 
-/**
- * Add a JMS queue like this
- *
- *  <subsystem xmlns="urn:jboss:domain:messaging-activemq:1.0">
- *      <server name="default">
- *          <jms-queue name="testQueue" entries="queue/test java:jboss/exported/jms/queue/test"/>
- *      </server>
- *  </subsystem>
- **/
-def server = root.profile.subsystem.'server'[0];
+def securitySubsystem =  getSubsystem(root, "urn:wildfly:elytron:")
+def securityRealms = null
+for (element in securitySubsystem) {
+    if (element.name().getLocalPart() == 'security-realms') {
+        securityRealms = element
+    }
+}
+
+def propertiesRealm =  securityRealms.find{it.@name == 'ApplicationRealm'}
+propertiesRealm.'users-properties'[0].@path = "jbws-application-users.properties"
+propertiesRealm.'groups-properties'[0].@path = "jbws-application-roles.properties"
+
+/*** rls removed
+ def server = root.profile.subsystem.'server'[0];
+ def jmsQueue = server.appendNode('jms-queue', ['name':'testQueue', 'entries':'queue/test java:jboss/exported/jms/queue/test'])
+ ***/
+def activemqSubsystem = getSubsystem(root, "urn:jboss:domain:messaging-activemq:")
+def server = null
+for (element in activemqSubsystem) {
+    if (element.name().getLocalPart() == 'server') {
+        server = element
+    }
+}
 def jmsQueue = server.appendNode('jms-queue', ['name':'testQueue', 'entries':'queue/test java:jboss/exported/jms/queue/test'])
-
 /**
  * Save the configuration to a new file
  */
@@ -58,7 +69,7 @@ f.write(writer.toString())
  * files into the standalone/configure directory
  */
 new AntBuilder().copy( file:srcUsersProperties,
-    tofile:destUsersProperties)
+        tofile:destUsersProperties)
 
 new AntBuilder().copy( file:srcRolesProperties,
-    tofile:destRolesProperties)
+        tofile:destRolesProperties)

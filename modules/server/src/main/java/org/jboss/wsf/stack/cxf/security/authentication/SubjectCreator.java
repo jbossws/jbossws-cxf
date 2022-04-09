@@ -65,7 +65,7 @@ public class SubjectCreator
    private NonceStore nonceStore;
 
    private boolean decodeNonce = true;
-   
+
    public Subject createSubject(SecurityDomainContext ctx, String name, String password, boolean isDigest, byte[] nonce, String created)
    {
       //TODO, revisit
@@ -109,10 +109,14 @@ public class SubjectCreator
             if (!getUsernameTokenPasswordDigest(nonce, created, expectedPassword).equals(password)) {
                throw MESSAGES.authenticationFailed(principal.getName());
             }
-         }
-         // client's digest is valid so expected password can be used to authenticate to the domain
-         if (!ctx.isValid(principal, expectedPassword, subject)) {
-            throw MESSAGES.authenticationFailed(principal.getName());
+            // client's digest is valid so expected password can be used to authenticate to the domain
+            if (!ctx.isValid(principal, expectedPassword, subject)) {
+               throw MESSAGES.authenticationFailed(principal.getName());
+            }
+         } else {
+            if (!ctx.isValid(principal, password, subject)) {
+               throw MESSAGES.authenticationFailed(principal.getName());
+            }
          }
 
       } catch (RealmUnavailableException e) {
@@ -152,7 +156,7 @@ public class SubjectCreator
          throw new RuntimeException(e);
       }
    }
-   
+
 
    protected void verifyUsernameToken(String nonce, String created)
    {
@@ -311,8 +315,8 @@ public class SubjectCreator
       if (value.charAt(start) == '+' || (value.charAt(start) == '-'))
       {
          if (value.length() - start == 6 && Character.isDigit(value.charAt(start + 1))
-               && Character.isDigit(value.charAt(start + 2)) && value.charAt(start + 3) == ':'
-               && Character.isDigit(value.charAt(start + 4)) && Character.isDigit(value.charAt(start + 5)))
+                 && Character.isDigit(value.charAt(start + 2)) && value.charAt(start + 3) == ':'
+                 && Character.isDigit(value.charAt(start + 4)) && Character.isDigit(value.charAt(start + 5)))
          {
             tz = TimeZone.getTimeZone("GMT" + value.substring(start));
          }
