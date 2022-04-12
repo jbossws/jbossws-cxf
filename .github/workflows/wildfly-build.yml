@@ -24,7 +24,7 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
       - name: Build WildFly
-        run: 'mvn clean install -Prelease -DskipTests -Dcheckstyle.skip=true -Denforcer.skip=true'
+        run: 'mvn clean install -Prelease,gendoc -DskipTests -Dcheckstyle.skip=true -Denforcer.skip=true'
       - id: version
         run: echo "::set-output name=wildfly-version::$(mvn -B help:evaluate -Dexpression=project.version -pl . | grep -v '^\[')"
       - name: Checkout jbossws-cxf
