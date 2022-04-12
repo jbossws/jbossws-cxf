@@ -676,6 +676,13 @@
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/cxf/clientConfig/SSLContextElytronClientConfigTestCaseForked*</exclude>
                 <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
+
+                <!-- https://issues.redhat.com/browse/JBWS-4275 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointAPITestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointOnlyDeploymentTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples21xTestCase*</exclude>
+
               </excludes>
             </configuration>
           </plugin>
@@ -759,6 +766,11 @@
                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3628/JBWS3628TestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
+                <!-- https://issues.redhat.com/browse/JBWS-4275 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointAPITestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointOnlyDeploymentTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples21xTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -842,6 +854,13 @@
                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3628/JBWS3628TestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
+                <!-- https://issues.redhat.com/browse/JBWS-4275 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointAPITestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointOnlyDeploymentTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples21xTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/JMSHTTPEndpointDeploymentTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/management/CXFManagementTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
