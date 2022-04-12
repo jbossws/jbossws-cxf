@@ -825,7 +825,8 @@
     <profile>
       <id>wildfly2700</id>
       <properties>
-        <additionalGroovyScriptSuffix>-nolegacy</additionalGroovyScriptSuffix>
+        <!-- wfly-27 can only be run with elytron config files -->
+        <additionalGroovyScriptSuffix>-elytron</additionalGroovyScriptSuffix>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
       </properties>

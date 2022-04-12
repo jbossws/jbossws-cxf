@@ -48,17 +48,14 @@ def realm4 = securityDomain4.appendNode('realm',['name':'JBossWSSecurityDomainTe
 /**
   Elytron security realm
 **/
-
 def securityRealms = root.profile.subsystem.'security-realms'[0]
 def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBossWS'])
 def usersProperties = propertiesRealm.appendNode('users-properties',['path':usersPropFile, 'plain-text':'true'])
 def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':rolesPropFile])
 
-
 def propertiesRealm2 = securityRealms.appendNode('properties-realm', ['name':'handlerauth-security-domain'])
 def usersProperties2 = propertiesRealm2.appendNode('users-properties',['path':testResourcesDir + '/jaxws/handlerauth/jbossws-users.properties', 'plain-text':'true'])
 def groupsProperties2 = propertiesRealm2.appendNode('groups-properties',['path':testResourcesDir + '/jaxws/handlerauth/jbossws-roles.properties'])
-
 
 def propertiesRealm3 = securityRealms.appendNode('properties-realm', ['name':'JBossWSSecurityDomainPermitAllTest'])
 def usersProperties3 = propertiesRealm3.appendNode('users-properties',['path':testResourcesDir + '/jaxws/samples/securityDomain/jbossws-users.properties', 'plain-text':'true'])
@@ -87,7 +84,6 @@ def mechanismConfiguration = httpAuthenticationFactory.appendNode('mechanism-con
 def mechanism = mechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
 def mechanismRealm=mechanism.appendNode('mechanism-realm',['realm-name':'JBossWS'])
 
-
 def httpAuthenticationFactory2 = httpAuthen.appendNode('http-authentication-factory', ['name':'handlerauth-security-domain','http-server-mechanism-factory':'global', 'security-domain':'handlerauth-security-domain'])
 def mechanismConfiguration2 = httpAuthenticationFactory2.appendNode('mechanism-configuration')
 def mechanism2 = mechanismConfiguration2.appendNode('mechanism',['mechanism-name':'BASIC'])
@@ -98,7 +94,6 @@ def mechanismConfiguration3 = httpAuthenticationFactory3.appendNode('mechanism-c
 def mechanism3 = mechanismConfiguration3.appendNode('mechanism',['mechanism-name':'BASIC'])
 def mechanismRealm3=mechanism3.appendNode('mechanism-realm',['realm-name':'JBossWSSecurityDomainPermitAllTest'])
 
-
 def httpAuthenticationFactory4 = httpAuthen.appendNode('http-authentication-factory', ['name':'JBossWSSecurityDomainTest','http-server-mechanism-factory':'global', 'security-domain':'JBossWSSecurityDomainTest'])
 def mechanismConfiguration4 = httpAuthenticationFactory4.appendNode('mechanism-configuration')
 def mechanism4 = mechanismConfiguration4.appendNode('mechanism',['mechanism-name':'BASIC'])
@@ -108,10 +103,12 @@ def mechanismRealm4=mechanism4.appendNode('mechanism-realm',['realm-name':'JBoss
 //add this to ejb
 def ejbSubsystem = getSubsystem(root, "urn:jboss:domain:ejb3:")
 
-//TODO: is there better create node as sibling in groovy
-def ejbChildren = ejbSubsystem.children()
-def appSecurityDomains = new groovy.util.Node(null, 'application-security-domains', [])
-ejbChildren.add(9, appSecurityDomains)
+def appSecurityDomains = null
+for (element in ejbSubsystem) {
+    if (element.name().getLocalPart() == 'application-security-domains') {
+        appSecurityDomains = element
+    }
+}
 
 def ejbSecurityDomain1 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','security-domain':'JBossWS'])
 def ejbSecurityDomain2 = appSecurityDomains.appendNode('application-security-domain', ['name':'handlerauth-security-domain','security-domain':'handlerauth-security-domain'])
@@ -121,11 +118,12 @@ def ejbSecurityDomain4 = appSecurityDomains.appendNode('application-security-dom
 //add to undertow
 def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")
 
-//TODO: is there better create node as sibling in groovy
-def undertowChildren = undertowSubsystem.children()
-def undertowAppSecurityDomains = new groovy.util.Node(null, 'application-security-domains', [])
-undertowChildren.add(undertowAppSecurityDomains)
-
+def undertowAppSecurityDomains = null
+for (element in undertowSubsystem) {
+    if (element.name().getLocalPart() == 'application-security-domains') {
+        undertowAppSecurityDomains = element
+    }
+}
 def appSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
 def basicAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'handlerauth-security-domain','http-authentication-factory':'handlerauth-security-domain'])
 def basicAppSecurityDomain2 = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainPermitAllTest','http-authentication-factory':'JBossWSSecurityDomainPermitAllTest'])
@@ -146,13 +144,67 @@ def basicAppSecurityDomain3 = undertowAppSecurityDomains.appendNode('application
  *
  */
 
-def rootsecurityRealms = root.management.'security-realms'[0]
-def rootsecurityRealm = rootsecurityRealms.appendNode('security-realm', ['name':'jbws-test-https-realm'])
-def serverIdentities = rootsecurityRealm.appendNode('server-identities')
-def ssl = serverIdentities.appendNode('ssl')
-ssl.appendNode('keystore', ['path':keystorePath,'keystore-password':'changeit','alias':'tomcat'])
+def elytronSubsystem =  getSubsystem(root, "urn:wildfly:elytron:")
+def tls = null
+for (element in elytronSubsystem) {
+    if (element.name().getLocalPart() == 'tls') {
+        tls = element
+    }
+}
+if (tls == null) {
+    tls = elytronSubsystem.appendNode('tls')
+}
 
-def server = root.profile.subsystem.server[0]
+def keyStores = null
+for (element in tls) {
+    if (element.name().getLocalPart() == 'key-stores') {
+        keyStores = element
+    }
+}
+if (keyStores == null) {
+    keyStores = tls.appendNode('key-stores')
+}
+
+def keyStore = keyStores.appendNode('key-store', ['name':'jbwsTestHttpsRealmKS', 'alias-filter':'tomcat'])
+def credentialReference = keyStore.appendNode('credential-reference', ['clear-text':'changeit'])
+def implementation = keyStore.appendNode('implementation',['type':'JKS'])
+def filePath = keyStore.appendNode('file',['path':keystorePath])
+
+def keyManagers = null
+for (element in tls) {
+    if (element.name().getLocalPart() == 'key-managers') {
+        keyManagers = element
+    }
+}
+if (keyManagers == null) {
+    keyManagers = tls.appendNode('key-managers')
+}
+
+def keyManager = keyManagers.appendNode('key-manager',
+        ['name':'jbwsTestHttpsRealmKM','key-store':'jbwsTestHttpsRealmKS'])
+def credentialReferenceKM = keyManager.appendNode(
+        'credential-reference',['clear-text':'changeit'])
+
+def serverSslContexts = null
+for (element in tls) {
+    if (element.name().getLocalPart() == 'server-ssl-contexts') {
+        serverSslContexts = element
+    }
+}
+if (serverSslContexts == null) {
+    serverSslContexts = tls.appendNode('server-ssl-contexts')
+}
+
+def serverSslContext = serverSslContexts.appendNode('server-ssl-context',
+        ['name':'jbwsTestHttpsRealmSSC','key-manager':'jbwsTestHttpsRealmKM'])
+
+def server = null
+for (element in undertowSubsystem) {
+    if (element.name().getLocalPart() == 'server') {
+        server = element
+    }
+}
+
 def curHttpsListener = server.'https-listener'[0]
 if (curHttpsListener != null) server.remove(curHttpsListener)
 server.appendNode('https-listener', ['name':'jbws-test-https-listener','socket-binding':'https','security-realm':'jbws-test-https-realm'])
