@@ -44,7 +44,8 @@ propertiesRealm.'users-properties'[0].@path = "jbws-application-users.properties
 propertiesRealm.'groups-properties'[0].@path = "jbws-application-roles.properties"
 
 def activemqSubsystem = getSubsystem(root, "urn:jboss:domain:messaging-activemq:")
-def jmsQueue = activemqSubsystem.appendNode('external-jms-queue', ['name':'testQueue', 'entries':'queue/test java:jboss/exported/jms/queue/test'])
+def server = activemqSubsystem.'server'[0]
+def jmsQueue = server.appendNode('jms-queue', ['name':'testQueue', 'entries':'queue/test java:jboss/exported/jms/queue/test'])
 
 /**
  * Save the configuration to a new file
