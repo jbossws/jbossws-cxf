@@ -746,6 +746,7 @@
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignEncryptGCMTestCase*</exclude>
 
                 <!-- https://issues.redhat.com/browse/JBWS-4259 -->
+                <!-- see comments below in profile wildfly2700
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples21xTestCase*</exclude>
@@ -753,7 +754,7 @@
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/MultipleClientsSignEncryptTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples22xTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/secconv/SecureConversationTestCase*</exclude>
-
+                -->
                 <!-- https://issues.redhat.com/browse/JBWS-4260 -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/JBWS3679TestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/jbws3845/JBWS3845TestCase*</exclude>
@@ -890,13 +891,17 @@
                 <exclude>org/jboss/test/ws/jaxws/samples/schemavalidation/SchemaValidationTestCase*</exclude>
 
                 <!-- https://issues.redhat.com/browse/JBWS-4259 -->
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples22xTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/secconv/SecureConversationTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples21xTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/MultipleClientsSignEncryptTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/AnnotatedSignEncryptTestCase*</exclude>
+                <!-- works with change to rls cxf .. Must use ehcache-3.10.0 classifier, jakarta, in cxf
+                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples22xTestCase*</exclude>
+                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/secconv/SecureConversationTestCase*</exclude>
+                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples21xTestCase*</exclude>
+                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase*</exclude>
+                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignTestCase*</exclude>
+                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/MultipleClientsSignEncryptTestCase*</exclude>
+                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/AnnotatedSignEncryptTestCase*</exclude>
+                  -->
+
+
 
                 <!-- https://issues.redhat.com/browse/JBWS-4260  -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/JBWS3679TestCase*</exclude>
