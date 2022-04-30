@@ -51,7 +51,9 @@
 
   <!-- Modules -->
   <modules>
+    <!-- rls tmp disable
     <module>modules/jaspi</module>
+    -->
     <module>modules/server</module>
     <module>modules/client</module>
     <module>modules/endorsed</module>
@@ -71,7 +73,7 @@
     <wildfly2600.version>26.0.0.Final</wildfly2600.version>
     <wildfly2700.version>27.0.0.Beta1-SNAPSHOT</wildfly2700.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
-    <cxf.version>3.4.5</cxf.version>
+    <cxf.version>3.5.1</cxf.version>
     <cxf.asm.version>9.1</cxf.asm.version>
     <cxf.xjcplugins.version>3.3.1</cxf.xjcplugins.version>
     <jboss-logging.version>3.4.1.Final</jboss-logging.version>
