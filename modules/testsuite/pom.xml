@@ -909,9 +909,9 @@
 
                 <!-- https://issues.redhat.com/browse/JBWS-4261 -->
                 <exclude>org.jboss.jaxbintros related NoClassDefFoundError*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/cxf/jaxbintros/JAXBIntroTestCase*</exclude>
+		<!--                <exclude>org/jboss/test/ws/jaxws/cxf/jaxbintros/JAXBIntroTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/jaxbintros/JAXBIntroTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/jaxbintros/AnnotationReaderTestCase*</exclude>
+		<exclude>org/jboss/test/ws/jaxws/samples/jaxbintros/AnnotationReaderTestCase*</exclude> -->
                 <exclude>org/jboss/test/ws/jaxws/jbws1809/JBWS1809TestCase*</exclude>
 
                 <!-- https://issues.redhat.com/browse/JBWS-4262   -->
