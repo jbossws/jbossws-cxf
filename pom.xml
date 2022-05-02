@@ -136,7 +136,7 @@
     <docbook.xslt.version>1.1.1</docbook.xslt.version>
     <wildfly.plugin.version>1.0.2.Final</wildfly.plugin.version>
     <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
-    <wildfly.elytron.version>1.19.0.Final</wildfly.elytron.version>
+    <wildfly.elytron.version>2.0.0.Beta1</wildfly.elytron.version>
 
     <modular.jdk.args />
     <modular.jdk.props />
