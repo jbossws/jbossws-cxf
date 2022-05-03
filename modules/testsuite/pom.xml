@@ -915,7 +915,6 @@
                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3713/ClientBusStrategyTestCase*</exclude>
 
                 <!-- misc (unknown) cause -->
-                <exclude>org/jboss/test/ws/jaxws/jbws3477/JaxWsSpiProviderTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/context/WebServiceContextJSETestCase*</exclude>
                 <exclude>org/jboss/test/ws/management/recording/MemoryBufferRecorderTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/endpoint/jse/UsecasesTestCase*</exclude>
