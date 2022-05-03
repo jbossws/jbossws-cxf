@@ -23,12 +23,13 @@
          <scope>provided</scope>
       </dependency>
 
+      <!-- FIXME [JBWS-4277] Restore JASPI integration
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-jaspi</artifactId> 
          <version>${project.version}</version>          
          <scope>provided</scope>
-      </dependency>
+      </dependency> -->
 
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>
