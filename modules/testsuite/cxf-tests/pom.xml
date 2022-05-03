@@ -140,6 +140,7 @@
                      <testExcludes>
                         <exclude>**/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase.java</exclude>
                         <exclude>**/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/picketlink/PicketLinkSTService.java</exclude>
+                        <exclude>**/org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/**</exclude> <!-- FIXME [JBWS-4277] Restore JASPI integration -->
                      </testExcludes>
                   </configuration>
                </execution>
