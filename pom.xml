@@ -102,7 +102,7 @@
     <activation.version>2.0.1</activation.version>
     <fastinfoset.version>1.2.16</fastinfoset.version>
     <neethi.version>3.1.1</neethi.version>
-    <opensaml.version>4.0.1</opensaml.version>
+    <opensaml.version>4.2.0</opensaml.version>
     <annotation.api.version>2.0.1.Final</annotation.api.version>
     <saaj.api.version>1.0.0.Final</saaj.api.version>
     <saaj.impl.version>2.0.0.SP1</saaj.impl.version>
@@ -113,7 +113,7 @@
     <jms.api.version>1.0.2.Final</jms.api.version>
     <velocity.version>2.3</velocity.version>
     <xerces.version>2.12.0.SP03</xerces.version>
-    <xmlsec.version>3.0.0-SNAPSHOT</xmlsec.version>
+    <xmlsec.version>3.0.0</xmlsec.version>
     <wss4j.version>3.0.0-SNAPSHOT</wss4j.version>
     <wstx.version>6.0.3</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
