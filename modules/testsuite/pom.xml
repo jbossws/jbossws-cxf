@@ -924,7 +924,6 @@
                 <exclude>org/jboss/test/ws/jaxws/endpoint/jse/UsecasesTestCase*</exclude>
                 <exclude>org/jboss/test/ws.saaj/jbws3084/JBWS3084TestCase*</exclude>
                 <exclude>org/jboss/test/ws/saaj/jbws3084/JBWS3084TestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/cxf/noIntegration/EmbeddedCXFTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/jbws2250/JBWS2250TestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/smoke/tools/WSConsumerTestCaseForked*</exclude>
                     <!-- jakarta.xml.bind.UnmarshalException -->

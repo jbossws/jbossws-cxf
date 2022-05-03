@@ -14,6 +14,7 @@
             <module name="org.apache.ws.xmlschema"/>
             <module name="org.apache.neethi"/>
             <module name="org.codehaus.woodstox"/>
+            <module name="com.sun.xml.bind" services="import"/>
         </dependencies>
     </deployment>
 </jboss-deployment-structure>
