@@ -84,7 +84,7 @@
     <picketbox.version>5.0.3.Final</picketbox.version>
     <picketlink.version>2.5.5.SP12</picketlink.version>
     <jaxws-undertow-httpspi.version>2.0.0-SNAPSHOT</jaxws-undertow-httpspi.version>
-    <io.undertow.version>2.2.9.Final</io.undertow.version>
+    <io.undertow.version>2.2.17.Final</io.undertow.version>
     <!-- ## <jaxb.api.version>2.0.0.Final</jaxb.api.version>
     <jaxb.impl.version>2.3.3-b02</jaxb.impl.version>
     ##-->
@@ -120,7 +120,7 @@
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
     <derby.version>10.14.2.0</derby.version>
     <arquillian.version>1.4.0.Final</arquillian.version>
-    <arquillian-wildfly-container.version>2.2.0.Final</arquillian-wildfly-container.version>
+    <arquillian-wildfly-container.version>5.0.0.Alpha2</arquillian-wildfly-container.version>
     <version.commons.validator>1.6</version.commons.validator>
     <interceptor.api.version>2.0.0.Final</interceptor.api.version>
     <version.org.jboss.openjdk-orb>8.1.5.Final</version.org.jboss.openjdk-orb>
