@@ -829,21 +829,12 @@
                   <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/AnnotatedSignEncryptTestCase*</exclude>
                   -->
 
-
-
                 <!-- https://issues.redhat.com/browse/JBWS-4260  -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/JBWS3679TestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/jbws3845/JBWS3845TestCase*</exclude>
 
-                <!-- https://issues.redhat.com/browse/JBWS-4262   -->
-                <exclude>org/jboss/test/ws/jaxws/cxf/management/CXFManagementTestCase*</exclude>
-
                 <!-- https://issues.redhat.com/browse/JBWS-4263 -->
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationEJBTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignEncryptTestCase*</exclude>
-
-                <!--https://issues.redhat.com/browse/JBWS-4264 -->
-                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3648/PolicyAttachmentTestCase*</exclude>
 
                 <!-- https://issues.redhat.com/browse/JBWS-4265 -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointAPITestCase*</exclude>
@@ -856,19 +847,13 @@
 
                 <!-- misc (unknown) cause -->
                 <exclude>org/jboss/test/ws/jaxws/endpoint/jse/UsecasesTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/endpoint/jse/UsecasesTestCase*</exclude>
-                <exclude>org/jboss/test/ws.saaj/jbws3084/JBWS3084TestCase*</exclude>
                 <exclude>org/jboss/test/ws/saaj/jbws3084/JBWS3084TestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/jbws2250/JBWS2250TestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/smoke/tools/WSConsumerTestCaseForked*</exclude>
                     <!-- jakarta.xml.bind.UnmarshalException -->
                     <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
                     <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
 
-                <!-- issues running wsconsume-->
-                <exclude>org/jboss/test/ws/jaxws/smoke/tools/WSConsumeScriptTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/jbws2593/JBWS2593TestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/jbws2591/JBWS2591TestCase*</exclude>
+                <!-- Missing org.eclipse.angus.activation (w/ services) in one of the wildfly modules -->
                 <exclude>org/jboss/test/ws/jaxws/jbws1666/JBWS1666TestCase*</exclude>
               </excludes>
             </configuration>
