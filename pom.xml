@@ -51,7 +51,9 @@
 
   <!-- Modules -->
   <modules>
+    <!-- rls tmp disable
     <module>modules/jaspi</module>
+    -->
     <module>modules/server</module>
     <module>modules/client</module>
     <module>modules/endorsed</module>
@@ -71,63 +73,62 @@
     <wildfly2600.version>26.0.0.Final</wildfly2600.version>
     <wildfly2700.version>27.0.0.Beta1-SNAPSHOT</wildfly2700.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
-    <cxf.version>3.4.5</cxf.version>
-    <cxf.asm.version>9.1</cxf.asm.version>
+    <cxf.version>3.5.1</cxf.version>
+    <cxf.asm.version>9.2</cxf.asm.version>
     <cxf.xjcplugins.version>3.3.1</cxf.xjcplugins.version>
     <jboss-logging.version>3.4.1.Final</jboss-logging.version>
     <jboss-logging-annotations.version>2.2.1.Final</jboss-logging-annotations.version>
     <jboss-logging-processor.version>2.2.1.Final</jboss-logging-processor.version>
-    <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <picketbox.version>5.0.3.Final</picketbox.version>
     <picketlink.version>2.5.5.SP12</picketlink.version>
     <jaxws-undertow-httpspi.version>1.0.1.Final</jaxws-undertow-httpspi.version>
     <io.undertow.version>2.2.9.Final</io.undertow.version>
-    <jaxb.api.version>2.0.0.Final</jaxb.api.version>
-    <jaxb.impl.version>2.3.3-b02</jaxb.impl.version>
-    <jaxws.api.version>1.0.0.Final</jaxws.api.version>
+    <jaxb.api.version>2.0.1.Final</jaxb.api.version>
+    <jaxb.impl.version>2.3.5</jaxb.impl.version>
+    <jaxws.api.version>2.0.0.Final</jaxws.api.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons-collections.version>3.2.2</commons-collections.version>
-    <commons-lang3.version>3.10</commons-lang3.version>
+    <commons-lang3.version>3.12.0</commons-lang3.version>
     <commons.logging.version>1.2</commons.logging.version>
-    <log4j.version>2.17.1</log4j.version>
+    <log4j.version>2.17.2</log4j.version>
     <org.slf4j.version>1.7.32</org.slf4j.version>
     <activation.version>1.1.1</activation.version>
-    <fastinfoset.version>1.2.16</fastinfoset.version>
-    <neethi.version>3.1.1</neethi.version>
+    <fastinfoset.version>1.2.18</fastinfoset.version>
+    <neethi.version>3.2.0</neethi.version>
     <opensaml.version>3.3.1</opensaml.version>
     <annotation.api.version>2.0.1.Final</annotation.api.version>
     <saaj.api.version>1.0.2.Final</saaj.api.version>
-    <saaj.impl.version>1.4.1.SP1</saaj.impl.version>
+    <saaj.impl.version>1.5.3</saaj.impl.version>
     <servlet.api.version>2.0.0.Final</servlet.api.version>
     <stax.api.version>1.0-2</stax.api.version>
-    <jms.api.version>1.0.2.Final</jms.api.version>
+    <jms.api.version>2.0.0.Final</jms.api.version>
     <velocity.version>2.3</velocity.version>
-    <xerces.version>2.12.0.SP03</xerces.version>
-    <xmlsec.version>2.2.3</xmlsec.version>
-    <wss4j.version>2.3.3</wss4j.version>
-    <wstx.version>6.0.3</wstx.version>
+    <xerces.version>2.12.2</xerces.version>
+    <xmlsec.version>2.3.0</xmlsec.version>
+    <wss4j.version>2.4.1</wss4j.version>
+    <wstx.version>6.2.7</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
-    <derby.version>10.14.2.0</derby.version>
+    <derby.version>10.15.2.0</derby.version>
     <arquillian.version>1.4.0.Final</arquillian.version>
     <arquillian-wildfly-container.version>2.2.0.Final</arquillian-wildfly-container.version>
-    <version.commons.validator>1.6</version.commons.validator>
+    <version.commons.validator>1.7</version.commons.validator>
     <interceptor.api.version>2.0.0.Final</interceptor.api.version>
-    <version.org.jboss.openjdk-orb>8.1.5.Final</version.org.jboss.openjdk-orb>
-    <jaspi.api.version>1.0.2.Final</jaspi.api.version>
-    <jacc.api.version>1.0.2.Final</jacc.api.version>
+    <version.org.jboss.openjdk-orb>8.1.9.Final</version.org.jboss.openjdk-orb>
+    <jaspi.api.version>2.0.1.Final</jaspi.api.version>
+    <jacc.api.version>2.0.0.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
     <org.easymock.version>3.2</org.easymock.version>
     <junit.version>4.12</junit.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
-    <gmavenplus.version>1.5</gmavenplus.version>
+    <gmavenplus.version>1.13.1</gmavenplus.version>
     <groovy.version>2.4.15</groovy.version>
     <jdocbook.plugin.version>2.1.2</jdocbook.plugin.version>
     <jdocbook.style.version>1.1.1</jdocbook.style.version>
     <docbook.xslt.version>1.1.1</docbook.xslt.version>
-    <wildfly.plugin.version>1.0.2.Final</wildfly.plugin.version>
+    <wildfly.plugin.version>3.0.0.Final</wildfly.plugin.version>
     <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
-    <wildfly.elytron.version>1.12.1.Final</wildfly.elytron.version>
+    <wildfly.elytron.version>1.19.0.Final</wildfly.elytron.version>
 
     <modular.jdk.args />
     <modular.jdk.props />
