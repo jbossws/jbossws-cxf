@@ -1357,5 +1357,14 @@ Descr: WildFly-27.0.0 specific options
     </profile>
 
   </profiles>
-
+  <repositories>
+    <repository>
+      <id>shibboleth-repo</id>
+      <name>opensaml</name>
+      <url>https://build.shibboleth.net/nexus/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+  </repositories>
 </project>
