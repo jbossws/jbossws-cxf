@@ -162,7 +162,7 @@
         </plugins>
       </build>
       <properties>
-        <jboss.home>${project.build.directory}/wildfly-${jboss.version}</jboss.home>
+        <jboss.home>${project.build.directory}/wildfly-preview-${jboss.version}</jboss.home>
       </properties>
     </profile>
     <!--

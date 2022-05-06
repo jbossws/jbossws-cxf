@@ -45,119 +45,26 @@
               <include>org.jboss.ws.cxf:jbossws-cxf-transports-undertow:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-transports-udp:jar</include>
               <include>org.jboss.ws.projects:jaxws-undertow-httpspi:jar</include>
-              <include>io.undertow:undertow-core:jar</include>
-              <include>org.apache.cxf:cxf-*</include>
-              <include>org.apache.cxf.services.sts:cxf-services-sts-core:jar</include>
-              <include>org.apache.cxf.services.ws-discovery:cxf-services-ws-discovery-api:jar</include>
-              <include>org.apache.cxf.xjcplugins:cxf-*</include>
-              <include>org.apache.cxf.xjc-utils:cxf-*</include>
-              <include>org.jboss:jandex:jar</include>
               <include>org.jboss.ws:jbossws-api:jar</include>
               <include>org.jboss.ws:jbossws-common:jar</include>
               <include>org.jboss.ws:jbossws-spi:jar</include>
-              <include>org.apache.neethi:neethi:jar</include>
-              <include>wsdl4j:wsdl4j:jar</include>
-              <include>org.apache.ws.xmlschema:xmlschema-core:jar</include>
-              <include>org.apache.wss4j:wss4j-*:jar</include>
-              <include>org.jasypt:jasypt:jar</include>
-              <include>org.apache.santuario:xmlsec:jar</include>
-              <include>org.ow2.asm:asm:jar</include>
-              <include>org.apache.velocity:velocity-engine-core:jar</include>
-              <include>commons-collections:commons-collections:jar</include>
-              <include>commons-beanutils:commons-beanutils:jar</include>
-              <include>org.apache.commons:commons-lang3:jar</include>
-              <include>commons-codec:commons-codec:jar</include>
               <include>jboss.jaxbintros:jboss-jaxb-intros</include>
-              <include>javax.xml.stream:stax-api:jar</include>
-              <include>jakarta.jws:jakarta.jws-api:jar</include>
-              <include>org.codehaus.woodstox:stax2-api:jar</include>
-              <include>org.codehaus.woodstox:woodstox-core-asl:jar</include>
-            </includes>
-            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
-            <scope>provided</scope>
-            <useProjectArtifact>false</useProjectArtifact>
-        </dependencySet>
-
-         <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>
-            <includes>
-              <include>org.opensaml:opensaml*:jar</include>
-              <include>org.cryptacular:cryptacular:jar</include>
-              <include>net.shibboleth.utilities:java-support:jar</include>
               <include>org.jboss.ws:jbossws-common-tools:jar</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
             <scope>provided</scope>
             <useProjectArtifact>false</useProjectArtifact>
-         </dependencySet>
-
-         <dependencySet>
+        </dependencySet>
+        <dependencySet>
             <outputDirectory>deploy-artifacts/lib</outputDirectory>
             <unpack>false</unpack>
             <includes>
-              <include>org.jboss.ws:jbossws-wildfly*-server-integration:jar</include>
-            </includes>
-            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
-            <scope>provided</scope>
-            <useProjectArtifact>false</useProjectArtifact>
-         </dependencySet>
-
-         <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>
-            <includes>
-              <include>org.jboss.ws.cxf:jbossws-cxf-resources:jar:*</include>
-            </includes>
-            <outputFileNameMapping>${artifact.artifactId}${dashClassifier}.${artifact.extension}</outputFileNameMapping>
-            <scope>provided</scope>
-            <useProjectArtifact>false</useProjectArtifact>
-         </dependencySet>
-
-          <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>
-            <outputFileNameMapping>jaxb-api.jar</outputFileNameMapping>
-            <includes>
-              <!-- ## <include>org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:jar</include> ## -->
-               <include>jakarta.xml.bind:jakarta.xml.bind-api:jar</include>
-            </includes>
-            <scope>provided</scope>
-            <useProjectArtifact>false</useProjectArtifact>
-          </dependencySet>
-          <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>
-            <outputFileNameMapping>jaxws-api.jar</outputFileNameMapping>
-            <includes>
-              <!-- ## <include>org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.3_spec:jar</include>  ## -->
-               <include>jakarta.xml.ws:jakarta.xml.ws-api:jar</include>
-            </includes>
-            <scope>provided</scope>
-            <useProjectArtifact>false</useProjectArtifact>
-          </dependencySet>
-
-          <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>
-            <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
-            <includes>
-              <include>junit:junit:jar</include>
-            </includes>
-            <scope>test</scope>
-            <useProjectArtifact>false</useProjectArtifact>
-          </dependencySet>
-          
-          <dependencySet>
-            <outputDirectory>deploy-artifacts/lib</outputDirectory>
-            <unpack>false</unpack>
-            <includes>
-              <include>org.jboss.shrinkwrap:*:jar</include>
+                <include>jboss.jaxbintros:*:jar</include>
             </includes>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
             <scope>test</scope>
             <useProjectArtifact>false</useProjectArtifact>
-          </dependencySet>
+        </dependencySet>
 
     </dependencySets>
 </assembly>

@@ -803,58 +803,6 @@
             <configuration>
               <excludes combine.children="append">
                 <!-- https://issues.redhat.com/browse/JBWS-4230 -->
-                <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
-
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestEjbTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/JaspiAuthenticationTestCase*</exclude>
-		 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestTestCase*</exclude>
-
-
-                <!--https://issues.redhat.com/browse/WFLY-15563 -->
-                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3628/JBWS3628TestCase*</exclude>
-
-                <!-- https://issues.redhat.com/browse/JBWS-4258 -->
-                <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloBasicSecTestCase*</exclude>
-
-                <!-- https://issues.redhat.com/browse/JBWS-4259 -->
-                <!-- works with change to rls cxf .. Must use ehcache-3.10.0 classifier, jakarta, in cxf
-                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples22xTestCase*</exclude>
-                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/secconv/SecureConversationTestCase*</exclude>
-                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/oasis/WSSecurityPolicyExamples21xTestCase*</exclude>
-                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/UsernameOverTransportTestCase*</exclude>
-                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/SignTestCase*</exclude>
-                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/MultipleClientsSignEncryptTestCase*</exclude>
-                  <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/basic/AnnotatedSignEncryptTestCase*</exclude>
-                  -->
-
-                <!-- https://issues.redhat.com/browse/JBWS-4260  -->
-                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3679/JBWS3679TestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/jbws3845/JBWS3845TestCase*</exclude>
-
-                <!-- https://issues.redhat.com/browse/JBWS-4263 -->
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationEJBTestCase*</exclude>
-
-                <!-- https://issues.redhat.com/browse/JBWS-4265 -->
-                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointAPITestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointOnlyDeploymentTestCase*</exclude>
-                <exclude>org/jboss/test/ws/saaj/jbws3084/JBWS3084CxfTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/JMSHTTPEndpointDeploymentTestCase*</exclude>
-
-                <!-- https://issues.redhat.com/browse/JBWS-4267 -->
-                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3713/ClientBusStrategyTestCase*</exclude>
-
-                <!-- misc (unknown) cause -->
-                <exclude>org/jboss/test/ws/jaxws/endpoint/jse/UsecasesTestCase*</exclude>
-                <exclude>org/jboss/test/ws/saaj/jbws3084/JBWS3084TestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/smoke/tools/WSConsumerTestCaseForked*</exclude>
-                    <!-- jakarta.xml.bind.UnmarshalException -->
-                    <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
-                    <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
-
-                <!-- Missing org.eclipse.angus.activation (w/ services) in one of the wildfly modules -->
-                <exclude>org/jboss/test/ws/jaxws/jbws1666/JBWS1666TestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>

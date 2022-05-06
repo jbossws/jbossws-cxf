@@ -258,11 +258,11 @@
     <attribute name="modules-jbossid"/>
     <sequential>
       <!-- libraries -->
-      <copy todir="@{targetdir}/javax/xml/ws/api/main" flatten="false" overwrite="true">
+      <!--copy todir="@{targetdir}/javax/xml/ws/api/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jaxws-api.jar"/>
         </fileset>
-      </copy>
+      </copy-->
       <copy todir="@{targetdir}/org/jboss/ws/jaxws-client/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-cxf-client.jar"/>
@@ -294,7 +294,7 @@
           <include name="**/jbossws-cxf-transports-udp.jar"/>
         </fileset>
       </copy>
-      <copy todir="@{targetdir}/org/apache/cxf/main" flatten="false" overwrite="true">
+      <!--copy todir="@{targetdir}/org/apache/cxf/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/cxf-core*.jar"/>
           <include name="**/cxf-rt-features-logging*.jar"/>
@@ -318,7 +318,7 @@
           <exclude name="**/cxf-services-sts-core*.jar"/>
           <exclude name="**/cxf-rt-features-logging*.jar"/>
         </fileset>
-      </copy>
+      </copy-->
       <copy todir="@{targetdir}/org/jboss/ws/api/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-api.jar"/>
@@ -339,7 +339,7 @@
           <include name="**/jbossws-spi.jar"/>
         </fileset>
        </copy>
-      <copy todir="@{targetdir}/org/apache/commons/lang3/main" flatten="false" overwrite="true">
+      <!--copy todir="@{targetdir}/org/apache/commons/lang3/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/commons-lang3.jar"/>
         </fileset>
@@ -376,13 +376,17 @@
           <include name="**/java-support.jar"/>
           <include name="**/cryptacular.jar"/>
         </fileset>
-      </copy>
-      <copy todir="@{targetdir}/org/jboss/as/webservices/main" flatten="false" overwrite="true">
+      </copy-->
+      <copy todir="@{targetdir}/org/jboss/jaxbintros/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
-          <include name="**/jbossws-cxf-resources-@{jbossid}.jar"/>
-          <include name="**/jbossws-@{jbossid}-server-integration.jar"/>
+          <include name="**/jboss-jaxb-intros*.jar"/>
         </fileset>
       </copy>
+      <!--copy todir="@{targetdir}/org/jboss/as/webservices/main" flatten="false" overwrite="true">
+          <fileset dir="@{thirdpartydir}/lib">
+             <include name="**/jbossws-cxf-resources-@{jbossid}.jar"/>
+          </fileset>
+      </copy-->
       <!-- module.xml files -->
       <installModules targetDir="@{targetdir}">
         <fileset dir="@{thirdpartydir}/modules/@{modules-jbossid}">
@@ -429,12 +433,12 @@
       <loadfile property="jbossws.modules.conf" srcfile="@{targetdir}/org/jboss/as/webservices/jbossws-modules.conf" failonerror="false"/>
       <loadfile property="jbossws.modules.conf" srcfile="@{defaultmodulesconf}" failonerror="false"/>
 
-      <delete includeemptydirs="true" verbose="true">
+      <!--delete includeemptydirs="true" verbose="true">
         <fileset dir="@{targetdir}">
           <include name="**/org/jboss/as/webservices/main/jbossws-*-resources*"/>
           <include name="**/org/jboss/as/webservices/main/jbossws-jboss*"/>
         </fileset>
-      </delete>
+      </delete-->
       <property name="jboss.modules" value="@{targetdir}"/>
       <antcall target="remove-jboss-integration-module">
         <param name="modifyjbossintegration" value="@{modifyjbossintegration}"/>
@@ -448,12 +452,12 @@
   </macrodef>
 
   <target name="remove-jboss-integration-module" depends="process-jboss-integration" if="fixintegration">
-    <delete verbose="true">
+    <!--delete verbose="true">
       <fileset dir="${jboss.modules}">
         <include name="**/org/jboss/as/webservices/main/jboss-as-webservices-server-integration*"/>
         <include name="**/org/jboss/as/webservices/main/wildfly-webservices-server-integration*"/>
       </fileset>
-    </delete>
+    </delete-->
   </target>
 		
   <target name="process-jboss-integration">
