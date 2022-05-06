@@ -292,7 +292,7 @@
                        <properties>
                           <property>
                              <name>inputFile</name>
-                             <value>${jboss.home}/standalone/configuration/standalone-full.xml</value>
+                             <value>${jboss.home}/docs/examples/configs/standalone-activemq-embedded.xml</value>
                           </property>
                           <property>
                              <name>outputFile</name>
