@@ -51,9 +51,8 @@
 
   <!-- Modules -->
   <modules>
-    <!-- rls tmp disable
+    <!-- FIXME [JBWS-4279] Restore JASPI integration  -->
     <module>modules/jaspi</module>
-    -->
     <module>modules/server</module>
     <module>modules/client</module>
     <module>modules/endorsed</module>

@@ -39,7 +39,9 @@
             <unpack>false</unpack>
             <includes>
               <include>org.jboss.ws.cxf:jbossws-cxf-client:jar</include>
+                <!-- FIXME [JBWS-4279] Restore JASPI integration
               <include>org.jboss.ws.cxf:jbossws-cxf-jaspi:jar</include>
+                -->
               <include>org.jboss.ws.cxf:jbossws-cxf-factories:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-server:jar</include>
               <include>org.jboss.ws.cxf:jbossws-cxf-transports-undertow:jar</include>

@@ -82,11 +82,13 @@
       <artifactId>jbossws-cxf-client</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <!-- FIXME [JBWS-4279] Restore JASPI integration
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-jaspi</artifactId>
       <version>${project.version}</version>
     </dependency>
+    -->
     <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-factories</artifactId>
@@ -844,7 +846,7 @@
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestEjbTestCase*</exclude>
-                <!-- jaspi disabled --><exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/JaspiAuthenticationTestCase*</exclude>
+                <!-- FIXME [JBWS-4277] --><exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/**</exclude>
                 <!-- picketlink --> <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
                 <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
 

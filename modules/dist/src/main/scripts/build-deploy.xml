@@ -329,7 +329,9 @@
       <copy todir="@{targetdir}/org/jboss/ws/jaxws-client/main" flatten="false" overwrite="true">
         <fileset dir="@{thirdpartydir}/lib">
           <include name="**/jbossws-cxf-client.jar"/>
+            <!-- FIXME [JBWS-4279] Restore JASPI integration
           <include name="**/jbossws-cxf-jaspi.jar"/>
+            -->
         </fileset>
       </copy>
       <copy todir="@{targetdir}/org/jboss/ws/jaxws-undertow-httpspi/main" flatten="false" overwrite="true">

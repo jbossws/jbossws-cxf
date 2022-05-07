@@ -83,7 +83,23 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
- 
+
+ <build>
+   <plugins>
+     <!-- FIXME [JBWS-4279] Restore JASPI integration  -->
+     <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-jar-plugin</artifactId>
+       <version>3.2.2</version>
+       <configuration>
+         <excludes>
+           <exclude>**</exclude>
+         </excludes>
+       </configuration>
+     </plugin>
+   </plugins>
+ </build>
+
   <profiles>
     <!--
     Name:  enforce
