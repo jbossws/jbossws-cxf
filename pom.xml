@@ -74,6 +74,8 @@
     <wildfly2700.version>27.0.0.Beta1-SNAPSHOT</wildfly2700.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
     <jakarta.activation-api.version>2.1.0</jakarta.activation-api.version>
+    <jakarta.angus.activation.version>1.0.0</jakarta.angus.activation.version>
+    <jakarta.angus.mail.version>1.0.0</jakarta.angus.mail.version>
     <cxf.version>4.0.0-SNAPSHOT</cxf.version>
     <cxf.asm.version>9.1</cxf.asm.version>
     <cxf.xjcplugins.version>3.3.1</cxf.xjcplugins.version>
@@ -143,9 +145,6 @@
     <modular.jdk.props />
     <jakarta.jws-api.version>3.0.0</jakarta.jws-api.version>
     <jakarta.xml.bind-api.version>3.0.1</jakarta.xml.bind-api.version>
-    <!--
-    <jakarta.xml.bind-api.version>2.3.3</jakarta.xml.bind-api.version>
-    -->
     <jakarta.xml.ws-api.version>3.0.1</jakarta.xml.ws-api.version>
     <jakarta.servlet-api.version>5.0.0</jakarta.servlet-api.version>
     <jakarta.mail.version>2.0.1</jakarta.mail.version>
@@ -200,6 +199,10 @@
             <groupId>org.jboss.spec.javax.xml.ws</groupId>
             <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>jakarta.activation</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
 
@@ -230,6 +233,15 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
           </exclusion>
+          <!--TODO:Remove this two dependencies after this is fixed in wss4j-->
+          <exclusion>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>jakarta.activation</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -256,12 +268,6 @@
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-frontend-jaxws</artifactId>
         <version>${cxf.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>jakarta.activation</groupId>
-            <artifactId>jakarta.activation-api</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -615,15 +621,15 @@
       </dependency>
 
       <dependency>
-        <groupId>com.sun.activation</groupId>
-        <artifactId>jakarta.activation</artifactId>
-        <version>${activation.version}</version>
-      </dependency>
-
-      <dependency>
         <groupId>org.jboss.spec.jakarta.xml.soap</groupId>
         <artifactId>jboss-saaj-api_2.0_spec</artifactId>
         <version>${saaj.api.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>jakarta.activation</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
@@ -909,13 +915,6 @@
            </exclusion>
         </exclusions>
       </dependency>
-      <!-- ###
-      <dependency>
-        <groupId>org.jboss.spec.javax.xml.bind</groupId>
-        <artifactId>jboss-jaxb-api_2.3_spec</artifactId>
-        <version>${jaxb.api.version}</version>
-      </dependency>
-      ### -->
       <dependency>
         <groupId>jakarta.xml.bind</groupId>
         <artifactId>jakarta.xml.bind-api</artifactId>
@@ -933,12 +932,8 @@
         <version>${jaxb.impl.version}</version>
         <exclusions>
           <exclusion>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>jakarta.activation</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -956,6 +951,11 @@
         <groupId>com.sun.xml.bind.external</groupId>
         <artifactId>rngom</artifactId>
         <version>${jaxb.impl.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.angus</groupId>
+        <artifactId>angus-activation</artifactId>
+        <version>${jakarta.angus.activation.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-logging</groupId>
@@ -1072,15 +1072,9 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>com.sun.mail</groupId>
-        <artifactId>jakarta.mail</artifactId>
-        <version>${jakarta.mail.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>jakarta.activation</artifactId>
-          </exclusion>
-        </exclusions>
+        <groupId>org.eclipse.angus</groupId>
+        <artifactId>angus-mail</artifactId>
+        <version>${jakarta.angus.mail.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

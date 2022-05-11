@@ -21,8 +21,12 @@
 
   <dependencies>
      <dependency>
-        <groupId>com.sun.activation</groupId>
-        <artifactId>jakarta.activation</artifactId>
+        <groupId>org.eclipse.angus</groupId>
+        <artifactId>angus-activation</artifactId>
+     </dependency>
+     <dependency>
+        <groupId>org.eclipse.angus</groupId>
+        <artifactId>angus-mail</artifactId>
      </dependency>
      <dependency>
         <groupId>jakarta.xml.ws</groupId>
@@ -36,10 +40,7 @@
         <groupId>jakarta.xml.bind</groupId>
         <artifactId>jakarta.xml.bind-api</artifactId>
      </dependency>
-     <dependency>
-        <groupId>com.sun.mail</groupId>
-        <artifactId>jakarta.mail</artifactId>
-     </dependency>
+
     <dependency> <!-- Always make sure jbossws-cxf-factories dependency is explicitly declared before anything transitively pulling CXF -->
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-factories</artifactId>
