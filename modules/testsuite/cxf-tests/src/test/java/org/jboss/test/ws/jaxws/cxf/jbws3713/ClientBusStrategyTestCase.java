@@ -73,7 +73,9 @@ public class ClientBusStrategyTestCase extends JBossWSTest
          archive
             .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                   + "Main-Class: org.jboss.test.ws.jaxws.cxf.jbws3713.TestClient\n"
-                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl,org.jboss.ws.jaxws-client\n"))
+                    //TODO:review this jbossws-cxf-client export services dependency after jaf factory finder
+                    //issue is fixed https://github.com/eclipse-ee4j/jaf/pull/91
+                  + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client export services,org.apache.cxf.impl,org.jboss.ws.jaxws-client\n"))
              .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3713/WEB-INF/client-permissions.xml"), "permissions.xml")
              .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.BusCounter.class)
             .addClass(org.jboss.test.ws.jaxws.cxf.jbws3713.HelloRequest.class)
@@ -144,7 +146,7 @@ public class ClientBusStrategyTestCase extends JBossWSTest
       String additionalJVMArgs = System.getProperty("additionalJvmArgs", "");
       additionalJVMArgs =  additionalJVMArgs.replace('\n', ' ');
       sbuf.append(" ").append(additionalJVMArgs);
-      sbuf.append(" -Djavax.xml.ws.spi.Provider=").append(ProviderImpl.class.getName());
+      sbuf.append(" -Djakarta.xml.ws.spi.Provider=").append(ProviderImpl.class.getName());
       sbuf.append(" -Dlog4j.output.dir=").append(System.getProperty("log4j.output.dir"));
       sbuf.append(" -D").append(Constants.JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY).append("=").append(strategy);
 
