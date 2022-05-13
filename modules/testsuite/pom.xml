@@ -802,6 +802,8 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <excludes combine.children="append">
+                <!--https://issues.redhat.com/browse/ELY-2338-->
+                <exclude>org/jboss/test/ws/jaxws/cxf/httpauth/HelloBasicSecTestCase*</exclude>
                 <!-- https://issues.redhat.com/browse/JBWS-4230 -->
               </excludes>
             </configuration>
