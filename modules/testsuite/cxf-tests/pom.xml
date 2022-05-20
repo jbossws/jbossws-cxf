@@ -17,6 +17,7 @@
     <!-- This is used for test archives embedding Spring -->
     <test.spring.version>5.1.5.RELEASE</test.spring.version>
     <test.cxf.version>${cxf.version}</test.cxf.version>
+    <jakarta-client-webservices.version>2.0.0.Beta3</jakarta-client-webservices.version>
   </properties>
 
   <dependencies>
@@ -117,6 +118,12 @@
         <version>${wildfly.elytron.version}</version>
         <scope>test</scope>
     </dependency>
+      <dependency>
+          <groupId>org.wildfly.security.jakarta</groupId>
+          <artifactId>jakarta-client-webservices</artifactId>
+          <version>${jakarta-client-webservices.version}</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
 
    <build>
