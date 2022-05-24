@@ -815,6 +815,10 @@
             <configuration>
               <excludes combine.children="append">
                 <!-- https://issues.redhat.com/browse/JBWS-4230 -->
+                <!-- once wfly-27-preview is updated with jboss.jaxbintros:jboss-jaxb-intros:2.0.0-SNAPSHOT
+                     or higher this test will run.
+                     -->
+                <exclude>**/org/jboss/test/ws/jaxws/cxf/jaxbintros/JAXBIntroTestCase**</exclude>
               </excludes>
             </configuration>
           </plugin>
