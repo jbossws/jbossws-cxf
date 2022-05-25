@@ -819,6 +819,11 @@
                      or higher this test will run.
                      -->
                 <exclude>**/org/jboss/test/ws/jaxws/cxf/jaxbintros/JAXBIntroTestCase**</exclude>
+
+                <!-- identical class ManagedResource.class reside in cxf-core.jar and cxf-rt-management.jar
+                      the jboss CXF forked version resolves this.  Waiting for wfly-27 to have it.
+                 -->
+                <exclude>**/org/jboss/test/ws/jaxws/cxf/management/CXFManagementTestCase**</exclude>
               </excludes>
             </configuration>
           </plugin>
