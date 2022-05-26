@@ -43,10 +43,18 @@ def propertiesRealm =  securityRealms.find{it.@name == 'ApplicationRealm'}
 propertiesRealm.'users-properties'[0].@path = "jbws-application-users.properties"
 propertiesRealm.'groups-properties'[0].@path = "jbws-application-roles.properties"
 
+/*** rls removed
+ def server = root.profile.subsystem.'server'[0];
+ def jmsQueue = server.appendNode('jms-queue', ['name':'testQueue', 'entries':'queue/test java:jboss/exported/jms/queue/test'])
+ ***/
 def activemqSubsystem = getSubsystem(root, "urn:jboss:domain:messaging-activemq:")
-def server = activemqSubsystem.'server'[0]
+def server = null
+for (element in activemqSubsystem) {
+    if (element.name().getLocalPart() == 'server') {
+        server = element
+    }
+}
 def jmsQueue = server.appendNode('jms-queue', ['name':'testQueue', 'entries':'queue/test java:jboss/exported/jms/queue/test'])
-
 /**
  * Save the configuration to a new file
  */

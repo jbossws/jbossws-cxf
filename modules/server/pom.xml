@@ -178,10 +178,6 @@
     
     <!-- jboss provided -->
     <dependency>
-      <groupId>org.picketbox</groupId>
-      <artifactId>picketbox</artifactId>
-    </dependency>
-    <dependency>
       <groupId>xerces</groupId>
       <artifactId>xercesImpl</artifactId>
     </dependency>
