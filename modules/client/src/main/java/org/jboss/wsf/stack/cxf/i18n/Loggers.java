@@ -260,4 +260,8 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = ERROR)
     @Message(id = 24114, value = "No security domain associated")
     void noSecurityDomain();
+
+    @LogMessage(level = ERROR)
+    @Message(id = 24115, value = "Failed to compute UsernameToken profile digest from expected password")
+    void failedToComputeUsernameTokenProfileDigest();
 }

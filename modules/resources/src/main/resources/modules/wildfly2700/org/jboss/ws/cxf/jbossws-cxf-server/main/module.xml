@@ -69,5 +69,6 @@
         <module name="org.apache.ws.security"/>
         <module name="java.xml"/>
        <module name="org.wildfly.security.elytron-base"/>
+        <module name="org.apache.commons.codec"/>
     </dependencies>
 </module>
