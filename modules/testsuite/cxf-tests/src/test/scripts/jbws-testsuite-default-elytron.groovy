@@ -54,7 +54,7 @@ def digestDomain = securityDomains.appendNode('security-domain', ['name':'ws-dig
 def digestRefRealm = digestDomain.appendNode('realm',['name':'ws-digest-domain','role-decoder':'groups-to-roles'])
 
 def legacyDomain = securityDomains.appendNode('security-domain', ['name':'JAASJBossWS','default-realm':'JAASJBossWSRealm','permission-mapper':'default-permission-mapper'])
-def jaasJBossWSRealm = legacyDomain.appendNode('realm',['name':'JAASJBossWSRealm'])
+def jaasJBossWSRealm = legacyDomain.appendNode('realm',['name':'JAASJBossWSRealm','role-decoder':'groups-to-roles'])
 
 def legacyDigestDomain = securityDomains.appendNode('security-domain', ['name':'JBossWSDigest','default-realm':'JAASJBossWSDigestRealm','permission-mapper':'default-permission-mapper'])
 def jaasJBossWDigestRealm = legacyDigestDomain.appendNode('realm',['name':'JAASJBossWSDigestRealm','role-decoder':'groups-to-roles'])
@@ -93,7 +93,7 @@ def jbossWSDigestUserProperties = jbossWSDigestRealm.appendNode('users-propertie
 def jbossWSDigestGroupsProperties = jbossWSDigestRealm.appendNode('groups-properties',['path': testResourcesDir + '/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties'])
 
 def jAASJBossWSRealm = securityRealms.appendNode('properties-realm', ['name':'JAASJBossWSRealm'])
-def jAASJBossWSRealmUserProperties = jAASJBossWSRealm.appendNode('users-properties',['path':usersPropFile])
+def jAASJBossWSRealmUserProperties = jAASJBossWSRealm.appendNode('users-properties',['path':usersPropFile, 'plain-text':'true'])
 def jAASJBossWSRealmGroupsProperties = jAASJBossWSRealm.appendNode('groups-properties',['path':rolesPropFile])
 
 /**
@@ -143,6 +143,13 @@ def wsDigestMechanismConfiguration = wsDigestHttpAuthenticationFactory.appendNod
 def wsDigestMechanism = wsDigestMechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
 def wsDigestMechanismRealm = wsDigestMechanism.appendNode('mechanism-realm',['realm-name':'JAASJBossWSDigestRealm'])
 
+
+def jassWsHttpAuthenticationFactory = httpAuthen.appendNode('http-authentication-factory', ['name':'JAASJBossWS','http-server-mechanism-factory':'global', 'security-domain':'JAASJBossWS'])
+def jassWsMechanismConfiguration = jassWsHttpAuthenticationFactory.appendNode('mechanism-configuration')
+def jassWsMechanism = jassWsMechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
+def jassWsMechanismRealm = jassWsMechanism.appendNode('mechanism-realm',['realm-name':'JAASJBossWSRealm'])
+
+
 /**
  *           <application-security-domains>
  *               <application-security-domain name="JBossWS" http-authentication-factory="JBossWS"/>
@@ -161,7 +168,6 @@ if (appSecurityDomains == null) {
 }
 
 def ejbSecurityDomain1 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','security-domain':'JBossWS'])
-def ejbSecurityDomain2 = appSecurityDomains.appendNode('application-security-domain', ['name':'JAASJBossWS','security-domain':'JAASJBossWS'])
 def ejbSecurityDomain3 = appSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','security-domain':'ws-basic-domain'])
 
 //add to undertow
@@ -175,7 +181,7 @@ def appSecurityDomain = undertowAppSecurityDomains.appendNode('application-secur
 def basicAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','http-authentication-factory':'ws-basic-domain'])
 def digestAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'ws-digest-domain','http-authentication-factory':'ws-digest-domain'])
 def wsDigestAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSDigest','http-authentication-factory':'JBossWSDigest'])
-
+def jaasWsAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JAASJBossWS','http-authentication-factory':'JAASJBossWS'])
 
 def tls = null
 for (element in securitySubsystem) {
