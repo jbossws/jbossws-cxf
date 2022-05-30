@@ -17,29 +17,16 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest ]
-        java: ['17']
+        java: ['11']
         wildfly-version: ['wildfly2700']
 
     steps:
       - name: Checkout jbossws-cxf
         uses: actions/checkout@v2
-      - name: Checkout cxf xjcutils
-        uses: actions/checkout@v2
-        with:
-          repository: apache/cxf-xjc-utils
-          ref: master
-          path: './cxf-xjc-utils'
-      - name: Checkout cxf
-        uses: actions/checkout@v2
-        with:
-          repository: apache/cxf
-          ref: CXF-8371
-          path: './cxf'
       - name: Checkout wildfly
         uses: actions/checkout@v2
         with:
-          repository: jimma/wildfly
-          ref: cxf-jakarta
+          repository: wildfly/wildfly
           path: './wildfly'
       - uses: actions/cache@v1
         with:
@@ -52,21 +39,12 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'adopt'
-      - name: Build CXF xjc utils
-        working-directory: ./cxf-xjc-utils
-        run: mvn clean install -Pfastinstall
-      - name: Build CXF tools common
-        working-directory: ./cxf/tools/common
-        run: mvn clean install
-      - name: Build CXF
-        working-directory: ./cxf
-        run: mvn clean install -Pfastinstall
       - name: Build WFLY
         working-directory: ./wildfly
         run: mvn -s ../.m2-settings.xml -DskipTests=true '-Denforcer.skip=true' -Prelease clean install
       - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{ matrix.wildfly-version }}
         run: |
-          mvn -s ./.m2-settings.xml -B -V -fae -P${{ matrix.wildfly-version }} verify
+          mvn -s ./.m2-settings.xml -fae -P${{ matrix.wildfly-version }},testsuite clean install
       - uses: actions/upload-artifact@v2
         if: failure()
         with:
