@@ -39,10 +39,10 @@ jobs:
         if: failure()
         with:
           name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}
-          path: '**/surefire-reports/*.txt'
+          path: '**/surefire-reports/*.*'
       - name: Upload server logs
         uses: actions/upload-artifact@v2
         if: failure()
         with:
           name: server-logs-${{ matrix.os }}-${{ matrix.java }}
-          path: '**/*.log'
+          path: '**/*/*.log'
