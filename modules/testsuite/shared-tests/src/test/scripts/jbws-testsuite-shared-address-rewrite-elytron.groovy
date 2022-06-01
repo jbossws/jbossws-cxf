@@ -87,14 +87,68 @@ def mechanismRealm=mechanism.appendNode('mechanism-realm',['realm-name':'JBossWS
  * </security-realm>
  *
  */
+def elytronSubsystem =  getSubsystem(root, "urn:wildfly:elytron:")
+def tls = null
+for (element in elytronSubsystem) {
+    if (element.name().getLocalPart() == 'tls') {
+        tls = element
+    }
+}
+if (tls == null) {
+    tls = elytronSubsystem.appendNode('tls')
+}
 
-def secRealms = root.management.'security-realms'[0]
-def secRealm = secRealms.appendNode('security-realm', ['name':'jbws-test-https-realm'])
-def serverIdentities = secRealm.appendNode('server-identities')
-def ssl = serverIdentities.appendNode('ssl')
-ssl.appendNode('keystore', ['path':keystorePath,'keystore-password':'changeit','alias':'tomcat'])
+def keyStores = null
+for (element in tls) {
+    if (element.name().getLocalPart() == 'key-stores') {
+        keyStores = element
+    }
+}
+if (keyStores == null) {
+    keyStores = tls.appendNode('key-stores')
+}
 
-def server = root.profile.subsystem.server[0]
+def keyStore = keyStores.appendNode('key-store', ['name':'jbwsTestHttpsRealmKS', 'alias-filter':'tomcat'])
+def credentialReference = keyStore.appendNode('credential-reference', ['clear-text':'changeit'])
+def implementation = keyStore.appendNode('implementation',['type':'JKS'])
+def filePath = keyStore.appendNode('file',['path':keystorePath])
+
+def keyManagers = null
+for (element in tls) {
+    if (element.name().getLocalPart() == 'key-managers') {
+        keyManagers = element
+    }
+}
+if (keyManagers == null) {
+    keyManagers = tls.appendNode('key-managers')
+}
+
+def keyManager = keyManagers.appendNode('key-manager',
+        ['name':'jbwsTestHttpsRealmKM','key-store':'jbwsTestHttpsRealmKS'])
+def credentialReferenceKM = keyManager.appendNode(
+        'credential-reference',['clear-text':'changeit'])
+
+def serverSslContexts = null
+for (element in tls) {
+    if (element.name().getLocalPart() == 'server-ssl-contexts') {
+        serverSslContexts = element
+    }
+}
+if (serverSslContexts == null) {
+    serverSslContexts = tls.appendNode('server-ssl-contexts')
+}
+
+def serverSslContext = serverSslContexts.appendNode('server-ssl-context',
+        ['name':'jbwsTestHttpsRealmSSC','key-manager':'jbwsTestHttpsRealmKM'])
+
+def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")
+def server = null
+for (element in undertowSubsystem) {
+    if (element.name().getLocalPart() == 'server') {
+        server = element
+    }
+}
+
 def curHttpsListener = server.'https-listener'[0]
 if (curHttpsListener != null) server.remove(curHttpsListener)
 server.appendNode('https-listener', ['name':'jbws-test-https-listener','socket-binding':'https','security-realm':'jbws-test-https-realm'])

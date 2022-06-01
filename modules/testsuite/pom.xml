@@ -831,21 +831,6 @@
         </plugins>
       </build>
     </profile>
-    <!--
-    Name:  elytron
-    Descr: Run tests against container with elytron security set instead of the legacy one
-    -->
-    <profile>
-      <id>elytron</id>
-      <activation>
-        <property>
-          <name>elytron</name>
-        </property>
-      </activation>
-      <properties>
-        <additionalGroovyScriptSuffix>-elytron</additionalGroovyScriptSuffix>
-      </properties>
-    </profile>
 
     <!--
     Name:  secmgr
