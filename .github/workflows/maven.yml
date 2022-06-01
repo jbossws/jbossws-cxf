@@ -44,7 +44,7 @@ jobs:
         run: mvn -s ../.m2-settings.xml -DskipTests=true '-Denforcer.skip=true' -Prelease clean install
       - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{ matrix.wildfly-version }}
         run: |
-          mvn -s ./.m2-settings.xml -fae -P${{ matrix.wildfly-version }},testsuite clean install
+          mvn -s ./.m2-settings.xml -fae -P${{ matrix.wildfly-version }} -Ptestsuite clean install
       - name: Publish Test Report
         if: ${{ always() }}
         uses: scacap/action-surefire-report@v1
