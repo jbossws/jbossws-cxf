@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ${{ matrix.os }}
     timeout-minutes: 90
     strategy:
@@ -28,7 +27,7 @@ jobs:
         with:
           repository: wildfly/wildfly
           path: './wildfly'
-      - uses: actions/cache@v1
+      - uses: actions/cache@v3
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
