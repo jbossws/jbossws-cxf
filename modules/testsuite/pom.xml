@@ -654,6 +654,20 @@
           <artifactId>xercesImpl</artifactId>
         </dependency>
       </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes combine.children="append">
+                <!-- Spring has been removed from eap (jakarta).  The follow 2 tests use Spring -->
+                <exclude>**/org/jboss/test/ws/jaxws/cxf/noIntegration/EmbeddedCXFTestCase**</exclude>
+                <exclude>**/org/jboss/test/ws/jaxws/cxf/spring/ClientSpringAppTestCase**</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <!--
     Descr: WildFly-25.0.0 specific options
