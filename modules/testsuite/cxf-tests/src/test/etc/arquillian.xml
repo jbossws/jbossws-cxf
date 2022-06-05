@@ -48,7 +48,7 @@
             <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
     </container>
-    <container qualifier="jms" mode="manual">
+    <container qualifier="jms">
         <configuration>
             <property name="jbossHome">${jboss.home}</property>
             <property name="javaVmArguments">-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jms} ${additionalJvmArgs}</property>
