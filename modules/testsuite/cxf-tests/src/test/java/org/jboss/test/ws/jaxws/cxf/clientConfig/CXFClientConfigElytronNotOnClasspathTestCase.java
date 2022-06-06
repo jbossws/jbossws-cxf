@@ -40,7 +40,7 @@ public class CXFClientConfigElytronNotOnClasspathTestCase extends JBossWSTest {
          archive
                  .setManifest(new StringAsset("Manifest-Version: 1.0\n"
                          + "Main-Class: org.jboss.test.ws.jaxws.cxf.clientConfig.CXFClientElytronNotOnClasspathMainClass\n"
-                         + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.apache.cxf.impl\n"))
+                         + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.eclipse.angus.activation export services,org.apache.cxf.impl\n"))
                  .addClass(org.jboss.test.ws.jaxws.cxf.httpauth.Hello.class)
                  .addClass(org.jboss.test.ws.jaxws.cxf.httpauth.HelloImpl.class)
                  .addClass(org.jboss.test.ws.jaxws.cxf.httpauth.HelloRequest.class)

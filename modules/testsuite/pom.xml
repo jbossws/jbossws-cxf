@@ -276,11 +276,6 @@
             </goals>
             <configuration>
               <skip>false</skip>
-              <excludes combine.children="append">
-                <!-- todo get these test working -->
-                <exclude>**/JBWS3805TestCase.java</exclude> <!-- deployment cast error -->
-                <exclude>**/CXFClientConfigElytronNotOnClasspathTestCase.java</exclude>
-              </excludes>
               <includes>
                 <include>**/*Test.java</include>
                 <include>**/*TestCase.java</include>
@@ -814,12 +809,10 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <excludes combine.children="append">
-                <!-- https://issues.redhat.com/browse/JBWS-4230 -->
-                <!-- once wfly-27-preview is updated with jboss.jaxbintros:jboss-jaxb-intros:2.0.0-SNAPSHOT
-                     or higher this test will run.
-                     -->
-                <exclude>**/org/jboss/test/ws/jaxws/cxf/jaxbintros/JAXBIntroTestCase**</exclude>
-                <!-- Spring has been removed from wfly-27-preview.  The follow 2 tests use Spring -->
+                <!--TODO: This requires spring 6.0.0-M4 and java17 to run.
+                     It needs to fix this failure too : com.sun.faces.config.ConfigurationException:
+                     CONFIGURATION FAILED! Cannot invoke \"jakarta.faces.application.ResourceHandler.createViewResourc
+                 -->
                 <exclude>**/org/jboss/test/ws/jaxws/cxf/noIntegration/EmbeddedCXFTestCase**</exclude>
                 <exclude>**/org/jboss/test/ws/jaxws/cxf/spring/ClientSpringAppTestCase**</exclude>
               </excludes>
