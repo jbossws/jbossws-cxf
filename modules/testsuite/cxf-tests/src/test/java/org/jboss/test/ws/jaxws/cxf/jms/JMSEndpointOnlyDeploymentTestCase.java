@@ -21,6 +21,16 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jms;
 
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
+import jakarta.jms.QueueConnection;
+import jakarta.jms.QueueConnectionFactory;
+import jakarta.jms.Queue;
+import jakarta.jms.QueueReceiver;
+import jakarta.jms.QueueSender;
+import jakarta.jms.QueueSession;
+import jakarta.jms.Session;
+import jakarta.jms.TextMessage;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.jms.JMSConduit;
 import org.apache.cxf.transport.jms.JMSConfiguration;
@@ -39,7 +49,6 @@ import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.jms.*;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.xml.namespace.QName;
@@ -70,7 +79,7 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
       WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-jms-only-deployment-test-servlet.war");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services," + (useHornetQ() ? "org.hornetq\n" : "org.apache.activemq.artemis")))
+                     + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client services, org.apache.activemq.artemis"))
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/permissions.xml"), "permissions.xml")
                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl"), "classes/META-INF/wsdl/HelloWorldService.wsdl")
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.DeploymentTestServlet.class)
@@ -84,7 +93,7 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
       JavaArchive archive = ShrinkWrap.create(JavaArchive.class,"jaxws-cxf-jms-only-deployment.jar");
          archive
                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                     + "Dependencies: " + (useHornetQ() ? "org.hornetq\n" : "org.apache.activemq.artemis")))
+                     + "Dependencies: org.apache.activemq.artemis"))
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorld.class)
                .addClass(org.jboss.test.ws.jaxws.cxf.jms.HelloWorldImpl.class)
                .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jms/META-INF/wsdl/HelloWorldService.wsdl"), "wsdl/HelloWorldService.wsdl");
@@ -149,9 +158,9 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
       } catch (Exception e) {
          rethrowAndHandleAuthWarning(e);
       }
-      QueueConnectionFactory connectionFactory = (QueueConnectionFactory)context.lookup("jms/RemoteConnectionFactory");
-      Queue reqQueue = (Queue)context.lookup("jms/queue/test");
-      Queue resQueue = (Queue)context.lookup("jms/queue/test");
+      QueueConnectionFactory connectionFactory = (QueueConnectionFactory) context.lookup("jms/RemoteConnectionFactory");
+      Queue reqQueue = (Queue) context.lookup("jms/queue/test");
+      Queue resQueue = (Queue) context.lookup("jms/queue/test");
 
       QueueConnection con = connectionFactory.createQueueConnection(JBossWSTestHelper.getTestUsername(), JBossWSTestHelper.getTestPassword());
       QueueSession session = con.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -170,6 +179,7 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
       QueueSender sender = session.createSender(reqQueue);
       sender.send(message);
       sender.close();
+
 
       int timeout = 30000;
       while (waitForResponse && timeout > 0)

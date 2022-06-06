@@ -111,17 +111,22 @@
           <artifactId>netty-all</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-        <groupId>org.wildfly.security</groupId>
-        <artifactId>wildfly-elytron-client</artifactId>
-        <version>${wildfly.elytron.version}</version>
-        <scope>test</scope>
-    </dependency>
+     </dependency>
+     <dependency>
+         <groupId>org.wildfly.security</groupId>
+         <artifactId>wildfly-elytron-client</artifactId>
+         <version>${wildfly.elytron.version}</version>
+         <scope>test</scope>
+      </dependency>
       <dependency>
           <groupId>org.wildfly.security.jakarta</groupId>
           <artifactId>jakarta-client-webservices</artifactId>
           <version>${jakarta-client-webservices.version}</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.activemq</groupId>
+          <artifactId>artemis-jakarta-client</artifactId>
           <scope>test</scope>
       </dependency>
   </dependencies>
