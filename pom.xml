@@ -1355,5 +1355,11 @@ Descr: WildFly-27.0.0 specific options
         <enabled>true</enabled>
       </releases>
     </repository>
+    <!--TODO: move this to a profile-->
+    <repository>
+      <id>spring</id>
+      <url>https://repo.spring.io/milestone/</url>
+      <name>Spring Milestone Repo</name>
+    </repository>
   </repositories>
 </project>
