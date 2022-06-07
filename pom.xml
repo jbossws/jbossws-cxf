@@ -110,7 +110,7 @@
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
     <derby.version>10.14.2.0</derby.version>
     <arquillian.version>1.4.0.Final</arquillian.version>
-    <arquillian-wildfly-container.version>2.2.0.Final</arquillian-wildfly-container.version>
+    <arquillian-wildfly-container.version>5.0.0.Alpha2</arquillian-wildfly-container.version>
     <version.commons.validator>1.6</version.commons.validator>
     <interceptor.api.version>2.0.0.Final</interceptor.api.version>
     <version.org.jboss.openjdk-orb>8.1.5.Final</version.org.jboss.openjdk-orb>
@@ -118,7 +118,7 @@
     <jacc.api.version>1.0.2.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
     <org.easymock.version>3.2</org.easymock.version>
-    <junit.version>4.12</junit.version>
+    <junit.version>4.13.2</junit.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
     <gmavenplus.version>1.5</gmavenplus.version>
     <groovy.version>2.4.15</groovy.version>

@@ -6,7 +6,7 @@
     <container qualifier="jboss" default="true">
         <configuration>
             <property name="jbossHome">${jboss.home}</property>
-            <property name="javaVmArguments">-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.jboss} ${additionalJvmArgs}</property>
+            <property name="javaVmArguments">-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.jboss} ${additionalJvmArgs} ${server.jvm.jpms.args}</property>
             <property name="serverConfig">jbws-testsuite-shared-default.xml</property>
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
@@ -21,7 +21,7 @@
     <container qualifier="default-config-tests" mode="manual">
         <configuration>
             <property name="jbossHome">${jboss.home}</property>
-            <property name="javaVmArguments">-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.default-config-tests} ${additionalJvmArgs}</property>
+            <property name="javaVmArguments">-server -Xms48m -Xmx384m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.default-config-tests} ${additionalJvmArgs} ${server.jvm.jpms.args}</property>
             <property name="serverConfig">jbws-testsuite-shared-default-config-tests.xml</property>
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
@@ -36,7 +36,7 @@
     <container qualifier="address-rewrite" mode="manual">
         <configuration>
             <property name="jbossHome">${jboss.home}</property>
-            <property name="javaVmArguments">-server -Xms32m -Xmx256m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.address-rewrite} ${additionalJvmArgs}</property>
+            <property name="javaVmArguments">-server -Xms32m -Xmx256m -Djboss.socket.binding.port-offset=${port-offset.shared-tests.address-rewrite} ${additionalJvmArgs} ${server.jvm.jpms.args}</property>
             <property name="serverConfig">jbws-testsuite-shared-address-rewrite.xml</property>
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
