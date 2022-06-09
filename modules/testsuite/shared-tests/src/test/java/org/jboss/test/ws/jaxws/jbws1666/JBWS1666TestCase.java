@@ -72,7 +72,7 @@ public class JBWS1666TestCase extends JBossWSTest
       archive
          .setManifest(new StringAsset("Manifest-Version: 1.0\n"
             + "Main-Class: org.jboss.test.ws.jaxws.jbws1666.TestClient\n"
-            + "Dependencies: jakarta.jws.api,jakarta.xml.ws.api, org.eclipse.angus.activation export services\n"))
+            + "Dependencies: jakarta.xml.ws.api, org.eclipse.angus.activation export services\n"))
           .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws1666/permissions.xml"), "permissions.xml")
          .addClass(org.jboss.test.ws.jaxws.jbws1666.TestClient.class)
          .addClass(org.jboss.test.ws.jaxws.jbws1666.TestEndpoint.class);
