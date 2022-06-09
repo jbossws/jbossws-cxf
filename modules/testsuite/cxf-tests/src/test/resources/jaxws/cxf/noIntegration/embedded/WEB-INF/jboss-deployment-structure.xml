@@ -9,7 +9,6 @@
         <dependencies>
             <module name="javax.xml.ws.api"/>
             <module name="jakarta.xml.soap.api"/>
-            <module name="jakarta.jws.api"/>
             <module name="javax.wsdl4j.api"/>
             <module name="org.apache.ws.xmlschema"/>
             <module name="org.apache.neethi"/>
