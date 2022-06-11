@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1733;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import jakarta.jws.WebService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

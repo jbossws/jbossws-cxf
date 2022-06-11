@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws2074.handler;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import jakarta.xml.soap.SOAPElement;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
@@ -318,7 +318,7 @@ public class JavaResourcesHandler extends GenericSOAPHandler<SOAPMessageContext>
    {
       if (!this.correctState)
       {
-         throw new WebServiceException("Unfunctional javax.annotation.* annotations");
+         throw new WebServiceException("Unfunctional jakarta.annotation.* annotations");
       }
 
       try

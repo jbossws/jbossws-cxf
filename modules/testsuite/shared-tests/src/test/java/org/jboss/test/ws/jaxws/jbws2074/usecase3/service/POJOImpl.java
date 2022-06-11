@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws2074.usecase3.service;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import jakarta.xml.ws.WebServiceException;
@@ -306,7 +306,7 @@ public class POJOImpl implements POJOIface
    {
       if (!this.correctState)
       {
-         throw new WebServiceException("Unfunctional javax.annotation.* annotations");
+         throw new WebServiceException("Unfunctional jakarta.annotation.* annotations");
       }
 
       log.info("echo: " + msg);

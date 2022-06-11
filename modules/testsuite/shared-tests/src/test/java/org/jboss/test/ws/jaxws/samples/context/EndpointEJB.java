@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
 
-import javax.annotation.Resource;
-import javax.annotation.security.RolesAllowed;
+import jakarta.annotation.Resource;
+import jakarta.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;

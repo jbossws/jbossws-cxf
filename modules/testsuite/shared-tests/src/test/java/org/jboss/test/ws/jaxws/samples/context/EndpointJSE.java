@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import jakarta.jws.soap.SOAPBinding;

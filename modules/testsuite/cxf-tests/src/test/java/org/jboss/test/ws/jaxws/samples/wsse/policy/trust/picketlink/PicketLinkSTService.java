@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.picketlink;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import jakarta.xml.ws.Service;
 import jakarta.xml.ws.ServiceMode;
 import jakarta.xml.ws.WebServiceContext;

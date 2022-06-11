@@ -29,11 +29,5 @@
       <artifactId>jboss-logging-processor</artifactId>
       <scope>provided</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.jboss.spec.javax.annotation</groupId>
-      <artifactId>jboss-annotations-api_1.3_spec</artifactId>
-    </dependency>
   </dependencies>
-
 </project>

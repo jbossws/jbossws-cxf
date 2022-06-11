@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import jakarta.activation.DataHandler;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import jakarta.jws.WebService;
 import jakarta.xml.ws.WebServiceContext;
 import jakarta.xml.ws.handler.MessageContext;

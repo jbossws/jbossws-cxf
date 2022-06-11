@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws4046;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import javax.xml.namespace.QName;
 import jakarta.xml.ws.handler.soap.SOAPHandler;
 import jakarta.xml.ws.handler.soap.SOAPMessageContext;
