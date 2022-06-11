@@ -24,8 +24,8 @@ package org.jboss.test.ws.jaxws.endpoint.jse.endpoints;
 import java.io.IOException;
 
 import jakarta.activation.DataHandler;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.jws.WebService;
 import jakarta.xml.ws.WebServiceException;
 import jakarta.xml.ws.soap.MTOM;
