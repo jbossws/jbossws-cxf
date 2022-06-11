@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.samples.exception.server;
 
 import java.util.Locale;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import jakarta.jws.WebService;
 import javax.xml.namespace.QName;
 import jakarta.xml.soap.SOAPConstants;

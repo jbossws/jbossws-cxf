@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.webservice;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.ejb.Remote;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;

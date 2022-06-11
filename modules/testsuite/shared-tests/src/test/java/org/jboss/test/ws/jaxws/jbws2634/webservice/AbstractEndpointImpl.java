@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws2634.webservice;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import javax.ejb.EJB;
 import jakarta.xml.ws.WebServiceException;
 

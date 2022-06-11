@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.jbws2527;
 
 import java.security.Principal;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import jakarta.jws.WebService;
 import jakarta.servlet.ServletContext;
 import jakarta.xml.ws.WebServiceContext;

@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.cxf.jbws3497;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.ejb.Stateless;
 import jakarta.jws.Oneway;
 import jakarta.jws.WebMethod;

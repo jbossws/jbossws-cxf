@@ -24,8 +24,8 @@ package org.jboss.test.ws.jaxws.jbws2268;
 import java.io.File;
 import java.io.FileWriter;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 

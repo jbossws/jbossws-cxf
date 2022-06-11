@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.cxf.asyncclient;
 
 import java.util.concurrent.Future;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import jakarta.jws.WebService;
 import jakarta.jws.soap.SOAPBinding;
 import jakarta.xml.ws.AsyncHandler;

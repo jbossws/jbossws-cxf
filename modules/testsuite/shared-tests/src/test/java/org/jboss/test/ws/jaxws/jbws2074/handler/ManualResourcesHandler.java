@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2074.handler;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import jakarta.xml.soap.SOAPElement;
