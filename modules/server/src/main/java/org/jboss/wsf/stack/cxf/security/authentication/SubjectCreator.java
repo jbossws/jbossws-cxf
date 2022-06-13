@@ -33,11 +33,18 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import javax.security.auth.Subject;
+import javax.security.auth.callback.CallbackHandler;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.cxf.common.security.SimplePrincipal;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
+import org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallbackHandler;
 import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
+import org.wildfly.security.auth.server.RealmIdentity;
+import org.wildfly.security.auth.server.RealmUnavailableException;
+import org.wildfly.security.auth.server.SecurityDomain;
+import org.wildfly.security.credential.PasswordCredential;
+import org.wildfly.security.password.interfaces.ClearPassword;
 
 /**
  * Creates Subject instances after having authenticated / authorized the provided
@@ -65,6 +72,7 @@ public class SubjectCreator
       final String sNonce = convertNonce(nonce);
       return createSubject(ctx, name, password, isDigest, sNonce, created);
    }
+
    public Subject createSubject(SecurityDomainContext ctx, String name, String password, boolean isDigest, String nonce, String created)
    {
       if (isDigest)
@@ -81,10 +89,21 @@ public class SubjectCreator
          SECURITY_LOGGER.aboutToAuthenticate(ctx.getSecurityDomain());
 
       try {
-         String expectedPassword = ctx.getPassword(principal);
-         if (expectedPassword == null) {
+         SecurityDomain securityDomain = ctx.getElytronSecurityDomain();
+         if (securityDomain == null) {
+            SECURITY_LOGGER.noSecurityDomain();
+            return null;
+         }
+         RealmIdentity identity = securityDomain.getIdentity(principal.getName());
+         if (identity.equals(RealmIdentity.NON_EXISTENT)) {
             throw MESSAGES.authenticationFailed(principal.getName());
          }
+         ClearPassword clearPassword = identity.getCredential(PasswordCredential.class).getPassword(ClearPassword.class);
+         // only realms supporting getCredential with clear password can be used with Username Token profile
+         if (clearPassword == null) {
+            throw MESSAGES.authenticationFailed(principal.getName());
+         }
+         String expectedPassword = new String(clearPassword.getPassword());
          if (isDigest && created != null && nonce != null) { // username token profile is using digest
             // verify client's digest
             if (!getUsernameTokenPasswordDigest(nonce, created, expectedPassword).equals(password)) {
@@ -95,9 +114,9 @@ public class SubjectCreator
          if (!ctx.isValid(principal, expectedPassword, subject)) {
             throw MESSAGES.authenticationFailed(principal.getName());
          }
-      } catch (NullPointerException ee) {
-         SECURITY_LOGGER.noSecurityDomain();
-         return null;
+
+      } catch (RealmUnavailableException e) {
+         throw MESSAGES.authenticationFailed(principal.getName());
       }
 
       if (TRACE)

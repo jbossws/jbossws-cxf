@@ -852,16 +852,15 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <excludes combine.children="append">
-                <!-- https://issues.redhat.com/browse/JBWS-4230 -->
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestEjbTestCase*</exclude>
                 <!-- jaspi disabled --><exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/JaspiAuthenticationTestCase*</exclude>
                 <!-- picketlink --> <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
+                <!-- jms activemq.artemis setup issues ... Caused by: java.lang.ClassNotFoundException:
+                      org.apache.activemq.artemis.api.core.TransportConfiguration
+                 -->
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointOnlyDeploymentTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/JMSHTTPEndpointDeploymentTestCase*</exclude>
+                <!-- shared-tests  that are failing -->
                 <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
-
-                <!--https://issues.redhat.com/browse/WFLY-15563 -->
-                <exclude>org/jboss/test/ws/jaxws/cxf/jbws3628/JBWS3628TestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
               </excludes>
