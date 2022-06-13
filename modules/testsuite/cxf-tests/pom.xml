@@ -96,12 +96,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <dependency>
-        <groupId>org.wildfly.security</groupId>
-        <artifactId>wildfly-elytron-client</artifactId>
-        <version>${wildfly.elytron.version}</version>
-        <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <!-- Profiles -->
@@ -149,11 +143,11 @@
                     </property>
                     <property>
                       <name>usersPropFile</name>
-                      <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
+                      <value>${project.build.directory}/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties</value>
                     </property>
                     <property>
                       <name>rolesPropFile</name>
-                      <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
+                      <value>${project.build.directory}/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties</value>
                     </property>
                     <property>
                       <name>keystorePath</name>

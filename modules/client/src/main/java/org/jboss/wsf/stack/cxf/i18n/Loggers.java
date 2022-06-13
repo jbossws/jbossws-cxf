@@ -256,4 +256,12 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = WARN)
     @Message(id = 24112, value = "Could not construct reference for config: %s")
     void unableToCreateConfigRef(String url, @Cause Throwable cause);
+
+    @LogMessage(level = ERROR)
+    @Message(id = 24114, value = "No security domain associated")
+    void noSecurityDomain();
+
+    @LogMessage(level = ERROR)
+    @Message(id = 24115, value = "Failed to compute UsernameToken profile digest from expected password")
+    void failedToComputeUsernameTokenProfileDigest();
 }
