@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.cxf.logging;
 
 import jakarta.annotation.Resource;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import jakarta.xml.ws.WebServiceContext;

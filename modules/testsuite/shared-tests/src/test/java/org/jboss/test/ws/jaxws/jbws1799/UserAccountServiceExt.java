@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws1799;
 
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
 import jakarta.jws.WebService;
 import jakarta.xml.ws.RequestWrapper;
 import jakarta.xml.ws.ResponseWrapper;
@@ -52,7 +52,7 @@ import org.jboss.ws.api.annotation.WebContext;
 )
 public class UserAccountServiceExt implements IUserAccountServiceExt 
 {
-   @TransactionAttribute(javax.ejb.TransactionAttributeType.SUPPORTS)
+   @TransactionAttribute(jakarta.ejb.TransactionAttributeType.SUPPORTS)
    @RequestWrapper(className = "org.jboss.test.ws.jaxws.jbws1799.jaxws.Authenticate1")
    @ResponseWrapper(className = "org.jboss.test.ws.jaxws.jbws1799.jaxws.Authenticate1Response")
    public boolean authenticate(String username, String password)

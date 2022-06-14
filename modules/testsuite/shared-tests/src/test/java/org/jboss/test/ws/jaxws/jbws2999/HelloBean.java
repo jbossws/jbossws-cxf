@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.jbws2999;
 
 import jakarta.jws.WebService;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 
 @WebService(portName = "JunkPortName",
 		    serviceName = "JunkServiceName",

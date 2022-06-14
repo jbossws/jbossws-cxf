@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.oasis;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebService;
 
 import org.apache.cxf.annotations.EndpointProperties;

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws3845;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import jakarta.xml.soap.SOAPElement;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;

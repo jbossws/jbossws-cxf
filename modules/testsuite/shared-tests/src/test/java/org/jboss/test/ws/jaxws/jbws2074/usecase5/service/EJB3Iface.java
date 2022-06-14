@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2074.usecase5.service;
 
-import javax.ejb.Remote;
+import jakarta.ejb.Remote;
 import jakarta.jws.WebService;
 
 @Remote

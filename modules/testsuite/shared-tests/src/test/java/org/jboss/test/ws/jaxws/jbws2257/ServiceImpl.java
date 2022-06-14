@@ -23,7 +23,7 @@
 package org.jboss.test.ws.jaxws.jbws2257;
 
 import jakarta.annotation.Resource;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebService;
 import jakarta.xml.ws.EndpointReference;
 import jakarta.xml.ws.WebServiceContext;

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws944;
 
-import javax.ejb.EJBObject;
+import jakarta.ejb.EJBObject;
 
 /**
  * EJB2.1 Remote Interface

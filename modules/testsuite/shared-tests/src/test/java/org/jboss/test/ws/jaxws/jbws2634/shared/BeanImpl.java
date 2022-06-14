@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2634.shared;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 
 /**
  * The EJB3 implementation

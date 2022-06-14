@@ -21,9 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.jbws944;
 
-import javax.ejb.Remote;
-import javax.ejb.RemoteHome;
-import javax.ejb.Stateless;
+import jakarta.ejb.Remote;
+import jakarta.ejb.RemoteHome;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import jakarta.jws.soap.SOAPBinding;

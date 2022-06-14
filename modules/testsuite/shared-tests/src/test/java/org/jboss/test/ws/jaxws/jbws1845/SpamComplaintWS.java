@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1845;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebService;
 import jakarta.xml.ws.ResponseWrapper;
 

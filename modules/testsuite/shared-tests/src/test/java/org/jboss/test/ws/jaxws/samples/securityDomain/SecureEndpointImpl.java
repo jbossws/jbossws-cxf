@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.samples.securityDomain;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.annotation.security.PermitAll;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.Oneway;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;

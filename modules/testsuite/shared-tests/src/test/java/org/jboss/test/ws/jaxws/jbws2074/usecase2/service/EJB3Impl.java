@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.jbws2074.usecase2.service;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebService;
 import jakarta.xml.ws.WebServiceException;
 

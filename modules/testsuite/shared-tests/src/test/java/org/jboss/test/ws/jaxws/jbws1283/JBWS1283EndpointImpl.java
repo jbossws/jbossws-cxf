@@ -25,7 +25,7 @@ import org.jboss.ws.api.annotation.WebContext;
 
 import jakarta.jws.WebService;
 import jakarta.jws.HandlerChain;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 
 /**
  * @author Heiko.Braun@jboss.com

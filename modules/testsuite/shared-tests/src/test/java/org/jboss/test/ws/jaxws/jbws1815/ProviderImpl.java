@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws1815;
 
-import javax.ejb.Local;
-import javax.ejb.Stateless;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateless;
 import javax.xml.namespace.QName;
 import jakarta.xml.soap.Detail;
 import jakarta.xml.soap.SOAPElement;

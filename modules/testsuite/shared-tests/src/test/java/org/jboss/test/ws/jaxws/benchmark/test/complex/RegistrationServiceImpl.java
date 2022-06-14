@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.benchmark.test.complex;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebService;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;

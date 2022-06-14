@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws3026;
 
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 
 @Local
 public interface MyBeanLocal

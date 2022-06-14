@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.cxf.mixtype;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.Oneway;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;

@@ -21,9 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.jbws1872;
 
-import javax.ejb.Local;
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import jakarta.ejb.Local;
+import jakarta.ejb.Remote;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebService;
 
 /**

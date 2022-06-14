@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.jbws1694;
 
 import org.jboss.ws.api.annotation.WebContext;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebService;
 import jakarta.xml.ws.Holder;
 

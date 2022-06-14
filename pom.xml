@@ -72,11 +72,13 @@
     <wildfly2500.version>25.0.0.Final</wildfly2500.version>
     <wildfly2600.version>26.0.0.Final</wildfly2600.version>
     <wildfly2700.version>27.0.0.Alpha2-SNAPSHOT</wildfly2700.version>
-    <ejb.api.version>2.0.0.Final</ejb.api.version>
+    <jakarta.annotation.api.version>2.1.0</jakarta.annotation.api.version>
+    <jakarta.inject.api.version>2.0.1</jakarta.inject.api.version>
+    <jakarta.ejb.api.version>4.0.0</jakarta.ejb.api.version>
     <jakarta.activation-api.version>2.1.0</jakarta.activation-api.version>
     <jakarta.angus.activation.version>1.0.0</jakarta.angus.activation.version>
     <jakarta.angus.mail.version>1.0.0</jakarta.angus.mail.version>
-    <cxf.version>3.5.2-jbossorg-1</cxf.version>
+    <cxf.version>3.5.2-jbossorg-2</cxf.version>
     <cxf.asm.version>9.1</cxf.asm.version>
     <cxf.xjcplugins.version>3.3.1-jbossorg-1</cxf.xjcplugins.version>
     <jboss-logging.version>3.4.1.Final</jboss-logging.version>
@@ -108,7 +110,7 @@
     <opensaml.version>4.2.0</opensaml.version>
     <annotation.api.version>2.0.1.Final</annotation.api.version>
     <saaj.api.version>1.0.0.Final</saaj.api.version>
-    <saaj.impl.version>2.0.0.SP1</saaj.impl.version>
+    <saaj.impl.version>3.0.0-M2</saaj.impl.version>
     <!-- ##
     <servlet.api.version>2.0.0.Final</servlet.api.version>
     ## -->
@@ -124,11 +126,10 @@
     <arquillian-wildfly-container.version>5.0.0.Alpha2</arquillian-wildfly-container.version>
     <artimes.client.version>2.22.0</artimes.client.version>
     <version.commons.validator>1.6</version.commons.validator>
-    <interceptor.api.version>2.0.0.Final</interceptor.api.version>
+    <jakarta.interceptor.api.version>2.1.0</jakarta.interceptor.api.version>
     <version.org.jboss.openjdk-orb>8.1.5.Final</version.org.jboss.openjdk-orb>
     <jaspi.api.version>1.0.2.Final</jaspi.api.version>
     <jacc.api.version>1.0.2.Final</jacc.api.version>
-    <javax.inject.version>1</javax.inject.version>
     <org.easymock.version>3.2</org.easymock.version>
     <junit.version>4.12</junit.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
@@ -531,12 +532,12 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -550,12 +551,12 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -569,12 +570,12 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -588,12 +589,12 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -611,37 +612,42 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
 
       <dependency>
         <groupId>org.jboss.spec.jakarta.xml.soap</groupId>
-        <artifactId>jboss-saaj-api_2.0_spec</artifactId>
+        <artifactId>jboss-saaj-api_3.0_spec</artifactId>
         <version>${saaj.api.version}</version>
         <exclusions>
           <exclusion>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>jakarta.activation</artifactId>
+            <groupId>*</groupId>
+            <artifactId>*</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
 
+      <dependency>
+         <groupId>jakarta.annotation</groupId>
+         <artifactId>jakarta.annotation-api</artifactId>
+         <version>${jakarta.annotation.api.version}</version>
+      </dependency>
       <dependency>
         <groupId>jakarta.xml.ws</groupId>
         <artifactId>jakarta.xml.ws-api</artifactId>
         <version>${jakarta.xml.ws-api.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.jboss.spec.javax.ejb</groupId>
-        <artifactId>jboss-ejb-api_3.2_spec</artifactId>
-        <version>${ejb.api.version}</version>
+        <groupId>jakarta.ejb</groupId>
+        <artifactId>jakarta.ejb-api</artifactId>
+        <version>${jakarta.ejb.api.version}</version>
       </dependency>
       <!-- Explicit saaj-impl dependency in synch with default SAAJ factories expected by our SAAJ API -->
       <dependency>
@@ -983,9 +989,9 @@
       </dependency>
 
       <dependency>
-        <groupId>org.jboss.spec.javax.interceptor</groupId>
-        <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
-        <version>${interceptor.api.version}</version>
+        <groupId>jakarta.interceptor</groupId>
+        <artifactId>jakarta.interceptor-api</artifactId>
+        <version>${jakarta.interceptor.api.version}</version>
       </dependency>
 
       <!-- Other test dependencies -->
@@ -1008,9 +1014,9 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>javax.inject</groupId>
-        <artifactId>javax.inject</artifactId>
-        <version>${javax.inject.version}</version>
+        <groupId>jakarta.inject</groupId>
+        <artifactId>jakarta.inject-api</artifactId>
+        <version>${jakarta.inject.api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.derby</groupId>

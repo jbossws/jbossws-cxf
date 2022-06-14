@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.exception.server;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebService;
 import jakarta.xml.ws.BindingType;
 import jakarta.xml.ws.soap.SOAPBinding;

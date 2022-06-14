@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.exception.server;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.HandlerChain;
 import jakarta.jws.WebService;
 

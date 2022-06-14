@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.jbws1283;
 
 import jakarta.jws.WebService;
-import javax.ejb.Remote;
+import jakarta.ejb.Remote;
 
 /**
  * @author Heiko.Braun@jboss.com

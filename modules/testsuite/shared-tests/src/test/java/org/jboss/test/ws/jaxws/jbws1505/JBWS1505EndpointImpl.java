@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.jbws1505;
 
 import jakarta.jws.WebService;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 
 /**
  * @author Heiko.Braun@jboss.com

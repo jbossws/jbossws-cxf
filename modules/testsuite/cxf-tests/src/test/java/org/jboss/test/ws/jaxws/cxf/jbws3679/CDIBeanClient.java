@@ -17,7 +17,7 @@
 package org.jboss.test.ws.jaxws.cxf.jbws3679;
 
 import jakarta.annotation.PostConstruct;
-import javax.inject.Named;
+import jakarta.inject.Named;
 import jakarta.xml.ws.WebServiceRef;
 
 @Named

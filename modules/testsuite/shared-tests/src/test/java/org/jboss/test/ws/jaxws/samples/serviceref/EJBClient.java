@@ -25,8 +25,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import jakarta.ejb.Remote;
+import jakarta.ejb.Stateless;
 import javax.naming.InitialContext;
 import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.Service;

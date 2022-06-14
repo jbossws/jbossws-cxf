@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.samples.advanced.retail.profile;
 
-import javax.ejb.Remote;
+import jakarta.ejb.Remote;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import jakarta.jws.soap.SOAPBinding;

@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.benchmark.test.datatypes;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebService;
 import javax.xml.datatype.DatatypeConfigurationException;

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1799;
 
-import javax.ejb.Remote;
+import jakarta.ejb.Remote;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebService;

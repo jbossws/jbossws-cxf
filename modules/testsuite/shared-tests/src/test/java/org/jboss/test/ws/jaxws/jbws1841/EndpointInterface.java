@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1841;
 
-import javax.ejb.Remote;
+import jakarta.ejb.Remote;
 import jakarta.jws.WebService;
 import jakarta.jws.soap.SOAPBinding;
 

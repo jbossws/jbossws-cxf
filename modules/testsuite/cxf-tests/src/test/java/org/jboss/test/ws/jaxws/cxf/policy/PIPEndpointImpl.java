@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.policy;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 

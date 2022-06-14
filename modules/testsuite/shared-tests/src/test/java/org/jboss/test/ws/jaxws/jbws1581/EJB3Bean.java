@@ -23,8 +23,8 @@ package org.jboss.test.ws.jaxws.jbws1581;
 
 import java.net.URL;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import jakarta.ejb.Remote;
+import jakarta.ejb.Stateless;
 import jakarta.xml.ws.WebServiceRef;
 
 @Stateless

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws3026;
 
-import javax.ejb.Remote;
+import jakarta.ejb.Remote;
 
 @Remote
 public interface MyBeanRemote
