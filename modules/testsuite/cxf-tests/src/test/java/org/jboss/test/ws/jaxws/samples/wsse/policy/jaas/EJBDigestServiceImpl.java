@@ -22,7 +22,7 @@
 package org.jboss.test.ws.jaxws.samples.wsse.policy.jaas;
 
 import jakarta.annotation.security.RolesAllowed;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 

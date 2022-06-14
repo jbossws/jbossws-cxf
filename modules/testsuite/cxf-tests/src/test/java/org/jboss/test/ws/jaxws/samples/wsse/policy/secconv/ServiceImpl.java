@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.secconv;
 
 import java.util.Calendar;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebService;
 
 import org.apache.cxf.annotations.EndpointProperties;

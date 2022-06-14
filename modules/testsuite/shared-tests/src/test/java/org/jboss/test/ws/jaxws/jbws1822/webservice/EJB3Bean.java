@@ -21,9 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.jbws1822.webservice;
 
-import javax.ejb.EJB;
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Remote;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebService;
 
 import org.jboss.test.ws.jaxws.jbws1822.shared.BeanIface;

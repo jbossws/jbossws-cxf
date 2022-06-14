@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import jakarta.activation.DataHandler;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import jakarta.jws.soap.SOAPBinding;

@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws3026;
 
-import javax.ejb.EJB;
+import jakarta.ejb.EJB;
 import jakarta.jws.WebService;
 import jakarta.jws.soap.SOAPBinding;
 import jakarta.jws.soap.SOAPBinding.Style;

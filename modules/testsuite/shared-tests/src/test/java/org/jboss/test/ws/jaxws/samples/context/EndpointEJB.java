@@ -28,7 +28,7 @@ import java.security.Principal;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.RolesAllowed;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import jakarta.jws.soap.SOAPBinding;

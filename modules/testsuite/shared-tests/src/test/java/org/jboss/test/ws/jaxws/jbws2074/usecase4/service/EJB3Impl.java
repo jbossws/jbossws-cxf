@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws2074.usecase4.service;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.HandlerChain;
 import jakarta.jws.WebService;
 

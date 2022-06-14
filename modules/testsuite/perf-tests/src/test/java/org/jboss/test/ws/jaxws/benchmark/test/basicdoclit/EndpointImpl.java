@@ -24,7 +24,7 @@ package org.jboss.test.ws.jaxws.benchmark.test.basicdoclit;
 import jakarta.jws.WebService;
 
 import org.jboss.logging.Logger;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 
 @Stateless
 @WebService(serviceName="EndpointService", portName="EndpointPort", endpointInterface = "org.jboss.test.ws.jaxws.benchmark.test.basicdoclit.Endpoint")

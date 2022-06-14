@@ -23,8 +23,8 @@ package org.jboss.test.ws.jaxws.samples.webserviceref;
 
 import java.util.ArrayList;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import jakarta.ejb.Remote;
+import jakarta.ejb.Stateless;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import jakarta.xml.ws.WebServiceException;

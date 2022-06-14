@@ -21,9 +21,9 @@
  */ 
 package org.jboss.test.ws.jaxws.jbws3441;
 
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
-import javax.interceptor.InvocationContext;
+import jakarta.interceptor.AroundInvoke;
+import jakarta.interceptor.Interceptor;
+import jakarta.interceptor.InvocationContext;
 
 @EJBInterceptor
 @Interceptor

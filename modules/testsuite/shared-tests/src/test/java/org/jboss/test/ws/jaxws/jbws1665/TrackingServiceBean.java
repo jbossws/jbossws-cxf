@@ -21,7 +21,7 @@
  */
 package org.jboss.test.ws.jaxws.jbws1665;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebService;

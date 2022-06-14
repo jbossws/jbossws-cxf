@@ -23,7 +23,7 @@ package org.jboss.test.ws.jaxws.jbws2634.webservice;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
-import javax.ejb.EJB;
+import jakarta.ejb.EJB;
 import jakarta.xml.ws.WebServiceException;
 
 import org.jboss.logging.Logger;

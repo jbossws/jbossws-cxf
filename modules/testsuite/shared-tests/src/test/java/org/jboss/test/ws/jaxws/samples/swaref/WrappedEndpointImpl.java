@@ -26,7 +26,7 @@ import org.jboss.ws.api.annotation.WebContext;
 import jakarta.activation.DataHandler;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.xml.bind.annotation.XmlAttachmentRef;
 import jakarta.xml.ws.WebServiceException;
 

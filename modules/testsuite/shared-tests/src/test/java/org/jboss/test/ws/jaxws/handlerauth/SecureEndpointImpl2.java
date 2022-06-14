@@ -26,7 +26,7 @@ import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.DenyAll;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.HandlerChain;
 import jakarta.jws.Oneway;
 import jakarta.jws.WebService;

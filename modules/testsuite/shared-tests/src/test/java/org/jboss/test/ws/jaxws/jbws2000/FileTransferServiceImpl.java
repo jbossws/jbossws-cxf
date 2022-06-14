@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.activation.DataHandler;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import jakarta.jws.WebService;
 
 @Stateless

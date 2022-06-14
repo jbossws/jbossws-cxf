@@ -21,8 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.jbws1799;
 
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
 import jakarta.jws.WebService;
 
 import org.jboss.ws.api.annotation.TransportGuarantee;
@@ -50,7 +50,7 @@ import org.jboss.ws.api.annotation.WebContext;
 )
 public class UserAccountService implements IUserAccountService
 {
-   @TransactionAttribute(javax.ejb.TransactionAttributeType.SUPPORTS)
+   @TransactionAttribute(jakarta.ejb.TransactionAttributeType.SUPPORTS)
    public boolean authenticate(String username)
    {
        return "authorized".equals(username);
