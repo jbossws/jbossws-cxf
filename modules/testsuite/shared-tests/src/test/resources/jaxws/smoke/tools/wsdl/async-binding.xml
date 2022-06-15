@@ -1,7 +1,7 @@
 <bindings
     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
     wsdlLocation="TestService.wsdl"
-    xmlns="http://java.sun.com/xml/ns/jaxws">
+    xmlns="https://jakarta.ee/xml/ns/jaxws">
         <package name="org.jboss.test.ws.tools.testBindingFiles"/>
         <enableAsyncMapping>true</enableAsyncMapping>
 </bindings>

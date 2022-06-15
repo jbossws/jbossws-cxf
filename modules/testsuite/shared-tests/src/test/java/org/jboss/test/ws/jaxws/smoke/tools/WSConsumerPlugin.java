@@ -331,7 +331,7 @@ public class WSConsumerPlugin extends JBossWSTest
    {
       consumer.setTargetPackage("org.jboss.test.ws.tools.testTarget");
       consumer.setGenerateSource(true);
-      consumer.setTarget("2.1");
+      consumer.setTarget("2.2");
       consumer.setNoCompile(false);
 
       consumeWSDL();
@@ -371,7 +371,7 @@ public class WSConsumerPlugin extends JBossWSTest
             }
          }
       }
-      assertFalse("Found JAXWS 2.2 constructor", featureConstructor);
+      assertTrue("Found JAXWS 2.2 constructor", featureConstructor);
    }
 
    /**

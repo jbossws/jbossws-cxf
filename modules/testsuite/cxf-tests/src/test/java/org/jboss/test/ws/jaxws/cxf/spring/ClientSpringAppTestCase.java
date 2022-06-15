@@ -37,7 +37,7 @@ import org.jboss.wsf.test.EnableOnJDK;
 import org.jboss.wsf.test.IgnoreJdk;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Rule;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -57,8 +57,8 @@ public final class ClientSpringAppTestCase extends JBossWSTest
    @ArquillianResource
    private URL baseURL;
 
-   @Rule
-   public EnableOnJDK jdk17 = EnableOnJDK.ON_JDK17;
+   @ClassRule
+   public static EnableOnJDK jdk17 = EnableOnJDK.ON_JDK17;
 
    @Deployment(name = DEP, testable = false)
    public static WebArchive createDeployment()
