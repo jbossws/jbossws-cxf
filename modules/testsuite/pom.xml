@@ -860,7 +860,6 @@
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointOnlyDeploymentTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/JMSHTTPEndpointDeploymentTestCase*</exclude>
                 <!-- shared-tests  that are failing -->
-                <exclude>org/jboss/test/ws/publish/EndpointPublishTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
               </excludes>
