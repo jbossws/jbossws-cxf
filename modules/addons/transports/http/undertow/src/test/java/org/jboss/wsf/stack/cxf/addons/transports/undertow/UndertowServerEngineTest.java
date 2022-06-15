@@ -193,11 +193,10 @@ public class UndertowServerEngineTest {
       public void handleRequest(HttpServerExchange exchange) throws Exception
       {
          count.incrementAndGet();
-         exchange.setResponseCode(200);
+         exchange.setStatusCode(200);
          OutputStream os = exchange.getOutputStream();
-         os.write("Hello".getBytes(StandardCharsets.UTF_8));
+         os.write("Hello".getBytes());
          os.flush();
-         
       }
    }
 
