@@ -33,8 +33,11 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
+import org.jboss.wsf.test.EnableOnJDK;
+import org.jboss.wsf.test.IgnoreJdk;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -53,7 +56,10 @@ public final class ClientSpringAppTestCase extends JBossWSTest
    
    @ArquillianResource
    private URL baseURL;
-   
+
+   @Rule
+   public EnableOnJDK jdk17 = EnableOnJDK.ON_JDK17;
+
    @Deployment(name = DEP, testable = false)
    public static WebArchive createDeployment()
    {
@@ -77,6 +83,7 @@ public final class ClientSpringAppTestCase extends JBossWSTest
          .addClass(org.jboss.wsf.test.TestServlet.class)
          .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/spring/my-cxf.xml"), "my-cxf.xml")
          .addAsResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/spring/spring-dd.xml"), "spring-dd.xml")
+         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/spring/jboss-deployment-structure.xml"))
          .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/spring/permissions.xml"), "permissions.xml");
       JBossWSTestHelper.addLibrary(SPRING_DIR, archive);
       return archive;

@@ -691,12 +691,8 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <excludes combine.children="append">
-                <!--TODO: This requires spring 6.0.0-M4 and java17 to run.
-                     It needs to fix this failure too : com.sun.faces.config.ConfigurationException:
-                     CONFIGURATION FAILED! Cannot invoke \"jakarta.faces.application.ResourceHandler.createViewResourc
-                 -->
-                <exclude>**/org/jboss/test/ws/jaxws/cxf/noIntegration/EmbeddedCXFTestCase**</exclude>
-                <exclude>**/org/jboss/test/ws/jaxws/cxf/spring/ClientSpringAppTestCase**</exclude>
+                <!-- enable this after https://issues.redhat.com/browse/WFLY-16481 is fixed-->
+                <exclude>**/org/jboss/test/ws/publish/EndpointPublishTestCase**</exclude>
               </excludes>
             </configuration>
           </plugin>
