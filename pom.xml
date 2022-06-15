@@ -108,7 +108,6 @@
     <fastinfoset.version>1.2.16</fastinfoset.version>
     <neethi.version>3.1.1</neethi.version>
     <opensaml.version>4.2.0</opensaml.version>
-    <annotation.api.version>2.0.1.Final</annotation.api.version>
     <saaj.api.version>1.0.0.Final</saaj.api.version>
     <saaj.impl.version>3.0.0-M2</saaj.impl.version>
     <!-- ##
@@ -224,14 +223,6 @@
             <artifactId>jakarta.annotation-api</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-javamail_1.4_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jta_1.1_spec</artifactId>
-          </exclusion>
-          <exclusion>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
           </exclusion>
@@ -322,10 +313,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
           </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jta_1.1_spec</artifactId>
-          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -362,14 +349,6 @@
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
           </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-javamail_1.4_spec</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jta_1.1_spec</artifactId>
-          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -388,10 +367,6 @@
           <exclusion>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-wsdl</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jta_1.1_spec</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -412,10 +387,6 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-javascript</artifactId>
           </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jta_1.1_spec</artifactId>
-          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -430,10 +401,6 @@
           <exclusion>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-security-jose</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jta_1.1_spec</artifactId>
           </exclusion>
           <exclusion>
             <groupId>org.springframework</groupId>
@@ -454,10 +421,6 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-udp</artifactId>
           </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jta_1.1_spec</artifactId>
-          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -472,10 +435,6 @@
           <exclusion>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>*</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jta_1.1_spec</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -492,10 +451,6 @@
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>*</artifactId>
           </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jta_1.1_spec</artifactId>
-          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -510,10 +465,6 @@
           <exclusion>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>*</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jta_1.1_spec</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -831,12 +782,6 @@
       </dependency>
 
       <dependency>
-        <groupId>org.jboss.spec.javax.annotation</groupId>
-        <artifactId>jboss-annotations-api_1.3_spec</artifactId>
-        <version>${annotation.api.version}</version>
-      </dependency>
-
-      <dependency>
         <groupId>jakarta.xml.soap</groupId>
         <artifactId>jakarta.xml.soap-api</artifactId>
         <version>${jakarta.xml.soap-api.version}</version>
@@ -864,12 +809,6 @@
       </dependency>
 
       <!-- jboss provided -->
-      <dependency>
-        <groupId>org.picketbox</groupId>
-        <artifactId>picketbox</artifactId>
-        <version>${picketbox.version}</version>
-        <scope>provided</scope>
-      </dependency>
       <dependency>
         <groupId>xerces</groupId>
         <artifactId>xercesImpl</artifactId>
@@ -995,18 +934,6 @@
       </dependency>
 
       <!-- Other test dependencies -->
-      <dependency>
-        <groupId>org.picketlink</groupId>
-        <artifactId>picketlink-common</artifactId>
-        <version>${picketlink.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.picketlink</groupId>
-        <artifactId>picketlink-federation</artifactId>
-        <version>${picketlink.version}</version>
-        <scope>test</scope>
-      </dependency>
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
@@ -1186,41 +1113,6 @@
       <properties>
         <ipVerArgs>-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false</ipVerArgs>
       </properties>
-    </profile>
-
-    <!--
-    Name:  wildfly2500
-    Descr: WildFly-25.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly2500</id>
-      <properties>
-        <jbossws.integration.target>wildfly2500</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly2500.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-    <!--
-    Name:  wildfly2600
-    Descr: WildFly-26.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly2600</id>
-      <properties>
-        <jbossws.integration.target>wildfly2600</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly2600.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
     </profile>
     <!--
 Name:  wildfly2700
