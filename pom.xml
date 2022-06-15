@@ -88,16 +88,9 @@
     <picketbox.version>5.0.3.Final</picketbox.version>
     <picketlink.version>2.5.5.SP12</picketlink.version>
     <jaxws-undertow-httpspi.version>2.0.0-SNAPSHOT</jaxws-undertow-httpspi.version>
-    <io.undertow.version>2.2.17.Final</io.undertow.version>
-    <!-- ## <jaxb.api.version>2.0.0.Final</jaxb.api.version>
-    <jaxb.impl.version>2.3.3-b02</jaxb.impl.version>
-    ##-->
+    <io.undertow.version>2.2.18.Final</io.undertow.version>
     <jaxb.impl.version>3.0.2</jaxb.impl.version>
-    <!-- ##
-    <jaxws.api.version>1.0.0.Final</jaxws.api.version>
-    ## -->
-    <!-- ## <jsr181.api.version>1.0-MR1</jsr181.api.version>
-    ## -->
+    <jboss.jaxbintros.version>2.0.0</jboss.jaxbintros.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons-collections.version>3.2.2</commons-collections.version>
     <commons-lang3.version>3.11</commons-lang3.version>
@@ -110,9 +103,6 @@
     <opensaml.version>4.2.0</opensaml.version>
     <saaj.api.version>1.0.0.Final</saaj.api.version>
     <saaj.impl.version>3.0.0-M2</saaj.impl.version>
-    <!-- ##
-    <servlet.api.version>2.0.0.Final</servlet.api.version>
-    ## -->
     <stax.api.version>1.0-2</stax.api.version>
     <velocity.version>2.3</velocity.version>
     <xerces.version>2.12.0.SP03</xerces.version>
@@ -175,6 +165,23 @@
         <groupId>org.jboss.ws</groupId>
         <artifactId>jbossws-common</artifactId>
         <version>${jbossws.common.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>*</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>jboss.jaxbintros</groupId>
+        <artifactId>jboss-jaxb-intros</artifactId>
+        <version>${jboss.jaxbintros.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>*</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.ws</groupId>
