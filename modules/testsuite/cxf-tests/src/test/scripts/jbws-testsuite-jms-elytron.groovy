@@ -48,15 +48,13 @@ propertiesRealm.'groups-properties'[0].@path = "jbws-application-roles.propertie
  def jmsQueue = server.appendNode('jms-queue', ['name':'testQueue', 'entries':'queue/test java:jboss/exported/jms/queue/test'])
  ***/
 def activemqSubsystem = getSubsystem(root, "urn:jboss:domain:messaging-activemq:")
-def actServer = null
+def server = null
 for (element in activemqSubsystem) {
     if (element.name().getLocalPart() == 'server') {
-        actServer = element
+        server = element
     }
 }
-
-def jmsQueue = actServer.appendNode('jms-queue', ['name':'testQueue', 'entries':'queue/test java:jboss/exported/jms/queue/test'])
-
+def jmsQueue = server.appendNode('jms-queue', ['name':'testQueue', 'entries':'queue/test java:jboss/exported/jms/queue/test'])
 /**
  * Save the configuration to a new file
  */
