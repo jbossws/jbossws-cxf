@@ -51,8 +51,8 @@
 
   <!-- Modules -->
   <modules>
-     <!-- FIXME [JBWS-4277] Restore JASPI integration
-    <module>modules/jaspi</module> -->
+     <!-- FIXME [JBWS-4277] Restore JASPI integration-->
+    <module>modules/jaspi</module>
     <module>modules/server</module>
     <module>modules/client</module>
     <module>modules/endorsed</module>
@@ -87,7 +87,7 @@
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <picketbox.version>5.0.3.Final</picketbox.version>
     <picketlink.version>2.5.5.SP12</picketlink.version>
-    <jaxws-undertow-httpspi.version>2.0.0-SNAPSHOT</jaxws-undertow-httpspi.version>
+    <jaxws-undertow-httpspi.version>2.0.0.Final</jaxws-undertow-httpspi.version>
     <io.undertow.version>2.2.18.Final</io.undertow.version>
     <jaxb.impl.version>3.0.2</jaxb.impl.version>
     <jboss.jaxbintros.version>2.0.0</jboss.jaxbintros.version>
@@ -107,7 +107,7 @@
     <velocity.version>2.3</velocity.version>
     <xerces.version>2.12.0.SP03</xerces.version>
     <xmlsec.version>3.0.0</xmlsec.version>
-    <wss4j.version>3.0.0-SNAPSHOT</wss4j.version>
+    <wss4j.version>2.4.1-jbossorg-1</wss4j.version>
     <wstx.version>6.0.3</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
     <derby.version>10.14.2.0</derby.version>
@@ -139,8 +139,8 @@
     <jakarta.xml.ws-api.version>3.0.1</jakarta.xml.ws-api.version>
     <jakarta.servlet-api.version>5.0.0</jakarta.servlet-api.version>
     <jakarta.mail.version>2.0.1</jakarta.mail.version>
-    <jakarta.xml.soap-api.version>3.0.0-RC1</jakarta.xml.soap-api.version>
-    <jakarta.security.auth.message.version>2.0.0-RC1</jakarta.security.auth.message.version>
+    <jakarta.xml.soap-api.version>3.0.0</jakarta.xml.soap-api.version>
+    <jakarta.security.auth.message.version>2.0.0</jakarta.security.auth.message.version>
   </properties>
 
   <!-- licenses -->
@@ -742,6 +742,12 @@
       </dependency>
 
       <!-- jboss provided -->
+      <dependency>
+        <groupId>org.picketbox</groupId>
+        <artifactId>picketbox</artifactId>
+        <version>${picketbox.version}</version>
+        <scope>provided</scope>
+      </dependency>
       <dependency>
         <groupId>xerces</groupId>
         <artifactId>xercesImpl</artifactId>
