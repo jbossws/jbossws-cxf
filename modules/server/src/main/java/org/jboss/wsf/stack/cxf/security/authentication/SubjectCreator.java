@@ -109,10 +109,14 @@ public class SubjectCreator
             if (!getUsernameTokenPasswordDigest(nonce, created, expectedPassword).equals(password)) {
                throw MESSAGES.authenticationFailed(principal.getName());
             }
-         }
-         // client's digest is valid so expected password can be used to authenticate to the domain
-         if (!ctx.isValid(principal, expectedPassword, subject)) {
-            throw MESSAGES.authenticationFailed(principal.getName());
+            // client's digest is valid so expected password can be used to authenticate to the domain
+            if (!ctx.isValid(principal, expectedPassword, subject)) {
+               throw MESSAGES.authenticationFailed(principal.getName());
+            }
+         } else {
+            if (!ctx.isValid(principal, password, subject)) {
+               throw MESSAGES.authenticationFailed(principal.getName());
+            }
          }
 
       } catch (RealmUnavailableException e) {
