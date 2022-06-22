@@ -35,7 +35,7 @@ public class UsernamePasswordCallback implements CallbackHandler
    {
       WSPasswordCallback pc = (WSPasswordCallback)callbacks[0];
       if ("kermit".equals(pc.getIdentifier()))
-         pc.setPassword("thefrog");
+         pc.setPassword("therealfrog");
       else
          pc.setPassword("wrong password");
    }
