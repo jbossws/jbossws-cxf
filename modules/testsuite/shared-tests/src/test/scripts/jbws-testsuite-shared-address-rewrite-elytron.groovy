@@ -10,6 +10,23 @@ if (!session.userProperties['enableServerLoggingToConsole'] && !project.properti
 def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
 file.attributes()['path'] = serverLog
 
+/**
+ * Add a https connector like this:
+ *
+ * <security-realm name="jbws-test-https-realm">
+ *    <server-identities>
+ *        <ssl>
+ *             <keystore path="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/test.keystore" keystore-password="changeit" alias="tomcat"/>
+ *        </ssl>
+ *    </server-identities>
+ * </security-realm>
+ *
+ */
+def mgtSecurityRealms = root.management.'security-realms'[0]
+def mgtSecurityRealm = mgtSecurityRealms.appendNode('security-realm', ['name':'jbws-test-https-realm'])
+def mgtServerIdentities = mgtSecurityRealm.appendNode('server-identities')
+def mgtSsl = mgtServerIdentities.appendNode('ssl')
+mgtSsl.appendNode('keystore', ['path':keystorePath,'keystore-password':'changeit','alias':'tomcat'])
 
 /**
  * Helper method to get subsystem element by xmlns prefix
@@ -74,72 +91,6 @@ def httpAuthenticationFactory = httpAuthen.appendNode('http-authentication-facto
 def mechanismConfiguration = httpAuthenticationFactory.appendNode('mechanism-configuration')
 def mechanism = mechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
 def mechanismRealm=mechanism.appendNode('mechanism-realm',['realm-name':'JBossWS'])
-
-/**
- * Add a https connector like this:
- *
- * <security-realm name="jbws-test-https-realm">
- *    <server-identities>
- *        <ssl>
- *             <keystore path="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/test.keystore" keystore-password="changeit" alias="tomcat"/>
- *        </ssl>
- *    </server-identities>
- * </security-realm>
- *
- */
-def elytronSubsystem =  getSubsystem(root, "urn:wildfly:elytron:")
-def tls = null
-for (element in elytronSubsystem) {
-    if (element.name().getLocalPart() == 'tls') {
-        tls = element
-    }
-}
-if (tls == null) {
-    tls = elytronSubsystem.appendNode('tls')
-}
-
-def keyStores = null
-for (element in tls) {
-    if (element.name().getLocalPart() == 'key-stores') {
-        keyStores = element
-    }
-}
-if (keyStores == null) {
-    keyStores = tls.appendNode('key-stores')
-}
-
-def keyStore = keyStores.appendNode('key-store', ['name':'jbwsTestHttpsRealmKS', 'alias-filter':'tomcat'])
-def credentialReference = keyStore.appendNode('credential-reference', ['clear-text':'changeit'])
-def implementation = keyStore.appendNode('implementation',['type':'JKS'])
-def filePath = keyStore.appendNode('file',['path':keystorePath])
-
-def keyManagers = null
-for (element in tls) {
-    if (element.name().getLocalPart() == 'key-managers') {
-        keyManagers = element
-    }
-}
-if (keyManagers == null) {
-    keyManagers = tls.appendNode('key-managers')
-}
-
-def keyManager = keyManagers.appendNode('key-manager',
-        ['name':'jbwsTestHttpsRealmKM','key-store':'jbwsTestHttpsRealmKS'])
-def credentialReferenceKM = keyManager.appendNode(
-        'credential-reference',['clear-text':'changeit'])
-
-def serverSslContexts = null
-for (element in tls) {
-    if (element.name().getLocalPart() == 'server-ssl-contexts') {
-        serverSslContexts = element
-    }
-}
-if (serverSslContexts == null) {
-    serverSslContexts = tls.appendNode('server-ssl-contexts')
-}
-
-def serverSslContext = serverSslContexts.appendNode('server-ssl-context',
-        ['name':'jbwsTestHttpsRealmSSC','key-manager':'jbwsTestHttpsRealmKM'])
 
 def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")
 def server = null

@@ -11,6 +11,24 @@ def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
 file.attributes()['path'] = serverLog
 
 /**
+ * Add a https connector like this:
+ *
+ * <security-realm name="jbws-test-https-realm">
+ *    <server-identities>
+ *        <ssl>
+ *             <keystore path="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/test.keystore" keystore-password="changeit" alias="tomcat"/>
+ *        </ssl>
+ *    </server-identities>
+ * </security-realm>
+ *
+ */
+def mgtSecurityRealms = root.management.'security-realms'[0]
+def mgtSecurityRealm = mgtSecurityRealms.appendNode('security-realm', ['name':'jbws-test-https-realm'])
+def mgtServerIdentities = mgtSecurityRealm.appendNode('server-identities')
+def mgtSsl = mgtServerIdentities.appendNode('ssl')
+mgtSsl.appendNode('keystore', ['path':keystorePath,'keystore-password':'changeit','alias':'tomcat'])
+
+/**
  * Helper method to get subsystem element by xmlns prefix
  */
 private getSubsystem(root, xmlnsPrefix) {
@@ -63,12 +81,9 @@ def propertiesRealm4 = securityRealms.appendNode('properties-realm', ['name':'JB
 def usersProperties4 = propertiesRealm4.appendNode('users-properties',['path':testResourcesDir + '/jaxws/samples/securityDomain/jbossws-users.properties', 'plain-text':'true'])
 def groupsProperties4 = propertiesRealm4.appendNode('groups-properties',['path':testResourcesDir + '/jaxws/samples/securityDomain/jbossws-roles.properties'])
 
-
-
 /**
   HttpAuthentication Factory
 **/
-
 def httpAuthen = null
 for (element in securitySubsystem) {
     if (element.name().getLocalPart() == 'http') {
@@ -97,7 +112,6 @@ def mechanismConfiguration4 = httpAuthenticationFactory4.appendNode('mechanism-c
 def mechanism4 = mechanismConfiguration4.appendNode('mechanism',['mechanism-name':'BASIC'])
 def mechanismRealm4=mechanism4.appendNode('mechanism-realm',['realm-name':'JBossWSSecurityDomainTest'])
 
-
 //add this to ejb
 def ejbSubsystem = getSubsystem(root, "urn:jboss:domain:ejb3:")
 
@@ -108,6 +122,9 @@ for (element in ejbSubsystem) {
     }
 }
 
+if (appSecurityDomains == null) {
+    appSecurityDomains = ejbSubsystem.appendNode('application-security-domains')
+}
 def ejbSecurityDomain1 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','security-domain':'JBossWS'])
 def ejbSecurityDomain2 = appSecurityDomains.appendNode('application-security-domain', ['name':'handlerauth-security-domain','security-domain':'handlerauth-security-domain'])
 def ejbSecurityDomain3 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainPermitAllTest','security-domain':'JBossWSSecurityDomainPermitAllTest'])
@@ -122,89 +139,28 @@ for (element in undertowSubsystem) {
         undertowAppSecurityDomains = element
     }
 }
+if (undertowAppSecurityDomains == null) {
+    undertowAppSecurityDomains = undertowSubsystem.appendNode('application-security-domains')
+}
 def appSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
 def basicAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'handlerauth-security-domain','http-authentication-factory':'handlerauth-security-domain'])
 def basicAppSecurityDomain2 = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainPermitAllTest','http-authentication-factory':'JBossWSSecurityDomainPermitAllTest'])
 def basicAppSecurityDomain3 = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainTest','http-authentication-factory':'JBossWSSecurityDomainTest'])
 
 
-
-/**
- * Add a https connector like this:
- *
- * <security-realm name="jbws-test-https-realm">
- *    <server-identities>
- *        <ssl>
- *             <keystore path="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/test.keystore" keystore-password="changeit" alias="tomcat"/>
- *        </ssl>
- *    </server-identities>
- * </security-realm>
- *
- */
-
-def elytronSubsystem =  getSubsystem(root, "urn:wildfly:elytron:")
-def tls = null
-for (element in elytronSubsystem) {
-    if (element.name().getLocalPart() == 'tls') {
-        tls = element
-    }
-}
-if (tls == null) {
-    tls = elytronSubsystem.appendNode('tls')
-}
-
-def keyStores = null
-for (element in tls) {
-    if (element.name().getLocalPart() == 'key-stores') {
-        keyStores = element
-    }
-}
-if (keyStores == null) {
-    keyStores = tls.appendNode('key-stores')
-}
-
-def keyStore = keyStores.appendNode('key-store', ['name':'jbwsTestHttpsRealmKS', 'alias-filter':'tomcat'])
-def credentialReference = keyStore.appendNode('credential-reference', ['clear-text':'changeit'])
-def implementation = keyStore.appendNode('implementation',['type':'JKS'])
-def filePath = keyStore.appendNode('file',['path':keystorePath])
-
-def keyManagers = null
-for (element in tls) {
-    if (element.name().getLocalPart() == 'key-managers') {
-        keyManagers = element
-    }
-}
-if (keyManagers == null) {
-    keyManagers = tls.appendNode('key-managers')
-}
-
-def keyManager = keyManagers.appendNode('key-manager',
-        ['name':'jbwsTestHttpsRealmKM','key-store':'jbwsTestHttpsRealmKS'])
-def credentialReferenceKM = keyManager.appendNode(
-        'credential-reference',['clear-text':'changeit'])
-
-def serverSslContexts = null
-for (element in tls) {
-    if (element.name().getLocalPart() == 'server-ssl-contexts') {
-        serverSslContexts = element
-    }
-}
-if (serverSslContexts == null) {
-    serverSslContexts = tls.appendNode('server-ssl-contexts')
-}
-
-def serverSslContext = serverSslContexts.appendNode('server-ssl-context',
-        ['name':'jbwsTestHttpsRealmSSC','key-manager':'jbwsTestHttpsRealmKM'])
-
 def server = null
 for (element in undertowSubsystem) {
     if (element.name().getLocalPart() == 'server') {
         server = element
+        break
     }
 }
 
 def curHttpsListener = server.'https-listener'[0]
-if (curHttpsListener != null) server.remove(curHttpsListener)
+if (curHttpsListener != null) {
+    server.remove(curHttpsListener)
+}
+
 server.appendNode('https-listener', ['name':'jbws-test-https-listener','socket-binding':'https','security-realm':'jbws-test-https-realm'])
 
 /**

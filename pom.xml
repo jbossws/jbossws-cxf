@@ -131,7 +131,6 @@
     <wildfly.plugin.version>1.0.2.Final</wildfly.plugin.version>
     <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
     <wildfly.elytron.version>1.19.0.Final</wildfly.elytron.version>
-
     <modular.jdk.args />
     <modular.jdk.props />
   </properties>
