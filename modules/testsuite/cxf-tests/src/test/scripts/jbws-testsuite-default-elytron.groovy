@@ -12,6 +12,24 @@ def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
 file.attributes()['path'] = serverLog
 
 /**
+ * Add a https connector like this:
+ *
+ * <security-realm name="jbws-test-https-realm">
+ *    <server-identities>
+ *        <ssl>
+ *             <keystore path="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/test.keystore" keystore-password="changeit" alias="tomcat"/>
+ *        </ssl>
+ *    </server-identities>
+ * </security-realm>
+ *
+ */
+def mgtSecurityRealms = root.management.'security-realms'[0]
+def mgtSecurityRealm = mgtSecurityRealms.appendNode('security-realm', ['name':'jbws-test-https-realm'])
+def mgtServerIdentities = mgtSecurityRealm.appendNode('server-identities')
+def mgtSsl = mgtServerIdentities.appendNode('ssl')
+mgtSsl.appendNode('keystore', ['path':keystorePath,'keystore-password':'changeit','alias':'tomcat'])
+
+/**
  * Helper method to get subsystem element by xmlns prefix
  */
 private getSubsystem(root, xmlnsPrefix) {
@@ -182,6 +200,21 @@ def basicAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-
 def digestAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'ws-digest-domain','http-authentication-factory':'ws-digest-domain'])
 def wsDigestAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSDigest','http-authentication-factory':'JBossWSDigest'])
 def jaasWsAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JAASJBossWS','http-authentication-factory':'JAASJBossWS'])
+
+def server = null
+for (element in undertowSubsystem) {
+    if (element.name().getLocalPart() == 'server') {
+        server = element
+        break
+    }
+}
+
+def curHttpsListener = server.'https-listener'[0]
+if (curHttpsListener != null) {
+    server.remove(curHttpsListener)
+}
+
+server.appendNode('https-listener', ['name':'jbws-test-https-listener','socket-binding':'https','security-realm':'jbws-test-https-realm'])
 
 def tls = null
 for (element in securitySubsystem) {
