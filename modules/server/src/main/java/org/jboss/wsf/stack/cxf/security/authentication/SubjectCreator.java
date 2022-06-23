@@ -105,9 +105,16 @@ public class SubjectCreator
          }
          String expectedPassword = new String(clearPassword.getPassword());
          if (isDigest && created != null && nonce != null) { // username token profile is using digest
-            // verify client's digest
-            if (!getUsernameTokenPasswordDigest(nonce, created, expectedPassword).equals(password)) {
-               throw MESSAGES.authenticationFailed(principal.getName());
+            try {
+               // verify client's digest
+               if (!getUsernameTokenPasswordDigest(nonce, created, expectedPassword).equals(password)) {
+                  throw MESSAGES.authenticationFailed(principal.getName());
+               }
+            } catch (NoSuchMethodError ee) {
+               // running with JDK-8 java.lang.NoSuchMethodError: java.nio.ByteBuffer.rewind()Ljava/nio/ByteBuffer
+               // is flagged.  This check seems to address the issues.  
+               ee.printStackTrace();
+               throw ee;
             }
             // client's digest is valid so expected password can be used to authenticate to the domain
             if (!ctx.isValid(principal, expectedPassword, subject)) {
