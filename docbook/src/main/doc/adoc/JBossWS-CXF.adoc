@@ -1,0 +1,26 @@
+= JBoss Web Services Documentation - {jbossws-version}
+:sectnums:
+:toc:
+:toclevels: 3
+:doctype: book
+:title-logo-image:
+:leveloffset: -1
+
+include::content/Preface.adoc[]
+
+:leveloffset: 0
+include::content/chapter-1-Web_Services_Introduction.adoc[]
+
+include::content/chapter-2-Quick_Start.adoc[]
+
+include::content/chapter-3-JAX_WS_User_Guide.adoc[]
+
+include::content/chapter-4-JAX_WS_Tools.adoc[]
+
+include::content/chapter-5-Advanced_User_Guide.adoc[]
+
+include::content/chapter-6-JBoss_Modules.adoc[]
+
+include::content/chapter-8-Build_and_testsuite_framework.adoc[]
+
+include::content/chapter-7-Legal_Notice.adoc[]
