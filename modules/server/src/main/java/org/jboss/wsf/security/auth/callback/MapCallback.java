@@ -19,30 +19,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.cxf.logging;
+package org.jboss.wsf.security.auth.callback;
 
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
+import javax.security.auth.callback.Callback;
 
-import org.apache.cxf.common.logging.LogUtils;
-import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Test;
+public class MapCallback implements Callback {
+    private Map<String, Object> info = new HashMap();
 
-/**
- * Test CXF logging on the client side
- *
- * @author alessio.soldano@jboss.com
- * @since 09-Jun-2010
- */
-public class CXFLoggingTestCase extends JBossWSTest
-{
-   @Test
-   public void testLogging() throws Exception
-   {
-      Logger log = LogUtils.getL7dLogger(CXFLoggingTestCase.class);
+    public MapCallback() {
+    }
 
-      //After CXF 3.4.0 , the logg4j is removed:https://issues.apache.org/jira/browse/CXF-8264
-      //It now uses j.u.l.Logger
-      assertTrue("Expected an instance of java.util.logging.Logger , but it is " + log.getClass().getName(),
-              log instanceof Logger);
-   }
+    public Object getInfo(String key) {
+        return this.info.get(key);
+    }
+
+    public void setInfo(String key, Object value) {
+        this.info.put(key, value);
+    }
 }

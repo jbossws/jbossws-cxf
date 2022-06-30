@@ -25,28 +25,31 @@ import static org.jboss.wsf.stack.cxf.i18n.Loggers.SECURITY_LOGGER;
 import static org.jboss.wsf.stack.cxf.i18n.Messages.MESSAGES;
 
 import java.io.ByteArrayOutputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 import java.security.Principal;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.TimeZone;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.cxf.common.security.SimplePrincipal;
-import org.jboss.security.auth.callback.CallbackHandlerPolicyContextHandler;
-import org.jboss.security.plugins.JBossAuthenticationManager;
-import org.jboss.ws.common.utils.DelegateClassLoader;
-import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.security.SecurityDomainContext;
 import org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallbackHandler;
 import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
+import org.wildfly.security.auth.server.RealmIdentity;
+import org.wildfly.security.auth.server.RealmUnavailableException;
+import org.wildfly.security.auth.server.SecurityDomain;
+import org.wildfly.security.credential.PasswordCredential;
+import org.wildfly.security.password.interfaces.ClearPassword;
 
 /**
  * Creates Subject instances after having authenticated / authorized the provided
  * user against the specified SecurityDomainContext.
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @author Sergey Beryozkin
  *
@@ -69,25 +72,15 @@ public class SubjectCreator
       final String sNonce = convertNonce(nonce);
       return createSubject(ctx, name, password, isDigest, sNonce, created);
    }
-   
+
    public Subject createSubject(SecurityDomainContext ctx, String name, String password, boolean isDigest, String nonce, String created)
    {
       if (isDigest)
       {
          verifyUsernameToken(nonce, created);
-         // It is not possible at the moment to figure out if the digest has been created 
-         // using the original nonce bytes or the bytes of the (Base64)-encoded nonce, some 
-         // legacy clients might use the (Base64)-encoded nonce bytes when creating a digest; 
-         // lets default to true and assume the nonce has been Base-64 encoded, given that 
-         // WSS4J client Base64-decodes the nonce before creating the digest
-
-         CallbackHandler handler = new UsernameTokenCallbackHandler(nonce, created, decodeNonce);
-         CallbackHandlerPolicyContextHandler.setCallbackHandler(handler);
       }
 
       // authenticate and populate Subject
-      
-
       Principal principal = new SimplePrincipal(name);
       Subject subject = new Subject();
 
@@ -95,31 +88,45 @@ public class SubjectCreator
       if (TRACE)
          SECURITY_LOGGER.aboutToAuthenticate(ctx.getSecurityDomain());
 
-      try
-      {
-         ClassLoader tccl = SecurityActions.getContextClassLoader();
-         //allow PicketBox to see jbossws modules' classes
-         SecurityActions.setContextClassLoader(createDelegateClassLoader(ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader(), tccl));
-         try
-         {
-            if (ctx.isValid(principal, password, subject) == false)
-            {
+      try {
+         SecurityDomain securityDomain = ctx.getElytronSecurityDomain();
+         if (securityDomain == null) {
+            SECURITY_LOGGER.noSecurityDomain();
+            return null;
+         }
+         RealmIdentity identity = securityDomain.getIdentity(principal.getName());
+         if (identity.equals(RealmIdentity.NON_EXISTENT)) {
+            throw MESSAGES.authenticationFailed(principal.getName());
+         }
+         ClearPassword clearPassword = identity.getCredential(PasswordCredential.class).getPassword(ClearPassword.class);
+         // only realms supporting getCredential with clear password can be used with Username Token profile
+         if (clearPassword == null) {
+            throw MESSAGES.authenticationFailed(principal.getName());
+         }
+         String expectedPassword = new String(clearPassword.getPassword());
+         if (isDigest && created != null && nonce != null) { // username token profile is using digest
+            try {
+               // verify client's digest
+               if (!getUsernameTokenPasswordDigest(nonce, created, expectedPassword).equals(password)) {
+                  throw MESSAGES.authenticationFailed(principal.getName());
+               }
+            } catch (NoSuchMethodError ee) {
+               // running with JDK-8 java.lang.NoSuchMethodError: java.nio.ByteBuffer.rewind()Ljava/nio/ByteBuffer
+               // is flagged.  This check seems to address the issues.  
+               ee.printStackTrace();
+               throw ee;
+            }
+            // client's digest is valid so expected password can be used to authenticate to the domain
+            if (!ctx.isValid(principal, expectedPassword, subject)) {
+               throw MESSAGES.authenticationFailed(principal.getName());
+            }
+         } else {
+            if (!ctx.isValid(principal, password, subject)) {
                throw MESSAGES.authenticationFailed(principal.getName());
             }
          }
-         finally
-         {
-            SecurityActions.setContextClassLoader(tccl);
-         }
-      }
-      finally
-      {
-         if (isDigest)
-         {
-            // does not remove the TL entry completely but limits the potential
-            // growth to a number of available threads in a container 
-            CallbackHandlerPolicyContextHandler.setCallbackHandler(null);
-         }
+      } catch (RealmUnavailableException e) {
+         throw MESSAGES.authenticationFailed(principal.getName());
       }
 
       if (TRACE)
@@ -133,71 +140,7 @@ public class SubjectCreator
       }
       return subject;
    }
-   public Subject createSubject(JBossAuthenticationManager manager, String name, String password, boolean isDigest, byte[] nonce, String created)
-   {
-      //TODO revisit
-      final String sNonce = convertNonce(nonce);
-      return createSubject(manager, name, password, isDigest, sNonce, created);
-   }
-   //TODO:refactor this
-   public Subject createSubject(JBossAuthenticationManager manager, String name, String password, boolean isDigest, String nonce, String created)
-   {
-      if (isDigest)
-      {
-         verifyUsernameToken(nonce, created);
-         // It is not possible at the moment to figure out if the digest has been created 
-         // using the original nonce bytes or the bytes of the (Base64)-encoded nonce, some 
-         // legacy clients might use the (Base64)-encoded nonce bytes when creating a digest; 
-         // lets default to true and assume the nonce has been Base-64 encoded, given that 
-         // WSS4J client Base64-decodes the nonce before creating the digest
 
-         CallbackHandler handler = new UsernameTokenCallbackHandler(nonce, created, decodeNonce);
-         CallbackHandlerPolicyContextHandler.setCallbackHandler(handler);
-      }
-
-      // authenticate and populate Subject
-      
-
-      Principal principal = new SimplePrincipal(name);
-      Subject subject = new Subject();
-
-      boolean TRACE = SECURITY_LOGGER.isTraceEnabled();
-      if (TRACE)
-         SECURITY_LOGGER.aboutToAuthenticate(manager.getSecurityDomain());
-
-      try
-      {
-         ClassLoader tccl = SecurityActions.getContextClassLoader();
-         //allow PicketBox to see jbossws modules' classes
-         SecurityActions.setContextClassLoader(createDelegateClassLoader(ClassLoaderProvider.getDefaultProvider().getServerIntegrationClassLoader(), tccl));
-         try
-         {
-            if (manager.isValid(principal, password, subject) == false)
-            {
-               throw MESSAGES.authenticationFailed(principal.getName());
-            }
-         }
-         finally
-         {
-            SecurityActions.setContextClassLoader(tccl);
-         }
-      }
-      finally
-      {
-         if (isDigest)
-         {
-            // does not remove the TL entry completely but limits the potential
-            // growth to a number of available threads in a container 
-            CallbackHandlerPolicyContextHandler.setCallbackHandler(null);
-         }
-      }
-
-      if (TRACE)
-         SECURITY_LOGGER.authenticated(name);
-
-      return subject;
-   }
-   
    private String convertNonce(byte[] nonce)
    {
       //TODO, revisit
@@ -260,25 +203,6 @@ public class SubjectCreator
       this.decodeNonce = decodeNonce;
    }
 
-   private static DelegateClassLoader createDelegateClassLoader(final ClassLoader clientClassLoader, final ClassLoader origClassLoader)
-   {
-      SecurityManager sm = System.getSecurityManager();
-      if (sm == null)
-      {
-         return new DelegateClassLoader(clientClassLoader, origClassLoader);
-      }
-      else
-      {
-         return AccessController.doPrivileged(new PrivilegedAction<DelegateClassLoader>()
-         {
-            public DelegateClassLoader run()
-            {
-               return new DelegateClassLoader(clientClassLoader, origClassLoader);
-            }
-         });
-      }
-   }
-   
    private static Calendar unmarshalDateTime(String value)
    {
       Calendar cal = Calendar.getInstance();
@@ -418,4 +342,27 @@ public class SubjectCreator
       return tz;
    }
 
+   /**
+    * Get UsernameToken profile digest
+    *
+    * @param nonce nonce
+    * @param created creation timestamp
+    * @param password clear text password
+    * @return Password_Digest = Base64 ( SHA-1 ( nonce + created + password ) )
+    */
+   private static String getUsernameTokenPasswordDigest(String nonce, String created, String password) {
+      ByteBuffer buf = ByteBuffer.allocate(1000);
+      buf.put(Base64.getDecoder().decode(nonce));
+      try {
+         buf.put(created.getBytes("UTF-8"));
+         buf.put(password.getBytes("UTF-8"));
+      } catch (UnsupportedEncodingException e) {
+         SECURITY_LOGGER.failedToComputeUsernameTokenProfileDigest();
+      }
+      byte[] toHash = new byte[buf.position()];
+      buf.rewind();
+      buf.get(toHash);
+      byte[] hash = DigestUtils.sha(toHash);
+      return new String(Base64.getEncoder().encode(hash));
+   }
 }

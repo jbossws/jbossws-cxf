@@ -10,6 +10,23 @@ if (!session.userProperties['enableServerLoggingToConsole'] && !project.properti
 def file = root.profile.subsystem.'periodic-rotating-file-handler'.file[0]
 file.attributes()['path'] = serverLog
 
+/**
+ * Add a https connector like this:
+ *
+ * <security-realm name="jbws-test-https-realm">
+ *    <server-identities>
+ *        <ssl>
+ *             <keystore path="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/test.keystore" keystore-password="changeit" alias="tomcat"/>
+ *        </ssl>
+ *    </server-identities>
+ * </security-realm>
+ *
+ */
+def mgtSecurityRealms = root.management.'security-realms'[0]
+def mgtSecurityRealm = mgtSecurityRealms.appendNode('security-realm', ['name':'jbws-test-https-realm'])
+def mgtServerIdentities = mgtSecurityRealm.appendNode('server-identities')
+def mgtSsl = mgtServerIdentities.appendNode('ssl')
+mgtSsl.appendNode('keystore', ['path':keystorePath,'keystore-password':'changeit','alias':'tomcat'])
 
 /**
  * Helper method to get subsystem element by xmlns prefix
@@ -75,26 +92,14 @@ def mechanismConfiguration = httpAuthenticationFactory.appendNode('mechanism-con
 def mechanism = mechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
 def mechanismRealm=mechanism.appendNode('mechanism-realm',['realm-name':'JBossWS'])
 
-/**
- * Add a https connector like this:
- *
- * <security-realm name="jbws-test-https-realm">
- *    <server-identities>
- *        <ssl>
- *             <keystore path="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/test.keystore" keystore-password="changeit" alias="tomcat"/>
- *        </ssl>
- *    </server-identities>
- * </security-realm>
- *
- */
+def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")
+def server = null
+for (element in undertowSubsystem) {
+    if (element.name().getLocalPart() == 'server') {
+        server = element
+    }
+}
 
-def secRealms = root.management.'security-realms'[0]
-def secRealm = secRealms.appendNode('security-realm', ['name':'jbws-test-https-realm'])
-def serverIdentities = secRealm.appendNode('server-identities')
-def ssl = serverIdentities.appendNode('ssl')
-ssl.appendNode('keystore', ['path':keystorePath,'keystore-password':'changeit','alias':'tomcat'])
-
-def server = root.profile.subsystem.server[0]
 def curHttpsListener = server.'https-listener'[0]
 if (curHttpsListener != null) server.remove(curHttpsListener)
 server.appendNode('https-listener', ['name':'jbws-test-https-listener','socket-binding':'https','security-realm':'jbws-test-https-realm'])

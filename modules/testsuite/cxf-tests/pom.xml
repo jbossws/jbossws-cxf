@@ -132,7 +132,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                    <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default${additionalGroovyScriptSuffix}.groovy</script>
+                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-elytron.groovy</script>
                   </scripts>
                   <properties>
                     <property>
@@ -149,11 +149,11 @@
                     </property>
                     <property>
                       <name>usersPropFile</name>
-                      <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
+                      <value>${project.build.directory}/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties</value>
                     </property>
                     <property>
                       <name>rolesPropFile</name>
-                      <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
+                      <value>${project.build.directory}/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties</value>
                     </property>
                     <property>
                       <name>keystorePath</name>
@@ -174,7 +174,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                    <script>file:///${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth${additionalGroovyScriptSuffix}.groovy</script>
+                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth-elytron.groovy</script>
                   </scripts>
                   <properties>
                     <property>
@@ -208,7 +208,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                    <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-config-tests${additionalGroovyScriptSuffix}.groovy</script>
+                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-config-tests-elytron.groovy</script>
                   </scripts>
                   <properties>
                     <property>
@@ -242,7 +242,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                    <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms.groovy</script>
+                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms-elytron.groovy</script>
                   </scripts>
                   <properties>
                     <property>
