@@ -18,7 +18,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest ]
         java: ['11']
-        wildfly-version: ['wildfly2400', 'wildfly2700']
+        wildfly-version: ['wildfly2600', 'wildfly2700']
 
     steps:
       - name: Checkout jbossws-cxf

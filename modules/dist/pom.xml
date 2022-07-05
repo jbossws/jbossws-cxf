@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf</artifactId>
-    <version>5.5.1-SNAPSHOT</version>
+      <version>5.5.1-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
@@ -90,92 +90,6 @@
     <build>
       <plugins>
             <plugin>
-              <inherited>false</inherited>
-              <groupId>org.jboss.maven.plugins</groupId>
-              <artifactId>maven-jdocbook-plugin</artifactId>
-              <executions>
-                <execution>
-                  <goals>
-                    <goal>resources</goal>
-                    <goal>generate</goal>
-                  </goals>
-                  <phase>post-integration-test</phase>
-                </execution>
-              </executions>
-              <configuration>
-                <sourceDocumentName>JBossWS-CXF.xml</sourceDocumentName>
-                <sourceDirectory>${basedir}/src/main/doc</sourceDirectory>
-                <imageResource>
-                  <directory>${basedir}/src/main/doc</directory>
-                  <includes>
-                    <include>images/*</include>
-                    <include>author/**</include>
-                  </includes>
-                </imageResource>
-                <formats>
-                  <format>
-                    <formatName>html</formatName>
-                    <stylesheetResource>classpath:/xslt/org/jboss/xhtml.xsl</stylesheetResource>
-                    <finalName>index.html</finalName>
-                  </format>
-                </formats>
-                <options>
-                  <xincludeSupported>true</xincludeSupported>
-                </options>
-              </configuration>
-            </plugin>
-          <plugin>
-              <groupId>org.asciidoctor</groupId>
-              <artifactId>asciidoctor-maven-plugin</artifactId>
-              <version>2.2.1</version>
-              <dependencies>
-                  <dependency>
-                      <groupId>org.asciidoctor</groupId>
-                      <artifactId>asciidoctorj-pdf</artifactId>
-                      <version>1.6.0</version>
-                  </dependency>
-              </dependencies>
-              <configuration>
-                  <attributes>
-                      <source-highlighter>coderay</source-highlighter>
-                      <jbossws-version>${project.version}</jbossws-version>
-                      <imagesdir>./image</imagesdir>
-                  </attributes>
-                  <sourceDirectory>src/main/doc/adoc</sourceDirectory>
-                  <sourceDocumentName>JBossWS-CXF.adoc</sourceDocumentName>
-              </configuration>
-              <executions>
-                  <execution>
-                      <id>output-html</id>
-                      <phase>generate-resources</phase>
-                      <goals>
-                          <goal>process-asciidoc</goal>
-                      </goals>
-                      <configuration>
-                          <backend>html5</backend>
-                          <attributes>
-                              <linkcss>false</linkcss>
-                          </attributes>
-                          <headerFooter>true</headerFooter>
-                      </configuration>
-                  </execution>
-                  <execution>
-                      <id>generate-pdf</id>
-                      <phase>generate-resources</phase>
-                      <goals>
-                          <goal>process-asciidoc</goal>
-                      </goals>
-                      <configuration>
-                          <backend>pdf</backend>
-                          <doctype>book</doctype>
-                          <attributes>
-                              <pagenums/>
-                          </attributes>
-                      </configuration>
-                  </execution>
-              </executions>
-          </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
@@ -250,38 +164,7 @@
         <jboss.home>${project.build.directory}/wildfly-${jboss.version}</jboss.home>
       </properties>
     </profile>
-    <!--
-    Name:  wildfly2400
-    Descr: WildFly-24.0.0 specific dependencies
-    -->
-    <profile>
-      <id>wildfly2400</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws.cxf</groupId>
-          <artifactId>jbossws-cxf-resources</artifactId>
-          <version>${project.version}</version>
-          <classifier>wildfly2400</classifier>
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-    <!--
-    Name:  wildfly2500
-    Descr: WildFly-25.0.0 specific dependencies
-    -->
-    <profile>
-      <id>wildfly2500</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws.cxf</groupId>
-          <artifactId>jbossws-cxf-resources</artifactId>
-          <version>${project.version}</version>
-          <classifier>wildfly2500</classifier>
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
-    </profile>
+
     <!--
         Name:  wildfly2600
         Descr: WildFly-26.0.0 specific dependencies
@@ -410,6 +293,5 @@
         </plugins>
       </build>
     </profile>
-    
     </profiles>
 </project>
