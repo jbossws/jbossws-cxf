@@ -215,8 +215,6 @@
                     <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
                     <property name="tests.output.dir" value="${project.build.directory}" />
                     <property name="project.version" value="${project.version}" />
-                    <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml" />
-                    <property name="log4j.output.dir" value="${log4j.output.dir}" />
                     <ant antfile="src/test/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws" />
                   </target>
                 </configuration>
@@ -379,7 +377,6 @@
                     <!-- <overrideRootLogLevel>ERROR</overrideRootLogLevel> -->
                     <propertiesSystem>
                       <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
-                      <log4j.configuration>file://${basedir}/target/jmeter/lib/log4j.xml</log4j.configuration>
                     </propertiesSystem>
                     <propertiesJMeter>
                       <summariser.interval>${summariserInterval}</summariser.interval>
@@ -410,11 +407,6 @@
                   <artifactId>jbossws-cxf-performance-tests</artifactId>
                   <classifier>perftest</classifier>
                   <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                  <groupId>log4j</groupId>
-                  <artifactId>log4j</artifactId>
-                  <version>${log4j.version}</version>
                 </dependency>
             </dependencies>
           </plugin>
@@ -532,7 +524,6 @@
                     <!-- <overrideRootLogLevel>ERROR</overrideRootLogLevel> -->
                     <propertiesSystem>
                       <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
-                      <log4j.configuration>file://${basedir}/target/jmeter/lib/log4j.xml</log4j.configuration>
                     </propertiesSystem>
                     <propertiesJMeter>
                       <summariser.interval>${summariserInterval}</summariser.interval>
@@ -563,11 +554,6 @@
                   <artifactId>jbossws-cxf-performance-tests</artifactId>
                   <classifier>perftest</classifier>
                   <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                  <groupId>log4j</groupId>
-                  <artifactId>log4j</artifactId>
-                  <version>${log4j.version}</version>
                 </dependency>
             </dependencies>
           </plugin>

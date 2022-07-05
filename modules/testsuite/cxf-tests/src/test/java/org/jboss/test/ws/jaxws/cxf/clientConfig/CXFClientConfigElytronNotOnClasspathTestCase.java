@@ -83,7 +83,6 @@ public class CXFClientConfigElytronNotOnClasspathTestCase extends JBossWSTest {
       additionalJVMArgs = additionalJVMArgs.replace('\n', ' ');
       sbuf.append(" ").append(additionalJVMArgs);
       sbuf.append(" -Djavax.xml.ws.spi.Provider=").append(ProviderImpl.class.getName());
-      sbuf.append(" -Dlog4j.output.dir=").append(System.getProperty("log4j.output.dir"));
       sbuf.append(" -Dwildfly.config.url=").append("META-INF/wildfly-config.xml");
 
       // ref to jboss-modules jar

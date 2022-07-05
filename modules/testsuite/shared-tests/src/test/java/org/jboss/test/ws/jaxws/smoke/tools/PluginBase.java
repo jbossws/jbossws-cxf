@@ -39,10 +39,8 @@ public abstract class PluginBase extends JBossWSTest
 {
    protected Object delegate = null;
    protected ClassLoader origClassLoader;
-   protected String origLog4jConf;
    protected String oldCPProp;
-   
-   private static final String LOG4J_CONF = "log4j.configuration";
+
 
    protected void dispatch(String methodName) throws Exception
    {
@@ -98,21 +96,13 @@ public abstract class PluginBase extends JBossWSTest
       List<URL> jarFirstClasspath = new ArrayList<URL>();
 
 	   // Replace the ThreadContextLoader to prevent loading from target/classes and target/test-classes.
-      // We also need to explicitly set the log4j.configuration sys prop to the current log4j.xml resource url
-      // as changing the current classloader results in a log4j configuration coming from thirdparty lib being used. 
-      jarFirstClasspath.addAll(jarURLs);
+       jarFirstClasspath.addAll(jarURLs);
       jarFirstClasspath.addAll(classDirUrls);
       this.origClassLoader = Thread.currentThread().getContextClassLoader();
       URLClassLoader jarFirstClassLoader = new URLClassLoader(jarFirstClasspath.toArray( new URL[] {}), this.origClassLoader);
-
-      URL log4jXmlUrl = this.origClassLoader.getResource("log4j.xml");
-      this.origLog4jConf = System.getProperty(LOG4J_CONF);
-
       Thread.currentThread().setContextClassLoader(jarFirstClassLoader);
       this.oldCPProp = System.getProperty("java.class.path");
       System.setProperty("java.class.path", jarURLString.toString());
-      if (log4jXmlUrl != null)
-         System.setProperty(LOG4J_CONF, log4jXmlUrl.toString());
    }
 
    protected void restoreClasspath()
@@ -122,14 +112,6 @@ public abstract class PluginBase extends JBossWSTest
          Thread.currentThread().setContextClassLoader(this.origClassLoader);
          this.origClassLoader = null;
          System.setProperty("java.class.path", oldCPProp);
-         if (origLog4jConf != null)
-         {
-            System.setProperty(LOG4J_CONF, origLog4jConf);
-         }
-         else
-         {
-            System.clearProperty(LOG4J_CONF);
-         }
       }
    }
 }

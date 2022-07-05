@@ -147,7 +147,6 @@ public class ClientBusStrategyTestCase extends JBossWSTest
       additionalJVMArgs =  additionalJVMArgs.replace('\n', ' ');
       sbuf.append(" ").append(additionalJVMArgs);
       sbuf.append(" -Djakarta.xml.ws.spi.Provider=").append(ProviderImpl.class.getName());
-      sbuf.append(" -Dlog4j.output.dir=").append(System.getProperty("log4j.output.dir"));
       sbuf.append(" -D").append(Constants.JBWS_CXF_JAXWS_CLIENT_BUS_STRATEGY).append("=").append(strategy);
 
       // ref to jboss-modules jar
