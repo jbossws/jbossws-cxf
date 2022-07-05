@@ -23,7 +23,6 @@
     <test.classes.directory>${project.build.directory}/test-classes</test.classes.directory>
     <test.resources.directory>${project.build.directory}/test-resources</test.resources.directory>
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
-    <log4j.output.dir>${project.build.directory}</log4j.output.dir>
     <appclient.output.dir>${project.build.directory}/appclient-logs</appclient.output.dir>
     <org.littleshoot.littleproxy.version>1.1.2</org.littleshoot.littleproxy.version>
     <gnu.getopt.version>1.0.13</gnu.getopt.version>
@@ -117,10 +116,6 @@
       <version>${arquillian.version}</version>
     </dependency>
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-    </dependency>
-    <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
     </dependency>
@@ -130,10 +125,7 @@
       <version>${bc.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-    </dependency>
+
     <dependency>
       <groupId>jakarta.activation</groupId>
       <artifactId>jakarta.activation-api</artifactId>
@@ -298,7 +290,6 @@
                  <cxf.tls-client.disableCNCheck>true</cxf.tls-client.disableCNCheck>
                  <jboss.home>${jboss.home}</jboss.home>
                  <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
-                 <log4j.output.dir>${log4j.output.dir}</log4j.output.dir>
                  <appclient.output.dir>${appclient.output.dir}</appclient.output.dir>
                  <org.jboss.ws.testsuite.securityDomain.users.propfile>${project.build.directory}/test-classes/jbossws-users.properties</org.jboss.ws.testsuite.securityDomain.users.propfile>  
                  <org.jboss.ws.testsuite.securityDomain.roles.propfile>${project.build.directory}/test-classes/jbossws-roles.properties</org.jboss.ws.testsuite.securityDomain.roles.propfile>
@@ -344,7 +335,6 @@
                  <cxf.tls-client.disableCNCheck>true</cxf.tls-client.disableCNCheck>
                  <jboss.home>${jboss.home}</jboss.home>
                  <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
-                 <log4j.output.dir>${log4j.output.dir}</log4j.output.dir>
                  <appclient.output.dir>${appclient.output.dir}</appclient.output.dir>
                  <org.jboss.ws.testsuite.securityDomain.users.propfile>${project.build.directory}/test-classes/jbossws-users.properties</org.jboss.ws.testsuite.securityDomain.users.propfile>  
                  <org.jboss.ws.testsuite.securityDomain.roles.propfile>${project.build.directory}/test-classes/jbossws-roles.properties</org.jboss.ws.testsuite.securityDomain.roles.propfile>

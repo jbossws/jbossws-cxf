@@ -197,8 +197,6 @@
                     <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
                     <property name="tests.output.dir" value="${project.build.directory}" />
                     <property name="project.version" value="${project.version}" />
-                    <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml" />
-                    <property name="log4j.output.dir" value="${log4j.output.dir}" />
                     <property name="additional.jvm.args" value="${modular.jdk.args} ${modular.jdk.props}" />
                     <ant antfile="scripts/antrun-wsconsume.xml" target="wsconsume" />
                   </target>
@@ -215,8 +213,6 @@
                     <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
                     <property name="tests.output.dir" value="${project.build.directory}" />
                     <property name="project.version" value="${project.version}" />
-                    <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml" />
-                    <property name="log4j.output.dir" value="${log4j.output.dir}" />
                     <property name="additional.jvm.args" value="${modular.jdk.args} ${modular.jdk.props}" />
                     <ant antfile="scripts/antrun-wsprovide.xml" target="wsprovide" />
                   </target>
@@ -247,8 +243,6 @@
                     <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
                     <property name="tests.output.dir" value="${project.build.directory}" />
                     <property name="project.version" value="${project.version}" />
-                    <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml" />
-                    <property name="log4j.output.dir" value="${log4j.output.dir}" />
                     <ant antfile="src/test/ant-import/build-jars-jaxws.xml" target="build-jars-jaxws" />
                   </target>
                 </configuration>

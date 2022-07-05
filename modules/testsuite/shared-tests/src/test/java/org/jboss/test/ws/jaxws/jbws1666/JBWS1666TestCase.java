@@ -131,7 +131,6 @@ public class JBWS1666TestCase extends JBossWSTest
       String additionalJVMArgs = System.getProperty("additionalJvmArgs", "");
       additionalJVMArgs =  additionalJVMArgs.replace('\n', ' ');
       sbuf.append(" ").append(additionalJVMArgs);
-      sbuf.append(" -Dlog4j.output.dir=").append(System.getProperty("log4j.output.dir"));
 
       final String jbh = System.getProperty("jboss.home");
       final String jbm = jbh + FS + "modules";
