@@ -96,7 +96,7 @@ import org.jboss.wsf.stack.cxf.interceptor.WSDLSoapAddressRewriteInterceptor;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.stack.cxf.metadata.services.DDEndpoint;
-import org.jboss.wsf.stack.cxf.security.authentication.AuthenticationMgrSubjectCreatingInterceptor;
+import org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor;
 
 /**
  * A wrapper of the Bus for performing most of the configurations required on it by JBossWS
@@ -173,7 +173,7 @@ public class BusHolder
          
          if (jaspiProvider != null && jaspiProvider.enableServerAuthentication(dep, wsmd))
          {
-            bus.getInInterceptors().add(new AuthenticationMgrSubjectCreatingInterceptor());
+            bus.getInInterceptors().add(new SubjectCreatingPolicyInterceptor());
          }
       }
       catch (WSFException e)

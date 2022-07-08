@@ -64,13 +64,11 @@
   <properties>
     <jboss.modules.version>1.11.0.Final</jboss.modules.version>
     <jbossws.api.version>1.1.2.Final</jbossws.api.version>
-    <jbossws.spi.version>3.3.1.Final</jbossws.spi.version>
+    <jbossws.spi.version>3.4.0.Final</jbossws.spi.version>
     <jbossws.common.version>3.3.3.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.4.0.Final</jbossws.common.tools.version>
-    <wildfly2400.version>24.0.0.Final</wildfly2400.version>
-    <wildfly2500.version>25.0.0.Final</wildfly2500.version>
     <wildfly2600.version>26.0.0.Final</wildfly2600.version>
-    <wildfly2700.version>27.0.0.Beta1-SNAPSHOT</wildfly2700.version>
+    <wildfly2700.version>27.0.0.Alpha2-SNAPSHOT</wildfly2700.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
     <cxf.version>3.4.5</cxf.version>
     <cxf.asm.version>9.1</cxf.asm.version>
@@ -82,7 +80,7 @@
     <picketbox.version>5.0.3.Final</picketbox.version>
     <picketlink.version>2.5.5.SP12</picketlink.version>
     <jaxws-undertow-httpspi.version>1.0.1.Final</jaxws-undertow-httpspi.version>
-    <io.undertow.version>2.2.9.Final</io.undertow.version>
+    <io.undertow.version>2.2.18.Final</io.undertow.version>
     <jaxb.api.version>2.0.0.Final</jaxb.api.version>
     <jaxb.impl.version>2.3.3-b02</jaxb.impl.version>
     <jaxws.api.version>1.0.0.Final</jaxws.api.version>
@@ -128,7 +126,7 @@
     <docbook.xslt.version>1.1.1</docbook.xslt.version>
     <wildfly.plugin.version>1.0.2.Final</wildfly.plugin.version>
     <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
-    <wildfly.elytron.version>1.12.1.Final</wildfly.elytron.version>
+    <wildfly.elytron.version>1.19.0.Final</wildfly.elytron.version>
 
     <modular.jdk.args />
     <modular.jdk.props />
@@ -1115,57 +1113,7 @@
         <ipVerArgs>-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false</ipVerArgs>
       </properties>
     </profile>
-    <!--
-    Name:  wildfly2300
-    Descr: WildFly-23.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly2300</id>
-      <properties>
-        <jbossws.integration.target>wildfly2300</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly2300.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-    <!--
-     Name:  wildfly2400
-     Descr: WildFly-24.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly2400</id>
-      <properties>
-        <jbossws.integration.target>wildfly2400</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly2400.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-    <!--
-    Name:  wildfly2500
-    Descr: WildFly-25.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly2500</id>
-      <properties>
-        <jbossws.integration.target>wildfly2500</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly2500.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
+
     <!--
     Name:  wildfly2600
     Descr: WildFly-26.0.0 specific options
@@ -1343,7 +1291,17 @@
         </pluginManagement>
       </build>
     </profile>
-
+    <profile>
+      <id>gendoc</id>
+      <activation>
+        <property>
+          <name>gendoc</name>
+        </property>
+      </activation>
+      <modules>
+        <module>docbook</module>
+      </modules>
+    </profile>
   </profiles>
 
 </project>

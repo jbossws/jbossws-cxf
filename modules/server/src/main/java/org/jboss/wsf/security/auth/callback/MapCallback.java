@@ -19,24 +19,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy.jaas;
+package org.jboss.wsf.security.auth.callback;
 
-import java.io.IOException;
-
+import java.util.HashMap;
+import java.util.Map;
 import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.UnsupportedCallbackException;
 
-import org.apache.wss4j.common.ext.WSPasswordCallback;
+public class MapCallback implements Callback {
+    private Map<String, Object> info = new HashMap();
 
-public class UsernamePasswordCallback implements CallbackHandler
-{
-   public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
-   {
-      WSPasswordCallback pc = (WSPasswordCallback)callbacks[0];
-      if ("kermit".equals(pc.getIdentifier()))
-         pc.setPassword("therealfrog");
-      else
-         pc.setPassword("wrong password");
-   }
+    public MapCallback() {
+    }
+
+    public Object getInfo(String key) {
+        return this.info.get(key);
+    }
+
+    public void setInfo(String key, Object value) {
+        this.info.put(key, value);
+    }
 }

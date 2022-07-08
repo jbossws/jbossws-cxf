@@ -192,7 +192,8 @@ final class AppclientHelper
             String acDeubOpts = appclientDebugOpts.replace("-Djava.security.manager", "-secmgr");
             javaOptsValue.append(acDeubOpts).append(" ");
          }
-         javaOptsValue.append(" ").append(System.getProperty("modular.jdk.args", ""));
+         //setting this modular.jdk.args caused the windows error : The syntax of the command is incorrect
+         //javaOptsValue.append(" ").append(System.getProperty("modular.jdk.args", ""));
          pb.environment().put("JAVA_OPTS", javaOptsValue.toString());
          System.out.println("JAVA_OPTS=\"" + javaOptsValue.toString() + "\"");
          System.out.println("Starting " + appclientScript + " " + configArg + " "

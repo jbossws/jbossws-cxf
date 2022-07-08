@@ -178,10 +178,6 @@
     
     <!-- jboss provided -->
     <dependency>
-      <groupId>org.picketbox</groupId>
-      <artifactId>picketbox</artifactId>
-    </dependency>
-    <dependency>
       <groupId>xerces</groupId>
       <artifactId>xercesImpl</artifactId>
     </dependency>
@@ -231,6 +227,18 @@
     <dependency>
       <groupId>org.jboss.logging</groupId>
       <artifactId>jboss-logging-processor</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.wildfly.security</groupId>
+      <artifactId>wildfly-elytron-auth-server</artifactId>
+      <version>${wildfly.elytron.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.wildfly.security</groupId>
+      <artifactId>wildfly-elytron-credential</artifactId>
+      <version>${wildfly.elytron.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
