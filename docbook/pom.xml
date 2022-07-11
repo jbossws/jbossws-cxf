@@ -20,42 +20,6 @@
        <build>
           <plugins>
              <plugin>
-                <inherited>false</inherited>
-                <groupId>org.jboss.maven.plugins</groupId>
-                <artifactId>maven-jdocbook-plugin</artifactId>
-                <executions>
-                   <execution>
-                      <goals>
-                         <goal>resources</goal>
-                         <goal>generate</goal>
-                      </goals>
-                      <phase>post-integration-test</phase>
-                   </execution>
-                </executions>
-                <configuration>
-                   <sourceDocumentName>JBossWS-CXF.xml</sourceDocumentName>
-                   <sourceDirectory>${basedir}/src/main/doc</sourceDirectory>
-                   <imageResource>
-                      <directory>${basedir}/src/main/doc</directory>
-                      <includes>
-                         <include>images/*</include>
-                         <include>author/**</include>
-                      </includes>
-                   </imageResource>
-                   <formats>
-                      <format>
-                         <formatName>html</formatName>
-                         <stylesheetResource>classpath:/xslt/org/jboss/xhtml.xsl</stylesheetResource>
-                         <finalName>index.html</finalName>
-                      </format>
-                   </formats>
-                   <options>
-                      <xincludeSupported>true</xincludeSupported>
-                   </options>
-                </configuration>
-             </plugin>
-
-             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
                 <version>2.2.1</version>
