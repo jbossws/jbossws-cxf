@@ -1,77 +1,69 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
-  <name>JBoss Web Services - documentation</name>
-  <artifactId>jbossws-cxf-docBook</artifactId>
+
+  <name>JBoss Web Services - Stack CXF Documentation</name>
+  <artifactId>jbossws-cxf-docbook</artifactId>
   <packaging>pom</packaging>
-  
+
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf</artifactId>
     <version>6.0.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-
-    <profiles>
-    <!-- generating doc take 20 sec +.  Improve dev time by moving
-    into a profile -->
-    <profile>
-       <id>gendoc</id>
-       <build>
-          <plugins>
-             <plugin>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>2.2.1</version>
-                <dependencies>
-                   <dependency>
-                      <groupId>org.asciidoctor</groupId>
-                      <artifactId>asciidoctorj-pdf</artifactId>
-                      <version>1.6.0</version>
-                   </dependency>
-                </dependencies>
-                <configuration>
-                   <attributes>
-                      <source-highlighter>coderay</source-highlighter>
-                      <jbossws-version>${project.version}</jbossws-version>
-                      <imagesdir>./image</imagesdir>
-                   </attributes>
-                   <sourceDirectory>src/main/doc/adoc</sourceDirectory>
-                   <sourceDocumentName>JBossWS-CXF.adoc</sourceDocumentName>
-                </configuration>
-                <executions>
-                   <execution>
-                      <id>output-html</id>
-                      <phase>generate-resources</phase>
-                      <goals>
-                         <goal>process-asciidoc</goal>
-                      </goals>
-                      <configuration>
-                         <backend>html5</backend>
-                         <attributes>
-                            <linkcss>false</linkcss>
-                         </attributes>
-                         <headerFooter>true</headerFooter>
-                      </configuration>
-                   </execution>
-                   <execution>
-                      <id>generate-pdf</id>
-                      <phase>generate-resources</phase>
-                      <goals>
-                         <goal>process-asciidoc</goal>
-                      </goals>
-                      <configuration>
-                         <backend>pdf</backend>
-                         <doctype>book</doctype>
-                         <attributes>
-                            <pagenums />
-                         </attributes>
-                      </configuration>
-                   </execution>
-                </executions>
-             </plugin>
-          </plugins>
-       </build>
-    </profile>
-    </profiles>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.asciidoctor</groupId>
+        <artifactId>asciidoctor-maven-plugin</artifactId>
+        <version>2.2.1</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.asciidoctor</groupId>
+            <artifactId>asciidoctorj-pdf</artifactId>
+            <version>1.6.0</version>
+          </dependency>
+         </dependencies>
+         <configuration>
+             <attributes>
+                 <source-highlighter>coderay</source-highlighter>
+                 <jbossws-version>${project.version}</jbossws-version>
+                 <imagesdir>./image</imagesdir>
+             </attributes>
+             <sourceDirectory>src/main/doc/adoc</sourceDirectory>
+             <sourceDocumentName>JBossWS-CXF.adoc</sourceDocumentName>
+          </configuration>
+          <executions>
+              <execution>
+                  <id>output-html</id>
+                  <phase>generate-resources</phase>
+                  <goals>
+                      <goal>process-asciidoc</goal>
+                  </goals>
+                  <configuration>
+                      <backend>html5</backend>
+                      <attributes>
+                          <linkcss>false</linkcss>
+                      </attributes>
+                      <headerFooter>true</headerFooter>
+                  </configuration>
+              </execution>
+                    <execution>
+                        <id>generate-pdf</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>pdf</backend>
+                            <doctype>book</doctype>
+                            <attributes>
+                                <pagenums/>
+                            </attributes>
+                        </configuration>
+                    </execution>
+          </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

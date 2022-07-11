@@ -121,9 +121,6 @@
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
     <gmavenplus.version>1.5</gmavenplus.version>
     <groovy.version>2.4.15</groovy.version>
-    <jdocbook.plugin.version>2.3.10</jdocbook.plugin.version>
-    <jdocbook.style.version>1.1.1</jdocbook.style.version>
-    <docbook.xslt.version>1.1.1</docbook.xslt.version>
     <wildfly.plugin.version>1.0.2.Final</wildfly.plugin.version>
     <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
     <wildfly.elytron.version>2.0.0.Beta1</wildfly.elytron.version>
@@ -964,49 +961,6 @@
           </dependency>
         </dependencies>
       </plugin>
-      <plugin>
-        <groupId>org.jboss.maven.plugins</groupId>
-        <artifactId>maven-jdocbook-plugin</artifactId>
-        <version>${jdocbook.plugin.version}</version>
-        <extensions>true</extensions>
-        <dependencies>
-          <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jbossorg-docbook-xslt</artifactId>
-            <version>${docbook.xslt.version}</version>
-            <!-- TODO workaround for https://issues.jboss.org/browse/PRESSGANG-60,
-                 could be removed if new org.jboss.pressgang extensions are used instead -->
-            <exclusions>
-              <exclusion>
-                <groupId>org.eclipse.wst.css</groupId>
-                <artifactId>core</artifactId>
-              </exclusion>
-              <exclusion>
-                <groupId>org.eclipse.wst.sse</groupId>
-                <artifactId>core</artifactId>
-              </exclusion>
-            </exclusions>
-          </dependency>
-          <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jbossorg-jdocbook-style</artifactId>
-            <version>${jdocbook.style.version}</version>
-            <type>jdocbook-style</type>
-            <!-- TODO workaround for https://issues.jboss.org/browse/PRESSGANG-60,
-                 could be removed if new org.jboss.pressgang extensions are used instead -->
-            <exclusions>
-              <exclusion>
-                <groupId>org.eclipse.wst.css</groupId>
-                <artifactId>core</artifactId>
-              </exclusion>
-              <exclusion>
-                <groupId>org.eclipse.wst.sse</groupId>
-                <artifactId>core</artifactId>
-              </exclusion>
-            </exclusions>
-          </dependency>
-        </dependencies>
-      </plugin>
      </plugins>
   </pluginManagement>
   </build>
@@ -1059,6 +1013,15 @@ Descr: WildFly-27.0.0 specific options
          <module>modules/dist</module>
       </modules>
     </profile>
+
+
+    <profile>
+      <id>doc</id>
+      <modules>
+        <module>docbook</module>
+      </modules>
+    </profile>
+
 
     <profile>
       <id>testsuite</id>
