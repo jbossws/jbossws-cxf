@@ -1,4 +1,4 @@
-== JAX-WS User Guide
+== Jakarta XML Web Services User Guide
 
 The http://www.jcp.org/en/jsr/detail?id=224[Java API for XML-Based Web
 Services (JAX-WS / JSR-224)] defines the mapping between WSDL and Java

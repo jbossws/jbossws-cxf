@@ -4,11 +4,11 @@ JBossWS uses WildFly as its target container. The following examples
 focus on web service deployments that leverage EJB3 service
 implementations and the JAX-WS programming models. For further
 information on POJO service implementations and advanced topics you need
-consult the <<JAX-WS User Guide>>.
+consult the <<Jakarta XML Web Services User Guide>>.
 
 === Developing web service implementations
 
-JAX-WS does leverage annotations in order to express web service meta
+Jakarta XML Web Services does leverage annotations in order to express web service meta
 data on Java components and to describe the mapping between Java data
 types and XML. When developing web service implementations you need to
 decide whether you are going to start with an abstract contract (WSDL)
@@ -29,10 +29,9 @@ further information see
 
 * https://jakarta.ee/specifications/web-services-metadata/[Jakarta Web Service Metadata]
 
-* http://www.jcp.org/en/jsr/summary?id=222[Java API for XML binding
+* https://jakarta.ee/specifications/xml-binding[Jakarta XML Binding
 (JAXB)]
-* http://www.jcp.org/en/jsr/summary?id=224[Java API for XML-Based Web
-Services]
+* https://jakarta.ee/specifications/xml-web-services/[Jakarta XML Web Services]
 ====
 
 ==== The service implementation class
@@ -41,9 +40,9 @@ When starting from Java you must provide the service implementation. A
 valid endpoint implementation class must meet the following
 requirements:
 
-* It _must_ carry a `javax.jws.WebService` annotation (see JSR 181)
+* It _must_ carry a `jakarta.jws.WebService` annotation (see Jakarta Web Service Metadata)
 * All method parameters and return types _must_ be compatible with the
-JAXB 2.0
+JAXB 3.0
 
 Let's look at a sample EJB3 component that is going to be exposed as a
 web service.
@@ -56,10 +55,10 @@ on the `@WebService` annotation for now.
 ....
 package org.jboss.test.ws.jaxws.samples.retail.profile;
 
-import javax.ejb.Stateless;
-import javax.jws.WebService;
-import javax.jws.WebMethod;
-import javax.jws.soap.SOAPBinding;
+import jakarta.ejb.Stateless;
+import jakarta.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.soap.SOAPBinding;
 
 @Stateless                                                             (1)
 @WebService(                                                           (2)
@@ -86,7 +85,7 @@ public class ProfileMgmtBean {
 ===== What about the payload?
 
 The method parameters and return values are going to represent our XML
-payload and thus require being compatible with JAXB2. Actually you
+payload and thus require being compatible with JAXB3. Actually you
 wouldn't need any JAXB annotations for this particular example, because
 JAXB relies on meaningful defaults. For the sake of documentation we put
 the more important ones here.
@@ -96,9 +95,9 @@ Take a look at the request parameter:
 ....
 package org.jboss.test.ws.jaxws.samples.retail.profile;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlType;
 
 import org.jboss.test.ws.jaxws.samples.retail.Customer;
 
@@ -137,7 +136,7 @@ public class DiscountRequest {
 [NOTE]
 ====
 If you have more complex mapping problems you need to consult the
-http://java.sun.com/webservices/jaxb/[JAXB documentation] .
+https://jakarta.ee/specifications/xml-binding[JAXB documentation] .
 ====
 
 ==== Deploying service implementations
@@ -258,7 +257,7 @@ JAX-WS does use a service factory class to construct this as particular
 service stub:
 
 ....
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 [...]
 Service service = Service.create(                                 (1)
 new URL("http://example.org/service?wsdl"),
@@ -297,100 +296,9 @@ used to declare dependencies in user Maven projects. In particular, the
               org.jboss.ws.cxf:jbossws-cxf-client
             ` artifact can be used for getting the whole JBossWS client
 dependency. Users should simply add a dependency to it in their Maven
-project.
-
-If you're running the client out of the container, It's also recommended to
-properly setup JAXWS implementation endorsing, to make sure you use the
-JBossWS implementation of JAXWS API instead of relying on the
-implementation coming with the JDK; this is usually done by copying the
-`
-              org.jboss.ws.cxf.jbossws-cxf-factories
-            ` (JBossWS-CXF stack) jar into a local directory (e.g.
-_project.build.directory/endorsed_ ) and then using that for compiling
-and running sources, for setting the _java.endorsed.dirs_ system
-property into the maven-surefire-plugin, etc:
-
-....
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 [http://maven.apache.org/maven-v4_0_0.xsd]">
-  ...
-  <build>
-    <plugins>
-
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>create-endorsed-dir</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.jboss.spec.javax.xml.ws</groupId>
-                  <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
-                  <type>jar</type>
-                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.spec.javax.xml.bind</groupId>
-                  <artifactId>jboss-jaxb-api_2.2_spec</artifactId>
-                  <type>jar</type>
-                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.ws.cxf</groupId>
-                  <artifactId>jbossws-cxf-factories</artifactId>
-                  <type>jar</type>
-                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <showDeprecation>false</showDeprecation>
-          <compilerArguments>
-            <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-          </compilerArguments>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <argLine>-Djava.endorsed.dirs=${project.build.directory}/endorsed</argLine>
-          ...
-        </configuration>
-        ...
-      </plugin>
-      ...
-    </plugins>
-    ...
-  </build>
-...
-</project>
-....
-
-[IMPORTANT]
-====
-Endorsing of JAX-WS *api* jar is used to force a API level different
-from the one included in the JDK. E.g. JAXWS 2.2 on JDK 1.6, or JAXWS
-2.1 on JDK 1.7, etc. So, depending on your environment, it might not be
-strictly required.
-====
-
-[NOTE]
-====
-Endorsing is deprecated in JDK 1.8 and will be removed in future JDK
-version. If you can't rely on endorsing with your JDK version, be sure
-JBossWS components (in particular
+project and make sure JBossWS components (in particular
 `org.jboss.ws.cxf:jbossws-cxf-factories` ) come before jars of any other
 JAX-WS implementation in your classpath.
-====
 
 ===== JBoss Modules environment
 
@@ -417,9 +325,7 @@ Dependencies: org.jboss.ws.cxf.jbossws-cxf-client
 
 Finally, users can of course setup their application classpath manually
 (e.g when compiling and running the application directly through `javac`
-/ `java` command or using `Ant` ). As for the Maven project approach
-mentioned above, properly setting _java.endorsed.dirs_ system property
-is also required.
+/ `java` command or using `Ant` ).
 
 === Maven archetype quick start
 
