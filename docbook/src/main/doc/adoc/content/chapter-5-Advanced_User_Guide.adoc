@@ -52,7 +52,7 @@ client side by programmatically adding new instances of the logging
 interceptors to the client or the bus.
 
 Apache CXF 3.2 has designated `@org.apache.cxf.feature.Features` the
-preferred annotation for adding logging capabilites to clients and
+preferred annotation for adding logging capabilities to clients and
 endpoints. Annotation `@org.apache.cxf.annotations.Logging` and class
 `org.apache.cxf.feature.LoggingFeature` have been deprecated.
 
@@ -88,8 +88,7 @@ https://docs.wildfly.org/26/Admin_Guide.html#Web_services[webservices
 subsystem section] of the WildFly domain model.
 
 ....
-<subsystem xmlns="urn:jboss:domain:webservices:1.1" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
-  xmlns:jaxwsconfig="urn:jboss:jbossws-jaxws-config:4.0">
+<subsystem xmlns="urn:jboss:domain:webservices:1.1">
   <wsdl-host>localhost</wsdl-host>
   <modify-wsdl-address>true</modify-wsdl-address>
 <!--
@@ -273,7 +272,7 @@ or using the `@org.apache.cxf.annotations.SchemaValidation` annotation
 on server side
 
 ....
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import org.apache.cxf.annotations.SchemaValidation;
 
 @WebService(...)
@@ -311,7 +310,7 @@ them)
 One common complaint from the JAXB users is the lack of support
 for binding 3rd party classes. The scenario is this: you are trying to
 annotate your classes with JAXB annotations to make it XML bindable, but
-some of the classes are coming from libraries and JDK, and thus you
+some classes are coming from libraries and JDK, and thus you
 cannot put necessary JAXB annotations on it.
 
 To solve this JAXB has been designed to provide hooks for programmatic
@@ -356,7 +355,7 @@ and configuration name by the annotation.
 *Handlers*
 
 Each endpoint configuration may be associated with zero or more PRE and
-POST handler chains. Each handler chain may include JAXWS handlers. For
+POST handler chains. Each handler chain may include JAX-WS handlers. For
 outbound messages the PRE handler chains are executed before any handler
 that is attached to the endpoint using the standard means, such as with
 annotation @HandlerChain, and POST handler chains are executed after
@@ -403,12 +402,12 @@ model.
 
 ====== Configuration Deployment Descriptor
 
-Java EE archives that can contain JAX-WS client and endpoint
+Jakarta EE archives that can contain JAX-WS client and endpoint
 implementations can also contain predefined client and endpoint
 configuration declarations. All endpoint/client configuration
 definitions for a given archive must be provided in a single deployment
 descriptor file, which must be an implementation of schema
-https://github.com/jbossws/jbossws-spi/blob/main/src/main/resources/schema/jbossws-jaxws-config_4_0.xsd[jbossws-jaxws-config]
+https://github.com/jbossws/jbossws-spi/blob/main/src/main/resources/schema/jbossws-jaxws-config_5_0.xsd[jbossws-jaxws-config]
 . Many endpoint/client configurations can be defined in the deployment
 descriptor file. Each configuration must have a name that is unique
 within the server on which the application is deployed. The
@@ -418,36 +417,36 @@ descriptor, containing two endpoint configurations:
 
 ....
 <?xml version="1.0" encoding="UTF-8"?>
-<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
-  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jakartaee="xmlns:jakartaee="https://jakarta.ee/xml/ns/jakartaee"
+  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:5.0 schema/jbossws-jaxws-config_5_0.xsd">
   <endpoint-config>
     <config-name>org.jboss.test.ws.jaxws.jbws3282.Endpoint4Impl</config-name>
     <pre-handler-chains>
-      <javaee:handler-chain>
-        <javaee:handler>
-          <javaee:handler-name>Log Handler</javaee:handler-name>
-          <javaee:handler-class>org.jboss.test.ws.jaxws.jbws3282.LogHandler</javaee:handler-class>
-        </javaee:handler>
-      </javaee:handler-chain>
+      <jakartaee:handler-chain>
+        <jakartaee:handler>
+          <jakartaee:handler-name>Log Handler</jakartaee:handler-name>
+          <jakartaee:handler-class>org.jboss.test.ws.jaxws.jbws3282.LogHandler</jakartaee:handler-class>
+        </jakartaee:handler>
+      </jakartaee:handler-chain>
     </pre-handler-chains>
     <post-handler-chains>
-      <javaee:handler-chain>
-        <javaee:handler>
-          <javaee:handler-name>Routing Handler</javaee:handler-name>
-          <javaee:handler-class>org.jboss.test.ws.jaxws.jbws3282.RoutingHandler</javaee:handler-class>
-        </javaee:handler>
-      </javaee:handler-chain>
+      <jakartaee:handler-chain>
+        <jakartaee:handler>
+          <jakartaee:handler-name>Routing Handler</jakartaee:handler-name>
+          <jakartaee:handler-class>org.jboss.test.ws.jaxws.jbws3282.RoutingHandler</jakartaee:handler-class>
+        </jakartaee:handler>
+      </jakartaee:handler-chain>
     </post-handler-chains>
   </endpoint-config>
   <endpoint-config>
     <config-name>EP6-config</config-name>
     <post-handler-chains>
-      <javaee:handler-chain>
-        <javaee:handler>
-          <javaee:handler-name>Authorization Handler</javaee:handler-name>
-          <javaee:handler-class>org.jboss.test.ws.jaxws.jbws3282.AuthorizationHandler</javaee:handler-class>
-        </javaee:handler>
-      </javaee:handler-chain>
+      <jakartaee:handler-chain>
+        <jakartaee:handler>
+          <jakartaee:handler-name>Authorization Handler</jakartaee:handler-name>
+          <jakartaee:handler-class>org.jboss.test.ws.jaxws.jbws3282.AuthorizationHandler</jakartaee:handler-class>
+        </jakartaee:handler>
+      </jakartaee:handler-chain>
     </post-handler-chains>
   </endpoint-config>
 </jaxws-config>
@@ -458,32 +457,32 @@ implementing the schema mentioned above):
 
 ....
 <?xml version="1.0" encoding="UTF-8"?>
-<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
-  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jakartaee="https://jakarta.ee/xml/ns/jakartaee"
+  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:5.0 schema/jbossws-jaxws-config_5_0.xsd">
   <client-config>
     <config-name>Custom Client Config</config-name>
     <pre-handler-chains>
-      <javaee:handler-chain>
-        <javaee:handler>
-          <javaee:handler-name>Routing Handler</javaee:handler-name>
-          <javaee:handler-class>org.jboss.test.ws.jaxws.clientConfig.RoutingHandler</javaee:handler-class>
-        </javaee:handler>
-        <javaee:handler>
-          <javaee:handler-name>Custom Handler</javaee:handler-name>
-          <javaee:handler-class>org.jboss.test.ws.jaxws.clientConfig.CustomHandler</javaee:handler-class>
-        </javaee:handler>
-      </javaee:handler-chain>
+      <jakartaee:handler-chain>
+        <jakartaee:handler>
+          <jakartaee:handler-name>Routing Handler</jakartaee:handler-name>
+          <jakartaee:handler-class>org.jboss.test.ws.jaxws.clientConfig.RoutingHandler</jakartaee:handler-class>
+        </jakartaee:handler>
+        <jakartaee:handler>
+          <jakartaee:handler-name>Custom Handler</jakartaee:handler-name>
+          <jakartaee:handler-class>org.jboss.test.ws.jaxws.clientConfig.CustomHandler</jakartaee:handler-class>
+        </jakartaee:handler>
+      </jakartaee:handler-chain>
     </pre-handler-chains>
   </client-config>
   <client-config>
     <config-name>Another Client Config</config-name>
     <post-handler-chains>
-      <javaee:handler-chain>
-        <javaee:handler>
-          <javaee:handler-name>Routing Handler</javaee:handler-name>
-          <javaee:handler-class>org.jboss.test.ws.jaxws.clientConfig.RoutingHandler</javaee:handler-class>
-        </javaee:handler>
-      </javaee:handler-chain>
+      <jakartaee:handler-chain>
+        <jakartaee:handler>
+          <jakartaee:handler-name>Routing Handler</jakartaee:handler-name>
+          <jakartaee:handler-class>org.jboss.test.ws.jaxws.clientConfig.RoutingHandler</jakartaee:handler-class>
+        </jakartaee:handler>
+      </jakartaee:handler-chain>
     </post-handler-chains>
   </client-config>
 </jaxws-config>
@@ -542,8 +541,8 @@ any deployment, for instance `org.jboss.ws.spi` .
 ....
 
 ....
-<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:javaee="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jakartaee="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:5.0 schema/jbossws-jaxws-config_5_0.xsd">
   <endpoint-config>
     <config-name>Custom WS-Security Endpoint</config-name>
     <property>
@@ -607,7 +606,7 @@ public class ServiceImpl implements ServiceIface
 ====== JAXWS Feature
 
 The most practical way of setting a configuration is using
-`org.jboss.ws.api.configuration.ClientConfigFeature` , a JAXWS `Feature`
+`org.jboss.ws.api.configuration.ClientConfigFeature` , a JAX-WS `Feature`
 extension provided by JBossWS:
 
 ....
@@ -632,14 +631,14 @@ port.echo("Kermit");
 JBossWS parses the specified configuration file. The configuration file
 must be found as a resource by the classloader of the current thread.
 The
-https://github.com/jbossws/jbossws-spi/tree/main/src/main/resources/schema/jbossws-jaxws-config_4_0.xsd[jbossws-jaxws-config
+https://github.com/jbossws/jbossws-spi/tree/main/src/main/resources/schema/jbossws-jaxws-config_5_0.xsd[jbossws-jaxws-config
 schema] defines the descriptor contents and is included in the
 _jbossws-spi_ artifact.
 
 ====== Explicit setup through API
 
 Alternatively, JBossWS API comes with facility classes that can be used
-for assigning configurations when building a client. JAXWS handlers read
+for assigning configurations when building a client. JAX-WS handlers read
 from client configurations as follows:
 
 ....
@@ -708,7 +707,7 @@ port.echo("Kermit");
 The default `ClientConfigurer` implementation parses the specified
 configuration file, if any, after having resolved it as a resources
 using the current thread context classloader. The
-https://github.com/jbossws/jbossws-spi/tree/main/src/main/resources/schema/jbossws-jaxws-config_4_0.xsd[jbossws-jaxws-config
+https://github.com/jbossws/jbossws-spi/tree/main/src/main/resources/schema/jbossws-jaxws-config_5_0.xsd[jbossws-jaxws-config
 schema] defines the descriptor contents and is included in the
 _jbossws-spi_ artifact.
 
@@ -751,7 +750,7 @@ container setup whenever no explicit configuration has been provided and
 the default descriptors are either not available or do not contain
 relevant configurations. This gives additional control on the JAX-WS
 client and endpoint setup to administrators, as the container setup can
-be managed independently from the deployed applications.
+be managed independently of the deployed applications.
 
 JBossWS hence accesses the webservices subsystem the same as explained
 above for explicitly named configuration; the default configuration
@@ -837,7 +836,7 @@ mechanisms are defined differently depending on the server in use.
 
 ===== Use BindingProvider to set principal/credential
 
-A web service client may use the `javax.xml.ws.BindingProvider`
+A web service client may use the `jakarta.xml.ws.BindingProvider`
 interface to set the username/password combination
 
 ....
@@ -876,99 +875,6 @@ element:
   <realm-name>Test Realm</realm-name>
 </login-config>
 ....
-
-==== JASPI Authentication
-
-A Java Authentication SPI (JASPI) provider can be configured in WildFly
-security subsystem to authenticate SOAP messages:
-
-....
-<security-domain name="jaspi">
-      <authentication-jaspi>
-          <login-module-stack name="jaas-lm-stack">
-             <login-module code="UsersRoles" flag="required">
-                  <module-option name="usersProperties" value="jbossws-users.properties"/>
-                  <module-option name="rolesProperties" value="jbossws-roles.properties"/>
-             </login-module>
-          </login-module-stack>
-          <auth-module code="org.jboss.wsf.stack.cxf.jaspi.module.UsernameTokenServerAuthModule" login-module-stack-ref="jaas-lm-stack"/>
-     </authentication-jaspi>
- </security-domain>
-....
-
-[IMPORTANT]
-====
-For further information on configuring security in WildFly,
-please refer to
-https://docs.wildfly.org/26/#security-guide[here]
-.
-====
-
-Here
-`org.jboss.wsf.stack.cxf.jaspi.module.UsernameTokenServerAuthModule` is
-the class implementing
-`javax.security.auth.message.module.ServerAuthModule` , which delegates
-to the proper login module to perform authentication using the
-credentials from WS-Security UsernameToken in the incoming SOAP message.
-Alternative implementations of `ServerAuthModule` can be implemented and
-configured.
-
-To enable JASPI authentication, the endpoint deployment needs to specify
-the security domain to use; that can be done in two different ways:
-
-* Setting the `jaspi.security.domain` property in the
-`jboss-webservices.xml` descriptor
-
-....
-<?xml version="1.1" encoding="UTF-8"?>
-<webservices
-  xmlns="http://www.jboss.com/xml/ns/javaee"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  version="1.2"
-  xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee">
-
-  <property>
-    <name>jaspi.security.domain</name>
-    <value>jaspi</value>
-  </property>
-
-</webservices>
-....
-
-* Referencing (through `@EndpointConfig` annotation) an endpoint config
-that sets the `jaspi.security.domain` property
-
-....
-@EndpointConfig(configFile = "WEB-INF/jaxws-endpoint-config.xml", configName = "jaspiSecurityDomain")
-public class ServiceEndpointImpl implements ServiceIface {
-....
-
-The `jaspi.security.domain` property is specified as follows in the
-referenced descriptor:
-
-....
-<?xml version="1.0" encoding="UTF-8"?>
-<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
-    xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
-    <endpoint-config>
-        <config-name>jaspiSecurityDomain</config-name>
-        <property>
-            <property-name>jaspi.security.domain</property-name>
-            <property-value>jaspi</property-value>
-        </property>
-    </endpoint-config>
-</jaxws-config>
-....
-
-[NOTE]
-====
-If the JASPI security domain is specified in both
-`jboss-webservices.xml` and config file referenced by `@EndpointConfig`
-annotation, the JASPI security domain specified in
-`jboss-webservices.xml` will take precedence.
-====
-
 
 === Apache CXF integration
 
@@ -1055,7 +961,7 @@ descriptors_ .
 
 Whenever users can't really meet their application requirements with
 JAX-WS plus WS-Policy, it is of course still possible to rely on direct
-Apache CXF API usage (given that's included in the AS), loosing the Java
+Apache CXF API usage (given that's included in the AS), losing the Jakarta
 EE portability of the application. That could be the case of a user
 needing specific Apache CXF functionalities, or having to consume WS-*
 enabled endpoints advertised through legacy wsdl contracts without
@@ -1156,25 +1062,25 @@ Finally, remember that each time you explictly create a new Bus instance
 (factory.createBus()) that is set as thread default bus and global
 default bus if those are not set yet.
 
-The JAXWS `Provider` implementation also creates `Bus` instances
-internally, in particular the JBossWS version of JAXWS `Provider` makes
+The JAX-WS `Provider` implementation also creates `Bus` instances
+internally, in particular the JBossWS version of JAX-WS `Provider` makes
 sure the default bus is never internally used and instead a new `Bus` is
 created if required (more details on this in the next paragraph).
 
 ===== Bus selection strategies for JAXWS clients
 
-JAXWS clients require an Apache CXF Bus to be available; the client is
+JAX-WS clients require an Apache CXF Bus to be available; the client is
 registered within the Bus and the Bus affects the client behavior (e.g.
 through the configured CXF interceptors). The way a bus is internally
-selected for serving a given JAXWS client is very important, especially
+selected for serving a given JAX-WS client is very important, especially
 for in-container clients; for this reason, JBossWS users can choose the
 preferred Bus selection strategy. The strategy is enforced in the
-`javax.xml.ws.spi.Provider` implementation from the JBossWS integration,
-being that called whenever a JAXWS `Service` (client) is requested.
+`jakarta.xml.ws.spi.Provider` implementation from the JBossWS integration,
+being that called whenever a JAX-WS `Service` (client) is requested.
 
 ====== Thread bus strategy (THREAD_BUS)
 
-Each time the vanilla JAXWS api is used to create a Bus, the JBossWS-CXF
+Each time the vanilla JAX-WS api is used to create a Bus, the JBossWS-CXF
 integration will automatically make sure a Bus is currently associated
 to the current thread in the BusFactory. If that's not the case, a new
 Bus is created and linked to the current thread (to prevent the user
@@ -1184,16 +1090,16 @@ the client using the current thread Bus.
 This is the default strategy, and the most straightforward one in Java
 SE environments; it lets users automatically reuse a previously created
 Bus instance and allows using customized Bus that can possibly be
-created and associated to the thread before building up a JAXWS client.
+created and associated to the thread before building up a JAX-WS client.
 
 The drawback of the strategy is that the link between the Bus instance
 and the thread needs to be eventually cleaned up (when not needed
-anymore). This is really evident in a Java EE environment (hence when
+anymore). This is really evident in a Jakarta EE environment (hence when
 running in-container), as threads from pools (e.g. serving web requests)
 are re-used.
 
 When relying on this strategy, the safest approach to be sure of
-cleaning up the link is to surround the JAXWS client with a
+cleaning up the link is to surround the JAX-WS client with a
 `try/finally` block as below:
 
 ....
@@ -1211,17 +1117,17 @@ try {
 
 ====== New bus strategy (NEW_BUS)
 
-Another strategy is to have the JAXWS Provider from the JBossWS
-integration create a new Bus each time a JAXWS client is built. The main
+Another strategy is to have the JAX-WS Provider from the JBossWS
+integration create a new Bus each time a JAX-WS client is built. The main
 benefit of this approach is that a fresh bus won't rely on any formerly
 cached information (e.g. cached WSDL / schemas) which might have changed
 after the previous client creation. The main drawback is of course worse
 performance as the Bus creation takes time.
 
 If there's a bus already associated to the current thread before the
-JAXWS client creation, that is automatically restored when returning
+JAX-WS client creation, that is automatically restored when returning
 control to the user; in other words, the newly created bus will be used
-only for the created JAXWS client but won't stay associated to the
+only for the created JAX-WS client but won't stay associated to the
 current thread at the end of the process. Similarly, if the thread was
 not associated to any bus before the client creation, no bus will be
 associated to the thread at the end of the client creation.
@@ -1230,17 +1136,17 @@ associated to the thread at the end of the client creation.
 
 The last strategy is to have the bus created for serving the client be
 associated to the current thread context classloader (TCCL). That
-basically means the same Bus instance is shared by JAXWS clients running
+basically means the same Bus instance is shared by JAX-WS clients running
 when the same TCCL is set. This is particularly interesting as each web
 application deployment usually has its own context classloader, so this
 strategy is possibly a way to keep the number of created Bus instances
 bound to the application number in a WildFly container.
 
 If there's a bus already associated to the current thread before the
-JAXWS client creation, that is automatically restored when returning
+JAX-WS client creation, that is automatically restored when returning
 control to the user; in other words, the bus corresponding to the
 current thread context classloader will be used only for the created
-JAXWS client but won't stay associated to the current thread at the end
+JAX-WS client but won't stay associated to the current thread at the end
 of the process. If the thread was not associated to any bus before the
 client creation, a new bus will be created (and later user for any other
 client built with this strategy and the same TCCL in place); no bus will
@@ -1250,18 +1156,16 @@ be associated to the thread at the end of the client creation.
 
 Users can request a given Bus selection strategy to be used for the
 client being built by specifying one of the following JBossWS features
-(which extend `javax` `.` `xml` `.` `ws` `.` `WebServiceFeature` ):
+(which extend `jakarta.xml.ws.WebServiceFeature` ):
 
 [cols=",",options="header",]
 |===
 |Feature |Strategy
 |`org.jboss.wsf.stack.cxf.client.UseThreadBusFeature` |THREAD_BUS
 
-|`org` `.` `jboss` `.` `wsf` `.` `stack` `.` `cxf` `.` `client.`
-`UseNewBusFeature` |NEW_BUS
+|`org.jboss.wsf.stack.cxf.client.UseNewBusFeature` |NEW_BUS
 
-|`org` `.` `jboss` `.` `wsf` `.` `stack` `.` `cxf` `.` `client.`
-`UseTCCLBusFeature` |TCCL_BUS
+|`org.jboss.wsf.stack.cxf.client.UseTCCLBusFeature` |TCCL_BUS
 |===
 
 The feature is specified as follows:
@@ -1314,7 +1218,7 @@ control Apache CXF internals.
 
 Apache CXF uses WorkQueue instances for dealing with some operations
 (e.g. @Oneway requests processing). A
-https://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/workqueue/WorkQueueManager.html[WorkQueueManager]
+https://cxf.apache.org/javadoc/latest/org/apache/cxf/workqueue/WorkQueueManager.html[WorkQueueManager]
 is installed in the Bus as an extension and allows for adding / removing
 queues as well as controlling the existing ones.
 
@@ -1323,10 +1227,10 @@ On server side, queues can be provided by using the
 `cxf.queue.default.maxQueueSize` for controlling the max queue size of
 the `default` workqueue). At deployment time, the JBossWS integration
 can add new instances of
-https://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/workqueue/AutomaticWorkQueueImpl.html[AutomaticWorkQueueImpl]
+https://cxf.apache.org/javadoc/latest/org/apache/cxf/workqueue/AutomaticWorkQueueImpl.html[AutomaticWorkQueueImpl]
 to the currently configured WorkQueueManager; the properties below are
 used to fill in parameter into the
-https://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/workqueue/AutomaticWorkQueueImpl.html#AutomaticWorkQueueImpl(int,%20int,%20int,%20int,%20long,%20java.lang.String)[AutomaticWorkQueueImpl
+https://cxf.apache.org/javadoc/latest/org/apache/cxf/workqueue/AutomaticWorkQueueImpl.html#AutomaticWorkQueueImpl(int,%20int,%20int,%20int,%20long,%20java.lang.String)[AutomaticWorkQueueImpl
 constructor] :
 
 [cols=",",options="header",]
@@ -1343,7 +1247,7 @@ constructor] :
 
 The Apache CXF policy engine supports different strategies to deal with
 policy alternatives. JBossWS-CXF integration currently defaults to the
-https://cxf.apache.org/javadoc/latest-2.5.x/org/apache/cxf/ws/policy/selector/MaximalAlternativeSelector.html[MaximalAlternativeSelector]
+https://cxf.apache.org/javadoc/latest/org/apache/cxf/ws/policy/selector/MaximalAlternativeSelector.html[MaximalAlternativeSelector]
 , but still allows for setting different selector implementation using
 the `cxf.policy.alternativeSelector` property in `jboss-webservices.xml`
 .
@@ -1389,7 +1293,7 @@ created for serving the deployment.
 <webservices
   xmlns="http://www.jboss.com/xml/ns/javaee"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  version="1.2"
+  version="1.3"
   xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee">
 
   <property>
@@ -1415,7 +1319,7 @@ the deployment.
 <webservices
   xmlns="http://www.jboss.com/xml/ns/javaee"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  version="1.2"
+  version="1.3"
   xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee">
 
   <property>
@@ -1450,8 +1354,8 @@ interceptors within <<Predefined client and endpoint configurations>> by specify
 
 ....
 <?xml version="1.0" encoding="UTF-8"?>
-<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
-  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jakartaee="https://jakarta.ee/xml/ns/jakartaee"
+  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:5.0 schema/jbossws-jaxws-config_5_0.xsd">
   <endpoint-config>
     <config-name>org.jboss.test.ws.jaxws.cxf.interceptors.EndpointImpl</config-name>
     <property>
@@ -1483,15 +1387,15 @@ approaches:
 * Spring descriptor usage ( _cxf.xml_ )
 
 As the Spring descriptor usage is not supported, the JBossWS integration
-adds an additional descriptor based approach to avoid requiring
+adds a descriptor based approach to avoid requiring
 modifications to the actual client/endpoint code. Users can declare
-features within <<>> by specifying a list of feature class names for the
+features by specifying a list of feature class names for the
 `cxf.features` property.
 
 ....
 <?xml version="1.0" encoding="UTF-8"?>
-<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
-  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jakartaee="https://jakarta.ee/xml/ns/jakartaee"
+  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:5.0 schema/jbossws-jaxws-config_5_0.xsd">
   <endpoint-config>
     <config-name>Custom FI Config</config-name>
     <property>
@@ -1522,7 +1426,7 @@ To cope with this issue, JBossWS integration comes with a mechanism for
 configuring simple bean hierarchies when building them up from
 properties. Properties can have bean reference values, that is strings
 starting with `##` . Property reference keys are used to specify the
-bean class name and the value for for each attribute. So for instance
+bean class name and the value for each attribute. So for instance
 the following properties:
 
 [cols=",",options="header",]
@@ -1619,8 +1523,8 @@ WS-Addressing can be turned on in multiple standard ways:
 
 * consuming a WSDL contract that specifies a WS-Addressing assertion /
 policy
-* using the `@javax.xml.ws.soap.Addressing` annotation
-* using the `javax.xml.ws.soap.AddressingFeature` feature
+* using the `@jakarta.xml.ws.soap.Addressing` annotation
+* using the `jakarta.xml.ws.soap.AddressingFeature` feature
 
 [IMPORTANT]
 ====
@@ -1646,7 +1550,7 @@ through the API
 * setting the _org.apache.cxf.ws.addressing.using_ property in the
 message context
 
-Please refer to the the Apache CXF documentation for further information
+Please refer to the Apache CXF documentation for further information
 on the proprietary
 https://cxf.apache.org/docs/ws-addressing.html[WS-Addressing setup] and
 https://cxf.apache.org/docs/wsaconfiguration.html[configuration details]
@@ -1659,13 +1563,13 @@ CXF WS-Policy engine.
 
 This basically means that the WSDL contract generation for code-first
 endpoint deployment is policy-aware: users can annotate endpoints with
-the `@` `javax.xml.ws.soap.` `Addressing` annotation and expect the
+the `@jakarta.xml.ws.soap.Addressing` annotation and expect the
 published WSDL contract to contain proper WS-Addressing policy (assuming
 no `wsdlLocation` is specified in the endpoint's `@WebService`
 annotation).
 
 Similarly, on client side users do not need to manually specify the
-`javax.xml.ws.soap.AddressingFeature` feature, as the policy engine is
+`jakarta.xml.ws.soap.AddressingFeature` feature, as the policy engine is
 able to properly process the WS-Addressing policy in the consumed WSDL
 and turn on addressing as requested.
 
@@ -1683,8 +1587,8 @@ WS-Addressing is enforced through `@Addressing` annotation and no
 ....
 package org.jboss.test.ws.jaxws.samples.wsa;
 
-import javax.jws.WebService;
-import javax.xml.ws.soap.Addressing;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.soap.Addressing;
 import org.jboss.logging.Logger;
 
 @WebService
@@ -1818,7 +1722,7 @@ enhancements to simplify the setup of WS-Security enabled endpoints.
 ===== Apache CXF WS-Security implementation
 
 Apache CXF features a top class WS-Security module supporting multiple
-configurations and easily extendible.
+configurations and easily extendable.
 
 The system is based on _interceptors_ that delegate to
 http://ws.apache.org/wss4j[Apache WSS4J] for the low level security
@@ -1848,7 +1752,7 @@ keys, using transports (https) for encryption, which parts/headers to
 encrypt or sign, whether to sign then encrypt or encrypt then sign,
 whether to include timestamps, whether to use derived keys, etc.
 
-However some mandatory configuration elements are not covered by
+However, some mandatory configuration elements are not covered by
 WS-SecurityPolicy, basically because they're not meant to be public /
 part of the published endpoint contract; those include things such as
 keystore locations, usernames and passwords, etc. Apache CXF allows
@@ -1928,8 +1832,8 @@ using the `@EndpointConfig` annotation.
 
 ....
 <?xml version="1.0" encoding="UTF-8"?>
-<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:javaee="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jakartaee="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:5.0 schema/jbossws-jaxws-config_5_0.xsd">
   <endpoint-config>
     <config-name>Custom WS-Security Endpoint</config-name>
     <property>
@@ -1957,7 +1861,7 @@ using the `@EndpointConfig` annotation.
 ....
 
 ....
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import org.jboss.ws.api.annotation.EndpointConfig;
 
 @WebService
@@ -2140,7 +2044,7 @@ then enriched with a `@EndpointConfig` annotation:
 ....
 package org.jboss.test.ws.jaxws.samples.wsse.policy.basic;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import org.jboss.ws.api.annotation.EndpointConfig;
 
 @WebService
@@ -2169,8 +2073,8 @@ decryption:
 
 ....
 <?xml version="1.0" encoding="UTF-8"?>
-<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:javaee="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jakartaee="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:5.0 schema/jbossws-jaxws-config_5_0.xsd">
   <endpoint-config>
     <config-name>Custom WS-Security Endpoint</config-name>
     <property>
@@ -2540,7 +2444,7 @@ integration:
 ....
 package org.jboss.test.ws.jaxws.samples.wsse.policy.jaas;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import org.apache.cxf.interceptor.InInterceptors;
 import org.jboss.ws.api.annotation.EndpointConfig;
 
@@ -2609,8 +2513,8 @@ configured interceptors:
 
 ....
 <?xml version="1.0" encoding="UTF-8"?>
-<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:javaee="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jakartaee="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:5.0 schema/jbossws-jaxws-config_5_0.xsd">
   <endpoint-config>
     <config-name>Custom WS-Security Endpoint</config-name>
     <property>
@@ -2835,9 +2739,9 @@ below:
 ....
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app
-   version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+   version="5.0" xmlns="https://jakarta.ee/xml/ns/jakartaee"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+   xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee http://java.sun.com/xml/ns/javaee/web-app_5_0.xsd">
    <servlet>
       <servlet-name>TestService</servlet-name>
       <servlet-class>org.jboss.test.ws.jaxws.samples.wsse.policy.basic.ServiceImpl</servlet-class>
@@ -3281,8 +3185,8 @@ straight forward web service definition.
 ....
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService
 (
@@ -3299,7 +3203,7 @@ public interface ServiceIface
 
 The web service provider implementation class, ServiceImpl, is a simple
 POJO. It uses the standard WebService annotation to define the service
-endpoint. In addition there are two Apache CXF annotations,
+endpoint. In addition, there are two Apache CXF annotations,
 EndpointProperties and EndpointProperty used for configuring the
 endpoint for the CXF runtime. These annotations come from the
 https://ws.apache.org/wss4j/[Apache WSS4J project] , which provides a
@@ -3331,7 +3235,7 @@ user's password for the certificates in the keystore file.
 ....
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
@@ -3861,7 +3765,7 @@ annotation defines the service as a Provider-based endpoint, meaning it
 supports a more messaging-oriented approach to Web services. In
 particular, it signals that the exchanged messages will be XML documents
 of some type. SecurityTokenServiceProvider is an implementation of the
-javax.xml.ws.Provider interface. In comparison the WebService annotation
+jakarta.xml.ws.Provider interface. In comparison the WebService annotation
 defines a (service endpoint interface) SEI-based endpoint which supports
 message exchange via SOAP envelopes.
 
@@ -3915,7 +3819,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
  
-import javax.xml.ws.WebServiceProvider;
+import jakarta.xml.ws.WebServiceProvider;
  
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
@@ -4110,17 +4014,20 @@ URL sub-path (e.g.
 http://localhost:8080/jaxws-samples-wsse-policy-trust-sts/SecurityTokenService/mex[]
 ). This can be done by tweaking the _url-pattern_ for the underlying
 endpoint servlet, for instance by adding a _web.xml_ descriptor as
-follows to the deployment:<?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+follows to the deployment:
+....
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="5.0" xmlns="https://jakarta.ee/xml/ns/jakartaee""
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd[]"> <servlet>
+xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"> <servlet>
 <servlet-name>TestSecurityTokenService</servlet-name>
 <servlet-class>org.jboss.test.ws.jaxws.samples.wsse.policy.trust.SampleSTS</servlet-class>
 </servlet> <servlet-mapping>
 <servlet-name>TestSecurityTokenService</servlet-name>
 <url-pattern>/SecurityTokenService/*</url-pattern> </servlet-mapping>
-</web-app> As a matter of fact, at the time of writing some webservices
+</web-app>
+....
+As a matter of fact, at the time of writing some webservices
 implementations (including _Metro_ ) assume the `/mex` URL as the
 default choice for directing WS-MetadataExchange requests to and use
 that to retrieve STS wsdl contracts.
@@ -4133,7 +4040,7 @@ This section examines the crucial elements in calling a web service that
 implements endpoint security as described in the basic WS-Trust
 scenario. The components that will be discussed are.
 
-* web service requester's implementation
+* web service requestor's implementation
 * ClientCallbackHandler
 * Crypto properties and keystore files
 
@@ -4277,10 +4184,10 @@ WebServiceProvider annotated POJO:
  package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
 import javax.annotation.Resource;
-import javax.xml.ws.Service;
-import javax.xml.ws.ServiceMode;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.WebServiceProvider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.ServiceMode;
+import jakarta.xml.ws.WebServiceContext;
+import jakarta.xml.ws.WebServiceProvider;
 
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
@@ -4684,8 +4591,8 @@ web service definition.
 ....
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.actas;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService
 (
@@ -4723,10 +4630,10 @@ import org.apache.cxf.ws.security.trust.STSClient;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.WSTrustAppUtils;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Service;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
@@ -5067,7 +4974,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.ws.WebServiceProvider;
+import jakarta.xml.ws.WebServiceProvider;
 
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
@@ -5363,8 +5270,8 @@ simple web service definition.
 ....
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.onbehalfof;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService
 (
@@ -5402,10 +5309,10 @@ import org.apache.cxf.ws.security.trust.STSClient;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.WSTrustAppUtils;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.Service;
 import java.net.*;
 import java.util.Map;
 
@@ -5857,10 +5764,8 @@ components to SSL configuration.
 * declare an SSL connector in the Web subsystem of the JBoss server
 configuration file.
 
-Follow the directions in the, " _Using the pure Java implementation
-supplied by JSSE_ " section in the
-https://docs.jboss.org/author/display/WFLY8/SSL+setup+guide[SSL Setup
-Guide] .
+Follow the directions this section in the
+https://docs.wildfly.org/26.1/WildFly_Elytron_Security.html#configure-ssltls[Configure SSL/TLS] .
 
 Here is an example of an SSL connector declaration.
 
@@ -5882,8 +5787,8 @@ straight forward web service definition.
 ....
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.bearer;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService
 (
@@ -5931,7 +5836,7 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.bearer;
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService
 (
@@ -6485,7 +6390,7 @@ annotation defines the service as a Provider-based endpoint, meaning it
 supports a more messaging-oriented approach to Web services. In
 particular, it signals that the exchanged messages will be XML documents
 of some type. SecurityTokenServiceProvider is an implementation of the
-javax.xml.ws.Provider interface. In comparison the WebService annotation
+jakarta.xml.ws.Provider interface. In comparison the WebService annotation
 defines a (service endpoint interface) SEI-based endpoint which supports
 message exchange via SOAP envelopes.
 
@@ -6508,7 +6413,7 @@ issuance, token validation and their static properties.
 StaticSTSProperties is used to set select properties for configuring
 resources in the STS. You may think this is a duplication of the
 settings made with the WSS4J annotations. The values are the same but
-the underlaying structures being set are different, thus this
+the underlying structures being set are different, thus this
 information must be declared in both places.
 
 The setIssuer setting is important because it uniquely identifies the
@@ -6542,7 +6447,7 @@ import org.apache.cxf.sts.service.StaticService;
 import org.apache.cxf.sts.token.provider.SAMLTokenProvider;
 import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
 
-import javax.xml.ws.WebServiceProvider;
+import jakarta.xml.ws.WebServiceProvider;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -6733,11 +6638,9 @@ ActAs and OnBehalfOf examples.
 
 ====== ClientCallbackHandler
 
-https://docs.jboss.org/author/display/JBWS/WS-Trust+and+STS#WS-TrustandSTS-ClientCallbackHandler[]
-
 ClientCallbackHandler is a callback handler for the WSS4J Crypto API. It
 is used to obtain the password for the private key in the keystore. This
-class enables CXF to retrieve the password of the user name to use for
+class enables CXF to retrieve the password of the username to use for
 the message signature. Note that "alice" and her password have been
 provided here. This information is not in the (JKS) keystore but
 provided in the WildFly security domain. It was declared in file
@@ -6780,9 +6683,6 @@ public class ClientCallbackHandler implements CallbackHandler {
 
 
 ====== Crypto properties and keystore files
-
-https://docs.jboss.org/author/display/JBWS/WS-Trust+and+STS#WS-TrustandSTS-RequesterCryptopropertiesandkeystorefiles[]
-
 WSS4J's Crypto implementation is loaded and configured via a Java
 properties file that contains Crypto configuration data. The file
 contains implementation-specific properties such as a keystore location,
@@ -7046,9 +6946,6 @@ security settings are provided in the comments in the listing below.
 
 
 ====== SSL configuration
-
-https://docs.jboss.org/author/display/JBWS/WS-Trust+and+STS#WS-TrustandSTS-SSLconfiguration[]
-
 This web service is using https, therefore the JBoss server must be
 configured to provide SSL support in the Web subsystem. There are 2
 components to SSL configuration.
@@ -7057,10 +6954,8 @@ components to SSL configuration.
 * declare an SSL connector in the Web subsystem of the JBoss server
 configuration file.
 
-Follow the directions in the, " _Using the pure Java implementation
-supplied by JSSE_ " section in the
-https://docs.jboss.org/author/display/WFLY8/SSL+setup+guide[SSL Setup
-Guide] .
+Follow the directions in the section
+https://docs.wildfly.org/26.1/WildFly_Elytron_Security.html#configure-ssltls[Configure SSL/TLS] .
 
 Here is an example of an SSL connector declaration.
 
@@ -7082,8 +6977,8 @@ straight forward web service definition.
 ....
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.holderofkey;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService
 (
@@ -7131,7 +7026,7 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.holderofkey;
 import org.apache.cxf.annotations.EndpointProperties;
 import org.apache.cxf.annotations.EndpointProperty;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService
    (
@@ -7179,8 +7074,6 @@ org.apache.ws.security.crypto.merlin.keystore.file=servicestore.jks
 
 
 ====== MANIFEST.MF
-
-https://docs.jboss.org/author/display/JBWS/WS-Trust+and+STS#WS-TrustandSTS-MANIFEST.MF[]
 
 When deployed on WildFly this application requires access to the JBossWs
 and CXF APIs provided in module org.jboss.ws.cxf.jbossws-cxf-client. The
@@ -7631,7 +7524,7 @@ annotation. This annotation defines the service as a Provider-based
 endpoint, meaning it supports a more messaging-oriented approach to Web
 services. In particular, it signals that the exchanged messages will be
 XML documents of some type. SecurityTokenServiceProvider is an
-implementation of the javax.xml.ws.Provider interface. In comparison the
+implementation of the jakarta.xml.ws.Provider interface. In comparison the
 WebService annotation defines a (service endpoint interface) SEI-based
 endpoint which supports message exchange via SOAP envelopes.
 
@@ -7651,7 +7544,7 @@ issuance and their static properties.
 StaticSTSProperties is used to set select properties for configuring
 resources in the STS. You may think this is a duplication of the
 settings made with the WSS4J annotations. The values are the same but
-the underlaying structures being set are different, thus this
+the underlying structures being set are different, thus this
 information must be declared in both places.
 
 The setIssuer setting is important because it uniquely identifies the
@@ -7685,7 +7578,7 @@ import org.apache.cxf.sts.service.StaticService;
 import org.apache.cxf.sts.token.provider.SAMLTokenProvider;
 import org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider;
 
-import javax.xml.ws.WebServiceProvider;
+import jakarta.xml.ws.WebServiceProvider;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -8091,9 +7984,9 @@ special in it:
 ....
 package org.jboss.test.ws.jaxws.samples.wsrm.service;
 
-import javax.jws.Oneway;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.Oneway;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService
 (
@@ -8132,7 +8025,7 @@ The endpoint advertises his RM capabilities (and requirements) through
 the published WSDL and the client is required to also enable WS-RM for
 successfully exchanging messages with the server.
 
-So a regular JAX WS client is enough if the user does not need to tune
+So a regular JAX-WS client is enough if the user does not need to tune
 any specific detail of the RM subsystem.
 
 ....
@@ -8154,7 +8047,7 @@ Here is an example:
 package org.jboss.test.ws.jaxws.samples.wsrm.client;
 
 //...
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 import org.apache.cxf.ws.rm.feature.RMFeature;
 import org.apache.cxf.ws.rm.manager.AcksPolicyType;
 import org.apache.cxf.ws.rm.manager.DestinationPolicyType;
@@ -8223,8 +8116,8 @@ public class CustomRMFeature extends RMFeature
 ....
 <?xml version="1.0" encoding="UTF-8"?>
 
-<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
-  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jakartaee="https://jakarta.ee/xml/ns/jakartaee"
+  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:5.0 schema/jbossws-jaxws-config_5_0.xsd">
 
   <client-config>
     <config-name>Custom Client Config</config-name>
@@ -8439,7 +8332,7 @@ annotation to refer to the consumed contract:
 ....
 package org.jboss.test.ws.jaxws.cxf.jms;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService
 (
@@ -8692,7 +8585,7 @@ endpoint interface:
 ....
 package org.jboss.test.ws.jaxws.cxf.jms_http;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService
 (
@@ -8715,7 +8608,7 @@ public class HelloWorldImpl implements HelloWorld
 ....
 package org.jboss.test.ws.jaxws.cxf.jms_http;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService
 (
@@ -8785,7 +8678,7 @@ Here too the MANIFEST.MF needs to declare a dependency on
 _org.apache.activemq.artemis_ module when deploying to WildFly.
 ====
 
-Finally, the JAX-WS client can ineract with both JMS and HTTP endpoints
+Finally, the JAX-WS client can interact with both JMS and HTTP endpoints
 as usual:
 
 ....
@@ -8954,7 +8847,6 @@ Apache CXF enables _WS-Discovery_ depending on the availability of its
 runtime component; given that's always shipped in the application
 server, JBossWS integration requires using the
 `cxf.ws-discovery.enabled`
-https://docs.jboss.org/author/display/JBWS/Advanced+User+Guide#AdvancedUserGuide-Configurationthroughdeploymentdescriptor[property]
 usage for enabling _WS-Discovery_ for a given deployment. By default
 _WS-Discovery_ is disabled on the application server. Below is an
 example of _jboss-webservices.xml_ descriptor to be used for enabling
@@ -8962,7 +8854,7 @@ _WS-Discovery_ :
 
 ....
 <webservices xmlns="http://www.jboss.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  version="1.2" xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee">
+  version="1.3" xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee">
 
   <property>
     <name>cxf.ws-discovery.enabled</name>
@@ -9069,7 +8961,7 @@ Here is an example of a code-first endpoint including @Policy
 annotation:
 
 ....
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import org.apache.cxf.annotations.Policy;
 
 @WebService(portName = "MyServicePort",
@@ -9128,7 +9020,7 @@ labels can also be specified. Here is an example of the @PolicySets
 annotation on a service endpoint interface:
 
 ....
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import org.jboss.ws.api.annotation.PolicySets;
 
 @WebService(name = "EndpointTwo", targetNamespace = "http://org.jboss.ws.jaxws.cxf/jbws3648")
