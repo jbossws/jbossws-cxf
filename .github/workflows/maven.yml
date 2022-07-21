@@ -38,6 +38,8 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'adopt'
+      - name: Build docbook
+        run: mvn -s ./.m2-settings.xml -f docbook/pom.xml install
       - name: Build WFLY
         working-directory: ./wildfly
         run: mvn -s ../.m2-settings.xml -DskipTests=true '-Denforcer.skip=true' -Prelease clean install

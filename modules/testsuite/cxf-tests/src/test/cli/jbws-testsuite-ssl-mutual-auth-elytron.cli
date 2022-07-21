@@ -1,0 +1,39 @@
+
+embed-server --std-out=echo --server-config=jbws-testsuite-ssl-mutual-auth.xml
+
+## get jbws-testsuite-ssl-mutual-auth-CLI.properties contents
+set keystorePath=${keystorePath}
+set truststorePath=${truststorePath}
+set serverLog=${serverLog}
+
+if (outcome == success) of :resolve-expression(expression=${enableServerLoggingToConsole-prop})
+  set enableServerLoggingToConsole=`:resolve-expression(expression=${enableServerLoggingToConsole-prop})`
+  ##echo $enableServerLoggingToConsole
+  echo redirect log output to $serverLog
+  ./subsystem=logging/root-logger=ROOT:remove-handler(name=CONSOLE)
+  ./subsystem=logging/periodic-rotating-file-handler=FILE \
+     :write-attribute(name=file, value={relative-to=jboss.server.log.dir, path=$serverLog})
+end-if
+
+##----- add key-store and manager-store config
+echo create key-store twoWayKS and key-manager
+./subsystem=elytron/key-store=twoWayKS \
+   :add(credential-reference={clear-text=changeit}, type=JKS, path=$keystorePath)
+./subsystem=elytron/key-manager=twoWayKM \
+   :add(key-store=twoWayKS, credential-reference={clear-text=changeit})
+
+echo create key-store twoWayTS and trust-manager
+./subsystem=elytron/key-store=twoWayTS \
+   :add(credential-reference={clear-text=changeit}, type=JKS, path=$truststorePath)
+./subsystem=elytron/trust-manager=twoWayTM:add(key-store=twoWayTS)
+
+echo create server-ssl-context twoWaySSC
+./subsystem=elytron/server-ssl-context=twoWaySSC \
+   :add(protocols=[TLSv1.2], need-client-auth=true, key-manager=twoWayKM, trust-manager=twoWayTM)
+
+##----- undertow https update
+echo undertow https update
+./subsystem=undertow/server=default-server/https-listener=https \
+   :write-attribute(name=ssl-context, value=twoWaySSC)
+
+stop-embedded-server

@@ -1,0 +1,55 @@
+
+embed-server --std-out=echo --server-config=jbws-testsuite-shared-address-rewrite.xml
+
+## jbws-testsuite-shared-address-rewrite-elytron-CLI.properties contents
+set usersPropFile=${usersPropFile}
+set rolesPropFile=${rolesPropFile}
+set keystorePath=${keystorePath}
+set serverLog=${serverLog}
+
+if (outcome == success) of :resolve-expression(expression=${enableServerLoggingToConsole-prop})
+  set enableServerLoggingToConsole=`:resolve-expression(expression=${enableServerLoggingToConsole-prop})`
+  ##echo $enableServerLoggingToConsole
+  echo redirect log output to $serverLog
+  ./subsystem=logging/root-logger=ROOT:remove-handler(name=CONSOLE)
+  ./subsystem=logging/periodic-rotating-file-handler=FILE \
+     :write-attribute(name=file, value={relative-to=jboss.server.log.dir, path=$serverLog})
+end-if
+
+##----- JBossWS domain config ---------
+echo JBossWS domain config
+# 1.
+./subsystem=elytron/properties-realm=JBossWS \
+   :add(users-properties={path=$usersPropFile, plain-text=true}, \
+   groups-properties={path=$rolesPropFile})
+# 2.
+./subsystem=elytron/security-domain=JBossWS \
+   :add(default-realm=JBossWS, permission-mapper=default-permission-mapper, \
+   realms=[{realm=JBossWS,role-decoder=groups-to-roles}])
+# 3.
+./subsystem=elytron/http-authentication-factory=JBossWS \
+   :add(security-domain=JBossWS, http-server-mechanism-factory=global, \
+   mechanism-configurations=[{mechanism-name=BASIC, \
+   mechanism-realm-configurations=[{realm-name=JBossWS}] }])
+
+##----- add key-store and manager-store config
+echo create key-store jbwsTestHttpsRealmKS and key-manager
+./subsystem=elytron/key-store=jbwsTestHttpsRealmKS \
+   :add(alias-filter=tomcat, credential-reference={clear-text=changeit}, type=JKS, path=$keystorePath)
+
+./subsystem=elytron/key-manager=jbwsTestHttpsRealmKM \
+   :add(key-store=jbwsTestHttpsRealmKS, credential-reference={clear-text=changeit})
+
+##----- add server-ssl-context
+echo create server-ssl-context twoWaySSC
+./subsystem=elytron/server-ssl-context=jbwsTestHttpsRealmSSC \
+   :add(key-manager=jbwsTestHttpsRealmKM)
+
+##----- add undertow https-listener
+echo create undertow https-listener
+./subsystem=undertow/server=default-server/https-listener=https:remove
+./subsystem=undertow/server=default-server/https-listener=jbws-test-https-listener \
+   :add(socket-binding=https, security-realm=jbws-test-https-realm)
+
+
+stop-embedded-server

@@ -18,6 +18,11 @@
     <test.spring.version>6.0.0-M4</test.spring.version>
     <test.cxf.version>${cxf.version}</test.cxf.version>
     <jakarta-client-webservices.version>2.0.0.Beta3</jakarta-client-webservices.version>
+
+      <!-- base name of related server config files -->
+      <jbws-testsuite-jms-base>jbws-testsuite-jms</jbws-testsuite-jms-base>
+      <jbws-testsuite-default-base>jbws-testsuite-default</jbws-testsuite-default-base>
+      <jbws-testsuite-default-config-tests-base>jbws-testsuite-default-config-tests</jbws-testsuite-default-config-tests-base>
   </properties>
 
   <dependencies>
@@ -164,7 +169,7 @@
 
   <!-- Profiles -->
   <profiles>
-    
+
     <!-- 
     Name:  noprepare
     Descr: Skip test preparation with -Dnoprepare  
@@ -172,170 +177,170 @@
     <profile>
       <id>noprepare</id>
       <activation>
+          <os>
+              <family>unix</family>
+          </os>
+          <!-- ## Return property to use when WFLY-16715 is resolved
         <property>
           <name>!noprepare</name>
         </property>
+          ## -->
       </activation>
       <build>
         <plugins>
-           <plugin>
-              <groupId>org.codehaus.gmavenplus</groupId>
-              <artifactId>gmavenplus-plugin</artifactId>
-              <executions>
-                 <execution>
-                    <id>testsuite-default</id>
-                    <phase>pre-integration-test</phase>
-                    <goals>
-                       <goal>execute</goal>
-                    </goals>
-                    <configuration>
-                       <scripts>
-                          <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-elytron.groovy</script>
-                       </scripts>
-                       <properties>
-                          <property>
-                             <name>inputFile</name>
-                             <value>${jboss.home}/standalone/configuration/standalone.xml</value>
-                          </property>
-                          <property>
-                             <name>outputFile</name>
-                             <value>${jboss.home}/standalone/configuration/jbws-testsuite-default.xml</value>
-                          </property>
-                          <property>
-                             <name>serverLog</name>
-                             <value>jbws-testsuite-default.log</value>
-                          </property>
-                          <property>
-                             <name>usersPropFile</name>
-                              <value>${project.build.directory}/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties</value>
-                          </property>
-                          <property>
-                             <name>rolesPropFile</name>
-                              <value>${project.build.directory}/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties</value>
-                          </property>
-                          <property>
-                             <name>keystorePath</name>
-                             <value>${project.build.directory}/test-classes/test.keystore</value>
-                          </property>
-                          <property>
-                             <name>testResourcesDir</name>
-                             <value>${project.build.directory}/test-resources</value>
-                          </property>
-                       </properties>
-                    </configuration>
-                 </execution>
-                 <execution>
-                    <id>testsuite-ssl-mutual-auth</id>
-                    <phase>pre-integration-test</phase>
-                    <goals>
-                       <goal>execute</goal>
-                    </goals>
-                    <configuration>
-                       <scripts>
-                          <script>file:///${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth-elytron.groovy</script>
-                       </scripts>
-                       <properties>
-                          <property>
-                             <name>inputFile</name>
-                             <value>${jboss.home}/standalone/configuration/standalone.xml</value>
-                          </property>
-                          <property>
-                             <name>outputFile</name>
-                             <value>${jboss.home}/standalone/configuration/jbws-testsuite-ssl-mutual-auth.xml</value>
-                          </property>
-                          <property>
-                             <name>serverLog</name>
-                             <value>jbws-testsuite-ssl-mutual-auth.log</value>
-                          </property>
-                          <property>
-                             <name>keystorePath</name>
-                             <value>${project.build.directory}/test-classes/test.keystore</value>
-                          </property>
-                          <property>
-                             <name>truststorePath</name>
-                             <value>${project.build.directory}/test-classes/test.truststore</value>
-                          </property>
-                       </properties>
-                    </configuration>
-                 </execution>
-                 <execution>
-                    <id>testsuite-default-config-tests</id>
-                    <phase>pre-integration-test</phase>
-                    <goals>
-                       <goal>execute</goal>
-                    </goals>
-                    <configuration>
-                       <scripts>
-                          <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-config-tests-elytron.groovy</script>
-                       </scripts>
-                       <properties>
-                          <property>
-                             <name>inputFile</name>
-                             <value>${jboss.home}/standalone/configuration/standalone.xml</value>
-                          </property>
-                          <property>
-                             <name>outputFile</name>
-                             <value>${jboss.home}/standalone/configuration/jbws-testsuite-default-config-tests.xml</value>
-                          </property>
-                          <property>
-                             <name>usersPropFile</name>
-                             <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
-                          </property>
-                          <property>
-                             <name>rolesPropFile</name>
-                             <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
-                          </property>
-                          <property>
-                             <name>serverLog</name>
-                             <value>jbws-testsuite-default-config-tests.log</value>
-                          </property>
-                       </properties>
-                    </configuration>
-                 </execution>
-                 <execution>
-                    <id>testsuite-jms</id>
-                    <phase>pre-integration-test</phase>
-                    <goals>
-                       <goal>execute</goal>
-                    </goals>
-                    <configuration>
-                       <scripts>
-                          <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms-elytron.groovy</script>
-                       </scripts>
-                       <properties>
-                          <property>
-                             <name>inputFile</name>
-                             <value>${jboss.home}/docs/examples/configs/standalone-activemq-embedded.xml</value>
-                          </property>
-                          <property>
-                             <name>outputFile</name>
-                             <value>${jboss.home}/standalone/configuration/jbws-testsuite-jms.xml</value>
-                          </property>
-                          <property>
-                             <name>serverLog</name>
-                             <value>jbws-testsuite-jms.log</value>
-                          </property>
-                          <property>
-                             <name>srcUsersProperties</name>
-                             <value>${project.build.directory}/test-classes/jbws-application-users.properties</value>
-                          </property>
-                          <property>
-                             <name>destUsersProperties</name>
-                             <value>${jboss.home}/standalone/configuration/jbws-application-users.properties</value>
-                          </property>
-                          <property>
-                             <name>srcRolesProperties</name>
-                             <value>${project.build.directory}/test-classes/jbws-application-roles.properties</value>
-                          </property>
-                          <property>
-                             <name>destRolesProperties</name>
-                             <value>${jboss.home}/standalone/configuration/jbws-application-roles.properties</value>
-                          </property>
-                       </properties>
-                    </configuration>
-                 </execution>
-              </executions>
-           </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>create-server-config</id>
+                        <phase>pre-integration-test</phase>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <target>
+                                <copy overwrite="true"
+                                      file="${jboss.home}/standalone/configuration/standalone.xml"
+                                      tofile="${jboss.home}/standalone/configuration/${jbws-testsuite-default-base}.xml" />
+                                <propertyfile file="${project.build.directory}/${jbws-testsuite-default-base}-elytron-CLI.properties">
+                                    <entry key="testResourcesDir" value="&quot;${project.build.directory}/test-resources&quot;"/>
+                                    <!-- rls tmp
+                                    <entry key="testResourcesDir" value="${basedir}/src/test/resources"/>
+                                   -->
+                                    <entry key="usersPropFile" value="${basedir}/src/test/resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties"/>
+                                    <entry key="rolesPropFile" value="${basedir}/src/test/resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties"/>
+                                    <entry key="keystorePath" value="${basedir}/src/test/etc/test.keystore"/>
+                                    <entry key="serverLog" value="${jbws-testsuite-default-base}.log"/>
+                                </propertyfile>
+
+                                <copy overwrite="true"
+                                      file="${jboss.home}/standalone/configuration/standalone.xml"
+                                      tofile="${jboss.home}/standalone/configuration/jbws-testsuite-ssl-mutual-auth.xml" />
+                                <propertyfile file="${project.build.directory}/jbws-testsuite-ssl-mutual-auth-elytron-CLI.properties">
+                                    <entry key="keystorePath" value="${project.build.directory}/test-classes/test.keystore"/>
+                                    <entry key="truststorePath" value="${project.build.directory}/test-classes/test.truststore"/>
+                                    <entry key="serverLog" value="jbws-testsuite-ssl-mutual-auth.log"/>
+                                </propertyfile>
+
+                                <copy overwrite="true"
+                                      file="${jboss.home}/standalone/configuration/standalone.xml"
+                                      tofile="${jboss.home}/standalone/configuration/${jbws-testsuite-default-config-tests-base}.xml" />
+                                <propertyfile file="${project.build.directory}/${jbws-testsuite-default-config-tests-base}-elytron-CLI.properties">
+                                    <entry key="usersPropFile" value="${basedir}/src/test/resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties"/>
+                                    <entry key="rolesPropFile" value="${basedir}/src/test/resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties"/>
+                                    <entry key="serverLog" value="${jbws-testsuite-default-config-tests-base}.log"/>
+                                </propertyfile>
+
+                                <copy overwrite="true"
+                                      file="${jboss.home}/standalone/configuration/standalone-full.xml"
+                                      tofile="${jboss.home}/standalone/configuration/${jbws-testsuite-jms-base}.xml" />
+                                <propertyfile file="${project.build.directory}/${jbws-testsuite-jms-base}-elytron-CLI.properties">
+                                    <entry key="serverLog" value="${jbws-testsuite-jms-base}.log"/>
+                                </propertyfile>
+                                <copy overwrite="true"
+                                      file="${basedir}/src/test/etc/jbws-application-users.properties"
+                                      tofile="${jboss.home}/standalone/configuration/jbws-application-users.properties" />
+                               <copy overwrite="true"
+                                      file="${basedir}/src/test/etc/jbws-application-roles.properties"
+                                      tofile="${jboss.home}/standalone/configuration/jbws-application-roles.properties" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>4.0.0.Alpha2</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.wildfly.core</groupId>
+                        <artifactId>wildfly-controller-client</artifactId>
+                        <version>17.0.1.Final</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>jbws-testsuite-default config-server</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute-commands</goal>
+                        </goals>
+                        <configuration>
+                            <offline>true</offline>
+                            <scripts>
+                                <script>${basedir}/src/test/cli/${jbws-testsuite-default-base}-elytron.cli</script>
+                            </scripts>
+                            <propertiesFiles>${project.build.directory}/${jbws-testsuite-default-base}-elytron-CLI.properties</propertiesFiles>
+                            <jboss-home>${jboss.home}</jboss-home>
+                            <stdout>${project.build.directory}/${jbws-testsuite-default-base}-elytron-CLI.log</stdout>
+                            <system-properties>
+                                <enableServerLoggingToConsole-prop>${enableServerLoggingToConsole}</enableServerLoggingToConsole-prop>
+                            </system-properties>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>ssl-mutual-auth config-server</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute-commands</goal>
+                        </goals>
+                        <configuration>
+                            <offline>true</offline>
+                            <scripts>
+                                <script>${basedir}/src/test/cli/jbws-testsuite-ssl-mutual-auth-elytron.cli</script>
+                            </scripts>
+                            <propertiesFiles>${project.build.directory}/jbws-testsuite-ssl-mutual-auth-elytron-CLI.properties</propertiesFiles>
+                            <jboss-home>${jboss.home}</jboss-home>
+                            <stdout>${project.build.directory}/jbws-testsuite-ssl-mutual-auth-elytron-CLI.log</stdout>
+                            <system-properties>
+                                <enableServerLoggingToConsole-prop>${enableServerLoggingToConsole}</enableServerLoggingToConsole-prop>
+                            </system-properties>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>default-config-tests config-server</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute-commands</goal>
+                        </goals>
+                        <configuration>
+                            <offline>true</offline>
+                            <scripts>
+                                <script>${basedir}/src/test/cli/${jbws-testsuite-default-config-tests-base}-elytron.cli</script>
+                            </scripts>
+                            <propertiesFiles>${project.build.directory}/${jbws-testsuite-default-config-tests-base}-elytron-CLI.properties</propertiesFiles>
+                            <jboss-home>${jboss.home}</jboss-home>
+                            <stdout>${project.build.directory}/${jbws-testsuite-default-config-tests-base}-elytron-CLI.log</stdout>
+                            <system-properties>
+                                <enableServerLoggingToConsole-prop>${enableServerLoggingToConsole}</enableServerLoggingToConsole-prop>
+                            </system-properties>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>jms config-server</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>execute-commands</goal>
+                        </goals>
+                        <configuration>
+                            <offline>true</offline>
+                            <scripts>
+                                <script>${basedir}/src/test/cli/${jbws-testsuite-jms-base}-elytron.cli</script>
+                            </scripts>
+                            <propertiesFiles>${project.build.directory}/${jbws-testsuite-jms-base}-elytron-CLI.properties</propertiesFiles>
+                            <jboss-home>${jboss.home}</jboss-home>
+                            <stdout>${project.build.directory}/${jbws-testsuite-jms-base}-elytron-CLI.log</stdout>
+                            <system-properties>
+                                <enableServerLoggingToConsole-prop>${enableServerLoggingToConsole}</enableServerLoggingToConsole-prop>
+                            </system-properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
@@ -555,6 +560,284 @@
         </plugins>
       </build>
     </profile>
+
+      <profile>
+          <!-- Must keep groovy scripts until cli Windows bug is fixed
+            https://issues.redhat.com/browse/WFLY-16715
+
+            Remove this profile and directory cxf-tests/src/test/scripts
+            once WFLY-16715 is resolved.
+          -->
+          <id>windows</id>
+          <activation>
+              <os>
+                  <family>windows</family>
+              </os>
+          </activation>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.codehaus.gmavenplus</groupId>
+                      <artifactId>gmavenplus-plugin</artifactId>
+                      <executions>
+                          <execution>
+                              <id>testsuite-default</id>
+                              <phase>pre-integration-test</phase>
+                              <goals>
+                                  <goal>execute</goal>
+                              </goals>
+                              <configuration>
+                                  <scripts>
+                                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-elytron.groovy</script>
+                                  </scripts>
+                                  <properties>
+                                      <property>
+                                          <name>inputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>outputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-default.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>serverLog</name>
+                                          <value>jbws-testsuite-default.log</value>
+                                      </property>
+                                      <property>
+                                          <name>usersPropFile</name>
+                                          <value>${project.build.directory}/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>rolesPropFile</name>
+                                          <value>${project.build.directory}/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>keystorePath</name>
+                                          <value>${project.build.directory}/test-classes/test.keystore</value>
+                                      </property>
+                                      <property>
+                                          <name>testResourcesDir</name>
+                                          <value>${project.build.directory}/test-resources</value>
+                                      </property>
+                                  </properties>
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <id>testsuite-ssl-mutual-auth</id>
+                              <phase>pre-integration-test</phase>
+                              <goals>
+                                  <goal>execute</goal>
+                              </goals>
+                              <configuration>
+                                  <scripts>
+                                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth-elytron.groovy</script>
+                                  </scripts>
+                                  <properties>
+                                      <property>
+                                          <name>inputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>outputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-ssl-mutual-auth.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>serverLog</name>
+                                          <value>jbws-testsuite-ssl-mutual-auth.log</value>
+                                      </property>
+                                      <property>
+                                          <name>keystorePath</name>
+                                          <value>${project.build.directory}/test-classes/test.keystore</value>
+                                      </property>
+                                      <property>
+                                          <name>truststorePath</name>
+                                          <value>${project.build.directory}/test-classes/test.truststore</value>
+                                      </property>
+                                  </properties>
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <id>testsuite-default-config-tests</id>
+                              <phase>pre-integration-test</phase>
+                              <goals>
+                                  <goal>execute</goal>
+                              </goals>
+                              <configuration>
+                                  <scripts>
+                                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-config-tests-elytron.groovy</script>
+                                  </scripts>
+                                  <properties>
+                                      <property>
+                                          <name>inputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>outputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-default-config-tests.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>usersPropFile</name>
+                                          <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>rolesPropFile</name>
+                                          <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>serverLog</name>
+                                          <value>jbws-testsuite-default-config-tests.log</value>
+                                      </property>
+                                  </properties>
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <id>testsuite-jms</id>
+                              <phase>pre-integration-test</phase>
+                              <goals>
+                                  <goal>execute</goal>
+                              </goals>
+                              <configuration>
+                                  <scripts>
+                                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms-elytron.groovy</script>
+                                  </scripts>
+                                  <properties>
+                                      <property>
+                                          <name>inputFile</name>
+                                          <value>${jboss.home}/docs/examples/configs/standalone-activemq-embedded.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>outputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-jms.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>serverLog</name>
+                                          <value>jbws-testsuite-jms.log</value>
+                                      </property>
+                                      <property>
+                                          <name>srcUsersProperties</name>
+                                          <value>${project.build.directory}/test-classes/jbws-application-users.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>destUsersProperties</name>
+                                          <value>${jboss.home}/standalone/configuration/jbws-application-users.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>srcRolesProperties</name>
+                                          <value>${project.build.directory}/test-classes/jbws-application-roles.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>destRolesProperties</name>
+                                          <value>${jboss.home}/standalone/configuration/jbws-application-roles.properties</value>
+                                      </property>
+                                  </properties>
+                              </configuration>
+                          </execution>
+                      </executions>
+                  </plugin>
+
+                  <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-dependency-plugin</artifactId>
+                      <executions>
+                          <execution> <!-- This downloads and copies some Spring libs into target/spring to be later picked up and included in some test jars -->
+                              <id>copy-spring</id>
+                              <phase>process-test-resources</phase>
+                              <goals>
+                                  <goal>copy</goal>
+                              </goals>
+                              <configuration>
+                                  <artifactItems>
+                                      <artifactItem>
+                                          <groupId>org.springframework</groupId>
+                                          <artifactId>spring-beans</artifactId>
+                                          <version>${test.spring.version}</version>
+                                      </artifactItem>
+                                      <artifactItem>
+                                          <groupId>org.springframework</groupId>
+                                          <artifactId>spring-context</artifactId>
+                                          <version>${test.spring.version}</version>
+                                      </artifactItem>
+                                      <artifactItem>
+                                          <groupId>org.springframework</groupId>
+                                          <artifactId>spring-core</artifactId>
+                                          <version>${test.spring.version}</version>
+                                      </artifactItem>
+                                      <artifactItem>
+                                          <groupId>org.springframework</groupId>
+                                          <artifactId>spring-expression</artifactId>
+                                          <version>${test.spring.version}</version>
+                                      </artifactItem>
+                                      <artifactItem>
+                                          <groupId>org.springframework</groupId>
+                                          <artifactId>spring-web</artifactId>
+                                          <version>${test.spring.version}</version>
+                                      </artifactItem>
+                                      <artifactItem>
+                                          <groupId>org.springframework</groupId>
+                                          <artifactId>spring-aop</artifactId>
+                                          <version>${test.spring.version}</version>
+                                      </artifactItem>
+                                  </artifactItems>
+                                  <outputDirectory>target/spring</outputDirectory>
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <id>copy-cxf</id>
+                              <phase>process-test-resources</phase>
+                              <goals>
+                                  <goal>copy</goal>
+                              </goals>
+                              <configuration>
+                                  <artifactItems>
+                                      <artifactItem>
+                                          <groupId>org.apache.cxf</groupId>
+                                          <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                                          <version>${test.cxf.version}</version>
+                                      </artifactItem>
+                                      <artifactItem>
+                                          <groupId>org.apache.cxf</groupId>
+                                          <artifactId>cxf-rt-frontend-simple</artifactId>
+                                          <version>${test.cxf.version}</version>
+                                      </artifactItem>
+                                      <artifactItem>
+                                          <groupId>org.apache.cxf</groupId>
+                                          <artifactId>cxf-core</artifactId>
+                                          <version>${test.cxf.version}</version>
+                                      </artifactItem>
+                                      <artifactItem>
+                                          <groupId>org.apache.cxf</groupId>
+                                          <artifactId>cxf-rt-transports-http</artifactId>
+                                          <version>${test.cxf.version}</version>
+                                      </artifactItem>
+                                      <artifactItem>
+                                          <groupId>org.apache.cxf</groupId>
+                                          <artifactId>cxf-rt-bindings-soap</artifactId>
+                                          <version>${test.cxf.version}</version>
+                                      </artifactItem>
+                                      <artifactItem>
+                                          <groupId>org.apache.cxf</groupId>
+                                          <artifactId>cxf-rt-databinding-jaxb</artifactId>
+                                          <version>${test.cxf.version}</version>
+                                      </artifactItem>
+                                      <artifactItem>
+                                          <groupId>org.apache.cxf</groupId>
+                                          <artifactId>cxf-rt-ws-policy</artifactId>
+                                          <version>${test.cxf.version}</version>
+                                      </artifactItem>
+                                      <artifactItem>
+                                          <groupId>org.apache.cxf</groupId>
+                                          <artifactId>cxf-rt-wsdl</artifactId>
+                                          <version>${test.cxf.version}</version>
+                                      </artifactItem>
+                                  </artifactItems>
+                                  <outputDirectory>target/cxf-embedded</outputDirectory>
+                              </configuration>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
 
   </profiles>
   

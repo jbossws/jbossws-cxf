@@ -604,7 +604,6 @@
     <profile>
       <id>wildfly2700</id>
       <properties>
-        <additionalGroovyScriptSuffix>-nolegacy</additionalGroovyScriptSuffix>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
         <modular.jdk.args>
