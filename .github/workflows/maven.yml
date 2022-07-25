@@ -15,8 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-      os: [windows-latest ]
-      java: ['11']
+      os: [windows-latest, ubuntu-latest]
+      java: ['11','17']
         wildfly-version: ['wildfly2700']
 
     steps:
