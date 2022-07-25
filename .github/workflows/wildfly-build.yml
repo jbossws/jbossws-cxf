@@ -33,7 +33,7 @@ jobs:
           repository: jbossws/jbossws-cxf
       - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{needs.wildfly-build.outputs.wildfly-version}}
         run: |
-          mvn -s ./.m2-settings.xml -B -V -fae -Pwildfly2700 clean install
+          mvn -s ./.m2-settings.xml -B -V -fae -Pwildfly27dev clean install
       - name: Upload surefire reports
         uses: actions/upload-artifact@v2
         if: failure()
