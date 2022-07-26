@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ${{ matrix.os }}
     timeout-minutes: 90
     strategy:
@@ -23,11 +22,6 @@ jobs:
     steps:
       - name: Checkout jbossws-cxf
         uses: actions/checkout@v2
-      - name: Checkout wildfly
-        uses: actions/checkout@v2
-        with:
-          repository: wildfly/wildfly
-          path: './wildfly'
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
@@ -39,10 +33,6 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'adopt'
-      - name: Conditionally build WFLY
-        if: ${{ matrix.wildfly-version == 'wildfly2700'}}
-        working-directory: ./wildfly
-        run: mvn -DskipTests=true '-Denforcer.skip=true' -Prelease clean install
       - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{ matrix.wildfly-version }}
         run: |
           mvn -s ./.m2-settings.xml -B -V -fae -P${{ matrix.wildfly-version }} verify
