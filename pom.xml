@@ -82,7 +82,7 @@
     <picketbox.version>5.0.3.Final</picketbox.version>
     <picketlink.version>2.5.5.SP12</picketlink.version>
     <jaxws-undertow-httpspi.version>1.0.1.Final</jaxws-undertow-httpspi.version>
-    <io.undertow.version>2.2.9.Final</io.undertow.version>
+    <io.undertow.version>2.2.18.Final</io.undertow.version>
     <jaxb.api.version>2.0.0.Final</jaxb.api.version>
     <jaxb.impl.version>2.3.3-b02</jaxb.impl.version>
     <jaxws.api.version>1.0.0.Final</jaxws.api.version>
