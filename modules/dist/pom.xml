@@ -181,22 +181,7 @@
          </dependency>
       </dependencies>
     </profile>
-    <!--
-     Name:  wildfly2700
-     Descr: WildFly-27.0.0 specific dependencies
-    -->
-    <profile>
-        <id>wildfly2700</id>
-        <dependencies>
-            <dependency>
-                <groupId>org.jboss.ws.cxf</groupId>
-                <artifactId>jbossws-cxf-resources</artifactId>
-                <version>${project.version}</version>
-                <classifier>wildfly2700</classifier>
-                <scope>provided</scope>
-           </dependency>
-        </dependencies>
-    </profile>
+
         <!--
         Name:  deploy
         Descr: Deploy stack on WildFly instance

@@ -68,7 +68,6 @@
     <jbossws.common.version>3.3.3.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.4.0.Final</jbossws.common.tools.version>
     <wildfly2600.version>26.0.0.Final</wildfly2600.version>
-    <wildfly2700.version>27.0.0.Alpha2-SNAPSHOT</wildfly2700.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
     <cxf.version>3.4.5</cxf.version>
     <cxf.asm.version>9.1</cxf.asm.version>
@@ -1131,23 +1130,7 @@
         <module>modules/testsuite</module>
       </modules>
     </profile>
-    <!--
-    Name:  wildfly2700
-    Descr: WildFly-27.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly2700</id>
-      <properties>
-        <jbossws.integration.target>wildfly2700</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly2700.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
+
     <profile>
       <id>dist</id>
       <modules>
