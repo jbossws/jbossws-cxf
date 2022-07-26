@@ -93,6 +93,7 @@
     <log4j.version>2.17.1</log4j.version>
     <org.slf4j.version>1.7.32</org.slf4j.version>
     <activation.version>1.1.1</activation.version>
+    <artimes.client.version>2.23.1</artimes.client.version>
     <fastinfoset.version>1.2.16</fastinfoset.version>
     <neethi.version>3.1.1</neethi.version>
     <opensaml.version>3.3.1</opensaml.version>
@@ -584,7 +585,11 @@
           </exclusion>
         </exclusions>
       </dependency>
-
+      <dependency>
+        <groupId>org.apache.activemq</groupId>
+        <artifactId>artemis-jms-client</artifactId>
+        <version>${artimes.client.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.xml.soap</groupId>
         <artifactId>jboss-saaj-api_1.4_spec</artifactId>
