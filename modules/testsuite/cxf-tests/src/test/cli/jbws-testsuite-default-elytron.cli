@@ -1,0 +1,137 @@
+
+embed-server --std-out=echo --server-config=jbws-testsuite-default.xml
+
+
+## jbws-testsuite-default-elytron-CLI.properties contents
+set testResourcesDir=${testResourcesDir}
+set usersPropFile=${usersPropFile}
+set rolesPropFile=${rolesPropFile}
+set keystorePath=${keystorePath}
+
+
+## must build configuration elements from the bottom up
+## 1. realm
+## 2. security domain
+## 3. ejb3 ref and undertow ref
+## 4. misc ref
+
+##----- JBossWS domain config ---------
+# 1.
+echo JBossWS domain config
+./subsystem=elytron/properties-realm=JBossWS \
+   :add(users-properties={path=$testResourcesDir/jaxws/samples/wsse/policy/jaas/ejb-digest/META-INF/jbossws-users.properties, plain-text=true}, \
+   groups-properties={path=$testResourcesDir/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties})
+# 2.
+./subsystem=elytron/security-domain=JBossWS \
+   :add(default-realm=JBossWS, permission-mapper=default-permission-mapper, \
+   realms=[{realm=JBossWS,role-decoder=groups-to-roles}])
+# 3.
+./subsystem=elytron/http-authentication-factory=JBossWS \
+   :add(security-domain=JBossWS, http-server-mechanism-factory=global, \
+   mechanism-configurations=[{mechanism-name=BASIC, \
+   mechanism-realm-configurations=[{realm-name=JBossWS}] }])
+# 4.
+./subsystem=ejb3/application-security-domain=JBossWS:add(security-domain=JBossWS)
+./subsystem=undertow/application-security-domain=JBossWS \
+   :add(http-authentication-factory=JBossWS)
+
+##----- ws-basic-domain domain config ---------
+echo ws-basic-domain domain config
+# 1.
+./subsystem=elytron/properties-realm=ws-basic-domain \
+   :add(users-properties={path=$testResourcesDir/jaxws/cxf/httpauth/WEB-INF/ws-users.properties, plain-text=true}, \
+   groups-properties={path=$testResourcesDir/jaxws/cxf/httpauth/WEB-INF/ws-roles.properties})
+# 2.
+./subsystem=elytron/security-domain=ws-basic-domain \
+   :add(default-realm=ws-basic-domain, permission-mapper=default-permission-mapper, \
+   realms=[{realm=ws-basic-domain,role-decoder=groups-to-roles}])
+# 3.
+./subsystem=elytron/http-authentication-factory=ws-basic-domain \
+   :add(security-domain=ws-basic-domain, http-server-mechanism-factory=global, \
+   mechanism-configurations=[{mechanism-name=BASIC, \
+   mechanism-realm-configurations=[{realm-name=ws-basic-domain}] }])
+# 4.
+./subsystem=ejb3/application-security-domain=ws-basic-domain \
+   :add(security-domain=ws-basic-domain)
+./subsystem=undertow/application-security-domain=ws-basic-domain \
+   :add(http-authentication-factory=ws-basic-domain)
+
+
+##----- ws-digest-domain domain config ---------
+echo ws-digest-domain domain config
+# 1.
+./subsystem=elytron/properties-realm=ws-digest-domain \
+   :add(users-properties={path=$testResourcesDir/jaxws/cxf/httpauth/WEB-INF/ws-digest-users.properties}, \
+   groups-properties={path=$testResourcesDir/jaxws/cxf/httpauth/WEB-INF/ws-roles.properties})
+# 2.
+./subsystem=elytron/security-domain=ws-digest-domain \
+   :add(default-realm=ws-digest-domain, permission-mapper=default-permission-mapper, \
+   realms=[{realm=ws-digest-domain,role-decoder=groups-to-roles}])
+# 3.
+./subsystem=elytron/http-authentication-factory=ws-digest-domain \
+   :add(security-domain=ws-digest-domain, http-server-mechanism-factory=global, \
+   mechanism-configurations=[{mechanism-name=DIGEST, \
+   mechanism-realm-configurations=[{realm-name=ws-digest-domain}] }])
+# 4.
+./subsystem=undertow/application-security-domain=ws-digest-domain \
+   :add(http-authentication-factory=ws-digest-domain)
+
+##----- JBossWSDigest domain config ---------
+echo JBossWSDigest domain config
+# 1.
+./subsystem=elytron/properties-realm=JAASJBossWSDigestRealm \
+   :add(users-properties={path=$testResourcesDir/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties, plain-text=true}, \
+   groups-properties={path=$testResourcesDir/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties})
+# 2.
+./subsystem=elytron/security-domain=JBossWSDigest \
+   :add(default-realm=JAASJBossWSDigestRealm, permission-mapper=default-permission-mapper, \
+   realms=[{realm=JAASJBossWSDigestRealm,role-decoder=groups-to-roles}])
+# 3.
+./subsystem=elytron/http-authentication-factory=JBossWSDigest \
+   :add(security-domain=JBossWSDigest, http-server-mechanism-factory=global, \
+   mechanism-configurations=[{mechanism-name=BASIC, \
+   mechanism-realm-configurations=[{realm-name=JAASJBossWSDigestRealm}] }])
+# 4.
+./subsystem=undertow/application-security-domain=JBossWSDigest \
+   :add(http-authentication-factory=JBossWSDigest)
+
+
+##----- JAASJBossWS domain config ---------
+echo JAASJBossWS domain config
+# 1.
+./subsystem=elytron/properties-realm=JAASJBossWSRealm \
+   :add(users-properties={path=$usersPropFile, plain-text=true}, \
+   groups-properties={path=$rolesPropFile})
+# 2.
+./subsystem=elytron/security-domain=JAASJBossWS \
+   :add(default-realm=JAASJBossWSRealm, permission-mapper=default-permission-mapper, \
+   realms=[{realm=JAASJBossWSRealm,role-decoder=groups-to-roles}])
+# 3.
+./subsystem=elytron/http-authentication-factory=JAASJBossWS \
+   :add(security-domain=JAASJBossWS, http-server-mechanism-factory=global, \
+   mechanism-configurations=[{mechanism-name=BASIC, \
+   mechanism-realm-configurations=[{realm-name=JAASJBossWSRealm}] }])
+# 4.
+./subsystem=undertow/application-security-domain=JAASJBossWS \
+   :add(http-authentication-factory=JAASJBossWS)
+
+
+##----- alter elytron/tls/key-stores/key-store settings -----
+echo key-store conf
+./subsystem=elytron/key-store=applicationKS/ \
+  :write-attribute(name=credential-reference, value=clear-text=changeit)
+./subsystem=elytron/key-store=applicationKS \
+  :write-attribute(name=path, value=$keystorePath)
+./subsystem=elytron/key-store=applicationKS:undefine-attribute(name=relative-to)
+
+##----- alter elytron/tls/key-managers/key-manager settings -----
+./subsystem=elytron/key-manager=applicationKM \
+  :write-attribute(name=credential-reference, value=clear-text=changeit)
+./subsystem=elytron/key-manager=applicationKM \
+  :write-attribute(name=alias-filter, value=tomcat)
+
+## Add a system property for JBWS-3628 testcase
+echo system property for JBWS-3628 
+/system-property=org.jboss.wsf.test.JBWS3628TestCase.policy:add(value=WS-Addressing_policy)
+
+stop-embedded-server

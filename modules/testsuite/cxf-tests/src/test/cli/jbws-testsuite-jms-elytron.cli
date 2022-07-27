@@ -1,0 +1,28 @@
+
+embed-server --std-out=echo --server-config=jbws-testsuite-jms.xml
+
+set serverLog=${serverLog}
+
+if (outcome == success) of :resolve-expression(expression=${enableServerLoggingToConsole-prop})
+  set enableServerLoggingToConsole=`:resolve-expression(expression=${enableServerLoggingToConsole-prop})`
+  ##echo $enableServerLoggingToConsole
+  echo redirect log output to $serverLog
+  ./subsystem=logging/root-logger=ROOT:remove-handler(name=CONSOLE)
+  ./subsystem=logging/periodic-rotating-file-handler=FILE \
+     :write-attribute(name=file, value={relative-to=jboss.server.log.dir, path=$serverLog})
+end-if
+
+##----- alter properties path in ApplicationRealm
+echo alter realm ApplicationRealm
+./subsystem=elytron/properties-realm=ApplicationRealm \
+:write-attribute(name=users-properties, value={path=jbws-application-users.properties, relative-to=jboss.server.config.dir, digest-realm-name=ApplicationRealm})
+
+./subsystem=elytron/properties-realm=ApplicationRealm \
+   :write-attribute(name=groups-properties, value={path=jbws-application-roles.properties, relative-to=jboss.server.config.dir})
+
+##----- add messaging-activemq jms-queue
+echo create jms-queue
+./subsystem=messaging-activemq/server=default/jms-queue=testQueue \
+   :add(entries=[queue/test, java:jboss/exported/jms/queue/test])
+
+stop-embedded-server

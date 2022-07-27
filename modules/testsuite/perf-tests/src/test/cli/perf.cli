@@ -1,0 +1,23 @@
+
+embed-server --std-out=echo --server-config=jbws-testsuite-perf.xml
+
+set serverLog=${serverLog}
+
+if (outcome == success) of :resolve-expression(expression=${enableServerLoggingToConsole-prop})
+  set enableServerLoggingToConsole=`:resolve-expression(expression=${enableServerLoggingToConsole-prop})`
+  ##echo $enableServerLoggingToConsole
+  echo redirect log output to $serverLog
+  ./subsystem=logging/root-logger=ROOT:remove-handler(name=CONSOLE)
+  ./subsystem=logging/periodic-rotating-file-handler=FILE \
+     :write-attribute(name=file, value={relative-to=jboss.server.log.dir, path=$serverLog})
+end-if
+
+echo change root-logger
+./subsystem=logging/root-logger=ROOT:write-attribute(name=level, value=ERROR)
+
+echo add new loggers
+./subsystem=logging/logger=org.jboss:add(level=ERROR)
+./subsystem=logging/logger=org.apache:add(level=ERROR)
+
+
+stop-embedded-server
