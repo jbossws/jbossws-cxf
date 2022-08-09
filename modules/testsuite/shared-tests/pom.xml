@@ -67,14 +67,15 @@
     <profile>
       <id>noprepare</id>
       <activation>
+          <!-- ## Return property to use when WFLY-16715 is resolved
           <os>
               <family>unix</family>
           </os>
-          <!-- ## Return property to use when WFLY-16715 is resolved
+          ## -->
         <property>
           <name>!noprepare</name>
         </property>
-          ## -->
+
       </activation>
       <build>
         <plugins>
@@ -121,39 +122,112 @@
                     <goals><goal>run</goal></goals>
                     <configuration>
                         <target>
+                            <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+                                     classpathref="maven.plugin.classpath"/>
+                            <condition property="isWin">
+                                <os family="windows" />
+                            </condition>
+
+                            <if>
+                                <equals arg1="${isWin}" arg2="true" />
+                                <then>
+                                    <echo message="Windows found" />
+                                    <propertyregex property="value-testResourcesDir"
+                                                   input="${basedir}/src/test/resources"
+                                                   regexp="\\"
+                                                   replace="/"
+                                                   global="true" />
+                                    <propertyregex property="value-usersPropFile"
+                                                   input="${basedir}/src/test/etc/jbossws-users.properties"
+                                                   regexp="\\"
+                                                   replace="/"
+                                                   global="true" />
+                                    <propertyregex property="value-rolesPropFile"
+                                                   input="${basedir}/src/test/etc/jbossws-roles.properties"
+                                                   regexp="\\"
+                                                   replace="/"
+                                                   global="true" />
+                                    <propertyregex property="value-keystorePath"
+                                                   input="${basedir}/src/test/etc/test.keystore"
+                                                   regexp="\\"
+                                                   replace="/"
+                                                   global="true" />
+                                    <propertyregex property="value-truststorePath"
+                                                   input="${basedir}/src/test/etc/test.truststore"
+                                                   regexp="\\"
+                                                   replace="/"
+                                                   global="true" />
+
+                                    <propertyregex property="wfly-config-dir"
+                                                   input="/standalone/configuration/"
+                                                   regexp="/"
+                                                   replace="\\\\"
+                                                   global="true" />
+
+                                    <propertyregex property="value-project.build.directory"
+                                                   input="${project.build.directory}\"
+                                                   regexp="\\"
+                                                   replace="\\\"
+                                                   global="true" />
+                                </then>
+                                <else>
+                                    <echo message="Unix found" />
+                                    <property name="value-testResourcesDir" value="${basedir}/src/test/resources"/>
+                                    <property name="value-usersPropFile" value="${basedir}/src/test/etc/jbossws-users.properties"/>
+                                    <property name="value-rolesPropFile" value="${basedir}/src/test/etc/jbossws-roles.properties"/>
+                                    <property name="value-keystorePath" value="${basedir}/src/test/etc/test.keystore"/>
+
+                                    <property name="wfly-config-dir" value="/standalone/configuration/"/>
+                                    <property name="value-project.build.directory" value="${project.build.directory}/"/>
+                                </else>
+                            </if>
+
                             <copy overwrite="true"
-                                  file="${jboss.home}/standalone/configuration/standalone.xml"
-                                  tofile="${jboss.home}/standalone/configuration/${jbws-testsuite-shared-default-base}.xml" />
-                            <propertyfile file="${project.build.directory}/${jbws-testsuite-shared-default-base}-elytron-CLI.properties">
-                                <entry key="testResourcesDir" value="${basedir}/src/test/resources"/>
-                                <entry key="usersPropFile" value="${basedir}/src/test/etc/jbossws-users.properties"/>
-                                <entry key="rolesPropFile" value="${basedir}/src/test/etc/jbossws-roles.properties"/>
-                                <entry key="keystorePath" value="${basedir}/src/test/etc/test.keystore"/>
+                                  file="${jboss.home}${wfly-config-dir}standalone.xml"
+                                  tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-shared-default-base}.xml" />
+                            <propertyfile file="${value-project.build.directory}${jbws-testsuite-shared-default-base}-elytron-CLI.properties">
+                                <entry key="testResourcesDir" value="${value-testResourcesDir}"/>
+                                <entry key="usersPropFile" value="${value-usersPropFile}"/>
+                                <entry key="rolesPropFile" value="${value-rolesPropFile}"/>
+                                <entry key="keystorePath" value="${value-keystorePath}"/>
                                 <entry key="serverLog" value="${jbws-testsuite-shared-default-base}.log"/>
                             </propertyfile>
 
                             <copy overwrite="true"
-                                  file="${jboss.home}/standalone/configuration/standalone.xml"
-                                  tofile="${jboss.home}/standalone/configuration/${jbws-testsuite-shared-default-config-tests-base}.xml" />
-                            <propertyfile file="${project.build.directory}/${jbws-testsuite-shared-default-config-tests-base}-elytron-CLI.properties">
-                                <entry key="usersPropFile" value="${basedir}/src/test/etc/jbossws-users.properties"/>
-                                <entry key="rolesPropFile" value="${basedir}/src/test/etc/jbossws-roles.properties"/>
+                                  file="${jboss.home}${wfly-config-dir}standalone.xml"
+                                  tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-shared-default-config-tests-base}.xml" />
+                            <propertyfile file="${value-project.build.directory}${jbws-testsuite-shared-default-config-tests-base}-elytron-CLI.properties">
+                                <entry key="usersPropFile" value="${value-usersPropFile}"/>
+                                <entry key="rolesPropFile" value="${value-rolesPropFile}"/>
                                 <entry key="serverLog" value="${jbws-testsuite-shared-default-config-tests-base}.log"/>
                             </propertyfile>
 
                             <copy overwrite="true"
-                                  file="${jboss.home}/standalone/configuration/standalone.xml"
-                                  tofile="${jboss.home}/standalone/configuration/${jbws-testsuite-shared-address-rewrite-base}.xml" />
-                            <propertyfile file="${project.build.directory}/${jbws-testsuite-shared-address-rewrite-base}-elytron-CLI.properties">
-                                <entry key="usersPropFile" value="${basedir}/src/test/etc/jbossws-users.properties"/>
-                                <entry key="rolesPropFile" value="${basedir}/src/test/etc/jbossws-roles.properties"/>
-                                <entry key="keystorePath" value="${basedir}/src/test/etc/test.keystore"/>
+                                  file="${jboss.home}${wfly-config-dir}standalone.xml"
+                                  tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-shared-address-rewrite-base}.xml" />
+                            <propertyfile file="${value-project.build.directory}${jbws-testsuite-shared-address-rewrite-base}-elytron-CLI.properties">
+                                <entry key="usersPropFile" value="${value-usersPropFile}"/>
+                                <entry key="rolesPropFile" value="${value-rolesPropFile}"/>
+                                <entry key="keystorePath" value="${value-keystorePath}"/>
                                 <entry key="serverLog" value="${jbws-testsuite-shared-address-rewrite-base}.log"/>
                             </propertyfile>
                         </target>
                     </configuration>
                 </execution>
             </executions>
+              <dependencies>
+                  <dependency>
+                      <groupId>ant-contrib</groupId>
+                      <artifactId>ant-contrib</artifactId>
+                      <version>1.0b3</version>
+                      <exclusions>
+                          <exclusion>
+                              <groupId>ant</groupId>
+                              <artifactId>ant</artifactId>
+                          </exclusion>
+                      </exclusions>
+                  </dependency>
+              </dependencies>
           </plugin>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
@@ -338,176 +412,6 @@
                               </goals>
                               <configuration>
                                   <port>34990</port> <!-- Keep in sync with the port-offset -->
-                              </configuration>
-                          </execution>
-                      </executions>
-                  </plugin>
-              </plugins>
-          </build>
-      </profile>
-      <profile>
-          <!-- Must keep groovy scripts until cli Windows bug is fixed
-                https://issues.redhat.com/browse/WFLY-16715
-
-                Remove this profile and directory shared-tests/src/test/scripts
-                once WFLY-16715 is resolved.
-            -->
-          <id>windows</id>
-          <activation>
-              <os>
-                  <family>windows</family>
-              </os>
-          </activation>
-          <build>
-              <plugins>
-                  <plugin>
-                      <groupId>org.codehaus.gmavenplus</groupId>
-                      <artifactId>gmavenplus-plugin</artifactId>
-                      <executions>
-                          <execution>
-                              <id>testsuite-default</id>
-                              <phase>pre-integration-test</phase>
-                              <goals>
-                                  <goal>execute</goal>
-                              </goals>
-                              <configuration>
-                                  <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-default-elytron.groovy</script></scripts>
-                                  <properties>
-                                      <property>
-                                          <name>inputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/standalone.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>outputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>serverLog</name>
-                                          <value>jbws-testsuite-shared-default.log</value>
-                                      </property>
-                                      <property>
-                                          <name>usersPropFile</name>
-                                          <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>rolesPropFile</name>
-                                          <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>keystorePath</name>
-                                          <value>${project.build.directory}/test-classes/test.keystore</value>
-                                      </property>
-                                      <property>
-                                          <name>testResourcesDir</name>
-                                          <value>${project.build.directory}/test-resources</value>
-                                      </property>
-                                  </properties>
-                              </configuration>
-                          </execution>
-                          <execution>
-                              <id>testsuite-default-config-tests</id>
-                              <phase>pre-integration-test</phase>
-                              <goals>
-                                  <goal>execute</goal>
-                              </goals>
-                              <configuration>
-                                  <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-default-config-tests-elytron.groovy</script></scripts>
-                                  <properties>
-                                      <property>
-                                          <name>inputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/standalone.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>outputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default-config-tests.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>usersPropFile</name>
-                                          <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>rolesPropFile</name>
-                                          <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>serverLog</name>
-                                          <value>jbws-testsuite-shared-default-config-tests.log</value>
-                                      </property>
-                                  </properties>
-                              </configuration>
-                          </execution>
-                          <execution>
-                              <id>testsuite-address-rewrite</id>
-                              <phase>pre-integration-test</phase>
-                              <goals>
-                                  <goal>execute</goal>
-                              </goals>
-                              <configuration>
-                                  <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-address-rewrite-elytron.groovy</script></scripts>
-                                  <properties>
-                                      <property>
-                                          <name>inputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/standalone.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>outputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-shared-address-rewrite.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>serverLog</name>
-                                          <value>jbws-testsuite-shared-address-rewrite.log</value>
-                                      </property>
-                                      <property>
-                                          <name>usersPropFile</name>
-                                          <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>rolesPropFile</name>
-                                          <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>keystorePath</name>
-                                          <value>${project.build.directory}/test-classes/test.keystore</value>
-                                      </property>
-                                  </properties>
-                              </configuration>
-                          </execution>
-                      </executions>
-                  </plugin>
-                  <plugin>
-                      <artifactId>maven-antrun-plugin</artifactId>
-                      <executions>
-                          <execution>
-                              <id>wsconsume</id>
-                              <phase>generate-test-sources</phase>
-                              <goals>
-                                  <goal>run</goal>
-                              </goals>
-                              <configuration>
-                                  <target>
-                                      <property name="maven.test.classpath" refid="maven.test.classpath" />
-                                      <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
-                                      <property name="tests.output.dir" value="${project.build.directory}" />
-                                      <property name="project.version" value="${project.version}" />
-                                      <property name="additional.jvm.args" value="${modular.jdk.args} ${modular.jdk.props}" />
-                                      <ant antfile="scripts/antrun-wsconsume.xml" target="wsconsume" />
-                                  </target>
-                              </configuration>
-                          </execution>
-                          <execution>
-                              <phase>test-compile</phase>
-                              <goals>
-                                  <goal>run</goal>
-                              </goals>
-                              <configuration>
-                                  <target>
-                                      <property name="maven.test.classpath" refid="maven.test.classpath" />
-                                      <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
-                                      <property name="tests.output.dir" value="${project.build.directory}" />
-                                      <property name="project.version" value="${project.version}" />
-                                      <property name="additional.jvm.args" value="${modular.jdk.args} ${modular.jdk.props}" />
-                                      <ant antfile="scripts/antrun-wsprovide.xml" target="wsprovide" />
-                                  </target>
                               </configuration>
                           </execution>
                       </executions>
