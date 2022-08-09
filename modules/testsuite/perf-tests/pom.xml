@@ -81,14 +81,14 @@
     <profile>
       <id>noprepare</id>
       <activation>
+        <!-- ## Return property to use when WFLY-16715 is resolved
         <os>
           <family>unix</family>
         </os>
-        <!-- ## Return property to use when WFLY-16715 is resolved
+        ## -->
       <property>
         <name>!noprepare</name>
       </property>
-        ## -->
       </activation>
       <build>
         <plugins>
@@ -103,16 +103,63 @@
                 <goals><goal>run</goal></goals>
                 <configuration>
                   <target>
+                    <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+                             classpathref="maven.plugin.classpath"/>
+                    <condition property="isWin">
+                      <os family="windows" />
+                    </condition>
+
+                    <if>
+                      <equals arg1="${isWin}" arg2="true" />
+                      <then>
+                        <propertyregex property="wfly-config-dir"
+                                       input="/standalone/configuration/"
+                                       regexp="/"
+                                       replace="\\\\"
+                                       global="true" />
+                        <!-- rls #########
+                        <propertyregex property="unix-project.build.directory"
+                                       input="${project.build.directory}/"
+                                       regexp="/"
+                                       replace="\\\\"
+                                       global="true" />
+                        ########## -->
+                        <propertyregex property="value-project.build.directory"
+                                       input="${project.build.directory}\"
+                                       regexp="\\"
+                                       replace="\\\"
+                                       global="true" />
+                      </then>
+                      <else>
+                        <property name="wfly-config-dir" value="/standalone/configuration/"/>
+                        <property name="value-project.build.directory" value="${project.build.directory}/"/>
+                      </else>
+                    </if>
+
                     <copy overwrite="true"
-                          file="${jboss.home}/standalone/configuration/standalone.xml"
-                          tofile="${jboss.home}/standalone/configuration/${jbws-testsuite-perf-base}.xml" />
-                    <propertyfile file="${project.build.directory}/${jbws-testsuite-perf-base}-CLI.properties">
+                          file="${jboss.home}${wfly-config-dir}standalone.xml"
+                          tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-perf-base}.xml" />
+
+                    <propertyfile file="${value-project.build.directory}/${jbws-testsuite-perf-base}-CLI.properties">
                       <entry key="serverLog" value="${jbws-testsuite-perf-base}.log"/>
                     </propertyfile>
                   </target>
                 </configuration>
               </execution>
             </executions>
+            <dependencies>
+              <dependency>
+                <groupId>ant-contrib</groupId>
+                <artifactId>ant-contrib</artifactId>
+                <version>1.0b3</version>
+                <exclusions>
+                  <exclusion>
+                    <groupId>ant</groupId>
+                    <artifactId>ant</artifactId>
+                  </exclusion>
+                </exclusions>
+              </dependency>
+            </dependencies>
           </plugin>
           <plugin>
             <groupId>org.wildfly.plugins</groupId>
@@ -608,26 +655,6 @@
               </execution>
             </executions>
           </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <!-- Must keep groovy scripts until cli Windows bug is fixed
-          https://issues.redhat.com/browse/WFLY-16715
-
-          Remove this profile and directory perf-tests/src/test/scripts
-          once WFLY-16715 is resolved.
-        -->
-      <id>windows</id>
-      <activation>
-        <os>
-          <family>windows</family>
-        </os>
-      </activation>
-      <build>
-        <plugins>
-
         </plugins>
       </build>
     </profile>
