@@ -73,7 +73,7 @@ Note, only the endpoint implementation bean and web.xml are required.
 
 ===== Accessing the generated WSDL
 
-A successfully deployed service endpoint will show up in the JBoss AS
+A successfully deployed service endpoint will show up in the WildFly
 managent console. You can get the deployed endpoint wsdl address there
 too.
 
@@ -125,7 +125,7 @@ deployment.
 
 ===== Accessing the generated WSDL
 
-A successfully deployed service endpoint will show up in the JBoss AS
+A successfully deployed service endpoint will show up in the WildFly
 managent console. You can get the deployed endpoint wsdl address there
 too.
 
