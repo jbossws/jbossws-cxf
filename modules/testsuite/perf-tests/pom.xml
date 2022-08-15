@@ -81,11 +81,6 @@
     <profile>
       <id>noprepare</id>
       <activation>
-        <!-- ## Return property to use when WFLY-16715 is resolved
-        <os>
-          <family>unix</family>
-        </os>
-        ## -->
       <property>
         <name>!noprepare</name>
       </property>
@@ -113,17 +108,11 @@
                       <equals arg1="${isWin}" arg2="true" />
                       <then>
                         <propertyregex property="wfly-config-dir"
-                                       input="/standalone/configuration/"
-                                       regexp="/"
-                                       replace="\\\\"
+                                       input="\standalone\configuration\"
+                                       regexp="\\"
+                                       replace="\\\"
                                        global="true" />
-                        <!-- rls #########
-                        <propertyregex property="unix-project.build.directory"
-                                       input="${project.build.directory}/"
-                                       regexp="/"
-                                       replace="\\\\"
-                                       global="true" />
-                        ########## -->
+
                         <propertyregex property="value-project.build.directory"
                                        input="${project.build.directory}\"
                                        regexp="\\"

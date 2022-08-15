@@ -177,11 +177,6 @@
     <profile>
       <id>noprepare</id>
       <activation>
-          <!-- ## Return property to use when WFLY-16715 is resolved
-          <os>
-              <family>unix</family>
-          </os>
-          ## -->
         <property>
           <name>!noprepare</name>
         </property>
@@ -208,7 +203,7 @@
                                 <if>
                                     <equals arg1="${isWin}" arg2="true" />
                                     <then>
-                                        <echo message="Windows found" />
+                                        <!-- On Windows CLI properties passed to CLI scripts can be unix path format -->
                                         <propertyregex property="value-testResourcesDir"
                                                        input="${project.build.directory}/test-resources"
                                                        regexp="\\"
@@ -238,35 +233,21 @@
                                                        regexp="\\"
                                                        replace="/"
                                                        global="true" />
-                                        <!-- ################# rls ########## -->
+
+                                        <!-- Windows directory path must have backslashes and those
+                                             must be escaped. -->
                                         <propertyregex property="wfly-config-dir"
                                                        input="/standalone/configuration/"
                                                        regexp="/"
                                                        replace="\\\\"
                                                        global="true" />
 
-                                        <!-- ################# rls ########## ??? -->
-                                        <!-- rls #######
-                                        <propertyregex property="unix-jbws-app-props"
-                                                       input="${basedir}/src/test/etc/"
-                                                       regexp="/"
-                                                       replace="\\\\"
-                                                       global="true" />
-                                        ####### -->
                                         <propertyregex property="value-jbws-app-props"
                                                        input="${basedir}/src/test/etc/"
                                                        regexp="\\"
                                                        replace="/"
                                                        global="true" />
 
-                                        <!-- ################# rls  ########## ???-->
-                                        <!-- rls #######
-                                        <propertyregex property="unix-project.build.directory"
-                                                       input="${project.build.directory}/"
-                                                       regexp="/"
-                                                       replace="\\\\"
-                                                       global="true" />
-                                        ######### -->
                                         <propertyregex property="value-project.build.directory"
                                                        input="${project.build.directory}\"
                                                        regexp="\\"
@@ -367,6 +348,8 @@
                     </dependency>
                 </dependencies>
                 <executions>
+                    <!-- Each execution runs a CLI script to configure a new (standalone.xml)
+                         used when running categories of tests -->
                     <execution>
                         <id>jbws-testsuite-default config-server</id>
                         <phase>pre-integration-test</phase>

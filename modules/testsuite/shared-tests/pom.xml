@@ -67,11 +67,6 @@
     <profile>
       <id>noprepare</id>
       <activation>
-          <!-- ## Return property to use when WFLY-16715 is resolved
-          <os>
-              <family>unix</family>
-          </os>
-          ## -->
         <property>
           <name>!noprepare</name>
         </property>
@@ -131,7 +126,6 @@
                             <if>
                                 <equals arg1="${isWin}" arg2="true" />
                                 <then>
-                                    <echo message="Windows found" />
                                     <propertyregex property="value-testResourcesDir"
                                                    input="${basedir}/src/test/resources"
                                                    regexp="\\"
@@ -159,9 +153,9 @@
                                                    global="true" />
 
                                     <propertyregex property="wfly-config-dir"
-                                                   input="/standalone/configuration/"
-                                                   regexp="/"
-                                                   replace="\\\\"
+                                                   input="\standalone\configuration\"
+                                                   regexp="\\"
+                                                   replace="\\\"
                                                    global="true" />
 
                                     <propertyregex property="value-project.build.directory"
@@ -185,6 +179,7 @@
                             <copy overwrite="true"
                                   file="${jboss.home}${wfly-config-dir}standalone.xml"
                                   tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-shared-default-base}.xml" />
+
                             <propertyfile file="${value-project.build.directory}${jbws-testsuite-shared-default-base}-elytron-CLI.properties">
                                 <entry key="testResourcesDir" value="${value-testResourcesDir}"/>
                                 <entry key="usersPropFile" value="${value-usersPropFile}"/>
@@ -196,6 +191,7 @@
                             <copy overwrite="true"
                                   file="${jboss.home}${wfly-config-dir}standalone.xml"
                                   tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-shared-default-config-tests-base}.xml" />
+
                             <propertyfile file="${value-project.build.directory}${jbws-testsuite-shared-default-config-tests-base}-elytron-CLI.properties">
                                 <entry key="usersPropFile" value="${value-usersPropFile}"/>
                                 <entry key="rolesPropFile" value="${value-rolesPropFile}"/>
@@ -205,6 +201,7 @@
                             <copy overwrite="true"
                                   file="${jboss.home}${wfly-config-dir}standalone.xml"
                                   tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-shared-address-rewrite-base}.xml" />
+
                             <propertyfile file="${value-project.build.directory}${jbws-testsuite-shared-address-rewrite-base}-elytron-CLI.properties">
                                 <entry key="usersPropFile" value="${value-usersPropFile}"/>
                                 <entry key="rolesPropFile" value="${value-rolesPropFile}"/>
