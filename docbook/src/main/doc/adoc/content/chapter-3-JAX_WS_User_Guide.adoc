@@ -4,13 +4,11 @@ The https://jakarta.ee/specifications/xml-web-services/[Jakarta XML Web Services
 defines the mapping between WSDL and Java
 as well as the classes to be used for accessing webservices and
 publishing them. JBossWS implements the latest Jakarta XML Web Services specification,
-hence users can reference it for any vendor agnostic webservice usage
-need. Below is a brief overview of the most basic functionalities.
+hence users can reference it for any vendor agnostic webservice usage. Below is a brief overview of the most basic functionalities.
 
 === Web Service Endpoints
 
-Jakarta XML Web Services simplifies the development model for a web service endpoint a
-great deal. In short, an endpoint implementation bean is annotated with
+Jakarta XML Web Services simplifies the development model for a web service endpoint. An endpoint implementation bean is annotated with
 JAX-WS annotations and deployed to the server. The server automatically
 generates and publishes the abstract contract (i.e. wsdl+schema) for
 client consumption. All marshalling/unmarshalling is delegated to
@@ -20,7 +18,7 @@ https://jakarta.ee/specifications/xml-binding[Jakarta XML Binding
 
 ==== Plain old Java Object (POJO)
 
-Let's take a look at simple POJO endpoint implementation. All endpoint
+The following is a simple POJO endpoint implementation. All endpoint
 associated metadata is provided via
 https://jakarta.ee/specifications/web-services-metadata/[Jakarta Web Service Metadata]
  annotations
@@ -73,13 +71,12 @@ Note, only the endpoint implementation bean and web.xml are required.
 
 ===== Accessing the generated WSDL
 
-A successfully deployed service endpoint will show up in the WildFly
-managent console. You can get the deployed endpoint wsdl address there
-too.
+A successfully deployed service endpoint shows up in the WildFly
+management console. The deployed endpoint wsdl address can be found there.
 
 [IMPORTANT]
 ====
-Note, it is also possible to generate the abstract contract off line
+Note, it is also possible to generate the abstract contract offline
 using JBossWS tools. For details of that please see Bottom-Up (Java to
 WSDL).
 ====
@@ -125,13 +122,12 @@ deployment.
 
 ===== Accessing the generated WSDL
 
-A successfully deployed service endpoint will show up in the WildFly
-managent console. You can get the deployed endpoint wsdl address there
-too.
+A successfully deployed service endpoint shows up in the WildFly
+management console. The deployed endpoint wsdl address can be found there.
 
 [IMPORTANT]
 ====
-Note, it is also possible to generate the abstract contract off line
+Note, it is also possible to generate the abstract contract offline
 using JBossWS tools. For details of that please see Bottom-Up (Java to
 WSDL).
 ====
@@ -165,12 +161,12 @@ public class ProviderBeanPayload implements Provider<Source>
 ....
 
 Note, `Service.Mode.PAYLOAD` is the default and does not have to be
-declared explicitly. You can also use `Service.Mode.MESSAGE` to access
+declared explicitly. The `Service.Mode.MESSAGE` can be used to access
 the entire SOAP message (i.e. with `MESSAGE` the Provider can also see
 SOAP Headers)
 
 The abstract contract for a provider endpoint cannot be
-derived/generated automatically. Therefore it is necessary to specify
+derived/generated automatically. Therefore, it is necessary to specify
 the _wsdlLocation_ with the `@` `WebServiceProvider` annotation.
 
 === Web Service Clients
@@ -182,7 +178,7 @@ service is a collection of related ports, each of which consists of a
 port type bound to a particular protocol and available at a particular
 endpoint address.
 
-For most clients, you will start with a set of stubs generated from the
+Most clients are started with a set of stubs generated from the
 WSDL. One of these will be the service, and you will create objects of
 that class in order to work with the service (see "static case" below).
 
@@ -191,16 +187,16 @@ that class in order to work with the service (see "static case" below).
 ====== Static case
 
 Most clients will start with a WSDL file, and generate some stubs using
-JBossWS tools like _wsconsume_ . This usually gives a mass of files, one
+JBossWS' tool, _wsconsume_ . This usually generates a set of files, one
 of which is the top of the tree. This is the service implementation
 class.
 
-The generated implementation class can be recognised as it will have two
-public constructors, one with no arguments and one with two arguments,
-representing the wsdl location (a `java.net.URL` ) and the service name
+The generated implementation class can be recognized as it will have two
+public constructors, one with no arguments and one with two arguments.
+The two constructor arguments represent the wsdl location (a `java.net.URL` ) and the service name
 (a `javax.xml.namespace.QName` ) respectively.
 
-Usually you will use the no-argument constructor. In this case the WSDL
+Usually the no-argument constructor will be used. In this case the WSDL
 location and service name are those found in the WSDL. These are set
 implicitly from the `@WebServiceClient` annotation that decorates the
 generated class.
@@ -249,7 +245,7 @@ Service service = Service.create(wsdlLocation, serviceName);
 
 JAX-WS provides a flexible plug-in framework for message processing
 modules, known as handlers, that may be used to extend the capabilities
-of a JAX-WS runtime system. Handler Framework describes the handler
+of a JAX-WS runtime system. The Handler Framework describes the handler
 framework in detail. A Service instance provides access to a
 `HandlerResolver` via a pair of `getHandlerResolver` /
 `setHandlerResolver` methods that may be used to configure a set of
@@ -271,7 +267,7 @@ modify and retrieve the executor configured for a service.
 
 ==== Dynamic Proxy
 
-You can create an instance of a client proxy using one of `getPort`
+An instance of a client proxy can be created using one of `getPort`
 methods on the `Service` .
 
 ....
@@ -306,7 +302,7 @@ public <T> T getPort(Class<T> serviceEndpointInterface)
 The service endpoint interface (SEI) is usually generated using tools.
 For details see Top Down (WSDL to Java)
 
-A generated static Service usually also offers typed methods to get
+A generated static Service usually offers typed methods to get
 ports. These methods also return dynamic proxies that implement the SEI.
 
 ....
@@ -340,7 +336,7 @@ There are two uses to the WebServiceRef annotation:
 
 [arabic]
 . To define a reference whose type is a generated service class. In this
-case, the type and value element will both refer to the generated
+case, the type and value element both refer to the generated
 service class type. Moreover, if the reference type can be inferred by
 the field/method declaration the annotation is applied to, the type and
 value elements MAY have the default value (Object.class, that is). If
@@ -366,7 +362,7 @@ public class EJB3Client implements EJB3Remote
 
 ===== WebServiceRef customization
 
-We offer a number of overrides and extensions to the WebServiceRef
+A number of overrides and extensions are offered to the WebServiceRef
 annotation. These include
 
 * define the port that should be used to resolve a container-managed
@@ -412,7 +408,7 @@ _http://www.jboss.org/j2ee/dtd/service-ref_5_0.dtd[service-ref_5_0.dtd]_
 
 ==== Dispatch
 
-XMLWeb Services use XML messages for communication between services and
+XML Web Services use XML messages for communication between services and
 service clients. The higher level JAX-WS APIs are designed to hide the
 details of converting between Java method invocations and the
 corresponding XML messages, but in some cases operating at the XML
@@ -647,7 +643,7 @@ modify the SOAP message payload.
 
 ==== Fault Handling
 
-An implementation may thow a `SOAPFaultException`
+An implementation may throw a `SOAPFaultException`
 
 ....
 public void throwSoapFaultException()
@@ -763,7 +759,7 @@ rules described by the platform specification [33].
 
 The `WebServiceRefs` annotation is used to declare multiple references
 to Web services on a single class. It is necessary to work around the
-limition against specifying repeated annotations of the same type on any
+limitation against specifying repeated annotations of the same type on any
 given class, which prevents listing multiple `javax.ws.WebServiceRef`
 annotations one after the other. This annotation follows the resource
 pattern exemplified by the `javax.annotation.Resources` annotation in
