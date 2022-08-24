@@ -236,6 +236,10 @@
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -349,6 +353,10 @@
           <exclusion>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
