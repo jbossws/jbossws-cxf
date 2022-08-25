@@ -1,25 +1,20 @@
 == Quick Start
 
 JBossWS uses WildFly as its target container. The following examples
-focus on web service deployments that leverage EJB3 service
+focus on web service features that leverage EJB3 service
 implementations and the JAX-WS programming models. For further
-information on POJO service implementations and advanced topics you need
-consult the <<Jakarta XML Web Services User Guide>>.
+information on POJO service implementations and advanced topics
+consult the <<Jakarta XML Web Services User Guide>> .
 
 === Developing web service implementations
 
-Jakarta XML Web Services does leverage annotations in order to express web service meta
-data on Java components and to describe the mapping between Java data
-types and XML. When developing web service implementations you need to
-decide whether you are going to start with an abstract contract (WSDL)
-or a Java component.
+Jakarta XML Web Services leverages annotations in order to express web service meta data on Java components and to describe the mapping between Java data types and XML. When developing web service implementations one needs to decide whether to start with an abstract contract (WSDL) or a Java component.
 
-If you are in charge to provide the service implementation, then you are
-probably going to start with the implementation and derive the abstract
-contract from it. You are probably not even getting in touch with the
-WSDL unless you hand it to 3rd party clients. For this reason we are
-going to look at a service implementation that leverages
+It is common practice for a developer create the web service in Java
+and use vendor tools to generate the corresponding WSDL.
+For this reason we are going to look at a service implementation that leverages
 https://jakarta.ee/specifications/web-services-metadata/[Jakarta Web Service Metadata] .
+
 
 [IMPORTANT]
 ====
@@ -36,19 +31,16 @@ further information see
 
 ==== The service implementation class
 
-When starting from Java you must provide the service implementation. A
-valid endpoint implementation class must meet the following
+When starting from Java, a service (endpoint) implementation must be provided. A valid endpoint implementation class must meet the following
 requirements:
 
 * It _must_ carry a `jakarta.jws.WebService` annotation (see Jakarta Web Service Metadata)
 * All method parameters and return types _must_ be compatible with the
 JAXB 3.0
 
-Let's look at a sample EJB3 component that is going to be exposed as a
-web service.
+Let's look at a sample EJB3 component that exposes as a web service.
 
-Don't be confused with the EJB3 annotation `@Stateless` . We concentrate
-on the `@WebService` annotation for now.
+For now ignore the EJB3 annotation `@Stateless` . Focus on the `@WebService` annotation.
 
 ===== Implementing the service
 
@@ -76,21 +68,16 @@ public class ProfileMgmtBean {
 ....
 
 ....
-1. We are using a stateless session bean implementation
-2. Exposed a web service with an explicit namespace
-3. It's a doc/lit bare endpoint
-4. And offers an 'getCustomerDiscount' operation
+1. This endpoint is using a stateless session bean implementation
+2. This web service has an explicit namespace, (http://org.jboss.ws/samples/retail/profile)
+3. The endpoint is declared to use a doc/lit bare parameter style.  This affects the endpoint statements generated in the WSDL.
+4. 'getCustomerDiscount' is the public operation that a consumer can call.
 ....
 
 ===== What about the payload?
 
-The method parameters and return values are going to represent our XML
-payload and thus require being compatible with JAXB3. Actually you
-wouldn't need any JAXB annotations for this particular example, because
-JAXB relies on meaningful defaults. For the sake of documentation we put
-the more important ones here.
-
-Take a look at the request parameter:
+The method parameters and return values represent the XML
+payload, because this is a stateless session bean the parameters and return value must be compatible with JAXB3. No JAXB annotations are needed for this example.
 
 ....
 package org.jboss.test.ws.jaxws.samples.retail.profile;
@@ -130,31 +117,26 @@ public class DiscountRequest {
 ....
 
 ....
-1. In this case we use @XmlType to specify an XML complex type name and override the namespace.
+1. @XmlType is used to declare an XML type named, discountRequest, and a namespace name, (http://org.jboss.ws/samples/retail/profile).
 ....
 
 [NOTE]
 ====
-If you have more complex mapping problems you need to consult the
+For more complex XML mapping consult the
 https://jakarta.ee/specifications/xml-binding[JAXB documentation] .
 ====
 
 ==== Deploying service implementations
 
-Service deployment basically depends on the implementation type. As you
-may already know web services can be implemented as EJB3 components or
-plain old Java objects. This quick start leverages EJB3 components,
-that's why we are going to look at this case in the next sections.
+Web service deployment depends on the implementation type. Web services can be implemented as plain old Java objects, POJO or as EJB3 components.
 
 ===== EJB3 services
 
-Simply wrap up the service implementation class, the endpoint interface
-and any custom data types in a JAR and drop them in the _deployment_
-directory. No additional deployment descriptors required. Any meta data
+Create a JAR containing the service implementation class, the endpoint interface and any custom data types needed.  Drop the JAR in the _deployment_ directory.  No additional deployment descriptors required. Any meta data
 required for the deployment of the actual web service is taken from the
-annotations provided on the implementation class and the service
-endpoint interface. JBossWS will intercept that EJB3 deployment (the
-bean will also be there) and create an HTTP endpoint at deploy-time.
+annotations provided in the implementation class and the service
+endpoint interface. JBossWS intercepts the EJB3 deployment (the
+bean will be there) and creates an HTTP endpoint at deploy-time.
 
 ===== The JAR package structure
 
@@ -176,20 +158,20 @@ in the application server management console.
 
 === Consuming web services
 
-When creating web service clients you would usually start from the WSDL.
+When creating web service clients, one usually starts from the WSDL, but deciphering the WSDL can be complicated.
 JBossWS ships with a set of tools to generate the required JAX-WS
-artifacts to build client implementations. In the following section we
-will look at the most basic usage patterns. For a more detailed
-introduction to web service client please consult the user guide.
+artifacts to build client implementations. The following section
+looks at a basic usage pattern. For a more detailed
+introduction to the web service client please consult the user guide.
 
 ==== Creating the client artifacts
 
 ===== Using wsconsume
 
 The _wsconsume_ tool is used to consume the abstract contract (WSDL) and
-produce annotated Java classes (and optionally sources) that define it.
-We are going to start with the WSDL from our retail example
-(ProfileMgmtService.wsdl). For a detailed tool reference you need to
+produce annotated Java classes.
+The following discussion starts with the WSDL from our retail example
+(ProfileMgmtService.wsdl) above. For a detailed tool reference
 consult the user guide.
 
 ....
@@ -226,7 +208,7 @@ org/jboss/test/ws/jaxws/samples/retail/profile/package-info.java
 ....
 
 [arabic]
-. As you can see we did use the `-p` switch to specify the package name
+. Note we used the `-p` switch to specify the package name
 of the generated sources.
 
 ===== The generated artifacts explained
@@ -242,17 +224,15 @@ of the generated sources.
 |ProfileMgmtService.java |Service factory
 |===
 
-Basically _wsconsume_ generates all custom data types (JAXB annotated
-classes), the service endpoint interface and a service factory class. We
-will look at how these artifacts can be used the build web service
-client implementations in the next section.
+_wsconsume_ generates all the custom data types (JAXB annotated
+classes), the service endpoint interface and a service factory class.
 
 ==== Constructing a service stub
 
-Web service clients make use of a service stubs that hide the details of
+Web service clients make use of a service stub that hides the details of
 a remote web service invocation. To a client application a WS invocation
-just looks like an invocation of any other business component. In this
-case the service endpoint interface acts as the business interface.
+looks like an invocation of any other business component. In this
+case the service endpoint interface is the business interface.
 JAX-WS does use a service factory class to construct this as particular
 service stub:
 
@@ -277,15 +257,15 @@ stub
 
 ==== Resolving dependencies and running the client
 
-In order for successfully running a WS client application, a classloader
+To successfully run a WS client application, a classloader
 needs to be properly setup to include the JBossWS components and its
 required transitive dependencies. Depending on the environment the
-client is meant to be run in, this might imply adding some jars to the
+client is run in, this might require adding some jars to the
 classpath, or adding some artifact dependencies to the maven dependency
-tree, etc. Moreover, even for simply developing a client, users might
+tree. Even for simply developing a client, users might
 need to resolve proper dependencies (e.g. to setup their IDE).
 
-Below you find some options for resolving dependencies and running a WS
+Below you will find some options for resolving dependencies and running a WS
 client using the JBossWS libraries:
 
 ===== Maven project
@@ -302,9 +282,9 @@ JAX-WS implementation in your classpath.
 
 ===== JBoss Modules environment
 
-An interesting approach for running a WS client is to leverage JBoss
-Modules, basically getting a classloading environment equivalent to the
-server container WS endpoints are run in. This is achieved by using the
+One approach for running a WS client is to leverage JBoss
+Modules, creating a classloading environment equivalent to the
+server container WS endpoints run in. This is achieved by using the
 _jboss-modules.jar_ coming with WildFly as follows:
 
 ....
@@ -323,7 +303,7 @@ Dependencies: org.jboss.ws.cxf.jbossws-cxf-client
 
 ===== Flat classpath setup
 
-Finally, users can of course setup their application classpath manually
+Alternatively, users can setup their application classpath manually
 (e.g when compiling and running the application directly through `javac`
 / `java` command or using `Ant` ).
 
@@ -333,7 +313,7 @@ A convenient approach to start a new project aiming at providing and/or
 consuming a JAX-WS endpoint is to use the JBossWS _jaxws-codefirst_
 Maven Archetype. A starting project (including working build and sample
 helloworld client and endpoint) is created in few seconds. It's simply a
-matter of issuing a command and answering to simple questions on the
+matter of issuing a command and answering several simple questions about the
 desired artifact and group ids for the project being generated:
 
 ....
@@ -344,14 +324,14 @@ The generated project includes:
 
 * a sample HelloWorld code-first POJO endpoint
 * an integration test that gets the WSDL contract for the above service,
-builds up a client and invokes the endpoint
+builds a client and invokes the endpoint
 * a pom.xml for creating a war archive; the project has proper WS
 component dependencies and uses both wsprovide and wsconsume maven
 plugins for generating the contract for the code-first endpoint and then
 generating the client stubs for such contract
 * a plugin for deploying the archive on WildFly.
 
-The project is built and tested by simply running:
+The project is built and tested by running:
 
 ....
 > mvn wildfly:deploy
@@ -363,7 +343,7 @@ to generate all the required classes for building the deployment archive
 and client. The user can test the sample, have a look at the project
 structure and then either trash the sample endpoint and testcase and
 replace them with his own components, or modify them step-by-step to
-achieve what he needs.
+achieve their own needs.
 
 === Appendix
 

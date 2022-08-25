@@ -12,14 +12,14 @@ abstact contract (WSDL) that defines your service ( _top-down
 development_ ). If this is a new service (no existing contract), the
 bottom-up approach is the fastest route; you only need to add a few
 annotations to your classes to get a service up and running. However, if
-you are developing a service with an already defined contract, it is far
+developing a service with an already defined contract, it is far
 simpler to use the top-down approach, since the provided tool will
 generate the annotated code for you.
 
 Bottom-up use cases:
 
 * Exposing an already existing EJB3 bean as a Web Service
-* Providing a new service, and you want the contract to be generated for
+* Providing a new service, and wanting the contract to be generated for
 you
 
 Top-down use cases:
@@ -27,7 +27,7 @@ Top-down use cases:
 * Replacing the implementation of an existing Web Service, and you can't
 break compatibility with older clients
 * Exposing a service that conforms to a contract specified by a third
-party (e.g. a vender that calls you back using an already defined
+party (e.g. a vendor that calls back using an already defined
 protocol).
 * Creating a service that adheres to the XML Schema and WSDL you
 developed by hand up front
@@ -50,7 +50,7 @@ client development
 The bottom-up strategy involves developing the Java code for your
 service, and then annotating it using JAX-WS annotations. These
 annotations can be used to customize the contract that is generated for
-your service. For example, you can change the operation name to map to
+the service. For example, you can change the operation name to map to
 anything you like. However, all of the annotations have sensible
 defaults, so only the @WebService annotation is required.
 
@@ -71,13 +71,13 @@ public class Echo
 
 A JSE or EJB3 deployment can be built using this class, and it is the
 only Java code needed to deploy on JBossWS. The WSDL, and all other Java
-artifacts called "wrapper classes" will be generated for you at deploy
+artifacts called "wrapper classes" will be generated at deploy
 time. This actually goes beyond the JAX-WS specification, which requires
 that wrapper classes be generated using an offline tool. The reason for
 this requirement is purely a vendor implementation problem, and since we
 do not believe in burdening a developer with a bunch of additional
 steps, we generate these as well. However, if you want your deployment
-to be portable to other application servers, you will unfortunately need
+to be portable to other application servers, you will need
 to use a tool and add the generated classes to your deployment.
 
 This is the primary purpose of the _wsprovide_ tool, to generate
@@ -119,8 +119,8 @@ As expected, this service defines one operation, " _echo_ ":
 [NOTE]
 ====
 Remember that when deploying on JBossWS you do not need to run this
-tool. You only need it for generating portable artifacts and/or the
-abstract contract for your service.
+tool. It is only needed for generating portable artifacts and/or the
+abstract contract for the service.
 ====
 
 Let's create a POJO endpoint for deployment on WildFly. A simple
@@ -159,8 +159,7 @@ adding: WEB-INF/classes/echo/Echo.class(in = 340) (out= 247)(deflated 27%)
 adding: WEB-INF/web.xml(in = 576) (out= 271)(deflated 52%)
 ....
 
-The war can then be deployed to the JBoss Application Server.The war can
-then be deployed to the JBoss Application Server; this will internally
+The war can then be deployed to the JBoss Application Server; this will internally
 invoke wsprovide, which will generate the WSDL. If deployment was
 successful, and you are using the default settings, it should be
 available in the server management console.
@@ -232,7 +231,7 @@ public interface Echo {
 }
 ....
 
-The only missing piece (besides for packaging) is the implementation
+The only missing piece (for packaging) is the implementation
 class, which can now be written, using the above interface.
 
 ....
@@ -250,15 +249,15 @@ public class EchoImpl implements Echo
 
 === Client Side
 
-Before going to detail on the client-side it is important to understand
+Before going into detail on the client-side it is important to understand
 the decoupling concept that is central to Web Services. Web Services are
 not the best fit for internal RPC, even though they can be used in this
 way. There are much better technologies for this (CORBA, and RMI for
-example). Web Services were designed specifically for interoperable
+example). Web Services was designed specifically for interoperable
 coarse-grained correspondence. There is no expectation or guarantee that
 any party participating in a Web Service interaction will be at any
 particular location, running on any particular OS, or written in any
-particular programming language. So because of this, it is important to
+particular programming language, because of this, it is important to
 clearly separate client and server implementations. The only thing they
 should have in common is the abstract contract definition. If, for
 whatever reason, your software does not adhere to this principal, then
@@ -268,7 +267,7 @@ top-down approach_* , even if the client is running on the same server.
 
 Let's repeat the process of the top-down section, although using the
 deployed WSDL, instead of the one generated offline by _wsprovide_ . The
-reason why we do this is just to get the right value for soap:address.
+reason we do this is to get the right value for soap:address.
 This value must be computed at deploy time, since it is based on
 container configuration specifics. You could of course edit the WSDL
 file yourself, although you need to ensure that the path is correct.
@@ -352,11 +351,11 @@ public class EchoService extends Service
 }
 ....
 
-As you can see, this generated class extends the main client entry point
-in JAX-WS, `jakarta.xml.ws.Service` . While you can use `Service`
+This generated class extends the main client entry point
+in JAX-WS, `jakarta.xml.ws.Service` . While `Service` can be used
 directly, this is far simpler since it provides the configuration info
 for you. The only method we really care about is the `getEchoPort()`
-method, which returns an instance of our Service Endpoint Interface. Any
+method, which returns an instance of the Service Endpoint Interface. Any
 WS operation can then be called by just invoking a method on the
 returned interface.
 
@@ -413,7 +412,6 @@ An introduction to binding customizations:
 * http://java.sun.com/webservices/docs/2.0/jaxws/customizations.html[]
 * https://jax-ws.dev.java.net/source/browse/jax-ws/guide/docs/wsdl-customization.xsd?rev=1.2&view=log[binding
 schema]
-* https://jax-ws.dev.java.net/nonav/guide/customizations/[xnsdoc]
 
 The schema for the binding customization files can be found here:
 
@@ -499,7 +497,7 @@ The wsconsume tools is included in the
 *org.jboss.ws.plugins:jaxws-tools-* *maven-* *plugin* plugin. The plugin
 has two goals for running the tool, _wsconsume_ and _wsconsume-test_ ,
 which basically do the same during different maven build phases (the
-former triggers the sources generation during _generate-sources_ phase,
+former triggers the source generation during _generate-sources_ phase,
 the latter during the _generate-test-sources_ one).
 
 The _wsconsume_ plugin has the following parameters:
@@ -552,8 +550,8 @@ the underlying stack and endorsed dirs if any
 
 ===== Examples
 
-You can use _wsconsume_ in your own project build simply referencing the
-_jaxws-tools-_ _maven-_ _plugin_ in the configured plugins in your
+_wsconsume_ can be used in your own project build by simply referencing the
+_jaxws-tools-_ _maven-_ _plugin_ in the configured plugins in the projects
 pom.xml file.
 
 The following example makes the plugin consume the test.wsdl file and
@@ -615,8 +613,8 @@ package, enable SOAP 1.2 binding and turn the tool's verbose mode on:
 </build>
 ....
 
-Finally, if the wsconsume invocation is required for consuming a wsdl to
-be used in your testsuite only, you might want to use the
+If the wsconsume invocation is required for consuming a wsdl to
+be used in the testsuite only, you might want to use the
 _wsconsume-test_ goal as follows:
 
 ....
@@ -643,11 +641,12 @@ _wsconsume-test_ goal as follows:
 </build>
 ....
 
-Plugin stack dependencyThe plugin itself does not have an explicit
-dependency to a JBossWS stack, as it's meant for being used with
-implementations of any supported version of the _JBossWS SPI_ . So the
+===== Plugin stack dependency
+The plugin itself does not have an explicit
+dependency on a JBossWS stack, as it's meant for use with
+implementations of any supported version of the _JBossWS SPI_ . The
 user is expected to set a dependency in his own `pom.xml` to the desired
-_JBossWS_ stack version. The plugin will rely on the that for using the
+_JBossWS_ stack version. The plugin will rely on that in using the
 proper tooling.
 
 ....
@@ -663,9 +662,9 @@ proper tooling.
 [TIP]
 ====
 Be careful when using this plugin with the Maven War Plugin as that
-include any project dependency into the generated application war
-archive. You might want to set `<scope>provided</scope>` for the
-_JBossWS_ stack dependency to avoid that.
+includes project dependencies into the generated application war
+archive. To avoid that situation set `<scope>provided</scope>` for the
+_JBossWS_ stack dependency.
 ====
 
 [IMPORTANT]
@@ -716,15 +715,15 @@ and 2.2 | 
 
 [NOTE]
 ====
-Users also need to put streamBuffer.jar and stax-ex.jar to the classpath
+Users also need to put streamBuffer.jar and stax-ex.jar in the classpath
 of the ant task to generate the appropriate artefacts.
 ====
 
 [NOTE]
 ====
 The wsdlLocation is used when creating the Service to be used by clients
-and will be added to the @WebServiceClient annotation, for an endpoint
-implementation based on the generated service endpoint interface you
+and will be added to the @WebServiceClient annotation.  For an endpoint
+implementation based on the generated service endpoint interface, you
 will need to manually add the wsdlLocation to the @WebService annotation
 on your web service implementation and not the service endpoint
 interface.
@@ -741,9 +740,8 @@ Also, the following nested elements are supported:
 
 ===== Examples
 
-Generate JAX-WS source and classes in a separate JVM with separate
-directories, a custom wsdl location attribute, and a list of binding
-files from foo.wsdl:
+The following command generates JAX-WS sources and classes in a separate
+JVM with separate directories, a custom wsdl location attribute, and a list of binding files from foo.wsdl:
 
 ....
 <wsconsume
@@ -787,14 +785,14 @@ options:
 
 ===== Examples
 
-Generating wrapper classes for portable artifacts in the "generated"
+Generates wrapper classes for portable artifacts in the "generated"
 directory:
 
 ....
 wsprovide -o generated foo.Endpoint
 ....
 
-Generating wrapper classes and WSDL in the "generated" directory
+Generates wrapper classes and WSDL in the "generated" directory
 
 ....
 wsprovide -o generated -w foo.Endpoint
@@ -848,8 +846,8 @@ $\{project.build.testOutputDirectory}
 
 ===== Examples
 
-You can use _wsprovide_ in your own project build simply referencing the
-_jaxws-tools-_ _maven-_ _plugin_ in the configured plugins in your
+_wsprovide_ can be used in your own project build by simply referencing the
+_jaxws-tools-_ _maven-_ _plugin_ in the configured plugins in the
 _pom.xml_ file.
 
 The following example makes the plugin provide the wsdl file and
@@ -906,9 +904,10 @@ testsuite:
 </build>
 ....
 
-Plugin stack dependencyThe plugin itself does not have an explicit
-dependency to a JBossWS stack, as it's meant for being used with
-implementations of any supported version of the _JBossWS SPI_ . So the
+===== Plugin stack dependency
+The plugin itself does not have an explicit
+dependency on a JBossWS stack, as it's meant for uses with
+implementations of any supported version of the _JBossWS SPI_ . The
 user is expected to set a dependency in his own `pom.xml` to the desired
 _JBossWS_ stack version. The plugin will rely on the that for using the
 proper tooling.
@@ -926,8 +925,8 @@ proper tooling.
 [TIP]
 ====
 Be careful when using this plugin with the Maven War Plugin as that
-include any project dependency into the generated application war
-archive. You might want to set `<scope>provided</scope>` for the
+includes project dependencies in the generated application war
+archive. Set `<scope>provided</scope>` on the
 _JBossWS_ stack dependency to avoid that.
 ====
 
@@ -973,8 +972,7 @@ implementation. |"."
 
 ===== Examples
 
-Executing wsprovide in verbose mode with separate output directories for
-source, resources, and classes:
+The following command executes wsprovide in verbose mode with separate output directories for source, resources, and classes:
 
 ....
 <target name="test-wsproivde" depends="init">

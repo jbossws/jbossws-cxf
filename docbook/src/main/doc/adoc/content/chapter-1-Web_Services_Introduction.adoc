@@ -20,57 +20,33 @@ providing a set of functionalities. The main concern is about
 interoperability between services.
 
 * A service provider publishes a service contract that exposes the
-public functions (operations) it is able to perform and thus service
-consumers can use.
-* Both service providers and service consumers features concrete
-softwares that send and receive messages according to the informations
-contained in the service contract they agreed before the communication.
-* Basic Web services specifications define the standard way of
-publishing a service contract and communicating.
-* Web services stacks (like _JBossWS_ ) conform to these specifications
-providing software layers to developers who want to either implement a
-service provider or service consumer. This way they almost only need to
-develop their own business logic in their preferred way, without dealing
-with the low-level details of message exchanges and so on.
+public functions (operations) it provides.  A service
+consumers uses those operations to communicate with the provider.
+* Both service providers and service consumers implement concrete
+software that sends and receives messages in accordance with the service contract agreed to before the communication.
+* Web services specifications define the rules for publishing a service contract.
+* Web services stacks (like _JBossWS_ ) that conform to the specifications provide a software infrastructure to developers for implementing service providers and consumers.  This infrastructure enables developers to focus on developing their own business logic in their preferred way, without dealing with the low-level details of message exchange.
 
 ==== Who needs web services?
 
-Enterprise systems communication may benefit from a wise adoption of WS
-technologies. Exposing well designed contracts allows developers to
-extract an abstract view of their service capabilities. Considering the
-standardized way contracts are written, this definitely helps
-communication with third-party systems and eventually support
-business-to-business integration. No more agreement required on vendor
-specific implementation details, home-brew communication protocol or
-custom per-customer settings. Everything is clear and standardized in
-the contract the provider and consumer agree on. Of course this also
-reduces the dependencies between implementations allowing other
-consumers to easily use the provided service without major changes.
+Enterprise systems communication may benefit from adoption of WS
+technologies.  The Exposure of well designed contracts allows developers to extract an abstract view of service capabilities.  The standardization of software contracts can help improve communication with third-party systems and business-to-business integration.  It is easier to expand services for the consumer.  No more vendor specific implementation details, home-brew communication protocol or custom per-customer settings.
 
 Enterprise system may benefit from web service technologies also for
-internal heterogeneous subsystems communication. As a matter of fact
-their interoperability boosts service reuse and composition. No more
-need to rewrite whole functionalities only because they were developed
-by another enterprise department using another software language.
+internal heterogeneous subsystems communication.
+Departments are free to implement providers and consumers in different software languages.  As long as a department adheres to the contract, there should be no need for one department to rewrite whole functionalities when another makes alterations and enhancements to their code.
 
 ==== What web services are not...
 
-Needless to say that web services are not the solution for every
-software system communication.
+Web services are not the solution for every software system communication.
 
-Nowadays they are meant to be used for loosely-coupled coarse-grained
-communication, for message (document) exchange. Moreover during the last
-years a lot of specifications (
+Web services are meant to be used for loosely-coupled coarse-grained
+communication and message (document) exchange.
+
+Web service specifications (
 http://community.jboss.org/docs/DOC-13554#Future_of_Web_Services[WS-*] )
-were discussed and finally approved to standardize ws-related advanced
-aspects including reliable messaging, message-level security,
-cross-service transactions, etc. Finally web service specifications also
-include notion of registries to collect service contract references, to
-easily discover service implementations, etc.
-
-This all means that the web services technology platform suits complex
-enterprise communication and is not simply the latest way of doing
-remote procedure calls.
+have evolved to standardize ws-related advanced aspects including reliable messaging, message-level security, cross-service transactions, etc.
+Web service specifications also include the notion of registries to collect service contract references and mechanisms to discover service implementations.
 
 === From concepts to technology
 
@@ -88,20 +64,18 @@ information.
 
 Service description is mainly provided using the standard
 http://www.w3.org/TR/wsdl[Web Service Description Language (WSDL)] .
-Practically speaking this means one or more XML files containing
+Practically speaking this means one or more XML files contains
 information including the service location ( _endpoint address_ ), the
 service functionalities ( _operations_ ), the input/output messages
 involved in the communication and the business data structure. The
 latter is basically one or more http://www.w3.org/TR/xmlschema-0/[XML
-Schema definition] . Moreover recent specifications (like
+Schema definition] . Moreover recent specifications like (
 http://schemas.xmlsoap.org/ws/2004/09/policy/[WS-Policy] ) allow for
-more advanced service capabilities to be stated in the contract through
+advanced service capabilities to be stated in the contract through
 WSDL extensions.
 
 Web service stacks like JBossWS usually have tools to both generate and
-consume technical contracts. This helps ensuring also from a practical
-point of view that owners of service producer ( _server_ ) and consumer
-( _client_ ) only need contracts to establish the communication.
+consume technical contracts. This helps ensure that owners of service producer ( _server_ ) and consumer ( _client_ ) declare valid contracts to establish the communication.
 
 ===== Contract delivery process
 
@@ -116,8 +90,8 @@ disadvantage of this delivery process include:
 
 * Developers do not have to deal with contracts by hand thus deep
 knowledge of WSDL and XML is not required.
-* Less effort and time required for services to be developed and go live
-to production environment.
+* Less effort and time is required for services to be developed and go live
+to a production environment.
 * Contracts usually need frequent maintenance, refactoring and
 versioning.
 
@@ -129,8 +103,8 @@ conceptual service design together.
 
 * Services with contracts obtained this way may easily cooperate in a
 service oriented architecture
-* More effort and time required for web service project start-up
-* Deep knowledge of WSDL and related technology required
+* More effort and time is required for web service project start-up
+* Deep knowledge of WSDL and related technology is required
 * Contracts tend to have longer lifespans and usually require less
 maintenance.
 
@@ -143,18 +117,12 @@ http://www.w3.org/TR/soap/[SOAP] specification. This means XML messages
 flow from the provider and consumer endpoints.
 
 Messages' content is described in the wsdl contract. The WSDL file also
-states the transport protocol to be used for the transmission; the most
-common one is of course HTTP, however JMS, SMTP and other ones are
-allowed.
+states the  to be used for the transmission. The most common transport protocol is HTTP, however JMS, SMTP and other ones are allowed.
 
 ==== Advanced Web Services technologies
 
-The above mentioned specifications are quite common nowadays in the IT
-industry and many enterprise have been using them since years.
+The above specifications are quite common nowadays in the IT
+industry. Many enterprises have used them for years.
 
-However a real added value to the web service platform comes from a lot
-of recent additional specifications. These cover features that are
-really relevant to deliver mission critical enterprise services. For
-example some of the most important agreements major vendors came to are
-those on security (WS-Security) and reliable messaging (WS-Reliable
-Messaging).
+In recent years specifications have been created for security (WS-Security) and reliable messaging (WS-Reliable Messaging).
+Important functionality in delivering mission critical enterprise services.
