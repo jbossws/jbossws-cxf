@@ -51,8 +51,6 @@
 
   <!-- Modules -->
   <modules>
-     <!-- FIXME [JBWS-4277] Restore JASPI integration-->
-    <module>modules/jaspi</module>
     <module>modules/server</module>
     <module>modules/client</module>
     <module>modules/endorsed</module>
@@ -83,8 +81,6 @@
     <jboss-logging-annotations.version>2.2.1.Final</jboss-logging-annotations.version>
     <jboss-logging-processor.version>2.2.1.Final</jboss-logging-processor.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
-    <picketbox.version>5.0.3.Final</picketbox.version>
-    <picketlink.version>2.5.5.SP12</picketlink.version>
     <jaxws-undertow-httpspi.version>2.0.0.Final</jaxws-undertow-httpspi.version>
     <io.undertow.version>2.2.18.Final</io.undertow.version>
     <jaxb.impl.version>3.0.2</jaxb.impl.version>
@@ -114,7 +110,6 @@
     <version.commons.validator>1.6</version.commons.validator>
     <jakarta.interceptor.api.version>2.1.0</jakarta.interceptor.api.version>
     <version.org.jboss.openjdk-orb>8.1.5.Final</version.org.jboss.openjdk-orb>
-    <jaspi.api.version>1.0.2.Final</jaspi.api.version>
     <jacc.api.version>1.0.2.Final</jacc.api.version>
     <org.easymock.version>3.2</org.easymock.version>
     <junit.version>4.12</junit.version>
@@ -727,11 +722,6 @@
         <version>${jakarta.servlet-api.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.jboss.spec.javax.security.auth.message</groupId>
-        <artifactId>jboss-jaspi-api_1.1_spec</artifactId>
-        <version>${jaspi.api.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.jboss.spec.javax.security.jacc</groupId>
         <artifactId>jboss-jacc-api_1.5_spec</artifactId>
         <version>${jacc.api.version}</version>
@@ -744,12 +734,6 @@
       </dependency>
 
       <!-- jboss provided -->
-      <dependency>
-        <groupId>org.picketbox</groupId>
-        <artifactId>picketbox</artifactId>
-        <version>${picketbox.version}</version>
-        <scope>provided</scope>
-      </dependency>
       <dependency>
         <groupId>xerces</groupId>
         <artifactId>xercesImpl</artifactId>

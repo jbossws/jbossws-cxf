@@ -68,7 +68,6 @@ public class WSTrustTestCase extends JBossWSTest
    private static final String ON_BEHALF_OF_SERVER_DEP = "jaxws-samples-wsse-policy-trust-onbehalfof";
    private static final String HOLDER_OF_KEY_STS_DEP = "jaxws-samples-wsse-policy-trust-sts-holderofkey";
    private static final String HOLDER_OF_KEY_SERVER_DEP = "jaxws-samples-wsse-policy-trust-holderofkey";
-   private static final String PL_STS_DEP = "jaxws-samples-wsse-policy-trustPicketLink-sts";
    private static final String BEARER_STS_DEP = "jaxws-samples-wsse-policy-trust-sts-bearer";
    private static final String BEARER_SERVER_DEP = "jaxws-samples-wsse-policy-trust-bearer";
 
@@ -200,22 +199,6 @@ public class WSTrustTestCase extends JBossWSTest
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/wsdl/HolderOfKeyService_schema1.xsd"), "wsdl/HolderOfKeyService_schema1.xsd")
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/servicestore.jks"), "classes/servicestore.jks")
          .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/serviceKeystore.properties"), "classes/serviceKeystore.properties");
-      return archive;
-   }
-
-   @Deployment(name = PL_STS_DEP, testable = false)
-   public static WebArchive createPicketLinkSTSDeployment() {
-      WebArchive archive = ShrinkWrap.create(WebArchive.class, PL_STS_DEP + ".war");
-      archive
-         .setManifest(new StringAsset("Manifest-Version: 1.0\n"
-               + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-client,org.picketlink\n"))
-         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.picketlink.PicketLinkSTService.class)
-         .addClass(org.jboss.test.ws.jaxws.samples.wsse.policy.trust.sts.STSCallbackHandler.class)
-         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/jboss-web.xml"), "jboss-web.xml")
-         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/wsdl/PicketLinkSTS.wsdl"), "wsdl/PicketLinkSTS.wsdl")
-         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/stsstore.jks"), "classes/stsstore.jks")
-         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/picketlink-sts.xml"), "classes/picketlink-sts.xml")
-         .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/samples/wsse/policy/trust/WEB-INF/stsKeystore.properties"), "classes/stsKeystore.properties");
       return archive;
    }
 
