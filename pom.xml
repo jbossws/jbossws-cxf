@@ -110,7 +110,6 @@
     <version.commons.validator>1.6</version.commons.validator>
     <jakarta.interceptor.api.version>2.1.0</jakarta.interceptor.api.version>
     <version.org.jboss.openjdk-orb>8.1.5.Final</version.org.jboss.openjdk-orb>
-    <jacc.api.version>1.0.2.Final</jacc.api.version>
     <org.easymock.version>3.2</org.easymock.version>
     <junit.version>4.12</junit.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
@@ -720,17 +719,6 @@
         <groupId>jakarta.servlet</groupId>
         <artifactId>jakarta.servlet-api</artifactId>
         <version>${jakarta.servlet-api.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.spec.javax.security.jacc</groupId>
-        <artifactId>jboss-jacc-api_1.5_spec</artifactId>
-        <version>${jacc.api.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
 
       <!-- jboss provided -->
