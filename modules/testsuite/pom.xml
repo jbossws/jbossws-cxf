@@ -77,10 +77,6 @@
       <artifactId>jakarta.ejb-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>jakarta.jws</groupId>
-      <artifactId>jakarta.jws-api</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-client</artifactId>
       <version>${project.version}</version>
