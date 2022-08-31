@@ -25,10 +25,6 @@
     </dependency>
     <!-- START - this should be JDK9 only dependency. Shouldn't the scope be 'test' for all artifacts? -->
     <dependency>
-      <groupId>jakarta.jws</groupId>
-      <artifactId>jakarta.jws-api</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-runtime</artifactId>
     </dependency>

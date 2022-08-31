@@ -40,10 +40,6 @@
       <version>${project.version}</version>
       <scope>runtime</scope> <!-- override scope from parent dependency to make sure tests are not compiled using (JBWS-)CXF classes -->
     </dependency>
-     <dependency>
-        <groupId>jakarta.jws</groupId>
-        <artifactId>jakarta.jws-api</artifactId>
-     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
