@@ -113,70 +113,57 @@
                     <goals><goal>run</goal></goals>
                     <configuration>
                         <target>
-                            <taskdef resource="net/sf/antcontrib/antcontrib.properties"
-                                     classpathref="maven.plugin.classpath"/>
-                            <condition property="isWin">
-                                <os family="windows" />
-                            </condition>
 
-                            <if>
-                                <equals arg1="${isWin}" arg2="true" />
-                                <then>
-                                    <propertyregex property="value-testResourcesDir"
-                                                   input="${basedir}/src/test/resources"
-                                                   regexp="\\"
-                                                   replace="/"
-                                                   global="true" />
-                                    <propertyregex property="value-usersPropFile"
-                                                   input="${basedir}/src/test/etc/jbossws-users.properties"
-                                                   regexp="\\"
-                                                   replace="/"
-                                                   global="true" />
-                                    <propertyregex property="value-rolesPropFile"
-                                                   input="${basedir}/src/test/etc/jbossws-roles.properties"
-                                                   regexp="\\"
-                                                   replace="/"
-                                                   global="true" />
-                                    <propertyregex property="value-keystorePath"
-                                                   input="${basedir}/src/test/etc/test.keystore"
-                                                   regexp="\\"
-                                                   replace="/"
-                                                   global="true" />
-                                    <propertyregex property="value-truststorePath"
-                                                   input="${basedir}/src/test/etc/test.truststore"
-                                                   regexp="\\"
-                                                   replace="/"
-                                                   global="true" />
+                            <property name="wfly-config-dir" value="/standalone/configuration/"/>
 
-                                    <propertyregex property="wfly-config-dir"
-                                                   input="\standalone\configuration\"
-                                                   regexp="\\"
-                                                   replace="\\\"
-                                                   global="true" />
+                            <path id="path-testResourcesDir">
+                                <pathelement location="${basedir}/src/test/resources"/>
+                            </path>
 
-                                    <propertyregex property="value-project.build.directory"
-                                                   input="${project.build.directory}\"
-                                                   regexp="\\"
-                                                   replace="\\\"
-                                                   global="true" />
-                                </then>
-                                <else>
-                                    <echo message="Unix found" />
-                                    <property name="value-testResourcesDir" value="${basedir}/src/test/resources"/>
-                                    <property name="value-usersPropFile" value="${basedir}/src/test/etc/jbossws-users.properties"/>
-                                    <property name="value-rolesPropFile" value="${basedir}/src/test/etc/jbossws-roles.properties"/>
-                                    <property name="value-keystorePath" value="${basedir}/src/test/etc/test.keystore"/>
+                            <path id="path-usersPropFile">
+                                <pathelement location="${basedir}/src/test/etc/jbossws-users.properties"/>
+                            </path>
 
-                                    <property name="wfly-config-dir" value="/standalone/configuration/"/>
-                                    <property name="value-project.build.directory" value="${project.build.directory}/"/>
-                                </else>
-                            </if>
+                            <path id="path-rolesPropFile">
+                                <pathelement location="${basedir}/src/test/etc/jbossws-roles.properties"/>
+                            </path>
+
+                            <path id="path-keystorePath">
+                                <pathelement location="${basedir}/src/test/etc/test.keystore"/>
+                            </path>
+
+                            <path id="path-project.build.directory">
+                                <pathelement location="${project.build.directory}"/>
+                            </path>
+
+                            <!--Convert these path values to unix/platform-independent format and later output these value to property file -->
+                            <pathconvert targetos="unix" property="value-testResourcesDir"
+                                         refid="path-testResourcesDir">
+                            </pathconvert>
+
+                            <pathconvert targetos="unix" property="value-usersPropFile"
+                                         refid="path-usersPropFile">
+                            </pathconvert>
+
+                            <pathconvert targetos="unix" property="value-rolesPropFile"
+                                         refid="path-rolesPropFile">
+                            </pathconvert>
+
+                            <pathconvert targetos="unix" property="value-keystorePath"
+                                         refid="path-keystorePath">
+                            </pathconvert>
+
+                            <pathconvert targetos="unix" property="value-project.build.directory"
+                                         refid="path-project.build.directory">
+                            </pathconvert>
+
 
                             <copy overwrite="true"
                                   file="${jboss.home}${wfly-config-dir}standalone.xml"
-                                  tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-shared-default-base}.xml" />
+                                  tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-shared-default-base}.xml"/>
 
-                            <propertyfile file="${value-project.build.directory}${jbws-testsuite-shared-default-base}-elytron-CLI.properties">
+                            <propertyfile
+                                    file="${value-project.build.directory}/${jbws-testsuite-shared-default-base}-elytron-CLI.properties">
                                 <entry key="testResourcesDir" value="${value-testResourcesDir}"/>
                                 <entry key="usersPropFile" value="${value-usersPropFile}"/>
                                 <entry key="rolesPropFile" value="${value-rolesPropFile}"/>
@@ -185,20 +172,22 @@
                             </propertyfile>
 
                             <copy overwrite="true"
-                                  file="${jboss.home}${wfly-config-dir}standalone.xml"
-                                  tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-shared-default-config-tests-base}.xml" />
+                                  file="${jboss.home}/${wfly-config-dir}/standalone.xml"
+                                  tofile="${jboss.home}/${wfly-config-dir}/${jbws-testsuite-shared-default-config-tests-base}.xml"/>
 
-                            <propertyfile file="${value-project.build.directory}${jbws-testsuite-shared-default-config-tests-base}-elytron-CLI.properties">
+                            <propertyfile
+                                    file="${value-project.build.directory}/${jbws-testsuite-shared-default-config-tests-base}-elytron-CLI.properties">
                                 <entry key="usersPropFile" value="${value-usersPropFile}"/>
                                 <entry key="rolesPropFile" value="${value-rolesPropFile}"/>
                                 <entry key="serverLog" value="${jbws-testsuite-shared-default-config-tests-base}.log"/>
                             </propertyfile>
 
                             <copy overwrite="true"
-                                  file="${jboss.home}${wfly-config-dir}standalone.xml"
-                                  tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-shared-address-rewrite-base}.xml" />
+                                  file="${jboss.home}/${wfly-config-dir}standalone.xml"
+                                  tofile="${jboss.home}/${wfly-config-dir}/${jbws-testsuite-shared-address-rewrite-base}.xml"/>
 
-                            <propertyfile file="${value-project.build.directory}${jbws-testsuite-shared-address-rewrite-base}-elytron-CLI.properties">
+                            <propertyfile
+                                    file="${value-project.build.directory}/${jbws-testsuite-shared-address-rewrite-base}-elytron-CLI.properties">
                                 <entry key="usersPropFile" value="${value-usersPropFile}"/>
                                 <entry key="rolesPropFile" value="${value-rolesPropFile}"/>
                                 <entry key="keystorePath" value="${value-keystorePath}"/>
@@ -208,19 +197,6 @@
                     </configuration>
                 </execution>
             </executions>
-              <dependencies>
-                  <dependency>
-                      <groupId>ant-contrib</groupId>
-                      <artifactId>ant-contrib</artifactId>
-                      <version>1.0b3</version>
-                      <exclusions>
-                          <exclusion>
-                              <groupId>ant</groupId>
-                              <artifactId>ant</artifactId>
-                          </exclusion>
-                      </exclusions>
-                  </dependency>
-              </dependencies>
           </plugin>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
