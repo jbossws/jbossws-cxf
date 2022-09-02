@@ -24,11 +24,8 @@
     <test.resources.directory>${project.build.directory}/test-resources</test.resources.directory>
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <appclient.output.dir>${project.build.directory}/appclient-logs</appclient.output.dir>
-    <org.littleshoot.littleproxy.version>1.1.2</org.littleshoot.littleproxy.version>
-    <gnu.getopt.version>1.0.13</gnu.getopt.version>
-    <bc.version>1.60</bc.version>
     <resources-plugin-filters.version>1.1.0.Final</resources-plugin-filters.version>
-    <exec.plugin.version>1.6.0</exec.plugin.version>
+    <exec.plugin.version>3.1.0</exec.plugin.version>
     <port-offset.cxf-tests.jboss>0</port-offset.cxf-tests.jboss>
     <port-offset.cxf-tests.ssl-mutual-auth>5000</port-offset.cxf-tests.ssl-mutual-auth>
     <port-offset.cxf-tests.default-config-tests>10000</port-offset.cxf-tests.default-config-tests>
@@ -69,7 +66,6 @@
     <dependency>
       <groupId>gnu.getopt</groupId>
       <artifactId>java-getopt</artifactId>
-      <version>${gnu.getopt.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -109,12 +105,6 @@
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-      <version>${bc.version}</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
