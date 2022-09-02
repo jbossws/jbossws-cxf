@@ -472,39 +472,6 @@ public class WSTrustTestCase extends JBossWSTest
 
    @Test
    @RunAsClient
-   @OperateOnDeployment(SERVER_DEP)
-   @WrapThreadContextClassLoader
-   public void testPicketLink() throws Exception
-   {
-      Bus bus = BusFactory.newInstance().createBus();
-      try
-      {
-         BusFactory.setThreadDefaultBus(bus);
-         
-         final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
-         final URL wsdlURL = new URL(serviceURL + "SecurityService?wsdl");
-         Service service = Service.create(wsdlURL, serviceName);
-         ServiceIface proxy = (ServiceIface) service.getPort(ServiceIface.class);
-         
-         final QName stsServiceName = new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTS");
-         final QName stsPortName = new QName("urn:picketlink:identity-federation:sts", "PicketLinkSTSPort");
-         final URL stsURL = new URL(serviceURL.getProtocol(), serviceURL.getHost(), serviceURL.getPort(), "/jaxws-samples-wsse-policy-trustPicketLink-sts/PicketLinkSTS?wsdl");
-         WSTrustTestUtils.setupWsseAndSTSClient(proxy, bus, stsURL.toString(), stsServiceName, stsPortName);
-         
-         try {
-            assertEquals("WS-Trust Hello World!", proxy.sayHello());
-         } catch (Exception e) {
-            throw CryptoCheckHelper.checkAndWrapException(e);
-         }
-      }
-      finally
-      {
-         bus.shutdown(true);
-      }
-   }
-   
-   @Test
-   @RunAsClient
    @OperateOnDeployment(BEARER_SERVER_DEP)
    @WrapThreadContextClassLoader
    public void testBearer() throws Exception
