@@ -110,8 +110,6 @@
     <org.easymock.version>3.2</org.easymock.version>
     <junit.version>4.13.1</junit.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
-    <gmavenplus.version>1.5</gmavenplus.version>
-    <groovy.version>2.4.15</groovy.version>
     <wildfly.plugin.version>3.0.2.Final</wildfly.plugin.version>
     <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
     <wildfly.elytron.version>2.0.0.Beta1</wildfly.elytron.version>
@@ -895,19 +893,6 @@
   <pluginManagement>
      <plugins>
       <plugin>
-        <groupId>org.codehaus.gmavenplus</groupId>
-        <artifactId>gmavenplus-plugin</artifactId>
-        <version>${gmavenplus.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>${groovy.version}</version>
-            <scope>runtime</scope>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
         <groupId>org.wildfly.plugins</groupId>
         <artifactId>wildfly-maven-plugin</artifactId>
         <version>${wildfly.plugin.version}</version>
@@ -1077,19 +1062,6 @@
                       <versionRange>[1.0.1,)</versionRange>
                       <goals>
                         <goal>enforce</goal>
-                      </goals>
-                    </pluginExecutionFilter>
-                    <action>
-                      <ignore />
-                    </action>
-                  </pluginExecution>
-                  <pluginExecution>
-                    <pluginExecutionFilter>
-                      <groupId>org.codehaus.gmavenplus</groupId>
-                      <artifactId>gmavenplus-plugin</artifactId>
-                      <versionRange>[1.5,)</versionRange>
-                      <goals>
-                        <goal>execute</goal>
                       </goals>
                     </pluginExecutionFilter>
                     <action>
