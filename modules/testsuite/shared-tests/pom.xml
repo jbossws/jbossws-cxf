@@ -201,14 +201,6 @@
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
-                <version>4.0.0.Alpha2</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.wildfly.core</groupId>
-                        <artifactId>wildfly-controller-client</artifactId>
-                        <version>17.0.1.Final</version>
-                    </dependency>
-                </dependencies>
                 <executions>
                     <execution>
                         <id>jbws-testsuite-shared-default config-server</id>

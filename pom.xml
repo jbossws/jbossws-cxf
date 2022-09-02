@@ -110,10 +110,10 @@
     <org.easymock.version>3.2</org.easymock.version>
     <junit.version>4.13.1</junit.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
-    <wildfly.plugin.version>3.0.2.Final</wildfly.plugin.version>
+    <wildfly.plugin.version>4.0.0.Alpha2</wildfly.plugin.version>
     <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
+    <wildfly.controller.client.version>17.0.1.Final</wildfly.controller.client.version>
     <wildfly.elytron.version>2.0.0.Beta1</wildfly.elytron.version>
-
     <modular.jdk.args />
     <modular.jdk.props />
     <jakarta.jms-api.version>3.1.0</jakarta.jms-api.version>
@@ -122,6 +122,9 @@
     <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
     <jakarta.mail.version>2.1.0</jakarta.mail.version>
     <jakarta.xml.soap-api.version>3.0.0</jakarta.xml.soap-api.version>
+    <jakarta-client-webservices.version>2.0.0.Beta3</jakarta-client-webservices.version>
+    <org.littleshoot.littleproxy.version>1.1.2</org.littleshoot.littleproxy.version>
+    <gnu.getopt.version>1.0.13</gnu.getopt.version>
   </properties>
 
   <!-- licenses -->
@@ -813,6 +816,24 @@
         <version>${jakarta.interceptor.api.version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.wildfly.security</groupId>
+        <artifactId>wildfly-elytron-client</artifactId>
+        <version>${wildfly.elytron.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.wildfly.security</groupId>
+        <artifactId>wildfly-elytron-auth-server</artifactId>
+        <version>${wildfly.elytron.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.wildfly.security</groupId>
+        <artifactId>wildfly-elytron-credential</artifactId>
+        <version>${wildfly.elytron.version}</version>
+      </dependency>
+
+
       <!-- Other test dependencies -->
       <dependency>
         <groupId>junit</groupId>
@@ -884,6 +905,42 @@
         <version>${jakarta.jms-api.version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.wildfly.security.jakarta</groupId>
+        <artifactId>jakarta-client-webservices</artifactId>
+        <version>${jakarta-client-webservices.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.littleshoot</groupId>
+        <artifactId>littleproxy</artifactId>
+        <version>${org.littleshoot.littleproxy.version}</version>
+        <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+          </exclusion>
+          <!-- Let the container messaging subsystem control the Netty dependency version  -->
+          <exclusion>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>gnu.getopt</groupId>
+        <artifactId>java-getopt</artifactId>
+        <version>${gnu.getopt.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -896,17 +953,11 @@
         <groupId>org.wildfly.plugins</groupId>
         <artifactId>wildfly-maven-plugin</artifactId>
         <version>${wildfly.plugin.version}</version>
-        <dependencies> <!-- workaround to exclude not needed jconsole from dependencies, as it hurts when running on JDK9 -->
+        <dependencies>
           <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-cli</artifactId>
-            <version>${wildfly.cli.version}</version>
-            <exclusions>
-              <exclusion>
-                <groupId>sun.jdk</groupId>
-                <artifactId>jconsole</artifactId>
-              </exclusion>
-            </exclusions>
+            <groupId>org.wildfly.core</groupId>
+            <artifactId>wildfly-controller-client</artifactId>
+            <version>${wildfly.controller.client.version}</version>
           </dependency>
         </dependencies>
       </plugin>
