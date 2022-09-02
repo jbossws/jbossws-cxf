@@ -659,19 +659,6 @@
           <scope>test</scope>
         </dependency>
       </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <excludes combine.children="append">
-                <!-- enable this after https://issues.redhat.com/browse/WFLY-16481 is fixed-->
-                <exclude>**/org/jboss/test/ws/publish/EndpointPublishTestCase**</exclude>
-              </excludes>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
     <!--
     Descr: Test with the latest WFLY27 upstream version
@@ -754,19 +741,6 @@
           <scope>test</scope>
         </dependency>
       </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <excludes combine.children="append">
-                <!-- enable this after https://issues.redhat.com/browse/WFLY-16481 is fixed-->
-                <exclude>**/org/jboss/test/ws/publish/EndpointPublishTestCase**</exclude>
-              </excludes>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
     <!--
     Name:  secmgr

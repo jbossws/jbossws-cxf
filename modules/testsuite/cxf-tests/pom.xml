@@ -107,33 +107,6 @@
           <scope>test</scope>
       </dependency>
   </dependencies>
-
-   <build>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
-            <configuration>
-               <maxmem>256M</maxmem>
-               <fork>false</fork>
-               <encoding>UTF-8</encoding>
-            </configuration>
-            <executions>
-               <execution>
-                  <id>default-testCompile</id>
-                  <phase>test-compile</phase>
-                  <configuration>
-                     <testExcludes>
-                        <exclude>**/org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase.java</exclude>
-                     </testExcludes>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-      </plugins>
-   </build>
-
   <!-- Profiles -->
   <profiles>
 
