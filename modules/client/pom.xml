@@ -242,7 +242,11 @@
       <artifactId>jboss-logging-processor</artifactId>
       <scope>provided</scope>
     </dependency>
-    
+    <!-- CXF wsdl2java velocity needs slf4j logging-->
+    <dependency>
+      <groupId>org.jboss.slf4j</groupId>
+      <artifactId>slf4j-jboss-logging</artifactId>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

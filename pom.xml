@@ -89,6 +89,7 @@
     <commons-collections.version>3.2.2</commons-collections.version>
     <commons-lang3.version>3.11</commons-lang3.version>
     <commons.logging.version>1.2</commons.logging.version>
+    <slf4j.jboss.logging.version>1.2.1.Final</slf4j.jboss.logging.version>
     <neethi.version>3.1.1</neethi.version>
     <fastinfoset.version>1.2.18</fastinfoset.version>
     <opensaml.version>4.2.0</opensaml.version>
@@ -793,6 +794,11 @@
           <artifactId>jboss-logging-annotations</artifactId>
           <version>${jboss-logging-annotations.version}</version>
        </dependency>
+      <dependency>
+        <groupId>org.jboss.slf4j</groupId>
+        <artifactId>slf4j-jboss-logging</artifactId>
+        <version>${slf4j.jboss.logging.version}</version>
+      </dependency>
       <dependency>
         <groupId>com.sun.xml.fastinfoset</groupId>
         <artifactId>FastInfoset</artifactId>

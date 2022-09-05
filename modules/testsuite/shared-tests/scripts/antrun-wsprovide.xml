@@ -40,8 +40,6 @@
       sei="org.jboss.test.ws.jaxws.jbws2960.AddNumbersImpl"
       destdir="jaxws/jbws2960"
       outputDir="${tests.output.dir}"
-      log4jConf="${log4j.conf}"
-      loggingDir="${log4j.output.dir}"
       resourcesDir="jaxws/jbws2960"
       fork="false"
       additional.jvm.args="${additional.jvm.args}"
@@ -53,8 +51,6 @@
       sei="org.jboss.test.ws.jaxws.jbws2960.AddNumbersImpl"
       destdir="jaxws/jbws2960"
       outputDir="${tests.output.dir}"
-      log4jConf="${log4j.conf}"
-      loggingDir="${log4j.output.dir}"
       resourcesDir="jaxws/jbws2960"
       fork="true"
       additional.jvm.args="${additional.jvm.args}"
@@ -66,8 +62,6 @@
     <attribute name="sei"/>
     <attribute name="destDir"/>
     <attribute name="outputDir"/>
-    <attribute name="log4jConf"/>
-    <attribute name="loggingDir"/>
     <attribute name="resourcesDir"/>
     <attribute name="fork"/>
   	<attribute name="additional.jvm.args"/>
@@ -82,8 +76,6 @@
         destdir="@{outputDir}/test-classes/@{destDir}"
         resourcedestdir="@{outputDir}/test-resources/@{resourcesDir}"
       >
-        <jvmarg line="-Dlog4j.configuration=file://@{log4jConf}"/>
-        <jvmarg line="-Dlog4j.output.dir=@{loggingDir}"/>
         <jvmarg line="-Djavax.xml.accessExternalSchema=file,http"/>
       	<jvmarg line="@{additional.jvm.args}"/>
       </wsprovide>
