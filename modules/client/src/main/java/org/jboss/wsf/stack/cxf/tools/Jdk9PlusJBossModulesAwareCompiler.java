@@ -140,15 +140,7 @@ public final class Jdk9PlusJBossModulesAwareCompiler extends Compiler
 
          if (location == StandardLocation.CLASS_PATH && !result.iterator().hasNext()) {
             Module module = Module.forClassLoader(moduleclassLoader, true);
-            if (module == null)
-            {
-               // AppClassLoader is the default classLoader. It is not needed in this
-               // scenario. Skip registering the warning.
-               if(!moduleclassLoader.toString().contains("jdk.internal.loader.ClassLoaders$AppClassLoader")) {
-                  Loggers.ROOT_LOGGER.couldNotLoadJBossModuleForClassloader(moduleclassLoader.toString());
-               }
-            }
-            else
+            if (module != null)
             {
                try
                {
