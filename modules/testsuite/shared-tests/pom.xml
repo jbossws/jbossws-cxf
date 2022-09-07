@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf-testsuite</artifactId>
-     <version>6.1.0-SNAPSHOT</version>
+     <version>6.1.0.Final</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -114,84 +114,70 @@
                     <configuration>
                         <target>
 
-                            <property name="wfly-config-dir" value="/standalone/configuration/"/>
+                            <property name="wfly-config-dir" value="/standalone/configuration/" />
 
                             <path id="path-testResourcesDir">
-                                <pathelement location="${basedir}/src/test/resources"/>
+                                <pathelement location="${basedir}/src/test/resources" />
                             </path>
 
                             <path id="path-usersPropFile">
-                                <pathelement location="${basedir}/src/test/etc/jbossws-users.properties"/>
+                                <pathelement location="${basedir}/src/test/etc/jbossws-users.properties" />
                             </path>
 
                             <path id="path-rolesPropFile">
-                                <pathelement location="${basedir}/src/test/etc/jbossws-roles.properties"/>
+                                <pathelement location="${basedir}/src/test/etc/jbossws-roles.properties" />
                             </path>
 
                             <path id="path-keystorePath">
-                                <pathelement location="${basedir}/src/test/etc/test.keystore"/>
+                                <pathelement location="${basedir}/src/test/etc/test.keystore" />
                             </path>
 
                             <path id="path-project.build.directory">
-                                <pathelement location="${project.build.directory}"/>
+                                <pathelement location="${project.build.directory}" />
                             </path>
 
                             <!--Convert these path values to unix/platform-independent format and later output these value to property file -->
-                            <pathconvert targetos="unix" property="value-testResourcesDir"
-                                         refid="path-testResourcesDir">
+                            <pathconvert targetos="unix" property="value-testResourcesDir" refid="path-testResourcesDir">
                             </pathconvert>
 
-                            <pathconvert targetos="unix" property="value-usersPropFile"
-                                         refid="path-usersPropFile">
+                            <pathconvert targetos="unix" property="value-usersPropFile" refid="path-usersPropFile">
                             </pathconvert>
 
-                            <pathconvert targetos="unix" property="value-rolesPropFile"
-                                         refid="path-rolesPropFile">
+                            <pathconvert targetos="unix" property="value-rolesPropFile" refid="path-rolesPropFile">
                             </pathconvert>
 
-                            <pathconvert targetos="unix" property="value-keystorePath"
-                                         refid="path-keystorePath">
+                            <pathconvert targetos="unix" property="value-keystorePath" refid="path-keystorePath">
                             </pathconvert>
 
-                            <pathconvert targetos="unix" property="value-project.build.directory"
-                                         refid="path-project.build.directory">
+                            <pathconvert targetos="unix" property="value-project.build.directory" refid="path-project.build.directory">
                             </pathconvert>
 
 
-                            <copy overwrite="true"
-                                  file="${jboss.home}${wfly-config-dir}standalone.xml"
-                                  tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-shared-default-base}.xml"/>
+                            <copy overwrite="true" file="${jboss.home}${wfly-config-dir}standalone.xml" tofile="${jboss.home}${wfly-config-dir}${jbws-testsuite-shared-default-base}.xml" />
 
-                            <propertyfile
-                                    file="${value-project.build.directory}/${jbws-testsuite-shared-default-base}-elytron-CLI.properties">
-                                <entry key="testResourcesDir" value="${value-testResourcesDir}"/>
-                                <entry key="usersPropFile" value="${value-usersPropFile}"/>
-                                <entry key="rolesPropFile" value="${value-rolesPropFile}"/>
-                                <entry key="keystorePath" value="${value-keystorePath}"/>
-                                <entry key="serverLog" value="${jbws-testsuite-shared-default-base}.log"/>
+                            <propertyfile file="${value-project.build.directory}/${jbws-testsuite-shared-default-base}-elytron-CLI.properties">
+                                <entry key="testResourcesDir" value="${value-testResourcesDir}" />
+                                <entry key="usersPropFile" value="${value-usersPropFile}" />
+                                <entry key="rolesPropFile" value="${value-rolesPropFile}" />
+                                <entry key="keystorePath" value="${value-keystorePath}" />
+                                <entry key="serverLog" value="${jbws-testsuite-shared-default-base}.log" />
                             </propertyfile>
 
-                            <copy overwrite="true"
-                                  file="${jboss.home}/${wfly-config-dir}/standalone.xml"
-                                  tofile="${jboss.home}/${wfly-config-dir}/${jbws-testsuite-shared-default-config-tests-base}.xml"/>
+                            <copy overwrite="true" file="${jboss.home}/${wfly-config-dir}/standalone.xml" tofile="${jboss.home}/${wfly-config-dir}/${jbws-testsuite-shared-default-config-tests-base}.xml" />
 
-                            <propertyfile
-                                    file="${value-project.build.directory}/${jbws-testsuite-shared-default-config-tests-base}-elytron-CLI.properties">
-                                <entry key="usersPropFile" value="${value-usersPropFile}"/>
-                                <entry key="rolesPropFile" value="${value-rolesPropFile}"/>
-                                <entry key="serverLog" value="${jbws-testsuite-shared-default-config-tests-base}.log"/>
+                            <propertyfile file="${value-project.build.directory}/${jbws-testsuite-shared-default-config-tests-base}-elytron-CLI.properties">
+                                <entry key="usersPropFile" value="${value-usersPropFile}" />
+                                <entry key="rolesPropFile" value="${value-rolesPropFile}" />
+                                <entry key="serverLog" value="${jbws-testsuite-shared-default-config-tests-base}.log" />
                             </propertyfile>
 
-                            <copy overwrite="true"
-                                  file="${jboss.home}/${wfly-config-dir}standalone.xml"
-                                  tofile="${jboss.home}/${wfly-config-dir}/${jbws-testsuite-shared-address-rewrite-base}.xml"/>
+                            <copy overwrite="true" file="${jboss.home}/${wfly-config-dir}standalone.xml" tofile="${jboss.home}/${wfly-config-dir}/${jbws-testsuite-shared-address-rewrite-base}.xml" />
 
-                            <propertyfile
-                                    file="${value-project.build.directory}/${jbws-testsuite-shared-address-rewrite-base}-elytron-CLI.properties">
-                                <entry key="usersPropFile" value="${value-usersPropFile}"/>
-                                <entry key="rolesPropFile" value="${value-rolesPropFile}"/>
-                                <entry key="keystorePath" value="${value-keystorePath}"/>
-                                <entry key="serverLog" value="${jbws-testsuite-shared-address-rewrite-base}.log"/>
+                            <propertyfile file="${value-project.build.directory}/${jbws-testsuite-shared-address-rewrite-base}-elytron-CLI.properties">
+                                <entry key="usersPropFile" value="${value-usersPropFile}" />
+                                <entry key="rolesPropFile" value="${value-rolesPropFile}" />
+                                <entry key="keystorePath" value="${value-keystorePath}" />
+                                <entry key="serverLog" value="${jbws-testsuite-shared-address-rewrite-base}.log" />
                             </propertyfile>
                         </target>
                     </configuration>
