@@ -49,7 +49,7 @@ echo create server-ssl-context twoWaySSC
 echo create undertow https-listener
 ./subsystem=undertow/server=default-server/https-listener=https:remove
 ./subsystem=undertow/server=default-server/https-listener=jbws-test-https-listener \
-   :add(socket-binding=https, security-realm=jbws-test-https-realm)
+   :add(socket-binding="https", ssl-context="applicationSSC",enable-http2=true)
 
 
 stop-embedded-server
