@@ -684,27 +684,56 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.wildfly</groupId>
-          <artifactId>wildfly-webservices-tests-integration</artifactId>
-          <version>${wildfly27dev.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.jboss.sasl</groupId>
-              <artifactId>jboss-sasl</artifactId>
-            </exclusion>
-            <!-- Temporary exclusion to replace with jakarta dependency till the wildfly-webservices-tests-integration is updated -->
-            <exclusion>
-              <groupId>org.jboss</groupId>
-              <artifactId>jboss-ejb-client</artifactId>
-            </exclusion>
-          </exclusions>
+          <groupId>jakarta.json</groupId>
+          <artifactId>jakarta.json-api</artifactId>
+          <scope>test</scope>
         </dependency>
-        <!-- Temporary replacement with jakarta dependency till the wildfly-webservices-tests-integration is updated -->
+        <dependency>
+          <groupId>org.wildfly.core</groupId>
+          <artifactId>wildfly-controller-client</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.ejb3</groupId>
+          <artifactId>jboss-ejb3-ext-api</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.remotingjmx</groupId>
+          <artifactId>remoting-jmx</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.remoting</groupId>
+          <artifactId>jboss-remoting</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.wildfly</groupId>
+          <artifactId>wildfly-client-properties</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.wildfly</groupId>
+          <artifactId>wildfly-naming-client</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.marshalling</groupId>
+          <artifactId>jboss-marshalling-river</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.marshalling</groupId>
+          <artifactId>jboss-marshalling</artifactId>
+          <scope>test</scope>
+        </dependency>
         <dependency>
           <groupId>org.jboss</groupId>
-          <artifactId>jboss-ejb-client-jakarta</artifactId>
-          <version>4.0.44.Final</version>
+          <artifactId>jboss-ejb-client</artifactId>
+          <scope>test</scope>
         </dependency>
+
         <!-- Arquillian container integration -->
         <dependency>
           <groupId>org.wildfly.arquillian</groupId>
@@ -719,16 +748,6 @@
               <artifactId>jboss-marshalling</artifactId>
             </exclusion>
           </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.arquillian.protocol</groupId>
-          <artifactId>arquillian-protocol-servlet</artifactId>
-          <version>${arquillian.version}</version>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>xerces</groupId>
-          <artifactId>xercesImpl</artifactId>
         </dependency>
         <dependency>
           <groupId>jakarta.interceptor</groupId>

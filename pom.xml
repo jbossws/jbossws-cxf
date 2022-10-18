@@ -113,7 +113,7 @@
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
     <wildfly.plugin.version>4.0.0.Alpha2</wildfly.plugin.version>
     <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
-    <wildfly.controller.client.version>17.0.1.Final</wildfly.controller.client.version>
+    <wildfly.controller.client.version>19.0.0.Beta18</wildfly.controller.client.version>
     <wildfly.elytron.version>2.0.0.Beta1</wildfly.elytron.version>
     <modular.jdk.args />
     <modular.jdk.props />
@@ -126,6 +126,16 @@
     <jakarta-client-webservices.version>2.0.0.Beta3</jakarta-client-webservices.version>
     <org.littleshoot.littleproxy.version>1.1.2</org.littleshoot.littleproxy.version>
     <gnu.getopt.version>1.0.13</gnu.getopt.version>
+    <!--Add wildfly integration tests dependency version below-->
+    <jakarta.json-api.version>1.1.6</jakarta.json-api.version>
+    <jboss.ejb3.ext-api.version>2.3.0.Final</jboss.ejb3.ext-api.version>
+    <remoting.jmx.version>3.0.4.Final</remoting.jmx.version>
+    <jboss.remoting.version>5.0.25.Final</jboss.remoting.version>
+    <wildfly.client.properties.version>27.0.0.Beta1</wildfly.client.properties.version>
+    <wildfly.naming.client.version>1.0.16.Final</wildfly.naming.client.version>
+    <jboss.marshalling.river.version>2.1.0.Final</jboss.marshalling.river.version>
+    <jboss.marshalling.version>2.1.0.Final</jboss.marshalling.version>
+    <jboss.ejb.client.version>5.0.0.Final</jboss.ejb.client.version>
   </properties>
 
   <!-- licenses -->
@@ -946,6 +956,57 @@
         <groupId>gnu.getopt</groupId>
         <artifactId>java-getopt</artifactId>
         <version>${gnu.getopt.version}</version>
+      </dependency>
+      <!-- dependencies for wildfly integraiton tests -->
+      <dependency>
+        <groupId>jakarta.json</groupId>
+        <artifactId>jakarta.json-api</artifactId>
+        <version>${jakarta.json-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.wildfly.core</groupId>
+        <artifactId>wildfly-controller-client</artifactId>
+        <version>${wildfly.controller.client.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ejb3</groupId>
+        <artifactId>jboss-ejb3-ext-api</artifactId>
+        <version>${jboss.ejb3.ext-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.remotingjmx</groupId>
+        <artifactId>remoting-jmx</artifactId>
+        <version>${remoting.jmx.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.remoting</groupId>
+        <artifactId>jboss-remoting</artifactId>
+        <version>${jboss.remoting.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.wildfly</groupId>
+        <artifactId>wildfly-client-properties</artifactId>
+        <version>${wildfly.client.properties.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.wildfly</groupId>
+        <artifactId>wildfly-naming-client</artifactId>
+        <version>${wildfly.naming.client.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.marshalling</groupId>
+        <artifactId>jboss-marshalling-river</artifactId>
+        <version>${jboss.marshalling.river.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.marshalling</groupId>
+        <artifactId>jboss-marshalling</artifactId>
+        <version>${jboss.marshalling.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-ejb-client</artifactId>
+        <version>${jboss.ejb.client.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
