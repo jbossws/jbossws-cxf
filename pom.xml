@@ -977,6 +977,13 @@
         <groupId>org.jboss.remotingjmx</groupId>
         <artifactId>remoting-jmx</artifactId>
         <version>${remoting.jmx.version}</version>
+        <exclusions>
+          <!--This imports wildfly-client-config 1.0.0.Final with a windows NPE issue-->
+          <exclusion>
+            <groupId>org.wildfly.client</groupId>
+            <artifactId>wildfly-client-config</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.remoting</groupId>
