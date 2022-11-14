@@ -66,7 +66,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-default-elytron.groovy</script></scripts>
+                            <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-default${additionalGroovyScriptSuffix}.groovy</script></scripts>
                             <properties>
                               <property>
                                 <name>inputFile</name>
@@ -106,7 +106,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-default-config-tests-elytron.groovy</script></scripts>
+                            <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-default-config-tests${additionalGroovyScriptSuffix}.groovy</script></scripts>
                             <properties>
                               <property>
                                 <name>inputFile</name>
@@ -138,7 +138,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-address-rewrite-elytron.groovy</script></scripts>
+                            <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-address-rewrite${additionalGroovyScriptSuffix}.groovy</script></scripts>
                             <properties>
                               <property>
                                 <name>inputFile</name>
