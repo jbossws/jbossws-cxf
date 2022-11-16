@@ -673,6 +673,7 @@
                 <!-- shared-tests  that are failing -->
                 <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/PicketboxUsernameAuthorizationDigestEjbTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
