@@ -133,7 +133,7 @@
 
   <target name="undeploy-wildfly2400" depends="target-wildfly2400,init">
     <fail message="Not available: ${wildfly2400.available.file}" unless="wildfly2400.available"/>
-    <macro-undeploy-jbossws-modules targetdir="${wildfly2400.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
+    <macro-undeploy-jbossws-modules targetdir="${wildfly2400.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="true"/>
   </target>
 
 <!-- ================================================================== -->

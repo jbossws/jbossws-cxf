@@ -499,7 +499,7 @@
     </profile>
 
       <profile>
-          <id>picketbox</id>
+          <id>wildfly2400picketbox</id>
           <build>
               <plugins>
                   <plugin>
@@ -556,7 +556,7 @@
                               </goals>
                               <configuration>
                                   <scripts>
-                                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth-elytron.groovy</script>
+                                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth-picketbox.groovy</script>
                                   </scripts>
                                   <properties>
                                       <property>
@@ -590,7 +590,7 @@
                               </goals>
                               <configuration>
                                   <scripts>
-                                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-config-tests-elytron.groovy</script>
+                                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-config-tests-picketbox.groovy</script>
                                   </scripts>
                                   <properties>
                                       <property>

@@ -67,6 +67,7 @@
     <jbossws.spi.version>3.4.0.Final</jbossws.spi.version>
     <jbossws.common.version>3.3.3.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.4.0.Final</jbossws.common.tools.version>
+    <jbossws.wildfly2400.version>5.4.6-SNAPSHOT</jbossws.wildfly2400.version>
     <wildfly2200.version>22.0.0.Final</wildfly2200.version>
     <wildfly2300.version>23.0.0.Final</wildfly2300.version>
     <wildfly2400.version>24.0.0.Final</wildfly2400.version>
@@ -184,7 +185,16 @@
           </exclusion>
         </exclusions>
       </dependency>
-
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly2400-server-integration</artifactId>
+        <version>${jbossws.wildfly2400.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly2400-tests-integration</artifactId>
+        <version>${jbossws.wildfly2400.version}</version>
+      </dependency>
       <!-- CXF dependencies -->
       <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -1155,6 +1165,23 @@
     -->
     <profile>
       <id>wildfly2400</id>
+      <properties>
+        <jbossws.integration.target>wildfly2400</jbossws.integration.target>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly2400.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+      </modules>
+    </profile>
+    <!--
+ Name:  wildfly2400
+ Descr: picketbox WildFly-24.0.0 specific options
+-->
+    <profile>
+      <id>wildfly2400picketbox</id>
       <properties>
         <jbossws.integration.target>wildfly2400</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>

@@ -18,16 +18,16 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest ]
         java: ['8', '11']
-        wildfly-version: ['wildfly2400']
+        wildfly-version: ['wildfly2400','wildfly2400picketbox' ]
 
     steps:
       - name: Checkout jbossws-cxf
         uses: actions/checkout@v2
-      - name: Checkout wildfly
+      - name: Checkout jbossws-wildfly240
         uses: actions/checkout@v2
         with:
-          repository: wildfly/wildfly
-          path: './wildfly'
+          repository: jbossws/jbossws-wildfly240
+          path: './jbossws-wildfly240'
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
@@ -39,20 +39,19 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'adopt'
-      - name: Conditionally build WFLY
-        if: ${{ matrix.wildfly-version == 'wildfly2500'}}
-        working-directory: ./wildfly
-        run: mvn -DskipTests=true '-Denforcer.skip=true' -Prelease clean install
+      - name: Build  jbossws-wildfly240
+        working-directory: ./jbossws-wildfly240
+        run: mvn -s ./.m2-settings.xml -DskipTests=true clean install
       - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{ matrix.wildfly-version }}
         run: |
-          mvn -s ./.m2-settings.xml -B -V -fae -P${{ matrix.wildfly-version }} verify
+          mvn -s ./.m2-settings.xml -B -V -fae -P${{ matrix.wildfly-version }} -Pdeploy verify
       - uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.wildfly-version }}
+          name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.wildfly-version }}-picketbox-elytron
           path: '**/surefire-reports/*.txt'
       - uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: server-logs-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.wildfly-version }}
+          name: server-logs-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.wildfly-version }}-picketbox-elytron
           path: '**/server.log'

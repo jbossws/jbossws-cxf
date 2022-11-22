@@ -215,7 +215,174 @@
         </plugins>
       </build>
     </profile>
+      <!--
+      Name:  wildfly2400picketbox
+      Descr:
+      -->
+      <profile>
+          <id>wildfly2400picketbox</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.codehaus.gmavenplus</groupId>
+                      <artifactId>gmavenplus-plugin</artifactId>
+                      <executions>
+                          <execution>
+                              <id>testsuite-default</id>
+                              <phase>pre-integration-test</phase>
+                              <goals>
+                                  <goal>execute</goal>
+                              </goals>
+                              <configuration>
+                                  <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-default-picketbox.groovy</script></scripts>
+                                  <properties>
+                                      <property>
+                                          <name>inputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>outputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>serverLog</name>
+                                          <value>jbws-testsuite-shared-default.log</value>
+                                      </property>
+                                      <property>
+                                          <name>usersPropFile</name>
+                                          <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>rolesPropFile</name>
+                                          <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>keystorePath</name>
+                                          <value>${project.build.directory}/test-classes/test.keystore</value>
+                                      </property>
+                                      <property>
+                                          <name>testResourcesDir</name>
+                                          <value>${project.build.directory}/test-resources</value>
+                                      </property>
+                                  </properties>
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <id>testsuite-default-config-tests</id>
+                              <phase>pre-integration-test</phase>
+                              <goals>
+                                  <goal>execute</goal>
+                              </goals>
+                              <configuration>
+                                  <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-default-config-tests-picketbox.groovy</script></scripts>
+                                  <properties>
+                                      <property>
+                                          <name>inputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>outputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-shared-default-config-tests.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>usersPropFile</name>
+                                          <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>rolesPropFile</name>
+                                          <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>serverLog</name>
+                                          <value>jbws-testsuite-shared-default-config-tests.log</value>
+                                      </property>
+                                  </properties>
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <id>testsuite-address-rewrite</id>
+                              <phase>pre-integration-test</phase>
+                              <goals>
+                                  <goal>execute</goal>
+                              </goals>
+                              <configuration>
+                                  <scripts><script>file:///${basedir}/src/test/scripts/jbws-testsuite-shared-address-rewrite-picketbox.groovy</script></scripts>
+                                  <properties>
+                                      <property>
+                                          <name>inputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/standalone.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>outputFile</name>
+                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-shared-address-rewrite.xml</value>
+                                      </property>
+                                      <property>
+                                          <name>serverLog</name>
+                                          <value>jbws-testsuite-shared-address-rewrite.log</value>
+                                      </property>
+                                      <property>
+                                          <name>usersPropFile</name>
+                                          <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>rolesPropFile</name>
+                                          <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
+                                      </property>
+                                      <property>
+                                          <name>keystorePath</name>
+                                          <value>${project.build.directory}/test-classes/test.keystore</value>
+                                      </property>
+                                  </properties>
+                              </configuration>
+                          </execution>
+                      </executions>
+                  </plugin>
 
+                  <plugin>
+                      <artifactId>maven-antrun-plugin</artifactId>
+                      <executions>
+                          <execution>
+                              <id>wsconsume</id>
+                              <phase>generate-test-sources</phase>
+                              <goals>
+                                  <goal>run</goal>
+                              </goals>
+                              <configuration>
+                                  <target>
+                                      <property name="maven.test.classpath" refid="maven.test.classpath" />
+                                      <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
+                                      <property name="tests.output.dir" value="${project.build.directory}" />
+                                      <property name="project.version" value="${project.version}" />
+                                      <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml" />
+                                      <property name="log4j.output.dir" value="${log4j.output.dir}" />
+                                      <property name="additional.jvm.args" value="${modular.jdk.args} ${modular.jdk.props}" />
+                                      <ant antfile="scripts/antrun-wsconsume.xml" target="wsconsume" />
+                                  </target>
+                              </configuration>
+                          </execution>
+                          <execution>
+                              <phase>test-compile</phase>
+                              <goals>
+                                  <goal>run</goal>
+                              </goals>
+                              <configuration>
+                                  <target>
+                                      <property name="maven.test.classpath" refid="maven.test.classpath" />
+                                      <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
+                                      <property name="tests.output.dir" value="${project.build.directory}" />
+                                      <property name="project.version" value="${project.version}" />
+                                      <property name="log4j.conf" value="${basedir}/src/test/etc/log4j.xml" />
+                                      <property name="log4j.output.dir" value="${log4j.output.dir}" />
+                                      <property name="additional.jvm.args" value="${modular.jdk.args} ${modular.jdk.props}" />
+                                      <ant antfile="scripts/antrun-wsprovide.xml" target="wsprovide" />
+                                  </target>
+                              </configuration>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
     <profile>
       <id>build-benchmarks</id>
       <build>
