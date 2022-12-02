@@ -132,7 +132,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-elytron.groovy</script>
+                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default${groovyScriptSuffix}.groovy</script>
                   </scripts>
                   <properties>
                     <property>
@@ -174,7 +174,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth-elytron.groovy</script>
+                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth${groovyScriptSuffix}.groovy</script>
                   </scripts>
                   <properties>
                     <property>
@@ -208,7 +208,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-config-tests-elytron.groovy</script>
+                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-config-tests${groovyScriptSuffix}.groovy</script>
                   </scripts>
                   <properties>
                     <property>
@@ -242,7 +242,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms-elytron.groovy</script>
+                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms${groovyScriptSuffix}.groovy</script>
                   </scripts>
                   <properties>
                     <property>
@@ -497,273 +497,6 @@
         </plugins>
       </build>
     </profile>
-
-      <profile>
-          <id>wildfly2400picketbox</id>
-          <build>
-              <plugins>
-                  <plugin>
-                      <groupId>org.codehaus.gmavenplus</groupId>
-                      <artifactId>gmavenplus-plugin</artifactId>
-                      <executions>
-                          <execution>
-                              <id>testsuite-default</id>
-                              <phase>pre-integration-test</phase>
-                              <goals>
-                                  <goal>execute</goal>
-                              </goals>
-                              <configuration>
-                                  <scripts>
-                                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-picketbox.groovy</script>
-                                  </scripts>
-                                  <properties>
-                                      <property>
-                                          <name>inputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/standalone.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>outputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-default.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>serverLog</name>
-                                          <value>jbws-testsuite-default.log</value>
-                                      </property>
-                                      <property>
-                                          <name>usersPropFile</name>
-                                          <value>${project.build.directory}/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>rolesPropFile</name>
-                                          <value>${project.build.directory}/test-resources/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>keystorePath</name>
-                                          <value>${project.build.directory}/test-classes/test.keystore</value>
-                                      </property>
-                                      <property>
-                                          <name>testResourcesDir</name>
-                                          <value>${project.build.directory}/test-resources</value>
-                                      </property>
-                                  </properties>
-                              </configuration>
-                          </execution>
-                          <execution>
-                              <id>testsuite-ssl-mutual-auth</id>
-                              <phase>pre-integration-test</phase>
-                              <goals>
-                                  <goal>execute</goal>
-                              </goals>
-                              <configuration>
-                                  <scripts>
-                                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth-picketbox.groovy</script>
-                                  </scripts>
-                                  <properties>
-                                      <property>
-                                          <name>inputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/standalone.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>outputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-ssl-mutual-auth.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>serverLog</name>
-                                          <value>jbws-testsuite-ssl-mutual-auth.log</value>
-                                      </property>
-                                      <property>
-                                          <name>keystorePath</name>
-                                          <value>${project.build.directory}/test-classes/test.keystore</value>
-                                      </property>
-                                      <property>
-                                          <name>truststorePath</name>
-                                          <value>${project.build.directory}/test-classes/test.truststore</value>
-                                      </property>
-                                  </properties>
-                              </configuration>
-                          </execution>
-                          <execution>
-                              <id>testsuite-default-config-tests</id>
-                              <phase>pre-integration-test</phase>
-                              <goals>
-                                  <goal>execute</goal>
-                              </goals>
-                              <configuration>
-                                  <scripts>
-                                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-config-tests-picketbox.groovy</script>
-                                  </scripts>
-                                  <properties>
-                                      <property>
-                                          <name>inputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/standalone.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>outputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-default-config-tests.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>usersPropFile</name>
-                                          <value>${project.build.directory}/test-classes/jbossws-users.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>rolesPropFile</name>
-                                          <value>${project.build.directory}/test-classes/jbossws-roles.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>serverLog</name>
-                                          <value>jbws-testsuite-default-config-tests.log</value>
-                                      </property>
-                                  </properties>
-                              </configuration>
-                          </execution>
-                          <execution>
-                              <id>testsuite-jms</id>
-                              <phase>pre-integration-test</phase>
-                              <goals>
-                                  <goal>execute</goal>
-                              </goals>
-                              <configuration>
-                                  <scripts>
-                                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms-picketbox.groovy</script>
-                                  </scripts>
-                                  <properties>
-                                      <property>
-                                          <name>inputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/standalone-full.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>outputFile</name>
-                                          <value>${jboss.home}/standalone/configuration/jbws-testsuite-jms.xml</value>
-                                      </property>
-                                      <property>
-                                          <name>serverLog</name>
-                                          <value>jbws-testsuite-jms.log</value>
-                                      </property>
-                                      <property>
-                                          <name>srcUsersProperties</name>
-                                          <value>${project.build.directory}/test-classes/jbws-application-users.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>destUsersProperties</name>
-                                          <value>${jboss.home}/standalone/configuration/jbws-application-users.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>srcRolesProperties</name>
-                                          <value>${project.build.directory}/test-classes/jbws-application-roles.properties</value>
-                                      </property>
-                                      <property>
-                                          <name>destRolesProperties</name>
-                                          <value>${jboss.home}/standalone/configuration/jbws-application-roles.properties</value>
-                                      </property>
-                                  </properties>
-                              </configuration>
-                          </execution>
-                      </executions>
-                  </plugin>
-                  <plugin>
-                      <groupId>org.apache.maven.plugins</groupId>
-                      <artifactId>maven-dependency-plugin</artifactId>
-                      <executions>
-                          <execution> <!-- This downloads and copies some Spring libs into target/spring to be later picked up and included in some test jars -->
-                              <id>copy-spring</id>
-                              <phase>process-test-resources</phase>
-                              <goals>
-                                  <goal>copy</goal>
-                              </goals>
-                              <configuration>
-                                  <artifactItems>
-                                      <artifactItem>
-                                          <groupId>org.springframework</groupId>
-                                          <artifactId>spring-beans</artifactId>
-                                          <version>${test.spring.version}</version>
-                                      </artifactItem>
-                                      <artifactItem>
-                                          <groupId>org.springframework</groupId>
-                                          <artifactId>spring-context</artifactId>
-                                          <version>${test.spring.version}</version>
-                                      </artifactItem>
-                                      <artifactItem>
-                                          <groupId>org.springframework</groupId>
-                                          <artifactId>spring-core</artifactId>
-                                          <version>${test.spring.version}</version>
-                                      </artifactItem>
-                                      <artifactItem>
-                                          <groupId>org.springframework</groupId>
-                                          <artifactId>spring-expression</artifactId>
-                                          <version>${test.spring.version}</version>
-                                      </artifactItem>
-                                      <artifactItem>
-                                          <groupId>org.springframework</groupId>
-                                          <artifactId>spring-web</artifactId>
-                                          <version>${test.spring.version}</version>
-                                      </artifactItem>
-                                      <artifactItem>
-                                          <groupId>org.springframework</groupId>
-                                          <artifactId>spring-aop</artifactId>
-                                          <version>${test.spring.version}</version>
-                                      </artifactItem>
-                                  </artifactItems>
-                                  <outputDirectory>target/spring</outputDirectory>
-                              </configuration>
-                          </execution>
-                          <execution>
-                              <id>copy-cxf</id>
-                              <phase>process-test-resources</phase>
-                              <goals>
-                                  <goal>copy</goal>
-                              </goals>
-                              <configuration>
-                                  <artifactItems>
-                                      <artifactItem>
-                                          <groupId>org.apache.cxf</groupId>
-                                          <artifactId>cxf-rt-frontend-jaxws</artifactId>
-                                          <version>${test.cxf.version}</version>
-                                      </artifactItem>
-                                      <artifactItem>
-                                          <groupId>org.apache.cxf</groupId>
-                                          <artifactId>cxf-rt-frontend-simple</artifactId>
-                                          <version>${test.cxf.version}</version>
-                                      </artifactItem>
-                                      <artifactItem>
-                                          <groupId>org.apache.cxf</groupId>
-                                          <artifactId>cxf-core</artifactId>
-                                          <version>${test.cxf.version}</version>
-                                      </artifactItem>
-                                      <artifactItem>
-                                          <groupId>org.apache.cxf</groupId>
-                                          <artifactId>cxf-rt-transports-http</artifactId>
-                                          <version>${test.cxf.version}</version>
-                                      </artifactItem>
-                                      <artifactItem>
-                                          <groupId>org.apache.cxf</groupId>
-                                          <artifactId>cxf-rt-bindings-soap</artifactId>
-                                          <version>${test.cxf.version}</version>
-                                      </artifactItem>
-                                      <artifactItem>
-                                          <groupId>org.apache.cxf</groupId>
-                                          <artifactId>cxf-rt-databinding-jaxb</artifactId>
-                                          <version>${test.cxf.version}</version>
-                                      </artifactItem>
-                                      <artifactItem>
-                                          <groupId>org.apache.cxf</groupId>
-                                          <artifactId>cxf-rt-ws-policy</artifactId>
-                                          <version>${test.cxf.version}</version>
-                                      </artifactItem>
-                                      <artifactItem>
-                                          <groupId>org.apache.cxf</groupId>
-                                          <artifactId>cxf-rt-wsdl</artifactId>
-                                          <version>${test.cxf.version}</version>
-                                      </artifactItem>
-                                  </artifactItems>
-                                  <outputDirectory>target/cxf-embedded</outputDirectory>
-                              </configuration>
-                          </execution>
-                      </executions>
-                  </plugin>
-              </plugins>
-          </build>
-      </profile>
-
   </profiles>
   
 </project>

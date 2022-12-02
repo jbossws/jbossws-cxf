@@ -1177,11 +1177,28 @@
       </modules>
     </profile>
     <!--
- Name:  wildfly2400
- Descr: picketbox WildFly-24.0.0 specific options
--->
+     Name:  wildfly2400
+     Descr: picketbox WildFly-24.0.0 specific options
+    -->
     <profile>
       <id>wildfly2400picketbox</id>
+      <properties>
+        <jbossws.integration.target>wildfly2400</jbossws.integration.target>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly2400.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+      </modules>
+    </profile>
+    <!--
+     Name:  wildfly2400nolegacy
+     Descr: security config WildFly-24.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly2400nolegacy</id>
       <properties>
         <jbossws.integration.target>wildfly2400</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
