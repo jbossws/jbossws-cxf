@@ -63,24 +63,6 @@
               <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2500/jbossws.beans</classesDirectory>
             </configuration>
           </execution>
-          <execution>
-            <id>wildfly2200</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>wildfly2200</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2200/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>wildfly2300</id>
-            <goals><goal>jar</goal></goals>
-            <phase>package</phase>
-            <configuration>
-              <classifier>wildfly2300</classifier>
-              <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2300/jbossws.beans</classesDirectory>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
     </plugins>

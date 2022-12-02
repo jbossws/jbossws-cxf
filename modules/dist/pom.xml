@@ -165,38 +165,6 @@
       </properties>
     </profile>
     <!--
-    Name:  wildfly2200
-    Descr: WildFly-22.0.0 specific dependencies
-    -->
-    <profile>
-      <id>wildfly2200</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws.cxf</groupId>
-          <artifactId>jbossws-cxf-resources</artifactId>
-          <version>${project.version}</version>
-          <classifier>wildfly2200</classifier>     
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-    <!--
-    Name:  wildfly2300
-    Descr: WildFly-23.0.0 specific dependencies
-    -->
-    <profile>
-      <id>wildfly2300</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.ws.cxf</groupId>
-          <artifactId>jbossws-cxf-resources</artifactId>
-          <version>${project.version}</version>
-          <classifier>wildfly2300</classifier>
-          <scope>provided</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-    <!--
     Name:  wildfly2400
     Descr: WildFly-24.0.0 specific dependencies
     -->

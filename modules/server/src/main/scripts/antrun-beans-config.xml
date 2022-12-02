@@ -36,14 +36,6 @@
       file="${src.dir}/jbossws-cxf-config-as25.xml"
       tofile="${dest.dir}/jbossws-wildfly2500/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
     />
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as22.xml"
-      tofile="${dest.dir}/jbossws-wildfly2200/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
-    <copy
-      file="${src.dir}/jbossws-cxf-config-as23.xml"
-      tofile="${dest.dir}/jbossws-wildfly2300/jbossws.beans/META-INF/stack-specific-deployment-aspects.xml"
-    />
   </target>
 
 </project>
