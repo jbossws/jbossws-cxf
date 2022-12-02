@@ -40,12 +40,12 @@ import org.jboss.ws.api.annotation.EndpointConfig;
    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy",
    endpointInterface = "org.jboss.test.ws.jaxws.samples.wsse.policy.jaas.ServiceIface"
 )
-@SecurityDomain("JBossWS")
+@SecurityDomain("PicketboxJBossWSDigest")
 @EndpointConfig(configFile = "META-INF/jaxws-endpoint-config.xml", configName = "Custom WS-Security Endpoint")
-public class EJBDigestServiceImpl
+public class PicketboxEJBDigestServiceImpl
 {
    // Provide logging
-   private static Logger log = Logger.getLogger(EJBDigestServiceImpl.class);
+   private static Logger log = Logger.getLogger(PicketboxEJBDigestServiceImpl.class);
 
    @WebMethod
    @RolesAllowed("friend")

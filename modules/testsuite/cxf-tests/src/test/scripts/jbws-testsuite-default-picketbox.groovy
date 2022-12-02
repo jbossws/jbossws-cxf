@@ -144,7 +144,7 @@ loginModuleDigestAuth.appendNode('module-option', ['name':'hashStorePassword','v
 /**
  * Add a security-domain block like this:
  *
- * <security-domain name="JBossWSDigest" cache-type="default">
+ * <security-domain name="PicketboxJBossWSDigest" cache-type="default">
  *   <authentication>
  *     <login-module code="UsersRoles" flag="required">
  *       <module-option name="hashUserPassword" value="false"/>
@@ -162,7 +162,7 @@ loginModuleDigestAuth.appendNode('module-option', ['name':'hashStorePassword','v
  *
  */
 
-def securityDomainDigest = securityDomains.appendNode('security-domain', ['name':'JBossWSDigest','cache-type':'default'])
+def securityDomainDigest = securityDomains.appendNode('security-domain', ['name':'PicketboxJBossWSDigest','cache-type':'default'])
 def authenticationDigest = securityDomainDigest.appendNode('authentication')
 def loginModuleDigest = authenticationDigest.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
 loginModuleDigest.appendNode('module-option', ['name':'hashUserPassword','value':'false'])
