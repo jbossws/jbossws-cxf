@@ -187,6 +187,7 @@ if (appSecurityDomains == null) {
 
 def ejbSecurityDomain1 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','security-domain':'JBossWS'])
 def ejbSecurityDomain3 = appSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','security-domain':'ws-basic-domain'])
+def ejbSecurityDomain4 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSDigest','security-domain':'JBossWSDigest'])
 
 //add to undertow
 def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")

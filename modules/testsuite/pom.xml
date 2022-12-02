@@ -670,10 +670,6 @@
                  -->
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointOnlyDeploymentTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/JMSHTTPEndpointDeploymentTestCase*</exclude>
-
-                <!-- Skip picketbox specific tests -->
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/PicketboxUsernameAuthorizationDigestEjbTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/PicketboxUsernameAuthorizationDigestTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
@@ -743,14 +739,6 @@
 
                 <!-- jaspi disabled --><exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/JaspiAuthenticationTestCase*</exclude>
                 <!-- picketlink --> <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
-
-                <!-- shared-tests  that are failing
-                <exclude>org/jboss/test/ws/jaxws/samples/provider/ProviderJAXBTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/httpbinding/HttpJAXBTestCase*</exclude>
-                -->
-                <!-- wildfly2400picketbox don't run elytron test -->
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestEjbTestCase*</exclude>
-                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaas/UsernameAuthorizationDigestTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
