@@ -14,11 +14,11 @@ file.attributes()['path'] = serverLog
  * Helper method to get subsystem element by xmlns prefix
  */
 private getSubsystem(root, xmlnsPrefix) {
-  for (item in root.profile.subsystem) {
-    if (item.name().getNamespaceURI().startsWith(xmlnsPrefix)) {
-      return item;
+    for (item in root.profile.subsystem) {
+        if (item.name().getNamespaceURI().startsWith(xmlnsPrefix)) {
+            return item;
+        }
     }
-  }
 }
 
 /**
@@ -30,15 +30,15 @@ private getSubsystem(root, xmlnsPrefix) {
  *                   <realm name="JBossWS" role-decoder="groups-to-roles"/>
  *               </security-domain>
  *           </security-domains>
- * 
+ *
  *
  */
 def securitySubsystem =  getSubsystem(root, "urn:wildfly:elytron:")
 def securityDomains = null
 for (element in securitySubsystem) {
-  if (element.name().getLocalPart() == 'security-domains') {
-    securityDomains = element
-  }
+    if (element.name().getLocalPart() == 'security-domains') {
+        securityDomains = element
+    }
 }
 def securityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','default-realm':'JBossWS','permission-mapper':'default-permission-mapper'])
 def realm = securityDomain.appendNode('realm',['name':'JBossWS','role-decoder':'groups-to-roles'])
@@ -48,7 +48,7 @@ def realm = securityDomain.appendNode('realm',['name':'JBossWS','role-decoder':'
  *        <users-properties path="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/jbossws-users.properties"/>
  *        <groups-properties path="/mnt/ssd/jbossws/stack/cxf/trunk/modules/testsuite/cxf-tests/target/test-classes/jbossws-roles.properties"/>
  *     </properties-realm>
-*/
+ */
 def securityRealms = null
 for (element in securitySubsystem) {
     if (element.name().getLocalPart() == 'security-realms') {
@@ -59,19 +59,19 @@ def propertiesRealm = securityRealms.appendNode('properties-realm', ['name':'JBo
 def usersProperties = propertiesRealm.appendNode('users-properties',['path':usersPropFile, 'plain-text':'true'])
 def groupsProperties = propertiesRealm.appendNode('groups-properties',['path':rolesPropFile])
 
- /*   <http>
- *      <http-authentication-factory name="JBossWS" http-server-mechanism-factory="global" security-domain="JBossWS">
- *         <mechanism-configuration>
- *             <mechanism mechanism-name="BASIC">
- *                 <mechanism-realm realm-name="JBossWS Realm"/>
- *             </mechanism>
- *     </mechanism-configuration>
- */
+/*   <http>
+*      <http-authentication-factory name="JBossWS" http-server-mechanism-factory="global" security-domain="JBossWS">
+*         <mechanism-configuration>
+*             <mechanism mechanism-name="BASIC">
+*                 <mechanism-realm realm-name="JBossWS Realm"/>
+*             </mechanism>
+*     </mechanism-configuration>
+*/
 def httpAuthen = null
 for (element in securitySubsystem) {
     if (element.name().getLocalPart() == 'http') {
-       httpAuthen = element
-       break
+        httpAuthen = element
+        break
     }
 }
 def httpAuthenticationFactory = httpAuthen.appendNode('http-authentication-factory', ['name':'JBossWS','http-server-mechanism-factory':'global', 'security-domain':'JBossWS'])
@@ -83,9 +83,7 @@ def mechanismRealm=mechanism.appendNode('mechanism-realm',['realm-name':'JBossWS
 //add to undertow
 def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")
 
-def undertowChildren = undertowSubsystem.children()
-def undertowAppSecurityDomains = new groovy.util.Node(null, 'application-security-domains', [])
-undertowChildren.add(undertowAppSecurityDomains)
+def undertowAppSecurityDomains = undertowSubsystem.'application-security-domains'[0]
 def appSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
 
 /**

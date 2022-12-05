@@ -14,22 +14,22 @@ file.attributes()['path'] = serverLog
  * Helper method to get subsystem element by xmlns prefix
  */
 private getSubsystem(root, xmlnsPrefix) {
-  for (item in root.profile.subsystem) {
-    if (item.name().getNamespaceURI().startsWith(xmlnsPrefix)) {
-      return item;
+    for (item in root.profile.subsystem) {
+        if (item.name().getNamespaceURI().startsWith(xmlnsPrefix)) {
+            return item;
+        }
     }
-  }
 }
 
 /**
-  Elytron security domian
-**/
+ Elytron security domian
+ **/
 def securitySubsystem =  getSubsystem(root, "urn:wildfly:elytron:")
 def securityDomains = null
 for (element in securitySubsystem) {
-  if (element.name().getLocalPart() == 'security-domains') {
-    securityDomains = element
-  }
+    if (element.name().getLocalPart() == 'security-domains') {
+        securityDomains = element
+    }
 }
 def securityDomain = securityDomains.appendNode('security-domain', ['name':'JBossWS','default-realm':'JBossWS','permission-mapper':'default-permission-mapper'])
 def realm = securityDomain.appendNode('realm',['name':'JBossWS','role-decoder':'groups-to-roles'])
@@ -46,8 +46,8 @@ def realm4 = securityDomain4.appendNode('realm',['name':'JBossWSSecurityDomainTe
 
 
 /**
-  Elytron security realm
-**/
+ Elytron security realm
+ **/
 def securityRealms = null
 for (element in securitySubsystem) {
     if (element.name().getLocalPart() == 'security-realms') {
@@ -76,14 +76,14 @@ def groupsProperties4 = propertiesRealm4.appendNode('groups-properties',['path':
 
 
 /**
-  HttpAuthentication Factory
-**/
+ HttpAuthentication Factory
+ **/
 
 def httpAuthen = null
 for (element in securitySubsystem) {
     if (element.name().getLocalPart() == 'http') {
-       httpAuthen = element
-       break
+        httpAuthen = element
+        break
     }
 }
 
@@ -112,16 +112,7 @@ def mechanismRealm4=mechanism4.appendNode('mechanism-realm',['realm-name':'JBoss
 
 def ejbSubsystem = getSubsystem(root, "urn:jboss:domain:ejb3:")
 
-def appSecurityDomains = null
-for (element in ejbSubsystem) {
-    if (element.name().getLocalPart() == 'application-security-domains') {
-        appSecurityDomains = element
-    }
-}
-
-if (appSecurityDomains == null) {
-    appSecurityDomains = ejbSubsystem.appendNode('application-security-domains')
-}
+def appSecurityDomains = ejbSubsystem.'application-security-domains'[0]
 
 def ejbSecurityDomain1 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','security-domain':'JBossWS'])
 def ejbSecurityDomain2 = appSecurityDomains.appendNode('application-security-domain', ['name':'handlerauth-security-domain','security-domain':'handlerauth-security-domain'])
@@ -130,16 +121,8 @@ def ejbSecurityDomain4 = appSecurityDomains.appendNode('application-security-dom
 
 //add to undertow
 def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")
+def undertowAppSecurityDomains = undertowSubsystem.'application-security-domains'[0]
 
-def undertowAppSecurityDomains = null
-for (element in undertowSubsystem) {
-    if (element.name().getLocalPart() == 'application-security-domains') {
-        undertowAppSecurityDomains = element
-    }
-}
-if (undertowAppSecurityDomains == null) {
-    undertowAppSecurityDomains = undertowSubsystem.appendNode('application-security-domains')
-}
 def appSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
 def basicAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'handlerauth-security-domain','http-authentication-factory':'handlerauth-security-domain'])
 def basicAppSecurityDomain2 = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSSecurityDomainPermitAllTest','http-authentication-factory':'JBossWSSecurityDomainPermitAllTest'])
