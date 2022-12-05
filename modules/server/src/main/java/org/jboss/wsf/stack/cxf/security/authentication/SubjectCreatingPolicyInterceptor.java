@@ -46,7 +46,7 @@ import org.jboss.wsf.stack.cxf.security.nonce.NonceStore;
 /**
  * Interceptor which authenticates a current principal and populates Subject
  * To be used for policy-first scenarios
- * 
+ *
  * @author alessio.soldano@jboss.com
  * @since 26-May-2011
  */
@@ -74,7 +74,7 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
       this(Phase.PRE_PROTOCOL);
       addAfter(UsernameTokenInterceptor.class.getName());
    }
-   
+
    public SubjectCreatingPolicyInterceptor(String phase)
    {
       super(phase);
@@ -120,7 +120,7 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
       Principal principal = getPrincipal(context.getUserPrincipal(), subject);
       message.put(SecurityContext.class, createSecurityContext(principal, subject));
    }
-   
+
    protected Subject createSubject(SecurityDomainContext sdc, String name, String password, boolean isDigest, String nonce, String creationTime)
    {
       Subject subject = null;
@@ -162,11 +162,11 @@ public class SubjectCreatingPolicyInterceptor extends AbstractPhaseInterceptor<M
       Set<Principal> principals = subject.getPrincipals();
       if (!principals.isEmpty())
       {
-          Principal principal = principals.iterator().next();
-          if (groupClass == null || !groupClass.isInstance(principal))
-          {
-              return principal;
-          }
+         Principal principal = principals.iterator().next();
+         if (groupClass == null || !groupClass.isInstance(principal))
+         {
+            return principal;
+         }
       }
       return originalPrincipal;
    }

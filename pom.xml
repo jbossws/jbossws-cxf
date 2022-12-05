@@ -32,7 +32,7 @@
   <description>JBossWS CXF stack</description>
 
 
-  <version>5.4.6-SNAPSHOT</version>
+  <version>5.4.7-SNAPSHOT</version>
 
   <!-- Parent -->
   <parent>
@@ -67,15 +67,12 @@
     <jbossws.spi.version>3.4.0.Final</jbossws.spi.version>
     <jbossws.common.version>3.3.3.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.4.0.Final</jbossws.common.tools.version>
-    <wildfly2200.version>22.0.0.Final</wildfly2200.version>
-    <wildfly2300.version>23.0.0.Final</wildfly2300.version>
+    <jbossws.wildfly2400.version>5.4.6.Final</jbossws.wildfly2400.version>
     <wildfly2400.version>24.0.0.Final</wildfly2400.version>
-    <wildfly2500.version>25.0.0.Beta1-SNAPSHOT</wildfly2500.version>
+    <wildfly2500.version>25.0.0.Final</wildfly2500.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
-    <!-- <cxf.version>3.3.10</cxf.version> rls -->
     <cxf.version>3.5.1</cxf.version>
     <cxf.asm.version>9.1</cxf.asm.version>
-    <!-- <cxf.xjcplugins.version>3.3.0</cxf.xjcplugins.version> rls -->
     <cxf.xjcplugins.version>3.3.1</cxf.xjcplugins.version>
     <jboss-logging.version>3.4.1.Final</jboss-logging.version>
     <jboss-logging-annotations.version>2.2.1.Final</jboss-logging-annotations.version>
@@ -184,7 +181,16 @@
           </exclusion>
         </exclusions>
       </dependency>
-
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly2400-server-integration</artifactId>
+        <version>${jbossws.wildfly2400.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ws</groupId>
+        <artifactId>jbossws-wildfly2400-tests-integration</artifactId>
+        <version>${jbossws.wildfly2400.version}</version>
+      </dependency>
       <!-- CXF dependencies -->
       <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -1116,32 +1122,15 @@
       </properties>
     </profile>
     <!--
-    Name:  wildfly2200
-    Descr: WildFly-22.0.0 specific options
+     Name:  wildfly2400
+     Descr: WildFly-24.0.0 specific options
     -->
     <profile>
-      <id>wildfly2200</id>
+      <id>wildfly2400</id>
       <properties>
-        <jbossws.integration.target>wildfly2200</jbossws.integration.target>
+        <jbossws.integration.target>wildfly2400</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly2200.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-    <!--
-    Name:  wildfly2300
-    Descr: WildFly-23.0.0 specific options
-    -->
-    <profile>
-      <id>wildfly2300</id>
-      <properties>
-        <jbossws.integration.target>wildfly2300</jbossws.integration.target>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly2300.version}</jboss.version>
+        <jboss.version>${wildfly2400.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
       </properties>
       <modules>
@@ -1151,10 +1140,27 @@
     </profile>
     <!--
      Name:  wildfly2400
-     Descr: WildFly-24.0.0 specific options
+     Descr: picketbox WildFly-24.0.0 specific options
     -->
     <profile>
-      <id>wildfly2400</id>
+      <id>wildfly2400picketbox</id>
+      <properties>
+        <jbossws.integration.target>wildfly2400</jbossws.integration.target>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly2400.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+      </modules>
+    </profile>
+    <!--
+     Name:  wildfly2400nolegacy
+     Descr: security config WildFly-24.0.0 specific options
+    -->
+    <profile>
+      <id>wildfly2400nolegacy</id>
       <properties>
         <jbossws.integration.target>wildfly2400</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>

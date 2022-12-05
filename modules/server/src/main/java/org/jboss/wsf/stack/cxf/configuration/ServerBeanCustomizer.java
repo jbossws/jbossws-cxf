@@ -46,7 +46,7 @@ import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.i18n.Loggers;
-import org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor;
+import org.jboss.wsf.stack.cxf.security.authentication.AuthenticationMgrSubjectCreatingInterceptor;
 import org.jboss.wsf.stack.cxf.transport.JBossWSDestinationRegistryImpl;
 
 /**
@@ -170,7 +170,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
          {
             if (jaspiProvider.enableServerAuthentication(endpoint, depEndpoints.get(0)))
             {
-               endpoint.getInInterceptors().add(new SubjectCreatingPolicyInterceptor());
+               endpoint.getInInterceptors().add(new AuthenticationMgrSubjectCreatingInterceptor());
             }
          }
       }

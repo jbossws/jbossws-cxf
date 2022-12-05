@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf-testsuite</artifactId>
-    <version>5.4.6-SNAPSHOT</version>
+    <version>5.4.7-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   
@@ -132,7 +132,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-elytron.groovy</script>
+                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default${groovyScriptSuffix}.groovy</script>
                   </scripts>
                   <properties>
                     <property>
@@ -174,7 +174,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth-elytron.groovy</script>
+                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-ssl-mutual-auth${groovyScriptSuffix}.groovy</script>
                   </scripts>
                   <properties>
                     <property>
@@ -208,7 +208,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-config-tests-elytron.groovy</script>
+                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-default-config-tests${groovyScriptSuffix}.groovy</script>
                   </scripts>
                   <properties>
                     <property>
@@ -242,7 +242,7 @@
                 </goals>
                 <configuration>
                   <scripts>
-                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms-elytron.groovy</script>
+                      <script>file:///${basedir}/src/test/scripts/jbws-testsuite-jms${groovyScriptSuffix}.groovy</script>
                   </scripts>
                   <properties>
                     <property>
@@ -497,7 +497,6 @@
         </plugins>
       </build>
     </profile>
-
   </profiles>
   
 </project>
