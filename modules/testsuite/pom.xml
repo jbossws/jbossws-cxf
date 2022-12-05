@@ -661,15 +661,9 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <excludes combine.children="append">
-                <!-- Spring has been removed from eap (jakarta).  The follow 2 tests use Spring -->
-                <exclude>**/org/jboss/test/ws/jaxws/cxf/noIntegration/EmbeddedCXFTestCase**</exclude>
-                <exclude>**/org/jboss/test/ws/jaxws/cxf/spring/ClientSpringAppTestCase**</exclude>
-
-                <!-- jaspi disabled --><exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/JaspiAuthenticationTestCase*</exclude>
-                <!-- picketlink --> <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
-                <!-- jms activemq.artemis setup issues ... Caused by: java.lang.ClassNotFoundException:
-                      org.apache.activemq.artemis.api.core.TransportConfiguration
-                 -->
+                <!-- jaspi doesn't have elytron support -->
+                <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/JaspiAuthenticationTestCase*</exclude>
+                 <!-- jms security configuration issue in WFLY2400-->
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms/JMSEndpointOnlyDeploymentTestCase*</exclude>
                 <exclude>org/jboss/test/ws/jaxws/cxf/jms_http/JMSHTTPEndpointDeploymentTestCase*</exclude>
               </excludes>
@@ -736,11 +730,6 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <excludes combine.children="append">
-                <!-- Spring has been removed from eap (jakarta).  The follow 2 tests use Spring -->
-                <exclude>**/org/jboss/test/ws/jaxws/cxf/noIntegration/EmbeddedCXFTestCase**</exclude>
-                <exclude>**/org/jboss/test/ws/jaxws/cxf/spring/ClientSpringAppTestCase**</exclude>
-                <!-- jaspi disabled --><exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/jaspi/JaspiAuthenticationTestCase*</exclude>
-                <!-- picketlink --> <exclude>org/jboss/test/ws/jaxws/samples/wsse/policy/trust/WSTrustTestCase*</exclude>
               </excludes>
             </configuration>
           </plugin>
