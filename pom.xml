@@ -67,14 +67,12 @@
     <jbossws.spi.version>3.4.0.Final</jbossws.spi.version>
     <jbossws.common.version>3.3.3.Final</jbossws.common.version>
     <jbossws.common.tools.version>1.4.0.Final</jbossws.common.tools.version>
-    <jbossws.wildfly2400.version>5.4.6-SNAPSHOT</jbossws.wildfly2400.version>
+    <jbossws.wildfly2400.version>5.4.6.Final</jbossws.wildfly2400.version>
     <wildfly2400.version>24.0.0.Final</wildfly2400.version>
     <wildfly2500.version>25.0.0.Final</wildfly2500.version>
     <ejb.api.version>2.0.0.Final</ejb.api.version>
-    <!-- <cxf.version>3.3.10</cxf.version> rls -->
     <cxf.version>3.5.1</cxf.version>
     <cxf.asm.version>9.1</cxf.asm.version>
-    <!-- <cxf.xjcplugins.version>3.3.0</cxf.xjcplugins.version> rls -->
     <cxf.xjcplugins.version>3.3.1</cxf.xjcplugins.version>
     <jboss-logging.version>3.4.1.Final</jboss-logging.version>
     <jboss-logging-annotations.version>2.2.1.Final</jboss-logging-annotations.version>

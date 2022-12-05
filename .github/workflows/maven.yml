@@ -18,16 +18,11 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest ]
         java: ['8', '11']
-        wildfly-version: ['wildfly2400','wildfly2400picketbox','wildfly2400nolegacy' ]
+        wildfly-version: ['wildfly2400','wildfly2400picketbox','wildfly2500' ]
 
     steps:
       - name: Checkout jbossws-cxf
         uses: actions/checkout@v2
-      - name: Checkout jbossws-wildfly240
-        uses: actions/checkout@v2
-        with:
-          repository: jbossws/jbossws-wildfly240
-          path: './jbossws-wildfly240'
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
@@ -39,9 +34,6 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'adopt'
-      - name: Build  jbossws-wildfly240
-        working-directory: ./jbossws-wildfly240
-        run: mvn -s ./.m2-settings.xml -DskipTests=true clean install
       - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{ matrix.wildfly-version }}
         run: |
           mvn -s ./.m2-settings.xml -B -V -fae -P${{ matrix.wildfly-version }} -Pdeploy verify
