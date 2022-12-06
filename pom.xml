@@ -102,8 +102,8 @@
     <wstx.version>6.2.8</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
     <derby.version>10.14.2.0</derby.version>
-    <arquillian.version>1.7.0.Alpha12</arquillian.version>
-    <arquillian-wildfly-container.version>5.0.0.Alpha2</arquillian-wildfly-container.version>
+    <arquillian.version>1.7.0.Alpha13</arquillian.version>
+    <arquillian-wildfly-container.version>5.0.0.Alpha6</arquillian-wildfly-container.version>
     <artimes.client.version>2.23.1</artimes.client.version>
     <version.commons.validator>1.7</version.commons.validator>
     <jakarta.interceptor.api.version>2.1.0</jakarta.interceptor.api.version>
