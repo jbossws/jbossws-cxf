@@ -74,7 +74,7 @@
     <jakarta.activation-api.version>2.1.0</jakarta.activation-api.version>
     <jakarta.angus.activation.version>1.0.0</jakarta.angus.activation.version>
     <jakarta.angus.mail.version>1.0.0</jakarta.angus.mail.version>
-    <cxf.version>3.5.2-jbossorg-3</cxf.version>
+    <cxf.version>3.5.5</cxf.version>
     <cxf.asm.version>9.1</cxf.asm.version>
     <cxf.xjcplugins.version>4.0.0</cxf.xjcplugins.version>
     <jboss-logging.version>3.4.3.Final</jboss-logging.version>
