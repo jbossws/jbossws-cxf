@@ -99,7 +99,7 @@
     <xerces.version>2.12.0.SP04</xerces.version>
     <xmlsec.version>3.0.1</xmlsec.version>
     <wss4j.version>3.0.0</wss4j.version>
-    <wstx.version>6.2.8</wstx.version>
+    <wstx.version>6.4.0</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
     <derby.version>10.14.2.0</derby.version>
     <arquillian.version>1.7.0.Alpha13</arquillian.version>
