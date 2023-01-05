@@ -96,7 +96,7 @@
     <saaj.api.version>1.0.0.Final</saaj.api.version>
     <saaj.impl.version>3.0.0</saaj.impl.version>
     <velocity.version>2.3</velocity.version>
-    <xerces.version>2.12.0.SP05</xerces.version>
+    <xerces.version>2.12.2</xerces.version>
     <xmlsec.version>3.0.1</xmlsec.version>
     <wss4j.version>3.0.0</wss4j.version>
     <wstx.version>6.4.0</wstx.version>
