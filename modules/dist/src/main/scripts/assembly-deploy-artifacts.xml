@@ -16,7 +16,7 @@
     </fileSet>
     <!-- module.xml files -->
     <fileSet>
-      <directory>../resources/src/main/resources/modules</directory>
+      <directory>./src/main/resources/modules</directory>
       <outputDirectory>deploy-artifacts/modules</outputDirectory>
       <filtered>true</filtered>
       <includes>
@@ -25,7 +25,7 @@
     </fileSet>
     <!-- modules-deploy.conf file -->
     <fileSet>
-      <directory>../resources/src/main/resources/resources</directory>
+      <directory>./src/main/resources/resources</directory>
       <outputDirectory>deploy-artifacts</outputDirectory>
       <includes>
         <include>modules-deploy.conf</include>

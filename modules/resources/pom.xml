@@ -22,40 +22,4 @@
   </dependencies>
 
   <!-- plugins -->
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution> <!-- TODO Move this stuff to 'server' to avoid needing the jbossws-cxf-server dependency above -->
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <ant antfile="src/main/scripts/zip-other-configs.xml">
-                  <property name="project.build.finalName" value="${project.build.finalName}" />
-                </ant>
-              </target>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-         <executions>
-           <execution>
-             <id>wildfly2700</id>
-             <goals><goal>jar</goal></goals>
-             <phase>package</phase>
-             <configuration>
-               <classifier>wildfly2700</classifier>
-               <classesDirectory>${project.build.directory}/classes/resources/jbossws-wildfly2700/jbossws.beans</classesDirectory>
-             </configuration>
-           </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 </project>
