@@ -210,7 +210,6 @@
             <configuration>
               <target>
                 <echo />
-                <echo message="profile=${jbossws.integration.target}" />
                 <echo message="jboss.home=${jboss.home}" />
                 <echo />
               </target>
@@ -270,7 +269,6 @@
                  <javax.net.ssl.keyStoreType>jks</javax.net.ssl.keyStoreType>
                  <cxf.tls-client.disableCNCheck>true</cxf.tls-client.disableCNCheck>
                  <jboss.home>${jboss.home}</jboss.home>
-                 <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
                  <appclient.output.dir>${appclient.output.dir}</appclient.output.dir>
                  <org.jboss.ws.testsuite.securityDomain.users.propfile>${project.build.directory}/test-classes/jbossws-users.properties</org.jboss.ws.testsuite.securityDomain.users.propfile>  
                  <org.jboss.ws.testsuite.securityDomain.roles.propfile>${project.build.directory}/test-classes/jbossws-roles.properties</org.jboss.ws.testsuite.securityDomain.roles.propfile>
@@ -315,7 +313,6 @@
                  <javax.net.ssl.keyStoreType>jks</javax.net.ssl.keyStoreType>
                  <cxf.tls-client.disableCNCheck>true</cxf.tls-client.disableCNCheck>
                  <jboss.home>${jboss.home}</jboss.home>
-                 <jbossws.integration.target>${jbossws.integration.target}</jbossws.integration.target>
                  <appclient.output.dir>${appclient.output.dir}</appclient.output.dir>
                  <org.jboss.ws.testsuite.securityDomain.users.propfile>${project.build.directory}/test-classes/jbossws-users.properties</org.jboss.ws.testsuite.securityDomain.users.propfile>  
                  <org.jboss.ws.testsuite.securityDomain.roles.propfile>${project.build.directory}/test-classes/jbossws-roles.properties</org.jboss.ws.testsuite.securityDomain.roles.propfile>
@@ -388,7 +385,6 @@
                     <artifactItem>
                       <groupId>org.jboss.ws.cxf</groupId>
                       <artifactId>jbossws-cxf-dist</artifactId>
-                      <classifier>${jbossws.integration.target}</classifier>
                       <version>${project.version}</version>
                       <type>zip</type>
                       <overWrite>false</overWrite>
