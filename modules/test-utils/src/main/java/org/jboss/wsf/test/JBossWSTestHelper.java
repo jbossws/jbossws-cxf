@@ -78,7 +78,8 @@ public class JBossWSTestHelper
    private static final int AS_SERVER_CONN_RETRIEVAL_ATTEMPTS = Integer.getInteger(SYSPROP_AS_SERVER_CONN_RETRIEVAL_ATTEMPTS, 5);
    private static final String testArchiveDir = System.getProperty(SYSPROP_TEST_ARCHIVE_DIRECTORY);
    private static final String testResourcesDir = System.getProperty(SYSPROP_TEST_RESOURCES_DIRECTORY);
-   private static final String integrationTarget;
+   //TODO: Look at remove this completely
+   private static final String integrationTarget = "wildfly";
    private static final String implInfo;
    private static final String serverHost = System.getProperty(SYSPROP_JBOSS_BIND_ADDRESS, "localhost");
    private static final String remotingProtocol = System.getProperty(SYSPROP_JBOSS_REMOTING_PROTOCOL);
@@ -87,9 +88,6 @@ public class JBossWSTestHelper
    private static WeakHashMap<ClassLoader, Hashtable<String, String>> containerEnvs = new WeakHashMap<ClassLoader, Hashtable<String,String>>();
 
    static {
-      integrationTarget = System.getProperty(SYSPROP_JBOSSWS_INTEGRATION_TARGET);
-      if (integrationTarget == null)
-         throw new IllegalStateException("Cannot obtain system property: " + SYSPROP_JBOSSWS_INTEGRATION_TARGET);
       Object obj = getImplementationObject();
       implInfo = obj.getClass().getPackage().getName();
    }
@@ -256,16 +254,8 @@ public class JBossWSTestHelper
    public static MBeanServerConnection getServer(String groupQualifier, String containerQualifier)
    {
       int portOffset = getContainerPortOffset(groupQualifier, containerQualifier);
-      String integrationTarget = getIntegrationTarget();
       MBeanServerConnection server;
-      if (integrationTarget.startsWith("wildfly"))
-      {
-         server = getServerConnection("service:jmx:http-remoting-jmx://" + getServerHost() + ":" + (9990 + portOffset));
-      }
-      else
-      {
-         throw new IllegalStateException("Unsupported target container: " + integrationTarget);
-      }
+      server = getServerConnection("service:jmx:http-remoting-jmx://" + getServerHost() + ":" + (9990 + portOffset));
       return server;
    }
 

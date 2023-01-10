@@ -28,38 +28,32 @@
   <property name="deploy.artifacts.dir" value="${basedir}/target/assembly/deploy-artifacts"/>
   <property name="jbossws.default.modules.conf" value="${basedir}/target/assembly/deploy-artifacts/modules-deploy.conf"/>
 	
-  <target name="deploy" depends="prepare,deploy-wildfly2700-if-available" description="Deploy jbossws to wildfly"/>
+  <target name="deploy" depends="prepare,deploy-wildfly-if-available" description="Deploy jbossws to wildfly"/>
 
-  <target name="deploy-wildfly2700-if-available" if="wildfly2700.available">
-  	<antcall target="deploy-wildfly2700"/>
+  <target name="deploy-wildfly-if-available" if="wildfly.available">
+  	<antcall target="deploy-wildfly"/>
   </target>
 
   <target name="prepare">
-    <condition property="wildfly2700.home" value="${jboss.home}">
-      <equals arg1="${jbossws.integration.target}" arg2="wildfly2700"/>
-    </condition>
+    <property name="wildfly.home" value="${jboss.home}"/>
 
-    <property name="wildfly2700.available.file" value="${wildfly2700.home}/jboss-modules.jar"/>
+    <property name="wildfly.available.file" value="${wildfly.home}/jboss-modules.jar"/>
 
-    <available property="wildfly2700.available" file="${wildfly2700.available.file}"/>
+    <available property="wildfly.available" file="${wildfly.available.file}"/>
     <tstamp>
       <format property="build.id" pattern="yyyyMMddHHmm"/>
     </tstamp>
   </target>
 	
   <target name="init" depends="prepare">
-          
-    <fail message="jbossws.integration.target not set" unless="jbossws.integration.target"/>
-    <echo message="integration.target=${jbossws.integration.target}"/>
-    
-    <property name="deploy.structure" value="${output.dir}/deploy-${jbossws.integration.target}"/>
+    <property name="deploy.structure" value="${output.dir}/deploy-wildfly"/>
   </target>
 
     <!-- ================================================================== -->
     <!-- Prepare Deployment Structure WildFly-27.0.x                        -->
     <!-- ================================================================== -->
 
-    <target name="deploy-structure-wildfly270x" depends="init">
+    <target name="deploy-structure-wildfly" depends="init">
         <delete dir="${deploy.structure}"/>
         <path id="jboss.ant.tasks.classpath">
             <fileset dir="${deploy.artifacts.dir}">
@@ -67,14 +61,14 @@
             </fileset>
         </path>
         <taskdef name="installModules" classname="org.jboss.ws.tools.ant.InstallModulesTask" classpathref="jboss.ant.tasks.classpath"/>
-        <antcall target="deploy-jbossws-cxf-modules-as11" inheritall="false">
+        <antcall target="deploy-jbossws-cxf-modules" inheritall="false">
             <param name="installserver" value="${deploy.structure}/modules/system/layers/base"/>
             <param name="thirdpartydir" value="${deploy.artifacts.dir}"/>
-            <param name="jbossid" value="${jbossws.integration.target}"/>
-            <param name="modules-jbossid" value="wildfly2700"/>
+            <param name="jbossid" value="wildfly"/>
+            <param name="modules-jbossid" value="wildfly"/>
         </antcall>
         <copy toDir="${deploy.structure}/modules/system/layers/base">
-            <fileset dir="${deploy.artifacts.dir}/modules/wildfly2700">
+            <fileset dir="${deploy.artifacts.dir}/modules/wildfly">
                 <include name="**/jboss/as/webservices/main/module.xml"/>
                 <include name="**/jboss/as/webservices/server/integration/main/module.xml"/>
             </fileset>
@@ -83,31 +77,27 @@
 
 
     <!-- ================================================================== -->
-    <!-- Deployment wildfly2700                                             -->
+    <!-- Deployment wildfly                                             -->
     <!-- ================================================================== -->
 
-    <target name="target-wildfly2700">
-        <property name="jbossws.integration.target" value="wildfly2700"/>
-        <echo message="jbossws.integration.target=${jbossws.integration.target}"/>
-    </target>
-    <target name="deploy-wildfly2700" depends="undeploy-wildfly2700,deploy-structure-wildfly270x">
-        <fail message="Not available: ${wildfly2700.available.file}" unless="wildfly2700.available"/>
-        <copy todir="${wildfly2700.home}" overwrite="true" verbose="true">
+    <target name="deploy-wildfly" depends="undeploy-wildfly,deploy-structure-wildfly">
+        <fail message="Not available: ${wildfly.available.file}" unless="wildfly.available"/>
+        <copy todir="${wildfly.home}" overwrite="true" verbose="true">
             <fileset dir="${deploy.structure}">
                 <exclude name="**/jboss/as/webservices/**/module.xml"/>
             </fileset>
         </copy>
         <!-- Install org/jboss/as/webservices module.xml separately since it needs to reference libs already on the AS -->
-        <installModules targetDir="${wildfly2700.home}/modules/system/layers/base/">
+        <installModules targetDir="${wildfly.home}/modules/system/layers/base/">
             <fileset dir="${deploy.structure}/modules/system/layers/base">
                 <include name="**/jboss/as/webservices/**/module.xml"/>
             </fileset>
         </installModules>
     </target>
 
-    <target name="undeploy-wildfly2700" depends="target-wildfly2700,init">
-        <fail message="Not available: ${wildfly2700.available.file}" unless="wildfly2700.available"/>
-        <macro-undeploy-jbossws-modules targetdir="${wildfly2700.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
+    <target name="undeploy-wildfly" depends="init">
+        <fail message="Not available: ${wildfly.available.file}" unless="wildfly.available"/>
+        <macro-undeploy-jbossws-modules targetdir="${wildfly.home}/modules/system/layers/base" defaultmodulesconf="${jbossws.default.modules.conf}" modifyjbossintegration="false"/>
     </target>
 
 
@@ -122,7 +112,7 @@
   <!-- Modules                                                            -->
   <!-- ================================================================== -->
 
-  <macrodef name="macro-deploy-jbossws-modules-as9">
+  <macrodef name="macro-deploy-jbossws-modules">
     <attribute name="thirdpartydir"/>
     <attribute name="targetdir"/>
     <attribute name="jbossid"/>
@@ -279,16 +269,10 @@
     <fail message="modifyjbossintegration must be specified" unless="modifyjbossintegration"/>
   </target>
 
-  <target name="deploy-jbossws-cxf-modules-as10">
+  <target name="deploy-jbossws-cxf-modules">
     <fail message="installserver must be specified" unless="installserver"/>
     <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
-    <macro-deploy-jbossws-modules-as9 targetdir="${installserver}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}" modules-jbossid="${modules-jbossid}"/>
-  </target>
-
-  <target name="deploy-jbossws-cxf-modules-as11">
-    <fail message="installserver must be specified" unless="installserver"/>
-    <fail message="thirdpartydir must be specified" unless="thirdpartydir"/>
-    <macro-deploy-jbossws-modules-as9 targetdir="${installserver}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}" modules-jbossid="${modules-jbossid}"/>
+    <macro-deploy-jbossws-modules targetdir="${installserver}" thirdpartydir="${thirdpartydir}" jbossid="${jbossid}" modules-jbossid="${modules-jbossid}"/>
   </target>
 
   <!-- ================================================================== -->

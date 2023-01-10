@@ -142,7 +142,8 @@
                         <goal>single</goal>
                     </goals>
                     <configuration>
-                        <appendAssemblyId>true</appendAssemblyId>
+                        <finalName>${project.build.finalName}</finalName>
+                        <appendAssemblyId>false</appendAssemblyId>
                         <descriptors>
                             <descriptor>src/main/scripts/assembly-test-server.xml</descriptor>
                         </descriptors>
@@ -156,21 +157,6 @@
       <properties>
         <jboss.home>${project.build.directory}/wildfly-${jboss.version}</jboss.home>
       </properties>
-    </profile>
-    <!--
-      Name:  wildfly2700
-      Descr: WildFly-27.0.0 specific dependencies
-    -->
-    <profile>
-          <id>wildfly2700</id>
-          <dependencies>
-             <dependency>
-                <groupId>org.jboss.ws.cxf</groupId>
-                <artifactId>jbossws-cxf-resources</artifactId>
-                <version>${project.version}</version>
-                <scope>provided</scope>
-             </dependency>
-          </dependencies>
     </profile>
     <!--
     Name:  deploy
@@ -218,7 +204,6 @@
                 </goals>
                 <configuration>
                   <target>
-                    <property name="jbossws.integration.target" value="${jbossws.integration.target}" />
                     <property name="jboss.home" value="${jboss.home}" />
                     <ant antfile="src/main/scripts/build-deploy.xml" />
                   </target>
@@ -257,7 +242,6 @@
                   <configuration>
                     <target>
                       <echo />
-                      <echo message="profile=${jbossws.integration.target}" />
                       <echo message="jboss.home=${jboss.home}" />
                       <echo />
                     </target>

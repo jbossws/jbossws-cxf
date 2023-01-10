@@ -1069,7 +1069,6 @@
     <profile>
       <id>wildfly2700</id>
       <properties>
-        <jbossws.integration.target>wildfly2700</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly2700.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
@@ -1085,7 +1084,6 @@
     <profile>
       <id>wildfly28dev</id>
       <properties>
-        <jbossws.integration.target>wildfly2700</jbossws.integration.target>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly28dev.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
