@@ -579,7 +579,7 @@
     Descr: WildFly-27.0.0 specific options
     -->
     <profile>
-      <id>wildfly2700</id>
+      <id>wildfly</id>
       <properties>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
@@ -680,7 +680,7 @@
     Descr: Test with the latest WFLY28 upstream version
     -->
     <profile>
-      <id>wildfly28dev</id>
+      <id>wildflydev</id>
       <properties>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
