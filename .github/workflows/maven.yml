@@ -17,7 +17,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest ]
         java: ['11','17']
-        wildfly-version: ['wildflydev', 'wildfly']
+        profile: ['-Pwildfly28', '']
 
     steps:
       - name: Checkout jbossws-cxf
@@ -41,19 +41,19 @@ jobs:
       - name: Build docbook
         run: mvn -s ./.m2-settings.xml -f docbook/pom.xml install
       - name: Build WFLY
-        if: ${{ matrix.wildfly-version == 'wildflydev'}}
+        if: ${{ matrix.profile == '-Pwildfly28'}}
         working-directory: ./wildfly
         run: mvn -s ../.m2-settings.xml -DskipTests=true '-Denforcer.skip=true' -Prelease clean install
-      - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{ matrix.wildfly-version }}
+      - name: Build with Maven Java ${{ matrix.java }} on WildFly with profile ${{ matrix.profile }}
         run: |
-          mvn -s ./.m2-settings.xml -fae -P${{ matrix.wildfly-version }} -Ptestsuite clean install
+          mvn -s ./.m2-settings.xml -fae ${{ matrix.profile }} clean install
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.wildfly-version }}
+          name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}
           path: '${{ github.workspace }}/**/surefire-reports/*.*'
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: server-logs-${{ matrix.os }}-${{ matrix.java }}-${{ matrix.wildfly-version }}
+          name: server-logs-${{ matrix.os }}-${{ matrix.java }}
           path: '${{ github.workspace }}/**/*.log'
